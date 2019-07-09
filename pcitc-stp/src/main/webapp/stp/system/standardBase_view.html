@@ -146,7 +146,7 @@
             if (id != "0") {
                 ajaxPost("/standardBase/getStandardBaseInfo", {"id": id}, function (data) {
                     form.val("standardBase-form", data);
-                    standardDesc.setData(data.standardDesc);
+                    //standardDesc.setData(data.standardDesc);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/

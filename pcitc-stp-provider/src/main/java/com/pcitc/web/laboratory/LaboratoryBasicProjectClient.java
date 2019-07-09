@@ -1,22 +1,26 @@
 package com.pcitc.web.laboratory;
 
 
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.laboratory.LaboratoryBasicProject;
-import com.pcitc.base.laboratory.LaboratoryBasicProjectExample;
-import com.pcitc.service.laboratory.LaboratoryBasicProjectService;
-import com.alibaba.fastjson.JSONObject;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.laboratory.LaboratoryBasicProject;
+import com.pcitc.service.laboratory.LaboratoryBasicProjectService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import java.io.Serializable;
-import java.util.List;
 
 
 /**
@@ -83,10 +87,10 @@ laboratoryBasicProject.setId(id);
         * @return
         * @throws Exception
         */
-@ApiOperation(value = "查询(树)实验室-基础性前瞻性研究项目信息", notes = "查询(树)实验室-基础性前瞻性研究项目信息,操作成功返回List<TreeNode>对象")
+		@ApiOperation(value = "查询(树)实验室-基础性前瞻性研究项目信息", notes = "查询(树)实验室-基础性前瞻性研究项目信息,操作成功返回List<TreeNode>对象")
         @RequestMapping(value = "/laboratorybasicproject-provider/laboratorybasicproject/tree-data")
         @ResponseBody
-        public List selectObjectByTree() throws Exception {
+        public List<?> selectObjectByTree() throws Exception {
         return laboratoryBasicProjectService.selectObjectByTree();
         }
 

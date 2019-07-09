@@ -29,6 +29,15 @@
 	<div class="layui-fluid">
 		<div class="">
 			<div class="fluid-top">
+			
+			 <#if userLevel=="1">
+			    <div class="breadcrumb">
+					<a href="/stpHome" target="_parent">首页 > </a>
+					<a href="/instituteIndex?url=/home_ld/direct_depart" target="_parent">直属研究院概况 > </a>
+					<span>科研投入</span>
+				</div>
+			</#if>
+				
 				<div class="searchBox">
 					<label class="dateInput">
 						<span>年份</span>
@@ -81,12 +90,12 @@
 						<div class="layui-row-main">
 							<table id="myTable2" class="layui-table" lay-filter="myTable2">
 								<thead>
-								        <th lay-data="{field:'yearMonth', width:'16%',align:'center'}">月份</th>
-								        <th lay-data="{field:'zysje',     width:'16%',align:'right'}">预算金额(万元)</th>
-										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">已签合同总金额(万元)</th>
-										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">未签合同总金额(万元)</th>
-										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">已签拨款总金额(万元)</th>
-										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">未拨款总金额(万元)</th>
+								        <th lay-data="{field:'yearMonth', width:'25%',align:'center'}">月份</th>
+								        <th lay-data="{field:'zysje',     width:'25%',align:'right'}">预算金额(万元)</th>
+										<th lay-data="{field:'zsjje',     width:'25%',align:'right'}">已签合同总金额(万元)</th>
+										<!-- <th lay-data="{field:'wqhtzje',     width:'17%',align:'right'}">未签合同总金额(万元)</th> -->
+										<th lay-data="{field:'hanaMoney', width:'25%',align:'right'}">已签拨款总金额(万元)</th>
+										<!-- <th lay-data="{field:'wbkzje', width:'17%',align:'right'}">未拨款总金额(万元)</th> -->
 								</thead>
 							</table>
 						</div>
@@ -146,9 +155,9 @@
 									    <th lay-data="{field:'define2',   width:'16%',align:'center'}">研究院</th>
 										<th lay-data="{field:'zysje',     width:'16%',align:'right'}">预算金额(万元)</th>
 										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">已签合同总金额(万元)</th>
-										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">未签合同总金额(万元)</th>
+										<th lay-data="{field:'wqhtzje',     width:'17%',align:'right'}">未签合同总金额(万元)</th>
 										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">已拨款总金额(万元)</th>
-										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">未拨款总金额(万元)</th>
+										<th lay-data="{field:'wbkzje', width:'17%',align:'right'}">未拨款总金额(万元)</th>
 									</tr>
 								</thead>
 							</table>
@@ -168,6 +177,7 @@
 	<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 	<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 	<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/hana_common.js"></script
 	<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 	<script type="text/javascript">
 		var table;
@@ -257,8 +267,8 @@
 			var chart1_url = "/small_leader/investment_data?type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
 			//var colorOne = [ "#75C9C0", "#5181E6" ,"#9799ec"]
 			
-			var colorOne = [ "#ea886d", "#9799ec", "#5181E6" ];
-			var echart1 = load_mutl_bar_down(chart1_url, "investment_smal_chart1", "", "", yAxis2, 20, colorOne);
+			var colorOne = [ "#ea886d", "#9799ec", "#5181E6", "#70b1ab" , "#87d359"];
+			var echart1 = load_mutl_bar(chart1_url, "investment_smal_chart1", "", "", yAxis2, 10, colorOne,false);
 			echart1.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;

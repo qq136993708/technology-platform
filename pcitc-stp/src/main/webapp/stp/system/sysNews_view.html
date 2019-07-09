@@ -132,7 +132,7 @@
             if (id != "0") {
                 ajaxPost("/sysNews/getSysNewsInfo", {"id": id}, function (data) {
                     form.val("sysNews-form", data);
-                    contentC.setData(data.content);
+                    //contentC.setData(data.content);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/

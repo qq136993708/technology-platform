@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.hana.TechOrgCountMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.report.TechOrgCount" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="unit_code" property="unitCode" jdbcType="VARCHAR" />
+    <result column="unit_name" property="unitName" jdbcType="VARCHAR" />
+    <result column="create_user_mobile" property="createUserMobile" jdbcType="VARCHAR" />
+    <result column="charge_depart_man" property="chargeDepartMan" jdbcType="VARCHAR" />
+    <result column="tech_charge_man" property="techChargeMan" jdbcType="VARCHAR" />
+    <result column="workers_count" property="workersCount" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="female_count" property="femaleCount" jdbcType="INTEGER" />
+    <result column="title_senior_count" property="titleSeniorCount" jdbcType="INTEGER" />
+    <result column="title_middle_count" property="titleMiddleCount" jdbcType="INTEGER" />
+    <result column="title_lower_count" property="titleLowerCount" jdbcType="INTEGER" />
+    <result column="diploma_doctor_count" property="diplomaDoctorCount" jdbcType="INTEGER" />
+    <result column="diploma_master_count" property="diplomaMasterCount" jdbcType="INTEGER" />
+    <result column="diploma_undergraduate_count" property="diplomaUndergraduateCount" jdbcType="INTEGER" />
+    <result column="specialist_country_count" property="specialistCountryCount" jdbcType="INTEGER" />
+    <result column="specialist_province_count" property="specialistProvinceCount" jdbcType="INTEGER" />
+    <result column="researcher_count" property="researcherCount" jdbcType="INTEGER" />
+    <result column="direct_researcher_count" property="directResearcherCount" jdbcType="INTEGER" />
+    <result column="assist_researcher_count" property="assistResearcherCount" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="worker_salary" property="workerSalary" jdbcType="DECIMAL" />
+    <result column="assets_total" property="assetsTotal" jdbcType="DECIMAL" />
+    <result column="fixed_assets" property="fixedAssets" jdbcType="DECIMAL" />
+    <result column="device_assets" property="deviceAssets" jdbcType="DECIMAL" />
+    <result column="tota_income" property="totaIncome" jdbcType="DECIMAL" />
+    <result column="country_invest_cost" property="countryInvestCost" jdbcType="DECIMAL" />
+    <result column="group_invest_cost" property="groupInvestCost" jdbcType="DECIMAL" />
+    <result column="sub_invest_cost" property="subInvestCost" jdbcType="DECIMAL" />
+    <result column="out_invest_cost" property="outInvestCost" jdbcType="DECIMAL" />
+    <result column="all_patent_count" property="allPatentCount" jdbcType="INTEGER" />
+    <result column="all_patent_look_count" property="allPatentLookCount" jdbcType="INTEGER" />
+    <result column="current_year_patent_count" property="currentYearPatentCount" jdbcType="INTEGER" />
+    <result column="current_patent_look_count" property="currentPatentLookCount" jdbcType="INTEGER" />
+    <result column="achievements_country_count" property="achievementsCountryCount" jdbcType="INTEGER" />
+    <result column="achievements_privance_count" property="achievementsPrivanceCount" jdbcType="INTEGER" />
+    <result column="achievements_company_count" property="achievementsCompanyCount" jdbcType="INTEGER" />
+    <result column="thesis_all_count" property="thesisAllCount" jdbcType="INTEGER" />
+    <result column="thesis_sci_count" property="thesisSciCount" jdbcType="INTEGER" />
+    <result column="thesis_ei_count" property="thesisEiCount" jdbcType="INTEGER" />
+    <result column="thesis_istp_count" property="thesisIstpCount" jdbcType="INTEGER" />
+    <result column="thesis_isr_count" property="thesisIsrCount" jdbcType="INTEGER" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="notes" property="notes" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_user_id, create_user_name, unit_code, unit_name, create_user_mobile, charge_depart_man, 
+    tech_charge_man, workers_count, create_date, female_count, title_senior_count, title_middle_count, 
+    title_lower_count, diploma_doctor_count, diploma_master_count, diploma_undergraduate_count, 
+    specialist_country_count, specialist_province_count, researcher_count, direct_researcher_count, 
+    assist_researcher_count, type, worker_salary, assets_total, fixed_assets, device_assets, 
+    tota_income, country_invest_cost, group_invest_cost, sub_invest_cost, out_invest_cost, 
+    all_patent_count, all_patent_look_count, current_year_patent_count, current_patent_look_count, 
+    achievements_country_count, achievements_privance_count, achievements_company_count, 
+    thesis_all_count, thesis_sci_count, thesis_ei_count, thesis_istp_count, thesis_isr_count, 
+    audit_status, notes
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tech_org_count
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tech_org_count
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.report.TechOrgCount" >
+    insert into tech_org_count (id, create_user_id, create_user_name, 
+      unit_code, unit_name, create_user_mobile, 
+      charge_depart_man, tech_charge_man, workers_count, 
+      create_date, female_count, title_senior_count, 
+      title_middle_count, title_lower_count, diploma_doctor_count, 
+      diploma_master_count, diploma_undergraduate_count, 
+      specialist_country_count, specialist_province_count, 
+      researcher_count, direct_researcher_count, 
+      assist_researcher_count, type, worker_salary, 
+      assets_total, fixed_assets, device_assets, 
+      tota_income, country_invest_cost, group_invest_cost, 
+      sub_invest_cost, out_invest_cost, all_patent_count, 
+      all_patent_look_count, current_year_patent_count, 
+      current_patent_look_count, achievements_country_count, 
+      achievements_privance_count, achievements_company_count, 
+      thesis_all_count, thesis_sci_count, thesis_ei_count, 
+      thesis_istp_count, thesis_isr_count, audit_status, 
+      notes)
+    values (#{id,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, 
+      #{unitCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{createUserMobile,jdbcType=VARCHAR}, 
+      #{chargeDepartMan,jdbcType=VARCHAR}, #{techChargeMan,jdbcType=VARCHAR}, #{workersCount,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{femaleCount,jdbcType=INTEGER}, #{titleSeniorCount,jdbcType=INTEGER}, 
+      #{titleMiddleCount,jdbcType=INTEGER}, #{titleLowerCount,jdbcType=INTEGER}, #{diplomaDoctorCount,jdbcType=INTEGER}, 
+      #{diplomaMasterCount,jdbcType=INTEGER}, #{diplomaUndergraduateCount,jdbcType=INTEGER}, 
+      #{specialistCountryCount,jdbcType=INTEGER}, #{specialistProvinceCount,jdbcType=INTEGER}, 
+      #{researcherCount,jdbcType=INTEGER}, #{directResearcherCount,jdbcType=INTEGER}, 
+      #{assistResearcherCount,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{workerSalary,jdbcType=DECIMAL}, 
+      #{assetsTotal,jdbcType=DECIMAL}, #{fixedAssets,jdbcType=DECIMAL}, #{deviceAssets,jdbcType=DECIMAL}, 
+      #{totaIncome,jdbcType=DECIMAL}, #{countryInvestCost,jdbcType=DECIMAL}, #{groupInvestCost,jdbcType=DECIMAL}, 
+      #{subInvestCost,jdbcType=DECIMAL}, #{outInvestCost,jdbcType=DECIMAL}, #{allPatentCount,jdbcType=INTEGER}, 
+      #{allPatentLookCount,jdbcType=INTEGER}, #{currentYearPatentCount,jdbcType=INTEGER}, 
+      #{currentPatentLookCount,jdbcType=INTEGER}, #{achievementsCountryCount,jdbcType=INTEGER}, 
+      #{achievementsPrivanceCount,jdbcType=INTEGER}, #{achievementsCompanyCount,jdbcType=INTEGER}, 
+      #{thesisAllCount,jdbcType=INTEGER}, #{thesisSciCount,jdbcType=INTEGER}, #{thesisEiCount,jdbcType=INTEGER}, 
+      #{thesisIstpCount,jdbcType=INTEGER}, #{thesisIsrCount,jdbcType=INTEGER}, #{auditStatus,jdbcType=VARCHAR}, 
+      #{notes,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.report.TechOrgCount" >
+    insert into tech_org_count
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="unitCode != null" >
+        unit_code,
+      </if>
+      <if test="unitName != null" >
+        unit_name,
+      </if>
+      <if test="createUserMobile != null" >
+        create_user_mobile,
+      </if>
+      <if test="chargeDepartMan != null" >
+        charge_depart_man,
+      </if>
+      <if test="techChargeMan != null" >
+        tech_charge_man,
+      </if>
+      <if test="workersCount != null" >
+        workers_count,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="femaleCount != null" >
+        female_count,
+      </if>
+      <if test="titleSeniorCount != null" >
+        title_senior_count,
+      </if>
+      <if test="titleMiddleCount != null" >
+        title_middle_count,
+      </if>
+      <if test="titleLowerCount != null" >
+        title_lower_count,
+      </if>
+      <if test="diplomaDoctorCount != null" >
+        diploma_doctor_count,
+      </if>
+      <if test="diplomaMasterCount != null" >
+        diploma_master_count,
+      </if>
+      <if test="diplomaUndergraduateCount != null" >
+        diploma_undergraduate_count,
+      </if>
+      <if test="specialistCountryCount != null" >
+        specialist_country_count,
+      </if>
+      <if test="specialistProvinceCount != null" >
+        specialist_province_count,
+      </if>
+      <if test="researcherCount != null" >
+        researcher_count,
+      </if>
+      <if test="directResearcherCount != null" >
+        direct_researcher_count,
+      </if>
+      <if test="assistResearcherCount != null" >
+        assist_researcher_count,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="workerSalary != null" >
+        worker_salary,
+      </if>
+      <if test="assetsTotal != null" >
+        assets_total,
+      </if>
+      <if test="fixedAssets != null" >
+        fixed_assets,
+      </if>
+      <if test="deviceAssets != null" >
+        device_assets,
+      </if>
+      <if test="totaIncome != null" >
+        tota_income,
+      </if>
+      <if test="countryInvestCost != null" >
+        country_invest_cost,
+      </if>
+      <if test="groupInvestCost != null" >
+        group_invest_cost,
+      </if>
+      <if test="subInvestCost != null" >
+        sub_invest_cost,
+      </if>
+      <if test="outInvestCost != null" >
+        out_invest_cost,
+      </if>
+      <if test="allPatentCount != null" >
+        all_patent_count,
+      </if>
+      <if test="allPatentLookCount != null" >
+        all_patent_look_count,
+      </if>
+      <if test="currentYearPatentCount != null" >
+        current_year_patent_count,
+      </if>
+      <if test="currentPatentLookCount != null" >
+        current_patent_look_count,
+      </if>
+      <if test="achievementsCountryCount != null" >
+        achievements_country_count,
+      </if>
+      <if test="achievementsPrivanceCount != null" >
+        achievements_privance_count,
+      </if>
+      <if test="achievementsCompanyCount != null" >
+        achievements_company_count,
+      </if>
+      <if test="thesisAllCount != null" >
+        thesis_all_count,
+      </if>
+      <if test="thesisSciCount != null" >
+        thesis_sci_count,
+      </if>
+      <if test="thesisEiCount != null" >
+        thesis_ei_count,
+      </if>
+      <if test="thesisIstpCount != null" >
+        thesis_istp_count,
+      </if>
+      <if test="thesisIsrCount != null" >
+        thesis_isr_count,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+      <if test="notes != null" >
+        notes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null" >
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserMobile != null" >
+        #{createUserMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeDepartMan != null" >
+        #{chargeDepartMan,jdbcType=VARCHAR},
+      </if>
+      <if test="techChargeMan != null" >
+        #{techChargeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="workersCount != null" >
+        #{workersCount,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="femaleCount != null" >
+        #{femaleCount,jdbcType=INTEGER},
+      </if>
+      <if test="titleSeniorCount != null" >
+        #{titleSeniorCount,jdbcType=INTEGER},
+      </if>
+      <if test="titleMiddleCount != null" >
+        #{titleMiddleCount,jdbcType=INTEGER},
+      </if>
+      <if test="titleLowerCount != null" >
+        #{titleLowerCount,jdbcType=INTEGER},
+      </if>
+      <if test="diplomaDoctorCount != null" >
+        #{diplomaDoctorCount,jdbcType=INTEGER},
+      </if>
+      <if test="diplomaMasterCount != null" >
+        #{diplomaMasterCount,jdbcType=INTEGER},
+      </if>
+      <if test="diplomaUndergraduateCount != null" >
+        #{diplomaUndergraduateCount,jdbcType=INTEGER},
+      </if>
+      <if test="specialistCountryCount != null" >
+        #{specialistCountryCount,jdbcType=INTEGER},
+      </if>
+      <if test="specialistProvinceCount != null" >
+        #{specialistProvinceCount,jdbcType=INTEGER},
+      </if>
+      <if test="researcherCount != null" >
+        #{researcherCount,jdbcType=INTEGER},
+      </if>
+      <if test="directResearcherCount != null" >
+        #{directResearcherCount,jdbcType=INTEGER},
+      </if>
+      <if test="assistResearcherCount != null" >
+        #{assistResearcherCount,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="workerSalary != null" >
+        #{workerSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="assetsTotal != null" >
+        #{assetsTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="fixedAssets != null" >
+        #{fixedAssets,jdbcType=DECIMAL},
+      </if>
+      <if test="deviceAssets != null" >
+        #{deviceAssets,jdbcType=DECIMAL},
+      </if>
+      <if test="totaIncome != null" >
+        #{totaIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="countryInvestCost != null" >
+        #{countryInvestCost,jdbcType=DECIMAL},
+      </if>
+      <if test="groupInvestCost != null" >
+        #{groupInvestCost,jdbcType=DECIMAL},
+      </if>
+      <if test="subInvestCost != null" >
+        #{subInvestCost,jdbcType=DECIMAL},
+      </if>
+      <if test="outInvestCost != null" >
+        #{outInvestCost,jdbcType=DECIMAL},
+      </if>
+      <if test="allPatentCount != null" >
+        #{allPatentCount,jdbcType=INTEGER},
+      </if>
+      <if test="allPatentLookCount != null" >
+        #{allPatentLookCount,jdbcType=INTEGER},
+      </if>
+      <if test="currentYearPatentCount != null" >
+        #{currentYearPatentCount,jdbcType=INTEGER},
+      </if>
+      <if test="currentPatentLookCount != null" >
+        #{currentPatentLookCount,jdbcType=INTEGER},
+      </if>
+      <if test="achievementsCountryCount != null" >
+        #{achievementsCountryCount,jdbcType=INTEGER},
+      </if>
+      <if test="achievementsPrivanceCount != null" >
+        #{achievementsPrivanceCount,jdbcType=INTEGER},
+      </if>
+      <if test="achievementsCompanyCount != null" >
+        #{achievementsCompanyCount,jdbcType=INTEGER},
+      </if>
+      <if test="thesisAllCount != null" >
+        #{thesisAllCount,jdbcType=INTEGER},
+      </if>
+      <if test="thesisSciCount != null" >
+        #{thesisSciCount,jdbcType=INTEGER},
+      </if>
+      <if test="thesisEiCount != null" >
+        #{thesisEiCount,jdbcType=INTEGER},
+      </if>
+      <if test="thesisIstpCount != null" >
+        #{thesisIstpCount,jdbcType=INTEGER},
+      </if>
+      <if test="thesisIsrCount != null" >
+        #{thesisIsrCount,jdbcType=INTEGER},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        #{notes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.report.TechOrgCount" >
+    update tech_org_count
+    <set >
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        unit_code = #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null" >
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserMobile != null" >
+        create_user_mobile = #{createUserMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeDepartMan != null" >
+        charge_depart_man = #{chargeDepartMan,jdbcType=VARCHAR},
+      </if>
+      <if test="techChargeMan != null" >
+        tech_charge_man = #{techChargeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="workersCount != null" >
+        workers_count = #{workersCount,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="femaleCount != null" >
+        female_count = #{femaleCount,jdbcType=INTEGER},
+      </if>
+      <if test="titleSeniorCount != null" >
+        title_senior_count = #{titleSeniorCount,jdbcType=INTEGER},
+      </if>
+      <if test="titleMiddleCount != null" >
+        title_middle_count = #{titleMiddleCount,jdbcType=INTEGER},
+      </if>
+      <if test="titleLowerCount != null" >
+        title_lower_count = #{titleLowerCount,jdbcType=INTEGER},
+      </if>
+      <if test="diplomaDoctorCount != null" >
+        diploma_doctor_count = #{diplomaDoctorCount,jdbcType=INTEGER},
+      </if>
+      <if test="diplomaMasterCount != null" >
+        diploma_master_count = #{diplomaMasterCount,jdbcType=INTEGER},
+      </if>
+      <if test="diplomaUndergraduateCount != null" >
+        diploma_undergraduate_count = #{diplomaUndergraduateCount,jdbcType=INTEGER},
+      </if>
+      <if test="specialistCountryCount != null" >
+        specialist_country_count = #{specialistCountryCount,jdbcType=INTEGER},
+      </if>
+      <if test="specialistProvinceCount != null" >
+        specialist_province_count = #{specialistProvinceCount,jdbcType=INTEGER},
+      </if>
+      <if test="researcherCount != null" >
+        researcher_count = #{researcherCount,jdbcType=INTEGER},
+      </if>
+      <if test="directResearcherCount != null" >
+        direct_researcher_count = #{directResearcherCount,jdbcType=INTEGER},
+      </if>
+      <if test="assistResearcherCount != null" >
+        assist_researcher_count = #{assistResearcherCount,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="workerSalary != null" >
+        worker_salary = #{workerSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="assetsTotal != null" >
+        assets_total = #{assetsTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="fixedAssets != null" >
+        fixed_assets = #{fixedAssets,jdbcType=DECIMAL},
+      </if>
+      <if test="deviceAssets != null" >
+        device_assets = #{deviceAssets,jdbcType=DECIMAL},
+      </if>
+      <if test="totaIncome != null" >
+        tota_income = #{totaIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="countryInvestCost != null" >
+        country_invest_cost = #{countryInvestCost,jdbcType=DECIMAL},
+      </if>
+      <if test="groupInvestCost != null" >
+        group_invest_cost = #{groupInvestCost,jdbcType=DECIMAL},
+      </if>
+      <if test="subInvestCost != null" >
+        sub_invest_cost = #{subInvestCost,jdbcType=DECIMAL},
+      </if>
+      <if test="outInvestCost != null" >
+        out_invest_cost = #{outInvestCost,jdbcType=DECIMAL},
+      </if>
+      <if test="allPatentCount != null" >
+        all_patent_count = #{allPatentCount,jdbcType=INTEGER},
+      </if>
+      <if test="allPatentLookCount != null" >
+        all_patent_look_count = #{allPatentLookCount,jdbcType=INTEGER},
+      </if>
+      <if test="currentYearPatentCount != null" >
+        current_year_patent_count = #{currentYearPatentCount,jdbcType=INTEGER},
+      </if>
+      <if test="currentPatentLookCount != null" >
+        current_patent_look_count = #{currentPatentLookCount,jdbcType=INTEGER},
+      </if>
+      <if test="achievementsCountryCount != null" >
+        achievements_country_count = #{achievementsCountryCount,jdbcType=INTEGER},
+      </if>
+      <if test="achievementsPrivanceCount != null" >
+        achievements_privance_count = #{achievementsPrivanceCount,jdbcType=INTEGER},
+      </if>
+      <if test="achievementsCompanyCount != null" >
+        achievements_company_count = #{achievementsCompanyCount,jdbcType=INTEGER},
+      </if>
+      <if test="thesisAllCount != null" >
+        thesis_all_count = #{thesisAllCount,jdbcType=INTEGER},
+      </if>
+      <if test="thesisSciCount != null" >
+        thesis_sci_count = #{thesisSciCount,jdbcType=INTEGER},
+      </if>
+      <if test="thesisEiCount != null" >
+        thesis_ei_count = #{thesisEiCount,jdbcType=INTEGER},
+      </if>
+      <if test="thesisIstpCount != null" >
+        thesis_istp_count = #{thesisIstpCount,jdbcType=INTEGER},
+      </if>
+      <if test="thesisIsrCount != null" >
+        thesis_isr_count = #{thesisIsrCount,jdbcType=INTEGER},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.report.TechOrgCount" >
+    update tech_org_count
+    set create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      unit_code = #{unitCode,jdbcType=VARCHAR},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      create_user_mobile = #{createUserMobile,jdbcType=VARCHAR},
+      charge_depart_man = #{chargeDepartMan,jdbcType=VARCHAR},
+      tech_charge_man = #{techChargeMan,jdbcType=VARCHAR},
+      workers_count = #{workersCount,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      female_count = #{femaleCount,jdbcType=INTEGER},
+      title_senior_count = #{titleSeniorCount,jdbcType=INTEGER},
+      title_middle_count = #{titleMiddleCount,jdbcType=INTEGER},
+      title_lower_count = #{titleLowerCount,jdbcType=INTEGER},
+      diploma_doctor_count = #{diplomaDoctorCount,jdbcType=INTEGER},
+      diploma_master_count = #{diplomaMasterCount,jdbcType=INTEGER},
+      diploma_undergraduate_count = #{diplomaUndergraduateCount,jdbcType=INTEGER},
+      specialist_country_count = #{specialistCountryCount,jdbcType=INTEGER},
+      specialist_province_count = #{specialistProvinceCount,jdbcType=INTEGER},
+      researcher_count = #{researcherCount,jdbcType=INTEGER},
+      direct_researcher_count = #{directResearcherCount,jdbcType=INTEGER},
+      assist_researcher_count = #{assistResearcherCount,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      worker_salary = #{workerSalary,jdbcType=DECIMAL},
+      assets_total = #{assetsTotal,jdbcType=DECIMAL},
+      fixed_assets = #{fixedAssets,jdbcType=DECIMAL},
+      device_assets = #{deviceAssets,jdbcType=DECIMAL},
+      tota_income = #{totaIncome,jdbcType=DECIMAL},
+      country_invest_cost = #{countryInvestCost,jdbcType=DECIMAL},
+      group_invest_cost = #{groupInvestCost,jdbcType=DECIMAL},
+      sub_invest_cost = #{subInvestCost,jdbcType=DECIMAL},
+      out_invest_cost = #{outInvestCost,jdbcType=DECIMAL},
+      all_patent_count = #{allPatentCount,jdbcType=INTEGER},
+      all_patent_look_count = #{allPatentLookCount,jdbcType=INTEGER},
+      current_year_patent_count = #{currentYearPatentCount,jdbcType=INTEGER},
+      current_patent_look_count = #{currentPatentLookCount,jdbcType=INTEGER},
+      achievements_country_count = #{achievementsCountryCount,jdbcType=INTEGER},
+      achievements_privance_count = #{achievementsPrivanceCount,jdbcType=INTEGER},
+      achievements_company_count = #{achievementsCompanyCount,jdbcType=INTEGER},
+      thesis_all_count = #{thesisAllCount,jdbcType=INTEGER},
+      thesis_sci_count = #{thesisSciCount,jdbcType=INTEGER},
+      thesis_ei_count = #{thesisEiCount,jdbcType=INTEGER},
+      thesis_istp_count = #{thesisIstpCount,jdbcType=INTEGER},
+      thesis_isr_count = #{thesisIsrCount,jdbcType=INTEGER},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+     <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="unitName != null and unitName  !='' ">             AND t.unit_name like CONCAT('%',#{unitName},'%')</if>
+	     <if test="unitCode != null      and unitCode !=''  ">        AND t.unit_code = #{unitCode}</if>
+	     <if test="type != null          and type !=''  ">            AND t.type = #{type}</if>
+	     <if test="auditStatus != null   and auditStatus !=''  ">     AND t.audit_status = #{auditStatus}</if>
+	     <if test="sqlStr != null        and sqlStr !='' ">           AND  ${sqlStr}</if>
+	 </trim>
+	</sql>
+	
+	 
+    
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from tech_org_count t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM tech_org_count t <include refid="selectCondition"/>
+    </select>
+    
+  
+  
+  
+  
+</mapper>

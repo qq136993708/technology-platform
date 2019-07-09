@@ -38,8 +38,7 @@ public class StpEquipmentLedgerJob implements Job, Serializable {
         System.out.println("调用feign获取ERP装备台账数据----"+new Date()+"-----------开始"+equipmentLedgerSysClient);
 
         HashMap<String, String> map = new HashMap<String, String>();
-        List<SreEquipmentLedger> purchaseOrderDate = new ArrayList<SreEquipmentLedger>();
-        map.put("month", /*"20 1704"*/DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+        map.put("month", DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
         JSONArray jSONArray= equipmentLedgerSysClient.getEquipmentLedgerList(map);
         List<SreEquipmentLedger> resultList = JSONObject.parseArray(jSONArray.toJSONString(), SreEquipmentLedger.class);
 

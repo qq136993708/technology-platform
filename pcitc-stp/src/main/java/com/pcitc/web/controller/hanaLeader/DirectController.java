@@ -195,6 +195,11 @@ public class DirectController extends BaseController {
 
 		String nd = HanaUtil.getBeforeYear();
 		request.setAttribute("nd", nd);
+
+
+
+         String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/knowledgePatent";
 	}
 
@@ -284,7 +289,7 @@ public class DirectController extends BaseController {
 				barLine.setxAxisDataList(xAxisDataList);
 
 				List<String> legendDataList = new ArrayList<String>();
-				legendDataList.add("发明授权");
+				legendDataList.add("发明专利");
 				legendDataList.add("外观设计");
 				legendDataList.add("实用新型");
 				barLine.setLegendDataList(legendDataList);
@@ -624,6 +629,9 @@ public class DirectController extends BaseController {
 
 		String nd = HanaUtil.getBeforeYear();
 		request.setAttribute("nd", nd);
+
+        String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/achievement";
 	}
 
@@ -642,6 +650,9 @@ public class DirectController extends BaseController {
 
 		String year = HanaUtil.getBeforeYear();
 		request.setAttribute("year", year);
+
+        String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/contract";
 	}
 
@@ -781,6 +792,7 @@ public class DirectController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/contract_02")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String contract_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		PageResult pageResult = new PageResult();
@@ -791,6 +803,15 @@ public class DirectController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("companyCode", companyCode);
+		
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -859,6 +880,7 @@ public class DirectController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/contract_03")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String contract_03(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String resault = "";
@@ -870,6 +892,16 @@ public class DirectController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
+		
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1091,6 +1123,8 @@ public class DirectController extends BaseController {
 
 		String year = HanaUtil.getBeforeYear();
 		request.setAttribute("year", year);
+		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/topic";
 	}
 
@@ -1461,6 +1495,9 @@ public class DirectController extends BaseController {
 		request.setAttribute("year", year);
 		String month = HanaUtil.getCurrrentYear_Moth();
 		request.setAttribute("month", year + "-" + month.substring(5));
+
+        String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/equipment";
 	}
 

@@ -83,7 +83,7 @@
                         {field : 'parentApplyUnitPathName',   title : '上报单位',  style : 'cursor: pointer;', align: 'left', width : '20%'},
                         {field : 'applyUnitName',             title : '上报部门',  style : 'cursor: pointer;', align: 'left', width : '15%'},
                         {field : 'applyUserName', title : '上报人',      style : 'cursor: pointer;', align: 'left', width : '10%'},
-                        {field : 'createDate',     title : '上报时间',     style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
+                        {field : 'createDate',     title : '上报时间',     style : 'cursor: pointer;', align: 'center', templet : '#dateTpl',width : '15%'}
                     ]],
                     done: function (res, curr, count)
                     {
@@ -115,6 +115,7 @@
                             parent.document.getElementById("taskId").value=taskId;
                             parent.document.getElementById("topicId").value=topicId;
                             parent.document.getElementById("topicName").value=topicName;
+                           /* parent.document.getElementById("purchaseName").value=topicName;*/
                             parent.call_back(topicId);
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(index);

@@ -46,11 +46,11 @@
 
 <script type="text/html" id="status1">
     {{#  if(d.status == '20'){ }}
-    <button class="layui-red layui-btn-primary layui-btn-xs">未上传</button>
+    <button class="layui-red layui-btn-primary layui-btn-xs">未验收</button>
     {{#  } else if(d.status >= '20'){ }}
-    <button class="layui-btn layui-btn-normal layui-btn-xs">已上传</button>
+    <button class="layui-btn layui-btn-normal layui-btn-xs">已验收</button>
     {{#  } else{ }}
-    <button class="layui-red layui-btn-primary layui-btn-xs">未上传</button>
+    <button class="layui-red layui-btn-primary layui-btn-xs">未验收</button>
     {{#  } }}
 </script>
 <script type="text/html" id="status2">
@@ -64,11 +64,11 @@
 </script>
 <script type="text/html" id="status3">
     {{#  if(d.status == '40'){ }}
-    <button class="layui-red layui-btn-primary layui-btn-xs">未上传</button>
+    <button class="layui-red layui-btn-primary layui-btn-xs">未验收</button>
     {{#  } else if(d.status >= '40'){ }}
-    <button class="layui-btn layui-btn-normal layui-btn-xs">已上传</button>
+    <button class="layui-btn layui-btn-normal layui-btn-xs">已验收</button>
     {{#  } else{ }}
-    <button class="layui-red layui-btn-primary layui-btn-xs">未上传</button>
+    <button class="layui-red layui-btn-primary layui-btn-xs">未验收</button>
     {{#  } }}
 </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
@@ -486,16 +486,16 @@ var name=$('#name').val();
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号',sort : true,  type :'numbers', width : 55},
                 //{field : 'id',sort : true,  title : 'id', style : 'cursor: pointer;', align: 'left'},
-                {field : 'status',sort : true,  title : '验收准备材料', style : 'cursor: pointer;', align : 'center',templet : '#status1', width : '10%'},
+                {field : 'status',sort : true,  title : '验收准备状态', style : 'cursor: pointer;', align : 'center',templet : '#status1', width : '10%'},
                 {field : 'status',sort : true,  title : '安排填写人', style : 'cursor: pointer;', align : 'center',templet : '#status2', width : '10%'},
-                {field : 'status',sort : true,  title : '验收报告材料', style : 'cursor: pointer;', align : 'center',templet : '#status3', width : '10%'},
+                {field : 'status',sort : true,  title : '验收报告状态状态', style : 'cursor: pointer;', align : 'center',templet : '#status3', width : '10%'},
                 {field : 'projecttask',sort : true,  title : '课题名称', style : 'cursor: pointer;', align: 'left',width : '15%'},
                 {field : 'documentDocTender',     title : '验收准备材料', style : 'cursor: pointer;', align : 'left', width : '10%',templet:function(d){return '<span onclick="view_preparation(\''+d.id+'\')" style="color:#1890ff">验收准备材料</span>'}},
                 {field : 'informcontent',sort : true,  title : '填写人', style : 'cursor: pointer;', align: 'left',width : '10%'},
                 {field : 'documentDocAgreement', title : '验收报告材料', style : 'cursor: pointer;', align : 'left', width : '10%',templet:function(d){return '<span onclick="view_report(\''+d.id+'\')" style="color:#1890ff">验收报告材料</span>'}},
                 {field : 'content',sort : true,  title : '验收描述', style : 'cursor: pointer;', align: 'left',width : '15%'},
                 {field : 'createUser',sort : true,  title : '创建人', style : 'cursor: pointer;', align: 'left',width : '10%'},
-                {field : 'createDate',sort : true,  title : '创建时间', style : 'cursor: pointer;', align: 'left', templet : '#dateTpl'},
+                {field : 'createDate',sort : true,  title : '创建时间', style : 'cursor: pointer;', align: 'left',width : '10%', templet : '#dateTpl'},
 
             ]],
             done: function (res, curr, count) {

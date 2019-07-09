@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+     <script src="/stp/hana/common/hana_common.js"></script>
+</head>
+<body>
+<div class="searchBox">
+<input name="functionId" id="functionId" value="${functionId}" type="hidden">
+    <!--查询条件-->
+         <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month"  title="月份" value="${month}"  id="month">
+            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+        </label>
+       <div class="layui-input-inline"  style="margin-left:10px">
+           <select id="companyCode" name="companyCode" class="form-control"></select>
+        </div>
+    <!--按钮组-->
+    <div class="btnGroup">
+     <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+</div>
+<div class="tableBox">
+
+<div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"    data-type="editEvent"  id="editEvent" >编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
+        </div>
+    </div>
+    <table id="myTable" class="layui-table" lay-filter="myTable" >
+                 <thead>
+                  <tr>
+                      <th lay-data="{field:'g0GSJC', width:'8%',templet:viewv}" rowspan="2" >单位名称</th>
+                      <th lay-data="{align:'center'}" colspan="6">科技投入情况（单位：万元）</th>
+                      <th lay-data="{align:'center'}" colspan="3">承担和参加国家级科技项目</th>
+                      <th lay-data="{align:'center'}" colspan="3">承担和参加地方（省级）科技项目</th>
+                  </tr>
+                  <tr>
+                      <th lay-data="{field:'techProjectCost', width:'7%',align:'right'}">科技项目费</th>
+                      <th lay-data="{field:'techResearcherCost',    width:'7%',align:'right'}">科研人员费</th> 
+                      <th lay-data="{field:'techSubsidyCost',      width:'7%',align:'right'}">科研折旧费补贴</th>
+                      <th lay-data="{field:'techFacilitiesCost',  width:'8%',align:'right'}">设施投资</th>
+                      <th lay-data="{field:'techOtherCost',       width:'8%',align:'right'}">其它科技投入</th>
+                      <th lay-data="{field:'techSubtotalCost',    width:'8%',align:'right'}">合计</th> 
+                      
+                      <th lay-data="{field:'countryLeadCount',  width:'8%',align:'right'}">牵头项目数量</th>
+                      <th lay-data="{field:'countryJoinCount',  width:'8%',align:'right'}">参加项目数量</th>
+                      <th lay-data="{field:'countryFunds',      width:'8%',align:'right'}">国家投入经费</th>
+                     
+                      <th lay-data="{field:'provinceLeadCount', width:'8%',align:'right'}">牵头项目数量</th> 
+                      <th lay-data="{field:'provinceJoinCount', width:'8%',align:'right'}">参加项目数量</th> 
+                      <th lay-data="{field:'provinceFunds', width:'8%',align:'right'}">地方（省级）政府投入经费</th>
+                  </tr>
+                 </thead>
+             </table>
+</div>
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+<script id="viewv" type="text/html"> {{viewv(d.g0GSJC)}} </script>
+<script type="text/javascript">
+    // 时间格式化 
+      function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+    
+      function viewv(d) 
+      {
+          if (d) 
+          {
+        	  var str= "<span onclick=\"view('"+d.g0GSJC+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.g0GSJC+"</span>";
+              return str;
+          } else {
+              return '';
+          }
+      }
+      function view(g0GSJC) 
+      {
+      	   var companyName=g0GSJC;
+           var month=$("#month").val();
+           month=month.replace("-","");
+      	    var v_date=(new Date()).getTime();
+      	    var url= '/sf/to_getKtzjjfytjbData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+           layer.open({
+               title:'课题直间接费用-详情',
+               skin: 'layui-layer-lan',
+               shadeClose: true,
+               type: 2,
+               fixed: false,
+               //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+               maxmin: false,
+               //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+               area: ['70%', '90%'],
+               content:  url
+           });
+      }
+      
+      
+</script>
+
+<!--表格数据操作js-->
+
+<script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+$('#functionId').val(functionId);
+var table,selectRowData;
+var publicMethods;
+var layer;
+var tableHeight=null;
+layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate;
+	  layer = layui.layer;
+	  publicMethods=layui.publicMethods;
+	  
+	  tableHeight=commonDislodgeTable();
+	  laydate.render({
+          elem: '#month' ,type: 'month'
+          
+       });
+	        init_companyCode(functionId);
+     	     myTable();
+     	     //移除表头的复选框,去掉全选
+     	     $(".layui-table-header table thead th input").remove();  
+
+     	    // 触发不同的按钮事件
+             var $ = layui.$, active = {
+                searchEvent: function() { //点击查询按钮
+                	myTable();
+                   
+                },
+                resetEvent: function() { //点击重置按钮
+                	//$('#name').val("");
+                	//$('#auditStatus').val("");
+                },
+                addEvent: function(){ //点击新增按钮
+                    layer.open({
+                        title:'科技投入-新增',
+                        skin: 'layui-layer-lan',
+                        shadeClose: true,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['70%', '90%'],
+                        content:  '/tech_cost/add'
+                    });
+                }
+                ,editEvent: function(){  //点击编辑按钮
+                	
+                	if (typeof(selectRowData) == "undefined") {
+                		layer.msg('请点击选择一行数据');
+                	} else {
+                		 var id=selectRowData.id;
+               		     var url="/tech_cost/add?id="+id;
+               		     
+               		  var isLinkedProject=selectRowData.isLinkedProject;
+            		  if(isLinkedProject=='1')
+            		   {
+            			  layer.alert('该科技投入已经关联课题,不能修改');
+            			  return;
+            		   }
+            		  
+            		  
+               		  layer.open({
+                          title:'科技投入-修改',
+                          skin: 'layui-layer-lan',
+                          shadeClose: true,
+                          type: 2,
+                          fixed: false,
+                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                          maxmin: true,
+                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['70%', '90%'],
+                          content:  url
+                      });
+                	}
+                   
+                },deleteEvent: function(){  //点击删除按钮
+                     console.log('点击了删除按钮')
+                     if (typeof(selectRowData) == "undefined") 
+                     {
+                		layer.alert('请点击选择一行数据');
+                	 } else 
+                	 {
+                		  var id=selectRowData.id;
+                		  var isLinkedProject=selectRowData.isLinkedProject;
+                		  if(isLinkedProject=='1')
+                		   {
+                			  layer.alert('该科技投入已经关联课题,不能删除');
+                			  return;
+                		   }
+                		  
+               		      var url="/tech_cost/delete/"+id;
+    	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
+    	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
+    	         			}, function(){
+    	         			 
+    	         			});
+                	}
+                
+                  
+                },
+                detailEvent: function(){  //点击详情按钮
+                	if (typeof(selectRowData) == "undefined") {
+                		layer.msg('请点击选择一行数据');
+                	} else {
+                		 var id=selectRowData.id;
+                		 var temUrl="/tech_cost/get/" + id;
+                		 layer.open({
+                             title:'详情',
+                             skin: 'layui-layer-lan',
+                             shadeClose: true,
+                             type: 2,
+                             fixed: false,
+                             //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                             maxmin: true,
+                             //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                              area: ['70%', '90%'],
+                             content:  temUrl
+                         });
+                	}
+                
+                }
+                
+            };
+        
+        //监听行单击事件
+        table.on('row(myTable)', function(obj){
+            console.log(obj.data) //得到当前行数据
+            selectRowData=obj.data;
+        });
+        
+        
+        
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        
+    });
+    
+function search_Event()
+{
+	myTable();
+}
+
+
+function myTable()
+{
+	/*  var month=$("#month").val();
+	 month=month.replace("-","");
+	 var companyCode=$("#companyCode").val(); */
+	 // alert(companyCode);
+	 var v_date=(new Date()).getTime();
+	 var url= '/tech_cost/list?v_date='+v_date;
+     table.init('myTable', {
+		  url: url
+		  , height: tableHeight
+		  ,where: {} ,
+		  done: function (res, curr, count) {
+			  layer.closeAll();
+		  }
+	 });
+	   
+}
+   
+
+
+
+function exput_excel()
+{
+	var companyCode=$('#companyCode').val();
+	var month=$('#month').val();
+	 month=month.replace("-","");
+	window.open("/ktzjjfytjb_data_exput_excel?month="+month+"&companyCode="+companyCode); 
+} 
+
+
+</script>
+</body>
+</html>

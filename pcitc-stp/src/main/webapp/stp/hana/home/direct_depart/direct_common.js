@@ -207,6 +207,8 @@ var mutl_bar_down = {
 
 
 
+
+
 //barLineAjax返回DATA,指标在下方
 function load_mutl_bar_down(url,id,title,subtext,yAxis,width,color,callback)
 {
@@ -831,7 +833,7 @@ function set_multi_graph_statistics(data,id)
 	if(id=='knowldege_chart4')
 	{
 		
-		var count_1=getDataCountForName(data,'发明授权');
+		var count_1=getDataCountForName(data,'发明专利');
     	var count_2=getDataCountForName(data,'外观设计');
         var count_3=getDataCountForName(data,'实用新型');
         var count_all=count_1+count_2+count_3;
@@ -1027,18 +1029,20 @@ function set_multi_graph_statistics(data,id)
 
 	if(id=='leader_knowledge_chart4')
 	{
-		var xkCount_1=getDataCountForName(data,'专利申请');
-    	var jzCount_2=getDataCountForName(data,'专利授权');
-        var allCount_3=xkCount_1+jzCount_2;
+		var count1=getDataCountForName(data,'发明专利');
+    	var count2=getDataCountForName(data,'外观设计');
+    	var count3=getDataCountForName(data,'使用信息');
+        var allCount_3=count1+count2+count3;
         
-     
-        $("#leader_knowledge_chart4_02").html(xkCount_1+"个");
-        $("#leader_knowledge_chart4_03").html(jzCount_2+"个");
+        $("#leader_knowledge_chart4_01").html(allCount_3+"个");
+        $("#leader_knowledge_chart4_02").html(count1+"个");
+        $("#leader_knowledge_chart4_03").html(count2+"个");
+        $("#leader_knowledge_chart4_04").html(count3+"个");
 	}
 	
 	if(id=='leader_knowledge_chart7')
 	{
-		var count_1=getDataCountForName(data,'发明授权');
+		var count_1=getDataCountForName(data,'发明专利');
     	var count_2=getDataCountForName(data,'外观设计');
         var count_3=getDataCountForName(data,'实用新型');
         var count_all=count_1+count_2+count_3;

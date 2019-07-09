@@ -17,7 +17,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONArray;
@@ -66,16 +65,14 @@ public class HanaUtil {
 	private static final String GET_COMPANY_DIC_LIST = "http://pcitc-zuul/hana-proxy/hana/common/dic/company-code";
 	// 项目代码
 	private static final String GET_PROJECT_DIC_LIST = "http://pcitc-zuul/hana-proxy/hana/common/dic/porject-code";
-	
+
 	private static final String GET_BASE_DIC_LIST = "http://pcitc-zuul/hana-proxy/hana/common/dic/BASE_DIC_LIST";
 	private static final String GET_BASE_DIC_LIST_ALL = "http://pcitc-zuul/hana-proxy/hana/common/dic/getBaseCodeDic";
-	
+
 	public static final String YJY_CODE_ALL = "1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360,1016,1019,101G,101I,1018,4270,101H,101F,101A,4370,8280";
-	
-	//直属研究院
+
+	// 直属研究院
 	public static final String YJY_CODE_NOT_YINGKE = "1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360";
-	
-	
 
 	public static <T> List<String> getxAxisByList(List<T> list, String fieldName) throws Exception {
 		List<String> newList = new ArrayList<String>();
@@ -134,8 +131,7 @@ public class HanaUtil {
 	}
 
 	// 科研基建投资支出分析--研究院基建支出同比分析
-	public static List<ChartBarLineSeries> getSeriesListByScientificBaseBuildFee03(
-			List<ScientificBaseBuildFee03> list) {
+	public static List<ChartBarLineSeries> getSeriesListByScientificBaseBuildFee03(List<ScientificBaseBuildFee03> list) {
 
 		List<ChartBarLineSeries> newList = new ArrayList<ChartBarLineSeries>();
 		ChartBarLineSeries chartBarLineSeries_JCB = new ChartBarLineSeries();
@@ -150,10 +146,10 @@ public class HanaUtil {
 			String bn = f.getK0BNFWRJMJ();// 本年人均房屋面积
 			String tq = f.getK0BNBGRJMJ();// 本年人均办公室面积
 			String bl = f.getK0BNSYRJMJ();// 本年人均实验室面积
-			
-			bn=String.format("%.2f", Double.valueOf(bn));
-			tq=String.format("%.2f", Double.valueOf(tq));
-			bl=String.format("%.2f", Double.valueOf(bl));
+
+			bn = String.format("%.2f", Double.valueOf(bn));
+			tq = String.format("%.2f", Double.valueOf(tq));
+			bl = String.format("%.2f", Double.valueOf(bl));
 
 			// System.out.println(">>>>>>>>>>>人均成本="+JCB+" 本年人均项目="+RJXM+" 本年人均专利="+RJZL);
 
@@ -185,8 +181,7 @@ public class HanaUtil {
 	}
 
 	// 科研基建投资支出分析--研究院基建支出同比分析
-	public static List<ChartBarLineSeries> getSeriesListByScientificBaseBuildFee02(
-			List<ScientificBaseBuildFee02> list) {
+	public static List<ChartBarLineSeries> getSeriesListByScientificBaseBuildFee02(List<ScientificBaseBuildFee02> list) {
 
 		List<ChartBarLineSeries> newList = new ArrayList<ChartBarLineSeries>();
 		ChartBarLineSeries chartBarLineSeries_JCB = new ChartBarLineSeries();
@@ -201,9 +196,9 @@ public class HanaUtil {
 			String bn = f.getK0BNZCJE();// 本期基建支出
 			String tq = f.getK0SNZCJE();// 同期基建支出
 			String bl = f.getK0TBZCBL();// 基建支出同比
-			
-			bn=String.format("%.2f", Double.valueOf(bn));
-			tq=String.format("%.2f", Double.valueOf(tq));
+
+			bn = String.format("%.2f", Double.valueOf(bn));
+			tq = String.format("%.2f", Double.valueOf(tq));
 
 			// System.out.println(">>>>>>>>>>>人均成本="+JCB+" 本年人均项目="+RJXM+" 本年人均专利="+RJZL);
 
@@ -252,10 +247,10 @@ public class HanaUtil {
 			String JCB = f.getK0BNRJCB();// 人均成本
 			String RJXM = f.getK0BNRJXM();// 本年人均项目
 			String RJZL = f.getK0BNRJZL();// 本年人均专利
-			
-			JCB=String.format("%.2f", Double.valueOf(JCB));
-			RJXM=String.format("%.2f", Double.valueOf(RJXM));
-			RJZL=String.format("%.2f", Double.valueOf(RJZL));
+
+			JCB = String.format("%.2f", Double.valueOf(JCB));
+			RJXM = String.format("%.2f", Double.valueOf(RJXM));
+			RJZL = String.format("%.2f", Double.valueOf(RJZL));
 
 			// System.out.println(">>>>>>>>>>>人均成本="+JCB+" 本年人均项目="+RJXM+" 本年人均专利="+RJZL);
 
@@ -301,10 +296,10 @@ public class HanaUtil {
 			String HJE = f.getK0BNYSJHJE();// 预算
 			String JECB = f.getK0BNGLFPHJECB();// 实际
 			String JSYBL = f.getK0BNZJSYBL();
-			
-			HJE=String.format("%.2f", Double.valueOf(HJE));
-			JECB=String.format("%.2f", Double.valueOf(JECB));
-			
+
+			HJE = String.format("%.2f", Double.valueOf(HJE));
+			JECB = String.format("%.2f", Double.valueOf(JECB));
+
 			dataHJE.add(HJE);
 			dataJECB.add(JECB);
 			dataJSYBL.add(JSYBL);
@@ -346,10 +341,10 @@ public class HanaUtil {
 			String HJE = f.getK0BNYSJHJE();// 预算
 			String JECB = f.getK0BNGLFPHJECB();// 实际
 			String SJY = f.getK0BNYSJY();
-			
-			HJE=String.format("%.2f", Double.valueOf(HJE));
-			JECB=String.format("%.2f", Double.valueOf(JECB));
-			SJY=String.format("%.2f", Double.valueOf(SJY));
+
+			HJE = String.format("%.2f", Double.valueOf(HJE));
+			JECB = String.format("%.2f", Double.valueOf(JECB));
+			SJY = String.format("%.2f", Double.valueOf(SJY));
 			dataHJE.add(HJE);
 			dataJECB.add(JECB);
 			dataSJY.add(SJY);
@@ -403,8 +398,7 @@ public class HanaUtil {
 	 * @param yearList
 	 * @return
 	 */
-	public static List<ChartBarLineSeries> getChartBarLineSeriesByYear(List<FundsComprehensiveAnalysis01> list,
-			List<String> yearList) {
+	public static List<ChartBarLineSeries> getChartBarLineSeriesByYear(List<FundsComprehensiveAnalysis01> list, List<String> yearList) {
 		List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 		if (yearList != null && yearList.size() > 0) {
 			for (int i = 0; i < yearList.size(); i++) {
@@ -417,7 +411,7 @@ public class HanaUtil {
 					FundsComprehensiveAnalysis01 f = list.get(j);
 					String year_v = f.getG0YEARXM();
 					String k0BNSJJE = f.getK0BNSJJE();
-					k0BNSJJE=String.format("%.2f", Double.valueOf(k0BNSJJE));
+					k0BNSJJE = String.format("%.2f", Double.valueOf(k0BNSJJE));
 					if (year.equals(year_v)) {
 						data.add(k0BNSJJE);
 					}
@@ -436,8 +430,7 @@ public class HanaUtil {
 	 * @param yearList
 	 * @return
 	 */
-	public static List<ChartBarLineSeries> getCBSByScientificBaseBuildFee01Year(List<ScientificBaseBuildFee01> list,
-			List<String> yearList) {
+	public static List<ChartBarLineSeries> getCBSByScientificBaseBuildFee01Year(List<ScientificBaseBuildFee01> list, List<String> yearList) {
 		List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 		if (yearList != null && yearList.size() > 0) {
 			for (int i = 0; i < yearList.size(); i++) {
@@ -450,9 +443,9 @@ public class HanaUtil {
 					ScientificBaseBuildFee01 f = list.get(j);
 					String year_v = f.getG0CALY();
 					String k0BNSJJE = f.getK0BNZCJE();
-					
-					k0BNSJJE=String.format("%.2f", Double.valueOf(k0BNSJJE));
-					
+
+					k0BNSJJE = String.format("%.2f", Double.valueOf(k0BNSJJE));
+
 					if (year.equals(year_v)) {
 						data.add(k0BNSJJE);
 					}
@@ -464,8 +457,7 @@ public class HanaUtil {
 		return seriesList;
 	}
 
-	public static List<ChartBarLineSeries> getScientificInstrumentPayYear(List<ScientificInstrumentPay> list,
-			List<String> yearList) {
+	public static List<ChartBarLineSeries> getScientificInstrumentPayYear(List<ScientificInstrumentPay> list, List<String> yearList) {
 		List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 		if (yearList != null && yearList.size() > 0) {
 			for (int i = 0; i < yearList.size(); i++) {
@@ -478,7 +470,7 @@ public class HanaUtil {
 					ScientificInstrumentPay f = list.get(j);
 					String year_v = f.getG0CALY();
 					String k0BNSJJE = f.getK0BNZCJE();
-					k0BNSJJE=String.format("%.2f", Double.valueOf(k0BNSJJE));
+					k0BNSJJE = String.format("%.2f", Double.valueOf(k0BNSJJE));
 					if (year.equals(year_v)) {
 						data.add(k0BNSJJE);
 					}
@@ -490,8 +482,7 @@ public class HanaUtil {
 		return seriesList;
 	}
 
-	public static List<ChartBarLineSeries> getBrandConstructionPayYear(List<BrandConstructionPay> list,
-			List<String> yearList) {
+	public static List<ChartBarLineSeries> getBrandConstructionPayYear(List<BrandConstructionPay> list, List<String> yearList) {
 		List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 		if (yearList != null && yearList.size() > 0) {
 			for (int i = 0; i < yearList.size(); i++) {
@@ -504,7 +495,7 @@ public class HanaUtil {
 					BrandConstructionPay f = list.get(j);
 					String year_v = f.getG0CALY();
 					String k0BNSJJE = f.getK0BNJE();
-					k0BNSJJE=String.format("%.2f", Double.valueOf(k0BNSJJE));
+					k0BNSJJE = String.format("%.2f", Double.valueOf(k0BNSJJE));
 					if (year.equals(year_v)) {
 						data.add(k0BNSJJE);
 					}
@@ -516,8 +507,7 @@ public class HanaUtil {
 		return seriesList;
 	}
 
-	public static List<ChartBarLineSeries> getInvisibleCapitalDevelopYear(List<InvisibleCapitalDevelop> list,
-			List<String> yearList) {
+	public static List<ChartBarLineSeries> getInvisibleCapitalDevelopYear(List<InvisibleCapitalDevelop> list, List<String> yearList) {
 		List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 		if (yearList != null && yearList.size() > 0) {
 			for (int i = 0; i < yearList.size(); i++) {
@@ -530,7 +520,7 @@ public class HanaUtil {
 					InvisibleCapitalDevelop f = list.get(j);
 					String year_v = f.getG0CALY();
 					String k0BNSJJE = f.getK0BNZCJE();
-					k0BNSJJE=String.format("%.2f", Double.valueOf(k0BNSJJE));
+					k0BNSJJE = String.format("%.2f", Double.valueOf(k0BNSJJE));
 					if (year.equals(year_v)) {
 						data.add(k0BNSJJE);
 					}
@@ -579,14 +569,12 @@ public class HanaUtil {
 
 		return list;
 	}
-	
-	
-	public static List<String> getBeforeYearList(String yearMonth,int count) {
+
+	public static List<String> getBeforeYearList(String yearMonth, int count) {
 		List<String> list = new ArrayList();
 		Date date = DateUtil.strToDate(yearMonth, DateUtil.FMT_YYYY);
-		//list.add(DateUtil.dateToStr(date, DateUtil.FMT_YYYY));
-		for(int i=0;i<count;i++)
-		{
+		// list.add(DateUtil.dateToStr(date, DateUtil.FMT_YYYY));
+		for (int i = 0; i < count; i++) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(date);
 			calendar.add(Calendar.YEAR, -i);// 当前时间减去一年，即一年前的时间
@@ -595,7 +583,6 @@ public class HanaUtil {
 		}
 		return list;
 	}
-	
 
 	/**
 	 * 去重 科研经费预算投入年度趋势分析
@@ -663,22 +650,16 @@ public class HanaUtil {
 		return result;
 	}
 
-	
-	
-	public static String getCompanyCodeByName(List<CompanyCode> companyCodeList,String companyName) 
-	{
+	public static String getCompanyCodeByName(List<CompanyCode> companyCodeList, String companyName) {
 		String result = HanaUtil.YJY_CODE_NOT_YINGKE;
-		if (companyCodeList != null && companyCodeList.size() > 0) 
-		{
-			for (int i = 0; i < companyCodeList.size(); i++)
-			{
+		if (companyCodeList != null && companyCodeList.size() > 0) {
+			for (int i = 0; i < companyCodeList.size(); i++) {
 				CompanyCode companyCode = companyCodeList.get(i);
-				
+
 				String name = companyCode.getG0GSJC();
 				String code = companyCode.getG0GSDM();
-				//System.out.println(name+"="+companyName);
-				if (name.trim().equals(companyName.trim()))
-				{
+				// System.out.println(name+"="+companyName);
+				if (name.trim().equals(companyName.trim())) {
 					result = code;
 				}
 			}
@@ -686,22 +667,19 @@ public class HanaUtil {
 		}
 		return result;
 	}
-	
-	public static List<ChartCircle> getChildChartCircle(List<H1AMKYSY100109> lista) 
-	{
+
+	public static List<ChartCircle> getChildChartCircle(List<H1AMKYSY100109> lista) {
 		List<ChartCircle> resut = new ArrayList();
-		ChartCircle  cc01= getChartCircle( lista,"新开课题","#6699FF");
-		ChartCircle  cc02= getChartCircle( lista,"结转课题","#00FFCC");
+		ChartCircle cc01 = getChartCircle(lista, "新开课题", "#6699FF");
+		ChartCircle cc02 = getChartCircle(lista, "结转课题", "#00FFCC");
 		resut.add(cc01);
 		resut.add(cc02);
 		return resut;
 	}
-	
-	
-	public static List<String> getClorList() 
-	{
-		
-		List<String> colorList=new ArrayList<String>();
+
+	public static List<String> getClorList() {
+
+		List<String> colorList = new ArrayList<String>();
 		colorList.add("#6592b2");
 		colorList.add("#54b6e9");
 		colorList.add("#70b1aa");
@@ -727,1592 +705,1284 @@ public class HanaUtil {
 		colorList.add("#baa635");
 		return colorList;
 	}
-	
-	
-	
-	
-	
-	public static List<ChartCircle2> getChildChartCircleFordevice(List<String>  listLevel1Title,List<H1AMKYSY100109> listAll) 
-	{
-		
-		
-		List<String> colorList=getClorList();
-		
+
+	public static List<ChartCircle2> getChildChartCircleFordevice(List<String> listLevel1Title, List<H1AMKYSY100109> listAll) {
+
+		List<String> colorList = getClorList();
+
 		List<ChartCircle2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			ChartCircle2  cc= getChartCircleForDevice( listAll,title,colorList.get(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			ChartCircle2 cc = getChartCircleForDevice(listAll, title, colorList.get(i));
 			resut.add(cc);
 		}
 		return resut;
 	}
-	public static ChartCircle2 getChartCircleForDevice(List<H1AMKYSY100109> listAll,String str,String color)
-	{
-		
-		List<String> colorList=getClorList();
-		ChartCircle2 cc01=new ChartCircle2();
-		//第一级
+
+	public static ChartCircle2 getChartCircleForDevice(List<H1AMKYSY100109> listAll, String str, String color) {
+
+		List<String> colorList = getClorList();
+		ChartCircle2 cc01 = new ChartCircle2();
+		// 第一级
 		cc01.setName(str);
-		//第二级
-		List<Child2> children01=new ArrayList<Child2>();
-		ChartCircleItemStyle chartCircleItemStyle=new ChartCircleItemStyle();
+		// 第二级
+		List<Child2> children01 = new ArrayList<Child2>();
+		ChartCircleItemStyle chartCircleItemStyle = new ChartCircleItemStyle();
 		chartCircleItemStyle.setColor(color);
 		cc01.setItemStyle(chartCircleItemStyle);
-		
-		
-		for (int i = 0; i < listAll.size(); i++) 
-		{
-			H1AMKYSY100109 h1AMKYSY100109=listAll.get(i);
-			String name=h1AMKYSY100109.getG0XMXZ();
-			if(name.equals(str))
-			{
-			
-				String G0XMGLLX_name=h1AMKYSY100109.getG0GSJC();
-				String value=h1AMKYSY100109.getK0XMZXSL();
-				Child2 child=new Child2();
+
+		for (int i = 0; i < listAll.size(); i++) {
+			H1AMKYSY100109 h1AMKYSY100109 = listAll.get(i);
+			String name = h1AMKYSY100109.getG0XMXZ();
+			if (name.equals(str)) {
+
+				String G0XMGLLX_name = h1AMKYSY100109.getG0GSJC();
+				String value = h1AMKYSY100109.getK0XMZXSL();
+				Child2 child = new Child2();
 				child.setName(G0XMGLLX_name);
-				if(value!=null && !value.equals(""))
-				{
+				if (value != null && !value.equals("")) {
 					child.setValue(Double.valueOf(value).intValue());
-				}else
-				{
+				} else {
 					child.setValue(0);
 				}
-				
-				
-				ChartCircleItemStyle cc=new ChartCircleItemStyle();
+
+				ChartCircleItemStyle cc = new ChartCircleItemStyle();
 				cc.setColor(colorList.get(i));
 				child.setItemStyle(cc);
-				
-				
+
 				children01.add(child);
 			}
 		}
 		cc01.setChildren(children01);
 		return cc01;
 	}
-	
-	
-	
-	
-	
-	public static List<ChartCircle2> getChildChartCircleForproject02(List<String>  listLevel1Title,List<H1AMKYSY100109> listAll) 
-	{
-		
-		
-		List<String> colorList=getClorList();
-		
+
+	public static List<ChartCircle2> getChildChartCircleForproject02(List<String> listLevel1Title, List<H1AMKYSY100109> listAll) {
+
+		List<String> colorList = getClorList();
+
 		List<ChartCircle2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			ChartCircle2  cc= getChartCircleForprojt02( listAll,title,colorList.get(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			ChartCircle2 cc = getChartCircleForprojt02(listAll, title, colorList.get(i));
 			resut.add(cc);
 		}
 		return resut;
 	}
-	
-	
-	
-	public static ChartCircle2 getChartCircleForprojt02(List<H1AMKYSY100109> listAll,String str,String color)
-	{
-		
-		List<String> colorList=getClorList();
-		ChartCircle2 cc01=new ChartCircle2();
-		//第一级
+
+	public static ChartCircle2 getChartCircleForprojt02(List<H1AMKYSY100109> listAll, String str, String color) {
+
+		List<String> colorList = getClorList();
+		ChartCircle2 cc01 = new ChartCircle2();
+		// 第一级
 		cc01.setName(str);
-		//第二级
-		List<Child2> children01=new ArrayList<Child2>();
-		ChartCircleItemStyle chartCircleItemStyle=new ChartCircleItemStyle();
+		// 第二级
+		List<Child2> children01 = new ArrayList<Child2>();
+		ChartCircleItemStyle chartCircleItemStyle = new ChartCircleItemStyle();
 		chartCircleItemStyle.setColor(color);
 		cc01.setItemStyle(chartCircleItemStyle);
-		
-		
-		for (int i = 0; i < listAll.size(); i++) 
-		{
-			H1AMKYSY100109 h1AMKYSY100109=listAll.get(i);
-			String name=h1AMKYSY100109.getG0XMXZ();
-			if(name.equals(str))
-			{
-			
-				String G0XMGLLX_name=h1AMKYSY100109.getG0GSJC();
-				String value=h1AMKYSY100109.getK0BNXMZXSL();
-				Child2 child=new Child2();
+
+		for (int i = 0; i < listAll.size(); i++) {
+			H1AMKYSY100109 h1AMKYSY100109 = listAll.get(i);
+			String name = h1AMKYSY100109.getG0XMXZ();
+			if (name.equals(str)) {
+
+				String G0XMGLLX_name = h1AMKYSY100109.getG0GSJC();
+				String value = h1AMKYSY100109.getK0BNXMZXSL();
+				Child2 child = new Child2();
 				child.setName(G0XMGLLX_name);
-				if(value!=null && !value.equals(""))
-				{
+				if (value != null && !value.equals("")) {
 					child.setValue(Double.valueOf(value).intValue());
-				}else
-				{
+				} else {
 					child.setValue(0);
 				}
-				
-				
-				ChartCircleItemStyle cc=new ChartCircleItemStyle();
+
+				ChartCircleItemStyle cc = new ChartCircleItemStyle();
 				cc.setColor(colorList.get(i));
 				child.setItemStyle(cc);
-				
-				
+
 				children01.add(child);
 			}
 		}
 		cc01.setChildren(children01);
 		return cc01;
 	}
-	
-	
-	
-	public static List<TreeNode2> getChildChartCircleuNITFordevice(List<String>  listLevel1Title,List<H1AMKYSY100109> listAll) 
-	{
-		
-		
-		
+
+	public static List<TreeNode2> getChildChartCircleuNITFordevice(List<String> listLevel1Title, List<H1AMKYSY100109> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			int count=0;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				H1AMKYSY100109 entity=listAll.get(j);
-				String name=entity.getG0XMXZ();
-				String value=entity.getK0XMZXSL();
-				String id=entity.getId();
-				String name02=entity.getG0GSJC();
-				
-				
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			int count = 0;
+			for (int j = 0; j < listAll.size(); j++) {
+				H1AMKYSY100109 entity = listAll.get(j);
+				String name = entity.getG0XMXZ();
+				String value = entity.getK0XMZXSL();
+				String id = entity.getId();
+				String name02 = entity.getG0GSJC();
+
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					
-					
-					if(value!=null && !value.equals(""))
-					{
+
+					if (value != null && !value.equals("")) {
 						node02.setExtend01(String.valueOf(Double.valueOf(value).intValue()));
-					}else
-					{
+					} else {
 						node02.setExtend01("0");
 					}
-					
-					node02.setId(""+id);
+
+					node02.setId("" + id);
 					resut.add(node02);
-					if(value!=null && !value.equals(""))
-					{
-						count=count+Double.valueOf(value).intValue();
-					}else
-					{
-						count=count+0;
+					if (value != null && !value.equals("")) {
+						count = count + Double.valueOf(value).intValue();
+					} else {
+						count = count + 0;
 					}
-					
-					
+
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(count));
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	public static List<TreeNode2> getChildChartCircleUnitBudgerMysql(List<String>  listLevel1Title,List<BudgetMysql> listAll) 
-	{
-		
-		
-		
+
+	public static List<TreeNode2> getChildChartCircleUnitBudgerMysql(List<String> listLevel1Title, List<BudgetMysql> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			Double count=0.00;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				BudgetMysql entity=listAll.get(j);
-				String name=entity.getDefine1();
-				String value =((BigDecimal)entity.getZje()).toString();
-				
-			
-				String id=entity.getId();
-				String name02=entity.getType_flag();
-				
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			Double count = 0.00;
+			for (int j = 0; j < listAll.size(); j++) {
+				BudgetMysql entity = listAll.get(j);
+				String name = entity.getDefine1();
+				String value = ((BigDecimal) entity.getZje()).toString();
+
+				String id = entity.getId();
+				String name02 = entity.getType_flag();
+
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					
-					
-					DecimalFormat decimalFormat=new DecimalFormat(".00");
-					value=decimalFormat.format(Float.valueOf(value));
+
+					DecimalFormat decimalFormat = new DecimalFormat(".00");
+					value = decimalFormat.format(Float.valueOf(value));
 					node02.setExtend01(value);
-					node02.setId(""+id);
+					node02.setId("" + id);
 					resut.add(node02);
-					if(value!=null && !value.equals(""))
-					{
-						count=add(count,Double.valueOf(value));
-					}else
-					{
-						count=add(count,0);
+					if (value != null && !value.equals("")) {
+						count = add(count, Double.valueOf(value));
+					} else {
+						count = add(count, 0);
 					}
-					
-					
+
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(count));
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	/*public static List<H1AMKYSY100117> getChildChartH1AMKYSY100117_02(List<String>  listLevel1Title,List<H1AMKYSY100117> listAll)throws Exception  
-	{
-		List<H1AMKYSY100117> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			H1AMKYSY100117 node=new H1AMKYSY100117();
-			node.setId("first_"+String.valueOf(i));
-			resut.add(node);
-		}
-	}*/
-	
-	public static List<TreeNode2> getChildChartH1AMKYSY100117(List<String>  listLevel1Title,List<H1AMKYSY100117> listAll)throws Exception  
-	{
-		
+
+	/*
+	 * public static List<H1AMKYSY100117>
+	 * getChildChartH1AMKYSY100117_02(List<String>
+	 * listLevel1Title,List<H1AMKYSY100117> listAll)throws Exception {
+	 * List<H1AMKYSY100117> resut = new ArrayList(); for(int
+	 * i=0;i<listLevel1Title.size();i++) { String title=listLevel1Title.get(i);
+	 * H1AMKYSY100117 node=new H1AMKYSY100117();
+	 * node.setId("first_"+String.valueOf(i)); resut.add(node); } }
+	 */
+
+	public static List<TreeNode2> getChildChartH1AMKYSY100117(List<String> listLevel1Title, List<H1AMKYSY100117> listAll) throws Exception {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("first_"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("first_" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
 			node.setName(title);
-			
-			List<H1AMKYSY100117> resat02=getchildH1AMKYSY100117( title, listAll);
-			/*Double count=0.00;*/
-			/*for(int v=0;v<resat02.size();v++)
-			{
-				H1AMKYSY100117  h1AMKYSY100109=resat02.get(v);
-				String value=h1AMKYSY100109.getK0BNYSJHJE();
-				DecimalFormat decimalFormat=new DecimalFormat(".00");
-				value=decimalFormat.format(Double.valueOf(value));
-				if(value!=null)
-				{
-					count=add(count,Double.valueOf(value));
-				}else
-				{
-					count=add(count,0);
-				}
-			}*/
-			//node.setExtend01(String.valueOf(count));
+
+			List<H1AMKYSY100117> resat02 = getchildH1AMKYSY100117(title, listAll);
+			/* Double count=0.00; */
+			/*
+			 * for(int v=0;v<resat02.size();v++) { H1AMKYSY100117
+			 * h1AMKYSY100109=resat02.get(v); String
+			 * value=h1AMKYSY100109.getK0BNYSJHJE(); DecimalFormat
+			 * decimalFormat=new DecimalFormat(".00");
+			 * value=decimalFormat.format(Double.valueOf(value));
+			 * if(value!=null) { count=add(count,Double.valueOf(value)); }else {
+			 * count=add(count,0); } }
+			 */
+			// node.setExtend01(String.valueOf(count));
 			resut.add(node);
-			
-			//二级
-			List<String>  list2tiele=getduplicatexAxisByList(resat02,"g0GSJC");
-			for(int j=0;j<list2tiele.size();j++)
-			{
-				String title02=list2tiele.get(j);
-				TreeNode2 node02=new TreeNode2();
-				node02.setId("second_"+i+"_"+String.valueOf(j));
+
+			// 二级
+			List<String> list2tiele = getduplicatexAxisByList(resat02, "g0GSJC");
+			for (int j = 0; j < list2tiele.size(); j++) {
+				String title02 = list2tiele.get(j);
+				TreeNode2 node02 = new TreeNode2();
+				node02.setId("second_" + i + "_" + String.valueOf(j));
 				node02.setName(title02);
-				node02.setpId("first_"+String.valueOf(i));
-				
-				
-				//三级
-				List<H1AMKYSY100117> resat03=getchildH1AMKYSY100117_02(title, title02, listAll);
-				Double count2=0.00;
-				Double count5=0.00;
-				for(int k=0;k<resat03.size();k++)
-				{
-					H1AMKYSY100117  h1AMKYSY100109=resat03.get(k);
-					String G0TXT50=h1AMKYSY100109.getG0TXT50();
-					String G0ZBHND=h1AMKYSY100109.getG0ZBHND();
-					String G0NDSYN=h1AMKYSY100109.getG0NDSYN();
-					String G0NCGZYZJE=h1AMKYSY100109.getG0NCGZYZJE();
-					String G0LJZJJE=h1AMKYSY100109.getG0LJZJJE();
-					String bl=h1AMKYSY100109.getBl();
-					
-					TreeNode2 node03=new TreeNode2();
-					node03.setId("three_"+k);
-					//node03.setName(h1AMKYSY100109.getG0GSJC());
+				node02.setpId("first_" + String.valueOf(i));
+
+				// 三级
+				List<H1AMKYSY100117> resat03 = getchildH1AMKYSY100117_02(title, title02, listAll);
+				Double count2 = 0.00;
+				Double count5 = 0.00;
+				for (int k = 0; k < resat03.size(); k++) {
+					H1AMKYSY100117 h1AMKYSY100109 = resat03.get(k);
+					String G0TXT50 = h1AMKYSY100109.getG0TXT50();
+					String G0ZBHND = h1AMKYSY100109.getG0ZBHND();
+					String G0NDSYN = h1AMKYSY100109.getG0NDSYN();
+					String G0NCGZYZJE = h1AMKYSY100109.getG0NCGZYZJE();
+					String G0LJZJJE = h1AMKYSY100109.getG0LJZJJE();
+					String bl = h1AMKYSY100109.getBl();
+
+					TreeNode2 node03 = new TreeNode2();
+					node03.setId("three_" + k);
+					// node03.setName(h1AMKYSY100109.getG0GSJC());
 					node03.setExtend01(G0TXT50);
 					node03.setExtend02(G0ZBHND);
 					node03.setExtend03(G0NDSYN);
 					node03.setExtend04(G0NCGZYZJE);
 					node03.setExtend05(G0LJZJJE);
 					node03.setExtend06(bl);
-					node03.setpId("second_"+i+"_"+String.valueOf(j));
+					node03.setpId("second_" + i + "_" + String.valueOf(j));
 					resut.add(node03);
-					
-					
-					DecimalFormat decimalFormat=new DecimalFormat(".00");
-					G0NCGZYZJE=decimalFormat.format(Double.valueOf(G0NCGZYZJE));
-					if(G0NCGZYZJE!=null )
-					{
-						count2=add(count2,Double.valueOf(G0NCGZYZJE));
-					}else
-					{
-						count2=add(count2,0);
-					}
-					
-					
-					
 
-					DecimalFormat decimalFormat2=new DecimalFormat(".00");
-					G0LJZJJE=decimalFormat2.format(Double.valueOf(G0LJZJJE));
-					if(G0LJZJJE!=null )
-					{
-						count5=add(count5,Double.valueOf(G0LJZJJE));
-					}else
-					{
-						count5=add(count5,0);
+					DecimalFormat decimalFormat = new DecimalFormat(".00");
+					G0NCGZYZJE = decimalFormat.format(Double.valueOf(G0NCGZYZJE));
+					if (G0NCGZYZJE != null) {
+						count2 = add(count2, Double.valueOf(G0NCGZYZJE));
+					} else {
+						count2 = add(count2, 0);
 					}
-					
-					
+
+					DecimalFormat decimalFormat2 = new DecimalFormat(".00");
+					G0LJZJJE = decimalFormat2.format(Double.valueOf(G0LJZJJE));
+					if (G0LJZJJE != null) {
+						count5 = add(count5, Double.valueOf(G0LJZJJE));
+					} else {
+						count5 = add(count5, 0);
+					}
+
 				}
 				node02.setExtend04(String.valueOf(count2));
 				node02.setExtend05(String.valueOf(count5));
 				resut.add(node02);
 			}
-			
+
 		}
 		return resut;
 	}
-	
-	
-	public static List<H1AMKYSY100117> getchildH1AMKYSY100117(String title,List<H1AMKYSY100117> listAll) 
-	{
-		
-		List<H1AMKYSY100117> resat=new ArrayList();
-		for (int j = 0; j < listAll.size(); j++) 
-		{
-			H1AMKYSY100117 entity=listAll.get(j);
-			String name=entity.getG0ZCXLMS();
-			if(name.equals(title))
-			{
+
+	public static List<H1AMKYSY100117> getchildH1AMKYSY100117(String title, List<H1AMKYSY100117> listAll) {
+
+		List<H1AMKYSY100117> resat = new ArrayList();
+		for (int j = 0; j < listAll.size(); j++) {
+			H1AMKYSY100117 entity = listAll.get(j);
+			String name = entity.getG0ZCXLMS();
+			if (name.equals(title)) {
 				resat.add(entity);
 			}
 		}
 		return resat;
 	}
-	public static List<H1AMKYSY100117> getchildH1AMKYSY100117_02(String title,String title2,List<H1AMKYSY100117> listAll) 
-	{
-		
-		List<H1AMKYSY100117> resat=new ArrayList();
-		for (int j = 0; j < listAll.size(); j++) 
-		{
-			H1AMKYSY100117 entity=listAll.get(j);
-			String G0ZCXLMS=entity.getG0ZCXLMS();
-			String G0GSJC=entity.getG0GSJC();
-			if(G0ZCXLMS.equals(title) && G0GSJC.equals(title2))
-			{
+
+	public static List<H1AMKYSY100117> getchildH1AMKYSY100117_02(String title, String title2, List<H1AMKYSY100117> listAll) {
+
+		List<H1AMKYSY100117> resat = new ArrayList();
+		for (int j = 0; j < listAll.size(); j++) {
+			H1AMKYSY100117 entity = listAll.get(j);
+			String G0ZCXLMS = entity.getG0ZCXLMS();
+			String G0GSJC = entity.getG0GSJC();
+			if (G0ZCXLMS.equals(title) && G0GSJC.equals(title2)) {
 				resat.add(entity);
 			}
 		}
 		return resat;
 	}
-	public static List<TreeNode2> getChildChartCircleUnitPay(List<String>  listLevel1Title,List<H1AMKYSY100109> listAll)throws Exception  
-	{
-		
+
+	public static List<TreeNode2> getChildChartCircleUnitPay(List<String> listLevel1Title, List<H1AMKYSY100109> listAll) throws Exception {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("first_"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("first_" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
 			node.setName(title);
-			
-			List<H1AMKYSY100109> resat02=getchildH1AMKYSY100109( title, listAll);
-			Double count=0.00;
-			for(int v=0;v<resat02.size();v++)
-			{
-				H1AMKYSY100109  h1AMKYSY100109=resat02.get(v);
-				String value=h1AMKYSY100109.getK0BNYSJHJE();
-				DecimalFormat decimalFormat=new DecimalFormat(".00");
-				value=decimalFormat.format(Double.valueOf(value));
-				if(value!=null)
-				{
-					count=add(count,Double.valueOf(value));
-				}else
-				{
-					count=add(count,0);
+
+			List<H1AMKYSY100109> resat02 = getchildH1AMKYSY100109(title, listAll);
+			Double count = 0.00;
+			for (int v = 0; v < resat02.size(); v++) {
+				H1AMKYSY100109 h1AMKYSY100109 = resat02.get(v);
+				String value = h1AMKYSY100109.getK0BNYSJHJE();
+				DecimalFormat decimalFormat = new DecimalFormat(".00");
+				value = decimalFormat.format(Double.valueOf(value));
+				if (value != null) {
+					count = add(count, Double.valueOf(value));
+				} else {
+					count = add(count, 0);
 				}
 			}
 			node.setExtend01(String.valueOf(count));
 			resut.add(node);
-			
-			//二级
-			List<String>  list2tiele=getduplicatexAxisByList(resat02,"g0GSSP");
-			for(int j=0;j<list2tiele.size();j++)
-			{
-				String title02=list2tiele.get(j);
-				TreeNode2 node02=new TreeNode2();
-				node02.setId("second_"+i+"_"+String.valueOf(j));
+
+			// 二级
+			List<String> list2tiele = getduplicatexAxisByList(resat02, "g0GSSP");
+			for (int j = 0; j < list2tiele.size(); j++) {
+				String title02 = list2tiele.get(j);
+				TreeNode2 node02 = new TreeNode2();
+				node02.setId("second_" + i + "_" + String.valueOf(j));
 				node02.setName(title02);
-				node02.setpId("first_"+String.valueOf(i));
-				
-				
-				//三级
-				List<H1AMKYSY100109> resat03=getchildH1AMKYSY100109_02(title, title02, listAll);
-				Double count2=0.00;
-				for(int k=0;k<resat03.size();k++)
-				{
-					H1AMKYSY100109  h1AMKYSY100109=resat03.get(k);
-					String value=h1AMKYSY100109.getK0BNYSJHJE();
-					TreeNode2 node03=new TreeNode2();
-					node03.setId("three_"+k);
+				node02.setpId("first_" + String.valueOf(i));
+
+				// 三级
+				List<H1AMKYSY100109> resat03 = getchildH1AMKYSY100109_02(title, title02, listAll);
+				Double count2 = 0.00;
+				for (int k = 0; k < resat03.size(); k++) {
+					H1AMKYSY100109 h1AMKYSY100109 = resat03.get(k);
+					String value = h1AMKYSY100109.getK0BNYSJHJE();
+					TreeNode2 node03 = new TreeNode2();
+					node03.setId("three_" + k);
 					node03.setName(h1AMKYSY100109.getG0GSJC());
 					node03.setExtend01(value);
-					node03.setpId("second_"+i+"_"+String.valueOf(j));
+					node03.setpId("second_" + i + "_" + String.valueOf(j));
 					resut.add(node03);
-					
-					
-					DecimalFormat decimalFormat=new DecimalFormat(".00");
-					value=decimalFormat.format(Double.valueOf(value));
-					if(value!=null )
-					{
-						count2=add(count2,Double.valueOf(value));
-					}else
-					{
-						count2=add(count2,0);
+
+					DecimalFormat decimalFormat = new DecimalFormat(".00");
+					value = decimalFormat.format(Double.valueOf(value));
+					if (value != null) {
+						count2 = add(count2, Double.valueOf(value));
+					} else {
+						count2 = add(count2, 0);
 					}
-					
+
 				}
 				node02.setExtend01(String.valueOf(count2));
 				resut.add(node02);
 			}
-			
+
 		}
 		return resut;
 	}
-	
-	
-	public static List<H1AMKYSY100109> getchildH1AMKYSY100109_02(String title,String title2,List<H1AMKYSY100109> listAll) 
-	{
-		
-		List<H1AMKYSY100109> resat=new ArrayList();
-		for (int j = 0; j < listAll.size(); j++) 
-		{
-			H1AMKYSY100109 entity=listAll.get(j);
-			String name=entity.getG0XMDL();
-			String name2=entity.getG0GSSP();
-			if(name.equals(title) && name2.equals(title2))
-			{
-				//System.out.println(">>>>>>>>>>>>>name="+name+"  name2="+name2);
+
+	public static List<H1AMKYSY100109> getchildH1AMKYSY100109_02(String title, String title2, List<H1AMKYSY100109> listAll) {
+
+		List<H1AMKYSY100109> resat = new ArrayList();
+		for (int j = 0; j < listAll.size(); j++) {
+			H1AMKYSY100109 entity = listAll.get(j);
+			String name = entity.getG0XMDL();
+			String name2 = entity.getG0GSSP();
+			if (name.equals(title) && name2.equals(title2)) {
+				// System.out.println(">>>>>>>>>>>>>name="+name+"  name2="+name2);
 				resat.add(entity);
 			}
 		}
 		return resat;
 	}
-	
-	public static List<H1AMKYSY100109> getchildH1AMKYSY100109(String title,List<H1AMKYSY100109> listAll) 
-	{
-		
-		List<H1AMKYSY100109> resat=new ArrayList();
-		for (int j = 0; j < listAll.size(); j++) 
-		{
-			H1AMKYSY100109 entity=listAll.get(j);
-			String name=entity.getG0XMDL();
-			if(name.equals(title))
-			{
+
+	public static List<H1AMKYSY100109> getchildH1AMKYSY100109(String title, List<H1AMKYSY100109> listAll) {
+
+		List<H1AMKYSY100109> resat = new ArrayList();
+		for (int j = 0; j < listAll.size(); j++) {
+			H1AMKYSY100109 entity = listAll.get(j);
+			String name = entity.getG0XMDL();
+			if (name.equals(title)) {
 				resat.add(entity);
 			}
 		}
 		return resat;
 	}
-	
-	
-	
-	public static List<TreeNode2> getChildChartCircleUnitBudger(List<String>  listLevel1Title,List<H1AMKYSY100109> listAll) 
-	{
-		
-		
-		
+
+	public static List<TreeNode2> getChildChartCircleUnitBudger(List<String> listLevel1Title, List<H1AMKYSY100109> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			Double count=0.00;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				H1AMKYSY100109 entity=listAll.get(j);
-				String name=entity.getG0XMDL();
-				String value=entity.getK0BNYSJHJE();
-				String id=entity.getId();
-				String name02=entity.getG0GSJC();
-				
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			Double count = 0.00;
+			for (int j = 0; j < listAll.size(); j++) {
+				H1AMKYSY100109 entity = listAll.get(j);
+				String name = entity.getG0XMDL();
+				String value = entity.getK0BNYSJHJE();
+				String id = entity.getId();
+				String name02 = entity.getG0GSJC();
+
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					
-					
-					DecimalFormat decimalFormat=new DecimalFormat(".00");
-					value=decimalFormat.format(Float.valueOf(value));
+
+					DecimalFormat decimalFormat = new DecimalFormat(".00");
+					value = decimalFormat.format(Float.valueOf(value));
 					node02.setExtend01(value);
-					node02.setId(""+id);
+					node02.setId("" + id);
 					resut.add(node02);
-					if(value!=null && !value.equals(""))
-					{
-						count=add(count,Double.valueOf(value));
-					}else
-					{
-						count=add(count,0);
+					if (value != null && !value.equals("")) {
+						count = add(count, Double.valueOf(value));
+					} else {
+						count = add(count, 0);
 					}
-					
-					
+
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(count));
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	
+
 	public static double add(double v1, double v2) {
-       BigDecimal b1=new BigDecimal(Double.toString(v1));
-       BigDecimal b2 = new BigDecimal(Double.toString(v2));
-       return b1.add(b2).doubleValue();
-   }
-	
-	public static List<TreeNode2> getChildChartCircleuNITForproject02type(List<String>  listLevel1Title,List<ProjectForMysql> listAll) 
-	{
-		
-		
-		
+		BigDecimal b1 = new BigDecimal(Double.toString(v1));
+		BigDecimal b2 = new BigDecimal(Double.toString(v2));
+		return b1.add(b2).doubleValue();
+	}
+
+	public static List<TreeNode2> getChildChartCircleuNITForproject02type(List<String> listLevel1Title, List<ProjectForMysql> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			int count=0;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				ProjectForMysql entity=listAll.get(j);
-				String name=entity.getProject_scope();
-				Integer value=(Integer)entity.getZsl();
-				String id=(String)entity.getId();
-				String name02=(String)entity.getDefine2();
-				
-				
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			int count = 0;
+			for (int j = 0; j < listAll.size(); j++) {
+				ProjectForMysql entity = listAll.get(j);
+				String name = entity.getProject_scope();
+				Integer value = (Integer) entity.getZsl();
+				String id = (String) entity.getId();
+				String name02 = (String) entity.getDefine2();
+
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					if(value!=null )
-					{
+					if (value != null) {
 						node02.setExtend01(String.valueOf(value));
-					}else
-					{
+					} else {
 						node02.setExtend01("0");
 					}
-					node02.setId(""+id);
+					node02.setId("" + id);
 					resut.add(node02);
-					if(value!=null )
-					{
-						count=count+Double.valueOf(value).intValue();
-					}else
-					{
-						count=count+0;
+					if (value != null) {
+						count = count + Double.valueOf(value).intValue();
+					} else {
+						count = count + 0;
 					}
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(count));
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	
-	
-	
-	public static List<TreeNode2> getChildChartCircleuContract(List<String>  listLevel1Title,List<Contract> listAll) 
-	{
-		
+
+	public static List<TreeNode2> getChildChartCircleuContract(List<String> listLevel1Title, List<Contract> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			int extend01_count=0;
-			int extend02_count=0;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				Contract entity=listAll.get(j);
-				String name=entity.getDefine1();
-				Integer jhqds=(Integer)entity.getJhqds();
-				Integer sjqds=(Integer)entity.getSjqds();
-				String name02=entity.getProject_scope();
-				
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			int extend01_count = 0;
+			int extend02_count = 0;
+			for (int j = 0; j < listAll.size(); j++) {
+				Contract entity = listAll.get(j);
+				String name = entity.getDefine1();
+				Integer jhqds = (Integer) entity.getJhqds();
+				Integer sjqds = (Integer) entity.getSjqds();
+				String name02 = entity.getProject_scope();
+
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					
+
 					node02.setExtend01(String.valueOf(jhqds));
 					node02.setExtend02(String.valueOf(sjqds));
-					
-					DecimalFormat df=new DecimalFormat("0.00");
-					String str=df.format(((float)sjqds/jhqds)*100);
-					
+
+					DecimalFormat df = new DecimalFormat("0.00");
+					String str = df.format(((float) sjqds / jhqds) * 100);
+
 					node02.setExtend03(str);
-					
-					node02.setId(""+i+"_"+j);
+
+					node02.setId("" + i + "_" + j);
 					resut.add(node02);
-					
-					extend01_count=extend01_count+jhqds;
-					extend02_count=extend01_count+sjqds;
-					
+
+					extend01_count = extend01_count + jhqds;
+					extend02_count = extend01_count + sjqds;
+
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(extend01_count));
 			node.setExtend02(String.valueOf(extend02_count));
-			DecimalFormat df=new DecimalFormat("0.00");
-			String strvv=df.format(((float)extend02_count/extend01_count)*100);
+			DecimalFormat df = new DecimalFormat("0.00");
+			String strvv = df.format(((float) extend02_count / extend01_count) * 100);
 			node.setExtend03(strvv);
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	
-	public static List<TreeNode2> getChildChartCircleuNITForproject01type(List<String>  listLevel1Title,List<ProjectForMysql> listAll) 
-	{
-		
-		
-		
+
+	public static List<TreeNode2> getChildChartCircleuNITForproject01type(List<String> listLevel1Title, List<ProjectForMysql> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			int count=0;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				ProjectForMysql entity=listAll.get(j);
-				String name=entity.getProject_scope();
-				Integer value=(Integer)entity.getZsl();
-				String id=(String)entity.getId();
-				String name02=(String)entity.getZycmc();
-				
-				
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			int count = 0;
+			for (int j = 0; j < listAll.size(); j++) {
+				ProjectForMysql entity = listAll.get(j);
+				String name = entity.getProject_scope();
+				Integer value = (Integer) entity.getZsl();
+				String id = (String) entity.getId();
+				String name02 = (String) entity.getZycmc();
+
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					if(value!=null )
-					{
+					if (value != null) {
 						node02.setExtend01(String.valueOf(value));
-					}else
-					{
+					} else {
 						node02.setExtend01("0");
 					}
-					node02.setId(""+id);
+					node02.setId("" + id);
 					resut.add(node02);
-					if(value!=null )
-					{
-						count=count+Double.valueOf(value).intValue();
-					}else
-					{
-						count=count+0;
+					if (value != null) {
+						count = count + Double.valueOf(value).intValue();
+					} else {
+						count = count + 0;
 					}
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(count));
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	
-	
-	
-	public static List<TreeNode2> getChildChartCircleuNITForDevice(List<String>  listLevel1Title,List<ProjectForMysql> listAll) 
-	{
-		
-		
-		
+
+	public static List<TreeNode2> getChildChartCircleuNITForDevice(List<String> listLevel1Title, List<ProjectForMysql> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			int count=0;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				ProjectForMysql entity=listAll.get(j);
-				String name=entity.getProject_scope();
-				Integer value=(Integer)entity.getZsl();
-				String id=(String)entity.getId();
-				String name02=(String)entity.getType_flag();
-				
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			int count = 0;
+			for (int j = 0; j < listAll.size(); j++) {
+				ProjectForMysql entity = listAll.get(j);
+				String name = entity.getProject_scope();
+				Integer value = (Integer) entity.getZsl();
+				String id = (String) entity.getId();
+				String name02 = (String) entity.getType_flag();
+
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					if(value!=null )
-					{
+					if (value != null) {
 						node02.setExtend01(String.valueOf(value));
-					}else
-					{
+					} else {
 						node02.setExtend01("0");
 					}
-					node02.setId(""+id);
+					node02.setId("" + id);
 					resut.add(node02);
-					if(value!=null )
-					{
-						count=count+Double.valueOf(value).intValue();
-					}else
-					{
-						count=count+0;
+					if (value != null) {
+						count = count + Double.valueOf(value).intValue();
+					} else {
+						count = count + 0;
 					}
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(count));
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	
-	
-	public static List<TreeNode2> getChildChartCircleuNITForproject02(List<String>  listLevel1Title,List<ProjectForMysql> listAll) 
-	{
-		
-		
-		
+
+	public static List<TreeNode2> getChildChartCircleuNITForproject02(List<String> listLevel1Title, List<ProjectForMysql> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			int count=0;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				ProjectForMysql entity=listAll.get(j);
-				String name=entity.getProject_scope();
-				Integer value=(Integer)entity.getZsl();
-				String id=(String)entity.getId();
-				String name02=(String)entity.getType_flag();
-				
-				
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			int count = 0;
+			for (int j = 0; j < listAll.size(); j++) {
+				ProjectForMysql entity = listAll.get(j);
+				String name = entity.getProject_scope();
+				Integer value = (Integer) entity.getZsl();
+				String id = (String) entity.getId();
+				String name02 = (String) entity.getType_flag();
+
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					if(value!=null )
-					{
+					if (value != null) {
 						node02.setExtend01(String.valueOf(value));
-					}else
-					{
+					} else {
 						node02.setExtend01("0");
 					}
-					node02.setId(""+id);
+					node02.setId("" + id);
 					resut.add(node02);
-					if(value!=null )
-					{
-						count=count+Double.valueOf(value).intValue();
-					}else
-					{
-						count=count+0;
+					if (value != null) {
+						count = count + Double.valueOf(value).intValue();
+					} else {
+						count = count + 0;
 					}
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(count));
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	
-	
-	
-	public static List<TreeNode2> getChildChartCircleuNITForproject(List<String>  listLevel1Title,List<H1AMKYSY100109> listAll) 
-	{
-		
-		
-		
+
+	public static List<TreeNode2> getChildChartCircleuNITForproject(List<String> listLevel1Title, List<H1AMKYSY100109> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			int count=0;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				H1AMKYSY100109 entity=listAll.get(j);
-				String name=entity.getG0XMXZ();
-				String value=entity.getK0BNXMZXSL();
-				String id=entity.getId();
-				String name02=entity.getG0GSJC();
-				
-				
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			int count = 0;
+			for (int j = 0; j < listAll.size(); j++) {
+				H1AMKYSY100109 entity = listAll.get(j);
+				String name = entity.getG0XMXZ();
+				String value = entity.getK0BNXMZXSL();
+				String id = entity.getId();
+				String name02 = entity.getG0GSJC();
+
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					
-					
-					if(value!=null && !value.equals(""))
-					{
+
+					if (value != null && !value.equals("")) {
 						node02.setExtend01(String.valueOf(Double.valueOf(value).intValue()));
-					}else
-					{
+					} else {
 						node02.setExtend01("0");
 					}
-					
-					node02.setId(""+id);
+
+					node02.setId("" + id);
 					resut.add(node02);
-					if(value!=null && !value.equals(""))
-					{
-						count=count+Double.valueOf(value).intValue();
-					}else
-					{
-						count=count+0;
+					if (value != null && !value.equals("")) {
+						count = count + Double.valueOf(value).intValue();
+					} else {
+						count = count + 0;
 					}
-					
-					
+
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(count));
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	
-	public static List<TreeNode2> getChildChartCircleForBudgetCountMysql(List<String>  listLevel1Title,List<BudgetMysql> listAll) 
-	{
-		
-		
-		
+
+	public static List<TreeNode2> getChildChartCircleForBudgetCountMysql(List<String> listLevel1Title, List<BudgetMysql> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			Double count=0.00;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				BudgetMysql entity=listAll.get(j);
-				String name=entity.getProject_scope();
-				String K0BNXKJE =((BigDecimal)entity.getZje()).toString();
-				String id=entity.getId();
-				String name02=entity.getDefine1();
-				
-				//System.out.println(">>>>>>>>>>>>>>>K0BNXKJE " + K0BNXKJE+" K0BNXJJE="+K0BNXJJE+" id="+id);
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			Double count = 0.00;
+			for (int j = 0; j < listAll.size(); j++) {
+				BudgetMysql entity = listAll.get(j);
+				String name = entity.getProject_scope();
+				String K0BNXKJE = ((BigDecimal) entity.getZje()).toString();
+				String id = entity.getId();
+				String name02 = entity.getDefine1();
+
+				// System.out.println(">>>>>>>>>>>>>>>K0BNXKJE " +
+				// K0BNXKJE+" K0BNXJJE="+K0BNXJJE+" id="+id);
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
 					node02.setExtend01(String.format("%.4f", Double.valueOf(K0BNXKJE)));
-					node02.setId(""+id);
+					node02.setId("" + id);
 					resut.add(node02);
-					
-					count=add(count,Double.valueOf(K0BNXKJE));
-					
-					
+
+					count = add(count, Double.valueOf(K0BNXKJE));
+
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.format("%.4f", Double.valueOf(count)));
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	
-	
-	
-	public static List<TreeNode2> getChildChartCircleForBudgetCount02(List<String>  listLevel1Title,List<H1AMKYSY10010902> listAll) 
-	{
-		
-		
-		
+
+	public static List<TreeNode2> getChildChartCircleForBudgetCount02(List<String> listLevel1Title, List<H1AMKYSY10010902> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			Double count=0.00;
-			Double count2=0.00;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				H1AMKYSY10010902 entity=listAll.get(j);
-				String name=entity.getG0XMXZ();
-				BigDecimal K0BNXKJE=entity.getK0BNXKJE();
-				BigDecimal K0BNXJJE=entity.getK0BNXJJE();
-				BigDecimal K0BNYSJHJE=entity.getK0BNYSJHJE();
-				String id=entity.getId();
-				String name02=entity.getG0XMDL();
-				
-				//System.out.println(">>>>>>>>>>>>>>>K0BNXKJE " + K0BNXKJE+" K0BNXJJE="+K0BNXJJE+" id="+id);
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			Double count = 0.00;
+			Double count2 = 0.00;
+			for (int j = 0; j < listAll.size(); j++) {
+				H1AMKYSY10010902 entity = listAll.get(j);
+				String name = entity.getG0XMXZ();
+				BigDecimal K0BNXKJE = entity.getK0BNXKJE();
+				BigDecimal K0BNXJJE = entity.getK0BNXJJE();
+				BigDecimal K0BNYSJHJE = entity.getK0BNYSJHJE();
+				String id = entity.getId();
+				String name02 = entity.getG0XMDL();
+
+				// System.out.println(">>>>>>>>>>>>>>>K0BNXKJE " +
+				// K0BNXKJE+" K0BNXJJE="+K0BNXJJE+" id="+id);
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
 					node02.setExtend01(String.format("%.2f", Double.valueOf(K0BNYSJHJE.toString())));
-					//node02.setExtend01(String.format("%.2f", Double.valueOf(K0BNXKJE)));
-					//node02.setExtend02(String.format("%.2f", Double.valueOf(K0BNXJJE)));
-					node02.setId(""+id);
+					// node02.setExtend01(String.format("%.2f",
+					// Double.valueOf(K0BNXKJE)));
+					// node02.setExtend02(String.format("%.2f",
+					// Double.valueOf(K0BNXJJE)));
+					node02.setId("" + id);
 					resut.add(node02);
-					/*if(K0BNXKJE!=null && !K0BNXKJE.equals(""))
-					{
-						count=add(count,Double.valueOf(K0BNXKJE));
-					}else
-					{
-						count=add(count,0);
-					}*/
-					
-					/*if(K0BNXKJE!=null && !K0BNXKJE.equals(""))
-					{
-						count=add(count,Double.valueOf(K0BNXKJE));
-					}else
-					{
-						count=add(count,0);
-					}
-					
-					if(K0BNXJJE!=null && !K0BNXJJE.equals(""))
-					{
-						count2=add(count2,Double.valueOf(K0BNXJJE));
-					}else
-					{
-						count2=add(count2,0);
-					}*/
-					
-					
-					count=add(count,Double.valueOf(K0BNYSJHJE.toString()));
-					//count2=add(count2,Double.valueOf(K0BNXJJE));
-					
-					
+					/*
+					 * if(K0BNXKJE!=null && !K0BNXKJE.equals("")) {
+					 * count=add(count,Double.valueOf(K0BNXKJE)); }else {
+					 * count=add(count,0); }
+					 */
+
+					/*
+					 * if(K0BNXKJE!=null && !K0BNXKJE.equals("")) {
+					 * count=add(count,Double.valueOf(K0BNXKJE)); }else {
+					 * count=add(count,0); }
+					 * 
+					 * if(K0BNXJJE!=null && !K0BNXJJE.equals("")) {
+					 * count2=add(count2,Double.valueOf(K0BNXJJE)); }else {
+					 * count2=add(count2,0); }
+					 */
+
+					count = add(count, Double.valueOf(K0BNYSJHJE.toString()));
+					// count2=add(count2,Double.valueOf(K0BNXJJE));
+
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.format("%.2f", Double.valueOf(count)));
-			//node.setExtend02(String.format("%.2f", Double.valueOf(count2)));
+			// node.setExtend02(String.format("%.2f", Double.valueOf(count2)));
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	
-	public static List<TreeNode2> getChildChartCircleForBudgetCount(List<String>  listLevel1Title,List<H1AMKYSY100109> listAll) 
-	{
-		
-		
-		
+
+	public static List<TreeNode2> getChildChartCircleForBudgetCount(List<String> listLevel1Title, List<H1AMKYSY100109> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			Double count=0.00;
-			Double count2=0.00;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				H1AMKYSY100109 entity=listAll.get(j);
-				String name=entity.getG0XMXZ();
-				String K0BNXKJE=entity.getK0BNXKJE();
-				String K0BNXJJE=entity.getK0BNXJJE();
-				String K0BNYSJHJE=entity.getK0BNYSJHJE();
-				String id=entity.getId();
-				String name02=entity.getG0XMDL();
-				
-				//System.out.println(">>>>>>>>>>>>>>>K0BNXKJE " + K0BNXKJE+" K0BNXJJE="+K0BNXJJE+" id="+id);
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			Double count = 0.00;
+			Double count2 = 0.00;
+			for (int j = 0; j < listAll.size(); j++) {
+				H1AMKYSY100109 entity = listAll.get(j);
+				String name = entity.getG0XMXZ();
+				String K0BNXKJE = entity.getK0BNXKJE();
+				String K0BNXJJE = entity.getK0BNXJJE();
+				String K0BNYSJHJE = entity.getK0BNYSJHJE();
+				String id = entity.getId();
+				String name02 = entity.getG0XMDL();
+
+				// System.out.println(">>>>>>>>>>>>>>>K0BNXKJE " +
+				// K0BNXKJE+" K0BNXJJE="+K0BNXJJE+" id="+id);
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
 					node02.setExtend01(String.format("%.2f", Double.valueOf(K0BNYSJHJE)));
-					//node02.setExtend01(String.format("%.2f", Double.valueOf(K0BNXKJE)));
-					//node02.setExtend02(String.format("%.2f", Double.valueOf(K0BNXJJE)));
-					node02.setId(""+id);
+					// node02.setExtend01(String.format("%.2f",
+					// Double.valueOf(K0BNXKJE)));
+					// node02.setExtend02(String.format("%.2f",
+					// Double.valueOf(K0BNXJJE)));
+					node02.setId("" + id);
 					resut.add(node02);
-					/*if(K0BNXKJE!=null && !K0BNXKJE.equals(""))
-					{
-						count=add(count,Double.valueOf(K0BNXKJE));
-					}else
-					{
-						count=add(count,0);
-					}*/
-					
-					/*if(K0BNXKJE!=null && !K0BNXKJE.equals(""))
-					{
-						count=add(count,Double.valueOf(K0BNXKJE));
-					}else
-					{
-						count=add(count,0);
-					}
-					
-					if(K0BNXJJE!=null && !K0BNXJJE.equals(""))
-					{
-						count2=add(count2,Double.valueOf(K0BNXJJE));
-					}else
-					{
-						count2=add(count2,0);
-					}*/
-					
-					
-					count=add(count,Double.valueOf(K0BNYSJHJE));
-					//count2=add(count2,Double.valueOf(K0BNXJJE));
-					
-					
+					/*
+					 * if(K0BNXKJE!=null && !K0BNXKJE.equals("")) {
+					 * count=add(count,Double.valueOf(K0BNXKJE)); }else {
+					 * count=add(count,0); }
+					 */
+
+					/*
+					 * if(K0BNXKJE!=null && !K0BNXKJE.equals("")) {
+					 * count=add(count,Double.valueOf(K0BNXKJE)); }else {
+					 * count=add(count,0); }
+					 * 
+					 * if(K0BNXJJE!=null && !K0BNXJJE.equals("")) {
+					 * count2=add(count2,Double.valueOf(K0BNXJJE)); }else {
+					 * count2=add(count2,0); }
+					 */
+
+					count = add(count, Double.valueOf(K0BNYSJHJE));
+					// count2=add(count2,Double.valueOf(K0BNXJJE));
+
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.format("%.2f", Double.valueOf(count)));
-			//node.setExtend02(String.format("%.2f", Double.valueOf(count2)));
+			// node.setExtend02(String.format("%.2f", Double.valueOf(count2)));
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	
-	
-	public static List<TreeNode2> getChildChartCircleForprojectMYSQLa(List<ProjectForMysql> listAll) 
-	{
-		
-		List<String>  listLevel1Title=new ArrayList();
+
+	public static List<TreeNode2> getChildChartCircleForprojectMYSQLa(List<ProjectForMysql> listAll) {
+
+		List<String> listLevel1Title = new ArrayList();
 		listLevel1Title.add("新开课题");
 		listLevel1Title.add("结转课题");
-		
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			int count=0;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				ProjectForMysql entity=listAll.get(j);
-				Integer xksl=(Integer)entity.getXksl();
-				Integer xjsl=(Integer)entity.getXjsl();
-				String id=i+"_"+j;
-				String name02=(String)entity.getType_flag();
-				boolean lalg=getBoolean(entity,"xksl");
-				//System.out.println(">>>>>>>>>>>>>>>name02 " + name02+" id="+id+" value="+value);
-				if(lalg==true)
-				{
-					TreeNode2 node02=new TreeNode2();
+			int count = 0;
+			for (int j = 0; j < listAll.size(); j++) {
+				ProjectForMysql entity = listAll.get(j);
+				Integer xksl = (Integer) entity.getXksl();
+				Integer xjsl = (Integer) entity.getXjsl();
+				String id = i + "_" + j;
+				String name02 = (String) entity.getType_flag();
+				boolean lalg = getBoolean(entity, "xksl");
+				// System.out.println(">>>>>>>>>>>>>>>name02 " +
+				// name02+" id="+id+" value="+value);
+				if (lalg == true) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					
-					if(xksl!=null)
-					{
+
+					if (xksl != null) {
 						node02.setExtend01(String.valueOf(xksl));
-					}else
-					{
+					} else {
 						node02.setExtend01("0");
 					}
-					
-					node02.setId(""+id);
+
+					node02.setId("" + id);
 					resut.add(node02);
-					if(xksl!=null)
-					{
-						count=count+Double.valueOf(xksl).intValue();
-					}else
-					{
-						count=count+0;
+					if (xksl != null) {
+						count = count + Double.valueOf(xksl).intValue();
+					} else {
+						count = count + 0;
 					}
-					
-					
+
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(count));
 			resut.add(node);
-			
+
 		}
 		return resut;
-		
+
 	}
-	
-	public static boolean getBoolean(ProjectForMysql entity,String str)
-	{
-		
-		boolean flag=false;
+
+	public static boolean getBoolean(ProjectForMysql entity, String str) {
+
+		boolean flag = false;
 		Field[] arr = entity.getClass().getDeclaredFields();
-		for (int k = 0; k < arr.length; k++) 
-		{
+		for (int k = 0; k < arr.length; k++) {
 			Field field = arr[k];
 			String temp = field.getName();
-			if (temp.equals(str))
-			{
-				flag=true;
+			if (temp.equals(str)) {
+				flag = true;
 			}
 		}
 		return flag;
 	}
-	public static List<TreeNode2> getChildChartCircleForproject(List<String>  listLevel1Title,List<H1AMKYSY100109> listAll) 
-	{
-		
-		
-		
+
+	public static List<TreeNode2> getChildChartCircleForproject(List<String> listLevel1Title, List<H1AMKYSY100109> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			int count=0;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				H1AMKYSY100109 entity=listAll.get(j);
-				String name=entity.getG0XMXZ();
-				String value=entity.getxKXJ();
-				String id=entity.getId();
-				String name02=entity.getG0XMGLLX();
-				
-				//System.out.println(">>>>>>>>>>>>>>>name02 " + name02+" id="+id+" value="+value);
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			int count = 0;
+			for (int j = 0; j < listAll.size(); j++) {
+				H1AMKYSY100109 entity = listAll.get(j);
+				String name = entity.getG0XMXZ();
+				String value = entity.getxKXJ();
+				String id = entity.getId();
+				String name02 = entity.getG0XMGLLX();
+
+				// System.out.println(">>>>>>>>>>>>>>>name02 " +
+				// name02+" id="+id+" value="+value);
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					
-					
-					if(value!=null && !value.equals(""))
-					{
+
+					if (value != null && !value.equals("")) {
 						node02.setExtend01(String.valueOf(Double.valueOf(value).intValue()));
-					}else
-					{
+					} else {
 						node02.setExtend01("0");
 					}
-					
-					node02.setId(""+id);
+
+					node02.setId("" + id);
 					resut.add(node02);
-					if(value!=null && !value.equals(""))
-					{
-						count=count+Double.valueOf(value).intValue();
-					}else
-					{
-						count=count+0;
+					if (value != null && !value.equals("")) {
+						count = count + Double.valueOf(value).intValue();
+					} else {
+						count = count + 0;
 					}
-					
-					
+
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(count));
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	/*public static ChartCircle2 getChartCircleForprojt(List<H1AMKYSY100109> listAll,String str,String color)
-	{
-		
-		List<String> colorList=getClorList();
-		ChartCircle2 cc01=new ChartCircle2();
-		//第一级
-		cc01.setName(str);
-		//第二级
-		List<Child2> children01=new ArrayList<Child2>();
-		ChartCircleItemStyle chartCircleItemStyle=new ChartCircleItemStyle();
-		chartCircleItemStyle.setColor(color);
-		cc01.setItemStyle(chartCircleItemStyle);
-		List<H1AMKYSY100109> newLiST=new ArrayList<H1AMKYSY100109>();
-		
-		for (int i = 0; i < listAll.size(); i++) 
-		{
-			H1AMKYSY100109 h1AMKYSY100109=listAll.get(i);
-			String name=h1AMKYSY100109.getG0XMXZ();
-			if(name.equals(str))
-			{
-				newLiST.add(h1AMKYSY100109);
-				String G0XMGLLX_name=h1AMKYSY100109.getG0XMGLLX();
-				String value=h1AMKYSY100109.getkKXJ();
-				Child2 child=new Child2();
-				child.setName(G0XMGLLX_name);
-				if(value!=null && !value.equals(""))
-				{
-					child.setValue(Double.valueOf(value).intValue());
-				}else
-				{
-					child.setValue(0);
-				}
-				
-				
-				ChartCircleItemStyle cc=new ChartCircleItemStyle();
-				cc.setColor(colorList.get(i));
-				child.setItemStyle(cc);
-				
-				
-				children01.add(child);
-			}
-		}
-		cc01.setChildren(children01);
-		return cc01;
-	}*/
-	
-	
-	public static List<ChartCircle> getChildChartCircleForJFZC(List<String>  listLevel1Title,List<H1AMKYSY100104> listAll) 
-	{
-		
-		
-		List<String> colorList=getClorList();
-		
+
+	/*
+	 * public static ChartCircle2 getChartCircleForprojt(List<H1AMKYSY100109>
+	 * listAll,String str,String color) {
+	 * 
+	 * List<String> colorList=getClorList(); ChartCircle2 cc01=new
+	 * ChartCircle2(); //第一级 cc01.setName(str); //第二级 List<Child2>
+	 * children01=new ArrayList<Child2>(); ChartCircleItemStyle
+	 * chartCircleItemStyle=new ChartCircleItemStyle();
+	 * chartCircleItemStyle.setColor(color);
+	 * cc01.setItemStyle(chartCircleItemStyle); List<H1AMKYSY100109> newLiST=new
+	 * ArrayList<H1AMKYSY100109>();
+	 * 
+	 * for (int i = 0; i < listAll.size(); i++) { H1AMKYSY100109
+	 * h1AMKYSY100109=listAll.get(i); String name=h1AMKYSY100109.getG0XMXZ();
+	 * if(name.equals(str)) { newLiST.add(h1AMKYSY100109); String
+	 * G0XMGLLX_name=h1AMKYSY100109.getG0XMGLLX(); String
+	 * value=h1AMKYSY100109.getkKXJ(); Child2 child=new Child2();
+	 * child.setName(G0XMGLLX_name); if(value!=null && !value.equals("")) {
+	 * child.setValue(Double.valueOf(value).intValue()); }else {
+	 * child.setValue(0); }
+	 * 
+	 * 
+	 * ChartCircleItemStyle cc=new ChartCircleItemStyle();
+	 * cc.setColor(colorList.get(i)); child.setItemStyle(cc);
+	 * 
+	 * 
+	 * children01.add(child); } } cc01.setChildren(children01); return cc01; }
+	 */
+
+	public static List<ChartCircle> getChildChartCircleForJFZC(List<String> listLevel1Title, List<H1AMKYSY100104> listAll) {
+
+		List<String> colorList = getClorList();
+
 		List<ChartCircle> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			ChartCircle  cc= getChartCircleForJCZC( listAll,title,colorList.get(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			ChartCircle cc = getChartCircleForJCZC(listAll, title, colorList.get(i));
 			resut.add(cc);
 		}
 		return resut;
 	}
-	
-	
-	
-	
-	public static List<ChartCircle2> getChildChartCircleForAward02(List<Award> listAll) 
-	{
-		List<Award> newList=new ArrayList<Award>();
-		
-		for(int i=0;i<listAll.size();i++)
-		{
-			Award entity=listAll.get(i);
+
+	public static List<ChartCircle2> getChildChartCircleForAward02(List<Award> listAll) {
+		List<Award> newList = new ArrayList<Award>();
+
+		for (int i = 0; i < listAll.size(); i++) {
+			Award entity = listAll.get(i);
 			Field[] arr = entity.getClass().getDeclaredFields();
-			for (int j = 0; j < arr.length; j++) 
-			{
+			for (int j = 0; j < arr.length; j++) {
 				Field field = arr[j];
 				String str = field.getName();
-				
-				if (str.equals("gnxjcount")) 
-				{
+
+				if (str.equals("gnxjcount")) {
 					entity.setGnxjName("国内先进");
 				}
-				if (str.equals("gnlxcount")) 
-				{
+				if (str.equals("gnlxcount")) {
 					entity.setGnlxName("国内领先");
 				}
-				if (str.equals("gjxjcount")) 
-				{
+				if (str.equals("gjxjcount")) {
 					entity.setGjxjName("国际先进");
 				}
-				if (str.equals("gjlxcount")) 
-				{
+				if (str.equals("gjlxcount")) {
 					entity.setGjlxName("国际领先");
 				}
-				if (str.equals("hyxjcount")) 
-				{
+				if (str.equals("hyxjcount")) {
 					entity.setHyxjName("行业先进");
 				}
-				if (str.equals("hylxcount")) 
-				{
+				if (str.equals("hylxcount")) {
 					entity.setHylxName("行业领先");
 				}
 			}
-			
+
 			newList.add(entity);
-			
+
 		}
-		List<ChartCircle2> resut =getChartCircleForAward(newList);
+		List<ChartCircle2> resut = getChartCircleForAward(newList);
 		return resut;
 	}
-	
-	
-	
-	
-	public static List<TreeNode2> getChildChartCircleAward02type(List<String>  listLevel1Title,List<Award> listAll) 
-	{
-		
-		
-		
+
+	public static List<TreeNode2> getChildChartCircleAward02type(List<String> listLevel1Title, List<Award> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("first_"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("first_" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
 			node.setName(title);
-			
-			int count=0;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				Award entity=listAll.get(j);
-				String name=entity.getCglx();
-				if(name.equals(title))
-				{
-					TreeNode2 node1=new TreeNode2();
+
+			int count = 0;
+			for (int j = 0; j < listAll.size(); j++) {
+				Award entity = listAll.get(j);
+				String name = entity.getCglx();
+				if (name.equals(title)) {
+					TreeNode2 node1 = new TreeNode2();
 					node1.setpId(node.getId());
-					node1.setId("second_"+j+"_"+1);
-					String extend01=entity.getGnxjcount();
+					node1.setId("second_" + j + "_" + 1);
+					String extend01 = entity.getGnxjcount();
 					node1.setExtend01(extend01);
 					node1.setName("国内先进");
 					resut.add(node1);
-					
-					count=count+Double.valueOf(extend01).intValue();
-					
-					
-					TreeNode2 node2=new TreeNode2();
+
+					count = count + Double.valueOf(extend01).intValue();
+
+					TreeNode2 node2 = new TreeNode2();
 					node2.setpId(node.getId());
-					node2.setId("second_"+j+"_"+2);
-					String gnlxcount=entity.getGnlxcount();
+					node2.setId("second_" + j + "_" + 2);
+					String gnlxcount = entity.getGnlxcount();
 					node2.setExtend01(gnlxcount);
 					node2.setName("国内领先");
 					resut.add(node2);
-					count=count+Double.valueOf(gnlxcount).intValue();
-					
-					TreeNode2 node3=new TreeNode2();
+					count = count + Double.valueOf(gnlxcount).intValue();
+
+					TreeNode2 node3 = new TreeNode2();
 					node3.setpId(node.getId());
-					node3.setId("second_"+j+"_"+3);
-					String gjxjcount=entity.getGjxjcount();
+					node3.setId("second_" + j + "_" + 3);
+					String gjxjcount = entity.getGjxjcount();
 					node3.setExtend01(gjxjcount);
 					node3.setName("国际先进");
 					resut.add(node3);
-					count=count+Double.valueOf(gjxjcount).intValue();
-					
-					
-					TreeNode2 node4=new TreeNode2();
+					count = count + Double.valueOf(gjxjcount).intValue();
+
+					TreeNode2 node4 = new TreeNode2();
 					node4.setpId(node.getId());
-					node4.setId("second_"+j+"_"+4);
-					String gjlxcount=entity.getGjlxcount();
+					node4.setId("second_" + j + "_" + 4);
+					String gjlxcount = entity.getGjlxcount();
 					node4.setExtend01(gjlxcount);
 					node4.setName("国际领先");
 					resut.add(node4);
-					count=count+Double.valueOf(gjlxcount).intValue();
-					
-					TreeNode2 node5=new TreeNode2();
+					count = count + Double.valueOf(gjlxcount).intValue();
+
+					TreeNode2 node5 = new TreeNode2();
 					node5.setpId(node.getId());
-					node5.setId("second_"+j+"_"+5);
-					String hyxjcount=entity.getHyxjcount();
+					node5.setId("second_" + j + "_" + 5);
+					String hyxjcount = entity.getHyxjcount();
 					node5.setExtend01(hyxjcount);
 					node5.setName("行业先进");
 					resut.add(node5);
-					count=count+Double.valueOf(hyxjcount).intValue();
-					
-					TreeNode2 node6=new TreeNode2();
+					count = count + Double.valueOf(hyxjcount).intValue();
+
+					TreeNode2 node6 = new TreeNode2();
 					node6.setpId(node.getId());
-					node6.setId("second_"+j+"_"+6);
-					String hylxcount=entity.getHylxcount();
+					node6.setId("second_" + j + "_" + 6);
+					String hylxcount = entity.getHylxcount();
 					node6.setExtend01(hylxcount);
 					node6.setName("行业领先");
 					resut.add(node6);
-					count=count+Double.valueOf(hylxcount).intValue();
+					count = count + Double.valueOf(hylxcount).intValue();
 				}
-				
-		}
-			
-			
+
+			}
+
 			node.setExtend01(String.valueOf(count));
 			resut.add(node);
 		}
 		return resut;
 	}
-	
-	
-	public static List<ChartCircle2> getChildChartCircleForAward(List<Award> listAll) 
-	{
-		List<Award> newList=new ArrayList<Award>();
-		
-		for(int i=0;i<listAll.size();i++)
-		{
-			Award entity=listAll.get(i);
+
+	public static List<ChartCircle2> getChildChartCircleForAward(List<Award> listAll) {
+		List<Award> newList = new ArrayList<Award>();
+
+		for (int i = 0; i < listAll.size(); i++) {
+			Award entity = listAll.get(i);
 			Field[] arr = entity.getClass().getDeclaredFields();
-			for (int j = 0; j < arr.length; j++) 
-			{
+			for (int j = 0; j < arr.length; j++) {
 				Field field = arr[j];
 				String str = field.getName();
-				
-				if (str.equals("gnxjcount")) 
-				{
+
+				if (str.equals("gnxjcount")) {
 					entity.setGnxjName("国内先进");
 				}
-				if (str.equals("gnlxcount")) 
-				{
+				if (str.equals("gnlxcount")) {
 					entity.setGnlxName("国内领先");
 				}
-				if (str.equals("gjxjcount")) 
-				{
+				if (str.equals("gjxjcount")) {
 					entity.setGjxjName("国际先进");
 				}
-				if (str.equals("gjlxcount")) 
-				{
+				if (str.equals("gjlxcount")) {
 					entity.setGjlxName("国际领先");
 				}
-				if (str.equals("hyxjcount")) 
-				{
+				if (str.equals("hyxjcount")) {
 					entity.setHyxjName("行业先进");
 				}
-				if (str.equals("hylxcount")) 
-				{
+				if (str.equals("hylxcount")) {
 					entity.setHylxName("行业领先");
 				}
 			}
-			
+
 			newList.add(entity);
-			
+
 		}
-		List<ChartCircle2> resut =getChartCircleForAward(newList);
+		List<ChartCircle2> resut = getChartCircleForAward(newList);
 		return resut;
 	}
-	
-	
-	
-	public static ChartCircle getChartCircle(List<H1AMKYSY100109> listAll,String str,String color)
-	{
-		List<String> colorList=getClorList();
-		
-		ChartCircle cc01=new ChartCircle();
-		//第一级
+
+	public static ChartCircle getChartCircle(List<H1AMKYSY100109> listAll, String str, String color) {
+		List<String> colorList = getClorList();
+
+		ChartCircle cc01 = new ChartCircle();
+		// 第一级
 		cc01.setName(str);
-		//第二级
-		List<Child> children01=new ArrayList<Child>();
-		ChartCircleItemStyle chartCircleItemStyle=new ChartCircleItemStyle();
+		// 第二级
+		List<Child> children01 = new ArrayList<Child>();
+		ChartCircleItemStyle chartCircleItemStyle = new ChartCircleItemStyle();
 		chartCircleItemStyle.setColor(color);
 		cc01.setItemStyle(chartCircleItemStyle);
-		List<H1AMKYSY100109> newLiST=new ArrayList<H1AMKYSY100109>();
-		
-		for (int i = 0; i < listAll.size(); i++) 
-		{
-			H1AMKYSY100109 h1AMKYSY100109=listAll.get(i);
-			String name=h1AMKYSY100109.getG0XMXZ();
-			if(name.equals(str))
-			{
+		List<H1AMKYSY100109> newLiST = new ArrayList<H1AMKYSY100109>();
+
+		for (int i = 0; i < listAll.size(); i++) {
+			H1AMKYSY100109 h1AMKYSY100109 = listAll.get(i);
+			String name = h1AMKYSY100109.getG0XMXZ();
+			if (name.equals(str)) {
 				newLiST.add(h1AMKYSY100109);
-				String g0XMGLJB=h1AMKYSY100109.getG0XMGLJB();
-				Child child=new Child();
+				String g0XMGLJB = h1AMKYSY100109.getG0XMGLJB();
+				Child child = new Child();
 				child.setName(g0XMGLJB);
-				
-				
-				ChartCircleItemStyle cc=new ChartCircleItemStyle();
+
+				ChartCircleItemStyle cc = new ChartCircleItemStyle();
 				cc.setColor(colorList.get(i));
 				child.setItemStyle(cc);
-				
-				
+
 				children01.add(child);
 			}
 		}
-		//第二级去重
-		children01=removeDuplicate(children01);
-		
-		List<Child> temp_children=new ArrayList<Child>();
-		for (int i = 0; i < children01.size(); i++) 
-		{
-			Child child=children01.get(i);
-			String name=child.getName();
-			//第三级
-			List<NameValue> children=new ArrayList<NameValue>();
-			for (int j = 0; j < newLiST.size(); j++) 
-			{
-				H1AMKYSY100109 h1AMKYSY100109=newLiST.get(j);
-				String temp_name=h1AMKYSY100109.getG0XMGLJB();
-				if(name.equals(temp_name))
-				{
-					String g0XMGLLX=h1AMKYSY100109.getG0XMGLLX();
-					String k0BNXMXKSL=h1AMKYSY100109.getK0BNXMXKSL();
-					String k0BNXMXJSL=h1AMKYSY100109.getK0BNXMXJSL();
-					NameValue nameValue=new NameValue();
+		// 第二级去重
+		children01 = removeDuplicate(children01);
+
+		List<Child> temp_children = new ArrayList<Child>();
+		for (int i = 0; i < children01.size(); i++) {
+			Child child = children01.get(i);
+			String name = child.getName();
+			// 第三级
+			List<NameValue> children = new ArrayList<NameValue>();
+			for (int j = 0; j < newLiST.size(); j++) {
+				H1AMKYSY100109 h1AMKYSY100109 = newLiST.get(j);
+				String temp_name = h1AMKYSY100109.getG0XMGLJB();
+				if (name.equals(temp_name)) {
+					String g0XMGLLX = h1AMKYSY100109.getG0XMGLLX();
+					String k0BNXMXKSL = h1AMKYSY100109.getK0BNXMXKSL();
+					String k0BNXMXJSL = h1AMKYSY100109.getK0BNXMXJSL();
+					NameValue nameValue = new NameValue();
 					nameValue.setName(g0XMGLLX);
-					if(str.equals("新开课题"))
-					{
+					if (str.equals("新开课题")) {
 						nameValue.setValue(Double.valueOf(k0BNXMXKSL).intValue());
 					}
-					if(str.equals("结转课题"))
-					{
+					if (str.equals("结转课题")) {
 						nameValue.setValue(Double.valueOf(k0BNXMXJSL).intValue());
 					}
-					ChartCircleItemStyle cc=new ChartCircleItemStyle();
+					ChartCircleItemStyle cc = new ChartCircleItemStyle();
 					cc.setColor(colorList.get(j));
 					nameValue.setItemStyle(cc);
 					children.add(nameValue);
-					
+
 				}
 			}
 			child.setChildren(children);
@@ -2321,181 +1991,159 @@ public class HanaUtil {
 		cc01.setChildren(temp_children);
 		return cc01;
 	}
-	
-	
-	
-	
-	
-	
-	public static List<ChartCircle2> getChartCircleForAward(List<Award> listAll)
-	{
+
+	public static List<ChartCircle2> getChartCircleForAward(List<Award> listAll) {
 		List<ChartCircle2> resut = new ArrayList();
-		List<String> colorList=getClorList();
-	
-		for (int i = 0; i < listAll.size(); i++) 
-		{
-			Award award=listAll.get(i);
-			String name=award.getCglx();
-			String value=award.getCglxcount();
-			ChartCircle2 chartCircle=new ChartCircle2();
+		List<String> colorList = getClorList();
+
+		for (int i = 0; i < listAll.size(); i++) {
+			Award award = listAll.get(i);
+			String name = award.getCglx();
+			String value = award.getCglxcount();
+			ChartCircle2 chartCircle = new ChartCircle2();
 			chartCircle.setName(name);
 			chartCircle.setValue(Integer.valueOf(value));
-			
-			ChartCircleItemStyle chartCircleItemStyle=new ChartCircleItemStyle();
+
+			ChartCircleItemStyle chartCircleItemStyle = new ChartCircleItemStyle();
 			chartCircleItemStyle.setColor(colorList.get(i));
 			chartCircle.setItemStyle(chartCircleItemStyle);
-			
-			
-			    List<Child2> children=new ArrayList<Child2>();
-				String gnxjcount=award.getGnxjcount();
-				String gnlxcount=award.getGnlxcount();
-				String gjxjcount=award.getGjxjcount();
-				String gjlxcount=award.getGjlxcount();
-				String hyxjcount=award.getHyxjcount();
-				String hylxcount=award.getHylxcount();
-				
-				String gnxjName=award.getGnxjName();
-				String gnlxName=award.getGnlxName();
-				String gjxjName=award.getGjxjName();
-				String gjlxName=award.getGjlxName();
-				String hyxjName=award.getHyxjName();
-				String hylxName=award.getHylxName();
-				
-				//1
-				Child2 gnxj=new Child2();
-				gnxj.setName(gnxjName);
-				gnxj.setValue(Integer.valueOf(gnxjcount));
-				
-				ChartCircleItemStyle cc=new ChartCircleItemStyle();
-				cc.setColor(colorList.get(i+1));
-				gnxj.setItemStyle(cc);
-				
-				children.add(gnxj);
-				//2
-				Child2 gnlx=new Child2();
-				gnlx.setName(gnlxName);
-				gnlx.setValue(Integer.valueOf(gnlxcount));
-				ChartCircleItemStyle ccc=new ChartCircleItemStyle();
-				ccc.setColor(colorList.get(i+2));
-				gnlx.setItemStyle(ccc);
-				
-				children.add(gnlx);
-				//3
-				Child2 gjxj=new Child2();
-				gjxj.setName(gjxjName);
-				gjxj.setValue(Integer.valueOf(gjxjcount));
-				
-				ChartCircleItemStyle cccc=new ChartCircleItemStyle();
-				cccc.setColor(colorList.get(i+3));
-				gjxj.setItemStyle(cccc);
-				
-				
-				children.add(gjxj);
-				//4
-				Child2 gjlx=new Child2();
-				gjlx.setName(gjlxName);
-				gjlx.setValue(Integer.valueOf(gjlxcount));
-				
-				ChartCircleItemStyle a=new ChartCircleItemStyle();
-				a.setColor(colorList.get(i+4));
-				gjlx.setItemStyle(a);
-				children.add(gjlx);
-				
-				//5
-				Child2 hyxj=new Child2();
-				hyxj.setName(hyxjName);
-				hyxj.setValue(Integer.valueOf(hyxjcount));
-				
-				ChartCircleItemStyle v=new ChartCircleItemStyle();
-				v.setColor(colorList.get(i+5));
-				hyxj.setItemStyle(v);
-				
-				children.add(hyxj);
-				
-				
-				//6
-				Child2 hylx=new Child2();
-				hylx.setName(hylxName);
-				hylx.setValue(Integer.valueOf(hylxcount));
-				
-				ChartCircleItemStyle g=new ChartCircleItemStyle();
-				g.setColor(colorList.get(i+6));
-				hylx.setItemStyle(g);
-				children.add(hylx);
-			
-			
+
+			List<Child2> children = new ArrayList<Child2>();
+			String gnxjcount = award.getGnxjcount();
+			String gnlxcount = award.getGnlxcount();
+			String gjxjcount = award.getGjxjcount();
+			String gjlxcount = award.getGjlxcount();
+			String hyxjcount = award.getHyxjcount();
+			String hylxcount = award.getHylxcount();
+
+			String gnxjName = award.getGnxjName();
+			String gnlxName = award.getGnlxName();
+			String gjxjName = award.getGjxjName();
+			String gjlxName = award.getGjlxName();
+			String hyxjName = award.getHyxjName();
+			String hylxName = award.getHylxName();
+
+			// 1
+			Child2 gnxj = new Child2();
+			gnxj.setName(gnxjName);
+			gnxj.setValue(Integer.valueOf(gnxjcount));
+
+			ChartCircleItemStyle cc = new ChartCircleItemStyle();
+			cc.setColor(colorList.get(i + 1));
+			gnxj.setItemStyle(cc);
+
+			children.add(gnxj);
+			// 2
+			Child2 gnlx = new Child2();
+			gnlx.setName(gnlxName);
+			gnlx.setValue(Integer.valueOf(gnlxcount));
+			ChartCircleItemStyle ccc = new ChartCircleItemStyle();
+			ccc.setColor(colorList.get(i + 2));
+			gnlx.setItemStyle(ccc);
+
+			children.add(gnlx);
+			// 3
+			Child2 gjxj = new Child2();
+			gjxj.setName(gjxjName);
+			gjxj.setValue(Integer.valueOf(gjxjcount));
+
+			ChartCircleItemStyle cccc = new ChartCircleItemStyle();
+			cccc.setColor(colorList.get(i + 3));
+			gjxj.setItemStyle(cccc);
+
+			children.add(gjxj);
+			// 4
+			Child2 gjlx = new Child2();
+			gjlx.setName(gjlxName);
+			gjlx.setValue(Integer.valueOf(gjlxcount));
+
+			ChartCircleItemStyle a = new ChartCircleItemStyle();
+			a.setColor(colorList.get(i + 4));
+			gjlx.setItemStyle(a);
+			children.add(gjlx);
+
+			// 5
+			Child2 hyxj = new Child2();
+			hyxj.setName(hyxjName);
+			hyxj.setValue(Integer.valueOf(hyxjcount));
+
+			ChartCircleItemStyle v = new ChartCircleItemStyle();
+			v.setColor(colorList.get(i + 5));
+			hyxj.setItemStyle(v);
+
+			children.add(hyxj);
+
+			// 6
+			Child2 hylx = new Child2();
+			hylx.setName(hylxName);
+			hylx.setValue(Integer.valueOf(hylxcount));
+
+			ChartCircleItemStyle g = new ChartCircleItemStyle();
+			g.setColor(colorList.get(i + 6));
+			hylx.setItemStyle(g);
+			children.add(hylx);
+
 			chartCircle.setChildren(children);
 			resut.add(chartCircle);
-			
+
 		}
 		return resut;
 	}
-	
-	
-	public static ChartCircle getChartCircleForJCZC(List<H1AMKYSY100104> listAll,String str,String color)
-	{
-		
-		List<String> colorList=getClorList();
-		ChartCircle cc01=new ChartCircle();
-		//第一级
+
+	public static ChartCircle getChartCircleForJCZC(List<H1AMKYSY100104> listAll, String str, String color) {
+
+		List<String> colorList = getClorList();
+		ChartCircle cc01 = new ChartCircle();
+		// 第一级
 		cc01.setName(str);
-		//第二级
-		List<Child> children01=new ArrayList<Child>();
-		ChartCircleItemStyle chartCircleItemStyle=new ChartCircleItemStyle();
+		// 第二级
+		List<Child> children01 = new ArrayList<Child>();
+		ChartCircleItemStyle chartCircleItemStyle = new ChartCircleItemStyle();
 		chartCircleItemStyle.setColor(color);
 		cc01.setItemStyle(chartCircleItemStyle);
-		List<H1AMKYSY100104> newLiST=new ArrayList<H1AMKYSY100104>();
-		
-		for (int i = 0; i < listAll.size(); i++) 
-		{
-			H1AMKYSY100104 h1AMKYSY100109=listAll.get(i);
-			String name=h1AMKYSY100109.getG0XMGLLX();
-			if(name.equals(str))
-			{
+		List<H1AMKYSY100104> newLiST = new ArrayList<H1AMKYSY100104>();
+
+		for (int i = 0; i < listAll.size(); i++) {
+			H1AMKYSY100104 h1AMKYSY100109 = listAll.get(i);
+			String name = h1AMKYSY100109.getG0XMGLLX();
+			if (name.equals(str)) {
 				newLiST.add(h1AMKYSY100109);
-				String g0XMGLJB=h1AMKYSY100109.getG0XMGLJB();
-				Child child=new Child();
+				String g0XMGLJB = h1AMKYSY100109.getG0XMGLJB();
+				Child child = new Child();
 				child.setName(g0XMGLJB);
-				
-				
-				ChartCircleItemStyle cc=new ChartCircleItemStyle();
+
+				ChartCircleItemStyle cc = new ChartCircleItemStyle();
 				cc.setColor(colorList.get(i));
 				child.setItemStyle(cc);
-				
-				
+
 				children01.add(child);
 			}
 		}
-		//第二级去重
-		children01=removeDuplicate(children01);
-		
-		
-		List<Child> temp_children=new ArrayList<Child>();
-		for (int i = 0; i < children01.size(); i++) 
-		{
-			Child child=children01.get(i);
-			String name=child.getName();
-			//第三级
-			List<NameValue> children=new ArrayList<NameValue>();
-			for (int j = 0; j < newLiST.size(); j++) 
-			{
-				H1AMKYSY100104 h1AMKYSY100109=newLiST.get(j);
-				String temp_name=h1AMKYSY100109.getG0XMGLJB();
-				if(name.equals(temp_name))
-				{
-					String g0XMLXMS=h1AMKYSY100109.getG0XMLXMS();
-					String k0BNGLFPHJECB=h1AMKYSY100109.getK0BNGLFPHJECB();
-					NameValue nameValue=new NameValue();
+		// 第二级去重
+		children01 = removeDuplicate(children01);
+
+		List<Child> temp_children = new ArrayList<Child>();
+		for (int i = 0; i < children01.size(); i++) {
+			Child child = children01.get(i);
+			String name = child.getName();
+			// 第三级
+			List<NameValue> children = new ArrayList<NameValue>();
+			for (int j = 0; j < newLiST.size(); j++) {
+				H1AMKYSY100104 h1AMKYSY100109 = newLiST.get(j);
+				String temp_name = h1AMKYSY100109.getG0XMGLJB();
+				if (name.equals(temp_name)) {
+					String g0XMLXMS = h1AMKYSY100109.getG0XMLXMS();
+					String k0BNGLFPHJECB = h1AMKYSY100109.getK0BNGLFPHJECB();
+					NameValue nameValue = new NameValue();
 					nameValue.setName(g0XMLXMS);
 					nameValue.setValue(Float.valueOf(k0BNGLFPHJECB).floatValue());
-					
-					
-					ChartCircleItemStyle cc=new ChartCircleItemStyle();
+
+					ChartCircleItemStyle cc = new ChartCircleItemStyle();
 					cc.setColor(colorList.get(j));
 					nameValue.setItemStyle(cc);
-					
+
 					children.add(nameValue);
-					
+
 				}
 			}
 			child.setChildren(children);
@@ -2504,18 +2152,12 @@ public class HanaUtil {
 		cc01.setChildren(temp_children);
 		return cc01;
 	}
-	
-	
 
-	public static List<Child> removeDuplicate(List<Child> list)
-	{
-		for (int i = 0; i < list.size() - 1; i++) 
-		{
-			for (int j = list.size() - 1; j > i; j--) 
-			{
-				
-				if (list.get(j).getName().equals(list.get(i).getName())) 
-				{
+	public static List<Child> removeDuplicate(List<Child> list) {
+		for (int i = 0; i < list.size() - 1; i++) {
+			for (int j = list.size() - 1; j > i; j--) {
+
+				if (list.get(j).getName().equals(list.get(i).getName())) {
 					list.remove(j);
 				}
 			}
@@ -2549,8 +2191,7 @@ public class HanaUtil {
 		return xAxisDataList;
 	}
 
-	public static ChartBarLineSeries getChartBarLineSeries_ScientificInstrumentPay(List<ScientificInstrumentPay> list,
-			String name) {
+	public static ChartBarLineSeries getChartBarLineSeries_ScientificInstrumentPay(List<ScientificInstrumentPay> list, String name) {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("K0BNZCJE")) {
 			chartBarLineSeries.setName("本期");
@@ -2573,10 +2214,10 @@ public class HanaUtil {
 				String k0BNZCJE = f03.getK0BNZCJE();// 计划
 				String k0SNZCJE = f03.getK0SNZCJE();// 实际
 				String K0TQBL = f03.getK0TQBL();// 本期
-				
-				k0BNZCJE=String.format("%.2f", Double.valueOf(k0BNZCJE));
-				k0SNZCJE=String.format("%.2f", Double.valueOf(k0SNZCJE));
-				K0TQBL=String.format("%.2f", Double.valueOf(K0TQBL));
+
+				k0BNZCJE = String.format("%.2f", Double.valueOf(k0BNZCJE));
+				k0SNZCJE = String.format("%.2f", Double.valueOf(k0SNZCJE));
+				K0TQBL = String.format("%.2f", Double.valueOf(K0TQBL));
 
 				if (name.equals("K0BNZCJE")) {
 					dataList.add(k0BNZCJE);
@@ -2593,10 +2234,7 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	
+
 	public static ChartBarLineSeries getChartBarLineSeries_GET_getDzzk_bar(List<H1AMKYSY100117> list, String name) {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("g0SBSL1")) {
@@ -2619,7 +2257,6 @@ public class HanaUtil {
 			chartBarLineSeries.setStack("数量");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
@@ -2631,47 +2268,38 @@ public class HanaUtil {
 				String G0SBSL4 = f03.getG0SBSL4();
 
 				if (name.equals("g0SBSL1")) {
-					
-					if (G0SBSL1==null || G0SBSL1.equals(""))
-					{
+
+					if (G0SBSL1 == null || G0SBSL1.equals("")) {
 						dataList.add(0);
-					}else
-					{
+					} else {
 						dataList.add(Double.valueOf(G0SBSL1).intValue());
 					}
 				}
 				if (name.equals("g0SBSL2")) {
-					if (G0SBSL2==null || G0SBSL2.equals(""))
-					{
+					if (G0SBSL2 == null || G0SBSL2.equals("")) {
 						dataList.add(0);
-					}else
-					{
+					} else {
 						dataList.add(Double.valueOf(G0SBSL2).intValue());
 					}
-					
+
 				}
 				if (name.equals("g0SBSL3")) {
-					
-					if (G0SBSL3==null || G0SBSL3.equals(""))
-					{
+
+					if (G0SBSL3 == null || G0SBSL3.equals("")) {
 						dataList.add(0);
-					}else
-					{
+					} else {
 						dataList.add(Double.valueOf(G0SBSL3).intValue());
 					}
-					
+
 				}
 				if (name.equals("g0SBSL4")) {
-					
-					if (G0SBSL4==null || G0SBSL4.equals(""))
-					{
+
+					if (G0SBSL4 == null || G0SBSL4.equals("")) {
 						dataList.add(0);
-					}else
-					{
+					} else {
 						dataList.add(Double.valueOf(G0SBSL4).intValue());
 					}
-					
-					
+
 				}
 
 			}
@@ -2679,7 +2307,7 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
+
 	public static ChartBarLineSeries getChartBarLineSeries_HOMPAGE02(List<H1AMKYSY100109> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -2738,7 +2366,6 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
 
 	public static ChartBarLineSeries getChartBarLineSeries_HOMPAGE(List<H1AMKYSY100109> list, String name) {
 
@@ -2818,10 +2445,7 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	
+
 	public static ChartBarLineSeries getKYZBLevel2ChartBarLineSeries(List<H1AMKYSY100109> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -2841,7 +2465,6 @@ public class HanaUtil {
 			chartBarLineSeries.setSmooth(true);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
@@ -2850,36 +2473,31 @@ public class HanaUtil {
 				String K0BNXMXKSL = f03.getK0BNXMXKSL();
 				String K0BNXMXJSL = f03.getK0BNXMXJSL();
 
-
 				if (name.equals("K0BNXMXKSL")) {
 					dataList.add(Double.valueOf(K0BNXMXKSL).intValue());
 				}
 				if (name.equals("K0BNXMXJSL")) {
 					dataList.add(Double.valueOf(K0BNXMXJSL).intValue());
 				}
-				
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
+
 	public static ChartBarLineSeries getAwardELevel2ChartBarLineSeries(List<Award> list, String name) {
-		
-		    ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-			chartBarLineSeries.setName(name);
-			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
-		
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		chartBarLineSeries.setName(name);
+		chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
-			for (int i = 0; i < list.size(); i++)
-			{
+			for (int i = 0; i < list.size(); i++) {
 				Award f03 = list.get(i);
-				String str=f03.getJdjg();
-				if(name.equals(str))
-				{
+				String str = f03.getJdjg();
+				if (name.equals(str)) {
 					String a = f03.getAcount();
 					String b = f03.getBcount();
 					String c = f03.getCcount();
@@ -2908,10 +2526,8 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	public static ChartBarLineSeries  getContractChartBarLineSeries224(List<Contract> list, String name) {
+
+	public static ChartBarLineSeries getContractChartBarLineSeries224(List<Contract> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("fyxRate")) {
@@ -2922,67 +2538,53 @@ public class HanaUtil {
 			chartBarLineSeries.setName("资本性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
-				
+
 				Contract f03 = list.get(i);
-				
-				//System.out.println("===============fffffffffffff:"+f03.getFyxRate());
-				String fyxRate ="0";
-				Object FyxRate=f03.getFyxRate();
-				if(FyxRate!=null && !FyxRate.toString().equals("0"))
-				{
-					fyxRate =((BigDecimal)f03.getFyxRate()).toString(); 
+
+				// System.out.println("===============fffffffffffff:"+f03.getFyxRate());
+				String fyxRate = "0";
+				Object FyxRate = f03.getFyxRate();
+				if (FyxRate != null && !FyxRate.toString().equals("0")) {
+					fyxRate = ((BigDecimal) f03.getFyxRate()).toString();
 				}
-				String zbxRate ="";
-				Object o=f03.getZbxRate();
-				if(o!=null && !o.toString().equals("0"))
-				{
-					zbxRate =((BigDecimal)f03.getZbxRate()).toString();
+				String zbxRate = "";
+				Object o = f03.getZbxRate();
+				if (o != null && !o.toString().equals("0")) {
+					zbxRate = ((BigDecimal) f03.getZbxRate()).toString();
 				}
 				if (name.equals("fyxRate")) {
-					
-					if (fyxRate==null || fyxRate.equals(""))
-					{
-						dataList.add(0);
-					}else
-					{
-						
 
-						  
-						fyxRate=new BigDecimal(fyxRate).stripTrailingZeros().toPlainString();
+					if (fyxRate == null || fyxRate.equals("")) {
+						dataList.add(0);
+					} else {
+
+						fyxRate = new BigDecimal(fyxRate).stripTrailingZeros().toPlainString();
 						dataList.add(fyxRate);
 					}
-					
-					
+
 				}
 				if (name.equals("zbxRate")) {
-					
-					if (zbxRate==null || zbxRate.equals(""))
-					{
+
+					if (zbxRate == null || zbxRate.equals("")) {
 						dataList.add(0);
-					}else
-					{
-						zbxRate=new BigDecimal(zbxRate).stripTrailingZeros().toPlainString();
+					} else {
+						zbxRate = new BigDecimal(zbxRate).stripTrailingZeros().toPlainString();
 						dataList.add(zbxRate);
 					}
-					
-					
+
 				}
-				
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	public static ChartBarLineSeries  getContractChartBarLineSeries22(List<Contract> list, String name) {
+
+	public static ChartBarLineSeries getContractChartBarLineSeries22(List<Contract> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("fyxRate")) {
@@ -2993,52 +2595,41 @@ public class HanaUtil {
 			chartBarLineSeries.setName("资本性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				Contract f03 = list.get(i);
-				String fyxRate =((BigDecimal)f03.getFyxRate()).toString(); 
-				String zbxRate = ((BigDecimal)f03.getZbxRate()).toString();
+				String fyxRate = ((BigDecimal) f03.getFyxRate()).toString();
+				String zbxRate = ((BigDecimal) f03.getZbxRate()).toString();
 				if (name.equals("fyxRate")) {
-					
-					if (fyxRate==null || fyxRate.equals(""))
-					{
-						dataList.add(0);
-					}else
-					{
-						
 
-						  
-						fyxRate=new BigDecimal(fyxRate).stripTrailingZeros().toPlainString();
+					if (fyxRate == null || fyxRate.equals("")) {
+						dataList.add(0);
+					} else {
+
+						fyxRate = new BigDecimal(fyxRate).stripTrailingZeros().toPlainString();
 						dataList.add(String.format("%.2f", Double.valueOf(fyxRate)));
 					}
-					
-					
+
 				}
 				if (name.equals("zbxRate")) {
-					
-					if (zbxRate==null || zbxRate.equals(""))
-					{
+
+					if (zbxRate == null || zbxRate.equals("")) {
 						dataList.add(0);
-					}else
-					{
-						zbxRate=new BigDecimal(zbxRate).stripTrailingZeros().toPlainString();
+					} else {
+						zbxRate = new BigDecimal(zbxRate).stripTrailingZeros().toPlainString();
 						dataList.add(String.format("%.2f", Double.valueOf(zbxRate)));
 					}
-					
-					
+
 				}
-				
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
+
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries(List<Knowledge> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -3050,7 +2641,6 @@ public class HanaUtil {
 			chartBarLineSeries.setName("专利申请");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
@@ -3059,42 +2649,31 @@ public class HanaUtil {
 				String Agree = f03.getAgreeCount();
 				String Apply = f03.getApplyCount();
 
-
 				if (name.equals("agreeCount")) {
-					
-					if (Agree==null || Agree.equals(""))
-					{
+
+					if (Agree == null || Agree.equals("")) {
 						dataList.add(0);
-					}else
-					{
+					} else {
 						dataList.add(Double.valueOf(Agree).intValue());
 					}
-					
-					
+
 				}
 				if (name.equals("applyCount")) {
-					
-					if (Apply==null || Apply.equals(""))
-					{
+
+					if (Apply == null || Apply.equals("")) {
 						dataList.add(0);
-					}else
-					{
+					} else {
 						dataList.add(Double.valueOf(Apply).intValue());
 					}
-					
-					
+
 				}
-				
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	
+
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries_stack(List<Knowledge> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -3113,7 +2692,7 @@ public class HanaUtil {
 		if (name.equals("syxxsl")) {
 			chartBarLineSeries.setName("实用新型");
 			chartBarLineSeries.setStack("数量");
-			
+
 			chartBarLineSeries.setItemStyle("{normal:{color:'#3FBB49'}}");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
@@ -3127,36 +2706,29 @@ public class HanaUtil {
 
 				String syxxsl = f03.getSyxxsl();
 				if (name.equals("fmsqsl")) {
-					
-					if(fmsqsl!=null && !fmsqsl.equals(""))
-					{
+
+					if (fmsqsl != null && !fmsqsl.equals("")) {
 						dataList.add(Double.valueOf(fmsqsl).intValue());
-					}else
-					{
+					} else {
 						dataList.add(0);
 					}
-					
-					
+
 				}
 				if (name.equals("wgsjsl")) {
-					if(wgsjsl!=null && !wgsjsl.equals(""))
-					{
+					if (wgsjsl != null && !wgsjsl.equals("")) {
 						dataList.add(Double.valueOf(wgsjsl).intValue());
-					}else
-					{
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
 				if (name.equals("syxxsl")) {
-					if(syxxsl!=null && !syxxsl.equals(""))
-					{
+					if (syxxsl != null && !syxxsl.equals("")) {
 						dataList.add(Double.valueOf(syxxsl).intValue());
-					}else
-					{
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
 
 			}
@@ -3164,10 +2736,7 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	
+
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries03(List<Knowledge> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -3201,11 +2770,7 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	
-	
+
 	public static ChartBarLineSeries getContractChartBarLineSeries(List<Contract> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -3217,16 +2782,13 @@ public class HanaUtil {
 			chartBarLineSeries.setName("未签合同");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				Contract f03 = list.get(i);
-				Integer yqhtzj =(Integer)f03.getYqhtzj();
-				Integer wqhtzj = (Integer)f03.getWqhtzj();
+				Integer yqhtzj = (Integer) f03.getYqhtzj();
+				Integer wqhtzj = (Integer) f03.getWqhtzj();
 				if (name.equals("yqhtzj")) {
 					dataList.add(yqhtzj);
 				}
@@ -3239,48 +2801,38 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getContractChartBarLineSeries7(List<Contract> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (name.equals("jhqds"))
-		{
+		if (name.equals("jhqds")) {
 			chartBarLineSeries.setName("计划签订");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("sjqds")) 
-		{
+		if (name.equals("sjqds")) {
 			chartBarLineSeries.setName("实际签订");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("qdbl")) 
-		{
+		if (name.equals("qdbl")) {
 			chartBarLineSeries.setName("签订率");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				Contract f03 = list.get(i);
-				Integer jhqds =(Integer)f03.getJhqds();
-				Integer sjqds =(Integer)f03.getSjqds();
-				Object qdbl =f03.getQdbl();
-				String str=String.format("%.2f", Double.valueOf(String.valueOf(qdbl)));
-				
-				if (name.equals("jhqds")) 
-				{
+				Integer jhqds = (Integer) f03.getJhqds();
+				Integer sjqds = (Integer) f03.getSjqds();
+				Object qdbl = f03.getQdbl();
+				String str = String.format("%.2f", Double.valueOf(String.valueOf(qdbl)));
+
+				if (name.equals("jhqds")) {
 					dataList.add(jhqds);
 				}
-				if (name.equals("sjqds")) 
-				{
+				if (name.equals("sjqds")) {
 					dataList.add(sjqds);
 				}
-				if (name.equals("qdbl")) 
-				{
+				if (name.equals("qdbl")) {
 					dataList.add(str);
 				}
 
@@ -3289,53 +2841,43 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
+
 	public static ChartBarLineSeries getContractChartBarLineSeries9(List<Contract> list, String name) {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (name.equals("sjqds"))
-		{
+		if (name.equals("sjqds")) {
 			chartBarLineSeries.setName("实际签订数");
 			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("jhqds")) 
-		{
+		if (name.equals("jhqds")) {
 			chartBarLineSeries.setName("计划签订数");
 			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
-		if (name.equals("htqdl")) 
-		{
+
+		if (name.equals("htqdl")) {
 			chartBarLineSeries.setName("签订率");
 			chartBarLineSeries.setyAxisIndex(1);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
-		
-		
-		
+
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				Contract f03 = list.get(i);
-				Integer sjqds =(Integer)f03.getSjqds();
-				Integer jhqds =(Integer)f03.getJhqds();
-				Object htqdl =f03.getHtqdl();
-				//String str=String.format("%.2f", Double.valueOf(String.valueOf(qdlzj)));
-				
-				
-				
-				if (name.equals("sjqds")) 
-				{
+				Integer sjqds = (Integer) f03.getSjqds();
+				Integer jhqds = (Integer) f03.getJhqds();
+				Object htqdl = f03.getHtqdl();
+				// String str=String.format("%.2f",
+				// Double.valueOf(String.valueOf(qdlzj)));
+
+				if (name.equals("sjqds")) {
 					dataList.add(sjqds);
 				}
-				if (name.equals("jhqds")) 
-				{
+				if (name.equals("jhqds")) {
 					dataList.add(jhqds);
 				}
-				if (name.equals("htqdl")) 
-				{
+				if (name.equals("htqdl")) {
 					dataList.add(htqdl);
 				}
 			}
@@ -3343,46 +2885,35 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	
-	
+
 	public static ChartBarLineSeries getContractChartBarLineSeries8(List<Contract> list, String name) {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (name.equals("yqhtzj"))
-		{
+		if (name.equals("yqhtzj")) {
 			chartBarLineSeries.setName("已签");
 			chartBarLineSeries.setStack("数量");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("wqhtzj")) 
-		{
+		if (name.equals("wqhtzj")) {
 			chartBarLineSeries.setName("未签");
 			chartBarLineSeries.setStack("数量");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				Contract f03 = list.get(i);
-				Integer wqhtzj =(Integer)f03.getWqhtzj();
-				Integer yqhtzj =(Integer)f03.getYqhtzj();
-				Object qdlzj =f03.getQdlzj();
-				String str=String.format("%.2f", Double.valueOf(String.valueOf(qdlzj)));
-				
-				if (name.equals("wqhtzj")) 
-				{
+				Integer wqhtzj = (Integer) f03.getWqhtzj();
+				Integer yqhtzj = (Integer) f03.getYqhtzj();
+				Object qdlzj = f03.getQdlzj();
+				String str = String.format("%.2f", Double.valueOf(String.valueOf(qdlzj)));
+
+				if (name.equals("wqhtzj")) {
 					dataList.add(wqhtzj);
 				}
-				if (name.equals("yqhtzj")) 
-				{
+				if (name.equals("yqhtzj")) {
 					dataList.add(yqhtzj);
 				}
-				if (name.equals("qdlzj")) 
-				{
+				if (name.equals("qdlzj")) {
 					dataList.add(str);
 				}
 
@@ -3391,46 +2922,38 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
+
 	public static ChartBarLineSeries getContractChartBarLineSeries6(List<Contract> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (name.equals("zsl"))
-		{
+		if (name.equals("zsl")) {
 			chartBarLineSeries.setName("计划签订");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("yqhtzj")) 
-		{
+		if (name.equals("yqhtzj")) {
 			chartBarLineSeries.setName("实际签订");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("qdlzj")) 
-		{
+		if (name.equals("qdlzj")) {
 			chartBarLineSeries.setName("签订率");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				Contract f03 = list.get(i);
-				Integer zsl =(Integer)f03.getZsl();
-				Integer yqhtzj =(Integer)f03.getYqhtzj();
-				Object qdlzj =f03.getQdlzj();
-				String str=String.format("%.2f", Double.valueOf(String.valueOf(qdlzj)));
-				
-				if (name.equals("zsl")) 
-				{
+				Integer zsl = (Integer) f03.getZsl();
+				Integer yqhtzj = (Integer) f03.getYqhtzj();
+				Object qdlzj = f03.getQdlzj();
+				String str = String.format("%.2f", Double.valueOf(String.valueOf(qdlzj)));
+
+				if (name.equals("zsl")) {
 					dataList.add(zsl);
 				}
-				if (name.equals("yqhtzj")) 
-				{
+				if (name.equals("yqhtzj")) {
 					dataList.add(yqhtzj);
 				}
-				if (name.equals("qdlzj")) 
-				{
+				if (name.equals("qdlzj")) {
 					dataList.add(str);
 				}
 
@@ -3439,9 +2962,9 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> list, String name) {
+
+
+public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zysje")) {
@@ -3456,7 +2979,14 @@ public class HanaUtil {
 			chartBarLineSeries.setName("拨款金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+		if (name.equals("wqhtzje")) {
+			chartBarLineSeries.setName("未签合同金额");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("wbkzje")) {
+			chartBarLineSeries.setName("未拨款金额");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) 
@@ -3467,14 +2997,16 @@ public class HanaUtil {
 				Object zysje = f03.getZysje();
 				Object zsjje = f03.getZsjje();
 				Object hanaMoney = f03.getHanaMoney();
-				
+				Object wqhtzje = f03.getWqhtzje();
+				Object wbkzje = f03.getWbkzje();
 				
 				if (name.equals("zysje"))
 				{
 					
 					if(zysje!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zysje))));
+						String str=HanaUtil.DecimalFormatObject(zysje);
+						dataList.add(str);
 						
 					}else
 					{
@@ -3488,7 +3020,8 @@ public class HanaUtil {
 					
 					if(zsjje!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zsjje))));
+						String str=HanaUtil.DecimalFormatObject(zsjje);
+						dataList.add(str);
 						
 					}else
 					{
@@ -3501,7 +3034,8 @@ public class HanaUtil {
 					
 					if(hanaMoney!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(hanaMoney))));
+						String str=HanaUtil.DecimalFormatObject(hanaMoney);
+						dataList.add(str);
 						
 					}else
 					{
@@ -3512,6 +3046,37 @@ public class HanaUtil {
 				
 				
 				
+				if (name.equals("wqhtzje"))
+				{
+					
+					if(wqhtzje!=null)
+					{
+						String str=HanaUtil.DecimalFormatObject(wqhtzje);
+						dataList.add(str);
+						
+					}else
+					{
+						dataList.add(0);
+					}
+					
+				}
+				
+				if (name.equals("wbkzje"))
+				{
+					
+					if(wbkzje!=null)
+					{
+						String str=HanaUtil.DecimalFormatObject(wbkzje);
+						dataList.add(str);
+						
+					}else
+					{
+						dataList.add(0);
+					}
+					
+				}
+				
+				
 
 			}
 			chartBarLineSeries.setData(dataList);
@@ -3519,8 +3084,7 @@ public class HanaUtil {
 		return chartBarLineSeries;
 	}
 	
-	
-	
+
 	public static ChartBarLineSeries getInvestmentBarLineSeries02(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -3536,70 +3100,55 @@ public class HanaUtil {
 			chartBarLineSeries.setName("拨款金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
 				Object zysje = f03.getZysje();
 				Object zsjje = f03.getZsjje();
 				Object hanaMoney = f03.getHanaMoney();
-				
-				
-				if (name.equals("zysje"))
-				{
-					
-					if(zysje!=null)
-					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zysje))));
-						
-					}else
-					{
+
+				if (name.equals("zysje")) {
+
+					if (zysje != null) {
+						String str=HanaUtil.DecimalFormatObject(zysje);
+						dataList.add(str);//String.format("%.2f", Double.valueOf(String.valueOf(zysje)))
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				
-				if (name.equals("zsjje"))
-				{
-					
-					if(zsjje!=null)
-					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zsjje))));
-						
-					}else
-					{
+
+				if (name.equals("zsjje")) {
+
+					if (zsjje != null) {
+						String str=HanaUtil.DecimalFormatObject(zsjje);
+						dataList.add(str);
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				if (name.equals("hanaMoney"))
-				{
-					
-					if(hanaMoney!=null)
-					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(hanaMoney))));
-						
-					}else
-					{
+				if (name.equals("hanaMoney")) {
+
+					if (hanaMoney != null) {
+						String str=HanaUtil.DecimalFormatObject(hanaMoney);
+						dataList.add(str);
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				
-				
-				
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
 
 	public static ChartBarLineSeries getTopicChartBarLineSeries05(List<Topic> list, String name) {
 
@@ -3618,10 +3167,8 @@ public class HanaUtil {
 		}
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				Topic f03 = list.get(i);
 				Integer xksl = f03.getXksl();
 				Integer xjsl = f03.getXjsl();
@@ -3637,9 +3184,9 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Knowledge> list, String name) {
 
-		
+	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Knowledge> list, String name) {
+
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("gjxksl")) {
 			chartBarLineSeries.setName("新开课题");
@@ -3668,10 +3215,9 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		}
 		return chartBarLineSeries;
 	}
-	
+
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries06(List<Knowledge> list, String name) {
 
-		
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("applyCount")) {
 			chartBarLineSeries.setName("申请总数");
@@ -3700,16 +3246,12 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getKnowledgeChartBarLineSeries07(List<Knowledge> list, String name) {
 
-		
-		
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("fmzlAgreeCount")) {
-			chartBarLineSeries.setName("发明授权");
+			chartBarLineSeries.setName("发明专利");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("wgsjAgreeCount")) {
@@ -3745,14 +3287,12 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries05(List<Knowledge> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("fmsqsl")) {
-			chartBarLineSeries.setName("发明授权");
+			chartBarLineSeries.setName("发明专利");
 			chartBarLineSeries.setStack("总量");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
@@ -3790,9 +3330,7 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries02(List<Knowledge> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -3832,10 +3370,7 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	
+
 	public static ChartBarLineSeries getDeviceForMysqlChartBarLineSeries(List<ProjectForMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -3847,51 +3382,39 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 			chartBarLineSeries.setName("结转课题");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				ProjectForMysql f03 = list.get(i);
-				Integer xksl = (Integer)f03.getXksl();
-				Integer xjsl =  (Integer)f03.getXjsl();
-
+				Integer xksl = (Integer) f03.getXksl();
+				Integer xjsl = (Integer) f03.getXjsl();
 
 				if (name.equals("xksl")) {
-					
-					if(xksl!=null)
-					{
+
+					if (xksl != null) {
 						dataList.add(xksl);
-					}else
-					{
+					} else {
 						dataList.add(0);
 					}
-					
-					
+
 				}
 				if (name.equals("xjsl")) {
-					
-					if(xjsl!=null)
-					{
+
+					if (xjsl != null) {
 						dataList.add(xjsl);
-					}else
-					{
+					} else {
 						dataList.add(0);
 					}
-					
-					
-					
+
 				}
-				
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getdevceForMysqlChartBarLineSeries(List<ProjectForMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -3903,318 +3426,240 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 			chartBarLineSeries.setName("结转课题");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				ProjectForMysql f03 = list.get(i);
-				Integer xksl = (Integer)f03.getXksl();
-				Integer xjsl =  (Integer)f03.getXjsl();
-				String zycmc= f03.getZycmc();
-				
-					if (name.equals("xksl")) {
-						
-						if(xksl!=null)
-						{
-							dataList.add(xksl);
-						}else
-						{
-							dataList.add(0);
-						}
-						
-						
-					}
-					if (name.equals("xjsl")) {
-						
-						if(xjsl!=null)
-						{
-							dataList.add(xjsl);
-						}else
-						{
-							dataList.add(0);
-						}
-						
-						
-						
-					}
-					
-				
+				Integer xksl = (Integer) f03.getXksl();
+				Integer xjsl = (Integer) f03.getXjsl();
+				String zycmc = f03.getZycmc();
 
-				
+				if (name.equals("xksl")) {
+
+					if (xksl != null) {
+						dataList.add(xksl);
+					} else {
+						dataList.add(0);
+					}
+
+				}
+				if (name.equals("xjsl")) {
+
+					if (xjsl != null) {
+						dataList.add(xjsl);
+					} else {
+						dataList.add(0);
+					}
+
+				}
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
 
-	
- public static ChartBarLineSeries getH1AMKYSY100117Series(List<H1AMKYSY100117> list, String name)
- {
-	
+	public static ChartBarLineSeries getH1AMKYSY100117Series(List<H1AMKYSY100117> list, String name) {
+
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (name.equals("g0SBSL9")) 
-		{
+		if (name.equals("g0SBSL9")) {
 			chartBarLineSeries.setName("500万以上");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("g0SBSL5"))
-		{
+		if (name.equals("g0SBSL5")) {
 			chartBarLineSeries.setName("300-500万");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
-		if (name.equals("g0SBSL3"))
-		{
+
+		if (name.equals("g0SBSL3")) {
 			chartBarLineSeries.setName("100-300万");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
-		if (name.equals("g0SBSL1"))
-		{
+
+		if (name.equals("g0SBSL1")) {
 			chartBarLineSeries.setName("100万以下");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				H1AMKYSY100117 f03 = list.get(i);
-				Object g0SBSL9=f03.getG0SBSL9();
-				Object g0SBSL5=f03.getG0SBSL5();
-				Object g0SBSL3=f03.getG0SBSL3();
-				Object g0SBSL1=f03.getG0SBSL1();
-				if (name.equals("g0SBSL9"))
-				{
-					
-					if(g0SBSL9!=null)
-					{
+				Object g0SBSL9 = f03.getG0SBSL9();
+				Object g0SBSL5 = f03.getG0SBSL5();
+				Object g0SBSL3 = f03.getG0SBSL3();
+				Object g0SBSL1 = f03.getG0SBSL1();
+				if (name.equals("g0SBSL9")) {
+
+					if (g0SBSL9 != null) {
 						dataList.add(String.format("%.0f", Double.valueOf(String.valueOf(g0SBSL9))));
-						
-					}else
-					{
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				if (name.equals("g0SBSL5"))
-				{
-					
-					if(g0SBSL5!=null)
-					{
+				if (name.equals("g0SBSL5")) {
+
+					if (g0SBSL5 != null) {
 						dataList.add(String.format("%.0f", Double.valueOf(String.valueOf(g0SBSL5))));
-						
-					}else
-					{
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				
-				
-				if (name.equals("g0SBSL3"))
-				{
-					
-					if(g0SBSL3!=null)
-					{
+
+				if (name.equals("g0SBSL3")) {
+
+					if (g0SBSL3 != null) {
 						dataList.add(String.format("%.0f", Double.valueOf(String.valueOf(g0SBSL3))));
-						
-					}else
-					{
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				
-				if (name.equals("g0SBSL1"))
-				{
-					
-					if(g0SBSL1!=null)
-					{
+
+				if (name.equals("g0SBSL1")) {
+
+					if (g0SBSL1 != null) {
 						dataList.add(String.format("%.0f", Double.valueOf(String.valueOf(g0SBSL1))));
-						
-					}else
-					{
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				
-				
+
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
 
-	
+	public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> list, String name) {
 
-	
-	
-public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> list, String name)
-{
-
-	
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (name.equals("ysxkje")) 
-		{
+		if (name.equals("ysxkje")) {
 			chartBarLineSeries.setName("新开课题预算金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("xkMoney"))
-		{
+		if (name.equals("xkMoney")) {
 			chartBarLineSeries.setName("新开课题实际金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-				Object ysxkje=f03.getYsxkje();
-				Object xkMoney=f03.getXkMoney();
-				if (name.equals("ysxkje"))
-				{
-					
-					if(ysxkje!=null)
-					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(ysxkje))/10000));
-						
-					}else
-					{
+				Object ysxkje = f03.getYsxkje();
+				Object xkMoney = f03.getXkMoney();
+				if (name.equals("ysxkje")) {
+
+					if (ysxkje != null) {
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(ysxkje)) / 10000));
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				if (name.equals("xkMoney")) 
-				{
-					
-					if(!xkMoney.equals("0"))
-					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(xkMoney))/10000));
-					}else
-					{
+				if (name.equals("xkMoney")) {
+
+					if (!xkMoney.equals("0")) {
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(xkMoney)) / 10000));
+					} else {
 						dataList.add(0);
 					}
 				}
-				
-				
+
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
 
-	
-	
 	public static ChartBarLineSeries getinvestmentBarLineSeries2(List<BudgetMysql> list, String name) {
 
-		
-		
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zsjje")) {
 			chartBarLineSeries.setName("实际科研投入");
-			
+
 			chartBarLineSeries.setyAxisIndex(0);
-			
+
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("wxdje")) {
 			chartBarLineSeries.setName("未执行");
-			
+
 			chartBarLineSeries.setyAxisIndex(0);
-			
+
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("jeRate")) {
 			chartBarLineSeries.setName("预算执行率");
-		
+
 			chartBarLineSeries.setyAxisIndex(1);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-				//System.out.println("======f03.getZsjje=="+f03.getZsjje()+" getWxdje="+f03.getWxdje());
-				Object wxdjeStr=f03.getWxdje();
-				String wxdje ="0";
-				if(wxdjeStr!=null)
-				{
-					 wxdje =((BigDecimal)f03.getWxdje()).toString();
+				// System.out.println("======f03.getZsjje=="+f03.getZsjje()+" getWxdje="+f03.getWxdje());
+				Object wxdjeStr = f03.getWxdje();
+				String wxdje = "0";
+				if (wxdjeStr != null) {
+					wxdje = ((BigDecimal) f03.getWxdje()).toString();
 				}
-				
-				String zsjje =((BigDecimal)f03.getZsjje()).toString();
-				String jeRate ="0";
-				Object o=f03.getJeRate();
-				if(o!=null)
-				{
-					jeRate =((BigDecimal)f03.getJeRate()).toString();
+
+				String zsjje = ((BigDecimal) f03.getZsjje()).toString();
+				String jeRate = "0";
+				Object o = f03.getJeRate();
+				if (o != null) {
+					jeRate = ((BigDecimal) f03.getJeRate()).toString();
 				}
-				
-					if (name.equals("zsjje"))
-					{
-						
-						if(zsjje!=null)
-						{
-							dataList.add(String.format("%.2f", Double.valueOf(zsjje)/10000));
-							
-						}else
-						{
-							dataList.add(0);
-						}
-						
+
+				if (name.equals("zsjje")) {
+
+					if (zsjje != null) {
+						dataList.add(String.format("%.2f", Double.valueOf(zsjje) / 10000));
+
+					} else {
+						dataList.add(0);
 					}
-					if (name.equals("wxdje")) 
-					{
-						
-						if(!wxdje.equals("0"))
-						{
-							dataList.add(String.format("%.2f", Double.valueOf(wxdje)/10000));
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					
-					if (name.equals("jeRate")) 
-					{
-						
-					
-						if(!jeRate.equals("0"))
-						{
-							 dataList.add(String.format("%.2f", Double.valueOf(jeRate)));
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-                   
-               	
+
 				}
+				if (name.equals("wxdje")) {
+
+					if (!wxdje.equals("0")) {
+						dataList.add(String.format("%.2f", Double.valueOf(wxdje) / 10000));
+					} else {
+						dataList.add(0);
+					}
+				}
+
+				if (name.equals("jeRate")) {
+
+					if (!jeRate.equals("0")) {
+						dataList.add(String.format("%.2f", Double.valueOf(jeRate)));
+					} else {
+						dataList.add(0);
+					}
+				}
+
+			}
 
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-     public static ChartBarLineSeries getinvestmentBarLineSeries(List<BudgetMysql> list, String name) {
 
-		
-    	 
-    	
-			
+	public static ChartBarLineSeries getinvestmentBarLineSeries(List<BudgetMysql> list, String name) {
+
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zje")) {
 			chartBarLineSeries.setName("实际下达");
@@ -4232,8 +3677,8 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 		}
 		if (name.equals("wxd")) {
 			chartBarLineSeries.setName("未下达");
-            chartBarLineSeries.setStack("数量");
-            chartBarLineSeries.setyAxisIndex(0);
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setItemStyle("{normal:{color:'#3FBB49'}}");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
@@ -4244,248 +3689,197 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 		}
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-				String wxd =((BigDecimal)f03.getWxd()).toString();
-				String prezje =((BigDecimal)f03.getPrezje()).toString();
-				String zje =((BigDecimal)f03.getZje()).toString();
-				String ztzwcl =(String)f03.getZtzwcl();
-				
-					if (name.equals("wxd"))
-					{
-						
-						if(wxd!=null)
-						{
-							dataList.add(String.format("%.2f", Double.valueOf(wxd)));
-							
-						}else
-						{
-							dataList.add(0);
-						}
-						
+				String wxd = ((BigDecimal) f03.getWxd()).toString();
+				String prezje = ((BigDecimal) f03.getPrezje()).toString();
+				String zje = ((BigDecimal) f03.getZje()).toString();
+				String ztzwcl = (String) f03.getZtzwcl();
+
+				if (name.equals("wxd")) {
+
+					if (wxd != null) {
+						dataList.add(String.format("%.2f", Double.valueOf(wxd)));
+
+					} else {
+						dataList.add(0);
 					}
-					if (name.equals("prezje")) 
-					{
-						
-						if(prezje!=null)
-						{
-							dataList.add(String.format("%.2f", Double.valueOf(prezje)));
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					
-					
-                   if (name.equals("zje")) 
-                   {
-						
-						if(zje!=null)
-						{
-							dataList.add(String.format("%.2f", Double.valueOf(zje)));
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-               	
-                   if (name.equals("ztzwcl")) 
-                   {
-                	   dataList.add(ztzwcl);
-				   }
+
 				}
+				if (name.equals("prezje")) {
+
+					if (prezje != null) {
+						dataList.add(String.format("%.2f", Double.valueOf(prezje)));
+					} else {
+						dataList.add(0);
+					}
+				}
+
+				if (name.equals("zje")) {
+
+					if (zje != null) {
+						dataList.add(String.format("%.2f", Double.valueOf(zje)));
+					} else {
+						dataList.add(0);
+					}
+				}
+
+				if (name.equals("ztzwcl")) {
+					dataList.add(ztzwcl);
+				}
+			}
 
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getinvestmentChartBarLineSeries(List<BudgetMysql> list, String name) {
 
-		
-		
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("fyxsjje")) {
 			chartBarLineSeries.setName("费用性科研投入");
-			//chartBarLineSeries.setStack("总量");
-			//chartBarLineSeries.setAreaStyle(new Object());
-			//chartBarLineSeries.setColor("#4a94eb");
-			//chartBarLineSeries.setyAxisIndex(0);
+			// chartBarLineSeries.setStack("总量");
+			// chartBarLineSeries.setAreaStyle(new Object());
+			// chartBarLineSeries.setColor("#4a94eb");
+			// chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
-			//chartBarLineSeries.setSmooth(true);
-			
+			// chartBarLineSeries.setSmooth(true);
+
 		}
 		if (name.equals("zbxsjje")) {
 			chartBarLineSeries.setName("资本性科研投入");
-			//chartBarLineSeries.setyAxisIndex(1);
-			//chartBarLineSeries.setStack("总量");
-			//chartBarLineSeries.setAreaStyle(new Object());
-			//chartBarLineSeries.setColor("#43bb7c");
+			// chartBarLineSeries.setyAxisIndex(1);
+			// chartBarLineSeries.setStack("总量");
+			// chartBarLineSeries.setAreaStyle(new Object());
+			// chartBarLineSeries.setColor("#43bb7c");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
-			//chartBarLineSeries.setSmooth(true);
+			// chartBarLineSeries.setSmooth(true);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-			
-				String fyxsjje =String.valueOf(f03.getFyxsjje());
-				String zbxsjje =String.valueOf(f03.getZbxsjje());
-				//System.out.println("==============fyxsjje:"+fyxsjje);
-					if (name.equals("fyxsjje")) {
-						
-						if(fyxsjje!=null && !fyxsjje.equals("null")  && !fyxsjje.equals(""))
-						{
-							dataList.add(String.format("%.2f", Double.valueOf(fyxsjje)/10000));
-							
-						}else
-						{
-							dataList.add(0);
-						}
-						
-						
+
+				String fyxsjje = String.valueOf(f03.getFyxsjje());
+				String zbxsjje = String.valueOf(f03.getZbxsjje());
+				// System.out.println("==============fyxsjje:"+fyxsjje);
+				if (name.equals("fyxsjje")) {
+
+					if (fyxsjje != null && !fyxsjje.equals("null") && !fyxsjje.equals("")) {
+						dataList.add(String.format("%.2f", Double.valueOf(fyxsjje) / 10000));
+
+					} else {
+						dataList.add(0);
 					}
-					if (name.equals("zbxsjje")) {
-						
-						if(zbxsjje!=null)
-						{
-							dataList.add(String.format("%.2f", Double.valueOf(zbxsjje)/10000));
-						}else
-						{
-							dataList.add(0);
-						}
-						
-						
-						
+
+				}
+				if (name.equals("zbxsjje")) {
+
+					if (zbxsjje != null) {
+						dataList.add(String.format("%.2f", Double.valueOf(zbxsjje) / 10000));
+					} else {
+						dataList.add(0);
 					}
-					
+
 				}
 
-				
+			}
 
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	public static ChartBarLineSeries getAward_trend_analysis_01(List<Award> list, String name)throws Exception  {
-		
+
+	public static ChartBarLineSeries getAward_trend_analysis_01(List<Award> list, String name) throws Exception {
+
 		String year = HanaUtil.getCurrrentYear();
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("oneYearSl")) {
-			chartBarLineSeries.setName(Integer.valueOf(year)+"");
+			chartBarLineSeries.setName(Integer.valueOf(year) + "");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("twoYearSl")) {
-			chartBarLineSeries.setName((Integer.valueOf(year)-1)+"");
+			chartBarLineSeries.setName((Integer.valueOf(year) - 1) + "");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("treeYearSl")) {
-			chartBarLineSeries.setName((Integer.valueOf(year)-2)+"");
+			chartBarLineSeries.setName((Integer.valueOf(year) - 2) + "");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("fourYearSl")) {
-			chartBarLineSeries.setName((Integer.valueOf(year)-3)+"");
+			chartBarLineSeries.setName((Integer.valueOf(year) - 3) + "");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("fiveYearSl")) {
-			chartBarLineSeries.setName((Integer.valueOf(year)-4)+"");
+			chartBarLineSeries.setName((Integer.valueOf(year) - 4) + "");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				Award f03 = list.get(i);
-				Integer oneYearSl = (Integer)f03.getOneYearSl();
-				Integer twoYearSl =  (Integer)f03.getTwoYearSl();
-				Integer treeYearSl =  (Integer)f03.getTreeYearSl();
-				Integer fourYearSl =  (Integer)f03.getFourYearSl();
-				Integer fiveYearSl =  (Integer)f03.getFiveYearSl();
-					if (name.equals("oneYearSl")) {
-						
-						if(oneYearSl!=null)
-						{
-							dataList.add(oneYearSl);
-						}else
-						{
-							dataList.add(0);
-						}
-						
-						
+				Integer oneYearSl = (Integer) f03.getOneYearSl();
+				Integer twoYearSl = (Integer) f03.getTwoYearSl();
+				Integer treeYearSl = (Integer) f03.getTreeYearSl();
+				Integer fourYearSl = (Integer) f03.getFourYearSl();
+				Integer fiveYearSl = (Integer) f03.getFiveYearSl();
+				if (name.equals("oneYearSl")) {
+
+					if (oneYearSl != null) {
+						dataList.add(oneYearSl);
+					} else {
+						dataList.add(0);
 					}
-					if (name.equals("twoYearSl")) 
-					{
-						
-						if(twoYearSl!=null)
-						{
-							dataList.add(twoYearSl);
-						}else
-						{
-							dataList.add(0);
-						}
+
+				}
+				if (name.equals("twoYearSl")) {
+
+					if (twoYearSl != null) {
+						dataList.add(twoYearSl);
+					} else {
+						dataList.add(0);
 					}
-					
-					
-					if (name.equals("treeYearSl")) 
-					{
-						
-						if(treeYearSl!=null)
-						{
-							dataList.add(treeYearSl);
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					
-					
-					
-					if (name.equals("fourYearSl")) 
-					{
-						
-						if(fourYearSl!=null)
-						{
-							dataList.add(fourYearSl);
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					
-					
-					
-					if (name.equals("fiveYearSl")) 
-					{
-						
-						if(fiveYearSl!=null)
-						{
-							dataList.add(fiveYearSl);
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					
-					
 				}
 
-				
+				if (name.equals("treeYearSl")) {
+
+					if (treeYearSl != null) {
+						dataList.add(treeYearSl);
+					} else {
+						dataList.add(0);
+					}
+				}
+
+				if (name.equals("fourYearSl")) {
+
+					if (fourYearSl != null) {
+						dataList.add(fourYearSl);
+					} else {
+						dataList.add(0);
+					}
+				}
+
+				if (name.equals("fiveYearSl")) {
+
+					if (fiveYearSl != null) {
+						dataList.add(fiveYearSl);
+					} else {
+						dataList.add(0);
+					}
+				}
+
+			}
 
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-public static ChartBarLineSeries getAward_trend_analysis_03(List<Award> list, String name)throws Exception  {
-		
-	
+
+	public static ChartBarLineSeries getAward_trend_analysis_03(List<Award> list, String name) throws Exception {
+
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("sylzSl")) {
 			chartBarLineSeries.setName("石油炼制");
@@ -4515,101 +3909,74 @@ public static ChartBarLineSeries getAward_trend_analysis_03(List<Award> list, St
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				Award f03 = list.get(i);
-				Integer sylzSl = (Integer)f03.getSylzSl();
-				Integer yqkfSl =  (Integer)f03.getYqkfSl();
-				Integer hghqSl =  (Integer)f03.getHghqSl();
-				Integer sbaqSl =  (Integer)f03.getSbaqSl();
-				Integer yqktSl =  (Integer)f03.getYqktSl();
-				Integer xxzhSl =  (Integer)f03.getXxzhSl();
-					if (name.equals("sylzSl")) {
-						
-						if(sylzSl!=null)
-						{
-							dataList.add(sylzSl);
-						}else
-						{
-							dataList.add(0);
-						}
-						
-						
+				Integer sylzSl = (Integer) f03.getSylzSl();
+				Integer yqkfSl = (Integer) f03.getYqkfSl();
+				Integer hghqSl = (Integer) f03.getHghqSl();
+				Integer sbaqSl = (Integer) f03.getSbaqSl();
+				Integer yqktSl = (Integer) f03.getYqktSl();
+				Integer xxzhSl = (Integer) f03.getXxzhSl();
+				if (name.equals("sylzSl")) {
+
+					if (sylzSl != null) {
+						dataList.add(sylzSl);
+					} else {
+						dataList.add(0);
 					}
-					if (name.equals("yqkfSl")) 
-					{
-						
-						if(yqkfSl!=null)
-						{
-							dataList.add(yqkfSl);
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					
-					
-					if (name.equals("hghqSl")) 
-					{
-						
-						if(hghqSl!=null)
-						{
-							dataList.add(hghqSl);
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					
-					
-					
-					if (name.equals("sbaqSl")) 
-					{
-						
-						if(sbaqSl!=null)
-						{
-							dataList.add(sbaqSl);
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					
-					
-					
-					if (name.equals("yqktSl")) 
-					{
-						
-						if(yqktSl!=null)
-						{
-							dataList.add(yqktSl);
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					
-					if (name.equals("xxzhSl")) 
-					{
-						
-						if(xxzhSl!=null)
-						{
-							dataList.add(xxzhSl);
-						}else
-						{
-							dataList.add(0);
-						}
+
+				}
+				if (name.equals("yqkfSl")) {
+
+					if (yqkfSl != null) {
+						dataList.add(yqkfSl);
+					} else {
+						dataList.add(0);
 					}
 				}
 
-				
+				if (name.equals("hghqSl")) {
+
+					if (hghqSl != null) {
+						dataList.add(hghqSl);
+					} else {
+						dataList.add(0);
+					}
+				}
+
+				if (name.equals("sbaqSl")) {
+
+					if (sbaqSl != null) {
+						dataList.add(sbaqSl);
+					} else {
+						dataList.add(0);
+					}
+				}
+
+				if (name.equals("yqktSl")) {
+
+					if (yqktSl != null) {
+						dataList.add(yqktSl);
+					} else {
+						dataList.add(0);
+					}
+				}
+
+				if (name.equals("xxzhSl")) {
+
+					if (xxzhSl != null) {
+						dataList.add(xxzhSl);
+					} else {
+						dataList.add(0);
+					}
+				}
+			}
 
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
 
-	
-public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, String name)throws Exception  {
-		
+	public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, String name) throws Exception {
+
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("kjjbjSl")) {
 			chartBarLineSeries.setName("科技进步奖");
@@ -4624,56 +3991,43 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				Award f03 = list.get(i);
-				Integer kjjbjSl = (Integer)f03.getKjjbjSl();
-				Integer jsfmjSl =  (Integer)f03.getJsfmjSl();
-				Integer yjkxSl =  (Integer)f03.getYjkxSl();
-					if (name.equals("kjjbjSl"))
-					{
-						
-						if(kjjbjSl!=null)
-						{
-							dataList.add(kjjbjSl);
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					if (name.equals("jsfmjSl")) 
-					{
-						
-						if(jsfmjSl!=null)
-						{
-							dataList.add(jsfmjSl);
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					
-					if (name.equals("yjkxSl")) 
-					{
-						
-						if(yjkxSl!=null)
-						{
-							dataList.add(yjkxSl);
-						}else
-						{
-							dataList.add(0);
-						}
+				Integer kjjbjSl = (Integer) f03.getKjjbjSl();
+				Integer jsfmjSl = (Integer) f03.getJsfmjSl();
+				Integer yjkxSl = (Integer) f03.getYjkxSl();
+				if (name.equals("kjjbjSl")) {
+
+					if (kjjbjSl != null) {
+						dataList.add(kjjbjSl);
+					} else {
+						dataList.add(0);
 					}
 				}
+				if (name.equals("jsfmjSl")) {
+
+					if (jsfmjSl != null) {
+						dataList.add(jsfmjSl);
+					} else {
+						dataList.add(0);
+					}
+				}
+
+				if (name.equals("yjkxSl")) {
+
+					if (yjkxSl != null) {
+						dataList.add(yjkxSl);
+					} else {
+						dataList.add(0);
+					}
+				}
+			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
 
-	
 	public static ChartBarLineSeries getAchievements_trend_analysis_01(List<AchievementsAnalysis> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -4694,58 +4048,43 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				AchievementsAnalysis f03 = list.get(i);
-				Integer thisYearSl = (Integer)f03.getThisYearSl();
-				Integer lastYearSl =  (Integer)f03.getLastYearSl();
-				Integer beforeYearSl =  (Integer)f03.getBeforeYearSl();
-					if (name.equals("thisYearSl")) {
-						
-						if(thisYearSl!=null)
-						{
-							dataList.add(thisYearSl);
-						}else
-						{
-							dataList.add(0);
-						}
-						
-						
+				Integer thisYearSl = (Integer) f03.getThisYearSl();
+				Integer lastYearSl = (Integer) f03.getLastYearSl();
+				Integer beforeYearSl = (Integer) f03.getBeforeYearSl();
+				if (name.equals("thisYearSl")) {
+
+					if (thisYearSl != null) {
+						dataList.add(thisYearSl);
+					} else {
+						dataList.add(0);
 					}
-					if (name.equals("lastYearSl")) 
-					{
-						
-						if(lastYearSl!=null)
-						{
-							dataList.add(lastYearSl);
-						}else
-						{
-							dataList.add(0);
-						}
+
+				}
+				if (name.equals("lastYearSl")) {
+
+					if (lastYearSl != null) {
+						dataList.add(lastYearSl);
+					} else {
+						dataList.add(0);
 					}
-					
-					
-					if (name.equals("beforeYearSl")) 
-					{
-						
-						if(beforeYearSl!=null)
-						{
-							dataList.add(beforeYearSl);
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					
-					
 				}
 
-				
+				if (name.equals("beforeYearSl")) {
+
+					if (beforeYearSl != null) {
+						dataList.add(beforeYearSl);
+					} else {
+						dataList.add(0);
+					}
+				}
+
+			}
 
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getAchievements_trend_analysis_02(List<AchievementsAnalysis> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -4766,57 +4105,43 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				AchievementsAnalysis f03 = list.get(i);
-				Integer gyhsl = (Integer)f03.getGyhsl();
-				Integer gysysl =  (Integer)f03.getGysysl();
-				Integer qtsl =  (Integer)f03.getQtsl();
-					if (name.equals("thisYearSl")) {
-						
-						if(gyhsl!=null)
-						{
-							dataList.add(gyhsl);
-						}else
-						{
-							dataList.add(0);
-						}
-						
-						
+				Integer gyhsl = (Integer) f03.getGyhsl();
+				Integer gysysl = (Integer) f03.getGysysl();
+				Integer qtsl = (Integer) f03.getQtsl();
+				if (name.equals("thisYearSl")) {
+
+					if (gyhsl != null) {
+						dataList.add(gyhsl);
+					} else {
+						dataList.add(0);
 					}
-					if (name.equals("gysysl")) 
-					{
-						
-						if(gysysl!=null)
-						{
-							dataList.add(gysysl);
-						}else
-						{
-							dataList.add(0);
-						}
+
+				}
+				if (name.equals("gysysl")) {
+
+					if (gysysl != null) {
+						dataList.add(gysysl);
+					} else {
+						dataList.add(0);
 					}
-					
-					
-					if (name.equals("qtsl")) 
-					{
-						
-						if(qtsl!=null)
-						{
-							dataList.add(qtsl);
-						}else
-						{
-							dataList.add(0);
-						}
-					}
-					
-					
 				}
 
-				
+				if (name.equals("qtsl")) {
+
+					if (qtsl != null) {
+						dataList.add(qtsl);
+					} else {
+						dataList.add(0);
+					}
+				}
+
+			}
 
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
+
 	public static ChartBarLineSeries getTenDragonChartBarLineSeries(List<ProjectForMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -4828,50 +4153,39 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			chartBarLineSeries.setName("重大项目");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				ProjectForMysql f03 = list.get(i);
-				Integer stlxm = (Integer)f03.getStlxm();
-				Integer zdzx =  (Integer)f03.getZdzx();
-				
-					if (name.equals("stlxm")) {
-						
-						if(stlxm!=null)
-						{
-							dataList.add(stlxm);
-						}else
-						{
-							dataList.add(0);
-						}
-						
-						
+				Integer stlxm = (Integer) f03.getStlxm();
+				Integer zdzx = (Integer) f03.getZdzx();
+
+				if (name.equals("stlxm")) {
+
+					if (stlxm != null) {
+						dataList.add(stlxm);
+					} else {
+						dataList.add(0);
 					}
-					if (name.equals("zdzx")) {
-						
-						if(zdzx!=null)
-						{
-							dataList.add(zdzx);
-						}else
-						{
-							dataList.add(0);
-						}
-						
-						
-						
+
+				}
+				if (name.equals("zdzx")) {
+
+					if (zdzx != null) {
+						dataList.add(zdzx);
+					} else {
+						dataList.add(0);
 					}
-					
+
 				}
 
-				
+			}
 
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
 
 	public static ChartBarLineSeries getProjectCountForMysqlChartBarLineSeries(List<ProjectForMysql> list, String name) {
 
@@ -4884,57 +4198,42 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			chartBarLineSeries.setName("结转课题");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				ProjectForMysql f03 = list.get(i);
-				Integer xksl = (Integer)f03.getXksl();
-				Integer xjsl =  (Integer)f03.getXjsl();
-				String zycmc= f03.getZycmc();
-				if(zycmc!=null)
-				{
+				Integer xksl = (Integer) f03.getXksl();
+				Integer xjsl = (Integer) f03.getXjsl();
+				String zycmc = f03.getZycmc();
+				if (zycmc != null) {
 					if (name.equals("xksl")) {
-						
-						if(xksl!=null)
-						{
+
+						if (xksl != null) {
 							dataList.add(xksl);
-						}else
-						{
+						} else {
 							dataList.add(0);
 						}
-						
-						
+
 					}
 					if (name.equals("xjsl")) {
-						
-						if(xjsl!=null)
-						{
+
+						if (xjsl != null) {
 							dataList.add(xjsl);
-						}else
-						{
+						} else {
 							dataList.add(0);
 						}
-						
-						
-						
-					}
-					
-				}
 
-				
+					}
+
+				}
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	
-	
+
 	public static ChartBarLineSeries getProjectForMysqlChartBarLineSeries(List<ProjectForMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -4946,55 +4245,39 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			chartBarLineSeries.setName("结转课题");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				ProjectForMysql f03 = list.get(i);
-				Integer xksl = (Integer)f03.getXksl();
-				Integer xjsl =  (Integer)f03.getXjsl();
-				
-					if (name.equals("xksl")) {
-						
-						if(xksl!=null)
-						{
-							dataList.add(xksl);
-						}else
-						{
-							dataList.add(0);
-						}
-						
-						
-					}
-					if (name.equals("xjsl")) {
-						
-						if(xjsl!=null)
-						{
-							dataList.add(xjsl);
-						}else
-						{
-							dataList.add(0);
-						}
-						
-						
-						
-					}
-					
-				
+				Integer xksl = (Integer) f03.getXksl();
+				Integer xjsl = (Integer) f03.getXjsl();
 
-				
+				if (name.equals("xksl")) {
+
+					if (xksl != null) {
+						dataList.add(xksl);
+					} else {
+						dataList.add(0);
+					}
+
+				}
+				if (name.equals("xjsl")) {
+
+					if (xjsl != null) {
+						dataList.add(xjsl);
+					} else {
+						dataList.add(0);
+					}
+
+				}
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	
-	
+
 	public static ChartBarLineSeries getHomeProjectLevel2ChartBarLineSeries(List<H1AMKYSY100109> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -5006,7 +4289,6 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			chartBarLineSeries.setName("结转课题");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
@@ -5015,43 +4297,31 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 				String K0BNXMXKSL = f03.getK0BNXMXKSL();
 				String K0BNXMXJSL = f03.getK0BNXMXJSL();
 
-
 				if (name.equals("K0BNXMXKSL")) {
-					
-					if(K0BNXMXKSL!=null)
-					{
+
+					if (K0BNXMXKSL != null) {
 						dataList.add(Double.valueOf(K0BNXMXKSL).intValue());
-					}else
-					{
+					} else {
 						dataList.add(0);
 					}
-					
-					
+
 				}
 				if (name.equals("K0BNXMXJSL")) {
-					
-					if(K0BNXMXJSL!=null)
-					{
+
+					if (K0BNXMXJSL != null) {
 						dataList.add(Double.valueOf(K0BNXMXJSL).intValue());
-					}else
-					{
+					} else {
 						dataList.add(0);
 					}
-					
-					
-					
+
 				}
-				
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	
+
 	public static ChartBarLineSeries getJFZCLevel2ChartBarLineSeries(List<H1AMKYSY100104> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -5071,7 +4341,6 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			chartBarLineSeries.setSmooth(true);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
@@ -5079,7 +4348,6 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 				H1AMKYSY100104 f03 = list.get(i);
 				BigDecimal K0BNYSJHJE = f03.getK0BNYSJHJE();
 				String K0BNGLFPHJECB = f03.getK0BNGLFPHJECB();
-				
 
 				if (name.equals("K0BNYSJHJE")) {
 					dataList.add(K0BNYSJHJE.toString());
@@ -5087,19 +4355,17 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 				if (name.equals("K0BNGLFPHJECB")) {
 					dataList.add(Double.valueOf(K0BNGLFPHJECB).intValue());
 				}
-				
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
 
 	public static ChartBarLineSeries getChartBarLineSeries_HOMPAGE_bar(List<H1AMKYSY100109> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		
+
 		if (name.equals("K0BNXMWGSL")) {
 			chartBarLineSeries.setName("完工项目");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
@@ -5117,14 +4383,12 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				H1AMKYSY100109 f03 = list.get(i);
-				
+
 				String K0BNXMWGSL = f03.getK0BNXMWGSL();
 				String K0BNXMYQSL = f03.getK0BNXMYQSL();
 				String K0BNXMWJSL = f03.getK0BNXMWJSL();
 				int K0BNXMWJSL_v = Double.valueOf(K0BNXMWJSL).intValue();
 
-			
-				
 				if (name.equals("K0BNXMWGSL")) {
 					dataList.add(Double.valueOf(K0BNXMWGSL).intValue());
 				}
@@ -5140,118 +4404,97 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getChartBarLineSeries_budget_unit_mysql_bar(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		
+
 		if (name.equals("zbje")) {
 			chartBarLineSeries.setName("资本性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+
 		if (name.equals("fyje")) {
 			chartBarLineSeries.setName("费用性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+
 		if (name.equals("zje")) {
 			chartBarLineSeries.setName("总计");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-				
-				
-				
-				String zbje =((BigDecimal)f03.getZbje()).toString();
-				String fyje =((BigDecimal)f03.getFyje()).toString();
-				String zje =((BigDecimal)f03.getZje()).toString();
+
+				String zbje = ((BigDecimal) f03.getZbje()).toString();
+				String fyje = ((BigDecimal) f03.getFyje()).toString();
+				String zje = ((BigDecimal) f03.getZje()).toString();
 				if (name.equals("zbje")) {
-					
+
 					dataList.add(String.format("%.2f", Double.valueOf(zbje)));
 				}
 				if (name.equals("fyje")) {
-					
-					
+
 					dataList.add(String.format("%.2f", Double.valueOf(fyje)));
 				}
-               if (name.equals("zje")) {
-					
+				if (name.equals("zje")) {
+
 					dataList.add(String.format("%.2f", Double.valueOf(zje)));
 				}
-				
-				
-			chartBarLineSeries.setData(dataList);
+
+				chartBarLineSeries.setData(dataList);
+			}
 		}
-		}
-		
-		
-		
-		
+
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	
+
 	public static ChartBarLineSeries getChartBarLineSeries_budget_unit_meony(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zbxrate")) {
 			chartBarLineSeries.setName("资本性");
-			
+
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
-		
+
 		if (name.equals("fyxrate")) {
 			chartBarLineSeries.setName("费用性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
-		
+
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-				String zbxrate =((BigDecimal)f03.getZbxrate()).toString();
-				String fyxrate =((BigDecimal)f03.getFyxrate()).toString();
-				
-				
+				String zbxrate = ((BigDecimal) f03.getZbxrate()).toString();
+				String fyxrate = ((BigDecimal) f03.getFyxrate()).toString();
+
 				if (name.equals("zbxrate")) {
-					
+
 					dataList.add(String.format("%.2f", Double.valueOf(zbxrate)));
-					
+
 				}
 				if (name.equals("fyxrate")) {
-					
+
 					dataList.add(String.format("%.2f", Double.valueOf(fyxrate)));
-					
+
 				}
-				
-			chartBarLineSeries.setData(dataList);
+
+				chartBarLineSeries.setData(dataList);
+			}
 		}
-		}
-		
+
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getChartBarLineSeries_budget_unit_mysql_bar_03(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		
-		
-		
+
 		if (name.equals("zje")) {
 			chartBarLineSeries.setName("总计");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
@@ -5260,65 +4503,50 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			chartBarLineSeries.setName("资本性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+
 		if (name.equals("fyxje")) {
 			chartBarLineSeries.setName("费用性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
-		
+
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-				
-			
-				
-				String fyxje =((BigDecimal)f03.getFyxje()).toString();
-				String zbxje =((BigDecimal)f03.getZbxje()).toString();
-				
-				String zje =((BigDecimal)f03.getZje()).toString();
-				
-				
-				
-				
+
+				String fyxje = ((BigDecimal) f03.getFyxje()).toString();
+				String zbxje = ((BigDecimal) f03.getZbxje()).toString();
+
+				String zje = ((BigDecimal) f03.getZje()).toString();
+
 				if (name.equals("fyxje")) {
-					
+
 					dataList.add(String.format("%.2f", Double.valueOf(fyxje)));
-					
+
 				}
 				if (name.equals("zbxje")) {
-					
+
 					dataList.add(String.format("%.2f", Double.valueOf(zbxje)));
-					
+
 				}
-				
-                if (name.equals("zje")) 
-                {
-                	
+
+				if (name.equals("zje")) {
+
 					dataList.add(String.format("%.2f", Double.valueOf(zje)));
-					
+
 				}
-				
-				
-			chartBarLineSeries.setData(dataList);
+
+				chartBarLineSeries.setData(dataList);
+			}
 		}
-		}
-		
-		
+
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getChartBarLineSeries_budget_unit_mysql_bar_02(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		
-		
-		
+
 		if (name.equals("zje")) {
 			chartBarLineSeries.setName("总计");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
@@ -5327,353 +4555,276 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			chartBarLineSeries.setName("资本性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+
 		if (name.equals("fyxje")) {
 			chartBarLineSeries.setName("费用性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
-		
+
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-				
-				String fyxje ="0";
-				String zbxje ="0";
-				Object f03o=f03.getFyxje();
-				Object f03tt=f03.getZbxje();
-				if(f03o!=null)
-				{
-					fyxje =((BigDecimal)f03.getFyxje()).toString();
+
+				String fyxje = "0";
+				String zbxje = "0";
+				Object f03o = f03.getFyxje();
+				Object f03tt = f03.getZbxje();
+				if (f03o != null) {
+					fyxje = ((BigDecimal) f03.getFyxje()).toString();
 				}
-				if(f03tt!=null)
-				{
-					zbxje =((BigDecimal)f03.getZbxje()).toString();
+				if (f03tt != null) {
+					zbxje = ((BigDecimal) f03.getZbxje()).toString();
 				}
-				
-				
-				
-				
-				
-				
+
 				if (name.equals("fyxje")) {
-					
+
 					dataList.add(String.format("%.2f", Double.valueOf(fyxje)));
-					
+
 				}
 				if (name.equals("zbxje")) {
-					
+
 					dataList.add(String.format("%.2f", Double.valueOf(zbxje)));
-					
+
 				}
-				
-				
-				
-			chartBarLineSeries.setData(dataList);
+
+				chartBarLineSeries.setData(dataList);
+			}
 		}
-		}
-		
-		
+
 		return chartBarLineSeries;
 	}
-	
-	
+
 	public static ChartBarLineSeries getChartBarLineSeries_PAY02_bar02(List<H1AMKYSY10010902> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		
+
 		if (name.equals("K0BNZBJE")) {
 			chartBarLineSeries.setName("资本性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+
 		if (name.equals("K0BNFYJE")) {
 			chartBarLineSeries.setName("费用性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+
 		if (name.equals("K0BNYSJHJE")) {
 			chartBarLineSeries.setName("总计");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				H1AMKYSY10010902 f03 = list.get(i);
-				
+
 				BigDecimal K0BNZBJE = f03.getK0BNZBJE();
 				BigDecimal K0BNFYJE = f03.getK0BNFYJE();
 				BigDecimal K0BNYSJHJE = f03.getK0BNYSJHJE();
-				
-				//System.out.println(">>>>>>>>>>>>>>>K0BNYSJHJE= " + K0BNYSJHJE+" K0BNZBJE="+K0BNZBJE+" K0BNFYJE="+K0BNFYJE);
+
+				// System.out.println(">>>>>>>>>>>>>>>K0BNYSJHJE= " +
+				// K0BNYSJHJE+" K0BNZBJE="+K0BNZBJE+" K0BNFYJE="+K0BNFYJE);
 				if (name.equals("K0BNZBJE")) {
-					
-					if (K0BNZBJE!=null) 
-					{
-						
-						//dataList.add(String.format("%.2f", Double.valueOf(K0BNZBJE.toString())));
-						
-						
+
+					if (K0BNZBJE != null) {
+
+						// dataList.add(String.format("%.2f",
+						// Double.valueOf(K0BNZBJE.toString())));
+
 						dataList.add(K0BNZBJE.setScale(2, BigDecimal.ROUND_DOWN));
-						
-					}else
-					{
+
+					} else {
 						dataList.add("0.00");
 					}
-					
+
 				}
 				if (name.equals("K0BNFYJE")) {
-					
-					
-					if (K0BNFYJE!=null) 
-					{
-						//dataList.add(String.format("%.2f", Double.valueOf(K0BNFYJE.toString())));
-						
+
+					if (K0BNFYJE != null) {
+						// dataList.add(String.format("%.2f",
+						// Double.valueOf(K0BNFYJE.toString())));
+
 						dataList.add(K0BNFYJE.setScale(2, BigDecimal.ROUND_DOWN));
-						
-					}else
-					{
+
+					} else {
 						dataList.add("0.00");
 					}
-					
-					
-					
+
 				}
-               if (name.equals("K0BNYSJHJE")) {
-					
-					
-            	   if (K0BNYSJHJE!=null) 
-					{
-            		   
-            		   dataList.add(K0BNYSJHJE.setScale(2, BigDecimal.ROUND_DOWN));
-            		  // dataList.add(String.format("%.2f", Double.valueOf(K0BNYSJHJE.toString())));
-					}else
-					{
+				if (name.equals("K0BNYSJHJE")) {
+
+					if (K0BNYSJHJE != null) {
+
+						dataList.add(K0BNYSJHJE.setScale(2, BigDecimal.ROUND_DOWN));
+						// dataList.add(String.format("%.2f",
+						// Double.valueOf(K0BNYSJHJE.toString())));
+					} else {
 						dataList.add("0.00");
 					}
-					
-					
-					
+
 				}
-				
-				
-			chartBarLineSeries.setData(dataList);
+
+				chartBarLineSeries.setData(dataList);
+			}
 		}
-		}
-		
-		
-		
-		
+
 		return chartBarLineSeries;
 	}
-	
-	
 
 	public static ChartBarLineSeries getChartBarLineSeries_PAY02_bar(List<H1AMKYSY100109> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		
+
 		if (name.equals("K0BNZBJE")) {
 			chartBarLineSeries.setName("资本性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+
 		if (name.equals("K0BNFYJE")) {
 			chartBarLineSeries.setName("费用性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+
 		if (name.equals("K0BNYSJHJE")) {
 			chartBarLineSeries.setName("总计");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				H1AMKYSY100109 f03 = list.get(i);
-				
+
 				String K0BNZBJE = f03.getK0BNZBJE();
 				String K0BNFYJE = f03.getK0BNFYJE();
 				String K0BNYSJHJE = f03.getK0BNYSJHJE();
-				
-				//System.out.println(">>>>>>>>>>>>>>>K0BNYSJHJE= " + K0BNYSJHJE+" K0BNZBJE="+K0BNZBJE+" K0BNFYJE="+K0BNFYJE);
+
+				// System.out.println(">>>>>>>>>>>>>>>K0BNYSJHJE= " +
+				// K0BNYSJHJE+" K0BNZBJE="+K0BNZBJE+" K0BNFYJE="+K0BNFYJE);
 				if (name.equals("K0BNZBJE")) {
-					
-					if (K0BNZBJE!=null) 
-					{
+
+					if (K0BNZBJE != null) {
 						dataList.add(String.format("%.2f", Double.valueOf(K0BNZBJE)));
-					}else
-					{
+					} else {
 						dataList.add("0.00");
 					}
-					
+
 				}
 				if (name.equals("K0BNFYJE")) {
-					
-					
-					if (K0BNFYJE!=null) 
-					{
+
+					if (K0BNFYJE != null) {
 						dataList.add(String.format("%.2f", Double.valueOf(K0BNFYJE)));
-					}else
-					{
+					} else {
 						dataList.add("0.00");
 					}
-					
-					
-					
+
 				}
-               if (name.equals("K0BNYSJHJE")) {
-					
-					
-            	   if (K0BNYSJHJE!=null) 
-					{
-            		   dataList.add(String.format("%.2f", Double.valueOf(K0BNYSJHJE)));
-					}else
-					{
+				if (name.equals("K0BNYSJHJE")) {
+
+					if (K0BNYSJHJE != null) {
+						dataList.add(String.format("%.2f", Double.valueOf(K0BNYSJHJE)));
+					} else {
 						dataList.add("0.00");
 					}
-					
-					
-					
+
 				}
-				
-				
-			chartBarLineSeries.setData(dataList);
+
+				chartBarLineSeries.setData(dataList);
+			}
 		}
-		}
-		
-		
-		
-		
+
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getChartBarLineSeries_budget_unit_bar(List<H1AMKYSY100109> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		
+
 		if (name.equals("K0BNZBJE")) {
 			chartBarLineSeries.setName("资本性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+
 		if (name.equals("K0BNFYJE")) {
 			chartBarLineSeries.setName("费用性");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+
 		if (name.equals("K0BNYSJHJE")) {
 			chartBarLineSeries.setName("总计");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				H1AMKYSY100109 f03 = list.get(i);
-				
+
 				String K0BNZBJE = f03.getK0BNZBJE();
 				String K0BNFYJE = f03.getK0BNFYJE();
 				String K0BNYSJHJE = f03.getK0BNYSJHJE();
-				
-				
+
 				if (name.equals("K0BNZBJE")) {
-					
-					
-					
-					
+
 					dataList.add(String.format("%.2f", Double.valueOf(K0BNZBJE)));
-					
-					
+
 				}
 				if (name.equals("K0BNFYJE")) {
-					
-					
+
 					dataList.add(String.format("%.2f", Double.valueOf(K0BNFYJE)));
-					
-					
+
 				}
-               if (name.equals("K0BNYSJHJE")) {
-					
-					
-					
+				if (name.equals("K0BNYSJHJE")) {
+
 					dataList.add(String.format("%.2f", Double.valueOf(K0BNYSJHJE)));
-					
-					
+
 				}
-				
-				
-			chartBarLineSeries.setData(dataList);
+
+				chartBarLineSeries.setData(dataList);
+			}
 		}
-		}
-		
-		
-		
-		
+
 		return chartBarLineSeries;
 	}
-	
-	
-	public static ChartBarLineSeries getChartBarLineSeries_knowledet_bar_year(List<Knowledge> list, String name,List<String> yearList) {
+
+	public static ChartBarLineSeries getChartBarLineSeries_knowledet_bar_year(List<Knowledge> list, String name, List<String> yearList) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (name.equals("sl1")) 
-		{
+		if (name.equals("sl1")) {
 			chartBarLineSeries.setName(yearList.get(0));
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("sl2")) 
-		{
+		if (name.equals("sl2")) {
 			chartBarLineSeries.setName(yearList.get(1));
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("sl3")) 
-		{
+		if (name.equals("sl3")) {
 			chartBarLineSeries.setName(yearList.get(2));
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				Knowledge knowledge = list.get(i);
 				Integer f01 = knowledge.getSl1();
 				Integer f02 = knowledge.getSl2();
 				Integer f03 = knowledge.getSl3();
-				if (name.equals("sl1")) 
-				{
+				if (name.equals("sl1")) {
 					dataList.add(f01);
 				}
-				if (name.equals("sl1")) 
-				{
+				if (name.equals("sl1")) {
 					dataList.add(f02);
 				}
-				if (name.equals("sl3")) 
-				{
+				if (name.equals("sl3")) {
 					dataList.add(f03);
 				}
-			    chartBarLineSeries.setData(dataList);
-		     }
+				chartBarLineSeries.setData(dataList);
+			}
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getChartBarLineSeries_budget_count_bar_mysql(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -5686,44 +4837,33 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-				String xkje = ((BigDecimal)f03.getXkje()).toString();
-				String xjje = ((BigDecimal)f03.getXjje()).toString();
-				if (name.equals("xkje")) 
-				{
+				String xkje = ((BigDecimal) f03.getXkje()).toString();
+				String xjje = ((BigDecimal) f03.getXjje()).toString();
+				if (name.equals("xkje")) {
 					dataList.add(String.format("%.2f", Double.valueOf(xkje)));
 				}
-				if (name.equals("xjje")) 
-				{
+				if (name.equals("xjje")) {
 					dataList.add(String.format("%.2f", Double.valueOf(xjje)));
 				}
-			    chartBarLineSeries.setData(dataList);
-		     }
+				chartBarLineSeries.setData(dataList);
+			}
 		}
-		
-		
-		
-		
+
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	
 
 	public static ChartBarLineSeries getChartBarLineSeries_budget_count_bar_02(List<H1AMKYSY10010902> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		
+
 		if (name.equals("K0BNYSJHJE")) {
 			chartBarLineSeries.setName("总计");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+
 		if (name.equals("K0BNXKJE")) {
 			chartBarLineSeries.setName("新开课题");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
@@ -5732,75 +4872,58 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			chartBarLineSeries.setName("结转课题");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				H1AMKYSY10010902 f03 = list.get(i);
-				
+
 				BigDecimal K0BNYSJHJE = f03.getK0BNYSJHJE();
 				BigDecimal K0BNXKJE = f03.getK0BNXKJE();
 				BigDecimal K0BNXJJE = f03.getK0BNXJJE();
-				
-				
+
 				if (name.equals("K0BNYSJHJE")) {
-					
-					
-					if(K0BNYSJHJE!=null)
-					{
+
+					if (K0BNYSJHJE != null) {
 						dataList.add(String.format("%.2f", Double.valueOf(K0BNYSJHJE.toString())));
-					}else
-					{
+					} else {
 						dataList.add("0.00");
 					}
 				}
 				if (name.equals("K0BNXKJE")) {
-					
-					
-					
-					if(K0BNXKJE!=null)
-					{
+
+					if (K0BNXKJE != null) {
 						dataList.add(String.format("%.2f", Double.valueOf(K0BNXKJE.toString())));
-					}else
-					{
+					} else {
 						dataList.add("0.00");
 					}
-					
-					
+
 				}
 				if (name.equals("K0BNXJJE")) {
-					
-					
-					if(K0BNXJJE!=null)
-					{
+
+					if (K0BNXJJE != null) {
 						dataList.add(String.format("%.2f", Double.valueOf(K0BNXJJE.toString())));
-					}else
-					{
+					} else {
 						dataList.add("0.00");
 					}
-					
+
 				}
-				
-			chartBarLineSeries.setData(dataList);
-		}
+
+				chartBarLineSeries.setData(dataList);
+			}
 		}
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getChartBarLineSeries_budget_count_bar(List<H1AMKYSY100109> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		
+
 		if (name.equals("K0BNYSJHJE")) {
 			chartBarLineSeries.setName("总计");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
+
 		if (name.equals("K0BNXKJE")) {
 			chartBarLineSeries.setName("新开课题");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
@@ -5809,99 +4932,66 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 			chartBarLineSeries.setName("结转课题");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				H1AMKYSY100109 f03 = list.get(i);
-				
+
 				String K0BNYSJHJE = f03.getK0BNYSJHJE();
 				String K0BNXKJE = f03.getK0BNXKJE();
 				String K0BNXJJE = f03.getK0BNXJJE();
-				
-				
+
 				if (name.equals("K0BNYSJHJE")) {
-					
-					
-					if(K0BNYSJHJE!=null)
-					{
+
+					if (K0BNYSJHJE != null) {
 						dataList.add(String.format("%.2f", Double.valueOf(K0BNYSJHJE)));
-					}else
-					{
+					} else {
 						dataList.add("0.00");
 					}
 				}
 				if (name.equals("K0BNXKJE")) {
-					
-					
-					
-					if(K0BNXKJE!=null)
-					{
+
+					if (K0BNXKJE != null) {
 						dataList.add(String.format("%.2f", Double.valueOf(K0BNXKJE)));
-					}else
-					{
+					} else {
 						dataList.add("0.00");
 					}
-					
-					
+
 				}
 				if (name.equals("K0BNXJJE")) {
-					
-					
-					if(K0BNXJJE!=null)
-					{
+
+					if (K0BNXJJE != null) {
 						dataList.add(String.format("%.2f", Double.valueOf(K0BNXJJE)));
-					}else
-					{
+					} else {
 						dataList.add("0.00");
 					}
-					
-					
-					
-					
-					
-					
-					
-				
-					
-					
+
 				}
-				
-			chartBarLineSeries.setData(dataList);
+
+				chartBarLineSeries.setData(dataList);
+			}
 		}
-		}
-		
-		
-		
-		
+
 		return chartBarLineSeries;
 	}
-	
-	
-	
-	public static ChartBarLineSeries getChartBarLineSeries_ProjectForMysql_bar(List<ProjectForMysql> list,List<String> xAxisDataList , String name) 
-	{
-		
+
+	public static ChartBarLineSeries getChartBarLineSeries_ProjectForMysql_bar(List<ProjectForMysql> list, List<String> xAxisDataList, String name) {
+
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
-				ProjectForMysql fpm= list.get(i);
-			    String str	=fpm.getProject_scope();
-			    if(str.equals(name))
-			    {
-			    	
-			    }
-				
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				ProjectForMysql fpm = list.get(i);
+				String str = fpm.getProject_scope();
+				if (str.equals(name)) {
+
+				}
+
 			}
 		}
 		return null;
 	}
-	
+
 	public static ChartBarLineSeries getChartBarLineSeries_Project_bar(List<H1AMKYSY100109> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -5927,93 +5017,72 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		}
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				H1AMKYSY100109 f03 = list.get(i);
-				
+
 				String K0BNXMXKSL = f03.getK0BNXMXKSL();
 				String K0BNXMXJSL = f03.getK0BNXMXJSL();
 				String K0BNXMWGSL = f03.getK0BNXMWGSL();
 				String K0BNXMYQSL = f03.getK0BNXMYQSL();
 				String K0BNXMWJSL = f03.getK0BNXMWJSL();
 				if (name.equals("K0BNXMXKSL")) {
-					if(K0BNXMXKSL!=null)
-					{
+					if (K0BNXMXKSL != null) {
 						dataList.add(Double.valueOf(K0BNXMXKSL).intValue());
-					}else
-					{
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
 				if (name.equals("K0BNXMXJSL")) {
-					if(K0BNXMXJSL!=null)
-					{
+					if (K0BNXMXJSL != null) {
 						dataList.add(Double.valueOf(K0BNXMXJSL).intValue());
-					}else
-					{
+					} else {
 						dataList.add(0);
 					}
-					
-					
+
 				}
 				if (name.equals("K0BNXMWGSL")) {
-					
-					if(K0BNXMWGSL!=null)
-					{
+
+					if (K0BNXMWGSL != null) {
 						dataList.add(Double.valueOf(K0BNXMWGSL).intValue());
-					}else
-					{
+					} else {
 						dataList.add(0);
 					}
-					
-					
+
 				}
 				if (name.equals("K0BNXMYQSL")) {
-					
-					if(K0BNXMYQSL!=null)
-					{
+
+					if (K0BNXMYQSL != null) {
 						dataList.add(Double.valueOf(K0BNXMYQSL).intValue());
-					}else
-					{
+					} else {
 						dataList.add(0);
 					}
-					
-					
+
 				}
 				if (name.equals("K0BNXMWJSL")) {
-					
-					
-					if(K0BNXMWJSL!=null)
-					{
-						
+
+					if (K0BNXMWJSL != null) {
+
 						dataList.add(Double.valueOf(K0BNXMWJSL).intValue());
-						
-					}else
-					{
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
-		
-		
-		
-		
+
 		return chartBarLineSeries;
 	}
-	
-	
-	
+
 	public static ChartBarLineSeries getChartBarLineSeries_JFZC_bar(List<H1AMKYSY100104> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		
+
 		if (name.equals("K0BNYSJHJE")) {
 			chartBarLineSeries.setName("经费下达 ");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
@@ -6027,12 +5096,10 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				H1AMKYSY100104 f03 = list.get(i);
-				
+
 				BigDecimal K0BNYSJHJE = f03.getK0BNYSJHJE();
 				String K0BNGLFPHJECB = f03.getK0BNGLFPHJECB();
 
-			
-				
 				if (name.equals("K0BNYSJHJE")) {
 					dataList.add(K0BNYSJHJE.toString());
 				}
@@ -6045,10 +5112,8 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		}
 		return chartBarLineSeries;
 	}
-	
 
-	public static ChartBarLineSeries getChartBarLineSeries_BrandConstructionPay(List<BrandConstructionPay> list,
-			String name) {
+	public static ChartBarLineSeries getChartBarLineSeries_BrandConstructionPay(List<BrandConstructionPay> list, String name) {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("K0BNJE")) {
 			chartBarLineSeries.setName("本期");
@@ -6071,10 +5136,10 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 				String k0BNJE = f03.getK0BNJE();// 本期
 				String k0SNJE = f03.getK0SNJE();// 同期
 				String K0TQBL = f03.getK0TQBL();// 同比
-				
-				k0BNJE=String.format("%.2f", Double.valueOf(k0BNJE));
-				k0SNJE=String.format("%.2f", Double.valueOf(k0SNJE));
-				K0TQBL=String.format("%.2f", Double.valueOf(K0TQBL));
+
+				k0BNJE = String.format("%.2f", Double.valueOf(k0BNJE));
+				k0SNJE = String.format("%.2f", Double.valueOf(k0SNJE));
+				K0TQBL = String.format("%.2f", Double.valueOf(K0TQBL));
 
 				if (name.equals("K0BNJE")) {
 					dataList.add(k0BNJE);
@@ -6091,67 +5156,65 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		}
 		return chartBarLineSeries;
 	}
-	public static List<TreeNode2> getChildChartCircleuContract02(List<String>  listLevel1Title,List<Contract> listAll) 
-	{
-		
+
+	public static List<TreeNode2> getChildChartCircleuContract02(List<String> listLevel1Title, List<Contract> listAll) {
+
 		List<TreeNode2> resut = new ArrayList();
-		for(int i=0;i<listLevel1Title.size();i++)
-		{
-			String title=listLevel1Title.get(i);
-			TreeNode2 node=new TreeNode2();
-			node.setId("999"+String.valueOf(i));
+		for (int i = 0; i < listLevel1Title.size(); i++) {
+			String title = listLevel1Title.get(i);
+			TreeNode2 node = new TreeNode2();
+			node.setId("999" + String.valueOf(i));
 			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
 			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
 			node.setLay_is_open(true);
-			int extend01_count=0;
-			int extend02_count=0;
-			for (int j = 0; j < listAll.size(); j++) 
-			{
-				Contract entity=listAll.get(j);
-				String name=entity.getDefine3();
-				Integer zsl=(Integer)entity.getZsl();
-				Integer yqhtzj=(Integer)entity.getYqhtzj();
-				
-				String qdlzj =((BigDecimal)entity.getQdlzj()).toString();
-				
-				
-				String name02=entity.getDefine2();
-				
-				if(name.equals(title))
-				{
-					TreeNode2 node02=new TreeNode2();
+			int extend01_count = 0;
+			int extend02_count = 0;
+			for (int j = 0; j < listAll.size(); j++) {
+				Contract entity = listAll.get(j);
+				String name = entity.getDefine3();
+				Integer zsl = (Integer) entity.getZsl();
+				Integer yqhtzj = (Integer) entity.getYqhtzj();
+
+				String qdlzj = ((BigDecimal) entity.getQdlzj()).toString();
+
+				String name02 = entity.getDefine2();
+
+				if (name.equals(title)) {
+					TreeNode2 node02 = new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					
+
 					node02.setExtend01(String.valueOf(zsl));
 					node02.setExtend02(String.valueOf(yqhtzj));
 					node02.setExtend03(String.valueOf(qdlzj));
-					/*DecimalFormat df=new DecimalFormat("0.00");
-					String str=df.format(((float)sjqds/jhqds)*100);
-					
-					node02.setExtend03(str);*/
-					
-					node02.setId(""+i+"_"+j);
+					/*
+					 * DecimalFormat df=new DecimalFormat("0.00"); String
+					 * str=df.format(((float)sjqds/jhqds)*100);
+					 * 
+					 * node02.setExtend03(str);
+					 */
+
+					node02.setId("" + i + "_" + j);
 					resut.add(node02);
-					
-					extend01_count=extend01_count+zsl;
-					extend02_count=extend02_count+yqhtzj;
-					
+
+					extend01_count = extend01_count + zsl;
+					extend02_count = extend02_count + yqhtzj;
+
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(extend01_count));
 			node.setExtend02(String.valueOf(extend02_count));
-			DecimalFormat df=new DecimalFormat("0.00");
-			String strvv=df.format(((float)extend02_count/extend01_count)*100);
+			DecimalFormat df = new DecimalFormat("0.00");
+			String strvv = df.format(((float) extend02_count / extend01_count) * 100);
 			node.setExtend03(strvv);
 			resut.add(node);
-			
+
 		}
 		return resut;
 	}
-	public static ChartBarLineSeries getChartBarLineSeries_InvisibleCapitalDevelop(List<InvisibleCapitalDevelop> list,
-			String name) {
+
+	public static ChartBarLineSeries getChartBarLineSeries_InvisibleCapitalDevelop(List<InvisibleCapitalDevelop> list, String name) {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("K0BNZCJE")) {
 			chartBarLineSeries.setName("本期");
@@ -6177,11 +5240,10 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 				String k0BNZCJE = f03.getK0BNZCJE();// 本期
 				String k0SNZCJE = f03.getK0SNZCJE();// 同期
 				String K0TQBL = f03.getK0TQBL();// 同比
-				
-				
-				k0BNZCJE=String.format("%.2f", Double.valueOf(k0BNZCJE));
-				k0SNZCJE=String.format("%.2f", Double.valueOf(k0SNZCJE));
-				K0TQBL=String.format("%.2f", Double.valueOf(K0TQBL));
+
+				k0BNZCJE = String.format("%.2f", Double.valueOf(k0BNZCJE));
+				k0SNZCJE = String.format("%.2f", Double.valueOf(k0SNZCJE));
+				K0TQBL = String.format("%.2f", Double.valueOf(K0TQBL));
 
 				if (name.equals("K0BNZCJE")) {
 					dataList.add(k0BNZCJE);
@@ -6226,12 +5288,11 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 				String fact = f03.getK0BNSJJE();// 实际
 				String thisDate = f03.getK0BNZCBL();// 本期
 				String sameDate = f03.getK0TQZCBL();// 同期
-				
-				
-				plan=String.format("%.2f", Double.valueOf(plan));
-				fact=String.format("%.2f", Double.valueOf(fact));
-				thisDate=String.format("%.2f", Double.valueOf(thisDate));
-				sameDate=String.format("%.2f", Double.valueOf(sameDate));
+
+				plan = String.format("%.2f", Double.valueOf(plan));
+				fact = String.format("%.2f", Double.valueOf(fact));
+				thisDate = String.format("%.2f", Double.valueOf(thisDate));
+				sameDate = String.format("%.2f", Double.valueOf(sameDate));
 				if (name.equals("K0BNYSJE")) {
 					dataList.add(plan);
 				}
@@ -6251,8 +5312,7 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		return chartBarLineSeries;
 	}
 
-	public static ChartBarLineSeries getChartBarLineSeries_TotalCostProjectPay02(List<TotalCostProjectPay02> list,
-			String name) {
+	public static ChartBarLineSeries getChartBarLineSeries_TotalCostProjectPay02(List<TotalCostProjectPay02> list, String name) {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("K0BNGLFPHJECB")) {
 			chartBarLineSeries.setName("实际支出");
@@ -6273,11 +5333,11 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 				String plan = f03.getK0BNGLFPHJECB();// 实际支出
 				String fact = f03.getK0SNGLFPHJECB();// 同期支出
 				String thisDate = f03.getK0TBBL();// 同比
-				
-				plan=String.format("%.2f", Double.valueOf(plan));
-				fact=String.format("%.2f", Double.valueOf(fact));
-				thisDate=String.format("%.2f", Double.valueOf(thisDate));
-				
+
+				plan = String.format("%.2f", Double.valueOf(plan));
+				fact = String.format("%.2f", Double.valueOf(fact));
+				thisDate = String.format("%.2f", Double.valueOf(thisDate));
+
 				if (name.equals("K0BNGLFPHJECB")) {
 					dataList.add(plan);
 				}
@@ -6294,13 +5354,7 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		return chartBarLineSeries;
 	}
 
-	
-	
-	
-	
-	
-	public static List<ProjectCode> getBaseCode(RestTemplate restTemplate, HttpHeaders httpHeaders,String month,String type)
-			throws Exception {
+	public static List<ProjectCode> getBaseCode(RestTemplate restTemplate, HttpHeaders httpHeaders, String month, String type) throws Exception {
 
 		List<ProjectCode> list = null;
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -6309,20 +5363,19 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		paramsMap.put("type", type);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		
+
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_BASE_DIC_LIST, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
-			
+
 			JSONArray jSONArray = responseEntity.getBody();
-			 list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectCode.class);
-			
+			list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectCode.class);
+
 		}
 		return list;
 	}
-	
-	public static List<H1AMKYZH100006> getBaseCodeDic(RestTemplate restTemplate, HttpHeaders httpHeaders,String month)
-			throws Exception {
+
+	public static List<H1AMKYZH100006> getBaseCodeDic(RestTemplate restTemplate, HttpHeaders httpHeaders, String month) throws Exception {
 
 		List<H1AMKYZH100006> list = null;
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -6338,63 +5391,57 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		}
 		return list;
 	}
-	
-	
-	//直属院列表--本地库获取
-	public static List<SysDictionary> getDirectDepartList( HttpServletRequest request,RestTemplate restTemplate, HttpHeaders httpHeaders) 
-	{
+
+	// 直属院列表--本地库获取
+	public static List<SysDictionary> getDirectDepartList(HttpServletRequest request, RestTemplate restTemplate, HttpHeaders httpHeaders) {
 		String DICTIONARY_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/";
-		List<SysDictionary> list= restTemplate.exchange(DICTIONARY_CODE + "ROOT_ZGSHJT_GFGS_ZSYJY", HttpMethod.POST, new HttpEntity<Object>(httpHeaders), List.class).getBody();
-	    return list;
+		List<SysDictionary> list = restTemplate.exchange(DICTIONARY_CODE + "ROOT_ZGSHJT_GFGS_ZSYJY", HttpMethod.POST, new HttpEntity<Object>(httpHeaders), List.class).getBody();
+		return list;
 	}
-	//直属院列表--hana获取
-		public static List<CompanyCode> getCompanyCode(RestTemplate restTemplate, HttpHeaders httpHeaders)
-				throws Exception {
 
-			List<CompanyCode> list = null;
-			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-			Map<String, Object> paramsMap = new HashMap<String, Object>();
-			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+	// 直属院列表--hana获取
+	public static List<CompanyCode> getCompanyCode(RestTemplate restTemplate, HttpHeaders httpHeaders) throws Exception {
 
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_COMPANY_DIC_LIST, HttpMethod.GET, entity,
-					JSONArray.class);
-			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200) {
-				JSONArray array = responseEntity.getBody();
-				list = JSONObject.parseArray(array.toJSONString(), CompanyCode.class);
-			}
-			return list;
+		List<CompanyCode> list = null;
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_COMPANY_DIC_LIST, HttpMethod.GET, entity, JSONArray.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			JSONArray array = responseEntity.getBody();
+			list = JSONObject.parseArray(array.toJSONString(), CompanyCode.class);
 		}
-		
-		public static String getMonthName( String month) 
-		{
-			return month.substring(0, 4)+"年"+ month.substring(4)+"月";
-		}
-	
-		
-	//字典表
-	public static List<SysDictionary> getDicListByParentCode( String parentCode, HttpServletRequest request,RestTemplate restTemplate, HttpHeaders httpHeaders) 
-	{
+		return list;
+	}
+
+	public static String getMonthName(String month) {
+		return month.substring(0, 4) + "年" + month.substring(4) + "月";
+	}
+
+	// 字典表
+	public static List<SysDictionary> getDicListByParentCode(String parentCode, HttpServletRequest request, RestTemplate restTemplate, HttpHeaders httpHeaders) {
 		String DICTIONARY_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/";
 		return restTemplate.exchange(DICTIONARY_CODE + parentCode, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), List.class).getBody();
 	}
 
-	public static List<ProjectCode> getProjectCode(RestTemplate restTemplate, HttpHeaders httpHeaders)
-			throws Exception {
+	public static List<ProjectCode> getProjectCode(RestTemplate restTemplate, HttpHeaders httpHeaders) throws Exception {
 
 		/*
 		 * List<ProjectCode> list = null;
-		 * httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8); Map<String,
-		 * Object> paramsMap = new HashMap<String, Object>(); JSONObject jsonObject =
+		 * httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		 * Map<String, Object> paramsMap = new HashMap<String, Object>();
+		 * JSONObject jsonObject =
 		 * JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		 * HttpEntity<String> entity = new
 		 * HttpEntity<String>(jsonObject.toString(),httpHeaders);
 		 * ResponseEntity<JSONArray> responseEntity =
 		 * restTemplate.exchange(GET_PROJECT_DIC_LIST, HttpMethod.GET, entity,
 		 * JSONArray.class); int statusCode=responseEntity.getStatusCodeValue();
-		 * if(statusCode==200) { JSONArray array=responseEntity.getBody(); list =
-		 * JSONObject.parseArray(array.toJSONString(), ProjectCode.class); }
+		 * if(statusCode==200) { JSONArray array=responseEntity.getBody(); list
+		 * = JSONObject.parseArray(array.toJSONString(), ProjectCode.class); }
 		 */
 
 		List<ProjectCode> resut = new ArrayList();
@@ -6425,9 +5472,7 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		System.out.println(">>>>>str=" + str);
 		return str;
 	}
-	
-	
-	
+
 	public static String getCurrrentYear_Moth() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
@@ -6440,8 +5485,7 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		System.out.println(">>>>>str=" + str);
 		return str;
 	}
-	
-	
+
 	public static String getCurrrent_Year_Moth() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
@@ -6454,14 +5498,15 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		System.out.println(">>>>>str=" + str);
 		return str;
 	}
+
 	public static String getBeforeYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 
 		System.out.println(">>>>>year=" + year);
-		return String.valueOf(year-1);
+		return String.valueOf(year - 1);
 	}
-	
+
 	public static String getCurrrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
@@ -6503,255 +5548,219 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		return list;
 	}
 
-	/*public static void setSearchPara(RestTemplate restTemplate, HttpHeaders httpHeaders, HttpServletRequest request)
-			throws Exception {
+	/*
+	 * public static void setSearchPara(RestTemplate restTemplate, HttpHeaders
+	 * httpHeaders, HttpServletRequest request) throws Exception {
+	 * 
+	 * List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate,
+	 * httpHeaders); request.setAttribute("companyCodeList", companyCodeList);
+	 * String allCode = ""; for (int i = 0; i < companyCodeList.size(); i++) {
+	 * CompanyCode companyCode = companyCodeList.get(i); String strNotes =
+	 * companyCode.getG0DMJC(); if (strNotes.equals("ALL")) { allCode =
+	 * companyCode.getG0GSDM(); } } request.setAttribute("allCode", allCode);
+	 * String month = HanaUtil.getCurrrentYearMoth();
+	 * request.setAttribute("month", month); }
+	 */
 
-		List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
-		request.setAttribute("companyCodeList", companyCodeList);
-		String allCode = "";
-		for (int i = 0; i < companyCodeList.size(); i++) {
-			CompanyCode companyCode = companyCodeList.get(i);
-			String strNotes = companyCode.getG0DMJC();
-			if (strNotes.equals("ALL")) {
-				allCode = companyCode.getG0GSDM();
+	public static void setSearchParaForUser2(SysUser userInfo, RestTemplate restTemplate, HttpHeaders httpHeaders, HttpServletRequest request) throws Exception {
+
+		List<CompanyCode> companyCodeList = new ArrayList<CompanyCode>();
+		List<String> listCodes = userInfo.getInstituteCodes();
+		List<String> listNames = userInfo.getInstituteNames();
+		StringBuffer sb = new StringBuffer();
+
+		System.out.println(">>>>>>>>>>>listCodes=" + listCodes);
+
+		if (listCodes == null || listCodes.size() == 0) {
+			companyCodeList = getCompanyCodeDefault2();
+			request.setAttribute("companyCodeList", companyCodeList);
+			request.setAttribute("allCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+			request.setAttribute("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+
+		} else {
+
+			System.out.println(">>>>>>>>>>>listCodessize =" + listCodes.size());
+			for (int i = 0; i < listCodes.size(); i++) {
+				String code = listCodes.get(i);
+				if (i > 0) {
+					sb.append(",");
+				}
+				sb.append(code);
 			}
+
+			CompanyCode company_code = new CompanyCode();
+			company_code.setG0GSDM(sb.toString());
+			company_code.setG0GSJC("全部");
+			company_code.setG0DMJC("ALL");
+			companyCodeList.add(company_code);
+			for (int i = 0; i < listCodes.size(); i++) {
+				CompanyCode cc = new CompanyCode();
+				String code = listCodes.get(i);
+				String name = listNames.get(i);
+				cc.setG0GSJC(name);
+				cc.setG0GSDM(code);
+				System.out.println(">>>>>>>>>>>name=" + name + " code=" + code);
+				companyCodeList.add(cc);
+			}
+			request.setAttribute("companyCodeList", companyCodeList);
+
+			request.setAttribute("allCode", sb.toString());
+			request.setAttribute("companyCode", sb.toString());
 		}
-		request.setAttribute("allCode", allCode);
-		String month = HanaUtil.getCurrrentYearMoth();
-		request.setAttribute("month", month);
-	}*/
-	
-	
-	
-	public static void setSearchParaForUser2( SysUser userInfo,RestTemplate restTemplate, HttpHeaders httpHeaders, HttpServletRequest request)
-			throws Exception {
-		
-	    
-		
-		List<CompanyCode> companyCodeList =new ArrayList<CompanyCode>();
-	    List<String> listCodes= userInfo.getInstituteCodes();
-	    List<String> listNames= userInfo.getInstituteNames();
-	    StringBuffer sb=new StringBuffer();
-	    
-	    System.out.println(">>>>>>>>>>>listCodes="+listCodes);
-	    
-	    if(listCodes==null || listCodes.size()==0)
-	    {
-	    	companyCodeList=getCompanyCodeDefault2();
-	    	request.setAttribute("companyCodeList", companyCodeList);
-	 		request.setAttribute("allCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-	 		request.setAttribute("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-	 		
-	    }else
-	    {
-	    	
-	    	 System.out.println(">>>>>>>>>>>listCodessize ="+listCodes.size());
-	    	 for(int i=0;i<listCodes.size();i++)
-	 	    {
-	 	    	String code=listCodes.get(i);
-	 	    	if(i>0)
-	 	    	{
-	 	    		sb.append(",");
-	 	    	}
-	 	    	sb.append(code);
-	 	    }
-	 	    
-	 	    CompanyCode company_code=new CompanyCode();
-	 	    company_code.setG0GSDM(sb.toString());
-	 	    company_code.setG0GSJC("全部");
-	 	    company_code.setG0DMJC("ALL");
-	 	    companyCodeList.add(company_code);
-	 	    for(int i=0;i<listCodes.size();i++)
-	 	    {
-	 	    	CompanyCode cc=new CompanyCode();
-	 	    	String code=listCodes.get(i);
-	 	    	String name=listNames.get(i);
-	 	    	cc.setG0GSJC(name);
-	 	    	cc.setG0GSDM(code);
-	 	    	System.out.println(">>>>>>>>>>>name="+name+" code="+code);
-	 	    	companyCodeList.add(cc);
-	 	    }
-	 		request.setAttribute("companyCodeList", companyCodeList);
-	 		
-			
-	 		
-	 		request.setAttribute("allCode", sb.toString());
-	 		request.setAttribute("companyCode", sb.toString());
-	    }
-		
+
 		String month = HanaUtil.getCurrrentYearMoth();
 		request.setAttribute("month", month);
 	}
-	
-	private static List<CompanyCode> getCompanyCodeDefault2()
-	{
-		
-		
-		List<CompanyCode> companyCodeList =new ArrayList<CompanyCode>();
-		
-		
-		CompanyCode company_code_0=new CompanyCode();
+
+	private static List<CompanyCode> getCompanyCodeDefault2() {
+
+		List<CompanyCode> companyCodeList = new ArrayList<CompanyCode>();
+
+		CompanyCode company_code_0 = new CompanyCode();
 		company_code_0.setG0GSDM(HanaUtil.YJY_CODE_NOT_YINGKE);
 		company_code_0.setG0GSJC("全部");
 		company_code_0.setG0DMJC("ALL");
 		companyCodeList.add(company_code_0);
-		    
-		    
-	    CompanyCode company_code=new CompanyCode();
-	    company_code.setG0GSDM("1120,1123,1124,1127");
-	    company_code.setG0GSJC("勘探院");
-	    companyCodeList.add(company_code);
-	    
-	    CompanyCode company_code_02=new CompanyCode();
-	    company_code_02.setG0GSDM("1130");
-	    company_code_02.setG0GSJC("物探院");
-	    companyCodeList.add(company_code_02);
-	    CompanyCode company_code_03=new CompanyCode();
-	    company_code_03.setG0GSDM("4360");
-	    company_code_03.setG0GSJC("工程院");
-	    companyCodeList.add(company_code_03);
-	    CompanyCode company_code_04=new CompanyCode();
-	    company_code_04.setG0GSDM("1020");
-	    company_code_04.setG0GSJC("石科院");
-	    companyCodeList.add(company_code_04);
-	    CompanyCode company_code_05=new CompanyCode();
-	    company_code_05.setG0GSDM("1060,1061");
-	    company_code_05.setG0GSJC("大连院");
-	    companyCodeList.add(company_code_05);
-	    
-	    CompanyCode company_code_06=new CompanyCode();
-	    company_code_06.setG0GSDM("1040,1041");
-	    company_code_06.setG0GSJC("北化院");
-	    companyCodeList.add(company_code_06);
-	    CompanyCode company_code_07=new CompanyCode();
-	    company_code_07.setG0GSDM("1080");
-	    company_code_07.setG0GSJC("上海院");
-	    companyCodeList.add(company_code_07);
-	    CompanyCode company_code_08=new CompanyCode();
-	    company_code_08.setG0GSDM("1100,1101");
-	    company_code_08.setG0GSJC("安工院");
-	    companyCodeList.add(company_code_08);
-	    
-	    return companyCodeList;
-	    
+
+		CompanyCode company_code = new CompanyCode();
+		company_code.setG0GSDM("1120,1123,1124,1127");
+		company_code.setG0GSJC("勘探院");
+		companyCodeList.add(company_code);
+
+		CompanyCode company_code_02 = new CompanyCode();
+		company_code_02.setG0GSDM("1130");
+		company_code_02.setG0GSJC("物探院");
+		companyCodeList.add(company_code_02);
+		CompanyCode company_code_03 = new CompanyCode();
+		company_code_03.setG0GSDM("4360");
+		company_code_03.setG0GSJC("工程院");
+		companyCodeList.add(company_code_03);
+		CompanyCode company_code_04 = new CompanyCode();
+		company_code_04.setG0GSDM("1020");
+		company_code_04.setG0GSJC("石科院");
+		companyCodeList.add(company_code_04);
+		CompanyCode company_code_05 = new CompanyCode();
+		company_code_05.setG0GSDM("1060,1061");
+		company_code_05.setG0GSJC("大连院");
+		companyCodeList.add(company_code_05);
+
+		CompanyCode company_code_06 = new CompanyCode();
+		company_code_06.setG0GSDM("1040,1041");
+		company_code_06.setG0GSJC("北化院");
+		companyCodeList.add(company_code_06);
+		CompanyCode company_code_07 = new CompanyCode();
+		company_code_07.setG0GSDM("1080");
+		company_code_07.setG0GSJC("上海院");
+		companyCodeList.add(company_code_07);
+		CompanyCode company_code_08 = new CompanyCode();
+		company_code_08.setG0GSDM("1100,1101");
+		company_code_08.setG0GSJC("安工院");
+		companyCodeList.add(company_code_08);
+
+		return companyCodeList;
+
 	}
-	
-	public static void setSearchParaForUser( SysUser userInfo,RestTemplate restTemplate, HttpHeaders httpHeaders, HttpServletRequest request)
-			throws Exception {
-		
-	    
-		
-		List<CompanyCode> companyCodeList =new ArrayList<CompanyCode>();
-	    List<String> listCodes= userInfo.getInstituteCodes();
-	    List<String> listNames= userInfo.getInstituteNames();
-	    StringBuffer sb=new StringBuffer();
-	    
-	    System.out.println(">>>>>>>>>>>listCodes="+listCodes);
-	    
-	    if(listCodes==null || listCodes.size()==0)
-	    {
-	    	companyCodeList=getCompanyCodeDefault();
-	    	request.setAttribute("companyCodeList", companyCodeList);
-	 		request.setAttribute("allCode", HanaUtil.YJY_CODE_ALL);
-	 		request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
-	 		
-	    }else
-	    {
-	    	
-	    	 System.out.println(">>>>>>>>>>>listCodessize ="+listCodes.size());
-	    	 for(int i=0;i<listCodes.size();i++)
-	 	    {
-	 	    	String code=listCodes.get(i);
-	 	    	if(i>0)
-	 	    	{
-	 	    		sb.append(",");
-	 	    	}
-	 	    	sb.append(code);
-	 	    }
-	 	    
-	 	    CompanyCode company_code=new CompanyCode();
-	 	    company_code.setG0GSDM(sb.toString());
-	 	    company_code.setG0GSJC("全部");
-	 	    company_code.setG0DMJC("ALL");
-	 	    companyCodeList.add(company_code);
-	 	    for(int i=0;i<listCodes.size();i++)
-	 	    {
-	 	    	CompanyCode cc=new CompanyCode();
-	 	    	String code=listCodes.get(i);
-	 	    	String name=listNames.get(i);
-	 	    	cc.setG0GSJC(name);
-	 	    	cc.setG0GSDM(code);
-	 	    	System.out.println(">>>>>>>>>>>name="+name+" code="+code);
-	 	    	companyCodeList.add(cc);
-	 	    }
-	 		request.setAttribute("companyCodeList", companyCodeList);
-	 		
-			
-	 		
-	 		request.setAttribute("allCode", sb.toString());
-	 		request.setAttribute("companyCode", sb.toString());
-	    }
-		
-		
-		
-		
+
+	public static void setSearchParaForUser(SysUser userInfo, RestTemplate restTemplate, HttpHeaders httpHeaders, HttpServletRequest request) throws Exception {
+
+		List<CompanyCode> companyCodeList = new ArrayList<CompanyCode>();
+		List<String> listCodes = userInfo.getInstituteCodes();
+		List<String> listNames = userInfo.getInstituteNames();
+		StringBuffer sb = new StringBuffer();
+
+		System.out.println(">>>>>>>>>>>listCodes=" + listCodes);
+
+		if (listCodes == null || listCodes.size() == 0) {
+			companyCodeList = getCompanyCodeDefault();
+			request.setAttribute("companyCodeList", companyCodeList);
+			request.setAttribute("allCode", HanaUtil.YJY_CODE_ALL);
+			request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
+
+		} else {
+
+			System.out.println(">>>>>>>>>>>listCodessize =" + listCodes.size());
+			for (int i = 0; i < listCodes.size(); i++) {
+				String code = listCodes.get(i);
+				if (i > 0) {
+					sb.append(",");
+				}
+				sb.append(code);
+			}
+
+			CompanyCode company_code = new CompanyCode();
+			company_code.setG0GSDM(sb.toString());
+			company_code.setG0GSJC("全部");
+			company_code.setG0DMJC("ALL");
+			companyCodeList.add(company_code);
+			for (int i = 0; i < listCodes.size(); i++) {
+				CompanyCode cc = new CompanyCode();
+				String code = listCodes.get(i);
+				String name = listNames.get(i);
+				cc.setG0GSJC(name);
+				cc.setG0GSDM(code);
+				System.out.println(">>>>>>>>>>>name=" + name + " code=" + code);
+				companyCodeList.add(cc);
+			}
+			request.setAttribute("companyCodeList", companyCodeList);
+
+			request.setAttribute("allCode", sb.toString());
+			request.setAttribute("companyCode", sb.toString());
+		}
+
 		String month = HanaUtil.getCurrrentYearMoth();
 		request.setAttribute("month", month);
-		
+
 		String year = HanaUtil.getCurrrentYear();
 		request.setAttribute("year", year);
 	}
-	private static List<CompanyCode> getCompanyCodeDefault()
-	{
-		
-		
-		List<CompanyCode> companyCodeList =new ArrayList<CompanyCode>();
-		
-		
-		CompanyCode company_code_0=new CompanyCode();
+
+	private static List<CompanyCode> getCompanyCodeDefault() {
+
+		List<CompanyCode> companyCodeList = new ArrayList<CompanyCode>();
+
+		CompanyCode company_code_0 = new CompanyCode();
 		company_code_0.setG0GSDM(HanaUtil.YJY_CODE_ALL);
 		company_code_0.setG0GSJC("全部");
 		company_code_0.setG0DMJC("ALL");
 		companyCodeList.add(company_code_0);
-		    
-		    
-	    CompanyCode company_code=new CompanyCode();
-	    company_code.setG0GSDM("1120,1123,1124,1127");
-	    company_code.setG0GSJC("勘探院");
-	    companyCodeList.add(company_code);
-	    
-	    CompanyCode company_code_02=new CompanyCode();
-	    company_code_02.setG0GSDM("1130");
-	    company_code_02.setG0GSJC("物探院");
-	    companyCodeList.add(company_code_02);
-	    CompanyCode company_code_03=new CompanyCode();
-	    company_code_03.setG0GSDM("4360");
-	    company_code_03.setG0GSJC("工程院");
-	    companyCodeList.add(company_code_03);
-	    CompanyCode company_code_04=new CompanyCode();
-	    company_code_04.setG0GSDM("1020");
-	    company_code_04.setG0GSJC("石科院");
-	    companyCodeList.add(company_code_04);
-	    CompanyCode company_code_05=new CompanyCode();
-	    company_code_05.setG0GSDM("1060,1061");
-	    company_code_05.setG0GSJC("大连院");
-	    companyCodeList.add(company_code_05);
-	    
-	    CompanyCode company_code_06=new CompanyCode();
-	    company_code_06.setG0GSDM("1040,1041");
-	    company_code_06.setG0GSJC("北化院");
-	    companyCodeList.add(company_code_06);
-	    CompanyCode company_code_07=new CompanyCode();
-	    company_code_07.setG0GSDM("1080");
-	    company_code_07.setG0GSJC("上海院");
-	    companyCodeList.add(company_code_07);
-	    CompanyCode company_code_08=new CompanyCode();
-	    company_code_08.setG0GSDM("1100,1101");
-	    company_code_08.setG0GSJC("安工院");
-	    companyCodeList.add(company_code_08);
-	    
-	    return companyCodeList;
-	    
+
+		CompanyCode company_code = new CompanyCode();
+		company_code.setG0GSDM("1120,1123,1124,1127");
+		company_code.setG0GSJC("勘探院");
+		companyCodeList.add(company_code);
+
+		CompanyCode company_code_02 = new CompanyCode();
+		company_code_02.setG0GSDM("1130");
+		company_code_02.setG0GSJC("物探院");
+		companyCodeList.add(company_code_02);
+		CompanyCode company_code_03 = new CompanyCode();
+		company_code_03.setG0GSDM("4360");
+		company_code_03.setG0GSJC("工程院");
+		companyCodeList.add(company_code_03);
+		CompanyCode company_code_04 = new CompanyCode();
+		company_code_04.setG0GSDM("1020");
+		company_code_04.setG0GSJC("石科院");
+		companyCodeList.add(company_code_04);
+		CompanyCode company_code_05 = new CompanyCode();
+		company_code_05.setG0GSDM("1060,1061");
+		company_code_05.setG0GSJC("大连院");
+		companyCodeList.add(company_code_05);
+
+		CompanyCode company_code_06 = new CompanyCode();
+		company_code_06.setG0GSDM("1040,1041");
+		company_code_06.setG0GSJC("北化院");
+		companyCodeList.add(company_code_06);
+		CompanyCode company_code_07 = new CompanyCode();
+		company_code_07.setG0GSDM("1080");
+		company_code_07.setG0GSJC("上海院");
+		companyCodeList.add(company_code_07);
+		CompanyCode company_code_08 = new CompanyCode();
+		company_code_08.setG0GSDM("1100,1101");
+		company_code_08.setG0GSJC("安工院");
+		companyCodeList.add(company_code_08);
+
+		return companyCodeList;
+
 	}
 
 	public static List<String> getMonthListOfYear(String datestr) {
@@ -6769,82 +5778,87 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		}
 		return list;
 	}
-	
-	
-	
-	
-	public static void setHomePageList(HttpServletRequest request)
-	{
-	
-			List<String>  define1List=new ArrayList<String>();
-			define1List.add("资本性");
-			define1List.add("费用性");
-			
-			request.setAttribute("define1List", define1List);
-			
-			
-			List<String>  project_propertyList=new ArrayList<String>();
-			project_propertyList.add("国家项目");
-			project_propertyList.add("重大专项");
-			project_propertyList.add("重点项目");
-			project_propertyList.add("其他项目");
-			
-			request.setAttribute("project_propertyList", project_propertyList);
-			
-			
-			List<String>  type_flagList=new ArrayList<String>();
-			type_flagList.add("直属研究院");
-			type_flagList.add("分子公司");
-			type_flagList.add("股份付集团");
-			
-			request.setAttribute("type_flagList", type_flagList);
-			
-			List<String>  define2List=new ArrayList<String>();
-			define2List.add("物探院");
-			define2List.add("勘探院");
-			define2List.add("上海院");
-			request.setAttribute("define2List", define2List);
-			
-			List<String>  project_scopeList=new ArrayList<String>();
-			project_scopeList.add("新开课题");
-			project_scopeList.add("结转课题");
-			project_scopeList.add("完工项目");
-			
-			request.setAttribute("project_scopeList", project_scopeList);
-	
+
+	public static void setHomePageList(HttpServletRequest request) {
+
+		List<String> define1List = new ArrayList<String>();
+		define1List.add("资本性");
+		define1List.add("费用性");
+
+		request.setAttribute("define1List", define1List);
+
+		List<String> project_propertyList = new ArrayList<String>();
+		project_propertyList.add("国家项目");
+		project_propertyList.add("重大专项");
+		project_propertyList.add("重点项目");
+		project_propertyList.add("其他项目");
+
+		request.setAttribute("project_propertyList", project_propertyList);
+
+		List<String> type_flagList = new ArrayList<String>();
+		type_flagList.add("直属研究院");
+		type_flagList.add("分子公司");
+		type_flagList.add("股份付集团");
+
+		request.setAttribute("type_flagList", type_flagList);
+
+		List<String> define2List = new ArrayList<String>();
+		define2List.add("物探院");
+		define2List.add("勘探院");
+		define2List.add("上海院");
+		request.setAttribute("define2List", define2List);
+
+		List<String> project_scopeList = new ArrayList<String>();
+		project_scopeList.add("新开课题");
+		project_scopeList.add("结转课题");
+		project_scopeList.add("完工项目");
+
+		request.setAttribute("project_scopeList", project_scopeList);
+
 	}
-	public static String chufa(int a,int b) 
-	{
-		double f1 = new BigDecimal((float)a/b).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+	public static String chufa(int a, int b) {
+		double f1 = new BigDecimal((float) a / b).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 		return String.valueOf(f1);
 	}
-	
-	
-	public static double chufa2(int a,int b) 
-	{
-		double f1 = new BigDecimal((float)a/b).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
-		return f1*100;
+
+	public static double chufa2(int a, int b) {
+		double f1 = new BigDecimal((float) a / b).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return f1 * 100;
 	}
-	public static double chufa3(int a,int b,int wei) 
-	{
-		double f1 = new BigDecimal((float)a/b).setScale(wei, BigDecimal.ROUND_HALF_UP).doubleValue();
-		return f1*100;
+
+	public static double chufa3(int a, int b, int wei) {
+		double f1 = new BigDecimal((float) a / b).setScale(wei, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return f1 * 100;
 	}
 	
+	
+	public static String  DecimalFormatObject(Object object) 
+	{
+		double data =Double.valueOf(object.toString());
+		String str=new DecimalFormat("#.###").format(data);
+		return str;
+	}
+	
+	
+	public static String  DecimalFormatBigDecimal(BigDecimal object) 
+	{
+		double data =Double.valueOf(object.toString());
+		String str=new DecimalFormat(",###.###").format(object);
+		return str;
+	}
+	
+
 	public static void main(String[] args) {
+
 		
-		/*DecimalFormat df=new DecimalFormat("0.0000");
-		double f1 = new BigDecimal((float)2466/2565).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
-		System.out.println(chufa2(2466,2565) );*/
-		String str="00000,100401001";
-		String saaa[]=str.split(",");
-		System.out.println("------------------"+saaa.length);
+		Object o="122221.00";
 		
-		
-		
-		
-		
-		
+		 
+		double data =Double.valueOf(o.toString());
+		String str=new DecimalFormat("#.###").format(data);
+		System.out.println("------------------" + str);
+
 	}
 
 }

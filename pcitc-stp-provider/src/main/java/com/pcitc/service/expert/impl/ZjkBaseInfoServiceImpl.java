@@ -118,8 +118,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     @Override
     public int updateOrInsertZjkBaseInfo(ZjkExpert zjkBaseInfo) throws Exception {
         int result = 500;
+
         ZjkExpert expert = zjkBaseInfoMapper.selectByPrimaryKey(zjkBaseInfo.getDataId());
         if (expert != null) {
+            //不要修改
             zjkBaseInfoMapper.updateByPrimaryKeySelective(zjkBaseInfo);
         } else {
 //            zjkBaseInfo.setDataId(IdUtil.createIdByTime());

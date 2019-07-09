@@ -343,7 +343,7 @@ public class PurchaseController extends BaseController {
 		// 流程状态
 		srePurchase.setTaskId(taskId);
 		srePurchase.setState(status);
-		srePurchase.setPurchaseName(purchaseName+"申请名称");// 采购名称
+		srePurchase.setPurchaseName(purchaseName);// 采购名称
 		srePurchase.setParentUnitPathNames(parentUnitPathName);// 单位名称
 		srePurchase.setParentUnitPathId(parentUnitPathId);// 单位ID
 		srePurchase.setDepartName(departName);// 部门名称
@@ -1023,6 +1023,8 @@ public class PurchaseController extends BaseController {
 
 		String id = CommonUtil.getParameter(request, "id", "");
 		String uploadState = CommonUtil.getParameter(request, "uploadState", "");
+		String stage = CommonUtil.getParameter(request, "stage", "");
+
 		if (!id.equals("")) {
 			ResponseEntity<SrePurchase> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
 			SrePurchase srePurchase = responseEntity.getBody();
@@ -1079,6 +1081,7 @@ public class PurchaseController extends BaseController {
 			}
 			request.setAttribute("id", id);
 			request.setAttribute("uploadState", uploadState);
+			request.setAttribute("stage", stage);
 		}
 
 		return "/stp/equipment/purchase/upFileDoc";
@@ -1099,6 +1102,7 @@ public class PurchaseController extends BaseController {
 		String documentDocContractClose = CommonUtil.getParameter(request, "documentDocContractClose", "");
 		String documentDocTender = CommonUtil.getParameter(request, "documentDocTender", "");
 		String documentDocAgreement = CommonUtil.getParameter(request, "documentDocAgreement", "");
+		String stage = CommonUtil.getParameter(request, "stage", "");
 
 		String resutl = "";
 
@@ -1157,7 +1161,7 @@ public class PurchaseController extends BaseController {
 		if (statusCodeValue == 200) {
 			resultsDate.setSuccess(true);
 
-			if (uploadState.equals(Constant.PURCHASE_REQUEST)) {// 采购申请通过
+			if (uploadState.equals(Constant.PURCHASE_REQUEST)&&stage.equals("1")) {// 采购申请通过
 				SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
 				if (srePurchase != null) {
 					String[] equipmentIds = srePurchase.getEquipmentId().split(",");

@@ -1,30 +1,28 @@
 package com.pcitc.service.laboratory.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.laboratory.*;
-import com.pcitc.base.laboratory.LaboratoryBasicProjectExample;
-import com.pcitc.base.util.IdUtil;
-import com.pcitc.base.util.StrUtil;
-import com.pcitc.base.util.TreeNodeUtil;
-import com.pcitc.mapper.laboratory.LaboratoryBasicProjectMapper;
-import com.pcitc.service.laboratory.LaboratoryBasicProjectService;
-import org.apache.commons.lang3.StringUtils;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.common.enums.DataOperationStatusEnum;
+import com.pcitc.base.common.enums.DelFlagEnum;
+import com.pcitc.base.laboratory.LaboratoryBasicProject;
+import com.pcitc.base.laboratory.LaboratoryBasicProjectExample;
+import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.TreeNodeUtil;
+import com.pcitc.mapper.laboratory.LaboratoryBasicProjectMapper;
+import com.pcitc.service.laboratory.LaboratoryBasicProjectService;
 
 /**
  * <p>接口实现类</p>
@@ -160,17 +158,12 @@ public class LaboratoryBasicProjectServiceImpl implements LaboratoryBasicProject
     public LayuiTableData findLaboratoryBasicProjectByPage(LayuiTableParam param) {
         LaboratoryBasicProjectExample example = new LaboratoryBasicProjectExample();
         LaboratoryBasicProjectExample.Criteria c = example.createCriteria();
-//        c.andStatusEqualTo("1");
-//        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
-//        {
-        //   c.andIdLike("'%"+param.getParam().get("fileKind")+"%'");
-//            LaboratoryBasicProjectExample.Criteria criteria2 = example.or();
-//            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
-//            example.or(criteria2);
-        //       }
+        if(param.getParam().get("baseId") != null)
+        {
+        	c.andBaseIdEqualTo(param.getParam().get("baseId").toString());
+        }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
-
     }
 
     /**
