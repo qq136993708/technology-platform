@@ -3005,7 +3005,8 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 					
 					if(zysje!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zysje))));
+						String str=HanaUtil.DecimalFormatObject(zysje);
+						dataList.add(str);
 						
 					}else
 					{
@@ -3019,7 +3020,8 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 					
 					if(zsjje!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zsjje))));
+						String str=HanaUtil.DecimalFormatObject(zsjje);
+						dataList.add(str);
 						
 					}else
 					{
@@ -3032,7 +3034,8 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 					
 					if(hanaMoney!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(hanaMoney))));
+						String str=HanaUtil.DecimalFormatObject(hanaMoney);
+						dataList.add(str);
 						
 					}else
 					{
@@ -3048,7 +3051,8 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 					
 					if(wqhtzje!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(wqhtzje))));
+						String str=HanaUtil.DecimalFormatObject(wqhtzje);
+						dataList.add(str);
 						
 					}else
 					{
@@ -3062,7 +3066,8 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 					
 					if(wbkzje!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(wbkzje))));
+						String str=HanaUtil.DecimalFormatObject(wbkzje);
+						dataList.add(str);
 						
 					}else
 					{
@@ -3107,7 +3112,8 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 				if (name.equals("zysje")) {
 
 					if (zysje != null) {
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zysje))));
+						String str=HanaUtil.DecimalFormatObject(zysje);
+						dataList.add(str);//String.format("%.2f", Double.valueOf(String.valueOf(zysje)))
 
 					} else {
 						dataList.add(0);
@@ -3118,7 +3124,8 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 				if (name.equals("zsjje")) {
 
 					if (zsjje != null) {
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(zsjje))));
+						String str=HanaUtil.DecimalFormatObject(zsjje);
+						dataList.add(str);
 
 					} else {
 						dataList.add(0);
@@ -3128,7 +3135,8 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 				if (name.equals("hanaMoney")) {
 
 					if (hanaMoney != null) {
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(hanaMoney))));
+						String str=HanaUtil.DecimalFormatObject(hanaMoney);
+						dataList.add(str);
 
 					} else {
 						dataList.add(0);
@@ -5823,18 +5831,33 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 		double f1 = new BigDecimal((float) a / b).setScale(wei, BigDecimal.ROUND_HALF_UP).doubleValue();
 		return f1 * 100;
 	}
+	
+	
+	public static String  DecimalFormatObject(Object object) 
+	{
+		double data =Double.valueOf(object.toString());
+		String str=new DecimalFormat("#.###").format(data);
+		return str;
+	}
+	
+	
+	public static String  DecimalFormatBigDecimal(BigDecimal object) 
+	{
+		double data =Double.valueOf(object.toString());
+		String str=new DecimalFormat(",###.###").format(object);
+		return str;
+	}
+	
 
 	public static void main(String[] args) {
 
-		/*
-		 * DecimalFormat df=new DecimalFormat("0.0000"); double f1 = new
-		 * BigDecimal((float)2466/2565).setScale(4,
-		 * BigDecimal.ROUND_HALF_UP).doubleValue();
-		 * System.out.println(chufa2(2466,2565) );
-		 */
-		String str = "00000,100401001";
-		String saaa[] = str.split(",");
-		System.out.println("------------------" + saaa.length);
+		
+		Object o="122221.00";
+		
+		 
+		double data =Double.valueOf(o.toString());
+		String str=new DecimalFormat("#.###").format(data);
+		System.out.println("------------------" + str);
 
 	}
 

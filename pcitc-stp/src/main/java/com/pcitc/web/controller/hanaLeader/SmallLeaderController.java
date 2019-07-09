@@ -174,6 +174,8 @@ public class SmallLeaderController extends BaseController{
 
 		String nd = HanaUtil.getBeforeYear();
 		request.setAttribute("nd", nd);
+		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/small_leader/investment";
 	}
 	
