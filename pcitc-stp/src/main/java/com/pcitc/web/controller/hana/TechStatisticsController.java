@@ -35,20 +35,20 @@ import com.pcitc.web.utils.EquipmentUtils;
 public class TechStatisticsController extends BaseController{
 	
 	
-	private static final String PAGE_ORG_URL =   "http://pcitc-zuul/hana-proxy/hana_provider/techOrgCount/page";
-	public static final String  ADD_ORG_URL =    "http://pcitc-zuul/hana-proxy/hana_provider/techOrgCount/add";
-	public static final String  UPDATE_ORG_URL = "http://pcitc-zuul/hana-proxy/hana_provider/techOrgCount/update";
-	private static final String DEL_ORG_URL =    "http://pcitc-zuul/hana-proxy/hana_provider/techOrgCount/delete/";
-	public static final String GET_ORG_URL =     "http://pcitc-zuul/hana-proxy/hana_provider/techOrgCount/get/";
-	private static final String ORG_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/hana_provider/techOrgCount/start_org_activity/";
+	private static final String PAGE_ORG_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/page";
+	public static final String  ADD_ORG_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/add";
+	public static final String  UPDATE_ORG_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/update";
+	private static final String DEL_ORG_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/delete/";
+	public static final String GET_ORG_URL =     "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/get/";
+	private static final String ORG_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/start_org_activity/";
 	
 	
-	private static final String PAGE_COST_URL =   "http://pcitc-zuul/hana-proxy/hana_provider/techCost/page";
-	public static final String  ADD_COST_URL =    "http://pcitc-zuul/hana-proxy/hana_provider/techCost/add";
-	public static final String  UPDATE_COST_URL = "http://pcitc-zuul/hana-proxy/hana_provider/techCost/update";
-	private static final String DEL_COST_URL =    "http://pcitc-zuul/hana-proxy/hana_provider/techCost/delete/";
-	public static final String   GET_COST_URL =   "http://pcitc-zuul/hana-proxy/hana_provider/techCost/get/";
-	private static final String COST_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/hana_provider/techCost/start_cost_activity/";
+	private static final String PAGE_COST_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/page";
+	public static final String  ADD_COST_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techCost/add";
+	public static final String  UPDATE_COST_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techCost/update";
+	private static final String DEL_COST_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techCost/delete/";
+	public static final String   GET_COST_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/get/";
+	private static final String COST_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techCost/start_cost_activity/";
 	
 	
 	
@@ -327,11 +327,13 @@ public class TechStatisticsController extends BaseController{
 	@RequestMapping(value = "/tech_cost/to-list")
 	public String tech_cost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String unitPathIds = sysUserInfo.getUnitPath();
-		String parentUnitPathIds = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
-		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
-		request.setAttribute("isKJBPerson", isKJBPerson);
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String unitName = map.get("unitName");// 申报单位
+		String unitCode = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		request.setAttribute("unitName", unitName);
+		request.setAttribute("unitCode", unitCode);
 		return "/stp/hana/techStatistics/cost_list";
 	}
 
