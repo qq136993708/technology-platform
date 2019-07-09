@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.report.TechCostMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.report.TechCost" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="unit_code" property="unitCode" jdbcType="VARCHAR" />
+    <result column="unit_name" property="unitName" jdbcType="VARCHAR" />
+    <result column="create_user_mobile" property="createUserMobile" jdbcType="VARCHAR" />
+    <result column="charge_depart_man" property="chargeDepartMan" jdbcType="VARCHAR" />
+    <result column="tech_charge_man" property="techChargeMan" jdbcType="VARCHAR" />
+    <result column="tech_project_cost" property="techProjectCost" jdbcType="DECIMAL" />
+    <result column="tech_researcher_cost" property="techResearcherCost" jdbcType="DECIMAL" />
+    <result column="tech_subsidy_cost" property="techSubsidyCost" jdbcType="DECIMAL" />
+    <result column="tech_facilities_cost" property="techFacilitiesCost" jdbcType="DECIMAL" />
+    <result column="tech_other_cost" property="techOtherCost" jdbcType="DECIMAL" />
+    <result column="tech_subtotal_cost" property="techSubtotalCost" jdbcType="DECIMAL" />
+    <result column="country_lead_count" property="countryLeadCount" jdbcType="INTEGER" />
+    <result column="country_join_count" property="countryJoinCount" jdbcType="INTEGER" />
+    <result column="country_funds" property="countryFunds" jdbcType="DECIMAL" />
+    <result column="province_lead_count" property="provinceLeadCount" jdbcType="INTEGER" />
+    <result column="province_join_count" property="provinceJoinCount" jdbcType="INTEGER" />
+    <result column="province_funds" property="provinceFunds" jdbcType="DECIMAL" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="notes" property="notes" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, create_user_id, create_user_name, unit_code, unit_name, create_user_mobile, 
+    charge_depart_man, tech_charge_man, tech_project_cost, tech_researcher_cost, tech_subsidy_cost, 
+    tech_facilities_cost, tech_other_cost, tech_subtotal_cost, country_lead_count, country_join_count, 
+    country_funds, province_lead_count, province_join_count, province_funds, type, audit_status, 
+    notes
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tech_cost
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tech_cost
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.report.TechCost" >
+    insert into tech_cost (id, create_date, create_user_id, 
+      create_user_name, unit_code, unit_name, 
+      create_user_mobile, charge_depart_man, tech_charge_man, 
+      tech_project_cost, tech_researcher_cost, tech_subsidy_cost, 
+      tech_facilities_cost, tech_other_cost, tech_subtotal_cost, 
+      country_lead_count, country_join_count, country_funds, 
+      province_lead_count, province_join_count, province_funds, 
+      type, audit_status, notes
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createUserName,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, 
+      #{createUserMobile,jdbcType=VARCHAR}, #{chargeDepartMan,jdbcType=VARCHAR}, #{techChargeMan,jdbcType=VARCHAR}, 
+      #{techProjectCost,jdbcType=DECIMAL}, #{techResearcherCost,jdbcType=DECIMAL}, #{techSubsidyCost,jdbcType=DECIMAL}, 
+      #{techFacilitiesCost,jdbcType=DECIMAL}, #{techOtherCost,jdbcType=DECIMAL}, #{techSubtotalCost,jdbcType=DECIMAL}, 
+      #{countryLeadCount,jdbcType=INTEGER}, #{countryJoinCount,jdbcType=INTEGER}, #{countryFunds,jdbcType=DECIMAL}, 
+      #{provinceLeadCount,jdbcType=INTEGER}, #{provinceJoinCount,jdbcType=INTEGER}, #{provinceFunds,jdbcType=DECIMAL}, 
+      #{type,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.report.TechCost" >
+    insert into tech_cost
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="unitCode != null" >
+        unit_code,
+      </if>
+      <if test="unitName != null" >
+        unit_name,
+      </if>
+      <if test="createUserMobile != null" >
+        create_user_mobile,
+      </if>
+      <if test="chargeDepartMan != null" >
+        charge_depart_man,
+      </if>
+      <if test="techChargeMan != null" >
+        tech_charge_man,
+      </if>
+      <if test="techProjectCost != null" >
+        tech_project_cost,
+      </if>
+      <if test="techResearcherCost != null" >
+        tech_researcher_cost,
+      </if>
+      <if test="techSubsidyCost != null" >
+        tech_subsidy_cost,
+      </if>
+      <if test="techFacilitiesCost != null" >
+        tech_facilities_cost,
+      </if>
+      <if test="techOtherCost != null" >
+        tech_other_cost,
+      </if>
+      <if test="techSubtotalCost != null" >
+        tech_subtotal_cost,
+      </if>
+      <if test="countryLeadCount != null" >
+        country_lead_count,
+      </if>
+      <if test="countryJoinCount != null" >
+        country_join_count,
+      </if>
+      <if test="countryFunds != null" >
+        country_funds,
+      </if>
+      <if test="provinceLeadCount != null" >
+        province_lead_count,
+      </if>
+      <if test="provinceJoinCount != null" >
+        province_join_count,
+      </if>
+      <if test="provinceFunds != null" >
+        province_funds,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+      <if test="notes != null" >
+        notes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null" >
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserMobile != null" >
+        #{createUserMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeDepartMan != null" >
+        #{chargeDepartMan,jdbcType=VARCHAR},
+      </if>
+      <if test="techChargeMan != null" >
+        #{techChargeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="techProjectCost != null" >
+        #{techProjectCost,jdbcType=DECIMAL},
+      </if>
+      <if test="techResearcherCost != null" >
+        #{techResearcherCost,jdbcType=DECIMAL},
+      </if>
+      <if test="techSubsidyCost != null" >
+        #{techSubsidyCost,jdbcType=DECIMAL},
+      </if>
+      <if test="techFacilitiesCost != null" >
+        #{techFacilitiesCost,jdbcType=DECIMAL},
+      </if>
+      <if test="techOtherCost != null" >
+        #{techOtherCost,jdbcType=DECIMAL},
+      </if>
+      <if test="techSubtotalCost != null" >
+        #{techSubtotalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="countryLeadCount != null" >
+        #{countryLeadCount,jdbcType=INTEGER},
+      </if>
+      <if test="countryJoinCount != null" >
+        #{countryJoinCount,jdbcType=INTEGER},
+      </if>
+      <if test="countryFunds != null" >
+        #{countryFunds,jdbcType=DECIMAL},
+      </if>
+      <if test="provinceLeadCount != null" >
+        #{provinceLeadCount,jdbcType=INTEGER},
+      </if>
+      <if test="provinceJoinCount != null" >
+        #{provinceJoinCount,jdbcType=INTEGER},
+      </if>
+      <if test="provinceFunds != null" >
+        #{provinceFunds,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        #{notes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.report.TechCost" >
+    update tech_cost
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        unit_code = #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null" >
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserMobile != null" >
+        create_user_mobile = #{createUserMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeDepartMan != null" >
+        charge_depart_man = #{chargeDepartMan,jdbcType=VARCHAR},
+      </if>
+      <if test="techChargeMan != null" >
+        tech_charge_man = #{techChargeMan,jdbcType=VARCHAR},
+      </if>
+      <if test="techProjectCost != null" >
+        tech_project_cost = #{techProjectCost,jdbcType=DECIMAL},
+      </if>
+      <if test="techResearcherCost != null" >
+        tech_researcher_cost = #{techResearcherCost,jdbcType=DECIMAL},
+      </if>
+      <if test="techSubsidyCost != null" >
+        tech_subsidy_cost = #{techSubsidyCost,jdbcType=DECIMAL},
+      </if>
+      <if test="techFacilitiesCost != null" >
+        tech_facilities_cost = #{techFacilitiesCost,jdbcType=DECIMAL},
+      </if>
+      <if test="techOtherCost != null" >
+        tech_other_cost = #{techOtherCost,jdbcType=DECIMAL},
+      </if>
+      <if test="techSubtotalCost != null" >
+        tech_subtotal_cost = #{techSubtotalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="countryLeadCount != null" >
+        country_lead_count = #{countryLeadCount,jdbcType=INTEGER},
+      </if>
+      <if test="countryJoinCount != null" >
+        country_join_count = #{countryJoinCount,jdbcType=INTEGER},
+      </if>
+      <if test="countryFunds != null" >
+        country_funds = #{countryFunds,jdbcType=DECIMAL},
+      </if>
+      <if test="provinceLeadCount != null" >
+        province_lead_count = #{provinceLeadCount,jdbcType=INTEGER},
+      </if>
+      <if test="provinceJoinCount != null" >
+        province_join_count = #{provinceJoinCount,jdbcType=INTEGER},
+      </if>
+      <if test="provinceFunds != null" >
+        province_funds = #{provinceFunds,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.report.TechCost" >
+    update tech_cost
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      unit_code = #{unitCode,jdbcType=VARCHAR},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      create_user_mobile = #{createUserMobile,jdbcType=VARCHAR},
+      charge_depart_man = #{chargeDepartMan,jdbcType=VARCHAR},
+      tech_charge_man = #{techChargeMan,jdbcType=VARCHAR},
+      tech_project_cost = #{techProjectCost,jdbcType=DECIMAL},
+      tech_researcher_cost = #{techResearcherCost,jdbcType=DECIMAL},
+      tech_subsidy_cost = #{techSubsidyCost,jdbcType=DECIMAL},
+      tech_facilities_cost = #{techFacilitiesCost,jdbcType=DECIMAL},
+      tech_other_cost = #{techOtherCost,jdbcType=DECIMAL},
+      tech_subtotal_cost = #{techSubtotalCost,jdbcType=DECIMAL},
+      country_lead_count = #{countryLeadCount,jdbcType=INTEGER},
+      country_join_count = #{countryJoinCount,jdbcType=INTEGER},
+      country_funds = #{countryFunds,jdbcType=DECIMAL},
+      province_lead_count = #{provinceLeadCount,jdbcType=INTEGER},
+      province_join_count = #{provinceJoinCount,jdbcType=INTEGER},
+      province_funds = #{provinceFunds,jdbcType=DECIMAL},
+      type = #{type,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+    
+     <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="unitName != null and unitName  !='' ">             AND t.unit_name like CONCAT('%',#{unitName},'%')</if>
+	     <if test="unitCode != null      and unitCode !=''  ">        AND t.unit_code = #{unitCode}</if>
+	     <if test="type != null          and type !=''  ">            AND t.type = #{type}</if>
+	     <if test="auditStatus != null   and auditStatus !=''  ">     AND t.audit_status = #{auditStatus}</if>
+	     <if test="sqlStr != null        and sqlStr !='' ">           AND  ${sqlStr}</if>
+	 </trim>
+	</sql>
+	
+	 
+    
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from tech_cost t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM tech_cost t <include refid="selectCondition"/>
+    </select>
+    
+    
+</mapper>
