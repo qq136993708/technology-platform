@@ -107,12 +107,12 @@ var publicMethods;
 	         });
 	    	var $ = layui.$, active = {
 	    		searchEvent: function() { 
-                    table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"topicName":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
+                    table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
                		$(".layui-table-header table thead th input").remove();  
                 },
                    resetEvent:function(){
                 $("#name").val("");
-                table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"topicName":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
+                //table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"topicName":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
                 
                 },
                 addEvent:function(){
