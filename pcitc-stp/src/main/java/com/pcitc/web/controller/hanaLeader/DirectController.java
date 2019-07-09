@@ -195,6 +195,11 @@ public class DirectController extends BaseController {
 
 		String nd = HanaUtil.getBeforeYear();
 		request.setAttribute("nd", nd);
+
+
+
+         String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/knowledgePatent";
 	}
 
@@ -624,6 +629,9 @@ public class DirectController extends BaseController {
 
 		String nd = HanaUtil.getBeforeYear();
 		request.setAttribute("nd", nd);
+
+        String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/achievement";
 	}
 
@@ -642,6 +650,9 @@ public class DirectController extends BaseController {
 
 		String year = HanaUtil.getBeforeYear();
 		request.setAttribute("year", year);
+
+        String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/contract";
 	}
 
@@ -1112,6 +1123,8 @@ public class DirectController extends BaseController {
 
 		String year = HanaUtil.getBeforeYear();
 		request.setAttribute("year", year);
+		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/topic";
 	}
 
@@ -1482,6 +1495,9 @@ public class DirectController extends BaseController {
 		request.setAttribute("year", year);
 		String month = HanaUtil.getCurrrentYear_Moth();
 		request.setAttribute("month", year + "-" + month.substring(5));
+
+        String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/equipment";
 	}
 

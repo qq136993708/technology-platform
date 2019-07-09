@@ -653,38 +653,38 @@
                 
                 
                 $("#actualPay").on("click", function () {
-                	parent.layui.index.openTabsPage("/small_leader/investment", "科研投入");
+                	parent.layui.index.openTabsPage("/small_leader/investment?userLevel=0", "科研投入");
                 	// parent.layui.index.openTabsPage("/direct/actualPay?isdisplay=1", "经费支出");
                 });
                 
                 $("#home_project").on("click", function () {
-                	parent.layui.index.openTabsPage("/small_leader/topic", "科研课题");
+                	parent.layui.index.openTabsPage("/direct/topic?userLevel=0", "科研课题");
                 	//parent.layui.index.openTabsPage("/home_project_02/home_project", "科研课题");
                 });
                 $("#home_budget").on("click", function () {
-                	 parent.layui.index.openTabsPage("/small_leader/contract", "科研合同");
+                	 parent.layui.index.openTabsPage("/direct/contract?userLevel=0", "科研合同");
                 	 // parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（亿元）");
                 });
                 
                 $("#knowledge").on("click", function () {
-                	parent.layui.index.openTabsPage("/small_leader/knowledgePatent", "知识产权");
+                	parent.layui.index.openTabsPage("/direct/knowledgePatent?userLevel=0", "知识产权");
                 	//parent.layui.index.openTabsPage("/home_knowledge/knowledge_level2", "知识产权");
                 });
                 
                 $("#achievement").on("click", function () {
-                	parent.layui.index.openTabsPage("/small_leader/achievement", "科技成果");
+                	parent.layui.index.openTabsPage("/direct/achievement?userLevel=0", "科技成果");
             	     //parent.layui.index.openTabsPage("/home_achievement/award_level2", "科技成果");
                 });
                  
                 $("#report_intl_project_main").on("click", function () {
                 	
-                	parent.layui.index.openTabsPage("/small_leader/intl_cooperation", "国际合作");
+                	parent.layui.index.openTabsPage("/small_leader/intl_cooperation?userLevel=0", "国际合作");
                 	//parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
                });
                 
                 $("#equipment").on("click", function () {
                 	
-                	 parent.layui.index.openTabsPage("/small_leader/equipment", "科研装备");
+                	 parent.layui.index.openTabsPage("/direct/equipment?userLevel=0", "科研装备");
                 	 //parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备");
                });
                

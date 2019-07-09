@@ -103,7 +103,7 @@
                 }, {
                     title: '序号',
                     type: 'numbers',
-                    width:55
+                    width:60
                 }, {
                     field: 'nd',
                     title: '立项年度',
@@ -208,9 +208,13 @@
                 renderTable();
             },
             resetEvent: function () { //点击重置按钮
+                $('#hth').val("");
+                $('#nd').val("");
+                $('#xmmc').val("");
+                $('#project_property').val("");
                 $('#projectName').val("");
-                $('.tableBtns').children('button').removeClass('active');
-                active.searchEvent();
+                selectRowData = '';
+                renderTable();
             },
             handleEvent: function () { //点击关联匹配按钮
                 if (typeof (selectRowData.xmid) == "undefined") {
