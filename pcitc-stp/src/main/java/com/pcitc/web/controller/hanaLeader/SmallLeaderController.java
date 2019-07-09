@@ -174,6 +174,8 @@ public class SmallLeaderController extends BaseController{
 
 		String nd = HanaUtil.getBeforeYear();
 		request.setAttribute("nd", nd);
+		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/small_leader/investment";
 	}
 	
@@ -254,9 +256,9 @@ public class SmallLeaderController extends BaseController{
 					List<String> legendDataList = new ArrayList<String>();
 					legendDataList.add("预算金额");
 					legendDataList.add("合同金额");
-					legendDataList.add("未签合同金额");
+					//legendDataList.add("未签合同金额");
 					legendDataList.add("拨款金额");
-					legendDataList.add("未拨款金额");
+					//legendDataList.add("未拨款金额");
 					barLine.setLegendDataList(legendDataList);
 					// X轴数据
 					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
@@ -264,13 +266,13 @@ public class SmallLeaderController extends BaseController{
 					seriesList.add(s1);
 					ChartBarLineSeries s2 = HanaUtil.getInvestmentBarLineSeries(list, "zsjje");
 					seriesList.add(s2);
-					ChartBarLineSeries s21 = HanaUtil.getInvestmentBarLineSeries(list, "wqhtzje");
-					seriesList.add(s21);
+					//ChartBarLineSeries s21 = HanaUtil.getInvestmentBarLineSeries(list, "wqhtzje");
+					//seriesList.add(s21);
 					
 					ChartBarLineSeries s3 = HanaUtil.getInvestmentBarLineSeries(list, "hanaMoney");
 					seriesList.add(s3);
-					ChartBarLineSeries s4 = HanaUtil.getInvestmentBarLineSeries(list, "wbkzje");
-					seriesList.add(s4);
+					//ChartBarLineSeries s4 = HanaUtil.getInvestmentBarLineSeries(list, "wbkzje");
+					//seriesList.add(s4);
 					barLine.setSeriesList(seriesList);
 					result.setSuccess(true);
 					result.setData(barLine);
@@ -335,13 +337,17 @@ public class SmallLeaderController extends BaseController{
 
 					List<String> legendDataList = new ArrayList<String>();
 					legendDataList.add("预算金额");
-					//legendDataList.add("合同金额");
+					legendDataList.add("合同金额");
 					legendDataList.add("拨款金额");
 					barLine.setLegendDataList(legendDataList);
 					// X轴数据
 					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 					ChartBarLineSeries s1 = HanaUtil.getInvestmentBarLineSeries02(list, "zysje");
 					seriesList.add(s1);
+					
+					ChartBarLineSeries s12 = HanaUtil.getInvestmentBarLineSeries02(list, "zsjje");
+					seriesList.add(s12);
+					
 					ChartBarLineSeries s2 = HanaUtil.getInvestmentBarLineSeries02(list, "hanaMoney");
 					seriesList.add(s2);
 					barLine.setSeriesList(seriesList);

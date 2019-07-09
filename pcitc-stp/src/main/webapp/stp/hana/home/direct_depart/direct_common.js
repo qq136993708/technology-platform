@@ -207,6 +207,8 @@ var mutl_bar_down = {
 
 
 
+
+
 //barLineAjax返回DATA,指标在下方
 function load_mutl_bar_down(url,id,title,subtext,yAxis,width,color,callback)
 {

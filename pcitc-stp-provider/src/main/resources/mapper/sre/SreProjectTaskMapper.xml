@@ -947,7 +947,7 @@
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  create_date desc
+        ORDER BY  begin_project_month desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
@@ -979,6 +979,7 @@
 	     <if test="setupYear != null and setupYear !=''  "> AND t.setup_year = #{setupYear}</if>
    		 <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.lead_unit_code = #{parentUnitPathIds}</if>
+   			 ORDER BY  begin_project_month desc
    </select>
    
    <select id="getClosedList" resultMap="BaseResultMap" parameterType="Map">
@@ -987,6 +988,7 @@
 	     <if test="setupYear != null and setupYear !=''  "> AND t.setup_year = #{setupYear}</if>
 	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{firstApplyUser}</if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.lead_unit_code = #{parentUnitPathIds}</if>
+   			 ORDER BY  begin_project_month desc
    </select>
   
   
