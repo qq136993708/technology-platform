@@ -679,6 +679,7 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         }
 
+        hashmap.put("leaderFlag",1);
         list = outProjectPlanMapper.selectProjectPlanByCond(hashmap);
         System.out.println("1>>>>>>>>>查询分页结果" + list.size());
         PageInfo<OutProjectPlan> pageInfo = new PageInfo<OutProjectPlan>(list);
