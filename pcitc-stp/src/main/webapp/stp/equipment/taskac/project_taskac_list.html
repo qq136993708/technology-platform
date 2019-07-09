@@ -495,7 +495,7 @@ var name=$('#name').val();
                 {field : 'documentDocAgreement', title : '验收报告材料', style : 'cursor: pointer;', align : 'left', width : '10%',templet:function(d){return '<span onclick="view_report(\''+d.id+'\')" style="color:#1890ff">验收报告材料</span>'}},
                 {field : 'content',sort : true,  title : '验收描述', style : 'cursor: pointer;', align: 'left',width : '15%'},
                 {field : 'createUser',sort : true,  title : '创建人', style : 'cursor: pointer;', align: 'left',width : '10%'},
-                {field : 'createDate',sort : true,  title : '创建时间', style : 'cursor: pointer;', align: 'left', templet : '#dateTpl'},
+                {field : 'createDate',sort : true,  title : '创建时间', style : 'cursor: pointer;', align: 'left',width : '10%', templet : '#dateTpl'},
 
             ]],
             done: function (res, curr, count) {

@@ -178,7 +178,22 @@ var name=$('#name').val();
             },
              exportEvent:function(){
                  var month=$('#month').val();
-                 month=month.replace("-","");
+                 if(month==""){
+                     var date = new Date();
+                     var seperator1 = "-";
+                     var year = date.getFullYear();
+                     var month = date.getMonth();
+                     var strDate = date.getDate();
+                     if (month >= 1 && month <= 9) {
+                         month = "0" + month;
+                     }
+                     if (strDate >= 0 && strDate <= 9) {
+                         strDate = "0" + strDate;
+                     }
+                     var month = year + 0 + month
+                 }else{
+                     month=month.replace("-","");
+                 }
                  var g0anln1= $('#g0anln1').val();
                  var g0gsjc= $('#g0gsjc').val();
                  var g0txt50= $('#g0txt50').val();
@@ -216,7 +231,18 @@ var name=$('#name').val();
 	{    
     	var month=$('#month').val();
     	if(month==""){
-    		month="201906";
+            var date = new Date();
+            var seperator1 = "-";
+            var year = date.getFullYear();
+            var month = date.getMonth();
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var month = year + 0 + month
     	}else{
     		month=month.replace("-","");
     	}
@@ -239,7 +265,7 @@ var name=$('#name').val();
                 theme: '#0F9EE0'
             },
             cols: [[
-            	 {type : 'checkbox', event : 'changeEvents', width : 55},
+            	 /*{type : 'checkbox', event : 'changeEvents', width : 55},*/
             	 {title : '序号', type :'numbers', width : 55},
             	 {field : 'g0cald',     title : '月份',      style : 'cursor: pointer;', align: 'left', width : '6%',sort : true},
             	 {field : 'g0gsjc',     title : '公司简称',      style : 'cursor: pointer;', align: 'left', width : '6%',sort : true},
@@ -260,7 +286,7 @@ var name=$('#name').val();
             	 {field : 'equipmentName', title : '装备名', style : 'cursor: pointer;', align: 'left', width : '7%',sort : true,templet : '#getErpOrderlist_tlp_id'}
             ]],
             done: function (res, curr, count) {
-                // 点击行联动选择框--单选
+                /*// 点击行联动选择框--单选
                 $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
                 	var index=parseInt($(this).index()+1);
                     $('tr').removeClass('layui-table-click');
@@ -268,7 +294,7 @@ var name=$('#name').val();
                     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                     $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData=res.data[index-1];
-                });
+                });*/
                 
                 
  				

@@ -70,11 +70,11 @@ var publicMethods;
             	{title : '序号', type :'numbers', width : 55},
                // {field : 'status', title : '状态', style : 'cursor: pointer;', align: 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
                 {field : 'topicName', title : '任务书名称', width : '20%',style : 'cursor: pointer;', align: 'left'},
-                {field : 'projectMoney', title : '总经费(万元)',width : '20%', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
-                {field : 'leadUnitName', title : '牵头单位', width : '20%',style : 'cursor: pointer;', align: 'left'},
-                {field : 'parentUnitPathNames', title : '申报单位', width : '20%',style : 'cursor: pointer;', align: 'left'},
+                {field : 'projectMoney', title : '总经费(万元)',width : '15%', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                {field : 'leadUnitName', title : '牵头单位', width : '15%',style : 'cursor: pointer;', align: 'left'},
+                {field : 'parentUnitPathNames', title : '申报单位', width : '15%',style : 'cursor: pointer;', align: 'left'},
                 {field : 'createUserName', title : '申报人', width : '15%',style : 'cursor: pointer;', align: 'left'},
-                {field : 'createDate', title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
+                {field : 'createDate', title : '上报时间', width : '15%' ,style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
             ]],
 	            done: function (res, curr, count) 
 	            {$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
@@ -105,9 +105,10 @@ var publicMethods;
 	             e.stopPropagation();
 	         });
 	    	var $ = layui.$, active = {
-	    		searchEvent: function() { 
+	    		searchEvent: function() {
+	    		    alert("查询")
                 table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
-                $(".layui-table-header table thead th input").remove();  
+                $(".layui-table-header table thead th input").remove();
                 },
                 resetEvent:function(){
                 $("#name").val("");
@@ -146,7 +147,7 @@ var publicMethods;
 	<div class="searchBox">
 		<label class="dateInput">
         	<span>任务书名称</span>
-        	<input type="text" name="name" id="name" placeholder="请输入任务书名称" autocomplete="off" class="form-control">
+        	<input type="text" name="name" id="name"  placeholder="请输入任务书名称" autocomplete="off" class="form-control">
     	</label>
     	<div class="btnGroup">
         	<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"                 data-type="searchEvent">查询</button>

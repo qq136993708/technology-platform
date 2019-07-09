@@ -283,8 +283,9 @@ var name=$('#name').val();
                  }else
                  {
                      var id=selectRowData.id;
+                     var stage=selectRowData.stage;
                      var uploadState="1";
-                     var temUrl="/sre-purchase/upFileDoc?id=" + id +"&uploadState="+uploadState;
+                     var temUrl="/sre-purchase/upFileDoc?id=" + id +"&uploadState="+uploadState+"&stage="+stage;
                      layer.open({
                          title:'上传采购申请单',
                          skin: 'layui-layer-lan',

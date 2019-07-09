@@ -514,8 +514,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 					String joinUnitName=getTableParam(param,"joinUnitName","");
 					String joinUnitCode=getTableParam(param,"joinUnitCode","");
 					String taskWriteUsersIds=getTableParam(param,"taskWriteUsersIds","");
-					
-					
+
+
 					String createUserId=getTableParam(param,"createUserId","");
 					String createUserName=getTableParam(param,"createUserName","");
 					String professionalFieldCode=getTableParam(param,"professionalFieldCode","");
@@ -543,7 +543,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 					map.put("joinUnitName", joinUnitName);
 					map.put("joinUnitCode", joinUnitCode);
 					map.put("taskWriteUsersIds", taskWriteUsersIds);
-					
+
 					map.put("createUserId", createUserId);
 					map.put("createUserName", createUserName);
 					map.put("professionalFieldCode", professionalFieldCode);
@@ -1385,7 +1385,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 		int pageNum = pageStart/pageSize + 1;
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
+
+		String name = getTableParam(param, "name", "");
 		Map map=new HashMap();
+		map.put("name",name);
 		List<SreProjectTask> list = sreProjectTaskMapper.getListByErpnum(map);
 		if(list!=null && list.size()>0)
 		{
