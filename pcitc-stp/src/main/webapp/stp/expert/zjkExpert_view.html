@@ -740,6 +740,7 @@
             var myEditor = null;
             ClassicEditor.create(document.querySelector('#userDesc'),{}).then(editor => {
                 myEditor = editor;
+                $(".ck-editor__editable").attr("contenteditable","false");
             });
             //初始赋值 component-form-group 当前form的lay-filter
             if (id != "0") {
