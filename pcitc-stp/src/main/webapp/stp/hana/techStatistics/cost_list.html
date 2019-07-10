@@ -15,14 +15,22 @@
 <div class="searchBox">
 <input name="functionId" id="functionId" value="${functionId}" type="hidden">
     <!--查询条件-->
+    
+    <label class="dateInput">
+        <span>科研机构调查名称</span>
+        <input type="text" name="unitName" id="unitName" placeholder="请输入科研机构调查名称" title="科研机构调查名称" autocomplete="off" class="form-control" >
+    </label>
+    
+    
          <label class="dateInput">
-            <span>月份</span>
-            <input type="text" name="month"  title="月份" value="${month}"  id="month">
-            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
-        </label>
-       <div class="layui-input-inline"  style="margin-left:10px">
-           <select id="companyCode" name="companyCode" class="form-control"></select>
-        </div>
+         <span>审核状态</span>
+          <select name="auditStatus" id="auditStatus"   class="form-control"  >
+             <option value="" >--请选择--</option>
+             <#list auditStatusList as vo> 
+		          <option value="${vo.numValue}"  >${vo.name}</option>
+		      </#list>
+		 </select>
+     </label>
     <!--按钮组-->
     <div class="btnGroup">
      <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
@@ -42,15 +50,17 @@
     <table id="myTable" class="layui-table" lay-filter="myTable" >
                  <thead>
                   <tr>
-                      <th lay-data="{field:'g0GSJC', width:'8%',templet:viewv}" rowspan="2" >单位名称</th>
+                      <th lay-data="{checkbox:true, fixed:'left'}" rowspan="2"></th>
+                      <th lay-data="{field:'auditStatus',templet:'<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'}" rowspan="2">审核状态</th>
+                      <th lay-data="{field:'unitName', width:'8%',templet:viewv}" rowspan="2" >单位名称</th>
                       <th lay-data="{align:'center'}" colspan="6">科技投入情况（单位：万元）</th>
                       <th lay-data="{align:'center'}" colspan="3">承担和参加国家级科技项目</th>
                       <th lay-data="{align:'center'}" colspan="3">承担和参加地方（省级）科技项目</th>
                   </tr>
                   <tr>
                       <th lay-data="{field:'techProjectCost', width:'7%',align:'right'}">科技项目费</th>
-                      <th lay-data="{field:'techResearcherCost',    width:'7%',align:'right'}">科研人员费</th> 
-                      <th lay-data="{field:'techSubsidyCost',      width:'7%',align:'right'}">科研折旧费补贴</th>
+                      <th lay-data="{field:'techResearcherCost',  width:'7%',align:'right'}">科研人员费</th> 
+                      <th lay-data="{field:'techSubsidyCost',     width:'7%',align:'right'}">科研折旧费补贴</th>
                       <th lay-data="{field:'techFacilitiesCost',  width:'8%',align:'right'}">设施投资</th>
                       <th lay-data="{field:'techOtherCost',       width:'8%',align:'right'}">其它科技投入</th>
                       <th lay-data="{field:'techSubtotalCost',    width:'8%',align:'right'}">合计</th> 
@@ -61,7 +71,7 @@
                      
                       <th lay-data="{field:'provinceLeadCount', width:'8%',align:'right'}">牵头项目数量</th> 
                       <th lay-data="{field:'provinceJoinCount', width:'8%',align:'right'}">参加项目数量</th> 
-                      <th lay-data="{field:'provinceFunds', width:'8%',align:'right'}">地方（省级）政府投入经费</th>
+                      <th lay-data="{field:'provinceFunds',     width:'8%',align:'right'}">地方（省级）政府投入经费</th>
                   </tr>
                  </thead>
              </table>
@@ -95,26 +105,22 @@
       {
           if (d) 
           {
-        	  var str= "<span onclick=\"view('"+d.g0GSJC+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.g0GSJC+"</span>";
+        	  var str= "<span onclick=\"view('"+d.id+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.unitName+"</span>";
               return str;
           } else {
               return '';
           }
       }
-      function view(g0GSJC) 
+      function view(id) 
       {
-      	   var companyName=g0GSJC;
-           var month=$("#month").val();
-           month=month.replace("-","");
       	    var v_date=(new Date()).getTime();
-      	    var url= '/sf/to_getKtzjjfytjbData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+      	    var url= '/tech_cost/get/'+id;
            layer.open({
-               title:'课题直间接费用-详情',
+               title:'科技投入表-详情',
                skin: 'layui-layer-lan',
                shadeClose: true,
                type: 2,
                fixed: false,
-               //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                maxmin: false,
                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                area: ['70%', '90%'],
@@ -177,36 +183,32 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                         content:  '/tech_cost/add'
                     });
                 }
-                ,editEvent: function(){  //点击编辑按钮
+                ,editEvent: function(){ 
                 	
                 	if (typeof(selectRowData) == "undefined") {
                 		layer.msg('请点击选择一行数据');
-                	} else {
-                		 var id=selectRowData.id;
-               		     var url="/tech_cost/add?id="+id;
-               		     
-               		  var isLinkedProject=selectRowData.isLinkedProject;
-            		  if(isLinkedProject=='1')
+                	} else 
+                	{
+                	   var id=selectRowData.id;
+               		   var url="/tech_cost/add?id="+id;
+               		   var auditStatus=selectRowData.auditStatus;
+            		   if(auditStatus=='1' ||auditStatus=='2')
             		   {
-            			  layer.alert('该科技投入已经关联课题,不能修改');
+            			  layer.alert('该科技投入已经在审核中');
             			  return;
             		   }
-            		  
-            		  
-               		  layer.open({
+            		   
+               		   layer.open({
                           title:'科技投入-修改',
                           skin: 'layui-layer-lan',
                           shadeClose: true,
                           type: 2,
                           fixed: false,
-                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                           maxmin: true,
-                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                           area: ['70%', '90%'],
                           content:  url
                       });
                 	}
-                   
                 },deleteEvent: function(){  //点击删除按钮
                      console.log('点击了删除按钮')
                      if (typeof(selectRowData) == "undefined") 
@@ -215,12 +217,13 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                 	 } else 
                 	 {
                 		  var id=selectRowData.id;
-                		  var isLinkedProject=selectRowData.isLinkedProject;
-                		  if(isLinkedProject=='1')
-                		   {
-                			  layer.alert('该科技投入已经关联课题,不能删除');
-                			  return;
-                		   }
+                		  var auditStatus=selectRowData.auditStatus;
+               		   if(auditStatus=='1' ||auditStatus=='2')
+               		   {
+               			  layer.alert('该科技投入已经在审核中');
+               			  return;
+               		   }
+               		   
                 		  
                		      var url="/tech_cost/delete/"+id;
     	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
@@ -262,8 +265,6 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
             selectRowData=obj.data;
         });
         
-        
-        
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
@@ -278,36 +279,65 @@ function search_Event()
 	myTable();
 }
 
-
 function myTable()
 {
-	/*  var month=$("#month").val();
-	 month=month.replace("-","");
-	 var companyCode=$("#companyCode").val(); */
-	 // alert(companyCode);
+	 var auditStatus=$("#auditStatus").val();
+	 var unitName=$("#unitName").val(); 
 	 var v_date=(new Date()).getTime();
-	 var url= '/tech_cost/list?v_date='+v_date;
+	 var url= '/tech_cost/list?v_date='+v_date+"&auditStatus="+auditStatus+"&unitName="+unitName;
      table.init('myTable', {
-		  url: url
-		  , height: tableHeight
-		  ,where: {} ,
+		  url: url,height: tableHeight,where: {} ,
 		  done: function (res, curr, count) {
 			  layer.closeAll();
 		  }
 	 });
 	   
 }
-   
 
 
 
-function exput_excel()
+/*formName：form表单名称，
+type：post、get,delete,put 
+backurl:操作成功后返回地址
+successMsg：成功提示
+failMsg：失败提示 */
+function ajaxDeleteOpt(url,type,successMsg,failMsg)
 {
-	var companyCode=$('#companyCode').val();
-	var month=$('#month').val();
-	 month=month.replace("-","");
-	window.open("/ktzjjfytjb_data_exput_excel?month="+month+"&companyCode="+companyCode); 
+	 $.ajax({
+  	     type:type,
+  	     url: url,
+  	     dataType:"json",
+  	     async: false, 
+  	     cache: false,
+  	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+    	  
+	          if(data.success==true ||data.success=='true')
+	          {
+	        	  layer.alert(
+	        			  successMsg, 
+	                      {icon: 1,closeBtn: 0 },
+	                      function () 
+	                      {
+	                    	  myTable();
+	                    	   layer.closeAll();
+	                      });
+	       	   
+	          } else
+	          {
+	        	 layer.alert("操作失败");
+	          }
+	     
+		   },
+		   error:function()
+		   {
+		    	layer.alert("网络访问错误");
+		   }
+    
+  });
 } 
+
 
 
 </script>

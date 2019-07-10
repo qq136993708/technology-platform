@@ -35,28 +35,23 @@
 <div class="layer-box">
 <form class="layui-form" name="form1" id="form1" action="" method="POST"  lay-filter="component-form-group layui-container">
 <input type="hidden" name="id" id="id" value="${techOrgCount.id}">
-<input type="hidden" name="attachmentDoc" id="attachmentDoc" value="${attachmentDoc}">      
+<input type="hidden" name="attachmentDoc" id="attachmentDoc" value="${techOrgCount.attachmentDoc}">      
     <div class="formBox">
         <div class="tableToolBox">
             <div class="tableBtns">
-                <div class="tableTitle"><span class="red">（标*号为必填项）</span>
+                <div class="tableTitle">
                 </div>
             </div>
         </div>
         <div class="box-body">
-        
-        
-            <!--  
-             
-            <div class="demo_line_05" style="text-align:center;">———————————<span>情况调查表</span>————————————</div> -->
              
              <!-- 2行begin-->
              <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">职工总人数：<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">职工总人数：</label>
                         <div class="layui-input-block">
-                            <input class="layui-input"  name="workersCount" id="workersCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly"   name="workersCount" id="workersCount"
                                    value="${techOrgCount.workersCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -65,9 +60,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">女性人数<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">女性人数</label>
                         <div class="layui-input-block">
-                            <input class="layui-input"  name="femaleCount" id="femaleCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly"  name="femaleCount" id="femaleCount"
                                    value="${techOrgCount.femaleCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -79,9 +74,9 @@
                <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">高级职称人数：<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">高级职称人数：</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="高级技术职称人数"  name="titleSeniorCount" id="titleSeniorCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="高级技术职称人数"  name="titleSeniorCount" id="titleSeniorCount"
                                    value="${techOrgCount.titleSeniorCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -90,9 +85,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">中级职称人数<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">中级职称人数</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="中级技术职称人数"   name="titleMiddleCount" id="titleMiddleCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="中级技术职称人数"   name="titleMiddleCount" id="titleMiddleCount"
                                    value="${techOrgCount.titleMiddleCount}"   lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -103,9 +98,9 @@
               <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">无级技术人数：<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">无级技术人数：</label>
                         <div class="layui-input-block">
-                            <input class="layui-input"  placeholder="无高中级技术职称的大学本科及以上学历人员"  name="titleLowerCount" id="titleLowerCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly"  placeholder="无高中级技术职称的大学本科及以上学历人员"  name="titleLowerCount" id="titleLowerCount"
                                    value="${techOrgCount.titleLowerCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -114,9 +109,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">博士毕业人数<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">博士毕业人数</label>
                         <div class="layui-input-block">
-                            <input class="layui-input"   name="diplomaDoctorCount" id="diplomaDoctorCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly"   name="diplomaDoctorCount" id="diplomaDoctorCount"
                                    value="${techOrgCount.diplomaDoctorCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -131,9 +126,9 @@
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">硕士毕业人数：<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">硕士毕业人数：</label>
                         <div class="layui-input-block">
-                            <input class="layui-input"  name="diplomaMasterCount" id="diplomaMasterCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly"  name="diplomaMasterCount" id="diplomaMasterCount"
                                    value="${techOrgCount.diplomaMasterCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -142,9 +137,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">本科毕业人数<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">本科毕业人数</label>
                         <div class="layui-input-block">
-                            <input class="layui-input"    name="diplomaUndergraduateCount" id="diplomaUndergraduateCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly"    name="diplomaUndergraduateCount" id="diplomaUndergraduateCount"
                                    value="${techOrgCount.diplomaUndergraduateCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -156,9 +151,9 @@
               <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">国家级专家人数：<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">国家级专家人数：</label>
                         <div class="layui-input-block">
-                            <input class="layui-input"  placeholder="高级专家人数" name="specialistCountryCount" id="specialistCountryCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly"  placeholder="高级专家人数" name="specialistCountryCount" id="specialistCountryCount"
                                    value="${techOrgCount.specialistCountryCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -167,9 +162,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">省级专家人数<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">省级专家人数</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="高级专家人数" name="specialistProvinceCount" id="specialistProvinceCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="高级专家人数" name="specialistProvinceCount" id="specialistProvinceCount"
                                    value="${techOrgCount.specialistProvinceCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -182,9 +177,9 @@
              <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">(R&D)人员数：<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">(R&D)人员数：</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="研究与试验发展(R&D)人员数" name="researcherCount" id="researcherCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="研究与试验发展(R&D)人员数" name="researcherCount" id="researcherCount"
                                    value="${techOrgCount.researcherCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -193,9 +188,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">直接参与员数：<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">直接参与员数：</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="直接参与研究与试验发展项目(课题)人员数" name="directResearcherCount" id="directResearcherCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="直接参与研究与试验发展项目(课题)人员数" name="directResearcherCount" id="directResearcherCount"
                                    value="${techOrgCount.directResearcherCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -207,9 +202,9 @@
               <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">辅助工作人员数<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">辅助工作人员数</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="研究与试验发展项目(课题)管理和辅助工作人员数" name="assistResearcherCount" id="assistResearcherCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="研究与试验发展项目(课题)管理和辅助工作人员数" name="assistResearcherCount" id="assistResearcherCount"
                                    value="${techOrgCount.assistResearcherCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -218,9 +213,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">职工薪酬<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">职工薪酬</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" onkeyup="clearNoNum(this)" placeholder="职工薪酬总额(￥万元)" name="workerSalary" id="workerSalary"
+                            <input class="layui-input readOnlyBox" readonly="readonly" onkeyup="clearNoNum(this)" placeholder="职工薪酬总额(￥万元)" name="workerSalary" id="workerSalary"
                                    value="${techOrgCount.workerSalary}" lay-verify="required" autocomplete="off" type="text"
                                    >
                         </div>
@@ -231,9 +226,9 @@
               <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">资产合计<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">资产合计</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" onkeyup="clearNoNum(this)" placeholder="资产合计(￥万元)" name="assetsTotal" id="assetsTotal"
+                            <input class="layui-input readOnlyBox" readonly="readonly" onkeyup="clearNoNum(this)" placeholder="资产合计(￥万元)" name="assetsTotal" id="assetsTotal"
                                    value="${techOrgCount.assetsTotal}" lay-verify="required" autocomplete="off" type="text"
                                    >
                         </div>
@@ -241,9 +236,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">资产原值<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">资产原值</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" onkeyup="clearNoNum(this)" placeholder="固定资产原值(￥万元)" name="fixedAssets" id="fixedAssets"
+                            <input class="layui-input readOnlyBox" readonly="readonly" onkeyup="clearNoNum(this)" placeholder="固定资产原值(￥万元)" name="fixedAssets" id="fixedAssets"
                                    value="${techOrgCount.fixedAssets}" lay-verify="required" autocomplete="off" type="text"
                                    >
                         </div>
@@ -254,18 +249,18 @@
              <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">仪器设备原值<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">仪器设备原值</label>
                         <div class="layui-input-block">
-                            <input class="layui-input"  onkeyup="clearNoNum(this)" placeholder="技术开发仪器设备原值(￥万元)" name="deviceAssets" id="deviceAssets"
+                            <input class="layui-input readOnlyBox" readonly="readonly"  onkeyup="clearNoNum(this)" placeholder="技术开发仪器设备原值(￥万元)" name="deviceAssets" id="deviceAssets"
                                    value="${techOrgCount.deviceAssets}" lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">总收入<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">总收入</label>
                         <div class="layui-input-block">
-                            <input class="layui-input"  onkeyup="clearNoNum(this)"  placeholder="总收入(￥万元)" name="totaIncome" id="totaIncome"
+                            <input class="layui-input readOnlyBox" readonly="readonly"  onkeyup="clearNoNum(this)"  placeholder="总收入(￥万元)" name="totaIncome" id="totaIncome"
                                    value="${techOrgCount.totaIncome}" lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
@@ -278,9 +273,9 @@
               <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">政府科研投入<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">政府科研投入</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" onkeyup="clearNoNum(this)"  placeholder="国家、政府科研投入(￥万元)" name="countryInvestCost" id="countryInvestCost"
+                            <input class="layui-input readOnlyBox" readonly="readonly" onkeyup="clearNoNum(this)"  placeholder="国家、政府科研投入(￥万元)" name="countryInvestCost" id="countryInvestCost"
                                    value="${techOrgCount.countryInvestCost}" lay-verify="required" autocomplete="off" type="text"
                                  >
                         </div>
@@ -288,9 +283,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">总部科研投入<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">总部科研投入</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" onkeyup="clearNoNum(this)"  placeholder="总部科研投入(￥万元)" name="groupInvestCost" id="groupInvestCost"
+                            <input class="layui-input readOnlyBox" readonly="readonly" onkeyup="clearNoNum(this)"  placeholder="总部科研投入(￥万元)" name="groupInvestCost" id="groupInvestCost"
                                    value="${techOrgCount.groupInvestCost}" lay-verify="required" autocomplete="off" type="text"
                                   >
                         </div>
@@ -304,9 +299,9 @@
               <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">公司科研投入<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">公司科研投入</label>
                         <div class="layui-input-block">
-                            <input class="layui-input"   placeholder="分(子)公司科研投入(￥万元)" name="subInvestCost" id="subInvestCost"
+                            <input class="layui-input readOnlyBox" readonly="readonly"   placeholder="分(子)公司科研投入(￥万元)" name="subInvestCost" id="subInvestCost"
                                    value="${techOrgCount.subInvestCost}" lay-verify="required" autocomplete="off" type="text"
                                  onkeyup="clearNoNum(this)"  >
                         </div>
@@ -314,9 +309,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">外部技术性收入<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">外部技术性收入</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="外部技术性收入(￥万元)" name="outInvestCost" id="outInvestCost"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="外部技术性收入(￥万元)" name="outInvestCost" id="outInvestCost"
                                    value="${techOrgCount.outInvestCost}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="clearNoNum(this)" >
                         </div>
@@ -329,9 +324,9 @@
               <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">全部专利数<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">全部专利数</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="持有全部专利数" name="allPatentCount" id="allPatentCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="持有全部专利数" name="allPatentCount" id="allPatentCount"
                                    value="${techOrgCount.allPatentCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -340,9 +335,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">发明专利数<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">发明专利数</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="全部专利数,其中：发明专利数" name="allPatentLookCount" id="allPatentLookCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="全部专利数,其中：发明专利数" name="allPatentLookCount" id="allPatentLookCount"
                                    value="${techOrgCount.allPatentLookCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -356,9 +351,9 @@
                <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">当年专利申请数<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">当年专利申请数</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="当年专利申请数" name="currentYearPatentCount" id="currentYearPatentCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="当年专利申请数" name="currentYearPatentCount" id="currentYearPatentCount"
                                    value="${techOrgCount.currentYearPatentCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -367,9 +362,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">发明专利数<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">发明专利数</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="当年专利申请数,其中：发明专利数" name="currentPatentLookCount" id="currentPatentLookCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="当年专利申请数,其中：发明专利数" name="currentPatentLookCount" id="currentPatentLookCount"
                                    value="${techOrgCount.currentPatentLookCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -381,9 +376,9 @@
                <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">国家级<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">国家级</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="2015年度获奖成果数(第一完成单位)" name="achievementsCountryCount" id="achievementsCountryCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="2015年度获奖成果数(第一完成单位)" name="achievementsCountryCount" id="achievementsCountryCount"
                                    value="${techOrgCount.achievementsCountryCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -392,9 +387,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">省部级<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">省部级</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="2015年度获奖成果数(第一完成单位)-》省部级(含集团公司)" name="achievementsPrivanceCount" id="achievementsPrivanceCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="2015年度获奖成果数(第一完成单位)-》省部级(含集团公司)" name="achievementsPrivanceCount" id="achievementsPrivanceCount"
                                    value="${techOrgCount.achievementsPrivanceCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -410,9 +405,9 @@
              <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">公司级<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">公司级</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="2015年度获奖成果数(第一完成单位)" name="achievementsCompanyCount" id="achievementsCompanyCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="2015年度获奖成果数(第一完成单位)" name="achievementsCompanyCount" id="achievementsCompanyCount"
                                    value="${techOrgCount.achievementsCompanyCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -421,9 +416,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">发表科技论文总量<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">发表科技论文总量</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="2015年度科技论文发表情况" name="thesisAllCount" id="thesisAllCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="2015年度科技论文发表情况" name="thesisAllCount" id="thesisAllCount"
                                    value="${techOrgCount.thesisAllCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -435,9 +430,9 @@
                <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">科学引文索引量<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">科学引文索引量</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="2015年度科技论文发表情况-》SCI（科学引文索引）数量" name="thesisSciCount" id="thesisSciCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="2015年度科技论文发表情况-》SCI（科学引文索引）数量" name="thesisSciCount" id="thesisSciCount"
                                    value="${techOrgCount.thesisSciCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -446,9 +441,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">工程索引量<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">工程索引量</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="2015年度科技论文发表情况-》EI（工程索引）数量" name="thesisEiCount" id="thesisEiCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="2015年度科技论文发表情况-》EI（工程索引）数量" name="thesisEiCount" id="thesisEiCount"
                                    value="${techOrgCount.thesisEiCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -465,9 +460,9 @@
                <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">会议录索引量<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">会议录索引量</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="2015年度科技论文发表情况-》ISTP（科学技术会议录索引）数量" name="thesisIstpCount" id="thesisIstpCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="2015年度科技论文发表情况-》ISTP（科学技术会议录索引）数量" name="thesisIstpCount" id="thesisIstpCount"
                                    value="${techOrgCount.thesisIstpCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -476,9 +471,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">科学评论索引量<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">科学评论索引量</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="2015年度科技论文发表情况-》ISR（科学评论索引）数量" name="thesisIsrCount" id="thesisIsrCount"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="2015年度科技论文发表情况-》ISR（科学评论索引）数量" name="thesisIsrCount" id="thesisIsrCount"
                                    value="${techOrgCount.thesisIsrCount}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="this.value=this.value.replace(/\D/g,'')"
                                    onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -496,15 +491,15 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">备注</label>
                     <div class="layui-input-block">
-                        <textarea name="notes" id="notes" class="layui-textarea">${techOrgCount.notes}</textarea>
+                        <textarea name="notes" id="notes" readonly="readonly" disabled="disabled" class="layui-textarea">${techOrgCount.notes}</textarea>
                     </div>
                 </div>
               <!-- 2行结束-->
               <div class="demo_line_05" style="text-align:center;">———————————<span>单位信息</span>————————————</div>
               <div class="layui-form-item">
-                    <label class="layui-form-label">单位名称<span class="must-fill">*</span></label>
+                    <label class="layui-form-label">单位名称</label>
                     <div class="layui-input-block">
-                        <input class="layui-input readOnlyBox" readonly="readonly" id="unitName" name="unitName" lay-verify="required"
+                        <input class="layui-input readOnlyBox" readonly="readonly" readonly="readonly" id="unitName" name="unitName" lay-verify="required"
                                value="${unitName}" type="text">
                     </div>
               </div>
@@ -512,18 +507,18 @@
               <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">子公司负责人：<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">子公司负责人：</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="分（子）公司科技负责人" name="techChargeMan" id="techChargeMan"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="分（子）公司科技负责人" name="techChargeMan" id="techChargeMan"
                                    value="${techOrgCount.techChargeMan}" lay-verify="required" autocomplete="off" type="text" >
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">主管部门负责人<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">主管部门负责人</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="chargeDepartMan" id="chargeDepartMan"
+                            <input class="layui-input readOnlyBox" readonly="readonly" name="chargeDepartMan" id="chargeDepartMan"
                                    value="${techOrgCount.chargeDepartMan}" lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
@@ -532,18 +527,18 @@
              <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">填表人：<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">填表人：</label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="填表人" name="createUserName" id="createUserName"
+                            <input class="layui-input readOnlyBox" readonly="readonly" readonly="readonly" placeholder="填表人" name="createUserName" id="createUserName"
                                    value="${createUserName}" lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">填表人联系电话<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">填表人联系电话</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="createUserMobile" id="createUserMobile"
+                            <input class="layui-input readOnlyBox" readonly="readonly" name="createUserMobile" id="createUserMobile"
                                    value="${techOrgCount.createUserMobile}" lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
@@ -579,7 +574,7 @@
     var id = "${id?default('')}";
     var file_ids = "attachmentDoc";
     //detail:详情，edit：编辑
-    file_edit_detail = "edit";
+    file_edit_detail = "detail";
     //统管理-附件管理-附件配置：页面标识
     file_opt_flag = "7f22fb4e579a40b0813f6090c15a3435";
 
