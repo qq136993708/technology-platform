@@ -362,7 +362,7 @@ layui.define(['jquery'],function (e) {
             "            </div>" +
             "        </div>" +
             "    </div>";*/
-        var title='',abstract='';
+        var title='',abstract='',fun='';
         console.log(d.select_type)
         if(d.cgmc!=undefined){
             title=d.cgmc;
@@ -376,6 +376,7 @@ layui.define(['jquery'],function (e) {
             title=d.patentName;
         }else if(d.expertName!=undefined){
             title=d.expertName;
+            fun = "openFullWin('查看',"+ "'/zjkBaseInfo/view/"+d.dataId+"');";
         }else if(d.typeName!=undefined){
             title=d.typeName;
         }else if(d.fileName!=undefined){
@@ -405,7 +406,7 @@ layui.define(['jquery'],function (e) {
             var select_type='';
         }
         html='<div class="layui-div layui-div-n">' +
-            '        <a href="#">'+title+'</a>' +
+            '        <a href="javascript:void(0)" onclick="'+fun+'">'+title+'</a>' +
             '        <div class="c-row c-gap-top-small">' +
             '            <div class="c-span18 c-span-last">' +
             '                <p>'+abstract+'</p>' +
