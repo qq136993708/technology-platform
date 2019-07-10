@@ -117,7 +117,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		String authenticatedUserName=(String)map.get("authenticatedUserName");
 		String functionId=(String)map.get("functionId");
 		String auditor=(String)map.get("auditor");
-		String specialAuditor0=(String)map.get("specialAuditor0");
+		//String specialAuditor0=(String)map.get("specialAuditor0");
 		
 		
 		
@@ -133,7 +133,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
     	flowJson.put("functionId", functionId);
     	// 待办业务详情、最终审批同意、最终审批不同意路径
-    	flowJson.put("auditDetailsPath", "/sre-project-basic/get/" + id);
+    	flowJson.put("auditDetailsPath", "/tech_cost/get/" + id);
     	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/sre-provider/techCost/task/agree/" + id);
     	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/sre-provider/techCost/task/reject/" + id);
 
@@ -149,7 +149,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		}
     	
     	//flowJson.put("auditor", auditor);
-    	flowJson.put("specialAuditor0", specialAuditor0); 
+    	//flowJson.put("specialAuditor0", specialAuditor0); 
 		// 非必填选项, 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 		// flowJson.put("money", 50); // 环节1需要用到
 		// flowJson.put("departmentCode", "1005"); // 环节2需要用到
@@ -253,7 +253,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
     	flowJson.put("functionId", functionId);
     	// 待办业务详情、最终审批同意、最终审批不同意路径
-    	flowJson.put("auditDetailsPath", "/sre-project-basic/get/" + id);
+    	flowJson.put("auditDetailsPath", "/tech_org/get/" + id);
     	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/task/agree/" + id);
     	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/task/reject/" + id);
 

@@ -19,8 +19,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
@@ -33,6 +31,8 @@ import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.stp.report.TechCost;
+import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysPost;
@@ -41,7 +41,6 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.JwtTokenUtil;
 
 
@@ -82,8 +81,8 @@ public class EquipmentUtils {
      private static final String GET_URL_Detail = "http://pcitc-zuul/stp-proxy/sre-provider/sreDetail/get/";
      
      
-     
-     
+     public static final String GET_ORG_URL =     "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/get/";
+ 	 public static final String   GET_COST_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/get/";
 	
 	public static String getCurrrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
@@ -168,7 +167,31 @@ public class EquipmentUtils {
 	
 	
 	
+	public static TechCost getTechCost(String id,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		TechCost	techCost = null;
+		ResponseEntity<TechCost> responseEntity = restTemplate.exchange(GET_COST_URL + id, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), TechCost.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			techCost = responseEntity.getBody();
+		}
+		return techCost;
+	}
 	
+	
+	
+	public static TechOrgCount getTechOrgCount(String id,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		TechOrgCount	techCost = null;
+		ResponseEntity<TechOrgCount> responseEntity = restTemplate.exchange(GET_ORG_URL + id, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), TechOrgCount.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			techCost = responseEntity.getBody();
+		}
+		return techCost;
+	}
 	
 	
 	
