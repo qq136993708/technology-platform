@@ -30,8 +30,8 @@
 
     <!--查询条件-->
     <label class="dateInput">
-        <span>科研机构调查名称</span>
-        <input type="text" name="unitName" id="unitName" placeholder="请输入科研机构调查名称" title="科研机构调查名称" autocomplete="off" class="form-control" >
+        <span>科研机构</span>
+        <input type="text" name="unitName" id="unitName" placeholder="请输入科研机构" title="机构名称" autocomplete="off" class="form-control" >
     </label>
      <label class="dateInput">
          <span>审核状态</span>
@@ -51,18 +51,7 @@
 
 
 <div class="tableBox">
-	<div class="tableToolBox">
-        <div class="whiteLine"></div>
-        <div  class="tableBtns">
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"    data-type="editEvent"  id="editEvent" >编辑</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg"  id="applyEvent" data-type="applyEvent">上报</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
-        </div>
-    </div>
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
-    
 </div>
 
 </div>
@@ -108,13 +97,6 @@
 
 
 <script type="text/html" id="isLinkedProject_temp">
-          {{#  if(d.isLinkedProject == ''){ }}
-            <span style="color:red">未关联</span>
-          {{#  } else if(d.isLinkedProject == '1'){ }}
-            <span style="color:green">已关联</span>
-          {{#  } else{ }}
-            <span style="color:red">未关联</span>
-          {{#  } }}
 </script>
 
 
@@ -154,121 +136,7 @@ var name=$('#name').val();
             resetEvent: function() { //点击重置按钮
             	$('#unitName').val("");
             	$('#auditStatus').val("");
-            },
-            addEvent: function(){ //点击新增按钮
-                layer.open({
-                    title:'科研机构调查-新增',
-                    skin: 'layui-layer-lan',
-                    shadeClose: true,
-                    type: 2,
-                    fixed: false,
-                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                    maxmin: true,
-                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                   area: ['70%', '90%'],
-                    content:  '/tech_org/add?type='+type
-                });
             }
-            ,editEvent: function(){  //点击编辑按钮
-            	
-            	if (typeof(selectRowData) == "undefined") {
-            		layer.msg('请点击选择一行数据');
-            	} else {
-            		 var id=selectRowData.id;
-           		     var url="/tech_org/add?id="+id+"&type="+type;
-           		     
-           		  var isLinkedProject=selectRowData.isLinkedProject;
-        		  if(isLinkedProject=='1')
-        		   {
-        			  layer.alert('该科研机构调查已经关联课题,不能修改');
-        			  return;
-        		   }
-        		  
-        		  
-           		  layer.open({
-                      title:'科研机构调查-修改',
-                      skin: 'layui-layer-lan',
-                      shadeClose: true,
-                      type: 2,
-                      fixed: false,
-                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                      maxmin: true,
-                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                      area: ['70%', '90%'],
-                      content:  url
-                  });
-            	}
-               
-            },deleteEvent: function(){  //点击删除按钮
-                 console.log('点击了删除按钮')
-                 if (typeof(selectRowData) == "undefined") 
-                 {
-            		layer.alert('请点击选择一行数据');
-            	 } else 
-            	 {
-            		  var id=selectRowData.id;
-            		  var isLinkedProject=selectRowData.isLinkedProject;
-            		  if(isLinkedProject=='1')
-            		   {
-            			  layer.alert('该科研机构调查已经关联课题,不能删除');
-            			  return;
-            		   }
-            		  
-           		      var url="/tech_org/delete/"+id;
-	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
-	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
-	         			}, function(){
-	         			 
-	         			});
-            	}
-            
-              
-            },
-            detailEvent: function(){  //点击详情按钮
-            	if (typeof(selectRowData) == "undefined") {
-            		layer.msg('请点击选择一行数据');
-            	} else {
-            		 var id=selectRowData.id;
-            		 var temUrl="/tech_org/get/" + id;
-            		 layer.open({
-                         title:'详情',
-                         skin: 'layui-layer-lan',
-                         shadeClose: true,
-                         type: 2,
-                         fixed: false,
-                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: true,
-                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: ['70%', '90%'],
-                         content:  temUrl
-                     });
-            	}
-            
-            },
-            applyEvent: function(){  //点击详情按钮
-            	
-            	if (typeof(selectRowData) == "undefined") 
-            	{
-            		layer.msg('请点击选择一行数据');
-            	}
-            	else 
-            	{
-            		
-            		 var auditStatus=selectRowData.auditStatus;
-            		 var id=selectRowData.id;
-            		 if(auditStatus!=='0')
-           			 {
-            			 layer.alert('请选择未上报的行');
-            			 return;
-           			 }else
-           			 {
-           				$('#id').val(id);
-                	 	dealFlow(id);
-           			 }
-            		 
-            	}
-            }
-            
             
         };
 
@@ -293,20 +161,13 @@ var name=$('#name').val();
         	openFullWin("详情",temUrl);
         });
         
-        
-        
-        
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-
-         
-        
         
     });
-    
     
     
     
@@ -383,12 +244,6 @@ var name=$('#name').val();
        });
     }
     
-    
-    /*formName：form表单名称，
-    type：post、get,delete,put 
-    backurl:操作成功后返回地址
-    successMsg：成功提示
-    failMsg：失败提示 */
     function ajaxDeleteOpt(url,type,successMsg,failMsg)
     {
     	 $.ajax({
@@ -429,135 +284,6 @@ var name=$('#name').val();
     
 
 
-    function dealFlow(id) 
-    {
-    	
-    	//alert(id);
-    	//return;
-    	//return;
-    	var json = {functionId: functionId};
-    	 $.ajax({
-             type : 'POST',
-             url : "/workflow/start/audit-type",
-             contentType: "application/json;charset=UTF-8",
-             data : JSON.stringify(json),
-             //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
-             success : function(data) 
-             {
-          	   if (data.code == 'role')
-          	   {
-              		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-              		// roleCodes，参数名必须一致，方便公共弹出页面调用
-              		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
-              		  var temUrl="/task/deal/users/ini";
-                      layer.open({
-                          title:'选择审批人',
-                          skin: 'layui-layer-lan',
-                          shadeClose: true,
-                          type: 2,
-                          fixed: false,
-                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                          maxmin: true,
-                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: ['800px', '550px'],
-                          content:  temUrl
-                      });
-              	} else if (data.code == 'unit' || data.code == 'post') 
-              	{
-              		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-              		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
-    	          		if (data.code == 'unit') 
-    	          		{
-    	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
-    	          		} else 
-    	          		{
-    	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
-    	          		}
-              		
-              		   var temUrl="/task/deal/user/unit/ini";
-                       layer.open({
-                          title:'选择审批人',
-                          skin: 'layui-layer-lan',
-                          shadeClose: true,
-                          type: 2,
-                          fixed: false,
-                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                          maxmin: true,
-                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: ['800px', '550px'],
-                          content:  temUrl
-                      });
-              	} else if (data.code == 'int') 
-              	{
-              		layer.msg('启动参数不足');
-              	} else if (data.code == 'con') 
-              	{
-              		layer.msg('请给此功能菜单配置流程');
-              	} else if (data.code == 'exist') 
-              	{
-              		layer.msg('工作流部署异常，请联系管理员');
-              	} else 
-              	{
-              		// 直接处理此任务
-              		handleTask('');
-              	}
-             },
-             error : function(msg) {//请求失败处理函数  
-            }
-         });
-    }
-
-    //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
-    function handleTask(userIds) 
-    {
-    	
-    	$('#userIds').val(userIds);
-    	$('#applyEvent').attr("disabled",true);
-    	var v_date=(new Date()).getTime();
-        var url="/start_org_workflow?v_date="+v_date;
-        var backurl="/tech_org/to-list?v_date="+v_date;
-        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-        $('#applyEvent').attr("disabled",false);
-    }
-    function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
-    {
-    	 $.ajax({
-      	     type:type,
-      	     url: url,
-      	     dataType:"json",
-      	     data:$("#"+formName).serialize(),
-      	     async: false, 
-      	     cache: false,
-      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-             success:function(data,status)
-             {    
-        	  
-    	          if(data.success==true ||data.success=='true')
-    	          {
-
-    	        	  
-    	        	          layer.alert(
-    	        			  successMsg, 
-    	                      {icon: 1,closeBtn: 0 },
-    	                      function () 
-    	                      {
-    	                    	  myTable();
-    	                    	      layer.closeAll();
-    	                      });
-    	        	  
-    	          } else
-    	          {
-    	        	 layer.alert(failMsg);
-    	          }
-    	     
-    		   },
-    		   error:function()
-    		   {
-    		    	layer.alert("网络访问错误");
-    		   }
-        
-      });
-    }
    
 
 </script>
