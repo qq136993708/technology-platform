@@ -224,7 +224,9 @@
         <div class="searchOption" style="text-align: center">
             <a href="javascript:void(0);" onclick="changeUrlHyly('');">全部</a>
             <#list dictionarys as item>
+            <#if item.name!='无'>
                 <a href="javascript:void(0);" onclick="changeUrlHyly('${item.code}');">${item.name}</a>
+            </#if>
             </#list>
     </div>
     <!--<div class="search formBox">-->
