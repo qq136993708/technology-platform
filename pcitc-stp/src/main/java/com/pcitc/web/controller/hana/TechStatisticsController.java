@@ -25,7 +25,6 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.report.TechCost;
 import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.system.SysDictionary;
@@ -98,14 +97,27 @@ public class TechStatisticsController extends BaseController{
 		request.setAttribute("unitCode", unitCode);*/
 		
 		
-		
+		String type = CommonUtil.getParameter(request, "type", "");
+		request.setAttribute("type", type);
 		//流程状态
-				List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
-				request.setAttribute("auditStatusList", auditStatusList);
+		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("auditStatusList", auditStatusList);
 				
 				
 		return "/stp/hana/techStatistics/cost_list";
 	}
+	
+	
+	@RequestMapping(value = "/tech_cost/to-list-kjb")
+	public String tech_cost_kjb(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		//流程状态
+		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("auditStatusList", auditStatusList);
+				
+		return "/stp/hana/techStatistics/cost_list_kjb";
+	}
+	
 
 	/**
 	 * 列表
@@ -153,7 +165,8 @@ public class TechStatisticsController extends BaseController{
 		String unitCode = map.get("unitCode");// 申报单位
 		String applyDepartName = map.get("applyDepartName");// 申报部门
 		String applyDepartCode = map.get("applyDepartCode");// 申报部门
-
+		String type = CommonUtil.getParameter(request, "type", "");
+		request.setAttribute("type", type);
 
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
@@ -349,20 +362,20 @@ public class TechStatisticsController extends BaseController{
 		String id = CommonUtil.getParameter(request, "id", "");
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
 		String userIds = CommonUtil.getParameter(request, "userIds", "");
-		SreProject sreProject = EquipmentUtils.getSreProject(id, restTemplate, httpHeaders);
-		System.out.println(
-				"============start_cost_workflow userIds=" + userIds + " functionId=" + functionId + " id=" + id);
-		String specialAuditor0 = EquipmentUtils
-				.getTaskSpecialAuditor0ByProfessionalDepartName(sreProject.getProfessionalDepartName());
+		
+		System.out.println("========start_cost_workflow userIds=" + userIds + " functionId=" + functionId + " id=" + id);
+		
+		
+		TechCost sreProject = EquipmentUtils.getTechCost(id, restTemplate, httpHeaders);
+		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("id", id);
 		paramMap.put("functionId", functionId);
-		paramMap.put("processInstanceName", "科研投入统计->" + sreProject.getName());
+		paramMap.put("processInstanceName", "科研投入统计->" + sreProject.getUnitName());
 		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
 		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
 		paramMap.put("functionId", functionId);
 		paramMap.put("auditor", userIds);
-		paramMap.put("specialAuditor0", specialAuditor0);
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap, this.httpHeaders);
 		Result rs = this.restTemplate
 				.exchange(COST_WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
@@ -398,10 +411,23 @@ public class TechStatisticsController extends BaseController{
 		//流程状态
 				List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 				request.setAttribute("auditStatusList", auditStatusList);
-				
+				String type = CommonUtil.getParameter(request, "type", "");
+				request.setAttribute("type", type);
 		return "/stp/hana/techStatistics/org_list";
 	}
 
+	
+	
+	@RequestMapping(value = "/tech_org/to-list-kjb")
+	public String tech_org_kjb(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		
+		//流程状态
+				List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+				request.setAttribute("auditStatusList", auditStatusList);
+		return "/stp/hana/techStatistics/org_list_kjb";
+	}
+	
 	/**
 	 * 列表
 	 * 
@@ -446,8 +472,13 @@ public class TechStatisticsController extends BaseController{
 		String unitCode = map.get("unitCode");// 申报单位
 		String applyDepartName = map.get("applyDepartName");// 申报部门
 		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		
 
-
+		
+		String type = CommonUtil.getParameter(request, "type", "");
+		request.setAttribute("type", type);
+		
+		
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
 		if (!id.equals("")) {
@@ -683,20 +714,17 @@ public class TechStatisticsController extends BaseController{
 		String id = CommonUtil.getParameter(request, "id", "");
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
 		String userIds = CommonUtil.getParameter(request, "userIds", "");
-		SreProject sreProject = EquipmentUtils.getSreProject(id, restTemplate, httpHeaders);
+		TechOrgCount sreProject = EquipmentUtils.getTechOrgCount(id, restTemplate, httpHeaders);
 		System.out.println(
 				"============start_org_workflow userIds=" + userIds + " functionId=" + functionId + " id=" + id);
-		String specialAuditor0 = EquipmentUtils
-				.getTaskSpecialAuditor0ByProfessionalDepartName(sreProject.getProfessionalDepartName());
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("id", id);
 		paramMap.put("functionId", functionId);
-		paramMap.put("processInstanceName", "科研机构调查表统计->" + sreProject.getName());
+		paramMap.put("processInstanceName", "科研机构调查表统计->" + sreProject.getUnitName());
 		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
 		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
 		paramMap.put("functionId", functionId);
 		paramMap.put("auditor", userIds);
-		paramMap.put("specialAuditor0", specialAuditor0);
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap, this.httpHeaders);
 		Result rs = this.restTemplate
 				.exchange(ORG_WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
