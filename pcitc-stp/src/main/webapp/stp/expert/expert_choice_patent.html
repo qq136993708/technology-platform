@@ -499,14 +499,14 @@
             console.log("-------查询--------");
             console.log(where);
             publicMethods.tableRender('expertTableGd', 'expertTableGd', '/expertController/getUserChoiceTableData', false, cols, where, true, function (res, curr, count) {
-                var param = {
-                    data: res.data,//数据
-                    element: "#ww .layui-table-body table",// 当前的表格元素
-                    column: 3,//列数 从0开始
-                    field: "sex",//当前数据的字段
-                    url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
-                };
-                publicMethods.dataDictionary(param);
+                // var param = {
+                //     data: res.data,//数据
+                //     element: "#ww .layui-table-body table",// 当前的表格元素
+                //     column: 3,//列数 从0开始
+                //     field: "sex",//当前数据的字段
+                //     url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
+                // };
+                // publicMethods.dataDictionary(param);
             });
         }
 
