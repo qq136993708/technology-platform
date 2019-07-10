@@ -182,8 +182,14 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                 	//$('#auditStatus').val("");
                 },
                 addEvent: function(){ //点击新增按钮
+                	var title="股份科技投入填报";
+                	if(type=='2')
+                	{
+                		title="集团科技投入填报";
+                	}
+                
                     layer.open({
-                        title:'科技投入-新增',
+                        title: title+'',
                         skin: 'layui-layer-lan',
                         shadeClose: true,
                         type: 2,
@@ -210,8 +216,15 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
             			  return;
             		   }
             		   
+            		   
+            		    var title="股份科技投入填报";
+	                   	if(type=='2')
+	                   	{
+	                   		title="集团科技投入填报";
+	                   	}
+                   	
                		   layer.open({
-                          title:'科技投入-修改',
+                          title:title+'-修改',
                           skin: 'layui-layer-lan',
                           shadeClose: true,
                           type: 2,
@@ -319,9 +332,10 @@ function myTable()
 	 var auditStatus=$("#auditStatus").val();
 	 var unitName=$("#unitName").val(); 
 	 var v_date=(new Date()).getTime();
-	 var url= '/tech_cost/list?v_date='+v_date+"&auditStatus="+auditStatus+"&unitName="+unitName;
+	 var url= '/tech_cost/list?v_date='+v_date;
      table.init('myTable', {
-		  url: url,height: tableHeight,where: {} ,
+		  url: url,height: tableHeight,
+		  where: {param: {"unitName":unitName,"auditStatus":auditStatus}},
 		  done: function (res, curr, count) {
 			  layer.closeAll();
 		  }

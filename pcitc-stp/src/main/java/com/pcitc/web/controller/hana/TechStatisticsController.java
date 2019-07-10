@@ -130,6 +130,10 @@ public class TechStatisticsController extends BaseController{
 	@ResponseBody
 	public String tech_costajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
+		
+		JSONObject paramresult = JSONObject.parseObject(JSONObject.toJSONString(param));
+		logger.info("============参数：" + paramresult.toString());
+		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_COST_URL, HttpMethod.POST, entity, LayuiTableData.class);
