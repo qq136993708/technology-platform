@@ -296,7 +296,6 @@ public class FullSearchServiceImpl implements FullSearchService {
 //            }
 //        }
         //返回
-        System.out.println("total = " + total);
         tableData.setCount(total);
         tableData.setData(list);
         tableData.setMsg(msg + "");
@@ -658,13 +657,6 @@ public class FullSearchServiceImpl implements FullSearchService {
             listInfo.removeIf(value -> value.equals("nd"));
 
         }
-        System.out.println("1234>>>>>>>>>ysnd" + param.getParam().get("ysnd"));
-        System.out.println("1234>>>>>>>>>zycmc" + param.getParam().get("zycmc"));
-        System.out.println("1234>>>>>>>>>zylb" + param.getParam().get("zylb"));
-        System.out.println("1234>>>>>>>>>type_flag" + param.getParam().get("type_flag"));
-        System.out.println("1234>>>>>>>>>define1" + param.getParam().get("define1"));
-        System.out.println("1234>>>>>>>>>define2" + param.getParam().get("define2"));
-        System.out.println("1234>>>>>>>>>qdbz" + param.getParam().get("qdbz"));
 
         if (param.getParam().get("ysnd") != null && !StringUtils.isBlank(param.getParam().get("ysnd") + "")) {
             hashmap.put("ysnd", param.getParam().get("ysnd"));
@@ -680,6 +672,7 @@ public class FullSearchServiceImpl implements FullSearchService {
         }
 
         hashmap.put("leaderFlag",1);
+
         list = outProjectPlanMapper.selectProjectPlanByCond(hashmap);
         System.out.println("1>>>>>>>>>查询分页结果" + list.size());
         PageInfo<OutProjectPlan> pageInfo = new PageInfo<OutProjectPlan>(list);
