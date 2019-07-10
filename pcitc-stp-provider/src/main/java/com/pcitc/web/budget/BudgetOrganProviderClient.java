@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetOrgan;
-import com.pcitc.base.stp.budget.BudgetOrganExample;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.service.budget.BudgetOrganService;
 
@@ -73,7 +72,7 @@ public class BudgetOrganProviderClient
 		LayuiTableData data = null;
 		try
 		{
-			data = budgetOrganService.selectTableBudgetOrgan(param,new BudgetOrganExample());
+			data = budgetOrganService.selectTableBudgetOrgan(param);
 		}
 		catch (Exception e)
 		{
@@ -97,7 +96,7 @@ public class BudgetOrganProviderClient
 		return rs;
 	}
 	@ApiOperation(value="预算项管理-预算项更新",notes="更新预算项")
-	@RequestMapping(value = "/stp-provider/budget/budget-organ-update", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/budget/budget-organ-upd", method = RequestMethod.POST)
 	public Object updateBudgetOrgan(@RequestBody BudgetOrgan bean) 
 	{
 		Boolean rs = null;
@@ -114,7 +113,7 @@ public class BudgetOrganProviderClient
 
 	@ApiOperation(value="预算项管理-预算项保存或更新",notes="预算项保存或更新")
 	@RequestMapping(value = "/stp-provider/budget/budget-organ-saveorupd", method = RequestMethod.POST)
-	public Object SaveOrupdBudgetOrgan(@RequestBody BudgetOrgan bean) 
+	public Object saveOrupdBudgetOrgan(@RequestBody BudgetOrgan bean) 
 	{
 		Boolean rs = null;
 		try
@@ -130,13 +129,13 @@ public class BudgetOrganProviderClient
 	}
 	
 	@ApiOperation(value="预算项管理-预算项删除",notes="预算项删除")
-	@RequestMapping(value = "/stp-provider/budget/budget-organ-del", method = RequestMethod.POST)
-	public Object deleteBudgetOrgan(@RequestBody BudgetOrgan bean) 
+	@RequestMapping(value = "/stp-provider/budget/budget-organ-del/{dataId}", method = RequestMethod.POST)
+	public Object deleteBudgetOrgan(@PathVariable("dataId") String dataId) 
 	{
 		Boolean rs = null;
 		try
 		{
-			rs = budgetOrganService.deleteBudgetOrgan(bean.getDataId());
+			rs = budgetOrganService.deleteBudgetOrgan(dataId);
 		}
 		catch (Exception e)
 		{
