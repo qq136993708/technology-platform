@@ -153,9 +153,9 @@ var name=$('#name').val();
                     type: 2,
                     fixed: false,
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                    maxmin: false,
+                    maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                   area: ['100%', '100%'],
+                   area: ['70%', '90%'],
                     content:  '/sre-sreScrapApply/add?id='
                 });
             }
@@ -288,7 +288,7 @@ var name=$('#name').val();
                 var id=selectRowData.id;
                 var temUrl="/sre-sreScrapApply/upload?id=" + id;
                 layer.open({
-                    title:'上传验收准备材料',
+                    title:'上传',
                     skin: 'layui-layer-lan',
                     shadeClose: true,
                     type: 2,
@@ -497,12 +497,10 @@ var name=$('#name').val();
            cols: [[
             {type : 'checkbox', event : 'changeEvents', width : 55},
            	{title : '序号', type : 'numbers', width : 55},
-            {field : 'name',     title : '报废名称', style : 'cursor: pointer;',sort : true,  align : 'left', width : '20%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
-            {field : 'status', title : '状态', style : 'cursor: pointer;', align : 'center',sort : true, width : '30%',templet:'#status_buttonTpl'},
-            {field : 'createUser',     title : '创建人', sort : true, style : 'cursor: pointer;', align : 'left', width : '25%' },
-            {field : 'createDate', title : '创建时间', sort : true, style : 'cursor: pointer;',width : '14.5%',align : 'center',templet : '#dateTpl'},
-         
-               
+            {field : 'name',     title : '报废名称', style : 'cursor: pointer;',sort : true,  align : 'left', width : '25%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
+            {field : 'status', title : '状态', style : 'cursor: pointer;', align : 'center',sort : true, width : '24.9%',templet:'#status_buttonTpl'},
+            {field : 'documentdoc', title : '上传', style : 'cursor: pointer;', align: 'left',width : '14.5%',sort : true,templet : '#documentdoc_temp',templet:function(d){return '<span onclick="view_tender(\''+d.id+'\')" style="color:#1890ff">上传</span>'}},
+            {field : 'remarks',     title : '申请部门', sort : true, style : 'cursor: pointer;', align : 'left', width : '25%' }
            ]],
            done: function (res, curr, count) {
             $("[data-field='id']").css('display','none');
@@ -544,6 +542,23 @@ var name=$('#name').val();
 			   	});
            }
        });
+    }
+    
+    
+    function view_tender(id)//查看后评估准备材料
+    {
+    	var modenl = "1";
+        var temUrl="/sre-sreScrapApply/upload?id=" + id+"&modenl=" +modenl;
+        layer.open({
+            title:'查看上传',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: true,
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
     }
     
     

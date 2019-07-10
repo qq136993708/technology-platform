@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pcitc.mapper.report.TechCostMapper" >
+<mapper namespace="com.pcitc.mapper.hana.TechCostMapper" >
   <resultMap id="BaseResultMap" type="com.pcitc.base.stp.report.TechCost" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -26,13 +26,18 @@
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
     <result column="notes" property="notes" jdbcType="VARCHAR" />
+    <result column="apply_depart_code" property="applyDepartCode" jdbcType="VARCHAR" />
+    <result column="apply_depart_name" property="applyDepartName" jdbcType="VARCHAR" />
+    
+    <result column="attachment_doc" property="attachmentDoc" jdbcType="VARCHAR" />
+    
   </resultMap>
   <sql id="Base_Column_List" >
     id, create_date, create_user_id, create_user_name, unit_code, unit_name, create_user_mobile, 
     charge_depart_man, tech_charge_man, tech_project_cost, tech_researcher_cost, tech_subsidy_cost, 
     tech_facilities_cost, tech_other_cost, tech_subtotal_cost, country_lead_count, country_join_count, 
     country_funds, province_lead_count, province_join_count, province_funds, type, audit_status, 
-    notes
+    notes,apply_depart_code,apply_depart_name,attachment_doc
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -52,7 +57,7 @@
       tech_facilities_cost, tech_other_cost, tech_subtotal_cost, 
       country_lead_count, country_join_count, country_funds, 
       province_lead_count, province_join_count, province_funds, 
-      type, audit_status, notes
+      type, audit_status, notes,apply_depart_code,apply_depart_name,attachment_doc
       )
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, 
       #{createUserName,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, 
@@ -62,6 +67,8 @@
       #{countryLeadCount,jdbcType=INTEGER}, #{countryJoinCount,jdbcType=INTEGER}, #{countryFunds,jdbcType=DECIMAL}, 
       #{provinceLeadCount,jdbcType=INTEGER}, #{provinceJoinCount,jdbcType=INTEGER}, #{provinceFunds,jdbcType=DECIMAL}, 
       #{type,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}
+      , #{applyDepartCode,jdbcType=VARCHAR}
+      , #{applyDepartName,jdbcType=VARCHAR} , #{attachmentDoc,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.report.TechCost" >
@@ -139,6 +146,17 @@
       <if test="notes != null" >
         notes,
       </if>
+      <if test="applyDepartCode != null" >
+        apply_depart_code,
+      </if>
+      <if test="applyDepartName != null" >
+        apply_depart_name,
+      </if>
+      <if test="attachmentDoc != null" >
+        attachment_doc,
+      </if>
+     
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -213,6 +231,18 @@
       <if test="notes != null" >
         #{notes,jdbcType=VARCHAR},
       </if>
+       <if test="applyDepartCode != null" >
+        #{applyDepartCode,jdbcType=VARCHAR},
+      </if>
+       <if test="applyDepartName != null" >
+        #{applyDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentDoc != null" >
+        #{attachmentDoc,jdbcType=VARCHAR},
+      </if>
+      
+      
+     
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.report.TechCost" >
@@ -287,6 +317,17 @@
       <if test="notes != null" >
         notes = #{notes,jdbcType=VARCHAR},
       </if>
+      <if test="applyDepartCode != null" >
+        apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDepartName != null" >
+        apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentDoc != null" >
+        attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
+      </if>  
+      
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -298,6 +339,7 @@
       unit_code = #{unitCode,jdbcType=VARCHAR},
       unit_name = #{unitName,jdbcType=VARCHAR},
       create_user_mobile = #{createUserMobile,jdbcType=VARCHAR},
+      attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
       charge_depart_man = #{chargeDepartMan,jdbcType=VARCHAR},
       tech_charge_man = #{techChargeMan,jdbcType=VARCHAR},
       tech_project_cost = #{techProjectCost,jdbcType=DECIMAL},
@@ -313,20 +355,19 @@
       province_join_count = #{provinceJoinCount,jdbcType=INTEGER},
       province_funds = #{provinceFunds,jdbcType=DECIMAL},
       type = #{type,jdbcType=VARCHAR},
+      apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
+      apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
       audit_status = #{auditStatus,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
-  
-  
-  
   
     
      <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="unitName != null and unitName  !='' ">             AND t.unit_name like CONCAT('%',#{unitName},'%')</if>
 	     <if test="unitCode != null      and unitCode !=''  ">        AND t.unit_code = #{unitCode}</if>
+	     <if test="applyDepartCode != null and applyDepartCode !=''  "> AND t.apply_depart_code = #{applyDepartCode}</if>
 	     <if test="type != null          and type !=''  ">            AND t.type = #{type}</if>
 	     <if test="auditStatus != null   and auditStatus !=''  ">     AND t.audit_status = #{auditStatus}</if>
 	     <if test="sqlStr != null        and sqlStr !='' ">           AND  ${sqlStr}</if>
@@ -335,7 +376,7 @@
 	
 	 
     
-   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+   <select id="getList" resultMap="BaseResultMap" parameterType="java.util.Map" >
      select * from tech_cost t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
@@ -346,7 +387,7 @@
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
    
-    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+    <select id="getCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
       SELECT count(*) FROM tech_cost t <include refid="selectCondition"/>
     </select>
     

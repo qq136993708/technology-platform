@@ -115,7 +115,7 @@ public class EquipmentLedgerController extends BaseController{
 		param.getParam().put("g0gsjc", g0gsjc);
 		param.getParam().put("month", month);
 		param.getParam().put("g0txt50", g0txt50);
-		param.setLimit(100);
+		param.setLimit(100000);
 		param.setPage(1);
 		System.out.println(JSON.toJSONString(param));
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PAGE_URL, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);

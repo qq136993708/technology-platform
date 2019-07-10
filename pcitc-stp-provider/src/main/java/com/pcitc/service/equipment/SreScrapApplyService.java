@@ -1,5 +1,6 @@
 package com.pcitc.service.equipment;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,5 +26,15 @@ public interface SreScrapApplyService {
 	Result dealInnerPurchaseFlow(String id, Map map)throws Exception;
 
 	public int deleteByApplyId(String id);
+
+	//2019/7/8修改报废添加功能
+	public Integer insertSreScrapApply(SreScrapApply srescrapply);
+	
+	//详情列表
+	public LayuiTableData scrApplyByPrimaryKey(LayuiTableParam param);
+	//导出数据查询
+	public List<SreScrapApply> selectSreScrapApplyy(String id);
+	
+	
 	
 }

@@ -1,4 +1,4 @@
-package com.pcitc.api;
+package com.pcitc.web.hana;
 
 import java.util.Map;
 
@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.report.TechCost;
 import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.workflow.Constants;
-import com.pcitc.service.ITechStatisticsService;
+import com.pcitc.service.hana.ITechStatisticsService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +33,7 @@ public class TechStatisticsProviderClient {
 	
 	
 	@ApiOperation(value = "科研投入表分页", notes = "科研投入表分页")
-	@RequestMapping(value = "/hana_provider/techCost/page", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techCost/page", method = RequestMethod.POST)
 	public LayuiTableData getTechCostList(@RequestBody LayuiTableParam param)throws Exception
 	{
 		LayuiTableData rageResult=techStatisticsService.getTechCostPage(param);
@@ -41,7 +41,7 @@ public class TechStatisticsProviderClient {
 	}
 	
 	@ApiOperation(value = "增加科研投入表", notes = "增加科研投入表")
-	@RequestMapping(value = "/hana_provider/techCost/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techCost/add", method = RequestMethod.POST)
 	public String insertTechCost(@RequestBody TechCost techCost) throws Exception{
 		logger.info("====================add TechCost....========================");
 		Integer count= techStatisticsService.insertTechCost(techCost);
@@ -50,26 +50,35 @@ public class TechStatisticsProviderClient {
 	
 	
 	@ApiOperation(value = "修改科研投入表", notes = "修改科研投入表")
-	@RequestMapping(value = "/hana_provider/techCost/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techCost/update", method = RequestMethod.POST)
 	public Integer updateTechCost(@RequestBody TechCost TechCost) throws Exception{
 		logger.info("==================update TechCost===========================");
 		return techStatisticsService.updateTechCost(TechCost);
 	}
 	
 	
-	@RequestMapping(value = "/hana_provider/techCost/delete/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techCost/delete/{id}", method = RequestMethod.POST)
 	public int deleteTechCost(@PathVariable("id") String id)throws Exception{
 		logger.info("=============================delete TechCost=================");
 		return techStatisticsService.deleteTechCost(id);
 	}
 	
 	
+	
+
+	@ApiOperation(value = "获取科研投入表", notes = "根据ID获取科研投入表")
+	@RequestMapping(value = "/sre-provider/techCost/get/{id}", method = RequestMethod.GET)
+	public TechCost selectTechCostId(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get sreEquipment id "+id+"===========");
+		return techStatisticsService.selectTechCost(id);
+	}
+	
 	/**
 	 * @param jsonStr
 	 * @return
 	 * 科研投入业务系统处理驳回后业务
 	 */
-	@RequestMapping(value = "/hana_provider/techCost/task/reject/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techCost/task/reject/{id}", method = RequestMethod.POST)
 	public Integer taskRejectSreProject(@PathVariable(value = "id", required = true) String id)throws Exception {
 		
 		TechCost sreProject=techStatisticsService.selectTechCost(id) ;
@@ -84,7 +93,7 @@ public class TechStatisticsProviderClient {
 	 * @return
 	 * 科研投入业务系统处理审批流程都同意后业务
 	 */
-	@RequestMapping(value = "/hana_provider/techCost/task/agree/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techCost/task/agree/{id}", method = RequestMethod.POST)
 	public Integer taskAgreeSreProject(@PathVariable(value = "id", required = true) String id)throws Exception {
 		
 		TechCost sreProject=techStatisticsService.selectTechCost(id);
@@ -96,7 +105,7 @@ public class TechStatisticsProviderClient {
 	
 	//科研投入表审批流程
 	@ApiOperation(value="科研投入表审批流程",notes="科研投入表通知内容审批")
-	@RequestMapping(value = "/hana_provider/techCost/start_cost_activity/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techCost/start_cost_activity/{id}", method = RequestMethod.POST)
 	public Result dealProjectWorkFlow(@PathVariable("id") String id,@RequestBody Map map)throws Exception 
 	{
 		return techStatisticsService.dealTechCostWorkFlow(id, map);
@@ -120,7 +129,7 @@ public class TechStatisticsProviderClient {
 	
 
 	@ApiOperation(value = "科研机构调查表表分页", notes = "科研机构调查表表分页")
-	@RequestMapping(value = "/hana_provider/techOrgCount/page", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techOrgCount/page", method = RequestMethod.POST)
 	public LayuiTableData getTechOrgCountList(@RequestBody LayuiTableParam param)throws Exception
 	{
 		LayuiTableData rageResult=techStatisticsService.getTechOrgCountPage(param);
@@ -128,7 +137,7 @@ public class TechStatisticsProviderClient {
 	}
 	
 	@ApiOperation(value = "增加科研机构调查表表", notes = "增加科研机构调查表表")
-	@RequestMapping(value = "/hana_provider/techOrgCount/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techOrgCount/add", method = RequestMethod.POST)
 	public String insertTechOrgCount(@RequestBody TechOrgCount techOrgCount) throws Exception{
 		logger.info("====================add techOrgCount....========================");
 		Integer count= techStatisticsService.insertTechOrgCount(techOrgCount);
@@ -136,15 +145,15 @@ public class TechStatisticsProviderClient {
 	}
 	
 	
-	@ApiOperation(value = "修改科研机构调查表表", notes = "修改科研机构调查表表")
-	@RequestMapping(value = "/hana_provider/techOrgCount/update", method = RequestMethod.POST)
+	@ApiOperation(value = "修改科研机构调查表", notes = "修改科研机构调查表")
+	@RequestMapping(value = "/sre-provider/techOrgCount/update", method = RequestMethod.POST)
 	public Integer updateTechOrgCount(@RequestBody TechOrgCount techOrgCount) throws Exception{
 		logger.info("==================update techOrgCount===========================");
 		return techStatisticsService.updateTechOrgCount(techOrgCount);
 	}
 	
 	
-	@RequestMapping(value = "/hana_provider/techOrgCount/delete/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techOrgCount/delete/{id}", method = RequestMethod.POST)
 	public int deleteTechOrgCount(@PathVariable("id") String id)throws Exception{
 		logger.info("=============================delete techOrgCount=================");
 		return techStatisticsService.deleteTechOrgCount(id);
@@ -155,7 +164,12 @@ public class TechStatisticsProviderClient {
 	
 	
 	
-	
+	@ApiOperation(value = "获取研机构调查表", notes = "根据ID获取研机构调查表")
+	@RequestMapping(value = "/sre-provider/techOrgCount/get/{id}", method = RequestMethod.GET)
+	public TechOrgCount selectTechOrgCount(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get TechOrgCount id "+id+"===========");
+		return techStatisticsService.selectTechOrgCount(id);
+	}
 	
 	
 	
@@ -169,7 +183,7 @@ public class TechStatisticsProviderClient {
 	 * @return
 	 * 科研机构调查表业务系统处理驳回后业务
 	 */
-	@RequestMapping(value = "/hana_provider/techOrgCount/task/reject/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techOrgCount/task/reject/{id}", method = RequestMethod.POST)
 	public Integer taskRejecttechOrgCount(@PathVariable(value = "id", required = true) String id)throws Exception {
 		
 		TechOrgCount sreProject=techStatisticsService.selectTechOrgCount(id) ;
@@ -184,7 +198,7 @@ public class TechStatisticsProviderClient {
 	 * @return
 	 * 科研机构调查表业务系统处理审批流程都同意后业务
 	 */
-	@RequestMapping(value = "/hana_provider/techOrgCount/task/agree/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techOrgCount/task/agree/{id}", method = RequestMethod.POST)
 	public Integer taskAgreetechOrgCount(@PathVariable(value = "id", required = true) String id)throws Exception {
 		
 		TechOrgCount sreProject=techStatisticsService.selectTechOrgCount(id);
@@ -196,7 +210,7 @@ public class TechStatisticsProviderClient {
 	
 	//科研机构调查表表审批流程
 	@ApiOperation(value="科研机构调查表审批流程",notes="科研机构调查表通知内容审批")
-	@RequestMapping(value = "/hana_provider/techOrgCount/start_org_activity/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/sre-provider/techOrgCount/start_org_activity/{id}", method = RequestMethod.POST)
 	public Result dealTechOrgCountWorkFlow(@PathVariable("id") String id,@RequestBody Map map)throws Exception 
 	{
 		return techStatisticsService.dealTechCostWorkFlow(id, map);

@@ -1,4 +1,4 @@
-package com.pcitc.service.impl;
+package com.pcitc.service.hana.impl;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,18 +11,16 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.report.TechCost;
 import com.pcitc.base.stp.report.TechOrgCount;
-import com.pcitc.mapper.report.TechCostMapper;
-import com.pcitc.mapper.report.TechOrgCountMapper;
-import com.pcitc.service.ITechStatisticsService;
-import com.pcitc.service.WorkflowRemoteClient;
+import com.pcitc.mapper.hana.TechCostMapper;
+import com.pcitc.mapper.hana.TechOrgCountMapper;
+import com.pcitc.service.feign.WorkflowRemoteClient;
+import com.pcitc.service.hana.ITechStatisticsService;
 @Service("techStatisticsService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class TechStatisticsServiceImpl implements ITechStatisticsService {
@@ -67,14 +65,14 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 	public LayuiTableData getTechCostPage(LayuiTableParam param)throws Exception
 	{
 		
-	        //每页显示条数
 			int pageSize = param.getLimit();
-			//从第多少条开始
-			int pageStart = (param.getPage()-1)*pageSize;
-			//当前是第几页
-			int pageNum = pageStart/pageSize + 1;
-			// 1、设置分页信息，包括当前页数和每页显示的总计数
-			PageHelper.startPage(pageNum, pageSize);
+	  		int pageNum = param.getPage();
+	  		//Page p=new Page(pageNum,pageSize);
+			int start=(pageNum-1)*pageSize;
+		
+			/* int start=(pageNo-1)*p.getPageSize();
+			 record.setStart(start);
+			 record.setPageSize(p.getPageSize());*/
 					
 			String unitCode=getTableParam(param,"unitCode","");
 			String unitName=getTableParam(param,"unitName","");
@@ -85,16 +83,23 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 			map.put("unitName", unitName);
 			map.put("unitCode", unitCode);
 			map.put("auditStatus", auditStatus);
+			map.put("start", start);
+	  		map.put("pageSize", pageSize);
+	  		
+	  		
+	  		
+	  		
+	  		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
+			System.out.println(">>>>>>>>>> getTechCostPage 参数: "+parmamss.toJSONString());
 			
 			
 			List<TechCost> list = techCostMapper.getList(map);
-			PageInfo<TechCost> pageInfo = new PageInfo<TechCost>(list);
-			System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
+			Integer count=techCostMapper.getCount(map);
+			System.out.println(">>>>>>>>>分页结果 "+count);
 			
 			LayuiTableData data = new LayuiTableData();
-			data.setData(pageInfo.getList());
-			Long total = pageInfo.getTotal();
-			data.setCount(total.intValue());
+			data.setData(list);
+			data.setCount(count);
 		    return data;
 	}
 
@@ -112,7 +117,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		String authenticatedUserName=(String)map.get("authenticatedUserName");
 		String functionId=(String)map.get("functionId");
 		String auditor=(String)map.get("auditor");
-		String specialAuditor0=(String)map.get("specialAuditor0");
+		//String specialAuditor0=(String)map.get("specialAuditor0");
 		
 		
 		
@@ -128,9 +133,9 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
     	flowJson.put("functionId", functionId);
     	// 待办业务详情、最终审批同意、最终审批不同意路径
-    	flowJson.put("auditDetailsPath", "/sre-project-basic/get/" + id);
-    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/hana_provider/techCost/task/agree/" + id);
-    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/hana_provider/techCost/task/reject/" + id);
+    	flowJson.put("auditDetailsPath", "/tech_cost/get/" + id);
+    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/sre-provider/techCost/task/agree/" + id);
+    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/sre-provider/techCost/task/reject/" + id);
 
     	// 非必填选项， 菜单功能需要根据不同单位、不同项目选择不同流程图的时候使用。（也可以在单个流程图中，用判断来做）
     	// flowJson.put("flowProjectId", "");
@@ -144,7 +149,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		}
     	
     	//flowJson.put("auditor", auditor);
-    	flowJson.put("specialAuditor0", specialAuditor0); 
+    	//flowJson.put("specialAuditor0", specialAuditor0); 
 		// 非必填选项, 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 		// flowJson.put("money", 50); // 环节1需要用到
 		// flowJson.put("departmentCode", "1005"); // 环节2需要用到
@@ -196,16 +201,9 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 	{
 		
 		
-		  //每页显示条数
 				int pageSize = param.getLimit();
-				//从第多少条开始
-				int pageStart = (param.getPage()-1)*pageSize;
-				//当前是第几页
-				int pageNum = pageStart/pageSize + 1;
-				// 1、设置分页信息，包括当前页数和每页显示的总计数
-				PageHelper.startPage(pageNum, pageSize);
-						
-				
+		  		int pageNum = param.getPage();
+				int start=(pageNum-1)*pageSize;
 				    
 				String unitCode=getTableParam(param,"unitCode","");
 				String unitName=getTableParam(param,"unitName","");
@@ -216,15 +214,15 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 				map.put("unitName", unitName);
 				map.put("unitCode", unitCode);
 				map.put("auditStatus", auditStatus);
-				
+				map.put("start", start);
+		  		map.put("pageSize", pageSize);
 				List<TechOrgCount> list = techOrgCountMapper.getList(map);
-				PageInfo<TechOrgCount> pageInfo = new PageInfo<TechOrgCount>(list);
-				System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
+				Integer count=techOrgCountMapper.getCount(map);
+				System.out.println(">>>>>>>>>任务书查询分页结果 "+count);
 				
 				LayuiTableData data = new LayuiTableData();
-				data.setData(pageInfo.getList());
-				Long total = pageInfo.getTotal();
-				data.setCount(total.intValue());
+				data.setData(list);
+				data.setCount(count);
 				
 			    return data;
 	}
@@ -255,9 +253,9 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
     	flowJson.put("functionId", functionId);
     	// 待办业务详情、最终审批同意、最终审批不同意路径
-    	flowJson.put("auditDetailsPath", "/sre-project-basic/get/" + id);
-    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/hana_provider/techOrgCount/task/agree/" + id);
-    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/hana_provider/techOrgCount/task/reject/" + id);
+    	flowJson.put("auditDetailsPath", "/tech_org/get/" + id);
+    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/task/agree/" + id);
+    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/task/reject/" + id);
 
     	// 非必填选项， 菜单功能需要根据不同单位、不同项目选择不同流程图的时候使用。（也可以在单个流程图中，用判断来做）
     	// flowJson.put("flowProjectId", "");

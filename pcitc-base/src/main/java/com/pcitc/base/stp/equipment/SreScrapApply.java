@@ -28,8 +28,94 @@ public class SreScrapApply {
     private String remarks;
 
     private String status;
+    
+    private String G0NDURJ;//使用年限
+    
+    private String G0SCHRW;//资产残值
+    
+    private String G0LJGZYZJE;//账面净额
+    
+    private String G0LJDJZJJE;//预付定金
+    
+    private String G0NCGZYZJE;//年初购置价值
+    
+    private String G0LJZJJE;//累计折旧
+    
+    	
 
-    public String getId() {
+    public String getG0NDURJ() {
+		return G0NDURJ;
+	}
+
+
+
+	public void setG0NDURJ(String g0ndurj) {
+		G0NDURJ = g0ndurj;
+	}
+
+
+
+	public String getG0SCHRW() {
+		return G0SCHRW;
+	}
+
+
+
+	public void setG0SCHRW(String g0schrw) {
+		G0SCHRW = g0schrw;
+	}
+
+
+
+	public String getG0LJGZYZJE() {
+		return G0LJGZYZJE;
+	}
+
+
+
+	public void setG0LJGZYZJE(String g0ljgzyzje) {
+		G0LJGZYZJE = g0ljgzyzje;
+	}
+
+
+
+	public String getG0LJDJZJJE() {
+		return G0LJDJZJJE;
+	}
+
+
+
+	public void setG0LJDJZJJE(String g0ljdjzjje) {
+		G0LJDJZJJE = g0ljdjzjje;
+	}
+
+
+
+	public String getG0NCGZYZJE() {
+		return G0NCGZYZJE;
+	}
+
+
+
+	public void setG0NCGZYZJE(String g0ncgzyzje) {
+		G0NCGZYZJE = g0ncgzyzje;
+	}
+
+
+
+	public String getG0LJZJJE() {
+		return G0LJZJJE;
+	}
+
+
+
+	public void setG0LJZJJE(String g0ljzjje) {
+		G0LJZJJE = g0ljzjje;
+	}
+
+
+
+	public String getId() {
         return id;
     }
 
@@ -137,4 +223,7 @@ public class SreScrapApply {
  	public void setUpdateUserId(String updateUserId) {
  		this.updateUserId = updateUserId;
  	}
+
+
+
 }
