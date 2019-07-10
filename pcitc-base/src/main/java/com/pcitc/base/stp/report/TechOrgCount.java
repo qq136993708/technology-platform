@@ -95,8 +95,39 @@ public class TechOrgCount {
     private String auditStatus;
 
     private String notes;
+    
+    private String applyDepartCode;
+    private String applyDepartName;
+    private String attachmentDoc;
+    
+    
+    
 
-    public String getId() {
+    public String getAttachmentDoc() {
+		return attachmentDoc;
+	}
+
+	public void setAttachmentDoc(String attachmentDoc) {
+		this.attachmentDoc = attachmentDoc;
+	}
+
+	public String getApplyDepartCode() {
+		return applyDepartCode;
+	}
+
+	public void setApplyDepartCode(String applyDepartCode) {
+		this.applyDepartCode = applyDepartCode;
+	}
+
+	public String getApplyDepartName() {
+		return applyDepartName;
+	}
+
+	public void setApplyDepartName(String applyDepartName) {
+		this.applyDepartName = applyDepartName;
+	}
+
+	public String getId() {
         return id;
     }
 
