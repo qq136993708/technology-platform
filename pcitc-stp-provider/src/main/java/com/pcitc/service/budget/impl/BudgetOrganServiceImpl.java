@@ -43,24 +43,28 @@ public class BudgetOrganServiceImpl  extends BaseServiceImpl<BudgetOrgan,Seriali
 		return this.deleteBean(id);
 	}
 	@Override
-	public List<BudgetOrgan> selectListBudgetOrgan(BudgetOrganExample example) 
+	public Boolean saveOrUpdBudgetOrgan(BudgetOrgan bean) throws Exception 
 	{
+		return this.saveOrUpdBean(bean.getDataId(),bean);
+	}
+	@Override
+	public List<BudgetOrgan> selectListBudgetOrgan() 
+	{
+		BudgetOrganExample example = new BudgetOrganExample();
 		return this.selectListData(example);
 	}
 	@Override
-	public LayuiTableData selectTableBudgetOrgan(LayuiTableParam param,BudgetOrganExample example) 
+	public LayuiTableData selectTableBudgetOrgan(LayuiTableParam param) 
 	{
+		BudgetOrganExample example = new BudgetOrganExample();
 		return this.selectTableData(param, example);
 	}
 	@Override
 	public List<BudgetOrgan> selectListBudgetOrganByBean(BudgetOrgan bean) 
 	{
-		return null;
+		BudgetOrganExample example = new BudgetOrganExample();
+		return this.selectListData(example);
 	}
-	@Override
-	public Boolean saveOrUpdBudgetOrgan(BudgetOrgan bean) throws Exception 
-	{
-		return this.saveOrUpdBean(bean.getDataId(),bean);
-	}
+	
 	
 }

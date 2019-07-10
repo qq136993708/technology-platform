@@ -21,9 +21,9 @@ public interface BudgetOrganService extends BaseService<BudgetOrgan,Serializable
 	
 	public Boolean deleteBudgetOrgan(String dataId) throws Exception;
 	
-	public List<BudgetOrgan> selectListBudgetOrgan(BudgetOrganExample example);
+	public List<BudgetOrgan> selectListBudgetOrgan();
 	
 	public List<BudgetOrgan> selectListBudgetOrganByBean(BudgetOrgan bean);
 	
-	public LayuiTableData selectTableBudgetOrgan(LayuiTableParam param,BudgetOrganExample example);
+	public LayuiTableData selectTableBudgetOrgan(LayuiTableParam param);
 }
