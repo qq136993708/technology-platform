@@ -198,9 +198,10 @@ function myTable()
 	 var auditStatus=$("#auditStatus").val();
 	 var unitName=$("#unitName").val(); 
 	 var v_date=(new Date()).getTime();
-	 var url= '/tech_cost/list?v_date='+v_date+"&auditStatus="+auditStatus+"&unitName="+unitName;
+	 var url= '/tech_cost/list?v_date='+v_date;
      table.init('myTable', {
-		  url: url,height: tableHeight,where: {} ,
+		  url: url,height: tableHeight,
+		  where: {param: {"unitName":unitName,"auditStatus":auditStatus}},
 		  done: function (res, curr, count) {
 			  layer.closeAll();
 		  }
