@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pcitc.mapper.report.TechCostMapper" >
+<mapper namespace="com.pcitc.mapper.hana.TechCostMapper" >
   <resultMap id="BaseResultMap" type="com.pcitc.base.stp.report.TechCost" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -335,7 +335,7 @@
 	
 	 
     
-   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+   <select id="getList" resultMap="BaseResultMap" parameterType="java.util.Map" >
      select * from tech_cost t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
@@ -346,7 +346,7 @@
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
    
-    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+    <select id="getCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
       SELECT count(*) FROM tech_cost t <include refid="selectCondition"/>
     </select>
     

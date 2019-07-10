@@ -2,10 +2,15 @@ package com.pcitc.base.stp.equipment;
 
 public class FindView {
 	public String name;
+	
 	public String ids;
+	
 	public String userId;
+	
 	public String userName;
+	
 	public String addorupdate;
+	
 	public String getAddorupdate() {
 		return addorupdate;
 	}

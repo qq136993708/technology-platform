@@ -4,455 +4,312 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
     <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
-    <script type="text/javascript" src="/stp/equipment/js/equipment.js"></script>
-     <style>
-        .searchBox{ height: auto;}
-        .searchBox label{margin-bottom: 10px;display: inline-block; }
-    </style>
+     <script src="/stp/hana/common/hana_common.js"></script>
 </head>
 <body>
 <div class="searchBox">
-<input  name="functionId"       id="functionId"                                    type="hidden">
-<input  name="applyUnitCode"    id="applyUnitCode"     value="${applyUnitCode}"    type="hidden">
-<input  name="joinUnitCode"     id="joinUnitCode"      value="${joinUnitCode}"    type="hidden">
-
-
-
+<input name="functionId" id="functionId" value="${functionId}" type="hidden">
     <!--查询条件-->
-    <label class="dateInput">
-        <span>立项年度</span>
-        <input type="text" name="setupYear"  style="cursor:pointer"  value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
-    </label>
-    
-    <label class="dateInput">
-        <span>任务名称</span>
-        <input type="text" name="topicName"  title="任务名称" autocomplete="off" class="form-control" id="topicName">
-    </label>
-    
-    
-    <label class="dateInput">
-        <span>合同号</span>
-        <input type="text" name="contractNum"  title="合同号" autocomplete="off" class="form-control" id="contractNum">
-    </label>
-    
-      <label class="dateInput">
-         <span>审核状态</span>
-          <select name="auditStatus" id="auditStatus"   class="form-control"  >
-             <option value="" >--请选择--</option>
-             <#list auditStatusList as vo> 
-		          <option value="${vo.numValue}"  >${vo.name}</option>
-		      </#list>
-		 </select>
-     </label>
-     
-     
-     <label class="dateInput">
-         <span>牵头单位</span>
-         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
-             <option value="" >--请选择--</option>
-             <#list leaddicList as vo> 
-		          <option value="${vo.numValue}"  >${vo.name}</option>
-		      </#list>
-		 </select>
-     </label>
-     
-     
-   <label class="dateInput">
-         <span>归属部门</span>
-         <select name="belongDepartmentCode" id="belongDepartmentCode"  onchange="getDepartNameByParentCode(this.value)" class="form-control"  >
-              <option value="ROOT_ZGSHJT_ZBJG_KJB" >科技部</option>
-		 </select>
-     </label>
-     
-     <label class="dateInput">
-         <span>专业处</span>
-         <select id="professionalDepartCode" name="professionalDepartCode" onchange="getProfessionalNameListByParentCode(this.value)"   class="form-control" ></select>
-     </label>
-    
-      <label class="dateInput">
-         <span>专业</span>
-         <select id="professionalFieldCode" name="professionalFieldCode"  class="form-control" ></select>
-     </label> 
-                            
-                            
+         <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month"  title="月份" value="${month}"  id="month">
+            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+        </label>
+       <div class="layui-input-inline"  style="margin-left:10px">
+           <select id="companyCode" name="companyCode" class="form-control"></select>
+        </div>
     <!--按钮组-->
     <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
-        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+     <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
     </div>
 </div>
 <div class="tableBox">
-	<div class="tableToolBox">
+
+<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="createEvent" data-type="createEvent">生成合同号</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  style="display:none" id="createWordEvent" data-type="createWordEvent">生成WORD文档</button>
-           <!--  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createQianEvent" data-type="createQianEvent">生成签字盖章模板</button> -->
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"    data-type="editEvent"  id="editEvent" >编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
         </div>
     </div>
-   <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
+    <table id="myTable" class="layui-table" lay-filter="myTable" >
+                 <thead>
+                  <tr>
+                      <th lay-data="{field:'g0GSJC', width:'8%',templet:viewv}" rowspan="2" >单位名称</th>
+                      <th lay-data="{align:'center'}" colspan="6">科技投入情况（单位：万元）</th>
+                      <th lay-data="{align:'center'}" colspan="3">承担和参加国家级科技项目</th>
+                      <th lay-data="{align:'center'}" colspan="3">承担和参加地方（省级）科技项目</th>
+                  </tr>
+                  <tr>
+                      <th lay-data="{field:'techProjectCost', width:'7%',align:'right'}">科技项目费</th>
+                      <th lay-data="{field:'techResearcherCost',    width:'7%',align:'right'}">科研人员费</th> 
+                      <th lay-data="{field:'techSubsidyCost',      width:'7%',align:'right'}">科研折旧费补贴</th>
+                      <th lay-data="{field:'techFacilitiesCost',  width:'8%',align:'right'}">设施投资</th>
+                      <th lay-data="{field:'techOtherCost',       width:'8%',align:'right'}">其它科技投入</th>
+                      <th lay-data="{field:'techSubtotalCost',    width:'8%',align:'right'}">合计</th> 
+                      
+                      <th lay-data="{field:'countryLeadCount',  width:'8%',align:'right'}">牵头项目数量</th>
+                      <th lay-data="{field:'countryJoinCount',  width:'8%',align:'right'}">参加项目数量</th>
+                      <th lay-data="{field:'countryFunds',      width:'8%',align:'right'}">国家投入经费</th>
+                     
+                      <th lay-data="{field:'provinceLeadCount', width:'8%',align:'right'}">牵头项目数量</th> 
+                      <th lay-data="{field:'provinceJoinCount', width:'8%',align:'right'}">参加项目数量</th> 
+                      <th lay-data="{field:'provinceFunds', width:'8%',align:'right'}">地方（省级）政府投入经费</th>
+                  </tr>
+                 </thead>
+             </table>
 </div>
-<script id="getErpOrderlist_tlp_id" type="text/html"> {{getErpOrderlist_tlp(d.erpNum)}} </script>
-<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
-<script id="view_taskVersion" type="text/html"> {{view_taskVersion(d.taskVersion)}} </script>
-<script id="purchase_money_id" type="text/html"> {{purchase_money(d.purchaseMoney)}} </script>
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+<script id="viewv" type="text/html"> {{viewv(d.g0GSJC)}} </script>
 <script type="text/javascript">
-function purchase_money(d) 
-{
-    if (d) 
-    {
-        
-        return '<span style="color:red">'+d+'</span>';
-    } else 
-    {
-        return "<span></span>";
+    // 时间格式化 
+      function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
     }
-}
-
-function getErpOrderlist_tlp(d) 
-{
-    if (d) 
-    {
-        
-        return '<span onclick="getErpOrderlist(\''+d+'\')" style="color:#1890ff">'+d+'</span>';
-    } else 
-    {
-        return "<span></span>";
-    }
-}
-function getErpOrderlist(code) 
-{
-	    var v_date=(new Date()).getTime();
-	    var url= '/sre_project_task/getErpOrderlist?v_date='+v_date+'&code='+code;
-    layer.open({
-        title:'采购订单详情',
-        skin: 'layui-layer-lan',
-        shadeClose: true,
-        type: 2,
-        fixed: false,
-        maxmin: false,
-        area: ['70%', '90%'],
-        content:  url
-    });
-}
-function view_isWriteTask(isWriteTask) 
-{
-	 var temUrl="/sre_project_task/get/" + isWriteTask;
-	 layer.open({
-         title:'任务书详情',
-         skin: 'layui-layer-lan',
-         shadeClose: true,
-         type: 2,
-         fixed: false,
-         maxmin: false,
-         area: ['70%', '90%'],
-         content:  temUrl
-     });
-}
-function view_taskVersion(taskVersion) 
-{
-    if (taskVersion==null || taskVersion==''|| taskVersion=='1') 
-    {
-    	 return '<span style="color:green">主版本</span>';
-    } else 
-    {
-    	 return '<span style="color:red">补充版本</span>';
-    }
-}
-
-function view_isWriteSetup(isWriteSetup) 
-{
-	 var temUrl="/sre_project_setup/get/" + isWriteSetup;
-	 layer.open({
-        title:'立项报告详情',
-        skin: 'layui-layer-lan',
-        shadeClose: true,
-        type: 2,
-        fixed: false,
-        maxmin: false,
-        area: ['70%', '90%'],
-        content:  temUrl
-    });
-}
-function view_project(id) 
-{
-	 var temUrl="/sre-project-basic/get/" + id;
-	 layer.open({
-        title:'课题详情',
-        skin: 'layui-layer-lan',
-        shadeClose: true,
-        type: 2,
-        fixed: false,
-        maxmin: false,
-        area: ['70%', '90%'],
-        content:  temUrl
-    });
-}
-
-getDepartNameByParentCode($("#belongDepartmentCode").val());
-
+    
+      function viewv(d) 
+      {
+          if (d) 
+          {
+        	  var str= "<span onclick=\"view('"+d.g0GSJC+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.g0GSJC+"</span>";
+              return str;
+          } else {
+              return '';
+          }
+      }
+      function view(g0GSJC) 
+      {
+      	   var companyName=g0GSJC;
+           var month=$("#month").val();
+           month=month.replace("-","");
+      	    var v_date=(new Date()).getTime();
+      	    var url= '/sf/to_getKtzjjfytjbData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+           layer.open({
+               title:'课题直间接费用-详情',
+               skin: 'layui-layer-lan',
+               shadeClose: true,
+               type: 2,
+               fixed: false,
+               //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+               maxmin: false,
+               //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+               area: ['70%', '90%'],
+               content:  url
+           });
+      }
+      
+      
 </script>
+
 <!--表格数据操作js-->
+
 <script>
-var publicMethods;
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
 $('#functionId').val(functionId);
-
 var table,selectRowData;
-var name=$('#name').val();
-    layui.use(['jquery','table','laypage','form','layer','laytpl','laydate',"publicMethods"], function(){
-            table = layui.table,
-            $ = layui.jquery,
-            layer = layui.layer,
-            laydate = layui.laydate,
-            form = layui.form,
-            laypage = layui.laypage;
-            publicMethods=layui.publicMethods;
-           //加载表格      
-  	    renderTable();
-  	     
-  	     
-  	   var setupYear = laydate.render({
-           elem: '#setupYear'
-           ,type: 'year'
+var publicMethods;
+var layer;
+var tableHeight=null;
+layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate;
+	  layer = layui.layer;
+	  publicMethods=layui.publicMethods;
+	  
+	  tableHeight=commonDislodgeTable();
+	  laydate.render({
+          elem: '#month' ,type: 'month'
+          
        });
-  	   
-  	   
-         // 触发不同的按钮事件
-         var $ = layui.$, active = {
-            searchEvent: function() { //点击查询按钮
-            	 renderTable();
-            },
-            resetEvent: function() { //点击重置按钮
-            	$('#topicName').val("");
-            	$('#auditStatus').val("");
-            	$('#leadUnitCode').val("");
-            	$('#setupYear').val("");
-            	$('#contractNum').val("");
-            	$('#belongDepartmentCode').val("");
-            	$('#professionalDepartCode').val("");
-            	$('#professionalFieldCode').val("");
-            }
-            ,createEvent: function(){  //点击编辑按钮
-            	if (typeof(selectRowData) == "undefined") {
-            		layer.alert('请点击选择一个任务书');
-            	} else {
-            		 var taskId=selectRowData.taskId;
-            		 var topicId=selectRowData.topicId;
-            		 var contractNum=selectRowData.contractNum;
-            		 var taskVersion=selectRowData.taskVersion;
-            		 var auditStatus=selectRowData.auditStatus;
-            		 
-            		 if(auditStatus!=2 && auditStatus!='2')
-            	     {
-            			 layer.alert('审核未通过,不能重复生成');
-            	     }else  if(contractNum!=null && contractNum!='')
-            	     {
-            			 layer.alert('合同号已生成,不能重复生成');
-            	     }else if(taskVersion=='2')
-            	     {
-            			 layer.alert('补充合同不能生成合同号');
-            	     }else
-           	    	 {
-            	    	     var url="/sre_project_task/create_num?taskId="+taskId;
-                		     ajaxDeleteCreateWord(url,"GET","生成合同号成功","生成合同号失败");
-           	    	 }
-           		 
-           		   
-            	}
-               
-            },
-            createWordEvent: function(){  
-            	if (typeof(selectRowData) == "undefined") 
-            	{
-            		layer.alert('请点击选择一个任务书');
-            	}else 
-            	{
-            		 var taskId=selectRowData.taskId;
-            		 var temUrl="/sre_project_task/createWord/" + taskId;
-            		 location.href=temUrl;
-            	}
-            }
-            
-            
-            
-            
-        };
-        //监听排序
-        table.on('sort(model-table)', function(obj){
-            console.log(this, obj.field, obj.type)
-            //return;
-            //服务端排序
-            table.reload('model-table', {
-                initSort: obj,
-                page: {curr: 1}, //重新从第一页开始
-                where: { //重新请求服务端
-                    key: obj.field, //排序字段
-                    order: obj.type //排序方式
+	        init_companyCode(functionId);
+     	     myTable();
+     	     //移除表头的复选框,去掉全选
+     	     $(".layui-table-header table thead th input").remove();  
+
+     	    // 触发不同的按钮事件
+             var $ = layui.$, active = {
+                searchEvent: function() { //点击查询按钮
+                	myTable();
+                   
+                },
+                resetEvent: function() { //点击重置按钮
+                	//$('#name').val("");
+                	//$('#auditStatus').val("");
+                },
+                addEvent: function(){ //点击新增按钮
+                    layer.open({
+                        title:'科技投入-新增',
+                        skin: 'layui-layer-lan',
+                        shadeClose: true,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['70%', '90%'],
+                        content:  '/tech_cost/add'
+                    });
                 }
-            });
+                ,editEvent: function(){  //点击编辑按钮
+                	
+                	if (typeof(selectRowData) == "undefined") {
+                		layer.msg('请点击选择一行数据');
+                	} else {
+                		 var id=selectRowData.id;
+               		     var url="/tech_cost/add?id="+id;
+               		     
+               		  var isLinkedProject=selectRowData.isLinkedProject;
+            		  if(isLinkedProject=='1')
+            		   {
+            			  layer.alert('该科技投入已经关联课题,不能修改');
+            			  return;
+            		   }
+            		  
+            		  
+               		  layer.open({
+                          title:'科技投入-修改',
+                          skin: 'layui-layer-lan',
+                          shadeClose: true,
+                          type: 2,
+                          fixed: false,
+                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                          maxmin: true,
+                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['70%', '90%'],
+                          content:  url
+                      });
+                	}
+                   
+                },deleteEvent: function(){  //点击删除按钮
+                     console.log('点击了删除按钮')
+                     if (typeof(selectRowData) == "undefined") 
+                     {
+                		layer.alert('请点击选择一行数据');
+                	 } else 
+                	 {
+                		  var id=selectRowData.id;
+                		  var isLinkedProject=selectRowData.isLinkedProject;
+                		  if(isLinkedProject=='1')
+                		   {
+                			  layer.alert('该科技投入已经关联课题,不能删除');
+                			  return;
+                		   }
+                		  
+               		      var url="/tech_cost/delete/"+id;
+    	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
+    	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
+    	         			}, function(){
+    	         			 
+    	         			});
+                	}
+                
+                  
+                },
+                detailEvent: function(){  //点击详情按钮
+                	if (typeof(selectRowData) == "undefined") {
+                		layer.msg('请点击选择一行数据');
+                	} else {
+                		 var id=selectRowData.id;
+                		 var temUrl="/tech_cost/get/" + id;
+                		 layer.open({
+                             title:'详情',
+                             skin: 'layui-layer-lan',
+                             shadeClose: true,
+                             type: 2,
+                             fixed: false,
+                             //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                             maxmin: true,
+                             //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                              area: ['70%', '90%'],
+                             content:  temUrl
+                         });
+                	}
+                
+                }
+                
+            };
+        
+        //监听行单击事件
+        table.on('row(myTable)', function(obj){
+            console.log(obj.data) //得到当前行数据
+            selectRowData=obj.data;
         });
+        
+        
         
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+
+        
     });
     
-    
-    function renderTable()
-	{    
-    	//渲染
-        table.render({
-            elem: '#processdef-table',
-            url: '/sre_project_task/relation_list',
-            method:"POST",
-            where: {param: {"setupYear":$("#setupYear").val(),"topicName":$("#topicName").val(),"leadUnitCode":$("#leadUnitCode").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"contractNum":$("#contractNum").val(),"auditStatus":$("#auditStatus").val()}},
-            limit: 15,	
-            id: 'processdef-table',
-            height: commonDislodgeTable(),
-            page: {
-                groups: 5,
-                limits: [15,30,45,60],
-                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-                first: '首页', //不显示首页
-                last: '尾页', //不显示尾页
-                theme: '#0F9EE0'
-            },
-            cols: [[
-            	{type : 'checkbox', event : 'changeEvents', width : 55},
-            	{title : '序号', type :'numbers', width : 55},
-            	{field : 'topicName',     title : '课题名称',      style : 'cursor: pointer;', align: 'left', width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#1890ff">'+d.topicName+'</span>'},sort : true},
-                {field : 'topicName',     title : '任务书',     style : 'cursor: pointer;', align: 'left', width : '20%',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #1890ff">'+d.topicName+'</span>'},sort : true},
-                {field : 'projectMoney',   title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'},sort : true},
-                {field : 'erpNum',            title : 'ERP项目号', style : 'cursor: pointer;', align: 'center', width : '10%',sort : true,templet : '#getErpOrderlist_tlp_id'},
-                {field : 'purchaseMoney',   title : '已采购金额(万元)', style : 'cursor: pointer;', align: 'center', width : '8%',templet : '#purchase_money_id',sort : true},
-                {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},
-            	
-            	{field : 'contractNum',       title : '合同号', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},
-            	{field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : '8%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
-            	{field : 'isWriteSetup',  title : '立项报告',  style : 'cursor: pointer;', align: 'center', width : '8%',templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #1890ff">详情</span>'},sort : true},
-                {field : 'taskVersion',      title : '任务书版本号', style : 'cursor: pointer;', align: 'center', width : '8%',templet : '#view_taskVersion',sort : true},
-                {field : 'leadUnitName',   title : '牵头单位',    style : 'cursor: pointer;', align: 'left', width : '10%',sort : true},
-                {field : 'belongDepartmentName', title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '8%',sort : true},
-                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '8%',sort : true},
-                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '8%',sort : true},
-                {field : 'parentApplyUnitPathName',   title : '上报单位',  style : 'cursor: pointer;', align: 'left', width : '10%',sort : true},
-                {field : 'applyUnitName',             title : '上报部门',  style : 'cursor: pointer;', align: 'left', width : '8%',sort : true},
-                {field : 'applyUserName', title : '上报人',      style : 'cursor: pointer;', align: 'left', width : '8%',sort : true},
-                {field : 'createDate',     title : '上报时间',     style : 'cursor: pointer;', align: 'center', width : '8%', templet : '#dateTpl',sort : true}
-            ]],
-            done: function (res, curr, count) {
-                // 点击行联动选择框--单选
-                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                	var index=parseInt($(this).index()+1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData=res.data[index-1];
-                });
-                
-                
- 				
- 				
-            }
-        });
-	 }
-    
-    /*formName：form表单名称，
-    type：post、get,delete,put 
-    backurl:操作成功后返回地址
-    successMsg：成功提示
-    failMsg：失败提示 */
-    function ajaxDeleteOpt(url,type,successMsg,failMsg)
-    {
-    	 $.ajax({
-      	     type:type,
-      	     url: url,
-      	     dataType:"json",
-      	     async: false, 
-      	     cache: false,
-      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-             success:function(data,status)
-             {    
-    	          
-            	  if(data.success==true ||data.success=='true')
-    	          {
-    	        	  layer.alert(
-    	        			  successMsg, 
-    	                      {icon: 1,closeBtn: 0 },
-    	                      function () 
-    	                      {
-    	                    	   renderTable();
-    	                    	   layer.closeAll();
-    	                      });
-    	       	   
-    	          } else
-    	          {
-    	        	 layer.alert("操作失败");
-    	          }
-    	     
-    		   },
-    		   error:function()
-    		   {
-    		    	layer.alert("网络访问错误");
-    		   }
-        
-      });
-    } 
+function search_Event()
+{
+	myTable();
+}
+
+
+function myTable()
+{
+	/*  var month=$("#month").val();
+	 month=month.replace("-","");
+	 var companyCode=$("#companyCode").val(); */
+	 // alert(companyCode);
+	 var v_date=(new Date()).getTime();
+	 var url= '/tech_cost/list?v_date='+v_date;
+     table.init('myTable', {
+		  url: url
+		  , height: tableHeight
+		  ,where: {} ,
+		  done: function (res, curr, count) {
+			  layer.closeAll();
+		  }
+	 });
+	   
+}
    
-    function ajaxDeleteCreateWord(url,type,successMsg,failMsg)
-    {
-    	 $.ajax({
-      	     type:type,
-      	     url: url,
-      	     dataType:"json",
-      	     async: false, 
-      	     cache: false,
-      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-             success:function(data,status)
-             {    
-    	          
-            	  if(data.success==true ||data.success=='true')
-    	          {
-    	        	  layer.alert(
-    	        			  successMsg, 
-    	                      {icon: 1,closeBtn: 0 },
-    	                      function () 
-    	                      {
-    	                    	   renderTable();
-    	                    	   layer.closeAll();
-    	                      });
-    	       	   
-    	          } else
-    	          {
-    	        	 layer.alert("操作失败");
-    	          }
-    	     
-    		   },
-    		   error:function()
-    		   {
-    		    	layer.alert("网络访问错误");
-    		   }
-        
-      });
-    } 
-    
-    
-    
-    
-   
-    
+
+
+
+function exput_excel()
+{
+	var companyCode=$('#companyCode').val();
+	var month=$('#month').val();
+	 month=month.replace("-","");
+	window.open("/ktzjjfytjb_data_exput_excel?month="+month+"&companyCode="+companyCode); 
+} 
+
 
 </script>
-
 </body>
 </html>

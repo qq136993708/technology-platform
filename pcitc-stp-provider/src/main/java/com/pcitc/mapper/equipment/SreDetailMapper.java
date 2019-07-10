@@ -27,6 +27,8 @@ public interface SreDetailMapper {
 	SreDetail selectSreDetailId(String id);
 
 	SreDetail detail(String id);
+
+	
 	
 	
 	

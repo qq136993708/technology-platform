@@ -19,4 +19,6 @@ public interface SreScrapApplyMapper {
     int updateByPrimaryKey(SreScrapApply record);
     
     List getlist(Map map);
+
+	SreScrapApply getEquinntId(String equipmentId);
 }

@@ -10,8 +10,10 @@ import java.util.Map;
 
 import com.pcitc.base.stp.equipment.SreEquipmentLedger;
 import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.SreScrapApply;
 import com.pcitc.mapper.equipment.SreEquipmentLedgerMapper;
 import com.pcitc.mapper.equipment.SreProjectMapper;
+import com.pcitc.mapper.equipment.SreScrapApplyMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,13 +37,13 @@ public class DetailServiceImpl implements DetailService {
 	private final static Logger logger = LoggerFactory.getLogger(DetailServiceImpl.class); 
 	@Autowired
 	private SreDetailMapper detailMapper;
-
 	@Autowired
 	private SreEquipmentLedgerMapper sreEquipmentLedgerMapper;
 	
 	@Autowired
 	private SreProjectMapper sreProjectMapper;
-	
+	@Autowired
+	private SreScrapApplyMapper sreScrapApplyMapper;
 	
 	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
 	{
@@ -124,24 +126,26 @@ public class DetailServiceImpl implements DetailService {
 		if(list.size()!=0) {
 			if(sunlike.equals("1")) {
 				for(SreDetail detail : list) {
-					map.put("g0anln1", detail.getAssetNumber());
-					map.put("g0gsdm", detail.getSupplier());
-					List<SreEquipmentLedger> sreequin  = sreEquipmentLedgerMapper.getSreDetailId(map);
-					if(sreequin.size()!=0) {
-					for(SreEquipmentLedger ledasd : sreequin) {
-						if(ledasd!=null) {
-							detail.setG0NDURJ(ledasd.getG0ndurj().toString());//使用年限
-							detail.setG0SCHRW(ledasd.getG0schrw().toString());//资产残值
-							detail.setG0LJGZYZJE(ledasd.getG0ljgzyzje().toString());//账面净额
-							detail.setG0LJDJZJJE(ledasd.getG0ljdjzjje().toString());//预付定金
-							detail.setG0NCGZYZJE(ledasd.getG0ncgzyzje().toString());//年初购置价值
-							detail.setG0LJZJJE(ledasd.getG0ljzjje().toString());//累计折旧
-							sreSunlike.add(detail);
+					SreScrapApply  sreScrap= sreScrapApplyMapper.getEquinntId(detail.getEquipmentId());
+					if(sreScrap==null) {
+						map.put("g0anln1", detail.getAssetNumber());
+						map.put("g0gsdm", detail.getSupplier());
+						List<SreEquipmentLedger> sreequin  = sreEquipmentLedgerMapper.getSreDetailId(map);
+						if(sreequin.size()!=0) {
+						for(SreEquipmentLedger ledasd : sreequin) {
+							if(ledasd!=null) {
+								detail.setG0NDURJ(ledasd.getG0ndjar().toString());//使用年限
+								detail.setG0SCHRW(ledasd.getG0schrw().toString());//资产残值
+								detail.setG0LJGZYZJE(ledasd.getG0ljgzyzje().toString());//账面净额
+								detail.setG0LJDJZJJE(ledasd.getG0ljdjzjje().toString());//预付定金
+								detail.setG0NCGZYZJE(ledasd.getG0ncgzyzje().toString());//年初购置价值
+								detail.setG0LJZJJE(ledasd.getG0ljzjje().toString());//累计折旧
+								sreSunlike.add(detail);
+							}
+						  }
 						}
 					  }
-					}
 				}
-				
 				PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(sreSunlike);
 				System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 				LayuiTableData data = new LayuiTableData();
