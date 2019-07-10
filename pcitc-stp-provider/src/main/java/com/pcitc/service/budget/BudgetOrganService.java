@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.BudgetOrgan;
 import com.pcitc.base.stp.budget.BudgetOrganExample;
 
@@ -13,13 +14,13 @@ public interface BudgetOrganService extends BaseService<BudgetOrgan,Serializable
 	
 	public BudgetOrgan selectBudgetOrgan(String dataId);
 	
-	public Boolean saveBudgetOrgan(BudgetOrgan bean) throws Exception;
+	public Result saveBudgetOrgan(BudgetOrgan bean) throws Exception;
 
-	public Boolean updateBudgetOrgan(BudgetOrgan bean) throws Exception;
+	public Result updateBudgetOrgan(BudgetOrgan bean) throws Exception;
 	
-	public Boolean saveOrUpdBudgetOrgan(BudgetOrgan bean) throws Exception;
+	public Result saveOrUpdBudgetOrgan(BudgetOrgan bean) throws Exception;
 	
-	public Boolean deleteBudgetOrgan(String dataId) throws Exception;
+	public Result deleteBudgetOrgan(String dataId) throws Exception;
 	
 	public List<BudgetOrgan> selectListBudgetOrgan();
 	

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.BudgetOrgan;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.service.budget.BudgetOrganService;
@@ -84,7 +85,7 @@ public class BudgetOrganProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-organ-save", method = RequestMethod.POST)
 	public Object saveBudgetOrgan(@RequestBody BudgetOrgan bean) 
 	{
-		Boolean rs = null;
+		Result rs = new Result(false);
 		try
 		{
 			rs = budgetOrganService.saveBudgetOrgan(bean);
@@ -99,7 +100,7 @@ public class BudgetOrganProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-organ-upd", method = RequestMethod.POST)
 	public Object updateBudgetOrgan(@RequestBody BudgetOrgan bean) 
 	{
-		Boolean rs = null;
+		Result rs = new Result(false);
 		try
 		{
 			rs = budgetOrganService.updateBudgetOrgan(bean);
@@ -115,7 +116,7 @@ public class BudgetOrganProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-organ-saveorupd", method = RequestMethod.POST)
 	public Object saveOrupdBudgetOrgan(@RequestBody BudgetOrgan bean) 
 	{
-		Boolean rs = null;
+		Result rs = new Result(false);
 		try
 		{
 			rs = budgetOrganService.saveOrUpdBudgetOrgan(bean);
@@ -132,7 +133,7 @@ public class BudgetOrganProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-organ-del/{dataId}", method = RequestMethod.POST)
 	public Object deleteBudgetOrgan(@PathVariable("dataId") String dataId) 
 	{
-		Boolean rs = null;
+		Result rs = new Result(false);
 		try
 		{
 			rs = budgetOrganService.deleteBudgetOrgan(dataId);

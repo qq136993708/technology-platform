@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.BudgetOrgan;
 import com.pcitc.base.stp.budget.BudgetOrganExample;
 import com.pcitc.service.budget.BudgetOrganService;
@@ -28,24 +29,32 @@ public class BudgetOrganServiceImpl  extends BaseServiceImpl<BudgetOrgan,Seriali
 		return this.selectByPrimaryKey(dataId);
 	}
 	@Override
-	public Boolean saveBudgetOrgan(BudgetOrgan bean) throws Exception 
+	public Result saveBudgetOrgan(BudgetOrgan bean) throws Exception 
 	{
-		return this.saveBean(bean);
+		Boolean status = this.saveBean(bean);
+		
+		return new Result(status);
 	}
 	@Override
-	public Boolean updateBudgetOrgan(BudgetOrgan budgetOrgan) throws Exception 
+	public Result updateBudgetOrgan(BudgetOrgan budgetOrgan) throws Exception 
 	{
-		return this.updateBean(budgetOrgan);
+		Boolean status =  this.updateBean(budgetOrgan);
+		
+		return new Result(status);
 	}
 	@Override
-	public Boolean deleteBudgetOrgan(String id) throws Exception 
+	public Result deleteBudgetOrgan(String id) throws Exception 
 	{
-		return this.deleteBean(id);
+		Boolean status =  this.deleteBean(id);
+		
+		return new Result(status);
 	}
 	@Override
-	public Boolean saveOrUpdBudgetOrgan(BudgetOrgan bean) throws Exception 
+	public Result saveOrUpdBudgetOrgan(BudgetOrgan bean) throws Exception 
 	{
-		return this.saveOrUpdBean(bean.getDataId(),bean);
+		Boolean status =  this.saveOrUpdBean(bean.getDataId(),bean);
+		
+		return new Result(status);
 	}
 	@Override
 	public List<BudgetOrgan> selectListBudgetOrgan() 
