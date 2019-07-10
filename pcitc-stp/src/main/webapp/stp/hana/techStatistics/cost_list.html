@@ -111,18 +111,23 @@
       {
           if (d) 
           {
-        	  var str= "<span onclick=\"view('"+d.id+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.unitName+"</span>";
+        	  var str= "<span onclick=\"view('"+d.id+"','"+d.type+"','"+d.unitName+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.unitName+"</span>";
               return str;
           } else {
               return '';
           }
       }
-      function view(id) 
+      function view(id,type,unitName) 
       {
       	    var v_date=(new Date()).getTime();
       	    var url= '/tech_cost/get/'+id;
+      	    var title="股份科技投入填报";
+	      	if(type=='2')
+	      	{
+	      		title="集团科技投入填报";
+	      	}
            layer.open({
-               title:'科技投入表-详情',
+               title: unitName+"-"+title+'-详情',
                skin: 'layui-layer-lan',
                shadeClose: true,
                type: 2,

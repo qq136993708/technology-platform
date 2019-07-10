@@ -78,12 +78,19 @@
         }
     }
     
-    
-    function view(id) 
+    function view(id,type,unitName) 
     {
     	 var temUrl="/tech_org/get/" + id;
+    	 
+    	    var title="股份科研机构填报";
+        	if(type=='2')
+        	{
+        		title="集团科研机构填报";
+        	}
+        	
+        	
 		 layer.open({
-            title:'详情',
+            title:unitName+"-"+title+'-详情',
             skin: 'layui-layer-lan',
             shadeClose: true,
             type: 2,
@@ -194,7 +201,7 @@ var name=$('#name').val();
            	   {type : 'checkbox', event : 'changeEvents', width : 55},
                {title : '序号', type : 'numbers', width : 55},
                {field : 'auditStatus',     title : '审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
-               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '12%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.unitName+'</span>'},sort : true},
+               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '12%',templet:function(d){return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" style="color:#1890ff">'+d.unitName+'</span>'},sort : true},
                {field : 'workersCount',    title : '职工总数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'workerSalary',    title : '职工薪酬总额(万元)',  style : 'cursor: pointer;', align : 'center', width : '15%',sort : true},
                {field : 'assetsTotal',     title : '资产合计(万元)',     style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
