@@ -317,7 +317,7 @@ public class DetailServiceImpl implements DetailService {
 		Map map=new HashMap();
 		map.put("assetNumber", sredetail.getAssetNumber());
 		map.put("supplier", sredetail.getSupplier());
-		//map.put("g0CALD", df.format(calendar.getTime()));
+		map.put("g0CALD", df.format(calendar.getTime()));
 		map.put("g0CALD", "201805");
 		List<SreEquipmentLedger> sreequin  = sreEquipmentLedgerMapper.getDate(map);
 		if(sreequin.size()!=0) {
@@ -325,8 +325,22 @@ public class DetailServiceImpl implements DetailService {
 				sredetail.setG0butxt(lesde.getG0butxt());//公司名称
 				sredetail.setG0gsjc(lesde.getG0gsjc());//公司简称
 				sredetail.setG0txt50(lesde.getG0txt50());//资产描述
-				sredetail.setG0aktiv(lesde.getG0aktiv());//资产资本化日期
-				sredetail.setG0ndjar(lesde.getG0ndjar());//计划年使用期
+				String year = lesde.getG0aktiv().substring(0,4);
+				String month = lesde.getG0aktiv().substring(4,5);
+				if(month.equals("0")) {
+					month=lesde.getG0aktiv().substring(5,6);
+				}else {
+					month = lesde.getG0aktiv().substring(4,5);
+				}
+				String day = lesde.getG0aktiv().substring(6);
+				String yearmonthday=year+"年"+month+"月"+day+"日";
+				sredetail.setG0aktiv(yearmonthday);//资产资本化日期
+				String string = lesde.getG0ndjar().toString().substring(1,2);
+				if(string.equals("0")) {
+					sredetail.setG0NDURJ(lesde.getG0ndjar().toString().substring(2)+"年");//使用年限
+				}else {
+					sredetail.setG0NDURJ(lesde.getG0ndjar().toString().substring(1)+"年");//使用年限
+				}
 				sredetail.setG0zzdxzc(lesde.getG0zzdxzc());//资产类别
 				sredetail.setG0zdxzct(lesde.getG0zdxzct());//资产类别描述
 				sredetail.setG0zzdxgp(lesde.getG0zzdxgp());//资产类别组
