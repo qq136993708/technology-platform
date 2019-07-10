@@ -8,8 +8,6 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode2;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
-import com.pcitc.base.report.SysReportStp;
-import com.pcitc.base.report.SysReportStpExample;
 import com.pcitc.base.stp.out.*;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysFunctionExample;
