@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>机构选择</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .onlyTree_container .treeBox{ width: 100%; border: 0; left: 0;  padding-top: 0; padding-bottom: 68px;}
+        .onlyTree_container ul>li{ padding-left: 10px;}
+        .onlyTree_container .title-box {line-height: 30px;position: static;}
+    </style>
+</head>
+<body>
+    <div class="onlyTree_container">
+        <div class="treeBox search">
+            <div class="title-box">
+                <label class="dateInput">
+                    <span>搜索</span>
+                    <input type="text" class="form-control" name="searchUnitName" id="searchUnitName" placeholder="请输入机构名称" autocomplete="off" >
+                </label>
+            </div>
+            <div class="layui-side-scroll">
+                <!-- 左侧子菜单 -->
+                <ul id="unitTree" class="ztree"></ul>
+            </div>
+        </div>
+
+        <div class="form-bottom">
+            <div class="form-bottom-btns">
+                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" id="sub">确定</button>
+                <button class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="cancel">关闭</button>
+            </div>
+        </div>
+    </div>
+    <!--树js-->
+    <script type="text/javascript">
+        layui.use(['jquery','jqZtreeCore','table','laydate','layer','publicMethods'], function () {
+        	var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
+            var zTreeObj,treeData,sTreeObj,nodes,treeDataMap={};
+            var searchTreeData = [];
+            var company_type = "${company}";
+        	var setting = 
+        	{
+        		check: { enable: true, chkStyle: "radio", radioType: "all" },//单选按钮
+        	    data: {simpleData: {enable: true}},
+        	    callback: {onClick: onClickMenu}
+        	};
+        	function onClickMenu(event,treeId,treeNode,clickFlag) {
+        		zTreeObj.checkNode(treeNode);
+        	}
+            publicMethods.ajaxPost("/budget/"+company_type,null, function (dt) {
+            	treeData = dt;
+            	$.each(dt,function(index,d){
+            		treeDataMap[d.id]=d;
+            	});
+            	zTreeObj = $.fn.zTree.init($("#unitTree"), setting, treeData);
+    			zTreeObj.expandAll(true);
+            });
+            function loadUnitTree(){
+            	var searchStr = $("#searchUnitName").val();
+            	zTreeObj = $.fn.zTree.init($("#unitTree"), setting, treeData);
+            	if(searchStr != null && "" != searchStr){
+             		var nodeList = zTreeObj.getNodesByParamFuzzy("name", searchStr);
+             		var nodeIds = getChildNode([],nodeList);
+             		nodeIds = getParentNode(zTreeObj,nodeIds,nodeList);
+             		var newnodes = getNodeById(zTreeObj,nodeIds);
+             		zTreeObj = $.fn.zTree.init($("#unitTree"), setting, newnodes);
+             	}
+            	zTreeObj.expandAll(true);
+            }
+          	//检索(改变事件)
+        	$("#searchUnitName").on("change",function(){
+        		loadUnitTree();
+        	});
+        	//检索(键盘回车)
+        	$(document).keyup(function (e) {
+        	    if (e.keyCode == 13) {
+        	    	loadUnitTree();
+        	    }
+        	});
+        	function getNodeById(treeObj,nodeIds){
+        		var nodes = [];
+        		var node = null;
+        		$.each(nodeIds,function(i,d){
+        			node = treeObj.getNodeByParam("id", d, null);
+        			if(node){
+        				nodes.push(new zTreeNode(node.id,node.pId,node.name));
+        			}
+        		});
+        		return nodes;
+        	}
+        	
+        	function getChildNode(nodeIds,nodeList)
+        	{
+        		$.each(nodeList,function(i,d){
+        			if(nodeIds.indexOf(d.id)==-1){
+        				nodeIds.push(d.id);
+        			}
+        			if(d.children){
+        				getChildNode(nodeIds,d.children);
+        			}
+         		});
+        		return nodeIds;
+        	}
+        	function getParentNode(treeObj,nodeIds,nodeList)
+        	{
+        		function addNodeId(nodeIds,node)
+        		{
+        			var pnode =treeObj.getNodeByParam("id", node.pId, null);
+        			if(pnode){
+        				if(nodeIds.indexOf(node.pId)==-1){
+        					nodeIds.push(node.pId);
+        				}
+        				addNodeId(nodeIds,pnode);
+        			}
+        		}
+        		$.each(nodeList,function(i,d){
+        			addNodeId(nodeIds,d);
+         		});
+        		return nodeIds;
+        	}
+        	function zTreeNode(id,pId,name){
+        		this.id = id;
+        		this.pId = pId;
+        		this.name = name;
+        	}
+            // 点击重置按钮时清空勾选的状态
+            $('#sub').click(function(){
+            	var nodes = zTreeObj.getCheckedNodes();
+            	if(nodes.length >0){
+					//添加数据
+            		parent.setCompanyData(nodes[0].id,nodes[0].name);
+            	}
+            	var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            });
+            $('#cancel').click(function(){
+          	  var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+          })
+        })
+    </script>
+</body>
+</html>
