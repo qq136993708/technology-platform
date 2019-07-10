@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pcitc.mapper.budget.OutTemBudgetOrganItemsMapper">
-  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.OutTemBudgetOrganItems">
+<mapper namespace="com.pcitc.mapper.budget.BudgetOrganItemsMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.BudgetOrganItems">
     <id column="data_id" jdbcType="VARCHAR" property="dataId" />
     <result column="data_no" jdbcType="INTEGER" property="dataNo" />
     <result column="organ_code" jdbcType="VARCHAR" property="organCode" />
@@ -78,7 +78,7 @@
     data_id, data_no, organ_code, organ_name, organ_desc, creater, create_time, update_time, 
     del_flag, remark, contacts, data_version, append_files
   </sql>
-  <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrganItemsExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetOrganItemsExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -110,13 +110,13 @@
     delete from out_tem_budget_organ_items
     where data_id = #{dataId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrganItemsExample">
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.budget.BudgetOrganItemsExample">
     delete from out_tem_budget_organ_items
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrganItems">
+  <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetOrganItems">
     insert into out_tem_budget_organ_items (data_id, data_no, organ_code, 
       organ_name, organ_desc, creater, 
       create_time, update_time, del_flag, 
@@ -128,7 +128,7 @@
       #{remark,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, 
       #{appendFiles,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrganItems">
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetOrganItems">
     insert into out_tem_budget_organ_items
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="dataId != null">
@@ -213,7 +213,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrganItemsExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.pcitc.base.stp.budget.BudgetOrganItemsExample" resultType="java.lang.Long">
     select count(*) from out_tem_budget_organ_items
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -285,7 +285,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrganItems">
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.budget.BudgetOrganItems">
     update out_tem_budget_organ_items
     <set>
       <if test="dataNo != null">
@@ -327,7 +327,7 @@
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrganItems">
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetOrganItems">
     update out_tem_budget_organ_items
     set data_no = #{dataNo,jdbcType=INTEGER},
       organ_code = #{organCode,jdbcType=VARCHAR},

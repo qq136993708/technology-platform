@@ -6,7 +6,7 @@ import java.io.Serializable;
  * out_tem_budget_organ_items
  * @author 
  */
-public class OutTemBudgetOrganItems implements Serializable {
+public class BudgetOrganItems implements Serializable {
     /**
      * 主键ID
      */
@@ -180,7 +180,7 @@ public class OutTemBudgetOrganItems implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        OutTemBudgetOrganItems other = (OutTemBudgetOrganItems) that;
+        BudgetOrganItems other = (BudgetOrganItems) that;
         return (this.getDataId() == null ? other.getDataId() == null : this.getDataId().equals(other.getDataId()))
             && (this.getDataNo() == null ? other.getDataNo() == null : this.getDataNo().equals(other.getDataNo()))
             && (this.getOrganCode() == null ? other.getOrganCode() == null : this.getOrganCode().equals(other.getOrganCode()))

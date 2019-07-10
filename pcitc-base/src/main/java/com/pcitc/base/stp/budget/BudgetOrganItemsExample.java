@@ -3,7 +3,7 @@ package com.pcitc.base.stp.budget;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OutTemBudgetOrganItemsExample {
+public class BudgetOrganItemsExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -14,7 +14,7 @@ public class OutTemBudgetOrganItemsExample {
 
     private Long offset;
 
-    public OutTemBudgetOrganItemsExample() {
+    public BudgetOrganItemsExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

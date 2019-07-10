@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pcitc.mapper.budget.OutTemBudgetOrganMapper">
-  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.OutTemBudgetOrgan">
+<mapper namespace="com.pcitc.mapper.budget.BudgetOrganMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.BudgetOrgan">
     <id column="data_id" jdbcType="VARCHAR" property="dataId" />
     <result column="nd" jdbcType="VARCHAR" property="nd" />
     <result column="no" jdbcType="INTEGER" property="no" />
@@ -71,7 +71,7 @@
   <sql id="Base_Column_List">
     data_id, nd, `no`, organ_id, organ_code, organ_name, del_flag
   </sql>
-  <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrganExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetOrganExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -103,13 +103,13 @@
     delete from out_tem_budget_organ
     where data_id = #{dataId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrganExample">
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.budget.BudgetOrganExample">
     delete from out_tem_budget_organ
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrgan">
+  <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetOrgan">
     insert into out_tem_budget_organ (data_id, nd, `no`, 
       organ_id, organ_code, organ_name, 
       del_flag)
@@ -117,7 +117,7 @@
       #{organId,jdbcType=VARCHAR}, #{organCode,jdbcType=VARCHAR}, #{organName,jdbcType=VARCHAR}, 
       #{delFlag,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrgan">
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetOrgan">
     insert into out_tem_budget_organ
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="dataId != null">
@@ -166,7 +166,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrganExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.pcitc.base.stp.budget.BudgetOrganExample" resultType="java.lang.Long">
     select count(*) from out_tem_budget_organ
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -214,7 +214,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrgan">
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.budget.BudgetOrgan">
     update out_tem_budget_organ
     <set>
       <if test="nd != null">
@@ -238,7 +238,7 @@
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.OutTemBudgetOrgan">
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetOrgan">
     update out_tem_budget_organ
     set nd = #{nd,jdbcType=VARCHAR},
       `no` = #{no,jdbcType=INTEGER},
