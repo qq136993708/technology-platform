@@ -156,8 +156,15 @@ var name=$('#name').val();
             	$('#auditStatus').val("");
             },
             addEvent: function(){ //点击新增按钮
+            	
+            	 var title="股份科研机构填报";
+                	if(type=='2')
+                	{
+                		title="集团科研机构填报";
+                	}
+                	
                 layer.open({
-                    title:'科研机构调查-新增',
+                    title: title,
                     skin: 'layui-layer-lan',
                     shadeClose: true,
                     type: 2,
@@ -184,9 +191,13 @@ var name=$('#name').val();
         			  return;
         		   }
         		  
-        		  
+        		  var title="股份科研机构填报";
+              	if(type=='2')
+              	{
+              		title="集团科研机构填报";
+              	}
            		  layer.open({
-                      title:'科研机构调查-修改',
+                      title:title+'-修改',
                       skin: 'layui-layer-lan',
                       shadeClose: true,
                       type: 2,
