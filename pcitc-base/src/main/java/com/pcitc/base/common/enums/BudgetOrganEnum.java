@@ -22,7 +22,11 @@ public enum BudgetOrganEnum
 	ORG_LYSYBB2C(14,"LYSYBB2C","炼油事业部（B2、C类）"),
 	ORG_HGSYBB2C(15,"HGSYBB2C","化工事业部（B2、C类）"),
 	ORG_ZX(16,"ZX","专项"),
-	ORG_JD(17,"JD","机动");
+	ORG_JD(17,"JD","机动"),
+	
+	ORG_KTKFC(21,"KTKFC","勘探开发处"),
+	ORG_GCJSC(22,"GCJSC","工程技术处");
+	
 	
 	private BudgetOrganEnum(Integer id,String code,String name) {
 		this.id = id;

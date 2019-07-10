@@ -15,7 +15,7 @@ import com.pcitc.base.workflow.WorkflowVo;
  * @author fb
  *
  */
-public abstract interface BudgetInfoService
+public interface BudgetInfoService
 {
 	/**
 	 * 
