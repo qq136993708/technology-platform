@@ -169,15 +169,15 @@ var publicMethods;
 	            },
 	            cols: [[
 	            	{title:'序号', type:'numbers', width : 55},
-					{field: 'name', title: '装备名称', width : "20%",style: 'cursor: pointer;'}, 
+					{field: 'name', title: '装备名称', width : "20%",style: 'cursor: pointer;',sort : true}, 
 					{field: 'updateUser', title : '公司代码',sort : true, style : 'cursor: pointer;', align : 'left', width : '20%'},
-					{field: 'applicationNumber', title: '资产编号', width : "20%",style: 'cursor: pointer;'}, 
-					{field: 'g0NDURJ', title: '使用年限', style: 'cursor: pointer;',width : "20%"},
+					{field: 'applicationNumber', title: '资产编号', width : "20%",style: 'cursor: pointer;',sort : true}, 
+					{field: 'g0NDURJ', title: '使用年限', style: 'cursor: pointer;',width : "20%",sort : true},
 					{field: 'g0SCHRW', title: '资产残值',width : "20%", style: 'cursor: pointer;'}, 
-					{field: 'g0LJGZYZJE', title: '账面净额', style: 'cursor: pointer;',width : "20%"}, 
-					{field: 'g0LJDJZJJE', title: '预付定金', style: 'cursor: pointer;',width : "20%"}, 
-					{field: 'g0NCGZYZJE', title: '购置价值', style: 'cursor: pointer;',width : "20%"}, 
-					{field: 'g0LJZJJE', title: '累计折旧', style: 'cursor: pointer;',width : "20%"}
+					{field: 'g0LJGZYZJE', title: '账面净额', style: 'cursor: pointer;',width : "20%",sort : true}, 
+					{field: 'g0LJDJZJJE', title: '预付定金', style: 'cursor: pointer;',width : "20%",sort : true}, 
+					{field: 'g0NCGZYZJE', title: '购置价值', style: 'cursor: pointer;',width : "20%",sort : true}, 
+					{field: 'g0LJZJJE', title: '累计折旧', style: 'cursor: pointer;',width : "20%",sort : true}
 	                ]],
 	            done: function (res, curr, count) {
 	            	var equipmentIds="";

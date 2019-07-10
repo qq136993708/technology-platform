@@ -288,7 +288,7 @@ var name=$('#name').val();
                 var id=selectRowData.id;
                 var temUrl="/sre-sreScrapApply/upload?id=" + id;
                 layer.open({
-                    title:'上传验收准备材料',
+                    title:'上传',
                     skin: 'layui-layer-lan',
                     shadeClose: true,
                     type: 2,
@@ -547,9 +547,10 @@ var name=$('#name').val();
     
     function view_tender(id)//查看后评估准备材料
     {
-        var temUrl="/sre-sreScrapApply/upload?id=" + id;
+    	var modenl = "1";
+        var temUrl="/sre-sreScrapApply/upload?id=" + id+"&modenl=" +modenl;
         layer.open({
-            title:'查看后评估准备材料',
+            title:'查看上传',
             skin: 'layui-layer-lan',
             shadeClose: true,
             type: 2,
