@@ -500,7 +500,7 @@
                     <label class="layui-form-label">单位名称</label>
                     <div class="layui-input-block">
                         <input class="layui-input readOnlyBox" readonly="readonly" readonly="readonly" id="unitName" name="unitName" lay-verify="required"
-                               value="${unitName}" type="text">
+                               value="${techOrgCount.unitName}" type="text">
                     </div>
               </div>
                 
@@ -530,7 +530,7 @@
                         <label for="" class="layui-form-label">填表人：</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" readonly="readonly" placeholder="填表人" name="createUserName" id="createUserName"
-                                   value="${createUserName}" lay-verify="required" autocomplete="off" type="text">
+                                   value="${techOrgCount.createUserName}" lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
@@ -606,7 +606,7 @@
         form.verify({
             meetingPlace: function (value) {
                 if (value.length < 5) {
-                    return '地点至少得5个字符啊';
+                    return '至少得5个字符啊';
                 }
             }
         });

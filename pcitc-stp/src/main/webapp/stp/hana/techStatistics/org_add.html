@@ -37,6 +37,9 @@
 <input type="hidden" name="id" id="id" value="${techOrgCount.id}">
 <input type="hidden" name="attachmentDoc" id="attachmentDoc" value="${attachmentDoc}">      
  <input type="hidden" name="type" id="type" value="${type}">
+ <input type="hidden" name="unitCode" id="unitCode" value="">
+ <input type="hidden" name="allUnitName" id="allUnitName" value="${allUnitName}">
+ 
     <div class="formBox">
         <div class="tableToolBox">
             <div class="tableBtns">
@@ -505,7 +508,7 @@
               <div class="layui-form-item">
                     <label class="layui-form-label">单位名称<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
-                        <input class="layui-input readOnlyBox" readonly="readonly" id="unitName" name="unitName" lay-verify="required"
+                        <input class="layui-input readOnlyBox" readonly="readonly" onclick="chooseUnitRaio()" id="unitName" name="unitName" lay-verify="required"
                                value="${unitName}" type="text">
                     </div>
               </div>
@@ -629,10 +632,32 @@
             /*parent.layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })*/
-            var url = '/tech_org/save?v_date=' + v_date + "&id=" + id;
-            var backurl = "/tech_org/to-list?v_date=" + v_date;
-            ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
-            return false;
+            
+            var allUnitName=$("#allUnitName").val();
+            var unitName=$("#unitName").val();
+            var arr= unitName.split(",");
+            if(unitName==null || unitName=='')
+           	{
+            	 layer.alert("单位名称为空");
+            	 return false;
+           	}else if(arr.length>=2)
+           	{
+           	   layer.alert("选择您所在的单位");
+        	   return false;
+           	}else if(allUnitName.indexOf(unitName)== -1)
+           	{
+               layer.alert("选择您所在的单位");
+         	   return false;
+            }else
+       		{
+            	 var url = '/tech_org/save?v_date=' + v_date + "&id=" + id;
+                 var backurl = "/tech_org/to-list?v_date=" + v_date;
+                 ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
+                 return false;
+       		}
+            
+            
+           
         });
     });
 
@@ -672,7 +697,31 @@
         });
     }
     
+    function chooseUnitRaio() 
+    {
     
+	    layer.open({
+	        title: '选择单位'
+	        , skin: 'layui-layer-lan'
+	        , shadeClose: true
+	        , type: 2
+	        , fixed: false
+	        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	        , maxmin: false
+	        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	        , area: ['80%', '90%']
+	        , content: "/unit_select_radio?company=search-group-company-tree"
+	    }); 
+    
+    }
+    
+    
+    
+    function setCompanyData(unitCode,unitName) 
+    {
+    	$("#unitName").val(unitName);
+    	$("#unitCode").val(unitCode);
+    }
     
     function clearNoNum(obj){  
     	  obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符   

@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.hana;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -164,11 +165,11 @@ public class TechStatisticsController extends BaseController{
 		String createUserName = sysUserInfo.getUserDisp();
 		String attachmentDoc = IdUtil.createFileIdByTime();
 
-		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-		String unitName = map.get("unitName");// 申报单位
-		String unitCode = map.get("unitCode");// 申报单位
-		String applyDepartName = map.get("applyDepartName");// 申报部门
-		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		
+		
+		String unitName = sysUserInfo.getUnitName();// 申报部门
+		String unitCode = sysUserInfo.getUnitCode();// 申报部门
+		
 		String type = CommonUtil.getParameter(request, "type", "");
 		request.setAttribute("type", type);
 
@@ -179,20 +180,22 @@ public class TechStatisticsController extends BaseController{
 			int statusCode = responseEntity.getStatusCodeValue();
 			logger.info("============远程返回  statusCode " + statusCode);
 			TechCost techCost = responseEntity.getBody();
-			applyDepartName = techCost.getUnitName();
-			applyDepartCode = techCost.getUnitCode();
-			unitName = techCost.getUnitName();
 			attachmentDoc = techCost.getAttachmentDoc();
-			unitCode = techCost.getUnitCode();
 			request.setAttribute("techCost", techCost);
+			
+			//unitName = techCost.getUnitName();
+			//unitCode = techCost.getUnitCode();
+			//unitName = techCost.getUnitName();
+			//unitCode = techCost.getUnitCode();
+			
 		}
 		request.setAttribute("attachmentDoc", attachmentDoc);
 		request.setAttribute("createUserName", createUserName);
-		request.setAttribute("applyDepartName", applyDepartName);
-		request.setAttribute("applyDepartCode", applyDepartCode);
 		request.setAttribute("unitName", unitName);
 		request.setAttribute("unitCode", unitCode);
-		
+		//request.setAttribute("unitName", unitName);
+		//request.setAttribute("unitCode", unitCode);
+		request.setAttribute("allUnitName", unitName);
 		return "/stp/hana/techStatistics/cost_add";
 	}
 
@@ -471,12 +474,8 @@ public class TechStatisticsController extends BaseController{
 		String createUserName = sysUserInfo.getUserDisp();
 		String attachmentDoc = IdUtil.createFileIdByTime();
 
-		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-		String unitName = map.get("unitName");// 申报单位
-		String unitCode = map.get("unitCode");// 申报单位
-		String applyDepartName = map.get("applyDepartName");// 申报部门
-		String applyDepartCode = map.get("applyDepartCode");// 申报部门
-		
+		String unitName = sysUserInfo.getUnitName();// 申报部门
+		String unitCode = sysUserInfo.getUnitCode();// 申报部门
 
 		
 		String type = CommonUtil.getParameter(request, "type", "");
@@ -491,18 +490,14 @@ public class TechStatisticsController extends BaseController{
 			logger.info("============远程返回  statusCode " + statusCode);
 			TechOrgCount techOrgCount = responseEntity.getBody();
 			request.setAttribute("techOrgCount", techOrgCount);
-			applyDepartName = techOrgCount.getUnitName();
-			applyDepartCode = techOrgCount.getUnitCode();
-			unitName = techOrgCount.getUnitName();
-			unitCode = techOrgCount.getUnitCode();
+			
 			attachmentDoc= techOrgCount.getAttachmentDoc();
 		}
 		request.setAttribute("attachmentDoc", attachmentDoc);
 		request.setAttribute("createUserName", createUserName);
-		request.setAttribute("applyDepartName", applyDepartName);
-		request.setAttribute("applyDepartCode", applyDepartCode);
 		request.setAttribute("unitName", unitName);
 		request.setAttribute("unitCode", unitCode);
+		request.setAttribute("allUnitName", unitName);
 		return "/stp/hana/techStatistics/org_add";
 	}
 
@@ -736,7 +731,14 @@ public class TechStatisticsController extends BaseController{
 	}
 	
 	
-	
+
+	@RequestMapping(method = RequestMethod.GET, value = "/unit_select_radio")
+	public Object unit_select_radio(HttpServletRequest request) throws IOException 
+	{
+		request.setAttribute("company", request.getParameter("company"));
+		
+		return "/stp/hana/techStatistics/unit_select_radio";
+	}
 	
 	
 
