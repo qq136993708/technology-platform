@@ -65,6 +65,27 @@ public class BudgetOrganServiceImpl  extends BaseServiceImpl<BudgetOrgan,Seriali
 	@Override
 	public LayuiTableData selectTableBudgetOrgan(LayuiTableParam param) 
 	{
+		/*BudgetOrganExample example = new BudgetOrganExample();
+		//每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		
+		List<BudgetOrgan> list = mapper.selectByExample(example);
+		// 3、获取分页查询后的数据
+		PageInfo<BudgetOrgan> pageInfo= new PageInfo<BudgetOrgan>(list);
+		// 3、获取分页查询后的数据
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;*/
+		
+		
 		BudgetOrganExample example = new BudgetOrganExample();
 		return this.selectTableData(param, example);
 	}

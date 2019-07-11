@@ -13,13 +13,12 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.budget.BudgetBaseMapper;
-import com.pcitc.service.budget.BaseService;
 
-public abstract class BaseServiceImpl<Bean, PK extends Serializable,Example> implements BaseService<Bean,PK,Example>
+public class BaseServiceImpl<Bean, PK extends Serializable,Example>
 {
 	@Autowired
-	protected BudgetBaseMapper<Bean, PK, Example> mapper;
-	
+	public BudgetBaseMapper<Bean, PK, Example> mapper;
+
 	public Bean selectByPrimaryKey(PK id)
 	{
 		return mapper.selectByPrimaryKey(id);
@@ -110,7 +109,9 @@ public abstract class BaseServiceImpl<Bean, PK extends Serializable,Example> imp
 		int pageNum = pageStart/pageSize + 1;
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
-	
+		System.out.println(e.getClass().getName());
+		//System.out.println(mapper.getClass().getName());
+		//System.out.println(mapper.getClass().getTypeName());
 		List<Bean> list = mapper.selectByExample(e);
 		// 3、获取分页查询后的数据
 		PageInfo<Bean> pageInfo= new PageInfo<Bean>(list);
