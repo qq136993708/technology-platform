@@ -13,11 +13,9 @@ import org.quartz.JobExecutionException;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.stp.flow.FlowProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.config.SpringContextUtil;
-import com.pcitc.service.feign.stp.FlowProjectRemoteClient;
 import com.pcitc.service.out.OutProjectService;
 import com.pcitc.utils.DataServiceUtil;
 
@@ -41,7 +39,7 @@ public class StpProjectJob implements Job, Serializable {
 		
 		Calendar date = Calendar.getInstance();
 		String ndCon = String.valueOf(date.get(Calendar.YEAR));
-		ndCon = "2017";
+		ndCon = "2019";
 		String str = null;
 		try {
 			// 远程获取数据 -----
@@ -66,7 +64,6 @@ public class StpProjectJob implements Job, Serializable {
 					String fwdxbm = object.getString("FWDXBM");
 					String fwdx = object.getString("FWDX");
 					String zylbbm = object.getString("ZYLBBM");
-					String htqdsj = object.getString("htqdsj");
 
 					String zylb = object.getString("ZYLB");
 					String fzdwbm = object.getString("FZDWBM");
@@ -74,6 +71,10 @@ public class StpProjectJob implements Job, Serializable {
 					String jtfzdwbm = object.getString("JTFZDWBM");
 					String jtfzdw = object.getString("JTFZDW");
 					String fzrxm = object.getString("FZRXM");
+					String htqdsj = object.getString("htqdsj");   // 合同签订时间
+					if (htqdsj != null) {
+						htqdsj = htqdsj.replaceAll("-", "");
+					}
 					
 					String lxrxm = object.getString("LXR_Xm");
 					String lxryx = object.getString("LXR_Email");
@@ -109,7 +110,7 @@ public class StpProjectJob implements Job, Serializable {
 					opi.setXmjb(xmjb);
 					opi.setJf(jf);
 					opi.setFwdxbm(fwdxbm);
-					opi.setDefine16(htqdsj);  // 合同签订时间
+					opi.setDefine16(htqdsj);
 					if (fwdxbm.equals("JT")) {
 						opi.setFwdx("集团");
 					} else if (fwdxbm.equals("GF")) {
@@ -153,8 +154,15 @@ public class StpProjectJob implements Job, Serializable {
 					
 					if (hth != null) {
 						if (hth.indexOf("P") == 0 || hth.indexOf("JP") == 0 || hth.indexOf("LP") == 0) {
-							opi.setDefine10("101油田处");
-						} else if (hth.indexOf("P") == 0 || hth.indexOf("J1") == 0 || hth.indexOf("L1") == 0) {
+							if (Integer.parseInt(nd) > 2018) {
+								opi.setDefine10("101勘探开发处");
+							} else {
+								opi.setDefine10("101油田处");
+							}
+							
+						} else if (hth.indexOf("PE") == 0 || hth.indexOf("JPE") == 0 || hth.indexOf("LPE") == 0) {
+							opi.setDefine10("101石油工程技术处");
+						} else if (hth.indexOf("1") == 0 || hth.indexOf("J1") == 0 || hth.indexOf("L1") == 0) {
 							opi.setDefine10("102炼油处");
 						} else if (hth.indexOf("4") == 0 || hth.indexOf("J4") == 0 || hth.indexOf("L4") == 0) {
 							opi.setDefine10("103化工处");
@@ -223,26 +231,25 @@ public class StpProjectJob implements Job, Serializable {
 					
 				}
 				if (insertData != null && insertData.size() > 0) {
-					System.out.println("1======----------------");
-					outProjectService.updateProjectData(insertData, ndCon);
-					System.out.println("2======----------------");
+					outProjectService.insertProjectData(insertData, ndCon);
+					
+					System.out.println("开始批量更新统计属性======----------------");
+					// 批量更新表中的统计属性，方便统计查询
+					System.out.println("结束批量更新统计属性======----------------");
+					
 				}
-				
-				
-				
-				
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
 				// 统一调用存储过程，把数据中部分属性集中处理
 			}
-			//FlowProjectRemoteClient flowProjectRemoteClient = SpringContextUtil.getApplicationContext().getBean(FlowProjectRemoteClient.class);
-			//System.out.println("定时开始调用feign获取stp数据---------------"+flowProjectRemoteClient);
-			//FlowProjectInfo flowProjectInfo = new FlowProjectInfo();
-			//flowProjectInfo.setDataId("123");
-			//Date date1 = new Date();
-			//flowProjectRemoteClient.insertFlowProjectInfo(flowProjectInfo);
-			//Date date2 = new Date();
-			//System.out.println("========feign========调用时间*************====="+(date2.getTime()-date1.getTime()));
+			/*FlowProjectRemoteClient flowProjectRemoteClient = SpringContextUtil.getApplicationContext().getBean(FlowProjectRemoteClient.class);
+			System.out.println("定时开始调用feign获取stp数据---------------"+flowProjectRemoteClient);
+			FlowProjectInfo flowProjectInfo = new FlowProjectInfo();
+			flowProjectInfo.setDataId("123");
+			Date date1 = new Date();
+			flowProjectRemoteClient.insertFlowProjectInfo(flowProjectInfo);
+			Date date2 = new Date();
+			System.out.println("========feign========调用时间*************====="+(date2.getTime()-date1.getTime()));*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

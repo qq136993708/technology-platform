@@ -1,15 +1,17 @@
 package com.pcitc.web.system;
 
-import com.pcitc.base.system.SysJob;
-import com.pcitc.service.system.SysJobService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysJob;
+import com.pcitc.service.system.SysJobService;
 
 /**
  * package: com.pcitc.controller
@@ -31,11 +33,9 @@ public class SysJobProviderClient {
      * @return
      */
     @RequestMapping(value = "/findSysJob")
-    public List<SysJob> findSysJob(@RequestBody SysJob job){
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("jobName", job.getJobName());
-
-        return sysJobService.findSysJob(map);
+    public Object findSysJob(@RequestBody LayuiTableParam param){
+    	
+		return sysJobService.findSysJob(param);
     }
 
     /**

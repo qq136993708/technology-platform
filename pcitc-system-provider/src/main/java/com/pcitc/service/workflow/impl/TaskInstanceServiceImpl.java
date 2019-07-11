@@ -132,14 +132,8 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
 	 * @return
 	 */
 	private LayuiTableData findByExample(LayuiTableParam param, SysDelegateExample example) {
-		//每页显示条数
-		int pageSize = param.getLimit();
-		//从第多少条开始
-		int pageStart = (param.getPage()-1)*pageSize;
-		//当前是第几页
-		int pageNum = pageStart/pageSize + 1;
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
-		PageHelper.startPage(pageNum, pageSize);
+		PageHelper.startPage(param.getPage(), param.getLimit());
 		
 		List<SysDelegate> list = sysDelegateMapper.selectByExample(example);
 		// 3、获取分页查询后的数据

@@ -1,5 +1,7 @@
 package com.pcitc.base.stp.out;
 
+import java.util.Date;
+
 public class OutProjectPlan {
     private String dataId;
 
@@ -132,8 +134,28 @@ public class OutProjectPlan {
     private String define18;
 
     private String define19;
+    
+    private Date createDate;
+    
+    private Date updateDate;
+    
+    public Date getCreateDate() {
+		return createDate;
+	}
 
-    public String getDataId() {
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public String getDataId() {
         return dataId;
     }
 
