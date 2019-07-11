@@ -46,10 +46,13 @@
             </div>
         </div>
         <div class="expert-bottom">
-            <span>成果数量<span class="red">${listCgCount}</span>个</span>
-            <span>参与评标机构总数量 <span class="red">${jgCount}</span> 个</span>
-            <span>参与评标累计项目总数量 <span class="red">${xmCount}</span>个</span><br/>
-            <span>专利数量<span class="red">${listZlCount}</span>个</span>
+            <span><span class="red"></span></span>
+            <!--<span>成果数量<span class="red">${listCgCount}</span>个</span>-->
+            <span>参与项目评审总数量<span class="red">${xmCount}</span>个</span><br/>
+            <span><span class="red"></span></span>
+            <!--<span>参与评标机构总数量 <span class="red">${jgCount}</span> 个</span>-->
+            <!--<span>参与评标累计项目总数量 <span class="red">${xmCount}</span>个</span><br/>-->
+            <span>专利数量<span class="red">${zlCount}</span>个</span>
             <span>同一行业领域共计<span class="red">${hylyCount}</span>人</span>
         </div>
         <div class="layui-col-md5 expert-h">
@@ -57,7 +60,8 @@
                 <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">
                     <ul class="layui-tab-title">
                         <li class="layui-this" lay-id="11">个人信息</li>
-                        <li lay-id="22">成果信息</li>
+                        <li lay-id="22">人物成就</li>
+                        <!--<li lay-id="22">成果信息</li>-->
                         <li lay-id="33">专利信息</li>
                     </ul>
                     <div class="layui-tab-content">
@@ -65,21 +69,26 @@
                             ${zjkBaseInfo.userDesc}
                         </div>
                         <div class="layui-tab-item">
-                            <ul>
-                            <#list listCg as vo>
-                               <li>
-                                   <p>${vo.publishDate}</p>
-                                   <span>${vo.achievementName}</span>
-                                   <p>${vo.achievementDesc}</p>
-                               </li>
-                           	</#list>
-                            </ul>
+                            <div class="layui-tab-item layui-show">
+                                ${zjkBaseInfo.bak6}
+                            </div>
+                            <!---->
+                            <!--<ul>-->
+                            <!--<#list listCg as vo>-->
+                               <!--<li>-->
+                                   <!--<p>${vo.publishDate}</p>-->
+                                   <!--<span>${vo.achievementName}</span>-->
+                                   <!--<p>${vo.achievementDesc}</p>-->
+                               <!--</li>-->
+                           	<!--</#list>-->
+                            <!--</ul>-->
                         </div>
                         <div class="layui-tab-item">
                         <#list listZl as vo>
                            <li>
-                               <p>${vo.patentCode}</p>
-                               <span>${vo.patentName}</span>
+                               <p>${vo.fmmc}</p>
+                               <p>${vo.wxlx}</p>
+                               <span>${vo.qlyq}</span>
                            </li>
                        </#list>
                     </div>

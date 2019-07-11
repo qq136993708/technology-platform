@@ -1181,9 +1181,10 @@
 	      JSSXXM, KSSJ, JSSJ, YJSJ, ZYLY, 
 	      ZYSX, SJID, LXBJ, YJNR, 
 	      JDAP, YJMB, YJYJC,
-	      PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE,
-	      DEFINE1, DEFINE2, DEFINE3, 
-	      DEFINE4, DEFINE5, DEFINE6
+	      PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE, CREATE_DATE, UPDATE_DATE,
+	      DEFINE1, DEFINE2, DEFINE3, DEFINE4, DEFINE5, DEFINE6,
+	      DEFINE7, DEFINE8, DEFINE9, DEFINE10, DEFINE11, DEFINE12,
+	      DEFINE13, DEFINE14, DEFINE15, DEFINE16, DEFINE17, DEFINE18
 	      )
 	    values
 		<foreach collection="list" item="projectPlan" index="index"
@@ -1199,8 +1200,13 @@
 		      #{projectPlan.zysx,jdbcType=VARCHAR}, #{projectPlan.sjid,jdbcType=VARCHAR}, #{projectPlan.lxbj,jdbcType=VARCHAR}, #{projectPlan.yjnr,jdbcType=VARCHAR}, 
 		      #{projectPlan.jdap,jdbcType=VARCHAR}, #{projectPlan.yjmb,jdbcType=VARCHAR}, #{projectPlan.yjyjc,jdbcType=VARCHAR}, 
 		      #{projectPlan.projectProperty,jdbcType=VARCHAR}, #{projectPlan.projectScope,jdbcType=VARCHAR}, #{projectPlan.projectType,jdbcType=VARCHAR}, 
+		      #{projectPlan.createDate,jdbcType=TIMESTAMP}, #{projectPlan.updateDate,jdbcType=TIMESTAMP}, 
 		      #{projectPlan.define1,jdbcType=VARCHAR}, #{projectPlan.define2,jdbcType=VARCHAR}, #{projectPlan.define3,jdbcType=VARCHAR}, 
-		      #{projectPlan.define4,jdbcType=VARCHAR}, #{projectPlan.define5,jdbcType=VARCHAR}, #{projectPlan.define6,jdbcType=VARCHAR} )
+		      #{projectPlan.define4,jdbcType=VARCHAR}, #{projectPlan.define5,jdbcType=VARCHAR}, #{projectPlan.define6,jdbcType=VARCHAR},
+		      #{projectPlan.define7,jdbcType=VARCHAR}, #{projectPlan.define8,jdbcType=VARCHAR}, #{projectPlan.define9,jdbcType=VARCHAR}, 
+		      #{projectPlan.define10,jdbcType=VARCHAR}, #{projectPlan.define11,jdbcType=VARCHAR}, #{projectPlan.define12,jdbcType=VARCHAR},
+		      #{projectPlan.define13,jdbcType=VARCHAR}, #{projectPlan.define14,jdbcType=VARCHAR}, #{projectPlan.define15,jdbcType=VARCHAR}, 
+		      #{projectPlan.define16,jdbcType=VARCHAR}, #{projectPlan.define17,jdbcType=VARCHAR}, #{projectPlan.define18,jdbcType=VARCHAR} )
 		</foreach>
 	</insert>
 	

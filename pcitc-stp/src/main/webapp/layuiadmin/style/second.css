@@ -168,6 +168,7 @@ span{display: inline-block;}
 .layui-oil-div div:nth-child(5){    top: -463px;  left: 850px;}
 .layui-oil-div div:nth-child(5) img{left: 80px;}
 .layui-oil>img{    position: relative;top: 45%;left: 5px;}
+.layui-oil-div div:nth-child(4) .layui-text-span{width: 340px;}
 /*石油化工*/
 .layui-industry{height: auto;overflow: hidden;margin: 50px 0;}
 .layui-industry p{background: url("/layuiadmin/layui/images/icon-green-title.png") 28px center no-repeat #50d142;
@@ -303,6 +304,8 @@ span{display: inline-block;}
     border: 0;}
 .layui-tab-brief>.layui-tab-title .layui-this{background-color: #51acff;color: white;}
 .layui-tab-item{ padding: 20px;}
+.expert-h .layui-tab-content .layui-tab-item{height: 303px;box-sizing: border-box;}
+.expert-h .layui-tab-content .layui-tab-item:nth-child(1){overflow-y: scroll;}
 .layui-tab-item ul li{background: url("/layuiadmin/layui/images/icon-expertu.png") no-repeat;
     padding-left: 25px;height: 90px;}
 .layui-tab-item ul li p{font-size: 16px; color: #000000;padding-bottom: 15px;}
@@ -381,14 +384,12 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .searchOption a:nth-child(1){margin-left: 0;}
 .searchOption a:hover,.searchOption a.layui-this{color: white;background: #1890ff;}
 
-.layui-tab-content{height: 303px}
 @media screen and (max-width: 1920px) {
     .work-report{padding: 18px 80px 12px;}
     .work-report ul li {width: 130px; height: 132px;float: left;margin-left: 70px;line-height: 159px;font-size: 18px;}
     .work-two{padding-left: 104px;}
 }
 @media screen and (max-width: 1680px) {
-    .layui-tab-content{height: 303px}
     .work-report{padding: 18px 20px 12px;}
     .work-report ul li {margin-left: 46px;}
     .work-two{padding-left: 86px;}
@@ -396,7 +397,7 @@ background: white;box-shadow: 0 0 5px #dadcde;}
     .work-one li:nth-child(1){margin-left: 0;}
 }
 @media screen and (max-width: 1366px) {
-    .work-report ul li {margin-left: 19px;}
+    .work-report ul li {margin-left: 6px;}
     .work-two{padding-left: 70px;}
     .expert-bottom>span{display: inline-block;font-size: 12px}
     .expert-bottom>span:nth-child(1){background: url("/layuiadmin/layui/images/span-1.png") no-repeat right bottom;width: 100px;height: 40px;}
@@ -404,6 +405,8 @@ background: white;box-shadow: 0 0 5px #dadcde;}
     .expert-bottom>span:nth-child(3){background: url("/layuiadmin/layui/images/span-3.png") no-repeat right bottom;width: 160px;height: 40px;}
     .expert-bottom>span:nth-child(5){width: 100px;height: 40px;background: url("/layuiadmin/layui/images/span-5.png") no-repeat right 0;}
     .expert-bottom>span:nth-child(6){width: 168px;height: 40px;background: url("/layuiadmin/layui/images/span-6.png") no-repeat right 0;}
+    .layui-oil-div div:nth-child(5){left: 650px;}
+    .layui-oil-div div:nth-child(4) .layui-text-span{width: 270px}
 }
 
 /*科研人才*/
@@ -429,8 +432,8 @@ background: white;box-shadow: 0 0 5px #dadcde;}
     height: 110px;text-align: center;vertical-align: middle;overflow: hidden;}
 .layui-personnel .expert-t{text-align: center;padding-bottom: 14px;font-size: 22px;color: #000000;}
 .layui-personnel .expert-s{text-align: center;font-size: 14px;color: #000;padding-bottom: 25px;}
-.layui-personnel .expert-ab {padding: 0 6% 20px;text-indent: 2em;font-size: 14px;
-    height: 140px;color: #696a75;line-height: 22px;}
+.layui-personnel .expert-ab {padding: 0 6% 20px;text-indent: 2em;font-size: 14px;overflow-y: scroll;
+    height: 138px;color: #696a75;line-height: 22px;}
 .layui-personnel .expert-a{text-align: center;}
 .layui-personnel .expert-a a {font-size: 15px;color: #000000;line-height: 34px;height: 34px;border: 2px solid #caa638;
     padding: 0 20px;display: inline-block;border-radius: 20px;margin: 30px auto 20px;}
@@ -523,14 +526,18 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .lab-details-c{margin-top: 20px;height: auto;overflow: hidden;background: white;padding-bottom: 18px;
     border-top: 5px solid  #51ACFF;
     box-shadow: 2px 2px 4px 0 rgba(47,156,255,0.10);}
-.lab-details-c>p{padding: 18px;border-bottom: 1px #1990ff dashed;margin-bottom: 18px;}
+.lab-details-c>p{padding: 18px;border-bottom: 1px #1990ff dashed;margin-bottom: 18px;background: #F3F9FF;}
 .lab-details-c>p span:nth-child(odd){font-size: 14px;color: #999999;padding-right: 10px;border-right: 1px dashed #1990ff;}
-.lab-details-c>p span:nth-child(even){font-size: 14px;color: #51ACFF;padding-left: 10px;padding-right: 60px;}
-.details-left{float: left;width: 80px;margin-left: 15px;background: #f3f9ff;height: 372px;padding: 0 18px;font-size: 14px;
-    color: #999999;box-sizing: border-box;padding-top: 110px;}
-.details-right{float: right;width:77%;margin-right: 5px;}
+.lab-details-c>p span:nth-child(even){font-size: 14px;color: #1890FF;padding-left: 10px;padding-right: 60px;}
+.details-left{float: left;width: 80px;margin-left: 15px;height: 372px;}
+.details-left div{background: #51ACFF;padding: 0 18px;font-size: 14px;height: 318px;
+    color: #fff;box-sizing: border-box;padding-top: 110px;margin: 10px 0;}
+.details-left p{background: #51ACFF;height: 17px;opacity: .6;}
+.lab-details-c .layui-col-md4{display: flex;}
+.details-right{float: right;width:83.65%;margin-right: 5px;background: #F3F9FF;box-sizing: border-box;
+    height: 372px;padding-left: 16px;}
 .details-right>p{font-size: 14px;line-height: 24px;text-indent: 2em;height: 330px;
-    color: #333333;padding: 10px 0;}
+    color: #333333;padding: 10px 0;overflow-y: scroll;}
 .details-right>a{text-align: right;display: block;color: #3da1ff;}
 .lab-details-b{background-color: white;height: auto;overflow: hidden;margin-top: 15px;
     margin-bottom: 20px;}

@@ -161,6 +161,7 @@ public class DetailServiceImpl implements DetailService {
 			for(SreProject ject : sre) {
 				detail.setContractNum(ject.getContractNum());//获取合同编号
 				detail.setName(ject.getName());//获取课题名称
+				detail.setSpecification(ject.getId());//获取课题ID
 				break;
 			}
 		}

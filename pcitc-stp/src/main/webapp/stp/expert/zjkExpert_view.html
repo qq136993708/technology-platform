@@ -524,7 +524,17 @@
 
 
             </div>
+            <div class="layui-row">
 
+                <div class="layui-form-item layui-form-text">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">人物成就:<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <textarea name="bak6" id="bak6" class="ckeditor"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!--<div class="layui-row hidden" style="display: none">-->
 
             <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
@@ -741,6 +751,10 @@
             ClassicEditor.create(document.querySelector('#userDesc'),{}).then(editor => {
                 myEditor = editor;
                 $(".ck-editor__editable").attr("contenteditable","false");
+            });
+            var myEditorPeople = null;
+            ClassicEditor.create(document.querySelector('#bak6'),{}).then(editor => {
+                myEditorPeople = editor;
             });
             //初始赋值 component-form-group 当前form的lay-filter
             if (id != "0") {

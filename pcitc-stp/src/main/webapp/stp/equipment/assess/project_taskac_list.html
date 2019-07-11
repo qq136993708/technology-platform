@@ -435,6 +435,21 @@ var name=$('#name').val();
         });
     });
     
+    function view_project(id) 
+    {
+    	 var temUrl="/sre-project-basic/get/" + id;
+    	 layer.open({
+            title:'课题详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: false,
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
+    }
+    
     function view_tender(id)//查看后评估准备材料
     {
         var uploadState="1";
@@ -492,7 +507,7 @@ var name=$('#name').val();
                 {field : 'status', title : '后评估准备状态', style : 'cursor: pointer;', align: 'left',width : '12%',sort : true,templet : '#status_temp'},
                 {field : 'status', title : '安排填写人', style : 'cursor: pointer;', align: 'left',width : '12%',sort : true,templet : '#statususer_temp'},
                 {field : 'status', title : '后评估报告状态', style : 'cursor: pointer;', align: 'left',width : '12%',sort : true,templet : '#statusok_temp'},
-                {field : 'projecttask', title : '课题名称', style : 'cursor: pointer;', align: 'left',sort : true,width : '12%'},
+                {field : 'projecttask', title : '课题名称', style : 'cursor: pointer;', align: 'left',sort : true,width : '12%',templet:function(d){return '<span onclick="view_project(\''+d.projecttaskid+'\')" style="color:#1890ff">'+d.projecttask+'</span>'}},
                 {field : 'documentdoc',     title : '后评估准备材料', style : 'cursor: pointer;', align : 'left', width : '15%',templet:function(d){return '<span onclick="view_tender(\''+d.id+'\')" style="color:#1890ff">后评估准备材料</span>'}},
                 {field : 'informcontent', title : '填写人', sort : true,style : 'cursor: pointer;', align: 'left',width : '10%'},
                 {field : 'documentdoctwo',     title : '后评估报告材料', style : 'cursor: pointer;', align : 'left',width : '15%',templet:function(d){return '<span onclick="view_agreement(\''+d.id+'\')" style="color:#1890ff">后评估报告材料</span>'}},

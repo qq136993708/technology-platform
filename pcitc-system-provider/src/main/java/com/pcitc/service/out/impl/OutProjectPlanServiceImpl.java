@@ -1,6 +1,7 @@
 package com.pcitc.service.out.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -54,7 +55,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				insertData.add(list.get(i));
 			}
 		}
-		System.out.println("===========新插入条数----------------"+list.size());
+		System.out.println("===========新插入条数----------------"+insertData.size());
 		// 批量插入数据
 		if (insertData.size()>0) {
 			outProjectPlanMapper.insertOutProjectPlanBatch(insertData);
@@ -65,11 +66,10 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	public int updateOutProjectPlan(OutProjectPlan opp) {
 
 		OutProjectPlanExample example = new OutProjectPlanExample();
-
 		OutProjectPlanExample.Criteria criteria = example.createCriteria();
 
 		criteria.andXmidEqualTo(opp.getXmid());
-		criteria.andDefine3EqualTo("项目管理系统");
+		criteria.andDefine4EqualTo("项目管理系统");
 		criteria.andYsndEqualTo(opp.getYsnd());
 		List<OutProjectPlan> returnList = outProjectPlanMapper.selectByExample(example);
 		if (returnList!=null&&returnList.size()>0) {
@@ -116,7 +116,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				if (StrUtil.isNotBlank(opp.getGsbmmc())) {
 					newOPI.setGsbmmc(opp.getGsbmmc());
 				}
-
+				newOPI.setUpdateDate(new Date());
 				return outProjectPlanMapper.updateByPrimaryKey(newOPI);
 			} else {
 				return 0;
@@ -156,7 +156,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				if (StrUtil.isNotBlank(opp.getYszbxje())) {
 					newOPP.setYszbxje(opp.getYszbxje());
 				}
-				//outProjectPlanMapper.updateByPrimaryKey(newOPP);
+				outProjectPlanMapper.updateByPrimaryKey(newOPP);
 			} else {
 				// 此项目此预算年度没有预算费用
 				OutProjectPlanExample example1 = new OutProjectPlanExample();
@@ -173,7 +173,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 						// 原项目主数据，无用删除
 						OutProjectPlanExample example2 = new OutProjectPlanExample();
 						example2.createCriteria().andDataIdEqualTo(insertOPP.getDataId());
-						//outProjectPlanMapper.deleteByExample(example2);
+						outProjectPlanMapper.deleteByExample(example2);
 					}
 					
 					insertOPP.setYsnd(opp.getYsnd());
@@ -183,7 +183,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 					insertOPP.setYsfyxje(opp.getYsfyxje());
 					insertOPP.setYszbxje(opp.getYszbxje());
 					insertOPP.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
-					//outProjectPlanMapper.insert(insertOPP);
+					outProjectPlanMapper.insert(insertOPP);
 				}
 			}
 

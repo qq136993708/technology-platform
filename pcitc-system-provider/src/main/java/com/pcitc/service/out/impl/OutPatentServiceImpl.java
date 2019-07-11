@@ -222,4 +222,23 @@ public class OutPatentServiceImpl implements OutPatentService {
     public List getPatentInfoByCompanyType(Map hashmap) {
     	return outPatentMapper.getPatentInfoByCompanyType(hashmap);
     }
+
+    /**
+     * 根据人员名称查询专利列表
+     * @param outPatent
+     * @return
+     */
+    public List<OutPatent> findOutPatentListByName(OutPatent outPatent){
+        OutPatentExample example = new OutPatentExample();
+        OutPatentExample.Criteria criteria = example.createCriteria();
+        criteria.andFmrLike("%"+outPatent.getFmr()+"%");
+        List<OutPatent> outPatents = outPatentMapper.selectByExample(example);
+        for (int i = 0,j = outPatents.size(); i < j; i++) {
+            String strqlyq = outPatents.get(i).getQlyq();
+            if (strqlyq!=null&&!"".equals(strqlyq)&&strqlyq.length()>40){
+                outPatents.get(i).setQlyq(strqlyq.substring(0,20));
+            }
+        }
+        return outPatents;
+    }
 }
