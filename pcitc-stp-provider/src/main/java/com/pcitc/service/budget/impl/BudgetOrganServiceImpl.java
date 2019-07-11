@@ -1,6 +1,5 @@
 package com.pcitc.service.budget.impl;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ import com.pcitc.service.budget.BudgetOrganService;
  */
 @Service("budgetOrganService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-public class BudgetOrganServiceImpl  extends BaseServiceImpl<BudgetOrgan,Serializable,BudgetOrganExample>  implements BudgetOrganService
+public class BudgetOrganServiceImpl  extends BaseServiceImpl<BudgetOrgan,String,BudgetOrganExample>  implements BudgetOrganService
 {
 
 	@Override
