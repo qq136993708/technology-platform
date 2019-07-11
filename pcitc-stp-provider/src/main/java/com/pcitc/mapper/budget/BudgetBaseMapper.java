@@ -1,7 +1,7 @@
 package com.pcitc.mapper.budget;
 
-import java.io.Serializable;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
  * @param <PK> The Primary Key Class 如果是无主键，则可以用Model来跳过，如果是多主键则是Key类
  * @param <E> The Example Class
  */
-public interface BudgetBaseMapper<Model, PK extends Serializable, E> {
+public interface BudgetBaseMapper<Model, PK, E> {
     long countByExample(E example);
 
     int deleteByExample(E example);

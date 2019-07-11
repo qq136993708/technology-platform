@@ -1,8 +1,8 @@
 package com.pcitc.service.budget.impl;
 
-import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +12,8 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.BudgetOrgan;
 import com.pcitc.base.stp.budget.BudgetOrganExample;
+import com.pcitc.mapper.budget.BudgetBaseMapper;
+import com.pcitc.mapper.budget.BudgetOrganMapper;
 import com.pcitc.service.budget.BudgetOrganService;
 /**
  * 
@@ -20,9 +22,17 @@ import com.pcitc.service.budget.BudgetOrganService;
  */
 @Service("budgetOrganService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-public class BudgetOrganServiceImpl  extends BaseServiceImpl<BudgetOrgan,Serializable,BudgetOrganExample>  implements BudgetOrganService
+public class BudgetOrganServiceImpl  extends BaseServiceImpl<BudgetOrgan,String,BudgetOrganExample>  implements BudgetOrganService
 {
 
+	@Autowired
+	public BudgetOrganMapper mp;
+	@Override
+	public BudgetBaseMapper<BudgetOrgan,String,BudgetOrganExample> getMapper() 
+	{
+		return mp;
+	}
+	
 	@Override
 	public BudgetOrgan selectBudgetOrgan(String dataId) 
 	{
@@ -65,6 +75,27 @@ public class BudgetOrganServiceImpl  extends BaseServiceImpl<BudgetOrgan,Seriali
 	@Override
 	public LayuiTableData selectTableBudgetOrgan(LayuiTableParam param) 
 	{
+		/*BudgetOrganExample example = new BudgetOrganExample();
+		//每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		
+		List<BudgetOrgan> list = mapper.selectByExample(example);
+		// 3、获取分页查询后的数据
+		PageInfo<BudgetOrgan> pageInfo= new PageInfo<BudgetOrgan>(list);
+		// 3、获取分页查询后的数据
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;*/
+		
+		
 		BudgetOrganExample example = new BudgetOrganExample();
 		return this.selectTableData(param, example);
 	}

@@ -2445,7 +2445,7 @@ public class OneLevelMainController extends BaseController {
 	}
 
 	// 下载报告
-	@RequestMapping("/report_download/{year}")
+	@RequestMapping("/one_level_main/report_download/{year}")
 	public void downLoadPlantRunningListInfo(HttpServletResponse res, @PathVariable("year") String year) throws IOException {
 
 		URL path = this.getClass().getResource("/");
