@@ -91,10 +91,6 @@ public class PurchaseController extends BaseController {
 		String applyDepartName = map.get("applyDepartName");// 申报部门
 		String applyDepartCode = map.get("applyDepartCode");// 申报部门
 
-		/*String departCode = sysUserInfo.getUnitCode();
-		String parentUnitPathIds = "";
-		String unitPathIds = sysUserInfo.getUnitPath();
-		parentUnitPathIds = EquipmentUtils.getParentUnitPathId(unitPathIds);*/
 
 		request.setAttribute("departCode", applyDepartCode);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
@@ -235,7 +231,7 @@ public class PurchaseController extends BaseController {
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
 
-		// purchaseCode = CodeUtil.getCode("XTBM_0074", restTemplate,
+		// purchaseCode = CodeUtil.getCode("XTBM_0074", restTemplate,//生成编码
 		// httpHeaders);
 		if (!id.equals("")) {
 			ResponseEntity<SrePurchase> srePurchaseResponseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
@@ -334,8 +330,7 @@ public class PurchaseController extends BaseController {
 
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			srePurchase.setId(idv);
-			srePurchase.setState(status);
-			srePurchase.setStage(stage);
+
 		} else {
 			ResponseEntity<SrePurchase> se = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
 			srePurchase = se.getBody();
@@ -343,6 +338,7 @@ public class PurchaseController extends BaseController {
 		// 流程状态
 		srePurchase.setTaskId(taskId);
 		srePurchase.setState(status);
+		srePurchase.setStage(stage);
 		srePurchase.setPurchaseName(purchaseName);// 采购名称
 		srePurchase.setParentUnitPathNames(parentUnitPathName);// 单位名称
 		srePurchase.setParentUnitPathId(parentUnitPathId);// 单位ID
@@ -370,7 +366,6 @@ public class PurchaseController extends BaseController {
 			String[] arr = equipmentIds.split(",");
 			for (int i = 0; i < arr.length; i++) {
                 if (StringUtils.isNotBlank(arr[i])) {
-                    System.err.println(arr[i]);
                     SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
                     if (sreEquipment != null) {
                         sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_PRE_PURCHASE);
@@ -405,7 +400,6 @@ public class PurchaseController extends BaseController {
 				if (StringUtils.isNotBlank(equipmentIds)){
                     String[] arr = equipmentIds.split(",");
                     for (int i = 0; i < arr.length; i++) {
-                        System.err.println(arr[i]);
                         SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
                         if (sreEquipment!=null){
                             sreEquipment.setPurchaseStatus(Constant.EQUIPMENT_PURCHASE_DRAFT);
@@ -805,10 +799,7 @@ public class PurchaseController extends BaseController {
 		return resultsDate;
 	}
 
-	/*
-	 * =================================生成word文档
-	 * START================================
-	 */
+	/*=================================生成word文档	START================================*/
 	// 生成采购单word模板
 	@RequestMapping(value = "/sre-purchase/createWord/{id}", method = RequestMethod.GET)
 	@ResponseBody
@@ -1006,10 +997,7 @@ public class PurchaseController extends BaseController {
 		}
 	}
 
-	/*
-	 * =================================生成word文档
-	 * END================================
-	 */
+	/*=================================生成word文档 END================================ */
 	/**
 	 * 跳转到上传附件页面
 	 *
@@ -1210,10 +1198,7 @@ public class PurchaseController extends BaseController {
 		return null;
 	}
 
-	/*
-	 * =================================导出Excel文档
-	 * START================================
-	 */
+	/*=================================导出Excel文档    START================================*/
 	@RequestMapping("sre_purchase/exportExcel")
 	public void downBudgetGroupSplit(HttpServletResponse res) throws IOException {
 		LayuiTableParam param = new LayuiTableParam();
@@ -1226,11 +1211,7 @@ public class PurchaseController extends BaseController {
 		Map<String, String> parammap = new HashMap<String, String>();
 
 		URL path = this.getClass().getResource("/");
-		File f = new File(path.getPath() + "static/template/purchaseExcel.xlsx");/*
-		 * 模板
-		 * ==
-		 * =
-		 */
+		File f = new File(path.getPath() + "static/template/purchaseExcel.xlsx");/*模板*/
 		// 写入新文件采购申请单
 		String newFilePath = path.getPath() + "static/template/采购申请Excel_" + DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss") + ".xlsx";
 		File outFile = new File(newFilePath);
@@ -1312,8 +1293,5 @@ public class PurchaseController extends BaseController {
 		}
 	}
 
-	/*
-	 * =================================导出Excel文档
-	 * END================================
-	 */
+	/*=================================导出Excel文档 END================================*/
 }
