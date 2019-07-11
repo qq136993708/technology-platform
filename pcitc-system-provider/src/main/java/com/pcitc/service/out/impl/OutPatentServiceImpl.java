@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pcitc.base.system.EmailTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -225,20 +226,27 @@ public class OutPatentServiceImpl implements OutPatentService {
 
     /**
      * 根据人员名称查询专利列表
-     * @param outPatent
+     * @param param
      * @return
      */
-    public List<OutPatent> findOutPatentListByName(OutPatent outPatent){
+    public LayuiTableData findOutPatentListByName(LayuiTableParam param) {
+        // 每页显示条数
+        int pageSize = param.getLimit();
+        // 当前是第几页
+        int pageNum = param.getPage();
+        // 1、设置分页信息，包括当前页数和每页显示的总计数
+        PageHelper.startPage(pageNum, pageSize);
         OutPatentExample example = new OutPatentExample();
         OutPatentExample.Criteria criteria = example.createCriteria();
-        criteria.andFmrLike("%"+outPatent.getFmr()+"%");
-        List<OutPatent> outPatents = outPatentMapper.selectByExample(example);
-        for (int i = 0,j = outPatents.size(); i < j; i++) {
-            String strqlyq = outPatents.get(i).getQlyq();
-            if (strqlyq!=null&&!"".equals(strqlyq)&&strqlyq.length()>40){
-                outPatents.get(i).setQlyq(strqlyq.substring(0,20));
-            }
-        }
-        return outPatents;
+        criteria.andFmrLike("%"+param.getParam().get("name")+"%");
+        List<OutPatent> list = outPatentMapper.selectByExample(example);
+        // 2、获取分页查询后的数据
+        // 3、获取分页查询后的数据
+        PageInfo<OutPatent> pageInfo = new PageInfo<OutPatent>(list);
+        LayuiTableData data = new LayuiTableData();
+        data.setData(pageInfo.getList());
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
+        return data;
     }
 }

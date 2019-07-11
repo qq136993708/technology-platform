@@ -73,9 +73,8 @@ public interface OutPatentService {
 
     /**
      * 根据人员名称查询专利列表
-     * @param OutPatent
+     * @param param
      * @return
      */
-    public List<OutPatent> findOutPatentListByName(OutPatent OutPatent);
-
+    public LayuiTableData findOutPatentListByName(LayuiTableParam param);
 }

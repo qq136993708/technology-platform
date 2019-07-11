@@ -147,15 +147,8 @@ public class OutPatentProviderClient {
 
     @ApiOperation(value = "查询列表", notes = "自定义对象(条件)查询信息,返回存储在JSONObject对象中的列表")
     @RequestMapping(value = "/out-patent-provider/outpatent_list", method = RequestMethod.POST)
-    public JSONObject selectOutPatentList(@RequestBody OutPatent OutPatent) {
-        JSONObject retJson = new JSONObject();
-        try {
-            List<OutPatent> list = outPatentService.findOutPatentListByName(OutPatent);
-            retJson.put("list", list);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return retJson;
+    public LayuiTableData selectOutPatentList(@RequestBody LayuiTableParam param) {
+        return outPatentService.findOutPatentListByName(param);
     }
 	
 }
