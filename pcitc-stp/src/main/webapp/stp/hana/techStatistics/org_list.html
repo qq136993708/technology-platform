@@ -70,6 +70,7 @@
 </div>
 
 </div>
+<script id="view_type" type="text/html"> {{view_type(d)}} </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -92,7 +93,16 @@
             return '';
         }
     }
-    
+    function view_type(d) 
+    {
+        if (d.type=='1') 
+        {
+        	 return '<span style="color:orange">股份</span>';
+        } else 
+        {
+        	 return '<span style="color:green">集团</span>';
+        }
+    }
     
     function view(id,type,unitName) 
     {
@@ -364,6 +374,7 @@ var name=$('#name').val();
                {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '20%',templet:function(d){return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" style="color:#1890ff">'+d.unitName+'</span>'},sort : true},
                {field : 'year',            title : '年份',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'auditStatus',     title : '审核状态',          style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
+               {field : 'type',            title : '公司类型',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true,templet : '#view_type'},
                {field : 'workersCount',    title : '职工总数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'workerSalary',    title : '职工薪酬总额(万元)',   style : 'cursor: pointer;', align : 'center', width : '15%',sort : true},
                {field : 'assetsTotal',     title : '资产合计(万元)',      style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
