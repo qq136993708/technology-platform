@@ -13,15 +13,18 @@
 </head>
 <body>
 <div class="searchBox">
- <input type="hidden" name="type" id="type" value="${type}">
 <form action=""  name="form1" id="form1" action="" method="POST">
 <input name="functionId"      id="functionId"        type="hidden">
 <input  name="id"             id="id"                type="hidden" >
 <input  name="userIds"        id="userIds"           type="hidden">
 </form>
     <!--查询条件-->
-    
-    <label class="dateInput">
+     <label class="dateInput">
+        <span>统计年度</span>
+        <input type="text" name="year"  style="cursor:pointer"  value="" readonly="readonly" placeholder="请选择统计年度" title="统计年度" autocomplete="off" class="form-control" id="year">
+        <i class="layui-icon layui-icon-date" style="margin-left:-35px"></i>
+    </label>
+    <label class="dateInput" style="margin-left:20px">
         <span>机构名称</span>
         <input type="text" name="unitName" id="unitName" placeholder="请输入机构名称" title="机构名称" autocomplete="off" class="form-control" >
     </label>
@@ -36,6 +39,17 @@
 		      </#list>
 		 </select>
      </label>
+     
+     <label class="dateInput">
+         <span>公司类型</span>
+          <select name="type" id="type"   class="form-control"  >
+             <option value="" >--请选择--</option>
+             <option value="1"  >股份公司</option>
+             <option value="2"  >集团公司</option>
+		 </select>
+     </label>
+     
+     
     <!--按钮组-->
     <div class="btnGroup">
      <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
@@ -48,8 +62,11 @@
                  <thead>
                   <tr>
                       <th lay-data="{checkbox:true, fixed:'left'}" rowspan="2"></th>
-                      <th lay-data="{field:'auditStatus',templet:'<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'}" rowspan="2">审核状态</th>
-                      <th lay-data="{field:'unitName', width:'12%',templet:viewv}" rowspan="2" >单位名称</th>
+                      <th lay-data="{type : 'numbers'}" rowspan="2">序号</th>
+                      <th lay-data="{field:'unitName', width:'20%',templet:viewv,align:'left'}" rowspan="2" >单位名称</th>
+                      <th lay-data="{field:'year', width:'8%',align:'center'}" rowspan="2" >年份</th>
+                      <th lay-data="{field:'auditStatus',templet:'<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width:'8%',align:'center'}" rowspan="2">审核状态</th>
+                      <th lay-data="{field:'type', width:'8%',align:'center',templet:view_type}" rowspan="2" >公司类型</th>
                       <th lay-data="{align:'center'}" colspan="6">科技投入情况（单位：万元）</th>
                       <th lay-data="{align:'center'}" colspan="3">承担和参加国家级科技项目</th>
                       <th lay-data="{align:'center'}" colspan="3">承担和参加地方（省级）科技项目</th>
@@ -74,7 +91,7 @@
                  </thead>
              </table>
 </div>
-
+<script id="view_type" type="text/html"> {{view_type(d)}} </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script id="viewv" type="text/html"> {{viewv(d)}} </script>
 <script type="text/javascript">
@@ -98,7 +115,16 @@
             return '';
         }
     }
-    
+      function view_type(d) 
+      {
+          if (d.type=='1') 
+          {
+          	 return '<span style="color:orange">股份</span>';
+          }else 
+          {
+          	 return '<span style="color:green">集团</span>';
+          }
+      }
       function viewv(d) 
       {
           if (d) 
@@ -160,7 +186,7 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
 	  
 	  tableHeight=commonDislodgeTable();
 	  laydate.render({
-          elem: '#month' ,type: 'month'
+          elem: '#year' ,type: 'year'
           
        });
 	        init_companyCode(functionId);
@@ -203,11 +229,13 @@ function myTable()
 {
 	 var auditStatus=$("#auditStatus").val();
 	 var unitName=$("#unitName").val(); 
+	 var year=$("#year").val(); 
+	 var type=$("#type").val(); 
 	 var v_date=(new Date()).getTime();
 	 var url= '/tech_cost/list?v_date='+v_date;
      table.init('myTable', {
 		  url: url,height: tableHeight,
-		  where: {param: {"unitName":unitName,"auditStatus":auditStatus}},
+		  where: {param: {"unitName":unitName,"auditStatus":auditStatus,"year":year,"type":type}},
 		  done: function (res, curr, count) {
 			  layer.closeAll();
 		  }

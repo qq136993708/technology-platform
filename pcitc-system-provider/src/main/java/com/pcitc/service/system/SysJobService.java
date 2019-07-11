@@ -1,5 +1,7 @@
 package com.pcitc.service.system;
 
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysJob;
 
 import java.util.List;
@@ -18,7 +20,7 @@ public interface SysJobService {
      * @param map
      * @return
      */
-    List<SysJob> findSysJob(Map<String, Object> map);
+	public LayuiTableData findSysJob(LayuiTableParam param);
 
     /**
      * 按id查询

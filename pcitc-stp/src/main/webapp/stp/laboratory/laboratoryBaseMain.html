@@ -114,7 +114,7 @@
                             <div>
                                 <img src="/layuiadmin/layui/images/icon-purple-d.png" alt="">
                                 <span class="layui-lab-span">中国石化芳烃技术重点实验室</span>
-                                <span class="layui-text-span" style="width: 340px;">依托单位：石油化工科学研究院（牵头）、上海石油化工研究院 扬子石油化工有限公司、工程建设有限公司 </span>
+                                <span class="layui-text-span">依托单位：石油化工科学研究院（牵头）、上海石油化工研究院 扬子石油化工有限公司、工程建设有限公司 </span>
                             </div>
                             <div>
                                 <img src="/layuiadmin/layui/images/icon-purple-d.png" alt="">
@@ -240,13 +240,25 @@
         	var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             //国家级
             publicMethods.ajaxAsyncPost("/laboratoryBase/listByBak1",{"bak1":"国家级研发机构"}, function (data) {
+                var middNumber=Math.ceil(data.length/2);
+                console.log(data)
     			$.each(data,function(i,d){
-    				var html ='<div>'+
-			                    '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+d.dataId+'" target="_blank">'+
-			                        '<span class="layui-text-span">依托单位：'+d.dependentUnit+'</span>'+
-			                        '<span class="layui-lab-span">'+d.orgName+'</span>'+
-			                    '</a>'+
-			                '</div>';
+    			    if(middNumber>i){
+                        var html ='<div>'+
+                            '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+d.dataId+'" target="_blank">'+
+                            '<span class="layui-text-span">依托单位：'+d.dependentUnit+'</span>'+
+                            '<span class="layui-lab-span">'+d.orgName+'</span>'+
+                            '</a>'+
+                            '</div>';
+                        if(data[i+middNumber].orgName!=undefined){
+                            html+='<div>'+
+                                    '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+data[i+middNumber].dataId+'" target="_blank">'+
+                                    '<span class="layui-lab-span">'+data[i+middNumber].orgName+'</span>'+
+                                    '<span class="layui-text-span">依托单位：'+data[i+middNumber].dependentUnit+'</span>'+
+                                    '</a>'+
+                                '</div>'
+                        }
+                    }
     				$("#countryUnit").append(html);          
     			});
 	   		}); 

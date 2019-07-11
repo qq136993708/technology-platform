@@ -1,5 +1,7 @@
 package com.pcitc.service.out.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.stp.out.OutUnitExample;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.out.OutUnitMapper;
 import com.pcitc.service.out.OutUnitService;
 
@@ -24,17 +27,35 @@ public class OutUnitServiceImpl implements OutUnitService {
 	private final static Logger logger = LoggerFactory.getLogger(OutUnitServiceImpl.class);
 
 	public int insertOutUnitBatch(List<OutUnit> list, String deleteFlag) {
-		// 删除年度数据
-		// OutPatentExample example = new OutPatentExample();
-		// outPatentMapper.deleteByExample(example);
+		List<OutUnit> updateList = new ArrayList<OutUnit>();
 
 		// 批量插入数据
-		OutUnitExample example = new OutUnitExample();
-		OutUnitExample.Criteria ouc = example.createCriteria();
-		ouc.andDefine1EqualTo(deleteFlag);
-		outUnitMapper.deleteByExample(example);
-		
-		outUnitMapper.insertOutUnitBatch(list);
+		for(int i =0;i < list.size(); i++) {
+			OutUnit temUnit = list.get(i);
+			
+			OutUnitExample example = new OutUnitExample();
+			OutUnitExample.Criteria ouc = example.createCriteria();
+			ouc.andDefine1EqualTo(deleteFlag);
+			ouc.andUnitCodeEqualTo(temUnit.getUnitCode());
+			List<OutUnit> temList = outUnitMapper.selectByExample(example);
+			if (temList != null && temList.size() > 0) {
+				OutUnit updateUnit = temList.get(0);
+				updateUnit.setUnitName(temUnit.getUnitName());
+				updateUnit.setUnitAli(temUnit.getUnitAli());
+				updateUnit.setParentCode(temUnit.getParentCode());
+				updateUnit.setDefine2(temUnit.getDefine2());
+				if (temUnit.getDefine3() != null && !temUnit.getDefine3().equals("")) {
+					updateUnit.setDefine3(temUnit.getDefine3());
+				}
+				updateUnit.setUnitType(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+				outUnitMapper.updateByPrimaryKey(updateUnit);
+			} else {
+				updateList.add(temUnit);
+			}
+		}
+		if (updateList.size() > 0) {
+			outUnitMapper.insertOutUnitBatch(updateList);
+		}
 		return 1;
 	}
 	

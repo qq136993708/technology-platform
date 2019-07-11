@@ -21,7 +21,15 @@
 </form>
     <!--查询条件-->
     
-    <label class="dateInput">
+    
+     <label class="dateInput">
+        <span>统计年度</span>
+        <input type="text" name="year"  style="cursor:pointer"  value="" readonly="readonly" placeholder="请选择统计年度" title="统计年度" autocomplete="off" class="form-control" id="year">
+        <i class="layui-icon layui-icon-date" style="margin-left:-35px"></i>
+    </label>
+    
+    
+    <label class="dateInput" style="margin-left:20px">
         <span>机构名称</span>
         <input type="text" name="unitName" id="unitName" placeholder="请输入机构名称" title="机构名称" autocomplete="off" class="form-control" >
     </label>
@@ -53,12 +61,14 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
         </div>
     </div>
-    <table id="myTable" class="layui-table" lay-filter="myTable" >
+    <table id="myTable" class="layui-hide" lay-filter="myTable" >
                  <thead>
                   <tr>
-                      <th lay-data="{checkbox:true, fixed:'left'}" rowspan="2"></th>
+                      <th lay-data="{checkbox:true,  event : 'changeEvents',type : 'checkbox'}" rowspan="2">单选</th>
+                      <th lay-data="{field:'unitName', width:'20%',templet:viewv,align:'left'}" rowspan="2" >单位名称</th>
+                      <th lay-data="{field:'year',align:'center', width:'8%'}" rowspan="2" >年份</th>
                       <th lay-data="{field:'auditStatus',templet:'<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'}" rowspan="2">审核状态</th>
-                      <th lay-data="{field:'unitName', width:'12%',templet:viewv}" rowspan="2" >单位名称</th>
+                      <th lay-data="{field:'type', width:'8%',align:'center',templet:view_type}" rowspan="2" >公司类型</th>
                       <th lay-data="{align:'center'}" colspan="6">科技投入情况（单位：万元）</th>
                       <th lay-data="{align:'center'}" colspan="3">承担和参加国家级科技项目</th>
                       <th lay-data="{align:'center'}" colspan="3">承担和参加地方（省级）科技项目</th>
@@ -84,6 +94,8 @@
              </table>
 </div>
 
+
+<script id="view_type" type="text/html"> {{view_type(d)}} </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script id="viewv" type="text/html"> {{viewv(d)}} </script>
 <script type="text/javascript">
@@ -107,7 +119,16 @@
             return '';
         }
     }
-    
+      function view_type(d) 
+      {
+          if (d.type=='1') 
+          {
+          	 return '<span style="color:orange">股份</span>';
+          }else 
+          {
+          	 return '<span style="color:green">集团</span>';
+          }
+      }
       function viewv(d) 
       {
           if (d) 
@@ -169,10 +190,10 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
 	  
 	  tableHeight=commonDislodgeTable();
 	  laydate.render({
-          elem: '#month' ,type: 'month'
+          elem: '#year' ,type: 'year'
           
        });
-	        init_companyCode(functionId);
+	       // init_companyCode(functionId);
      	     myTable();
      	     //移除表头的复选框,去掉全选
      	     $(".layui-table-header table thead th input").remove();  
@@ -314,10 +335,10 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
             };
         
         //监听行单击事件
-        table.on('row(myTable)', function(obj){
+        /* table.on('row(myTable)', function(obj){
             console.log(obj.data) //得到当前行数据
             selectRowData=obj.data;
-        });
+        }); */
         
         //区别按钮属性
         $('.layui-btn').on('click', function(){
@@ -337,12 +358,24 @@ function myTable()
 {
 	 var auditStatus=$("#auditStatus").val();
 	 var unitName=$("#unitName").val(); 
+	 var year=$("#year").val(); 
+	 var type=$("#type").val(); 
 	 var v_date=(new Date()).getTime();
 	 var url= '/tech_cost/list?v_date='+v_date;
      table.init('myTable', {
 		  url: url,height: tableHeight,
-		  where: {param: {"unitName":unitName,"auditStatus":auditStatus}},
+		  where: {param: {"unitName":unitName,"auditStatus":auditStatus,"year":year,"type":type}},
 		  done: function (res, curr, count) {
+			  
+			        $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	               	var index=parseInt($(this).index()+1);
+	                   $('tr').removeClass('layui-table-click');
+	                   $(this).addClass('layui-table-click');
+	                   $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	                   selectRowData=res.data[index-1];
+	               });
+			  
 			  layer.closeAll();
 		  }
 	 });
@@ -507,7 +540,7 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
 	                      function () 
 	                      {
 	                    	  myTable();
-	                    	      layer.closeAll();
+	                    	  layer.closeAll();
 	                      });
 	        	  
 	          } else

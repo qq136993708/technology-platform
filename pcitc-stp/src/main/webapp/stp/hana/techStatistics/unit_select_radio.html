@@ -51,9 +51,10 @@
         	function onClickMenu(event,treeId,treeNode,clickFlag) {
         		zTreeObj.checkNode(treeNode);
         	}
-            publicMethods.ajaxPost("/budget/"+company_type,null, function (dt) {
+            publicMethods.ajaxPost("/unit/ztree-unit-list",null, function (dt) {
             	treeData = dt;
             	$.each(dt,function(index,d){
+            		//console.log(d);
             		treeDataMap[d.id]=d;
             	});
             	zTreeObj = $.fn.zTree.init($("#unitTree"), setting, treeData);
