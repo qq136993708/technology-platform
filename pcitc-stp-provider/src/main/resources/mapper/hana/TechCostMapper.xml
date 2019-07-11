@@ -28,16 +28,15 @@
     <result column="notes" property="notes" jdbcType="VARCHAR" />
     <result column="apply_depart_code" property="applyDepartCode" jdbcType="VARCHAR" />
     <result column="apply_depart_name" property="applyDepartName" jdbcType="VARCHAR" />
-    
     <result column="attachment_doc" property="attachmentDoc" jdbcType="VARCHAR" />
-    
+    <result column="year" property="year" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, create_date, create_user_id, create_user_name, unit_code, unit_name, create_user_mobile, 
     charge_depart_man, tech_charge_man, tech_project_cost, tech_researcher_cost, tech_subsidy_cost, 
     tech_facilities_cost, tech_other_cost, tech_subtotal_cost, country_lead_count, country_join_count, 
     country_funds, province_lead_count, province_join_count, province_funds, type, audit_status, 
-    notes,apply_depart_code,apply_depart_name,attachment_doc
+    notes,apply_depart_code,apply_depart_name,attachment_doc,year
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -57,7 +56,7 @@
       tech_facilities_cost, tech_other_cost, tech_subtotal_cost, 
       country_lead_count, country_join_count, country_funds, 
       province_lead_count, province_join_count, province_funds, 
-      type, audit_status, notes,apply_depart_code,apply_depart_name,attachment_doc
+      type, audit_status, notes,apply_depart_code,apply_depart_name,attachment_doc,year
       )
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, 
       #{createUserName,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, 
@@ -68,7 +67,7 @@
       #{provinceLeadCount,jdbcType=INTEGER}, #{provinceJoinCount,jdbcType=INTEGER}, #{provinceFunds,jdbcType=DECIMAL}, 
       #{type,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}
       , #{applyDepartCode,jdbcType=VARCHAR}
-      , #{applyDepartName,jdbcType=VARCHAR} , #{attachmentDoc,jdbcType=VARCHAR}
+      , #{applyDepartName,jdbcType=VARCHAR} , #{attachmentDoc,jdbcType=VARCHAR} , #{year,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.report.TechCost" >
@@ -155,7 +154,9 @@
       <if test="attachmentDoc != null" >
         attachment_doc,
       </if>
-     
+     <if test="year != null" >
+        year,
+      </if>
       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -240,7 +241,9 @@
       <if test="attachmentDoc != null" >
         #{attachmentDoc,jdbcType=VARCHAR},
       </if>
-      
+      <if test="year != null" >
+        #{year,jdbcType=VARCHAR},
+      </if>
       
      
     </trim>
@@ -326,7 +329,9 @@
       <if test="attachmentDoc != null" >
         attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
       </if>  
-      
+      <if test="year != null" >
+        year = #{year,jdbcType=VARCHAR},
+      </if> 
       
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -357,6 +362,7 @@
       type = #{type,jdbcType=VARCHAR},
       apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
       apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR},
       audit_status = #{auditStatus,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
@@ -370,6 +376,7 @@
 	     <if test="applyDepartCode != null and applyDepartCode !=''  "> AND t.apply_depart_code = #{applyDepartCode}</if>
 	     <if test="type != null          and type !=''  ">            AND t.type = #{type}</if>
 	     <if test="auditStatus != null   and auditStatus !=''  ">     AND t.audit_status = #{auditStatus}</if>
+	     <if test="year != null   and year !=''  ">     AND t.year = #{year}</if>
 	     <if test="sqlStr != null        and sqlStr !='' ">           AND  ${sqlStr}</if>
 	 </trim>
 	</sql>

@@ -100,10 +100,18 @@ public class TechOrgCount {
     private String applyDepartName;
     private String attachmentDoc;
     
-    
+    private String year;
     
 
-    public String getAttachmentDoc() {
+    public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public String getAttachmentDoc() {
 		return attachmentDoc;
 	}
 

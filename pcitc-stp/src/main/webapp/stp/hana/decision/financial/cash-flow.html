@@ -39,7 +39,9 @@
                 </div>
             </div>
         </div>
-        <div class="layui-row layui-col-space10">
+        
+        
+        <div class="layui-row layui-col-space10" style="display:none">
             <div class="layui-col-sm4">
                 <div class="layui-card">
                     <div class="layui-card-header">
@@ -71,6 +73,10 @@
                 </div>
             </div>
         </div>
+        
+        
+        
+        
         <div class="layui-row layui-col-space10">
             <div class="layui-col-sm12">
                 <div class="layui-card">
@@ -113,7 +119,7 @@ layui.config({
 
     var monthValY=$("#month").val().substring(4,0);
     var monthValM=$("#month").val().substring(5);
-    $(".layui-time").html(monthValY+"年"+monthValM+"月");
+   // $(".layui-time").html(monthValY+"年"+monthValM+"月");
     
     laydate = layui.laydate;
     form = layui.form;
@@ -182,18 +188,26 @@ function initEchart()
 	var checkText=$("#companyCode").find("option:selected").text();
     var monthValY=$("#month").val().substring(4,0);
     var monthValM=$("#month").val().substring(5);
-    $(".layui-time").html(monthValY+"年"+monthValM+"月");
+    
+    var name= $('#companyCode option:selected').text();//选中的文本
+    if(name=='--全部--')
+    {
+    	name="直属研究院";
+    }
+    
+    
+    $(".layui-time").html(monthValY+"年"+monthValM+"月"+name);
 	
 	
 	var url_cash_flow_01="/financial-decision/cash-flow-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
 	load_single_line(url_cash_flow_01,"cash-flow-01","","");
 	
-	var url_cash_flow_03_13="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=13&companyCode="+companyCode;
+/* 	var url_cash_flow_03_13="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=13&companyCode="+companyCode;
 	loadPie(url_cash_flow_03_13,"cash_flow_03_13","","");
 	var url_cash_flow_03_27="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=27&companyCode="+companyCode;
 	loadPie(url_cash_flow_03_27,"cash_flow_03_27","","");
 	var url_cash_flow_03_46="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=46&companyCode="+companyCode;
-	loadPie(url_cash_flow_03_46,"cash_flow_03_46","","");
+	loadPie(url_cash_flow_03_46,"cash_flow_03_46","",""); */
 }
 
 //初始化图形

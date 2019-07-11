@@ -78,6 +78,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 			String unitName=getTableParam(param,"unitName","");
 			String type=getTableParam(param,"type","");
 			String auditStatus=getTableParam(param,"auditStatus","");
+			String year=getTableParam(param,"year","");
 			Map map=new HashMap();
 			map.put("type", type);
 			map.put("unitName", unitName);
@@ -86,7 +87,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 			map.put("start", start);
 	  		map.put("pageSize", pageSize);
 	  		
-	  		
+	  		map.put("year", year);
 	  		
 	  		
 	  		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
@@ -209,6 +210,9 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 				String unitName=getTableParam(param,"unitName","");
 				String type=getTableParam(param,"type","");
 				String auditStatus=getTableParam(param,"auditStatus","");
+				String year=getTableParam(param,"year","");
+				
+				
 				Map map=new HashMap();
 				map.put("type", type);
 				map.put("unitName", unitName);
@@ -216,6 +220,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 				map.put("auditStatus", auditStatus);
 				map.put("start", start);
 		  		map.put("pageSize", pageSize);
+		  		map.put("year", year);
 				List<TechOrgCount> list = techOrgCountMapper.getList(map);
 				Integer count=techOrgCountMapper.getCount(map);
 				System.out.println(">>>>>>>>>任务书查询分页结果 "+count);

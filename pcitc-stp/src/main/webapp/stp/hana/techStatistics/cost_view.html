@@ -241,6 +241,31 @@
                 </div>
              </div>
              
+             
+             
+              <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">统计年份：</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="年份" name="year" id="year"
+                                   value="${techCost.year}" readonly="readonly" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">公司类型：</label>
+                        <div class="layui-input-block">
+                            <select name="type" disabled="disabled" id="type" lay-verify="required"  >
+		                	   <option value="1" <#if techCost.year == '1'>selected="selected"</#if>>股份公司</option>
+		                	   <option value="2" <#if techCost.year == '2'>selected="selected"</#if>>集团公司</option>
+		             	    </select>
+                        </div>
+                    </div>
+                </div>
+             </div>
+             
               <!--行结束-->
             
             

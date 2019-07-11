@@ -51,8 +51,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header" title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额（暂时不包括新增基金、科技部、信息部、炼油军工、专项、机动等）。以股份公司（直属研究院、分子公司、股份付资产、股份付集团、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
-							<span class="layui-time"></span>
-							科研预算执行率
+							<span class="layui-time"></span>科研预算统计
 						</div>
 						<div class="layui-card-body btn-function">
 							<div class="text-total" style="font-size: 13px;">
@@ -125,8 +124,7 @@
 				<div class="layui-col-md12">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							新开课题科研预算执行率
+							<span class="layui-time"></span>新开课题科研预算统计
 						</div>
 						<div class="layui-card-body btn-function">
 
@@ -156,8 +154,7 @@
 				<div class="layui-col-md12">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							直属研究院科研预算执行率
+							<span class="layui-time"></span>直属研究院科研预算执行率
 						</div>
 						<div class="layui-card-body btn-function">
 							<div class="text-total">
@@ -347,7 +344,7 @@
 			$("#chart7_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			var chart7_url = "/one_level_main/investment_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date;
 			var color = [ "#f3655b", "#8ab3cf", "#f19049" ];
-			var echart7 = load_mutl_bar_investment(chart7_url, "chart7", "", "", yAxis2, color, 60, function(data) {
+			var echart7 = load_mutl_bar_investment(chart7_url, "chart7", "", "", yAxis2, color, 30, function(data) {
 			});
 			echart7.on('click', function(params) {
 				var xName = params.name;
