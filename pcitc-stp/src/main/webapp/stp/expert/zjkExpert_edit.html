@@ -513,18 +513,19 @@
                         </div>
                     </div>
                 </div>
-
-                <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
-                <!--<div class="layui-form-item">-->
-                <!--<div class="layui-input-block">-->
-
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-
-
             </div>
 
+            <div class="layui-row">
+
+                <div class="layui-form-item layui-form-text">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">人物成就:<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <textarea name="bak6" id="bak6" class="ckeditor"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!--<div class="layui-row hidden" style="display: none">-->
 
             <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
@@ -591,7 +592,7 @@
             <div class="form-bottom">
                 <div class="form-bottom-btns">
                     <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" id="save" lay-submit="" lay-filter="component-form-save">保存</button>
-                    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-commit">提交</button>
+                    <!--<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-commit">提交</button>-->
 
                     <!--<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>-->
                     <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
@@ -741,6 +742,11 @@
             ClassicEditor.create(document.querySelector('#userDesc'),{}).then(editor => {
                 myEditor = editor;
             });
+
+            var myEditorPeople = null;
+            ClassicEditor.create(document.querySelector('#bak6'),{}).then(editor => {
+                myEditorPeople = editor;
+            });
             //初始赋值 component-form-group 当前form的lay-filter
             if (id != "0") {
                 ajaxPost("/zjkBaseInfo/getZjkBaseInfoInfo", {"id": id}, function (data) {
@@ -798,6 +804,10 @@
             /* 监听保存 */
             form.on('submit(component-form-save)', function (data) {
                 saveFormData(data);
+                layer.msg("操作成功");
+                parent.layui.table.reload('zjkBaseInfoTableId', {where: {param: {}}});
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
                 return false;
             });
             var  formData = "";
@@ -902,6 +912,8 @@
                 data.field.age = age;
                 data.field.ageBetween = ageBetween;
                 data.field.userDesc=myEditor.getData();
+                data.field.bak6=myEditorPeople.getData();
+                data.field.auditStatus = "2";
                 // data.field.company =$("#companyDivValue").val();
                 // data.field.companyName =$("#companyDivShow").val();
 

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.*;
 import com.pcitc.base.expert.*;
+import com.pcitc.base.stp.out.OutPatent;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.DateUtil;
@@ -85,6 +86,8 @@ public class ExpertController extends BaseController {
     //专利
     private static final String LISTZL = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli_list";
 
+    private static final String LIST_OUT_PATENT = "http://pcitc-zuul/system-proxy/out-patent-provider/outpatent_list";
+
     private static final String LIST_CG_TABLE = "http://pcitc-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/zjkchengguo-page";
 
     private static final String LIST_ZL_TABLE = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli-page";
@@ -150,6 +153,8 @@ public class ExpertController extends BaseController {
         request.setAttribute("zlCount", listZl.size());//专利总数
 
         request.setAttribute("cgzlCount", listCg.size() + listZl.size());
+
+
 
         //机构总数
         ZjkChoice zjkChoice = new ZjkChoice();
@@ -349,21 +354,33 @@ public class ExpertController extends BaseController {
         request.setAttribute("hylyName", zjkBaseInfo.getExpertProfessionalFieldName());
         request.setAttribute("hyly", zjkBaseInfo.getExpertProfessionalField());
         //成果
-        ZjkAchievement zjkChengguo = new ZjkAchievement();
-        zjkChengguo.setExpertId(expertId);
-        ResponseEntity<JSONObject> responseEntityCg = this.restTemplate.exchange(LISTCG, HttpMethod.POST, new HttpEntity<ZjkAchievement>(zjkChengguo, this.httpHeaders), JSONObject.class);
-        JSONObject retJsonCg = responseEntityCg.getBody();
-        List<ZjkAchievement> list = (List<ZjkAchievement>) retJsonCg.get("list");
-        request.setAttribute("listCg", list);
-        request.setAttribute("listCgCount", list.size());
+//        ZjkAchievement zjkChengguo = new ZjkAchievement();
+//        zjkChengguo.setExpertId(expertId);
+//        ResponseEntity<JSONObject> responseEntityCg = this.restTemplate.exchange(LISTCG, HttpMethod.POST, new HttpEntity<ZjkAchievement>(zjkChengguo, this.httpHeaders), JSONObject.class);
+//        JSONObject retJsonCg = responseEntityCg.getBody();
+//        List<ZjkAchievement> list = (List<ZjkAchievement>) retJsonCg.get("list");
+//        request.setAttribute("listCg", list);
+//        request.setAttribute("listCgCount", list.size());
         //专利
-        ZjkPatent zjkZhuanli = new ZjkPatent();
-        zjkZhuanli.setExpertId(expertId);
-        ResponseEntity<JSONObject> responseZlEntity = this.restTemplate.exchange(LISTZL, HttpMethod.POST, new HttpEntity<ZjkPatent>(zjkZhuanli, this.httpHeaders), JSONObject.class);
+//        ZjkPatent zjkZhuanli = new ZjkPatent();
+//        zjkZhuanli.setExpertId(expertId);
+//        ResponseEntity<JSONObject> responseZlEntity = this.restTemplate.exchange(LISTZL, HttpMethod.POST, new HttpEntity<ZjkPatent>(zjkZhuanli, this.httpHeaders), JSONObject.class);
+//        JSONObject retJsonZl = responseZlEntity.getBody();
+//        List<ZjkPatent> listZl = (List<ZjkPatent>) retJsonZl.get("list");
+//        request.setAttribute("listZl", listZl);
+//        request.setAttribute("listZlCount", listZl.size());
+
+        //查询OutPatent专利数量
+        OutPatent outPatent = new OutPatent();
+        outPatent.setFmr(zjkBaseInfo.getExpertName());
+        ResponseEntity<JSONObject> responseZlEntity = this.restTemplate.exchange(LIST_OUT_PATENT, HttpMethod.POST, new HttpEntity<OutPatent>(outPatent, this.httpHeaders), JSONObject.class);
         JSONObject retJsonZl = responseZlEntity.getBody();
-        List<ZjkPatent> listZl = (List<ZjkPatent>) retJsonZl.get("list");
-        request.setAttribute("listZl", listZl);
-        request.setAttribute("listZlCount", listZl.size());
+        List<OutPatent> listZl = (List<OutPatent>) retJsonZl.get("list");
+        request.setAttribute("listZl", listZl);//专利总数
+        request.setAttribute("zlCount", listZl.size());//专利总数
+
+//        request.setAttribute("cgzlCount", listCg.size() + listZl.size());
+
         // 行业领域count
         String strHyly = zjkBaseInfo.getExpertProfessionalField();
         if (strHyly == null || "".equals(strHyly)) {
@@ -892,5 +909,11 @@ public class ExpertController extends BaseController {
     @RequestMapping(value = "/leader_speech", method = RequestMethod.GET)
     public String leader_speech() {
         return "layui/leader_speech";
+    }
+
+    public static void main(String[] args) {
+        for (int i = 0; i < 300; i++) {
+            System.out.println(UUID.randomUUID().toString().replace("-", ""));
+        }
     }
 }
