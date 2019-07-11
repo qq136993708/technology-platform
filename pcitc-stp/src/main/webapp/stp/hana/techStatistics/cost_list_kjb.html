@@ -91,7 +91,7 @@
                  </thead>
              </table>
 </div>
-<script id="view_type" type="text/html"> {{view_type(d.type)}} </script>
+<script id="view_type" type="text/html"> {{view_type(d)}} </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script id="viewv" type="text/html"> {{viewv(d)}} </script>
 <script type="text/javascript">
@@ -115,12 +115,12 @@
             return '';
         }
     }
-      function view_type(type) 
+      function view_type(d) 
       {
-          if (type=='1') 
+          if (d.type=='1') 
           {
           	 return '<span style="color:orange">股份</span>';
-          } else 
+          }else 
           {
           	 return '<span style="color:green">集团</span>';
           }
