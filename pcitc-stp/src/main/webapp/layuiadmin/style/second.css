@@ -168,6 +168,7 @@ span{display: inline-block;}
 .layui-oil-div div:nth-child(5){    top: -463px;  left: 850px;}
 .layui-oil-div div:nth-child(5) img{left: 80px;}
 .layui-oil>img{    position: relative;top: 45%;left: 5px;}
+.layui-oil-div div:nth-child(4) .layui-text-span{width: 340px;}
 /*石油化工*/
 .layui-industry{height: auto;overflow: hidden;margin: 50px 0;}
 .layui-industry p{background: url("/layuiadmin/layui/images/icon-green-title.png") 28px center no-repeat #50d142;
@@ -396,7 +397,7 @@ background: white;box-shadow: 0 0 5px #dadcde;}
     .work-one li:nth-child(1){margin-left: 0;}
 }
 @media screen and (max-width: 1366px) {
-    .work-report ul li {margin-left: 19px;}
+    .work-report ul li {margin-left: 6px;}
     .work-two{padding-left: 70px;}
     .expert-bottom>span{display: inline-block;font-size: 12px}
     .expert-bottom>span:nth-child(1){background: url("/layuiadmin/layui/images/span-1.png") no-repeat right bottom;width: 100px;height: 40px;}
@@ -404,6 +405,8 @@ background: white;box-shadow: 0 0 5px #dadcde;}
     .expert-bottom>span:nth-child(3){background: url("/layuiadmin/layui/images/span-3.png") no-repeat right bottom;width: 160px;height: 40px;}
     .expert-bottom>span:nth-child(5){width: 100px;height: 40px;background: url("/layuiadmin/layui/images/span-5.png") no-repeat right 0;}
     .expert-bottom>span:nth-child(6){width: 168px;height: 40px;background: url("/layuiadmin/layui/images/span-6.png") no-repeat right 0;}
+    .layui-oil-div div:nth-child(5){left: 650px;}
+    .layui-oil-div div:nth-child(4) .layui-text-span{width: 270px}
 }
 
 /*科研人才*/
@@ -530,7 +533,7 @@ background: white;box-shadow: 0 0 5px #dadcde;}
     color: #999999;box-sizing: border-box;padding-top: 110px;}
 .details-right{float: right;width:77%;margin-right: 5px;}
 .details-right>p{font-size: 14px;line-height: 24px;text-indent: 2em;height: 330px;
-    color: #333333;padding: 10px 0;}
+    color: #333333;padding: 10px 0;overflow-y: scroll;}
 .details-right>a{text-align: right;display: block;color: #3da1ff;}
 .lab-details-b{background-color: white;height: auto;overflow: hidden;margin-top: 15px;
     margin-bottom: 20px;}
