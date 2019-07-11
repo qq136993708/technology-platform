@@ -98,7 +98,7 @@ public class BudgetOrganProviderClient
 	}
 	@ApiOperation(value="预算项管理-预算项更新",notes="更新预算项")
 	@RequestMapping(value = "/stp-provider/budget/budget-organ-upd", method = RequestMethod.POST)
-	public Object updateBudgetOrgan(@RequestBody BudgetOrgan bean) 
+	public Object updBudgetOrgan(@RequestBody BudgetOrgan bean) 
 	{
 		Result rs = new Result(false);
 		try
@@ -114,7 +114,7 @@ public class BudgetOrganProviderClient
 
 	@ApiOperation(value="预算项管理-预算项保存或更新",notes="预算项保存或更新")
 	@RequestMapping(value = "/stp-provider/budget/budget-organ-saveorupd", method = RequestMethod.POST)
-	public Object saveOrupdBudgetOrgan(@RequestBody BudgetOrgan bean) 
+	public Object saveOrUpdBudgetOrgan(@RequestBody BudgetOrgan bean) 
 	{
 		Result rs = new Result(false);
 		try
@@ -131,7 +131,7 @@ public class BudgetOrganProviderClient
 	
 	@ApiOperation(value="预算项管理-预算项删除",notes="预算项删除")
 	@RequestMapping(value = "/stp-provider/budget/budget-organ-del/{dataId}", method = RequestMethod.POST)
-	public Object deleteBudgetOrgan(@PathVariable("dataId") String dataId) 
+	public Object delBudgetOrgan(@PathVariable("dataId") String dataId) 
 	{
 		Result rs = new Result(false);
 		try
