@@ -51,6 +51,7 @@
     <result column="apply_depart_code" property="applyDepartCode" jdbcType="VARCHAR" />
     <result column="apply_depart_name" property="applyDepartName" jdbcType="VARCHAR" />
     <result column="attachment_doc" property="attachmentDoc" jdbcType="VARCHAR" />
+    <result column="year" property="year" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, create_user_id, create_user_name, unit_code, unit_name, create_user_mobile, charge_depart_man, 
@@ -62,7 +63,7 @@
     all_patent_count, all_patent_look_count, current_year_patent_count, current_patent_look_count, 
     achievements_country_count, achievements_privance_count, achievements_company_count, 
     thesis_all_count, thesis_sci_count, thesis_ei_count, thesis_istp_count, thesis_isr_count, 
-    audit_status, notes,apply_depart_code,apply_depart_name,attachment_doc
+    audit_status, notes,apply_depart_code,apply_depart_name,attachment_doc,year
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -92,7 +93,7 @@
       achievements_privance_count, achievements_company_count, 
       thesis_all_count, thesis_sci_count, thesis_ei_count, 
       thesis_istp_count, thesis_isr_count, audit_status, 
-      notes,apply_depart_code,apply_depart_name,attachment_doc
+      notes,apply_depart_code,apply_depart_name,attachment_doc,year
       )
     values (#{id,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, 
       #{unitCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{createUserMobile,jdbcType=VARCHAR}, 
@@ -113,7 +114,7 @@
       #{thesisIstpCount,jdbcType=INTEGER}, #{thesisIsrCount,jdbcType=INTEGER}, #{auditStatus,jdbcType=VARCHAR}, 
       #{notes,jdbcType=VARCHAR}
       , #{applyDepartCode,jdbcType=VARCHAR}
-      , #{applyDepartName,jdbcType=VARCHAR}, #{attachmentDoc,jdbcType=VARCHAR}
+      , #{applyDepartName,jdbcType=VARCHAR}, #{attachmentDoc,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.report.TechOrgCount" >
@@ -266,7 +267,9 @@
       <if test="attachmentDoc != null" >
         attachment_doc,
       </if>
-      
+      <if test="year != null" >
+        year,
+      </if>
       
       
     </trim>
@@ -418,7 +421,9 @@
       <if test="attachmentDoc != null" >
         #{attachmentDoc,jdbcType=VARCHAR},
       </if>
-      
+      <if test="year != null" >
+        #{year,jdbcType=VARCHAR},
+      </if>
       
       
       
@@ -572,7 +577,9 @@
       <if test="attachmentDoc != null" >
         attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
       </if>
-      
+      <if test="year != null" >
+        year = #{year,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -623,6 +630,7 @@
       thesis_isr_count = #{thesisIsrCount,jdbcType=INTEGER},
       audit_status = #{auditStatus,jdbcType=VARCHAR},
       apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR},
       attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
       apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR}
@@ -637,6 +645,7 @@
 	     <if test="unitName != null and unitName  !='' ">             AND t.unit_name like CONCAT('%',#{unitName},'%')</if>
 	     <if test="unitCode != null      and unitCode !=''  ">        AND t.unit_code = #{unitCode}</if>
 	     <if test="type != null          and type !=''  ">            AND t.type = #{type}</if>
+	      <if test="year != null          and year !=''  ">            AND t.year = #{year}</if>
 	     <if test="applyDepartCode != null and applyDepartCode !=''  "> AND t.apply_depart_code = #{applyDepartCode}</if>
 	     <if test="auditStatus != null   and auditStatus !=''  ">     AND t.audit_status = #{auditStatus}</if>
 	     <if test="sqlStr != null        and sqlStr !='' ">           AND  ${sqlStr}</if>

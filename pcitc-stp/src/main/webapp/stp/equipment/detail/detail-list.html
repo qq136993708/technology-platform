@@ -104,9 +104,9 @@
         });
     }
     
-    function view(id) 
+    function view(id,contractNum,name)
     {
-    	 var temUrl="/sre-detail/get/" + id;
+    	 var temUrl="/sre-detail/get?id=" + id +"&contractNum="+contractNum +"&name="+name;;
 		 layer.open({
             title:'详情',
             skin: 'layui-layer-lan',
@@ -319,7 +319,7 @@ var name=$('#name').val();
         	   {field : 'name',     title : '课题名称', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.specification+'\')" style="color:#1890ff">'+d.name+'</span>'}},
         	   {field : 'contractNum',     title : '合同编号', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
                {field : 'equipmentName',     title : '装备名称', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span onclick="view_equipment(\''+d.equipmentId+'\')" style="color:#1890ff">'+d.equipmentName+'</span>'}},
-               {field : 'assetNumber', title : '资产编号', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span onclick="view(\''+d.assetNumber+'\')" style="color:#1890ff">'+d.assetNumber+'</span>'}},
+               {field : 'assetNumber', title : '资产编号', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span onclick="view(\''+d.assetNumber+'\',\''+d.contractNum+'\',\''+d.name+'\')" style="color:#1890ff">'+d.assetNumber+'</span>'}},
                {field : 'supplier', title : '公司代码',sort : true, style : 'cursor: pointer;', align : 'left', width : '10%'},
                {field : 'equipmentPrice', title : '单价（万元）', sort : true,style : 'cursor: pointer;', align : 'center', width : '15%'},
                {field : 'equipmenNumber', title : '装备数量', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},

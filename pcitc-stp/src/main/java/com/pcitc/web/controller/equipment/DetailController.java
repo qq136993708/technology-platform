@@ -270,12 +270,17 @@ public class DetailController extends BaseController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/sre-detail/get/{id}", method = RequestMethod.GET)
-	public String get(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ResponseEntity<SreDetail> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreDetail.class);
+	@RequestMapping(value = "/sre-detail/get", method = RequestMethod.GET)
+	public String get(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String id = CommonUtil.getParameter(request, "id", "");
+        String contractNum = CommonUtil.getParameter(request, "contractNum", "");
+        String name = CommonUtil.getParameter(request, "name", "");
+        ResponseEntity<SreDetail> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreDetail.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		logger.info("============远程返回  statusCode " + statusCode);
 		SreDetail pplication =  responseEntity.getBody();
+        request.setAttribute("name", name);
+        request.setAttribute("contractNum", contractNum);
 		request.setAttribute("pplication", pplication);
 		return "/stp/equipment/detail/detail-view";
 	}

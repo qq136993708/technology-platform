@@ -37,7 +37,7 @@
 	<div class="layui-col-sm12">
 		<div class="layui-card">
 			<div class="layui-card-header">
-				<span class="layui-time"></span>(直属研究院)科研资金净现金余额30日统计表
+				<span class="layui-time"></span><span id="lable1"></span> 现金流余额月度统计
 			</div>
 			<div class="layui-row-main">
 				<div class="main-chart" id="main1" style="height:280px;width: 100%;"></div>
@@ -49,7 +49,7 @@
 	<div class="layui-col-sm12">
 		<div class="layui-card">
 			<div class="layui-card-header">
-				科研资金七日净现金余额统计表
+				<span class="layui-time"></span><span id="lable2"></span>周现金流余额统计
 			</div>
 			<div class="layui-row-main">
 				<div class="main-chart">
@@ -83,8 +83,8 @@ var table;
         var $ = layui.jquery,form = layui.form,laydate = layui.laydate;
         table = layui.table;
         
-        var day=$('#day').val();
-        $(".layui-time").html(day);
+        //var day=$('#day').val();
+        //$(".layui-time").html(day);
         form.render(null, 'component-form-group');
         laydate.render({
             elem: '#day',format: 'yyyy年MM月dd日'
@@ -100,8 +100,12 @@ var table;
         var v_date=(new Date()).getTime();
         var day=$('#day').val();
         var companyCode=$('#companyCode').val();
-        $(".layui-time").html(day);
-       
+        var name= $('#companyCode option:selected').text();//选中的文本
+        if(name=='--全部--')
+        {
+        	name="直属研究院";
+        }
+        $(".layui-time").html(day+name);
        var yAxis= [
            {
                type: 'value',
@@ -158,33 +162,29 @@ var table;
         day=day.replace("年","");
         day=day.replace("月","");
         day=day.replace("日","");
-      //渲染
+        
       table.render({
         elem: '#processdef-table',
         url: '/getDayCashFlowReport2',
+        cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
         method:"POST",
         where: {param: {
         	      "month":day,
         	      "companyCode":$("#companyCode").val()
-        	      
-        	
                }},
         
         id: 'processdef-table',
         height: "620px",
         limit: 15,
-       
         cols: [[
-        	
-        	
-        	{field:'g0GSJC',            title:'研究院',                    style:'cursor: pointer;',align: 'center', width: '13%'},
+        	{field:'g0GSJC',            title:'研究院',                    style:'cursor: pointer;',align: 'center'},
         	{field:'k0DAY1',            title:''+str+parseInt(dd)+"日",          style:'cursor: pointer;',align: 'right', width: '12%'},
-            {field:'k0DAY2',            title:''+str+(parseInt(dd)+1)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
-            {field:'k0DAY3',            title:''+str+(parseInt(dd)+2)+"日",         style:'cursor: pointer;',align: 'right', width: '12%'},
-            {field:'k0DAY4',            title:''+str+(parseInt(dd)+3)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
-            {field:'k0DAY5',            title:''+str+(parseInt(dd)+4)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
-            {field:'k0DAY6',            title:''+str+(parseInt(dd)+5)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
-            {field:'k0DAY7',            title:''+str+(parseInt(dd)+6)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'}
+            {field:'k0DAY2',            title:''+str+(parseInt(dd)-1)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY3',            title:''+str+(parseInt(dd)-2)+"日",         style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY4',            title:''+str+(parseInt(dd)-3)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY5',            title:''+str+(parseInt(dd)-4)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY6',            title:''+str+(parseInt(dd)-5)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY7',            title:''+str+(parseInt(dd)-6)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'}
             
             
         ]],
@@ -204,15 +204,13 @@ var table;
       });
       
       
+ }
+
+function search_Event()
+{
+    init();
+    renderTable();
 }
-   
-
-
-    function search_Event()
-    {
-        init();
-        renderTable();
-    }
 
 
 </script>
