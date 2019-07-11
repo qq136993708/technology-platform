@@ -51,6 +51,7 @@
             </div>
         </div>
         <div class="expert-bottom">
+            <span>成果数量<span class="red" id="cgCount">0</span>个</span>
             <span>专利数量<span class="red" id="zlCount">0</span>个</span>
             <!--<span>成果数量<span class="red">${listCgCount}</span>个</span>-->
             <span>参与项目评审总数量<span class="red">${xmCount}</span>个</span>
@@ -240,7 +241,7 @@
 
 </script>
 <script>
-    var zjkBaseInfo = "${zjkBaseInfo}";
+    // var zjkBaseInfo = "${zjkBaseInfo}";
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus;
     layui.use(['jquery', 'table', 'laypage', 'publicMethods'], function () {
@@ -379,6 +380,7 @@
                     // 关闭等待刷新
                     layer.close(lodingMsg);
                     $("#zlCount").html(count);
+                    $("#cgCount").html(res.msg);
                     // 点击行联动选择框--单选
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
