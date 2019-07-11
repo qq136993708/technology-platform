@@ -3,7 +3,10 @@ package com.pcitc.mapper.out;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.mapping.StatementType;
 
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutProjectPlanExample;
@@ -126,5 +129,24 @@ public interface OutProjectPlanMapper {
      * 项目成果详情
      */
 	public List getProjectRewardDetails(HashMap<String, Object> map);
+	
+	
+	/**
+	 * 修改out_project_info、out_project_plan里面的统计属性
+	 * 调用存储过程统一处理，无参数
+	 */
+	@SuppressWarnings("rawtypes")
+	@Select("call updateOutProjectInfo()")
+	@Options(statementType= StatementType.CALLABLE )
+	public HashMap updateOutProjectInfo();
+	
+	/**
+	 * 修改out_project_info、out_project_plan里面的统计属性
+	 * 调用存储过程统一处理，无参数
+	 */
+	@SuppressWarnings("rawtypes")
+	@Select("call updateOutProjectPlan()")
+	@Options(statementType= StatementType.CALLABLE )
+	public HashMap updateOutProjectPlan();
 	
 }

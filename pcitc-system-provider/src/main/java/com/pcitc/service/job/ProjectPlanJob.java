@@ -2,6 +2,7 @@ package com.pcitc.service.job;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -35,7 +36,8 @@ public class ProjectPlanJob implements Job, Serializable {
 
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目计划数据 ---开始=============");
 		String sqlName = "SelectAllProjectFromPlanData";
-		String ndCon = "2019";
+		Calendar date = Calendar.getInstance();
+		String ndCon = String.valueOf(date.get(Calendar.YEAR));
 		String str = null;
 		try {
 			// 远程获取数据 -----
