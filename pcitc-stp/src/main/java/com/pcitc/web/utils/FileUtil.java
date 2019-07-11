@@ -1,6 +1,7 @@
 package com.pcitc.web.utils;
 
 import java.awt.Image;
+import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,12 +9,22 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Map;
+import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+
+import com.pcitc.base.util.MyBeanUtils;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 
 /**
@@ -239,11 +250,87 @@ public class FileUtil {
 			}
 		}
 	}
-	/*public static void main(String [] args) 
+	/**
+	 * 读取配置文件
+	 * @param path
+	 * @return
+	 */
+	public static Properties readPropertis(File file) 
+	{
+		Properties pro = new Properties();
+		try {
+			FileInputStream in = new FileInputStream(file);
+			pro.load(in);
+			in.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pro;
+	}
+	public static void genFileTemplate(String tempName,String genPath,String genName,Map<String, Object> dataMap) {
+		try 
+		{
+			Configuration config = new Configuration(Configuration.VERSION_2_3_26);
+			config.setClassForTemplateLoading(FileUtil.class, dataMap.get("tempPath").toString());
+			Template template = config.getTemplate(tempName);
+			FileOutputStream fos = new FileOutputStream(new File(genPath+File.separator+genName));
+			Writer out = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"), 10240);
+			template.process(dataMap, out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	//生成controller 类
+	public static void createControllerByTemplate() 
 	{
 		URL url = FileUtil.class.getResource("/");
-		File f = new File(url.getPath() + "static/report_template/intl_project_info_template.docx");
-	    //下载文件的用法
-		fileDownload(f, res);
-	}*/
+		File f = new File(url.getPath() + "static/code_template/template_config.properties");
+		Properties p = readPropertis(f);
+		String genPath = p.get("projectPath").toString()+p.get("packagePath").toString();
+		String genName = p.get("beanName")+"Controller.java";
+		String tempName = p.get("tempName").toString();
+		genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
+	}
+	
+	//生成Provider 类
+	public static void createProviderByTemplate() 
+	{
+		URL url = FileUtil.class.getResource("/");
+		File f = new File(url.getPath() + "static/code_template/template_config.properties");
+		Properties p = readPropertis(f);
+		String genPath = p.get("clientProjectPath").toString()+p.get("clientPackagePath").toString();
+		String genName = p.get("beanName")+"ProviderClient.java";
+		String tempName = p.get("clientTempName").toString();
+		genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
+	}
+	//生成Service 类
+	public static void createServiceByTemplate() 
+	{
+		URL url = FileUtil.class.getResource("/");
+		File f = new File(url.getPath() + "static/code_template/template_config.properties");
+		Properties p = readPropertis(f);
+		String genPath = p.get("svcProjectPath").toString()+p.get("svcPackagePath").toString();
+		String genName = p.get("beanName")+"Service.java";
+		String tempName = p.get("svcTempName").toString();
+		genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
+	}
+	//生成Service 类
+	public static void createServiceImplByTemplate() 
+	{
+		URL url = FileUtil.class.getResource("/");
+		File f = new File(url.getPath() + "static/code_template/template_config.properties");
+		Properties p = readPropertis(f);
+		String genPath = p.get("svcImplProjectPath").toString()+p.get("svcImplPackagePath").toString();
+		String genName = p.get("beanName")+"ServiceImpl.java";
+		String tempName = p.get("svcImplTempName").toString();
+		genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
+	}
+	public static void main(String [] args) 
+	{
+		createControllerByTemplate();
+		createProviderByTemplate();
+		createServiceByTemplate();
+		createServiceImplByTemplate();
+		
+	}
 }
