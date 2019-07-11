@@ -115,22 +115,45 @@ public  class InvestServiceImpl implements InvestService {
 				if(sreForApplication!=null) {
 					mentrogress.setForapplicationState(sreForApplication.getApplicationState());//获取转资状态
 				}
+					/**
+					 * 此处业务逻辑概述
+					 * 如果当前状态为(如：值为5),代表当前数据状态显示第5步处理中,第5步之前的所有状态赋值为空用于标识此数据在该状态下展示绿色图标
+					 * 如果当前状态为(如：值为4),代表当前数据到达第4步,第5步赋值为100标识此数据在该状态下不做任何展示
+					 * 第二4步之前的所有状态赋值为空用于标识此数据在该状态下展示绿色图标。。。。。。。。。。。。以此类推
+					 * 
+					 * 状态常量有时间在定义，暂时这么写
+					 */
 					if(mentrogress.getTaskCloseState()!=null && Integer.valueOf(mentrogress.getTaskCloseState())>=1) {
+					mentrogress.setTaskCloseState("5");
 					mentrogress.setPurchaseState("");//获取采购状态
 					mentrogress.setAcceptanceState("");//获取项目验收状态
 					mentrogress.setContractState("");//获取合同编号
 					mentrogress.setForapplicationState("");//获取转资状态
 				}else if(mentrogress.getAcceptanceState()!=null && Integer.valueOf(mentrogress.getAcceptanceState())>=1) {
+					mentrogress.setTaskCloseState("10");
+					mentrogress.setAcceptanceState("4");//获取项目验收状态
 					mentrogress.setContractState("");//获取合同编号
 					mentrogress.setPurchaseState("");//获取采购状态
 					mentrogress.setForapplicationState("");//获取转资状态
 				}else if(mentrogress.getForapplicationState()!=null && Integer.valueOf(mentrogress.getForapplicationState())>10) {
+					mentrogress.setTaskCloseState("10");
+					mentrogress.setAcceptanceState("10");
+					mentrogress.setForapplicationState("3");//获取转资状态
 					mentrogress.setContractState("");//获取合同编号
 					mentrogress.setPurchaseState("");//获取采购状态
 				}else if(mentrogress.getPurchaseState()!=null && Integer.valueOf(mentrogress.getPurchaseState())>=4) {
+					mentrogress.setTaskCloseState("10");
+					mentrogress.setAcceptanceState("10");
+					mentrogress.setForapplicationState("10");
+					mentrogress.setPurchaseState("2");//获取采购状态
 					mentrogress.setContractState("");//获取合同编号
 				}else {
-					mentrogress.setPurchaseState("");//获取采购状态
+					mentrogress.setTaskCloseState("10");
+					mentrogress.setAcceptanceState("10");
+					mentrogress.setForapplicationState("10");
+					mentrogress.setPurchaseState("10");//获取采购状态
+					mentrogress.setContractState("10");
+					mentrogress.setPurchaseState("1");//获取采购状态
 				}
 		}
 			list.add(mentrogress);
@@ -154,18 +177,51 @@ public  class InvestServiceImpl implements InvestService {
 		SrePurchase purchase = srePurchaseMapper.selectByPrimaryKey(purchaseId);//获取采购信息
 		if(purchase!=null) {
 			srerogram.setPurchaseName(purchase.getPurchaseName());//获取采购名称
+			/**
+			 * 此处业务逻辑概述
+			 * 如果当前状态为(如：值为1),代表当前数据状态显示第一步处理中,第一步之后的所有状态赋值100用于标识此数据在该状态下不做任何展示
+			 * 如果当前状态为(如：值为2),代表当前数据到达第二步,第一步赋值为空标识此数据已经通过审核页面展示绿色图标，
+			 * 第二步之后的所有状态赋值100用于标识此数据在该状态下不做任何展示。。。。。。。。。。。。以此类推
+			 * 
+			 * 状态常量有时间在定义，暂时这么写
+			 */
 			if(Integer.valueOf(purchase.getState())==20) {
-				srerogram.setPurchaseState(purchase.getState());//采购状态
+				srerogram.setPurchaseState("1");//采购状态
 			}else if(Integer.valueOf(purchase.getState())==30) {
-				srerogram.setContractDockingState(purchase.getState());//合同对接状态
+				srerogram.setPurchaseState("");//采购状态
+				srerogram.setContractDockingState("2");//合同对接状态
+				srerogram.setArrivalReceiptState("100");//到货签收状态
+				srerogram.setContractAcceptanceState("100");//合同验收状态
+				srerogram.setInstallationState("100");//安装调试状态
+				srerogram.setContractSlosureState("100");//合同关闭状态
 			}else if(Integer.valueOf(purchase.getState())==40) {
-				srerogram.setArrivalReceiptState(purchase.getState());//到货签收状态
+				srerogram.setPurchaseState("");//采购状态
+				srerogram.setContractDockingState("");//合同对接状态
+				srerogram.setArrivalReceiptState("3");//到货签收状态
+				srerogram.setContractAcceptanceState("100");//合同验收状态
+				srerogram.setInstallationState("100");//安装调试状态
+				srerogram.setContractSlosureState("100");//合同关闭状态
 			}else if(Integer.valueOf(purchase.getState())==50) {
-				srerogram.setContractAcceptanceState(purchase.getState());//合同验收状态
+				srerogram.setPurchaseState("");//采购状态
+				srerogram.setContractDockingState("");//合同对接状态
+				srerogram.setArrivalReceiptState("");//到货签收状态
+				srerogram.setContractAcceptanceState("4");//合同验收状态
+				srerogram.setInstallationState("100");//安装调试状态
+				srerogram.setContractSlosureState("100");//合同关闭状态
 			}else if(Integer.valueOf(purchase.getState())==60) {
-				srerogram.setInstallationState(purchase.getState());//安装调试状态
+				srerogram.setPurchaseState("");//采购状态
+				srerogram.setContractDockingState("");//合同对接状态
+				srerogram.setArrivalReceiptState("");//到货签收状态
+				srerogram.setContractAcceptanceState("");
+				srerogram.setInstallationState("5");//安装调试状态
+				srerogram.setContractSlosureState("100");//合同关闭状态
 			}else if(Integer.valueOf(purchase.getState())==70) {
-				srerogram.setContractSlosureState(purchase.getState());//合同关闭状态
+				srerogram.setPurchaseState("");//采购状态
+				srerogram.setContractDockingState("");//合同对接状态
+				srerogram.setArrivalReceiptState("");//到货签收状态
+				srerogram.setContractAcceptanceState("");
+				srerogram.setInstallationState("");//安装调试状态
+				srerogram.setContractSlosureState("6");//合同关闭状态
 			}
 			list.add(srerogram);
 		}
