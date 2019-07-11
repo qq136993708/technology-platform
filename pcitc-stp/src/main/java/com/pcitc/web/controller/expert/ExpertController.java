@@ -339,6 +339,21 @@ public class ExpertController extends BaseController {
     }
 
     /**
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/queryOutPatentList", method = RequestMethod.POST)
+    @ResponseBody
+    @OperationFilter(modelName = "专利查询", actionName = "查询列表queryOutPatentList")
+    public Object queryOutPatentList(@ModelAttribute("param") LayuiTableParam param) {
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LIST_OUT_PATENT, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        return JSON.toJSON(data).toString();
+    }
+
+    /**
      * 专家详情
      *
      * @return
@@ -371,13 +386,13 @@ public class ExpertController extends BaseController {
 //        request.setAttribute("listZlCount", listZl.size());
 
         //查询OutPatent专利数量
-        OutPatent outPatent = new OutPatent();
-        outPatent.setFmr(zjkBaseInfo.getExpertName());
-        ResponseEntity<JSONObject> responseZlEntity = this.restTemplate.exchange(LIST_OUT_PATENT, HttpMethod.POST, new HttpEntity<OutPatent>(outPatent, this.httpHeaders), JSONObject.class);
-        JSONObject retJsonZl = responseZlEntity.getBody();
-        List<OutPatent> listZl = (List<OutPatent>) retJsonZl.get("list");
-        request.setAttribute("listZl", listZl);//专利总数
-        request.setAttribute("zlCount", listZl.size());//专利总数
+//        OutPatent outPatent = new OutPatent();
+//        outPatent.setFmr(zjkBaseInfo.getExpertName());
+//        ResponseEntity<JSONObject> responseZlEntity = this.restTemplate.exchange(LIST_OUT_PATENT, HttpMethod.POST, new HttpEntity<OutPatent>(outPatent, this.httpHeaders), JSONObject.class);
+//        JSONObject retJsonZl = responseZlEntity.getBody();
+//        List<OutPatent> listZl = (List<OutPatent>) retJsonZl.get("list");
+//        request.setAttribute("listZl", listZl);//专利总数
+//        request.setAttribute("zlCount", listZl.size());//专利总数
 
 //        request.setAttribute("cgzlCount", listCg.size() + listZl.size());
 

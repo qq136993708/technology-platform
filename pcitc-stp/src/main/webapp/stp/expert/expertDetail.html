@@ -8,8 +8,13 @@
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <style>
-        .layui-row-main{text-align: center;}
-        .layui-tab-content p{text-indent: 2em;}
+        .layui-row-main {
+            text-align: center;
+        }
+
+        .layui-tab-content p {
+            text-indent: 2em;
+        }
     </style>
 </head>
 <body>
@@ -46,13 +51,12 @@
             </div>
         </div>
         <div class="expert-bottom">
-            <span><span class="red"></span></span>
+            <span>专利数量<span class="red" id="zlCount">0</span>个</span>
             <!--<span>成果数量<span class="red">${listCgCount}</span>个</span>-->
-            <span>参与项目评审总数量<span class="red">${xmCount}</span>个</span><br/>
-            <span><span class="red"></span></span>
+            <span>参与项目评审总数量<span class="red">${xmCount}</span>个</span>
             <!--<span>参与评标机构总数量 <span class="red">${jgCount}</span> 个</span>-->
             <!--<span>参与评标累计项目总数量 <span class="red">${xmCount}</span>个</span><br/>-->
-            <span>专利数量<span class="red">${zlCount}</span>个</span>
+
             <span>同一行业领域共计<span class="red">${hylyCount}</span>人</span>
         </div>
         <div class="layui-col-md5 expert-h">
@@ -75,58 +79,59 @@
                             <!---->
                             <!--<ul>-->
                             <!--<#list listCg as vo>-->
-                               <!--<li>-->
-                                   <!--<p>${vo.publishDate}</p>-->
-                                   <!--<span>${vo.achievementName}</span>-->
-                                   <!--<p>${vo.achievementDesc}</p>-->
-                               <!--</li>-->
-                           	<!--</#list>-->
+                            <!--<li>-->
+                            <!--<p>${vo.publishDate}</p>-->
+                            <!--<span>${vo.achievementName}</span>-->
+                            <!--<p>${vo.achievementDesc}</p>-->
+                            <!--</li>-->
+                            <!--</#list>-->
                             <!--</ul>-->
                         </div>
                         <div class="layui-tab-item">
-                        <#list listZl as vo>
-                           <li>
-                               <p>${vo.fmmc}</p>
-                               <p>${vo.wxlx}</p>
-                               <span>${vo.qlyq}</span>
-                           </li>
-                       </#list>
+                            <table id="showTable" class="layui-table" lay-filter="tableData"></table>
+                            <!--<#list listZl as vo>-->
+                            <!--<li>-->
+                            <!--<p>${vo.fmmc}</p>-->
+                            <!--<p>${vo.wxlx}</p>-->
+                            <!--<span>${vo.qlyq}</span>-->
+                            <!--</li>-->
+                            <!--</#list>-->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="layui-col-md5">
-        <div class="layui-card">
-            <div class="layui-card-header">
-                <span class="border-span">与${zjkBaseInfo.expertName}</span>有过合作的机构关系
+        <div class="layui-col-md5">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <span class="border-span">与${zjkBaseInfo.expertName}</span>有过合作的机构关系
+                </div>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="one" style="height:250px;width: 100%;"></div>
+                </div>
             </div>
-            <div class="layui-row-main">
-                <div class="main-chart" id="one" style="height:250px;width: 100%;"></div>
+        </div>
+        <div class="layui-col-md5">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <span class="border-span">${zjkBaseInfo.expertName}</span>参与评标项目数量统计
+                </div>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="two" style="height:250px;width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12" style="padding-right: 9px;">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <span class="border-span">${zjkBaseInfo.expertName}</span><!--${zjkBaseInfo.age}岁-->所在行业领域<!--${zjkBaseInfo.expertProfessionalFieldName}年龄段--> 统计
+                </div>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="layui-col-md5">
-        <div class="layui-card">
-            <div class="layui-card-header">
-                <span class="border-span">${zjkBaseInfo.expertName}</span>参与评标项目数量统计
-            </div>
-            <div class="layui-row-main">
-                <div class="main-chart" id="two" style="height:250px;width: 100%;"></div>
-            </div>
-        </div>
-    </div>
-    <div class="layui-col-md12" style="padding-right: 9px;">
-        <div class="layui-card">
-            <div class="layui-card-header">
-                <span class="border-span">${zjkBaseInfo.expertName}</span><!--${zjkBaseInfo.age}岁-->所在行业领域<!--${zjkBaseInfo.expertProfessionalFieldName}年龄段-->统计
-            </div>
-            <div class="layui-row-main">
-                <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
-            </div>
-        </div>
-    </div>
-</div>
 </div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
@@ -147,7 +152,7 @@
             var form = layui.form;
             var publicMethods = layui.publicMethods;
 
-            $(".expert-bottom").css({width:$(".layui-expert-div .layui-col-md9").outerWidth()+"px"});
+            $(".expert-bottom").css({width: $(".layui-expert-div .layui-col-md9").outerWidth() + "px"});
             $("#addBx").click(function () {
                 addBx();
             });
@@ -205,10 +210,10 @@
                 }
             }
         ];
-        var twoUrl = "/expertController/picIndex?id=1&expertId="+expertId+"&type=bar";
+        var twoUrl = "/expertController/picIndex?id=1&expertId=" + expertId + "&type=bar";
         var coloTwo = ["#ff9945"];
-        var two = load_single_bar(twoUrl, "two", "", "", yAxis, coloTwo, 80,"",function(d) {
-            if(d.seriesDataList==undefined){
+        var two = load_single_bar(twoUrl, "two", "", "", yAxis, coloTwo, 80, "", function (d) {
+            if (d.seriesDataList == undefined) {
                 $("#two").html("<img src='/layuiadmin/layui/images/null-data.png' />");
             }
         });
@@ -222,13 +227,13 @@
 
         var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
         var colorFive = ["#8fc31f"];
-        var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80,"",function(d) {
-            if(d.seriesDataList==undefined){
+        var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
+            if (d.seriesDataList == undefined) {
                 $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
             }
         });
-        
-        
+
+
     }
 
     initEchart();
@@ -290,7 +295,7 @@
         ];
 
         function renderTable() {
-            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/queryIndex', false, cols, where,true, function (res, curr, count) {
+            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/queryIndex', false, cols, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -318,6 +323,78 @@
 
         renderTable();
         window.renderTable = renderTable;
+
+        //专利start
+
+        function renderTablePatent() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            var lodingMsg = layer.msg('数据加载中....');
+
+            //渲染
+            table.render({
+                elem: '#showTable',
+                url: '/expertController/queryOutPatentList',
+                method: "POST",
+                where: {
+                    param: {
+                        "name": "${zjkBaseInfo.expertName}",
+                    }
+                },
+                limit: param.selfRownum,
+                id: 'showTable',
+                height: commonDislodgeTable()-200,
+                page: {
+                    groups: 5,
+                    limits: [param.selfRownum, 30, 45, 60],
+                    // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+                    // {type: 'checkbox', event: 'changeEvents'},
+                    {title: '序号', type: 'numbers', width: 55},
+                    {
+                        field: "fmmc",
+                        title: "名称", event: 'setActive', style: 'cursor: pointer;', width: '15%'
+                    },
+                    {
+                        field: "wxlx",
+                        title: "类型", event: 'setActive', style: 'cursor: pointer;', width: '15%'
+                        // , templet: function (d) {
+                        //     return d.sqri.substring(0, 10);
+                        // }
+                    },
+                    // {
+                    //     field: "zlh",
+                    //     title: "专利号", event: 'setActive', style: 'cursor: pointer;'
+                    // }
+                    // ,
+                    {
+                        field: "qlyq",
+                        title: "专利描述", event: 'setActive', style: 'cursor: pointer;'
+                    }
+                ]],
+                done: function (res, curr, count) {
+                    // 关闭等待刷新
+                    layer.close(lodingMsg);
+                    $("#zlCount").html(count);
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                }
+            });
+        }
+
+        renderTablePatent();
+        $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+        //专利结束
         // ** 搜索框宽度随着内容自适应 加到公用js中
         $(function () {
             //propertychange监听input里面的字符变化,属性改变事件
@@ -328,17 +405,16 @@
                 $this.css("width", current_width + "px");
             });
         })
-        
-        publicMethods.ajaxPost('/dictionary/list/ZJK_ZJLX', null, function (data, status) { 
-        	$.each(data,function(i,dt){
-        		if(data[i].code === "${zjkBaseInfo.bak3}"){
-        			$(".layui-pone").html("专家类型："+data[i].name);
-        		} 
-        	});
+
+        publicMethods.ajaxPost('/dictionary/list/ZJK_ZJLX', null, function (data, status) {
+            $.each(data, function (i, dt) {
+                if (data[i].code === "${zjkBaseInfo.bak3}") {
+                    $(".layui-pone").html("专家类型：" + data[i].name);
+                }
+            });
         });
-       
-        
-        
+
+
         //** 搜索框宽度随着内容自适应End
         // 触发不同的按钮事件
         var $ = layui.$, active = {
@@ -415,36 +491,38 @@
     function relationPic() {
         //var one = "/expertController/picIndex?id=5&type=force&expertId="+expertId;
         //var one = load_single_force(one, "one", "专家与机构关系", "", "");
-        
+
         $("#one").html("<img src='/layuiadmin/layui/images/null-data.png' />");
     }
 
     relationPic();
 </script>
 <script>
-   /*  loadImg();
-    function loadImg() {
-            var imgBase = photoContent(expertId);
-            console.log("图片");
-            console.log(imgBase);
-            if(imgBase!=""&&imaBase!="data:image/png;base64,PHNjcmlwdD4NCiBtb2RhbHMuaW5mbygnPz8/Pz8hJyk7DQo8L3NjcmlwdD4NCg=="){
-                $("#"+expertId).attr("src", imgBase);
-            }
-    } */
+    /*  loadImg();
+     function loadImg() {
+             var imgBase = photoContent(expertId);
+             console.log("图片");
+             console.log(imgBase);
+             if(imgBase!=""&&imaBase!="data:image/png;base64,PHNjcmlwdD4NCiBtb2RhbHMuaW5mbygnPz8/Pz8hJyk7DQo8L3NjcmlwdD4NCg=="){
+                 $("#"+expertId).attr("src", imgBase);
+             }
+     } */
     //var dataId = $('img[dataType="headImg"]').attr("id");
     //$('img[dataType="headImg"]').attr("src",photoContent(dataId));
     function getFileResultImg() {
         //获取通用url
         var ids = "";
         $.each($('img[dataType="headImg"]'), function (i, d) {
-            ids=ids+","+$(this).attr("id");
+            ids = ids + "," + $(this).attr("id");
         });
         var ret = getFileResult(ids);
         for (let i = 0; i < ret.list.length; i++) {
-            $("#"+ret.list[i].dataid).attr("src",ret.list[i].filePath);
+            $("#" + ret.list[i].dataid).attr("src", ret.list[i].filePath);
         }
     }
+
     getFileResultImg();
+
     function photoContent(picId) {
         var ret = getFileResult(picId);
         if (ret != null && ret.list.length > 0) {
@@ -474,6 +552,7 @@
         });
         return ret;
     }
+
     function ajaxFile(url, data, callback) {
         var result = null;
         $.ajax({
