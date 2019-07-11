@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+     <script src="/stp/hana/common/hana_common.js"></script>
+</head>
+<body>
+<div class="searchBox">
+ <input type="hidden" name="type" id="type" value="${type}">
+<form action=""  name="form1" id="form1" action="" method="POST">
+<input name="functionId"      id="functionId"        type="hidden">
+<input  name="id"             id="id"                type="hidden" >
+<input  name="userIds"        id="userIds"           type="hidden">
+</form>
+    <!--查询条件-->
+    
+    <label class="dateInput">
+        <span>机构名称</span>
+        <input type="text" name="unitName" id="unitName" placeholder="请输入机构名称" title="机构名称" autocomplete="off" class="form-control" >
+    </label>
+    
+    
+         <label class="dateInput">
+         <span>审核状态</span>
+          <select name="auditStatus" id="auditStatus"   class="form-control"  >
+             <option value="" >--请选择--</option>
+             <#list auditStatusList as vo> 
+		          <option value="${vo.numValue}"  >${vo.name}</option>
+		      </#list>
+		 </select>
+     </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+     <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+</div>
+<div class="tableBox">
+
+<div class="tableToolBox">
+    <table id="myTable" class="layui-table" lay-filter="myTable" >
+                 <thead>
+                  <tr>
+                      <th lay-data="{checkbox:true, fixed:'left'}" rowspan="2"></th>
+                      <th lay-data="{field:'auditStatus',templet:'<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'}" rowspan="2">审核状态</th>
+                      <th lay-data="{field:'unitName', width:'12%',templet:viewv}" rowspan="2" >单位名称</th>
+                      <th lay-data="{align:'center'}" colspan="6">科技投入情况（单位：万元）</th>
+                      <th lay-data="{align:'center'}" colspan="3">承担和参加国家级科技项目</th>
+                      <th lay-data="{align:'center'}" colspan="3">承担和参加地方（省级）科技项目</th>
+                      <th lay-data="{field:'createDate', width:'10%',align:'center'}" rowspan="2" >创建日期</th>
+                  </tr>
+                  <tr>
+                      <th lay-data="{field:'techProjectCost', width:'7%',align:'right'}">科技项目费</th>
+                      <th lay-data="{field:'techResearcherCost',  width:'7%',align:'right'}">科研人员费</th> 
+                      <th lay-data="{field:'techSubsidyCost',     width:'7%',align:'right'}">科研折旧费补贴</th>
+                      <th lay-data="{field:'techFacilitiesCost',  width:'8%',align:'right'}">设施投资</th>
+                      <th lay-data="{field:'techOtherCost',       width:'8%',align:'right'}">其它科技投入</th>
+                      <th lay-data="{field:'techSubtotalCost',    width:'8%',align:'right'}">合计</th> 
+                      
+                      <th lay-data="{field:'countryLeadCount',  width:'8%',align:'right'}">牵头项目数量</th>
+                      <th lay-data="{field:'countryJoinCount',  width:'8%',align:'right'}">参加项目数量</th>
+                      <th lay-data="{field:'countryFunds',      width:'8%',align:'right'}">国家投入经费</th>
+                     
+                      <th lay-data="{field:'provinceLeadCount', width:'8%',align:'right'}">牵头项目数量</th> 
+                      <th lay-data="{field:'provinceJoinCount', width:'8%',align:'right'}">参加项目数量</th> 
+                      <th lay-data="{field:'provinceFunds',     width:'8%',align:'right'}">地方（省级）政府投入经费</th>
+                  </tr>
+                 </thead>
+             </table>
+</div>
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script id="viewv" type="text/html"> {{viewv(d)}} </script>
+<script type="text/javascript">
+    // 时间格式化 
+      function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+    
+      function viewv(d) 
+      {
+          if (d) 
+          {
+        	  var str= "<span onclick=\"view('"+d.id+"','"+d.type+"','"+d.unitName+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.unitName+"</span>";
+              return str;
+          } else {
+              return '';
+          }
+      }
+      function view(id,type,unitName) 
+      {
+      	    var v_date=(new Date()).getTime();
+      	    var url= '/tech_cost/get/'+id;
+      	    var title="股份科技投入填报";
+	      	if(type=='2')
+	      	{
+	      		title="集团科技投入填报";
+	      	}
+           layer.open({
+               title: unitName+"-"+title+'-详情',
+               skin: 'layui-layer-lan',
+               shadeClose: true,
+               type: 2,
+               fixed: false,
+               maxmin: false,
+               //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+               area: ['70%', '90%'],
+               content:  url
+           });
+      }
+      
+      
+</script>
+
+<!--表格数据操作js-->
+
+<script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+$('#functionId').val(functionId);
+var roleCodes = "";
+var unitCodes = "";
+var postCodes = "";
+var type=$("#type").val();
+
+
+var table,selectRowData;
+var publicMethods;
+var layer;
+var tableHeight=null;
+layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate;
+	  layer = layui.layer;
+	  publicMethods=layui.publicMethods;
+	  
+	  tableHeight=commonDislodgeTable();
+	  laydate.render({
+          elem: '#month' ,type: 'month'
+          
+       });
+	        init_companyCode(functionId);
+     	     myTable();
+     	     //移除表头的复选框,去掉全选
+     	     $(".layui-table-header table thead th input").remove();  
+
+             var $ = layui.$, active = {
+                searchEvent: function() { //点击查询按钮
+                	myTable();
+                   
+                },
+                resetEvent: function() { //点击重置按钮
+                	//$('#name').val("");
+                	//$('#auditStatus').val("");
+                }
+            };
+        
+        //监听行单击事件
+        table.on('row(myTable)', function(obj){
+            console.log(obj.data) //得到当前行数据
+            selectRowData=obj.data;
+        });
+        
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        
+    });
+    
+function search_Event()
+{
+	myTable();
+}
+
+function myTable()
+{
+	 var auditStatus=$("#auditStatus").val();
+	 var unitName=$("#unitName").val(); 
+	 var v_date=(new Date()).getTime();
+	 var url= '/tech_cost/list?v_date='+v_date;
+     table.init('myTable', {
+		  url: url,height: tableHeight,
+		  where: {param: {"unitName":unitName,"auditStatus":auditStatus}},
+		  done: function (res, curr, count) {
+			  layer.closeAll();
+		  }
+	 });
+	   
+}
+
+
+
+/*formName：form表单名称，
+type：post、get,delete,put 
+backurl:操作成功后返回地址
+successMsg：成功提示
+failMsg：失败提示 */
+function ajaxDeleteOpt(url,type,successMsg,failMsg)
+{
+	 $.ajax({
+  	     type:type,
+  	     url: url,
+  	     dataType:"json",
+  	     async: false, 
+  	     cache: false,
+  	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+    	  
+	          if(data.success==true ||data.success=='true')
+	          {
+	        	  layer.alert(
+	        			  successMsg, 
+	                      {icon: 1,closeBtn: 0 },
+	                      function () 
+	                      {
+	                    	  myTable();
+	                    	   layer.closeAll();
+	                      });
+	       	   
+	          } else
+	          {
+	        	 layer.alert("操作失败");
+	          }
+	     
+		   },
+		   error:function()
+		   {
+		    	layer.alert("网络访问错误");
+		   }
+    
+  });
+} 
+
+
+
+</script>
+</body>
+</html>

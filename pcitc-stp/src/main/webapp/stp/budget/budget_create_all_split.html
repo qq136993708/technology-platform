@@ -117,15 +117,21 @@
             switch(event){
                 case "del":
                     layer.confirm('确定删除此行么？', function(index){
-                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                        layer.close(index);
-                        publicMethods.ajaxPost("/budget/budget-info-del",{"dataId":data.dataId}, function (data) {
-            	    		//刷新当前表格  
-                        	reloadTable();
-            	    		//刷新父页面
-            				parent.initDataVersion();
-            	    		parent.initEmptyData();
-            	   		}); 
+                    	if(data.auditStatus == 3){
+                    		layer.close(index);
+                    		parent.layer.alert("最终预算不可删除!", {title : '提示'});
+                    		return false;
+                    	}else{
+	                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+	                        layer.close(index);
+	                        publicMethods.ajaxPost("/budget/budget-info-del",{"dataId":data.dataId}, function (data) {
+	            	    		//刷新当前表格  
+	                        	reloadTable();
+	            	    		//刷新父页面
+	            				parent.initDataVersion();
+	            	    		parent.initEmptyData();
+	            	   		});
+                        } 
                     });
                		break;
             }
