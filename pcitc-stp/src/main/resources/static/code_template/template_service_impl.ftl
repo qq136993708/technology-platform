@@ -1,4 +1,4 @@
-package ${svcImplPackagePath};
+package ${svcImplPackageName};
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.stp.budget.${beanName};
-import com.pcitc.base.stp.budget.${beanName}Example;
-import com.pcitc.service.budget.${beanName}Service;
+import ${beanPackage}.${beanName};
+import ${beanPackage}.${beanName}Example;
+import ${svcPackageName}.${beanName}Service;
 /**
  * 
  * @author fb

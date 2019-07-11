@@ -16,7 +16,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.${beanName};
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.service.budget.${beanName}Service;
+import ${svcPackageName}.${beanName}Service;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

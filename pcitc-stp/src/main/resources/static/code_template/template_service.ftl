@@ -6,8 +6,8 @@ import java.util.List;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.stp.budget.${beanName};
-import com.pcitc.base.stp.budget.${beanName}Example;
+import ${beanPackage}.${beanName};
+import ${beanPackage}.${beanName}Example;
 
 public interface ${beanName}Service extends BaseService<${beanName},Serializable,${beanName}Example>
 {
