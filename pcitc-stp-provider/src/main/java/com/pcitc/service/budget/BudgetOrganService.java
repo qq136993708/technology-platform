@@ -1,6 +1,5 @@
 package com.pcitc.service.budget;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.pcitc.base.common.LayuiTableData;
@@ -9,7 +8,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.BudgetOrgan;
 import com.pcitc.base.stp.budget.BudgetOrganExample;
 
-public interface BudgetOrganService extends BaseService<BudgetOrgan,Serializable,BudgetOrganExample>
+public interface BudgetOrganService extends BaseService<BudgetOrgan,String,BudgetOrganExample>
 {
 	
 	public BudgetOrgan selectBudgetOrgan(String dataId);
