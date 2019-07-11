@@ -2,6 +2,7 @@ package com.pcitc.service.budget.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,8 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.BudgetOrgan;
 import com.pcitc.base.stp.budget.BudgetOrganExample;
+import com.pcitc.mapper.budget.BudgetBaseMapper;
+import com.pcitc.mapper.budget.BudgetOrganMapper;
 import com.pcitc.service.budget.BudgetOrganService;
 /**
  * 
@@ -22,6 +25,14 @@ import com.pcitc.service.budget.BudgetOrganService;
 public class BudgetOrganServiceImpl  extends BaseServiceImpl<BudgetOrgan,String,BudgetOrganExample>  implements BudgetOrganService
 {
 
+	@Autowired
+	public BudgetOrganMapper mp;
+	@Override
+	public BudgetBaseMapper<BudgetOrgan,String,BudgetOrganExample> getMapper() 
+	{
+		return mp;
+	}
+	
 	@Override
 	public BudgetOrgan selectBudgetOrgan(String dataId) 
 	{
