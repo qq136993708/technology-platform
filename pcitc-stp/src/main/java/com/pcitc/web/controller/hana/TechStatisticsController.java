@@ -214,7 +214,7 @@ public class TechStatisticsController extends BaseController{
 		String unitName = CommonUtil.getParameter(request, "unitName", "");
 		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
 		String year = CommonUtil.getParameter(request, "year", "");
-		
+		String createUserName = CommonUtil.getParameter(request, "createUserName", "");
 		if(!unitCode.equals(""))
 		{
 			SysUnit sysUnit=EquipmentUtils.getUnitByUnitId(unitCode, restTemplate, httpHeaders);
@@ -231,8 +231,7 @@ public class TechStatisticsController extends BaseController{
 		if (id.equals("")) {
 			techCost = new TechCost();
 			techCost.setCreateDate(new Date());
-			techCost.setCreateUserId(sysUserInfo.getUserName());
-			techCost.setCreateUserName(sysUserInfo.getUserDisp());
+			
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			techCost.setId(idv); 
 			techCost.setAuditStatus(auditStatus);
@@ -241,6 +240,10 @@ public class TechStatisticsController extends BaseController{
 			ResponseEntity<TechCost> se = this.restTemplate.exchange(GET_COST_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), TechCost.class);
 			techCost  = se.getBody();
 		}
+		
+		
+		techCost.setCreateUserId(sysUserInfo.getUserName());
+		techCost.setCreateUserName(createUserName);
 		techCost.setAttachmentDoc(attachmentDoc);
 		// 流程状态
 		techCost.setYear(year);
@@ -552,7 +555,7 @@ public class TechStatisticsController extends BaseController{
 		String allPatentLookCount = CommonUtil.getParameter(request, "allPatentLookCount", "");
 		String achievementsPrivanceCount = CommonUtil.getParameter(request, "achievementsPrivanceCount", "");
 		String year = CommonUtil.getParameter(request, "year", "");
-		
+		String createUserName = CommonUtil.getParameter(request, "createUserName", "");
 		
 		if(!unitCode.equals(""))
 		{
@@ -566,7 +569,7 @@ public class TechStatisticsController extends BaseController{
 		if (id.equals("")) {
 			techOrgCount = new TechOrgCount();
 			techOrgCount.setCreateDate(new Date());
-			techOrgCount.setCreateUserId(sysUserInfo.getUserName());
+			
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			techOrgCount.setId(idv); 
 			techOrgCount.setAuditStatus(auditStatus);
@@ -576,6 +579,8 @@ public class TechStatisticsController extends BaseController{
 			ResponseEntity<TechOrgCount> se = this.restTemplate.exchange(GET_ORG_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), TechOrgCount.class);
 			techOrgCount  = se.getBody();
 		}
+		techOrgCount.setCreateUserId(sysUserInfo.getUserName());
+		techOrgCount.setCreateUserName(createUserName);
 		techOrgCount.setYear(year);
 		techOrgCount.setAttachmentDoc(attachmentDoc);
 		techOrgCount.setAchievementsCompanyCount(Integer.valueOf(achievementsCompanyCount));
@@ -589,7 +594,6 @@ public class TechStatisticsController extends BaseController{
 		techOrgCount.setChargeDepartMan(chargeDepartMan);
 		techOrgCount.setCountryInvestCost(new BigDecimal(countryInvestCost));
 		techOrgCount.setCreateUserMobile(createUserMobile);
-		techOrgCount.setCreateUserName(sysUserInfo.getUserDisp());
 		techOrgCount.setCurrentPatentLookCount(Integer.valueOf(currentPatentLookCount));
 		techOrgCount.setCurrentYearPatentCount(Integer.valueOf(currentYearPatentCount));
 		techOrgCount.setAchievementsCompanyCount(Integer.valueOf(achievementsCompanyCount));
