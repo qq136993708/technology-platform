@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.out.OutPatent;
 import com.pcitc.base.stp.out.OutPatentWithBLOBs;
 
 public interface OutPatentService {
@@ -69,5 +70,12 @@ public interface OutPatentService {
      * 领导首页-知识产权，直属研究院、分子公司等9个类型公司的发明专利、实用新型的申请和授权
      */
     public List getPatentInfoByCompanyType(Map hashmap);
-	
+
+    /**
+     * 根据人员名称查询专利列表
+     * @param OutPatent
+     * @return
+     */
+    public List<OutPatent> findOutPatentListByName(OutPatent OutPatent);
+
 }

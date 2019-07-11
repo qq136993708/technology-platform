@@ -1,5 +1,7 @@
 package com.pcitc.web.out;
 
+import com.pcitc.base.stp.out.OutPatent;
+import com.pcitc.base.system.IndexOutPatent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -142,5 +144,18 @@ public class OutPatentProviderClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+
+    @ApiOperation(value = "查询列表", notes = "自定义对象(条件)查询信息,返回存储在JSONObject对象中的列表")
+    @RequestMapping(value = "/out-patent-provider/outpatent_list", method = RequestMethod.POST)
+    public JSONObject selectOutPatentList(@RequestBody OutPatent OutPatent) {
+        JSONObject retJson = new JSONObject();
+        try {
+            List<OutPatent> list = outPatentService.findOutPatentListByName(OutPatent);
+            retJson.put("list", list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retJson;
+    }
 	
 }

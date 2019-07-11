@@ -48,8 +48,8 @@ public class MailSender {
         mailInfo.setMailServerPort("25");
         mailInfo.setValidate(true);
         mailInfo.setUserName("si_wenfang@163.com");
-        mailInfo.setPassword("si_wenfang");
-        mailInfo.setFromAddress("mlc19860417@163.com");
+        mailInfo.setPassword("siwenfang123");//授权码:siwenfang123
+        mailInfo.setFromAddress("si_wenfang@163.com");
         mailInfo.setSenderDisplay("石化盈科信息技术有限责任公司");
     }
 
