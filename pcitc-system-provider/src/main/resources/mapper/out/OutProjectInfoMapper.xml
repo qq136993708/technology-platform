@@ -1630,7 +1630,7 @@
 		erp_project_name,type_flag,
 		xmlbbm,xmlbmc,gsbmmc,gsbmbm,zycmc,zycbm,
 		define1,define2,define3,define4,define5,define6,define7,define8,define9,
-		define10,define11,define12,define13
+		define10,define11,define12,define13,define14,define15,define16,define17,define18,define19
 		)
 		values
 		<foreach collection="list" item="projectInfo" index="index"
@@ -1699,7 +1699,13 @@
 			#{projectInfo.define10,jdbcType=VARCHAR},
 			#{projectInfo.define11,jdbcType=VARCHAR},
 			#{projectInfo.define12,jdbcType=VARCHAR},
-			#{projectInfo.define13,jdbcType=VARCHAR}
+			#{projectInfo.define13,jdbcType=VARCHAR},
+			#{projectInfo.define14,jdbcType=VARCHAR},
+			#{projectInfo.define15,jdbcType=VARCHAR},
+			#{projectInfo.define16,jdbcType=VARCHAR},
+			#{projectInfo.define17,jdbcType=VARCHAR},
+			#{projectInfo.define18,jdbcType=VARCHAR},
+			#{projectInfo.define19,jdbcType=VARCHAR}
 			)
 		</foreach>
 	</insert>

@@ -35,14 +35,13 @@ public class ProjectPlanJob implements Job, Serializable {
 
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目计划数据 ---开始=============");
 		String sqlName = "SelectAllProjectFromPlanData";
-		String ndCon = "2018";
+		String ndCon = "2019";
 		String str = null;
 		try {
 			// 远程获取数据 -----
 			str = DataServiceUtil.getProjectData(sqlName, ndCon);
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目计划数据 返回 success=====");
 			if (str != null) {
-				// 先删除年度为nd的本地数据（备份一份到临时表中，防止意外）
 				List<OutProjectPlan> insertData = new ArrayList<OutProjectPlan>();
 				JSONArray jSONArray = JSONArray.parseArray(str);
 				
@@ -51,9 +50,10 @@ public class ProjectPlanJob implements Job, Serializable {
 					JSONObject object = (JSONObject) jSONArray.get(i);
 					boolean insertFlag = true;
 					String temXmid = object.getString("XMID");
+					String temHth = object.getString("HTH");
 					for (int j = 0; j < temList.size(); j++) {
 						OutProjectPlan opp = temList.get(j);
-						if (temXmid.equals(opp.getXmid())) {
+						if (temXmid.equals(opp.getXmid()) && temHth != null && !temHth.equals("")) {
 							insertFlag = false;
 							break;
 						}
@@ -63,6 +63,9 @@ public class ProjectPlanJob implements Job, Serializable {
 						String nd = object.getString("ND");
 						String xmid = object.getString("XMID");
 						String hth = object.getString("HTH");
+						if (hth != null && hth.equals("")) {
+							hth = null;
+						}
 						String xmmc = object.getString("XMMC");
 						String xmjb = object.getString("XMJB");
 						String jf = object.getString("JF");
@@ -94,8 +97,6 @@ public class ProjectPlanJob implements Job, Serializable {
 						String xmlbbm = object.getString("XMLBBM");
 						String xmlbmc = object.getString("XMLBMC");
 						
-						String projectId = object.getString("XMID");
-
 						OutProjectPlan opi = new OutProjectPlan();
 						
 						opi.setNd(nd);
@@ -138,6 +139,7 @@ public class ProjectPlanJob implements Job, Serializable {
 						opi.setXmlbbm(xmlbbm);
 						opi.setXmlbmc(xmlbmc);
 						opi.setDefine4("项目管理系统");
+						opi.setCreateDate(new Date());
 						if (sjid != null && Integer.parseInt(sjid) > 0) {
 							opi.setProjectType("2");
 						}
@@ -146,6 +148,45 @@ public class ProjectPlanJob implements Job, Serializable {
 						}
 						if (sjid != null && Integer.parseInt(sjid) < 0) {
 							opi.setProjectType("0");
+						}
+						
+						if (hth != null) {
+							if (hth.indexOf("P") == 0 || hth.indexOf("JP") == 0 || hth.indexOf("LP") == 0) {
+								if (Integer.parseInt(nd) > 2018) {
+									opi.setDefine10("101勘探开发处");
+								} else {
+									opi.setDefine10("101油田处");
+								}
+								
+							} else if (hth.indexOf("PE") == 0 || hth.indexOf("JPE") == 0 || hth.indexOf("LPE") == 0) {
+								opi.setDefine10("101石油工程技术处");
+							} else if (hth.indexOf("1") == 0 || hth.indexOf("J1") == 0 || hth.indexOf("L1") == 0) {
+								opi.setDefine10("102炼油处");
+							} else if (hth.indexOf("4") == 0 || hth.indexOf("J4") == 0 || hth.indexOf("L4") == 0) {
+								opi.setDefine10("103化工处");
+							} else if (hth.indexOf("2") == 0 || hth.indexOf("J2") == 0 || hth.indexOf("L2") == 0) {
+								opi.setDefine10("104材料处");
+							} else if (hth.indexOf("3") == 0 || hth.indexOf("J3") == 0 || hth.indexOf("L3") == 0) {
+								opi.setDefine10("105装储处");
+							} else if (hth.indexOf("R") == 0 || hth.indexOf("X") == 0 || hth.indexOf("KL") == 0 || hth.indexOf("JR") == 0 || hth.indexOf("LR") == 0 || hth.indexOf("JX") == 0 || hth.indexOf("LX") == 0 || hth.indexOf("J5") == 0 || hth.indexOf("L5") == 0 || hth.indexOf("JKL") == 0 || hth.indexOf("LKL") == 0) {
+								opi.setDefine10("106计划处");
+							} else if (hth.indexOf("G") == 0 || hth.indexOf("JG") == 0 || hth.indexOf("LG") == 0) {
+								opi.setDefine10("107技术监督处");
+							} else if (hth.indexOf("H") == 0 || hth.indexOf("JH") == 0 || hth.indexOf("LH") == 0) {
+								opi.setDefine10("108三剂处");
+							} else if (hth.indexOf("9") == 0 || hth.indexOf("J9") == 0 || hth.indexOf("L9") == 0) {
+								opi.setDefine10("109知识产权处");
+							} else if (hth.indexOf("W") == 0 || hth.indexOf("JW") == 0 || hth.indexOf("LW") == 0) {
+								opi.setDefine10("110物装部");
+							} else if (hth.indexOf("CLY") == 0 || hth.indexOf("JCLY") == 0 || hth.indexOf("LCLY") == 0) {
+								opi.setDefine10("114炼油部（B2、C类）");
+							} else if (hth.indexOf("CHG") == 0 || hth.indexOf("JCHG") == 0 || hth.indexOf("LCHG") == 0) {
+								opi.setDefine10("115化工部（B2、C类）");
+							} else if (hth.indexOf("E") == 0 || hth.indexOf("JE") == 0 || hth.indexOf("LE") == 0) {
+								opi.setDefine10("111信息部");
+							} else if (hth.indexOf("Z") == 0 || hth.indexOf("JZ") == 0 || hth.indexOf("LZ") == 0) {
+								opi.setDefine10("112工程部");
+							} 
 						}
 						
 						if (xmlbbm != null && xmlbbm.equals("KYZB")) {
@@ -164,7 +205,7 @@ public class ProjectPlanJob implements Job, Serializable {
 							}
 						}
 						//opi.setProjectScope("新开课题");  //新开
-						System.out.println("======----------------" + sjid + "-------------====="+opi.getProjectType()+"======="+sjid);
+						System.out.println("======----------------" + xmid + "-------------====="+opi.getProjectType()+"======="+sjid);
 						opi.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 						insertData.add(opi);
 					}

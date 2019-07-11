@@ -16,6 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysJob;
 import com.pcitc.mapper.system.SysJobMapper;
 import com.pcitc.service.system.SysJobService;
@@ -52,9 +56,20 @@ public class SysJobServiceImpl implements SysJobService {
 	 * @return
 	 */
 	@Override
-	public List<SysJob> findSysJob(Map<String, Object> map) {
-		List<SysJob> list = sysJobMapper.selectByCondition(map);
-		return list;
+	public LayuiTableData findSysJob(LayuiTableParam param) {
+		
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+    	PageHelper.startPage(param.getPage(), param.getLimit());
+        Map<String, Object> map = param.getParam();
+
+        List<SysJob> list = sysJobMapper.selectByCondition(map);
+        
+        PageInfo<SysJob> pageInfo = new PageInfo<SysJob>(list);
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
 	}
 
 	/**

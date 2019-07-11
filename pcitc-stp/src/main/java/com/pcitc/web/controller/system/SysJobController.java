@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
+import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysJob;
 import com.pcitc.web.common.BaseController;
@@ -47,21 +47,11 @@ public class SysJobController extends BaseController {
 	@RequestMapping(value = "/getJobs")
 	@ResponseBody
 	public Object getJobs(@ModelAttribute("param")LayuiTableParam param) {
-		SysJob sysJob = new SysJob();
-		String jobName = "";
-		if(param.getParam().get("jobName") != null)
-			jobName = param.getParam().get("jobName").toString();
-		sysJob.setJobName(jobName);
-	    HttpEntity<SysJob> entity = new HttpEntity<SysJob>(sysJob, this.httpHeaders);
-	    ResponseEntity<String> responseEntity = restTemplate.postForEntity(JOB_LIST,entity,String.class);
-		String result = responseEntity.getBody();
-		JSONArray jsonArray = JSONArray.parseArray(result);
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("data", jsonArray);
-		jsonObj.put("code", "0");
-		jsonObj.put("msg", "提示");
-		jsonObj.put("count", jsonArray.size());
-		return jsonObj;
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(JOB_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+
+		return JSON.toJSON(retJson).toString();
 	}
 
 	/**
