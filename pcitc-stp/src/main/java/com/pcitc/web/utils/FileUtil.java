@@ -267,18 +267,12 @@ public class FileUtil {
 		}
 		return pro;
 	}
-	public static void genControllerTemplate(Map<String, Object> dataMap) {
+	public static void genFileTemplate(String tempName,String genPath,String genName,Map<String, Object> dataMap) {
 		try 
 		{
 			Configuration config = new Configuration(Configuration.VERSION_2_3_26);
 			config.setClassForTemplateLoading(FileUtil.class, dataMap.get("tempPath").toString());
-			
-			Template template = config.getTemplate(dataMap.get("tempName").toString());
-			
-			//输出路径
-			String genPath = dataMap.get("projectPath").toString()+dataMap.get("packagePath").toString();
-			String genName = dataMap.get("beanName")+"Controller.java";
-			
+			Template template = config.getTemplate(tempName);
 			FileOutputStream fos = new FileOutputStream(new File(genPath+File.separator+genName));
 			Writer out = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"), 10240);
 			template.process(dataMap, out);
@@ -292,12 +286,51 @@ public class FileUtil {
 		URL url = FileUtil.class.getResource("/");
 		File f = new File(url.getPath() + "static/code_template/template_config.properties");
 		Properties p = readPropertis(f);
-		genControllerTemplate(MyBeanUtils.java2Map(p));
+		String genPath = p.get("projectPath").toString()+p.get("packagePath").toString();
+		String genName = p.get("beanName")+"Controller.java";
+		String tempName = p.get("tempName").toString();
+		genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
 	}
 	
+	//生成Provider 类
+	public static void createProviderByTemplate() 
+	{
+		URL url = FileUtil.class.getResource("/");
+		File f = new File(url.getPath() + "static/code_template/template_config.properties");
+		Properties p = readPropertis(f);
+		String genPath = p.get("clientProjectPath").toString()+p.get("clientPackagePath").toString();
+		String genName = p.get("beanName")+"ProviderClient.java";
+		String tempName = p.get("clientTempName").toString();
+		genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
+	}
+	//生成Service 类
+	public static void createServiceByTemplate() 
+	{
+		URL url = FileUtil.class.getResource("/");
+		File f = new File(url.getPath() + "static/code_template/template_config.properties");
+		Properties p = readPropertis(f);
+		String genPath = p.get("svcProjectPath").toString()+p.get("svcPackagePath").toString();
+		String genName = p.get("beanName")+"Service.java";
+		String tempName = p.get("svcTempName").toString();
+		genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
+	}
+	//生成Service 类
+	public static void createServiceImplByTemplate() 
+	{
+		URL url = FileUtil.class.getResource("/");
+		File f = new File(url.getPath() + "static/code_template/template_config.properties");
+		Properties p = readPropertis(f);
+		String genPath = p.get("svcImplProjectPath").toString()+p.get("svcImplPackagePath").toString();
+		String genName = p.get("beanName")+"ServiceImpl.java";
+		String tempName = p.get("svcImplTempName").toString();
+		genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
+	}
 	public static void main(String [] args) 
 	{
 		createControllerByTemplate();
+		createProviderByTemplate();
+		createServiceByTemplate();
+		createServiceImplByTemplate();
 		
 	}
 }
