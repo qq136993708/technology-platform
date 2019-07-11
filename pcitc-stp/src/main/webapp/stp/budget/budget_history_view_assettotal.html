@@ -17,12 +17,12 @@
     <#list tb_datas as tb>
 	    <p class="table-title">&nbsp;&nbsp;</p>
 	    <div class="bottom-table-box">
-	        <table id="${tb.dataId}" class="layui-table" lay-filter="${tb.dataId}" lay-data="{limit:100,totalRow: true}">
+	        <table id="${tb.dataId}" class="layui-table" lay-filter="${tb.dataId}" lay-data="{height: '300',limit:100,totalRow: true}">
 	            <thead>
 	                <tr>
-	                	<th lay-data="{field:'no', width: '10%', align:'center',totalRowText: '合计'}" rowspan="2">序号</th>
-	                	<th lay-data="{field:'displayName', width: '15%'}" rowspan="2">预算部门</th>
-	                	<th lay-data="{field:'remark', width: '30%'}" rowspan="2">描述</th>
+	                	<th lay-data="{field:'no', width: 55, align:'center',totalRowText: '合计'}" rowspan="2">序号</th>
+	                	<th lay-data="{field:'displayName'}" rowspan="2">预算部门</th>
+	                	<th lay-data="{field:'remark'}" rowspan="2">描述</th>
 	                	<th lay-data="{align:'center'}", colspan="2">${tb.nd}年预算</th>
 		            </tr>
 		            <tr>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.report.TechCost;
 import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.workflow.Constants;
@@ -62,6 +63,15 @@ public class TechStatisticsProviderClient {
 		return techStatisticsService.deleteTechCost(id);
 	}
 	
+	
+	
+
+	@ApiOperation(value = "获取科研投入表", notes = "根据ID获取科研投入表")
+	@RequestMapping(value = "/sre-provider/techCost/get/{id}", method = RequestMethod.GET)
+	public TechCost selectTechCostId(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get sreEquipment id "+id+"===========");
+		return techStatisticsService.selectTechCost(id);
+	}
 	
 	/**
 	 * @param jsonStr
@@ -135,7 +145,7 @@ public class TechStatisticsProviderClient {
 	}
 	
 	
-	@ApiOperation(value = "修改科研机构调查表表", notes = "修改科研机构调查表表")
+	@ApiOperation(value = "修改科研机构调查表", notes = "修改科研机构调查表")
 	@RequestMapping(value = "/sre-provider/techOrgCount/update", method = RequestMethod.POST)
 	public Integer updateTechOrgCount(@RequestBody TechOrgCount techOrgCount) throws Exception{
 		logger.info("==================update techOrgCount===========================");
@@ -154,7 +164,12 @@ public class TechStatisticsProviderClient {
 	
 	
 	
-	
+	@ApiOperation(value = "获取研机构调查表", notes = "根据ID获取研机构调查表")
+	@RequestMapping(value = "/sre-provider/techOrgCount/get/{id}", method = RequestMethod.GET)
+	public TechOrgCount selectTechOrgCount(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get TechOrgCount id "+id+"===========");
+		return techStatisticsService.selectTechOrgCount(id);
+	}
 	
 	
 	

@@ -228,7 +228,7 @@ layui.define(['jquery','form','table','laydate'],
                     fixed: false,
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                     maxmin : true,
-                    area : [ '70%', '90%' ],
+                    area : [ '80%', '90%' ],
                     content:  temUrl
                 });
             },

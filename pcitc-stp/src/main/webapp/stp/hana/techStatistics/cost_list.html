@@ -13,16 +13,29 @@
 </head>
 <body>
 <div class="searchBox">
-<input name="functionId" id="functionId" value="${functionId}" type="hidden">
+ <input type="hidden" name="type" id="type" value="${type}">
+<form action=""  name="form1" id="form1" action="" method="POST">
+<input name="functionId"      id="functionId"        type="hidden">
+<input  name="id"             id="id"                type="hidden" >
+<input  name="userIds"        id="userIds"           type="hidden">
+</form>
     <!--查询条件-->
+    
+    <label class="dateInput">
+        <span>机构名称</span>
+        <input type="text" name="unitName" id="unitName" placeholder="请输入机构名称" title="机构名称" autocomplete="off" class="form-control" >
+    </label>
+    
+    
          <label class="dateInput">
-            <span>月份</span>
-            <input type="text" name="month"  title="月份" value="${month}"  id="month">
-            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
-        </label>
-       <div class="layui-input-inline"  style="margin-left:10px">
-           <select id="companyCode" name="companyCode" class="form-control"></select>
-        </div>
+         <span>审核状态</span>
+          <select name="auditStatus" id="auditStatus"   class="form-control"  >
+             <option value="" >--请选择--</option>
+             <#list auditStatusList as vo> 
+		          <option value="${vo.numValue}"  >${vo.name}</option>
+		      </#list>
+		 </select>
+     </label>
     <!--按钮组-->
     <div class="btnGroup">
      <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
@@ -35,6 +48,7 @@
         <div  class="tableBtns">
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"    data-type="editEvent"  id="editEvent" >编辑</button>
+             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg"  id="applyEvent" data-type="applyEvent">上报</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
         </div>
@@ -42,15 +56,18 @@
     <table id="myTable" class="layui-table" lay-filter="myTable" >
                  <thead>
                   <tr>
-                      <th lay-data="{field:'g0GSJC', width:'8%',templet:viewv}" rowspan="2" >单位名称</th>
+                      <th lay-data="{checkbox:true, fixed:'left'}" rowspan="2"></th>
+                      <th lay-data="{field:'auditStatus',templet:'<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'}" rowspan="2">审核状态</th>
+                      <th lay-data="{field:'unitName', width:'12%',templet:viewv}" rowspan="2" >单位名称</th>
                       <th lay-data="{align:'center'}" colspan="6">科技投入情况（单位：万元）</th>
                       <th lay-data="{align:'center'}" colspan="3">承担和参加国家级科技项目</th>
                       <th lay-data="{align:'center'}" colspan="3">承担和参加地方（省级）科技项目</th>
+                     <th lay-data="{field:'createDate', width:'10%',align:'center', templet : '#dateTpl'}" rowspan="2" >创建日期</th>
                   </tr>
                   <tr>
                       <th lay-data="{field:'techProjectCost', width:'7%',align:'right'}">科技项目费</th>
-                      <th lay-data="{field:'techResearcherCost',    width:'7%',align:'right'}">科研人员费</th> 
-                      <th lay-data="{field:'techSubsidyCost',      width:'7%',align:'right'}">科研折旧费补贴</th>
+                      <th lay-data="{field:'techResearcherCost',  width:'7%',align:'right'}">科研人员费</th> 
+                      <th lay-data="{field:'techSubsidyCost',     width:'7%',align:'right'}">科研折旧费补贴</th>
                       <th lay-data="{field:'techFacilitiesCost',  width:'8%',align:'right'}">设施投资</th>
                       <th lay-data="{field:'techOtherCost',       width:'8%',align:'right'}">其它科技投入</th>
                       <th lay-data="{field:'techSubtotalCost',    width:'8%',align:'right'}">合计</th> 
@@ -61,14 +78,14 @@
                      
                       <th lay-data="{field:'provinceLeadCount', width:'8%',align:'right'}">牵头项目数量</th> 
                       <th lay-data="{field:'provinceJoinCount', width:'8%',align:'right'}">参加项目数量</th> 
-                      <th lay-data="{field:'provinceFunds', width:'8%',align:'right'}">地方（省级）政府投入经费</th>
+                      <th lay-data="{field:'provinceFunds',     width:'8%',align:'right'}">地方（省级）政府投入经费</th>
                   </tr>
                  </thead>
              </table>
 </div>
 
-<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
-<script id="viewv" type="text/html"> {{viewv(d.g0GSJC)}} </script>
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script id="viewv" type="text/html"> {{viewv(d)}} </script>
 <script type="text/javascript">
     // 时间格式化 
       function formatTime(d) {
@@ -95,26 +112,27 @@
       {
           if (d) 
           {
-        	  var str= "<span onclick=\"view('"+d.g0GSJC+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.g0GSJC+"</span>";
+        	  var str= "<span onclick=\"view('"+d.id+"','"+d.type+"','"+d.unitName+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.unitName+"</span>";
               return str;
           } else {
               return '';
           }
       }
-      function view(g0GSJC) 
+      function view(id,type,unitName) 
       {
-      	   var companyName=g0GSJC;
-           var month=$("#month").val();
-           month=month.replace("-","");
       	    var v_date=(new Date()).getTime();
-      	    var url= '/sf/to_getKtzjjfytjbData_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+      	    var url= '/tech_cost/get/'+id;
+      	    var title="股份科技投入填报";
+	      	if(type=='2')
+	      	{
+	      		title="集团科技投入填报";
+	      	}
            layer.open({
-               title:'课题直间接费用-详情',
+               title: unitName+"-"+title+'-详情',
                skin: 'layui-layer-lan',
                shadeClose: true,
                type: 2,
                fixed: false,
-               //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                maxmin: false,
                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                area: ['70%', '90%'],
@@ -131,6 +149,12 @@
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
 $('#functionId').val(functionId);
+var roleCodes = "";
+var unitCodes = "";
+var postCodes = "";
+var type=$("#type").val();
+
+
 var table,selectRowData;
 var publicMethods;
 var layer;
@@ -164,8 +188,14 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                 	//$('#auditStatus').val("");
                 },
                 addEvent: function(){ //点击新增按钮
+                	var title="股份科技投入填报";
+                	if(type=='2')
+                	{
+                		title="集团科技投入填报";
+                	}
+                
                     layer.open({
-                        title:'科技投入-新增',
+                        title: title+'',
                         skin: 'layui-layer-lan',
                         shadeClose: true,
                         type: 2,
@@ -174,39 +204,42 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                         maxmin: true,
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         area: ['70%', '90%'],
-                        content:  '/tech_cost/add'
+                        content:  '/tech_cost/add?type='+type
                     });
                 }
-                ,editEvent: function(){  //点击编辑按钮
+                ,editEvent: function(){ 
                 	
                 	if (typeof(selectRowData) == "undefined") {
                 		layer.msg('请点击选择一行数据');
-                	} else {
-                		 var id=selectRowData.id;
-               		     var url="/tech_cost/add?id="+id;
-               		     
-               		  var isLinkedProject=selectRowData.isLinkedProject;
-            		  if(isLinkedProject=='1')
+                	} else 
+                	{
+                	   var id=selectRowData.id;
+               		   var url="/tech_cost/add?id="+id+"&type="+type;
+               		   var auditStatus=selectRowData.auditStatus;
+            		   if(auditStatus=='1' ||auditStatus=='2')
             		   {
-            			  layer.alert('该科技投入已经关联课题,不能修改');
+            			  layer.alert('该科技投入已经在审核中');
             			  return;
             		   }
-            		  
-            		  
-               		  layer.open({
-                          title:'科技投入-修改',
+            		   
+            		   
+            		    var title="股份科技投入填报";
+	                   	if(type=='2')
+	                   	{
+	                   		title="集团科技投入填报";
+	                   	}
+                   	
+               		   layer.open({
+                          title:title+'-修改',
                           skin: 'layui-layer-lan',
                           shadeClose: true,
                           type: 2,
                           fixed: false,
-                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                           maxmin: true,
-                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                           area: ['70%', '90%'],
                           content:  url
                       });
                 	}
-                   
                 },deleteEvent: function(){  //点击删除按钮
                      console.log('点击了删除按钮')
                      if (typeof(selectRowData) == "undefined") 
@@ -215,12 +248,13 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                 	 } else 
                 	 {
                 		  var id=selectRowData.id;
-                		  var isLinkedProject=selectRowData.isLinkedProject;
-                		  if(isLinkedProject=='1')
-                		   {
-                			  layer.alert('该科技投入已经关联课题,不能删除');
-                			  return;
-                		   }
+                		  var auditStatus=selectRowData.auditStatus;
+               		   if(auditStatus=='1' ||auditStatus=='2')
+               		   {
+               			  layer.alert('该科技投入已经在审核中');
+               			  return;
+               		   }
+               		   
                 		  
                		      var url="/tech_cost/delete/"+id;
     	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
@@ -252,6 +286,29 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                          });
                 	}
                 
+                },
+                applyEvent: function(){  //点击详情按钮
+                	
+                	if (typeof(selectRowData) == "undefined") 
+                	{
+                		layer.msg('请点击选择一行数据');
+                	}
+                	else 
+                	{
+                		
+                		 var auditStatus=selectRowData.auditStatus;
+                		 var id=selectRowData.id;
+                		 if(auditStatus!=='0')
+               			 {
+                			 layer.alert('请选择未上报的行');
+                			 return;
+               			 }else
+               			 {
+               				$('#id').val(id);
+                    	 	dealFlow(id);
+               			 }
+                		 
+                	}
                 }
                 
             };
@@ -261,8 +318,6 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
             console.log(obj.data) //得到当前行数据
             selectRowData=obj.data;
         });
-        
-        
         
         //区别按钮属性
         $('.layui-btn').on('click', function(){
@@ -278,37 +333,196 @@ function search_Event()
 	myTable();
 }
 
-
 function myTable()
 {
-	/*  var month=$("#month").val();
-	 month=month.replace("-","");
-	 var companyCode=$("#companyCode").val(); */
-	 // alert(companyCode);
+	 var auditStatus=$("#auditStatus").val();
+	 var unitName=$("#unitName").val(); 
 	 var v_date=(new Date()).getTime();
 	 var url= '/tech_cost/list?v_date='+v_date;
      table.init('myTable', {
-		  url: url
-		  , height: tableHeight
-		  ,where: {} ,
+		  url: url,height: tableHeight,
+		  where: {param: {"unitName":unitName,"auditStatus":auditStatus}},
 		  done: function (res, curr, count) {
 			  layer.closeAll();
 		  }
 	 });
 	   
 }
-   
 
 
 
-function exput_excel()
+/*formName：form表单名称，
+type：post、get,delete,put 
+backurl:操作成功后返回地址
+successMsg：成功提示
+failMsg：失败提示 */
+function ajaxDeleteOpt(url,type,successMsg,failMsg)
 {
-	var companyCode=$('#companyCode').val();
-	var month=$('#month').val();
-	 month=month.replace("-","");
-	window.open("/ktzjjfytjb_data_exput_excel?month="+month+"&companyCode="+companyCode); 
+	 $.ajax({
+  	     type:type,
+  	     url: url,
+  	     dataType:"json",
+  	     async: false, 
+  	     cache: false,
+  	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+    	  
+	          if(data.success==true ||data.success=='true')
+	          {
+	        	  layer.alert(
+	        			  successMsg, 
+	                      {icon: 1,closeBtn: 0 },
+	                      function () 
+	                      {
+	                    	  myTable();
+	                    	   layer.closeAll();
+	                      });
+	       	   
+	          } else
+	          {
+	        	 layer.alert("操作失败");
+	          }
+	     
+		   },
+		   error:function()
+		   {
+		    	layer.alert("网络访问错误");
+		   }
+    
+  });
 } 
 
+
+function dealFlow(id) 
+{
+	
+	//alert(id);
+	//return;
+	//return;
+	var json = {functionId: functionId};
+	 $.ajax({
+         type : 'POST',
+         url : "/workflow/start/audit-type",
+         contentType: "application/json;charset=UTF-8",
+         data : JSON.stringify(json),
+         //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
+         success : function(data) 
+         {
+      	   if (data.code == 'role')
+      	   {
+          		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+          		// roleCodes，参数名必须一致，方便公共弹出页面调用
+          		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
+          		  var temUrl="/task/deal/users/ini";
+                  layer.open({
+                      title:'选择审批人',
+                      skin: 'layui-layer-lan',
+                      shadeClose: true,
+                      type: 2,
+                      fixed: false,
+                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                      maxmin: true,
+                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                      area: ['800px', '550px'],
+                      content:  temUrl
+                  });
+          	} else if (data.code == 'unit' || data.code == 'post') 
+          	{
+          		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+          		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
+	          		if (data.code == 'unit') 
+	          		{
+	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
+	          		} else 
+	          		{
+	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
+	          		}
+          		
+          		   var temUrl="/task/deal/user/unit/ini";
+                   layer.open({
+                      title:'选择审批人',
+                      skin: 'layui-layer-lan',
+                      shadeClose: true,
+                      type: 2,
+                      fixed: false,
+                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                      maxmin: true,
+                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                      area: ['800px', '550px'],
+                      content:  temUrl
+                  });
+          	} else if (data.code == 'int') 
+          	{
+          		layer.msg('启动参数不足');
+          	} else if (data.code == 'con') 
+          	{
+          		layer.msg('请给此功能菜单配置流程');
+          	} else if (data.code == 'exist') 
+          	{
+          		layer.msg('工作流部署异常，请联系管理员');
+          	} else 
+          	{
+          		// 直接处理此任务
+          		handleTask('');
+          	}
+         },
+         error : function(msg) {//请求失败处理函数  
+        }
+     });
+}
+
+//处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
+function handleTask(userIds) 
+{
+	
+	$('#userIds').val(userIds);
+	$('#applyEvent').attr("disabled",true);
+	var v_date=(new Date()).getTime();
+    var url="/start_cost_workflow?v_date="+v_date;
+    var backurl="/tech_cost/to-list?v_date="+v_date;
+    ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+    $('#applyEvent').attr("disabled",false);
+}
+function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
+{
+	 $.ajax({
+  	     type:type,
+  	     url: url,
+  	     dataType:"json",
+  	     data:$("#"+formName).serialize(),
+  	     async: false, 
+  	     cache: false,
+  	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+    	  
+	          if(data.success==true ||data.success=='true')
+	          {
+
+	        	  
+	        	          layer.alert(
+	        			  successMsg, 
+	                      {icon: 1,closeBtn: 0 },
+	                      function () 
+	                      {
+	                    	  myTable();
+	                    	      layer.closeAll();
+	                      });
+	        	  
+	          } else
+	          {
+	        	 layer.alert(failMsg);
+	          }
+	     
+		   },
+		   error:function()
+		   {
+		    	layer.alert("网络访问错误");
+		   }
+    
+  });
+}
 
 </script>
 </body>

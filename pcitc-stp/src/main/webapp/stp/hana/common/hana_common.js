@@ -232,15 +232,6 @@ function bar_line_ajax(url,echartsobj, options,id,width,callback,isItemStyle)
    
 }
 
-
-
-
-
-
-
-
-
-
 //多柱图 -统计
 function set_multi_statistics(data,id)
 {

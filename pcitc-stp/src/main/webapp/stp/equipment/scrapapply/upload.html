@@ -34,6 +34,7 @@
         <form class="layui-form" name="form1" id="form1" action="" method="POST"
               lay-filter="component-form-group layui-container">
             <input name="id" id="id" value="${id}" type="hidden">
+            <input name="modenl" id="modenl" value="${modenl}" type="hidden">
             <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
             <input name="stage" id="stage" value="${stage}" type="hidden">
             <div class="layui-form-item" style="padding:10px">
@@ -45,7 +46,7 @@
             <div class="form-bottom">
                 <div class="form-bottom-btns">
                     <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
-                            lay-submit="" lay-filter="sub">保存
+                            lay-submit="" lay-filter="sub" id="sub">保存
                     </button>
                     <button type="button"
                             class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
@@ -59,7 +60,12 @@
 </div>
 </div>
 <script type="text/javascript">
-
+$(function(){
+    var modenl = $("#modenl").val();
+    if(modenl==1){
+        document.getElementById("sub").style.display = "none";
+    }
+})
 </script>
 <script>
     var publicMethods;
@@ -67,15 +73,24 @@
     var param = JSON.parse(window.localStorage.getItem("param"));
     var functionId = param.id;
     $('#functionId').val(functionId);
-
+	
     var v_date = (new Date()).getTime();
     var stage = $("#stage").val();
-        var file_ids = "documentDoc";
+    var lieks = $("#modenl").val();
+    if(lieks==1){
+    	var file_ids = "documentDoc";
         //detail:详情，edit：编辑
-        file_edit_detail = "edit";
+        file_edit_detail = "detail";
         //统管理-附件管理-附件配置：页面标识
         file_opt_flag = "98c8e383481f44c7a3f12d253fb1b3d4";
-  
+    }else{
+    	  var file_ids = "documentDoc";
+          //detail:详情，edit：编辑
+          file_edit_detail = "edit";
+          //统管理-附件管理-附件配置：页面标识
+          file_opt_flag = "98c8e383481f44c7a3f12d253fb1b3d4";
+    		
+    	}
     var equipmentIds = $("#equipmentIds").val();
     var yearFeeStr = $("#yearFeeStr").val();
     var beginYear = $("#beginYear").val();

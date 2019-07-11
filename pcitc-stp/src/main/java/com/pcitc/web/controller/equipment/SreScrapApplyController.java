@@ -96,7 +96,9 @@ public class SreScrapApplyController extends BaseController {
 
 
         String id = CommonUtil.getParameter(request, "id", "");
+        String modenl = CommonUtil.getParameter(request, "modenl", "");
         request.setAttribute("id", id);
+        request.setAttribute("modenl", modenl);
         if(!id.equals(""))
         {
             ResponseEntity<SreScrapApply> responseEntity = restTemplate.exchange(GETVIEW_URL + id, HttpMethod.GET,new HttpEntity<Object>(this.httpHeaders), SreScrapApply.class);
@@ -105,7 +107,7 @@ public class SreScrapApplyController extends BaseController {
             String documentDoc = sreProjectAudit.getDocumentdoc();
    
             String stage = sreProjectAudit.getStatus();
-          
+           
                 if(documentDoc==null || documentDoc.equals(""))
                 {
                     documentDoc= IdUtil.createFileIdByTime();
