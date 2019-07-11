@@ -20,12 +20,13 @@
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
-<div class="layer-box">
+<div class="formBox">
+    <div class="layer-box">
     <form id="planForm" class="layui-form" action="" lay-filter="component-form-group layui-container"></form>
     <div class="">
         <table id="eqiu_table" class="layui-hide" lay-filter="tableEvent"></table>
     </div>
-    <div class="box-body">
+    <!--<div class="box-body">-->
         <form class="layui-form" name="form1" id="form1" action="" method="POST"
               lay-filter="component-form-group layui-container">
             <input name="id" id="id" value="${id}" type="hidden">
@@ -48,7 +49,50 @@
                <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
             <!--<input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
                    value="2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,22,null#2020,0,null;2019-2020,北京经贸大学,01a180d1fac8465a9f283f7628dbf498#2019,0,null#2020,0,null" type="hidden">-->
-            <div class="layui-row">
+			<div class="layui-row">
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">课题名称<span class="must-fill"></span></label>
+						<div class="layui-input-block">
+							<input class="layui-input readOnlyBox" name="name" id="name" value="${name}"
+								   lay-verify="required" readonly="readonly"   autocomplete="off" type="text" >
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">合同号<span class="must-fill"></span></label>
+						<div class="layui-input-block">
+							<input class="layui-input readOnlyBox" name="contractNum" id="contractNum" value="${contractNum}"
+								   lay-verify="required" readonly="readonly"   autocomplete="off" type="text" >
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">装备名称<span class="must-fill"></span></label>
+						<div class="layui-input-block">
+							<input class="layui-input readOnlyBox" name="equipmentName" id="equipmentName" value="${pplication.equipmentName}"
+								   lay-verify="required" readonly="readonly"   autocomplete="off" type="text" >
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label for="" class="layui-form-label">装备数量<span class="must-fill"></span></label>
+						<div class="layui-input-block">
+							<input class="layui-input readOnlyBox" name="equipmentPrice" id="equipmentPrice" value="${pplication.equipmentPrice}"
+								   lay-verify="required" readonly="readonly"   autocomplete="off" type="text" >
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">公司名称<span class="must-fill"></span></label>
@@ -206,10 +250,11 @@
 		          </div>
 		        </div>
      		 </div>
-            </div>
         </form>
     </div>
 </div>
+   <!-- </div>-->
+<!--</div>-->
 <script type="text/javascript">
 
 </script>
