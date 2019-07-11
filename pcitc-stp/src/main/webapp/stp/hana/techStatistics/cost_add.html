@@ -36,23 +36,28 @@
 <form class="layui-form" name="form1" id="form1" action="" method="POST"  lay-filter="component-form-group layui-container">
 <input type="hidden" name="id" id="id" value="${techCost.id}">
 <input type="hidden" name="attachmentDoc" id="attachmentDoc" value="${attachmentDoc}">
- <input type="hidden" name="type" id="type" value="${type}">
+<input type="hidden" name="type" id="type" value="${type}">
+<input type="hidden" name="unitCode" id="unitCode" value="">
+ <input type="hidden" name="allUnitName" id="allUnitName" value="${allUnitName}">
+ 
+ 
     <div class="formBox">
         <div class="tableToolBox">
             <div class="tableBtns">
-                <div class="tableTitle"><span class="red">（标*号为必填项）</span>
+                <div class="tableTitle"><span class="red">（金额为万元，标*号为必填项）</span>
                 </div>
             </div>
         </div>
         <div class="box-body">
         
              <!-- 2行begin-->
+             <div id="funds_sources_table">
              <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">科技项目费支出：<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="￥" name="techProjectCost" id="techProjectCost"
+                            <input class="layui-input" placeholder="￥（万元）" name="techProjectCost" id="techProjectCost"
                                    value="${techCost.techProjectCost}" lay-verify="required" autocomplete="off" type="text"
                                     onkeyup="clearNoNum(this)">
                         </div>
@@ -60,9 +65,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">人工成本<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">人工成本：<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input"  placeholder="￥" name="techResearcherCost" id="techResearcherCost"
+                            <input class="layui-input"  placeholder="￥（万元）" name="techResearcherCost" id="techResearcherCost"
                                    value="${techCost.techResearcherCost}" lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="clearNoNum(this)">
                         </div>
@@ -75,19 +80,18 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">科技相关折旧费：<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="￥" name="techSubsidyCost" id="techSubsidyCost"
+                            <input class="layui-input" placeholder="￥（万元）" name="techSubsidyCost" id="techSubsidyCost"
                                    value="${techCost.techSubsidyCost}" lay-verify="required" autocomplete="off" type="text"
-                                   onkeyup="this.value=this.value.replace(/\D/g,'')"
-                                   onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                  onkeyup="clearNoNum(this)">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">科技设施投资<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">科技设施投资：<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" name="techFacilitiesCost" id="techFacilitiesCost"
-                                   value="${techCost.techFacilitiesCost}" placeholder="￥"  lay-verify="required" autocomplete="off" type="text"
+                                   value="${techCost.techFacilitiesCost}" placeholder="￥（万元）"  lay-verify="required" autocomplete="off" type="text"
                                    onkeyup="clearNoNum(this)">
                         </div>
                     </div>
@@ -98,7 +102,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">其它科技支出：<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="￥" name="techOtherCost" id="techOtherCost"
+                            <input class="layui-input" placeholder="￥（万元）" name="techOtherCost" id="techOtherCost"
                                    value="${techCost.techOtherCost}" lay-verify="required" autocomplete="off" type="text"
                                     onkeyup="clearNoNum(this)">
                         </div>
@@ -106,14 +110,15 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">合计<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">合计：<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="techSubtotalCost" id="techSubtotalCost"
+                            <input class="layui-input readOnlyBox" placeholder="￥（万元）系统自动计算"  readonly="readonly" name="techSubtotalCost" id="techSubtotalCost"
                                    value="${techCost.techSubtotalCost}" lay-verify="required" autocomplete="off" type="text"
                                     onkeyup="clearNoNum(this)">
                         </div>
                     </div>
                 </div>
+             </div>
              </div>
               <!-- 2行结束-->
               
@@ -134,7 +139,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">参加项目数量<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">参加项目数量：<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" name="countryJoinCount" id="countryJoinCount"
                                    value="${techCost.countryJoinCount}" lay-verify="required" autocomplete="off" type="text"
@@ -145,9 +150,9 @@
                 </div>
              </div>
               <div class="layui-form-item">
-                    <label class="layui-form-label">国家投入经费<span class="must-fill">*</span></label>
+                    <label class="layui-form-label">国家投入经费：<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
-                        <input class="layui-input" id="countryFunds" placeholder="￥"  name="countryFunds" lay-verify="required"
+                        <input class="layui-input" id="countryFunds" placeholder="￥（万元）"  name="countryFunds" lay-verify="required"
                                value="${techCost.countryFunds}" type="text"  onkeyup="clearNoNum(this)">
                     </div>
              </div>
@@ -171,7 +176,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">参加项目数量<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">参加项目数量：<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" name="provinceJoinCount" id="provinceJoinCount"
                                    value="${techCost.provinceJoinCount}" lay-verify="required" autocomplete="off" type="text"
@@ -184,7 +189,7 @@
               <div class="layui-form-item">
                     <label class="layui-form-label">地方政府投入经费<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
-                        <input class="layui-input" id="provinceFunds" placeholder="￥"  name="provinceFunds" lay-verify="required"
+                        <input class="layui-input" id="provinceFunds" placeholder="￥（万元）"  name="provinceFunds" lay-verify="required"
                                value="${techCost.provinceFunds}" type="text"  onkeyup="clearNoNum(this)">
                     </div>
              </div>
@@ -195,9 +200,9 @@
               <div class="demo_line_05" style="text-align:center;">———————————<span>单位信息</span>————————————</div>
          
              <div class="layui-form-item">
-                    <label class="layui-form-label">单位名称<span class="must-fill">*</span></label>
+                    <label class="layui-form-label">您所在单位名称：<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
-                        <input class="layui-input readOnlyBox" readonly="readonly" id="unitName" name="unitName" lay-verify="required"
+                        <input class="layui-input readOnlyBox" onclick="chooseUnitRaio()" style="cursor:pointer" readonly="readonly" id="unitName" name="unitName" lay-verify="required"
                                value="${unitName}" type="text">
                     </div>
              </div>
@@ -234,7 +239,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">填表人联系电话<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">填表人联系电话：<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" name="createUserMobile" id="createUserMobile"
                                    value="${techCost.createUserMobile}" lay-verify="required" autocomplete="off" type="text">
@@ -249,11 +254,11 @@
              
              
                 <div class="layui-form-item">
-                    <label class="layui-form-label">附件</label>
+                    <label class="layui-form-label">附件：</label>
                     <div id="file_div" class="layui-input-block"></div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">备注</label>
+                    <label class="layui-form-label">备注：</label>
                     <div class="layui-input-block">
                         <textarea name="remark" id="remark" class="layui-textarea">${techCost.remark}</textarea>
                     </div>
@@ -337,11 +342,47 @@
             /*parent.layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })*/
-            var url = '/tech_cost/save?v_date=' + v_date + "&id=" + id;
-            var backurl = "/tech_cost/to-list?v_date=" + v_date;
-            ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
-            return false;
+            
+            var allUnitName=$("#allUnitName").val();
+            var unitName=$("#unitName").val();
+            var arr= unitName.split(",");
+            if(unitName==null || unitName=='')
+           	{
+            	 layer.alert("单位名称为空");
+            	 return false;
+           	}else if(arr.length>=2)
+           	{
+           	   layer.alert("只能选择一个您所在的单位");
+        	   return false;
+           	}else if(allUnitName.indexOf(unitName)== -1)
+           	{
+               layer.alert("只能选择一个您所在的单位");
+         	   return false;
+            }else
+       		{
+           		var url = '/tech_cost/save?v_date=' + v_date + "&id=" + id;
+                var backurl = "/tech_cost/to-list?v_date=" + v_date;
+                ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
+                return false;
+       		}
+            
+           
+            
         });
+        
+        
+        
+        $("#funds_sources_table  input").change(function () {
+        	//alert($("#techSubsidyCost").val());
+            $("#techSubtotalCost").val(
+            	parseFloat($("#techProjectCost").val()   =='' ? 0 : $("#techProjectCost").val()) +
+            	parseFloat($("#techResearcherCost").val()=='' ? 0 : $("#techResearcherCost").val()) +
+                parseFloat($("#techSubsidyCost").val()   =='' ? 0 : $("#techSubsidyCost").val()) +
+                parseFloat($("#techFacilitiesCost").val()=='' ? 0 : $("#techFacilitiesCost").val()) +
+                parseFloat($("#techOtherCost").val()     =='' ? 0 : $("#techOtherCost").val())
+            );
+        });
+        
     });
 
 
@@ -380,6 +421,42 @@
         });
     }
 
+    function chooseUnitRaio() 
+    {
+    
+	    layer.open({
+	        title: '选择单位'
+	        , skin: 'layui-layer-lan'
+	        , shadeClose: true
+	        , type: 2
+	        , fixed: false
+	        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	        , maxmin: false
+	        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	        , area: ['80%', '90%']
+	        , content: "/unit_select_radio?company=search-group-company-tree"
+	    }); 
+    
+    }
+    
+    
+    
+    function setCompanyData(unitCode,unitName) 
+    {
+    	$("#unitName").val(unitName);
+    	$("#unitCode").val(unitCode);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     function clearNoNum(obj) {
         obj.value = obj.value.replace(/[^\d.]/g, "");  //清除“数字”和“.”以外的字符
         obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的

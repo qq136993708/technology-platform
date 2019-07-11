@@ -58,10 +58,11 @@
                   <tr>
                       <th lay-data="{checkbox:true, fixed:'left'}" rowspan="2"></th>
                       <th lay-data="{field:'auditStatus',templet:'<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'}" rowspan="2">审核状态</th>
-                      <th lay-data="{field:'unitName', width:'8%',templet:viewv}" rowspan="2" >单位名称</th>
+                      <th lay-data="{field:'unitName', width:'12%',templet:viewv}" rowspan="2" >单位名称</th>
                       <th lay-data="{align:'center'}" colspan="6">科技投入情况（单位：万元）</th>
                       <th lay-data="{align:'center'}" colspan="3">承担和参加国家级科技项目</th>
                       <th lay-data="{align:'center'}" colspan="3">承担和参加地方（省级）科技项目</th>
+                     <th lay-data="{field:'createDate', width:'10%',align:'center', templet : '#dateTpl'}" rowspan="2" >创建日期</th>
                   </tr>
                   <tr>
                       <th lay-data="{field:'techProjectCost', width:'7%',align:'right'}">科技项目费</th>
@@ -83,8 +84,8 @@
              </table>
 </div>
 
-<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
-<script id="viewv" type="text/html"> {{viewv(d.g0GSJC)}} </script>
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script id="viewv" type="text/html"> {{viewv(d)}} </script>
 <script type="text/javascript">
     // 时间格式化 
       function formatTime(d) {
@@ -111,18 +112,23 @@
       {
           if (d) 
           {
-        	  var str= "<span onclick=\"view('"+d.id+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.unitName+"</span>";
+        	  var str= "<span onclick=\"view('"+d.id+"','"+d.type+"','"+d.unitName+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.unitName+"</span>";
               return str;
           } else {
               return '';
           }
       }
-      function view(id) 
+      function view(id,type,unitName) 
       {
       	    var v_date=(new Date()).getTime();
       	    var url= '/tech_cost/get/'+id;
+      	    var title="股份科技投入填报";
+	      	if(type=='2')
+	      	{
+	      		title="集团科技投入填报";
+	      	}
            layer.open({
-               title:'科技投入表-详情',
+               title: unitName+"-"+title+'-详情',
                skin: 'layui-layer-lan',
                shadeClose: true,
                type: 2,

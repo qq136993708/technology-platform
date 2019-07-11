@@ -193,7 +193,10 @@ line-height: 60px;font-size: 22px;}
 .equipment-front{height: 100%;position: relative;
     background: url("/layuiadmin/layui/images/equipment-bg.png") no-repeat right bottom;}
 .equipment-front img{position: absolute;right: 6px;bottom: 4px;}
-.equipment .number{margin-top: 96px;}
+.equipment-front span,.contract-cont span,.investment-cont span{font-size: 12px;padding-left: 1em;color: white;padding-top: 10px;display: inline-block;}
+.contract-cont>span,.investment-cont>span{padding-top: 0;}
+.equipment .number{padding: 30px 0; border-bottom: 1px dashed #fff;margin: 0 4px;}
+.equipment .number1{border: 0;}
 .equipment:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;}
 .equipment img{transition: transform 1.5s;}
 .equipment:hover img{animation:imgAnimation 1.5s;animation-fill-mode:forwards;
@@ -206,8 +209,9 @@ line-height: 60px;font-size: 22px;}
     background: url("/layuiadmin/layui/images/contract-bg.png") no-repeat;}
 .contract .contract-color{background-color: #b265fb;height: 100%;
     width: 100%;position: absolute;top: 0;}
-.investment .number,.contract .number,.project .number,.personnel .number,.achievement .number,
-.property .number{margin-top: 24px;}
+.project .number,.personnel .number,.achievement .number, .property .number{margin-top: 24px;}
+.contract-cont .number,.investment .number{font-size: 16px;margin: 0 4px;line-height: 0;padding: 2px 0;border-bottom: 1px dashed #fff;}
+.contract-cont .number1,.investment .number1{border-bottom: 0;padding-top: 2px;}
 .investment{position: absolute;top: 146px;left: 149px;height: 132px;width: 134px;perspective: 1000px; }
 .investment-cont{height: 100%;width: 100%;position: relative;}
 .investment .investment-front{height: 100%;width: 100%;position: absolute;top: 0;
@@ -378,7 +382,11 @@ line-height: 60px;font-size: 22px;}
     .contract .contract-img,.investment .investment-img,.institute .institute-img{background-size: cover;}
     .institute,.personnel,.achievement{top:559px;height:173px;}
     .main-left ul{height: 278px;}
-
+    .equipment .number{padding: 50px 0;}
+    .contract-cont .number, .investment .number{padding: 5px 0;font-size: 20px;}
+    .contract-cont .number1, .investment .number1{padding-top: 12px;}
+    .contract-cont>span, .investment-cont>span{
+        padding-top: 10px;}
 }
 /*首页动画效果*/
 .laboratoryH,.projectH{animation:oneAHText 1.5s;animation-fill-mode:forwards;
