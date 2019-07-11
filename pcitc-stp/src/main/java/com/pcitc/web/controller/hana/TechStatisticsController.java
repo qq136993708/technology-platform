@@ -30,6 +30,7 @@ import com.pcitc.base.stp.report.TechCost;
 import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -52,34 +53,6 @@ public class TechStatisticsController extends BaseController{
 	private static final String DEL_COST_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techCost/delete/";
 	public static final String   GET_COST_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/get/";
 	private static final String COST_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techCost/start_cost_activity/";
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -165,7 +138,7 @@ public class TechStatisticsController extends BaseController{
 		String createUserName = sysUserInfo.getUserDisp();
 		String attachmentDoc = IdUtil.createFileIdByTime();
 
-		
+		String year = DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY);
 		
 		String unitName = sysUserInfo.getUnitName();// 申报部门
 		String unitCode = sysUserInfo.getUnitCode();// 申报部门
@@ -182,13 +155,14 @@ public class TechStatisticsController extends BaseController{
 			TechCost techCost = responseEntity.getBody();
 			attachmentDoc = techCost.getAttachmentDoc();
 			request.setAttribute("techCost", techCost);
-			
+			year=techCost.getYear();
 			//unitName = techCost.getUnitName();
 			//unitCode = techCost.getUnitCode();
 			//unitName = techCost.getUnitName();
 			//unitCode = techCost.getUnitCode();
 			
 		}
+		request.setAttribute("year", year);
 		request.setAttribute("attachmentDoc", attachmentDoc);
 		request.setAttribute("createUserName", createUserName);
 		request.setAttribute("unitName", unitName);
@@ -235,6 +209,11 @@ public class TechStatisticsController extends BaseController{
 		String unitCode = CommonUtil.getParameter(request, "unitCode", "");
 		String unitName = CommonUtil.getParameter(request, "unitName", "");
 		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
+		String year = CommonUtil.getParameter(request, "year", "");
+		
+		
+		
+		
 		// 流程状态-是保存还是提交
 		String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
 		TechCost techCost = null;
@@ -255,6 +234,7 @@ public class TechStatisticsController extends BaseController{
 		}
 		techCost.setAttachmentDoc(attachmentDoc);
 		// 流程状态
+		techCost.setYear(year);
 		techCost.setChargeDepartMan(chargeDepartMan); 
 		techCost.setApplyDepartCode(applyDepartCode);
 		techCost.setApplyDepartName(applyDepartName);
@@ -476,7 +456,7 @@ public class TechStatisticsController extends BaseController{
 
 		String unitName = sysUserInfo.getUnitName();// 申报部门
 		String unitCode = sysUserInfo.getUnitCode();// 申报部门
-
+		String year = DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY);
 		
 		String type = CommonUtil.getParameter(request, "type", "");
 		request.setAttribute("type", type);
@@ -490,9 +470,10 @@ public class TechStatisticsController extends BaseController{
 			logger.info("============远程返回  statusCode " + statusCode);
 			TechOrgCount techOrgCount = responseEntity.getBody();
 			request.setAttribute("techOrgCount", techOrgCount);
-			
+			year=techOrgCount.getYear();
 			attachmentDoc= techOrgCount.getAttachmentDoc();
 		}
+		request.setAttribute("year", year);
 		request.setAttribute("attachmentDoc", attachmentDoc);
 		request.setAttribute("createUserName", createUserName);
 		request.setAttribute("unitName", unitName);
@@ -561,6 +542,7 @@ public class TechStatisticsController extends BaseController{
 		String subInvestCost = CommonUtil.getParameter(request, "subInvestCost", "");
 		String allPatentLookCount = CommonUtil.getParameter(request, "allPatentLookCount", "");
 		String achievementsPrivanceCount = CommonUtil.getParameter(request, "achievementsPrivanceCount", "");
+		String year = CommonUtil.getParameter(request, "year", "");
 		
 		
 		
@@ -580,6 +562,7 @@ public class TechStatisticsController extends BaseController{
 			ResponseEntity<TechOrgCount> se = this.restTemplate.exchange(GET_ORG_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), TechOrgCount.class);
 			techOrgCount  = se.getBody();
 		}
+		techOrgCount.setYear(year);
 		techOrgCount.setAttachmentDoc(attachmentDoc);
 		techOrgCount.setAchievementsCompanyCount(Integer.valueOf(achievementsCompanyCount));
 		techOrgCount.setAchievementsCompanyCount(Integer.valueOf(achievementsCompanyCount));

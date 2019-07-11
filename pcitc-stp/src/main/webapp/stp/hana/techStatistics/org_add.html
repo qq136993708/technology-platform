@@ -48,7 +48,13 @@
             </div>
         </div>
         <div class="box-body">
-        
+          <div class="layui-form-item">
+                    <label class="layui-form-label">年份：<span class="must-fill">*</span></label>
+                    <div class="layui-input-block">
+                        <input class="layui-input"  style="cursor:pointer" readonly="readonly" id="year" name="year" lay-verify="required"
+                               value="${year}" type="text">
+                    </div>
+             </div>
         
             <!--  
              
@@ -604,8 +610,8 @@
 
         //日期时间选择器
         laydate.render({
-            elem: '#meetingDate'
-            , type: 'datetime'
+            elem: '#year'
+            , type: 'year'
         });
 
         //添加到form.render()之后
@@ -642,13 +648,13 @@
             	 return false;
            	}else if(arr.length>=2)
            	{
-           	   layer.alert("选择您所在的单位");
+           	   layer.alert("单位名过多，请选择一个");
         	   return false;
-           	}else if(allUnitName.indexOf(unitName)== -1)
+           	}/* else if(allUnitName.indexOf(unitName)== -1)
            	{
                layer.alert("选择您所在的单位");
          	   return false;
-            }else
+            } */else
        		{
             	 var url = '/tech_org/save?v_date=' + v_date + "&id=" + id;
                  var backurl = "/tech_org/to-list?v_date=" + v_date;
