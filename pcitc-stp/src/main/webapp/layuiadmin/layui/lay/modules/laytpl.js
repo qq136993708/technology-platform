@@ -159,100 +159,118 @@ layui.define(['jquery'],function (e) {
     
 	o.purchaseState_equipment = function(d){
         var stateData;
-         if(d!=0&&d!=null){
+        if(d==2){
 			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else if(d==10){
+        	stateData="<span></span>"
         }else{
-             stateData="<span></span>"
+             stateData="<span class='fontStateColor  btn-blue'></span>"
         }
         return stateData;
     };
 	
 	o.taskStatus_equipment = function(d){
         var stateData;
-         if(d!=0&&d!=null){
+        if(d==5){
 			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else if(d==10){
+        	 stateData="<span></span>"
         }else{
-             stateData="<span></span>"
+        	 stateData="<span class='fontStateColor  btn-blue'></span>"
         }
         return stateData;
     };
 	
 	o.contractSlosureState = function(d){
         var stateData;
-        if(d!=null){
+        if(d==6){
 			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else if(d==100){
+        	stateData="<span></span>"
         }else{
-             stateData="<span></span>"
+            stateData="<span class='fontStateColor  btn-blue'></span>"
         }
         return stateData;
     };
 	
 	o.installationState = function(d){
         var stateData;
-        if(d!=null){
+        if(d==5){
 			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else if(d==100){
+        	 stateData="<span></span>"
         }else{
-             stateData="<span></span>"
+            stateData="<span class='fontStateColor  btn-blue'></span>"
         }
         return stateData;
     };
 	
 	o.contractAcceptanceState = function(d){
         var stateData;
-        if(d!=null){
+        if(d==4){
 			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else if(d==100){
+        	 stateData="<span></span>"
         }else{
-             stateData="<span></span>"
+            stateData="<span class='fontStateColor  btn-blue'></span>"
         }
         return stateData;
     };
 	
 	o.arrivalReceiptState = function(d){
         var stateData;
-        if(d!=null){
+        if(d==3){
 			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else if(d==100){
+        	stateData="<span></span>"
         }else{
-             stateData="<span></span>"
+        	stateData="<span class='fontStateColor  btn-blue'></span>"
         }
         return stateData;
     };
 	
 	o.contractDockingState = function(d){
         var stateData;
-        if(d!=null){
+        if(d==2){
 			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else if(d==100){
+        	 stateData="<span></span>"
         }else{
-             stateData="<span></span>"
+        	stateData="<span class='fontStateColor  btn-blue'></span>"
         }
         return stateData;
     };
 	
 	o.purchaseState = function(d){
         var stateData;
-        if(d!=null){
+        if(d==1){
 			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
-             stateData="<span></span>"
+        	 stateData="<span class='fontStateColor  btn-blue'></span>"
         }
         return stateData;
     };
 	
 	o.acceptanceStatus_equipment = function(d){
         var stateData;
-        if(d!=0&&d!=null){
+        if(d==4){
 			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else if(d==10){
+        	 stateData="<span></span>"
         }else{
-             stateData="<span></span>"
+        	stateData="<span class='fontStateColor btn-blue'></span>"
         }
         return stateData;
     };
 	
 	o.forapplicationStatus_equipment = function(d){
         var stateData;    
-		if(d>=20){
+        if(d==3){
 			stateData="<span class='fontStateColor  btn-green'></span>"
+        }else if(d==10){
+        	 stateData="<span></span>"
         }else{
-             stateData="<span></span>"
+        	stateData="<span class='fontStateColor btn-blue'></span>"
         }
         return stateData;
     };
@@ -273,10 +291,10 @@ layui.define(['jquery'],function (e) {
 	
 	o.contractStatus_equipment = function(d){
         var stateData;
-        if(d!=""&&d!=null){
+        if(d==1){
 			stateData="<span class='fontStateColor  btn-green'></span>"
-        }else{
-              stateData="<span></span>"
+        }else if(d==""){
+        	 stateData="<span class='fontStateColor btn-blue'></span>"
         }
         return stateData;
     };
@@ -362,7 +380,7 @@ layui.define(['jquery'],function (e) {
             "            </div>" +
             "        </div>" +
             "    </div>";*/
-        var title='',abstract='',fun='';
+        var title='',abstract='';
         console.log(d.select_type)
         if(d.cgmc!=undefined){
             title=d.cgmc;
@@ -376,7 +394,6 @@ layui.define(['jquery'],function (e) {
             title=d.patentName;
         }else if(d.expertName!=undefined){
             title=d.expertName;
-            fun = "openFullWin('查看',"+ "'/zjkBaseInfo/view/"+d.dataId+"');";
         }else if(d.typeName!=undefined){
             title=d.typeName;
         }else if(d.fileName!=undefined){
@@ -406,7 +423,7 @@ layui.define(['jquery'],function (e) {
             var select_type='';
         }
         html='<div class="layui-div layui-div-n">' +
-            '        <a href="javascript:void(0)" onclick="'+fun+'">'+title+'</a>' +
+            '        <a href="#">'+title+'</a>' +
             '        <div class="c-row c-gap-top-small">' +
             '            <div class="c-span18 c-span-last">' +
             '                <p>'+abstract+'</p>' +
