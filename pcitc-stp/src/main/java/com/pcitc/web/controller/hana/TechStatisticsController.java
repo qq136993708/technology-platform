@@ -8,8 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
@@ -29,6 +32,7 @@ import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.report.TechCost;
 import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -211,6 +215,11 @@ public class TechStatisticsController extends BaseController{
 		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
 		String year = CommonUtil.getParameter(request, "year", "");
 		
+		if(!unitCode.equals(""))
+		{
+			SysUnit sysUnit=EquipmentUtils.getUnitByUnitId(unitCode, restTemplate, httpHeaders);
+			unitCode=sysUnit.getUnitCode();
+		}
 		
 		
 		
@@ -545,6 +554,11 @@ public class TechStatisticsController extends BaseController{
 		String year = CommonUtil.getParameter(request, "year", "");
 		
 		
+		if(!unitCode.equals(""))
+		{
+			SysUnit sysUnit=EquipmentUtils.getUnitByUnitId(unitCode, restTemplate, httpHeaders);
+			unitCode=sysUnit.getUnitCode();
+		}
 		
 		TechOrgCount techOrgCount = null;
 		ResponseEntity<String> responseEntity = null;
