@@ -224,7 +224,7 @@ public class BudgetInfoProviderClient
 		}
 		return info;
 	}
-	@ApiOperation(value="启动项目申报审批",notes="启动项目申报信息审批流程。")
+	@ApiOperation(value="启动审批",notes="启动审批流程。")
 	@RequestMapping(value = "/stp-provider/budget/start-budgetinfo-activity/{budgetId}", method = RequestMethod.POST)
 	public Object satrtApplyActivity(@PathVariable("budgetId") String budgetId,@RequestBody WorkflowVo workflowVo) 
 	{
@@ -255,7 +255,7 @@ public class BudgetInfoProviderClient
 		return rs;
 	}
 	
-	@ApiOperation(value="集团公司预算-审批流程回调通知",notes="审批结果回调通知")
+	@ApiOperation(value="公司预算-审批流程回调通知",notes="审批结果回调通知")
 	@RequestMapping(value = "/stp-provider/budget/callback-workflow-notice-budgetinfo")
 	public Object callBackProjectNoticeWorkflow(@RequestParam(value = "budgetId", required = true) String budgetId,
 			@RequestParam(value = "workflow_status", required = true) Integer workflow_status) throws Exception 

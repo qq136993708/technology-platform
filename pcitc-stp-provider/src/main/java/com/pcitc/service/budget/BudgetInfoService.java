@@ -121,6 +121,7 @@ public interface BudgetInfoService
 	public List<Map<String,Object>> selectStockFinalSplit(String nd);
 	/**
 	 * 更新汇总数据
+	 * [预算总表：out_tem_money_total]
 	 * [资产分解表：out_tem_money_asset]
 	 * [集团分解表：out_tem_money_group]
 	 * [股份分解表：直属院out_tem_money_institute，股份支付集团、外系统外out_tem_money_other，分子公司out_tem_money_company]

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcitc.mapper.budget.BudgetMoneyTotalMapper">
   <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.BudgetMoneyTotal">
-    <id column="data_id" jdbcType="INTEGER" property="dataId" />
+    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
     <result column="nd" jdbcType="VARCHAR" property="nd" />
     <result column="show_index" jdbcType="VARCHAR" property="showIndex" />
     <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
@@ -83,6 +83,7 @@
     <if test="distinct">
       distinct
     </if>
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from out_tem_money_total
     <if test="_parameter != null">
@@ -91,24 +92,16 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
-    <if test="limit != null">
-      <if test="offset != null">
-        limit ${offset}, ${limit}
-      </if>
-      <if test="offset == null">
-        limit ${limit}
-      </if>
-    </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from out_tem_money_total
-    where data_id = #{dataId,jdbcType=INTEGER}
+    where data_id = #{dataId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from out_tem_money_total
-    where data_id = #{dataId,jdbcType=INTEGER}
+    where data_id = #{dataId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.pcitc.base.stp.budget.BudgetMoneyTotalExample">
     delete from out_tem_money_total
@@ -122,7 +115,7 @@
       fyx_money, money_level, details_name, 
       is_yjy, type_name, sheet_flag, 
       show_order)
-    values (#{dataId,jdbcType=INTEGER}, #{nd,jdbcType=VARCHAR}, #{showIndex,jdbcType=VARCHAR}, 
+    values (#{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{showIndex,jdbcType=VARCHAR}, 
       #{unitName,jdbcType=VARCHAR}, #{showAli,jdbcType=VARCHAR}, #{zbxMoney,jdbcType=VARCHAR}, 
       #{fyxMoney,jdbcType=VARCHAR}, #{moneyLevel,jdbcType=VARCHAR}, #{detailsName,jdbcType=VARCHAR}, 
       #{isYjy,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{sheetFlag,jdbcType=VARCHAR}, 
@@ -173,7 +166,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="dataId != null">
-        #{dataId,jdbcType=INTEGER},
+        #{dataId,jdbcType=VARCHAR},
       </if>
       <if test="nd != null">
         #{nd,jdbcType=VARCHAR},
@@ -223,7 +216,7 @@
     update out_tem_money_total
     <set>
       <if test="record.dataId != null">
-        data_id = #{record.dataId,jdbcType=INTEGER},
+        data_id = #{record.dataId,jdbcType=VARCHAR},
       </if>
       <if test="record.nd != null">
         nd = #{record.nd,jdbcType=VARCHAR},
@@ -268,7 +261,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update out_tem_money_total
-    set data_id = #{record.dataId,jdbcType=INTEGER},
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
       nd = #{record.nd,jdbcType=VARCHAR},
       show_index = #{record.showIndex,jdbcType=VARCHAR},
       unit_name = #{record.unitName,jdbcType=VARCHAR},
@@ -325,7 +318,7 @@
         show_order = #{showOrder,jdbcType=VARCHAR},
       </if>
     </set>
-    where data_id = #{dataId,jdbcType=INTEGER}
+    where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetMoneyTotal">
     update out_tem_money_total
@@ -341,6 +334,6 @@
       type_name = #{typeName,jdbcType=VARCHAR},
       sheet_flag = #{sheetFlag,jdbcType=VARCHAR},
       show_order = #{showOrder,jdbcType=VARCHAR}
-    where data_id = #{dataId,jdbcType=INTEGER}
+    where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -34,15 +34,16 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
-import com.pcitc.mapper.budget.BudgetMoneyAssetMapper;
 import com.pcitc.mapper.budget.BudgetMoneyDecomposeMapper;
-import com.pcitc.mapper.budget.BudgetMoneyGroupMapper;
 import com.pcitc.service.budget.BudgetAssetSplitService;
+import com.pcitc.service.budget.BudgetAssetTotalService;
 import com.pcitc.service.budget.BudgetGroupSplitService;
+import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.budget.BudgetStockSplitXtwSplitService;
 import com.pcitc.service.budget.BudgetStockSplitZgsSplitService;
 import com.pcitc.service.budget.BudgetStockSplitZsySplitService;
+import com.pcitc.service.budget.BudgetStockTotalService;
 import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.feign.WorkflowRemoteClient;
 
@@ -59,10 +60,13 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	private BudgetMoneyDecomposeMapper budgetMoneyDecomposeMapper;
 	
 	@Autowired
-	private BudgetMoneyAssetMapper budgetMoneyAssetMapper;
+	private BudgetAssetTotalService budgetAssetTotalService;
 	
 	@Autowired
-	private BudgetMoneyGroupMapper BudgetMoneyGroupMapper;
+	private BudgetGroupTotalService budgetGroupTotalService;
+	
+	@Autowired
+	private BudgetStockTotalService budgetStockTotalService;
 	
 	@Resource
 	private SystemRemoteClient systemRemoteClient;
@@ -456,6 +460,13 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		{
 			writeToDecompose(info);
 		}
+		//更新到汇总表[out_tem_money_total]
+		if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())
+			||BudgetInfoEnum.ASSETS_TOTAL.getCode().equals(info.getBudgetType())
+			||BudgetInfoEnum.STOCK_TOTAL.getCode().equals(info.getBudgetType())) 
+		{
+			writeToMoneyTotal(info);
+		}
 	}
 	
 	//[集团分解表：out_tem_money_group]
@@ -582,6 +593,21 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			
 			
 			budgetMoneyDecomposeMapper.updateByPrimaryKey(budget);
+		}
+	}
+	private void writeToMoneyTotal(BudgetInfo info) 
+	{
+		if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())) 
+		{
+			budgetGroupTotalService.selectFinalGroupTotalBudget(info);
+			
+		}else if(BudgetInfoEnum.ASSETS_TOTAL.getCode().equals(info.getBudgetType())) 
+		{
+			budgetAssetTotalService.selectFinalAssetTotalBudget(info);
+			
+		}else if(BudgetInfoEnum.STOCK_TOTAL.getCode().equals(info.getBudgetType())) 
+		{
+			budgetStockTotalService.selectFinalStockTotalBudget(info);
 		}
 	}
 	private String dToI(Object obj) 

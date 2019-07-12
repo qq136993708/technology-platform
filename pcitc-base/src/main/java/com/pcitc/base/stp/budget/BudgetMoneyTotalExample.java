@@ -10,10 +10,6 @@ public class BudgetMoneyTotalExample {
 
     protected List<Criteria> oredCriteria;
 
-    private Integer limit;
-
-    private Long offset;
-
     public BudgetMoneyTotalExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
@@ -67,22 +63,6 @@ public class BudgetMoneyTotalExample {
         distinct = false;
     }
 
-    public void setLimit(Integer limit) {
-        this.limit = limit;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public void setOffset(Long offset) {
-        this.offset = offset;
-    }
-
-    public Long getOffset() {
-        return offset;
-    }
-
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
 
@@ -134,52 +114,62 @@ public class BudgetMoneyTotalExample {
             return (Criteria) this;
         }
 
-        public Criteria andDataIdEqualTo(Integer value) {
+        public Criteria andDataIdEqualTo(String value) {
             addCriterion("data_id =", value, "dataId");
             return (Criteria) this;
         }
 
-        public Criteria andDataIdNotEqualTo(Integer value) {
+        public Criteria andDataIdNotEqualTo(String value) {
             addCriterion("data_id <>", value, "dataId");
             return (Criteria) this;
         }
 
-        public Criteria andDataIdGreaterThan(Integer value) {
+        public Criteria andDataIdGreaterThan(String value) {
             addCriterion("data_id >", value, "dataId");
             return (Criteria) this;
         }
 
-        public Criteria andDataIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andDataIdGreaterThanOrEqualTo(String value) {
             addCriterion("data_id >=", value, "dataId");
             return (Criteria) this;
         }
 
-        public Criteria andDataIdLessThan(Integer value) {
+        public Criteria andDataIdLessThan(String value) {
             addCriterion("data_id <", value, "dataId");
             return (Criteria) this;
         }
 
-        public Criteria andDataIdLessThanOrEqualTo(Integer value) {
+        public Criteria andDataIdLessThanOrEqualTo(String value) {
             addCriterion("data_id <=", value, "dataId");
             return (Criteria) this;
         }
 
-        public Criteria andDataIdIn(List<Integer> values) {
+        public Criteria andDataIdLike(String value) {
+            addCriterion("data_id like", value, "dataId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataIdNotLike(String value) {
+            addCriterion("data_id not like", value, "dataId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataIdIn(List<String> values) {
             addCriterion("data_id in", values, "dataId");
             return (Criteria) this;
         }
 
-        public Criteria andDataIdNotIn(List<Integer> values) {
+        public Criteria andDataIdNotIn(List<String> values) {
             addCriterion("data_id not in", values, "dataId");
             return (Criteria) this;
         }
 
-        public Criteria andDataIdBetween(Integer value1, Integer value2) {
+        public Criteria andDataIdBetween(String value1, String value2) {
             addCriterion("data_id between", value1, value2, "dataId");
             return (Criteria) this;
         }
 
-        public Criteria andDataIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andDataIdNotBetween(String value1, String value2) {
             addCriterion("data_id not between", value1, value2, "dataId");
             return (Criteria) this;
         }
@@ -1025,8 +1015,6 @@ public class BudgetMoneyTotalExample {
         }
     }
 
-    /**
-     */
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {

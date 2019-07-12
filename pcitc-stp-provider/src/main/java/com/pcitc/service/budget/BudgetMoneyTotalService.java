@@ -10,7 +10,7 @@ import com.pcitc.base.stp.budget.BudgetMoneyTotal;
 public interface BudgetMoneyTotalService
 {
 	
-	public BudgetMoneyTotal selectBudgetMoneyTotal(Integer dataId);
+	public BudgetMoneyTotal selectBudgetMoneyTotal(String dataId);
 	
 	public Result saveBudgetMoneyTotal(BudgetMoneyTotal bean) throws Exception;
 
@@ -18,7 +18,7 @@ public interface BudgetMoneyTotalService
 	
 	public Result saveOrUpdBudgetMoneyTotal(BudgetMoneyTotal bean) throws Exception;
 	
-	public Result deleteBudgetMoneyTotal(Integer dataId) throws Exception;
+	public Result deleteBudgetMoneyTotal(String dataId) throws Exception;
 	
 	public List<BudgetMoneyTotal> selectListBudgetMoneyTotal();
 	

@@ -42,8 +42,8 @@
 	   
 	   <table schema="pcitc-stp-provider" domainObjectName="BudgetGroupTotal" tableName="out_tem_money_group_total" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	   <table schema="pcitc-stp-provider" domainObjectName="BudgetInfo" tableName="out_tem_budget_info" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
-	  -->
-	   <table schema="pcitc-stp-provider" domainObjectName="BudgetMoneyDecompose" tableName="out_tem_money_decompose" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+	 
+	  <table schema="pcitc-stp-provider" domainObjectName="BudgetMoneyDecompose" tableName="out_tem_money_decompose" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	  <table schema="pcitc-stp-provider" domainObjectName="BudgetMoneyAsset" tableName="out_tem_money_asset" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	  <table schema="pcitc-stp-provider" domainObjectName="BudgetMoneyGroup" tableName="out_tem_money_group" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	  <table schema="pcitc-stp-provider" domainObjectName="BudgetMoneyInstitute" tableName="out_tem_money_institute" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
@@ -51,6 +51,13 @@
 	  <table schema="pcitc-stp-provider" domainObjectName="BudgetMoneyCompany" tableName="out_tem_money_company" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	  <table schema="pcitc-stp-provider" domainObjectName="BudgetMoneyB2c" tableName="out_tem_money_b2c" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	  <table schema="pcitc-stp-provider" domainObjectName="BudgetMoneyTech" tableName="out_tem_money_tech" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+	  <table schema="pcitc-stp-provider" domainObjectName="BudgetMoneyTotal" tableName="out_tem_money_total" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	  
+	  <table schema="pcitc-stp-provider" domainObjectName="BudgetOrgan" tableName="out_tem_budget_organ" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+	  <table schema="pcitc-stp-provider" domainObjectName="BudgetOrganItems" tableName="out_tem_budget_organ_items" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+		-->
+		<table schema="pcitc-stp-provider" domainObjectName="BudgetMoneyTotal" tableName="out_tem_money_total" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+	  
+		
 	</context>
 </generatorConfiguration>

@@ -20,59 +20,83 @@ import com.pcitc.service.budget.BudgetOrganItemsService;
  */
 @Service("budgetOrganItemsService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-public class BudgetOrganItemsServiceImpl  extends BaseServiceImpl<BudgetOrganItems,Serializable,BudgetOrganItemsExample>  implements BudgetOrganItemsService
+public class BudgetOrganItemsServiceImpl  implements BudgetOrganItemsService
 {
 
 	@Override
-	public BudgetOrganItems selectBudgetOrganItems(String dataId) 
-	{
-		return this.selectByPrimaryKey(dataId);
+	public BudgetOrganItems selectByPrimaryKey(Serializable id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public Result saveBudgetOrganItems(BudgetOrganItems bean) throws Exception 
-	{
-		Boolean status = this.saveBean(bean);
-		
-		return new Result(status);
+	public LayuiTableData selectTableData(LayuiTableParam param, BudgetOrganItemsExample e) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public Result updateBudgetOrganItems(BudgetOrganItems budgetOrganItems) throws Exception 
-	{
-		Boolean status =  this.updateBean(budgetOrganItems);
-		
-		return new Result(status);
+	public List<BudgetOrganItems> selectListData(BudgetOrganItemsExample e) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public Result deleteBudgetOrganItems(String id) throws Exception 
-	{
-		Boolean status =  this.deleteBean(id);
-		
-		return new Result(status);
+	public Boolean updateBean(BudgetOrganItems bean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public Result saveOrUpdBudgetOrganItems(BudgetOrganItems bean) throws Exception 
-	{
-		Boolean status =  this.saveOrUpdBean(bean.getDataId(),bean);
-		
-		return new Result(status);
+	public Boolean deleteBean(Serializable id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public List<BudgetOrganItems> selectListBudgetOrganItems() 
-	{
-		BudgetOrganItemsExample example = new BudgetOrganItemsExample();
-		return this.selectListData(example);
+	public Boolean saveBean(BudgetOrganItems bean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public LayuiTableData selectTableBudgetOrganItems(LayuiTableParam param) 
-	{
-		BudgetOrganItemsExample example = new BudgetOrganItemsExample();
-		return this.selectTableData(param, example);
+	public Boolean saveOrUpdBean(Serializable id, BudgetOrganItems bean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public List<BudgetOrganItems> selectListBudgetOrganItemsByBean(BudgetOrganItems bean) 
-	{
-		BudgetOrganItemsExample example = new BudgetOrganItemsExample();
-		return this.selectListData(example);
+	public BudgetOrganItems selectBudgetOrganItems(String dataId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Result saveBudgetOrganItems(BudgetOrganItems bean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Result updateBudgetOrganItems(BudgetOrganItems bean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Result saveOrUpdBudgetOrganItems(BudgetOrganItems bean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Result deleteBudgetOrganItems(String dataId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<BudgetOrganItems> selectListBudgetOrganItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<BudgetOrganItems> selectListBudgetOrganItemsByBean(BudgetOrganItems bean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public LayuiTableData selectTableBudgetOrganItems(LayuiTableParam param) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

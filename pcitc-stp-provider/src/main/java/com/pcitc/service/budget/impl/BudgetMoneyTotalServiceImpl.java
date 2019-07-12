@@ -33,7 +33,7 @@ public class BudgetMoneyTotalServiceImpl  implements BudgetMoneyTotalService
 	
 
 	@Override
-	public BudgetMoneyTotal selectBudgetMoneyTotal(Integer dataId) 
+	public BudgetMoneyTotal selectBudgetMoneyTotal(String dataId) 
 	{
 		return mapper.selectByPrimaryKey(dataId);
 	}
@@ -70,7 +70,7 @@ public class BudgetMoneyTotalServiceImpl  implements BudgetMoneyTotalService
 		return new Result(status);
 	}
 	@Override
-	public Result deleteBudgetMoneyTotal(Integer id) throws Exception 
+	public Result deleteBudgetMoneyTotal(String id) throws Exception 
 	{
 		BudgetMoneyTotal b = mapper.selectByPrimaryKey(id);
 		Boolean status = false;

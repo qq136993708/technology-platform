@@ -32,7 +32,7 @@ public class BudgetMoneyTotalProviderClient
 	
 	@ApiOperation(value="预算汇总管理-检索预算汇总",notes="根据预算汇总ID检索预算汇总!")
 	@RequestMapping(value = "/stp-provider/budget/budget-moneytotal-get/{dataId}", method = RequestMethod.POST)
-	public Object selectBudgetMoneyTotalById(@PathVariable("dataId") Integer dataId) 
+	public Object selectBudgetMoneyTotalById(@PathVariable("dataId") String dataId) 
 	{
 		BudgetMoneyTotal organ = null;
 		try 
@@ -131,7 +131,7 @@ public class BudgetMoneyTotalProviderClient
 	
 	@ApiOperation(value="预算汇总管理-预算汇总删除",notes="预算汇总删除")
 	@RequestMapping(value = "/stp-provider/budget/budget-moneytotal-del/{dataId}", method = RequestMethod.POST)
-	public Object delBudgetMoneyTotal(@PathVariable("dataId") Integer dataId) 
+	public Object delBudgetMoneyTotal(@PathVariable("dataId") String dataId) 
 	{
 		Result rs = new Result(false);
 		try
