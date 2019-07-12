@@ -29,7 +29,7 @@
 	<div class="layui-fluid">
 		<div class="">
 			<div class="fluid-top">
-			<#if userLevel=="1">
+				<#if userLevel=="1">
 				<div class="breadcrumb">
 					<a href="/stpHome" target="_parent">首页 > </a>
 					<a href="/instituteIndex?url=/home_ld/direct_depart" target="_parent">直属研究院概况 > </a>
@@ -110,6 +110,8 @@
 					</div>
 				</div>
 			</div>
+			<!-- 
+			重大、重点项目分布。暂时取消
 			<div class="layui-row layui-col-space15">
 				<div class="layui-col-md6">
 					<div class="layui-card">
@@ -170,7 +172,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			<div class="layui-row layui-col-space15">
 				<div class="layui-col-md12">
 					<div class="layui-card">
@@ -182,24 +184,58 @@
 							<div class="text-total">
 								<span>
 									总计:
-									<span class="text-total-blue" id="topic_chart7_01" onclick="topic_chart1('')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart7_01" onclick="topic_chart7('')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									新开课题:
-									<span class="text-total-blue" id="topic_chart7_02" onclick="topic_chart1('新开课题')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart7_02" onclick="topic_chart7('新开课题')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									结转课题:
-									<span class="text-total-blue" id="topic_chart7_03" onclick="topic_chart1('结转课题')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart7_03" onclick="topic_chart7('结转课题')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 							</div>
 							<div class="main-chart" id="topic_chart7" style="height: 280px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							年专业处所属科研课题分布
+						</div>
+						<div class="layui-card-body btn-function">
+							<div class="text-total">
+								<span>
+									总计:
+									<span class="text-total-blue" id="topic_chart8_01" onclick="topic_chart8('')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									新开课题:
+									<span class="text-total-blue" id="topic_chart8_02" onclick="topic_chart8('新开课题')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									结转课题:
+									<span class="text-total-blue" id="topic_chart8_03" onclick="topic_chart8('结转课题')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+							</div>
+							<div class="main-chart" id="topic_chart8" style="height: 280px; width: 100%;"></div>
 						</div>
 					</div>
 				</div>
@@ -255,6 +291,8 @@
 
 			});
 
+			/* 
+			重大、重点项目分布。暂时取消
 			//监听行单击事件
 			table.on('row(myTable2)', function(obj) {
 				//alert(obj.data.project_property);
@@ -267,9 +305,9 @@
 				var nd = $("#year").val();
 				var url = encodeURIComponent("/one_level_main/count_table?project_property=" + selectRowData.project_property + "&nd=&ysnd=" + nd + "&define1=费用性");
 				window.open("/instituteIndex?url=" + url);
-			});
+			}); */
 			myTable();
-			myTable2();
+			//myTable2();
 
 		});
 
@@ -292,15 +330,20 @@
 			$("#topic_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#topic_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			//科研课题数量
-			$("#topic_chart4_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-			$("#topic_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-			$("#topic_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			//$("#topic_chart4_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			//$("#topic_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			//$("#topic_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			//科研课题数量技术分布
 			$("#topic_chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#topic_chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#topic_chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-			var chart1_url = "/direct/topic_01?type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			//专业处所属科研课题分布
+			$("#topic_chart8_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#topic_chart8_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#topic_chart8_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+
+			var chart1_url = "/direct/topic_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
 			var colorOne = [ "#3ec0c2", "#55b6e9" ];
 			var echart1 = load_mutl_bar_down(chart1_url, "topic_chart1", "", "", yAxis, 20, colorOne);
 			echart1.on('click', function(params) {
@@ -310,13 +353,15 @@
 				if (legentName == '新开课题') {
 					nd_temp = nd;
 				}
-				
+
 				var url = encodeURIComponent("/one_level_main/count_table?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + legentName + "&define1=费用性&groupFlag=xmid,define8");
 				window.open("/instituteIndex?url=" + url);
 
 			});
 
-			var chart4_url = "/direct/topic_02?type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			/* 
+			重大、重点项目分布。暂时取消
+			var chart4_url = "/direct/topic_02?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 			var colorT = [ "#ff9f7f", "#f3d156" ];
 			var echart4 = load_mutl_bar_down(chart4_url, "topic_chart4", "", "", yAxis, 20, colorT);
 			echart4.on('click', function(params) {
@@ -328,24 +373,40 @@
 					nd_temp = nd;
 				}
 				//alert(legentName);
-				var url = encodeURIComponent("/one_level_main/count_table?project_property=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define1=费用性");
+				var url = encodeURIComponent("/one_level_main/count_table?project_property=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define1=费用性&groupFlag=xmid");
 				window.open("/instituteIndex?url=" + url);
 
-			});
+			}); */
 
-			var chart6_url = "/direct/topic_03?type=4&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			var chart6_url = "/direct/topic_03?functionId=984b64b13cf54222bf57bd840759fabe&type=4&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
 			var colorTr = [ "#71d398", "#96bfff" ];
 			var echart6 = load_mutl_bar_down(chart6_url, "topic_chart7", "", "", "", 50, colorTr);
 			echart6.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
 				var nd = $("#year").val();
-				
+
 				var nd_temp = "";
 				if (legentName == '新开课题') {
 					nd_temp = nd;
 				}
-				var url = encodeURIComponent("/one_level_main/count_table?define5=" + xName + "&define12=直属研究院&nd=" + nd_temp + "&ysnd=" + nd + "&define1=费用性&groupFlag=xmid");
+				var url = encodeURIComponent("/one_level_main/count_table?define5=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define12=直属研究院&define1=费用性&groupFlag=xmid");
+				window.open("/instituteIndex?url=" + url);
+			});
+
+			var chart8_url = "/direct/topic_08?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&typeFlag=研究院&xmlbbm=fkyzb";
+			var colorTr = [ "#71d398", "#96bfff" ];
+			var echart8 = load_mutl_bar_down(chart8_url, "topic_chart8", "", "", "", 30, colorTr);
+			echart8.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
+				var nd = $("#year").val();
+
+				var nd_temp = "";
+				if (legentName == '新开课题') {
+					nd_temp = nd;
+				}
+				var url = encodeURIComponent("/one_level_main/count_table?define10=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define12=直属研究院&define1=费用性&groupFlag=xmid");
 				window.open("/instituteIndex?url=" + url);
 			});
 		}
@@ -361,8 +422,32 @@
 			var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define12=直属研究院&define1=费用性&groupFlag=xmid,define8");
 			window.open("/instituteIndex?url=" + url);
 		}
-		
+
 		function topic_chart2(labelFlag) {
+
+			var nd = $("#year").val();
+			var nd_temp = "";
+			if (labelFlag == '新开课题') {
+				nd_temp = nd;
+			}
+			// var v_date = (new Date()).getTime();
+			var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define12=直属研究院&define1=费用性&groupFlag=xmid");
+			window.open("/instituteIndex?url=" + url);
+		}
+
+		function topic_chart7(labelFlag) {
+
+			var nd = $("#year").val();
+			var nd_temp = "";
+			if (labelFlag == '新开课题') {
+				nd_temp = nd;
+			}
+			// var v_date = (new Date()).getTime();
+			var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define12=直属研究院&define1=费用性&groupFlag=xmid");
+			window.open("/instituteIndex?url=" + url);
+		}
+
+		function topic_chart8(labelFlag) {
 
 			var nd = $("#year").val();
 			var nd_temp = "";
@@ -380,13 +465,13 @@
 		function search_Event() {
 			initEchart();
 			myTable();
-			myTable2();
+			//myTable2();
 		}
 
 		function myTable() {
 			var v_date = (new Date()).getTime();
 			var nd = $('#year').val();
-			var chart1_url = "/direct/topic_01?type=2&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			var chart1_url = "/direct/topic_01?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
 			table.init('myTable', {
 				url : chart1_url,
 				height : "299px",
@@ -399,7 +484,7 @@
 		function myTable2() {
 			var v_date = (new Date()).getTime();
 			var nd = $('#year').val();
-			var chart1_url = "/direct/topic_02?type=2&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			var chart1_url = "/direct/topic_02?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
 			table.init('myTable2', {
 				url : chart1_url,
 				height : "299px",
