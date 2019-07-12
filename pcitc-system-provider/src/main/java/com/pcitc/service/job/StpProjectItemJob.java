@@ -45,7 +45,6 @@ public class StpProjectItemJob implements Job, Serializable {
 		
 		Calendar date = Calendar.getInstance();
 		String ndCon = String.valueOf(date.get(Calendar.YEAR));
-		ndCon = "2019";
 		String str = null;
 		try {
 			// 远程当年获取数据 -----
@@ -106,8 +105,11 @@ public class StpProjectItemJob implements Job, Serializable {
 					
 					// 修改当前年度的计划预算费用，没有的查询后插入
 					outProjectPlanService.insertOutProjectPlanForYS(planData);
+					
+					// 数据插入后，修改统计用的属性分类（没有使用存储过程或者函数来弄）
+					outProjectPlanService.updateProjectPropertyInfo();
+					
 				}
-				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
 				// 统一调用存储过程，把数据中部分属性集中处理
 			}

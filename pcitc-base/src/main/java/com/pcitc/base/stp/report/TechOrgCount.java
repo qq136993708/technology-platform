@@ -99,11 +99,44 @@ public class TechOrgCount {
     private String applyDepartCode;
     private String applyDepartName;
     private String attachmentDoc;
-    
     private String year;
+    private Integer thesisSciInnerCount;
+    private Integer thesisEiInnerCount;
+    
+    private BigDecimal deviceInnnerAssets;
+    
+    
+    
+    
+    
+    
     
 
-    public String getYear() {
+    public BigDecimal getDeviceInnnerAssets() {
+		return deviceInnnerAssets;
+	}
+
+	public void setDeviceInnnerAssets(BigDecimal deviceInnnerAssets) {
+		this.deviceInnnerAssets = deviceInnnerAssets;
+	}
+
+	public Integer getThesisSciInnerCount() {
+		return thesisSciInnerCount;
+	}
+
+	public void setThesisSciInnerCount(Integer thesisSciInnerCount) {
+		this.thesisSciInnerCount = thesisSciInnerCount;
+	}
+
+	public Integer getThesisEiInnerCount() {
+		return thesisEiInnerCount;
+	}
+
+	public void setThesisEiInnerCount(Integer thesisEiInnerCount) {
+		this.thesisEiInnerCount = thesisEiInnerCount;
+	}
+
+	public String getYear() {
 		return year;
 	}
 

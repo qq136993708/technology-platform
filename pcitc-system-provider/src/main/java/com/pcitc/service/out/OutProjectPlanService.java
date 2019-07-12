@@ -120,4 +120,9 @@ public interface OutProjectPlanService {
      */
 	public List getTotalInvestMoneyWithHana(HashMap<String, String> map);
 	
+	/**
+	 * 修改out_project_info、out_project_plan里面的统计属性
+	 */
+	public void updateProjectPropertyInfo();
+	
 }

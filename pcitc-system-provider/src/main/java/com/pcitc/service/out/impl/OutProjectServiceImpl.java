@@ -508,7 +508,9 @@ public class OutProjectServiceImpl implements OutProjectService {
                     if (StrUtil.isNotBlank(opi.getProjectLevel())) {
                         newOPI.setProjectLevel(opi.getProjectLevel());
                     }
-
+                    if (StrUtil.isNotBlank(opi.getHth())) {
+                        newOPI.setHth(opi.getHth());
+                    }
                     if (StrUtil.isNotBlank(opi.getProjectProperty())) {
                         newOPI.setProjectProperty(opi.getProjectProperty());
                     }

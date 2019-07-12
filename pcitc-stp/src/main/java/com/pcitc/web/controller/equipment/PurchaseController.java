@@ -213,7 +213,7 @@ public class PurchaseController extends BaseController {
 
 		String purchaseName = "";
 		String projectId = "";
-		String name = "";
+		String topicName = "";
 		String equipmentId = "";
 		String sreProjectEquipmentIds = "";
 		String remarks = "";
@@ -232,26 +232,24 @@ public class PurchaseController extends BaseController {
 		request.setAttribute("id", id);
 
 		// purchaseCode = CodeUtil.getCode("XTBM_0074", restTemplate,//生成编码
-		// httpHeaders);
 		if (!id.equals("")) {
-			ResponseEntity<SrePurchase> srePurchaseResponseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class);
-			int statusCode = srePurchaseResponseEntity.getStatusCodeValue();
-			SrePurchase srePurchase = srePurchaseResponseEntity.getBody();
-			projectId = srePurchase.getProjectId();
-			purchaseName = srePurchase.getPurchaseName();
-			equipmentId = srePurchase.getEquipmentId();
-			remarks = srePurchase.getRemarks();
-			purchaseCode = srePurchase.getPurchaseCode();
-			purchaseEquipmentId = srePurchase.getEquipmentId();
-			ResponseEntity<SreProject> SreProjectResponseEntity = this.restTemplate.exchange(GET_BY_PROJECT_ID + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
-			if (SreProjectResponseEntity != null) {
-				SreProject sreProject = SreProjectResponseEntity.getBody();
-				if (sreProject!=null){
-					name = sreProject.getName();
-					sreProjectEquipmentIds = sreProject.getEquipmentIds();
-				}
-			}
-		}
+            SrePurchase srePurchase = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePurchase.class).getBody();
+            if (srePurchase != null) {
+                projectId = srePurchase.getProjectId();
+                purchaseName = srePurchase.getPurchaseName();
+                equipmentId = srePurchase.getEquipmentId();
+                remarks = srePurchase.getRemarks();
+                purchaseCode = srePurchase.getPurchaseCode();
+                purchaseEquipmentId = srePurchase.getEquipmentId();
+                SreProject sreProject = this.restTemplate.exchange(GET_BY_PROJECT_ID + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class).getBody();
+                if (sreProject != null) {
+                    if (sreProject != null) {
+                        topicName = sreProject.getName();
+                        sreProjectEquipmentIds = sreProject.getEquipmentIds();
+                    }
+                }
+            }
+        }
 
 		request.setAttribute("parentUnitPathName", parentUnitPathNames);
 		request.setAttribute("parentUnitPathId", parentUnitPathIds);
@@ -261,7 +259,7 @@ public class PurchaseController extends BaseController {
 		request.setAttribute("createUserId", createUserId);
 		request.setAttribute("purchaseName", purchaseName);
 		request.setAttribute("topicId", projectId);
-		request.setAttribute("name", name);
+		request.setAttribute("topicName", topicName);
 		request.setAttribute("equipmentIds", equipmentId);
 		request.setAttribute("sreProjectEquipmentIds", sreProjectEquipmentIds);
 		request.setAttribute("purchaseCode", purchaseCode);

@@ -625,4 +625,17 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	public List getTotalInvestMoneyWithHana(HashMap<String, String> map) {
 		return outProjectPlanMapper.getTotalInvestMoneyWithHana(map);
 	}
+	
+	/**
+	 * 修改out_project_info、out_project_plan里面的统计属性
+	 */
+	public void updateProjectPropertyInfo() {
+		System.out.println("====执行存储过程updateOutProjectInfo------------------------");
+		outProjectPlanMapper.updateOutProjectInfo();
+		System.out.println("====执行存储过程结束------------------------");
+		
+		System.out.println("====执行存储过程updateOutProjectPlan------------------------");
+		outProjectPlanMapper.updateOutProjectPlan();
+		System.out.println("====执行存储过程结束------------------------");
+	}
 }

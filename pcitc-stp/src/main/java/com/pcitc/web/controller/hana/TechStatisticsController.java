@@ -214,7 +214,7 @@ public class TechStatisticsController extends BaseController{
 		String unitName = CommonUtil.getParameter(request, "unitName", "");
 		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
 		String year = CommonUtil.getParameter(request, "year", "");
-		
+		String createUserName = CommonUtil.getParameter(request, "createUserName", "");
 		if(!unitCode.equals(""))
 		{
 			SysUnit sysUnit=EquipmentUtils.getUnitByUnitId(unitCode, restTemplate, httpHeaders);
@@ -231,8 +231,7 @@ public class TechStatisticsController extends BaseController{
 		if (id.equals("")) {
 			techCost = new TechCost();
 			techCost.setCreateDate(new Date());
-			techCost.setCreateUserId(sysUserInfo.getUserName());
-			techCost.setCreateUserName(sysUserInfo.getUserDisp());
+			
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			techCost.setId(idv); 
 			techCost.setAuditStatus(auditStatus);
@@ -241,6 +240,10 @@ public class TechStatisticsController extends BaseController{
 			ResponseEntity<TechCost> se = this.restTemplate.exchange(GET_COST_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), TechCost.class);
 			techCost  = se.getBody();
 		}
+		
+		
+		techCost.setCreateUserId(sysUserInfo.getUserName());
+		techCost.setCreateUserName(createUserName);
 		techCost.setAttachmentDoc(attachmentDoc);
 		// 流程状态
 		techCost.setYear(year);
@@ -381,22 +384,6 @@ public class TechStatisticsController extends BaseController{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	@RequestMapping(value = "/tech_org/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -405,10 +392,10 @@ public class TechStatisticsController extends BaseController{
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		
 		//流程状态
-				List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
-				request.setAttribute("auditStatusList", auditStatusList);
-				String type = CommonUtil.getParameter(request, "type", "");
-				request.setAttribute("type", type);
+		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("auditStatusList", auditStatusList);
+		String type = CommonUtil.getParameter(request, "type", "");
+		request.setAttribute("type", type);
 		return "/stp/hana/techStatistics/org_list";
 	}
 
@@ -419,8 +406,8 @@ public class TechStatisticsController extends BaseController{
 
 		
 		//流程状态
-				List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
-				request.setAttribute("auditStatusList", auditStatusList);
+		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("auditStatusList", auditStatusList);
 		return "/stp/hana/techStatistics/org_list_kjb";
 	}
 	
@@ -503,55 +490,60 @@ public class TechStatisticsController extends BaseController{
 	public String saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result resultsDate = new Result();
-		String achievementsCompanyCount = CommonUtil.getParameter(request, "achievementsCompanyCount", "");
+		String achievementsCompanyCount = CommonUtil.getParameter(request, "achievementsCompanyCount", "0");
 		// 业务ID
 		String id = CommonUtil.getParameter(request, "id", "");
-		String achievementsCountryCount = CommonUtil.getParameter(request, "achievementsCountryCount", "");
-		String allPatentCount = CommonUtil.getParameter(request, "allPatentCount", "");
+		String achievementsCountryCount = CommonUtil.getParameter(request, "achievementsCountryCount", "0");
+		String allPatentCount = CommonUtil.getParameter(request, "allPatentCount", "0");
 		String notes = CommonUtil.getParameter(request, "notes", "");
 		String assetsTotal = CommonUtil.getParameter(request, "assetsTotal", "");
 		String type = CommonUtil.getParameter(request, "type", "");
-		String assistResearcherCount = CommonUtil.getParameter(request, "assistResearcherCount", "");
+		String assistResearcherCount = CommonUtil.getParameter(request, "assistResearcherCount", "0");
 		String chargeDepartMan = CommonUtil.getParameter(request, "chargeDepartMan", "");
 		String countryInvestCost = CommonUtil.getParameter(request, "countryInvestCost", "");
-		String outInvestCost = CommonUtil.getParameter(request, "outInvestCost", "");
+		String outInvestCost = CommonUtil.getParameter(request, "outInvestCost", "0");
 		String createUserMobile = CommonUtil.getParameter(request, "createUserMobile", "");
-		String femaleCount = CommonUtil.getParameter(request, "femaleCount", "");
-		String directResearcherCount = CommonUtil.getParameter(request, "directResearcherCount", "");
+		String femaleCount = CommonUtil.getParameter(request, "femaleCount", "0");
+		String directResearcherCount = CommonUtil.getParameter(request, "directResearcherCount", "0");
 		String applyDepartName = CommonUtil.getParameter(request, "applyDepartName", "");
 		String applyDepartCode = CommonUtil.getParameter(request, "applyDepartCode", "");
-		String diplomaMasterCount = CommonUtil.getParameter(request, "diplomaMasterCount", "");
-		String currentYearPatentCount = CommonUtil.getParameter(request, "currentYearPatentCount", "");
-		String currentPatentLookCount = CommonUtil.getParameter(request, "currentPatentLookCount", "");
-		String diplomaUndergraduateCount = CommonUtil.getParameter(request, "diplomaUndergraduateCount", "");
+		String diplomaMasterCount = CommonUtil.getParameter(request, "diplomaMasterCount", "0");
+		String currentYearPatentCount = CommonUtil.getParameter(request, "currentYearPatentCount", "0");
+		String currentPatentLookCount = CommonUtil.getParameter(request, "currentPatentLookCount", "0");
+		String diplomaUndergraduateCount = CommonUtil.getParameter(request, "diplomaUndergraduateCount", "0");
 		String diplomaDoctorCount = CommonUtil.getParameter(request, "diplomaDoctorCount", "");
 		String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
 		String deviceAssets = CommonUtil.getParameter(request, "deviceAssets", "");
-		String researcherCount = CommonUtil.getParameter(request, "researcherCount", "");
+		String researcherCount = CommonUtil.getParameter(request, "researcherCount", "0");
 		String techChargeMan = CommonUtil.getParameter(request, "techChargeMan", "");
-		String thesisAllCount = CommonUtil.getParameter(request, "thesisAllCount", "");
-		String thesisEiCount = CommonUtil.getParameter(request, "thesisEiCount", "");
-		String thesisIsrCount = CommonUtil.getParameter(request, "thesisIsrCount", "");
-		String thesisIstpCount = CommonUtil.getParameter(request, "thesisIstpCount", "");
-		String thesisSciCount = CommonUtil.getParameter(request, "thesisSciCount", "");
-		String titleLowerCount = CommonUtil.getParameter(request, "titleLowerCount", "");
-		String titleMiddleCount = CommonUtil.getParameter(request, "titleMiddleCount", "");
-		String titleSeniorCount = CommonUtil.getParameter(request, "titleSeniorCount", "");
+		String thesisAllCount = CommonUtil.getParameter(request, "thesisAllCount", "0");
+		String thesisEiCount = CommonUtil.getParameter(request, "thesisEiCount", "0");
+		String thesisIsrCount = CommonUtil.getParameter(request, "thesisIsrCount", "0");
+		String thesisIstpCount = CommonUtil.getParameter(request, "thesisIstpCount", "0");
+		String thesisSciCount = CommonUtil.getParameter(request, "thesisSciCount", "0");
+		String titleLowerCount = CommonUtil.getParameter(request, "titleLowerCount", "0");
+		String titleMiddleCount = CommonUtil.getParameter(request, "titleMiddleCount", "0");
+		String titleSeniorCount = CommonUtil.getParameter(request, "titleSeniorCount", "0");
 		String totaIncome = CommonUtil.getParameter(request, "totaIncome", "");
 		String unitCode = CommonUtil.getParameter(request, "unitCode", "");
 		String unitName = CommonUtil.getParameter(request, "unitName", "");
 		String workerSalary = CommonUtil.getParameter(request, "workerSalary", "");
-		String workersCount = CommonUtil.getParameter(request, "workersCount", "");
+		String workersCount = CommonUtil.getParameter(request, "workersCount", "0");
 		String fixedAssets = CommonUtil.getParameter(request, "fixedAssets", "");
-		String groupInvestCost = CommonUtil.getParameter(request, "groupInvestCost", "");
+		String groupInvestCost = CommonUtil.getParameter(request, "groupInvestCost", "0");
 		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
-		
-		String specialistCountryCount = CommonUtil.getParameter(request, "specialistCountryCount", "");
-		String specialistProvinceCount = CommonUtil.getParameter(request, "specialistProvinceCount", "");
-		String subInvestCost = CommonUtil.getParameter(request, "subInvestCost", "");
-		String allPatentLookCount = CommonUtil.getParameter(request, "allPatentLookCount", "");
-		String achievementsPrivanceCount = CommonUtil.getParameter(request, "achievementsPrivanceCount", "");
+		String specialistCountryCount = CommonUtil.getParameter(request, "specialistCountryCount", "0");
+		String specialistProvinceCount = CommonUtil.getParameter(request, "specialistProvinceCount", "0");
+		String subInvestCost = CommonUtil.getParameter(request, "subInvestCost", "0");
+		String allPatentLookCount = CommonUtil.getParameter(request, "allPatentLookCount", "0");
+		String achievementsPrivanceCount = CommonUtil.getParameter(request, "achievementsPrivanceCount", "0");
 		String year = CommonUtil.getParameter(request, "year", "");
+		String createUserName = CommonUtil.getParameter(request, "createUserName", "");
+		String thesisEiInnerCount = CommonUtil.getParameter(request, "thesisEiInnerCount", "0");
+		String thesisSciInnerCount = CommonUtil.getParameter(request, "thesisSciInnerCount", "0");
+		String deviceInnnerAssets = CommonUtil.getParameter(request, "deviceInnnerAssets", "0");
+		
+		
 		
 		
 		if(!unitCode.equals(""))
@@ -566,7 +558,7 @@ public class TechStatisticsController extends BaseController{
 		if (id.equals("")) {
 			techOrgCount = new TechOrgCount();
 			techOrgCount.setCreateDate(new Date());
-			techOrgCount.setCreateUserId(sysUserInfo.getUserName());
+			
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			techOrgCount.setId(idv); 
 			techOrgCount.setAuditStatus(auditStatus);
@@ -576,6 +568,10 @@ public class TechStatisticsController extends BaseController{
 			ResponseEntity<TechOrgCount> se = this.restTemplate.exchange(GET_ORG_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), TechOrgCount.class);
 			techOrgCount  = se.getBody();
 		}
+		techOrgCount.setThesisEiInnerCount(Integer.valueOf(thesisEiInnerCount));
+		techOrgCount.setThesisSciInnerCount(Integer.valueOf(thesisSciInnerCount));
+		techOrgCount.setCreateUserId(sysUserInfo.getUserName());
+		techOrgCount.setCreateUserName(createUserName);
 		techOrgCount.setYear(year);
 		techOrgCount.setAttachmentDoc(attachmentDoc);
 		techOrgCount.setAchievementsCompanyCount(Integer.valueOf(achievementsCompanyCount));
@@ -589,7 +585,6 @@ public class TechStatisticsController extends BaseController{
 		techOrgCount.setChargeDepartMan(chargeDepartMan);
 		techOrgCount.setCountryInvestCost(new BigDecimal(countryInvestCost));
 		techOrgCount.setCreateUserMobile(createUserMobile);
-		techOrgCount.setCreateUserName(sysUserInfo.getUserDisp());
 		techOrgCount.setCurrentPatentLookCount(Integer.valueOf(currentPatentLookCount));
 		techOrgCount.setCurrentYearPatentCount(Integer.valueOf(currentYearPatentCount));
 		techOrgCount.setAchievementsCompanyCount(Integer.valueOf(achievementsCompanyCount));
@@ -625,6 +620,8 @@ public class TechStatisticsController extends BaseController{
 		techOrgCount.setSubInvestCost(new BigDecimal(subInvestCost));
 		techOrgCount.setAllPatentLookCount(Integer.valueOf(allPatentLookCount));
 		techOrgCount.setAchievementsPrivanceCount(Integer.valueOf(achievementsPrivanceCount));
+		techOrgCount.setDeviceInnnerAssets(new BigDecimal(deviceInnnerAssets));
+		
 		// 判断是新增还是修改
 		if (id.equals("")) {
 			responseEntity = this.restTemplate.exchange(ADD_ORG_URL, HttpMethod.POST, new HttpEntity<TechOrgCount>(techOrgCount, this.httpHeaders), String.class);

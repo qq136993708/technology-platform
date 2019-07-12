@@ -129,11 +129,6 @@
     }
 </script>
 
-
-<script type="text/html" id="isLinkedProject_temp">
-</script>
-
-
 <!--表格数据操作js-->
 
 <script>
@@ -229,19 +224,51 @@ var name=$('#name').val();
                theme: '#0F9EE0'
            },
            cols: [[
-           	   {type : 'checkbox', event : 'changeEvents', width : 55},
-               {title : '序号', type : 'numbers', width : 55},
-               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '20%',templet:function(d){return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" style="color:#1890ff">'+d.unitName+'</span>'},sort : true},
+           	  // {type : 'checkbox', event : 'changeEvents', width : 55,fixed:'left'},
+               {title : '序号', type : 'numbers', width : 55,fixed:'left'},
+               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '16%',templet:function(d){return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" style="color:#1890ff">'+d.unitName+'</span>'},sort : true,fixed:'left'},
                {field : 'year',            title : '年份',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'auditStatus',     title : '审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
                {field : 'type',            title : '公司类型',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true,templet : '#view_type'},
-               {field : 'workersCount',    title : '职工总数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'workerSalary',    title : '职工薪酬总额(万元)',  style : 'cursor: pointer;', align : 'center', width : '15%',sort : true},
-               {field : 'assetsTotal',     title : '资产合计(万元)',     style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'totaIncome',      title : '总收入(万元)',      style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.totaIncome+'</span>'},sort : true},
-               {field : 'groupInvestCost',     title : '总部科研投入(万元)',  style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.groupInvestCost+'</span>'},sort : true},
-               {field : 'createUserName',      title : '填写人',  style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'createDate',          title : '填写时间',    style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl',sort : true},
+               {field : 'workersCount',        title : '职工总数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'femaleCount',         title : '女性人数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'titleSeniorCount',    title : '高级技术职称',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'titleMiddleCount',    title : '中级技术职称',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'titleLowerCount',     title : '低级技术职称',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'diplomaDoctorCount',    title : '博士数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'diplomaMasterCount',    title : '硕士数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'diplomaUndergraduateCount',    title : '本科',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'specialistCountryCount',      title : '国家级-专家人数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'specialistProvinceCount',     title : '省级-专家人数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'researcherCount',             title : 'R&D)-人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'directResearcherCount',       title : '直接参与',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'assistResearcherCount',       title : '辅助工作人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'workerSalary',    title : '职工薪酬总额(万元)',            style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'assetsTotal',     title : '资产合计(万元)',               style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'fixedAssets',     title : '固定资产',                    style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'deviceAssets',    title : '仪器设备原值(万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'deviceInnnerAssets',     title : '其中：国产技术',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'totaIncome',             title : '总收入',                       style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'countryInvestCost',     title : '政府科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'groupInvestCost',       title : '总部科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'subInvestCost',         title : '分公司科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'outInvestCost',         title : '外部技术性收入',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'allPatentCount',        title : '全部专利数',                 style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'allPatentLookCount',    title : '其中：发明专利数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'currentYearPatentCount',        title : '当年专利申请数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'currentPatentLookCount',        title : '其中：发明专利数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'achievementsCountryCount',      title : '成果数(国家)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'achievementsPrivanceCount',     title : '成果数(省)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'achievementsCompanyCount',      title : '成果数(公司)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'thesisAllCount',           title : '论文总量',                       style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'thesisSciCount',           title : 'SCI（科学引文索引）数',              style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'thesisSciInnerCount',      title : 'SCI->第一作者数',              style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'thesisEiCount',            title : 'EI（工程索引）数',                  style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'thesisEiInnerCount',       title : 'EI->第一作者数',                  style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'thesisIstpCount',          title : 'ISTP（科学技术会议录索引）数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'thesisIsrCount',           title : 'ISR（科学评论索引）数',   style : 'cursor: pointer;', align : 'center', width : '15%',sort : true},
+               {field : 'createUserName',           title : '填写人',               style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'createDate',               title : '填写时间',             style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl',sort : true}
                
            ]],
            done: function (res, curr, count) {
@@ -267,7 +294,7 @@ var name=$('#name').val();
                    }
                   
                });
-               //项目分类，项目性质
+               /* //项目分类，项目性质
                var dicMap = ['ROOT_ZBGL_ZBFL'];
                var dicVal = {};
 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
@@ -279,7 +306,7 @@ var name=$('#name').val();
 			   	}); 
 				$.each(res.data,function(i,dt){
 					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
-			   	}); 
+			   	});  */
            }
        });
     }

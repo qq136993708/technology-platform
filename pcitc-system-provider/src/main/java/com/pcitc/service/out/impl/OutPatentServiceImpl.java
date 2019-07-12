@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pcitc.base.stp.out.*;
+import com.pcitc.base.system.EmailTemplate;
+import com.pcitc.mapper.out.OutProjectInfoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +19,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.stp.out.OutPatent;
-import com.pcitc.base.stp.out.OutPatentExample;
-import com.pcitc.base.stp.out.OutPatentWithBLOBs;
 import com.pcitc.mapper.out.OutPatentMapper;
 import com.pcitc.service.out.OutPatentService;
 
@@ -28,6 +28,8 @@ public class OutPatentServiceImpl implements OutPatentService {
 
 	@Autowired
 	private OutPatentMapper outPatentMapper;
+	@Autowired
+	private OutProjectInfoMapper outProjectInfoMapper;
 
 	private final static Logger logger = LoggerFactory.getLogger(OutPatentServiceImpl.class);
 
@@ -225,20 +227,33 @@ public class OutPatentServiceImpl implements OutPatentService {
 
     /**
      * 根据人员名称查询专利列表
-     * @param outPatent
+     * @param param
      * @return
      */
-    public List<OutPatent> findOutPatentListByName(OutPatent outPatent){
+    public LayuiTableData findOutPatentListByName(LayuiTableParam param) {
+        // 每页显示条数
+        int pageSize = param.getLimit();
+        // 当前是第几页
+        int pageNum = param.getPage();
+        // 1、设置分页信息，包括当前页数和每页显示的总计数
+        PageHelper.startPage(pageNum, pageSize);
         OutPatentExample example = new OutPatentExample();
         OutPatentExample.Criteria criteria = example.createCriteria();
-        criteria.andFmrLike("%"+outPatent.getFmr()+"%");
-        List<OutPatent> outPatents = outPatentMapper.selectByExample(example);
-        for (int i = 0,j = outPatents.size(); i < j; i++) {
-            String strqlyq = outPatents.get(i).getQlyq();
-            if (strqlyq!=null&&!"".equals(strqlyq)&&strqlyq.length()>40){
-                outPatents.get(i).setQlyq(strqlyq.substring(0,20));
-            }
-        }
-        return outPatents;
+        criteria.andFmrLike("%"+param.getParam().get("name")+"%");
+        List<OutPatent> list = outPatentMapper.selectByExample(example);
+        // 2、获取分页查询后的数据
+        // 3、获取分页查询后的数据
+        PageInfo<OutPatent> pageInfo = new PageInfo<OutPatent>(list);
+        LayuiTableData data = new LayuiTableData();
+        data.setData(pageInfo.getList());
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
+        //获取成果数量
+        OutProjectInfoExample outProjectInfoExample = new OutProjectInfoExample();
+        OutProjectInfoExample.Criteria criteria1 = outProjectInfoExample.createCriteria();
+        criteria1.andFzrxmLike("%"+param.getParam().get("name")+"%");
+        List<OutProjectInfo> outProjectInfos = outProjectInfoMapper.selectByExample(outProjectInfoExample);
+        data.setMsg((outProjectInfos==null||outProjectInfos.size()==0)?"0":(outProjectInfos.size()+""));
+        return data;
     }
 }
