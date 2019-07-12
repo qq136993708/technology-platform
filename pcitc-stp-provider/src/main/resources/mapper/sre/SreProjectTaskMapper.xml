@@ -933,7 +933,7 @@
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY t.`setup_year` DESC,t.`create_date` DESC
+        ORDER BY  create_date desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
@@ -947,7 +947,7 @@
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY setup_year DESC, create_date desc
+        ORDER BY  begin_project_month desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
@@ -956,7 +956,7 @@
    
    <select id="getListByErpnum" resultMap="BaseResultMap" parameterType="Map" >
      select * from sre_project_task t  where t.erp_num is not null and  t.erp_num !=''
-     <if test="name != null       and name !=''  ">     AND t.topic_name = #{name}</if>
+     <if test="name != null       and name !=''  ">     AND t.topic_name like CONCAT('%',#{name},'%')</if>
      ORDER BY  create_date desc
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
@@ -980,7 +980,7 @@
 	     <if test="setupYear != null and setupYear !=''  "> AND t.setup_year = #{setupYear}</if>
    		 <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.lead_unit_code = #{parentUnitPathIds}</if>
-   			 ORDER BY  setup_year DESC, create_date desc
+   			 ORDER BY  begin_project_month desc
    </select>
    
    <select id="getClosedList" resultMap="BaseResultMap" parameterType="Map">
@@ -989,7 +989,7 @@
 	     <if test="setupYear != null and setupYear !=''  "> AND t.setup_year = #{setupYear}</if>
 	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{firstApplyUser}</if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.lead_unit_code = #{parentUnitPathIds}</if>
-   			 ORDER BY  setup_year DESC, create_date desc
+   			 ORDER BY  begin_project_month desc
    </select>
   
   
