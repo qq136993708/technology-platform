@@ -236,6 +236,10 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                 	{
                 	   var id=selectRowData.id;
                		   var url="/tech_cost/add?id="+id+"&type="+type;
+               		   
+               		   
+               		  var unitName=selectRowData.unitName;
+               		 
                		   var auditStatus=selectRowData.auditStatus;
             		   if(auditStatus=='1' ||auditStatus=='2')
             		   {
@@ -251,7 +255,7 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
 	                   	}
                    	
                		   layer.open({
-                          title:title+'-修改',
+                          title: unitName+"-"+title+'-修改',
                           skin: 'layui-layer-lan',
                           shadeClose: true,
                           type: 2,
@@ -270,6 +274,7 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                 	 {
                 		  var id=selectRowData.id;
                 		  var auditStatus=selectRowData.auditStatus;
+                		  var unitName=selectRowData.unitName;
                		   if(auditStatus=='1' ||auditStatus=='2')
                		   {
                			  layer.alert('该科技投入已经在审核中');
@@ -278,7 +283,7 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                		   
                 		  
                		      var url="/tech_cost/delete/"+id;
-    	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
+    	           		  layer.confirm('确定要删除 “'+unitName+'”该行的填报信息吗？', { btn: ['确定','取消']}, function(){
     	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
     	         			}, function(){
     	         			 
