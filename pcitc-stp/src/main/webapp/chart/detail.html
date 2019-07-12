@@ -26,8 +26,8 @@
             border-radius: 6px;padding: 0 30px;}
         .layui-tab-title{height: 48px;border: 0;background: #F3F9FF;}
         .layui-card-body{margin-left: 5px;}
+        .layui-tab-item{padding: 0;}
         @media (max-width: 1504px) {
-
             .lab-details-c .detail-p{height: 65%;}
         }
     </style>
@@ -60,12 +60,12 @@
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
                             <div class="detail-j">
-                                <p>${expert.awardsTitle}</p>
+                                ${zjkBaseInfo.bak6}
                             </div>
                         </div>
                         <div class="layui-tab-item">
                             <div class="detail-j">
-                                <p>${expert.briefDesc}</p>
+                                <table id="showTable" class="layui-table" lay-filter="tableData"></table>
                             </div>
                         </div>
                     </div>
@@ -95,6 +95,7 @@
                 publicMethods.openBaseWin("文件上传", temUrl, "90%", "80%");
             }, 300);
         });
+        renderTablePatent();
         $('#upload_File_photoAttach').dblclick(function () {
             showImg(photofilePath);
         });
@@ -195,6 +196,72 @@
             }
         });
         //附件上传-end
+        function renderTablePatent() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            var lodingMsg = layer.msg('数据加载中....');
+
+            //渲染
+            table.render({
+                elem: '#showTable',
+                url: '/expertController/queryOutPatentList',
+                method: "POST",
+                where: {
+                    param: {
+                        "name": "${zjkBaseInfo.expertName}",
+                    }
+                },
+                limit: param.selfRownum,
+                id: 'showTable',
+                height: commonDislodgeTable()-80,
+                page: {
+                    groups: 5,
+                    limits: [param.selfRownum, 30, 45, 60],
+                    // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+                    // {type: 'checkbox', event: 'changeEvents'},
+                    {title: '序号', type: 'numbers', width: 55},
+                    {
+                        field: "fmmc",
+                        title: "名称", event: 'setActive', style: 'cursor: pointer;', width: '15%'
+                    },
+                    {
+                        field: "wxlx",
+                        title: "类型", event: 'setActive', style: 'cursor: pointer;', width: '7%'
+
+                    },
+                    // {
+                    //     field: "zlh",
+                    //     title: "专利号", event: 'setActive', style: 'cursor: pointer;'
+                    // }
+                    // ,
+                    {
+                        field: "qlyq",
+                        title: "专利描述", event: 'setActive', style: 'cursor: pointer;'
+
+                    }
+                ]],
+                done: function (res, curr, count) {
+                    // 关闭等待刷新
+                    layer.close(lodingMsg);
+                    $("#zlCount").html(count);
+                    // $("#cgCount").html(res.msg);
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                }
+            });
+        }
+
     });
 </script>
 <script>
