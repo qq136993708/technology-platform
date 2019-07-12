@@ -12,17 +12,55 @@
 <link rel="stylesheet" href="/layuiadmin/style/mainStp_.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
 <style>
-	.refreshBox {display: none;width: 100%;height: 100px;line-height: 100px;text-align: center;font-size: 12px;}
-	.loadingImg {width: 24px;height: auto;}
-	.anchorBL {display: none}
-	.layui-table-body .layui-none {padding: 0;}
-	.layui-table-cell-td{ overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 200px;}
-	.layui-table-cell-td1{ overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 100px;}
-	@media (min-width: 1673px) {
-		.layui-table-cell-td{ width: 320px;}
-		.layui-table-cell-td1{width: 140px;}
+.refreshBox {
+	display: none;
+	width: 100%;
+	height: 100px;
+	line-height: 100px;
+	text-align: center;
+	font-size: 12px;
+}
+
+.loadingImg {
+	width: 24px;
+	height: auto;
+}
+
+.anchorBL {
+	display: none
+}
+
+.layui-table-body .layui-none {
+	padding: 0;
+}
+
+.layui-table-cell-td {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 200px;
+}
+
+.layui-table-cell-td1 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100px;
+}
+
+@media ( min-width : 1673px) {
+	.layui-table-cell-td {
+		width: 320px;
 	}
-	.project table tr td{height: 20px;line-height: 20px;}
+	.layui-table-cell-td1 {
+		width: 140px;
+	}
+}
+
+.project table tr td {
+	height: 20px;
+	line-height: 20px;
+}
 </style>
 </head>
 <body>
@@ -73,7 +111,7 @@
                 <div class="layui-main-box" id="actualPay">
                     <span class="layui-box-icon bg-3"></span>
                     <div class="layui-box-content">
-                        <span class="layui-box-text">科研投入</span>
+                        <span class="layui-box-text">研究院预算</span>
                         <span class="layui-box-number" id="pay_id">
                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
@@ -183,8 +221,7 @@
 						<p class="work-title">我的收藏</p>
 						<ul id="work-title_id">
 							<#list scShowList as sc>
-								<li><a lay-href="${sc.collectUrl}" data-id="${sc.functionId}" lay-text="${sc.collectName}"> ${sc.collectName} </a></li>
-						    </#list>
+							<li><a lay-href="${sc.collectUrl}" data-id="${sc.functionId}" lay-text="${sc.collectName}"> ${sc.collectName} </a></li> </#list>
 						</ul>
 					</div>
 				</div>
@@ -262,10 +299,7 @@
 											<td style="text-align: center;">${taskList.createUserName}</td>
 											<td><div class="layui-table-cell-td1">${taskList.createDate}</div></td>
 											<td><div class="layui-table-cell-td">${taskList.workOrderName}</div></td>
-											<td>
-												<span class="span-st ">已完成</span>
-												<span class="span-st span-jx">进行中</span>
-											</td>
+											<td><span class="span-st ">已完成</span> <span class="span-st span-jx">进行中</span></td>
 										</tr>
 										</#if> <#else>
 										<tr>
@@ -298,102 +332,36 @@
 							<div class="layui-tab-content">
 								<div class="layui-tab-item layui-show">
 									<ul>
-										<li>
-											<a href="http://10.1.19.130:8008/info/view.aspx?csurl=A18601F1F6941FDB" target="_blank">关于2019年新开科研项目合同（任务书）上报相关事宜的通知</a>
-											<span>[2019-06-03]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130:8008/info/view.aspx?csurl=350F3DDF5DA6C3F9" target="_blank">关于需求征集功能的使用说明</a>
-											<span>[2019-05-29]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130:8008/info/view.aspx?csurl=C4BA941E60642152" target="_blank">关于2019年年度合同及任务书5月31日之后停止上报的通知</a>
-											<span>[2019-05-19]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130:8008/info/view.aspx?csurl=2B4E70D3871FB149" target="_blank">关于2019年度合同及任务书上报时间的重要通知</a>
-											<span>[2019-04-22]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130:8008/info/view.aspx?csurl=AEB85C183F813175" target="_blank">2019年计划已发布</a>
-											<span>[2019-04-09]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130:8008/info/view.aspx?csurl=C793F827BD0B5FC8" target="_blank">科技项目管理系统更新简要说明</a>
-											<span>[2019-03-11]</span>
-										</li>
+										<li><a href="http://10.1.19.130:8008/info/view.aspx?csurl=A18601F1F6941FDB" target="_blank">关于2019年新开科研项目合同（任务书）上报相关事宜的通知</a> <span>[2019-06-03]</span></li>
+										<li><a href="http://10.1.19.130:8008/info/view.aspx?csurl=350F3DDF5DA6C3F9" target="_blank">关于需求征集功能的使用说明</a> <span>[2019-05-29]</span></li>
+										<li><a href="http://10.1.19.130:8008/info/view.aspx?csurl=C4BA941E60642152" target="_blank">关于2019年年度合同及任务书5月31日之后停止上报的通知</a> <span>[2019-05-19]</span></li>
+										<li><a href="http://10.1.19.130:8008/info/view.aspx?csurl=2B4E70D3871FB149" target="_blank">关于2019年度合同及任务书上报时间的重要通知</a> <span>[2019-04-22]</span></li>
+										<li><a href="http://10.1.19.130:8008/info/view.aspx?csurl=AEB85C183F813175" target="_blank">2019年计划已发布</a> <span>[2019-04-09]</span></li>
+										<li><a href="http://10.1.19.130:8008/info/view.aspx?csurl=C793F827BD0B5FC8" target="_blank">科技项目管理系统更新简要说明</a> <span>[2019-03-11]</span></li>
 									</ul>
 								</div>
 								<div class="layui-tab-item">
 									<ul>
-										<li>
-											<a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=27" target="_blank">关于鉴定系统开放时间更改的通知</a>
-											<span>[2019-06-06]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=26" target="_blank">关于各单位抓紧上报鉴定/奖励系统用户统一身份账号的通知</a>
-											<span>[2019-05-28]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=25" target="_blank">关于各单位抓紧上传鉴定证书的通知</a>
-											<span>[2019-05-23]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=24" target="_blank">关于经济效益内容无法填写的解决办法</a>
-											<span>[2019-05-16]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=23" target="_blank">关于鉴定申报书知识产权内容填写的说明</a>
-											<span>[2019-05-16]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=22" target="_blank">关于参加人员信息无法插入问题的解决办法</a>
-											<span>[2019-05-09]</span>
-										</li>
+										<li><a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=27" target="_blank">关于鉴定系统开放时间更改的通知</a> <span>[2019-06-06]</span></li>
+										<li><a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=26" target="_blank">关于各单位抓紧上报鉴定/奖励系统用户统一身份账号的通知</a> <span>[2019-05-28]</span></li>
+										<li><a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=25" target="_blank">关于各单位抓紧上传鉴定证书的通知</a> <span>[2019-05-23]</span></li>
+										<li><a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=24" target="_blank">关于经济效益内容无法填写的解决办法</a> <span>[2019-05-16]</span></li>
+										<li><a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=23" target="_blank">关于鉴定申报书知识产权内容填写的说明</a> <span>[2019-05-16]</span></li>
+										<li><a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=22" target="_blank">关于参加人员信息无法插入问题的解决办法</a> <span>[2019-05-09]</span></li>
 									</ul>
 								</div>
 								<div class="layui-tab-item">
 									<ul>
-										<li>
-											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=96" target="_blank">附件上传不成功的话请下班人少的时候再传</a>
-											<span>[	2019-06-28]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=95" target="_blank">项目英文名称不用填写</a>
-											<span>[	2019-06-26]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=94" target="_blank">研究方向信息已有，请补填</a>
-											<span>[2019-06-21]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=93" target="_blank">关于奖励申报注意事项的通知（重要）</a>
-											<span>[2019-06-19]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=92" target="_blank">系统暂时不允许上报</a>
-											<span>[2019-06-19]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=91" target="_blank">经济效益无法正常显示的问题说明</a>
-											<span>[	2019-06-17]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=90" target="_blank">英文无法录入、附件无法上传的问题说明</a>
-											<span>[2019-06-14]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=89" target="_blank">一级用户给下级用户添加对照关系的方法说明</a>
-											<span>[2019-06-10]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=88" target="_blank">系统开放申报的通知</a>
-											<span>[2019-06-06]</span>
-										</li>
-										<li>
-											<a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=87" target="_blank">系统尚未开放的通知</a>
-											<span>[2019-06-05]</span>
-										</li>
+										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=96" target="_blank">附件上传不成功的话请下班人少的时候再传</a> <span>[ 2019-06-28]</span></li>
+										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=95" target="_blank">项目英文名称不用填写</a> <span>[ 2019-06-26]</span></li>
+										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=94" target="_blank">研究方向信息已有，请补填</a> <span>[2019-06-21]</span></li>
+										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=93" target="_blank">关于奖励申报注意事项的通知（重要）</a> <span>[2019-06-19]</span></li>
+										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=92" target="_blank">系统暂时不允许上报</a> <span>[2019-06-19]</span></li>
+										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=91" target="_blank">经济效益无法正常显示的问题说明</a> <span>[ 2019-06-17]</span></li>
+										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=90" target="_blank">英文无法录入、附件无法上传的问题说明</a> <span>[2019-06-14]</span></li>
+										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=89" target="_blank">一级用户给下级用户添加对照关系的方法说明</a> <span>[2019-06-10]</span></li>
+										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=88" target="_blank">系统开放申报的通知</a> <span>[2019-06-06]</span></li>
+										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=87" target="_blank">系统尚未开放的通知</a> <span>[2019-06-05]</span></li>
 									</ul>
 								</div>
 							</div>
@@ -452,8 +420,8 @@
 					</div>
 				</div>
 			</div>
-			<div style="display:none">
-				<table class="message_outside" border="0" cellpadding="0" cellspacing="0"  >
+			<div style="display: none">
+				<table class="message_outside" border="0" cellpadding="0" cellspacing="0">
 					<tr>
 						<td align="center"></td>
 						<td align="center"><span>
@@ -491,749 +459,699 @@
 			<script type="text/javascript" src="/layuiadmin/javascript/circle-progress.min.js"></script>
 
 			<script type="text/javascript">
-        var host="http://${outOAIp}";
-        //办公自动化待办
-        var url=host+"/kjb/_layouts/15/ZBAppPage/oacount.aspx";
-        sendPost(url,"POST", function (data){
-        	$("#kjb_oadb").html(data.data);
-        }); 
-       //电子邮件管理
-        var url=host+"/kjb/_layouts/15/ZBAppPage/owacount.aspx";
-        sendPost(url,"POST", function (data){
-        	$("#kjb_owa").html(data.data);
-        });
-        //办公自动化待阅
-        var url=host+"/kjb/_layouts/15/ZBAppPage/oadycount.aspx";
-        sendPost(url,"POST", function (data){
-        	$("#kjb_oady").html(data.data);
-        });
-       //督办管理待办
-        var url=host+"/_layouts/15/autologon/?appid=62&step=1";
-        sendPost(url,"POST", function (data){
-        	//alert(data.data);
-        	if(data.data>=0)
-            {
-            	$("#smdb").html(data.data);
-            	}else{
-            	$("#smdb").html("0");
-            }
-        });
-
-        //督办管理待阅
-        var url=host+"/_layouts/15/autologon/?appid=63&step=1";
-        sendPost(url,"POST", function (data){
-        	if(data.data>=0)
-        	{
-            	$("#smdy").html(data.data);
-            }else
-            	{
-            	  $("#smdy").html("0");
-            	}
-        });
-        
-        var lastWeekTotal = "0";   // 上周应该处理的工作总数
-        var lastWeekHaved = "0";   // 上周处理的工作总数
-        var thisWeekTotal = "0";   // 本周安排出去的工作总数
-        var thisWeekHaved = "0";   // 本周安排出去已经完成的工作
-        
-        
-        
-        /* $.post(url,"",function(data){
-    	alert(data);
-    	},"jsonp");
-    	   */
-    	  
-        //办公自动化待办
-        /* $.post(host+"/kjb/_layouts/15/ZBAppPage/oacount.aspx", function(data1) {
-        	
-        	alert(data1);
-        	jQuery("#kjb_oadb").html(data1);
-        	
-        }); */
-        
-        /* jQuery.post(host+"/kjb/_layouts/15/ZBAppPage/owacount.aspx", function(data1) {jQuery("#kjb_owa").html(data1);});//电子邮件管理
-        jQuery.post(host+"/kjb/_layouts/15/ZBAppPage/oadycount.aspx", function(data1) {jQuery("#kjb_oady").html(data1);});//办公自动化待阅
-        //督办管理待办
-        jQuery.post(host+"/_layouts/15/autologon/?appid=62&step=1", function(data1) {
-        if(data1>=0)
-        {
-        	jQuery("#smdb").html(data1);
-        	}else{
-        	jQuery("#smdb").html("0");
-        	}
-        });
-        
-        //督办管理待阅
-        jQuery.post(host+"/_layouts/15/autologon/?appid=63&step=1", function(data1) {
-        	if(data1>=0){
-        	jQuery("#smdy").html(data1);
-        	}else{
-        	jQuery("#smdy").html("0");
-        	}
-        });
-         */
-        
-        function sendPost(url,type,callback)
-        {
-        	 /* $.ajax({
-          	      type:type,
-          	      url: "/getOA",
-          	      dataType:"json",
-          	      data: {url:url},
-                  success:function(data,status)
-                  {    
-        	            if(callback)
-	                    {
-	                    	console.log(url+" 调用 成功,得到数据："+JSON.stringify(data)); 
-	                    	callback(data);
-	                    }
-	       		   },
-	       		   error:function(data)
-	       		   {
-	       			  console.log(url+" 远程调用失败  "+JSON.stringify(data));
-       			      if(callback)
-                      {
-       				    //alert(JSON.stringify(data) );
-                     	//callback(data);
-                      }
-	       		   }
-            
-          }); */
-        } 
-        
-        
-            var companyCode = $("#companyCode").val();
-            var nd = $("#nd").val();
-            var element ;
-            var layer;
-            layui.config({
-                base : '../layuiadmin/' //静态资源所在路径
-            }).extend({
-                index : 'lib/index' //主入口模块
-            }).use(['index','jquery', 'table', 'layer', 'laydate','element',"publicMethods"], function () {
-                var $ = layui.jquery;
-                table = layui.table;
-                layer = layui.layer;
-                element = layui.element;
-                laydate = layui.laydate;
-                publicMethods=layui.publicMethods;
-                /*新开页面*/
-
-
-                
-            var stype = "ROOT_XTGL_XWLX_GCSY|ROOT_XTGL_XWLX_SHYW|ROOT_XTGL_XWLX_GCDT|ROOT_XTGL_XWLX_YJYDT";
-            var formIds = "";
-            var list = [];
-            var ROOT_XTGL_SPLX_PT = "";//视频
-            publicMethods.ajaxPost("/sysNews/getNewsIndexType", {"stype": stype, "bak3": 10}, function (data) {
-                var ROOT_XTGL_XWLX_GCSY = "";//集团领导讲话
-                var ROOT_XTGL_XWLX_SHYW = "";//国家领导讲话
-                var ROOT_XTGL_XWLX_GCDT = "";//最新讲话
-                var ROOT_XTGL_XWLX_YJYDT = "";
-                for (var i = data.length-1; i >0 ; i--) {
-                    var d = data[i];
-                    if (d.stype == "ROOT_XTGL_XWLX_GCSY") {
-                        ROOT_XTGL_XWLX_GCSY = ROOT_XTGL_XWLX_GCSY + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    } else if (d.stype == "ROOT_XTGL_XWLX_SHYW") {
-                        ROOT_XTGL_XWLX_SHYW = ROOT_XTGL_XWLX_SHYW + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    } else if (d.stype == "ROOT_XTGL_XWLX_GCDT") {
-                        ROOT_XTGL_XWLX_GCDT = ROOT_XTGL_XWLX_GCDT + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    }else if (d.stype == "ROOT_XTGL_XWLX_YJYDT") {
-                        //list.push(d);
-                        ROOT_XTGL_XWLX_YJYDT = ROOT_XTGL_XWLX_YJYDT + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
-                    }
-
-                }
-                $("#ROOT_XTGL_XWLX_GCSY").html(ROOT_XTGL_XWLX_GCSY);
-                $("#ROOT_XTGL_XWLX_SHYW").html(ROOT_XTGL_XWLX_SHYW);
-                $("#ROOT_XTGL_XWLX_GCDT").html(ROOT_XTGL_XWLX_GCDT);
-                $("#ROOT_XTGL_XWLX_YJYDT").html(ROOT_XTGL_XWLX_YJYDT);
-            });
-            
-                
-                
-                $("#actualPay").on("click", function () {
-                	parent.layui.index.openTabsPage("/small_leader/investment?userLevel=0", "科研投入");
-                	// parent.layui.index.openTabsPage("/direct/actualPay?isdisplay=1", "经费支出");
-                });
-                
-                $("#home_project").on("click", function () {
-                	parent.layui.index.openTabsPage("/direct/topic?userLevel=0", "科研课题");
-                	//parent.layui.index.openTabsPage("/home_project_02/home_project", "科研课题");
-                });
-                $("#home_budget").on("click", function () {
-                	 parent.layui.index.openTabsPage("/direct/contract?userLevel=0", "科研合同");
-                	 // parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（亿元）");
-                });
-                
-                $("#knowledge").on("click", function () {
-                	parent.layui.index.openTabsPage("/direct/knowledgePatent?userLevel=0", "知识产权");
-                	//parent.layui.index.openTabsPage("/home_knowledge/knowledge_level2", "知识产权");
-                });
-                
-                $("#achievement").on("click", function () {
-                	parent.layui.index.openTabsPage("/direct/achievement?userLevel=0", "科技成果");
-            	     //parent.layui.index.openTabsPage("/home_achievement/award_level2", "科技成果");
-                });
-                 
-                $("#report_intl_project_main").on("click", function () {
-                	
-                	parent.layui.index.openTabsPage("/small_leader/intl_cooperation?userLevel=0", "国际合作");
-                	//parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
-               });
-                
-                $("#equipment").on("click", function () {
-                	
-                	 parent.layui.index.openTabsPage("/direct/equipment?userLevel=0", "科研装备");
-                	 //parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备");
-               });
-               
-                //新闻
-                publicMethods.ajaxAsyncPost('/out/news-workdynamics-list', null, function (data, status) {
-             		var content = "";
-                	$.each(data,function(index,dt){
-                		if(index < 8){
-                			content += '<tr><td style="width: 10px;">'+(index+1)+'</td><td>'+dt.xxbt+'</td><td>'+dt.fbsj.substring(0,10)+'</td></tr>';
-                		}
-             		})
-             		$("#news-workdynamics-list-table tbody").html(content);
-                });
-                
-
-                var md4Height = $(".layui-col-md4").height() - 2;
-                var headerHeight = $(".layui-card-header").outerHeight(true);
-                $(".layui-wifi-left,.layui-wifi-right").css("height", md4Height - headerHeight + "px");
-
-                /*$(".remove").on("click", function () {
-                    $(this).parents(".layui-card").parent().remove();
-                });*/
-                $(".collapse").on("click", function () {
-                    if($(this).attr("class").indexOf("collapseF")==-1){
-                        $(this).addClass("collapseF")
-					}else {
-                        $(this).removeClass("collapseF")
-                    }
-                    $(this).parent().parent().nextAll().slideToggle(400);
-                });
-                /*table*/
-                var arrangeC=0;
-                table.init('demo', {
-                    limit: 5,
-                    done:function(res, curr, count){
-                        arrangeC=count;
-                    }
-                });
-                table.init('demo1', {
-                    limit: 5,
-                    done:function(res, curr, count){
-                        var trLength=$(".arrange .layui-table-body table tbody tr").length;
-                        if(count==0 && trLength!=0){
-                            $(".accept .layui-table-body .layui-none").css("height",(trLength*32.8)+"px");
-                        }
-                    }
-                });
-                var trLength=$(".accept .layui-table-body table tbody tr").length;
-                if(arrangeC==0 && trLength!=0){
-                    $(".arrange .layui-table-body .layui-none").css("height",(trLength*32.8)+"px");
-                }
-                /*动画*/
-                $(".stay-do-m").hover(function () {
-                    $(this).find("div").fadeIn(900);
-                },function () {
-                    $(this).find("div").fadeOut(900);
-                });
-                
-                // 工作完成情况统计
-                publicMethods.ajaxAsyncPost('/admin/workorder/stat', null, function (data, status) {
-                	if (data.success == true || data.success == 'true') {
-                		lastWeekTotal = data.data.lastWeekTotal;   // 上周应该处理的工作总数
-                        lastWeekHaved = data.data.lastWeekHaved;   // 上周处理的工作总数
-                        thisWeekTotal = data.data.thisWeekTotal;   // 本周安排出去的工作总数
-                        thisWeekHaved = data.data.thisWeekHaved;   // 本周安排出去已经完成的工作
-                	}
-                	//circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
-                    //circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
-					if(lastWeekHaved==0 && lastWeekTotal==0){
-                        circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
-					}else {
-                        circle("circleOne",(lastWeekHaved/lastWeekTotal).toFixed(2),lastWeekHaved+"/"+lastWeekTotal);
-					}
-					if(thisWeekHaved==0 && thisWeekTotal==0){
-                        circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
-					}else {
-                        circle("circleTwo",(thisWeekHaved/thisWeekTotal).toFixed(2),thisWeekHaved+"/"+thisWeekTotal);
-					}
-                    
-                });
-                
-                $("#circleOne").click(function () {
-                	$("#listMyPlan")[0].click();
-                });
-                
-                $("#circleTwo").click(function () {
-                	$("#listPlanPage")[0].click();
-                });
-              
-                /*$(".layui-table tbody tr").click(function () {
-                    layer.open({
-                        title: '任务计划-新增',
-                        skin: 'layui-layer-lan',
-                        shadeClose: false,
-                        type: 2,
-                        fixed: false,
-                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        maxmin: true,
-                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        area: ['80%', '90%'],
-                        content: '/layui/taskView.html'
-                    });
-                });*/
-            });
-            function circle(id,value,number){
-                $("#"+id).circleProgress({
-                    value: value,
-                    size: 85,
-                    startAngle: -Math.PI / 2,
-                    thickness: '15',
-                    fill: {
-                        gradient: ["#ffffff","#79dcd5"]
-                    },
-                    emptyFill:"rgba(255,255,255,.3)"
-                }).on('circle-animation-progress', function (event, progress, stepValue) {
-                    $(this).find('span').html(number);
-                });
-            }
-            /**----------------=======================-第一行 end ==============---------------*/
-            function init() 
-            {
-
-                var month = $('#month').val();
-                var v_date = (new Date()).getTime();
-                if (month != null && month != '') 
-                {
-
-                    getCommonCount(nd);//科研装备、合同签订
-                    getInvestmentAll(nd);//经费支出
-                    patentCount(nd);//专利
-                    appraisalCount(nd);//成果
-                    setContcator_id(nd, v_date);//合同签订率
-
-                }
-
-            }
-            
-            
-            var isKJBPerson="${isKJBPerson?default('')}";
-            if(isKJBPerson==false || isKJBPerson=='false')//不是科技部的人
-            {
-            	$("#isKJBPerson_id").hide();
-            }else
-            {
-            	init();
-            }
-            
-            function equipment_01_chart_2(type, legentName) {
-
-                var url = encodeURIComponent("/one_level_main/equipment_03_detail?month=" + $("#month").val() + "&type=" + type + "&legentName=" + legentName);
-                window.open("/instituteIndex?url=" + url);
-            }
-
-            //科研课题 projectCount、科研装备 kyzbCount
-            function getCommonCount(nd) {
-                $.ajax({
-                    type: 'GET',
-                    url : "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&typeFlag=研究院&nd=" + nd,
-                    //url: "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
-                    dataType: 'json',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    timeout: 3000,
-                    error: function (XMLHttpRequest, status) {
-                        $("#topic_id").html("<small>--(个)</small>");
-                        $("#equipment_id").html("<small>--(个)</small>");
-
-                    },
-                    success: function (data) {
-                        //alert(data.data.projectCount);
-                        $("#topic_id").html(data.data.projectCount + "<small>(个)</small>");
-                        if (typeof(data.data.kyzbCount) == "undefined") {
-                            $("#equipment_id").html("<small>0(个)</small>");
-                        } else {
-                            $("#equipment_id").html(data.data.kyzbCount + "<small>(个)</small>");
-                        }
-
-
-                    }
-                });
-
-            }
-
-
-            //合同签订--bak--
-            function setContcator_id(nd, v_date) {
-            	//var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date;
-                var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date;
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    dataType: 'json',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    timeout: 3000,
-                    error: function (XMLHttpRequest, status) {
-                        $("#contcator_id").html("<small>--(%)</small>");
-                    },
-                    success: function (data) {
-                        var qdl = "0";
-                        if (typeof(data.data) == "undefined") {
-                            $("#contcator_id").html("0<small>(%)</small>");
-                        } else {
-                            $("#contcator_id").html(data.data.qdl + "<small>(%)</small>");
-                        }
-
-                    }
-                });
-            }
-
-            
-            
-         // 科研投入
-            function getInvestmentAll(nd) {
-                var v_date = (new Date()).getTime();
-                $.ajax({
-                    type: "GET",
-                    url: '/small_leader/getInvestmentAll?nd=' + nd+ '&v_date' + v_date,
-                    dataType: "json",
-                    timeout: 20000,
-                    cache: false,
-                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                    success: function (data, status) {
-                        if (data.success == true || data.success == 'true') 
-                        {
-
-                            var investMoneystr="";
-                        	var investMoney=data.data.investMoney;
-                        	if(investMoney!=null && investMoney!='')
-                        	{
-                        		
-                        		if(investMoney>9999)
-                        		{
-                        			investMoneystr=(investMoney/10000).toFixed(2)+"<small>亿元</small>";
-                        		}else
-                       			{
-                       			   investMoneystr=investMoney.toFixed(2)+"<small>万元</small>";
-                       			}
-                        		
-                        	}
-                            $("#pay_id").html(investMoneystr);
-                        }
-                    },
-                    error: function () {
-                        //alert("您的网络不给力呀!");
-                    },
-                    complete: function (XMLHttpRequest, status) {
-                        if (status == 'timeout') {
-
-                        }
-                    }
-                });
-
-            }
-         
-           
-
-            //专利-知识产权
-            function patentCount(nd) {
-            	//nd="2018";
-                $.ajax({
-                    type: 'POST',
-                    url : "/admin/patent-count?nd=" + nd,
-                    dataType: 'json',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    timeout: 20000, //超时时间设置，单位毫秒
-                    error: function (XMLHttpRequest, status) {
-                        $("#patentId").html("--<small>(个)</small>");
-                    },
-                    success: function (data) { //请求成功后处理函数。
-                        var patentCount = data.patentCount;
-                        // alert(patentCount);
-                        $("#patentId").html(patentCount + "<small>(个)</small>");
-                    }
-                });
-
-            }
-
-            //成果
-            function appraisalCount(nd) {
-
-                $.ajax({
-                    type: 'POST',
-                    url: "/admin/appraisal-count?define3=研究院&nd=" + nd,
-                    dataType: 'json',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    timeout: 3000, //超时时间设置，单位毫秒
-                    error: function (XMLHttpRequest, status) {
-                        $("#appraisalId").html("--<small>(个)</small>");
-                    },
-                    success: function (data) { //请求成功后处理函数。
-                        var appraisalCount = data.appraisalCount;
-                        $("#appraisalId").html(appraisalCount + "<small>(个)</small>");
-                    }
-                });
-
-            }
-
-
-          
-            
-
-            /**----------------=======================-第三行 ==============---------------*/
-            $("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-            $("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-            $("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-
-            
-            var v_date = (new Date()).getTime();
-            var chart1_url_0 = "/one_level_main/investment_01?nd=" + nd + "&v_date=" + v_date + "&companyCode=";
-            var color = ["#bee5d2", "#6bdf9e"];
-            var yAxis4 = [
-                {
-                    type: 'value',
-                    name: '亿元',
-                    position: 'left',
-                    axisLabel: {
-                        formatter: '{value}'
-                    }
-                }
-            ];
-            /*var echart = load_mutl_bar_down(chart1_url_0, "chart1_ys", "", "", yAxis4);
-            echart.on('click', function (params) {
-                var xName = params.name;//ysnd、type_flag（直属研究院、分子公司等）、define1（费用性、资本性）、define2 各个研究院名称
-                var legentName = params.seriesName;
-                var str = "";
-                if (legentName.indexOf("资本性") > -1) {
-                    str = "资本性"
-                }
-                if (legentName.indexOf("费用性") > -1) {
-                    str = "费用性"
-                }
-                //alert(str);
-                window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=G0_YSND=" + nd + ",G0_TYPE_FLAG=" + xName + ",G0_DEFINE1=" + str);
-            });*/
-            var investment_0101_url = "/one_level_main/investment_0101?nd=" + nd + "&v_date=" + v_date + "&companyCode=" + companyCode;
-            setinvestmentCount(investment_0101_url);
-
-
-            function setinvestmentCount(url) {
-
-
-                $("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-                $("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-                $("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-
-
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    dataType: "json",
-                    timeout: 11000,
-                    cache: false,
-                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                    success: function (data, status) {
-                        if (data.success == true || data.success == 'true') {
-                            var zysje_count = 0;
-                            var fyxsjje_count = 0;
-                            var zbxsjje_count = 0;
-                            var list = data.data;
-
-                            for (var i = 0; i < list.length; i++) {
-                                var tt = list[i].fyxsjje;
-
-                                if (typeof(tt) == "undefined") {
-                                    tt = 0;
-                                }
-
-                                var zysje = list[i].zysje / 10000;//预算总计
-                                var fyxsjje = tt / 10000;//费用性科研投入
-                                var zbxsjje = list[i].zbxsjje / 10000;//资本性科研投入
-                                // alert(fyxsjje);
-                                zysje_count = zysje_count + parseFloat(zysje);
-                                fyxsjje_count = fyxsjje_count + parseFloat(fyxsjje);
-                                zbxsjje_count = zbxsjje_count + parseFloat(zbxsjje);
-                            }
-
-
-                            $("#chart1_01").html(zysje_count.toFixed(2) + "亿元");
-                            $("#chart1_02").html(fyxsjje_count.toFixed(2) + "亿元");
-                            $("#chart1_03").html(zbxsjje_count.toFixed(2) + "亿元");
-                            // alert(zysje_count);
-                            if (zysje_count == '0') {
-                                $("#chart1_04").html("0%");
-                            } else {
-                                $("#chart1_04").html(percentNum(zbxsjje_count + fyxsjje_count, zysje_count));
-                            }
-
-
-                        }
-                    },
-                    error: function () {
-                    },
-                    complete: function (XMLHttpRequest, status) {
-
-                    }
-
-                });
-            }
-
-
-
-            /**----------------=======================-第三行 end ==============---------------*/
-
-
-            function getDataCountForNameFloat(data, strName) {
-                var seriesList = data.seriesList;
-                var xkCount = 0;
-                if (typeof(seriesList) == "undefined") {
-
-                } else {
-                    for (var i = 0; i < seriesList.length; i++) {
-                        var arr = seriesList[i].data;
-                        var name = seriesList[i].name;
-                        if (name == strName) {
-                            var name_count = 0;
-                            for (var j = 0; j < arr.length; j++) {
-                                name_count = name_count + parseFloat(arr[j]);
-                            }
-                            xkCount = name_count;
-                        }
-                    }
-
-                }
-                return parseFloat(xkCount);
-
-            }
-
-
-            function getDataCountForName_t(data, strName) {
-                var list = data.seriesList;
-                alert(list);
-                var xkCount = 0;
-                if (typeof(list) == "undefined") {
-
-                } else {
-                    for (var i = 0; i < list.length; i++) {
-                        var arr = list[i].data;
-                        var name = list[i].name;
-                        if (name == strName) {
-                            var name_count = 0;
-                            for (var j = 0; j < arr.length; j++) {
-                                name_count = name_count + parseInt(arr[j]);
-                            }
-                            xkCount = name_count;
-                        }
-                    }
-
-                }
-                return parseInt(xkCount);
-
-            }
-
-
-            function getDataCountForName_d(data, strName) {
-                var list = data.seriesList;
-                //  alert(list);
-                var xkCount = 0;
-                if (typeof(list) != "undefined") {
-                    for (var i = 0; i < list.length; i++) {
-                        var arr = list[i].data;
-                        var name = list[i].name;
-                        //alert(name+"="+strName);
-                        if (name == strName) {
-                            var name_count = 0;
-                            for (var j = 0; j < arr.length; j++) {
-                                name_count = name_count + parseInt(arr[j]);
-                            }
-                            xkCount = name_count;
-                        }
-                    }
-                }
-                return parseInt(xkCount);
-            }
-
-
-            function addPlan() { //点击新增按钮
-                //parent.layui.index.openTabsPage("/plan/addPlanPageMain", "任务计划-新增");
-            	layer.open({
-					title : '工作安排-新增',
-					skin : 'layui-layer-lan',
-					shadeClose : false,
-					type : 2,
-					fixed : false,
-					maxmin : true,
-					area : [ '70%', '100%' ],
-					content : '/plan/addPlanPage'
+				var host = "http://${outOAIp}";
+				//办公自动化待办
+				var url = host + "/kjb/_layouts/15/ZBAppPage/oacount.aspx";
+				sendPost(url, "POST", function(data) {
+					$("#kjb_oadb").html(data.data);
 				});
-            }
-            
-            
-            function set_wait_work_id_count() {
-            	var url="/task/pending-list";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    dataType: "json",
-                    timeout: 11000,
-                    cache: false,
-                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                    success: function (data, status) {
-                      
-                            $("#wait_work_id_count").html(data.count + "");
-                            var list = data.data;
-                            for (var i = 0; i < list.length; i++) 
-                            {
-                                var createTime = list[i].createTime;
-                                var processInstanceName = '';
-                                if (typeof(list[i].processInstanceName) == "undefined") {
-                                	processInstanceName = '';
-                                } else {
-                                	processInstanceName = list[i].processInstanceName;
-                                }
-                                var tt=layui.laytpl.toDateString(createTime);
-                                var processInstanceId= list[i].processInstanceId;
-                                var id= list[i].id;
-                                //alert(processInstanceId);
-                                if(i<4)
-                                {
-                                	$("#wait_work_id_list").append("<li onclick=\"wait_work('"+id+"')\" style='cursor:pointer'><span class='date'>"+tt+"</span> <span class='content'>"+processInstanceName+"</span></li>");
-                                }
-                                
-                            }
-                            
-                    },
-                    error: function () {
-                    },
-                    complete: function (XMLHttpRequest, status) {
+				//电子邮件管理
+				var url = host + "/kjb/_layouts/15/ZBAppPage/owacount.aspx";
+				sendPost(url, "POST", function(data) {
+					$("#kjb_owa").html(data.data);
+				});
+				//办公自动化待阅
+				var url = host + "/kjb/_layouts/15/ZBAppPage/oadycount.aspx";
+				sendPost(url, "POST", function(data) {
+					$("#kjb_oady").html(data.data);
+				});
+				//督办管理待办
+				var url = host + "/_layouts/15/autologon/?appid=62&step=1";
+				sendPost(url, "POST", function(data) {
+					//alert(data.data);
+					if (data.data >= 0) {
+						$("#smdb").html(data.data);
+					} else {
+						$("#smdb").html("0");
+					}
+				});
 
-                    }
+				//督办管理待阅
+				var url = host + "/_layouts/15/autologon/?appid=63&step=1";
+				sendPost(url, "POST", function(data) {
+					if (data.data >= 0) {
+						$("#smdy").html(data.data);
+					} else {
+						$("#smdy").html("0");
+					}
+				});
 
-                });
-            }
-            set_wait_work_id_count();
-            
-            
-            
-            
-           function wait_work(id) 
-           { 
-        	       //alert(processInstanceId);
-        	       // var temUrl = "/task/process/" + processInstanceId;
-        	        var temUrl="/task/pending/deal/"+ id;
+				var lastWeekTotal = "0"; // 上周应该处理的工作总数
+				var lastWeekHaved = "0"; // 上周处理的工作总数
+				var thisWeekTotal = "0"; // 本周安排出去的工作总数
+				var thisWeekHaved = "0"; // 本周安排出去已经完成的工作
+
+				/* $.post(url,"",function(data){
+				alert(data);
+				},"jsonp");
+				 */
+
+				//办公自动化待办
+				/* $.post(host+"/kjb/_layouts/15/ZBAppPage/oacount.aspx", function(data1) {
+					
+					alert(data1);
+					jQuery("#kjb_oadb").html(data1);
+					
+				}); */
+
+				/* jQuery.post(host+"/kjb/_layouts/15/ZBAppPage/owacount.aspx", function(data1) {jQuery("#kjb_owa").html(data1);});//电子邮件管理
+				jQuery.post(host+"/kjb/_layouts/15/ZBAppPage/oadycount.aspx", function(data1) {jQuery("#kjb_oady").html(data1);});//办公自动化待阅
+				//督办管理待办
+				jQuery.post(host+"/_layouts/15/autologon/?appid=62&step=1", function(data1) {
+				if(data1>=0)
+				{
+					jQuery("#smdb").html(data1);
+					}else{
+					jQuery("#smdb").html("0");
+					}
+				});
+				
+				//督办管理待阅
+				jQuery.post(host+"/_layouts/15/autologon/?appid=63&step=1", function(data1) {
+					if(data1>=0){
+					jQuery("#smdy").html(data1);
+					}else{
+					jQuery("#smdy").html("0");
+					}
+				});
+				 */
+
+				function sendPost(url, type, callback) {
+					/* $.ajax({
+					      type:type,
+					      url: "/getOA",
+					      dataType:"json",
+					      data: {url:url},
+					     success:function(data,status)
+					     {    
+					           if(callback)
+					           {
+					           	console.log(url+" 调用 成功,得到数据："+JSON.stringify(data)); 
+					           	callback(data);
+					           }
+						   },
+						   error:function(data)
+						   {
+							  console.log(url+" 远程调用失败  "+JSON.stringify(data));
+						      if(callback)
+					         {
+							    //alert(JSON.stringify(data) );
+					        	//callback(data);
+					         }
+						   }
+					
+					}); */
+				}
+
+				var companyCode = $("#companyCode").val();
+				var nd = $("#nd").val();
+				var element;
+				var layer;
+				layui.config({
+					base : '../layuiadmin/' //静态资源所在路径
+				}).extend({
+					index : 'lib/index' //主入口模块
+				}).use([ 'index', 'jquery', 'table', 'layer', 'laydate', 'element', "publicMethods" ], function() {
+					var $ = layui.jquery;
+					table = layui.table;
+					layer = layui.layer;
+					element = layui.element;
+					laydate = layui.laydate;
+					publicMethods = layui.publicMethods;
+					/*新开页面*/
+
+					var stype = "ROOT_XTGL_XWLX_GCSY|ROOT_XTGL_XWLX_SHYW|ROOT_XTGL_XWLX_GCDT|ROOT_XTGL_XWLX_YJYDT";
+					var formIds = "";
+					var list = [];
+					var ROOT_XTGL_SPLX_PT = "";//视频
+					publicMethods.ajaxPost("/sysNews/getNewsIndexType", {
+						"stype" : stype,
+						"bak3" : 10
+					}, function(data) {
+						var ROOT_XTGL_XWLX_GCSY = "";//集团领导讲话
+						var ROOT_XTGL_XWLX_SHYW = "";//国家领导讲话
+						var ROOT_XTGL_XWLX_GCDT = "";//最新讲话
+						var ROOT_XTGL_XWLX_YJYDT = "";
+						for (var i = data.length - 1; i > 0; i--) {
+							var d = data[i];
+							if (d.stype == "ROOT_XTGL_XWLX_GCSY") {
+								ROOT_XTGL_XWLX_GCSY = ROOT_XTGL_XWLX_GCSY + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>[" + d.publicDate + "]</span></li>";
+							} else if (d.stype == "ROOT_XTGL_XWLX_SHYW") {
+								ROOT_XTGL_XWLX_SHYW = ROOT_XTGL_XWLX_SHYW + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>[" + d.publicDate + "]</span></li>";
+							} else if (d.stype == "ROOT_XTGL_XWLX_GCDT") {
+								ROOT_XTGL_XWLX_GCDT = ROOT_XTGL_XWLX_GCDT + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>[" + d.publicDate + "]</span></li>";
+							} else if (d.stype == "ROOT_XTGL_XWLX_YJYDT") {
+								//list.push(d);
+								ROOT_XTGL_XWLX_YJYDT = ROOT_XTGL_XWLX_YJYDT + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>[" + d.publicDate + "]</span></li>";
+							}
+
+						}
+						$("#ROOT_XTGL_XWLX_GCSY").html(ROOT_XTGL_XWLX_GCSY);
+						$("#ROOT_XTGL_XWLX_SHYW").html(ROOT_XTGL_XWLX_SHYW);
+						$("#ROOT_XTGL_XWLX_GCDT").html(ROOT_XTGL_XWLX_GCDT);
+						$("#ROOT_XTGL_XWLX_YJYDT").html(ROOT_XTGL_XWLX_YJYDT);
+					});
+
+					$("#actualPay").on("click", function() {
+						parent.layui.index.openTabsPage("/small_leader/investment?userLevel=0", "研究院预算");
+						// parent.layui.index.openTabsPage("/direct/actualPay?isdisplay=1", "经费支出");
+					});
+
+					$("#home_project").on("click", function() {
+						parent.layui.index.openTabsPage("/home_project_02/zyc/kytk?userLevel=0", "科研课题");
+					});
+					$("#home_budget").on("click", function() {
+						parent.layui.index.openTabsPage("/direct/contract?userLevel=0", "科研合同");
+						// parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（亿元）");
+					});
+
+					$("#knowledge").on("click", function() {
+						parent.layui.index.openTabsPage("/direct/knowledgePatent?userLevel=0", "知识产权");
+						//parent.layui.index.openTabsPage("/home_knowledge/knowledge_level2", "知识产权");
+					});
+
+					$("#achievement").on("click", function() {
+						parent.layui.index.openTabsPage("/direct/achievement?userLevel=0", "科技成果");
+						//parent.layui.index.openTabsPage("/home_achievement/award_level2", "科技成果");
+					});
+
+					$("#report_intl_project_main").on("click", function() {
+
+						parent.layui.index.openTabsPage("/small_leader/intl_cooperation?userLevel=0", "国际合作");
+						//parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
+					});
+
+					$("#equipment").on("click", function() {
+
+						parent.layui.index.openTabsPage("/direct/equipment?userLevel=0", "科研装备");
+						//parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备");
+					});
+
+					//新闻
+					publicMethods.ajaxAsyncPost('/out/news-workdynamics-list', null, function(data, status) {
+						var content = "";
+						$.each(data, function(index, dt) {
+							if (index < 8) {
+								content += '<tr><td style="width: 10px;">' + (index + 1) + '</td><td>' + dt.xxbt + '</td><td>' + dt.fbsj.substring(0, 10) + '</td></tr>';
+							}
+						})
+						$("#news-workdynamics-list-table tbody").html(content);
+					});
+
+					var md4Height = $(".layui-col-md4").height() - 2;
+					var headerHeight = $(".layui-card-header").outerHeight(true);
+					$(".layui-wifi-left,.layui-wifi-right").css("height", md4Height - headerHeight + "px");
+
+					/*$(".remove").on("click", function () {
+					    $(this).parents(".layui-card").parent().remove();
+					});*/
+					$(".collapse").on("click", function() {
+						if ($(this).attr("class").indexOf("collapseF") == -1) {
+							$(this).addClass("collapseF")
+						} else {
+							$(this).removeClass("collapseF")
+						}
+						$(this).parent().parent().nextAll().slideToggle(400);
+					});
+					/*table*/
+					var arrangeC = 0;
+					table.init('demo', {
+						limit : 5,
+						done : function(res, curr, count) {
+							arrangeC = count;
+						}
+					});
+					table.init('demo1', {
+						limit : 5,
+						done : function(res, curr, count) {
+							var trLength = $(".arrange .layui-table-body table tbody tr").length;
+							if (count == 0 && trLength != 0) {
+								$(".accept .layui-table-body .layui-none").css("height", (trLength * 32.8) + "px");
+							}
+						}
+					});
+					var trLength = $(".accept .layui-table-body table tbody tr").length;
+					if (arrangeC == 0 && trLength != 0) {
+						$(".arrange .layui-table-body .layui-none").css("height", (trLength * 32.8) + "px");
+					}
+					/*动画*/
+					$(".stay-do-m").hover(function() {
+						$(this).find("div").fadeIn(900);
+					}, function() {
+						$(this).find("div").fadeOut(900);
+					});
+
+					// 工作完成情况统计
+					publicMethods.ajaxAsyncPost('/admin/workorder/stat', null, function(data, status) {
+						if (data.success == true || data.success == 'true') {
+							lastWeekTotal = data.data.lastWeekTotal; // 上周应该处理的工作总数
+							lastWeekHaved = data.data.lastWeekHaved; // 上周处理的工作总数
+							thisWeekTotal = data.data.thisWeekTotal; // 本周安排出去的工作总数
+							thisWeekHaved = data.data.thisWeekHaved; // 本周安排出去已经完成的工作
+						}
+						//circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
+						//circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
+						if (lastWeekHaved == 0 && lastWeekTotal == 0) {
+							circle("circleOne", 0, lastWeekHaved + "/" + lastWeekTotal);
+						} else {
+							circle("circleOne", (lastWeekHaved / lastWeekTotal).toFixed(2), lastWeekHaved + "/" + lastWeekTotal);
+						}
+						if (thisWeekHaved == 0 && thisWeekTotal == 0) {
+							circle("circleTwo", 0, thisWeekHaved + "/" + thisWeekTotal);
+						} else {
+							circle("circleTwo", (thisWeekHaved / thisWeekTotal).toFixed(2), thisWeekHaved + "/" + thisWeekTotal);
+						}
+
+					});
+
+					$("#circleOne").click(function() {
+						$("#listMyPlan")[0].click();
+					});
+
+					$("#circleTwo").click(function() {
+						$("#listPlanPage")[0].click();
+					});
+
+					/*$(".layui-table tbody tr").click(function () {
+					    layer.open({
+					        title: '任务计划-新增',
+					        skin: 'layui-layer-lan',
+					        shadeClose: false,
+					        type: 2,
+					        fixed: false,
+					        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+					        maxmin: true,
+					        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+					        area: ['80%', '90%'],
+					        content: '/layui/taskView.html'
+					    });
+					});*/
+				});
+				function circle(id, value, number) {
+					$("#" + id).circleProgress({
+						value : value,
+						size : 85,
+						startAngle : -Math.PI / 2,
+						thickness : '15',
+						fill : {
+							gradient : [ "#ffffff", "#79dcd5" ]
+						},
+						emptyFill : "rgba(255,255,255,.3)"
+					}).on('circle-animation-progress', function(event, progress, stepValue) {
+						$(this).find('span').html(number);
+					});
+				}
+				/**----------------=======================-第一行 end ==============---------------*/
+				function init() {
+
+					var month = $('#month').val();
+					var v_date = (new Date()).getTime();
+					if (month != null && month != '') {
+
+						getCommonCount(nd);//科研装备、合同签订
+						getInvestmentAll(nd);//经费支出
+						patentCount(nd);//专利
+						appraisalCount(nd);//成果
+						setContcator_id(nd, v_date);//合同签订率
+
+					}
+
+				}
+
+				var isKJBPerson = "${isKJBPerson?default('')}";
+				if (isKJBPerson == false || isKJBPerson == 'false')//不是科技部的人
+				{
+					$("#isKJBPerson_id").hide();
+				} else {
+					init();
+				}
+
+				function equipment_01_chart_2(type, legentName) {
+
+					var url = encodeURIComponent("/one_level_main/equipment_03_detail?month=" + $("#month").val() + "&type=" + type + "&legentName=" + legentName);
+					window.open("/instituteIndex?url=" + url);
+				}
+
+				//科研课题 projectCount、科研装备 kyzbCount
+				function getCommonCount(nd) {
+					$.ajax({
+						type : 'GET',
+						url : "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
+						dataType : 'json',
+						headers : {
+							'Content-Type' : 'application/json'
+						},
+						timeout : 3000,
+						error : function(XMLHttpRequest, status) {
+							$("#topic_id").html("<small>--(个)</small>");
+							$("#equipment_id").html("<small>--(个)</small>");
+
+						},
+						success : function(data) {
+							//alert(data.data.projectCount);
+							$("#topic_id").html(data.data.xkfkyzbCount + "<small>(个)</small>");
+							if (typeof (data.data.kyzbCount) == "undefined") {
+								$("#equipment_id").html("<small>0(个)</small>");
+							} else {
+								$("#equipment_id").html(data.data.xkkyzbCount + "<small>(个)</small>");
+							}
+
+						}
+					});
+
+				}
+
+				//合同签订--bak--
+				function setContcator_id(nd, v_date) {
+					//var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date;
+					var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date;
+					$.ajax({
+						type : 'GET',
+						url : url,
+						dataType : 'json',
+						headers : {
+							'Content-Type' : 'application/json'
+						},
+						timeout : 3000,
+						error : function(XMLHttpRequest, status) {
+							$("#contcator_id").html("<small>--(%)</small>");
+						},
+						success : function(data) {
+							var qdl = "0";
+							if (typeof (data.data) == "undefined") {
+								$("#contcator_id").html("0<small>(%)</small>");
+							} else {
+								$("#contcator_id").html(data.data.qdl + "<small>(%)</small>");
+							}
+
+						}
+					});
+				}
+
+				// 研究院预算
+				function getInvestmentAll(nd) {
+					var v_date = (new Date()).getTime();
+					$.ajax({
+						type : "GET",
+						url : '/small_leader/getInvestmentAll?nd=' + nd + '&v_date' + v_date,
+						dataType : "json",
+						timeout : 20000,
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						success : function(data, status) {
+							if (data.success == true || data.success == 'true') {
+
+								var investMoneystr = "";
+								var investMoney = data.data.investMoney;
+								if (investMoney != null && investMoney != '') {
+
+									if (investMoney > 9999) {
+										investMoneystr = (investMoney / 10000).toFixed(2) + "<small>亿元</small>";
+									} else {
+										investMoneystr = investMoney.toFixed(2) + "<small>万元</small>";
+									}
+
+								}
+								$("#pay_id").html(investMoneystr);
+							}
+						},
+						error : function() {
+							//alert("您的网络不给力呀!");
+						},
+						complete : function(XMLHttpRequest, status) {
+							if (status == 'timeout') {
+
+							}
+						}
+					});
+
+				}
+
+				//专利-知识产权
+				function patentCount(nd) {
+					//nd="2018";
+					$.ajax({
+						type : 'POST',
+						url : "/admin/patent-count?nd=" + nd,
+						dataType : 'json',
+						headers : {
+							'Content-Type' : 'application/json'
+						},
+						timeout : 20000, //超时时间设置，单位毫秒
+						error : function(XMLHttpRequest, status) {
+							$("#patentId").html("--<small>(个)</small>");
+						},
+						success : function(data) { //请求成功后处理函数。
+							var patentCount = data.patentCount;
+							// alert(patentCount);
+							$("#patentId").html(patentCount + "<small>(个)</small>");
+						}
+					});
+
+				}
+
+				//成果
+				function appraisalCount(nd) {
+
+					$.ajax({
+						type : 'POST',
+						url : "/admin/appraisal-count?define3=研究院&nd=" + nd,
+						dataType : 'json',
+						headers : {
+							'Content-Type' : 'application/json'
+						},
+						timeout : 3000, //超时时间设置，单位毫秒
+						error : function(XMLHttpRequest, status) {
+							$("#appraisalId").html("--<small>(个)</small>");
+						},
+						success : function(data) { //请求成功后处理函数。
+							var appraisalCount = data.appraisalCount;
+							$("#appraisalId").html(appraisalCount + "<small>(个)</small>");
+						}
+					});
+
+				}
+
+				/**----------------=======================-第三行 ==============---------------*/
+				$("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+				$("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+				$("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+
+				var v_date = (new Date()).getTime();
+				var chart1_url_0 = "/one_level_main/investment_01?nd=" + nd + "&v_date=" + v_date + "&companyCode=";
+				var color = [ "#bee5d2", "#6bdf9e" ];
+				var yAxis4 = [ {
+					type : 'value',
+					name : '亿元',
+					position : 'left',
+					axisLabel : {
+						formatter : '{value}'
+					}
+				} ];
+				/*var echart = load_mutl_bar_down(chart1_url_0, "chart1_ys", "", "", yAxis4);
+				echart.on('click', function (params) {
+				    var xName = params.name;//ysnd、type_flag（直属研究院、分子公司等）、define1（费用性、资本性）、define2 各个研究院名称
+				    var legentName = params.seriesName;
+				    var str = "";
+				    if (legentName.indexOf("资本性") > -1) {
+				        str = "资本性"
+				    }
+				    if (legentName.indexOf("费用性") > -1) {
+				        str = "费用性"
+				    }
+				    //alert(str);
+				    window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=G0_YSND=" + nd + ",G0_TYPE_FLAG=" + xName + ",G0_DEFINE1=" + str);
+				});*/
+				var investment_0101_url = "/one_level_main/investment_0101?nd=" + nd + "&v_date=" + v_date + "&companyCode=" + companyCode;
+				setinvestmentCount(investment_0101_url);
+
+				function setinvestmentCount(url) {
+
+					$("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+					$("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+					$("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+
+					$.ajax({
+						type : "GET",
+						url : url,
+						dataType : "json",
+						timeout : 11000,
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						success : function(data, status) {
+							if (data.success == true || data.success == 'true') {
+								var zysje_count = 0;
+								var fyxsjje_count = 0;
+								var zbxsjje_count = 0;
+								var list = data.data;
+
+								for (var i = 0; i < list.length; i++) {
+									var tt = list[i].fyxsjje;
+
+									if (typeof (tt) == "undefined") {
+										tt = 0;
+									}
+
+									var zysje = list[i].zysje / 10000;//预算总计
+									var fyxsjje = tt / 10000;//费用性科研投入
+									var zbxsjje = list[i].zbxsjje / 10000;//资本性科研投入
+									// alert(fyxsjje);
+									zysje_count = zysje_count + parseFloat(zysje);
+									fyxsjje_count = fyxsjje_count + parseFloat(fyxsjje);
+									zbxsjje_count = zbxsjje_count + parseFloat(zbxsjje);
+								}
+
+								$("#chart1_01").html(zysje_count.toFixed(2) + "亿元");
+								$("#chart1_02").html(fyxsjje_count.toFixed(2) + "亿元");
+								$("#chart1_03").html(zbxsjje_count.toFixed(2) + "亿元");
+								// alert(zysje_count);
+								if (zysje_count == '0') {
+									$("#chart1_04").html("0%");
+								} else {
+									$("#chart1_04").html(percentNum(zbxsjje_count + fyxsjje_count, zysje_count));
+								}
+
+							}
+						},
+						error : function() {
+						},
+						complete : function(XMLHttpRequest, status) {
+
+						}
+
+					});
+				}
+
+				/**----------------=======================-第三行 end ==============---------------*/
+
+				function getDataCountForNameFloat(data, strName) {
+					var seriesList = data.seriesList;
+					var xkCount = 0;
+					if (typeof (seriesList) == "undefined") {
+
+					} else {
+						for (var i = 0; i < seriesList.length; i++) {
+							var arr = seriesList[i].data;
+							var name = seriesList[i].name;
+							if (name == strName) {
+								var name_count = 0;
+								for (var j = 0; j < arr.length; j++) {
+									name_count = name_count + parseFloat(arr[j]);
+								}
+								xkCount = name_count;
+							}
+						}
+
+					}
+					return parseFloat(xkCount);
+
+				}
+
+				function getDataCountForName_t(data, strName) {
+					var list = data.seriesList;
+					alert(list);
+					var xkCount = 0;
+					if (typeof (list) == "undefined") {
+
+					} else {
+						for (var i = 0; i < list.length; i++) {
+							var arr = list[i].data;
+							var name = list[i].name;
+							if (name == strName) {
+								var name_count = 0;
+								for (var j = 0; j < arr.length; j++) {
+									name_count = name_count + parseInt(arr[j]);
+								}
+								xkCount = name_count;
+							}
+						}
+
+					}
+					return parseInt(xkCount);
+
+				}
+
+				function getDataCountForName_d(data, strName) {
+					var list = data.seriesList;
+					//  alert(list);
+					var xkCount = 0;
+					if (typeof (list) != "undefined") {
+						for (var i = 0; i < list.length; i++) {
+							var arr = list[i].data;
+							var name = list[i].name;
+							//alert(name+"="+strName);
+							if (name == strName) {
+								var name_count = 0;
+								for (var j = 0; j < arr.length; j++) {
+									name_count = name_count + parseInt(arr[j]);
+								}
+								xkCount = name_count;
+							}
+						}
+					}
+					return parseInt(xkCount);
+				}
+
+				function addPlan() { //点击新增按钮
+					//parent.layui.index.openTabsPage("/plan/addPlanPageMain", "任务计划-新增");
+					layer.open({
+						title : '工作安排-新增',
+						skin : 'layui-layer-lan',
+						shadeClose : false,
+						type : 2,
+						fixed : false,
+						maxmin : true,
+						area : [ '70%', '100%' ],
+						content : '/plan/addPlanPage'
+					});
+				}
+
+				function set_wait_work_id_count() {
+					var url = "/task/pending-list";
+					$.ajax({
+						type : "POST",
+						url : url,
+						dataType : "json",
+						timeout : 11000,
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						success : function(data, status) {
+
+							$("#wait_work_id_count").html(data.count + "");
+							var list = data.data;
+							for (var i = 0; i < list.length; i++) {
+								var createTime = list[i].createTime;
+								var processInstanceName = '';
+								if (typeof (list[i].processInstanceName) == "undefined") {
+									processInstanceName = '';
+								} else {
+									processInstanceName = list[i].processInstanceName;
+								}
+								var tt = layui.laytpl.toDateString(createTime);
+								var processInstanceId = list[i].processInstanceId;
+								var id = list[i].id;
+								//alert(processInstanceId);
+								if (i < 4) {
+									$("#wait_work_id_list").append("<li onclick=\"wait_work('" + id + "')\" style='cursor:pointer'><span class='date'>" + tt + "</span> <span class='content'>" + processInstanceName + "</span></li>");
+								}
+
+							}
+
+						},
+						error : function() {
+						},
+						complete : function(XMLHttpRequest, status) {
+
+						}
+
+					});
+				}
+				set_wait_work_id_count();
+
+				function wait_work(id) {
+					//alert(processInstanceId);
+					// var temUrl = "/task/process/" + processInstanceId;
+					var temUrl = "/task/pending/deal/" + id;
 					layer.open({
 						title : '任务处理',
 						skin : 'layui-layer-lan',
@@ -1248,209 +1166,187 @@
 						end : function() {
 						}
 					});
-			} 
+				}
 
+				//setGauge("direct_contract_01");
+				setGauge_count();
 
-           //setGauge("direct_contract_01");
-           setGauge_count();
+				function setGauge_count() {
 
+					$("#vdirect_contract_01_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+					$("#vdirect_contract_01_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+					$("#vdirect_contract_01_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
+					var nd = $('#nd').val();
+					var series = [];
+					$.ajax({
+						type : "get",
+						url : "/one_level_main/contract_01?type=1&nd=" + nd + "",
+						timeout : 9000,
+						dataType : "json",
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						success : function(data, status) {
+							if (data.success == true || data.success == 'true') {
+								$("#vdirect_contract_01_01").html(data.data.zsl + "个");
 
+								if (typeof (data.data.yqht) == "undefined") {
+									$("#vdirect_contract_01_02").html("0个");
+								} else {
+									$("#vdirect_contract_01_02").html(data.data.yqht + "个");
+								}
 
-           function setGauge_count()
-           {
+								$("#vdirect_contract_01_03").html(data.data.qdl + "%");
+							}
+						},
+						error : function() {
+						},
+						complete : function(XMLHttpRequest, status) {
+						}
+					});
 
-           	$("#vdirect_contract_01_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-               $("#vdirect_contract_01_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-               $("#vdirect_contract_01_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+				}
 
-               var nd=$('#nd').val();
-               var series=[];
-               $.ajax({
-                   type:"get",
-                   url: "/one_level_main/contract_01?type=1&nd="+nd+"",
-                   timeout : 9000,
-                   dataType:"json",
-                   cache: false,
-                   contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                   success:function(data,status)
-                   {
-                       if(data.success==true ||data.success=='true')
-                       {
-                           $("#vdirect_contract_01_01").html(data.data.zsl+"个");
+				function setGauge(id) {
+					var myChart2 = echarts.init(document.getElementById(id));
+					var options = {
+						title : {
+							text : '',
+							x : 'center',
+							y : '10px',
+							textStyle : {
+								fontSize : 15,
+								fontWeight : 'normal',
+								color : '#000000'
+							},
+							subtextStyle : {
+								color : '#7B7B7B'
+							},
+							subtext : ''
+						},
+						tooltip : {
+							formatter : "{a} <br/>{b} : {c}%"
+						},
+						toolbox : {
+							feature : {
+								restore : {},
+								saveAsImage : {}
+							}
+						},
+						series : [ {
 
-                           if (typeof(data.data.yqht) == "undefined")
-       				    {
-                           	 $("#vdirect_contract_01_02").html("0个");
-       				    }else
-       			    	{
-       				    	 $("#vdirect_contract_01_02").html(data.data.yqht+"个");
-       			    	}
+							data : []
+						} ]
+					};
+					var nd = $('#nd').val();
+					ajax_getGauge("/one_level_main/contract_01?type=2&nd=" + nd + "", myChart2, options);
+				}
 
+				function ajax_getGauge(url, echartsobj, options) {
+					var series = [];
+					$.ajax({
+						type : "get",
+						url : url,
+						timeout : 9000,
+						dataType : "json",
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						success : function(data, status) {
+							if (data.success == true || data.success == 'true') {
+								echartsobj.hideLoading();
+								var data = data.data;
+								echartsobj.setOption({
+									series : [ {
+										data : [ {
+											value : data.value,
+											name : '完成率'
+										} ],
+										name : '签订率',
+										type : 'gauge',
+										radius : "110%",
+										center : [ '50%', '61%' ],
+										detail : {
+											formatter : '{value}%'
+										},
+									} ]
+								});
+							}
+						},
+						error : function() {
+							layer.msg('图表加载失败');
+						},
+						complete : function(XMLHttpRequest, status) {
+							if (status == 'timeout') {
+								layer.msg('超时');
+							}
+						}
+					});
 
+				}
 
-                           $("#vdirect_contract_01_03").html(data.data.qdl+"%");
-                       }
-                   },
-                   error:function()
-                   {
-                   },
-                   complete: function (XMLHttpRequest, status) {
-                   }
-               });
+				//会议纪要
+				function renderTable() {
 
-           }
+					$.ajax({
+						type : "post",
+						url : '/sys_meeting/list_data_top',
+						timeout : 9000,
+						dataType : "json",
+						cache : false,
+						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						success : function(data, status) {
+							var count = "";
+							for (var i = 0; i < data.length; i++) {
 
+								var title = data[i].title;
+								var meetingPlace = data[i].meetingPlace;
+								var meetingDate = data[i].meetingDate;
+								var id = data[i].id;
+								count = count + " <tr><td  style='width: 4px;'>" + (i + 1) + "</td><td><a  onclick=\"view('" + id + "')\" style='cursor:pointer'>" + title + "</a></td><td>" + meetingPlace + "</td><td>" + formatTime(meetingDate) + "</td></tr>";
+							}
+							$("#list_data_top").append(count);
+						},
+						error : function() {
+						},
+						complete : function(XMLHttpRequest, status) {
+						}
+					});
 
-           function setGauge(id)
-           {
-               var myChart2 = echarts.init(document.getElementById(id));
-               var options = {
-                   title: {
-                       text: '',
-                       x:'center',
-                       y: '10px',
-                       textStyle: {
-                           fontSize: 15,
-                           fontWeight: 'normal',
-                           color: '#000000'
-                       },
-                       subtextStyle: {
-                           color: '#7B7B7B'
-                       },
-                       subtext:''
-                   },
-                   tooltip : {
-                       formatter: "{a} <br/>{b} : {c}%"
-                   },
-                   toolbox: {
-                       feature: {
-                           restore: {},
-                           saveAsImage: {}
-                       }
-                   },
-                   series: [
-                       {
+				}
+				function view(id) {
+					var temUrl = "/sys_meeting/get/" + id;
+					layer.open({
+						title : '详情',
+						skin : 'layui-layer-lan',
+						shadeClose : true,
+						type : 2,
+						fixed : false,
+						maxmin : false,
+						area : [ '70%', '90%' ],
+						content : temUrl
+					});
+				}
 
-                           data: []
-                       }
-                   ]
-               };
-               var nd=$('#nd').val();
-               ajax_getGauge("/one_level_main/contract_01?type=2&nd="+nd+"", myChart2, options);
-           }
-
-           function ajax_getGauge(url, echartsobj, options)
-           {
-               var series=[];
-               $.ajax({
-                   type:"get",
-                   url: url,
-                   timeout : 9000,
-                   dataType:"json",
-                   cache: false,
-                   contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                   success:function(data,status)
-                   {
-                       if(data.success==true ||data.success=='true')
-                       {
-                           echartsobj.hideLoading();
-                           var data=data.data;
-                           echartsobj.setOption({
-                               series: [{
-                                   data: [{value: data.value, name: '完成率'}],
-                                   name: '签订率',
-                                   type: 'gauge',
-                                   radius: "110%",
-                                   center: ['50%', '61%'],
-                                   detail: {formatter:'{value}%'},
-                               }]
-                           });
-                       }
-                   },
-                   error:function()
-                   {
-                       layer.msg('图表加载失败');
-                   },
-                   complete: function (XMLHttpRequest, status) {
-                       if(status == 'timeout'){
-                           layer.msg('超时');
-                       }
-                   }
-               });
-
-           }
-
-           //会议纪要
-           function renderTable()
-           { 
-        	   
-        	   $.ajax({
-                   type:"post",
-                   url: '/sys_meeting/list_data_top',
-                   timeout : 9000,
-                   dataType:"json",
-                   cache: false,
-                   contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                   success:function(data,status)
-                   {
-                	   var count = "";
-                	   for (var i = 0; i < data.length; i++) 
-                       {
-                		   
-                           var title = data[i].title;
-                           var meetingPlace= data[i].meetingPlace;
-                           var meetingDate= data[i].meetingDate;
-                           var id = data[i].id;
-                           count = count +" <tr><td  style='width: 4px;'>"+(i+1)+"</td><td><a  onclick=\"view('"+id+"')\" style='cursor:pointer'>"+title+"</a></td><td>"+meetingPlace+"</td><td>"+formatTime(meetingDate)+"</td></tr>";
-                       }
-                	   $("#list_data_top").append(count);
-                   },
-                   error:function()
-                   {
-                   },
-                   complete: function (XMLHttpRequest, status) {
-                   }
-               });
-              
-           }
-           function view(id) 
-           {
-           	 var temUrl="/sys_meeting/get/" + id;
-       		 layer.open({
-                   title:'详情',
-                   skin: 'layui-layer-lan',
-                   shadeClose: true,
-                   type: 2,
-                   fixed: false,
-                   maxmin: false,
-                   area: ['70%', '90%'],
-                   content:  temUrl
-               });
-           }
-           
-           
-           function formatTime(d) {
-               if (d) {
-                   var date = new Date();
-                   date.setTime(d);
-                   var y = date.getFullYear();
-                   var m = date.getMonth() + 1;
-                   m = m < 10 ? ('0' + m) : m;
-                   var day = date.getDate();
-                   day = day < 10 ? ("0" + day) : day;
-                   var h = date.getHours();
-                   h = h < 10 ? ("0" + h) : h;
-                   var M = date.getMinutes();
-                   M = M < 10 ? ("0" + M) : M;
-                   var str = y + "-" + m + "-" + day + " " + h + ":" + M;
-                   return str;
-               } else {
-                   return '';
-               }
-           }
-            
-        </script>
+				function formatTime(d) {
+					if (d) {
+						var date = new Date();
+						date.setTime(d);
+						var y = date.getFullYear();
+						var m = date.getMonth() + 1;
+						m = m < 10 ? ('0' + m) : m;
+						var day = date.getDate();
+						day = day < 10 ? ("0" + day) : day;
+						var h = date.getHours();
+						h = h < 10 ? ("0" + h) : h;
+						var M = date.getMinutes();
+						M = M < 10 ? ("0" + M) : M;
+						var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+						return str;
+					} else {
+						return '';
+					}
+				}
+			</script>
 			<script id="dateTpl" type="text/html"> {{formatTime(d.meetingDate)}} </script>
 </body>
 </html>

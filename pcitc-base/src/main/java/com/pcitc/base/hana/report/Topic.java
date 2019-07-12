@@ -14,8 +14,14 @@ public class Topic {
 	private Object xjRate;
 	private String project_scope;
 	private String project_property;
+	private String zycmc;
 	
-	
+	public String getZycmc() {
+		return zycmc;
+	}
+	public void setZycmc(String zycmc) {
+		this.zycmc = zycmc;
+	}
 	public String getProject_property() {
 		return project_property;
 	}

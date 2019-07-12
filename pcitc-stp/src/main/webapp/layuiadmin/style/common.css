@@ -726,8 +726,8 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .skill .layui-tab-content{padding: 5px 0px;}
 .skill-left{margin: 0 auto;padding-left: 10px;}
 .skill-left>ul{height: auto;overflow: hidden;margin-bottom: 5px;}
-.skill-left>ul li{height: 40px;line-height: 40px;text-align: center;width: 25%;float: left;color: #5258f3;
-    background-color: #e8e4ff;margin-top: 2px;}
+.skill-left>ul li{height: 40px;line-height: 40px;text-align: center;width: 20%;float: left;color: #5258f3;
+    background-color: #e8e4ff;margin-top: 2px;padding: 0 10px;box-sizing: border-box;}
 .skill-left .layui-tab .layui-tab-title li{margin: 0 4px;border-radius: 3px 3px 0 0;
     }
 .skill-left .layui-tab .layui-tab-title li:nth-child(1){margin-left: 0;}
@@ -741,3 +741,11 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .skill-right{width: 35%;float: right;}
 .doc-box ul{margin-bottom: 10px;}
 .ck-editor__editable { min-height: 240px; }
+@media (min-width: 1673px) {
+    .layui-q>.layui-tab-title li{width: 148px;
+        height: 99px;background-size: 100%;}
+    .layui-q>.layui-tab-title li .search-img{background-size: 100%;
+        left: 58px;}
+    .layui-q>.layui-tab-title li:hover,.layui-q>.layui-tab-title li.layui-this:hover,.layui-q>.layui-tab-title li.layui-this{background-size: 100%;}
+    .layui-q>.layui-tab-title .search-text{bottom: -61px;}
+}

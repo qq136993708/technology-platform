@@ -120,10 +120,13 @@
           if (d.type=='1') 
           {
           	 return '<span style="color:orange">股份</span>';
-          }else 
+          }else  if (d.type=='2') 
           {
           	 return '<span style="color:green">集团</span>';
-          }
+          }else
+       	  {
+        	  return '<span></span>';
+       	  }
       }
       function viewv(d) 
       {

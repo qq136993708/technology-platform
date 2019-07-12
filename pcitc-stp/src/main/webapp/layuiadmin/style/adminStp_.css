@@ -443,7 +443,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-nav-itemed>dl>.layui-nav-itemed>a .layui-nav-more {
     background: url(/layuiadmin/layui/images/down_gray.png) no-repeat !important;}
 .layui-nav-tree .layui-nav-item>a:hover .layui-nav-more{background: url("/layuiadmin/layui/images/icon-r-w.png") no-repeat;}
-.layui-header .layui-icon-prev{position: absolute;right: 0px;top: 30px;cursor: pointer;}
+.layui-header .layui-icon-prev{position: absolute;right: 0px;top: 30px;cursor: pointer;width: 70px;}
 .layui-header .layui-icon-next{position: absolute;right: 250px;top: 18px;cursor: pointer;}
 .layui-header .layui-icon-prev:before{content: "其他业务"; font-size: 14px; color: rgba(255,255,255,0.6);}
 .layui-header .layui-icon-next:before{content: "\e65b";}
@@ -986,5 +986,5 @@ html{background-color: #f2f2f2; color: #666;}
     .layui-header-nav ul li {
         margin: 0 12px;
     }
-    #navPrev{left: 350px !important;;}
+    .layui-header-nav{width: 40%;}
 }
