@@ -638,7 +638,7 @@
         if (assessmentArr != '') {
             $.each(assessmentArr.split("|"), function (i, val) {
                 var assessmentVal = val.split("#");
-                var date = '<input type="text" class="layui-input test-laydate-range-month" value="' + assessmentVal[0] + '" placeholder=" - ">'
+                var date = '<input type="text" class="layui-input test-laydate-range-month" placeholder="开始日期-结束日期"  value="' + assessmentVal[0] + '">'
                 var tr = "<tr><td>" + date + "</td>" +
                     "<td><textarea lay-verify='specialCharacters'  placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[1] + "</textarea>  </td>" +
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[2] + "</textarea></td>" +

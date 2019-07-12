@@ -370,13 +370,13 @@
          	   return false;
             } */else
        		{
+            	
+            	var type= $("#type").val();
            		var url = '/tech_cost/save?v_date=' + v_date + "&id=" + id;
-                var backurl = "/tech_cost/to-list?v_date=" + v_date;
+                var backurl = "/tech_cost/to-list?v_date=" + v_date+"&type="+type;
                 ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
                 return false;
        		}
-            
-           
             
         });
         
@@ -384,13 +384,14 @@
         
         $("#funds_sources_table  input").change(function () {
         	//alert($("#techSubsidyCost").val());
-            $("#techSubtotalCost").val(
-            	parseFloat($("#techProjectCost").val()   =='' ? 0 : $("#techProjectCost").val()) +
-            	parseFloat($("#techResearcherCost").val()=='' ? 0 : $("#techResearcherCost").val()) +
-                parseFloat($("#techSubsidyCost").val()   =='' ? 0 : $("#techSubsidyCost").val()) +
-                parseFloat($("#techFacilitiesCost").val()=='' ? 0 : $("#techFacilitiesCost").val()) +
-                parseFloat($("#techOtherCost").val()     =='' ? 0 : $("#techOtherCost").val())
-            );
+        	var techSubtotalCost=parseFloat($("#techProjectCost").val()   =='' ? 0 : $("#techProjectCost").val()) +
+					        	 parseFloat($("#techResearcherCost").val()=='' ? 0 : $("#techResearcherCost").val()) +
+					             parseFloat($("#techSubsidyCost").val()   =='' ? 0 : $("#techSubsidyCost").val()) +
+					             parseFloat($("#techFacilitiesCost").val()=='' ? 0 : $("#techFacilitiesCost").val()) +
+					             parseFloat($("#techOtherCost").val()     =='' ? 0 : $("#techOtherCost").val());
+        	
+        	techSubtotalCost = techSubtotalCost.toFixed(4);
+            $("#techSubtotalCost").val(techSubtotalCost);
         });
         
     });
@@ -433,7 +434,7 @@
 
     function chooseUnitRaio() 
     {
-    
+    	 var v_date=(new Date()).getTime();
 	    layer.open({
 	        title: '选择单位'
 	        , skin: 'layui-layer-lan'
@@ -444,7 +445,7 @@
 	        , maxmin: false
 	        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 	        , area: ['80%', '90%']
-	        , content: "/unit_select_radio?company=search-group-company-tree"
+	        , content: "/unit_select_radio?v_date="+v_date
 	    }); 
     
     }
@@ -471,7 +472,8 @@
         obj.value = obj.value.replace(/[^\d.]/g, "");  //清除“数字”和“.”以外的字符
         obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
         obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
-        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');//只能输入两个小数
+       // obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');//只能输入两个小数
+        obj.value=obj.value.replace(/^(\d*(\.\d{0,4})?).*/,'$1');
         if (obj.value.indexOf(".") < 0 && obj.value != "") {//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
             obj.value = parseFloat(obj.value);
         }

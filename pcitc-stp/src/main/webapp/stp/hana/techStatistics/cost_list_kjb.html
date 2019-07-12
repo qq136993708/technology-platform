@@ -61,9 +61,9 @@
     <table id="myTable" class="layui-table" lay-filter="myTable" >
                  <thead>
                   <tr>
-                      <th lay-data="{checkbox:true, fixed:'left'}" rowspan="2"></th>
-                      <th lay-data="{type : 'numbers'}" rowspan="2">序号</th>
-                      <th lay-data="{field:'unitName', width:'20%',templet:viewv,align:'left'}" rowspan="2" >单位名称</th>
+                    <!--   <th lay-data="{checkbox:true, fixed:'left'}" rowspan="2"></th> -->
+                      <th lay-data="{type : 'numbers', fixed:'left'}" rowspan="2">序号</th>
+                      <th lay-data="{field:'unitName', width:'16%',templet:viewv,align:'left', fixed:'left'}" rowspan="2" >单位名称</th>
                       <th lay-data="{field:'year', width:'8%',align:'center'}" rowspan="2" >年份</th>
                       <th lay-data="{field:'auditStatus',templet:'<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width:'8%',align:'center'}" rowspan="2">审核状态</th>
                       <th lay-data="{field:'type', width:'8%',align:'center',templet:view_type}" rowspan="2" >公司类型</th>
