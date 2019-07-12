@@ -123,7 +123,7 @@ public class OutProjectServiceImpl implements OutProjectService {
         // 公司性质，和out_unit本质一致，公司本质的属性，和合同没关系
         if (param.getParam().get("define12") != null && !StringUtils.isBlank(param.getParam().get("define12") + "")) {
             List define12 = new ArrayList();
-            String[] temS = param.getParam().get("define12").toString().split(",");
+            String[] temS = param.getParam().get("define12").toString().replaceAll("休斯顿研发中心", "休斯顿").replaceAll("中东研发中心", "中东").split(",");
             for (int i = 0; i < temS.length; i++) {
                 define12.add(temS[i]);
             }
@@ -1167,6 +1167,14 @@ public class OutProjectServiceImpl implements OutProjectService {
         if (param.getParam().get("xmid") != null && !StringUtils.isBlank(param.getParam().get("xmid") + "")) {
             opi.setXmid((String) param.getParam().get("xmid"));
         }
+
+        //负责人
+        Object name = param.getParam().get("name");
+        if(!StrUtil.isNull(name)){
+            opi.setFzrxm(name.toString());
+            opi.setJssxxm(name.toString());
+        }
+
         List<OutProjectInfo> list = outProjectInfoMapper.selectProjectByCondExpert(opi);
         System.out.println("1>>>>>>>>>查询分页结果" + list.size());
         PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
