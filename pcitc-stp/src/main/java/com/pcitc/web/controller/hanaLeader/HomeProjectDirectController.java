@@ -108,7 +108,7 @@ public class HomeProjectDirectController extends BaseController {
 		return result.toString();
 	}
 
-	/** =====================================按数量============================== */
+	/** ==============各个专业处的科研课题数量分布=========== */
 	@RequestMapping(method = RequestMethod.GET, value = "/home_project_direct/getProjectByCountBar")
 	@ResponseBody
 	public String getProjectByCountBar(HttpServletRequest request, HttpServletResponse response) throws Exception {
