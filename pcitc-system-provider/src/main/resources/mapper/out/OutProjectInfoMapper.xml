@@ -1797,6 +1797,11 @@
         <if test="zycmc != null">
             and out_project_info.zycmc like '%${zycmc}%'
         </if>
+        <if test="fzrxm != null">
+            and
+            (out_project_info.fzrxm like '%${fzrxm}%'
+            or out_project_info.jssxxm like '%${fzrxm}%')
+        </if>
         <if test="status != null">
             and out_project_info.status = #{status,jdbcType=VARCHAR}
         </if>

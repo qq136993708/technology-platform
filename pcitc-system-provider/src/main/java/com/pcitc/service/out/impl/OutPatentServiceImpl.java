@@ -239,7 +239,9 @@ public class OutPatentServiceImpl implements OutPatentService {
         PageHelper.startPage(pageNum, pageSize);
         OutPatentExample example = new OutPatentExample();
         OutPatentExample.Criteria criteria = example.createCriteria();
-        criteria.andFmrLike("%"+param.getParam().get("name")+"%");
+        String strName = param.getParam().get("name").toString();
+        criteria.andFmrLike("%"+strName+"%");
+        criteria.andDlrLike("%"+strName+"%");
         List<OutPatent> list = outPatentMapper.selectByExample(example);
         // 2、获取分页查询后的数据
         // 3、获取分页查询后的数据
@@ -249,11 +251,11 @@ public class OutPatentServiceImpl implements OutPatentService {
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
         //获取成果数量
-        OutProjectInfoExample outProjectInfoExample = new OutProjectInfoExample();
-        OutProjectInfoExample.Criteria criteria1 = outProjectInfoExample.createCriteria();
-        criteria1.andFzrxmLike("%"+param.getParam().get("name")+"%");
-        List<OutProjectInfo> outProjectInfos = outProjectInfoMapper.selectByExample(outProjectInfoExample);
-        data.setMsg((outProjectInfos==null||outProjectInfos.size()==0)?"0":(outProjectInfos.size()+""));
+//        OutProjectInfoExample outProjectInfoExample = new OutProjectInfoExample();
+//        OutProjectInfoExample.Criteria criteria1 = outProjectInfoExample.createCriteria();
+//        criteria1.andFzrxmLike("%"+param.getParam().get("name")+"%");
+//        List<OutProjectInfo> outProjectInfos = outProjectInfoMapper.selectByExample(outProjectInfoExample);
+//        data.setMsg((outProjectInfos==null||outProjectInfos.size()==0)?"0":(outProjectInfos.size()+""));
         return data;
     }
 }

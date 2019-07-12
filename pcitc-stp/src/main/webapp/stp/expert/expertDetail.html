@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
@@ -40,6 +40,7 @@
                     <p>${zjkBaseInfo.expertName}</p>
                     <span class="layui-zc">职称：${zjkBaseInfo.expertProfessinal}</span>
                     <span class="layui-pone">专家类型：${zjkBaseInfo.bak3}</span>
+                    <span class="layui-e" id="industryId">${zjkBaseInfo.industryId}</span>
                     <span class="layui-e">专业领域：${zjkBaseInfo.expertProfessionalField}</span>
                     <span class="layui-a">所属机构：${zjkBaseInfo.companyName}</span>
                     <div class="search">
@@ -51,23 +52,23 @@
             </div>
         </div>
         <div class="expert-bottom">
-            <span>成果数量<span class="red" id="cgCount">0</span>个</span>
+            <span>相关课题数<span class="red" id="cgCount">0</span>个</span>
+            <span>参与项目评审总数量<span class="red">${xmCount}</span>个</span><br/>
             <span>专利数量<span class="red" id="zlCount">0</span>个</span>
             <!--<span>成果数量<span class="red">${listCgCount}</span>个</span>-->
-            <span>参与项目评审总数量<span class="red">${xmCount}</span>个</span>
+            <span>同一行业领域共计<span class="red">${hylyCount}</span>人</span>
             <!--<span>参与评标机构总数量 <span class="red">${jgCount}</span> 个</span>-->
             <!--<span>参与评标累计项目总数量 <span class="red">${xmCount}</span>个</span><br/>-->
-
-            <span>同一行业领域共计<span class="red">${hylyCount}</span>人</span>
         </div>
         <div class="layui-col-md5 expert-h">
             <div class="layui-card">
                 <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">
                     <ul class="layui-tab-title">
-                        <li class="layui-this" lay-id="11">个人信息</li>
+                        <li class="layui-this" lay-id="11">人物简介</li>
                         <li lay-id="22">人物成就</li>
-                        <!--<li lay-id="22">成果信息</li>-->
-                        <li lay-id="33">专利信息</li>
+                        <li lay-id="33">相关课题</li>
+                        <li lay-id="44">专利信息</li>
+                        <li lay-id="44" onclick="showExpertDetail('${zjkBaseInfo.dataId}')">专家详情</li>
                     </ul>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
@@ -77,26 +78,14 @@
                             <div class="layui-tab-item layui-show">
                                 ${zjkBaseInfo.bak6}
                             </div>
-                            <!---->
-                            <!--<ul>-->
-                            <!--<#list listCg as vo>-->
-                            <!--<li>-->
-                            <!--<p>${vo.publishDate}</p>-->
-                            <!--<span>${vo.achievementName}</span>-->
-                            <!--<p>${vo.achievementDesc}</p>-->
-                            <!--</li>-->
-                            <!--</#list>-->
-                            <!--</ul>-->
+                        </div>
+                        <div class="layui-tab-item">
+                            <table id="showTableCg" class="layui-table" lay-filter="tableDataCg"></table>
                         </div>
                         <div class="layui-tab-item">
                             <table id="showTable" class="layui-table" lay-filter="tableData"></table>
-                            <!--<#list listZl as vo>-->
-                            <!--<li>-->
-                            <!--<p>${vo.fmmc}</p>-->
-                            <!--<p>${vo.wxlx}</p>-->
-                            <!--<span>${vo.qlyq}</span>-->
-                            <!--</li>-->
-                            <!--</#list>-->
+                        </div>
+                        <div class="layui-tab-item">
                         </div>
                     </div>
                 </div>
@@ -105,7 +94,7 @@
         <div class="layui-col-md5">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    <span class="border-span">与${zjkBaseInfo.expertName}</span>有过合作的机构关系
+                    <span class="border-span"></span>企业关系画像
                 </div>
                 <div class="layui-row-main">
                     <div class="main-chart" id="one" style="height:250px;width: 100%;"></div>
@@ -115,7 +104,7 @@
         <div class="layui-col-md5">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    <span class="border-span">${zjkBaseInfo.expertName}</span>参与评标项目数量统计
+                    <span class="border-span"></span>参与项目评审统计
                 </div>
                 <div class="layui-row-main">
                     <div class="main-chart" id="two" style="height:250px;width: 100%;"></div>
@@ -125,7 +114,7 @@
         <div class="layui-col-md12" style="padding-right: 9px;">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    <span class="border-span">${zjkBaseInfo.expertName}</span><!--${zjkBaseInfo.age}岁-->所在行业领域<!--${zjkBaseInfo.expertProfessionalFieldName}年龄段--> 统计
+                    <span class="border-span"></span>所在行业领域统计
                 </div>
                 <div class="layui-row-main">
                     <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
@@ -141,8 +130,25 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_force.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 <script type="text/html" id="showDetail">
     <a class="layui-btn layui-btn-xs" lay-event="showDetail">查看</a>
+</script>
+
+<script>
+//专家详情
+function showExpertDetail(expertId){
+    openFullWin("查看", "/zjkBaseInfo/view/" + expertId);
+}
+//获取行业领域---行业领域：
+ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
+    $.each(data, function (i, dt) {
+        if($("#industryId").html()==data[i].code){
+            $("#industryId").html("行业领域:"+data[i].name);
+        }
+        // $("#industryId").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    });
+});
 </script>
 <script>
     var expertId = '${zjkBaseInfo.dataId}';
@@ -325,8 +331,86 @@
         renderTable();
         window.renderTable = renderTable;
 
-        //专利start
+        //科研课题start
+        function renderTableKt() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            var lodingMsg = layer.msg('数据加载中....');
+            //渲染
+            table.render({
+                elem: '#showTableCg',
+                url: '/expertController/outProjectList',
+                method: "POST",
+                where: {
+                    param: {
+                        "name": "${zjkBaseInfo.expertName}",
+                        "leaderFlag": "1",
+                        "functionCode": param.code
+                    }
+                },
+                limit: param.selfRownum,
+                id: 'showTableCg',
+                height: commonDislodgeTable(),
+                page: {
+                    groups: 5,
+                    limits: [param.selfRownum,  30, 45, 60],
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+                //     {
+                //     type: 'checkbox',
+                //     event: 'changeEvents'
+                // },
+                    {
+                    title: '序号',
+                    type: 'numbers',
+                    width:55
+                },
+                    {
+                    field: 'xmmc',
+                    title: '项目名称',
+                    width: '18%',
+                    style: 'cursor: pointer;'
+                },
 
+                    {
+                        field: 'fzdw',
+                        title: '负责单位',
+                        width: '18%',
+                        style: 'cursor: pointer;'
+                    },{
+                    field: 'zylb',
+                    title: '专业类别',
+                    width: '18%',
+                    style: 'cursor: pointer;'
+                },
+                    {
+                        field: 'nd',
+                        title: '立项年度',
+                        style: 'cursor: pointer;'
+                    }
+                ]],
+                done: function (res, curr, count) {
+                    // 关闭等待刷新
+                    layer.close(lodingMsg);
+                    $("#cgCount").html(count);
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                }
+            });
+        }
+
+        renderTableKt();
+        //科研课题end
+        //专利start
         function renderTablePatent() {
             var param = JSON.parse(window.localStorage.getItem("param"));
             var lodingMsg = layer.msg('数据加载中....');
@@ -380,7 +464,7 @@
                     // 关闭等待刷新
                     layer.close(lodingMsg);
                     $("#zlCount").html(count);
-                    $("#cgCount").html(res.msg);
+                    // $("#cgCount").html(res.msg);
                     // 点击行联动选择框--单选
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
