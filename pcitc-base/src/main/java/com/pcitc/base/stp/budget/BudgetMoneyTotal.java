@@ -3,6 +3,8 @@ package com.pcitc.base.stp.budget;
 public class BudgetMoneyTotal {
     private String dataId;
 
+    private String parentDataId;
+
     private String nd;
 
     private String showIndex;
@@ -27,12 +29,28 @@ public class BudgetMoneyTotal {
 
     private String showOrder;
 
+    private Integer no;
+
+    private String code;
+
+    private Integer level;
+
+    private String budgetInfoId;
+
     public String getDataId() {
         return dataId;
     }
 
     public void setDataId(String dataId) {
         this.dataId = dataId;
+    }
+
+    public String getParentDataId() {
+        return parentDataId;
+    }
+
+    public void setParentDataId(String parentDataId) {
+        this.parentDataId = parentDataId;
     }
 
     public String getNd() {
@@ -129,5 +147,37 @@ public class BudgetMoneyTotal {
 
     public void setShowOrder(String showOrder) {
         this.showOrder = showOrder;
+    }
+
+    public Integer getNo() {
+        return no;
+    }
+
+    public void setNo(Integer no) {
+        this.no = no;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public String getBudgetInfoId() {
+        return budgetInfoId;
+    }
+
+    public void setBudgetInfoId(String budgetInfoId) {
+        this.budgetInfoId = budgetInfoId;
     }
 }

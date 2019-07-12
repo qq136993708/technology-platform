@@ -580,7 +580,7 @@ public class BudgetStockTotalProviderClient
 		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.STOCK_TOTAL.getCode());
 		return budgetStockTotalService.selectFinalStockTotalBudget(info);
 	}
-	@ApiOperation(value="股份公司预算-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
+	@ApiOperation(value="股份公司预算-获取指定年度预算项",notes="获取指定年度股份公司预算项列表")
 	@RequestMapping(value = "/stp-provider/budget/get-stockitem-type-dictionary", method = RequestMethod.POST)
 	public Object getStockItemTypeDictionary(@RequestBody String nd) throws Exception 
 	{
