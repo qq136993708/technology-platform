@@ -27,6 +27,7 @@ public class BudgetOrganServiceImpl  extends BaseServiceImpl<BudgetOrgan,String,
 
 	@Autowired
 	public BudgetOrganMapper mp;
+	
 	@Override
 	public BudgetBaseMapper<BudgetOrgan,String,BudgetOrganExample> getMapper() 
 	{
