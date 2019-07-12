@@ -53,7 +53,7 @@ public interface ITechStatisticsService {
 	
 	public LayuiTableData getTechOrgCountPage(LayuiTableParam param)throws Exception;
 	public Result dealTechOrgCountWorkFlow(String id, Map map) throws Exception;
-	
+	public LayuiTableData getTechOrgCountStatisticsPage(LayuiTableParam param)throws Exception;
 	
 
 }
