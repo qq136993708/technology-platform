@@ -307,7 +307,7 @@
 					var headerNav = $(".layui-header-nav ul").html();
 					var navLeft = 36;
 					$(".layui-header-nav ul li").each(function(i, val) {
-						if (i > 3) {
+						if (i > 4) {
 							$(".layui-header .layui-icon-prev").removeClass("layui-hide");
 							$(val).remove();
 						} else {
@@ -324,12 +324,12 @@
 							parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
 						}
 					});
-					$(".layui-header .layui-icon-prev").css("left", navLeft + "px");
+					$(".layui-header .layui-icon-prev").css("left", (navLeft-10) + "px");
 					if (!$(".layui-header .layui-icon-prev").hasClass("layui-hide")) {
 						$("#navPrev ul").append(headerNav);
 						$("#navPrev ul span").remove();
 						$("#navPrev ul li").each(function(i, val) {
-							if (i < 4) {
+							if (i < 5) {
 								$(".layui-header .layui-icon-prev").removeClass("layui-hide");
 								$(val).remove();
 							}
@@ -366,7 +366,7 @@
 						$("#nav" + id).removeClass("layui-hide");
 						
 						if ($("#" + id).text() == "专家库") {
-							parent.layui.index.openTabsPage("/expertController/expertIndexNew", "首页");
+							parent.layui.index.openTabsPage("/expertController/expertIndexNew", "专家库");
 						}
 						
 						$(".layui-header .layui-layout-left li").removeClass("layui-this");

@@ -479,12 +479,13 @@
 	
 	<select id="getList" resultMap="BaseResultMap" parameterType="map" >
 	 SELECT t.*,t2.`equipment_name` FROM sre_equipment_ledger t  LEFT JOIN sre_equipment_detail t2 ON t.G0ANLN1=t2.asset_number AND t.G0GSDM=t2.supplier
-      where LEFT(t.G0ANLN1,2) IN ('02','03')
+      where LEFT(t.G0ANLN1,2) IN ('02','03') 
          <if test="g0gsdm != null and g0gsdm !='' ">      AND t.G0GSDM =  #{g0gsdm}</if>
 	   	 <if test="g0anln1 != null and g0anln1 !='' ">    AND t.G0ANLN1 = #{g0anln1}</if>
 	   	 <if test="g0cald != null and g0cald !='' ">      AND t.G0CALD =  #{g0cald}</if>
 	   	 <if test="g0txt50 != null and g0txt50 !='' ">    AND t.G0TXT50 = #{g0txt50}</if>
 	   	 <if test="g0gsjc != null and g0gsjc  !='' ">     AND t.G0GSJC like CONCAT('%',#{g0gsjc},'%')</if>
+	   	   ORDER BY  t.G0GSDM   desc
     </select>
    
 	

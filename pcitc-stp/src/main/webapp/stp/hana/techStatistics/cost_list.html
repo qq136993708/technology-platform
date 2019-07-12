@@ -64,8 +64,8 @@
     <table id="myTable" class="layui-hide" lay-filter="myTable" >
                  <thead>
                   <tr>
-                      <th lay-data="{checkbox:true,  event : 'changeEvents',type : 'checkbox'}" rowspan="2">单选</th>
-                      <th lay-data="{field:'unitName', width:'20%',templet:viewv,align:'left'}" rowspan="2" >单位名称</th>
+                      <th lay-data="{checkbox:true,  event : 'changeEvents',type : 'checkbox', fixed:'left'}" rowspan="2">单选</th>
+                      <th lay-data="{field:'unitName', width:'16%',templet:viewv,align:'left', fixed:'left'}" rowspan="2" >单位名称</th>
                       <th lay-data="{field:'year',align:'center', width:'8%'}" rowspan="2" >年份</th>
                       <th lay-data="{field:'auditStatus',templet:'<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'}" rowspan="2">审核状态</th>
                       <th lay-data="{field:'type', width:'8%',align:'center',templet:view_type}" rowspan="2" >公司类型</th>
@@ -193,7 +193,7 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
           elem: '#year' ,type: 'year'
           
        });
-	       // init_companyCode(functionId);
+	      
      	     myTable();
      	     //移除表头的复选框,去掉全选
      	     $(".layui-table-header table thead th input").remove();  
@@ -236,6 +236,10 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                 	{
                 	   var id=selectRowData.id;
                		   var url="/tech_cost/add?id="+id+"&type="+type;
+               		   
+               		   
+               		  var unitName=selectRowData.unitName;
+               		 
                		   var auditStatus=selectRowData.auditStatus;
             		   if(auditStatus=='1' ||auditStatus=='2')
             		   {
@@ -251,7 +255,7 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
 	                   	}
                    	
                		   layer.open({
-                          title:title+'-修改',
+                          title: unitName+"-"+title+'-修改',
                           skin: 'layui-layer-lan',
                           shadeClose: true,
                           type: 2,
@@ -270,6 +274,7 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                 	 {
                 		  var id=selectRowData.id;
                 		  var auditStatus=selectRowData.auditStatus;
+                		  var unitName=selectRowData.unitName;
                		   if(auditStatus=='1' ||auditStatus=='2')
                		   {
                			  layer.alert('该科技投入已经在审核中');
@@ -278,7 +283,7 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
                		   
                 		  
                		      var url="/tech_cost/delete/"+id;
-    	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
+    	           		  layer.confirm('确定要删除 “'+unitName+'”该行的填报信息吗？', { btn: ['确定','取消']}, function(){
     	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
     	         			}, function(){
     	         			 

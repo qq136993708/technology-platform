@@ -54,17 +54,23 @@ public class HomeProjectMysqlController extends BaseController{
 
 
 	/**
-	 * =====================================科研项目二级页面============================
+	 * ===============专业处，科研课题详情页面============================
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/home_project_02/home_project")
+	@RequestMapping(method = RequestMethod.GET, value = "/home_project_02/zyc/kytk")
 	public String kyzb_level2(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
-		String nd = HanaUtil.getBeforeYear();
-		request.setAttribute("nd", nd);
-		return "stp/hana/home/level/home_project_mysql";
+		
+		String year = HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
+		
+		// 用户级别，暂定，通过这个控制用户看见全部，还是控制他看到的一部分
+		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
+		
+		return "stp/hana/home/level/zyc_kykt";
 	}
 
 	/** =====================================按数量============================== */

@@ -141,7 +141,10 @@ layui.define(['jquery'],function (e) {
         }else if(d==3){
         	stateData="<button style='background-color: #1E9FFF' class='layui-btn  layui-btn-xs'>已驳回</button>";
            // stateData="<span class='fontStateColor btn-yellow'></span>"
-        }
+        }else
+    	{
+        	stateData="<span>-</span>";
+    	}
         return stateData;
     };
 	
@@ -293,7 +296,7 @@ layui.define(['jquery'],function (e) {
         var stateData;
         if(d==1){
 			stateData="<span class='fontStateColor  btn-green'></span>"
-        }else if(d==""){
+        }else{
         	 stateData="<span class='fontStateColor btn-blue'></span>"
         }
         return stateData;

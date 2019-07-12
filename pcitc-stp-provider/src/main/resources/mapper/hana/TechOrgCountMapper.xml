@@ -59,6 +59,9 @@
     <result column="thesis_ei_inner_count"  property="thesisEiInnerCount" jdbcType="INTEGER" />
     
     
+    <result column="device_innner_assets" property="deviceInnnerAssets" jdbcType="DECIMAL" />
+     
+    
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -71,7 +74,9 @@
     all_patent_count, all_patent_look_count, current_year_patent_count, current_patent_look_count, 
     achievements_country_count, achievements_privance_count, achievements_company_count, 
     thesis_all_count, thesis_sci_count, thesis_ei_count, thesis_istp_count, thesis_isr_count, 
-    audit_status, notes,apply_depart_code,apply_depart_name,attachment_doc,year,thesis_sci_inner_count,thesis_ei_inner_count
+    audit_status, notes,apply_depart_code,apply_depart_name,attachment_doc,year,
+    thesis_sci_inner_count,thesis_ei_inner_count
+    ,device_innner_assets
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -101,7 +106,8 @@
       achievements_privance_count, achievements_company_count, 
       thesis_all_count, thesis_sci_count, thesis_ei_count, 
       thesis_istp_count, thesis_isr_count, audit_status, 
-      notes,apply_depart_code,apply_depart_name,attachment_doc,year,thesis_sci_inner_count,thesis_ei_inner_count
+      notes,apply_depart_code,apply_depart_name,attachment_doc,
+      year,thesis_sci_inner_count,thesis_ei_inner_count,device_innner_assets
       )
     values (#{id,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, 
       #{unitCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{createUserMobile,jdbcType=VARCHAR}, 
@@ -125,6 +131,7 @@
       , #{applyDepartName,jdbcType=VARCHAR}, #{attachmentDoc,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}
       , #{thesisSciInnerCount,jdbcType=INTEGER}
       , #{thesisEiInnerCount,jdbcType=INTEGER}
+      , #{deviceInnnerAssets,jdbcType=DECIMAL}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.report.TechOrgCount" >
@@ -286,7 +293,11 @@
       <if test="thesisEiInnerCount != null" >
         thesis_ei_inner_count,
       </if>
-      
+      <if test="deviceInnnerAssets != null" >
+        device_innner_assets,
+      </if>
+    
+    
     
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -446,7 +457,12 @@
       <if test="thesisEiInnerCount != null" >
         #{thesisEiInnerCount,jdbcType=VARCHAR},
       </if>
+      <if test="deviceInnnerAssets != null" >
+        #{deviceInnnerAssets,jdbcType=VARCHAR},
+      </if>
       
+      
+       
       
     </trim>
   </insert>
@@ -606,7 +622,10 @@
       <if test="thesisEiInnerCount != null" >
         thesis_ei_inner_count = #{thesisEiInnerCount,jdbcType=VARCHAR},
       </if>
-      
+      <if test="deviceInnnerAssets != null" >
+        device_innner_assets = #{deviceInnnerAssets,jdbcType=VARCHAR},
+      </if> 
+     
       
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -646,6 +665,7 @@
       group_invest_cost = #{groupInvestCost,jdbcType=DECIMAL},
       sub_invest_cost = #{subInvestCost,jdbcType=DECIMAL},
       out_invest_cost = #{outInvestCost,jdbcType=DECIMAL},
+      device_innner_assets = #{deviceInnnerAssets,jdbcType=DECIMAL},
       all_patent_count = #{allPatentCount,jdbcType=INTEGER},
       all_patent_look_count = #{allPatentLookCount,jdbcType=INTEGER},
       current_year_patent_count = #{currentYearPatentCount,jdbcType=INTEGER},
@@ -689,13 +709,127 @@
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  create_date desc
+        ORDER BY  year desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
    
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM tech_org_count t <include refid="selectCondition"/>
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    <select id="getStatisticsList" resultMap="BaseResultMap" parameterType="Map" >
+      SELECT 
+		  '-' AS YEAR ,
+		  '-' AS  TYPE,
+		  '-' AS  create_user_name,
+		  '总计' AS  unit_name,
+		  NULL AS  create_date,
+		  '-' AS  audit_status,
+		  SUM(t.`workers_count`)        AS workers_count,
+		  SUM(t.`female_count`)         AS female_count,
+		  SUM(t.`title_senior_count`)   AS title_senior_count,
+		  SUM(t.`title_middle_count`)   AS title_middle_count,
+		  SUM(t.`title_lower_count`)    AS title_lower_count,
+		  SUM(t.`diploma_doctor_count`) AS diploma_doctor_count,
+		  SUM(t.`diploma_master_count`) AS diploma_master_count,
+		  SUM(t.`diploma_undergraduate_count`) AS diploma_undergraduate_count ,
+		  SUM(t.`specialist_country_count`)    AS specialist_country_count ,
+		  SUM(t.`specialist_province_count`)   AS specialist_province_count,
+		  SUM(t.`researcher_count`)        AS  researcher_count,
+		  SUM(t.`direct_researcher_count`) AS direct_researcher_count,
+		  SUM(t.`assist_researcher_count`) AS assist_researcher_count,
+		  SUM(t.`worker_salary`)       AS worker_salary,
+		  SUM(t.`assets_total`)        AS assets_total,
+		  SUM(t.`fixed_assets`)        AS fixed_assets,
+		  SUM(t.`device_assets`)       AS device_assets,
+		  SUM(t.`tota_income`)         AS tota_income,
+		  SUM(t.`country_invest_cost`) AS country_invest_cost,
+		  SUM(t.`group_invest_cost`)   AS group_invest_cost,
+		  SUM(t.`sub_invest_cost`)     AS sub_invest_cost,
+		  SUM(t.`out_invest_cost`)     AS out_invest_cost,
+		  SUM(t.`all_patent_count`)    AS all_patent_count,
+		  SUM(t.`all_patent_look_count`)       AS all_patent_look_count,
+		  SUM(t.`current_year_patent_count`)   AS current_year_patent_count,
+		  SUM(t.`current_patent_look_count`)   AS current_patent_look_count,
+		  SUM(t.`achievements_country_count`)  AS achievements_country_count,
+		  SUM(t.`achievements_privance_count`) AS achievements_privance_count,
+		  SUM(t.`achievements_company_count`)  AS achievements_company_count,
+		  SUM(t.`thesis_all_count`)       AS thesis_all_count,
+		  SUM(t.`thesis_sci_count`)       AS thesis_sci_count,
+		  SUM(t.`thesis_ei_count`)        AS thesis_ei_count,
+		  SUM(t.`thesis_istp_count`)      AS thesis_istp_count,
+		  SUM(t.`thesis_isr_count`)       AS thesis_isr_count,
+		  SUM(t.`thesis_sci_inner_count`) AS thesis_sci_inner_count,
+		  SUM(t.`thesis_ei_inner_count`)  AS thesis_ei_inner_count 
+    FROM tech_org_count  t <include refid="selectCondition" />    
+		  
+    UNION ALL 
+    SELECT * FROM(
+	SELECT 
+		 
+		  t.`year`,
+		  t.`type`,
+		  t.`create_user_name`,
+		  t.`unit_name`,
+		  t.`create_date`,
+		  t.`audit_status`,
+		  t.`workers_count`,
+		  t.`female_count`,
+		  t.`title_senior_count`,
+		  t.`title_middle_count`,
+		  t.`title_lower_count`,
+		  t.`diploma_doctor_count`,
+		  t.`diploma_master_count`,
+		  t.`diploma_undergraduate_count`,
+		  t.`specialist_country_count`,
+		  t.`specialist_province_count`,
+		  t.`researcher_count`,
+		  t.`direct_researcher_count`,
+		  t.`assist_researcher_count`,
+		  t.`worker_salary`,
+		  t.`assets_total`,
+		  t.`fixed_assets`,
+		  t.`device_assets`,
+		  t.`tota_income`,
+		  t.`country_invest_cost`,
+		  t.`group_invest_cost`,
+		  t.`sub_invest_cost`,
+		  t.`out_invest_cost`,
+		  t.`all_patent_count`,
+		  t.`all_patent_look_count`,
+		  t.`current_year_patent_count`,
+		  t.`current_patent_look_count`,
+		  t.`achievements_country_count`,
+		  t.`achievements_privance_count`,
+		  t.`achievements_company_count`,
+		  t.`thesis_all_count`,
+		  t.`thesis_sci_count`,
+		  t.`thesis_ei_count`,
+		  t.`thesis_istp_count`,
+		  t.`thesis_isr_count`,
+		  t.`thesis_sci_inner_count`,
+		  t.`thesis_ei_inner_count` 
+	FROM tech_org_count  t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  year desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+     ) tt
+   </select>
+   
+    <select id="getStatisticsCount" resultType="java.lang.Integer" parameterType="Map" >
       SELECT count(*) FROM tech_org_count t <include refid="selectCondition"/>
     </select>
     

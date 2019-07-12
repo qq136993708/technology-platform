@@ -1877,7 +1877,11 @@
         	IFNULL(sum(case when xmlbbm != 'KYZB' then 1 else 0 end),0) as projectCount, 
 			IFNULL(sum(case when xmlbbm = 'KYZB' then 1 else 0 end),0) as kyzbCount,
 			IFNULL(sum(case when nd = '${nd}' then 1 else 0 end),0) as xkCount,
-			IFNULL(sum(case when nd &lt; '${nd}' then 1 else 0 end),0) as jzCount
+			IFNULL(sum(case when nd &lt; '${nd}' then 1 else 0 end),0) as jzCount,
+			IFNULL(sum(case when nd = '${nd}' and xmlbbm = 'KYZB' then 1 else 0 end),0) as xkkyzbCount,
+			IFNULL(sum(case when nd = '${nd}' and xmlbbm != 'KYZB' then 1 else 0 end),0) as xkfkyzbCount,
+			IFNULL(sum(case when nd &lt; '${nd}' and xmlbbm = 'KYZB' then 1 else 0 end),0) as jzkyzbCount,
+			IFNULL(sum(case when nd &lt; '${nd}' and xmlbbm != 'KYZB' then 1 else 0 end),0) as jzfkyzbCount
 		from (
 			select xmlbbm,nd
 			from out_project_info
@@ -2569,25 +2573,38 @@
 	<!-- 领导二级页面，各个处室的新开、续建、完结情况 -->
 	<select id="getProjectCountByProjectTypeLD" resultType="java.util.Map" parameterType="java.util.HashMap">
     	select 
-			sum(case project_scope when '新开课题' then 1 else 0 end) as xksl,
-			sum(case project_scope when '结转课题' then 1 else 0 end) as xjsl,
+			sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+		    sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
 	    	count(*) as zsl,substring(define10,4) as zycmc
 		from (
 			select
-				nd,ysnd,define10,
-				(case when nd = '${nd}' then '新开课题' else '结转课题' end) as project_scope
+				nd,ysnd,define10
 			from out_project_info
-			where ysnd = '${nd}' and project_type != '1' and 
-				 define10 is not null and
-				 xmlbbm !='KYZB'
-				 <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
-					</if>
-					<if test="zycbm == null or zycbm == ''">
-						and out_project_info.nd = '1900'
-					</if>
-				</if>
+			where ysnd = '${nd}' and 
+				  project_type != '1'
+				  <if test="typeFlag != null and typeFlag != ''">
+					  and type_flag like '%${typeFlag}%'
+				  </if>
+				  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
+					  and xmlbbm ='KYZB'
+				  </if>
+				  <if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+					  and xmlbbm !='KYZB'
+				  </if>
+				  <if test="zylbbm != null and zylbbm != ''">
+					  and find_in_set(zylbbm, '${zylbbm}')
+				  </if>
+				  <if test="zycbm != null and zycbm != ''">
+					  and find_in_set(zycbm, '${zycbm}')
+				  </if>
+				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					  <if test="zycbm != null and zycbm != ''">
+						  and find_in_set(out_project_info.zycbm, '${zycbm}')
+					  </if>
+					  <if test="zycbm == null or zycbm == ''">
+						  and out_project_info.ND = '1900'
+					  </if>
+				  </if>
 		    group by xmid
 		) as tableA
 		group by tableA.define10
@@ -2806,7 +2823,9 @@
 											project_type != '1' 
 											and out_project_info.define3 = '项目管理系统' 
 											and out_project_info.ysnd = '${nd}'
-											and type_flag like '%直属研究院%'
+											<if test="type_flag != null and type_flag != ''">
+												 and type_flag like '%直属研究院%'
+											</if>
 											<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 												 and xmlbbm ='KYZB'
 											</if>
@@ -2824,22 +2843,24 @@
 				  project_type != '1' 
 				  and out_project_info.define3 = '项目管理系统' 
 	  		      and out_project_info.ysnd = '${nd}'
-				  and type_flag like '%直属研究院%'
+				  <if test="type_flag != null and type_flag != ''">
+					   and type_flag like '%直属研究院%'
+				  </if>
 				  <!-- 数据控制 -->
-					<if test="zylbbm != null and zylbbm != ''">
-						and find_in_set(out_project_info.zylbbm, '${zylbbm}')
-					</if>
-					<if test="zycbm != null and zycbm != ''">
+				  <if test="zylbbm != null and zylbbm != ''">
+					  and find_in_set(out_project_info.zylbbm, '${zylbbm}')
+				  </if>
+				  <if test="zycbm != null and zycbm != ''">
+					  and find_in_set(out_project_info.zycbm, '${zycbm}')
+				  </if>
+				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					  <if test="zycbm != null and zycbm != ''">
 						and find_in_set(out_project_info.zycbm, '${zycbm}')
-					</if>
-					<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-						<if test="zycbm != null and zycbm != ''">
-							and find_in_set(out_project_info.zycbm, '${zycbm}')
-						</if>
-						<if test="zycbm == null or zycbm == ''">
-							and out_project_info.ND = '1900'
-						</if>
-					</if>
+					  </if>
+					  <if test="zycbm == null or zycbm == ''">
+						and out_project_info.ND = '1900'
+					  </if>
+				  </if>
 				  <!-- 数据控制 -->
 				  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
 					 and xmlbbm ='KYZB'

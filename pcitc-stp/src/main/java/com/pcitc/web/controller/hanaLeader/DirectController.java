@@ -59,6 +59,7 @@ public class DirectController extends BaseController {
 	private static final String topic_01 = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/unit";
 	private static final String topic_02 = "http://pcitc-zuul/system-proxy/out-project-provider/project-info/new-old/lx";
 	private static final String topic_03 = "http://pcitc-zuul/system-proxy/out-project-provider/tech/type/project-info";
+	private static final String topic_08 = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-count/project-type";
 
 	private static final String topic_count = "http://pcitc-zuul/system-proxy/out-provider/kyzb/project-count";
 
@@ -98,7 +99,7 @@ public class DirectController extends BaseController {
 		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "");
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
-		
+
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
@@ -118,9 +119,13 @@ public class DirectController extends BaseController {
 				JSONObject jSONArray = responseEntity.getBody();
 				Integer projectCount = jSONArray.getInteger("projectCount");
 				Integer kyzbCount = jSONArray.getInteger("kyzbCount");
+				Integer xkfkyzbCount = jSONArray.getInteger("xkfkyzbCount");
+				Integer xkkyzbCount = jSONArray.getInteger("xkkyzbCount");
 				Map map = new HashMap();
 				map.put("projectCount", projectCount);
 				map.put("kyzbCount", kyzbCount);
+				map.put("xkfkyzbCount", xkfkyzbCount);
+				map.put("xkkyzbCount", xkkyzbCount);
 				result.setSuccess(true);
 				result.setData(map);
 
@@ -196,9 +201,7 @@ public class DirectController extends BaseController {
 		String nd = HanaUtil.getBeforeYear();
 		request.setAttribute("nd", nd);
 
-
-
-         String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
 		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/knowledgePatent";
 	}
@@ -487,7 +490,6 @@ public class DirectController extends BaseController {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
 		}
-		
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		System.out.println(">>>>>>>>>>>>>>contry_01 参数-> " + jsonObject.toString());
@@ -630,7 +632,7 @@ public class DirectController extends BaseController {
 		String nd = HanaUtil.getBeforeYear();
 		request.setAttribute("nd", nd);
 
-        String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
 		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/achievement";
 	}
@@ -651,7 +653,7 @@ public class DirectController extends BaseController {
 		String year = HanaUtil.getBeforeYear();
 		request.setAttribute("year", year);
 
-        String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
 		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/contract";
 	}
@@ -669,7 +671,7 @@ public class DirectController extends BaseController {
 		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
-		
+
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -803,7 +805,7 @@ public class DirectController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("companyCode", companyCode);
-		
+
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
@@ -892,7 +894,7 @@ public class DirectController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		
+
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
@@ -901,7 +903,7 @@ public class DirectController extends BaseController {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");
 		}
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -973,7 +975,7 @@ public class DirectController extends BaseController {
 		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
-		
+
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -1104,15 +1106,8 @@ public class DirectController extends BaseController {
 	}
 
 	/**
-	 * ==========================================合同签订 end
-	 * ================================
+	 * ==================专业处/领导页面（研究院）-科研课题============================
 	 */
-
-	/**
-	 * =========================================科研课题============================
-	 * =====
-	 */
-
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/topic")
 	public String topic(HttpServletRequest request) throws Exception {
 
@@ -1121,8 +1116,10 @@ public class DirectController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getBeforeYear();
+		String year = HanaUtil.getCurrrentYear();
 		request.setAttribute("year", year);
+		
+		// 用户级别，暂定，通过这个控制用户看见全部，还是控制他看到的一部分
 		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
 		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/topic";
@@ -1144,7 +1141,7 @@ public class DirectController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
 		paramsMap.put("xmlbbm", xmlbbm);
-		
+
 		// 数据控制属性
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
@@ -1258,7 +1255,7 @@ public class DirectController extends BaseController {
 		String type = CommonUtil.getParameter(request, "type", "");
 		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String typeFlag = CommonUtil.getParameter(request, "typeFlag ", "研究院");
+		String typeFlag = CommonUtil.getParameter(request, "typeFlag ", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
@@ -1370,7 +1367,7 @@ public class DirectController extends BaseController {
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "研究院");
+		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "");
 		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -1422,6 +1419,71 @@ public class DirectController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		System.out.println(">>>>>>>>>>>>>>>topic_03 " + resultObj.toString());
+		return resultObj.toString();
+	}
+	
+	/**
+	 * 专业处所属科研课题分布
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/direct/topic_08")
+	@ResponseBody
+	@OperationFilter(dataFlag = "true")
+	public String topic_08(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		Result result = new Result();
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "");
+		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		paramsMap.put("xmlbbm", xmlbbm);
+		paramsMap.put("typeFlag", typeFlag);
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		if (!nd.equals("")) {
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(topic_08, HttpMethod.POST, entity, JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+
+				JSONArray jSONArray = responseEntity.getBody();
+				System.out.println(">>>>>>>>>>>>>>topic_08 jSONArray-> " + jSONArray.toString());
+				List<Topic> list = JSONObject.parseArray(jSONArray.toJSONString(), Topic.class);
+
+				ChartBarLineResultData barLine = new ChartBarLineResultData();
+				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "zycmc");
+				barLine.setxAxisDataList(xAxisDataList);
+
+				List<String> legendDataList = new ArrayList<String>();
+				legendDataList.add("新开课题");
+				legendDataList.add("结转课题");
+				barLine.setLegendDataList(legendDataList);
+				// X轴数据
+				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+				ChartBarLineSeries s1 = HanaUtil.getTopicChartBarLineSeries05(list, "xksl");
+				seriesList.add(s1);
+				ChartBarLineSeries s2 = HanaUtil.getTopicChartBarLineSeries05(list, "xjsl");
+				seriesList.add(s2);
+				barLine.setSeriesList(seriesList);
+				result.setSuccess(true);
+				result.setData(barLine);
+
+			}
+
+		} else {
+			result.setSuccess(false);
+			result.setMessage("参数为空");
+		}
+		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+		System.out.println(">>>>>>>>>>>>>>>topic_08 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1496,7 +1558,7 @@ public class DirectController extends BaseController {
 		String month = HanaUtil.getCurrrentYear_Moth();
 		request.setAttribute("month", year + "-" + month.substring(5));
 
-        String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
 		request.setAttribute("userLevel", userLevel);
 		return "stp/hana/home/oneLevelMain/direct/equipment";
 	}

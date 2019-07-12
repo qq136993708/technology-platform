@@ -12,220 +12,64 @@
     <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
     <script src="/layuiadmin/layui/layui.js"></script>
     <style>
-        html {
-            background: #f2f2f2;
-        }
-
-        body {
-            background: #fff;
-            margin: 0 auto;
-            width: 90%;
-        }
-
-        .layui-personnel, .detail-top {
-            height: auto;
-            overflow: hidden;
-        }
-
-        .detail-top {
-            padding: 30px 30px 30px 0;
-            min-height: 280px;
-        }
-
-        .detail-left {
-            width: 15.6%;
-            float: left;
-        }
-
-        .detail-right {
-            float: right;
-            width: 84.4%;
-        }
-
-        .layui-personnel .expert-i {
-            margin-top: 0;
-        }
-
-        .detail-right h4 {
-            font-size: 28px;
-            color: #000;
-        }
-
-        .detail-right .detail-p {
-            color: black;
-            font-size: 16px;
-            margin: 26px 0 30px;
-        }
-
-        .detail-j p {
-            display: block;
-            line-height: 28px;
-            font-size: 14px;
-            color: #696b74;
-            text-indent: 2em;
-        }
-
-        .layui-card-body {
-            padding: 0;
-        }
-
-        .layui-tab-title {
-            padding-left: 30px;
-            background: #dce9fa;
-            border: 0;
-        }
-
-        .layui-tab-brief > .layui-tab-title .layui-this {
-            background: #108ee9;
-        }
-
-        .layui-tab-title {
-            height: 44px;
-        }
-
-        .layui-tab-title li {
-            line-height: 44px;
-        }
-
-        .layui-tab-content {
-            height: auto;
-            overflow: hidden;
-            margin-bottom: 10px;
-            min-height: 400px;
-        }
-
-        .record {
-            height: auto;
-            overflow: hidden;
-            margin-left: 25px;
-            background: url("/layuiadmin/layui/images/icon-personnel-3.png") no-repeat 0 0,
-            url("/layuiadmin/layui/images/icon-personnel-5.png") no-repeat 15px 100%;
-        }
-
-        .record ul {
-            position: relative;
-            height: auto;
-            overflow: hidden;
-            margin-bottom: 32px;
-        }
-
-        .layui-tab-item ul li:last-child, .layui-tab-item ul li {
-            background: none;
-        }
-
-        .record ul li {
-            min-height: 60px;
-            border-left: 2px solid #108ee9;
-            margin-left: 15px;
-            position: relative;
-            height: auto;
-        }
-
-        .record ul li i {
-            width: 14px;
-            background: url("/layuiadmin/layui/images/icon-personnel-4.png") no-repeat;
-            height: 14px;
-            position: absolute;
-            left: -8px;
-            top: 6px;
-        }
-
-        .record-line {
-            border-left: 2px solid #108ee9;
-            margin-left: 15px;
-            height: 32px;
-            margin-top: 32px;
-        }
-
-        .layui-text h3 {
-            font-size: 14px;
-            color: #696b74;
-            height: auto;
-            overflow: hidden;
-            padding-bottom: 10px;
-            margin: 0;
+        html {background: #f0f2f5;}
+        .layui-col-md4{position: relative;display: block !important;padding:0 24px;margin-top: 20px;
+            box-sizing: border-box; border-right: 1px dashed #1990FF;height: 96%}
+        .layui-col-md8{height: 96%;}
+        .lab-details-c h4{display: block;width: 100%;text-align: center;margin: 18px 0;float: none;}
+        .lab-details-c .detail-p{display: block;width: 100%;float: none;height: 76%;}
+        .layui-personnel .expert-i{border: 1px solid #1890FF;}
+        .detail-p{text-indent: 2em;line-height: 24px;font-size: 14px;color: #666666;padding-top: 15px;
+            border-top: 1px solid #1990FF;box-sizing: border-box; overflow-y: scroll;}
+        .layui-personnel .expert-i{margin-top: 0;}
+        .layui-tab-title li{height: 48px;line-height: 48px;font-size: 16px;
+            border-radius: 6px;padding: 0 30px;}
+        .layui-tab-title{height: 48px;border: 0;background: #F3F9FF;}
+        .layui-card-body{margin-left: 5px;}
+        .layui-tab-item{padding: 0;}
+        .detail-j p{text-indent: 2em;line-height: 24px;color: #666666;}
+        @media (max-width: 1504px) {
+            .lab-details-c .detail-p{height: 65%;}
         }
     </style>
 </head>
 <body>
-<div class="layui-fluid layui-personnel">
-    <div class="detail-top">
-        <div class="detail-left">
-            <div class="expert-i">
-                <img id="photoAttach" src="/stp/expert/img/default.png" alt="" height="140">
-            </div>
-        </div>
-        <div class="detail-right">
-            <h4>${expert.expertName}</h4>
-            <p class="detail-p">${expert.expertProfessionalFieldName}</p>
-            <div class="detail-j">
-                <p>${expert.userDesc}</p>
-                <p>${expert.briefDesc}</p>
-            </div>
+<div class=" layui-personnel lab-details">
+    <div class="lab-details-m">
+        <div class="breadcrumb">
+            <a href="/stpHome" target="_parent">首页  /  </a><span>科研人才</span>
         </div>
     </div>
-    <div class="detail-main">
-        <div class="layui-card-body">
-            <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">
-                <ul class="layui-tab-title">
-                    <li class="layui-this" lay-id="11">奖励、荣誉</li>
-                    <li lay-id="22">主要业绩简述</li>
-                    <!--<li lay-id="33">其他</li>-->
-                </ul>
-                <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">
-                        <div class="detail-j">
-                            <p>${expert.awardsTitle}</p>
+    <div class="layui-row lab-details-c">
+        <div class="layui-col-md4">
+            <div class="detail-left">
+                <div class="expert-i">
+                    <img id="photoAttach" src="/stp/expert/img/default.png" alt="" height="140">
+                </div>
+            </div>
+            <h4>${expert.expertName}</h4>
+            <div class="detail-p">${expert.userDesc}</div>
+        </div>
+        <div class="layui-col-md8">
+            <div class="layui-card-body">
+                <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this" lay-id="11">人物成就</li>
+                        <li lay-id="22">专利信息</li>
+                        <!--<li lay-id="33">其他</li>-->
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div class="detail-j" style="padding-top: 10px;">
+                                ${expert.bak6}
+                            </div>
                         </div>
-                       <!-- <div class="record">
-                            <div class="record-line"></div>
-                            <ul>
-                                <li>
-                                    <i></i>
-                                    <div class="layui-text">
-                                        <h3>${expert.awardsTitle}</h3>
-                                    </div>
-                                </li>
-                                &lt;!&ndash;<li>&ndash;&gt;
-                                &lt;!&ndash;<i></i>&ndash;&gt;
-                                &lt;!&ndash;<div class="layui-text">&ndash;&gt;
-                                &lt;!&ndash;<h3>1999—2002年间他带领完成的“四川盆地宣汉一达县地区石炭一三叠系油气地质综合研究”科研项目，&ndash;&gt;
-                                &lt;!&ndash;不但直接指导了普光气田和毛坝气藏的发现，取得了巨大的勘探效益，其理论和枝术研究成果经&ndash;&gt;
-                                &lt;!&ndash;专家鉴定认为，总体处于“国际先进水平”，储层预测等有关方面的研究成果达国际领先水平，&ndash;&gt;
-                                &lt;!&ndash;该项成果转变了以前对该地区储层沉积学和油气勘探方面的许多认识，解放了许多不看好的勘探领域。&ndash;&gt;
-                                &lt;!&ndash;该项科研成果获中石化集团公司2004年度科技进步一等奖。&ndash;&gt;
-                                &lt;!&ndash;</h3>&ndash;&gt;
-                                &lt;!&ndash;</div>&ndash;&gt;
-                                &lt;!&ndash;</li>&ndash;&gt;
-                                &lt;!&ndash;<li>&ndash;&gt;
-                                &lt;!&ndash;<i></i>&ndash;&gt;
-                                &lt;!&ndash;<div class="layui-text">&ndash;&gt;
-                                &lt;!&ndash;<h3>1984年毕业于武汉地质学院地质系；</h3>&ndash;&gt;
-                                &lt;!&ndash;</div>&ndash;&gt;
-                                &lt;!&ndash;</li>&ndash;&gt;
-                                &lt;!&ndash;<li>&ndash;&gt;
-                                &lt;!&ndash;<i></i>&ndash;&gt;
-                                &lt;!&ndash;<div class="layui-text">&ndash;&gt;
-                                &lt;!&ndash;<h3>1984年毕业于武汉地质学院地质系；</h3>&ndash;&gt;
-                                &lt;!&ndash;</div>&ndash;&gt;
-                                &lt;!&ndash;</li>&ndash;&gt;
-                                <li>
-                                    <i></i>
-                                    <div class="layui-text">
-                                        <h3></h3>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>-->
-                    </div>
-                    <div class="layui-tab-item">
-                        <div class="detail-j">
-                            <p>${expert.briefDesc}</p>
+                        <div class="layui-tab-item">
+                            <div class="detail-j">
+                                <table id="showTable" class="layui-table" lay-filter="tableData"></table>
+                            </div>
                         </div>
                     </div>
-                    <!--<div class="layui-tab-item">${expert.unitBelongs}
-                        <br>${expert.professionalAndTime}<br>
-                        ${expert.administrativeDuties}</div>-->
                 </div>
             </div>
         </div>
@@ -238,6 +82,7 @@
         var $ = layui.jquery, table = layui.table, laydate = layui.laydate, publicMethods = layui.publicMethods;
         // parent.$(".layui-leader .layui-body").css("left", "0px");
         //附件上传-start
+        $(".lab-details-c").css("height",($(document).height()-66)+"px");
         $('#upload_File_photoAttach').click(function () {
             TimeFn = setTimeout(function () {
                 var param = {};
@@ -251,6 +96,7 @@
                 publicMethods.openBaseWin("文件上传", temUrl, "90%", "80%");
             }, 300);
         });
+        renderTablePatent();
         $('#upload_File_photoAttach').dblclick(function () {
             showImg(photofilePath);
         });
@@ -351,6 +197,72 @@
             }
         });
         //附件上传-end
+        function renderTablePatent() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            var lodingMsg = layer.msg('数据加载中....');
+
+            //渲染
+            table.render({
+                elem: '#showTable',
+                url: '/expertController/queryOutPatentList',
+                method: "POST",
+                where: {
+                    param: {
+                        "name": "${zjkBaseInfo.expertName}",
+                    }
+                },
+                limit: param.selfRownum,
+                id: 'showTable',
+                height: commonDislodgeTable()-80,
+                page: {
+                    groups: 5,
+                    limits: [param.selfRownum, 30, 45, 60],
+                    // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+                    // {type: 'checkbox', event: 'changeEvents'},
+                    {title: '序号', type: 'numbers', width: 55},
+                    {
+                        field: "fmmc",
+                        title: "名称", event: 'setActive', style: 'cursor: pointer;', width: '15%'
+                    },
+                    {
+                        field: "wxlx",
+                        title: "类型", event: 'setActive', style: 'cursor: pointer;', width: '7%'
+
+                    },
+                    // {
+                    //     field: "zlh",
+                    //     title: "专利号", event: 'setActive', style: 'cursor: pointer;'
+                    // }
+                    // ,
+                    {
+                        field: "qlyq",
+                        title: "专利描述", event: 'setActive', style: 'cursor: pointer;'
+
+                    }
+                ]],
+                done: function (res, curr, count) {
+                    // 关闭等待刷新
+                    layer.close(lodingMsg);
+                    $("#zlCount").html(count);
+                    // $("#cgCount").html(res.msg);
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                }
+            });
+        }
+
     });
 </script>
 <script>

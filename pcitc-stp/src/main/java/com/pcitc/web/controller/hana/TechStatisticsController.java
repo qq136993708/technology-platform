@@ -44,6 +44,7 @@ public class TechStatisticsController extends BaseController{
 	
 	
 	private static final String PAGE_ORG_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/page";
+	private static final String PAGE_ORG_STATISTICS_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/statistics_page";
 	public static final String  ADD_ORG_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/add";
 	public static final String  UPDATE_ORG_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/update";
 	private static final String DEL_ORG_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/delete/";
@@ -52,12 +53,12 @@ public class TechStatisticsController extends BaseController{
 	
 	
 	private static final String PAGE_COST_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/page";
+	private static final String PAGE_COST_STATISTICS_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/statistics_page";
 	public static final String  ADD_COST_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techCost/add";
 	public static final String  UPDATE_COST_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techCost/update";
 	private static final String DEL_COST_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techCost/delete/";
 	public static final String   GET_COST_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/get/";
 	private static final String COST_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techCost/start_cost_activity/";
-	
 	
 	
 	
@@ -126,6 +127,29 @@ public class TechStatisticsController extends BaseController{
 		return result.toString();
 	}
 	
+	
+	
+	@RequestMapping(value = "/tech_cost/statistics_list")
+	@ResponseBody
+	public String statistics_list(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+		
+		JSONObject paramresult = JSONObject.parseObject(JSONObject.toJSONString(param));
+		logger.info("============参数：" + paramresult.toString());
+		
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_COST_STATISTICS_URL, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
+		return result.toString();
+	}
 	
 	
 	/**
@@ -384,22 +408,6 @@ public class TechStatisticsController extends BaseController{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	@RequestMapping(value = "/tech_org/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -408,10 +416,10 @@ public class TechStatisticsController extends BaseController{
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		
 		//流程状态
-				List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
-				request.setAttribute("auditStatusList", auditStatusList);
-				String type = CommonUtil.getParameter(request, "type", "");
-				request.setAttribute("type", type);
+		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("auditStatusList", auditStatusList);
+		String type = CommonUtil.getParameter(request, "type", "");
+		request.setAttribute("type", type);
 		return "/stp/hana/techStatistics/org_list";
 	}
 
@@ -422,8 +430,8 @@ public class TechStatisticsController extends BaseController{
 
 		
 		//流程状态
-				List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
-				request.setAttribute("auditStatusList", auditStatusList);
+		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("auditStatusList", auditStatusList);
 		return "/stp/hana/techStatistics/org_list_kjb";
 	}
 	
@@ -451,6 +459,27 @@ public class TechStatisticsController extends BaseController{
 		response.setHeader("Cache-Control", "no-cache");
 		return result.toString();
 	}
+	
+	
+	
+	@RequestMapping(value = "/tech_org/statistics_list")
+	@ResponseBody
+	public String tech_org_statistics_list(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_ORG_STATISTICS_URL, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
+		return result.toString();
+	}
+	
 	
 	/**
 	 * 增加
@@ -548,7 +577,6 @@ public class TechStatisticsController extends BaseController{
 		String fixedAssets = CommonUtil.getParameter(request, "fixedAssets", "");
 		String groupInvestCost = CommonUtil.getParameter(request, "groupInvestCost", "0");
 		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
-		
 		String specialistCountryCount = CommonUtil.getParameter(request, "specialistCountryCount", "0");
 		String specialistProvinceCount = CommonUtil.getParameter(request, "specialistProvinceCount", "0");
 		String subInvestCost = CommonUtil.getParameter(request, "subInvestCost", "0");
@@ -556,9 +584,12 @@ public class TechStatisticsController extends BaseController{
 		String achievementsPrivanceCount = CommonUtil.getParameter(request, "achievementsPrivanceCount", "0");
 		String year = CommonUtil.getParameter(request, "year", "");
 		String createUserName = CommonUtil.getParameter(request, "createUserName", "");
-		
 		String thesisEiInnerCount = CommonUtil.getParameter(request, "thesisEiInnerCount", "0");
 		String thesisSciInnerCount = CommonUtil.getParameter(request, "thesisSciInnerCount", "0");
+		String deviceInnnerAssets = CommonUtil.getParameter(request, "deviceInnnerAssets", "0");
+		
+		
+		
 		
 		if(!unitCode.equals(""))
 		{
@@ -634,6 +665,8 @@ public class TechStatisticsController extends BaseController{
 		techOrgCount.setSubInvestCost(new BigDecimal(subInvestCost));
 		techOrgCount.setAllPatentLookCount(Integer.valueOf(allPatentLookCount));
 		techOrgCount.setAchievementsPrivanceCount(Integer.valueOf(achievementsPrivanceCount));
+		techOrgCount.setDeviceInnnerAssets(new BigDecimal(deviceInnnerAssets));
+		
 		// 判断是新增还是修改
 		if (id.equals("")) {
 			responseEntity = this.restTemplate.exchange(ADD_ORG_URL, HttpMethod.POST, new HttpEntity<TechOrgCount>(techOrgCount, this.httpHeaders), String.class);
