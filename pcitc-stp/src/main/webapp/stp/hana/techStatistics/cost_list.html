@@ -369,6 +369,15 @@ function myTable()
 	 var url= '/tech_cost/list?v_date='+v_date;
      table.init('myTable', {
 		  url: url,height: tableHeight,
+		  limit: 15,
+		  page: {
+              groups: 5,
+              limits: [15,30,45,60],
+              layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+              first: '首页', //不显示首页
+              last: '尾页', //不显示尾页
+              theme: '#0F9EE0'
+          },
 		  where: {param: {"unitName":unitName,"auditStatus":auditStatus,"year":year,"type":type}},
 		  done: function (res, curr, count) {
 			  
