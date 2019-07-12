@@ -126,6 +126,7 @@
     var tfcCode = "";
     function getTfcBase() {
         var tfcBase = "";
+        var tfBase3="";
         $.ajax({
             type: 'post',
             async: false,
@@ -136,11 +137,13 @@
                 for (let i = 0; i < data.data.length; i++) {
                     if (i == 0) {
                         tfcBase = tfcBase + "<li class=\"layui-this\" onclick=\"changeTfcCode('" + data.data[i].typeIndex + "');\">" + data.data[i].typeName + "</li>";
-                    } else if (i <= 3) {
+                    } else  if(i!=3){
                         tfcBase = tfcBase + "<li onclick=\"changeTfcCode('" + data.data[i].typeIndex + "');\">" + data.data[i].typeName + "</li>";
+                    }else {
+                        tfBase3 = "<li onclick=\"changeTfcCode('" + data.data[i].typeIndex + "');\">" + data.data[i].typeName + "</li>";
                     }
                 }
-                $("#tfcBase").html(tfcBase);
+                $("#tfcBase").html(tfcBase+tfBase3);
                 tfcCode = data.data[0].typeIndex;
             }
         });
@@ -573,7 +576,7 @@
                 position: 'left',
                 formatter:function(params){
                     console.log(params)
-                    return params.name+"年<br/>"+days[params.data[1]]+"个数:"+params.data[2]
+                    return params.name+"年<br/>"+days[params.data[1]]+"数量:"+params.data[2]
                 }
             },
             animation: false,

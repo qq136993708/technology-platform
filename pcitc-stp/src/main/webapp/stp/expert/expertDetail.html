@@ -75,9 +75,7 @@
                             ${zjkBaseInfo.userDesc}
                         </div>
                         <div class="layui-tab-item">
-                            <div class="layui-tab-item layui-show">
                                 ${zjkBaseInfo.bak6}
-                            </div>
                         </div>
                         <div class="layui-tab-item">
                             <table id="showTableCg" class="layui-table" lay-filter="tableDataCg"></table>
@@ -144,7 +142,7 @@ function showExpertDetail(expertId){
 ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
     $.each(data, function (i, dt) {
         if($("#industryId").html()==data[i].code){
-            $("#industryId").html("行业领域:"+data[i].name);
+            $("#industryId").html("行业领域："+data[i].name);
         }
         // $("#industryId").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
     });
@@ -446,9 +444,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     {
                         field: "wxlx",
                         title: "类型", event: 'setActive', style: 'cursor: pointer;', width: '15%'
-                        // , templet: function (d) {
-                        //     return d.sqri.substring(0, 10);
-                        // }
+
                     },
                     // {
                     //     field: "zlh",
@@ -458,6 +454,9 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     {
                         field: "qlyq",
                         title: "专利描述", event: 'setActive', style: 'cursor: pointer;'
+                        , templet: function (d) {
+                            return d.qlyq.substring(0, 20)+"...";
+                        }
                     }
                 ]],
                 done: function (res, curr, count) {

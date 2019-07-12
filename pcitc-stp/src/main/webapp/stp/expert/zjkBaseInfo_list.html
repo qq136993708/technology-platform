@@ -308,9 +308,9 @@
                     layer.msg("请选择一条数据");
                     return;
                 }
-                if (selectRowData.auditStatus != '0') {
-                    layer.msg('当前记录已经提交，不能进行删除操作！');
-                } else {
+                // if (selectRowData.auditStatus != '0') {
+                //     layer.msg('当前记录已经提交，不能进行删除操作！');
+                // } else {
                     layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
                         // layer.confirm('确定要删除吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
                         layer.close(index);
@@ -319,7 +319,7 @@
                             loadtable();
                         });
                     });
-                }
+                // }
             }
             ,
             djEvent: function () { //冻结

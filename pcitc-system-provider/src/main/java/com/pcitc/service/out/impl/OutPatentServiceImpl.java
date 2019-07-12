@@ -241,7 +241,7 @@ public class OutPatentServiceImpl implements OutPatentService {
         OutPatentExample.Criteria criteria = example.createCriteria();
         String strName = param.getParam().get("name").toString();
         criteria.andFmrLike("%"+strName+"%");
-        criteria.andDlrLike("%"+strName+"%");
+//        criteria.andDlrLike("%"+strName+"%");
         List<OutPatent> list = outPatentMapper.selectByExample(example);
         // 2、获取分页查询后的数据
         // 3、获取分页查询后的数据
