@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
     <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
-       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
@@ -66,7 +66,6 @@
         </div>
     </div>
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
-    
 </div>
 
 </div>
@@ -128,11 +127,6 @@
     }
 </script>
 
-
-
-
-<!--表格数据操作js-->
-
 <script>
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
@@ -146,9 +140,8 @@ var type=$("#type").val();
 var table,selectRowData;
 var publicMethods;
 var laydate;
-var name=$('#name').val();
-    layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate'], function(){
-           table = layui.table,
+layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate'], function(){
+            table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
             laypage = layui.laypage;
@@ -305,11 +298,11 @@ var name=$('#name').val();
         };
 
       //监听排序
-        table.on('sort(model-table)', function(obj){
+        table.on('sort(processdef-table)', function(obj){
             console.log(this, obj.field, obj.type)
             //return;
             //服务端排序
-            table.reload('model-table', {
+            table.reload('processdef-table', {
                 initSort: obj,
                 page: {curr: 1}, //重新从第一页开始
                 where: { //重新请求服务端
@@ -410,41 +403,15 @@ var name=$('#name').val();
            
            ]],
            done: function (res, curr, count) {
-               // 点击行联动选择框--单选
-               $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-               	var index=parseInt($(this).index()+1);
-                   $('tr').removeClass('layui-table-click');
-                   $(this).addClass('layui-table-click');
-                   $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                   selectRowData=res.data[index-1];
-                   var auditStatus=selectRowData.auditStatus;
-                  
-                   if(auditStatus=='0' || auditStatus=='3' )
-                   {
-                	  
-                	   $("#editEvent").attr("disabled",false);
-                	   $("#deleteEvent").attr("disabled",false);
-                   }else if(auditStatus=='1' || auditStatus=='2')
-                   {
-                	   $("#editEvent").attr("disabled",true);
-                	   $("#deleteEvent").attr("disabled",true);
-                   }
-                  
-               });
-               /* //项目分类，项目性质
-               var dicMap = ['ROOT_ZBGL_ZBFL'];
-               var dicVal = {};
-				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
-					$.each(data,function(key,val){
-						$.each(val,function(i,dt){
-							dicVal[dt.code] = dt.name;
-						});
-					});
-			   	}); 
-				$.each(res.data,function(i,dt){
-					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
-			   	});  */
+        	         $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                   	 var index=parseInt($(this).index()+1);
+                      $('tr').removeClass('layui-table-click');
+                      $(this).addClass('layui-table-click');
+                      $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                      $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                      selectRowData=res.data[index-1];
+                      var auditStatus=selectRowData.auditStatus;
+                  });
            }
        });
     }
