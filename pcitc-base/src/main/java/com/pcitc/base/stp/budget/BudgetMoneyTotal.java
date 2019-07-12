@@ -35,7 +35,19 @@ public class BudgetMoneyTotal {
 
     private Integer level;
 
+    private Integer budgetType;
+
     private String budgetInfoId;
+
+    private String bak1;
+
+    private String bak2;
+
+    private String bak3;
+
+    private String bak4;
+
+    private String bak5;
 
     public String getDataId() {
         return dataId;
@@ -173,11 +185,59 @@ public class BudgetMoneyTotal {
         this.level = level;
     }
 
+    public Integer getBudgetType() {
+        return budgetType;
+    }
+
+    public void setBudgetType(Integer budgetType) {
+        this.budgetType = budgetType;
+    }
+
     public String getBudgetInfoId() {
         return budgetInfoId;
     }
 
     public void setBudgetInfoId(String budgetInfoId) {
         this.budgetInfoId = budgetInfoId;
+    }
+
+    public String getBak1() {
+        return bak1;
+    }
+
+    public void setBak1(String bak1) {
+        this.bak1 = bak1;
+    }
+
+    public String getBak2() {
+        return bak2;
+    }
+
+    public void setBak2(String bak2) {
+        this.bak2 = bak2;
+    }
+
+    public String getBak3() {
+        return bak3;
+    }
+
+    public void setBak3(String bak3) {
+        this.bak3 = bak3;
+    }
+
+    public String getBak4() {
+        return bak4;
+    }
+
+    public void setBak4(String bak4) {
+        this.bak4 = bak4;
+    }
+
+    public String getBak5() {
+        return bak5;
+    }
+
+    public void setBak5(String bak5) {
+        this.bak5 = bak5;
     }
 }

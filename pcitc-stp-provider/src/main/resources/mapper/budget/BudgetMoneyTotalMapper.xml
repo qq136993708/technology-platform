@@ -19,7 +19,13 @@
     <result column="no" jdbcType="INTEGER" property="no" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="budget_type" jdbcType="INTEGER" property="budgetType" />
     <result column="budget_info_id" jdbcType="VARCHAR" property="budgetInfoId" />
+    <result column="bak1" jdbcType="VARCHAR" property="bak1" />
+    <result column="bak2" jdbcType="VARCHAR" property="bak2" />
+    <result column="bak3" jdbcType="VARCHAR" property="bak3" />
+    <result column="bak4" jdbcType="VARCHAR" property="bak4" />
+    <result column="bak5" jdbcType="VARCHAR" property="bak5" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,7 +88,7 @@
   <sql id="Base_Column_List">
     data_id, parent_data_id, nd, show_index, unit_name, show_ali, zbx_money, fyx_money, 
     money_level, details_name, is_yjy, type_name, sheet_flag, show_order, no, code, level, 
-    budget_info_id
+    budget_type, budget_info_id, bak1, bak2, bak3, bak4, bak5
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetMoneyTotalExample" resultMap="BaseResultMap">
     select
@@ -121,15 +127,17 @@
       zbx_money, fyx_money, money_level, 
       details_name, is_yjy, type_name, 
       sheet_flag, show_order, no, 
-      code, level, budget_info_id
-      )
+      code, level, budget_type, 
+      budget_info_id, bak1, bak2, 
+      bak3, bak4, bak5)
     values (#{dataId,jdbcType=VARCHAR}, #{parentDataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
       #{showIndex,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{showAli,jdbcType=VARCHAR}, 
       #{zbxMoney,jdbcType=VARCHAR}, #{fyxMoney,jdbcType=VARCHAR}, #{moneyLevel,jdbcType=VARCHAR}, 
       #{detailsName,jdbcType=VARCHAR}, #{isYjy,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, 
       #{sheetFlag,jdbcType=VARCHAR}, #{showOrder,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
-      #{code,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{budgetInfoId,jdbcType=VARCHAR}
-      )
+      #{code,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{budgetType,jdbcType=INTEGER}, 
+      #{budgetInfoId,jdbcType=VARCHAR}, #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, 
+      #{bak3,jdbcType=VARCHAR}, #{bak4,jdbcType=VARCHAR}, #{bak5,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetMoneyTotal">
     insert into out_tem_money_total
@@ -185,8 +193,26 @@
       <if test="level != null">
         level,
       </if>
+      <if test="budgetType != null">
+        budget_type,
+      </if>
       <if test="budgetInfoId != null">
         budget_info_id,
+      </if>
+      <if test="bak1 != null">
+        bak1,
+      </if>
+      <if test="bak2 != null">
+        bak2,
+      </if>
+      <if test="bak3 != null">
+        bak3,
+      </if>
+      <if test="bak4 != null">
+        bak4,
+      </if>
+      <if test="bak5 != null">
+        bak5,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -241,8 +267,26 @@
       <if test="level != null">
         #{level,jdbcType=INTEGER},
       </if>
+      <if test="budgetType != null">
+        #{budgetType,jdbcType=INTEGER},
+      </if>
       <if test="budgetInfoId != null">
         #{budgetInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null">
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null">
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null">
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null">
+        #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null">
+        #{bak5,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -306,8 +350,26 @@
       <if test="record.level != null">
         level = #{record.level,jdbcType=INTEGER},
       </if>
+      <if test="record.budgetType != null">
+        budget_type = #{record.budgetType,jdbcType=INTEGER},
+      </if>
       <if test="record.budgetInfoId != null">
         budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak1 != null">
+        bak1 = #{record.bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak2 != null">
+        bak2 = #{record.bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak3 != null">
+        bak3 = #{record.bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak4 != null">
+        bak4 = #{record.bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak5 != null">
+        bak5 = #{record.bak5,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -333,7 +395,13 @@
       no = #{record.no,jdbcType=INTEGER},
       code = #{record.code,jdbcType=VARCHAR},
       level = #{record.level,jdbcType=INTEGER},
-      budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR}
+      budget_type = #{record.budgetType,jdbcType=INTEGER},
+      budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
+      bak1 = #{record.bak1,jdbcType=VARCHAR},
+      bak2 = #{record.bak2,jdbcType=VARCHAR},
+      bak3 = #{record.bak3,jdbcType=VARCHAR},
+      bak4 = #{record.bak4,jdbcType=VARCHAR},
+      bak5 = #{record.bak5,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -389,8 +457,26 @@
       <if test="level != null">
         level = #{level,jdbcType=INTEGER},
       </if>
+      <if test="budgetType != null">
+        budget_type = #{budgetType,jdbcType=INTEGER},
+      </if>
       <if test="budgetInfoId != null">
         budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null">
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null">
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null">
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null">
+        bak4 = #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null">
+        bak5 = #{bak5,jdbcType=VARCHAR},
       </if>
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
@@ -413,7 +499,13 @@
       no = #{no,jdbcType=INTEGER},
       code = #{code,jdbcType=VARCHAR},
       level = #{level,jdbcType=INTEGER},
-      budget_info_id = #{budgetInfoId,jdbcType=VARCHAR}
+      budget_type = #{budgetType,jdbcType=INTEGER},
+      budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
+      bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR},
+      bak3 = #{bak3,jdbcType=VARCHAR},
+      bak4 = #{bak4,jdbcType=VARCHAR},
+      bak5 = #{bak5,jdbcType=VARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
 </mapper>

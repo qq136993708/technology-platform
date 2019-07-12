@@ -607,6 +607,46 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			
 		}else if(BudgetInfoEnum.STOCK_TOTAL.getCode().equals(info.getBudgetType())) 
 		{
+			//创建汇总数据
+			//table_data.push({"dataId": new Date().valueOf(),"no":"","displayName":"一、股份公司合计","level":-1,"xmjfTotal":0,"xmjfZbx":0,"xmjfFyx":0});
+			/*auditStatus: 3
+			budgetMoney: 691455
+			budgetType: 103
+			createTime: "2019-03-15 14:26:01"
+			createrId: "163a05ad6df_3df71106"
+			createrName: "冯波"
+			dataId: "169800760da_399d6e58"
+			dataUuid: "83bec5c0-6d85-46a3-ac65-c4554e0b13c4"
+			dataVersion: "vs-2018-103-001"
+			delFlag: 0
+			items: (23) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+			items_total: 1331010
+			nd: "2018"
+			updateTime: "2019-03-15 14:28:45"*/
+				/*budgetInfoId: "169800760da_399d6e58"
+				createTime: "2019-03-15 14:26:01"
+				dataId: "169800762f8_83971792"
+				dataVersion: "vs-2018-103-001"
+				delFlag: 0
+				displayCode: "GFFZSY"
+				displayName: "直属研究院"
+				itemType: 1
+				level: 0
+				nd: "2018"
+				no: 1
+				parentDataId: "0"
+				remark: ""
+				updateTime: "2019-07-01 13:16:45"
+				xmjfFyx: 316630
+				xmjfTotal: 364055
+				xmjfZbx: 47425
+				yjwcFyx: 279818
+				yjwcTotal: 333002
+				yjwcZbx: 53184*/
+			
+			
+			
+			
 			budgetStockTotalService.selectFinalStockTotalBudget(info);
 		}
 	}
