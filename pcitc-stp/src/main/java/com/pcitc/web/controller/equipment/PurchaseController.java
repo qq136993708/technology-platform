@@ -213,7 +213,7 @@ public class PurchaseController extends BaseController {
 
 		String purchaseName = "";
 		String projectId = "";
-		String name = "";
+		String topicName = "";
 		String equipmentId = "";
 		String sreProjectEquipmentIds = "";
 		String remarks = "";
@@ -244,7 +244,7 @@ public class PurchaseController extends BaseController {
                 SreProject sreProject = this.restTemplate.exchange(GET_BY_PROJECT_ID + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class).getBody();
                 if (sreProject != null) {
                     if (sreProject != null) {
-                        name = sreProject.getName();
+                        topicName = sreProject.getName();
                         sreProjectEquipmentIds = sreProject.getEquipmentIds();
                     }
                 }
@@ -259,7 +259,7 @@ public class PurchaseController extends BaseController {
 		request.setAttribute("createUserId", createUserId);
 		request.setAttribute("purchaseName", purchaseName);
 		request.setAttribute("topicId", projectId);
-		request.setAttribute("name", name);
+		request.setAttribute("topicName", topicName);
 		request.setAttribute("equipmentIds", equipmentId);
 		request.setAttribute("sreProjectEquipmentIds", sreProjectEquipmentIds);
 		request.setAttribute("purchaseCode", purchaseCode);
