@@ -20,4 +20,9 @@ public interface TechCostMapper {
     
     List getList(Map map);
     int getCount(Map map);
+    
+    List getStatisticsList(Map map);
+    int getStatisticsCount(Map map);
+    
+    
 }

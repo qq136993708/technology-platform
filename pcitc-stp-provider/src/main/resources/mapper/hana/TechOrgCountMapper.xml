@@ -709,7 +709,7 @@
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  year desc
+        ORDER BY  year,create_date desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
@@ -728,6 +728,7 @@
     
     <select id="getStatisticsList" resultMap="BaseResultMap" parameterType="Map" >
       SELECT 
+          '-' AS id ,
 		  '-' AS YEAR ,
 		  '-' AS  TYPE,
 		  '-' AS  create_user_name,
@@ -775,7 +776,7 @@
     UNION ALL 
     SELECT * FROM(
 	SELECT 
-		 
+		  t.id,
 		  t.`year`,
 		  t.`type`,
 		  t.`create_user_name`,
@@ -822,7 +823,7 @@
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  year desc
+        ORDER BY  year ,create_date desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   

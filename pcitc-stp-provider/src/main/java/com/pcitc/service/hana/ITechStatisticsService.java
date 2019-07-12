@@ -25,8 +25,8 @@ public interface ITechStatisticsService {
 	public LayuiTableData getTechCostPage(LayuiTableParam param)throws Exception;
 	
 	public Result dealTechCostWorkFlow(String id, Map map) throws Exception;
-	
-	
+	//带总计的 分页
+	public LayuiTableData getTechCostStatisticsPage(LayuiTableParam param)throws Exception;
 	
 	
 	
@@ -53,6 +53,8 @@ public interface ITechStatisticsService {
 	
 	public LayuiTableData getTechOrgCountPage(LayuiTableParam param)throws Exception;
 	public Result dealTechOrgCountWorkFlow(String id, Map map) throws Exception;
+	
+	//带总计的 分页
 	public LayuiTableData getTechOrgCountStatisticsPage(LayuiTableParam param)throws Exception;
 	
 

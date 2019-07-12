@@ -476,9 +476,9 @@
 	 </trim>
 	</sql>
 	
-	
+	 <!-- LEFT JOIN sre_equipment_detail t2 ON t.G0ANLN1=t2.asset_number AND t.G0GSDM=t2.supplier -->
 	<select id="getList" resultMap="BaseResultMap" parameterType="map" >
-	 SELECT t.*,t2.`equipment_name` FROM sre_equipment_ledger t  LEFT JOIN sre_equipment_detail t2 ON t.G0ANLN1=t2.asset_number AND t.G0GSDM=t2.supplier
+	 SELECT t.* FROM sre_equipment_ledger t 
       where LEFT(t.G0ANLN1,2) IN ('02','03')
          <if test="g0gsdm != null and g0gsdm !='' ">      AND t.G0GSDM =  #{g0gsdm}</if>
 	   	 <if test="g0anln1 != null and g0anln1 !='' ">    AND t.G0ANLN1 = #{g0anln1}</if>
