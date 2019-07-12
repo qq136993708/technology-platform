@@ -59,6 +59,9 @@
     <result column="thesis_ei_inner_count"  property="thesisEiInnerCount" jdbcType="INTEGER" />
     
     
+    <result column="device_innner_assets" property="deviceInnnerAssets" jdbcType="DECIMAL" />
+     
+    
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -71,7 +74,9 @@
     all_patent_count, all_patent_look_count, current_year_patent_count, current_patent_look_count, 
     achievements_country_count, achievements_privance_count, achievements_company_count, 
     thesis_all_count, thesis_sci_count, thesis_ei_count, thesis_istp_count, thesis_isr_count, 
-    audit_status, notes,apply_depart_code,apply_depart_name,attachment_doc,year,thesis_sci_inner_count,thesis_ei_inner_count
+    audit_status, notes,apply_depart_code,apply_depart_name,attachment_doc,year,
+    thesis_sci_inner_count,thesis_ei_inner_count
+    ,device_innner_assets
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -101,7 +106,8 @@
       achievements_privance_count, achievements_company_count, 
       thesis_all_count, thesis_sci_count, thesis_ei_count, 
       thesis_istp_count, thesis_isr_count, audit_status, 
-      notes,apply_depart_code,apply_depart_name,attachment_doc,year,thesis_sci_inner_count,thesis_ei_inner_count
+      notes,apply_depart_code,apply_depart_name,attachment_doc,
+      year,thesis_sci_inner_count,thesis_ei_inner_count,device_innner_assets
       )
     values (#{id,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, 
       #{unitCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{createUserMobile,jdbcType=VARCHAR}, 
@@ -125,6 +131,7 @@
       , #{applyDepartName,jdbcType=VARCHAR}, #{attachmentDoc,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}
       , #{thesisSciInnerCount,jdbcType=INTEGER}
       , #{thesisEiInnerCount,jdbcType=INTEGER}
+      , #{deviceInnnerAssets,jdbcType=DECIMAL}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.report.TechOrgCount" >
@@ -286,7 +293,11 @@
       <if test="thesisEiInnerCount != null" >
         thesis_ei_inner_count,
       </if>
-      
+      <if test="deviceInnnerAssets != null" >
+        device_innner_assets,
+      </if>
+    
+    
     
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -446,7 +457,12 @@
       <if test="thesisEiInnerCount != null" >
         #{thesisEiInnerCount,jdbcType=VARCHAR},
       </if>
+      <if test="deviceInnnerAssets != null" >
+        #{deviceInnnerAssets,jdbcType=VARCHAR},
+      </if>
       
+      
+       
       
     </trim>
   </insert>
@@ -606,7 +622,10 @@
       <if test="thesisEiInnerCount != null" >
         thesis_ei_inner_count = #{thesisEiInnerCount,jdbcType=VARCHAR},
       </if>
-      
+      <if test="deviceInnnerAssets != null" >
+        device_innner_assets = #{deviceInnnerAssets,jdbcType=VARCHAR},
+      </if> 
+     
       
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -646,6 +665,7 @@
       group_invest_cost = #{groupInvestCost,jdbcType=DECIMAL},
       sub_invest_cost = #{subInvestCost,jdbcType=DECIMAL},
       out_invest_cost = #{outInvestCost,jdbcType=DECIMAL},
+      device_innner_assets = #{deviceInnnerAssets,jdbcType=DECIMAL},
       all_patent_count = #{allPatentCount,jdbcType=INTEGER},
       all_patent_look_count = #{allPatentLookCount,jdbcType=INTEGER},
       current_year_patent_count = #{currentYearPatentCount,jdbcType=INTEGER},

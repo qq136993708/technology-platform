@@ -103,6 +103,7 @@ public class TechOrgCount {
     private Integer thesisSciInnerCount;
     private Integer thesisEiInnerCount;
     
+    private BigDecimal deviceInnnerAssets;
     
     
     
@@ -111,7 +112,15 @@ public class TechOrgCount {
     
     
 
-    public Integer getThesisSciInnerCount() {
+    public BigDecimal getDeviceInnnerAssets() {
+		return deviceInnnerAssets;
+	}
+
+	public void setDeviceInnnerAssets(BigDecimal deviceInnnerAssets) {
+		this.deviceInnnerAssets = deviceInnnerAssets;
+	}
+
+	public Integer getThesisSciInnerCount() {
 		return thesisSciInnerCount;
 	}
 

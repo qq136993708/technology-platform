@@ -258,6 +258,17 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
+                        <label for="" class="layui-form-label">其中国产设备原值</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" readonly="readonly"  onkeyup="clearNoNum(this)"  placeholder="其中国产设备原值" name="deviceInnnerAssets" id="deviceInnnerAssets"
+                                   value="${techOrgCount.deviceInnnerAssets}" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+             </div>
+             
+              <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
                         <label for="" class="layui-form-label">总收入</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly"  onkeyup="clearNoNum(this)"  placeholder="总收入(￥万元)" name="totaIncome" id="totaIncome"
@@ -265,9 +276,6 @@
                         </div>
                     </div>
                 </div>
-             </div>
-             
-             
              
              
               <div class="layui-row">
