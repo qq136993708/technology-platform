@@ -106,7 +106,6 @@ var publicMethods;
 	         });
 	    	var $ = layui.$, active = {
 	    		searchEvent: function() {
-	    		    alert("查询")
                 table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
                 $(".layui-table-header table thead th input").remove();
                 },

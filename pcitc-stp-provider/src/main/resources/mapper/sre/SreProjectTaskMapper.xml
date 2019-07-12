@@ -956,7 +956,7 @@
    
    <select id="getListByErpnum" resultMap="BaseResultMap" parameterType="Map" >
      select * from sre_project_task t  where t.erp_num is not null and  t.erp_num !=''
-     <if test="name != null       and name !=''  ">     AND t.topic_name = #{name}</if>
+     <if test="name != null       and name !=''  ">     AND t.topic_name like CONCAT('%',#{name},'%')</if>
      ORDER BY  create_date desc
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>

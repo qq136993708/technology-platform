@@ -99,7 +99,6 @@
                             var topicId=selectRowData.topicId;
                             var id=selectRowData.id;
                             var topicName=selectRowData.topicName;
-                            //var equipmentIds=selectRowData.equipmentIds;
                             $("#topicId").val(topicId)
                             $("#topicName").val(topicName);
                             $("#taskId").val(taskId);
@@ -111,7 +110,7 @@
                             var taskId=selectRowData.taskId;
                             var topicId =selectRowData.topicId;
                             var topicName = selectRowData.topicName;
-                            //alert(taskId)
+
                             parent.document.getElementById("taskId").value=taskId;
                             parent.document.getElementById("topicId").value=topicId;
                             parent.document.getElementById("topicName").value=topicName;
@@ -143,7 +142,6 @@
                             layer.msg('请选择选择课题!');
                             return;
                         }
-
                         parent.document.getElementById("taskId").value=taskId;
                         parent.document.getElementById("topicId").value=topicId;
                         parent.document.getElementById("topicName").value=topicName;
@@ -172,6 +170,7 @@
 <div class="formBox">
     <input type="hidden" name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}">
     <input type="hidden" name="topicId" id="topicId" value="${topicId}">
+    <input type="hidden" name="taskId" id="taskId" value="${taskId}">
     <input type="hidden" name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit" value="">
     <input type="hidden" name="yearFeeStr" id="yearFeeStr" value="">
     <input type="hidden" name="projectMoney" id="projectMoney" value="">

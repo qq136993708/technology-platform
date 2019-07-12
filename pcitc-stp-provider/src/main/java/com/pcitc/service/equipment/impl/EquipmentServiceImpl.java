@@ -103,17 +103,18 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	public List<SreEquipment> getEquipmentListByMap(Map map)throws Exception
 	{
-		
+
 		Map map_para=new HashMap();
 		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
 		System.out.println(">>>>>>>>>> getEquipmentListByMap 参数: "+parmamss.toJSONString());
 		String equipmentIds=(String)map.get("equipmentIds");
 		String purchaseStatus=(String)map.get("purchaseStatus");
-		
-		
-		
+		String purchaseEquipmentIds=(String)map.get("purchaseEquipmentIds");
+
+
+
 		StringBuffer applyUnitCodeStr=new StringBuffer();
-        if (!equipmentIds.equals("")) 
+		if (!equipmentIds.equals(""))
 		{
 			String chkbox[] = equipmentIds.split(",");
 			if (chkbox != null && chkbox.length > 0)
@@ -132,15 +133,32 @@ public class EquipmentServiceImpl implements EquipmentService {
 				applyUnitCodeStr.append(" ) ");
 			}
 		}
-        
-       if(purchaseStatus.equals(Constant.EQUIPMENT_PURCHASE_DRAFT)){
-		   map_para.put("purchaseStatus", purchaseStatus);
-	   }else if (purchaseStatus.equals(Constant.EQUIPMENT_PURCHASE_PRE_PURCHASE)){
-		map_para.put("purchaseStatus"+"or purchaseStatus=0", purchaseStatus);
+		List<SreEquipment> list=null;
+		if(purchaseStatus.equals(Constant.EQUIPMENT_PURCHASE_DRAFT)){
+			map_para.put("purchaseStatus", purchaseStatus);
+			map_para.put("sqlStr", applyUnitCodeStr.toString());
+			list = sreEquipmentMapper.getList(map_para);
+			return list;
+		}else if (purchaseStatus.equals(Constant.EQUIPMENT_PURCHASE_PRE_PURCHASE)){
+			map_para.put("purchaseStatus"+"or purchaseStatus=0", purchaseStatus);
+			map_para.put("sqlStr", applyUnitCodeStr.toString());
+			list = sreEquipmentMapper.getList(map_para);
+			List<SreEquipment> newList = new ArrayList<SreEquipment>();
+			String upPurchaseEquipmentIds[] = purchaseEquipmentIds.split(",");
+			for (int i = 0; i < upPurchaseEquipmentIds.length; i++) {
+				String upEquipmentId = upPurchaseEquipmentIds[i];
+				for (SreEquipment sreEquipment : list) {
+					if (upEquipmentId.equals(sreEquipment.getEquipmentId()) ||sreEquipment.getPurchaseStatus().equals("0")){
+						newList.add(sreEquipment);
+					}
+				}
+			}
+			return newList;
 		}
-        map_para.put("sqlStr", applyUnitCodeStr.toString());
-    	List<SreEquipment> list = sreEquipmentMapper.getList(map_para);
-    	return list;
+
+
+		return null;
+
 	}
 
 	public Integer insertEquipment(SreEquipment record)throws Exception
