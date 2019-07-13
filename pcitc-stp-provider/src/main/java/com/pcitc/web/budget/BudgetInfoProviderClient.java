@@ -273,13 +273,15 @@ public class BudgetInfoProviderClient
 				}
 			}
 			info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+			budgetInfoService.updateBudgetInfo(info);
 			//输出到最终报表
 			budgetInfoService.processDataImport(info);
 		}else {
 			//更新状态
 			info.setAuditStatus(workflow_status);
+			budgetInfoService.updateBudgetInfo(info);
 		}
-		return budgetInfoService.updateBudgetInfo(info);
+		return 1;
 	}
 	@ApiOperation(value="检查可编辑状态",notes="检查预算项是否可编辑，审批中、审批通过、最终版本都不可编辑!")
 	@RequestMapping(value = "/stp-provider/budget/check-budgetinfo-edit/{budgetId}", method = RequestMethod.POST)

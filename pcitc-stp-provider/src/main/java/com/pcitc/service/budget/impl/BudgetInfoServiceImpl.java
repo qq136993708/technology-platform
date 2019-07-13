@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -29,8 +30,11 @@ import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
 import com.pcitc.base.stp.budget.BudgetMoneyDecompose;
 import com.pcitc.base.stp.budget.BudgetMoneyDecomposeExample;
+import com.pcitc.base.stp.budget.BudgetMoneyTotal;
+import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
@@ -327,9 +331,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		{
 			//最终预算
 			BudgetInfo fInfo = selectFinalBudget(nd,BudgetInfoEnum.GROUP_SPLIT.getCode());
-			if(fInfo == null) {
-				fInfo = selectBudgetInfoList(nd,BudgetInfoEnum.GROUP_SPLIT.getCode()).get(0);
-			}
+			
 			List<Map<String,Object>> list = budgetGroupSplitService.selectBudgetSplitDataList(fInfo == null?"xxx":fInfo.getDataId());
 			
 			for(int i = 0;i<list.size();i++) {
@@ -358,10 +360,6 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		{
 			//最终预算
 			BudgetInfo fInfo = selectFinalBudget(nd,BudgetInfoEnum.ASSET_SPLIT.getCode());
-			if(fInfo == null) {
-				fInfo = selectBudgetInfoList(nd,BudgetInfoEnum.ASSET_SPLIT.getCode()).get(0);
-			}
-			
 			
 			List<Map<String,Object>> list = budgetAssetSplitService.selectBudgetSplitDataList(fInfo == null?"xxx":fInfo.getDataId());
 			for(int i = 0;i<list.size();i++) {
@@ -393,13 +391,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			BudgetInfo xtwInfo = selectFinalBudget(nd,BudgetInfoEnum.STOCK_XTY_SPLIT.getCode());
 			BudgetInfo zgsInfo = selectFinalBudget(nd,BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode());
 			BudgetInfo zsyInfo = selectFinalBudget(nd,BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
-			if(xtwInfo == null) {
-				xtwInfo = selectBudgetInfoList(nd,BudgetInfoEnum.STOCK_XTY_SPLIT.getCode()).get(0);
-			}if(zgsInfo == null) {
-				zgsInfo = selectBudgetInfoList(nd,BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode()).get(0);
-			}if(zsyInfo == null) {
-				zsyInfo = selectBudgetInfoList(nd,BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode()).get(0);
-			}
+			
 			
 			List<Map<String,Object>> xtw = budgetStockSplitXtwSplitService.selectBudgetSplitDataList(xtwInfo==null?"xxx":xtwInfo.getDataId());
 			List<Map<String,Object>> zgs = budgetStockSplitZgsSplitService.selectBudgetSplitDataList(zgsInfo == null?"xxx":zgsInfo.getDataId());
@@ -424,7 +416,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	}
 	
 	@Override
-	public void processDataImport(BudgetInfo info) 
+	public void processDataImport(BudgetInfo info) throws Exception 
 	{
 		//更新到[资产分解表：out_tem_money_asset]
 		if(BudgetInfoEnum.ASSET_SPLIT.getCode().equals(info.getBudgetType()))
@@ -528,6 +520,8 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 				BudgetMoneyDecompose budget = new BudgetMoneyDecompose();
 				budget.setNd(info.getNd());
 				budget.setCb(org.getName());
+				budget.setBudgetCode(org.getCode());
+				budget.setUnitCode(org.getUnitCode());
 				budget.setDataId(dataCount.intValue());
 				budget.setXh(xh.toString());
 				budget.setGfyshjlht("0");
@@ -599,59 +593,119 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			budgetMoneyDecomposeMapper.updateByPrimaryKey(budget);
 		}
 	}
-	private void writeToMoneyTotal(BudgetInfo info) 
+	private void writeToMoneyTotal(BudgetInfo info) throws Exception 
 	{
-		if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())) 
+		//获得最终预算
+		BudgetInfo stock = selectFinalBudget(info.getNd(),BudgetInfoEnum.STOCK_TOTAL.getCode());
+		BudgetInfo group = selectFinalBudget(info.getNd(),BudgetInfoEnum.GROUP_TOTAL.getCode());
+		BudgetInfo asset = selectFinalBudget(info.getNd(),BudgetInfoEnum.ASSETS_TOTAL.getCode());
+		//先删除清空
+		BudgetMoneyTotal bean = new BudgetMoneyTotal();
+		bean.setNd(info.getNd());
+		List<BudgetMoneyTotal> totals = budgetMoneyTotalService.selectListBudgetMoneyTotalByBean(bean);
+		for(BudgetMoneyTotal t:totals) {
+			budgetMoneyTotalService.deleteBudgetMoneyTotalReal(t.getDataId());
+		}
+		//创建顺序[股份，集团，资产]
+		List<BudgetMoneyTotal> saves = new ArrayList<BudgetMoneyTotal>();
+		//股份
+		BudgetMoneyTotal stockTotal = new BudgetMoneyTotal();
+		stockTotal.setDataId(info.getNd()+"_"+(saves.size()+1000));
+		stockTotal.setNo(saves.size()+1);
+		stockTotal.setNd(info.getNd());
+		stockTotal.setUnitName("一、股份公司合计");
+		stockTotal.setShowAli("股份公司");
+		stockTotal.setZbxMoney("0");//资本性
+		stockTotal.setFyxMoney("0");//费用性
+		stockTotal.setMoneyLevel("1");
+		stockTotal.setTypeName("gfgs");
+		stockTotal.setSheetFlag(info.getNd()+"年预算总表");
+		stockTotal.setBudgetType(BudgetInfoEnum.STOCK_TOTAL.getCode());
+		saves.add(stockTotal);
+		if(stock != null) 
 		{
-			budgetGroupTotalService.selectFinalGroupTotalBudget(info);
-			
-		}else if(BudgetInfoEnum.ASSETS_TOTAL.getCode().equals(info.getBudgetType())) 
+			Integer xmjfZbx=0,xmjfFyx=0;
+			Map<String,Object> maps = budgetStockTotalService.selectFinalStockTotalBudget(stock);
+			JSONArray array = JSON.parseArray(JSON.toJSONString(maps.get("items")));
+			for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
+			{
+				String str = JSON.toJSON(iter.next()).toString();
+				BudgetStockTotal b = JSON.toJavaObject(JSON.parseObject(str), BudgetStockTotal.class);
+				BudgetMoneyTotal t = new BudgetMoneyTotal();
+				t.setDataId(info.getNd()+"_"+(saves.size()+1000));
+				//t.setParentDataId(stockTotal.getDataId());
+				t.setNo(saves.size()+1);
+				t.setBudgetCode(b.getDisplayCode());
+				t.setBudgetType(BudgetInfoEnum.STOCK_TOTAL.getCode());
+				t.setBudgetInfoId(stock.getDataId());
+				t.setNd(b.getNd());
+				t.setUnitName(b.getDisplayName());
+				t.setShowAli(b.getSimpleName());
+				t.setZbxMoney(b.getXmjfZbx().intValue()+"");
+				t.setFyxMoney(b.getXmjfFyx().intValue()+"");
+				t.setMoneyLevel(new Integer(2+b.getLevel()).toString());
+				t.setShowIndex(b.getLevel()==0?b.getNo().toString():"");
+				t.setTypeName("gfgs");
+				t.setSheetFlag(info.getNd()+"年预算总表");
+				if(b.getLevel()==0) {
+					xmjfZbx += b.getXmjfZbx().intValue();
+					xmjfFyx += b.getXmjfFyx().intValue();
+				}
+				saves.add(t);
+			}
+			stockTotal.setBudgetInfoId(stock.getDataId());
+			stockTotal.setZbxMoney(xmjfZbx+"");//资本性
+			stockTotal.setFyxMoney(xmjfFyx+"");//费用性
+		}
+		//集团公司
+		BudgetMoneyTotal groupTotal = new BudgetMoneyTotal();
+		groupTotal.setDataId(info.getNd()+"_"+(saves.size()+1000));
+		groupTotal.setNd(info.getNd());
+		groupTotal.setUnitName("二、集团公司合计");
+		groupTotal.setShowAli("集团公司");
+		groupTotal.setZbxMoney("0");//资本性
+		groupTotal.setFyxMoney("0");//费用性
+		groupTotal.setMoneyLevel("1");
+		groupTotal.setTypeName("jtgs");
+		groupTotal.setSheetFlag(info.getNd()+"年预算总表");
+		groupTotal.setNo(saves.size()+1);
+		groupTotal.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
+		saves.add(groupTotal);
+		if(group != null) 
 		{
-			budgetAssetTotalService.selectFinalAssetTotalBudget(info);
+			Map<String,Object> maps = budgetGroupTotalService.selectFinalGroupTotalBudget(group);
+			groupTotal.setFyxMoney(new Double(maps.get("items_total").toString()).intValue()+"");
 			
-		}else if(BudgetInfoEnum.STOCK_TOTAL.getCode().equals(info.getBudgetType())) 
+			groupTotal.setBudgetInfoId(group.getDataId());
+		}
+		
+		//资产公司
+		BudgetMoneyTotal assetTotal = new BudgetMoneyTotal();
+		assetTotal.setDataId(info.getNd()+"_"+(saves.size()+1000));
+		assetTotal.setNd(info.getNd());
+		assetTotal.setUnitName("三、资产公司合计");
+		assetTotal.setShowAli("资产公司");
+		assetTotal.setZbxMoney("0");//资本性
+		assetTotal.setFyxMoney("0");//费用性
+		assetTotal.setMoneyLevel("1");
+		assetTotal.setTypeName("zcgs");
+		assetTotal.setSheetFlag(info.getNd()+"年预算总表");
+		assetTotal.setNo(saves.size()+1);
+		assetTotal.setBudgetType(BudgetInfoEnum.ASSETS_TOTAL.getCode());
+		saves.add(assetTotal);
+		if(asset != null) 
 		{
-			//创建汇总数据
-			//table_data.push({"dataId": new Date().valueOf(),"no":"","displayName":"一、股份公司合计","level":-1,"xmjfTotal":0,"xmjfZbx":0,"xmjfFyx":0});
-			/*auditStatus: 3
-			budgetMoney: 691455
-			budgetType: 103
-			createTime: "2019-03-15 14:26:01"
-			createrId: "163a05ad6df_3df71106"
-			createrName: "冯波"
-			dataId: "169800760da_399d6e58"
-			dataUuid: "83bec5c0-6d85-46a3-ac65-c4554e0b13c4"
-			dataVersion: "vs-2018-103-001"
-			delFlag: 0
-			items: (23) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
-			items_total: 1331010
-			nd: "2018"
-			updateTime: "2019-03-15 14:28:45"*/
-				/*budgetInfoId: "169800760da_399d6e58"
-				createTime: "2019-03-15 14:26:01"
-				dataId: "169800762f8_83971792"
-				dataVersion: "vs-2018-103-001"
-				delFlag: 0
-				displayCode: "GFFZSY"
-				displayName: "直属研究院"
-				itemType: 1
-				level: 0
-				nd: "2018"
-				no: 1
-				parentDataId: "0"
-				remark: ""
-				updateTime: "2019-07-01 13:16:45"
-				xmjfFyx: 316630
-				xmjfTotal: 364055
-				xmjfZbx: 47425
-				yjwcFyx: 279818
-				yjwcTotal: 333002
-				yjwcZbx: 53184*/
+			Map<String,Object> maps = budgetAssetTotalService.selectFinalAssetTotalBudget(asset);
+			assetTotal.setFyxMoney(new Double(maps.get("items_total").toString()).intValue()+"");
 			
-			
-			
-			
-			budgetStockTotalService.selectFinalStockTotalBudget(info);
+			assetTotal.setBudgetInfoId(asset.getDataId());
+		}
+		//保存
+		for(java.util.Iterator<BudgetMoneyTotal> iter= saves.iterator();iter.hasNext();) 
+		{
+			BudgetMoneyTotal total = iter.next();
+			total.setBak1(DateUtils.dateToStr(new Date(), DateUtils.FMT_SS));	
+			budgetMoneyTotalService.saveBudgetMoneyTotal(total);
 		}
 	}
 	private String dToI(Object obj) 

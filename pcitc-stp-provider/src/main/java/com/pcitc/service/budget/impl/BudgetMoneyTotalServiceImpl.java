@@ -91,6 +91,22 @@ public class BudgetMoneyTotalServiceImpl  implements BudgetMoneyTotalService
 		return new Result(status);
 	}
 	@Override
+	public Result deleteBudgetMoneyTotalReal(String id) throws Exception 
+	{
+		Boolean status = false;
+		try
+		{
+			Integer rs = mapper.deleteByPrimaryKey(id);
+			if(rs > 0) {
+				status = true;
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return new Result(status);
+	}
+	@Override
 	public Result saveOrUpdBudgetMoneyTotal(BudgetMoneyTotal bean) throws Exception 
 	{
 		Boolean status =  false;
@@ -127,6 +143,20 @@ public class BudgetMoneyTotalServiceImpl  implements BudgetMoneyTotalService
 	public List<BudgetMoneyTotal> selectListBudgetMoneyTotalByBean(BudgetMoneyTotal bean) 
 	{
 		BudgetMoneyTotalExample example = new BudgetMoneyTotalExample();
+		BudgetMoneyTotalExample.Criteria c = example.createCriteria();
+		if(bean.getNd() != null) 
+		{
+			c.andNdEqualTo(bean.getNd());
+		} 
+		if(bean.getBudgetType() != null) 
+		{
+			c.andBudgetTypeEqualTo(bean.getBudgetType());
+		}
+		if(bean.getBudgetInfoId() != null) 
+		{
+			c.andBudgetInfoIdEqualTo(bean.getBudgetInfoId());
+		}
+		example.setOrderByClause("no");
 		return mapper.selectByExample(example);
 	}
 	

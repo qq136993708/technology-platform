@@ -20,6 +20,8 @@ public interface BudgetMoneyTotalService
 	
 	public Result deleteBudgetMoneyTotal(String dataId) throws Exception;
 	
+	public Result deleteBudgetMoneyTotalReal(String dataId) throws Exception;
+	
 	public List<BudgetMoneyTotal> selectListBudgetMoneyTotal();
 	
 	public List<BudgetMoneyTotal> selectListBudgetMoneyTotalByBean(BudgetMoneyTotal bean);

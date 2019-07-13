@@ -131,5 +131,5 @@ public interface BudgetInfoService
 	 * @param info
 	 * @return
 	 */
-	public void processDataImport(BudgetInfo info);
+	public void processDataImport(BudgetInfo info) throws Exception;
 }
