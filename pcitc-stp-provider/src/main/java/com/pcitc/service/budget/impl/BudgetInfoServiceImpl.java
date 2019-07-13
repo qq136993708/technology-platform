@@ -40,6 +40,7 @@ import com.pcitc.service.budget.BudgetAssetTotalService;
 import com.pcitc.service.budget.BudgetGroupSplitService;
 import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
+import com.pcitc.service.budget.BudgetMoneyTotalService;
 import com.pcitc.service.budget.BudgetStockSplitXtwSplitService;
 import com.pcitc.service.budget.BudgetStockSplitZgsSplitService;
 import com.pcitc.service.budget.BudgetStockSplitZsySplitService;
@@ -58,6 +59,9 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	
 	@Autowired
 	private BudgetMoneyDecomposeMapper budgetMoneyDecomposeMapper;
+	
+	@Autowired
+	private BudgetMoneyTotalService budgetMoneyTotalService;
 	
 	@Autowired
 	private BudgetAssetTotalService budgetAssetTotalService;

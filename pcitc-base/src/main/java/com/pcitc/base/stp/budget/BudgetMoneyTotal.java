@@ -7,6 +7,10 @@ public class BudgetMoneyTotal {
 
     private String nd;
 
+    private String budgetCode;
+
+    private String unitCode;
+
     private String showIndex;
 
     private String unitName;
@@ -30,8 +34,6 @@ public class BudgetMoneyTotal {
     private String showOrder;
 
     private Integer no;
-
-    private String code;
 
     private Integer level;
 
@@ -71,6 +73,22 @@ public class BudgetMoneyTotal {
 
     public void setNd(String nd) {
         this.nd = nd;
+    }
+
+    public String getBudgetCode() {
+        return budgetCode;
+    }
+
+    public void setBudgetCode(String budgetCode) {
+        this.budgetCode = budgetCode;
+    }
+
+    public String getUnitCode() {
+        return unitCode;
+    }
+
+    public void setUnitCode(String unitCode) {
+        this.unitCode = unitCode;
     }
 
     public String getShowIndex() {
@@ -167,14 +185,6 @@ public class BudgetMoneyTotal {
 
     public void setNo(Integer no) {
         this.no = no;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public Integer getLevel() {

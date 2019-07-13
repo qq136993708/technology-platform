@@ -5,6 +5,8 @@
     <id column="data_id" jdbcType="VARCHAR" property="dataId" />
     <result column="parent_data_id" jdbcType="VARCHAR" property="parentDataId" />
     <result column="nd" jdbcType="VARCHAR" property="nd" />
+    <result column="budget_code" jdbcType="VARCHAR" property="budgetCode" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
     <result column="show_index" jdbcType="VARCHAR" property="showIndex" />
     <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
     <result column="show_ali" jdbcType="VARCHAR" property="showAli" />
@@ -17,7 +19,6 @@
     <result column="sheet_flag" jdbcType="VARCHAR" property="sheetFlag" />
     <result column="show_order" jdbcType="VARCHAR" property="showOrder" />
     <result column="no" jdbcType="INTEGER" property="no" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="budget_type" jdbcType="INTEGER" property="budgetType" />
     <result column="budget_info_id" jdbcType="VARCHAR" property="budgetInfoId" />
@@ -86,9 +87,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    data_id, parent_data_id, nd, show_index, unit_name, show_ali, zbx_money, fyx_money, 
-    money_level, details_name, is_yjy, type_name, sheet_flag, show_order, no, code, level, 
-    budget_type, budget_info_id, bak1, bak2, bak3, bak4, bak5
+    data_id, parent_data_id, nd, budget_code, unit_code, show_index, unit_name, show_ali, 
+    zbx_money, fyx_money, money_level, details_name, is_yjy, type_name, sheet_flag, show_order, 
+    no, level, budget_type, budget_info_id, bak1, bak2, bak3, bak4, bak5
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetMoneyTotalExample" resultMap="BaseResultMap">
     select
@@ -123,21 +124,23 @@
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetMoneyTotal">
     insert into out_tem_money_total (data_id, parent_data_id, nd, 
-      show_index, unit_name, show_ali, 
-      zbx_money, fyx_money, money_level, 
-      details_name, is_yjy, type_name, 
-      sheet_flag, show_order, no, 
-      code, level, budget_type, 
-      budget_info_id, bak1, bak2, 
-      bak3, bak4, bak5)
+      budget_code, unit_code, show_index, 
+      unit_name, show_ali, zbx_money, 
+      fyx_money, money_level, details_name, 
+      is_yjy, type_name, sheet_flag, 
+      show_order, no, level, 
+      budget_type, budget_info_id, bak1, 
+      bak2, bak3, bak4, bak5
+      )
     values (#{dataId,jdbcType=VARCHAR}, #{parentDataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
-      #{showIndex,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{showAli,jdbcType=VARCHAR}, 
-      #{zbxMoney,jdbcType=VARCHAR}, #{fyxMoney,jdbcType=VARCHAR}, #{moneyLevel,jdbcType=VARCHAR}, 
-      #{detailsName,jdbcType=VARCHAR}, #{isYjy,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, 
-      #{sheetFlag,jdbcType=VARCHAR}, #{showOrder,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
-      #{code,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{budgetType,jdbcType=INTEGER}, 
-      #{budgetInfoId,jdbcType=VARCHAR}, #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, 
-      #{bak3,jdbcType=VARCHAR}, #{bak4,jdbcType=VARCHAR}, #{bak5,jdbcType=VARCHAR})
+      #{budgetCode,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, #{showIndex,jdbcType=VARCHAR}, 
+      #{unitName,jdbcType=VARCHAR}, #{showAli,jdbcType=VARCHAR}, #{zbxMoney,jdbcType=VARCHAR}, 
+      #{fyxMoney,jdbcType=VARCHAR}, #{moneyLevel,jdbcType=VARCHAR}, #{detailsName,jdbcType=VARCHAR}, 
+      #{isYjy,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{sheetFlag,jdbcType=VARCHAR}, 
+      #{showOrder,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
+      #{budgetType,jdbcType=INTEGER}, #{budgetInfoId,jdbcType=VARCHAR}, #{bak1,jdbcType=VARCHAR}, 
+      #{bak2,jdbcType=VARCHAR}, #{bak3,jdbcType=VARCHAR}, #{bak4,jdbcType=VARCHAR}, #{bak5,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetMoneyTotal">
     insert into out_tem_money_total
@@ -150,6 +153,12 @@
       </if>
       <if test="nd != null">
         nd,
+      </if>
+      <if test="budgetCode != null">
+        budget_code,
+      </if>
+      <if test="unitCode != null">
+        unit_code,
       </if>
       <if test="showIndex != null">
         show_index,
@@ -187,9 +196,6 @@
       <if test="no != null">
         no,
       </if>
-      <if test="code != null">
-        code,
-      </if>
       <if test="level != null">
         level,
       </if>
@@ -224,6 +230,12 @@
       </if>
       <if test="nd != null">
         #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetCode != null">
+        #{budgetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null">
+        #{unitCode,jdbcType=VARCHAR},
       </if>
       <if test="showIndex != null">
         #{showIndex,jdbcType=VARCHAR},
@@ -260,9 +272,6 @@
       </if>
       <if test="no != null">
         #{no,jdbcType=INTEGER},
-      </if>
-      <if test="code != null">
-        #{code,jdbcType=VARCHAR},
       </if>
       <if test="level != null">
         #{level,jdbcType=INTEGER},
@@ -308,6 +317,12 @@
       <if test="record.nd != null">
         nd = #{record.nd,jdbcType=VARCHAR},
       </if>
+      <if test="record.budgetCode != null">
+        budget_code = #{record.budgetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitCode != null">
+        unit_code = #{record.unitCode,jdbcType=VARCHAR},
+      </if>
       <if test="record.showIndex != null">
         show_index = #{record.showIndex,jdbcType=VARCHAR},
       </if>
@@ -344,9 +359,6 @@
       <if test="record.no != null">
         no = #{record.no,jdbcType=INTEGER},
       </if>
-      <if test="record.code != null">
-        code = #{record.code,jdbcType=VARCHAR},
-      </if>
       <if test="record.level != null">
         level = #{record.level,jdbcType=INTEGER},
       </if>
@@ -381,6 +393,8 @@
     set data_id = #{record.dataId,jdbcType=VARCHAR},
       parent_data_id = #{record.parentDataId,jdbcType=VARCHAR},
       nd = #{record.nd,jdbcType=VARCHAR},
+      budget_code = #{record.budgetCode,jdbcType=VARCHAR},
+      unit_code = #{record.unitCode,jdbcType=VARCHAR},
       show_index = #{record.showIndex,jdbcType=VARCHAR},
       unit_name = #{record.unitName,jdbcType=VARCHAR},
       show_ali = #{record.showAli,jdbcType=VARCHAR},
@@ -393,7 +407,6 @@
       sheet_flag = #{record.sheetFlag,jdbcType=VARCHAR},
       show_order = #{record.showOrder,jdbcType=VARCHAR},
       no = #{record.no,jdbcType=INTEGER},
-      code = #{record.code,jdbcType=VARCHAR},
       level = #{record.level,jdbcType=INTEGER},
       budget_type = #{record.budgetType,jdbcType=INTEGER},
       budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
@@ -414,6 +427,12 @@
       </if>
       <if test="nd != null">
         nd = #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetCode != null">
+        budget_code = #{budgetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null">
+        unit_code = #{unitCode,jdbcType=VARCHAR},
       </if>
       <if test="showIndex != null">
         show_index = #{showIndex,jdbcType=VARCHAR},
@@ -451,9 +470,6 @@
       <if test="no != null">
         no = #{no,jdbcType=INTEGER},
       </if>
-      <if test="code != null">
-        code = #{code,jdbcType=VARCHAR},
-      </if>
       <if test="level != null">
         level = #{level,jdbcType=INTEGER},
       </if>
@@ -485,6 +501,8 @@
     update out_tem_money_total
     set parent_data_id = #{parentDataId,jdbcType=VARCHAR},
       nd = #{nd,jdbcType=VARCHAR},
+      budget_code = #{budgetCode,jdbcType=VARCHAR},
+      unit_code = #{unitCode,jdbcType=VARCHAR},
       show_index = #{showIndex,jdbcType=VARCHAR},
       unit_name = #{unitName,jdbcType=VARCHAR},
       show_ali = #{showAli,jdbcType=VARCHAR},
@@ -497,7 +515,6 @@
       sheet_flag = #{sheetFlag,jdbcType=VARCHAR},
       show_order = #{showOrder,jdbcType=VARCHAR},
       no = #{no,jdbcType=INTEGER},
-      code = #{code,jdbcType=VARCHAR},
       level = #{level,jdbcType=INTEGER},
       budget_type = #{budgetType,jdbcType=INTEGER},
       budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
