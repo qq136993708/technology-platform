@@ -42,6 +42,7 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
@@ -57,15 +58,19 @@ public class HomeDeviceMsqlController extends BaseController{
 
 
 	/**
-	 * =====================================科研项目二级页面============================
+	 * ======================专业处-科研装备============================
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/home_device_02/home_device")
+	@RequestMapping(method = RequestMethod.GET, value = "/home_device_02/zyc/equipment")
 	public String kyzb_level2(HttpServletRequest request) throws Exception {
 
-		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		String nd = HanaUtil.getBeforeYear();
-		request.setAttribute("nd", nd);
-		return "stp/hana/home/level/home_device_02";
+		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
+		request.setAttribute("companyCode", companyCode);
+		String year = HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
+		String month = HanaUtil.getCurrrentYear_Moth();
+		request.setAttribute("month", year + "-" + month.substring(5));
+
+		return "stp/hana/home/level/zyc_equipment";
 	}
 
 	/** =====================================按数量============================== */

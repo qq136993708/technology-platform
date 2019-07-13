@@ -157,7 +157,7 @@
                 <div class="layui-main-box">
                     <span class="layui-box-icon bg-8"></span>
                     <div class="layui-box-content">
-                        <span class="layui-box-text">标准制修订</span>
+                        <span class="layui-box-text">标准化</span>
                         <span class="layui-box-number">
                                 234
                                 <small>(个)</small>
@@ -613,8 +613,7 @@
 					});
 
 					$("#actualPay").on("click", function() {
-						parent.layui.index.openTabsPage("/small_leader/investment?userLevel=0", "研究院预算");
-						// parent.layui.index.openTabsPage("/direct/actualPay?isdisplay=1", "经费支出");
+						parent.layui.index.openTabsPage("/direct/zyc/investment?isdisplay=1", "研究院预算");
 					});
 
 					$("#home_project").on("click", function() {
@@ -642,9 +641,7 @@
 					});
 
 					$("#equipment").on("click", function() {
-
-						parent.layui.index.openTabsPage("/direct/equipment?userLevel=0", "科研装备");
-						//parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备");
+						parent.layui.index.openTabsPage("/home_device_02/zyc/equipment?userLevel=0", "科研装备");
 					});
 
 					//新闻

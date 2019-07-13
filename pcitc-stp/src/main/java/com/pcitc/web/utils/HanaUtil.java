@@ -1248,9 +1248,10 @@ public class HanaUtil {
 					resut.add(node02);
 
 					extend01_count = extend01_count + jhqds;
-					extend02_count = extend01_count + sjqds;
+					extend02_count = extend02_count + sjqds;
 
 				}
+				//System.out.println(title+"------"+name+"======="+i+"=========="+j+"==========="+extend01_count+"===="+jhqds+"----------------"+sjqds);
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(extend01_count));

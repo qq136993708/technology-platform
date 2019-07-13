@@ -1212,10 +1212,11 @@
 	
 	<!-- 直属研究院二级页面（领导），项目计划完成的比率，按照项目类型、资本性费用性来分组 -->
 	<select id="getPlanCompleteRateByOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select case when tableB.DEFINE1 = '费用性' then '科研开发类' when tableB.DEFINE1 = '资本性' then '科研装备类' else tableB.DEFINE1 end as define1,PROJECT_PROPERTY as project_scope,count(xmid) as jhqds,
-			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds
+		select case when tableB.DEFINE1 = '费用性' then '科研开发类' when tableB.DEFINE1 = '资本性' then '科研装备类' else tableB.DEFINE1 end as define1,
+			   SUBSTR(define10 FROM 4) as project_scope,count(xmid) as jhqds,
+			   sum(case when tableB.temId is not null then 1 else 0 end) as sjqds
 		from (
-			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_PROPERTY
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1, IFNULL(out_project_plan.define10,'201计划签订') as define10
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.define3='项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
@@ -1242,7 +1243,8 @@
 				
 				group by out_project_plan.xmid
 		) as tableB 
-		group by tableB.DEFINE1,tableB.PROJECT_PROPERTY
+		GROUP BY tableB.DEFINE1,tableB.define10
+		ORDER BY tableB.DEFINE1,tableB.define10
 	</select>
 	
 	<!-- 领导首页-科研投入-各个处室的新开结转情况 -->
@@ -1479,8 +1481,8 @@
 	
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照研究院来分组 -->
 	<select id="getPlanCompleteRateByPlanTypeForHana" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select round(sum(K0DMBTR)/10000,4) as hanaMoney,tableB.*,
-		       round((zysje - zsjje),4) as wqhtzje,round((zsjje - sum(K0DMBTR)/10000),4) as wbkzje
+		select round(sum(K0DMBTR)/10000,2) as hanaMoney,tableB.*,
+		       round((zysje - zsjje),2) as wqhtzje,round((zsjje - sum(K0DMBTR)/10000),2) as wbkzje
 		from expenses_pay_hana,(
 			select define2,define3,zsjje, round((out_tem_money_total.zbx_money+out_tem_money_total.fyx_money), 4) as zysje,
 							round((out_tem_money_total.zbx_money+out_tem_money_total.fyx_money)-zsjje,4) as wxdje,
@@ -1506,34 +1508,40 @@
 			) tableB 
 		WHERE 
 		find_in_set(expenses_pay_hana.G0LIFNR,tableB.hanaCode)  
-		and STRCMP(left(G0AUGDT, 6), '201801') &gt; -1
-		and STRCMP(left(G0AUGDT, 6), '201812') &lt; 1
+		and STRCMP(left(G0AUGDT, 6), '${startMonth}') &gt; -1
+		and STRCMP(left(G0AUGDT, 6), '${endMonth}') &lt; 1
 		GROUP BY tableB.hanaCode
 		ORDER BY tableB.define3
 	</select>
 	
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照月份分组 -->
 	<select id="getPlanCompleteRateByPlanTypeForHanaMonth" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select tableB.*,IFNULL(sum(tableC.jf),0) as zsjje  from (
-			select tableA.*,(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money) as zysje 
-			from (
-				select round(sum(K0DMBTR)/10000,4) as hanaMoney, left(G0AUGDT, 6) as yearMonth
-				from expenses_pay_hana
-				where 
-				G0LIFNR in ('0033550000','0035800000','0033550006','0033600000','0033700000','0034880000','0033650000','0033750000','0033800000') 
-				and STRCMP(left(G0AUGDT, 6), '201801') &gt; -1
-				and STRCMP(left(G0AUGDT, 6), '201812') &lt; 1
-				GROUP BY left(G0AUGDT, 6)
-				ORDER BY left(G0AUGDT, 6)
-			) tableA LEFT JOIN out_tem_money_total ON (left(yearMonth, 4) = out_tem_money_total.nd AND out_tem_money_total.show_ali = '直属研究院')
-			) as tableB left join (
-				select xmid,jf,left(define16, 6) as projectMount
-				from out_project_info
-				where 
-					left(define16, 4) = '2018'
-				GROUP BY xmid
-		) tableC on (tableC.projectMount = tableB.yearMonth)
-		GROUP BY tableB.yearMonth
+		select CONCAT('${nd}',sys_dictionary.num_value) as yearMonth,round(ifnull(tableD.hanaMoney, '0'), 2) as hanaMoney,
+			   round(ifnull(tableD.zysje, '0'), 2) as zysje,  round(ifnull(tableD.zsjje, '0'), 2) as zsjje
+		from sys_dictionary left join (
+			select tableB.*,IFNULL(sum(tableC.jf),0) as zsjje  from (
+				select tableA.*,(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money) as zysje 
+				from (
+					select round(sum(K0DMBTR)/10000,2) as hanaMoney, left(G0AUGDT, 6) as yearMonth
+					from expenses_pay_hana
+					where 
+					G0LIFNR in ('0033550000','0035800000','0033550006','0033600000','0033700000','0034880000','0033650000','0033750000','0033800000') 
+					and STRCMP(left(G0AUGDT, 6), '${startMonth}') &gt; -1
+					and STRCMP(left(G0AUGDT, 6), '${endMonth}') &lt; 1
+					GROUP BY left(G0AUGDT, 6)
+					ORDER BY left(G0AUGDT, 6)
+				) tableA LEFT JOIN out_tem_money_total ON (left(yearMonth, 4) = out_tem_money_total.nd AND out_tem_money_total.budget_code = 'GFFZSY')
+				) as tableB left join (
+					select xmid,jf,left(define16, 6) as projectMount
+					from out_project_info
+					where 
+						left(define16, 4) = '${nd}'
+					GROUP BY xmid
+			) tableC on (tableC.projectMount = tableB.yearMonth)
+			GROUP BY tableB.yearMonth) as tableD on (sys_dictionary.num_value = SUBSTR(tableD.yearMonth FROM 5))
+		where 
+		sys_dictionary.parent_code = 'ROOT_FZJCZX_YD'
+		ORDER BY isdelete
 	</select>
 	
 	<!-- 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组 -->
