@@ -74,4 +74,19 @@ public class SystemHystric implements SystemRemoteClient {
 		throw new RuntimeException("调用失败.");
 	}
 
+    @Override
+    public LayuiTableData getOutAppraisalListPage(LayuiTableParam param) throws Exception {
+        System.out.println("执行断路器。。。。。。。。");
+        throw new RuntimeException("调用失败.");    }
+
+    @Override
+    public LayuiTableData selectOutPatentList(LayuiTableParam param) {
+        System.out.println("执行断路器。。。。。。。。");
+        throw new RuntimeException("调用失败.");    }
+
+    @Override
+    public LayuiTableData getOutRewardListPage(LayuiTableParam param) throws Exception {
+        System.out.println("执行断路器。。。。。。。。");
+        throw new RuntimeException("调用失败.");    }
+
 }

@@ -41,6 +41,13 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	public List getPlanMoneyByDepartment(HashMap<String, String> map) {
 		return outProjectPlanMapper.getPlanMoneyByDepartment(map);
 	}
+	
+	/**
+     * 领导首页-科研投入-各个处室的新开结转情况, 专业处没做预算的情况下, 以数据字典中的为准 
+     */
+	public List getPlanMoneyByDepartmentSpecial(HashMap<String, String> map) {
+		return outProjectPlanMapper.getPlanMoneyByDepartmentSpecial(map);
+	}
 
 	/**
 	 * 批量插入项目计划数据

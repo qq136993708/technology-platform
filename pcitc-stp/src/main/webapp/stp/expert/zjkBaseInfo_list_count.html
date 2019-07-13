@@ -128,10 +128,6 @@
                         field: "sex",
                         title: "性别", event: 'setActive', style: 'cursor: pointer;', width: 50
                     },
-                    // {
-                    //     field: "expertProfessionalFieldName",
-                    //     title: "专业领域", event: 'setActive', style: 'cursor: pointer;', width: 100
-                    // },
                     {
                         field: "birthDate",
                         title: "出生日期", event: 'setActive', style: 'cursor: pointer;', width: 100
@@ -160,14 +156,14 @@
                         field: "achievementCount",
                         title: "成果数量", event: 'setActive', style: 'cursor: pointer;', width: 100
                         , templet: function (d) {
-                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/zjkAchievement/toListPage?expertId=" + d.dataId + "')>" + d.achievementCount + "</a>"
+                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/expertController/zjkAchievementListCount?expertName=encodeURI(encodeURI("+d.expertName+"))&expertId=" + d.dataId + "')>" + d.achievementCount + "</a>"
                         }
                     },
                     {
                         field: "patentCount",
                         title: "专利数量", event: 'setActive', style: 'cursor: pointer;', width: 100
                         , templet: function (d) {
-                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/zjkPatent/toListPage?expertId=" + d.dataId + "')>" + d.patentCount + "</a>"
+                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/expertController/zjkPatentListPublicCount?expertName=encodeURI(encodeURI("+d.expertName+"))&expertId=" + d.dataId + "')>" + d.patentCount + "</a>"
                         }
                     },
                     // {

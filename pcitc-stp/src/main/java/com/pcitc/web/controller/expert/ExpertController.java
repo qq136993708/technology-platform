@@ -739,6 +739,17 @@ public class ExpertController extends BaseController {
     }
 
     /**
+     * 成果列表-统计展示
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkAchievementListCount")
+    public String zjkAchievementListCount() throws Exception {
+        request.setAttribute("expertName",request.getParameter("expertName"));
+        return "/stp/expert/zjkAchievementList_count";
+    }
+
+    /**
      * 专利列表-专家关联
      *
      * @return
@@ -824,6 +835,20 @@ public class ExpertController extends BaseController {
         }
         request.setAttribute("xmid",org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
         return "/stp/expert/zjkPatentListPublic";
+    }
+
+    /**
+     * 获取专家统计-专利信息
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkPatentListPublicCount")
+    public String zjkPatentListPublicCount() throws Exception {
+        String id = request.getParameter("expertId");
+        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
+        ZjkExpert news = responseEntity.getBody();
+        request.setAttribute("expertName",news.getExpertName());
+        return "/stp/expert/zjkPatentListPublic_count";
     }
 
 

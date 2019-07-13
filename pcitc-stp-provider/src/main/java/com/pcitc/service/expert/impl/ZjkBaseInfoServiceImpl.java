@@ -20,6 +20,8 @@ import javax.annotation.Resource;
 
 import com.netflix.discovery.converters.Auto;
 import com.pcitc.base.expert.*;
+import com.pcitc.base.stp.out.OutAppraisal;
+import com.pcitc.base.stp.out.OutPatent;
 import com.pcitc.mapper.expert.*;
 import com.pcitc.service.expert.*;
 import org.apache.ibatis.annotations.Param;
@@ -111,7 +113,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         }
         return experts;
         */
-    	List<ZjkExpert> zjkExpertreturnList = selectYsList();
+        List<ZjkExpert> zjkExpertreturnList = selectYsList();
         return zjkExpertreturnList;
     }
 
@@ -607,10 +609,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 //                System.out.println(column_show);
                 for (Map.Entry<String, Object> entry : maps.entrySet()) {
                     Object val = entry.getValue();
-                    if (val==null){
+                    if (val == null) {
                         continue;
                     }
-                    if (column_show.indexOf(entry.getKey()+",")<0){
+                    if (column_show.indexOf(entry.getKey() + ",") < 0) {
                         continue;
                     }
                     String name = val.toString();
@@ -668,10 +670,8 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     //TO DO
     //专家参与项目与成果，专利关系，对应查询？专家与成果专利对应关系
 
-
     @Autowired
     private ZjkExpertProjectService zjkExpertProjectService;
-
 
     /**
      * 专家保存
@@ -689,7 +689,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         for (int i = 0, j = array.size(); i < j; i++) {
             JSONObject obj = (JSONObject) array.get(i);
             String strExpertId = getObjString(obj.get("expertid"));
-            ids = (ids+","+getObjString(obj.get("expertid")));
+            ids = (ids + "," + getObjString(obj.get("expertid")));
             ZjkExpert record = new ZjkExpert();
             record.setDataId(getObjString(obj.get("expertid")));                        //        expertid: 专家id
             record.setExpertName(getObjString(obj.get("expertName")));                  //        expertName: 专家姓名
@@ -699,7 +699,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
             //这两个字段存入附加信息表
 
-
             String projectIds = getObjString(obj.get("projectIds"));
             String projectNames = getObjString(obj.get("projectNames"));
             record.setJoinProjectId(projectIds);               //        projectIds:参与项目id
@@ -708,7 +707,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             //项目分批插入专家项目附加表
             String[] projectIdsArray = projectIds.split(",");
             String[] projectNamesArray = projectNames.split(",");
-            for (int k = 0; k <projectIdsArray.length; k++) {
+            for (int k = 0; k < projectIdsArray.length; k++) {
                 ZjkExpertProject project = new ZjkExpertProject();
                 project.setExpertId(strExpertId);
                 project.setProjectId(projectIdsArray[k]);
@@ -724,14 +723,14 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             record.setEducation(getObjString(obj.get("educationBk")));                  //        educationBk: 学历
             record.setExpertProfessinal(getObjString(obj.get("discription")));         //        discription: 专家简介
             record.setUserDesc(getObjString(obj.get("title")));                       //        title: 职称
-            record.setSex("男".equals(getObjString(obj.get("gender")))?"ROOT_UNIVERSAL_XB_N":"ROOT_UNIVERSAL_XB_V");                           //        gender: 性别
+            record.setSex("男".equals(getObjString(obj.get("gender"))) ? "ROOT_UNIVERSAL_XB_N" : "ROOT_UNIVERSAL_XB_V");                           //        gender: 性别
             record.setExpertNationality(getObjString(obj.get("nationality")));        //        nationality: 国籍
             record.setStatus("0");
             record.setSysFlag("0");
             record.setAuditStatus("0");
             record.setDelFlag(0);
             record.setBak3("1");
-            record.setCreateDate(DateUtil.dateToStr(new Date(),DateUtil.FMT_DD));
+            record.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
             record.setCreateUser("165553436ed_dfd5e137");
             record.setCreateUserDisp("111111");
 
@@ -903,7 +902,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         ZjkExpertExample.Criteria c = example.createCriteria();
         c.andStatusEqualTo("0");
         c.andDelFlagEqualTo("0");
-        c.andSysFlagEqualTo("0");
+//        c.andSysFlagEqualTo("0");
         Object expertName = param.getParam().get("expertName");
         if (!StrUtil.isNull(expertName)) {
             c.andExpertNameLike("%" + expertName + "%");
@@ -921,7 +920,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             c.andSysFlagEqualTo("0");
         }
         Object email = param.getParam().get("email");
-        if (!StrUtil.isNull(email)) {
+        if (email != null && !"".equals(email)) {
             c.andEmailLike("%" + email + "%");
         }
         Object company = param.getParam().get("company");
@@ -940,42 +939,80 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         //查询专家数量
         data = this.findByExample(param, example);
         List<ZjkExpert> experts = (List<ZjkExpert>) data.getData();
-        List ids = experts.stream().map(ZjkExpert::getDataId).distinct().collect(Collectors.toList());
-        if (ids==null||ids.size()==0){
-            ids = new ArrayList<>();
-            ids.add("");
-        }
-        //查询专家成果数量
-        ZjkAchievementExample zjkAchievementExample = new ZjkAchievementExample();
-        zjkAchievementExample.createCriteria().andExpertIdIn(ids);
-        List<ZjkAchievement> zjkAchievements = zjkChengguoMapper.selectByExample(zjkAchievementExample);
-        Map<String, Long> a_count = zjkAchievements.stream().collect(Collectors.groupingBy(ZjkAchievement::getExpertId, Collectors.counting()));
-        //查询专家专利数量
-        ZjkPatentExample zjkPatentExample = new ZjkPatentExample();
-        zjkPatentExample.createCriteria().andExpertIdIn(ids);
-        List<ZjkPatent> zjkPatentExamples = zjkPatentMapper.selectByExample(zjkPatentExample);
-        Map<String, Long> patent_count = zjkPatentExamples.stream().collect(Collectors.groupingBy(ZjkPatent::getExpertId, Collectors.counting()));
+//        List ids = experts.stream().map(ZjkExpert::getDataId).distinct().collect(Collectors.toList());
+//        List names = experts.stream().map(ZjkExpert::getExpertName).distinct().collect(Collectors.toList());
+//        if (ids == null || ids.size() == 0) {
+//            ids = new ArrayList<>();
+//            ids.add("");
+//        }
+
+//        //查询专家成果数量
+//        param.getParam().put("expertNames", String.join(",",names));
+//        LayuiTableData outAppraisalListPage = null;
+//        try {
+//            outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        ZjkAchievementExample zjkAchievementExample = new ZjkAchievementExample();
+//        zjkAchievementExample.createCriteria().andExpertIdIn(ids);
+//        List<ZjkAchievement> zjkAchievements = zjkChengguoMapper.selectByExample(zjkAchievementExample);
+//        Map<String, Long> a_count = zjkAchievements.stream().collect(Collectors.groupingBy(ZjkAchievement::getExpertId, Collectors.counting()));
+//        //查询专家专利数量
+//        LayuiTableData patentList = systemRemoteClient.selectOutPatentList(param);
+//        ZjkPatentExample zjkPatentExample = new ZjkPatentExample();
+//        zjkPatentExample.createCriteria().andExpertIdIn(ids);
+//        List<ZjkPatent> zjkPatentExamples = zjkPatentMapper.selectByExample(zjkPatentExample);
+//        Map<String, Long> patent_count = zjkPatentExamples.stream().collect(Collectors.groupingBy(ZjkPatent::getExpertId, Collectors.counting()));
 
         //参与课题数量
-        ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
-        zjkChoiceExample.createCriteria().andZjIdIn(ids);
-        zjkChoiceExample.createCriteria().andStatusEqualTo("2");
-        List<ZjkChoice> zjkChoices = zjkChoiceMapper.selectByExample(zjkChoiceExample);
-        Map<String, Long> choice_count = zjkChoices.stream().collect(Collectors.groupingBy(ZjkChoice::getZjId, Collectors.counting()));
-        //被投诉次数
-        ZjkComplaintExample zjkComplaintExample = new ZjkComplaintExample();
-        zjkComplaintExample.createCriteria().andZjkIdIn(ids);
-        zjkComplaintExample.createCriteria().andStatusEqualTo("2");
-        List<ZjkComplaint> zjkComplaints = zjkComplaintMapper.selectByExample(zjkComplaintExample);
-        Map<String, Long> complaint_count = zjkComplaints.stream().collect(Collectors.groupingBy(ZjkComplaint::getZjkId, Collectors.counting()));
+//        ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+//        zjkChoiceExample.createCriteria().andZjIdIn(ids);
+//        zjkChoiceExample.createCriteria().andStatusEqualTo("2");
+//        List<ZjkChoice> zjkChoices = zjkChoiceMapper.selectByExample(zjkChoiceExample);
+//        Map<String, Long> choice_count = zjkChoices.stream().collect(Collectors.groupingBy(ZjkChoice::getZjId, Collectors.counting()));
+//        //被投诉次数
+//        ZjkComplaintExample zjkComplaintExample = new ZjkComplaintExample();
+//        zjkComplaintExample.createCriteria().andZjkIdIn(ids);
+//        zjkComplaintExample.createCriteria().andStatusEqualTo("2");
+//        List<ZjkComplaint> zjkComplaints = zjkComplaintMapper.selectByExample(zjkComplaintExample);
+//        Map<String, Long> complaint_count = zjkComplaints.stream().collect(Collectors.groupingBy(ZjkComplaint::getZjkId, Collectors.counting()));
 
         for (int i = 0, j = experts.size(); i < j; i++) {
-            ZjkExpert expert = experts.get(i);
-            String eId = expert.getDataId();
-            expert.setAchievementCount(StrUtil.objectToString(a_count.get(eId), "0"));
-            expert.setPatentCount(StrUtil.objectToString(patent_count.get(eId), "0"));
-            expert.setProjectCount(StrUtil.objectToString(choice_count.get(eId), "0"));
-            expert.setBak1(StrUtil.objectToString(complaint_count.get(eId), "0"));
+            String eName = experts.get(i).getExpertName();
+//            int appSize = 0;
+//            for (int k = 0; k < outAppraisalListPage.getData().size(); k++) {
+//                OutAppraisal appraisal = (OutAppraisal) outAppraisalListPage.getData().get(k);
+//                if (outPatent.getFmr().contains(eName)){
+//                    appSize++;
+//                }
+//            }
+//            expert.setAchievementCount(StrUtil.objectToString(a_count.get(eId), "0"));
+//            int patentSize = 0;
+//            for (int k = 0; k < patentList.getData().size(); k++) {
+//                Map<String,String> map  = (Map<String, String>) patentList.getData().get(k);
+//                System.out.println(eName+"---"+map.get("fmr"));
+//                if (map.get("fmr")!=null&&map.get("fmr").indexOf(eName)>-1){
+//                    System.out.println("ddddddddddddddddd");
+//                    patentSize++;
+//                }
+//            }
+
+            param.getParam().put("name", eName);
+            int count = systemRemoteClient.selectOutPatentList(param).getCount();
+            experts.get(i).setPatentCount(count + "");
+
+            LayuiTableData outAppraisalListPage = null;
+            try {
+                outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
+                experts.get(i).setAchievementCount(outAppraisalListPage.getCount()+"");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//            expert.setPatentCount(StrUtil.objectToString(patent_count.get(eId), "0"));
+//            expert.setProjectCount(StrUtil.objectToString(choice_count.get(eId), "0"));
+//            expert.setBak1(StrUtil.objectToString(complaint_count.get(eId), "0"));
         }
 
         data.setData(experts);
@@ -1009,33 +1046,32 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     }
 
     @Override
-    public List<Map<String,Object>> queryAllExpert(Map<String, Object> map){
-     return zjkBaseInfoMapper.queryAllExpert(new HashMap<>());
+    public List<Map<String, Object>> queryAllExpert(Map<String, Object> map) {
+        return zjkBaseInfoMapper.queryAllExpert(new HashMap<>());
     }
 
-	@Override
-	public List<ZjkExpert> selectYsList() {
-		ZjkExpertExample example = new ZjkExpertExample();
-		ZjkExpertExample.Criteria c = example.createCriteria();
-		c.andBak3EqualTo("ZJK_ZJLX_YS");
-		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode().toString());
-		String [] sorts = new String[] {"陈俊武","徐承恩","李大东","顾心怿","汪燮卿","毛炳权","关兴亚","袁晴棠","何鸣元","杨启业","胡永康","曹湘洪","蒋士成","舒兴田","王基铭","康玉柱","马永生","曹耀峰","李阳","金之钧","戴厚良","谢在库"};
-		
-		List<String> names = new ArrayList<String>(Arrays.asList(sorts));
-		
-		List<ZjkExpert> rs = zjkBaseInfoMapper.selectByExample(example);
-		rs.sort(new Comparator<ZjkExpert>() {
-			@Override
-			public int compare(ZjkExpert o1, ZjkExpert o2) {
-				Integer s1 = names.indexOf(o1.getExpertName());
-				Integer s2 = names.indexOf(o2.getExpertName());
-				return s1-s2;
-			}
-			
-		});
-		
-		
-		return rs;
-	}
+    @Override
+    public List<ZjkExpert> selectYsList() {
+        ZjkExpertExample example = new ZjkExpertExample();
+        ZjkExpertExample.Criteria c = example.createCriteria();
+        c.andBak3EqualTo("ZJK_ZJLX_YS");
+        c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode().toString());
+        String[] sorts = new String[]{"陈俊武", "徐承恩", "李大东", "顾心怿", "汪燮卿", "毛炳权", "关兴亚", "袁晴棠", "何鸣元", "杨启业", "胡永康", "曹湘洪", "蒋士成", "舒兴田", "王基铭", "康玉柱", "马永生", "曹耀峰", "李阳", "金之钧", "戴厚良", "谢在库"};
+
+        List<String> names = new ArrayList<String>(Arrays.asList(sorts));
+
+        List<ZjkExpert> rs = zjkBaseInfoMapper.selectByExample(example);
+        rs.sort(new Comparator<ZjkExpert>() {
+            @Override
+            public int compare(ZjkExpert o1, ZjkExpert o2) {
+                Integer s1 = names.indexOf(o1.getExpertName());
+                Integer s2 = names.indexOf(o2.getExpertName());
+                return s1 - s2;
+            }
+
+        });
+
+        return rs;
+    }
 
 }
