@@ -109,9 +109,9 @@
                 </div>
             </div>
         </div>
-        <div class="layui-col-md12" style="padding-right: 9px;">
+        <div class="layui-col-md12" style="padding-right: 9px;" id="enlargeP">
             <div class="layui-card">
-                <div class="layui-card-header">
+                <div class="layui-card-header" id="enlarge">
                     <span class="border-span"></span>所在行业领域统计
                 </div>
                 <div class="layui-row-main">
@@ -167,7 +167,30 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
             $("#showDb").click(function () {
                 showDb();
             });
-
+            $("#enlarge").click(function () {
+                if($("#enlargeP").attr("class").indexOf("enlarge")==-1){
+                    window.scrollTo(0,0);
+                    $("#enlargeP").addClass("enlarge");
+                    $("#enlargeP .main-chart").css("height",$(document).height()+"px");
+                    var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
+                    var colorFive = ["#8fc31f"];
+                    var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
+                        if (d.seriesDataList == undefined) {
+                            $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+                        }
+                    });
+                }else {
+                    $("#enlargeP").removeClass("enlarge");
+                    $("#enlargeP .main-chart").css("height","250px");
+                    var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
+                    var colorFive = ["#8fc31f"];
+                    var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
+                        if (d.seriesDataList == undefined) {
+                            $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+                        }
+                    });
+                }
+            });
             var record = {};
             // record.companyId = '${zjkBaseInfo.company}';
             // record.companyName = '${zjkBaseInfo.companyName}';
