@@ -378,6 +378,10 @@ public class OutProjectPlanClient {
 		logger.info("==================page getPlanMoneyByDepartment===========================" + map);
 		List temList = outProjectPlanService.getPlanMoneyByDepartment(map);
 		
+		if (temList == null || temList.size() == 0) {
+			temList = outProjectPlanService.getPlanMoneyByDepartmentSpecial(map);
+		}
+		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
