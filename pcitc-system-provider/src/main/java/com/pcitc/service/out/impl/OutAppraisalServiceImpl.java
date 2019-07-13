@@ -142,6 +142,9 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 
 		// 批量插入数据
 		outAppraisalMapper.insertOutAppraisalBatch(list);
+		
+		// 更新define1、define3统计属性
+		
 		return 1;
 	}
 

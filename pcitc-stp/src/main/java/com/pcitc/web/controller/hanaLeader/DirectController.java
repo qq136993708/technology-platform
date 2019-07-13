@@ -189,8 +189,7 @@ public class DirectController extends BaseController {
 	 */
 
 	/**
-	 * ===================================知识产权--专利==============================
-	 * ===
+	 * ================知识产权--专利==============================
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/knowledgePatent")
 	public String knowledgePatent(HttpServletRequest request) throws Exception {
@@ -198,7 +197,7 @@ public class DirectController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String nd = HanaUtil.getBeforeYear();
+		String nd = HanaUtil.getCurrrentYear();
 		request.setAttribute("nd", nd);
 
 		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
@@ -619,8 +618,7 @@ public class DirectController extends BaseController {
 	}
 
 	/**
-	 * ==========================================成果数量分析========================
-	 * ============
+	 * ========================成果数量分析========================
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/achievement")
 	public String achievement(HttpServletRequest request) throws Exception {
@@ -629,7 +627,7 @@ public class DirectController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String nd = HanaUtil.getBeforeYear();
+		String nd = HanaUtil.getCurrrentYear();
 		request.setAttribute("nd", nd);
 
 		String userLevel = CommonUtil.getParameter(request, "userLevel", "");

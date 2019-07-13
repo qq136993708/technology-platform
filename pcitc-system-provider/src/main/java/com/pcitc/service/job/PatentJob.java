@@ -55,6 +55,7 @@ public class PatentJob implements Job, Serializable {
 			str = DataServiceUtil.getDataService(DataServiceUtil.GET_URL, sqlName, conditions);
 			if (str != null) {
 				JSONArray jSONArray = JSONArray.parseArray(str);
+				System.out.println("================总的读取的总数-------------"+jSONArray.size());
 				List<OutPatentWithBLOBs> insertData = new ArrayList<OutPatentWithBLOBs>();
 				int temI = 0;
 				boolean temB = true;
