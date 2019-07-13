@@ -39,8 +39,9 @@ public class EquipmentLedgerClient
         Map map = new HashMap();
         map.put("month",DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
         equipmentLedgerService.deleteByMonth(map);//删除当月数据
-
-        equipmentLedgerService.insertEquipmentLedger(sreEquipmentLedgerList);
+        if (sreEquipmentLedgerList!=null && sreEquipmentLedgerList.size()!=0){
+            equipmentLedgerService.insertEquipmentLedger(sreEquipmentLedgerList);
+        }
     }
     
     

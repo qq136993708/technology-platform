@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.hana.report.ScientificInvestment;
 import com.pcitc.base.stp.report.TechCost;
 import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.mapper.hana.TechCostMapper;
@@ -67,12 +70,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		
 			int pageSize = param.getLimit();
 	  		int pageNum = param.getPage();
-	  		//Page p=new Page(pageNum,pageSize);
 			int start=(pageNum-1)*pageSize;
-		
-			/* int start=(pageNo-1)*p.getPageSize();
-			 record.setStart(start);
-			 record.setPageSize(p.getPageSize());*/
 					
 			String unitCode=getTableParam(param,"unitCode","");
 			String unitName=getTableParam(param,"unitName","");
@@ -102,6 +100,16 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 			data.setData(list);
 			data.setCount(count);
 		    return data;
+	}
+	
+	
+	
+	
+	public JSONArray getTechCostList(Map map)throws Exception
+	{
+  		List<TechCost> list = techCostMapper.getList(map);
+  		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+  		return json;
 	}
 
 	
@@ -271,7 +279,13 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 				
 			    return data;
 	}
-	
+	public JSONArray getTechOrgCountList(Map map)throws Exception
+	{
+  		List<TechOrgCount> list = techOrgCountMapper.getList(map);
+  		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+  		return json;
+	}
+
 	
 	
 	public LayuiTableData getTechOrgCountStatisticsPage(LayuiTableParam param)throws Exception

@@ -741,6 +741,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .skill-right{width: 35%;float: right;}
 .doc-box ul{margin-bottom: 10px;}
 .ck-editor__editable { min-height: 240px; }
+.enlarge{ position: absolute;top: 0;left: 0;z-index: 999;height: 100%;width: 100%;}
 @media (min-width: 1673px) {
     .layui-q>.layui-tab-title li{width: 148px;
         height: 99px;background-size: 100%;}

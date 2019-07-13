@@ -2,6 +2,7 @@ package com.pcitc.service.hana;
 
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -28,6 +29,7 @@ public interface ITechStatisticsService {
 	//带总计的 分页
 	public LayuiTableData getTechCostStatisticsPage(LayuiTableParam param)throws Exception;
 	
+	public JSONArray getTechCostList(Map map)throws Exception;
 	
 	
 	
@@ -39,8 +41,7 @@ public interface ITechStatisticsService {
 	
 	
 	
-	
-	
+	public JSONArray getTechOrgCountList(Map map)throws Exception;
 	
 	
 	public TechOrgCount selectTechOrgCount(String id) throws Exception;
