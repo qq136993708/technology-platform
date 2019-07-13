@@ -35,7 +35,7 @@
     <!--查询条件-->
     <label class="dateInput" style="margin-left:20px">
         <span>科研机构</span>
-        <input type="text" name="unitName" id="unitName" placeholder="请输入科研机构" title="机构名称" autocomplete="off" class="form-control" >
+        <input type="text" name="unitName" id="unitName" placeholder="请输入科研机构" title="单位名称" autocomplete="off" class="form-control" >
     </label>
      <label class="dateInput">
          <span>审核状态</span>
@@ -65,6 +65,7 @@
 
 
 <div class="tableBox">
+<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
 
@@ -123,8 +124,8 @@
         		title="集团科研机构填报";
         	}
         	
-        	
-		 layer.open({
+        	openFullWin(unitName+"-"+title+'-详情',temUrl);
+		/*  layer.open({
             title:unitName+"-"+title+'-详情',
             skin: 'layui-layer-lan',
             shadeClose: true,
@@ -133,7 +134,7 @@
             maxmin: false,
             area: ['70%', '90%'],
             content:  temUrl
-        });
+        }); */
     }
 </script>
 
@@ -235,7 +236,7 @@ var name=$('#name').val();
            	  // {type : 'checkbox', event : 'changeEvents', width : 55,fixed:'left'},
                {title : '序号', type : 'numbers', width : 55,fixed:'left'},
                {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '16%',templet:function(d){return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" style="color:#1890ff">'+d.unitName+'</span>'},sort : true,fixed:'left'},
-               {field : 'year',            title : '年份',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'year',            title : '统计年度',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'auditStatus',     title : '审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
                {field : 'type',            title : '公司类型',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true,templet : '#view_type'},
                {field : 'workersCount',        title : '职工总数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
@@ -359,7 +360,14 @@ var name=$('#name').val();
     
 
 
-   
+    function exput_excel()
+    {
+    	var unitName=$('#unitName').val();
+    	var auditStatus=$('#auditStatus').val();
+    	var year=$('#year').val();
+    	var type=$('#type').val();
+    	window.open("/tech_org/exput_excel?year="+year+"&year="+year+"&auditStatus="+auditStatus+"&unitName="+unitName);
+    } 
 
 </script>
 
