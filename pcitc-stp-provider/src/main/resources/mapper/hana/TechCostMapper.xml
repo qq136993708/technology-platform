@@ -26,17 +26,22 @@
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
     <result column="notes" property="notes" jdbcType="VARCHAR" />
-    <result column="apply_depart_code" property="applyDepartCode" jdbcType="VARCHAR" />
-    <result column="apply_depart_name" property="applyDepartName" jdbcType="VARCHAR" />
+    <result column="parent_unit_code" property="parentUnitCode" jdbcType="VARCHAR" />
+    <result column="parent_unit_name" property="parentUnitName" jdbcType="VARCHAR" />
     <result column="attachment_doc" property="attachmentDoc" jdbcType="VARCHAR" />
-    <result column="year" property="year" jdbcType="VARCHAR" />
+    <result column="year"        property="year" jdbcType="VARCHAR" />
+    <result column="write_type"  property="writeType" jdbcType="VARCHAR" />
+    <result column="parent_id"   property="parentId" jdbcType="VARCHAR" />
+    
+    
+    
   </resultMap>
   <sql id="Base_Column_List" >
     id, create_date, create_user_id, create_user_name, unit_code, unit_name, create_user_mobile, 
     charge_depart_man, tech_charge_man, tech_project_cost, tech_researcher_cost, tech_subsidy_cost, 
     tech_facilities_cost, tech_other_cost, tech_subtotal_cost, country_lead_count, country_join_count, 
     country_funds, province_lead_count, province_join_count, province_funds, type, audit_status, 
-    notes,apply_depart_code,apply_depart_name,attachment_doc,year
+    notes,parent_unit_code,parent_unit_name,attachment_doc,year,write_type,parent_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -56,7 +61,7 @@
       tech_facilities_cost, tech_other_cost, tech_subtotal_cost, 
       country_lead_count, country_join_count, country_funds, 
       province_lead_count, province_join_count, province_funds, 
-      type, audit_status, notes,apply_depart_code,apply_depart_name,attachment_doc,year
+      type, audit_status, notes,parent_unit_code,parent_unit_name,attachment_doc,year,write_type,parent_id
       )
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, 
       #{createUserName,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, 
@@ -66,8 +71,10 @@
       #{countryLeadCount,jdbcType=INTEGER}, #{countryJoinCount,jdbcType=INTEGER}, #{countryFunds,jdbcType=DECIMAL}, 
       #{provinceLeadCount,jdbcType=INTEGER}, #{provinceJoinCount,jdbcType=INTEGER}, #{provinceFunds,jdbcType=DECIMAL}, 
       #{type,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}
-      , #{applyDepartCode,jdbcType=VARCHAR}
-      , #{applyDepartName,jdbcType=VARCHAR} , #{attachmentDoc,jdbcType=VARCHAR} , #{year,jdbcType=VARCHAR}
+      , #{parentUnitCode,jdbcType=VARCHAR}
+      , #{parentUnitName,jdbcType=VARCHAR} , #{attachmentDoc,jdbcType=VARCHAR} 
+      , #{year,jdbcType=VARCHAR} , #{writeType,jdbcType=VARCHAR}
+      , #{parentId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.report.TechCost" >
@@ -145,19 +152,31 @@
       <if test="notes != null" >
         notes,
       </if>
-      <if test="applyDepartCode != null" >
-        apply_depart_code,
+      <if test="parentUnitCode != null" >
+        parent_unit_code,
       </if>
-      <if test="applyDepartName != null" >
-        apply_depart_name,
+      <if test="parentUnitName != null" >
+        parent_unit_name,
       </if>
       <if test="attachmentDoc != null" >
         attachment_doc,
       </if>
-     <if test="year != null" >
+      <if test="year != null" >
         year,
       </if>
+      <if test="writeType != null" >
+        write_type,
+      </if>
+       <if test="parentId != null" >
+        parent_id,
+      </if>
       
+      
+      
+      
+      
+      
+    
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -232,11 +251,11 @@
       <if test="notes != null" >
         #{notes,jdbcType=VARCHAR},
       </if>
-       <if test="applyDepartCode != null" >
-        #{applyDepartCode,jdbcType=VARCHAR},
+       <if test="parentUnitCode != null" >
+        #{parentUnitCode,jdbcType=VARCHAR},
       </if>
-       <if test="applyDepartName != null" >
-        #{applyDepartName,jdbcType=VARCHAR},
+       <if test="parentUnitName != null" >
+        #{parentUnitName,jdbcType=VARCHAR},
       </if>
       <if test="attachmentDoc != null" >
         #{attachmentDoc,jdbcType=VARCHAR},
@@ -244,6 +263,14 @@
       <if test="year != null" >
         #{year,jdbcType=VARCHAR},
       </if>
+      <if test="writeType != null" >
+        #{writeType,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      
+      
       
      
     </trim>
@@ -320,11 +347,11 @@
       <if test="notes != null" >
         notes = #{notes,jdbcType=VARCHAR},
       </if>
-      <if test="applyDepartCode != null" >
-        apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
+      <if test="parentUnitCode != null" >
+        parent_unit_code = #{parentUnitCode,jdbcType=VARCHAR},
       </if>
-      <if test="applyDepartName != null" >
-        apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
+      <if test="parentUnitName != null" >
+        parent_unit_name = #{parentUnitName,jdbcType=VARCHAR},
       </if>
       <if test="attachmentDoc != null" >
         attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
@@ -332,6 +359,14 @@
       <if test="year != null" >
         year = #{year,jdbcType=VARCHAR},
       </if> 
+      <if test="writeType != null" >
+        write_type = #{writeType,jdbcType=VARCHAR},
+      </if> 
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if> 
+      
+      
       
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -341,6 +376,7 @@
     set create_date = #{createDate,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=VARCHAR},
       create_user_name = #{createUserName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
       unit_code = #{unitCode,jdbcType=VARCHAR},
       unit_name = #{unitName,jdbcType=VARCHAR},
       create_user_mobile = #{createUserMobile,jdbcType=VARCHAR},
@@ -360,10 +396,11 @@
       province_join_count = #{provinceJoinCount,jdbcType=INTEGER},
       province_funds = #{provinceFunds,jdbcType=DECIMAL},
       type = #{type,jdbcType=VARCHAR},
-      apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
-      apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
+      parent_unit_code = #{parentUnitCode,jdbcType=VARCHAR},
+      parent_unit_name = #{parentUnitName,jdbcType=VARCHAR},
       year = #{year,jdbcType=VARCHAR},
       audit_status = #{auditStatus,jdbcType=VARCHAR},
+      write_type = #{writeType,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -371,17 +408,20 @@
     
      <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="unitName != null and unitName  !='' ">             AND t.unit_name like CONCAT('%',#{unitName},'%')</if>
-	     <if test="unitCode != null      and unitCode !=''  ">        AND t.unit_code = #{unitCode}</if>
-	     <if test="applyDepartCode != null and applyDepartCode !=''  "> AND t.apply_depart_code = #{applyDepartCode}</if>
-	     <if test="type != null          and type !=''  ">            AND t.type = #{type}</if>
-	     <if test="auditStatus != null   and auditStatus !=''  ">     AND t.audit_status = #{auditStatus}</if>
-	     <if test="year != null   and year !=''  ">     AND t.year = #{year}</if>
-	     <if test="sqlStr != null        and sqlStr !='' ">           AND  ${sqlStr}</if>
+	     <if test="unitName != null       and unitName  !='' ">         AND t.unit_name like CONCAT('%',#{unitName},'%')</if>
+	     <if test="parentUnitName != null and parentUnitName  !='' ">   AND t.parent_unit_name like CONCAT('%',#{parentUnitName},'%')</if>
+	     <if test="unitCode != null       and unitCode !=''  ">         AND t.unit_code = #{unitCode}</if>
+	     <if test="parentUnitCode != null and parentUnitCode !=''  ">   AND t.parent_unit_code = #{parentUnitCode}</if>
+	     <if test="type != null           and type !=''  ">             AND t.type = #{type}</if>
+	     <if test="auditStatus != null    and auditStatus !=''  ">      AND t.audit_status = #{auditStatus}</if>
+	     <if test="year != null           and year !=''  ">             AND t.year = #{year}</if>
+	     <if test="writeType != null           and writeType !=''  ">   AND t.write_type = #{writeType}</if>
+	     <if test="parentId != null           and parentId !=''  ">   AND t.parent_id = #{parentId}</if>
+	     <if test="sqlStr != null         and sqlStr !='' ">            AND  ${sqlStr}</if>
 	 </trim>
 	</sql>
-	
-	 
+	  
+	   
     
    <select id="getList" resultMap="BaseResultMap" parameterType="java.util.Map" >
      select * from tech_cost t <include refid="selectCondition" />    

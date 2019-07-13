@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -39,6 +40,18 @@ public class TechStatisticsProviderClient {
 		LayuiTableData rageResult=techStatisticsService.getTechCostPage(param);
 		return rageResult;
 	}
+	
+	
+	
+	@ApiOperation(value = "导出-科研投入表", notes = "导出-科研投入表")
+	@RequestMapping(value = "/sre-provider/techCost/list", method = RequestMethod.POST)
+	public JSONArray tzxmwcqktjb_out_excel(@RequestBody Map map)throws Exception
+	{
+		return techStatisticsService.getTechCostList(map);
+	}
+	
+	
+	
 	
 	@ApiOperation(value = "科研投入表分页", notes = "科研投入表分页")
 	@RequestMapping(value = "/sre-provider/techCost/statistics_page", method = RequestMethod.POST)
@@ -146,7 +159,12 @@ public class TechStatisticsProviderClient {
 	}
 	
 	
-	
+	@ApiOperation(value = "导出-科研机构调查表", notes = "导出-科研机构调查表")
+	@RequestMapping(value = "/sre-provider/techOrgCount/list", method = RequestMethod.POST)
+	public JSONArray techOrgCount_out_excel(@RequestBody Map map)throws Exception
+	{
+		return techStatisticsService.getTechOrgCountList(map);
+	}
 
 	@ApiOperation(value = "科研机构调查表表分页", notes = "科研机构调查表表分页")
 	@RequestMapping(value = "/sre-provider/techOrgCount/statistics_page", method = RequestMethod.POST)

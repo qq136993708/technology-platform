@@ -547,7 +547,7 @@
                     <label class="layui-form-label">单位名称</label>
                     <div class="layui-input-block">
                         <input class="layui-input readOnlyBox" readonly="readonly" readonly="readonly" id="unitName" name="unitName" lay-verify="required"
-                               value="${techOrgCount.unitName}" type="text">
+                               value="${techOrgCount.parentUnitName}->${techOrgCount.unitName}" type="text">
                     </div>
               </div>
                 
@@ -596,9 +596,9 @@
               <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">统计年份</label>
+                        <label for="" class="layui-form-label">统计年度</label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="年份" name="year" id="year"
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="统计年度" name="year" id="year"
                                    value="${techOrgCount.year}" readonly="readonly" autocomplete="off" type="text">
                         </div>
                     </div>

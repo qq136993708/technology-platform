@@ -48,13 +48,29 @@
             </div>
         </div>
         <div class="box-body">
-              <div class="layui-form-item">
-                    <label class="layui-form-label">年份<span class="must-fill">*</span></label>
+        
+        
+        
+         <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <label class="layui-form-label">统计年度<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
                         <input class="layui-input"  style="cursor:pointer" readonly="readonly" id="year" name="year" lay-verify="required"
                                value="${year}" type="text">
                     </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+			        <label class="layui-form-label">统计单位类型<span class="must-fill">*</span></label>
+			        <div class="layui-input-block">
+			          <input type="radio" lay-filter="radioEvent" name="writeType" value="1" title="本单位统计"   <#if techOrgCount.writeType=='1' || techOrgCount.writeType==null> checked="checked"</#if>>
+			          <input type="radio" lay-filter="radioEvent" name="writeType" value="2" title="二级单位统计"  <#if techOrgCount.writeType=='2'> checked="checked"</#if>>
+			        </div>
+                </div>
              </div>
+             
+             
+			
         
             <!--  
              
