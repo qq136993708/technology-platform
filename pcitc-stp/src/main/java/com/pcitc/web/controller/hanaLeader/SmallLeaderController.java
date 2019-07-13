@@ -46,7 +46,7 @@ public class SmallLeaderController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/small_leader/investment")
 	public String investment(HttpServletRequest request) throws Exception {
 
-		String nd = HanaUtil.getBeforeYear();
+		String nd = HanaUtil.getCurrrentYear();
 		request.setAttribute("nd", nd);
 		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
 		request.setAttribute("userLevel", userLevel);
@@ -90,9 +90,13 @@ public class SmallLeaderController extends BaseController {
 		return resault;
 	}
 
+	/**
+	 * 专业处--研究院预算
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/small_leader/investment_data")
 	@ResponseBody
-	public String topic_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@OperationFilter(dataFlag = "true")
+	public String zycInvestment(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String resault = "";
 		PageResult pageResult = new PageResult();
@@ -100,6 +104,15 @@ public class SmallLeaderController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		paramsMap.put("nd", nd);
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -182,6 +195,16 @@ public class SmallLeaderController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
 		paramsMap.put("nd", nd);
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));

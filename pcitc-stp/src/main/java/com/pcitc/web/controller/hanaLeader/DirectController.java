@@ -650,7 +650,7 @@ public class DirectController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getBeforeYear();
+		String year = HanaUtil.getCurrrentYear();
 		request.setAttribute("year", year);
 
 		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
@@ -839,7 +839,9 @@ public class DirectController extends BaseController {
 			// System.out.println(">>>>>>>>>>>>>>>sjqds_count " +
 			// sjqds_count+" jhqds_count="+jhqds_count);
 			if (!jhqds_count.equals("0")) {
-				treeNode2.setExtend03(String.valueOf(HanaUtil.chufa2(Integer.valueOf(sjqds_count), Integer.valueOf(jhqds_count))));
+				DecimalFormat df = new DecimalFormat("0.00");
+				String strvv = df.format(((float) Integer.valueOf(sjqds_count) / Integer.valueOf(jhqds_count)) * 100);
+				treeNode2.setExtend03(strvv);
 			} else {
 				treeNode2.setExtend03("0");
 			}
@@ -1540,12 +1542,10 @@ public class DirectController extends BaseController {
 
 	/**
 	 * =========================================科研装备课题==========================
-	 * =======
 	 */
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/equipment")
 	public String equipment(HttpServletRequest request) throws Exception {
-
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 
 		String unitCode = userInfo.getUnitCode();
@@ -1553,7 +1553,7 @@ public class DirectController extends BaseController {
 
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
-		String year = HanaUtil.getBeforeYear();
+		String year = HanaUtil.getCurrrentYear();
 		request.setAttribute("year", year);
 		String month = HanaUtil.getCurrrentYear_Moth();
 		request.setAttribute("month", year + "-" + month.substring(5));
@@ -1853,9 +1853,7 @@ public class DirectController extends BaseController {
 
 	/**
 	 * =========================================科研实际支出==========================
-	 * =======
 	 */
-
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/actualPay_detail")
 	public String actualPay_detail(HttpServletRequest request) throws Exception {
 
@@ -1895,18 +1893,16 @@ public class DirectController extends BaseController {
 		return result.toString();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/direct/actualPay")
+	/**
+	 * 专业处----研究院预算
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/direct/zyc/investment")
 	public String actualPay(HttpServletRequest request) throws Exception {
-
-		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
-		request.setAttribute("companyCode", companyCode);
-		String year = HanaUtil.getCurrrentYear();
-		request.setAttribute("year", year);
-		String month = HanaUtil.getCurrrentYear_Moth();
-		request.setAttribute("month", month);
-		String isdisplay = CommonUtil.getParameter(request, "isdisplay", "");
-		request.setAttribute("isdisplay", isdisplay);
-		return "stp/hana/home/oneLevelMain/direct/actualPay";
+		String nd = HanaUtil.getCurrrentYear();
+		request.setAttribute("nd", nd);
+		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
+		return "stp/hana/home/level/zyc_investment";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/pay_01")
