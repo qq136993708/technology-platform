@@ -93,11 +93,11 @@
                 </div>
                 <div class="equipment item">
                     <div class="equipment-front">
-                        <p class="title">科研装备</p>
-                        <span>今年新开课题</span>
-                        <p class="number" id="equipment_id">1</p>
-                        <span>已签合同课题</span>
-                        <p class="number number1" id="equipment_id1"></p>
+                        <p class="title">科研预算</p>
+                        <span>今年总预算</span>
+                        <p class="number" id="moneyTotal">--</p>
+                        <span>已签合同金额</span>
+                        <p class="number number1" id="moneyCurrent"></p>
                         <img src="/layuiadmin/layui/images/equipment-img.png" alt="">
                     </div>
                 </div>
@@ -106,10 +106,10 @@
                         <div class="contract-front">
                             <div class="contract-cont">
                                 <p class="title">科研合同</p>
+                                <span>今年计划课题</span>
+                                <p class="number" id="contract_total"></p>
                                 <span>今年新开课题</span>
-                                <p class="number" id="contract_id"></p>
-                                <span>已签订合同课题</span>
-                                <p class="number number1" id="contract_id1"></p>
+                                <p class="number number1" id="contract_new"></p>
                             </div>
                         </div>
                         <div class="contract-back">
@@ -122,11 +122,8 @@
                     <div class="investment-cont">
                         <div class="investment-front">
                             <div class="investment-cont">
-                                <p class="title">科研预算</p>
-                                <span>今年总预算</span>
-                                <p class="number" id="textTopTwo"></p>
-                                <span>已签合同金额</span>
-                                <p class="number number1" id="textTopTwo1"></p>
+                            	<p class="title">科研装备</p>
+                        		<p class="number" id="equipment_id"></p>
                             </div>
                         </div>
                         <div class="investment-back">
@@ -249,7 +246,7 @@
                 });
                 //科研投入
                 $(".investment").on("click", function() {
-                    window.open("/instituteIndex?url=" + "/one_level_main/investment", "_target");
+                    window.open("/instituteIndex?url=" + "/one_level_main/equipment", "_target");
                 });
                 //十条龙-项目
                 $(".project").on("click", function() {
@@ -273,7 +270,7 @@
                 });
                 //装备
                 $(".equipment").on("click", function() {
-                    window.open("/instituteIndex?url=" + "/one_level_main/equipment", "_target");
+                	window.open("/instituteIndex?url=" + "/one_level_main/investment", "_target");
                 });
                 //科研人才
                 $(".personnel").on("click", function() {
@@ -462,18 +459,21 @@
     function getContract() {
         $.ajax({
             type : 'GET',
-            url : "/one_level_main/contract_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
+            url : "/one_level_main/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
             dataType : 'json',
             headers : {
                 'Content-Type' : 'application/json'
             },
             timeout : 3000,
             error : function(XMLHttpRequest, status) {
-
+            	 $("#contract_total").html("<span style='font-size: 14px;'>--个</span>");
+                 $("#contract_new").html("<span style='font-size: 14px;'>--个</span>");
             },
             success : function(data) {
-                var projectCount = data.data.projectCount;
-                $("#contract_id").html(projectCount+ "<span style='font-size: 14px;'>个</span>");
+                var yqht = data.data.yqht;
+                var zsl = data.data.zsl;
+                $("#contract_total").html(zsl+ "<span style='font-size: 14px;'>个</span>");
+                $("#contract_new").html(yqht+ "<span style='font-size: 14px;'>个</span>");
             }
         });
 
@@ -497,7 +497,7 @@
             },
             timeout : 3000,
             error : function(XMLHttpRequest, status) {
-
+            	$("#equipment_id").html("<span style='font-size: 14px;'>--台</span>");
             },
             success : function(data) {
                 var xkCount_1 = getDataCountForName(data.data, '500万以上');
@@ -584,13 +584,14 @@
             },
             timeout : 3000, //超时时间设置，单位毫秒
             error : function(XMLHttpRequest, status) {
-
+            	$("#moneyTotal").html("<span style='font-size:14px;'>--亿</span>");
+            	$("#moneyCurrent").html("<span style='font-size:14px;'>--亿</span>");
             },
             success : function(data) {
                 var projectMoney = data.data.projectMoney;
                 var tt = parseFloat(projectMoney) / 10000;
 
-                $("#textTopTwo").html(tt.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
+                $("#moneyCurrent").html(tt.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
             }
         });
     }
