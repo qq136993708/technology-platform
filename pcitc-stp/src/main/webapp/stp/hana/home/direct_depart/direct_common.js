@@ -1,6 +1,5 @@
 /**
- * ===============================================单柱图
- * =================================
+ * ==============单柱图 =============
  */
 
 var option_bar_single_down = {
@@ -977,15 +976,23 @@ function set_multi_graph_statistics(data, id) {
 		var allCount = xkCount_1 + jzCount_2 + jzCount_3 + jzCount_4;
 		$("#chart_title_01").html(allCount + "个");
 	}
+	
+	// 领导页-科研投入chart1
+	if (id == 'investment_chart1') {
+		var fxyMoney = getDataCountForName(data, '费用性科研投入');
+		var zbxMoney = getDataCountForName(data, '资本性科研投入');
+		var totalMoney = getDataCountForName(data, '总预算科研投入');
+		
+		$("#investment_chart1_01").html(totalMoney.toFixed(2) + "亿元");
+		$("#investment_chart1_02").html(fxyMoney.toFixed(2) + "亿元");
+		$("#investment_chart1_03").html(zbxMoney.toFixed(2) + "亿元");
+		if (totalMoney == '0') {
+			$("#investment_chart1_04").html("0%");
+		} else {
+			$("#investment_chart1_04").html(percentNum(fxyMoney + zbxMoney, totalMoney));
+		}
 
-	/** =============================直属研究院 end=========================== */
-
-	/**
-	 * ===================================领导
-	 * begin===============================
-	 */
-
-	/** ===================================领导 end=============================== */
+	}
 
 }
 function getDataCountForNameFloat(data, strName) {

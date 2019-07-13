@@ -91,6 +91,11 @@ public interface OutProjectPlanService {
 	public List getPlanMoneyByDepartment(HashMap<String, String> map);
 	
 	/**
+     * 领导首页-科研投入-各个处室的新开结转情况, 专业处没做预算的情况下, 以数据字典中的为准 
+     */
+	public List getPlanMoneyByDepartmentSpecial(HashMap<String, String> map);
+	
+	/**
      * 全生命周期查询，计划为起点
      */
 	public LayuiTableData selectProjectCycleByCondition(LayuiTableParam param);

@@ -3757,6 +3757,11 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 			// chartBarLineSeries.setSmooth(true);
 		}
+		
+		if (name.equals("zysje")) {
+			chartBarLineSeries.setName("总预算科研投入");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
@@ -3765,6 +3770,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 
 				String fyxsjje = String.valueOf(f03.getFyxsjje());
 				String zbxsjje = String.valueOf(f03.getZbxsjje());
+				String zysje = String.valueOf(f03.getZysje());
 				// System.out.println("==============fyxsjje:"+fyxsjje);
 				if (name.equals("fyxsjje")) {
 
@@ -3780,6 +3786,17 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 
 					if (zbxsjje != null) {
 						dataList.add(String.format("%.2f", Double.valueOf(zbxsjje) / 10000));
+					} else {
+						dataList.add(0);
+					}
+
+				}
+				
+				if (name.equals("zysje")) {
+
+					if (zysje != null && !zysje.equals("null") && !zysje.equals("")) {
+						dataList.add(String.format("%.2f", Double.valueOf(zysje) / 10000));
+
 					} else {
 						dataList.add(0);
 					}
