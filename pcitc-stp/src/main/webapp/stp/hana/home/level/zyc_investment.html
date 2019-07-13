@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+<style>
+.btn_details {
+	background: url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff
+		no-repeat;
+}
+
+.btnMyBgImg:hover {
+	background-size: inherit;
+	background-position: 2px;
+}
+
+.searchBox {
+	background: none;
+}
+</style>
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="">
+			<div class="fluid-top">
+
+
+				<div class="searchBox">
+					<label class="dateInput">
+						<span>年份</span>
+						<input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}" autocomplete="off" class="form-control" id="nd">
+						<i class="layui-icon layui-icon-date" style="margin-left: -35px"></i>
+					</label>
+				</div>
+			</div>
+
+
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md6">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							年直属研究院科研投入分析
+						</div>
+						<div class="layui-row-main">
+							<div class="main-chart" id="investment_smal_chart2" style="height: 300px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							年直属研究院科研投入趋势分析
+						</div>
+						<div class="layui-row-main">
+							<table id="myTable2" class="layui-table" lay-filter="myTable2">
+								<thead>
+									<th lay-data="{field:'yearMonth', width:'25%',align:'center'}">月份</th>
+									<th lay-data="{field:'zysje',     width:'25%',align:'right'}">预算金额(万元)</th>
+									<th lay-data="{field:'zsjje',     width:'25%',align:'right'}">已签合同总金额(万元)</th>
+									<th lay-data="{field:'hanaMoney', width:'25%',align:'right'}">已拨款总金额(万元)</th>
+								</thead>
+							</table>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+
+
+
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md6">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							年直属研究院科研投入分析
+						</div>
+
+
+						<div class="layui-row-main">
+							<div class="main-chart" id="investment_smal_chart1" style="height: 300px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-col-md6">
+
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							年直属研究院科研投入分析
+						</div>
+						<div class="layui-row-main">
+							<table id="myTable" class="layui-table" lay-filter="myTable">
+								<thead>
+									<tr>
+										<th lay-data="{field:'define2',   width:'16%',align:'center'}">研究院</th>
+										<th lay-data="{field:'zysje',     width:'16%',align:'right'}">预算金额(万元)</th>
+										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">已签合同总金额(万元)</th>
+										<th lay-data="{field:'wqhtzje',     width:'17%',align:'right'}">未签合同总金额(万元)</th>
+										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">已拨款总金额(万元)</th>
+										<th lay-data="{field:'wbkzje', width:'17%',align:'right'}">未拨款总金额(万元)</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+		</div>
+		<script src="/common/js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+		<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+		<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+		<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+		<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+		<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+		<script type="text/javascript" src="/stp/hana/common/hana_common.js"></script
+		<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+		<script type="text/javascript">
+			var table;
+			layui.config({
+				base : '/layuiadmin/'
+			}).extend({
+				index : 'lib/index' //主入口模块
+			}).use([ 'index', 'jquery', 'form', 'laydate', 'table', 'laypage' ], function() {
+				$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate
+				form.render(null, 'component-form-group');
+				laydate.render({
+					elem : '#nd',
+					min : '2018-01-01',
+					type : 'year',
+					done : function(value, date, endDate) {
+						$(".layui-time").html(date.year);
+						$("#nd").val(date.year);
+						search_Event();
+					}
+				});
+				$(".layui-time").html($("#nd").val());
+				$("#knowledge_table").click(function() {
+
+					var nd = $("#nd").val();
+					var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd + "&ysnd=" + nd);
+					window.open("/instituteIndex?url=" + url);
+
+				});
+
+				//监听行单击事件
+				table.on('row(myTable)', function(obj) {
+					console.log(obj.tr) //得到当前行元素对象
+					console.log(obj.data) //得到当前行数据
+					selectRowData = obj.data;
+					var nd = $("#nd").val();
+				});
+
+				//监听行单击事件
+				table.on('row(myTable2)', function(obj) {
+					selectRowData = obj.data;
+					var nd = $("#nd").val();
+				});
+				myTable();
+				myTable2();
+
+			});
+
+			function initEchart() {
+
+				var v_date = (new Date()).getTime();
+				var nd = $('#nd').val();
+				var ndstr = nd + "年";
+				var yAxis = [ {
+					type : 'value',
+					name : '数量（个）',
+					position : 'left',
+					axisLabel : {
+						formatter : '{value}'
+					}
+				} ];
+
+				var yAxis2 = [ {
+					type : 'value',
+					name : '金额（万元）',
+					position : 'left',
+					axisLabel : {
+						formatter : '{value}'
+					}
+				} ];
+
+				var chart1_url = "/small_leader/investment_data?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+				var colorOne = [ "#ea886d", "#9799ec", "#5181E6", "#70b1ab", "#87d359" ];
+				var echart1 = load_mutl_bar(chart1_url, "investment_smal_chart1", "", "", yAxis2, 10, colorOne, false);
+				echart1.on('click', function(params) {
+					var xName = params.name;
+					var legentName = params.seriesName;
+
+				});
+
+				//直属研究院科研课题数量分布
+				var yAxis3 = [ {
+					type : 'value',
+					name : '金额（万元）',
+					min : 0,
+					max : 'dataMax',
+					position : 'left',
+					axisLabel : {
+						formatter : '{value}'
+					}
+				} ];
+
+				var chart2_url = "/small_leader/investment_data_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&type=1";
+				var colorLine = [ "#75C9C0", "#5181E6", "#9799ec" ]
+				var echart2 = load_mony_line_down(chart2_url, "investment_smal_chart2", "", "", yAxis3, colorLine);
+				echart2.on('click', function(params) {
+					var xName = params.name;
+					var legentName = params.seriesName;
+
+				});
+			}
+
+			//初始化图形
+			initEchart();
+			//查询
+			function search_Event() {
+				initEchart();
+				myTable();
+				myTable2();
+			}
+
+			function myTable() {
+				var v_date = (new Date()).getTime();
+				var nd = $('#nd').val();
+				var chart1_url = "/small_leader/investment_data?type=2&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+				table.init('myTable', {
+					url : chart1_url,
+					height : "299px",
+					where : {}
+
+				});
+
+			}
+
+			function myTable2() {
+				var v_date = (new Date()).getTime();
+				var nd = $('#nd').val();
+				var chart1_url = "/small_leader/investment_data_02?type=2&nd=" + nd + "&v_date=" + v_date;
+				table.init('myTable2', {
+					url : chart1_url,
+					height : "299px",
+					where : {}
+
+				});
+
+			}
+		</script>
+</body>
+</html>
