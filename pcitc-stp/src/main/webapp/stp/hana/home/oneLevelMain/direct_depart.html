@@ -417,11 +417,11 @@
 				},
 				success : function(data) {
 					//alert(data.data.projectCount);
-					$("#topic_id").html(data.data.projectCount + "<small>(个)</small>");
+					$("#topic_id").html(data.data.xkfkyzbCount + "<small>(个)</small>");
 					if (typeof (data.data.kyzbCount) == "undefined") {
 						$("#equipment_id").html("<small>0(个)</small>");
 					} else {
-						$("#equipment_id").html(data.data.kyzbCount + "<small>(个)</small>");
+						$("#equipment_id").html(data.data.xkkyzbCount + "<small>(个)</small>");
 					}
 
 				}

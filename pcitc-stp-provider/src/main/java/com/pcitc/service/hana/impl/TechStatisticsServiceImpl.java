@@ -106,6 +106,46 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 
 	
 	
+	public LayuiTableData getTechCostStatisticsPage(LayuiTableParam param)throws Exception
+	{
+		
+			int pageSize = param.getLimit();
+	  		int pageNum = param.getPage();
+			int start=(pageNum-1)*pageSize;
+		
+					
+			String unitCode=getTableParam(param,"unitCode","");
+			String unitName=getTableParam(param,"unitName","");
+			String type=getTableParam(param,"type","");
+			String auditStatus=getTableParam(param,"auditStatus","");
+			String year=getTableParam(param,"year","");
+			Map map=new HashMap();
+			map.put("type", type);
+			map.put("unitName", unitName);
+			map.put("unitCode", unitCode);
+			map.put("auditStatus", auditStatus);
+			map.put("start", start);
+	  		map.put("pageSize", pageSize);
+	  		map.put("year", year);
+	  		
+	  		
+	  		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
+			System.out.println(">>>>>>>>>> getTechCostStatisticsPage 参数: "+parmamss.toJSONString());
+			
+			
+			List<TechCost> list = techCostMapper.getStatisticsList(map);
+			Integer count=techCostMapper.getStatisticsCount(map);
+			System.out.println(">>>>>>>>>分页结果 "+count);
+			
+			LayuiTableData data = new LayuiTableData();
+			data.setData(list);
+			data.setCount(count);
+		    return data;
+	}
+	
+	
+	
+	
 	public Result dealTechCostWorkFlow(String id, Map map) throws Exception
 	{
 		
@@ -231,6 +271,46 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 				
 			    return data;
 	}
+	
+	
+	
+	public LayuiTableData getTechOrgCountStatisticsPage(LayuiTableParam param)throws Exception
+	{
+		
+		
+				int pageSize = param.getLimit();
+		  		int pageNum = param.getPage();
+				int start=(pageNum-1)*pageSize;
+				    
+				String unitCode=getTableParam(param,"unitCode","");
+				String unitName=getTableParam(param,"unitName","");
+				String type=getTableParam(param,"type","");
+				String auditStatus=getTableParam(param,"auditStatus","");
+				String year=getTableParam(param,"year","");
+				
+				
+				Map map=new HashMap();
+				map.put("type", type);
+				map.put("unitName", unitName);
+				map.put("unitCode", unitCode);
+				map.put("auditStatus", auditStatus);
+				map.put("start", start);
+		  		map.put("pageSize", pageSize);
+		  		map.put("year", year);
+				List<TechOrgCount> list = techOrgCountMapper.getStatisticsList(map);
+				Integer count=techOrgCountMapper.getStatisticsCount(map);
+				System.out.println(">>>>>>>>>任务书查询分页结果 "+count);
+				
+				LayuiTableData data = new LayuiTableData();
+				data.setData(list);
+				data.setCount(count);
+				
+			    return data;
+	}
+	
+	
+	
+	
 
 	
 	public Result dealTechOrgCountWorkFlow(String id, Map map) throws Exception

@@ -52,7 +52,7 @@ public class HomeLDController extends BaseController{
 	public String direct_depart(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 	    
-	    String nd= HanaUtil.getBeforeYear();
+	    String nd= HanaUtil.getCurrrentYear();
 	    request.setAttribute("nd", nd);
 	    String month = HanaUtil.getCurrrentYearMoth();
 		request.setAttribute("month", month);

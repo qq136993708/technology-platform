@@ -64,8 +64,8 @@
     <table id="myTable" class="layui-hide" lay-filter="myTable" >
                  <thead>
                   <tr>
-                      <th lay-data="{checkbox:true,  event : 'changeEvents',type : 'checkbox'}" rowspan="2">单选</th>
-                      <th lay-data="{field:'unitName', width:'20%',templet:viewv,align:'left'}" rowspan="2" >单位名称</th>
+                      <th lay-data="{checkbox:true,  event : 'changeEvents',type : 'checkbox', fixed:'left'}" rowspan="2">单选</th>
+                      <th lay-data="{field:'unitName', width:'16%',templet:viewv,align:'left', fixed:'left'}" rowspan="2" >单位名称</th>
                       <th lay-data="{field:'year',align:'center', width:'8%'}" rowspan="2" >年份</th>
                       <th lay-data="{field:'auditStatus',templet:'<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'}" rowspan="2">审核状态</th>
                       <th lay-data="{field:'type', width:'8%',align:'center',templet:view_type}" rowspan="2" >公司类型</th>
@@ -193,7 +193,7 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
           elem: '#year' ,type: 'year'
           
        });
-	       // init_companyCode(functionId);
+	      
      	     myTable();
      	     //移除表头的复选框,去掉全选
      	     $(".layui-table-header table thead th input").remove();  
@@ -369,6 +369,15 @@ function myTable()
 	 var url= '/tech_cost/list?v_date='+v_date;
      table.init('myTable', {
 		  url: url,height: tableHeight,
+		  limit: 15,
+		  page: {
+              groups: 5,
+              limits: [15,30,45,60],
+              layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+              first: '首页', //不显示首页
+              last: '尾页', //不显示尾页
+              theme: '#0F9EE0'
+          },
 		  where: {param: {"unitName":unitName,"auditStatus":auditStatus,"year":year,"type":type}},
 		  done: function (res, curr, count) {
 			  

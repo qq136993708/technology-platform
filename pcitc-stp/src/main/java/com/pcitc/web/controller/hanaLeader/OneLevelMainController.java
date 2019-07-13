@@ -1219,7 +1219,7 @@ public class OneLevelMainController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String nd = HanaUtil.getBeforeYear();
+		String nd = HanaUtil.getCurrrentYear();
 		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/contract";
 	}

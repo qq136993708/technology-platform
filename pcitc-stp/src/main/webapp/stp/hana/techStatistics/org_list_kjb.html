@@ -95,18 +95,26 @@
     
     function view_type(d) 
     {
-        if (d.type=='1') 
+    	if (d.type=='1') 
         {
         	 return '<span style="color:orange">股份</span>';
-        } else 
+        }else  if (d.type=='2') 
         {
         	 return '<span style="color:green">集团</span>';
-        }
+        }else
+     	  {
+      	  return '<span>-</span>';
+     	  }
     }
 
     
     function view(id,type,unitName) 
     {
+    	
+    	if(unitName=='总计')
+   		{
+   		  return;
+   		}
     	 var temUrl="/tech_org/get/" + id;
     	 
     	    var title="股份科研机构填报";
@@ -209,7 +217,7 @@ var name=$('#name').val();
        //渲染
        table.render({
            elem: '#processdef-table',
-           url: '/tech_org/list',
+           url: '/tech_org/statistics_list',
            method:"POST",
            where: {param: {"unitName":$("#unitName").val(),"auditStatus":$("#auditStatus").val(),"year":$("#year").val(),"type":$("#type").val()}},
            limit: 15,

@@ -235,7 +235,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         ZjkExpertExample.Criteria c = example.createCriteria();
         c.andStatusEqualTo("0");
         c.andDelFlagEqualTo("0");
-        c.andSysFlagEqualTo("0");
         Object expertName = param.getParam().get("expertName");
         if (!StrUtil.isObjectEmpty(expertName)) {
             c.andExpertNameLike("%" + expertName + "%");
@@ -906,27 +905,27 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         c.andDelFlagEqualTo("0");
         c.andSysFlagEqualTo("0");
         Object expertName = param.getParam().get("expertName");
-        if (!StrUtil.isObjectEmpty(expertName)) {
+        if (!StrUtil.isNull(expertName)) {
             c.andExpertNameLike("%" + expertName + "%");
         }
 
         Object auditStatus = param.getParam().get("auditStatus");
-        if (!StrUtil.isObjectEmpty(auditStatus)) {
+        if (!StrUtil.isNull(auditStatus)) {
             c.andAuditStatusEqualTo(auditStatus.toString());
         }
 
         Object sysFlag = param.getParam().get("sysFlag");
-        if (!StrUtil.isObjectEmpty(sysFlag)) {
+        if (!StrUtil.isNull(sysFlag)) {
             c.andSysFlagEqualTo(sysFlag.toString());
         } else {
             c.andSysFlagEqualTo("0");
         }
         Object email = param.getParam().get("email");
-        if (!StrUtil.isObjectEmpty(email)) {
+        if (!StrUtil.isNull(email)) {
             c.andEmailLike("%" + email + "%");
         }
         Object company = param.getParam().get("company");
-        if (!StrUtil.isObjectEmpty(company)) {
+        if (!StrUtil.isNull(company)) {
             c.andCompanyEqualTo(company.toString());
         }
 
@@ -942,6 +941,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         data = this.findByExample(param, example);
         List<ZjkExpert> experts = (List<ZjkExpert>) data.getData();
         List ids = experts.stream().map(ZjkExpert::getDataId).distinct().collect(Collectors.toList());
+        if (ids==null||ids.size()==0){
+            ids = new ArrayList<>();
+            ids.add("");
+        }
         //查询专家成果数量
         ZjkAchievementExample zjkAchievementExample = new ZjkAchievementExample();
         zjkAchievementExample.createCriteria().andExpertIdIn(ids);
@@ -953,7 +956,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         List<ZjkPatent> zjkPatentExamples = zjkPatentMapper.selectByExample(zjkPatentExample);
         Map<String, Long> patent_count = zjkPatentExamples.stream().collect(Collectors.groupingBy(ZjkPatent::getExpertId, Collectors.counting()));
 
-        //参与项目数量
+        //参与课题数量
         ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
         zjkChoiceExample.createCriteria().andZjIdIn(ids);
         zjkChoiceExample.createCriteria().andStatusEqualTo("2");

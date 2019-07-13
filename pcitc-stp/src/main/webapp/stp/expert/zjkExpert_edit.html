@@ -712,6 +712,7 @@
     //根据图片路径获取图片流
     function photoContent(picId) {
         var ret = getFileResult(picId);
+        console.log(ret);
         if (ret != null && ret.list.length > 0) {
             picId = ret.list[0].id;
         }

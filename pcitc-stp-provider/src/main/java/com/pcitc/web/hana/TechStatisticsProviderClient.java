@@ -40,6 +40,15 @@ public class TechStatisticsProviderClient {
 		return rageResult;
 	}
 	
+	@ApiOperation(value = "科研投入表分页", notes = "科研投入表分页")
+	@RequestMapping(value = "/sre-provider/techCost/statistics_page", method = RequestMethod.POST)
+	public LayuiTableData getTechCostStatisticsPage(@RequestBody LayuiTableParam param)throws Exception
+	{
+		LayuiTableData rageResult=techStatisticsService.getTechCostStatisticsPage(param);
+		return rageResult;
+	}
+	
+	
 	@ApiOperation(value = "增加科研投入表", notes = "增加科研投入表")
 	@RequestMapping(value = "/sre-provider/techCost/add", method = RequestMethod.POST)
 	public String insertTechCost(@RequestBody TechCost techCost) throws Exception{
@@ -135,6 +144,22 @@ public class TechStatisticsProviderClient {
 		LayuiTableData rageResult=techStatisticsService.getTechOrgCountPage(param);
 		return rageResult;
 	}
+	
+	
+	
+
+	@ApiOperation(value = "科研机构调查表表分页", notes = "科研机构调查表表分页")
+	@RequestMapping(value = "/sre-provider/techOrgCount/statistics_page", method = RequestMethod.POST)
+	public LayuiTableData getTechOrgCountStatisticsPage(@RequestBody LayuiTableParam param)throws Exception
+	{
+		LayuiTableData rageResult=techStatisticsService.getTechOrgCountStatisticsPage(param);
+		return rageResult;
+	}
+	
+	
+	
+	
+	
 	
 	@ApiOperation(value = "增加科研机构调查表表", notes = "增加科研机构调查表表")
 	@RequestMapping(value = "/sre-provider/techOrgCount/add", method = RequestMethod.POST)

@@ -210,7 +210,8 @@ line-height: 60px;font-size: 22px;}
 .contract .contract-color{background-color: #b265fb;height: 100%;
     width: 100%;position: absolute;top: 0;}
 .project .number,.personnel .number,.achievement .number, .property .number{margin-top: 24px;}
-.contract-cont .number,.investment .number{font-size: 16px;margin: 0 4px;line-height: 0;padding: 2px 0;border-bottom: 1px dashed #fff;}
+.contract-cont .number{font-size: 16px;margin: 0 4px;line-height: 0;padding: 2px 0;border-bottom: 1px dashed #fff;}
+.investment .number{font-size: 24px;margin-top: 24px;}
 .contract-cont .number1,.investment .number1{border-bottom: 0;padding-top: 2px;}
 .investment{position: absolute;top: 146px;left: 149px;height: 132px;width: 134px;perspective: 1000px; }
 .investment-cont{height: 100%;width: 100%;position: relative;}
@@ -383,7 +384,7 @@ line-height: 60px;font-size: 22px;}
     .institute,.personnel,.achievement{top:559px;height:173px;}
     .main-left ul{height: 278px;}
     .equipment .number{padding: 50px 0;}
-    .contract-cont .number, .investment .number{padding: 5px 0;font-size: 20px;}
+    .contract-cont .number{padding: 5px 0;font-size: 20px;}
     .contract-cont .number1, .investment .number1{padding-top: 12px;}
     .contract-cont>span, .investment-cont>span{
         padding-top: 10px;}

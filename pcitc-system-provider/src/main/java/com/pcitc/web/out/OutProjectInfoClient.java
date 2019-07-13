@@ -136,7 +136,6 @@ public class OutProjectInfoClient {
 		String jsonString = JSON.toJSONString(map);
 		System.out.println("/out-provider/project-count =========="+jsonString);
 		JSONObject retJson = new JSONObject();
-		map.put("nd", "2018");
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoCount(map);
 		if (temMap != null) {
 			retJson.put("projectCount", temMap.get("projectCount"));
@@ -150,7 +149,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/project-money", method = RequestMethod.POST)
 	public JSONObject getProjectMoney(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
-		map.put("nd", "2018");
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoMoney(map);
 		if (temMap != null) {
 			retJson.put("projectMoney", temMap.get("projectMoney"));
@@ -164,9 +162,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/kyzb/project-count", method = RequestMethod.POST)
 	public JSONObject getOutProjectInfoCountWithKYZB(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
-		// 后续改成前台，目前固定死
-		map.put("nd", "2018");
-		
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoCountWithKYZB(map);
 		if (temMap != null) {
 			retJson.put("projectCount", temMap.get("projectCount") == null ? 0 : temMap.get("projectCount"));
@@ -174,12 +169,22 @@ public class OutProjectInfoClient {
 			retJson.put("zsl", temMap.get("zsl") == null ? 0 : temMap.get("zsl"));
 			retJson.put("xkCount", temMap.get("xkCount") == null ? 0 : temMap.get("xkCount"));
 			retJson.put("jzCount", temMap.get("jzCount") == null ? 0 : temMap.get("jzCount"));
+			
+			retJson.put("xkkyzbCount", temMap.get("xkkyzbCount") == null ? 0 : temMap.get("xkkyzbCount"));
+			retJson.put("xkfkyzbCount", temMap.get("xkfkyzbCount") == null ? 0 : temMap.get("xkfkyzbCount"));
+			retJson.put("jzkyzbCount", temMap.get("jzkyzbCount") == null ? 0 : temMap.get("jzkyzbCount"));
+			retJson.put("jzfkyzbCount", temMap.get("jzfkyzbCount") == null ? 0 : temMap.get("jzfkyzbCount"));
 		} else {
 			retJson.put("projectCount", 0);
 			retJson.put("kyzbCount", 0);
 			retJson.put("zsl", 0);
 			retJson.put("xkCount", 0);
 			retJson.put("jzCount", 0);
+			
+			retJson.put("xkkyzbCount", 0);
+			retJson.put("xkfkyzbCount", 0);
+			retJson.put("jzkyzbCount", 0);
+			retJson.put("jzfkyzbCount", 0);
 		}
 		return retJson;
     }
@@ -797,7 +802,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/ld/project-count/project-type")
 	public JSONArray getProjectCountByProjectTypeLD(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectCountByProjectTypeLD===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectCountByProjectTypeLD(map);
 		
 		List keyList = new ArrayList<String>();

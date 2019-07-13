@@ -316,7 +316,8 @@
                     layer.msg("请选择一条数据");
                     return;
                 } else {
-                    openFullWin("查看", "/zjkBaseInfo/view/" + selectRowData.dataId);
+                    parent.layui.index.openTabsPage("/expertController/expertDetail?expertId=" + selectRowData.dataId, "专家详情");
+                    // openFullWin("查看", "/zjkBaseInfo/view/" + selectRowData.dataId);
                 }
             }
             ,

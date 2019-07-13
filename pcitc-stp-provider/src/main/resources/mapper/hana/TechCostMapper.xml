@@ -388,7 +388,7 @@
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  create_date desc
+        ORDER BY  year,create_date desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
@@ -397,6 +397,73 @@
     <select id="getCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
       SELECT count(*) FROM tech_cost t <include refid="selectCondition"/>
     </select>
+    
+    
+    
+    
+    
+     <select id="getStatisticsList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+	      SELECT 
+	         '-' AS id ,
+			  '总计' AS   unit_name,
+			  '-' AS  YEAR ,
+			  '-' AS  TYPE,
+			  '-' AS   create_user_name,
+			  NULL AS  create_date,
+			  '-' AS   audit_status,
+			 SUM(tech_project_cost)         AS tech_project_cost, 
+			 SUM(tech_researcher_cost)      AS tech_researcher_cost, 
+			 SUM(tech_subsidy_cost)         AS tech_subsidy_cost, 
+			 SUM(tech_facilities_cost)      AS tech_facilities_cost, 
+			 SUM(tech_other_cost)           AS tech_other_cost, 
+			 SUM(tech_subtotal_cost)        AS tech_subtotal_cost, 
+			 SUM(country_lead_count)        AS country_lead_count, 
+			 SUM(country_join_count)        AS country_join_count, 
+			 SUM(country_funds)             AS country_funds, 
+			 SUM(province_lead_count)       AS province_lead_count, 
+			 SUM(province_join_count)       AS province_join_count, 
+			 SUM(province_funds)            AS province_funds
+			  
+		FROM tech_cost  t <include refid="selectCondition" />
+		UNION ALL 
+	    SELECT * FROM(	 
+			 SELECT 
+			 id,
+			 unit_name,
+			 YEAR ,
+			 TYPE,
+			 create_user_name,
+			 create_date,
+			 audit_status,
+			 tech_project_cost, 
+			 tech_researcher_cost, 
+			 tech_subsidy_cost, 
+			 tech_facilities_cost, 
+			 tech_other_cost, 
+			 tech_subtotal_cost, 
+			 country_lead_count, 
+			 country_join_count, 
+			 country_funds, 
+			 province_lead_count, 
+			 province_join_count, 
+			 province_funds
+			  
+	     FROM tech_cost t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  year,create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+     ) tt
+   </select>
+   
+    <select id="getStatisticsCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+      SELECT count(*) FROM tech_cost t <include refid="selectCondition"/>
+    </select>
+    
+    
     
     
 </mapper>
