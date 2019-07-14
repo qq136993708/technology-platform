@@ -507,7 +507,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		BudgetMoneyDecomposeExample example = new BudgetMoneyDecomposeExample();
 		BudgetMoneyDecomposeExample.Criteria c = example.createCriteria();
 		c.andNdEqualTo(info.getNd());
-		example.setOrderByClause("xh");
+		example.setOrderByClause("data_id");
 		List<BudgetMoneyDecompose> list = budgetMoneyDecomposeMapper.selectByExample(example);
 		//如果没有则创建
 		if(list.size() == 0) 
