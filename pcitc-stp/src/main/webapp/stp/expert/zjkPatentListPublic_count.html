@@ -12,23 +12,23 @@
 </head>
 
 <body>
-<div class="searchBox">
-    <!--查询条件-->
-    <label class="dateInput">
-        <span>专利名称</span>
-        <input type="text" id="fmmc" name="fmmc"  placeholder="请输入专利名称" title="专利名称" class="form-control">
-        <input type="hidden" id="xmid" name="xmid" value="${xmid}">
-    </label>
-    <label class="dateInput">
-        <span>专利号</span>
-        <input type="text" id="fmh" name="fmh" placeholder="请输入专利号" title="专利号" class="form-control">
-    </label>
-    <!--按钮组-->
-    <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
-        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
-    </div>
-</div>
+<!--<div class="searchBox">-->
+    <!--&lt;!&ndash;查询条件&ndash;&gt;-->
+    <!--<label class="dateInput">-->
+        <!--<span>专利名称</span>-->
+        <!--<input type="text" id="fmmc" name="fmmc"  placeholder="请输入专利名称" title="专利名称" class="form-control">-->
+        <!--<input type="hidden" id="xmid" name="xmid" value="${xmid}">-->
+    <!--</label>-->
+    <!--<label class="dateInput">-->
+        <!--<span>专利号</span>-->
+        <!--<input type="text" id="fmh" name="fmh" placeholder="请输入专利号" title="专利号" class="form-control">-->
+    <!--</label>-->
+    <!--&lt;!&ndash;按钮组&ndash;&gt;-->
+    <!--<div class="btnGroup">-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>-->
+    <!--</div>-->
+<!--</div>-->
 
 <div class="tableBox">
     <div class="tableToolBox">
@@ -39,7 +39,6 @@
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_selectExpert" data-type="expertEvent">选择专家</button>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="dbEvent">查看对比</button>-->
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="bxEvent">查看备选</button>-->
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_selectedExperts" data-type="showExpertEvent">已选专家</button>
         </div>
     </div>
     <table id="showTable" class="layui-table" lay-filter="tableData"></table>
@@ -64,9 +63,7 @@
                 method: "POST",
                 where: {
                     param: {
-                        "fmmc": $('#fmmc').val(),
-                        "dataId": $('#xmid').val(),
-                        "fmh": $('#fmh').val()
+                        "name": "${expertName}"
                     }
                 },
                 limit: param.selfRownum,
@@ -84,7 +81,7 @@
                     {title: '序号', type: 'numbers', width: 55},
                     {
                         field: "sqri",
-                        title: "申请日", event: 'setActive', style: 'cursor: pointer;', width: '8%', templet: function (d) {
+                        title: "申请日", event: 'setActive', style: 'cursor: pointer;', width: '10%', templet: function (d) {
                             return d.sqri.substring(0, 10);
                         }
                     },

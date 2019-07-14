@@ -59,7 +59,7 @@ public class BudgetAllocationController extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/jtgsjfys")
 	  public String jtgsjfys(HttpServletRequest request) throws Exception
 	  {
-		    String year= HanaUtil.getCurrrentYear();
+		    String year= HanaUtil.getCurrentYear();
 		    request.setAttribute("year", year);
 		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		    
@@ -69,7 +69,7 @@ public class BudgetAllocationController extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/zcgsjfys")
 	  public String zcgsjfys(HttpServletRequest request) throws Exception
 	  {
-		    String year= HanaUtil.getCurrrentYear();
+		    String year= HanaUtil.getCurrentYear();
 		    request.setAttribute("year", year);
 		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 	        return "stp/hana/budget/zcgsjfys";
@@ -79,7 +79,7 @@ public class BudgetAllocationController extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfgsjfys")
 	  public String gfgsjfys(HttpServletRequest request) throws Exception
 	  {
-		    String year= HanaUtil.getCurrrentYear();
+		    String year= HanaUtil.getCurrentYear();
 		    request.setAttribute("year", year);
 		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 	        return "stp/hana/budget/gfgsjfys";
@@ -88,7 +88,7 @@ public class BudgetAllocationController extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/ndjfyszb")
 	  public String ndjfyszb(HttpServletRequest request) throws Exception
 	  {
-		    String year= HanaUtil.getCurrrentYear();
+		    String year= HanaUtil.getCurrentYear();
 		    request.setAttribute("year", year);
 		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 	        return "stp/hana/budget/ndjfyszb";
@@ -97,7 +97,7 @@ public class BudgetAllocationController extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/sybys")
 	  public String sybys(HttpServletRequest request) throws Exception
 	  {
-		    String year= HanaUtil.getCurrrentYear();
+		    String year= HanaUtil.getCurrentYear();
 		    request.setAttribute("year", year);
 		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 	        return "stp/hana/budget/sybys";
@@ -172,7 +172,7 @@ public class BudgetAllocationController extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/ysjffjzb")
 	  public String ysjffjzb(HttpServletRequest request) throws Exception
 	  {
-		    String year= HanaUtil.getCurrrentYear();
+		    String year= HanaUtil.getCurrentYear();
 		    request.setAttribute("year", year);
 		    request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 	        return "stp/hana/budget/ysjffjzb";
@@ -223,7 +223,7 @@ public class BudgetAllocationController extends BaseController {
 	  {
 		    
 		  
-		  String year= HanaUtil.getCurrrentYear();
+		  String year= HanaUtil.getCurrentYear();
 		    request.setAttribute("year", year);
 	        return "stp/hana/budgetAllocation/jtgszbkjjfys";
 	  }
@@ -234,7 +234,7 @@ public class BudgetAllocationController extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/zcgszbkjxmjfys")
 	  public String zcgszbkjxmjfys(HttpServletRequest request) throws Exception
 	  {
-		  String month = HanaUtil.getCurrrentYear();
+		  String month = HanaUtil.getCurrentYear();
 			request.setAttribute("year", month);
 	        return "stp/hana/budgetAllocation/zcgszbkjxmjfys";
 	  }
@@ -242,7 +242,7 @@ public class BudgetAllocationController extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfgszbkjjfystzg")
 	  public String gfgszbkjjfystzg(HttpServletRequest request) throws Exception
 	  {
-		  String month = HanaUtil.getCurrrentYear();
+		  String month = HanaUtil.getCurrentYear();
 			request.setAttribute("month", month);
 	        return "stp/hana/budgetAllocation/gfgszbkjjfystzg";
 	  }
@@ -250,7 +250,7 @@ public class BudgetAllocationController extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfgszbkjjfysjyg")
 	  public String gfgszbkjjfysjyg(HttpServletRequest request) throws Exception
 	  {
-		  String month = HanaUtil.getCurrrentYear();
+		  String month = HanaUtil.getCurrentYear();
 			request.setAttribute("year", month);
 	        return "stp/hana/budgetAllocation/gfgszbkjjfysjyg";
 	  }
@@ -303,7 +303,7 @@ public class BudgetAllocationController extends BaseController {
 	  {
 		  
 		  
-			String month = HanaUtil.getCurrrentYear();
+			String month = HanaUtil.getCurrentYear();
 			request.setAttribute("year", month);
 		    
 	        return "stp/hana/budgetAllocation/cbmkjjfyszb";

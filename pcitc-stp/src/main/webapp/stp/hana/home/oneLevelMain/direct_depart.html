@@ -45,7 +45,7 @@
 					<div class="layui-main-box">
 						<span class="layui-box-icon bg-1"></span>
 						<div class="layui-box-content">
-							<span class="layui-box-text">科研课题</span>
+							<span class="layui-box-text">新开科研课题</span>
 							<span class="layui-box-number" id="topic_id">
 								<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 							</span>
@@ -56,7 +56,7 @@
 					<div class="layui-main-box">
 						<span class="layui-box-icon bg-4"></span>
 						<div class="layui-box-content">
-							<span class="layui-box-text">科研装备</span>
+							<span class="layui-box-text">新开装备课题</span>
 							<span class="layui-box-number" id="equipment_id">
 								<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""> <small>(个)</small>
 							</span>
@@ -79,7 +79,7 @@
 					<div class="layui-main-box">
 						<span class="layui-box-icon bg-3"></span>
 						<div class="layui-box-content">
-							<span class="layui-box-text">科研投入</span>
+							<span class="layui-box-text">研究院预算</span>
 							<span class="layui-box-number" id="pay_id">
 								<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 							</span>
@@ -124,7 +124,7 @@
 					<div class="layui-main-box">
 						<span class="layui-box-icon bg-8"></span>
 						<div class="layui-box-content">
-							<span class="layui-box-text">标准制修订</span>
+							<span class="layui-box-text">标准化</span>
 							<span class="layui-box-number">
 								234 <small>(个)</small>
 							</span>
@@ -344,7 +344,7 @@
 	<script>
 		var companyCode = $("#companyCode").val();
 		var nd = $("#nd").val();
-		
+
 		//alert(companyCode);
 		var element;
 		layui.use([ 'jquery', 'table', 'carousel', 'layer', 'laydate', 'element' ], function() {
@@ -363,7 +363,7 @@
 			$(".layui-top .layui-col-md15").eq(2).click(function() {
 				window.open("/instituteIndex?url=" + "/direct/contract?userLevel=1", "_target");
 			});
-			//支出
+			//研究院预算
 			$(".layui-top .layui-col-md15").eq(3).click(function() {
 				//window.open("/instituteIndex?url=" + "/direct/actualPay", "_target");
 				window.open("/instituteIndex?url=" + "/small_leader/investment?userLevel=1", "_target");
@@ -456,51 +456,44 @@
 		}
 
 		// 科研投入
-		
-		 function getInvestmentAll(nd) {
-                var v_date = (new Date()).getTime();
-                $.ajax({
-                    type: "GET",
-                    url: '/small_leader/getInvestmentAll?nd=' + nd+ '&v_date' + v_date,
-                    dataType: "json",
-                    timeout: 20000,
-                    cache: false,
-                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                    success: function (data, status) {
-                        if (data.success == true || data.success == 'true') 
-                        {
 
-                            var investMoneystr="";
-                        	var investMoney=data.data.investMoney;
-                        	if(investMoney!=null && investMoney!='')
-                        	{
-                        		
-                        		if(investMoney>9999)
-                        		{
-                        			investMoneystr=(investMoney/10000).toFixed(2)+"<small>亿元</small>";
-                        		}else
-                       			{
-                       			   investMoneystr=investMoney.toFixed(2)+"<small>万元</small>";
-                       			}
-                        		
-                        	}
-                            $("#pay_id").html(investMoneystr);
-                        }
-                    },
-                    error: function () {
-                        //alert("您的网络不给力呀!");
-                    },
-                    complete: function (XMLHttpRequest, status) {
-                        if (status == 'timeout') {
+		function getInvestmentAll(nd) {
+			var v_date = (new Date()).getTime();
+			$.ajax({
+				type : "GET",
+				url : '/small_leader/getInvestmentAll?nd=' + nd + '&v_date' + v_date,
+				dataType : "json",
+				timeout : 20000,
+				cache : false,
+				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				success : function(data, status) {
+					if (data.success == true || data.success == 'true') {
 
-                        }
-                    }
-                });
+						var investMoneystr = "";
+						var investMoney = data.data.investMoney;
+						if (investMoney != null && investMoney != '') {
 
-            }
+							if (investMoney > 9999) {
+								investMoneystr = (investMoney / 10000).toFixed(2) + "<small>亿元</small>";
+							} else {
+								investMoneystr = investMoney.toFixed(2) + "<small>万元</small>";
+							}
 
-		
-	
+						}
+						$("#pay_id").html(investMoneystr);
+					}
+				},
+				error : function() {
+					//alert("您的网络不给力呀!");
+				},
+				complete : function(XMLHttpRequest, status) {
+					if (status == 'timeout') {
+
+					}
+				}
+			});
+
+		}
 
 		//专利-知识产权
 		function patentCount(nd) {

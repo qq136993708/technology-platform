@@ -35,7 +35,7 @@
     <div class="layui-row">
         <div class="layui-col-md5 layui-expert-div">
             <div class="layui-card">
-                <div class="layui-col-md3"><img dataType="headImg" id="${zjkBaseInfo.dataId}" src="/stp/expert/img/default.png" style=" height: 234px;"></div>
+                <div class="layui-col-md3"><img dataType="headImg" id="${zjkBaseInfo.dataId}" src="/stp/expert/img/default.png" style=" height: 234px;width: 182px;"></div>
                 <div class="layui-col-md9">
                     <p>${zjkBaseInfo.expertName}</p>
                     <span class="layui-zc">职称：${zjkBaseInfo.expertProfessinal}</span>
@@ -67,7 +67,9 @@
                         <li class="layui-this" lay-id="11">人物简介</li>
                         <li lay-id="22">人物成就</li>
                         <li lay-id="33">相关课题</li>
+                        <li lay-id="33">成果信息</li>
                         <li lay-id="44">专利信息</li>
+                        <li lay-id="44">奖励信息</li>
                         <li lay-id="44" onclick="showExpertDetail('${zjkBaseInfo.dataId}')">专家详情</li>
                     </ul>
                     <div class="layui-tab-content">
@@ -78,10 +80,16 @@
                                 ${zjkBaseInfo.bak6}
                         </div>
                         <div class="layui-tab-item">
-                            <table id="showTableCg" class="layui-table" lay-filter="tableDataCg"></table>
+                        <table id="showTableKt" class="layui-table" lay-filter="tableDataCg"></table>
+                    </div>
+                        <div class="layui-tab-item">
+                            <table id="showTableCg" class="layui-table" lay-filter="showTableCg"></table>
                         </div>
                         <div class="layui-tab-item">
                             <table id="showTable" class="layui-table" lay-filter="tableData"></table>
+                        </div>
+                        <div class="layui-tab-item">
+                            <table id="showTableAward" class="layui-table" lay-filter="tableDataAward"></table>
                         </div>
                         <div class="layui-tab-item">
                         </div>
@@ -109,9 +117,9 @@
                 </div>
             </div>
         </div>
-        <div class="layui-col-md12" style="padding-right: 9px;">
+        <div class="layui-col-md12" style="padding-right: 9px;" id="enlargeP">
             <div class="layui-card">
-                <div class="layui-card-header">
+                <div class="layui-card-header" id="enlarge">
                     <span class="border-span"></span>所在行业领域统计
                 </div>
                 <div class="layui-row-main">
@@ -167,7 +175,30 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
             $("#showDb").click(function () {
                 showDb();
             });
-
+            $("#enlarge").click(function () {
+                if($("#enlargeP").attr("class").indexOf("enlarge")==-1){
+                    window.scrollTo(0,0);
+                    $("#enlargeP").addClass("enlarge");
+                    $("#enlargeP .main-chart").css("height",$(document).height()+"px");
+                    var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
+                    var colorFive = ["#8fc31f"];
+                    var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
+                        if (d.seriesDataList == undefined) {
+                            $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+                        }
+                    });
+                }else {
+                    $("#enlargeP").removeClass("enlarge");
+                    $("#enlargeP .main-chart").css("height","250px");
+                    var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
+                    var colorFive = ["#8fc31f"];
+                    var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
+                        if (d.seriesDataList == undefined) {
+                            $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+                        }
+                    });
+                }
+            });
             var record = {};
             // record.companyId = '${zjkBaseInfo.company}';
             // record.companyName = '${zjkBaseInfo.companyName}';
@@ -245,7 +276,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
 
 </script>
 <script>
-    // var zjkBaseInfo = "${zjkBaseInfo}";
+    /* var zjkBaseInfo = "${zjkBaseInfo}";*/
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus;
     layui.use(['jquery', 'table', 'laypage', 'publicMethods'], function () {
@@ -309,33 +340,156 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData = res.data[index - 1];
                 });
-
-                // $(document).off("click").on("click", ".onClickImg", function () {
-                //     var dataId = $(this).attr("id");
-                //     //附件文件配置ID
-                //     publicMethods.viewAtt(dataId, param.id);
-                // });
-                // var param = {
-                //     data: res.data,//数据
-                //     element: ".layui-table-body table",// 当前的表格元素
-                //     column: 5,//列数 从0开始
-                //     field: "workOrderType",//当前数据的字段
-                //     url: "/pageCommon/dic/ROOT_SGGL_GDGL_GDLX"//接口
-                // };
-                // publicMethods.dataDictionary(param);
             });
         }
 
         renderTable();
         window.renderTable = renderTable;
 
+        //奖励信息start
+        function renderTableAward() {
+            var xmbh = $('#xmbh').val();
+            var xmmc = $('#xmmc').val();
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            var lodingMsg = layer.msg('数据加载中....');
+
+            //渲染
+            table.render({
+                elem : '#showTableAward',
+                url : '/out/reward-list',
+                method : "POST",
+                where : {
+                    param : {
+                        "name": "${zjkBaseInfo.expertName}",
+                    }
+                },
+                limit : param.selfRownum,
+                id : 'showTableAward',
+                height : commonDislodgeTable(),
+                page : {
+                    groups : 5,
+                    limits : [ param.selfRownum, 15, 30, 45, 60 ],
+                    layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+                    first : '首页', //不显示首页
+                    last : '尾页', //不显示尾页
+                    theme : '#0F9EE0'
+                },
+                cols : [ [
+                //     {
+                //     type : 'checkbox',
+                //     event : 'changeEvents'
+                // },
+                    {
+                    title : '序号',
+                    type : 'numbers' ,width : 55
+                }, {
+                    field : 'xmbh',
+                    title : '项目编号',
+                    width : '15%',
+                    style : 'cursor: pointer;'
+                }, {
+                    field : 'nd',
+                    title : '年度',
+                    width : '12%',
+                    style : 'cursor: pointer;'
+                }, {
+                    field : 'xmmc',
+                    title : '项目名称',
+                    width : '25%',
+                    style : 'cursor: pointer;',
+                }, {
+                    field : 'sbdw',
+                    title : '上报单位',
+                    style : 'cursor: pointer;'
+                } ] ],
+                done : function(res, curr, count) {
+                    // 关闭等待刷新
+                    layer.close(lodingMsg);
+
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+                        var index = parseInt($(this).index() + 1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+
+                }
+            });
+        }
+        renderTableAward();
+        //奖励信息end
+        //成果start
+        function renderTableCg() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            var lodingMsg = layer.msg('数据加载中....');
+
+            //渲染
+        table.render({
+            elem: '#showTableCg',
+            url: '/out/appraisal-list',
+            method: "POST",
+            where: {
+                param: {
+                    "name": "${zjkBaseInfo.expertName}",
+                    // "fmh": $('#fmh').val()
+                }
+            },
+            limit: param.selfRownum,
+            // limit: 15,
+            id: 'showTableCg',
+            height: commonDislodgeTable(),
+            page: {
+                groups: 5,
+                limits: [param.selfRownum,  30, 45, 60],
+                // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
+            cols: [
+                [
+                    // {type: 'checkbox', event: 'changeEvents', width: 55},
+                    {title: '序号', type: 'numbers', width: 55},
+                    {
+                        field: "nd",
+                        title: "申请年度", event: 'setActive', style: 'cursor: pointer;', width: 100
+                    },
+                    {
+                        field: "cgmc",
+                        title: "成果名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "sqjddw",
+                        title: "申请单位", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                ]],
+            done: function (res, curr, count) {
+                // 关闭等待刷新
+                layer.close(lodingMsg);
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    var index = parseInt($(this).index() + 1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData = res.data[index - 1];
+                });
+            }
+        });
+    }
+        renderTableCg();
+        //成果end
         //科研课题start
         function renderTableKt() {
             var param = JSON.parse(window.localStorage.getItem("param"));
             var lodingMsg = layer.msg('数据加载中....');
             //渲染
             table.render({
-                elem: '#showTableCg',
+                elem: '#showTableKt',
                 url: '/expertController/outProjectList',
                 method: "POST",
                 where: {
@@ -346,7 +500,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     }
                 },
                 limit: param.selfRownum,
-                id: 'showTableCg',
+                id: 'showTableKt',
                 height: commonDislodgeTable(),
                 page: {
                     groups: 5,

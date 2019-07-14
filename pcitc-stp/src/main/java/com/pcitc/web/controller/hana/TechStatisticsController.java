@@ -1,8 +1,10 @@
 package com.pcitc.web.controller.hana;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -23,12 +26,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.ExcelException;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.hana.report.ScientificInvestment;
 import com.pcitc.base.stp.report.TechCost;
 import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.system.SysDictionary;
@@ -38,11 +44,13 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.HanaUtil;
+import com.pcitc.web.utils.PoiExcelExportUitl;
 
 @Controller
 public class TechStatisticsController extends BaseController{
 	
-	
+	private static final String LIST_ORG_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/list";
 	private static final String PAGE_ORG_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/page";
 	private static final String PAGE_ORG_STATISTICS_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/statistics_page";
 	public static final String  ADD_ORG_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/add";
@@ -59,23 +67,13 @@ public class TechStatisticsController extends BaseController{
 	private static final String DEL_COST_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techCost/delete/";
 	public static final String   GET_COST_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/get/";
 	private static final String COST_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techCost/start_cost_activity/";
-	
-	
+	private static final String LIST_COST_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/list";
 	
 
 	
 	@RequestMapping(value = "/tech_cost/to-list")
 	public String tech_cost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		/*Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-		String unitName = map.get("unitName");// 申报单位
-		String unitCode = map.get("unitCode");// 申报单位
-		String applyDepartName = map.get("applyDepartName");// 申报部门
-		String applyDepartCode = map.get("applyDepartCode");// 申报部门
-		request.setAttribute("unitName", unitName);
-		request.setAttribute("unitCode", unitCode);*/
-		
-		
 		String type = CommonUtil.getParameter(request, "type", "");
 		request.setAttribute("type", type);
 		//流程状态
@@ -151,6 +149,72 @@ public class TechStatisticsController extends BaseController{
 		return result.toString();
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/tech_cost/exput_excel")
+	@ResponseBody
+	public String tech_cost_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		
+    	
+		 
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		String unitName = CommonUtil.getParameter(request, "unitName", "" );
+		String auditStatus = CommonUtil.getParameter(request, "auditStatus", "");
+		String year = CommonUtil.getParameter(request, "year", "");
+		String type = CommonUtil.getParameter(request, "type", "");
+		
+		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		paramMap.put("unitName", unitName);
+		paramMap.put("auditStatus", auditStatus);
+		paramMap.put("year", year);
+		paramMap.put("type", type);
+		System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      type = "+type+" year="+year);
+		
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(LIST_COST_URL, HttpMethod.POST, httpEntity, JSONArray.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		List<ScientificInvestment> list =new ArrayList();
+		JSONArray jSONArray=null;
+		if (statusCode == 200)
+		{
+			jSONArray = responseEntity.getBody();
+			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificInvestment.class);
+			
+			/*for(int i=0;i<list.size();i++)
+			{
+				ScientificInvestment scientificInvestment=list.get(i);
+				System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      getG0GSJC = "+scientificInvestment.getG0GSJC());
+			}*/
+		}
+		
+		
+		    String[] headers = { "院所", "计划总投资", "累计支出额",       "预付余额",     "累计投资完成额", "项目资金计划结余",     "本年投资计划",         "本年累计支出"   , "本年预付款", "本年投资完成额"};
+		    String[] cols =    {"g0GSJC","k0ZTYSJE","k0LJGLFPHJECB","k0LJSJDJJE","aDD1",       "k0LJYSJY",       "k0BNYSJHJE",       "k0BNGLFPHJECB","k0BNSJDJJE","k0BNSJDJJE"};
+	        // 文件名默认设置为当前时间：年月日时分秒
+	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	        // 设置response头信息
+	        response.reset();
+	        response.setContentType("application/vnd.ms-excel");
+	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+	        try {
+		        OutputStream os = response.getOutputStream();
+		        PoiExcelExportUitl<ScientificInvestment>  pee = new PoiExcelExportUitl<ScientificInvestment>(fileName, headers, cols, list,os);
+		        pee.exportExcel();
+	            
+	        } catch (Exception e)
+	        {
+	            e.printStackTrace();
+	            // 如果是ExcelException,则直接抛出
+	            if (e instanceof ExcelException) 
+	            {
+	                throw (ExcelException) e;
+	            } else 
+	            {
+	                // 否则将其他异常包装成ExcelException再抛出
+	                throw new ExcelException("导出excel失败");
+	            }
+	        }
+		   return null;
+	}
 	
 	/**
 	 * 增加
@@ -166,7 +230,7 @@ public class TechStatisticsController extends BaseController{
 		String createUserName = sysUserInfo.getUserDisp();
 		String attachmentDoc = IdUtil.createFileIdByTime();
 
-		String year = DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY);
+		String year =HanaUtil.getCurrentYear(); 
 		
 		String unitName = sysUserInfo.getUnitName();// 申报部门
 		String unitCode = sysUserInfo.getUnitCode();// 申报部门
@@ -226,27 +290,41 @@ public class TechStatisticsController extends BaseController{
 		String provinceLeadCount = CommonUtil.getParameter(request, "provinceLeadCount", "");
 		String provinceJoinCount = CommonUtil.getParameter(request, "provinceJoinCount", "");
 		String createUserMobile = CommonUtil.getParameter(request, "createUserMobile", "");
-		String applyDepartName = CommonUtil.getParameter(request, "applyDepartName", "");
-		String applyDepartCode = CommonUtil.getParameter(request, "applyDepartCode", "");
+		
 		String countryLeadCount = CommonUtil.getParameter(request, "countryLeadCount", "");
 		String countryJoinCount = CommonUtil.getParameter(request, "countryJoinCount", "");
 		String chargeDepartMan = CommonUtil.getParameter(request, "chargeDepartMan", "");
 		String provinceFunds = CommonUtil.getParameter(request, "provinceFunds", "");
 		String countryFunds = CommonUtil.getParameter(request, "countryFunds", "");
 		String techSubtotalCost = CommonUtil.getParameter(request, "techSubtotalCost", "");
-		String unitCode = CommonUtil.getParameter(request, "unitCode", "");
+		String unitCode = CommonUtil.getParameter(request, "unitCode", "");//其实是UnitId的值
 		String unitName = CommonUtil.getParameter(request, "unitName", "");
 		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
 		String year = CommonUtil.getParameter(request, "year", "");
 		String createUserName = CommonUtil.getParameter(request, "createUserName", "");
+		String writeType = CommonUtil.getParameter(request, "writeType", "1");
+		System.out.println("--------封装前-------unitCode:" + unitCode + " unitName=" + unitName );
+
+		//UnitId-->unitCode
+		String parentUnitCode="";
+		String parentUnitName="";
 		if(!unitCode.equals(""))
 		{
-			SysUnit sysUnit=EquipmentUtils.getUnitByUnitId(unitCode, restTemplate, httpHeaders);
-			unitCode=sysUnit.getUnitCode();
+			//SysUnit sysUnit=EquipmentUtils.getUnitByUnitId(unitCode, restTemplate, httpHeaders);
+			//unitCode=sysUnit.getUnitCode();
+			SysUnit sysUnit=EquipmentUtils.getUnitByUnitCode(unitCode, restTemplate, httpHeaders);
+			String unitPath=sysUnit.getUnitPath();
+			if(unitPath.length()>4)
+			{
+				String	parentUnitPath=unitPath.substring(0, unitPath.length()-4);
+				SysUnit parenSysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPath, restTemplate, httpHeaders);
+				parentUnitCode=parenSysUnit.getUnitCode();
+				parentUnitName=parenSysUnit.getUnitName();
+			}
+			
 		}
-		
-		
-		
+		System.out.println("--------封装前---------parentUnitName:" + parentUnitName + " parentUnitCode=" + parentUnitCode + " UserId=" + sysUserInfo.getUserId());
+
 		// 流程状态-是保存还是提交
 		String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
 		TechCost techCost = null;
@@ -255,25 +333,22 @@ public class TechStatisticsController extends BaseController{
 		if (id.equals("")) {
 			techCost = new TechCost();
 			techCost.setCreateDate(new Date());
-			
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			techCost.setId(idv); 
 			techCost.setAuditStatus(auditStatus);
-
 		} else {
 			ResponseEntity<TechCost> se = this.restTemplate.exchange(GET_COST_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), TechCost.class);
 			techCost  = se.getBody();
 		}
-		
-		
+		techCost.setWriteType(writeType);
 		techCost.setCreateUserId(sysUserInfo.getUserName());
 		techCost.setCreateUserName(createUserName);
 		techCost.setAttachmentDoc(attachmentDoc);
 		// 流程状态
 		techCost.setYear(year);
 		techCost.setChargeDepartMan(chargeDepartMan); 
-		techCost.setApplyDepartCode(applyDepartCode);
-		techCost.setApplyDepartName(applyDepartName);
+		techCost.setParentUnitCode(parentUnitCode); 
+		techCost.setParentUnitName(parentUnitName);
 		techCost.setChargeDepartMan(chargeDepartMan);
 		techCost.setCountryFunds(new BigDecimal(countryFunds));
 		techCost.setCountryJoinCount(Integer.valueOf(countryJoinCount));
@@ -497,8 +572,7 @@ public class TechStatisticsController extends BaseController{
 
 		String unitName = sysUserInfo.getUnitName();// 申报部门
 		String unitCode = sysUserInfo.getUnitCode();// 申报部门
-		String year = DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY);
-		
+		String year =HanaUtil.getCurrentYear(); 
 		String type = CommonUtil.getParameter(request, "type", "");
 		request.setAttribute("type", type);
 		
@@ -532,7 +606,8 @@ public class TechStatisticsController extends BaseController{
 	 * @throws Exception
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/tech_org/save")
-	public String saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
 
 		Result resultsDate = new Result();
 		String achievementsCompanyCount = CommonUtil.getParameter(request, "achievementsCompanyCount", "0");
@@ -550,8 +625,6 @@ public class TechStatisticsController extends BaseController{
 		String createUserMobile = CommonUtil.getParameter(request, "createUserMobile", "");
 		String femaleCount = CommonUtil.getParameter(request, "femaleCount", "0");
 		String directResearcherCount = CommonUtil.getParameter(request, "directResearcherCount", "0");
-		String applyDepartName = CommonUtil.getParameter(request, "applyDepartName", "");
-		String applyDepartCode = CommonUtil.getParameter(request, "applyDepartCode", "");
 		String diplomaMasterCount = CommonUtil.getParameter(request, "diplomaMasterCount", "0");
 		String currentYearPatentCount = CommonUtil.getParameter(request, "currentYearPatentCount", "0");
 		String currentPatentLookCount = CommonUtil.getParameter(request, "currentPatentLookCount", "0");
@@ -587,14 +660,24 @@ public class TechStatisticsController extends BaseController{
 		String thesisEiInnerCount = CommonUtil.getParameter(request, "thesisEiInnerCount", "0");
 		String thesisSciInnerCount = CommonUtil.getParameter(request, "thesisSciInnerCount", "0");
 		String deviceInnnerAssets = CommonUtil.getParameter(request, "deviceInnnerAssets", "0");
+		String writeType = CommonUtil.getParameter(request, "writeType", "1");
 		
-		
-		
-		
+		String parentUnitCode="";
+		String parentUnitName="";
 		if(!unitCode.equals(""))
 		{
-			SysUnit sysUnit=EquipmentUtils.getUnitByUnitId(unitCode, restTemplate, httpHeaders);
-			unitCode=sysUnit.getUnitCode();
+			//SysUnit sysUnit=EquipmentUtils.getUnitByUnitId(unitCode, restTemplate, httpHeaders);
+			//unitCode=sysUnit.getUnitCode();
+			SysUnit sysUnit=EquipmentUtils.getUnitByUnitCode(unitCode, restTemplate, httpHeaders);
+			String unitPath=sysUnit.getUnitPath();
+			if(unitPath.length()>4)
+			{
+				String	parentUnitPath=unitPath.substring(0, unitPath.length()-4);
+				SysUnit parenSysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPath, restTemplate, httpHeaders);
+				parentUnitCode=parenSysUnit.getUnitCode();
+				parentUnitName=parenSysUnit.getUnitName();
+			}
+			
 		}
 		
 		TechOrgCount techOrgCount = null;
@@ -607,12 +690,14 @@ public class TechStatisticsController extends BaseController{
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			techOrgCount.setId(idv); 
 			techOrgCount.setAuditStatus(auditStatus);
-			System.out.println("---------------applyDepartCode:" + applyDepartCode + " applyDepartCode=" + applyDepartCode + " UserId=" + sysUserInfo.getUserId());
-
+			
 		} else {
 			ResponseEntity<TechOrgCount> se = this.restTemplate.exchange(GET_ORG_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), TechOrgCount.class);
 			techOrgCount  = se.getBody();
 		}
+		
+		System.out.println("---------------parentUnitName:" + parentUnitName + " parentUnitCode=" + parentUnitCode + " UserId=" + sysUserInfo.getUserId());
+		techOrgCount.setWriteType(writeType);
 		techOrgCount.setThesisEiInnerCount(Integer.valueOf(thesisEiInnerCount));
 		techOrgCount.setThesisSciInnerCount(Integer.valueOf(thesisSciInnerCount));
 		techOrgCount.setCreateUserId(sysUserInfo.getUserName());
@@ -623,8 +708,8 @@ public class TechStatisticsController extends BaseController{
 		techOrgCount.setAchievementsCompanyCount(Integer.valueOf(achievementsCompanyCount));
 		techOrgCount.setAchievementsCountryCount(Integer.valueOf(achievementsCountryCount));
 		techOrgCount.setAllPatentCount(Integer.valueOf(allPatentCount));
-		techOrgCount.setApplyDepartCode(applyDepartCode);
-		techOrgCount.setApplyDepartName(applyDepartName);
+		techOrgCount.setParentUnitCode(parentUnitCode); 
+		techOrgCount.setParentUnitName(parentUnitName);
 		techOrgCount.setAssetsTotal(new BigDecimal(assetsTotal));
 		techOrgCount.setAssistResearcherCount(Integer.valueOf(assistResearcherCount));
 		techOrgCount.setChargeDepartMan(chargeDepartMan);
@@ -767,6 +852,75 @@ public class TechStatisticsController extends BaseController{
 		Result rs = this.restTemplate
 				.exchange(ORG_WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
 		return rs;
+	}
+
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/tech_org/exput_excel")
+	@ResponseBody
+	public String exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		
+    	
+		 
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		String unitName = CommonUtil.getParameter(request, "unitName", "" );
+		String auditStatus = CommonUtil.getParameter(request, "auditStatus", "");
+		String year = CommonUtil.getParameter(request, "year", "");
+		String type = CommonUtil.getParameter(request, "type", "");
+		
+		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		paramMap.put("unitName", unitName);
+		paramMap.put("auditStatus", auditStatus);
+		paramMap.put("year", year);
+		paramMap.put("type", type);
+		System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      type = "+type+" year="+year);
+		
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(LIST_ORG_URL, HttpMethod.POST, httpEntity, JSONArray.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		List<ScientificInvestment> list =new ArrayList();
+		JSONArray jSONArray=null;
+		if (statusCode == 200)
+		{
+			jSONArray = responseEntity.getBody();
+			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificInvestment.class);
+			
+			/*for(int i=0;i<list.size();i++)
+			{
+				ScientificInvestment scientificInvestment=list.get(i);
+				System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      getG0GSJC = "+scientificInvestment.getG0GSJC());
+			}*/
+		}
+		
+		
+		    String[] headers = { "院所", "计划总投资", "累计支出额",       "预付余额",     "累计投资完成额", "项目资金计划结余",     "本年投资计划",         "本年累计支出"   , "本年预付款", "本年投资完成额"};
+		    String[] cols =    {"g0GSJC","k0ZTYSJE","k0LJGLFPHJECB","k0LJSJDJJE","aDD1",       "k0LJYSJY",       "k0BNYSJHJE",       "k0BNGLFPHJECB","k0BNSJDJJE","k0BNSJDJJE"};
+		   
+	        // 文件名默认设置为当前时间：年月日时分秒
+	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	        // 设置response头信息
+	        response.reset();
+	        response.setContentType("application/vnd.ms-excel");
+	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+	        try {
+		        OutputStream os = response.getOutputStream();
+		        PoiExcelExportUitl<ScientificInvestment>  pee = new PoiExcelExportUitl<ScientificInvestment>(fileName, headers, cols, list,os);
+		        pee.exportExcel();
+	            
+	        } catch (Exception e)
+	        {
+	            e.printStackTrace();
+	            // 如果是ExcelException,则直接抛出
+	            if (e instanceof ExcelException) 
+	            {
+	                throw (ExcelException) e;
+	            } else 
+	            {
+	                // 否则将其他异常包装成ExcelException再抛出
+	                throw new ExcelException("导出excel失败");
+	            }
+	        }
+		   return null;
 	}
 	
 	

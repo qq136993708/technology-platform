@@ -1248,9 +1248,10 @@ public class HanaUtil {
 					resut.add(node02);
 
 					extend01_count = extend01_count + jhqds;
-					extend02_count = extend01_count + sjqds;
+					extend02_count = extend02_count + sjqds;
 
 				}
+				System.out.println(title+"------"+name+"======="+i+"=========="+j+"==========="+extend01_count+"===="+jhqds+"----------------"+sjqds);
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(extend01_count));
@@ -3757,6 +3758,11 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 			// chartBarLineSeries.setSmooth(true);
 		}
+		
+		if (name.equals("zysje")) {
+			chartBarLineSeries.setName("总预算科研投入");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
 
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
@@ -3765,6 +3771,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 
 				String fyxsjje = String.valueOf(f03.getFyxsjje());
 				String zbxsjje = String.valueOf(f03.getZbxsjje());
+				String zysje = String.valueOf(f03.getZysje());
 				// System.out.println("==============fyxsjje:"+fyxsjje);
 				if (name.equals("fyxsjje")) {
 
@@ -3785,6 +3792,17 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 					}
 
 				}
+				
+				if (name.equals("zysje")) {
+
+					if (zysje != null && !zysje.equals("null") && !zysje.equals("")) {
+						dataList.add(String.format("%.2f", Double.valueOf(zysje) / 10000));
+
+					} else {
+						dataList.add(0);
+					}
+
+				}
 
 			}
 
@@ -3795,7 +3813,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 
 	public static ChartBarLineSeries getAward_trend_analysis_01(List<Award> list, String name) throws Exception {
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("oneYearSl")) {
 			chartBarLineSeries.setName(Integer.valueOf(year) + "");
@@ -5460,7 +5478,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 		return resut;
 	}
 
-	public static String getCurrrentYearMoth() throws Exception {
+	public static String getCurrentYearMoth() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH) + 1;
@@ -5473,7 +5491,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 		return str;
 	}
 
-	public static String getCurrrentYear_Moth() throws Exception {
+	public static String getCurrentYear_Moth() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH) + 1;
@@ -5486,7 +5504,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 		return str;
 	}
 
-	public static String getCurrrent_Year_Moth() throws Exception {
+	public static String getCurrent_Year_Moth() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH) + 1;
@@ -5507,7 +5525,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 		return String.valueOf(year - 1);
 	}
 
-	public static String getCurrrentYear() throws Exception {
+	public static String getCurrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 
@@ -5515,7 +5533,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 		return String.valueOf(year);
 	}
 
-	public static String getCurrrent_YearMoth() throws Exception {
+	public static String getCurrent_YearMoth() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH) + 1;
@@ -5558,7 +5576,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 	 * CompanyCode companyCode = companyCodeList.get(i); String strNotes =
 	 * companyCode.getG0DMJC(); if (strNotes.equals("ALL")) { allCode =
 	 * companyCode.getG0GSDM(); } } request.setAttribute("allCode", allCode);
-	 * String month = HanaUtil.getCurrrentYearMoth();
+	 * String month = HanaUtil.getCurrentYearMoth();
 	 * request.setAttribute("month", month); }
 	 */
 
@@ -5608,7 +5626,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 			request.setAttribute("companyCode", sb.toString());
 		}
 
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("month", month);
 	}
 
@@ -5707,10 +5725,10 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 			request.setAttribute("companyCode", sb.toString());
 		}
 
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("month", month);
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 	}
 

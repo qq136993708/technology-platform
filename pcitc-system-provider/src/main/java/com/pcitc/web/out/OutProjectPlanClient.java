@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -240,9 +241,9 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/money-hana-type")
 	public JSONArray getPlanCompleteRateByPlanTypeForHana(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByPlanTypeForHana===========================" + map);
-		map.put("startMonth", "201801");
-		map.put("endMonth", "201812");
-		map.put("nd", "2018");
+		String nd = map.get("nd");
+		map.put("startMonth", nd+"01");
+		map.put("endMonth", nd+"12");
 		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHana(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -253,9 +254,24 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/month/money-hana-type")
 	public JSONArray getPlanCompleteRateByPlanTypeForHanaMonth(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByPlanTypeForHanaMonth===========================" + map);
-		map.put("startMonth", "201801");
-		map.put("endMonth", "201812");
+		String nd = map.get("nd");
+		map.put("startMonth", nd+"01");
+		map.put("endMonth", nd+"12");
 		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHanaMonth(map);
+		
+		String zysje = "0";
+		for (int i = 0; i < temList.size(); i++) {
+			Map temMap = (HashMap)temList.get(i);
+			if (temMap != null && temMap.get("zysje") != null && Float.parseFloat(temMap.get("zysje").toString()) != 0) {
+				zysje = temMap.get("zysje").toString();
+				break;
+			}
+		}
+		
+		for (int i = 0; i < temList.size(); i++) {
+			Map temMap = (HashMap)temList.get(i);
+			temMap.put("zysje", zysje);
+		}
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -377,6 +393,10 @@ public class OutProjectPlanClient {
 	public JSONArray getPlanMoneyByDepartment(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyByDepartment===========================" + map);
 		List temList = outProjectPlanService.getPlanMoneyByDepartment(map);
+		
+		if (temList == null || temList.size() == 0) {
+			temList = outProjectPlanService.getPlanMoneyByDepartmentSpecial(map);
+		}
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;

@@ -56,7 +56,7 @@ public class AdminMobileController extends BaseController {
 	 */
 	@RequestMapping(value = "/mobile/indexTest")
 	public String indexMobile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
 		String unitPathId = sysUserInfo.getUnitPath();

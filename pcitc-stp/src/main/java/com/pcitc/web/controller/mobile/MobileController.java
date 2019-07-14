@@ -19,7 +19,7 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/kytr")
 	public String kytr(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		return "/mobile/kytr";
 	}
@@ -37,7 +37,7 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/kyht")
 	public String kyht(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		return "/mobile/kyht";
 	}
@@ -54,10 +54,10 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/kyzb")
 	public String kyzb(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 
-		String month = HanaUtil.getCurrrentYear_Moth();
+		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
 
 		String companyCode = HanaUtil.YJY_CODE_NOT_YINGKE;
@@ -76,10 +76,10 @@ public class MobileController extends BaseController {
 	 */
 	@RequestMapping(value = "/mobile/kyzc")
 	public String kyzc(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 
-		String month = HanaUtil.getCurrrentYear_Moth();
+		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
 
 		return "/mobile/kyzc";
@@ -102,9 +102,9 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/xjll")
 	public String xjll(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
-		String month = HanaUtil.getCurrrentYear_Moth();
+		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
 
 		return "/mobile/xjll";
@@ -122,7 +122,7 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/cgzl")
 	public String cgzl(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 
 		return "/mobile/cgzl";
@@ -130,7 +130,7 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/zhfxChart")
 	public String zhfxChart(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 
 		return "/mobile/zhfxChart";
@@ -139,7 +139,7 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/zhfxTable")
 	public String zhfxTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
 		return "/mobile/zhfxTable";
@@ -148,7 +148,7 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/index2")
 	public String index2(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
 		return "/mobile/index2";
@@ -159,7 +159,7 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/zhfxTable3")
 	public String zhfxTable3(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
 		return "/mobile/zhfxTable3";

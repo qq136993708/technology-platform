@@ -19,7 +19,7 @@ import com.pcitc.config.SpringContextUtil;
 import com.pcitc.service.out.OutAppraisalService;
 import com.pcitc.utils.DataServiceUtil;
 
-//鉴定系统
+//成果鉴定系统
 public class AppraisalJob implements Job, Serializable {
 	private static final long serialVersionUID = 1L;
 

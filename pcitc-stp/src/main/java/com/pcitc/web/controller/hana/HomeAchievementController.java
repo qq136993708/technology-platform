@@ -63,7 +63,7 @@ public class HomeAchievementController extends BaseController{
 			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 			    String unitCode=userInfo.getUnitCode();
 			    request.setAttribute("unitCode", unitCode);
-			    String nd= HanaUtil.getCurrrentYear();
+			    String nd= HanaUtil.getCurrentYear();
 			    request.setAttribute("nd", nd);
 		        return "stp/hana/home/level/award_level2";
 		  }
@@ -82,7 +82,7 @@ public class HomeAchievementController extends BaseController{
 			    request.setAttribute("unitCode", unitCode);
 			    
 			    
-			    String year= HanaUtil.getCurrrentYear();
+			    String year= HanaUtil.getCurrentYear();
 			    request.setAttribute("year", year);
 		        return "stp/hana/home/level/award_table";
 		  }

@@ -1,10 +1,12 @@
 package com.pcitc.service.out.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoExample;
+import com.pcitc.mapper.out.OutProjectInfoMapper;
+import com.pcitc.service.system.IndexOutProjectInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,8 +142,14 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 
 		// 批量插入数据
 		outAppraisalMapper.insertOutAppraisalBatch(list);
+		
+		// 更新define1、define3统计属性
+		
 		return 1;
 	}
+
+	@Autowired
+    private OutProjectInfoMapper outProjectInfoMapper;
 
 	public LayuiTableData getOutAppraisalPage(LayuiTableParam param) {
 		Map<String, Object> paraMap = param.getParam();
@@ -152,10 +160,34 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 			// 1、设置分页信息，包括当前页数和每页显示的总计数
 			PageHelper.startPage(param.getPage(), param.getLimit(), param.getOrderKey().toString() + " " + param.getOrderType());
 		}
-		
+
 
 		OutAppraisalExample example = new OutAppraisalExample();
 		OutAppraisalExample.Criteria criteria = example.createCriteria();
+
+        //获取姓名
+        Object fzr = param.getParam().get("name");
+        if (fzr != null&&!"".equals(fzr)) {
+        //查询课题 list
+            OutProjectInfoExample infoExample = new OutProjectInfoExample();
+            OutProjectInfoExample.Criteria infoExampleCriteria = infoExample.createCriteria();
+            infoExampleCriteria.andFzrxmLike("%"+fzr+"%");
+            List<OutProjectInfo> outProjectInfos = outProjectInfoMapper.selectByExample(infoExample);
+            List<String> collect = outProjectInfos.stream().map(e -> e.getHth()).collect(Collectors.toList());
+            //获取合同list
+            if(collect!=null&&collect.size()>0){
+                criteria.andHthIn(collect);
+            }else {
+                collect = new ArrayList<>();
+                collect.add("--------------------------");
+                criteria.andHthIn(collect);
+            }
+        }
+
+        Object dataId = param.getParam().get("dataId");
+        if (dataId != null&&!"".equals(dataId)) {
+            criteria.andDataIdIn(Arrays.asList(dataId.toString().split(",")));
+        }
 
 		if (paraMap.get("cgmc") != null && !paraMap.get("cgmc").equals("")) {
 			criteria.andCgmcLike("%" + paraMap.get("cgmc").toString() + "%");

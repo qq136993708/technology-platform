@@ -30,8 +30,8 @@
     
     
     <label class="dateInput" style="margin-left:20px">
-        <span>机构名称</span>
-        <input type="text" name="unitName" id="unitName" placeholder="请输入机构名称" title="机构名称" autocomplete="off" class="form-control" >
+        <span>单位名称</span>
+        <input type="text" name="unitName" id="unitName" placeholder="请输入单位名称" title="单位名称" autocomplete="off" class="form-control" >
     </label>
     
     
@@ -66,7 +66,7 @@
                   <tr>
                       <th lay-data="{checkbox:true,  event : 'changeEvents',type : 'checkbox', fixed:'left'}" rowspan="2">单选</th>
                       <th lay-data="{field:'unitName', width:'16%',templet:viewv,align:'left', fixed:'left'}" rowspan="2" >单位名称</th>
-                      <th lay-data="{field:'year',align:'center', width:'8%'}" rowspan="2" >年份</th>
+                      <th lay-data="{field:'year',align:'center', width:'8%'}" rowspan="2" >统计年度</th>
                       <th lay-data="{field:'auditStatus',templet:'<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>'}" rowspan="2">审核状态</th>
                       <th lay-data="{field:'type', width:'8%',align:'center',templet:view_type}" rowspan="2" >公司类型</th>
                       <th lay-data="{align:'center'}" colspan="6">科技投入情况（单位：万元）</th>

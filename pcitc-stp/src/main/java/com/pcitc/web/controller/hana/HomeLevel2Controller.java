@@ -95,7 +95,7 @@ public class HomeLevel2Controller extends BaseController {
 				  public String kyzb_table(HttpServletRequest request) throws Exception
 				  {
 					    
-						String month = HanaUtil.getCurrrentYearMoth();
+						String month = HanaUtil.getCurrentYearMoth();
 						request.setAttribute("month", month);
 					    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 					    
@@ -329,7 +329,7 @@ public class HomeLevel2Controller extends BaseController {
 				  public String ndys_table(HttpServletRequest request) throws Exception
 				  {
 					    
-						String month = HanaUtil.getCurrrentYearMoth();
+						String month = HanaUtil.getCurrentYearMoth();
 						request.setAttribute("month", month);
 					    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 					    
