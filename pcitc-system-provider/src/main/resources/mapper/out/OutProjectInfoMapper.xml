@@ -1809,7 +1809,7 @@
             and find_in_set(out_project_info.xmid,'${xmid}')
         </if>
         group by xmid
-        order by define10
+        order by  nd desc,define10
     </select>
 	<!-- 首页计算新开课题总数 -->
 	<select id="getOutProjectInfoCount" resultType="java.util.Map" parameterType="java.util.HashMap">

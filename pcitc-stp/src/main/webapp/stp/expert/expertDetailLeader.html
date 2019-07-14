@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/second.css">
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .layui-row-main {
+            text-align: center;
+        }
+
+        .layui-tab-content p {
+            text-indent: 2em;
+        }
+        .layui-tab-title li{padding: 0 10px;}
+        .layui-tab-title .red{    background: #ed4e5a;
+            position: absolute;
+            color: white;
+            top: 2px;
+            height: 18px;
+            padding: 0 5px;
+            line-height: 18px;
+            border-radius: 12px;
+            font-size: 12px;}
+    </style>
+</head>
+<body>
+<!--<div class="searchBox">
+    &lt;!&ndash;查询条件&ndash;&gt;
+    <label class="dateInput">
+    </label>
+    &lt;!&ndash;按钮组&ndash;&gt;
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                data-type="resetEvent">重置
+        </button>
+    </div>
+</div>-->
+<div class="layui-main-oil layui-expert">
+    <div class="layui-row">
+        <div class="layui-col-md5 layui-expert-div">
+            <div class="layui-card">
+                <div class="layui-col-md3"><img dataType="headImg" id="${zjkBaseInfo.dataId}" src="/stp/expert/img/default.png" style=" height: 234px;width: 182px;"></div>
+                <div class="layui-col-md9">
+                    <p>${zjkBaseInfo.expertName}</p>
+                    <span class="layui-zc">职称：${zjkBaseInfo.expertProfessinal}</span>
+                    <span class="layui-pone">专家类型：${zjkBaseInfo.bak3}</span>
+                    <span class="layui-e" id="industryId">${zjkBaseInfo.industryId}</span>
+                    <span class="layui-e">专业领域：${zjkBaseInfo.expertProfessionalField}</span>
+                    <span class="layui-a">所在单位：${zjkBaseInfo.companyName}</span>
+                    <div class="search">
+                        <!--<a class="add" href="javascript:;" id="addBx">加入备选</a>-->
+                        <!--<a class="add" href="javascript:;" id="addDb">加入对比</a>-->
+                        <!--<a class="add" href="javascript:;" id="showDb">查看对比</a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="expert-bottom">
+            <span>相关课题<span class="red" id="ktCount">0</span>个</span>
+            <span>参与项目评审<span class="red">${xmCount}</span>个</span>
+            <span>专利数量<span class="red" id="zlCount">0</span>个</span><br/>
+            <span>相关成果<span class="red" id="cgCount">0</span>个</span>
+            <span>相关奖励<span class="red" id="cgReward">0</span>个</span>
+            <span>同行业领域共计<span class="red">${hylyCount}</span>人</span>
+            <!--<span>参与评标机构总数量 <span class="red">${jgCount}</span> 个</span>-->
+            <!--<span>参与评标累计项目总数量 <span class="red">${xmCount}</span>个</span><br/>-->
+        </div>
+        <div class="layui-col-md5 expert-h">
+            <div class="layui-card">
+                <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this" lay-id="11">人物简介</li>
+                        <li lay-id="22">人物成就</li>
+                        <li lay-id="33">相关课题<span class="red" id="ktCountShow">0</span></li>
+                        <li lay-id="33">成果信息<span class="red" id="cgCountShow">0</span></li>
+                        <li lay-id="44">专利信息<span class="red" id="zlCountShow">0</span></li>
+                        <li lay-id="44">奖励信息<span class="red" id="cgRewardShow">0</span></li>
+                        <li lay-id="44" onclick="showExpertDetail('${zjkBaseInfo.dataId}')">专家详情</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            ${zjkBaseInfo.userDesc}
+                        </div>
+                        <div class="layui-tab-item">
+                                ${zjkBaseInfo.bak6}
+                        </div>
+                        <div class="layui-tab-item">
+                        <table id="showTableKt" class="layui-table" lay-filter="tableDataCg"></table>
+                    </div>
+                        <div class="layui-tab-item">
+                            <table id="showTableCg" class="layui-table" lay-filter="showTableCg"></table>
+                        </div>
+                        <div class="layui-tab-item">
+                            <table id="showTable" class="layui-table" lay-filter="tableData"></table>
+                        </div>
+                        <div class="layui-tab-item">
+                            <table id="showTableAward" class="layui-table" lay-filter="tableDataAward"></table>
+                        </div>
+                        <div class="layui-tab-item">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="layui-col-md5">-->
+            <!--<div class="layui-card">-->
+                <!--<div class="layui-card-header">-->
+                    <!--<span class="border-span"></span>企业关系画像-->
+                <!--</div>-->
+                <!--<div class="layui-row-main">-->
+                    <!--<div class="main-chart" id="one" style="height:250px;width: 100%;"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="layui-col-md5">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <span class="border-span"></span>参与项目评审统计
+                </div>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="two" style="height:250px;width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md5">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <span class="border-span"></span>专家画像
+                </div>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="layui-col-md12" style="padding-right: 9px;" id="enlargeP">
+            <div class="layui-card">
+                <div class="layui-card-header" id="enlarge">
+                    <span class="border-span"></span>所在行业领域统计
+                </div>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</div>
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_force.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+<script type="text/html" id="showDetail">
+    <a class="layui-btn layui-btn-xs" lay-event="showDetail">查看</a>
+</script>
+
+<script>
+//专家详情
+function showExpertDetail(expertId){
+    openFullWin("查看", "/zjkBaseInfo/view/" + expertId);
+}
+//获取行业领域---行业领域：
+ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
+    $.each(data, function (i, dt) {
+        if($("#industryId").html()==data[i].code){
+            $("#industryId").html("行业领域："+data[i].name);
+        }
+        // $("#industryId").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    });
+});
+</script>
+<script>
+    var expertId = '${zjkBaseInfo.dataId}';
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element', "publicMethods"],
+        function () {
+            var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer,
+                laydate = layui.laydate;
+            var form = layui.form;
+            var publicMethods = layui.publicMethods;
+
+            $(".expert-bottom").css({width: $(".layui-expert-div .layui-col-md9").outerWidth() + "px"});
+            $("#addBx").click(function () {
+                addBx();
+            });
+            $("#addDb").click(function () {
+                addDb();
+            });
+            $("#showDb").click(function () {
+                showDb();
+            });
+            $("#enlarge").click(function () {
+                if($("#enlargeP").attr("class").indexOf("enlarge")==-1){
+                    window.scrollTo(0,0);
+                    $("#enlargeP").addClass("enlarge");
+                    $("#enlargeP .main-chart").css("height",$(document).height()+"px");
+                    var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
+                    var colorFive = ["#8fc31f"];
+                    var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
+                        if (d.seriesDataList == undefined) {
+                            $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+                        }
+                    });
+                }else {
+                    $("#enlargeP").removeClass("enlarge");
+                    $("#enlargeP .main-chart").css("height","250px");
+                    var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
+                    var colorFive = ["#8fc31f"];
+                    var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
+                        if (d.seriesDataList == undefined) {
+                            $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+                        }
+                    });
+                }
+            });
+            var record = {};
+            // record.companyId = '${zjkBaseInfo.company}';
+            // record.companyName = '${zjkBaseInfo.companyName}';
+            record.zjId = '${zjkBaseInfo.dataId}';
+
+            function showDb() {
+                parent.layui.index.openTabsPage("/expertController/selectBakList?status=1&addUserId=addUserId", "科技成果明细");
+            }
+
+
+            //加入备选
+            function addBx() {
+                publicMethods.ajaxPost("/expertController/saveBak", record, function (data) {
+                    layer.msg("操作成功");
+                });
+            }
+
+            function addDb() {
+                //加入对比
+                publicMethods.ajaxPost("/expertController/addCompare", record, function (data) {
+                    layer.msg("操作成功");
+                });
+            }
+
+            //行业领域查看所有
+            function searchHyly() {
+
+                $("#hylyshowall").href = "/expertController/queryExpert?hyly=${zjkBaseInfo.expertProfessionalField}";
+
+                $("#hylyshowall").click();
+            }
+        });
+
+
+    function initEchart() {
+        var yAxis = [
+            {
+                type: 'value',
+                name: '数量',
+                min: 0,
+                max: 'dataMax',
+                position: 'left',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ];
+        var twoUrl = "/expertController/picIndex?id=1&expertId=" + expertId + "&type=bar";
+        var coloTwo = ["#ff9945"];
+        var two = load_single_bar(twoUrl, "two", "", "", yAxis, coloTwo, 80, "", function (d) {
+            if (d.seriesDataList == undefined) {
+                $("#two").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+            }
+        });
+
+        // two.on('click', function (params) {
+        //     var xName = params.name;
+        //     var legentName = params.seriesName;
+        //     parent.layui.index.openTabsPage("/home_achievement/award_table?project_property=" + xName, "科技成果明细");
+        // });
+
+
+        var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
+        var colorFive = ["#8fc31f"];
+        var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
+            if (d.seriesDataList == undefined) {
+                $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+            }
+        });
+
+
+    }
+
+    initEchart();
+
+</script>
+<script>
+    /* var zjkBaseInfo = "${zjkBaseInfo}";*/
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var table, selectRowData, workOrderStatus;
+    layui.use(['jquery', 'table', 'laypage', 'publicMethods'], function () {
+        table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            publicMethods = layui.publicMethods,
+            laypage = layui.laypage;
+        // {param: {"equipmentUse":$("#equipmentUse").val()}},
+        var where = {
+            param: {
+                hyly: $("#hyly").val(),
+                jg: $("#jg").val(),
+                zjmc: $("#zjmc").val(),
+                key: $("#key").val(),
+                nld: $("#nld").val(),
+                zc: $("#zc").val(),
+                gb: $("#gb").val()
+            }
+        };
+        console.log("---------where--------------");
+        var cols = [
+            {type: 'checkbox', event: 'changeEvents', width: 55},
+            {title: '序号', type: 'numbers', width: 55},
+            {
+                field: 'expertName',
+                title: '姓名',
+                event: 'setActive',
+                align: 'center',
+                style: 'cursor: pointer;',
+                width: 55
+            },
+            {
+                field: 'email',
+                title: '邮箱',
+                event: 'setActive',
+                align: 'center',
+                style: 'cursor: pointer;',
+                width: 55,
+            },
+            {field: 'companyName', title: '机构', event: 'setActive', style: 'cursor: pointer;', sort: true,},
+            {
+                field: 'expertProfessionalFieldName',
+                title: '行业领域',
+                event: 'setActive',
+                style: 'cursor: pointer;',
+                align: 'center',
+                sort: true,
+            },
+            {field: 'expertProfessinal', title: '职称', event: 'setActive', style: 'cursor: pointer;', sort: true}
+            , {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150}
+        ];
+
+        function renderTable() {
+            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/queryIndex', false, cols, where, true, function (res, curr, count) {
+                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    var index = parseInt($(this).index() + 1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData = res.data[index - 1];
+                });
+            });
+        }
+
+        renderTable();
+        window.renderTable = renderTable;
+
+        //奖励信息start
+        function renderTableAward() {
+            var xmbh = $('#xmbh').val();
+            var xmmc = $('#xmmc').val();
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            var lodingMsg = layer.msg('数据加载中....');
+
+            //渲染
+            table.render({
+                elem : '#showTableAward',
+                url : '/out/reward-list',
+                method : "POST",
+                where : {
+                    param : {
+                        "name": "${zjkBaseInfo.expertName}",
+                    }
+                },
+                limit : param.selfRownum,
+                id : 'showTableAward',
+                height : commonDislodgeTable(),
+                page : {
+                    groups : 5,
+                    limits : [ param.selfRownum, 15, 30, 45, 60 ],
+                    layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+                    first : '首页', //不显示首页
+                    last : '尾页', //不显示尾页
+                    theme : '#0F9EE0'
+                },
+                cols : [ [
+                //     {
+                //     type : 'checkbox',
+                //     event : 'changeEvents'
+                // },
+                    {
+                    title : '序号',
+                    type : 'numbers' ,width : 55
+                },
+                    {
+                        field : 'nd',
+                        title : '年度',
+                        width : '12%',
+                        style : 'cursor: pointer;'
+                    },  {
+                    field : 'xmmc',
+                    title : '项目名称',
+                    width : '25%',
+                    style : 'cursor: pointer;',
+                }, {
+                        field : 'xkfl',
+                        title : '专业领域',
+                        width : '15%',
+                        style : 'cursor: pointer;'
+                    },
+                    {
+                    field : 'psdj',
+                    title : '评审等级',
+                    style : 'cursor: pointer;'
+                } ] ],
+                done : function(res, curr, count) {
+                    // 关闭等待刷新
+                    layer.close(lodingMsg);
+
+
+                    $("#cgReward").html(count);
+                    $("#cgRewardShow").html(count);
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+                        var index = parseInt($(this).index() + 1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+
+                }
+            });
+        }
+        renderTableAward();
+        //奖励信息end
+        //成果start
+        function renderTableCg() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            var lodingMsg = layer.msg('数据加载中....');
+
+            //渲染
+        table.render({
+            elem: '#showTableCg',
+            url: '/out/appraisal-list',
+            method: "POST",
+            where: {
+                param: {
+                    "name": "${zjkBaseInfo.expertName}",
+                    // "fmh": $('#fmh').val()
+                }
+            },
+            limit: param.selfRownum,
+            // limit: 15,
+            id: 'showTableCg',
+            height: commonDislodgeTable(),
+            page: {
+                groups: 5,
+                limits: [param.selfRownum,  30, 45, 60],
+                // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
+            cols: [
+                [
+                    // {type: 'checkbox', event: 'changeEvents', width: 55},
+                    {title: '序号', type: 'numbers', width: 55},
+                    {
+                        field: "nd",
+                        title: "鉴定年度", event: 'setActive', style: 'cursor: pointer;', width: 100
+                    },
+                    {
+                        field: "cgmc",
+                        title: "成果名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "sqjddw",
+                        title: "申请单位", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                ]],
+            done: function (res, curr, count) {
+                // 关闭等待刷新
+                layer.close(lodingMsg);
+                $("#cgCount").html(count);
+                $("#cgCountShow").html(count);
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    var index = parseInt($(this).index() + 1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData = res.data[index - 1];
+                });
+            }
+        });
+    }
+        renderTableCg();
+        //成果end
+        //科研课题start
+        function renderTableKt() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            var lodingMsg = layer.msg('数据加载中....');
+            //渲染
+            table.render({
+                elem: '#showTableKt',
+                url: '/expertController/outProjectList',
+                method: "POST",
+                where: {
+                    param: {
+                        "name": "${zjkBaseInfo.expertName}",
+                        "leaderFlag": "1",
+                        "functionCode": param.code
+                    }
+                },
+                limit: param.selfRownum,
+                id: 'showTableKt',
+                height: commonDislodgeTable(),
+                page: {
+                    groups: 5,
+                    limits: [param.selfRownum,  30, 45, 60],
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+                //     {
+                //     type: 'checkbox',
+                //     event: 'changeEvents'
+                // },
+                    {
+                    title: '序号',
+                    type: 'numbers',
+                    width:55
+                },
+                    {
+                    field: 'xmmc',
+                    title: '项目名称',
+                    width: '18%',
+                    style: 'cursor: pointer;'
+                },
+
+                    {
+                        field: 'fzdw',
+                        title: '负责单位',
+                        width: '18%',
+                        style: 'cursor: pointer;'
+                    },{
+                    field: 'zylb',
+                    title: '专业类别',
+                    width: '18%',
+                    style: 'cursor: pointer;'
+                },
+                    {
+                        field: 'nd',
+                        title: '立项年度',
+                        style: 'cursor: pointer;'
+                    }
+                ]],
+                done: function (res, curr, count) {
+                    // 关闭等待刷新
+                    layer.close(lodingMsg);
+                    $("#ktCount").html(count);
+                    $("#ktCountShow").html(count);
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                }
+            });
+        }
+
+        renderTableKt();
+        //科研课题end
+        //专利start
+        function renderTablePatent() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            var lodingMsg = layer.msg('数据加载中....');
+
+            //渲染
+            table.render({
+                elem: '#showTable',
+                url: '/expertController/queryOutPatentList',
+                method: "POST",
+                where: {
+                    param: {
+                        "name": "${zjkBaseInfo.expertName}",
+                    }
+                },
+                limit: param.selfRownum,
+                id: 'showTable',
+                height: commonDislodgeTable()-200,
+                page: {
+                    groups: 5,
+                    limits: [param.selfRownum, 30, 45, 60],
+                    // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+                    // {type: 'checkbox', event: 'changeEvents'},
+                    {title: '序号', type: 'numbers', width: 55},
+                    {
+                        field: "fmmc",
+                        title: "名称", event: 'setActive', style: 'cursor: pointer;', width: '15%'
+                    },
+                    {
+                        field: "wxlx",
+                        title: "类型", event: 'setActive', style: 'cursor: pointer;', width: '15%'
+
+                    },
+                    // {
+                    //     field: "zlh",
+                    //     title: "专利号", event: 'setActive', style: 'cursor: pointer;'
+                    // }
+                    // ,
+                    {
+                        field: "qlyq",
+                        title: "专利描述", event: 'setActive', style: 'cursor: pointer;'
+                        , templet: function (d) {
+                            return d.qlyq.substring(0, 20)+"...";
+                        }
+                    }
+                ]],
+                done: function (res, curr, count) {
+                    // 关闭等待刷新
+                    layer.close(lodingMsg);
+                    $("#zlCount").html(count);
+                    $("#zlCountShow").html(count);
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                }
+            });
+        }
+
+        renderTablePatent();
+        $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+        //专利结束
+        // ** 搜索框宽度随着内容自适应 加到公用js中
+        $(function () {
+            //propertychange监听input里面的字符变化,属性改变事件
+            $('.form-control').bind('input propertychange', function () {
+                var $this = $(this);
+                var text_length = $this.val().length;//获取当前文本框的长度
+                var current_width = parseInt(text_length) * 12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+                $this.css("width", current_width + "px");
+            });
+        })
+
+        publicMethods.ajaxPost('/dictionary/list/ZJK_ZJLX', null, function (data, status) {
+            $.each(data, function (i, dt) {
+                if (data[i].code === "${zjkBaseInfo.bak3}") {
+                    $(".layui-pone").html("专家类型：" + data[i].name);
+                }
+            });
+        });
+
+
+        //** 搜索框宽度随着内容自适应End
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+                renderTable();
+            },
+            resetEvent: function () { //点击重置按钮
+                $('#workOrderName').val("");
+            },
+            detailEvent: function () {  //点击详情按钮
+                var dataId;
+                if (selectRowData != undefined) {
+                    dataId = selectRowData.dataId;
+                    layer.open({
+                        title: param.name + '-查看',
+                        skin: 'layui-layer-lan',
+                        shadeClose: false,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['70%', '90%'],
+                        content: '/plan/viewPlanPage?dataId=' + dataId
+                    });
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('tableList')
+                    , data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            },
+            getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('tableList')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            },
+            isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('tableList');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+        };
+        //监听行工具事件
+        table.on('tool(tableEvent)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'showDetail') {
+                layer.open({
+                    title: "任务反馈",
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['70%', '90%'],
+                    content: '/plan/my/viewPlanDetail?dataId=' + data.dataId
+                });
+            }
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        $(".layui-table-header table thead th input").remove();
+    });
+</script>
+<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
+<script>
+    function relationPic() {
+        //var one = "/expertController/picIndex?id=5&type=force&expertId="+expertId;
+        //var one = load_single_force(one, "one", "专家与机构关系", "", "");
+
+        // $("#one").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+    }
+
+    relationPic();
+</script>
+<script>
+    /*  loadImg();
+     function loadImg() {
+             var imgBase = photoContent(expertId);
+             console.log("图片");
+             console.log(imgBase);
+             if(imgBase!=""&&imaBase!="data:image/png;base64,PHNjcmlwdD4NCiBtb2RhbHMuaW5mbygnPz8/Pz8hJyk7DQo8L3NjcmlwdD4NCg=="){
+                 $("#"+expertId).attr("src", imgBase);
+             }
+     } */
+    //var dataId = $('img[dataType="headImg"]').attr("id");
+    //$('img[dataType="headImg"]').attr("src",photoContent(dataId));
+    function getFileResultImg() {
+        //获取通用url
+        var ids = "";
+        $.each($('img[dataType="headImg"]'), function (i, d) {
+            ids = ids + "," + $(this).attr("id");
+        });
+        var ret = getFileResult(ids);
+        for (let i = 0; i < ret.list.length; i++) {
+            $("#" + ret.list[i].dataid).attr("src", ret.list[i].filePath);
+        }
+    }
+
+    getFileResultImg();
+
+    function photoContent(picId) {
+        var ret = getFileResult(picId);
+        if (ret != null && ret.list.length > 0) {
+            picId = ret.list[0].id;
+        }
+        var base64 = "";
+        $.ajax({
+            type: 'get',
+            dataType: 'text',
+            async: false,
+            url: '/sysfile/viewPic/' + picId,
+            success: function (data) {
+                base64 = data;
+            },
+            error: function (e) {
+                alert("出错了");
+            }
+        });
+        return base64;
+    }
+
+    ////加载图片
+    function getFileResult(fileIds) {
+        var ret = null;
+        ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+            ret = result;
+        });
+        return ret;
+    }
+
+    function ajaxFile(url, data, callback) {
+        var result = null;
+        $.ajax({
+            type: 'post',
+            async: false,
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (data, status) {
+                result = data;
+                if (callback) {
+                    callback.call(this, data, status);
+                }
+            },
+            error: function (err, err1, err2) {
+                console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+            }
+        });
+        return result;
+    }
+</script>
+</body>
+
+</html>
