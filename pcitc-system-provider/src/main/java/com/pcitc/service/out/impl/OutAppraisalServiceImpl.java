@@ -1,12 +1,12 @@
 package com.pcitc.service.out.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.pcitc.base.stp.out.OutProjectInfo;
-import com.pcitc.base.stp.out.OutProjectInfoExample;
-import com.pcitc.mapper.out.OutProjectInfoMapper;
-import com.pcitc.service.system.IndexOutProjectInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,11 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutAppraisalExample;
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.mapper.out.OutAppraisalMapper;
+import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.service.out.OutAppraisalService;
 import com.pcitc.utils.StringUtils;
 
@@ -121,6 +124,10 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 		
 		if(param.getParam().get("ysnd") !=null && !StringUtils.isBlank(param.getParam().get("ysnd")+"")){
 			hashmap.put("ysnd", param.getParam().get("ysnd"));
+		}
+		
+		if(param.getParam().get("groupFlag") !=null && !StringUtils.isBlank(param.getParam().get("groupFlag")+"")){
+			hashmap.put("groupFlag", param.getParam().get("groupFlag"));
 		}
 		
 		List<OutAppraisal> list = outAppraisalMapper.getAppraisalInfoByCond(hashmap);
@@ -235,24 +242,24 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 	 * @param nd
 	 * @return 得到某个年度专利申请/授权数量按专利类型分组
 	 */
-	public List getResultInfo(String nd) {
-		return outAppraisalMapper.getResultInfo(nd);
+	public List getResultInfo(HashMap<String, String> map) {
+		return outAppraisalMapper.getResultInfo(map);
 	}
 
 	/**
 	 * @param nd
 	 * @return 得到某个年度专利申请/授权数量按专利类型分组
 	 */
-	public List getResultInfoByType(String nd) {
-		return outAppraisalMapper.getResultInfoByType(nd);
+	public List getResultInfoByType(HashMap<String, String> map) {
+		return outAppraisalMapper.getResultInfoByType(map);
 	}
 
 	/**
 	 * @param nd
 	 * @return 得到某个年度专利申请/授权数量按专利类型分组
 	 */
-	public List getResultInfoByZy(String nd) {
-		return outAppraisalMapper.getResultInfoByZy(nd);
+	public List getResultInfoByZy(HashMap<String, String> map) {
+		return outAppraisalMapper.getResultInfoByZy(map);
 	}
 	
     /**
