@@ -142,7 +142,7 @@ public class FinancialDecisionController extends BaseController {
 	    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
 		List<ProjectCode> projectCodeList = HanaUtil.getProjectCode(restTemplate, httpHeaders);
 		request.setAttribute("projectCodeList", projectCodeList);
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("month", month);
 		return "stp/hana/decision/financial/total-cost-project_pay";
 	}
@@ -665,7 +665,7 @@ public class FinancialDecisionController extends BaseController {
 	 */
 	@RequestMapping(value = "/to-cash-flow")
 	public String cash_flow(HttpServletRequest request) throws Exception {
-		String month = HanaUtil.getCurrrentYear_Moth();
+		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
 		return "stp/hana/decision/financial/cash-flow";
 	}

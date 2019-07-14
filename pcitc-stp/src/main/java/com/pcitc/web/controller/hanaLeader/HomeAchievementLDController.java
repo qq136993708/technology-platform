@@ -63,7 +63,7 @@ public class HomeAchievementLDController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
 		return "stp/hana/home/oneLevelMain/award_level2";
@@ -79,7 +79,7 @@ public class HomeAchievementLDController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/direct_depart/award_table";
 	}

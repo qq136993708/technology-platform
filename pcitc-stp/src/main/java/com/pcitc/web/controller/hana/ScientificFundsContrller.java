@@ -86,7 +86,7 @@ public class ScientificFundsContrller extends BaseController {
 	  public String ndjfyshtqdjdfx(HttpServletRequest request) throws Exception
 	  {
 		    
-		    String year = HanaUtil.getCurrrentYear();
+		    String year = HanaUtil.getCurrentYear();
 			request.setAttribute("year", year);
 	        return "stp/hana/scientificFunds/ndjfyshtqdjdfx";
 	  }
@@ -190,7 +190,7 @@ public class ScientificFundsContrller extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/ktzjjfytjb")
 	  public String ktzjjfytjb(HttpServletRequest request) throws Exception
 	  {
-			String month = HanaUtil.getCurrrentYear_Moth();
+			String month = HanaUtil.getCurrentYear_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/ktzjjfytjb";
 	  }
@@ -436,7 +436,7 @@ public class ScientificFundsContrller extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/rgcbzctjb")
 	  public String rgcbzctjb(HttpServletRequest request) throws Exception
 	  {
-		  String month = HanaUtil.getCurrrentYear_Moth();
+		  String month = HanaUtil.getCurrentYear_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/rgcbzctjb";
 	  }
@@ -720,7 +720,7 @@ public class ScientificFundsContrller extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/yclzctjb")
 	  public String yclzctjb(HttpServletRequest request) throws Exception
 	  {
-		  String month = HanaUtil.getCurrrentYear_Moth();
+		  String month = HanaUtil.getCurrentYear_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/yclzctjb";
 	  }
@@ -947,7 +947,7 @@ public class ScientificFundsContrller extends BaseController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/nhzctjb")
 	  public String nhzctjb(HttpServletRequest request) throws Exception
 	  {
-		  String month = HanaUtil.getCurrrentYear_Moth();
+		  String month = HanaUtil.getCurrentYear_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/nhzctjb";
 	  }
@@ -1160,7 +1160,7 @@ public class ScientificFundsContrller extends BaseController {
 	  {
 		    
 		  
-		  String month = HanaUtil.getCurrrentYear_Moth();
+		  String month = HanaUtil.getCurrentYear_Moth();
 			request.setAttribute("month", month);
 			
 			  

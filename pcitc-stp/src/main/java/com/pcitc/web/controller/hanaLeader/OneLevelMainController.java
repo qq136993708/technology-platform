@@ -1219,7 +1219,7 @@ public class OneLevelMainController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/contract";
 	}
@@ -1900,12 +1900,12 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/equipment")
 	public String equipment(HttpServletRequest request) throws Exception {
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
-		String month = HanaUtil.getCurrrentYear_Moth();
+		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
 
 		return "stp/hana/home/oneLevelMain/equipment";
@@ -2078,7 +2078,7 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("companyCode", companyCode);
 		request.setAttribute("legentName", legentName);
 
-		String monthName = HanaUtil.getCurrrent_YearMoth();
+		String monthName = HanaUtil.getCurrent_YearMoth();
 		request.setAttribute("monthName", monthName);
 		return "stp/hana/home/oneLevelMain/equipment_detail";
 	}
@@ -2139,7 +2139,7 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("unitCode", unitCode);
 		request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
 		request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/oneLevelMain/ten_dragon";
 
@@ -2462,7 +2462,7 @@ public class OneLevelMainController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/investment";
 
