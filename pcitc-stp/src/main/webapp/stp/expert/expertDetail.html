@@ -15,6 +15,16 @@
         .layui-tab-content p {
             text-indent: 2em;
         }
+        .layui-tab-title li{padding: 0 10px;}
+        .layui-tab-title .red{    background: #ed4e5a;
+            position: absolute;
+            color: white;
+            top: 2px;
+            height: 18px;
+            padding: 0 5px;
+            line-height: 18px;
+            border-radius: 12px;
+            font-size: 12px;}
     </style>
 </head>
 <body>
@@ -42,7 +52,7 @@
                     <span class="layui-pone">专家类型：${zjkBaseInfo.bak3}</span>
                     <span class="layui-e" id="industryId">${zjkBaseInfo.industryId}</span>
                     <span class="layui-e">专业领域：${zjkBaseInfo.expertProfessionalField}</span>
-                    <span class="layui-a">所属机构：${zjkBaseInfo.companyName}</span>
+                    <span class="layui-a">所在单位：${zjkBaseInfo.companyName}</span>
                     <div class="search">
                         <!--<a class="add" href="javascript:;" id="addBx">加入备选</a>-->
                         <!--<a class="add" href="javascript:;" id="addDb">加入对比</a>-->
@@ -52,11 +62,12 @@
             </div>
         </div>
         <div class="expert-bottom">
-            <span>相关课题数<span class="red" id="cgCount">0</span>个</span>
-            <span>参与项目评审总数量<span class="red">${xmCount}</span>个</span><br/>
-            <span>专利数量<span class="red" id="zlCount">0</span>个</span>
-            <!--<span>成果数量<span class="red">${listCgCount}</span>个</span>-->
-            <span>同一行业领域共计<span class="red">${hylyCount}</span>人</span>
+            <span>相关课题<span class="red" id="ktCount">0</span>个</span>
+            <span>参与项目评审<span class="red">${xmCount}</span>个</span>
+            <span>专利数量<span class="red" id="zlCount">0</span>个</span><br/>
+            <span>相关成果<span class="red" id="cgCount">0</span>个</span>
+            <span>相关奖励<span class="red" id="cgReward">0</span>个</span>
+            <span>同行业领域共计<span class="red">${hylyCount}</span>人</span>
             <!--<span>参与评标机构总数量 <span class="red">${jgCount}</span> 个</span>-->
             <!--<span>参与评标累计项目总数量 <span class="red">${xmCount}</span>个</span><br/>-->
         </div>
@@ -66,10 +77,10 @@
                     <ul class="layui-tab-title">
                         <li class="layui-this" lay-id="11">人物简介</li>
                         <li lay-id="22">人物成就</li>
-                        <li lay-id="33">相关课题</li>
-                        <li lay-id="33">成果信息</li>
-                        <li lay-id="44">专利信息</li>
-                        <li lay-id="44">奖励信息</li>
+                        <li lay-id="33">相关课题<span class="red" id="ktCountShow">0</span></li>
+                        <li lay-id="33">成果信息<span class="red" id="cgCountShow">0</span></li>
+                        <li lay-id="44">专利信息<span class="red" id="zlCountShow">0</span></li>
+                        <li lay-id="44">奖励信息<span class="red" id="cgRewardShow">0</span></li>
                         <li lay-id="44" onclick="showExpertDetail('${zjkBaseInfo.dataId}')">专家详情</li>
                     </ul>
                     <div class="layui-tab-content">
@@ -97,16 +108,16 @@
                 </div>
             </div>
         </div>
-        <div class="layui-col-md5">
-            <div class="layui-card">
-                <div class="layui-card-header">
-                    <span class="border-span"></span>企业关系画像
-                </div>
-                <div class="layui-row-main">
-                    <div class="main-chart" id="one" style="height:250px;width: 100%;"></div>
-                </div>
-            </div>
-        </div>
+        <!--<div class="layui-col-md5">-->
+            <!--<div class="layui-card">-->
+                <!--<div class="layui-card-header">-->
+                    <!--<span class="border-span"></span>企业关系画像-->
+                <!--</div>-->
+                <!--<div class="layui-row-main">-->
+                    <!--<div class="main-chart" id="one" style="height:250px;width: 100%;"></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="layui-col-md5">
             <div class="layui-card">
                 <div class="layui-card-header">
@@ -117,7 +128,17 @@
                 </div>
             </div>
         </div>
-        <div class="layui-col-md12" style="padding-right: 9px;" id="enlargeP">
+        <div class="layui-col-md5">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <span class="border-span"></span>专家画像
+                </div>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="layui-col-md12" style="padding-right: 9px;" id="enlargeP">
             <div class="layui-card">
                 <div class="layui-card-header" id="enlarge">
                     <span class="border-span"></span>所在行业领域统计
@@ -126,7 +147,7 @@
                     <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
@@ -382,30 +403,35 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     {
                     title : '序号',
                     type : 'numbers' ,width : 55
-                }, {
-                    field : 'xmbh',
-                    title : '项目编号',
-                    width : '15%',
-                    style : 'cursor: pointer;'
-                }, {
-                    field : 'nd',
-                    title : '年度',
-                    width : '12%',
-                    style : 'cursor: pointer;'
-                }, {
+                },
+                    {
+                        field : 'nd',
+                        title : '年度',
+                        width : '12%',
+                        style : 'cursor: pointer;'
+                    },  {
                     field : 'xmmc',
                     title : '项目名称',
                     width : '25%',
                     style : 'cursor: pointer;',
                 }, {
-                    field : 'sbdw',
-                    title : '上报单位',
+                        field : 'xkfl',
+                        title : '专业领域',
+                        width : '15%',
+                        style : 'cursor: pointer;'
+                    },
+                    {
+                    field : 'psdj',
+                    title : '评审等级',
                     style : 'cursor: pointer;'
                 } ] ],
                 done : function(res, curr, count) {
                     // 关闭等待刷新
                     layer.close(lodingMsg);
 
+
+                    $("#cgReward").html(count);
+                    $("#cgRewardShow").html(count);
                     // 点击行联动选择框--单选
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
                         var index = parseInt($(this).index() + 1);
@@ -455,7 +481,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     {title: '序号', type: 'numbers', width: 55},
                     {
                         field: "nd",
-                        title: "申请年度", event: 'setActive', style: 'cursor: pointer;', width: 100
+                        title: "鉴定年度", event: 'setActive', style: 'cursor: pointer;', width: 100
                     },
                     {
                         field: "cgmc",
@@ -469,6 +495,8 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
             done: function (res, curr, count) {
                 // 关闭等待刷新
                 layer.close(lodingMsg);
+                $("#cgCount").html(count);
+                $("#cgCountShow").html(count);
                 // 点击行联动选择框--单选
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
@@ -546,7 +574,8 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 done: function (res, curr, count) {
                     // 关闭等待刷新
                     layer.close(lodingMsg);
-                    $("#cgCount").html(count);
+                    $("#ktCount").html(count);
+                    $("#ktCountShow").html(count);
                     // 点击行联动选择框--单选
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
@@ -617,7 +646,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     // 关闭等待刷新
                     layer.close(lodingMsg);
                     $("#zlCount").html(count);
-                    // $("#cgCount").html(res.msg);
+                    $("#zlCountShow").html(count);
                     // 点击行联动选择框--单选
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
@@ -731,7 +760,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
         //var one = "/expertController/picIndex?id=5&type=force&expertId="+expertId;
         //var one = load_single_force(one, "one", "专家与机构关系", "", "");
 
-        $("#one").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+        // $("#one").html("<img src='/layuiadmin/layui/images/null-data.png' />");
     }
 
     relationPic();

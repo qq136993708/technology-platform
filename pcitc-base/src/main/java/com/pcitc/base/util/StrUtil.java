@@ -82,6 +82,16 @@ public class StrUtil {
         return !isBlank(str);
     }
 
+    public static boolean isNullEmpty(Object obj) {
+        if(obj==null){
+            return true;
+        }else if("".equals(obj.toString())){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     /**
      * 对象为null
      *

@@ -89,4 +89,10 @@ public class SystemHystric implements SystemRemoteClient {
         System.out.println("执行断路器。。。。。。。。");
         throw new RuntimeException("调用失败.");    }
 
+    @Override
+    public LayuiTableData getOutProjectListPageExpert(LayuiTableParam param) throws Exception {
+        System.out.println("执行断路器。。。。。。。。");
+        throw new RuntimeException("调用失败.");
+    }
+
 }

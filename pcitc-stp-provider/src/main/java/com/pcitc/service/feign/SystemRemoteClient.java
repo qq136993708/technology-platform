@@ -76,4 +76,7 @@ public interface SystemRemoteClient {
     //查询奖励信息
     @RequestMapping(value = "/out-provider/reward-list", method = RequestMethod.POST)
     public LayuiTableData getOutRewardListPage(@RequestBody LayuiTableParam param) throws Exception;
+    //查询课题信息
+    @RequestMapping(value = "/out-provider/project-list-expert", method = RequestMethod.POST)
+    public LayuiTableData getOutProjectListPageExpert(@RequestBody LayuiTableParam param) throws Exception;
 }
