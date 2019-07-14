@@ -430,6 +430,78 @@ public class ExpertController extends BaseController {
     }
 
     /**
+     * 专家详情-领导页
+     * @return
+     */
+    @RequestMapping(value = "/expertDetailLeader", method = RequestMethod.GET)
+    @OperationFilter(modelName = "专家-专家详情", actionName = "专家详情expertDetailLeader")
+    public String expertDetailLeader() {
+        //专家详情
+        String expertId = request.getParameter("expertId");
+        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + expertId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
+        ZjkExpert zjkBaseInfo = responseEntity.getBody();
+        request.setAttribute("zjkBaseInfo", zjkBaseInfo);
+        request.setAttribute("hylyName", zjkBaseInfo.getExpertProfessionalFieldName());
+        request.setAttribute("hyly", zjkBaseInfo.getExpertProfessionalField());
+        //成果
+//        ZjkAchievement zjkChengguo = new ZjkAchievement();
+//        zjkChengguo.setExpertId(expertId);
+//        ResponseEntity<JSONObject> responseEntityCg = this.restTemplate.exchange(LISTCG, HttpMethod.POST, new HttpEntity<ZjkAchievement>(zjkChengguo, this.httpHeaders), JSONObject.class);
+//        JSONObject retJsonCg = responseEntityCg.getBody();
+//        List<ZjkAchievement> list = (List<ZjkAchievement>) retJsonCg.get("list");
+//        request.setAttribute("listCg", list);
+//        request.setAttribute("listCgCount", list.size());
+        //专利
+//        ZjkPatent zjkZhuanli = new ZjkPatent();
+//        zjkZhuanli.setExpertId(expertId);
+//        ResponseEntity<JSONObject> responseZlEntity = this.restTemplate.exchange(LISTZL, HttpMethod.POST, new HttpEntity<ZjkPatent>(zjkZhuanli, this.httpHeaders), JSONObject.class);
+//        JSONObject retJsonZl = responseZlEntity.getBody();
+//        List<ZjkPatent> listZl = (List<ZjkPatent>) retJsonZl.get("list");
+//        request.setAttribute("listZl", listZl);
+//        request.setAttribute("listZlCount", listZl.size());
+
+        //查询OutPatent专利数量
+//        OutPatent outPatent = new OutPatent();
+//        outPatent.setFmr(zjkBaseInfo.getExpertName());
+//        ResponseEntity<JSONObject> responseZlEntity = this.restTemplate.exchange(LIST_OUT_PATENT, HttpMethod.POST, new HttpEntity<OutPatent>(outPatent, this.httpHeaders), JSONObject.class);
+//        JSONObject retJsonZl = responseZlEntity.getBody();
+//        List<OutPatent> listZl = (List<OutPatent>) retJsonZl.get("list");
+//        request.setAttribute("listZl", listZl);//专利总数
+//        request.setAttribute("zlCount", listZl.size());//专利总数
+
+//        request.setAttribute("cgzlCount", listCg.size() + listZl.size());
+
+        // 行业领域count
+        String strHyly = zjkBaseInfo.getExpertProfessionalField();
+        if (strHyly == null || "".equals(strHyly)) {
+            request.setAttribute("hylyCount", "0");
+        } else {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("strHyly", strHyly);
+            ResponseEntity<JSONObject> responseEntityHyly = this.restTemplate.exchange(LIST_EXAMPLE, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
+            JSONObject retJson = responseEntityHyly.getBody();
+            List<ZjkExpert> listHyly = (List<ZjkExpert>) retJson.get("list");
+            request.setAttribute("hylyCount", listHyly == null ? "0" : listHyly.size());
+        }
+        //评标机构
+        ZjkChoice zjkChoice = new ZjkChoice();
+        zjkChoice.setStatus("2");
+        zjkChoice.setZjId(expertId);
+        ResponseEntity<JSONObject> expert = this.restTemplate.exchange(LISTBAK, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
+        JSONObject retJson = expert.getBody();
+        List<ZjkChoice> listJg = JSONArray.parseArray(retJson.get("list").toString(), ZjkChoice.class);
+        if (listJg == null || listJg.size() == 0) {
+            request.setAttribute("jgCount", 0);
+            request.setAttribute("xmCount", 0);
+        } else {
+            List setjg = listJg.stream().map(ZjkChoice::getCompanyId).distinct().collect(Collectors.toList());
+            List setxm = listJg.stream().map(ZjkChoice::getXmId).distinct().collect(Collectors.toList());
+            request.setAttribute("jgCount", setjg.size());
+            request.setAttribute("xmCount", setxm.size());
+        }
+        return "stp/expert/expertDetailLeader";
+    }
+    /**
      * 成果信息分页查询
      *
      * @param param
@@ -851,6 +923,34 @@ public class ExpertController extends BaseController {
         return "/stp/expert/zjkPatentListPublic_count";
     }
 
+    /**
+     * 获取专家统计-课题
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkOutProjectListPublicCount")
+    public String zjkOutProjectListPublicCount() throws Exception {
+        String id = request.getParameter("expertId");
+        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
+        ZjkExpert news = responseEntity.getBody();
+        request.setAttribute("expertName",news.getExpertName());
+        return "/stp/expert/zjkOutProjectListPublicCount";
+    }
+
+
+    /**
+     * 获取专家统计-奖励
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkOutRewardListPublicCount")
+    public String zjkOutRewardListPublicCount() throws Exception {
+        String id = request.getParameter("expertId");
+        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
+        ZjkExpert news = responseEntity.getBody();
+        request.setAttribute("expertName",news.getExpertName());
+        return "/stp/expert/zjkOutRewardListPublicCount";
+    }
 
     @RequestMapping(value = "/zjkOutProjectList_tfc")
     public String zjkOutProjectList_tfc() throws Exception {

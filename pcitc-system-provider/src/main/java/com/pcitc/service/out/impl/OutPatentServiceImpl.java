@@ -269,6 +269,7 @@ public class OutPatentServiceImpl implements OutPatentService {
         }
 
 
+        example.setOrderByClause("sqri desc");
 //        criteria.andDlrLike("%"+strName+"%");
         List<OutPatent> list = outPatentMapper.selectByExample(example);
         // 2、获取分页查询后的数据
