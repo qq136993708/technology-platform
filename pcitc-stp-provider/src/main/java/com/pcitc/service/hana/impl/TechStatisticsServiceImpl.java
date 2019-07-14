@@ -2,6 +2,7 @@ package com.pcitc.service.hana.impl;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -230,9 +231,28 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 	
 	public TechOrgCount selectTechOrgCount(String id) throws Exception
 	{
-		return techOrgCountMapper.selectByPrimaryKey(id);
+		TechOrgCount techOrgCount= techOrgCountMapper.selectByPrimaryKey(id);
+		Map map =new HashMap();
+		map.put("parentId", techOrgCount.getId());
+		List childList=techOrgCountMapper.getList(map);
+		if(childList!=null)
+		{
+			techOrgCount.setChildList(childList);
+		}
+		return techOrgCount;
 	}
-
+	public TechOrgCount getTechOrgCount(String id) throws Exception
+	{
+		TechOrgCount techOrgCount= techOrgCountMapper.selectByPrimaryKey(id);
+		Map map =new HashMap();
+		map.put("parentId", techOrgCount.getId());
+		List childList=techOrgCountMapper.getList(map);
+		if(childList!=null)
+		{
+			techOrgCount.setChildList(childList);
+		}
+		return techOrgCount;
+	}
 	public Integer updateTechOrgCount(TechOrgCount record)throws Exception
 	{
 		return techOrgCountMapper.updateByPrimaryKey(record);
@@ -295,46 +315,46 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		Object achievementsPrivanceCount=getFieldSumByFieldName(list, "achievementsPrivanceCount");
 		Object deviceInnnerAssets=getFieldSumByFieldName(list, "deviceInnnerAssets");
 		
-		
-		totalToc.setThesisEiInnerCount(Integer.parseInt((String)thesisEiInnerCount));
-		totalToc.setThesisSciInnerCount(Integer.parseInt((String)thesisSciInnerCount));
-		totalToc.setAchievementsCompanyCount(Integer.parseInt((String)achievementsCompanyCount));
-		totalToc.setAchievementsCompanyCount(Integer.parseInt((String)achievementsCompanyCount));
-		totalToc.setAchievementsCountryCount(Integer.parseInt((String)achievementsCountryCount));
-		totalToc.setAllPatentCount(Integer.parseInt((String)allPatentCount));
+		System.out.println(">>>>>>>>>>>thesisEiInnerCount="+thesisEiInnerCount);
+		totalToc.setThesisEiInnerCount((Integer)thesisEiInnerCount);
+		totalToc.setThesisSciInnerCount((Integer)thesisSciInnerCount);
+		totalToc.setAchievementsCompanyCount((Integer)achievementsCompanyCount);
+		totalToc.setAchievementsCompanyCount((Integer)achievementsCompanyCount);
+		totalToc.setAchievementsCountryCount((Integer)achievementsCountryCount);
+		totalToc.setAllPatentCount((Integer)allPatentCount);
 		totalToc.setAssetsTotal(new BigDecimal((String)assetsTotal));
-		totalToc.setAssistResearcherCount(Integer.parseInt((String)assistResearcherCount));
+		totalToc.setAssistResearcherCount((Integer)assistResearcherCount);
 		totalToc.setCountryInvestCost(new BigDecimal((String)countryInvestCost));
-		totalToc.setCurrentPatentLookCount(Integer.parseInt((String)currentPatentLookCount));
-		totalToc.setCurrentYearPatentCount(Integer.parseInt((String)currentYearPatentCount));
-		totalToc.setAchievementsCompanyCount(Integer.parseInt((String)achievementsCompanyCount));
+		totalToc.setCurrentPatentLookCount((Integer)currentPatentLookCount);
+		totalToc.setCurrentYearPatentCount((Integer)currentYearPatentCount);
+		totalToc.setAchievementsCompanyCount((Integer)achievementsCompanyCount);
 		totalToc.setDeviceAssets(new BigDecimal((String)deviceAssets));
-		totalToc.setDiplomaDoctorCount(Integer.parseInt((String)diplomaDoctorCount));
-		totalToc.setDiplomaUndergraduateCount(Integer.parseInt((String)diplomaUndergraduateCount));
-		totalToc.setDiplomaMasterCount(Integer.parseInt((String)diplomaMasterCount));
-		totalToc.setDirectResearcherCount(Integer.parseInt((String)directResearcherCount));
-		totalToc.setFemaleCount(Integer.parseInt((String)femaleCount));
+		totalToc.setDiplomaDoctorCount((Integer)diplomaDoctorCount);
+		totalToc.setDiplomaUndergraduateCount((Integer)diplomaUndergraduateCount);
+		totalToc.setDiplomaMasterCount((Integer)diplomaMasterCount);
+		totalToc.setDirectResearcherCount((Integer)directResearcherCount);
+		totalToc.setFemaleCount((Integer)femaleCount);
 		totalToc.setFixedAssets(new BigDecimal((String)fixedAssets));
 		totalToc.setGroupInvestCost(new BigDecimal((String)groupInvestCost));
 		totalToc.setOutInvestCost(new BigDecimal((String)outInvestCost));
-		totalToc.setResearcherCount(Integer.parseInt((String)researcherCount));
-		totalToc.setThesisAllCount(Integer.parseInt((String)thesisAllCount));
-		totalToc.setThesisEiCount(Integer.parseInt((String)thesisEiCount));
-		totalToc.setThesisIsrCount(Integer.parseInt((String)thesisIsrCount));
-		totalToc.setThesisIstpCount(Integer.parseInt((String)thesisIstpCount));
-		totalToc.setThesisSciCount(Integer.parseInt((String)thesisSciCount));
-		totalToc.setTitleLowerCount(Integer.parseInt((String)titleLowerCount));
-		totalToc.setTitleMiddleCount(Integer.parseInt((String)titleMiddleCount));
-		totalToc.setTitleSeniorCount(Integer.parseInt((String)titleSeniorCount));
+		totalToc.setResearcherCount((Integer)researcherCount);
+		totalToc.setThesisAllCount((Integer)thesisAllCount);
+		totalToc.setThesisEiCount((Integer)thesisEiCount);
+		totalToc.setThesisIsrCount((Integer)thesisIsrCount);
+		totalToc.setThesisIstpCount((Integer)thesisIstpCount);
+		totalToc.setThesisSciCount((Integer)thesisSciCount);
+		totalToc.setTitleLowerCount((Integer)titleLowerCount);
+		totalToc.setTitleMiddleCount((Integer)titleMiddleCount);
+		totalToc.setTitleSeniorCount((Integer)titleSeniorCount);
 		totalToc.setTotaIncome(new BigDecimal((String)totaIncome));
 		totalToc.setAssetsTotal(new BigDecimal((String)assetsTotal));
 		totalToc.setWorkerSalary(new BigDecimal((String)workerSalary));
-		totalToc.setWorkersCount(Integer.parseInt((String)workersCount));
-		totalToc.setSpecialistCountryCount(Integer.parseInt((String)specialistCountryCount));
-		totalToc.setSpecialistProvinceCount(Integer.parseInt((String)specialistProvinceCount));
+		totalToc.setWorkersCount((Integer)workersCount);
+		totalToc.setSpecialistCountryCount((Integer)specialistCountryCount);
+		totalToc.setSpecialistProvinceCount((Integer)specialistProvinceCount);
 		totalToc.setSubInvestCost(new BigDecimal((String)subInvestCost));
-		totalToc.setAllPatentLookCount(Integer.parseInt((String)allPatentLookCount));
-		totalToc.setAchievementsPrivanceCount(Integer.parseInt((String)achievementsPrivanceCount));
+		totalToc.setAllPatentLookCount((Integer)allPatentLookCount);
+		totalToc.setAchievementsPrivanceCount((Integer)achievementsPrivanceCount);
 		totalToc.setDeviceInnnerAssets(new BigDecimal((String)deviceInnnerAssets));
 		return totalToc;
 		
@@ -361,7 +381,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 				String str = field.getName();
 				if (str.equals(fieldName)) 
 				{
-					System.out.println(">>>>>>>>>>>>>"+field.getName()+">>>>>>字段类型 "+field.getGenericType().toString());
+					//System.out.println(">>>>>>>>>>>>>"+field.getName()+">>>>>>字段类型 "+field.getGenericType().toString());
 					// 获取原来的访问控制权限
 					boolean accessFlag = field.isAccessible();
 					if (!field.isAccessible())
@@ -379,7 +399,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 					{
 						BigDecimal	reultBigDecimal = (BigDecimal) field.get(entity);
 						field.setAccessible(accessFlag);
-						System.out.println(">>>>>>>>>>>fieldName="+fieldName+" 值 ："+reultBigDecimal.doubleValue());
+						System.out.println(">>>>>>>>>>>fieldName="+fieldName+" 值 ："+reultBigDecimal.toString());
 						countBigDecimal=countBigDecimal.add(reultBigDecimal);
 					}
 					
@@ -406,17 +426,20 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		
 		String subTechOrgStr=headTOrg.getSubTechOrgStr();
 		List<TechOrgCount> list =null;
+		List<String> ids =new ArrayList<String>();
 		if(!subTechOrgStr.equals(""))
 		{
 			JSONArray tableData = JSONArray.parseArray(subTechOrgStr);
 			list = JSONObject.parseArray(tableData.toJSONString(), TechOrgCount.class);
-			TechOrgCount head=getTechOrgCountSum(list,headTOrg);
-			techOrgCountMapper.insert(head);
+			//TechOrgCount head=getTechOrgCountSum(list,headTOrg);
+			//head.setWriteType("1");
+			//techOrgCountMapper.insert(head);
 			//List<TechOrgCount> list = JSONObject.parseArray(subTechOrgStr,TechOrgCount.class);
+			//保存子表
 			for(int i=0;i<list.size();i++)
 			{
 				TechOrgCount subTechOrg=list.get(i);
-				subTechOrg.setWriteType("2");
+				subTechOrg.setWriteType("3");
 				subTechOrg.setCreateUserId(headTOrg.getCreateUserId());
 				subTechOrg.setCreateUserName(headTOrg.getCreateUserName());
 				subTechOrg.setYear(headTOrg.getYear());
@@ -430,15 +453,40 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 				subTechOrg.setType(headTOrg.getType());
 				subTechOrg.setCreateDate(new Date());
 				String idv = UUID.randomUUID().toString().replaceAll("-", "");
+				ids.add(idv);
 				subTechOrg.setId(idv); 
 				subTechOrg.setAuditStatus(headTOrg.getAuditStatus());
 				subTechOrg.setParentId(headTOrg.getId());
 				techOrgCountMapper.insert(subTechOrg);
 			}
+			//根据子表统计后得到-》保存主表
+			TechOrgCount headTechOrgCount=techOrgCountMapper.getChildSumByIds(ids);
+			headTechOrgCount.setWriteType("2");
+			headTechOrgCount.setCreateUserId(headTOrg.getCreateUserId());
+			headTechOrgCount.setCreateUserName(headTOrg.getCreateUserName());
+			headTechOrgCount.setYear(headTOrg.getYear());
+			headTechOrgCount.setAttachmentDoc(headTOrg.getAttachmentDoc());
+			headTechOrgCount.setParentUnitCode(headTOrg.getParentUnitCode()); 
+			headTechOrgCount.setParentUnitName(headTOrg.getParentUnitName());
+			headTechOrgCount.setChargeDepartMan(headTOrg.getChargeDepartMan());
+			headTechOrgCount.setCreateUserMobile(headTOrg.getCreateUserMobile());
+			headTechOrgCount.setNotes(headTOrg.getNotes());
+			headTechOrgCount.setTechChargeMan(headTOrg.getTechChargeMan());
+			headTechOrgCount.setType(headTOrg.getType());
+			headTechOrgCount.setUnitCode(headTOrg.getUnitCode());
+			headTechOrgCount.setUnitName(headTOrg.getUnitName());
+			headTechOrgCount.setId(headTOrg.getId());
+			headTechOrgCount.setCreateDate(new Date());
+			headTechOrgCount.setAuditStatus(Constant.AUDIT_STATUS_DRAFT);
+			techOrgCountMapper.insert(headTechOrgCount);
+			
 		}
 		return 0;
 	}
-	
+	public TechOrgCount getChildSumByIds(List list)throws Exception
+	{
+		return techOrgCountMapper.getChildSumByIds(list);
+	}
 	public LayuiTableData getTechOrgCountPage(LayuiTableParam param)throws Exception
 	{
 		

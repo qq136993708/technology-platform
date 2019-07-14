@@ -588,7 +588,7 @@ public class TechStatisticsController extends BaseController{
 		request.setAttribute("unitName", unitName);
 		request.setAttribute("unitCode", unitCode);
 		request.setAttribute("allUnitName", unitName);
-		return "/stp/hana/techStatistics/org_add";
+		return "/stp/hana/techStatistics/org_add_new";
 	}
 
 	/**
@@ -862,8 +862,6 @@ public class TechStatisticsController extends BaseController{
 		techOrgCount.setUnitName(unitName);
 		techOrgCount.setSubTechOrgStr(subTechOrgStr);
 		
-		
-		
 		// 判断是新增还是修改
 		if (id.equals("")) {
 			responseEntity = this.restTemplate.exchange(ADD_ORG_BATCH_URL, HttpMethod.POST, new HttpEntity<TechOrgCount>(techOrgCount, this.httpHeaders), String.class);
@@ -942,7 +940,15 @@ public class TechStatisticsController extends BaseController{
 		logger.info("============远程返回  statusCode " + statusCode);
 		TechOrgCount techOrgCount = responseEntity.getBody();
 		request.setAttribute("techOrgCount", techOrgCount);
-		return "/stp/hana/techStatistics/org_view";
+		List list=techOrgCount.getChildList();
+		if(list!=null && list.size()>0)
+		{
+			return "/stp/hana/techStatistics/org_view_child";
+		}else
+		{
+			return "/stp/hana/techStatistics/org_view";
+		}
+		
 	}
 	
 	

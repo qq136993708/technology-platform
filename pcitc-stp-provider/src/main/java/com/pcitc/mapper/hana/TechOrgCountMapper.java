@@ -25,4 +25,8 @@ public interface TechOrgCountMapper {
     int  getStatisticsCount(Map map);
     
     
+    TechOrgCount getChildSumByIds(List list);
+    
+    
+    
 }

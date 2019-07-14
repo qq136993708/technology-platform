@@ -1,7 +1,9 @@
 package com.pcitc.base.stp.report;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class TechOrgCount {
     private String id;
@@ -106,10 +108,16 @@ public class TechOrgCount {
     private String parentId;
     private String subTechOrgStr;
     
+    private List<TechOrgCount>  childList=new ArrayList<TechOrgCount>();
     
     
     
-    
+	public List<TechOrgCount> getChildList() {
+		return childList;
+	}
+	public void setChildList(List<TechOrgCount> childList) {
+		this.childList = childList;
+	}
 	public String getSubTechOrgStr() {
 		return subTechOrgStr;
 	}

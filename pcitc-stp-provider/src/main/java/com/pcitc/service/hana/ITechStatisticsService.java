@@ -1,5 +1,6 @@
 package com.pcitc.service.hana;
 
+import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONArray;
@@ -61,5 +62,10 @@ public interface ITechStatisticsService {
 	//带总计的 分页
 	public LayuiTableData getTechOrgCountStatisticsPage(LayuiTableParam param)throws Exception;
 	
-
+	public TechOrgCount getChildSumByIds(List list)throws Exception;
+	
+	
+	
+	public TechOrgCount getTechOrgCount(String id) throws Exception;
+	
 }

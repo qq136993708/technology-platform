@@ -198,13 +198,19 @@ layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate
            		     
            		  var unitName=selectRowData.unitName;
            		  var auditStatus=selectRowData.auditStatus;
+           		  var writeType=selectRowData.writeType;
         		  if(auditStatus!=='0')
        			  {
         			   layer.alert('请选择未上报的行');
         			    return;
        			  }
+        		  if(writeType=='3')
+       			  {
+        			   layer.alert('请选择总公司一起起修改');
+        			   return;
+       			  }
         		  
-        		  var title="股份科研机构填报";
+        	    var title="股份科研机构填报";
               	if(type=='2')
               	{
               		title="集团科研机构填报";
