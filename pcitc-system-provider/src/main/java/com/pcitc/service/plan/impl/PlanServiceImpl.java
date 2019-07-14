@@ -240,7 +240,11 @@ public class PlanServiceImpl implements PlanService {
 
 					planBase.setWorkOrderAllotUserId(listIn.get(0).getWorkOrderAllotUserId());
 					planBase.setWorkOrderAllotUserName(listIn.get(0).getWorkOrderAllotUserName());
-
+					
+					planBase.setIsSchedule(listIn.get(0).getIsSchedule());
+					planBase.setScheduleDate(listIn.get(0).getScheduleDate());
+					planBase.setScheduleType(listIn.get(0).getScheduleType());
+					
 					planBaseMapper.updateByPrimaryKey(planBase);
 					list.remove(index);
 				} else {
@@ -401,6 +405,11 @@ public class PlanServiceImpl implements PlanService {
 		
 		if (param.getParam().get("endTime") != null && !"".equals(param.getParam().get("endTime"))) {
 			c.andCreateDateLessThan(param.getParam().get("endTime") + " 23:59:59");
+		}
+		
+		String isSchedule = (String) param.getParam().get("isSchedule");
+		if (isSchedule != null && !"".equals(isSchedule)) {
+			c.andIsScheduleEqualTo(isSchedule);
 		}
 		
 		// 2、执行查询

@@ -152,7 +152,7 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label class="layui-form-label">
-									类型
+									紧急程度
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
@@ -162,6 +162,29 @@
 						</div>
 					</div>
 
+					<div class="layui-row">
+						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+								<label class="layui-form-label">
+									固定种类工作
+								</label>
+								<div class="layui-input-block">
+									<select id="scheduleType" name="scheduleType" lay-filter="select_filter" lay-search></select>
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+								<label class="layui-form-label">
+									定时安排时间
+								</label>
+								<div class="layui-input-block">
+									<input class="layui-input" id="scheduleDate" name="scheduleDate" lay-verify="required" type="text">
+								</div>
+							</div>
+						</div>
+					</div>
+					
 					<div class="layui-form-item layui-form-text">
 						<label class="layui-form-label">任务描述</label>
 						<div class="layui-input-block">
@@ -244,9 +267,14 @@
 				type : 'datetime',
 				value : new Date()
 			});
+			
+			laydate.render({
+				elem : '#scheduleDate',
+				type : 'datetime'
+			});
 
-			// 防止重置时清空
 			$("#createDate").attr("value", $("#createDate").val());
+			$("#scheduleDate").attr("value", $("#scheduleDate").val());
 
 			$(document).on("click", ".layui-select-title", function() {
 				if ($(this).next().css("display") == "none") {
@@ -279,6 +307,19 @@
 					form.render();
 				}
 			});
+			
+			$.ajax({
+				url : '/pageCommon/dic/ROOT_XTGL_GZRWDSZL',
+				dataType : 'json',
+				type : 'post',
+				success : function(data) {
+					$('#scheduleType').append(new Option('--可设置定时工作任务--', ''));
+					$.each(data, function(index, item) {
+						$('#scheduleType').append(new Option(item.name, item.code));//往下拉菜单里添加元素
+					})
+					form.render();
+				}
+			});
 
 			//默认任务编码
 			publicMethods.ajaxPost('/project/project-code', null, function(data, status) {
@@ -296,7 +337,7 @@
 			form.on('submit(save)', function(data) {
 				var sthTrArr = [];
 				var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
-				if(!$(matterLength).find("td").attr("data-off")==1){
+				if (!$(matterLength).find("td").attr("data-off") == 1) {
 					$(matterLength).each(function() {
 						var sthTrObj = {};
 						sthTrObj.dataId = $(this).find("td").eq(2).text();
@@ -353,7 +394,7 @@
 				var sthTrArr = [];
 				var matterLength = $("#matterTableDiv  .layui-table-main table tbody tr");
 				var matterFlag = "1";
-				if(!$(matterLength).find("td").attr("data-off")==1) {
+				if (!$(matterLength).find("td").attr("data-off") == 1) {
 					$(matterLength).each(function() {
 						var sthTrObj = {};
 						sthTrObj.dataId = $(this).find("td").eq(2).text();
@@ -399,7 +440,7 @@
 						}
 					});
 				});
-				
+
 				return false;
 			});
 			//关闭事件
