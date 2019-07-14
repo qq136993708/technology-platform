@@ -653,7 +653,7 @@
 			</if>
 	</select>
 
-	<select id="getResultInfo" resultType="java.util.Map" parameterType="java.lang.String">
+	<select id="getResultInfo" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select tableA.*
 		from sys_dictionary left join (
 								select count(DISTINCT jdh) as mscount, 
@@ -664,6 +664,9 @@
 									<if test="_parameter != null">
 										and nd = #{nd,jdbcType=VARCHAR}
 									</if>
+									<if test="define3 != null and define3 != ''">
+										and define3 like '%${define3}%'
+									</if>
 								group by jdjg
 							) as tableA ON (sys_dictionary.name = tableA.ms)
 		where 
@@ -671,7 +674,7 @@
 		order by isdelete
 	</select>
 
-	<select id="getResultInfoByType" resultType="java.util.Map" parameterType="java.lang.String">
+	<select id="getResultInfoByType" resultType="java.util.Map" parameterType="java.util.HashMap">
 		 select
 			sum(case when jdjg = '国内先进' then 1 else 0 end) as gnxjcount,
 			sum(case when jdjg = '国内领先' then 1 else 0 end) as gnlxcount,
@@ -689,13 +692,16 @@
 				<if test="_parameter != null">
 					and nd = #{nd,jdbcType=VARCHAR}
 				</if>
+				<if test="define3 != null and define3 != ''">
+					and define3 like '%${define3}%'
+				</if>
 				GROUP BY jdh,cglx
 			) as tableA
 			group by cglx
 	    ORDER BY cglx
 	</select>
 
-	<select id="getResultInfoByZy" resultType="java.util.Map" parameterType="java.lang.String">
+	<select id="getResultInfoByZy" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select tableA.*
 		from sys_dictionary left join (
 								select
@@ -718,6 +724,9 @@
 										define3 not like '%外部单位%'
 										<if test="_parameter != null">
 											and nd = #{nd,jdbcType=VARCHAR}
+										</if>
+										<if test="define3 != null and define3 != ''">
+											and define3 like '%${define3}%'
 										</if>
 										GROUP BY jdh,zy
 									) as tableA
@@ -766,6 +775,9 @@
 					<if test="define1 != null and define1 != ''">
 						and define1 is not null
 					</if>
+					<if test="define3 != null and define3 != ''">
+						and define3 like '%${define3}%'
+					</if>
 			  	GROUP BY jdh,cglx
 			) as tableA
 		group by cglx
@@ -785,6 +797,9 @@
 				from out_appraisal
 				where 
 					define3 not like '%外部单位%'
+					<if test="define3 != null and define3 != ''">
+						and define3 like '%${define3}%'
+					</if>
 				group by zy,nd) as tableA
 			group by tableA.zy
 		) as tableB ON (sys_dictionary.name = tableB.zy)
@@ -802,6 +817,9 @@
 			<if test="define1 != null and define1 != ''">
 				and define1 like '%院'
 			</if>
+			<if test="define3 != null and define3 != ''">
+				and define3 like '%${define3}%'
+			</if>
 		group by zy
 		order by zy
 	</select>
@@ -815,6 +833,9 @@
 					from out_appraisal
 					where 
 						nd='${nd}' and define3 not like '%外部单位%'
+						<if test="define3 != null and define3 != ''">
+							and define3 like '%${define3}%'
+						</if>
 					group by define3
 		) as tableA on (sys_dictionary.name = tableA.define3)
 		where 

@@ -180,19 +180,7 @@
 							</p>
 							<div>
 								<ul id="wait_work_id_list">
-
-									<!-- <li><span class="date">04/01</span><span class="time">09：00</span><span class="content">项目组组建</span></li>
-                                <li><span class="date">03/28</span>
-                                    <span class="time">09：00</span>
-                                    <span class="content">组内工作安排</span></li>
-                                <li><span class="date">03/26</span>
-                                    <span class="time">09：00</span>
-                                    <span class="content">复查工作进度</span></li>
-                                <li><span class="date">03/26</span>
-                                    <span class="time">09：00</span>
-                                    <span class="content">复查工作进度</span></li> -->
-								</ul>
-								<a lay-href="/task/pending/list/ini" lay-text="我的待办">更多... ...</a>
+									<a lay-href="/task/pending/list/ini" lay-text="我的待办">更多... ...</a>
 							</div>
 						</div>
 					</div>
@@ -402,7 +390,6 @@
 					<div class="layui-card-header">
 						<p>研究院动态</p>
 						<div class="layui-tool">
-							<!--<button type="button" class="btn btn-tool collapse"></button>-->
 							<button type="button" class="btn btn-tool collapse"></button>
 						</div>
 					</div>
@@ -630,8 +617,7 @@
 					});
 
 					$("#achievement").on("click", function() {
-						parent.layui.index.openTabsPage("/direct/achievement?userLevel=0", "科技成果");
-						//parent.layui.index.openTabsPage("/home_achievement/award_level2", "科技成果");
+						parent.layui.index.openTabsPage("/home_achievement/zyc/achievement", "科技成果");
 					});
 
 					$("#report_intl_project_main").on("click", function() {
@@ -706,8 +692,6 @@
 							thisWeekTotal = data.data.thisWeekTotal; // 本周安排出去的工作总数
 							thisWeekHaved = data.data.thisWeekHaved; // 本周安排出去已经完成的工作
 						}
-						//circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
-						//circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
 						if (lastWeekHaved == 0 && lastWeekTotal == 0) {
 							circle("circleOne", 0, lastWeekHaved + "/" + lastWeekTotal);
 						} else {
@@ -728,21 +712,6 @@
 					$("#circleTwo").click(function() {
 						$("#listPlanPage")[0].click();
 					});
-
-					/*$(".layui-table tbody tr").click(function () {
-					    layer.open({
-					        title: '任务计划-新增',
-					        skin: 'layui-layer-lan',
-					        shadeClose: false,
-					        type: 2,
-					        fixed: false,
-					        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-					        maxmin: true,
-					        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-					        area: ['80%', '90%'],
-					        content: '/layui/taskView.html'
-					    });
-					});*/
 				});
 				function circle(id, value, number) {
 					$("#" + id).circleProgress({
@@ -912,7 +881,7 @@
 
 					$.ajax({
 						type : 'POST',
-						url : "/admin/appraisal-count?define3=研究院&nd=" + nd,
+						url : "/admin/appraisal-count?nd=" + nd,
 						dataType : 'json',
 						headers : {
 							'Content-Type' : 'application/json'

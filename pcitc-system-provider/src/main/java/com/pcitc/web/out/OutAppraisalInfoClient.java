@@ -83,8 +83,7 @@ public class OutAppraisalInfoClient {
 	@RequestMapping(value = "/out-appraisal-provider/result-count", method = RequestMethod.POST)
 	public JSONArray getAppraisalResultCount(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getAppraisalResultCount===========================" + map);
-		String nd = map.get("nd");
-		List temList = outAppraisalService.getResultInfo(nd);
+		List temList = outAppraisalService.getResultInfo(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
@@ -93,8 +92,7 @@ public class OutAppraisalInfoClient {
 	@RequestMapping(value = "/out-appraisal-provider/type/result-count", method = RequestMethod.POST)
 	public JSONArray getAppraisalResultCountByType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getAppraisalResultCount===========================" + map);
-		String nd = map.get("nd");
-		List temList = outAppraisalService.getResultInfoByType(nd);
+		List temList = outAppraisalService.getResultInfoByType(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
@@ -103,8 +101,7 @@ public class OutAppraisalInfoClient {
 	@RequestMapping(value = "/out-appraisal-provider/zy/result-count", method = RequestMethod.POST)
 	public JSONArray getAppraisalResultCountByZy(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getAppraisalResultCount===========================" + map);
-		String nd = map.get("nd");
-		List temList = outAppraisalService.getResultInfoByZy(nd);
+		List temList = outAppraisalService.getResultInfoByZy(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
