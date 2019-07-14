@@ -15,7 +15,7 @@
         .layui-tab-content p {
             text-indent: 2em;
         }
-        .layui-tab-title li{padding: 0 10px;}
+        .layui-tab-title li{padding: 0 20px;}
         .layui-tab-title .red{    background: #ed4e5a;
             position: absolute;
             color: white;
@@ -25,6 +25,7 @@
             line-height: 18px;
             border-radius: 12px;
             font-size: 12px;}
+        .layui-expert{border: 0;border-top: 5px solid #1990ff;}
     </style>
 </head>
 <body>
@@ -81,7 +82,6 @@
                         <li lay-id="33">成果信息<span class="red" id="cgCountShow">0</span></li>
                         <li lay-id="44">专利信息<span class="red" id="zlCountShow">0</span></li>
                         <li lay-id="44">奖励信息<span class="red" id="cgRewardShow">0</span></li>
-                        <li lay-id="44" onclick="showExpertDetail('${zjkBaseInfo.dataId}')">专家详情</li>
                     </ul>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
@@ -101,8 +101,6 @@
                         </div>
                         <div class="layui-tab-item">
                             <table id="showTableAward" class="layui-table" lay-filter="tableDataAward"></table>
-                        </div>
-                        <div class="layui-tab-item">
                         </div>
                     </div>
                 </div>
@@ -124,7 +122,7 @@
                     <span class="border-span"></span>参与项目评审统计
                 </div>
                 <div class="layui-row-main">
-                    <div class="main-chart" id="two" style="height:250px;width: 100%;"></div>
+                    <div class="main-chart" id="two" style="height:320px;width: 100%;"></div>
                 </div>
             </div>
         </div>
@@ -134,7 +132,7 @@
                     <span class="border-span"></span>专家画像
                 </div>
                 <div class="layui-row-main">
-                    <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
+                    <div class="main-chart" id="five" style="height:320px;width: 100%;"></div>
                 </div>
             </div>
         </div>
