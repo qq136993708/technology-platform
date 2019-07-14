@@ -83,6 +83,7 @@ public class SysFileConfigServiceImpl implements SysFileConfigService {
     public SysFileConfig selectByPrimaryKey(String menuId) {
         SysFileConfig sysFileConfig = sysFileConfigMapper.selectByPrimaryKey(menuId);
         if (sysFileConfig==null){
+            sysFileConfig = new SysFileConfig();
             sysFileConfig.setId(menuId);
             sysFileConfig.setMenuId(menuId);
             sysFileConfig.setFileCount("10");
