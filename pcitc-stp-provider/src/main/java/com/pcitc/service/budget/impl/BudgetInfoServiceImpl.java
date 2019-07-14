@@ -544,7 +544,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			}
 			list = budgetMoneyDecomposeMapper.selectByExample(example);
 		}
-		
+		System.out.println("JSON..list.."+JSON.toJSONString(list));
 		//table_data.push({"index": i,"no":d.no,"organName":d.organName,"group_total":d.group_total,"group_jz":d.group_jz,"group_xq":d.group_xq,"asset_total":0,"asset_jz":0,"asset_xq":0,"stock_total":0,"stock_jz":0,"stock_xq":0,"total":0,"jz":0,"xq":0});
 		if(BudgetInfoEnum.GROUP_SPLIT.getCode().equals(info.getBudgetType())) 
 		{
@@ -557,6 +557,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 				budget.setJtyshxq(dToI(groupsplit.get(i).get("group_xq")));//新签
 				budget.setJtyshjys(dToI(groupsplit.get(i).get("group_total")));
 			}
+			System.out.println("JSON..groupsplit.."+JSON.toJSONString(groupsplit));
 		}else if(BudgetInfoEnum.ASSET_SPLIT.getCode().equals(info.getBudgetType())) 
 		{
 			//资产汇总
@@ -567,6 +568,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 				budget.setZcyshjxq(dToI(assetsplit.get(i).get("asset_xq")));
 				budget.setZcyshjys(dToI(assetsplit.get(i).get("asset_total")));
 			}
+			System.out.println("JSON..assetsplit.."+JSON.toJSONString(assetsplit));
 		}else if (BudgetInfoEnum.STOCK_XTY_SPLIT.getCode().equals(info.getBudgetType()) || BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode().equals(info.getBudgetType()) || BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode().equals(info.getBudgetType())) 
 		{
 			//股份汇总
