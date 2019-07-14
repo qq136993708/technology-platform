@@ -25,7 +25,7 @@ public enum BudgetStockEnum
 	SPLIT_STOCK_YK(305,"GFFYK","ROOT_ZGSHJT_GFGS_SHYK","盈科"),
 	SPLIT_STOCK_XSD(306,"GFFXSD","ROOT_ZGSHJT_GFGS_XSDYFZX","休斯顿研发中心"),
 	SPLIT_STOCK_ZD(307,"GFFZD","ROOT_ZGSHJT_GFGS_ZDYFZX","中东研发中心"),
-	SPLIT_STOCK_MYSGZS(308,"GFFZD","ROOT_ZGSHJT_GFGS_ZDYFZX","马永生工作室");			
+	SPLIT_STOCK_MYSGZS(308,"MYSGZS","ROOT_ZGSHJT_GFGS_ZDYFZX","马永生工作室");			
 	
 	//股份公司分类
 	public static List<BudgetStockEnum> getStockSplitTypes()

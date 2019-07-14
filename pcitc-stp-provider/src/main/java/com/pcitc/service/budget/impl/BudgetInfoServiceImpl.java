@@ -25,6 +25,7 @@ import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetOrganEnum;
 import com.pcitc.base.common.enums.BudgetOrganNdEnum;
+import com.pcitc.base.common.enums.BudgetStockEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
@@ -647,6 +648,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 				t.setShowIndex(b.getLevel()==0?b.getNo().toString():"");
 				t.setTypeName("gfgs");
 				t.setSheetFlag(info.getNd()+"年预算总表");
+				t.setUnitCode(BudgetStockEnum.getByCode(b.getDisplayCode())!=null?BudgetStockEnum.getByCode(b.getDisplayCode()).getUnitCode():null);
 				if(b.getLevel()==0) {
 					xmjfZbx += b.getXmjfZbx().intValue();
 					xmjfFyx += b.getXmjfFyx().intValue();
