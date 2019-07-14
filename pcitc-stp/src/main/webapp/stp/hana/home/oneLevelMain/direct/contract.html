@@ -96,7 +96,9 @@
 							年直属研究院课题合同（任务书）数量占比
 						</div>
 						<div class="layui-card-body btn-function">
-							<table id="processdef_table" class="layui-hide" lay-filter="processdef_table"></table>
+							<div class="processdef_table">
+								<table id="processdef_table" class="layui-hide" lay-filter="processdef_table"></table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -141,7 +143,9 @@
 							年直属研究院课题合同（任务书）数量占比
 						</div>
 						<div class="layui-card-body btn-function">
-							<table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
+							<div id="processdef_tableN">
+								<table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -371,12 +375,14 @@
 				} ] ],
 				isPage : false,
 				done : function(res, curr, count) {
-					$("tr").each(function() {
-						if ($(this).attr("u_id") == "9990" || $(this).attr("u_id") == "9991") {
-							$(this).click(function() {
-								//alert("1111")
-							});
+					$('.processdef_table .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function(e) {
+                        var index = parseInt($(this).index() + 1);
+                        var selectRowData = res.data[index - 1];
+					    if($(this).find(".layui-icon").length<=0){
+                            var url = encodeURIComponent("/one_level_main/common_table?define2=" + selectRowData.define2 + "&nd=" + nd + "&ysnd=" + nd + "&groupFlag=xmid,define8");
+                            window.open("/instituteIndex?url=" + url);
 						}
+
 					});
 				},
 				parseData : function(res) {
@@ -441,7 +447,7 @@
 				done : function(res, curr, count) {
 					layer.closeAll('loading');
 					// 点击行联动选择框--单选
-					$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+					$('#processdef_tableN .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
 						var index = parseInt($(this).index() + 1);
 						$('tr').removeClass('layui-table-click');
 						$(this).addClass('layui-table-click');
