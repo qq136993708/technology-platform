@@ -3254,23 +3254,23 @@
 			</if>
 			<!-- 数据控制 -->
 			
-			<if test="groupFlag != null and groupFlag != ''">
-				<if test="groupFlag != null and groupFlag != ''">
+			<if test="groupFlag != null">
+				<if test="groupFlag != ''">
 					GROUP BY ${groupFlag}
 				</if>
-				<if test="groupFlag == null or groupFlag == ''">
+				<if test="groupFlag == ''">
 					GROUP BY xmid
 				</if>
 			</if>
 			<if test="groupFlag == null">
 				GROUP BY xmid
 			</if>
-			<if test="orderKey != null and orderKey != ''">
-				<if test="orderType != null and orderType != ''">
+			<if test="orderKey != null">
+				<if test="orderType != ''">
 					order by ${orderKey} ${orderType}
 				</if>
-				<if test="orderType == null or orderType == ''">
-					order by ${orderKey} desc
+				<if test="orderType == ''">
+					order by out_project_info.hth desc, out_project_info.define10
 				</if>
 			</if>
 			<if test="orderKey == null">
