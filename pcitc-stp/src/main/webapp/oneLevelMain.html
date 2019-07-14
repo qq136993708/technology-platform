@@ -513,9 +513,10 @@
 
     //专利
     function patentCount() {
+    	alert(nd);
         $.ajax({
             type : 'POST',
-            url : "/admin/patent-count?nd=2018",
+            url : "/admin/patent-count?nd=" + nd,
             dataType : 'json',
             headers : {
                 'Content-Type' : 'application/json'

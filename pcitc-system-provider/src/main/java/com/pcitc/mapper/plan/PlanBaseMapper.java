@@ -20,24 +20,28 @@ public interface PlanBaseMapper {
 
     int insertSelective(PlanBase record);
 
+    List<PlanBase> selectByExampleWithBLOBs(PlanBaseExample example);
+
     List<PlanBase> selectByExample(PlanBaseExample example);
 
-    PlanBase selectByPrimaryKey(String menuId);
+    PlanBase selectByPrimaryKey(String dataId);
 
     int updateByExampleSelective(@Param("record") PlanBase record, @Param("example") PlanBaseExample example);
+
+    int updateByExampleWithBLOBs(@Param("record") PlanBase record, @Param("example") PlanBaseExample example);
 
     int updateByExample(@Param("record") PlanBase record, @Param("example") PlanBaseExample example);
 
     int updateByPrimaryKeySelective(PlanBase record);
 
-    int updateByPrimaryKey(PlanBase record);
-
     int updateByPrimaryKeyWithBLOBs(PlanBase record);
 
+    int updateByPrimaryKey(PlanBase record);
+    
     List<PlanBase> findPlanBaseByPage(Map<String, Object> map);
 
     List<PlanBase> findPlanBaseList(PlanBase record);
-
+    
     //add
     void deleteByIds(@Param("ids") List<String> ids);
 
