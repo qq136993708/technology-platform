@@ -65,9 +65,9 @@ public class HomeDeviceMsqlController extends BaseController{
 
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
-		String month = HanaUtil.getCurrrentYear_Moth();
+		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", year + "-" + month.substring(5));
 
 		return "stp/hana/home/level/zyc_equipment";

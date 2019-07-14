@@ -197,7 +197,7 @@ public class DirectController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 
 		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
@@ -627,7 +627,7 @@ public class DirectController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 
 		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
@@ -636,10 +636,8 @@ public class DirectController extends BaseController {
 	}
 
 	/**
-	 * ==========================================合同签订==========================
-	 * =========
+	 * ==========================专业处---合同签订率==========================
 	 */
-
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/contract")
 	public String contract(HttpServletRequest request) throws Exception {
 
@@ -648,7 +646,7 @@ public class DirectController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
 		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
@@ -1116,7 +1114,7 @@ public class DirectController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		
 		// 用户级别，暂定，通过这个控制用户看见全部，还是控制他看到的一部分
@@ -1551,9 +1549,9 @@ public class DirectController extends BaseController {
 
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
-		String month = HanaUtil.getCurrrentYear_Moth();
+		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", year + "-" + month.substring(5));
 
 		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
@@ -1856,7 +1854,7 @@ public class DirectController extends BaseController {
 	public String actualPay_detail(HttpServletRequest request) throws Exception {
 
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
-		String month = HanaUtil.getCurrrentYear_Moth();
+		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
 		String isdisplay = CommonUtil.getParameter(request, "isdisplay", "");
 		request.setAttribute("isdisplay", isdisplay);
@@ -1896,7 +1894,7 @@ public class DirectController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/zyc/investment")
 	public String actualPay(HttpServletRequest request) throws Exception {
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
 		request.setAttribute("userLevel", userLevel);

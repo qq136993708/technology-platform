@@ -104,9 +104,18 @@ public class TechOrgCount {
     private String writeType;
     
     private String parentId;
+    private String subTechOrgStr;
     
     
     
+    
+    
+	public String getSubTechOrgStr() {
+		return subTechOrgStr;
+	}
+	public void setSubTechOrgStr(String subTechOrgStr) {
+		this.subTechOrgStr = subTechOrgStr;
+	}
 	public String getParentId() {
 		return parentId;
 	}

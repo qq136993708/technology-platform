@@ -89,9 +89,21 @@
 		</label>
 
 		<label class="dateInput">
-			<span>项目年度</span>
-			<input type="text" name="nd" placeholder="请选择项目年度" title="项目年度" value="${nd}" autocomplete="off" class="form-control" id="nd">
+			<span>年度</span>
+			<input type="text" name="nd" placeholder="请选择年度" title="年度" value="${nd}" autocomplete="off" class="form-control" id="nd">
 		</label>
+
+		<label class="dateInput">
+			<span>分组类型</span>
+			<select name="groupFlagSelector" id="groupFlagSelector" class="form-control">
+				<option value="">---</option>
+				<option value="jdh"<#if groupFlag == 'jdh'>selected="selected"</#if> >按鉴定号分组</option>
+				<option value="jdh,zy"<#if groupFlag == 'jdh,zy'>selected="selected"</#if> >按鉴定号、专业</option>
+				<option value="jdh,sqjddw"<#if groupFlag == 'jdh,sqjddw'>selected="selected"</#if> >按鉴定号、机构</option>
+				<option value="jdh,cglx"<#if groupFlag == 'jdh,cglx'>selected="selected"</#if> >按鉴定号、成果类型</option>
+			</select>
+		</label>
+
 		<!--按钮组-->
 		<div class="btnGroup">
 			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="renderTable()">查询</button>
@@ -297,8 +309,8 @@
 								"define1" : costSelectedItem,
 								"define3" : instituteSelectedItem,
 								"cglx" : systemSelectedItem,
-								"zy" : specialtySelectedItem
-
+								"zy" : specialtySelectedItem,
+								"groupFlag" : $("#groupFlagSelector").find("option:selected").val()
 							}
 						},
 						limit : 15,

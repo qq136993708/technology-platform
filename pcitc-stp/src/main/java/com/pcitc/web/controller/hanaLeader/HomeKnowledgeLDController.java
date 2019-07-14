@@ -57,7 +57,7 @@ public class HomeKnowledgeLDController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/oneLevelMain/knowledge_level2";
 	}
@@ -91,7 +91,7 @@ public class HomeKnowledgeLDController extends BaseController {
 		 * request.setAttribute("G0XMZT_LIST", G0XMZT_LIST);
 		 */
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/direct_depart/knowledge_table";
 	}

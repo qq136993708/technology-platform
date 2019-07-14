@@ -48,21 +48,21 @@ public interface OutAppraisalMapper {
      * @return
      * 得到某个年度专利申请/授权数量按专利类型分组
      */
-    public List getResultInfo(String nd);
+    public List getResultInfo(HashMap<String, String> map);
     
     /**
      * @param nd
      * @return
      * 得到某个年度专利申请/授权数量按专利类型分组
      */
-    public List getResultInfoByType(String nd);
+    public List getResultInfoByType(HashMap<String, String> map);
     
     /**
      * @param nd
      * @return
      * 得到某个年度专利申请/授权数量按专利类型分组
      */
-    public List getResultInfoByZy(String nd);
+    public List getResultInfoByZy(HashMap<String, String> map);
     
     /**
      * 领导二级页面，各个研究院的成果情况, 每一行是一个院

@@ -227,7 +227,7 @@ public class AdminController extends BaseController {
 		if (rsUser.getUserLevel() != null && rsUser.getUserLevel() == 1 && cFlag == null) {
 			String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 			request.setAttribute("companyCode", companyCode);
-			String month = HanaUtil.getCurrrentYearMoth();
+			String month = HanaUtil.getCurrentYearMoth();
 			request.setAttribute("month", month);
 			return "/oneLevelMain";
 		} else {
@@ -478,7 +478,7 @@ public class AdminController extends BaseController {
 			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
 				String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 				request.setAttribute("companyCode", companyCode);
-				String month = HanaUtil.getCurrrentYearMoth();
+				String month = HanaUtil.getCurrentYearMoth();
 				request.setAttribute("month", month);
 				return "/oneLevelMain";// leaderIndex
 			} else {
@@ -545,7 +545,7 @@ public class AdminController extends BaseController {
 			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
 				String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 				request.setAttribute("companyCode", companyCode);
-				String month = HanaUtil.getCurrrentYearMoth();
+				String month = HanaUtil.getCurrentYearMoth();
 				request.setAttribute("month", month);
 				return "/oneLevelMain";// leaderIndex
 			} else {
@@ -646,9 +646,9 @@ public class AdminController extends BaseController {
 		request.setAttribute("taskCount", request.getParameter("taskCount"));
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("month", month);
 		String unitCode = sysUserInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);

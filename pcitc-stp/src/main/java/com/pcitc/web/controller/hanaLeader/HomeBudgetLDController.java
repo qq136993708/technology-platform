@@ -64,7 +64,7 @@ public class HomeBudgetLDController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
 		request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
@@ -74,7 +74,7 @@ public class HomeBudgetLDController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/home_budget_ld/home_budget_table")
 	public String kyzb_table(HttpServletRequest request) throws Exception {
 
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("month", month);
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 

@@ -728,7 +728,7 @@
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  year,create_date desc
+        ORDER BY  year desc,create_date desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
@@ -842,7 +842,7 @@
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  year ,create_date desc
+        ORDER BY  year desc ,create_date desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   

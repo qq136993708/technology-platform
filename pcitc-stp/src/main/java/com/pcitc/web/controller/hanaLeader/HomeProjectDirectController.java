@@ -59,7 +59,7 @@ public class HomeProjectDirectController extends BaseController {
 		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/direct_depart/home_project_direct";
 	}
@@ -67,7 +67,7 @@ public class HomeProjectDirectController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/home_project_direct/home_project_table")
 	public String kyzb_table(HttpServletRequest request) throws Exception {
 
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("month", month);
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 

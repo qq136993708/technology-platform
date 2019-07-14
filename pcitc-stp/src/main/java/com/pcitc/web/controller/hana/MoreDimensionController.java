@@ -84,7 +84,7 @@ public class MoreDimensionController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/ktyfzcdwfxb")
 	public String ktyfzcdwfxb(HttpServletRequest request) throws Exception
 	{
-		String month = HanaUtil.getCurrrent_YearMoth();
+		String month = HanaUtil.getCurrent_YearMoth();
 		request.setAttribute("month", month);
 		return "stp/hana/moreDimension/ktyfzcdwfxb";
 	}
@@ -93,7 +93,7 @@ public class MoreDimensionController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/zlsbqkmxfxb")
 	public String zlsbqkmxfxb(HttpServletRequest request) throws Exception
 	{
-		String month = HanaUtil.getCurrrent_YearMoth();
+		String month = HanaUtil.getCurrent_YearMoth();
 		request.setAttribute("month", month);
 		return "stp/hana/moreDimension/zlsbqkmxfxb";
 	}
@@ -121,7 +121,7 @@ public class MoreDimensionController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/zlsqsqqkmxfxb")
 	public String zlsqsqqkmxfxb(HttpServletRequest request) throws Exception
 	{
-		String month = HanaUtil.getCurrrent_YearMoth();
+		String month = HanaUtil.getCurrent_YearMoth();
 		request.setAttribute("month", month);
 		return "stp/hana/moreDimension/zlsqsqqkmxfxb";
 	}
@@ -130,9 +130,9 @@ public class MoreDimensionController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/cgjdmxfxb")
 	public String cgjdmxfxb(HttpServletRequest request) throws Exception
 	{
-		String month = HanaUtil.getCurrrent_YearMoth();
+		String month = HanaUtil.getCurrent_YearMoth();
 		request.setAttribute("month", month);
-		 String year= HanaUtil.getCurrrentYear();
+		 String year= HanaUtil.getCurrentYear();
          request.setAttribute("year", year);
          
          
@@ -145,7 +145,7 @@ public class MoreDimensionController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/kjjlqkmxfxb")
 	public String kjjlqkmxfxb(HttpServletRequest request) throws Exception
 	{
-		String month = HanaUtil.getCurrrent_YearMoth();
+		String month = HanaUtil.getCurrent_YearMoth();
 		request.setAttribute("month", month);
 		return "stp/hana/moreDimension/kjjlqkmxfxb";
 	}
@@ -160,10 +160,10 @@ public class MoreDimensionController extends BaseController
 	public String loopContractExecutionAwards(HttpServletRequest request) throws Exception
 	{
 
-		List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrrentYear(), 3);
+		List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrentYear(), 3);
 		request.setAttribute("yearList", yearList);
 		
-		String nd = HanaUtil.getBeforeYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		
 		return "stp/hana/moreDimension/knowledge/patent-trend-analysis";
@@ -205,7 +205,7 @@ public class MoreDimensionController extends BaseController
 				list.add(0,know);
 				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis jSONArray-> " + jSONArray.toJSONString(list));
 				
-				List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrrentYear(), 3);
+				List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrentYear(), 3);
 				List<String> legendDataList = yearList;
 				
 				barLine.setxAxisDataList(xAxisDataList);
@@ -376,7 +376,7 @@ public class MoreDimensionController extends BaseController
 	public String loopContractExecutionAchievements(HttpServletRequest request) throws Exception
 	{
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		
 		return "stp/hana/moreDimension/achievement/achievements-trend-analysis";
@@ -590,7 +590,7 @@ public class MoreDimensionController extends BaseController
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		return "stp/hana/moreDimension/science/science-trend-analysis";
 	}
@@ -629,7 +629,7 @@ public class MoreDimensionController extends BaseController
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "sbjz");
 					barLine.setxAxisDataList(xAxisDataList);
 					
-					String year = HanaUtil.getCurrrentYear();
+					String year = HanaUtil.getCurrentYear();
 					List<String> legendDataList = new ArrayList<String>();
 					
 					legendDataList.add((Integer.valueOf(year)-4)+"");
@@ -721,7 +721,7 @@ public class MoreDimensionController extends BaseController
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "sbjz");
 					barLine.setxAxisDataList(xAxisDataList);
 					
-					String year = HanaUtil.getCurrrentYear();
+					String year = HanaUtil.getCurrentYear();
 					List<String> legendDataList = new ArrayList<String>();
 					
 					legendDataList.add((Integer.valueOf(year)-4)+"");
@@ -792,7 +792,7 @@ public class MoreDimensionController extends BaseController
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
 					barLine.setxAxisDataList(xAxisDataList);
 					
-					String year = HanaUtil.getCurrrentYear();
+					String year = HanaUtil.getCurrentYear();
 					List<String> legendDataList = new ArrayList<String>();
 					
 					legendDataList.add("科技进步奖");
