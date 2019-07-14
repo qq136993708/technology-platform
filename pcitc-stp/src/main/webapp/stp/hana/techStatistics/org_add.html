@@ -569,7 +569,7 @@
               <div class="layui-form-item">
                     <label class="layui-form-label">单位名称<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
-                        <input class="layui-input readOnlyBox" readonly="readonly" onclick="chooseUnitRaio()" id="unitName" name="unitName" lay-verify="required"
+                        <input class="layui-input readOnlyBox" readonly="readonly" onclick="chooseUnitRaio('setCompanyData')"  id="unitName" name="unitName" lay-verify="required"
                                value="${unitName}" type="text">
                     </div>
               </div>
@@ -761,7 +761,7 @@
         });
     }
     
-    function chooseUnitRaio() 
+    function chooseUnitRaio(callback_funcName) 
     {
     
 	    layer.open({
@@ -774,7 +774,7 @@
 	        , maxmin: false
 	        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 	        , area: ['80%', '90%']
-	        , content: "/unit_select_radio?company=search-group-company-tree"
+	        , content: "/unit_select_radio?funcName="+callback_funcName
 	    }); 
     
     }
