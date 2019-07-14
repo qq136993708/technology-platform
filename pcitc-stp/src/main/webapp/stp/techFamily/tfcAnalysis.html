@@ -247,11 +247,15 @@
                 },
                 cols: [colsRy],
                 done: function (res, curr, count) {
-                    $("#indexOutProjectInfoTableIdRyCount").html("(" + res.count + ")");
-                    // console.log(res.data);
+                    var rycount = 0;
+                    for (let i = 0,l = res.data.length; i < l; i++) {
+                        if (typeof res.data[i].typeIndex == "undefined") {
+                            rycount++;
+                        }
+                    }
+                    $("#indexOutProjectInfoTableIdRyCount").html("(" + rycount + ")");
                 },
                 onDblClickRow: function (index, o) {
-                    console.log(o);
                     if(o.xmmc==""){
                     }else {
                         detailEvent(o.dataId);

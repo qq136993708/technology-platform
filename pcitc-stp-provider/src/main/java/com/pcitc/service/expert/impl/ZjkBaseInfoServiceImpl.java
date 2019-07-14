@@ -904,17 +904,31 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         c.andDelFlagEqualTo("0");
 //        c.andSysFlagEqualTo("0");
         Object expertName = param.getParam().get("expertName");
-        if (!StrUtil.isNull(expertName)) {
+        if (!StrUtil.isNullEmpty(expertName)) {
             c.andExpertNameLike("%" + expertName + "%");
         }
 
         Object auditStatus = param.getParam().get("auditStatus");
-        if (!StrUtil.isNull(auditStatus)) {
+        if (!StrUtil.isNullEmpty(auditStatus)) {
             c.andAuditStatusEqualTo(auditStatus.toString());
         }
+        Object mobile = param.getParam().get("mobile");
+        if (!StrUtil.isNullEmpty(mobile)) {
+            c.andMobileLike("%" + mobile + "%");
+        }
+        Object expertProfessionalFieldsj = param.getParam().get("expertProfessionalFieldsj");
+        if (!StrUtil.isNullEmpty(expertProfessionalFieldsj)) {
+            c.andExpertProfessionalFieldEqualTo(expertProfessionalFieldsj.toString());
+        }
+
+        Object company1DivValue = param.getParam().get("company1DivValue");
+        if (!StrUtil.isNullEmpty(company1DivValue)) {
+            c.andCompanyEqualTo(company1DivValue.toString());
+        }
+
 
         Object sysFlag = param.getParam().get("sysFlag");
-        if (!StrUtil.isNull(sysFlag)) {
+        if (!StrUtil.isNullEmpty(sysFlag)) {
             c.andSysFlagEqualTo(sysFlag.toString());
         } else {
             c.andSysFlagEqualTo("0");
@@ -924,7 +938,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             c.andEmailLike("%" + email + "%");
         }
         Object company = param.getParam().get("company");
-        if (!StrUtil.isNull(company)) {
+        if (!StrUtil.isNullEmpty(company)) {
             c.andCompanyEqualTo(company.toString());
         }
 
@@ -1006,13 +1020,13 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             try {
                 outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
                 experts.get(i).setAchievementCount(outAppraisalListPage.getCount()+"");
+
+                experts.get(i).setProjectCount(systemRemoteClient.getOutProjectListPageExpert(param).getCount()+"");
+                experts.get(i).setBak7(systemRemoteClient.getOutRewardListPage(param).getCount()+"");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
 //            expert.setPatentCount(StrUtil.objectToString(patent_count.get(eId), "0"));
-//            expert.setProjectCount(StrUtil.objectToString(choice_count.get(eId), "0"));
-//            expert.setBak1(StrUtil.objectToString(complaint_count.get(eId), "0"));
         }
 
         data.setData(experts);

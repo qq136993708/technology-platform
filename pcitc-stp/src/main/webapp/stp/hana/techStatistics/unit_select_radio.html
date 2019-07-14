@@ -14,6 +14,7 @@
     </style>
 </head>
 <body>
+ <input  name="funcName"        id="funcName"     value="${funcName}"    type="hidden">
     <div class="onlyTree_container">
         <div class="treeBox search">
             <div class="title-box">
@@ -138,11 +139,27 @@
             	if(nodes.length >0)
             	{
             		var unitId=nodes[0].id;
+            		var unitName=nodes[0].name;
             		var unitCode=getSysUnitById(unitId);
+            		//添加数据
             		if(unitCode!='')
            			{
-            			//添加数据
-                		parent.setCompanyData(unitCode,nodes[0].name);
+                		var funcName=$("#funcName").val();
+                		//alert(funcName);
+        				if(funcName!=null && funcName!='')
+        				{
+                    		
+                    		if(funcName!='setCompanyData')
+                    		{
+                    			//刷新表格
+                        		parent.createTableData(unitCode,unitName);
+                        		//parent.layui.table.reload('dataTable', {data : parent.viewObj.tbData});
+                    		}else
+                   			{
+                    			//回调
+            					parent.eval(funcName+"('"+unitCode+"','"+unitName+"');");
+                   			}
+        				}
            			}
 					
             	}

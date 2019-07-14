@@ -292,7 +292,7 @@ public class OneLevelMainController extends BaseController {
 	}
 
 	/**
-	 * ========================================================成果--详情==========
+	 * ====================成果--详情---第三级页面==========
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/achievement_table")
 	public String achievement_table(HttpServletRequest request) throws Exception {
@@ -302,13 +302,14 @@ public class OneLevelMainController extends BaseController {
 		String zy = CommonUtil.getParameter(request, "zy", "");// 成果专业
 		String define3 = CommonUtil.getParameter(request, "define3", "");// 单位类别
 		String define1 = CommonUtil.getParameter(request, "define1", "");// 研究院
-
+		String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
+		
 		request.setAttribute("nd", nd);
 		request.setAttribute("cglx", cglx);
 		request.setAttribute("zy", zy);
 		request.setAttribute("define3", define3);
 		request.setAttribute("define1", define1);
-
+		request.setAttribute("groupFlag", groupFlag);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {

@@ -40,7 +40,6 @@ import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.CommonUtil;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -54,7 +53,9 @@ public class TechStatisticsController extends BaseController{
 	private static final String PAGE_ORG_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/page";
 	private static final String PAGE_ORG_STATISTICS_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/statistics_page";
 	public static final String  ADD_ORG_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/add";
+	public static final String  ADD_ORG_BATCH_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/add_batch";
 	public static final String  UPDATE_ORG_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/update";
+	public static final String  UPDATE_ORG_BATCH_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/update_batch";
 	private static final String DEL_ORG_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/delete/";
 	public static final String GET_ORG_URL =     "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/get/";
 	private static final String ORG_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/start_org_activity/";
@@ -230,7 +231,7 @@ public class TechStatisticsController extends BaseController{
 		String createUserName = sysUserInfo.getUserDisp();
 		String attachmentDoc = IdUtil.createFileIdByTime();
 
-		String year =HanaUtil.getCurrentYear(); 
+		String year =HanaUtil.getBeforeYear(); 
 		
 		String unitName = sysUserInfo.getUnitName();// 申报部门
 		String unitCode = sysUserInfo.getUnitCode();// 申报部门
@@ -248,10 +249,6 @@ public class TechStatisticsController extends BaseController{
 			attachmentDoc = techCost.getAttachmentDoc();
 			request.setAttribute("techCost", techCost);
 			year=techCost.getYear();
-			//unitName = techCost.getUnitName();
-			//unitCode = techCost.getUnitCode();
-			//unitName = techCost.getUnitName();
-			//unitCode = techCost.getUnitCode();
 			
 		}
 		request.setAttribute("year", year);
@@ -259,8 +256,6 @@ public class TechStatisticsController extends BaseController{
 		request.setAttribute("createUserName", createUserName);
 		request.setAttribute("unitName", unitName);
 		request.setAttribute("unitCode", unitCode);
-		//request.setAttribute("unitName", unitName);
-		//request.setAttribute("unitCode", unitCode);
 		request.setAttribute("allUnitName", unitName);
 		return "/stp/hana/techStatistics/cost_add";
 	}
@@ -572,10 +567,9 @@ public class TechStatisticsController extends BaseController{
 
 		String unitName = sysUserInfo.getUnitName();// 申报部门
 		String unitCode = sysUserInfo.getUnitCode();// 申报部门
-		String year =HanaUtil.getCurrentYear(); 
+		String year =HanaUtil.getBeforeYear(); 
 		String type = CommonUtil.getParameter(request, "type", "");
 		request.setAttribute("type", type);
-		
 		
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
@@ -779,6 +773,129 @@ public class TechStatisticsController extends BaseController{
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	/**
+	 * 保存-更新操作(多行操作)
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/tech_org/save_new")
+	public String saveOrUpdateNew(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+
+		Result resultsDate = new Result();
+		
+		// 业务ID
+		String id = CommonUtil.getParameter(request, "id", "");
+		String notes = CommonUtil.getParameter(request, "notes", "");
+		String type = CommonUtil.getParameter(request, "type", "");
+		String chargeDepartMan = CommonUtil.getParameter(request, "chargeDepartMan", "");
+		String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
+		String unitCode = CommonUtil.getParameter(request, "unitCode", "");
+		String unitName = CommonUtil.getParameter(request, "unitName", "");
+		String year = CommonUtil.getParameter(request, "year", "");
+		String createUserName = CommonUtil.getParameter(request, "createUserName", "");
+		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
+		String writeType = CommonUtil.getParameter(request, "writeType", "1");
+		String createUserMobile = CommonUtil.getParameter(request, "createUserMobile", "");
+		String techChargeMan = CommonUtil.getParameter(request, "techChargeMan", "");
+		String subTechOrgStr = CommonUtil.getParameter(request, "subTechOrgStr", "");
+		
+		if(!subTechOrgStr.equals(""))
+		{
+			JSONArray tableData = JSONArray.parseArray(subTechOrgStr);
+		}
+		
+		String parentUnitCode="";
+		String parentUnitName="";
+		if(!unitCode.equals(""))
+		{
+			SysUnit sysUnit=EquipmentUtils.getUnitByUnitCode(unitCode, restTemplate, httpHeaders);
+			String unitPath=sysUnit.getUnitPath();
+			if(unitPath.length()>4)
+			{
+				String	parentUnitPath=unitPath.substring(0, unitPath.length()-4);
+				SysUnit parenSysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPath, restTemplate, httpHeaders);
+				parentUnitCode=parenSysUnit.getUnitCode();
+				parentUnitName=parenSysUnit.getUnitName();
+			}
+			
+		}
+		
+		TechOrgCount techOrgCount = null;
+		ResponseEntity<String> responseEntity = null;
+		// 判断是新增还是修改
+		if (id.equals("")) {
+			techOrgCount = new TechOrgCount();
+			techOrgCount.setCreateDate(new Date());
+			String idv = UUID.randomUUID().toString().replaceAll("-", "");
+			techOrgCount.setId(idv); 
+			techOrgCount.setAuditStatus(auditStatus);
+			
+		} else {
+			ResponseEntity<TechOrgCount> se = this.restTemplate.exchange(GET_ORG_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), TechOrgCount.class);
+			techOrgCount  = se.getBody();
+		}
+		
+		System.out.println("---------------parentUnitName:" + parentUnitName + " parentUnitCode=" + parentUnitCode + " UserId=" + sysUserInfo.getUserId());
+		techOrgCount.setWriteType(writeType);
+		techOrgCount.setCreateUserId(sysUserInfo.getUserName());
+		techOrgCount.setCreateUserName(createUserName);
+		techOrgCount.setYear(year);
+		techOrgCount.setAttachmentDoc(attachmentDoc);
+		techOrgCount.setParentUnitCode(parentUnitCode); 
+		techOrgCount.setParentUnitName(parentUnitName);
+		techOrgCount.setChargeDepartMan(chargeDepartMan);
+		techOrgCount.setCreateUserMobile(createUserMobile);
+		techOrgCount.setNotes(notes);
+		techOrgCount.setTechChargeMan(techChargeMan);
+		techOrgCount.setType(type);
+		techOrgCount.setUnitCode(unitCode);
+		techOrgCount.setUnitName(unitName);
+		techOrgCount.setSubTechOrgStr(subTechOrgStr);
+		
+		
+		
+		// 判断是新增还是修改
+		if (id.equals("")) {
+			responseEntity = this.restTemplate.exchange(ADD_ORG_BATCH_URL, HttpMethod.POST, new HttpEntity<TechOrgCount>(techOrgCount, this.httpHeaders), String.class);
+
+		} else {
+			responseEntity = this.restTemplate.exchange(UPDATE_ORG_BATCH_URL, HttpMethod.POST, new HttpEntity<TechOrgCount>(techOrgCount, this.httpHeaders), String.class);
+		}
+		// 返回结果代码
+		int statusCode = responseEntity.getStatusCodeValue();
+		System.out.println(">>>>>>>>>>>>>>>>>>>返回  statusCode=" + statusCode);
+		if (statusCode == 200) {
+			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+		} else {
+			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+		}
+
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		out.println(ob.toString());
+		out.flush();
+		out.close();
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 删除
 	 * 
@@ -928,7 +1045,10 @@ public class TechStatisticsController extends BaseController{
 	@RequestMapping(method = RequestMethod.GET, value = "/unit_select_radio")
 	public Object unit_select_radio(HttpServletRequest request) throws IOException 
 	{
-		request.setAttribute("company", request.getParameter("company"));
+		
+		
+		String funcName = CommonUtil.getParameter(request, "funcName", "" );
+		request.setAttribute("funcName", funcName);
 		
 		return "/stp/hana/techStatistics/unit_select_radio";
 	}
