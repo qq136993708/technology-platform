@@ -27,8 +27,8 @@ import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetItemTypeEnum;
-import com.pcitc.base.common.enums.BudgetSplitEnum;
-import com.pcitc.base.common.enums.BudgetSplitNdEnum;
+import com.pcitc.base.common.enums.BudgetStockEnum;
+import com.pcitc.base.common.enums.BudgetStockNdEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
@@ -585,8 +585,8 @@ public class BudgetStockTotalProviderClient
 	public Object getStockItemTypeDictionary(@RequestBody String nd) throws Exception 
 	{
 		List<SysDictionary> dis = new ArrayList<SysDictionary>();
-		List<BudgetSplitEnum> enums = BudgetSplitNdEnum.getStockTotalTypes(nd).getSplits();
-		for(BudgetSplitEnum em:enums) {
+		List<BudgetStockEnum> enums = BudgetStockNdEnum.getStockTotalTypes(nd).getSplits();
+		for(BudgetStockEnum em:enums) {
 			SysDictionary d = new SysDictionary();
 			d.setCode(em.getCode());
 			d.setName(em.getName());

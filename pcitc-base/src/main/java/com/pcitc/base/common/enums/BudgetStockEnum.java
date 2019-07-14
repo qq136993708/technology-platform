@@ -8,7 +8,7 @@ import java.util.List;
  * @author uuy
  *
  */
-public enum BudgetSplitEnum 
+public enum BudgetStockEnum 
 {
 	SPLIT_STOCK_YJY(301,"GFFZSY","ROOT_ZGSHJT_GFGS_ZSYJY","股份付直属院"),
 	SPLIT_STOCK_YJY_KTY(3011,"ZSY_KTY","ROOT_ZGSHJT_GFGS_ZSYJY_KTY","勘探院"),
@@ -24,13 +24,14 @@ public enum BudgetSplitEnum
 	SPLIT_STOCK_WBDW(304,"GFFWBDW","ROOT_ZGSHJT_GFGS_WBDW","股份付外部单位"),
 	SPLIT_STOCK_YK(305,"GFFYK","ROOT_ZGSHJT_GFGS_SHYK","股份付盈科"),
 	SPLIT_STOCK_XSD(306,"GFFXSD","ROOT_ZGSHJT_GFGS_XSDYFZX","股份付休斯顿"),
-	SPLIT_STOCK_ZD(307,"GFFZD","ROOT_ZGSHJT_GFGS_ZDYFZX","股份付中东");						
+	SPLIT_STOCK_ZD(307,"GFFZD","ROOT_ZGSHJT_GFGS_ZDYFZX","股份付中东"),
+	SPLIT_STOCK_MYSGZS(308,"GFFZD","ROOT_ZGSHJT_GFGS_ZDYFZX","马永生工作室");			
 	
 	//股份公司分类
-	public static List<BudgetSplitEnum> getStockSplitTypes()
+	public static List<BudgetStockEnum> getStockSplitTypes()
 	{
-		List<BudgetSplitEnum> enums = new ArrayList<BudgetSplitEnum>();
-		for(BudgetSplitEnum v:BudgetSplitEnum.values())
+		List<BudgetStockEnum> enums = new ArrayList<BudgetStockEnum>();
+		for(BudgetStockEnum v:BudgetStockEnum.values())
 		{
 			if(v.name().contains("SPLIT_STOCK") && v.getId()>300 && v.getId()<399)
 			{
@@ -40,7 +41,7 @@ public enum BudgetSplitEnum
 		return enums;
 	}
 
-	private BudgetSplitEnum(Integer id,String code,String unitCode,String name) {
+	private BudgetStockEnum(Integer id,String code,String unitCode,String name) {
 		this.id = id;
 		this.code = code;
 		this.name = name;
