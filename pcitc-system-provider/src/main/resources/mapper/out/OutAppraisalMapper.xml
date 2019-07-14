@@ -636,8 +636,10 @@
 		</foreach>
 	</insert>
 
+	<!-- cgid是鉴定系统中的项目id，jdh是真正的鉴定结果数量 -->
 	<select id="getOutAppraisalCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
-		select count(distinct cgid) as cgid from out_appraisal
+		select count(distinct jdh) as cgid 
+		from out_appraisal
 		where 
 			define3 not like '%外部单位%'
 			<if test="nd != null and nd != ''">
@@ -652,59 +654,78 @@
 	</select>
 
 	<select id="getResultInfo" resultType="java.util.Map" parameterType="java.lang.String">
-		select count(DISTINCT cgid) as mscount,jdjg as ms
-		from out_appraisal
-		where
-			jdjg is not null and define3 not like '%外部单位%'
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		group by jdjg
+		select tableA.*
+		from sys_dictionary left join (
+								select count(DISTINCT jdh) as mscount, 
+								       ifnull(jdjg, '其他') as ms
+								from out_appraisal
+								where
+									define3 not like '%外部单位%'
+									<if test="_parameter != null">
+										and nd = #{nd,jdbcType=VARCHAR}
+									</if>
+								group by jdjg
+							) as tableA ON (sys_dictionary.name = tableA.ms)
+		where 
+			parent_code = 'ROOT_FZJCZX_JDJG'
+		order by isdelete
 	</select>
 
-	<select id="getResultInfoByType" resultType="java.util.Map"
-		parameterType="java.lang.String">
-		select
-		sum(case when jdjg = '国内先进' then 1 else 0 end) as gnxjcount,
-		sum(case when jdjg = '国内领先' then 1 else 0 end) as gnlxcount,
-		sum(case
-		when jdjg = '国际先进' then 1 else 0 end) as gjxjcount,
-		sum(case when jdjg
-		= '国际领先' then 1 else 0 end) as gjlxcount,
-		sum(case when jdjg = '行业先进'
-		then 1 else 0 end) as hyxjcount,
-		sum(case when jdjg = '行业领先' then 1
-		else 0 end) as hylxcount,count(jdjg) as cglxcount,cglx
-		from out_appraisal
-		where
-		jdjg in ('国内先进','国内领先','国际先进','国际领先','行业先进','行业领先') and define3 not like '%外部单位%'
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		group by cglx
+	<select id="getResultInfoByType" resultType="java.util.Map" parameterType="java.lang.String">
+		 select
+			sum(case when jdjg = '国内先进' then 1 else 0 end) as gnxjcount,
+			sum(case when jdjg = '国内领先' then 1 else 0 end) as gnlxcount,
+			sum(case when jdjg = '国际先进' then 1 else 0 end) as gjxjcount,
+			sum(case when jdjg = '国际领先' then 1 else 0 end) as gjlxcount,
+			sum(case when jdjg = '行业先进' then 1 else 0 end) as hyxjcount,
+			sum(case when jdjg = '行业领先' then 1 else 0 end) as hylxcount,
+		    sum(case when jdjg = '其他' then 1 else 0 end) as qtcount,
+			count(jdh) as cglxcount,cglx
+			from (
+				select jdh,cglx,ifnull(GROUP_CONCAT(DISTINCT jdjg), '其他') jdjg
+				from out_appraisal
+				where 
+				define3 not like '%外部单位%'
+				<if test="_parameter != null">
+					and nd = #{nd,jdbcType=VARCHAR}
+				</if>
+				GROUP BY jdh,cglx
+			) as tableA
+			group by cglx
+	    ORDER BY cglx
 	</select>
 
-	<select id="getResultInfoByZy" resultType="java.util.Map"
-		parameterType="java.lang.String">
-		select
-			sum(case when zy = 'A.石油勘探' then 1 else 0 end) as acount,
-			sum(case when zy = 'B.石油开发' then 1 else 0 end) as bcount,
-			sum(case when zy = 'C.石油工程' then 1 else 0 end) as ccount,
-			sum(case when zy = 'D.石油炼制' then 1 else 0 end) as dcount,
-		    sum(case when zy = 'E.化工' then 1 else 0 end) as ecount,
-		    sum(case when zy = 'F.化纤' then 1 else 0 end) as fcount,
-		    sum(case when zy = 'G.装备与储运' then 1 else 0 end) as gcount,
-		    sum(case when zy = 'H.安全与环保' then 1 else 0 end) as hcount,
-		    sum(case when zy = 'I.信息技术' then 1 else 0 end) as icount,
-		    sum(case when zy = 'J.大型装备国产化' then 1 else 0 end) as jcount,
-		    sum(case when zy = 'K.其它' then 1 else 0 end) as kcount,jdjg
-		from out_appraisal
-		where
-			define3 not like '%外部单位%'
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		group by jdjg
+	<select id="getResultInfoByZy" resultType="java.util.Map" parameterType="java.lang.String">
+		select tableA.*
+		from sys_dictionary left join (
+								select
+									sum(case when zy = 'A.石油勘探' then 1 else 0 end) as acount,
+									sum(case when zy = 'B.石油开发' then 1 else 0 end) as bcount,
+									sum(case when zy = 'C.石油工程' then 1 else 0 end) as ccount,
+									sum(case when zy = 'D.石油炼制' then 1 else 0 end) as dcount,
+								    sum(case when zy = 'E.化工' then 1 else 0 end) as ecount,
+								    sum(case when zy = 'F.化纤' then 1 else 0 end) as fcount,
+								    sum(case when zy = 'G.装备与储运' then 1 else 0 end) as gcount,
+								    sum(case when zy = 'H.安全与环保' then 1 else 0 end) as hcount,
+								    sum(case when zy = 'I.信息技术' then 1 else 0 end) as icount,
+								    sum(case when zy = 'J.大型装备国产化' then 1 else 0 end) as jcount,
+								    sum(case when zy = 'K.其它' then 1 else 0 end) as kcount,
+								    ifnull(jdjg, '其他') as jdjg
+								from (
+										select jdh,zy,jdjg
+										from out_appraisal
+										where 
+										define3 not like '%外部单位%'
+										<if test="_parameter != null">
+											and nd = #{nd,jdbcType=VARCHAR}
+										</if>
+										GROUP BY jdh,zy
+									) as tableA
+								group by jdjg
+							) as tableA ON (sys_dictionary.name = tableA.jdjg)
+		where 
+			parent_code = 'ROOT_FZJCZX_JDJG'
+		order by isdelete
 	</select>
 
 
@@ -723,9 +744,8 @@
 				select define1,define3,cglx,jdh
 				from out_appraisal
 				where 
-					nd='${nd}' and define1 is not null 
-					and define3 like '%研究院%'
-			  	GROUP BY cgid
+					nd='${nd}' and define3 like '%研究院%'
+			  	GROUP BY jdh,define1,cglx
 			) as tableA
 			group by define1
 		) as tableB on (sys_dictionary.name = tableB.define1)
@@ -736,14 +756,18 @@
 	
 	<!--  领导二级页面，各种类型的成果情况 -->
 	<select id="getAppraisalInfoByCglx" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select count(DISTINCT cgid) as sl, 
+		select count(DISTINCT jdh) as sl, 
 			   case when cglx is null then '其他' else cglx end as cglx 
-		from out_appraisal
-		where 
-			nd='${nd}' and define3 not like '%外部单位%'
-			<if test="define1 != null and define1 != ''">
-				and define1 is not null
-			</if>
+		from (
+				select define1,define3,cglx,jdh
+				from out_appraisal
+				where 
+					nd='${nd}' and define3 not like '%外部单位%'
+					<if test="define1 != null and define1 != ''">
+						and define1 is not null
+					</if>
+			  	GROUP BY jdh,cglx
+			) as tableA
 		group by cglx
 	</select>
 	
@@ -757,7 +781,7 @@
 				sum(case when tableA.nd = '${nd}'-1 then sl else 0 end) as  lastYearSl,
 				sum(case when tableA.nd = '${nd}'-2 then sl else 0 end) as  beforeYearSl
 			from (
-				select count(DISTINCT cgid) as sl, nd, zy 
+				select count(DISTINCT jdh) as sl, nd, zy 
 				from out_appraisal
 				where 
 					define3 not like '%外部单位%'
@@ -771,8 +795,7 @@
 	
 	<!--  领导二级页面，各种专业的成果情况 -->
 	<select id="getAppraisalInfoByZy" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select count(DISTINCT cgid) as sl, 
-			   case when zy is null then '其他' else zy end as zy 
+		select count(DISTINCT jdh) as sl, zy 
 		from out_appraisal
 		where 
 			nd='${nd}' and define3 not like '%外部单位%'
@@ -780,13 +803,14 @@
 				and define1 like '%院'
 			</if>
 		group by zy
+		order by zy
 	</select>
 	
 	<!--  领导首页-科研成果，直属院、分子公司等9个的成果情况 -->
 	<select id="getAppraisalInfoByCompanyType" resultType="java.util.Map" parameterType="java.util.HashMap">
 		 select sys_dictionary.name as define3,IFNULL(tableA.sl,'0') as sl
 		 from sys_dictionary left join (
-				select count(DISTINCT cgid) as sl, 
+				select count(DISTINCT jdh) as sl, 
 						SUBSTR(define3 FROM 2) as define3
 					from out_appraisal
 					where 
@@ -800,8 +824,15 @@
 	
 	<!-- 分页显示项目的科研成果信息,统计的第三级展示 -->
 	<select id="getAppraisalInfoByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
-		select nd,cgmc,sqjddw,sqdjh,jdh,startTime,endTime,cglx,zy,jdjg,hth,xmmc,
-			   substr(define1 from 4) as define1,substr(define3 from 2) as define3
+		select nd,sqdjh,jdh,min(startTime) as startTime, max(endTime) as endTime,
+			   group_concat(distinct sqjddw) as sqjddw,
+			   group_concat(distinct cgmc) as cgmc,
+			   group_concat(distinct cglx) as cglx,
+			   group_concat(distinct xmmc) as xmmc,
+			   group_concat(distinct jdjg) as jdjg,
+			   group_concat(distinct hth) as hth,
+			   group_concat(distinct substr(define1 from 4)) as define1,
+			   group_concat(distinct substr(define3 from 2)) as define3
 		from out_appraisal
 		where
 			 define3 not like '%外部单位%' 
@@ -859,13 +890,25 @@
 				</foreach>
 				) 
 			</if>
-			group by cgid 
-			<if test="orderKey != null and orderKey != ''">
-				<if test="orderType != null and orderType != ''">
+			
+			<if test="groupFlag != null">
+				<if test="groupFlag != ''">
+					GROUP BY ${groupFlag}
+				</if>
+				<if test="groupFlag == ''">
+					GROUP BY jdh
+				</if>
+			</if>
+			<if test="groupFlag == null">
+				group by jdh 
+			</if>
+			
+			<if test="orderKey != null">
+				<if test="orderType != ''">
 					order by ${orderKey} ${orderType}
 				</if>
-				<if test="orderType == null or orderType == ''">
-					order by ${orderKey} desc
+				<if test="orderType == ''">
+					order by jdh desc
 				</if>
 			</if>
 			<if test="orderKey == null">
