@@ -52,9 +52,9 @@ public class HomeLDController extends BaseController{
 	public String direct_depart(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 	    
-	    String nd= HanaUtil.getCurrrentYear();
+	    String nd= HanaUtil.getCurrentYear();
 	    request.setAttribute("nd", nd);
-	    String month = HanaUtil.getCurrrentYearMoth();
+	    String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("month", month);
 		String  companyCode=EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders) ;
 		request.setAttribute("companyCode", companyCode);
@@ -68,7 +68,7 @@ public class HomeLDController extends BaseController{
 	    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
 	    String unitCode=userInfo.getUnitCode();
 	    request.setAttribute("unitCode", unitCode);
-	    String year= HanaUtil.getCurrrentYear();
+	    String year= HanaUtil.getCurrentYear();
 	    request.setAttribute("year", year);
 	    request.setAttribute("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 		return "stp/hana/home/oneLevelMain/contract";
@@ -80,7 +80,7 @@ public class HomeLDController extends BaseController{
 	    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
 	    String unitCode=userInfo.getUnitCode();
 	    request.setAttribute("unitCode", unitCode);
-	    String year= HanaUtil.getCurrrentYear();
+	    String year= HanaUtil.getCurrentYear();
 	    request.setAttribute("year", year);
 	    request.setAttribute("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 		return "stp/hana/home/oneLevelMain/equipment";

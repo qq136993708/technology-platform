@@ -83,7 +83,7 @@ public class HomePatentController extends BaseController {
 				  public String kyzb_table(HttpServletRequest request) throws Exception
 				  {
 					    
-						String month = HanaUtil.getCurrrentYearMoth();
+						String month = HanaUtil.getCurrentYearMoth();
 						request.setAttribute("month", month);
 					    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 					    

@@ -58,7 +58,7 @@ public class HomeKnowledgeController extends BaseController{
 		  public String knowledge_level2(HttpServletRequest request) throws Exception
 		  {
 			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			    String nd= HanaUtil.getCurrrentYear();
+			    String nd= HanaUtil.getCurrentYear();
 			    request.setAttribute("nd", nd);
 		        return "stp/hana/home/level/knowledge_level2";
 		  }
@@ -88,7 +88,7 @@ public class HomeKnowledgeController extends BaseController{
 			    request.setAttribute("G0XMZT_LIST", G0XMZT_LIST);*/
 			    
 			    
-			    String year= HanaUtil.getCurrrentYear();
+			    String year= HanaUtil.getCurrentYear();
 			    request.setAttribute("year", year);
 		        return "stp/hana/home/level/knowledge_table";
 		  }

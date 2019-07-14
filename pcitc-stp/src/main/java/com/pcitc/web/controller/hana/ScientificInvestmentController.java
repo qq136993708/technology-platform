@@ -76,7 +76,7 @@ public class ScientificInvestmentController extends BaseController {
 		    @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmwcqktjb")
 		    public String jtgszbkjjfys(HttpServletRequest request) throws Exception
 		    {
-				String month = HanaUtil.getCurrrentYear_Moth();
+				String month = HanaUtil.getCurrentYear_Moth();
 				request.setAttribute("month", month);
 		        return "stp/hana/scientificInvestment/tzxmwcqktjb";
 		    }
@@ -356,7 +356,7 @@ public class ScientificInvestmentController extends BaseController {
 		  @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmcgjdtjb")
 		  public String tzxmcgjdtjb(HttpServletRequest request) throws Exception
 		  {
-				String month = HanaUtil.getCurrrentYear_Moth();
+				String month = HanaUtil.getCurrentYear_Moth();
 				request.setAttribute("month", month);
 		        return "stp/hana/scientificInvestment/tzxmcgjdtjb";
 		  }
@@ -603,7 +603,7 @@ public class ScientificInvestmentController extends BaseController {
 	  public String tzxmzcqkb(HttpServletRequest request) throws Exception
 	  {
 			
-			String month = HanaUtil.getCurrrentYear_Moth();
+			String month = HanaUtil.getCurrentYear_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificInvestment/tzxmzcqkb";
 	  }

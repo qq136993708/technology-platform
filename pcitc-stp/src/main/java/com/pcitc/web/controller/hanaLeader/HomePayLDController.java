@@ -71,7 +71,7 @@ public class HomePayLDController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/home_pay_ld/home_pay_table")
 	public String kyzb_table(HttpServletRequest request) throws Exception {
 
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("month", month);
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 

@@ -46,7 +46,7 @@ public class SmallLeaderController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/small_leader/investment")
 	public String investment(HttpServletRequest request) throws Exception {
 
-		String nd = HanaUtil.getCurrrentYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
 		request.setAttribute("userLevel", userLevel);
