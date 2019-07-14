@@ -272,7 +272,7 @@
 	                        '<div class="expert-s">'+d.expertProfessionalFieldName+'</div>'+
 	                        '<div class="expert-ab">'+d.userDesc+'</div>'+
 	                        '<div class="expert-a">'+
-	                            '<a href="/instituteIndex?url=/expertController/expertDetailLeader?dataId='+d.dataId+'"  target="_blank">查看详情</a>'+
+	                            '<a href="/instituteIndex?url=/expertController/expertDetailIndex?dataId='+d.dataId+'"  target="_blank">查看详情</a>'+
 	                        '</div>'+
 	                    '</div>'+
 	                '</li>';
@@ -297,7 +297,7 @@
                     var bak3 = data[i].bak3;
                     if(bak3=="ZJK_ZJLX_JSLJRW"){
                         //e1++;
-                        //expert1 = expert1+"<li><a href=\"/expertController/expertDetailLeader?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
+                        //expert1 = expert1+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
                 		var obj = {};
                 		// 存储笔画
                 		obj.stroke = data[i].expert_name.substring(0,1).stroke();
@@ -330,15 +330,15 @@
             	});
             	for (var i = 0; i <expertBH1.length; i++) {
             		e1++;
-            	    expert1 = expert1+"<li><a href=\"/instituteIndex?url=/expertController/expertDetailLeader?dataId="+expertBH1[i].data.data_id+"\" target='_blank'>"+expertBH1[i].data.expert_name+"</a></li>\n";
+            	    expert1 = expert1+"<li><a href=\"/instituteIndex?url=/expertController/expertDetailIndex?dataId="+expertBH1[i].data.data_id+"\" target='_blank'>"+expertBH1[i].data.expert_name+"</a></li>\n";
             	}
             	for (var i = 0; i <expertBH2.length; i++) {
             		e2++;
-            	    expert2 = expert2+"<li><a href=\"/instituteIndex?url=/expertController/expertDetailLeader?dataId="+expertBH2[i].data.data_id+"\" target='_blank'>"+expertBH2[i].data.expert_name+"</a></li>\n";
+            	    expert2 = expert2+"<li><a href=\"/instituteIndex?url=/expertController/expertDetailIndex?dataId="+expertBH2[i].data.data_id+"\" target='_blank'>"+expertBH2[i].data.expert_name+"</a></li>\n";
             	}
             	for (var i = 0; i <expertBH3.length; i++) {
             		e1++;
-            	    expert3 = expert3+"<li><a href=\"/instituteIndex?url=/expertController/expertDetailLeader?dataId="+expertBH3[i].data.data_id+"\" target='_blank'>"+expertBH3[i].data.expert_name+"</a></li>\n";
+            	    expert3 = expert3+"<li><a href=\"/instituteIndex?url=/expertController/expertDetailIndex?dataId="+expertBH3[i].data.data_id+"\" target='_blank'>"+expertBH3[i].data.expert_name+"</a></li>\n";
             	}
                 
                 $("#chart1_04").html(e1);
