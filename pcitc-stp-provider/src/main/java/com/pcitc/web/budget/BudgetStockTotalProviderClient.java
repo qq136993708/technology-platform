@@ -296,6 +296,7 @@ public class BudgetStockTotalProviderClient
 			if(stock != null) {
 				MyBeanUtils.copyPropertiesIgnoreNull(item, stock);
 				stock.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				stock.setSimpleName(BudgetStockEnum.getByCode(stock.getDisplayCode()).getName());
 				budgetStockTotalService.updateBudgetStockTotal(stock);
 			}else {
 				stock = (BudgetStockTotal)MyBeanUtils.createDefaultModel(BudgetStockTotal.class);
@@ -307,6 +308,7 @@ public class BudgetStockTotalProviderClient
 				stock.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				stock.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				stock.setDataVersion(info.getDataVersion());
+				stock.setSimpleName(BudgetStockEnum.getByCode(stock.getDisplayCode()).getName());
 				budgetStockTotalService.saveOrUpdateBudgetStockTotal(stock);
 			}
 		}
