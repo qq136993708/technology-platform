@@ -163,7 +163,7 @@ public class MoreDimensionController extends BaseController
 		List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrentYear(), 3);
 		request.setAttribute("yearList", yearList);
 		
-		String nd = HanaUtil.getBeforeYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		
 		return "stp/hana/moreDimension/knowledge/patent-trend-analysis";

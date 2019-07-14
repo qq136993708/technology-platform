@@ -911,7 +911,7 @@ public class OneLevelMainController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getBeforeYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/oneLevelMain/knowledge";
 	}
@@ -1707,7 +1707,7 @@ public class OneLevelMainController extends BaseController {
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
-		String nd = HanaUtil.getBeforeYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/achievement";
 	}
