@@ -230,7 +230,7 @@ public class TechStatisticsController extends BaseController{
 		String createUserName = sysUserInfo.getUserDisp();
 		String attachmentDoc = IdUtil.createFileIdByTime();
 
-		String year =HanaUtil.getBeforeYear(); 
+		String year =""; 
 		
 		String unitName = sysUserInfo.getUnitName();// 申报部门
 		String unitCode = sysUserInfo.getUnitCode();// 申报部门
@@ -572,7 +572,7 @@ public class TechStatisticsController extends BaseController{
 
 		String unitName = sysUserInfo.getUnitName();// 申报部门
 		String unitCode = sysUserInfo.getUnitCode();// 申报部门
-		String year =HanaUtil.getBeforeYear(); 
+		String year =""; 
 		String type = CommonUtil.getParameter(request, "type", "");
 		request.setAttribute("type", type);
 		

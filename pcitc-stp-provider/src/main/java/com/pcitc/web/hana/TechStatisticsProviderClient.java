@@ -71,6 +71,9 @@ public class TechStatisticsProviderClient {
 	}
 	
 	
+	
+	
+	
 	@ApiOperation(value = "修改科研投入表", notes = "修改科研投入表")
 	@RequestMapping(value = "/sre-provider/techCost/update", method = RequestMethod.POST)
 	public Integer updateTechCost(@RequestBody TechCost TechCost) throws Exception{
@@ -186,7 +189,13 @@ public class TechStatisticsProviderClient {
 		Integer count= techStatisticsService.insertTechOrgCount(techOrgCount);
 		return techOrgCount.getId();
 	}
-	
+	@ApiOperation(value = "批量-增加科研机构调查表表", notes = "批量-增加科研机构调查表表")
+	@RequestMapping(value = "/sre-provider/techOrgCount/add_batch", method = RequestMethod.POST)
+	public String insertTechOrgCountbatch(@RequestBody TechOrgCount techOrgCount) throws Exception{
+		logger.info("====================add insertTechOrgCountBatch....========================");
+		Integer count= techStatisticsService.insertTechOrgCountBatch(techOrgCount);
+		return techOrgCount.getId();
+	}
 	
 	@ApiOperation(value = "修改科研机构调查表", notes = "修改科研机构调查表")
 	@RequestMapping(value = "/sre-provider/techOrgCount/update", method = RequestMethod.POST)
@@ -194,7 +203,12 @@ public class TechStatisticsProviderClient {
 		logger.info("==================update techOrgCount===========================");
 		return techStatisticsService.updateTechOrgCount(techOrgCount);
 	}
-	
+	@ApiOperation(value = "批量-修改科研机构调查表", notes = "批量-修改科研机构调查表")
+	@RequestMapping(value = "/sre-provider/techOrgCount/update_batch", method = RequestMethod.POST)
+	public Integer updateTechOrgCountBatch(@RequestBody TechOrgCount techOrgCount) throws Exception{
+		logger.info("==================update techOrgCount===========================");
+		return techStatisticsService.updateTechOrgCountBatch(techOrgCount);
+	}
 	
 	@RequestMapping(value = "/sre-provider/techOrgCount/delete/{id}", method = RequestMethod.POST)
 	public int deleteTechOrgCount(@PathVariable("id") String id)throws Exception{

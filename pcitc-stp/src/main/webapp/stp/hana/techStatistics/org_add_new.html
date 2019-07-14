@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <style type="text/css">
+.demo_line_05{
+    letter-spacing: -1px;
+    color: #ddd;
+    width:100%;
+    margin-top:5px;
+    margin-bottom:15px;
+}
+.demo_line_05 span{
+    letter-spacing: 0;
+    color: #222;
+    margin:0 20px;
+}
+    </style>
+</head>
+<body>
+<div class="layer-box">
+<form class="layui-form" name="form1" id="form1" action="" method="POST"  lay-filter="component-form-group layui-container">
+<input type="hidden" name="id" id="id" value="${techOrgCount.id}">
+<input type="hidden" name="attachmentDoc" id="attachmentDoc" value="${attachmentDoc}">      
+<input type="hidden" name="type" id="type" value="${type}">
+<input type="hidden" name="unitCode" id="unitCode" value="">
+<input type="hidden" name="allUnitName" id="allUnitName" value="${allUnitName}">
+
+<input type="hidden" name="subTechOrgStr" id="subTechOrgStr" value="">
+ 
+    <div class="formBox">
+        <div class="tableToolBox">
+            <div class="tableBtns">
+                <div class="tableTitle"><span class="red">（标*号为必填项）</span>
+                </div>
+            </div>
+        </div>
+        <div class="box-body">
+           <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <label class="layui-form-label">统计年度<span class="must-fill">*</span></label>
+                    <div class="layui-input-block">
+                        <input class="layui-input"  style="cursor:pointer" readonly="readonly" id="year" name="year" lay-verify="required"
+                               value="${year}" type="text">
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+			        <label class="layui-form-label">统计单位类型<span class="must-fill">*</span></label>
+			        <div class="layui-input-block">
+			          <input type="radio"  id="writeType1"   onclick="chooseWriteType('1')"  name="writeType" value="1"  title="本单位统计"   <#if techOrgCount.writeType=='1' || techOrgCount.writeType==null> checked="checked"</#if>>
+			          <input type="radio"  id="writeType2"  onclick="chooseWriteType('2')" name="writeType" value="2"  title="二级单位统计"  <#if techOrgCount.writeType=='2'> checked="checked"</#if>>
+			        </div>
+                </div>
+             </div>
+             
+             
+              <div class="layui-form-item">
+                    <label class="layui-form-label" id="unitName_01_id">单位名称<span class="must-fill">*</span></label>
+                    <div class="layui-input-block">
+                        <input class="layui-input readOnlyBox" readonly="readonly" onclick="chooseUnitRaio('setCompanyData')" id="unitName" name="unitName" lay-verify="required"
+                               value="${unitName}" type="text">
+                    </div>
+              </div>
+                
+              <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">子公司负责人<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" placeholder="分（子）公司科技负责人" name="techChargeMan" id="techChargeMan"
+                                   value="${techOrgCount.techChargeMan}" lay-verify="required" autocomplete="off" type="text" >
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">主管部门负责人<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="chargeDepartMan" id="chargeDepartMan"
+                                   value="${techOrgCount.chargeDepartMan}" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+             </div>
+             <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">填表人<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input"  placeholder="填表人" name="createUserName" id="createUserName"
+                                   value="${createUserName}" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">填表人联系电话<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="createUserMobile" id="createUserMobile"
+                                   value="${techOrgCount.createUserMobile}" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+             </div>
+             
+			  <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label" id="unitName_02_id">单位名称<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <div class="tableToolBox">
+					            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"  onclick="chooseUnitRaio('chooseUnitRaio_callback')">新增</a>
+					        </div>
+                            <div id="tableBox">
+                                <table id="dataTable" class="layui-hide" lay-filter="dataTable"></table>
+                            </div>
+	                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+             
+              <!-- 1行结束-->
+              <div class="layui-form-item">
+                    <label class="layui-form-label">附件</label>
+                    <div id="file_div" class="layui-input-block"></div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-block">
+                        <textarea name="notes" id="notes" class="layui-textarea">${techOrgCount.notes}</textarea>
+                    </div>
+                </div>
+              <!-- 2行结束-->
+              <div class="demo_line_05" style="text-align:center;">———————————<span>单位信息</span>————————————</div>
+             
+             <!-- 2行结束-->
+               
+        </div>
+    </div>
+     <!-- 总行结束-->
+    
+    
+    
+           <div class="form-bottom">
+                    <div class="form-bottom-btns">
+                        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                                lay-submit="" lay-filter="sub">保存
+                        </button>
+                        <button type="button"
+                                class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                                id="closeBtn">关闭
+                        </button>
+                    </div>
+                </div>
+                
+</form>                
+</div>
+
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+
+window.viewObj = 
+{
+    tbData: []
+}
+    var v_date = (new Date()).getTime();
+    var id = "${id?default('')}";
+    var file_ids = "attachmentDoc";
+    //detail:详情，edit：编辑
+    file_edit_detail = "edit";
+    //统管理-附件管理-附件配置：页面标识
+    file_opt_flag = "7f22fb4e579a40b0813f6090c15a3435";
+    var layTableId = "dataTable";
+    var curent_tabel_data = null;//当前表格数据
+    var table;
+    var publicMethods;
+    layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
+    	     table = layui.table
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , form = layui.form;
+    	     publicMethods=layui.publicMethods;
+        form.render(null, 'component-form-group');
+        laydate.render({
+            elem: '#LAY-component-form-group-date'
+        });
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#year'
+            , type: 'year'
+        });
+
+        //添加到form.render()之后
+        $("#file_div").load('/common/public/uploadlayuiload.html');
+        /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+        form.verify({
+        });
+
+        //关闭事件
+        $("#closeBtn").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+        
+        
+        
+         var active = {
+        		 removeEmptyTableCache: function(){
+               	  var oldData = table.cache[layTableId];
+                     for(var i=0, row; i < oldData.length; i++){
+                         row = oldData[i];
+                         if(!row || !row.id){
+                             //oldData.splice(i, 1);    //删除一项
+                             viewObj.tbData.splice(i, 1);
+                         }
+                     }
+                     table.reload("dataTable",{data : viewObj.tbData});
+               },addEvent:function(){
+            	layer.open({
+                    title: '检索公司信息'
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: false
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['80%', '90%']
+                    , content: "/unit_select_radio"
+                });      
+            }
+            
+        };
+         
+         
+         
+       //添加一行
+         window.createTableData = function(unitCode,unitName)
+         {
+    	   
+        	var oldData =  table.cache["dataTable"];
+         	var newRow = {
+         			      id: uuid2(32,16),
+         			      unitCode:unitCode, 
+         			      unitName: unitName,
+         			      workersCount:0,
+         			      femaleCount: 0,
+         			      titleSeniorCount:0,
+         			      titleMiddleCount:0,
+         			      titleLowerCount:0,
+         			      diplomaDoctorCount:0,
+         			      diplomaMasterCount:0,
+         			      diplomaUndergraduateCount:0,
+         			      specialistCountryCount:0,
+         			      specialistProvinceCount:0,
+         			      researcherCount:0,
+         			      directResearcherCount:0,
+         			      assistResearcherCount:0,
+         			      workerSalary:0,
+         			      assetsTotal:0,
+         			      fixedAssets:0,
+         			      deviceAssets:0,
+         			      deviceInnnerAssets:0,
+         			      totaIncome:0,
+         			      countryInvestCost:0,
+         			      groupInvestCost:0,
+         			      subInvestCost:0,
+         			      outInvestCost:0,
+         			      allPatentCount:0,
+         			      allPatentLookCount:0,
+         			      currentYearPatentCount:0,
+         			      currentPatentLookCount:0,
+         			      achievementsCountryCount:0,
+         			      achievementsPrivanceCount:0,
+         			      achievementsCompanyCount:0,
+         			      thesisAllCount:0,
+         			      thesisSciCount:0,
+         			      thesisSciInnerCount:0,
+         			      thesisEiCount:0,
+         			      thesisEiInnerCount:0,
+         			      thesisIstpCount:0,
+         			      thesisIsrCount:0
+         			      };
+         	 oldData.push(newRow);
+         	 table.reload('dataTable',{
+                 data : oldData
+             });
+         	viewObj.tbData=oldData;
+            //viewObj.tbData.push(newRow);
+            //table.reload('dataTable', {data: viewObj.tbData});
+            curent_tabel_data=oldData;
+         }
+       
+         table.render({
+             elem: '#dataTable' //表格容器
+             , data: viewObj.tbData //请求的url地址
+             , id: layTableId
+             , height: 500
+             , limit: 100
+             , totalRow: true
+             , cols: [[
+                 {field: 'unitName',  width : '20%', title: '单位名称',edit:true,totalRowText: '合计'},
+                 {field : 'workersCount',        title : '职工总数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'femaleCount',         title : '女性人数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'titleSeniorCount',    title : '高级技术职称',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'titleMiddleCount',    title : '中级技术职称',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'titleLowerCount',     title : '低级技术职称',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'diplomaDoctorCount',    title : '博士数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'diplomaMasterCount',    title : '硕士数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'diplomaUndergraduateCount',    title : '本科',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'specialistCountryCount',      title : '国家级-专家人数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'specialistProvinceCount',     title : '省级-专家人数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'researcherCount',             title : '(R&D)-人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'directResearcherCount',       title : '直接参与',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'assistResearcherCount',       title : '辅助工作人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'workerSalary',                title : '职工薪酬总额(万元)',            style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'assetsTotal',     title : '资产合计(万元)',               style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'fixedAssets',     title : '固定资产',                    style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'deviceAssets',    title : '仪器设备原值(万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'deviceInnnerAssets',     title : '其中：国产技术',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'totaIncome',             title : '总收入',                       style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'countryInvestCost',     title : '政府科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'groupInvestCost',       title : '总部科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'subInvestCost',         title : '分公司科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'outInvestCost',         title : '外部技术性收入',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'allPatentCount',        title : '全部专利数',                 style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'allPatentLookCount',    title : '其中：发明专利数',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'currentYearPatentCount',        title : '当年专利申请数',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'currentPatentLookCount',        title : '其中：发明专利数',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'achievementsCountryCount',      title : '成果数(国家)',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'achievementsPrivanceCount',     title : '成果数(省)',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'achievementsCompanyCount',      title : '成果数(公司)',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'thesisAllCount',           title : '论文总量',                       style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'thesisSciCount',           title : 'SCI（科学引文索引）数',              style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'thesisSciInnerCount',      title : 'SCI->第一作者数',              style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'thesisEiCount',            title : 'EI（工程索引）数',                  style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'thesisEiInnerCount',       title : 'EI->第一作者数',                  style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'thesisIstpCount',          title : 'ISTP（科学技术会议录索引）数',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'thesisIsrCount',           title : 'ISR（科学评论索引）数',   style : 'cursor: pointer;', align : 'center', width : '15%',edit:true,totalRow: true},
+                 {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
+                     return '<a href="#" lay-event="del" lay-id="'+ d.id +'">删除</a>';
+                 }}
+             ]]
+             ,done: function (res, curr, count) {
+             	// var ysnd = parseInt($("#nd").val());
+             	 //$(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"实际完成");
+             	 //$(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"合同计划");
+             }
+         });
+         
+         
+         
+         //激活事件
+         var activeByType = function (type, arg) {
+             if(arguments.length === 2){
+                 active[type] ? active[type].call(this, arg) : '';
+             }else{
+                 active[type] ? active[type].call(this) : '';
+             }
+         };
+         table.on('tool(dataTable)', function (obj) {
+             var data = obj.data, event = obj.event, tr = obj.tr; //获得当前行 tr 的DOM对象;
+             switch(event){
+                 case "del":
+                     layer.confirm('确定删除此行么？', function(index){
+                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                        // table.reload('dataTable', {data: obj.data});
+                         layer.close(index);
+                         activeByType('removeEmptyTableCache');
+                     });
+                     break;
+             }
+         });
+         table.on('edit(dataTable)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+         	if (!(/(^[1-9]\d*$)/.test(obj.value))) {
+         		layer.msg('请输入数字!');
+         		obj.value = 0;
+         	}
+         	$.each(curent_tabel_data,function(index,dt){
+         		if(obj.data.id == dt.id)
+         		{
+         			curent_tabel_data[index][obj.field] = parseInt(obj.value);
+         		}
+         	});
+         	//刷新表格数据
+         	table.reload('dataTable', {data: curent_tabel_data});
+         }); 
+         
+         
+         function getTableData(){
+        	
+             for(var i=0, row; i < viewObj.tbData.length; i++)
+             {
+                 row = viewObj.tbData[i];
+                  /* alert(row.workersCount);
+                 if(!row.workersCount){
+                     layer.msg("检查每一行，请填写职工总人数！", { icon: 5 }); //提示
+                     return;
+                 }else if(!row.femaleCount){
+                     layer.msg("检查每一行，请填写女性人数！", { icon: 5 }); //提示
+                     return;
+                 } */ 
+             } 
+             return JSON.stringify(viewObj.tbData);
+         }
+        /* 监听提交 */
+        form.on('submit(sub)', function (data) {
+            //JSON.stringify(data.field)  提交信息json格式
+            /*parent.layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })*/
+            
+            var allUnitName=$("#allUnitName").val();
+            var unitName=$("#unitName").val();
+            var arr= unitName.split(",");
+            if(unitName==null || unitName=='')
+           	{
+            	 layer.alert("单位名称为空");
+            	 return false;
+           	}else if(arr.length>=2)
+           	{
+           	   layer.alert("单位名过多，请选择一个");
+        	   return false;
+           	}/* else if(allUnitName.indexOf(unitName)== -1)
+           	{
+               layer.alert("选择您所在的单位");
+         	   return false;
+            } */else
+       		{
+            	 var formData = JSON.stringify(data.field);
+                 console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
+                 var subTechOrgStr=getTableData();
+                 $("#subTechOrgStr").val(subTechOrgStr);  
+                 //return false;
+            	 var type= $("#type").val();
+            	 var url = '/tech_org/save_new?v_date=' + v_date + "&id=" + id;
+                 var backurl = "/tech_org/to-list?v_date=" + v_date+"&type="+type;
+                 ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
+                 return false;
+       		}
+            
+            
+           
+        });
+    });
+
+
+    function ajaxOpt(url, formName, type, backurl, successMsg, failMsg) {
+        $.ajax({
+            type: type,
+            url: url,
+            dataType: "json",
+            data: $("#" + formName).serialize(),
+            async: false,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function (data, status) {
+
+                if (data.success == true || data.success == 'true') {
+
+
+                    layer.alert(
+                        successMsg,
+                        {icon: 1, closeBtn: 0},
+                        function () {
+                            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                            parent.layer.close(index);  // 关闭layer
+                            parent.location.href = backurl;
+                        });
+
+                } else {
+                    layer.alert(failMsg);
+                }
+
+            },
+            error: function () {
+                layer.alert("网络访问错误");
+            }
+
+        });
+    }
+    
+    function chooseUnitRaio(callback_funcName) 
+    {
+    
+	    layer.open({
+	        title: '选择单位'
+	        , skin: 'layui-layer-lan'
+	        , shadeClose: true
+	        , type: 2
+	        , fixed: false
+	        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	        , maxmin: false
+	        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	        , area: ['80%', '90%']
+	        , content: "/unit_select_radio?funcName="+callback_funcName
+	    }); 
+    
+    }
+    //回调
+    function chooseUnitRaio_callback(unitCode,unitName) 
+    {
+    	
+    }
+    
+    
+    function chooseWriteType(value) 
+    {
+    	alert(value);
+    	if(value=='1')
+    	{
+    		$("#unitName_01_id").val("单位名称");
+        	$("#unitName_02_id").val("单位名称");
+    	}
+    	
+    	if(value=='2')
+    	{
+    		$("#unitName_01_id").val("本单位名称");
+        	$("#unitName_02_id").val("下级单位名称");
+    	}
+    	
+    	
+    }
+    
+    
+    function setCompanyData(unitCode,unitName) 
+    {
+    	$("#unitName").val(unitName);
+    	$("#unitCode").val(unitCode);
+    }
+    
+    function clearNoNum(obj){  
+    	  obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符   
+    	  obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的   
+    	  obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");  
+    	  //obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数   
+    	  obj.value=obj.value.replace(/^(\d*(\.\d{0,4})?).*/,'$1');
+    	  if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额  
+    	   obj.value= parseFloat(obj.value);  
+    	  }  
+    	}
+    
+    function uuid2(len, radix) 
+    {
+        var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+        var uuid = [],i;
+        radix = radix || chars.length;
+        if (len) 
+        {
+            // Compact form
+            for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random() * radix];
+        } else 
+        {
+            // rfc4122, version 4 form
+            var r;
+            // rfc4122 requires these characters
+            uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+            uuid[14] = '4';
+            // Fill in random data.  At i==19 set the high bits of clock sequence as
+            // per rfc4122, sec. 4.1.5
+            for (i = 0; i < 36; i++) {
+                if (!uuid[i]) {
+                    r = 0 | Math.random() * 16;
+                    uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+                }
+            }
+        }
+
+        return uuid.join('');
+    }
+    //alert(uuid2(32, 16));
+</script>
+</body>
+</html>
