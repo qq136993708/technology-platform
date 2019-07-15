@@ -72,7 +72,7 @@
 </div>
 
 
-
+<script id="view_detail" type="text/html"> {{view_detail(d)}} </script>
 <script id="statisticsTypeTpl" type="text/html"> {{statistics_TypeTpl(d)}} </script>
 <script id="view_type" type="text/html"> {{view_type(d)}} </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
@@ -97,14 +97,27 @@
             return '';
         }
     }
+    function view_detail(d) 
+    {
+    	var unitName=d.unitName;
+    	var parentUnitName=d.parentUnitName;
+    	var title=parentUnitName+'-'+unitName;
+    	
+    	var str=parentUnitName+""+unitName;
+    	str=str.replace("中国石油化工集团","");
+    	str=str.replace("中国石油化工股份有限公司","");
+    	
+    	return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" title='+title+' style="color:#1890ff">'+str+'</span>';
+    }
     
     
     function statistics_TypeTpl(d) 
     {
-    	if (d.statisticsType=='1') 
+    	//alert(d.statisticsType);
+    	if(d.statisticsType==1) 
         {
         	 return '<span style="color:orange">本单位填写</span>';
-        }else  if (d.statisticsType=='2') 
+        }else if(d.statisticsType==2) 
         {
         	 return '<span style="color:green">二级单位填写</span>';
         }else
@@ -240,7 +253,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/tech_org/statistics_list',
            method:"POST",
-           where: {param: {"unitName":$("#unitName").val(),"auditStatus":$("#auditStatus").val(),"year":$("#year").val(),"type":$("#type").val(),"statisticsType":"1"}},
+           where: {param: {"unitName":$("#unitName").val(),"auditStatus":$("#auditStatus").val(),"year":$("#year").val(),"type":$("#type").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
@@ -255,7 +268,7 @@ var name=$('#name').val();
            cols: [[
            	  // {type : 'checkbox', event : 'changeEvents', width : 55,fixed:'left'},
                {title : '序号', type : 'numbers', width : 55,fixed:'left'},
-               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '16%',templet:function(d){return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" style="color:#1890ff">'+d.unitName+'</span>'},sort : true,fixed:'left'},
+               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '16%',templet : '#view_detail',sort : true,fixed:'left'},
                {field : 'year',            title : '统计年度',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'auditStatus',     title : '审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
                {field : 'type',            title : '公司类型',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true,templet : '#view_type'},
