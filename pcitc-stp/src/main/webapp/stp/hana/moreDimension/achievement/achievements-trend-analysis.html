@@ -142,7 +142,8 @@ function init()
 	        ];
 
     	var chart1_url="/more-dimension/achievements_trend_analysis_01?type=1&nd="+year+"&v_date="+v_date;
-    	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis);
+    	var color=["#D5A769","#8B8DB9"]
+    	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis,'',color);
     	echart1.on('click', function (params) {
     		var xName=params.name;
     		var legentName=params.seriesName;
@@ -162,7 +163,7 @@ function init()
     	
 
     	var chart1_url="/more-dimension/achievements_trend_analysis_02?type=1&nd="+year+"&v_date="+v_date;
-    	var echart1=load_mutl_bar_down(chart1_url,"topic_chart3","","",yAxis);
+    	var echart1=load_mutl_bar_down(chart1_url,"topic_chart3","","",yAxis,'',color);
     	echart1.on('click', function (params) {
     		var xName=params.name;
     		var legentName=params.seriesName;

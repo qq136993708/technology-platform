@@ -1,4 +1,4 @@
-function load_mult_bar(url,id,title,subtext,callback)
+function load_mult_bar(url,id,title,subtext,color,callback)
 {
 	
 	var echartsobj = echarts.init(document.getElementById(id));
@@ -10,6 +10,9 @@ function load_mult_bar(url,id,title,subtext,callback)
 	{
 		mult_option.title.subtext=subtext;
 	}
+    if (color != undefined && color != "") {
+        mult_option.color = color;
+    }
 	echartsobj.setOption(mult_option);
 	echartsobj.showLoading();
 	ajax_load_data(url,echartsobj,callback);
