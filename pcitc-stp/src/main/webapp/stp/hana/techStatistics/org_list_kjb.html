@@ -70,6 +70,10 @@
 </div>
 
 </div>
+
+
+<script id="view_detail" type="text/html"> {{view_detail(d)}} </script>
+<script id="statisticsTypeTpl" type="text/html"> {{statistics_TypeTpl(d)}} </script>
 <script id="view_type" type="text/html"> {{view_type(d)}} </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
@@ -93,6 +97,35 @@
             return '';
         }
     }
+    function view_detail(d) 
+    {
+    	var unitName=d.unitName;
+    	var parentUnitName=d.parentUnitName;
+    	var title=parentUnitName+'-'+unitName;
+    	
+    	var str=parentUnitName+""+unitName;
+    	str=str.replace("中国石油化工集团","");
+    	str=str.replace("中国石油化工股份有限公司","");
+    	
+    	return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" title='+title+' style="color:#1890ff">'+str+'</span>';
+    }
+    
+    
+    function statistics_TypeTpl(d) 
+    {
+    	//alert(d.statisticsType);
+    	if(d.statisticsType==1) 
+        {
+        	 return '<span style="color:orange">本单位填写</span>';
+        }else if(d.statisticsType==2) 
+        {
+        	 return '<span style="color:green">二级单位填写</span>';
+        }else
+     	  {
+      	     return '<span>-</span>';
+     	  }
+    }
+    
     
     function view_type(d) 
     {
@@ -235,7 +268,7 @@ var name=$('#name').val();
            cols: [[
            	  // {type : 'checkbox', event : 'changeEvents', width : 55,fixed:'left'},
                {title : '序号', type : 'numbers', width : 55,fixed:'left'},
-               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '16%',templet:function(d){return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" style="color:#1890ff">'+d.unitName+'</span>'},sort : true,fixed:'left'},
+               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '16%',templet : '#view_detail',sort : true,fixed:'left'},
                {field : 'year',            title : '统计年度',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'auditStatus',     title : '审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
                {field : 'type',            title : '公司类型',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true,templet : '#view_type'},
@@ -277,7 +310,8 @@ var name=$('#name').val();
                {field : 'thesisIstpCount',          title : 'ISTP（科学技术会议录索引）数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'thesisIsrCount',           title : 'ISR（科学评论索引）数',   style : 'cursor: pointer;', align : 'center', width : '15%',sort : true},
                {field : 'createUserName',           title : '填写人',               style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'createDate',               title : '填写时间',             style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl',sort : true}
+               {field : 'createDate',               title : '填写时间',             style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl',sort : true},
+               {field : 'statisticsType',           title : '统计类型',            style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#statisticsTypeTpl',sort : true}
                
            ]],
            done: function (res, curr, count) {
@@ -291,31 +325,9 @@ var name=$('#name').val();
                    selectRowData=res.data[index-1];
                    var auditStatus=selectRowData.auditStatus;
                   
-                   if(auditStatus=='0' || auditStatus=='3' )
-                   {
-                	  
-                	   $("#editEvent").attr("disabled",false);
-                	   $("#deleteEvent").attr("disabled",false);
-                   }else if(auditStatus=='1' || auditStatus=='2')
-                   {
-                	   $("#editEvent").attr("disabled",true);
-                	   $("#deleteEvent").attr("disabled",true);
-                   }
                   
                });
-               /* //项目分类，项目性质
-               var dicMap = ['ROOT_ZBGL_ZBFL'];
-               var dicVal = {};
-				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
-					$.each(data,function(key,val){
-						$.each(val,function(i,dt){
-							dicVal[dt.code] = dt.name;
-						});
-					});
-			   	}); 
-				$.each(res.data,function(i,dt){
-					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
-			   	});  */
+               
            }
        });
     }

@@ -5870,12 +5870,10 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 	public static void main(String[] args) {
 
 		
-		Object o="122221.00";
+		Object o=33;
 		
-		 
-		double data =Double.valueOf(o.toString());
-		String str=new DecimalFormat("#.###").format(data);
-		System.out.println("------------------" + str);
+		System.out.println(">>>>>>>>>>>thesisEiInnerCount="+o);
+		System.out.println(">>>>>>>>>>>thesisEiInnerCount="+(Integer)o);
 
 	}
 
