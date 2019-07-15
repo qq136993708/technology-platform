@@ -69,5 +69,11 @@ public interface IntlProjectInfoService
 	 * @return
 	 */
 	String createProjectInfoCode();
+	/**
+	 * 按年度查询项目数量
+	 * @param nd
+	 * @return
+	 */
+	public Integer selectCurrentYearProjectCount(String nd);
 
 }
