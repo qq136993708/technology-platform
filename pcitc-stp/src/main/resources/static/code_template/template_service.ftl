@@ -1,6 +1,5 @@
 package ${svcPackageName};
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.pcitc.base.common.LayuiTableData;
@@ -9,7 +8,7 @@ import com.pcitc.base.common.Result;
 import ${beanPackage}.${beanName};
 import ${beanPackage}.${beanName}Example;
 
-public interface ${beanName}Service extends BaseService<${beanName},Serializable,${beanName}Example>
+public interface ${beanName}Service extends BaseService<${beanName},String,${beanName}Example>
 {
 	
 	public ${beanName} select${beanName}(String dataId);

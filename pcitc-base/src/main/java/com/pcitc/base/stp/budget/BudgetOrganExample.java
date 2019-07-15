@@ -10,10 +10,6 @@ public class BudgetOrganExample {
 
     protected List<Criteria> oredCriteria;
 
-    private Integer limit;
-
-    private Long offset;
-
     public BudgetOrganExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
@@ -65,22 +61,6 @@ public class BudgetOrganExample {
         oredCriteria.clear();
         orderByClause = null;
         distinct = false;
-    }
-
-    public void setLimit(Integer limit) {
-        this.limit = limit;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public void setOffset(Long offset) {
-        this.offset = offset;
-    }
-
-    public Long getOffset() {
-        return offset;
     }
 
     protected abstract static class GeneratedCriteria {
@@ -265,62 +245,62 @@ public class BudgetOrganExample {
         }
 
         public Criteria andNoIsNull() {
-            addCriterion("`no` is null");
+            addCriterion("no is null");
             return (Criteria) this;
         }
 
         public Criteria andNoIsNotNull() {
-            addCriterion("`no` is not null");
+            addCriterion("no is not null");
             return (Criteria) this;
         }
 
         public Criteria andNoEqualTo(Integer value) {
-            addCriterion("`no` =", value, "no");
+            addCriterion("no =", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoNotEqualTo(Integer value) {
-            addCriterion("`no` <>", value, "no");
+            addCriterion("no <>", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoGreaterThan(Integer value) {
-            addCriterion("`no` >", value, "no");
+            addCriterion("no >", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoGreaterThanOrEqualTo(Integer value) {
-            addCriterion("`no` >=", value, "no");
+            addCriterion("no >=", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoLessThan(Integer value) {
-            addCriterion("`no` <", value, "no");
+            addCriterion("no <", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoLessThanOrEqualTo(Integer value) {
-            addCriterion("`no` <=", value, "no");
+            addCriterion("no <=", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoIn(List<Integer> values) {
-            addCriterion("`no` in", values, "no");
+            addCriterion("no in", values, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoNotIn(List<Integer> values) {
-            addCriterion("`no` not in", values, "no");
+            addCriterion("no not in", values, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoBetween(Integer value1, Integer value2) {
-            addCriterion("`no` between", value1, value2, "no");
+            addCriterion("no between", value1, value2, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoNotBetween(Integer value1, Integer value2) {
-            addCriterion("`no` not between", value1, value2, "no");
+            addCriterion("no not between", value1, value2, "no");
             return (Criteria) this;
         }
 
@@ -595,8 +575,6 @@ public class BudgetOrganExample {
         }
     }
 
-    /**
-     */
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {

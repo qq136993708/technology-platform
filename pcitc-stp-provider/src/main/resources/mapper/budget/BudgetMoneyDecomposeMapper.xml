@@ -6,6 +6,8 @@
     <result column="nd" jdbcType="VARCHAR" property="nd" />
     <result column="xh" jdbcType="VARCHAR" property="xh" />
     <result column="cb" jdbcType="VARCHAR" property="cb" />
+    <result column="budget_code" jdbcType="VARCHAR" property="budgetCode" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
     <result column="jfyszjys" jdbcType="VARCHAR" property="jfyszjys" />
     <result column="jfyszjlht" jdbcType="VARCHAR" property="jfyszjlht" />
     <result column="jfyszjxq" jdbcType="VARCHAR" property="jfyszjxq" />
@@ -78,8 +80,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    data_id, nd, xh, cb, jfyszjys, jfyszjlht, jfyszjxq, jtyshjys, jtyshjlht, jtyshxq, 
-    zcyshjys, zcyshjlht, zcyshjxq, gfyshjys, gfyshjlht, gfyshjxq
+    data_id, nd, xh, cb, budget_code, unit_code, jfyszjys, jfyszjlht, jfyszjxq, jtyshjys, 
+    jtyshjlht, jtyshxq, zcyshjys, zcyshjlht, zcyshjxq, gfyshjys, gfyshjlht, gfyshjxq
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetMoneyDecomposeExample" resultMap="BaseResultMap">
     select
@@ -114,17 +116,19 @@
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetMoneyDecompose">
     insert into out_tem_money_decompose (data_id, nd, xh, 
-      cb, jfyszjys, jfyszjlht, 
-      jfyszjxq, jtyshjys, jtyshjlht, 
-      jtyshxq, zcyshjys, zcyshjlht, 
-      zcyshjxq, gfyshjys, gfyshjlht, 
-      gfyshjxq)
+      cb, budget_code, unit_code, 
+      jfyszjys, jfyszjlht, jfyszjxq, 
+      jtyshjys, jtyshjlht, jtyshxq, 
+      zcyshjys, zcyshjlht, zcyshjxq, 
+      gfyshjys, gfyshjlht, gfyshjxq
+      )
     values (#{dataId,jdbcType=INTEGER}, #{nd,jdbcType=VARCHAR}, #{xh,jdbcType=VARCHAR}, 
-      #{cb,jdbcType=VARCHAR}, #{jfyszjys,jdbcType=VARCHAR}, #{jfyszjlht,jdbcType=VARCHAR}, 
-      #{jfyszjxq,jdbcType=VARCHAR}, #{jtyshjys,jdbcType=VARCHAR}, #{jtyshjlht,jdbcType=VARCHAR}, 
-      #{jtyshxq,jdbcType=VARCHAR}, #{zcyshjys,jdbcType=VARCHAR}, #{zcyshjlht,jdbcType=VARCHAR}, 
-      #{zcyshjxq,jdbcType=VARCHAR}, #{gfyshjys,jdbcType=VARCHAR}, #{gfyshjlht,jdbcType=VARCHAR}, 
-      #{gfyshjxq,jdbcType=VARCHAR})
+      #{cb,jdbcType=VARCHAR}, #{budgetCode,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, 
+      #{jfyszjys,jdbcType=VARCHAR}, #{jfyszjlht,jdbcType=VARCHAR}, #{jfyszjxq,jdbcType=VARCHAR}, 
+      #{jtyshjys,jdbcType=VARCHAR}, #{jtyshjlht,jdbcType=VARCHAR}, #{jtyshxq,jdbcType=VARCHAR}, 
+      #{zcyshjys,jdbcType=VARCHAR}, #{zcyshjlht,jdbcType=VARCHAR}, #{zcyshjxq,jdbcType=VARCHAR}, 
+      #{gfyshjys,jdbcType=VARCHAR}, #{gfyshjlht,jdbcType=VARCHAR}, #{gfyshjxq,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetMoneyDecompose">
     insert into out_tem_money_decompose
@@ -140,6 +144,12 @@
       </if>
       <if test="cb != null">
         cb,
+      </if>
+      <if test="budgetCode != null">
+        budget_code,
+      </if>
+      <if test="unitCode != null">
+        unit_code,
       </if>
       <if test="jfyszjys != null">
         jfyszjys,
@@ -190,6 +200,12 @@
       </if>
       <if test="cb != null">
         #{cb,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetCode != null">
+        #{budgetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null">
+        #{unitCode,jdbcType=VARCHAR},
       </if>
       <if test="jfyszjys != null">
         #{jfyszjys,jdbcType=VARCHAR},
@@ -250,6 +266,12 @@
       <if test="record.cb != null">
         cb = #{record.cb,jdbcType=VARCHAR},
       </if>
+      <if test="record.budgetCode != null">
+        budget_code = #{record.budgetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitCode != null">
+        unit_code = #{record.unitCode,jdbcType=VARCHAR},
+      </if>
       <if test="record.jfyszjys != null">
         jfyszjys = #{record.jfyszjys,jdbcType=VARCHAR},
       </if>
@@ -297,6 +319,8 @@
       nd = #{record.nd,jdbcType=VARCHAR},
       xh = #{record.xh,jdbcType=VARCHAR},
       cb = #{record.cb,jdbcType=VARCHAR},
+      budget_code = #{record.budgetCode,jdbcType=VARCHAR},
+      unit_code = #{record.unitCode,jdbcType=VARCHAR},
       jfyszjys = #{record.jfyszjys,jdbcType=VARCHAR},
       jfyszjlht = #{record.jfyszjlht,jdbcType=VARCHAR},
       jfyszjxq = #{record.jfyszjxq,jdbcType=VARCHAR},
@@ -324,6 +348,12 @@
       </if>
       <if test="cb != null">
         cb = #{cb,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetCode != null">
+        budget_code = #{budgetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null">
+        unit_code = #{unitCode,jdbcType=VARCHAR},
       </if>
       <if test="jfyszjys != null">
         jfyszjys = #{jfyszjys,jdbcType=VARCHAR},
@@ -369,6 +399,8 @@
     set nd = #{nd,jdbcType=VARCHAR},
       xh = #{xh,jdbcType=VARCHAR},
       cb = #{cb,jdbcType=VARCHAR},
+      budget_code = #{budgetCode,jdbcType=VARCHAR},
+      unit_code = #{unitCode,jdbcType=VARCHAR},
       jfyszjys = #{jfyszjys,jdbcType=VARCHAR},
       jfyszjlht = #{jfyszjlht,jdbcType=VARCHAR},
       jfyszjxq = #{jfyszjxq,jdbcType=VARCHAR},

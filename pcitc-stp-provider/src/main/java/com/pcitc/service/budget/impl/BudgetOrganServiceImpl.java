@@ -12,7 +12,6 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.BudgetOrgan;
 import com.pcitc.base.stp.budget.BudgetOrganExample;
-import com.pcitc.mapper.budget.BudgetBaseMapper;
 import com.pcitc.mapper.budget.BudgetOrganMapper;
 import com.pcitc.service.budget.BudgetOrganService;
 /**
@@ -22,88 +21,89 @@ import com.pcitc.service.budget.BudgetOrganService;
  */
 @Service("budgetOrganService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-public class BudgetOrganServiceImpl  extends BaseServiceImpl<BudgetOrgan,String,BudgetOrganExample>  implements BudgetOrganService
+public class BudgetOrganServiceImpl implements BudgetOrganService
 {
 
 	@Autowired
-	public BudgetOrganMapper mp;
-	@Override
-	public BudgetBaseMapper<BudgetOrgan,String,BudgetOrganExample> getMapper() 
-	{
-		return mp;
-	}
+	public BudgetOrganMapper mapper;
+	
+	
+	
 	
 	@Override
-	public BudgetOrgan selectBudgetOrgan(String dataId) 
-	{
-		return this.selectByPrimaryKey(dataId);
+	public BudgetOrgan selectByPrimaryKey(String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public Result saveBudgetOrgan(BudgetOrgan bean) throws Exception 
-	{
-		Boolean status = this.saveBean(bean);
-		
-		return new Result(status);
+	public LayuiTableData selectTableData(LayuiTableParam param, BudgetOrganExample e) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public Result updateBudgetOrgan(BudgetOrgan budgetOrgan) throws Exception 
-	{
-		Boolean status =  this.updateBean(budgetOrgan);
-		
-		return new Result(status);
+	public List<BudgetOrgan> selectListData(BudgetOrganExample e) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public Result deleteBudgetOrgan(String id) throws Exception 
-	{
-		Boolean status =  this.deleteBean(id);
-		
-		return new Result(status);
+	public Boolean updateBean(BudgetOrgan bean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public Result saveOrUpdBudgetOrgan(BudgetOrgan bean) throws Exception 
-	{
-		Boolean status =  this.saveOrUpdBean(bean.getDataId(),bean);
-		
-		return new Result(status);
+	public Boolean deleteBean(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public List<BudgetOrgan> selectListBudgetOrgan() 
-	{
-		BudgetOrganExample example = new BudgetOrganExample();
-		return this.selectListData(example);
+	public Boolean saveBean(BudgetOrgan bean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public LayuiTableData selectTableBudgetOrgan(LayuiTableParam param) 
-	{
-		/*BudgetOrganExample example = new BudgetOrganExample();
-		//每页显示条数
-		int pageSize = param.getLimit();
-		//从第多少条开始
-		int pageStart = (param.getPage()-1)*pageSize;
-		//当前是第几页
-		int pageNum = pageStart/pageSize + 1;
-		// 1、设置分页信息，包括当前页数和每页显示的总计数
-		PageHelper.startPage(pageNum, pageSize);
-		
-		List<BudgetOrgan> list = mapper.selectByExample(example);
-		// 3、获取分页查询后的数据
-		PageInfo<BudgetOrgan> pageInfo= new PageInfo<BudgetOrgan>(list);
-		// 3、获取分页查询后的数据
-		LayuiTableData data = new LayuiTableData();
-		data.setData(pageInfo.getList());
-		Long total = pageInfo.getTotal();
-		data.setCount(total.intValue());
-		return data;*/
-		
-		
-		BudgetOrganExample example = new BudgetOrganExample();
-		return this.selectTableData(param, example);
+	public Boolean saveOrUpdBean(String id, BudgetOrgan bean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	@Override
-	public List<BudgetOrgan> selectListBudgetOrganByBean(BudgetOrgan bean) 
-	{
-		BudgetOrganExample example = new BudgetOrganExample();
-		return this.selectListData(example);
+	public BudgetOrgan selectBudgetOrgan(String dataId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Result saveBudgetOrgan(BudgetOrgan bean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Result updateBudgetOrgan(BudgetOrgan bean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Result saveOrUpdBudgetOrgan(BudgetOrgan bean) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Result deleteBudgetOrgan(String dataId) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<BudgetOrgan> selectListBudgetOrgan() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<BudgetOrgan> selectListBudgetOrganByBean(BudgetOrgan bean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public LayuiTableData selectTableBudgetOrgan(LayuiTableParam param) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

@@ -90,7 +90,7 @@
             </button>
         </div>
         <div id="tableBox">
-            <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
+            <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '500',limit:100, url:'',totalRow: true}">
                 <thead>
                 <tr>
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
@@ -98,13 +98,13 @@
                     <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">类别</th>
                    	<!-- <th lay-data="{field:'last_year_end',align: 'right', width: '15%'}" rowspan="2">年预算完成</th>
                     <th lay-data="{field:'plan_money',align: 'right', width: '15%'}" rowspan="2">年计划金额</th> -->
-                    <th lay-data="{align:'center'}", colspan="3"><span>${cnd}</span>年科技经费预计完成</th>
+                    <!-- <th lay-data="{align:'center'}", colspan="3"><span>${cnd}</span>年科技经费预计完成</th> -->
                     <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年科技经费预算</th>
                 </tr>
                 <tr>
-                    <th lay-data="{field:'yjwcTotal',align: 'right',totalRow: true}">合计</th>
+                    <!-- <th lay-data="{field:'yjwcTotal',align: 'right',totalRow: true}">合计</th>
                     <th lay-data="{field:'yjwcZbx', edit:true,align: 'right',totalRow: true}">资本性</th>
-                    <th lay-data="{field:'yjwcFyx', edit:true,align: 'right',totalRow: true}">费用性</th>
+                    <th lay-data="{field:'yjwcFyx', edit:true,align: 'right',totalRow: true}">费用性</th> -->
                     <th lay-data="{field:'xmjfTotal',align: 'right',totalRow: true}">合计</th>
                     <th lay-data="{field:'xmjfZbx', edit:true,align: 'right',totalRow: true}">资本性</th>
                     <th lay-data="{field:'xmjfFyx', edit:true,align: 'right',totalRow: true}">费用性</th>
@@ -182,9 +182,8 @@
             		publicMethods.ajaxAsyncPost("/budget/budget-stocktotal-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
             			layer.close(lodingMsg);
             			curent_tabel_data = data.data;
-	                	console.log(curent_tabel_data);
 	                	$.each(curent_tabel_data,function(index,dt){
-	                		dt.yjwcTotal = parseInt(dt.yjwcZbx)+parseInt(dt.yjwcFyx);
+	                		//dt.yjwcTotal = parseInt(dt.yjwcZbx)+parseInt(dt.yjwcFyx);
 	                		dt.xmjfTotal = parseInt(dt.xmjfZbx)+parseInt(dt.xmjfFyx);
 	                	});
 	                	initEmptyData(curent_budget_info);
@@ -220,8 +219,8 @@
 				$(".nd").html(cu_date);
             	/* $(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(3).find('span').text((cu_date-1)+"年预算完成");
             	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(4).find('span').text(cu_date+"年计划金额"); */
-            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预计完成");
-            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(4).find('span').text(cu_date+"年科技经费预算");
+            	//$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预计完成");
+            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(3).find('span').text(cu_date+"年科技经费预算");
 			}
 			function reloadDataAndTableFormart(data)
 			{
@@ -261,13 +260,13 @@
             		if(obj.data.dataId == dt.dataId){
             			curent_tabel_data[index][obj.field] = parseInt(obj.value);
             			
-            			dt.yjwcTotal = parseInt(dt.yjwcZbx)+parseInt(dt.yjwcFyx);
+            			//dt.yjwcTotal = parseInt(dt.yjwcZbx)+parseInt(dt.yjwcFyx);
             			dt.xmjfTotal = parseInt(dt.xmjfZbx)+parseInt(dt.xmjfFyx);
             		}
             		//如果是二级节点，则同时要更新求和数
             		if(obj.data.level == 1 && obj.data.parentDataId == dt.parentDataId){
-            			yjwcZbx+=parseInt(dt.yjwcZbx);
-            			yjwcFyx+=parseInt(dt.yjwcFyx);
+            			//yjwcZbx+=parseInt(dt.yjwcZbx);
+            			//yjwcFyx+=parseInt(dt.yjwcFyx);
             			xmjfFyx+=parseInt(dt.xmjfFyx);
             			xmjfZbx+=parseInt(dt.xmjfZbx);
             		}
@@ -277,9 +276,9 @@
             	{
             		$.each(curent_tabel_data,function(index,dt){
             			if(dt.dataId==obj.data.parentDataId){
-            				dt.yjwcZbx=yjwcZbx;
-            				dt.yjwcFyx=yjwcFyx;
-            				dt.yjwcTotal=yjwcZbx+yjwcFyx;
+            				//dt.yjwcZbx=yjwcZbx;
+            				//dt.yjwcFyx=yjwcFyx;
+            				//dt.yjwcTotal=yjwcZbx+yjwcFyx;
             				dt.xmjfFyx=xmjfFyx;
             				dt.xmjfZbx=xmjfZbx;
             				dt.xmjfTotal=xmjfFyx+xmjfZbx;
@@ -334,20 +333,20 @@
           			if(dt.level == 0){
           				//t3 += parseInt(dt.last_year_end);
           				//t4 += parseInt(dt.plan_money);
-          				t5 += parseInt(dt.yjwcTotal);
-          				t6 += parseInt(dt.yjwcZbx);
-          				t7 += parseInt(dt.yjwcFyx);
+          				//t5 += parseInt(dt.yjwcTotal);
+          				//t6 += parseInt(dt.yjwcZbx);
+          				//t7 += parseInt(dt.yjwcFyx);
           				t8 += parseInt(dt.xmjfTotal);
           				t9 += parseInt(dt.xmjfZbx);
           				t10 += parseInt(dt.xmjfFyx);
           			}
           		});
-          		$(".layui-table-total").find("tr").find('td').eq(3).find("div").html(t5);
-      			$(".layui-table-total").find("tr").find('td').eq(4).find("div").html(t6);
-      			$(".layui-table-total").find("tr").find('td').eq(5).find("div").html(t7);
-      			$(".layui-table-total").find("tr").find('td').eq(6).find("div").html(t8);
-      			$(".layui-table-total").find("tr").find('td').eq(7).find("div").html(t9);
-      			$(".layui-table-total").find("tr").find('td').eq(8).find("div").html(t10);
+          		$(".layui-table-total").find("tr").find('td').eq(3).find("div").html(t8);
+      			$(".layui-table-total").find("tr").find('td').eq(4).find("div").html(t9);
+      			$(".layui-table-total").find("tr").find('td').eq(5).find("div").html(t10);
+      			//$(".layui-table-total").find("tr").find('td').eq(6).find("div").html(t8);
+      			//$(".layui-table-total").find("tr").find('td').eq(7).find("div").html(t9);
+      			//$(".layui-table-total").find("tr").find('td').eq(8).find("div").html(t10);
       			
       			var available = parseInt($("#budgetMoney").val())-total_money;
       			$("#surplusMoney").val(available);

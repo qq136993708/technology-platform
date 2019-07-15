@@ -203,5 +203,16 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 		List<IntlProjectInfo> applys = projectInfoMapper.selectByExample(example);
 		
 		return HanyuPinyinHelper.toPinyin("GJHZ_"+DateUtil.format(new Date(), DateUtil.FMT_YYYY)+"_LX_"+(100+applys.size()));
+	}
+
+	@Override
+	public Integer selectCurrentYearProjectCount(String nd) 
+	{
+		IntlProjectInfoExample example = new IntlProjectInfoExample();
+		IntlProjectInfoExample.Criteria criteria = example.createCriteria();
+		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		
+		Long count = projectInfoMapper.countByExample(example);
+		return count.intValue();
 	} 
 }

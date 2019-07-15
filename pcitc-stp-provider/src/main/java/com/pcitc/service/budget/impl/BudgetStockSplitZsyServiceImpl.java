@@ -23,8 +23,8 @@ import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetOrganEnum;
 import com.pcitc.base.common.enums.BudgetOrganNdEnum;
-import com.pcitc.base.common.enums.BudgetSplitEnum;
-import com.pcitc.base.common.enums.BudgetSplitNdEnum;
+import com.pcitc.base.common.enums.BudgetStockEnum;
+import com.pcitc.base.common.enums.BudgetStockNdEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
@@ -166,8 +166,8 @@ public class BudgetStockSplitZsyServiceImpl implements BudgetStockSplitZsySplitS
 	{
 		List<SysDictionary> dis = new ArrayList<SysDictionary>();
 		
-		List<BudgetSplitEnum> enums = BudgetSplitNdEnum.getStockSplitZsyByNd(nd).getSplits();
-		for(BudgetSplitEnum em:enums) {
+		List<BudgetStockEnum> enums = BudgetStockNdEnum.getStockSplitZsyByNd(nd).getSplits();
+		for(BudgetStockEnum em:enums) {
 			SysDictionary d = new SysDictionary();
 			d.setCode(em.getCode());
 			d.setName(em.getName());

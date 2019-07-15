@@ -21,8 +21,8 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
-import com.pcitc.base.common.enums.BudgetSplitEnum;
-import com.pcitc.base.common.enums.BudgetSplitNdEnum;
+import com.pcitc.base.common.enums.BudgetStockEnum;
+import com.pcitc.base.common.enums.BudgetStockNdEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
@@ -71,15 +71,15 @@ public class BudgetStockSplitZgsProviderClient
 				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
 				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
 				//[股份付分子公司 GFFZGS] 来源枚举
-				List<BudgetSplitEnum> enums = BudgetSplitNdEnum.getStockSplitZgsByNd(info.getNd()).getSplits();
+				List<BudgetStockEnum> enums = BudgetStockNdEnum.getStockSplitZgsByNd(info.getNd()).getSplits();
 				//默认可分配为0
-				for(BudgetSplitEnum item:enums) {
+				for(BudgetStockEnum item:enums) {
 					map.put(item.getCode(), 0);
 				}
 				//查找预算项中对应的预算值
 				if(finalBudgetInfo !=null) {
 					List<BudgetStockTotal> totals = budgetStockTotalService.selectItemsByBudgetId(finalBudgetInfo.getDataId());
-					for(BudgetSplitEnum item:enums) {
+					for(BudgetStockEnum item:enums) {
 						Optional<BudgetStockTotal> rs = totals.stream()
 								.filter(a -> item.getCode().equals(a.getDisplayCode()))
 								.filter(a -> new Integer(0).equals(a.getLevel()))
