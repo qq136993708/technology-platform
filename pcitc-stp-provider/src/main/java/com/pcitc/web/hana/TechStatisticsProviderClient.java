@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -40,6 +41,27 @@ public class TechStatisticsProviderClient {
 		return rageResult;
 	}
 	
+	
+	
+	@ApiOperation(value = "导出-科研投入表", notes = "导出-科研投入表")
+	@RequestMapping(value = "/sre-provider/techCost/list", method = RequestMethod.POST)
+	public JSONArray tzxmwcqktjb_out_excel(@RequestBody Map map)throws Exception
+	{
+		return techStatisticsService.getTechCostList(map);
+	}
+	
+	
+	
+	
+	@ApiOperation(value = "科研投入表分页", notes = "科研投入表分页")
+	@RequestMapping(value = "/sre-provider/techCost/statistics_page", method = RequestMethod.POST)
+	public LayuiTableData getTechCostStatisticsPage(@RequestBody LayuiTableParam param)throws Exception
+	{
+		LayuiTableData rageResult=techStatisticsService.getTechCostStatisticsPage(param);
+		return rageResult;
+	}
+	
+	
 	@ApiOperation(value = "增加科研投入表", notes = "增加科研投入表")
 	@RequestMapping(value = "/sre-provider/techCost/add", method = RequestMethod.POST)
 	public String insertTechCost(@RequestBody TechCost techCost) throws Exception{
@@ -47,6 +69,9 @@ public class TechStatisticsProviderClient {
 		Integer count= techStatisticsService.insertTechCost(techCost);
 		return techCost.getId();
 	}
+	
+	
+	
 	
 	
 	@ApiOperation(value = "修改科研投入表", notes = "修改科研投入表")
@@ -137,7 +162,12 @@ public class TechStatisticsProviderClient {
 	}
 	
 	
-	
+	@ApiOperation(value = "导出-科研机构调查表", notes = "导出-科研机构调查表")
+	@RequestMapping(value = "/sre-provider/techOrgCount/list", method = RequestMethod.POST)
+	public JSONArray techOrgCount_out_excel(@RequestBody Map map)throws Exception
+	{
+		return techStatisticsService.getTechOrgCountList(map);
+	}
 
 	@ApiOperation(value = "科研机构调查表表分页", notes = "科研机构调查表表分页")
 	@RequestMapping(value = "/sre-provider/techOrgCount/statistics_page", method = RequestMethod.POST)
@@ -159,7 +189,13 @@ public class TechStatisticsProviderClient {
 		Integer count= techStatisticsService.insertTechOrgCount(techOrgCount);
 		return techOrgCount.getId();
 	}
-	
+	@ApiOperation(value = "批量-增加科研机构调查表表", notes = "批量-增加科研机构调查表表")
+	@RequestMapping(value = "/sre-provider/techOrgCount/add_batch", method = RequestMethod.POST)
+	public String insertTechOrgCountbatch(@RequestBody TechOrgCount techOrgCount) throws Exception{
+		logger.info("====================add insertTechOrgCountBatch....========================");
+		Integer count= techStatisticsService.insertTechOrgCountBatch(techOrgCount);
+		return techOrgCount.getId();
+	}
 	
 	@ApiOperation(value = "修改科研机构调查表", notes = "修改科研机构调查表")
 	@RequestMapping(value = "/sre-provider/techOrgCount/update", method = RequestMethod.POST)
@@ -167,7 +203,12 @@ public class TechStatisticsProviderClient {
 		logger.info("==================update techOrgCount===========================");
 		return techStatisticsService.updateTechOrgCount(techOrgCount);
 	}
-	
+	@ApiOperation(value = "批量-修改科研机构调查表", notes = "批量-修改科研机构调查表")
+	@RequestMapping(value = "/sre-provider/techOrgCount/update_batch", method = RequestMethod.POST)
+	public Integer updateTechOrgCountBatch(@RequestBody TechOrgCount techOrgCount) throws Exception{
+		logger.info("==================update techOrgCount===========================");
+		return techStatisticsService.updateTechOrgCountBatch(techOrgCount);
+	}
 	
 	@RequestMapping(value = "/sre-provider/techOrgCount/delete/{id}", method = RequestMethod.POST)
 	public int deleteTechOrgCount(@PathVariable("id") String id)throws Exception{

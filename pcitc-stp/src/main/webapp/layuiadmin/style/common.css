@@ -642,6 +642,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .relevant-cont>.item img{width: 100%;height: 100%;box-shadow: 0 0 10px #badbfa;border-radius: 3px;}
 
     /*生命周期*/
+.cycle{height: auto;overflow:hidden;}
 .cycle-title{font-size: 14px;height: 14px;line-height: 14px;color: #666;text-indent: 4px;margin: 20px 0 10px 11px;
     border-left: 3px solid #1890ff;}
 .cycle-search{background-color: #fff;border: 1px solid #e4e4e6;padding: 20px 10px;}
@@ -653,12 +654,15 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .cycle-search .btn_reset{background: #f3f3f3;margin-left: 20px;}
 .cycle-title .layui-input, .layui-select{height: 32px;line-height: 32px;border: 1px solid #999999;
     font-size: 14px;border-radius: 3px;padding-left: 8px;}
-.cycle-c{margin-top: 12px; background: #fff;border-radius: 3px;border: 1px solid #dfdfdf;overflow-y: scroll;}
+.cycle-z{margin-top: 12px; background: #fff;border-radius: 3px;border: 1px solid #dfdfdf;}
+.cycle-c{height: 540px;overflow-y: scroll;}
 .cycle-cont{margin: 10px;}
 .cycle-item{width: 99%;border: 1px solid #eaeaea;background-color: #f6f9fb;height: 94px;margin-bottom: 10px;}
 .cycle-cont-left{width: 14%;float: left;margin: 10px 0;text-align: center;}
 .cycle-cont-midd,.cycle-cont-right{width: 43%;float: left;padding-top: 30px;box-sizing: border-box;padding-right: 10px;
     position: relative;}
+.cycle-cont-end{padding-top: 30px;}
+.cycle-cont-end span{ display: inline-block; padding: 10px;margin: 0 6px;background-color: #1890ff;color: #fff;border-radius: 3px;}
 .cycle-cont-left p{text-align: center;font-size: 12px;}
 .cycle-cont-left p:nth-child(1){background-color: #1890ff;display:inline-block;height: 26px;line-height: 26px;
     margin:  0 auto;border-radius: 6px;color: white;font-size: 12px;padding: 0 6px;}
@@ -741,6 +745,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .skill-right{width: 35%;float: right;}
 .doc-box ul{margin-bottom: 10px;}
 .ck-editor__editable { min-height: 240px; }
+.enlarge{ position: absolute;top: 0;left: 0;z-index: 999;height: 100%;width: 100%;}
 @media (min-width: 1673px) {
     .layui-q>.layui-tab-title li{width: 148px;
         height: 99px;background-size: 100%;}

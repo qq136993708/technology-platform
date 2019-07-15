@@ -87,7 +87,7 @@ public class HomePageController extends BaseController {
 	 /* @RequestMapping(method = RequestMethod.GET, value = "/mainStp")
 	  public String mainStp(HttpServletRequest request) throws Exception
 	  {
-		    String month = HanaUtil.getCurrrentYearMoth();
+		    String month = HanaUtil.getCurrentYearMoth();
 			request.setAttribute("month", month);
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		    String companyCode= userInfo.getManageInstituteCode();
@@ -557,7 +557,7 @@ public class HomePageController extends BaseController {
 	  public String research_project_table(HttpServletRequest request) throws Exception
 	  {
 		    
-			String month = HanaUtil.getCurrrentYearMoth();
+			String month = HanaUtil.getCurrentYearMoth();
 			request.setAttribute("month", month);
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		    
@@ -872,7 +872,7 @@ public class HomePageController extends BaseController {
 				  public String kyzb_table(HttpServletRequest request) throws Exception
 				  {
 					    
-						String month = HanaUtil.getCurrrentYearMoth();
+						String month = HanaUtil.getCurrentYearMoth();
 						request.setAttribute("month", month);
 					    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 					    

@@ -38,11 +38,6 @@
 						<span>年份</span>
 						<input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
 					</label>
-					<!--按钮组-->
-					<!--<div class="btnGroup">
-                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
-                            onclick="search_Event()">查询</button>
-                </div>-->
 					<div class="btnGroup">
 						<button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details">详情</button>
 					</div>
@@ -270,11 +265,11 @@
 			$("#leader_knowledge_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#leader_knowledge_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#leader_knowledge_chart4_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-			
+
 			//直属研究院专利申请/授权数量
 			$("#leader_knowledge_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#leader_knowledge_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-			
+
 			//直属研究院专利授权数量分布情况
 			$("#leader_knowledge_chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#leader_knowledge_chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
@@ -310,14 +305,13 @@
 
 			var chart4_url = "/one_level_main/knowledge_bar_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date;
 			var color = [ "#6592b3", "#55b6e9", "#95c840" ]
-			var echart4 = load_mutl_bar_down(chart4_url, "leader_knowledge_chart4", "", "", yAxis, 30, color);
+			var echart4 = load_mutl_bar_down(chart4_url, "leader_knowledge_chart4", "", "", yAxis, 25, color);
 			echart4.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
 				//window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 
 			});
-			
 
 			var chart5_url = "/one_level_main/knowledge_pie?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date;
 			var echart5 = loadPie(chart5_url, "chart5", "", "");

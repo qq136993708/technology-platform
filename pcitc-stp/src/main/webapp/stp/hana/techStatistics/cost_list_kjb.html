@@ -25,8 +25,8 @@
         <i class="layui-icon layui-icon-date" style="margin-left:-35px"></i>
     </label>
     <label class="dateInput" style="margin-left:20px">
-        <span>机构名称</span>
-        <input type="text" name="unitName" id="unitName" placeholder="请输入机构名称" title="机构名称" autocomplete="off" class="form-control" >
+        <span>单位名称</span>
+        <input type="text" name="unitName" id="unitName" placeholder="请输入单位名称" title="单位名称" autocomplete="off" class="form-control" >
     </label>
     
     
@@ -64,7 +64,7 @@
                     <!--   <th lay-data="{checkbox:true, fixed:'left'}" rowspan="2"></th> -->
                       <th lay-data="{type : 'numbers', fixed:'left'}" rowspan="2">序号</th>
                       <th lay-data="{field:'unitName', width:'16%',templet:viewv,align:'left', fixed:'left'}" rowspan="2" >单位名称</th>
-                      <th lay-data="{field:'year', width:'8%',align:'center'}" rowspan="2" >年份</th>
+                      <th lay-data="{field:'year', width:'8%',align:'center'}" rowspan="2" >统计年度</th>
                       <th lay-data="{field:'auditStatus',templet:'<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width:'8%',align:'center'}" rowspan="2">审核状态</th>
                       <th lay-data="{field:'type', width:'8%',align:'center',templet:view_type}" rowspan="2" >公司类型</th>
                       <th lay-data="{align:'center'}" colspan="6">科技投入情况（单位：万元）</th>
@@ -235,9 +235,18 @@ function myTable()
 	 var year=$("#year").val(); 
 	 var type=$("#type").val(); 
 	 var v_date=(new Date()).getTime();
-	 var url= '/tech_cost/list?v_date='+v_date;
+	 var url= '/tech_cost/statistics_list?v_date='+v_date;
      table.init('myTable', {
 		  url: url,height: tableHeight,
+		  limit: 15,
+		  page: {
+              groups: 5,
+              limits: [15,30,45,60],
+              layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+              first: '首页', //不显示首页
+              last: '尾页', //不显示尾页
+              theme: '#0F9EE0'
+          },
 		  where: {param: {"unitName":unitName,"auditStatus":auditStatus,"year":year,"type":type}},
 		  done: function (res, curr, count) {
 			  layer.closeAll();

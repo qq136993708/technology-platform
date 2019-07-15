@@ -57,7 +57,7 @@
 							<div class="text-total">
 								<span>
 									总计：
-									<span class="text-total-blue" id="chart_title_04" onclick="achievementTotalUrl('')" style="cursor: pointer">
+									<span class="text-total-blue" id="chart_title_04" onclick="achievementTotalUrl('', 'unit')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
@@ -324,7 +324,7 @@
 				var xName = params.name;
 				var legentName = params.seriesName;
 
-				var url = encodeURIComponent("/one_level_main/achievement_table?define3=" + xName + "&nd=" + nd);
+				var url = encodeURIComponent("/one_level_main/achievement_table?define3=" + xName + "&nd=" + nd + "&groupFlag=jdh,sqjddw");
 				window.open("/instituteIndex?url=" + url);
 			});
 
@@ -333,7 +333,7 @@
 			echart5.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var url = encodeURIComponent("/one_level_main/achievement_table?define3=" + xName + "&nd=" + nd);
+				var url = encodeURIComponent("/one_level_main/achievement_table?define3=" + xName + "&nd=" + nd + "&groupFlag=jdh,sqjddw");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -343,7 +343,7 @@
 			echart6.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var url = encodeURIComponent("/one_level_main/achievement_table?define1=" + xName + "&nd=" + nd);
+				var url = encodeURIComponent("/one_level_main/achievement_table?define1=" + xName + "&nd=" + nd + "&groupFlag=jdh,sqjddw");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -361,7 +361,7 @@
 			echart7.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var url = encodeURIComponent("/one_level_main/achievement_table?zy=" + xName + "&nd=" + nd);
+				var url = encodeURIComponent("/one_level_main/achievement_table?zy=" + xName + "&nd=" + nd + "&groupFlag=jdh,zy");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -484,8 +484,12 @@
 			}
 		}
 
-		function achievementTotalUrl() {
-			var url = encodeURIComponent("/one_level_main/achievement_table?nd=" + nd);
+		function achievementTotalUrl(showFlag, unitFlag) {
+			var groupFlag = 'jdh';
+			if (unitFlag == 'unit') {
+				groupFlag = 'jdh,sqjddw';
+			}
+			var url = encodeURIComponent("/one_level_main/achievement_table?define3="+showFlag+"&nd=" + nd+"&groupFlag="+groupFlag);
 			window.open("/instituteIndex?url=" + url);
 		}
 	</script>

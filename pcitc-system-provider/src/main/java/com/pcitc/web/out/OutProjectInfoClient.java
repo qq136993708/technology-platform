@@ -136,7 +136,6 @@ public class OutProjectInfoClient {
 		String jsonString = JSON.toJSONString(map);
 		System.out.println("/out-provider/project-count =========="+jsonString);
 		JSONObject retJson = new JSONObject();
-		map.put("nd", "2018");
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoCount(map);
 		if (temMap != null) {
 			retJson.put("projectCount", temMap.get("projectCount"));
@@ -150,7 +149,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/project-money", method = RequestMethod.POST)
 	public JSONObject getProjectMoney(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
-		map.put("nd", "2018");
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoMoney(map);
 		if (temMap != null) {
 			retJson.put("projectMoney", temMap.get("projectMoney"));
@@ -195,9 +193,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/dragon/project-count", method = RequestMethod.POST)
 	public JSONObject getProjectCountForDragon(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
-		// 后续改成前台，目前固定死
-		map.put("nd", "2018");
-		
 		HashMap<String, String> temMap = outProjectService.getOutProjectDragonInfoCount(map);
 		if (temMap != null) {
 			retJson.put("zsl", temMap.get("zsl") == null ? 0 : temMap.get("zsl"));
@@ -236,7 +231,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/type/unit/list")
 	public JSONArray getProjectTypeInfoByUnit(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectTypeInfoByUnit===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectTypeInfoByUnit(map);
 		
 		List keyList = new ArrayList<String>();
@@ -262,7 +256,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/type/zb/unit/list")
 	public JSONArray getZBProjectTypeInfoByUnit(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZBProjectTypeInfoByUnit===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getZBProjectTypeInfoByUnit(map);
 		List keyList = new ArrayList<String>();
 		keyList.add("xksl");
@@ -287,7 +280,6 @@ public class OutProjectInfoClient {
 	public JSONObject getProjectTotalInfoByNew(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectTotalInfoByNew===========================" + map);
 		JSONObject retJson = new JSONObject();
-		map.put("nd", "2018");
 		HashMap<String, String> temMap = outProjectService.getProjectTotalInfoByNew(map);
 		if (temMap != null) {
 			retJson.put("gjxmsl", temMap.get("gjxmsl") == null ? 0 : temMap.get("gjxmsl"));
@@ -312,7 +304,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/type/last-year/rate", method = RequestMethod.POST)
 	public JSONObject getProjectTotalCountYearAndLastYear(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
-		map.put("nd", "2018");
 		HashMap<String, String> temMap = outProjectService.getProjectTotalCountYearAndLastYear(map);
 		
 		if (temMap != null) {
@@ -348,7 +339,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-count/project-type")
 	public JSONArray getProjectCountByProjectType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectCountByProjectType===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectCountByProjectType(map);
 		List keyList = new ArrayList<String>();
 		keyList.add("xksl");
@@ -421,7 +411,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-count/zb/project-type")
 	public JSONArray getZBProjectCountByProjectType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZBProjectCountByProjectType===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getZBProjectCountByProjectType(map);
 		
 		System.out.println("===="+JSON.toJSONString(temList));
@@ -433,7 +422,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-money/project-type")
 	public JSONArray getProjectMoneyByProjectType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectMoneyByProjectType===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectMoneyByProjectType(map);
 		
 		if (!JSON.toJSONString(temList).contains("费用性")) {
@@ -483,7 +471,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-money/scope/type")
 	public JSONArray getProjectMoneyForTree(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectMoneyForTree===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectMoneyForTree(map);
 		if (!JSON.toJSONString(temList).contains("新开课题")) {
 			HashMap<String, Object> temMap1 = new HashMap<String, Object>();
@@ -525,7 +512,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-money/scope/institute")
 	public JSONArray getProjectMoneyByIniAndTypeForTree(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectMoneyByIniAndTypeForTree===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectMoneyByIniAndTypeForTree(map);
 		
 		System.out.println("===="+JSON.toJSONString(temList));
@@ -537,7 +523,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-money/unit-type")
 	public JSONArray getProjectMoneyByUnit(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectMoneyByUnit===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectMoneyByUnit(map);
 		
 		List keyList = new ArrayList<String>();
@@ -572,7 +557,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-info/unit")
 	public JSONArray getProjectTypeCountByUnit(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectTypeCountByUnit===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectTypeCountByUnit(map);
 		
 		List keyList = new ArrayList<String>();
@@ -599,7 +583,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-info/zb/unit")
 	public JSONArray getZBProjectTypeCountByUnit(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZBProjectTypeCountByUnit===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getZBProjectTypeCountByUnit(map);
 		
 		List keyList = new ArrayList<String>();
@@ -626,7 +609,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-count/unit/tree")
 	public JSONArray getProjectTypeCountForTree(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectTypeCountForTree===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectTypeCountForTree(map);
 		
 		// 各个组织机构范畴单位，如果有基础数据库的话，也可以直接取，此处就不用写死
@@ -654,7 +636,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-count/type/tree")
 	public JSONArray getProjectCountByTypeForTree(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectCountByTypeForTree===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectCountByTypeForTree(map);
 		// 各个处室如果有基础数据库的话，也可以直接取，此处就不用写死
 		List keyList = new ArrayList<String>();
@@ -683,7 +664,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-count/zb/unit/tree")
 	public JSONArray getZBProjectTypeCountForTree(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZBProjectTypeCountForTree===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getZBProjectTypeCountForTree(map);
 		// 各个组织机构范畴单位，如果有基础数据库的话，也可以直接取，此处就不用写死
 		List keyList = new ArrayList<String>();
@@ -708,7 +688,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/project-count/zb/type/tree")
 	public JSONArray getZBProjectCountByTypeForTree(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZBProjectCountByTypeForTree===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getZBProjectCountByTypeForTree(map);
 		// 各个组织机构范畴单位，如果有基础数据库的话，也可以直接取，此处就不用写死
 		List keyList = new ArrayList<String>();
@@ -733,7 +712,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/ld/project-type-count")
 	public JSONArray getProjectTypeCountForLD(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectTypeCountForLD===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectTypeCountForLD(map);
 		
 		if (!JSON.toJSONString(temList).contains("十条龙")) {
@@ -751,7 +729,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/ld/project-count/unit/tree")
 	public JSONArray getProjectTypeCountForTreeLD(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectTypeCountForTreeLD===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectTypeCountForTreeLD(map);
 		
 		// 各个组织机构范畴单位，如果有基础数据库的话，也可以直接取，此处就不用写死
@@ -778,7 +755,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/ld/type/unit/list")
 	public JSONArray getProjectTypeInfoByUnitLD(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectTypeInfoByUnitLD===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getProjectTypeInfoByUnitLD(map);
 		
 		List keyList = new ArrayList<String>();
@@ -906,7 +882,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/ld/project-info/zdstl")
 	public JSONArray getZDSTLProjectInfo(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZDSTLProjectInfo===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getZDSTLProjectInfo(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -972,7 +947,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/dragon/details")
 	public JSONArray getDragonProjectDetails(@RequestBody HashMap<String, Object> map) throws Exception {
 		logger.info("==================page getDragonProjectDetails===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectService.getDragonProjectDetails(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;

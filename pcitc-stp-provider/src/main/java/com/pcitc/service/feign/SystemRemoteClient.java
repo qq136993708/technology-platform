@@ -67,5 +67,16 @@ public interface SystemRemoteClient {
 	@RequestMapping(value = "/system-provider/sys_meeting/add", method = RequestMethod.POST)
 	public String insertSysMeeting(@RequestBody SysMeeting sysMeeting);
 	
-	
+	//查询成果信息
+    @RequestMapping(value = "/out-provider/appraisal-list", method = RequestMethod.POST)
+    public LayuiTableData getOutAppraisalListPage(@RequestBody LayuiTableParam param) throws Exception;
+    //查询专利信息
+    @RequestMapping(value = "/out-patent-provider/outpatent_list", method = RequestMethod.POST)
+    public LayuiTableData selectOutPatentList(@RequestBody LayuiTableParam param);
+    //查询奖励信息
+    @RequestMapping(value = "/out-provider/reward-list", method = RequestMethod.POST)
+    public LayuiTableData getOutRewardListPage(@RequestBody LayuiTableParam param) throws Exception;
+    //查询课题信息
+    @RequestMapping(value = "/out-provider/project-list-expert", method = RequestMethod.POST)
+    public LayuiTableData getOutProjectListPageExpert(@RequestBody LayuiTableParam param) throws Exception;
 }

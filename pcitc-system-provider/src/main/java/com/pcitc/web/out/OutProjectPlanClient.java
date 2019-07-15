@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,7 +76,6 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/old-new")
 	public JSONArray getPlanCompleteRateByOldNew(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByOldNew===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectPlanService.getPlanCompleteRateByOldNew(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -86,7 +86,6 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/total")
 	public JSONArray getPlanTotalCompleteRate(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanTotalCompleteRate===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectPlanService.getPlanTotalCompleteRate(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -97,7 +96,6 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/hana-invest/money")
 	public JSONArray getTotalInvestMoneyWithHana(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getTotalInvestMoneyWithHana===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectPlanService.getTotalInvestMoneyWithHana(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -108,7 +106,6 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/institute")
 	public JSONArray getPlanCompleteRateByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByInstitute===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectPlanService.getPlanCompleteRateByInstitute(map);
 		
 		if (!JSON.toJSONString(temList).contains("勘探院")) {
@@ -224,7 +221,6 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/money/complete-rate/institute")
 	public JSONArray getPlanMoneyCompleteRateByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyCompleteRateByInstitute===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectPlanService.getPlanMoneyCompleteRateByInstitute(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -235,7 +231,6 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/money-type")
 	public JSONArray getPlanCompleteRateByPlanType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByPlanType===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectPlanService.getPlanCompleteRateByPlanType(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -246,9 +241,9 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/money-hana-type")
 	public JSONArray getPlanCompleteRateByPlanTypeForHana(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByPlanTypeForHana===========================" + map);
-		map.put("startMonth", "201801");
-		map.put("endMonth", "201812");
-		map.put("nd", "2018");
+		String nd = map.get("nd");
+		map.put("startMonth", nd+"01");
+		map.put("endMonth", nd+"12");
 		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHana(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -259,9 +254,24 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/month/money-hana-type")
 	public JSONArray getPlanCompleteRateByPlanTypeForHanaMonth(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByPlanTypeForHanaMonth===========================" + map);
-		map.put("startMonth", "201801");
-		map.put("endMonth", "201812");
+		String nd = map.get("nd");
+		map.put("startMonth", nd+"01");
+		map.put("endMonth", nd+"12");
 		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHanaMonth(map);
+		
+		String zysje = "0";
+		for (int i = 0; i < temList.size(); i++) {
+			Map temMap = (HashMap)temList.get(i);
+			if (temMap != null && temMap.get("zysje") != null && Float.parseFloat(temMap.get("zysje").toString()) != 0) {
+				zysje = temMap.get("zysje").toString();
+				break;
+			}
+		}
+		
+		for (int i = 0; i < temList.size(); i++) {
+			Map temMap = (HashMap)temList.get(i);
+			temMap.put("zysje", zysje);
+		}
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -271,7 +281,6 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/company-type")
 	public JSONArray getPlanCompleteRateByCompanyType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByCompanyType===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectPlanService.getPlanCompleteRateByCompanyType(map);
 		
 		if (!JSON.toJSONString(temList).contains("直属研究院")) {
@@ -373,7 +382,6 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/money/complete-rate/company-type")
 	public JSONArray getPlanMoneyCompleteRateByCompanyType(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyCompleteRateByCompanyType===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectPlanService.getPlanMoneyCompleteRateByCompanyType(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -384,8 +392,11 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/plan-money/department")
 	public JSONArray getPlanMoneyByDepartment(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyByDepartment===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectPlanService.getPlanMoneyByDepartment(map);
+		
+		if (temList == null || temList.size() == 0) {
+			temList = outProjectPlanService.getPlanMoneyByDepartmentSpecial(map);
+		}
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -395,7 +406,6 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/contract-rate/details")
 	public JSONArray getPlanCompleteRateDetails(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateDetails===========================" + map);
-		map.put("nd", "2018");
 		List temList = outProjectPlanService.getPlanCompleteRateDetails(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));

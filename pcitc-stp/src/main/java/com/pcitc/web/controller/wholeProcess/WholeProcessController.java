@@ -35,6 +35,21 @@ public class WholeProcessController extends BaseController {
 	private static final String SCIENCE_REWARD_DETAILS = "http://pcitc-zuul/system-proxy/out-project-plan-provider/project-reward/details";
 	
 	/**
+	 * 获取流程数据，分页
+	 */
+	@RequestMapping(value = "/whole-process/science/data/list")
+	@ResponseBody
+	public Object getScienceWholeProcessData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		param.getParam().put("showType", "重点项目");
+		param.getParam().put("xmlb", "非科研装备");
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SCIENCE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+
+		return JSON.toJSON(retJson).toString();
+	}
+	
+	/**
 	 * 科技全流程可视化：重点项目
 	 */
 	@RequestMapping(value = "/whole-process/science/ini")

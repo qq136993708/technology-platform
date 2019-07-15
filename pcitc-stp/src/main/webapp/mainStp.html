@@ -76,7 +76,7 @@
                 <div class="layui-main-box" id="home_project">
                     <span class="layui-box-icon bg-1"></span>
                     <div class="layui-box-content">
-                        <span class="layui-box-text">科研课题</span>
+                        <span class="layui-box-text">新开科研课题</span>
                         <span class="layui-box-number" id="topic_id">
                                 <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
@@ -87,7 +87,7 @@
                 <div class="layui-main-box" id="equipment">
                     <span class="layui-box-icon bg-4"></span>
                     <div class="layui-box-content">
-                        <span class="layui-box-text">科研装备</span>
+                        <span class="layui-box-text">新开装备课题</span>
                         <span class="layui-box-number" id="equipment_id">
                                 <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                                 <small>(个)</small>
@@ -157,7 +157,7 @@
                 <div class="layui-main-box">
                     <span class="layui-box-icon bg-8"></span>
                     <div class="layui-box-content">
-                        <span class="layui-box-text">标准制修订</span>
+                        <span class="layui-box-text">标准化</span>
                         <span class="layui-box-number">
                                 234
                                 <small>(个)</small>
@@ -180,19 +180,7 @@
 							</p>
 							<div>
 								<ul id="wait_work_id_list">
-
-									<!-- <li><span class="date">04/01</span><span class="time">09：00</span><span class="content">项目组组建</span></li>
-                                <li><span class="date">03/28</span>
-                                    <span class="time">09：00</span>
-                                    <span class="content">组内工作安排</span></li>
-                                <li><span class="date">03/26</span>
-                                    <span class="time">09：00</span>
-                                    <span class="content">复查工作进度</span></li>
-                                <li><span class="date">03/26</span>
-                                    <span class="time">09：00</span>
-                                    <span class="content">复查工作进度</span></li> -->
-								</ul>
-								<a lay-href="/task/pending/list/ini" lay-text="我的待办">更多... ...</a>
+									<a lay-href="/task/pending/list/ini" lay-text="我的待办">更多... ...</a>
 							</div>
 						</div>
 					</div>
@@ -402,7 +390,6 @@
 					<div class="layui-card-header">
 						<p>研究院动态</p>
 						<div class="layui-tool">
-							<!--<button type="button" class="btn btn-tool collapse"></button>-->
 							<button type="button" class="btn btn-tool collapse"></button>
 						</div>
 					</div>
@@ -613,15 +600,14 @@
 					});
 
 					$("#actualPay").on("click", function() {
-						parent.layui.index.openTabsPage("/small_leader/investment?userLevel=0", "研究院预算");
-						// parent.layui.index.openTabsPage("/direct/actualPay?isdisplay=1", "经费支出");
+						parent.layui.index.openTabsPage("/direct/zyc/investment?isdisplay=1", "研究院预算");
 					});
 
 					$("#home_project").on("click", function() {
-						parent.layui.index.openTabsPage("/home_project_02/zyc/kytk?userLevel=0", "科研课题");
+						parent.layui.index.openTabsPage("/home_project_02/zyc/kytk?userLevel=0", "新开科研课题");
 					});
 					$("#home_budget").on("click", function() {
-						parent.layui.index.openTabsPage("/direct/contract?userLevel=0", "科研合同");
+						parent.layui.index.openTabsPage("/direct/contract?userLevel=0", "合同签订率");
 						// parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（亿元）");
 					});
 
@@ -631,20 +617,17 @@
 					});
 
 					$("#achievement").on("click", function() {
-						parent.layui.index.openTabsPage("/direct/achievement?userLevel=0", "科技成果");
-						//parent.layui.index.openTabsPage("/home_achievement/award_level2", "科技成果");
+						parent.layui.index.openTabsPage("/home_achievement/zyc/achievement", "科技成果");
 					});
 
 					$("#report_intl_project_main").on("click", function() {
 
-						parent.layui.index.openTabsPage("/small_leader/intl_cooperation?userLevel=0", "国际合作");
+						//parent.layui.index.openTabsPage("/small_leader/intl_cooperation?userLevel=0", "国际合作");
 						//parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
 					});
 
 					$("#equipment").on("click", function() {
-
-						parent.layui.index.openTabsPage("/direct/equipment?userLevel=0", "科研装备");
-						//parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备");
+						parent.layui.index.openTabsPage("/home_device_02/zyc/equipment?userLevel=0", "新开装备课题");
 					});
 
 					//新闻
@@ -709,8 +692,6 @@
 							thisWeekTotal = data.data.thisWeekTotal; // 本周安排出去的工作总数
 							thisWeekHaved = data.data.thisWeekHaved; // 本周安排出去已经完成的工作
 						}
-						//circle("circleOne",0,lastWeekHaved+"/"+lastWeekTotal);
-						//circle("circleTwo",0,thisWeekHaved+"/"+thisWeekTotal);
 						if (lastWeekHaved == 0 && lastWeekTotal == 0) {
 							circle("circleOne", 0, lastWeekHaved + "/" + lastWeekTotal);
 						} else {
@@ -731,21 +712,6 @@
 					$("#circleTwo").click(function() {
 						$("#listPlanPage")[0].click();
 					});
-
-					/*$(".layui-table tbody tr").click(function () {
-					    layer.open({
-					        title: '任务计划-新增',
-					        skin: 'layui-layer-lan',
-					        shadeClose: false,
-					        type: 2,
-					        fixed: false,
-					        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-					        maxmin: true,
-					        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-					        area: ['80%', '90%'],
-					        content: '/layui/taskView.html'
-					    });
-					});*/
 				});
 				function circle(id, value, number) {
 					$("#" + id).circleProgress({
@@ -915,7 +881,7 @@
 
 					$.ajax({
 						type : 'POST',
-						url : "/admin/appraisal-count?define3=研究院&nd=" + nd,
+						url : "/admin/appraisal-count?nd=" + nd,
 						dataType : 'json',
 						headers : {
 							'Content-Type' : 'application/json'

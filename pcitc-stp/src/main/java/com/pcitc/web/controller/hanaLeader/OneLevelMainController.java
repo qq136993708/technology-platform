@@ -292,7 +292,7 @@ public class OneLevelMainController extends BaseController {
 	}
 
 	/**
-	 * ========================================================成果--详情==========
+	 * ====================成果--详情---第三级页面==========
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/achievement_table")
 	public String achievement_table(HttpServletRequest request) throws Exception {
@@ -302,13 +302,14 @@ public class OneLevelMainController extends BaseController {
 		String zy = CommonUtil.getParameter(request, "zy", "");// 成果专业
 		String define3 = CommonUtil.getParameter(request, "define3", "");// 单位类别
 		String define1 = CommonUtil.getParameter(request, "define1", "");// 研究院
-
+		String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
+		
 		request.setAttribute("nd", nd);
 		request.setAttribute("cglx", cglx);
 		request.setAttribute("zy", zy);
 		request.setAttribute("define3", define3);
 		request.setAttribute("define1", define1);
-
+		request.setAttribute("groupFlag", groupFlag);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
@@ -911,7 +912,7 @@ public class OneLevelMainController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getBeforeYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/oneLevelMain/knowledge";
 	}
@@ -1219,7 +1220,7 @@ public class OneLevelMainController extends BaseController {
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String nd = HanaUtil.getBeforeYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/contract";
 	}
@@ -1707,7 +1708,7 @@ public class OneLevelMainController extends BaseController {
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
-		String nd = HanaUtil.getBeforeYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/achievement";
 	}
@@ -1900,12 +1901,12 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/equipment")
 	public String equipment(HttpServletRequest request) throws Exception {
 
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
-		String month = HanaUtil.getCurrrentYear_Moth();
+		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
 
 		return "stp/hana/home/oneLevelMain/equipment";
@@ -2078,7 +2079,7 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("companyCode", companyCode);
 		request.setAttribute("legentName", legentName);
 
-		String monthName = HanaUtil.getCurrrent_YearMoth();
+		String monthName = HanaUtil.getCurrent_YearMoth();
 		request.setAttribute("monthName", monthName);
 		return "stp/hana/home/oneLevelMain/equipment_detail";
 	}
@@ -2139,7 +2140,7 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("unitCode", unitCode);
 		request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
 		request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/oneLevelMain/ten_dragon";
 
@@ -2454,20 +2455,23 @@ public class OneLevelMainController extends BaseController {
 		FileUtil.fileDownload(f, res);
 	}
 
-	/** ======================科研投入============================ */
+	/** ==============领导页面--科研投入============================ */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment")
-	public String kyzb_level2(HttpServletRequest request) throws Exception {
+	public String leaderInvestment(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		String nd = HanaUtil.getBeforeYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		return "stp/hana/home/oneLevelMain/investment";
 
 	}
 
+	/**
+	 * 科研预算统计
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_01")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
@@ -2504,6 +2508,7 @@ public class OneLevelMainController extends BaseController {
 				List<String> legendDataList = new ArrayList<String>();
 				legendDataList.add("费用性科研投入");
 				legendDataList.add("资本性科研投入");
+				legendDataList.add("总预算科研投入");
 				barLine.setxAxisDataList(xAxisDataList);
 				barLine.setLegendDataList(legendDataList);
 
@@ -2511,8 +2516,10 @@ public class OneLevelMainController extends BaseController {
 				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 				ChartBarLineSeries s1 = HanaUtil.getinvestmentChartBarLineSeries(list, "fyxsjje");
 				ChartBarLineSeries s2 = HanaUtil.getinvestmentChartBarLineSeries(list, "zbxsjje");
+				ChartBarLineSeries s3 = HanaUtil.getinvestmentChartBarLineSeries(list, "zysje");
 				seriesList.add(s1);
 				seriesList.add(s2);
+				seriesList.add(s3);
 				barLine.setSeriesList(seriesList);
 				result.setSuccess(true);
 				result.setData(barLine);
@@ -2729,6 +2736,10 @@ public class OneLevelMainController extends BaseController {
 		return resultObj.toString();
 	}
 
+	
+	/**
+	 * 新开课题科研预算统计
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_03")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
@@ -2741,9 +2752,11 @@ public class OneLevelMainController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		String type = CommonUtil.getParameter(request, "type", "");
+		String xkFlag = CommonUtil.getParameter(request, "xkFlag", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
+		paramsMap.put("xkFlag", xkFlag);
 		// 数据控制属性
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();

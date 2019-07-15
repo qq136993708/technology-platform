@@ -34,8 +34,8 @@
     </label>
     <!--查询条件-->
     <label class="dateInput" style="margin-left:20px">
-        <span>机构名称</span>
-        <input type="text" name="unitName" id="unitName" placeholder="请输入机构名称" title="机构名称" autocomplete="off" class="form-control" >
+        <span>单位名称</span>
+        <input type="text" name="unitName" id="unitName" placeholder="请输入单位名称" title="单位名称" autocomplete="off" class="form-control" >
     </label>
      <label class="dateInput">
          <span>审核状态</span>
@@ -355,10 +355,10 @@ layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate
                theme: '#0F9EE0'
            },
            cols: [[
-        	   {type : 'checkbox', event : 'changeEvents', width : 55,fixed:'left'},
-               {title : '序号', type : 'numbers', width : 55,fixed:'left'},
-               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '16%',templet:function(d){return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" style="color:#1890ff">'+d.unitName+'</span>'},sort : true,fixed:'left'},
-               {field : 'year',            title : '年份',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+        	   {type : 'checkbox', event : 'changeEvents', width : 55, fixed: 'left'},
+               {title : '序号', type : 'numbers', width : 55, fixed: 'left'},
+               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '19%',templet:function(d){return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" style="color:#1890ff">'+d.unitName+'</span>'},sort : true, fixed: 'left'},
+               {field : 'year',            title : '统计年度',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'auditStatus',     title : '审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
                {field : 'type',            title : '公司类型',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true,templet : '#view_type'},
                {field : 'workersCount',        title : '职工总数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
@@ -410,7 +410,7 @@ layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate
                       $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                       $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                       selectRowData=res.data[index-1];
-                      var auditStatus=selectRowData.auditStatus;
+                      var auditStatus=selectRowData.auditStatus; 
                   });
            }
        });

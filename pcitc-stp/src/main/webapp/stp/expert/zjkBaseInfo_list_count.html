@@ -2,28 +2,44 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-    <!--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
-
-    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
-    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/common/js/base.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
 </head>
 <body>
 
 <div class="searchBox">
     <!--查询条件-->
+    <input type="hidden" id="auditStatus" name="auditStatus" value="2">
+    <input type="hidden" id="state" name="state" value="0">
     <label class="dateInput">
-        <input type="hidden" id="auditStatus" name="auditStatus" value="2">
-        <input type="hidden" id="state" name="state" value="0">
         <span>专家姓名</span>
         <input type="text" id="expertName" name="expertName" placeholder="请输入专家姓名" title="专家姓名" autocomplete="off" class="form-control">
     </label>
     <label class="dateInput">
-
-        <span>邮箱</span>
+        <span>所在单位</span>
+        <input type="text" id="companyDivs" class="form-control">
+        <input type="hidden" id="company1DivValue">
+    </label>
+    <label class="dateInput selectInput">
+        <span>专业领域</span>
+        <select name="expertProfessionalFieldsj" id="expertProfessionalFieldsj" lay-filter="expertProfessionalFieldsj">
+            <option value="">请选择</option>
+        </select>
+    </label>
+    <label class="dateInput">
+        <span>联系电话</span>
+        <input type="text" id="mobile" name="mobile" placeholder="请输入联系电话" title="联系电话" autocomplete="off" class="form-control">
+    </label>
+    <label class="dateInput">
+        <span>联系邮箱</span>
         <input type="text" id="email" name="email" placeholder="请输入邮箱" title="邮箱" autocomplete="off" class="form-control">
     </label>
 
@@ -56,6 +72,57 @@
     <table id="zjkBaseInfoTableId" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
 <script>
+    //专业领域
+    ajaxPost('/dictionary/list/ZJK_ZYFL', null, function (data, status) {
+        $.each(data, function (i, dt) {
+            $("#expertProfessionalFieldsj").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+            $("#expertProfessionalField").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+        });
+    });
+    $("#companyDivs").on("click", function () {
+        layer.open({
+            title: "详情",
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: false,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['80%', '70%'],
+            content: "/unit/chooseUnitMultiExpert?initFuncName=initUnitTreeChoose&callbackFuncName=callbackUnitTreeChoose"
+        });
+    });
+    var unitList = [], unitMap = {};
+    //机构检索页面初始化数据
+    function  initUnitTreeChoose() {
+        return unitList;
+    }
+    //获得机构信息
+    ajaxPost('/unit/list-data', null, function (data, status) {
+        $.each(data, function (i, dt) {
+            unitMap[data[i].unitId] = data[i];
+        });
+    });
+    //机构页面选择后回调函数
+    function callbackUnitTreeChoose(unitIds) {
+        unitList = unitIds;
+        var unitText = "";
+        var unitdataIds = "";
+        var unitListNodes = [];
+        $.each(unitIds, function (i, dt) {
+            if (unitMap[unitIds[i]]) {
+                unitText += "," + unitMap[unitIds[i]].unitName;
+                unitdataIds += "," + unitMap[unitIds[i]].unitId;
+                unitListNodes.push(new zTreeNode(unitIds[i], 0, unitMap[unitIds[i]].unitName));
+            }
+        });
+        $("#companyDivs").val(unitText.length > 0 ? unitText.substring(1) : "");
+        $("#company1DivValue").val(unitdataIds.length > 0 ? unitdataIds.substring(1) : "");
+    }
+</script>
+<script>
+
     var state = $("#state").val();
 
     function showPatent(url) {
@@ -73,13 +140,13 @@
         });
     }
     //项目
-    ajaxPost('/dictionary/list/ROOT_ZGSHJT_GFGS_ZSYJY', null, function (data, status) {
-        $.each(data, function (i, dt) {
-            if (i <= 7) {
-                $("#company").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
-            }
-        });
-    });
+    // ajaxPost('/dictionary/list/ROOT_ZGSHJT_GFGS_ZSYJY', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         if (i <= 7) {
+    //             $("#").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //         }
+    //     });
+    // });
     var selectRowData;
     var publicMethods;
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element', 'publicMethods'], function () {
@@ -89,19 +156,28 @@
         table = layui.table;
 
         function loadtable() {
-            var where = {"expertName": $("#expertName").val(), "email": $("#email").val(), "company": $("#company option:selected").val(), "auditStatus": $("#auditStatus").val(), "sysFlag": $("#state").val()};
+            var where = {
+                "expertName": $("#expertName").val(),
+                "mobile": $("#mobile").val(),
+                "expertProfessionalFieldsj":$("#expertProfessionalFieldsj").val(),
+                "email": $("#email").val(),
+                "company": $("#company1DivValue").val(),
+                "auditStatus": $("#auditStatus").val(),
+                "sysFlag": $("#state").val()
+            };
+            console.log(where);
             table.render({
                 elem: '#zjkBaseInfoTableId',
                 url: '/zjkBaseInfo/getTableDataCount',
                 method: "POST",
                 where: {param: where},
-                limit: 15,
+                limit: 10,
                 id: 'zjkBaseInfoTableId',
                 height: commonDislodgeTable(),
                 page: {
                     count: 500, //数据总数，从服务端得到
                     groups: 5,
-                    limits: [15, 30, 45, 60],
+                    limits: [10, 30, 45, 60],
                     layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                     first: '首页', //不显示首页
                     last: '尾页', //不显示尾页
@@ -128,17 +204,13 @@
                         field: "sex",
                         title: "性别", event: 'setActive', style: 'cursor: pointer;', width: 50
                     },
-                    // {
-                    //     field: "expertProfessionalFieldName",
-                    //     title: "专业领域", event: 'setActive', style: 'cursor: pointer;', width: 100
-                    // },
                     {
                         field: "birthDate",
-                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;', width: 100
+                        title: "出生日期", event: 'setActive', style: 'cursor: pointer;', width: 90
                     },
                     {
                         field: "email",
-                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;', width: 190
+                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;', width: 160
                     },
                     {
                         field: "mobile",
@@ -154,20 +226,35 @@
                     },
                     {
                         field: "companyName",
-                        title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
+                        title: "所在单位", event: 'setActive', style: 'cursor: pointer;', width: 100
+                    },
+                    {
+                        field: "projectCount",
+                        title: "课题数量", event: 'setActive', style: 'cursor: pointer;', width: 90
+                        , templet: function (d) {
+                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/expertController/zjkOutProjectListPublicCount?expertName=encodeURI(encodeURI("+d.expertName+"))&expertId=" + d.dataId + "')>" + d.projectCount + "</a>"
+                        }
                     },
                     {
                         field: "achievementCount",
-                        title: "成果数量", event: 'setActive', style: 'cursor: pointer;', width: 100
+                        title: "成果数量", event: 'setActive', style: 'cursor: pointer;', width: 90
                         , templet: function (d) {
-                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/zjkAchievement/toListPage?expertId=" + d.dataId + "')>" + d.achievementCount + "</a>"
+                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/expertController/zjkAchievementListCount?expertName=encodeURI(encodeURI("+d.expertName+"))&expertId=" + d.dataId + "')>" + d.achievementCount + "</a>"
                         }
                     },
                     {
                         field: "patentCount",
-                        title: "专利数量", event: 'setActive', style: 'cursor: pointer;', width: 100
+                        title: "专利数量", event: 'setActive', style: 'cursor: pointer;', width: 90
                         , templet: function (d) {
-                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/zjkPatent/toListPage?expertId=" + d.dataId + "')>" + d.patentCount + "</a>"
+                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/expertController/zjkPatentListPublicCount?expertName=encodeURI(encodeURI("+d.expertName+"))&expertId=" + d.dataId + "')>" + d.patentCount + "</a>"
+                        }
+                    },
+
+                    {
+                        field: "bak7",
+                        title: "奖励数量", event: 'setActive', style: 'cursor: pointer;'
+                        , templet: function (d) {
+                            return "<a href='javascript:void(0);return false;' onclick=showPatent('/expertController/zjkOutRewardListPublicCount?expertName=encodeURI(encodeURI("+d.expertName+"))&expertId=" + d.dataId + "')>" + d.bak7 + "</a>"
                         }
                     },
                     // {
@@ -255,6 +342,12 @@
             resetEvent: function () { //点击查询按钮
                 $("#expertName").val("");
                 $("#email").val("");
+                $("#mobile").val("");
+                $("#expertProfessionalFieldsj").val("");
+                $("#companyDivs").val("");
+                $("#company1DivValue").val("");
+
+
                 loadtable();
             }, getChecked: function () {//多选
                 var ids = "";

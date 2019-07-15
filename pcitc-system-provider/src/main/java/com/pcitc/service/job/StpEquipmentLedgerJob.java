@@ -42,7 +42,7 @@ public class StpEquipmentLedgerJob implements Job, Serializable {
         JSONArray jSONArray= equipmentLedgerSysClient.getEquipmentLedgerList(map);
         List<SreEquipmentLedger> resultList = JSONObject.parseArray(jSONArray.toJSONString(), SreEquipmentLedger.class);
 
-        if (resultList != null)
+        if (resultList != null&&resultList.size()!=0)
         {
             equipmentLedgerStpClient.insertEquipmentLedger(resultList);
         }

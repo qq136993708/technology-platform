@@ -3,7 +3,10 @@ package com.pcitc.mapper.out;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.mapping.StatementType;
 
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutAppraisalExample;
@@ -45,21 +48,21 @@ public interface OutAppraisalMapper {
      * @return
      * 得到某个年度专利申请/授权数量按专利类型分组
      */
-    public List getResultInfo(String nd);
+    public List getResultInfo(HashMap<String, String> map);
     
     /**
      * @param nd
      * @return
      * 得到某个年度专利申请/授权数量按专利类型分组
      */
-    public List getResultInfoByType(String nd);
+    public List getResultInfoByType(HashMap<String, String> map);
     
     /**
      * @param nd
      * @return
      * 得到某个年度专利申请/授权数量按专利类型分组
      */
-    public List getResultInfoByZy(String nd);
+    public List getResultInfoByZy(HashMap<String, String> map);
     
     /**
      * 领导二级页面，各个研究院的成果情况, 每一行是一个院
@@ -90,6 +93,15 @@ public interface OutAppraisalMapper {
 	 * 辅助决策分析，成果鉴定年度分析，近三年成果各专业分布
 	 */
 	public List getAppraisalInfoByZyForThreeYear(HashMap<String, String> map);
+	
+	/**
+	 * 修改out_appraisal里面的统计属性
+	 * 调用存储过程统一处理，无参数
+	 */
+	@SuppressWarnings("rawtypes")
+	@Select("call updateOutAppraisal()")
+	@Options(statementType= StatementType.CALLABLE )
+	public HashMap updateOutAppraisal();
     
     
 }

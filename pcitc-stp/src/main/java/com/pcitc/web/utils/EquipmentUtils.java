@@ -84,7 +84,7 @@ public class EquipmentUtils {
      public static final String GET_ORG_URL =     "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/get/";
  	 public static final String   GET_COST_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/get/";
 	
-	public static String getCurrrentYear() throws Exception {
+	public static String getCurrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		System.out.println(">>>>>year=" + year);
@@ -93,7 +93,7 @@ public class EquipmentUtils {
 	
 	
 	
-	public static String getCurrrentYearMoth() throws Exception {
+	public static String getCurrentYearMoth() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH) + 1;
@@ -103,7 +103,7 @@ public class EquipmentUtils {
 		return str;
 	}
 	
-	public static String getCurrrentYearMoth2() throws Exception {
+	public static String getCurrentYearMoth2() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH) + 1;

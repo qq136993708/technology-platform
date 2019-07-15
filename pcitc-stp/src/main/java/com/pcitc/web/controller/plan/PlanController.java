@@ -234,6 +234,14 @@ public class PlanController extends BaseController {
 		jsStr.put("status", "0");
 		jsStr.put("workOrderCode", code);
 		jsStr.put("unitName", sysUserInfo.getUnitName());
+		if (jsStr.getString("scheduleType") !=null && !jsStr.getString("scheduleType").equals("")) {
+			// 需要定时处理
+			jsStr.put("isSchedule", "1");
+		} else {
+			// 实时任务
+			jsStr.put("isSchedule", "0");
+			jsStr.put("scheduleDate", "");
+		}
 		PlanBase bsv = JSONObject.toJavaObject(jsStr, PlanBase.class);
 
 		bsv.setDelFlag("0");
@@ -262,6 +270,9 @@ public class PlanController extends BaseController {
 				planBase.setCreateUserName(bsv.getCreateUserName());
 				planBase.setCreateDate(bsv.getCreateDate());
 				planBase.setStatus(bsv.getStatus());
+				
+				// 定时的任务暂时不让受理人看到。子工作任务不用考虑定时时间/类型
+				planBase.setIsSchedule(bsv.getIsSchedule());
 
 				System.out.println("announcements = " + detail.get("announcements"));
 				planBase.setAnnouncements(StrUtil.objectToString(detail.get("announcements")));
@@ -436,8 +447,10 @@ public class PlanController extends BaseController {
 	@ResponseBody
 	public int editBotWorkOrder(HttpServletRequest request) {
 		String param = request.getParameter("param");
+		System.out.println("==============="+param);
 		JSONObject jsStr = (JSONObject) JSON.parseObject(param);
 		jsStr.put("visaApplyCode", null);
+		
 		String dataId = jsStr.getString("dataId");
 		ResponseEntity<PlanBase> resultEntity = this.restTemplate.exchange(VIEW_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), PlanBase.class);
 		PlanBase wjbvo = resultEntity.getBody();
@@ -446,6 +459,17 @@ public class PlanController extends BaseController {
 		wjbvo.setUpdateUser(sysUserInfo.getUserId());
 		wjbvo.setUpdateUserName(sysUserInfo.getUserDisp());
 		wjbvo.setDelFlag("0");
+		if (jsStr.getString("scheduleType") !=null && !jsStr.getString("scheduleType").equals("")) {
+			// 需要定时处理
+			wjbvo.setScheduleType(jsStr.getString("scheduleType"));
+			wjbvo.setIsSchedule("1");
+			wjbvo.setScheduleDate(jsStr.getString("scheduleDate"));
+		} else {
+			// 实时任务
+			wjbvo.setScheduleType(jsStr.getString("scheduleType"));
+			wjbvo.setIsSchedule("0");
+			wjbvo.setScheduleDate(jsStr.getString("scheduleDate"));
+		}
 		HttpEntity<PlanBase> entity = new HttpEntity<PlanBase>(wjbvo, this.httpHeaders);
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(EDIT_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
 		int result = responseEntity.getBody();
@@ -476,16 +500,21 @@ public class PlanController extends BaseController {
 				planBase.setCreateUserName(wjbvo.getCreateUserName());
 				planBase.setCreateDate(wjbvo.getCreateDate());
 				planBase.setStatus(wjbvo.getStatus());
+				
+				// 定时的任务暂时不让受理人看到。子工作任务不用考虑定时时间/类型
+				planBase.setIsSchedule(wjbvo.getIsSchedule());
 				baseList.add(planBase);
 			}
 		}
 
 		HttpEntity<List<PlanBase>> entityList = new HttpEntity<List<PlanBase>>(baseList, this.httpHeaders);
 		ResponseEntity<Integer> responseEntityList = this.restTemplate.exchange(SAVE_PLAN_BASE_BATCH, HttpMethod.POST, entityList, Integer.class);
-
+		System.out.println(responseEntityList+"=========responseEntityList========"+wjbvo.getDataId());
 		try {
+			System.out.println(responseEntityList+"=========responseE1ntityList========"+wjbvo.getDataId());
 			CommonUtil.updateFileFlag(restTemplate, httpHeaders, wjbvo.getDataId());
 		} catch (Exception e) {
+			System.out.println(responseEntityList+"=========response3EntityList========"+wjbvo.getDataId());
 			e.printStackTrace();
 			result = 500;
 		}
@@ -503,6 +532,7 @@ public class PlanController extends BaseController {
 	public int editBotWorkOrderZf(HttpServletRequest request) {
 		// 修改原数据 新增新数据 更新
 		String param = request.getParameter("param");
+		System.out.println("==============="+param);
 		JSONObject jsStr = (JSONObject) JSON.parseObject(param);
 		jsStr.put("visaApplyCode", null);
 		String dataId = jsStr.getString("dataId");

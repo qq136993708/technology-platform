@@ -1,9 +1,6 @@
 package com.pcitc.service.out.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.pcitc.base.stp.out.*;
 import com.pcitc.base.system.EmailTemplate;
@@ -239,8 +236,40 @@ public class OutPatentServiceImpl implements OutPatentService {
         PageHelper.startPage(pageNum, pageSize);
         OutPatentExample example = new OutPatentExample();
         OutPatentExample.Criteria criteria = example.createCriteria();
-        String strName = param.getParam().get("name").toString();
-        criteria.andFmrLike("%"+strName+"%");
+//        String strName = param.getParam().get("name").toString();
+//        criteria.andFmrLike("%"+strName+"%");
+
+        Object name = param.getParam().get("name");
+        if (name != null&&!"".equals(name)) {
+            criteria.andFmrLike("%"+name + "%");
+        }
+
+        //特殊处理专家名称
+//        Object expertNames = param.getParam().get("expertNames");
+//        if (expertNames != null&&!"".equals(expertNames)) {
+//            List<String> expertNamesList = Arrays.asList(expertNames.toString().split(","));
+//            for (int i = 0,j = expertNamesList.size(); i < j; i++) {
+//                OutPatentExample.Criteria criteria2 = example.createCriteria();
+//                criteria2.andFmrLike("%"+expertNamesList.get(i) + "%");
+//                example.or(criteria2);
+//            }
+//        }
+
+        Object fmmc = param.getParam().get("fmmc");
+        if (fmmc != null&&!"".equals(fmmc)) {
+            criteria.andFmmcLike("%"+fmmc + "%");
+        }
+        Object fmh = param.getParam().get("fmh");
+        if (fmh != null&&!"".equals(fmh)) {
+            criteria.andZlhLike("%"+fmh + "%");
+        }
+        Object dataId = param.getParam().get("dataId");
+        if (dataId != null&&!"".equals(dataId)) {
+            criteria.andDataIdIn(Arrays.asList(dataId.toString().split(",")));
+        }
+
+
+        example.setOrderByClause("sqri desc");
 //        criteria.andDlrLike("%"+strName+"%");
         List<OutPatent> list = outPatentMapper.selectByExample(example);
         // 2、获取分页查询后的数据

@@ -347,9 +347,11 @@ public class ProjectSetupController extends BaseController {
 		logger.info("============远程返回  statusCode " + statusCode);
 		SreProjectSetup sreProjectSetup = responseEntity.getBody();
 		request.setAttribute("sreProjectSetup", sreProjectSetup);
-		
-		SreProject sreProject=EquipmentUtils.getSreProject(sreProjectSetup.getTopicId(), restTemplate, httpHeaders);
-		request.setAttribute("sreProject", sreProject);
+		if(sreProjectSetup!=null)
+		{
+			SreProject sreProject=EquipmentUtils.getSreProject(sreProjectSetup.getTopicId(), restTemplate, httpHeaders);
+			request.setAttribute("sreProject", sreProject);
+		}
 		return "/stp/equipment/setup_report/setup_report_view";
 	}
 	

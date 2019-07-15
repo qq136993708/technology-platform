@@ -48,20 +48,15 @@
     <result column="thesis_isr_count" property="thesisIsrCount" jdbcType="INTEGER" />
     <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
     <result column="notes" property="notes" jdbcType="VARCHAR" />
-    <result column="apply_depart_code" property="applyDepartCode" jdbcType="VARCHAR" />
-    <result column="apply_depart_name" property="applyDepartName" jdbcType="VARCHAR" />
+    <result column="parent_unit_code" property="parentUnitCode" jdbcType="VARCHAR" />
+    <result column="parent_unit_name" property="parentUnitName" jdbcType="VARCHAR" />
     <result column="attachment_doc" property="attachmentDoc" jdbcType="VARCHAR" />
     <result column="year" property="year" jdbcType="VARCHAR" />
-    
-    
-    
     <result column="thesis_sci_inner_count" property="thesisSciInnerCount" jdbcType="INTEGER" />
     <result column="thesis_ei_inner_count"  property="thesisEiInnerCount" jdbcType="INTEGER" />
-    
-    
     <result column="device_innner_assets" property="deviceInnnerAssets" jdbcType="DECIMAL" />
-     
-    
+    <result column="write_type"  property="writeType" jdbcType="VARCHAR" />
+     <result column="parent_id"   property="parentId" jdbcType="VARCHAR" />
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -74,9 +69,9 @@
     all_patent_count, all_patent_look_count, current_year_patent_count, current_patent_look_count, 
     achievements_country_count, achievements_privance_count, achievements_company_count, 
     thesis_all_count, thesis_sci_count, thesis_ei_count, thesis_istp_count, thesis_isr_count, 
-    audit_status, notes,apply_depart_code,apply_depart_name,attachment_doc,year,
+    audit_status, notes,parent_unit_code,parent_unit_name,attachment_doc,year,
     thesis_sci_inner_count,thesis_ei_inner_count
-    ,device_innner_assets
+    ,device_innner_assets,write_type,parent_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -106,8 +101,8 @@
       achievements_privance_count, achievements_company_count, 
       thesis_all_count, thesis_sci_count, thesis_ei_count, 
       thesis_istp_count, thesis_isr_count, audit_status, 
-      notes,apply_depart_code,apply_depart_name,attachment_doc,
-      year,thesis_sci_inner_count,thesis_ei_inner_count,device_innner_assets
+      notes,parent_unit_code,parent_unit_name,attachment_doc,
+      year,thesis_sci_inner_count,thesis_ei_inner_count,device_innner_assets,write_type,parent_id
       )
     values (#{id,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, 
       #{unitCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{createUserMobile,jdbcType=VARCHAR}, 
@@ -127,11 +122,12 @@
       #{thesisAllCount,jdbcType=INTEGER}, #{thesisSciCount,jdbcType=INTEGER}, #{thesisEiCount,jdbcType=INTEGER}, 
       #{thesisIstpCount,jdbcType=INTEGER}, #{thesisIsrCount,jdbcType=INTEGER}, #{auditStatus,jdbcType=VARCHAR}, 
       #{notes,jdbcType=VARCHAR}
-      , #{applyDepartCode,jdbcType=VARCHAR}
-      , #{applyDepartName,jdbcType=VARCHAR}, #{attachmentDoc,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}
+      , #{parentUnitCode,jdbcType=VARCHAR}
+      , #{parentUnitName,jdbcType=VARCHAR}, #{attachmentDoc,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}
       , #{thesisSciInnerCount,jdbcType=INTEGER}
       , #{thesisEiInnerCount,jdbcType=INTEGER}
       , #{deviceInnnerAssets,jdbcType=DECIMAL}
+      , #{writeType,jdbcType=VARCHAR}  , #{parentId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.report.TechOrgCount" >
@@ -275,11 +271,11 @@
       <if test="notes != null" >
         notes,
       </if>
-      <if test="applyDepartCode != null" >
-        apply_depart_code,
+      <if test="parentUnitCode != null" >
+        parent_unit_code,
       </if>
-      <if test="applyDepartName != null" >
-        apply_depart_name,
+      <if test="parentUnitName != null" >
+        parent_unit_name,
       </if>
       <if test="attachmentDoc != null" >
         attachment_doc,
@@ -296,7 +292,12 @@
       <if test="deviceInnnerAssets != null" >
         device_innner_assets,
       </if>
-    
+      <if test="writeType != null" >
+        write_type,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
     
     
     </trim>
@@ -439,11 +440,11 @@
       <if test="notes != null" >
         #{notes,jdbcType=VARCHAR},
       </if>
-      <if test="applyDepartCode != null" >
-        #{applyDepartCode,jdbcType=VARCHAR},
+      <if test="parentUnitCode != null" >
+        #{parentUnitCode,jdbcType=VARCHAR},
       </if>
-      <if test="applyDepartName != null" >
-        #{applyDepartName,jdbcType=VARCHAR},
+      <if test="parentUnitName != null" >
+        #{parentUnitName,jdbcType=VARCHAR},
       </if>
       <if test="attachmentDoc != null" >
         #{attachmentDoc,jdbcType=VARCHAR},
@@ -460,9 +461,17 @@
       <if test="deviceInnnerAssets != null" >
         #{deviceInnnerAssets,jdbcType=VARCHAR},
       </if>
+      <if test="writeType != null" >
+        #{writeType,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=VARCHAR},
+      </if>
       
       
-       
+      
+      
+      
       
     </trim>
   </insert>
@@ -604,11 +613,11 @@
       <if test="notes != null" >
         notes = #{notes,jdbcType=VARCHAR},
       </if>
-      <if test="applyDepartCode != null" >
-        apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
+      <if test="parentUnitCode != null" >
+        parent_unit_code = #{parentUnitCode,jdbcType=VARCHAR},
       </if>
-      <if test="applyDepartName != null" >
-        apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
+      <if test="parentUnitName != null" >
+        parent_unit_name = #{parentUnitName,jdbcType=VARCHAR},
       </if>
       <if test="attachmentDoc != null" >
         attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
@@ -625,8 +634,15 @@
       <if test="deviceInnnerAssets != null" >
         device_innner_assets = #{deviceInnnerAssets,jdbcType=VARCHAR},
       </if> 
+     <if test="writeType != null" >
+        write_type = #{writeType,jdbcType=VARCHAR},
+      </if> 
+     <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if> 
      
-      
+     
+     
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -634,6 +650,8 @@
     update tech_org_count
     set create_user_id = #{createUserId,jdbcType=VARCHAR},
       create_user_name = #{createUserName,jdbcType=VARCHAR},
+      write_type = #{writeType,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
       unit_code = #{unitCode,jdbcType=VARCHAR},
       unit_name = #{unitName,jdbcType=VARCHAR},
       create_user_mobile = #{createUserMobile,jdbcType=VARCHAR},
@@ -679,10 +697,10 @@
       thesis_istp_count = #{thesisIstpCount,jdbcType=INTEGER},
       thesis_isr_count = #{thesisIsrCount,jdbcType=INTEGER},
       audit_status = #{auditStatus,jdbcType=VARCHAR},
-      apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
+      parent_unit_code = #{parentUnitCode,jdbcType=VARCHAR},
       year = #{year,jdbcType=VARCHAR},
       attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
-      apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
+      parent_unit_name = #{parentUnitName,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -692,24 +710,25 @@
     
      <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="unitName != null and unitName  !='' ">             AND t.unit_name like CONCAT('%',#{unitName},'%')</if>
-	     <if test="unitCode != null      and unitCode !=''  ">        AND t.unit_code = #{unitCode}</if>
+	     <if test="unitName != null and unitName  !='' ">                              AND t.unit_name like CONCAT('%',#{unitName},'%')</if>
+	     <if test="parentUnitName != null     and parentUnitName  !='' ">              AND t.parent_unit_name like CONCAT('%',#{parentUnitName},'%')</if>
+	     <if test="unitCode != null           and unitCode !=''  ">                    AND t.unit_code = #{unitCode}</if>
+	     <if test="parentUnitCode != null      and parentUnitCode !=''  ">             AND t.parent_unit_code = #{parentUnitCode}</if>
 	     <if test="type != null          and type !=''  ">            AND t.type = #{type}</if>
-	      <if test="year != null          and year !=''  ">            AND t.year = #{year}</if>
-	     <if test="applyDepartCode != null and applyDepartCode !=''  "> AND t.apply_depart_code = #{applyDepartCode}</if>
+	     <if test="parentId != null          and parentId !=''  ">            AND t.parent_id = #{parentId}</if>
+	     <if test="year != null          and year !=''  ">            AND t.year = #{year}</if>
+	     <if test="writeType != null     and writeType !=''  ">       AND t.write_type = #{writeType}</if>
 	     <if test="auditStatus != null   and auditStatus !=''  ">     AND t.audit_status = #{auditStatus}</if>
 	     <if test="sqlStr != null        and sqlStr !='' ">           AND  ${sqlStr}</if>
 	 </trim>
 	</sql>
-	
-	 
     
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
      select * from tech_org_count t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  year desc
+        ORDER BY  year desc,create_date desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
@@ -728,6 +747,7 @@
     
     <select id="getStatisticsList" resultMap="BaseResultMap" parameterType="Map" >
       SELECT 
+          '-' AS id ,
 		  '-' AS YEAR ,
 		  '-' AS  TYPE,
 		  '-' AS  create_user_name,
@@ -775,7 +795,7 @@
     UNION ALL 
     SELECT * FROM(
 	SELECT 
-		 
+		  t.id,
 		  t.`year`,
 		  t.`type`,
 		  t.`create_user_name`,
@@ -822,7 +842,7 @@
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  year desc
+        ORDER BY  year desc ,create_date desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   

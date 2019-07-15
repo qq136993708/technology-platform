@@ -1212,10 +1212,11 @@
 	
 	<!-- 直属研究院二级页面（领导），项目计划完成的比率，按照项目类型、资本性费用性来分组 -->
 	<select id="getPlanCompleteRateByOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select case when tableB.DEFINE1 = '费用性' then '科研开发类' when tableB.DEFINE1 = '资本性' then '科研装备类' else tableB.DEFINE1 end as define1,PROJECT_PROPERTY as project_scope,count(xmid) as jhqds,
-			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds
+		select tableB.define1,
+			   SUBSTR(define10 FROM 4) as project_scope,count(xmid) as jhqds,
+			   sum(case when tableB.temId is not null then 1 else 0 end) as sjqds
 		from (
-			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_PROPERTY
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1, IFNULL(out_project_plan.define10,'201计划签订') as define10
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.define3='项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
@@ -1242,7 +1243,8 @@
 				
 				group by out_project_plan.xmid
 		) as tableB 
-		group by tableB.DEFINE1,tableB.PROJECT_PROPERTY
+		GROUP BY tableB.DEFINE1,tableB.define10
+		ORDER BY tableB.DEFINE1,tableB.define10
 	</select>
 	
 	<!-- 领导首页-科研投入-各个处室的新开结转情况 -->
@@ -1252,12 +1254,15 @@
 			   IFNULL(tableA.sjzje,'0') as sjzje,IFNULL(tableA.xkMoney,'0') as xkMoney,IFNULL(tableA.jzMoney,'0') as jzMoney
 		from out_tem_money_decompose left join (
 			select 
-			    substr(define10,4) as define10,sum(ysfyxje) as sjzje,
+			    substr(define10,4) as define10,sum(ysfyxje) as sjzje, zycbm,
 				sum(case when ysnd = '${nd}' and nd = '${nd}' then ysfyxje else 0 end) as xkMoney,
 				sum(case when ysnd = '${nd}' and nd &lt; '${nd}' then ysfyxje else 0 end) as jzMoney
 			from out_project_info 
 			WHERE
 				out_project_info.ysnd= '${nd}' 
+				<if test="xkFlag != null and xkFlag != ''">
+					and out_project_info.nd= '${nd}'
+				</if>
 				<if test="zylbbm != null and zylbbm != ''">
 					and find_in_set(out_project_info.zylbbm, '${zylbbm}')
 				</if>
@@ -1274,9 +1279,48 @@
 				</if>
 				and out_project_info.PROJECT_TYPE != '1'
 				and define3='项目管理系统' and define2 not like '%休斯顿%' and define2 not like '%中东%' 
-				group by out_project_info.define10) as tableA ON (out_tem_money_decompose.cb = tableA.define10)
+				group by out_project_info.define10) as tableA ON (out_tem_money_decompose.unit_code = tableA.zycbm)
 		where
 			out_tem_money_decompose.nd = '${nd}' and cb not like '专项' and cb not like '机动'
+	</select>
+	
+	<!-- 领导首页-科研投入-各个处室的新开结转情况, 专业处没做预算的情况下, 以数据字典中的为准 -->
+	<select id="getPlanMoneyByDepartmentSpecial" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select sys_dictionary.`name` as zycmc,0 as ysje,
+			   0 as ysjzje,0 as ysxkje,
+			   IFNULL(tableA.sjzje,'0') as sjzje,IFNULL(tableA.xkMoney,'0') as xkMoney,IFNULL(tableA.jzMoney,'0') as jzMoney
+		from sys_dictionary left join (
+			select 
+			    substr(define10,4) as define10,sum(ysfyxje) as sjzje, zycbm,
+				sum(case when ysnd = '${nd}' and nd = '${nd}' then ysfyxje else 0 end) as xkMoney,
+				sum(case when ysnd = '${nd}' and nd &lt; '${nd}' then ysfyxje else 0 end) as jzMoney
+			from out_project_info 
+			WHERE
+				out_project_info.ysnd= '${nd}' 
+				<if test="xkFlag != null and xkFlag != ''">
+					and out_project_info.nd= '${nd}'
+				</if>
+				<if test="zylbbm != null and zylbbm != ''">
+					and find_in_set(out_project_info.zylbbm, '${zylbbm}')
+				</if>
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(out_project_info.zycbm, '${zycbm}')
+				</if>
+				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_info.ND = '1900'
+					</if>
+				</if>
+				and out_project_info.PROJECT_TYPE != '1'
+				and define3='项目管理系统' and define2 not like '%休斯顿%' and define2 not like '%中东%' 
+				group by out_project_info.define10) as tableA ON (sys_dictionary.num_value like concat('%',tableA.zycbm,'%'))
+		where
+			sys_dictionary.`code` like 'ROOT_ZGSHJT_ZBJG%' 
+			and ((sys_dictionary.level_code = '3' and sys_dictionary.num_value != '30130006') or sys_dictionary.parent_code = 'ROOT_ZGSHJT_ZBJG_KJB')
+		ORDER BY isdelete
 	</select>
 	
 	
@@ -1287,7 +1331,7 @@
 			IFNULL(sum(case when tableB.temId is null then 1 else 0 end),0) as wqht,
 			IFNULL(round(sum(case when tableB.temId is not null then 1 else 0 end)/count(XMID)*100,2),0) as qdl
 		from (
-			select out_project_info.xmid as temId,out_project_plan.XMID,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
+			select out_project_info.xmid as temId,out_project_plan.XMID,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE,out_project_plan.xmlbbm
 			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
@@ -1296,6 +1340,12 @@
 				and out_project_plan.DEFINE4 = '项目管理系统'
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+					and out_project_plan.xmlbbm = 'KYZB'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+					and out_project_plan.xmlbbm != 'KYZB'
 				</if>
 				<if test="zylbbm != null and zylbbm != ''">
 					and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
@@ -1431,8 +1481,8 @@
 	
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照研究院来分组 -->
 	<select id="getPlanCompleteRateByPlanTypeForHana" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select round(sum(K0DMBTR)/10000,4) as hanaMoney,tableB.*,
-		       round((zysje - zsjje),4) as wqhtzje,round((zsjje - sum(K0DMBTR)/10000),4) as wbkzje
+		select round(sum(K0DMBTR)/10000,2) as hanaMoney,tableB.*,
+		       round((zysje - zsjje),2) as wqhtzje,round((zsjje - sum(K0DMBTR)/10000),2) as wbkzje
 		from expenses_pay_hana,(
 			select define2,define3,zsjje, round((out_tem_money_total.zbx_money+out_tem_money_total.fyx_money), 4) as zysje,
 							round((out_tem_money_total.zbx_money+out_tem_money_total.fyx_money)-zsjje,4) as wxdje,
@@ -1458,34 +1508,40 @@
 			) tableB 
 		WHERE 
 		find_in_set(expenses_pay_hana.G0LIFNR,tableB.hanaCode)  
-		and STRCMP(left(G0AUGDT, 6), '201801') &gt; -1
-		and STRCMP(left(G0AUGDT, 6), '201812') &lt; 1
+		and STRCMP(left(G0AUGDT, 6), '${startMonth}') &gt; -1
+		and STRCMP(left(G0AUGDT, 6), '${endMonth}') &lt; 1
 		GROUP BY tableB.hanaCode
 		ORDER BY tableB.define3
 	</select>
 	
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照月份分组 -->
 	<select id="getPlanCompleteRateByPlanTypeForHanaMonth" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select tableB.*,IFNULL(sum(tableC.jf),0) as zsjje  from (
-			select tableA.*,(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money) as zysje 
-			from (
-				select round(sum(K0DMBTR)/10000,4) as hanaMoney, left(G0AUGDT, 6) as yearMonth
-				from expenses_pay_hana
-				where 
-				G0LIFNR in ('0033550000','0035800000','0033550006','0033600000','0033700000','0034880000','0033650000','0033750000','0033800000') 
-				and STRCMP(left(G0AUGDT, 6), '201801') &gt; -1
-				and STRCMP(left(G0AUGDT, 6), '201812') &lt; 1
-				GROUP BY left(G0AUGDT, 6)
-				ORDER BY left(G0AUGDT, 6)
-			) tableA LEFT JOIN out_tem_money_total ON (left(yearMonth, 4) = out_tem_money_total.nd AND out_tem_money_total.show_ali = '直属研究院')
-			) as tableB left join (
-				select xmid,jf,left(define16, 6) as projectMount
-				from out_project_info
-				where 
-					left(define16, 4) = '2018'
-				GROUP BY xmid
-		) tableC on (tableC.projectMount = tableB.yearMonth)
-		GROUP BY tableB.yearMonth
+		select CONCAT('${nd}',sys_dictionary.num_value) as yearMonth,round(ifnull(tableD.hanaMoney, '0'), 2) as hanaMoney,
+			   round(ifnull(tableD.zysje, '0'), 2) as zysje,  round(ifnull(tableD.zsjje, '0'), 2) as zsjje
+		from sys_dictionary left join (
+			select tableB.*,IFNULL(sum(tableC.jf),0) as zsjje  from (
+				select tableA.*,(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money) as zysje 
+				from (
+					select round(sum(K0DMBTR)/10000,2) as hanaMoney, left(G0AUGDT, 6) as yearMonth
+					from expenses_pay_hana
+					where 
+					G0LIFNR in ('0033550000','0035800000','0033550006','0033600000','0033700000','0034880000','0033650000','0033750000','0033800000') 
+					and STRCMP(left(G0AUGDT, 6), '${startMonth}') &gt; -1
+					and STRCMP(left(G0AUGDT, 6), '${endMonth}') &lt; 1
+					GROUP BY left(G0AUGDT, 6)
+					ORDER BY left(G0AUGDT, 6)
+				) tableA LEFT JOIN out_tem_money_total ON (left(yearMonth, 4) = out_tem_money_total.nd AND out_tem_money_total.budget_code = 'GFFZSY')
+				) as tableB left join (
+					select xmid,jf,left(define16, 6) as projectMount
+					from out_project_info
+					where 
+						left(define16, 4) = '${nd}'
+					GROUP BY xmid
+			) tableC on (tableC.projectMount = tableB.yearMonth)
+			GROUP BY tableB.yearMonth) as tableD on (sys_dictionary.num_value = SUBSTR(tableD.yearMonth FROM 5))
+		where 
+		sys_dictionary.parent_code = 'ROOT_FZJCZX_YD'
+		ORDER BY isdelete
 	</select>
 	
 	<!-- 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组 -->
@@ -1543,11 +1599,11 @@
 			 tableC.zbxRate,tableC.fyxRate,tableC.zRate
 		FROM (
 			SELECT tableB.define3,tableB.zbxsjje,tableB.fyxsjje, tableB.zbxsjje+tableB.fyxsjje as zsjje,
-			tableD.xmjf_zbx+tableD.xmjf_fyx as zysje,
-			tableD.xmjf_zbx as zbxysje,tableD.xmjf_fyx as fyxysje,
-			round(tableB.zbxsjje/tableD.xmjf_zbx *100, 4) zbxRate,
-			round(tableB.fyxsjje/tableD.xmjf_fyx *100, 4) fyxRate,
-			round((tableB.zbxsjje+tableB.fyxsjje)/(tableD.xmjf_zbx+tableD.xmjf_fyx) *100, 4) zRate
+			tableD.zbx_money+tableD.fyx_money as zysje,
+			tableD.zbx_money as zbxysje,tableD.fyx_money as fyxysje,
+			round(tableB.zbxsjje/tableD.zbx_money *100, 4) zbxRate,
+			round(tableB.fyxsjje/tableD.fyx_money *100, 4) fyxRate,
+			round((tableB.zbxsjje+tableB.fyxsjje)/(tableD.zbx_money+tableD.fyx_money) *100, 4) zRate
 			FROM (			
 				select SUBSTR(tableA.DEFINE3 FROM 4) as define3, tableA.DEFINE3 as temOrder, zbxsjje, fyxsjje from (
 						select 
@@ -1576,92 +1632,12 @@
 							group by out_project_info.type_flag
 						) as tableA
 				) as tableB LEFT JOIN (
-									SELECT
-										nd,
-										case when display_name = '集团单位' then '股份付集团' when display_name = '休斯顿研发中心' then '休斯顿' when display_name = '中东研发中心' then '中东' else display_name end as display_name,
-										xmjf_total,
-										xmjf_zbx,
-										xmjf_fyx
-									FROM
-										out_tem_money_stock_total
-									WHERE
-										(
-											budget_info_id IN (
-												SELECT
-													data_id
-												FROM
-													out_tem_budget_info
-												WHERE
-													(
-														del_flag = '0'
-														AND audit_status = '3'
-														AND budget_type = '103'
-														AND nd  = '${nd}'
-														AND `level` = '0'
-													)
-											)
-											AND del_flag = '0'
-											AND item_type = '1'
-										)
-									UNION ALL
-										SELECT
-											nd,
-											'集团公司' AS display_name,
-											sum(total) AS xmjf_total,
-											0 AS xmjf_zbx,
-											sum(total) AS xmjf_fyx
-										FROM
-											out_tem_money_group_total
-										WHERE
-											(
-												del_flag = '0'
-												AND budget_info_id IN (
-													SELECT
-														data_id
-													FROM
-														out_tem_budget_info
-													WHERE
-														(
-															del_flag = '0'
-															AND audit_status = '3'
-															AND budget_type = '101'
-															AND nd  = '${nd}'
-															AND `level` = '0'
-														)
-												)
-												AND LEVEL = '0'
-												AND nd  = '${nd}'
-											)
-										UNION ALL
-											SELECT
-												nd,
-												'资产公司' AS display_name,
-												sum(xmjf) AS xmjf_total,
-												0 AS xmjf_zbx,
-												sum(xmjf) AS xmjf_fyx
-											FROM
-												out_tem_money_asset_total
-											WHERE
-												(
-													del_flag = '0'
-													AND budget_info_id IN (
-														SELECT
-															data_id
-														FROM
-															out_tem_budget_info
-														WHERE
-															(
-																del_flag = '0'
-																AND audit_status = '3'
-																AND budget_type = '102'
-																AND nd = '${nd}'
-																AND `level` = '0'
-															)
-													)
-													AND LEVEL = '0'
-												)
-										
-									) as tableD ON (tableB.define3 = tableD.display_name and tableD.nd = '${nd}')
+									select nd,zbx_money,fyx_money,
+									       case when show_ali = '集团单位' then '股份付集团' when show_ali = '资产单位' then '股份付资产'  when show_ali = '休斯顿研发中心' then '休斯顿' when show_ali = '中东研发中心' then '中东' else show_ali end as show_ali
+									from out_tem_money_total
+									where 
+										nd = '${nd}' and (money_level = '2' or money_level = '1') and show_ali != '股份公司'
+									) as tableD ON (tableB.define3 = tableD.show_ali and tableD.nd = '${nd}')
 			ORDER BY tableB.temOrder
 		) AS tableC
 	</select>
@@ -1875,23 +1851,23 @@
 			</if>
 			<!-- 数据控制 -->
 			
-			<if test="groupFlag != null and groupFlag != ''">
-				<if test="groupFlag != null and groupFlag != ''">
+			<if test="groupFlag != null">
+				<if test="groupFlag != ''">
 					GROUP BY ${groupFlag}
 				</if>
-				<if test="groupFlag == null or groupFlag == ''">
+				<if test="groupFlag == ''">
 					GROUP BY XMID
 				</if>
 			</if>
 			<if test="groupFlag == null">
 				GROUP BY XMID
 			</if>
-			<if test="orderKey != null and orderKey != ''">
-				<if test="orderType != null and orderType != ''">
+			<if test="orderKey != null">
+				<if test="orderType != ''">
 					order by ${orderKey} ${orderType}
 				</if>
-				<if test="orderType == null or orderType == ''">
-					order by ${orderKey} desc
+				<if test="orderType == ''">
+					order by tableA.hth desc, tableA.define10
 				</if>
 			</if>
 			<if test="orderKey == null">

@@ -66,9 +66,16 @@ public class OutRewardServiceImpl implements OutRewardService {
 			criteria.andNdEqualTo(paraMap.get("nd").toString());
 		}
 		if (paraMap.get("xmmc")!=null&&!paraMap.get("xmmc").toString().equals("")) {
-			criteria.andXmmcLike("%"+paraMap.get("xmmc").toString()+"%");
-		}
-		example.setOrderByClause(" sbjz,sbdj asc ");
+            criteria.andXmmcLike("%"+paraMap.get("xmmc").toString()+"%");
+        }
+
+        //添加name值查询 start
+        if (paraMap.get("name")!=null&&!paraMap.get("name").toString().equals("")) {
+            criteria.andXmmcLike("%"+paraMap.get("name").toString()+"%");
+        }
+        //添加name值查询 end
+
+        example.setOrderByClause(" sbjz,sbdj asc ");
 
 		List<OutReward> list = outRewardMapper.selectByExample(example);
 		PageInfo<OutReward> pageInfo = new PageInfo<OutReward>(list);

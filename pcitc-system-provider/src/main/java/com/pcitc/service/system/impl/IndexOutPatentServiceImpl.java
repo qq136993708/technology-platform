@@ -174,7 +174,7 @@ public class IndexOutPatentServiceImpl implements IndexOutPatentService {
         if (dataId != null) {
             c.andDataIdIn(Arrays.asList(dataId.toString().split(",")));
         }
-        example.setOrderByClause("create_date desc");
+        example.setOrderByClause("sqri desc");
         return this.findByExample(param, example);
 
     }

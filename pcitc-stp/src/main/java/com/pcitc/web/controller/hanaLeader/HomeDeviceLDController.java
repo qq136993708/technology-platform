@@ -62,7 +62,7 @@ public class HomeDeviceLDController extends BaseController {
 		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		return "stp/hana/home/level/direct_depart/home_device_02";
 	}
@@ -70,7 +70,7 @@ public class HomeDeviceLDController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/home_device_ld/home_device_table")
 	public String home_device_table(HttpServletRequest request) throws Exception {
 
-		String month = HanaUtil.getCurrrentYearMoth();
+		String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("month", month);
 		String g0XMGLLX = CommonUtil.getParameter(request, "g0XMGLLX", "");
 		request.setAttribute("g0XMGLLX", g0XMGLLX);

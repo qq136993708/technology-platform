@@ -108,11 +108,19 @@ html {
 					selectedOP.push($(this).find(".textSpan").html())
 				});
                 var addHtml='<div class="add"></div>';
+                var layId=parseInt(parent.$(".main-two .main-left1 .add").prev().attr("layid"));
 				$.each(selectedOP,function (i,val) {
-                    var html='<div class="main-left'+i+'">' +
-                        '                    <p class="title">'+val+'</p>' +
-                        '                    <p class="number"></p>' +
-                        '                </div>';
+				    if(!isNaN(layId)){
+                        var html='<div class="main-left'+(i+1+layId)+'" layId="'+(i+1+layId)+'">' +
+                            '                    <p class="title">'+val+'</p>' +
+                            '                    <p class="number"></p>' +
+                            '                </div>';
+					}else {
+                        var html='<div class="main-left'+i+'" layId="'+i+'">' +
+                            '                    <p class="title">'+val+'</p>' +
+                            '                    <p class="number"></p>' +
+                            '                </div>';
+					}
                     parent.$(".main-two .main-left1 .add").before(html);
                 });
 				var index = parent.layer.getFrameIndex(window.name);

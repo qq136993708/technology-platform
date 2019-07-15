@@ -158,7 +158,7 @@ public class ProjectBasicController extends BaseController {
 		String createUserName = sysUserInfo.getUserDisp();
 		String createUserId = sysUserInfo.getUserName();
 		String documentDoc = IdUtil.createFileIdByTime();
-		String beginYear = EquipmentUtils.getCurrrentYear();
+		String beginYear = EquipmentUtils.getCurrentYear();
 		String endYear = String.valueOf(Integer.valueOf(beginYear).intValue() + 1);
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);

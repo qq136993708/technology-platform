@@ -54,7 +54,7 @@ public class DirectSecondController  extends BaseController
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
+		String define3  = CommonUtil.getParameter(request, "define3", "" );
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -101,7 +101,7 @@ public class DirectSecondController  extends BaseController
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
+		String define3  = CommonUtil.getParameter(request, "define3", "" );
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -148,7 +148,7 @@ public class DirectSecondController  extends BaseController
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
+		String define3  = CommonUtil.getParameter(request, "define3", "" );
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -194,7 +194,7 @@ public class DirectSecondController  extends BaseController
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
+		String define3  = CommonUtil.getParameter(request, "define3", "" );
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -241,7 +241,7 @@ public class DirectSecondController  extends BaseController
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
+		String define3  = CommonUtil.getParameter(request, "define3", "" );
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);

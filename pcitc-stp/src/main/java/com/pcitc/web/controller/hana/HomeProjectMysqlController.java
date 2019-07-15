@@ -63,7 +63,7 @@ public class HomeProjectMysqlController extends BaseController{
 		String unitCode = userInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 		
-		String year = HanaUtil.getCurrrentYear();
+		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 		
 		// 用户级别，暂定，通过这个控制用户看见全部，还是控制他看到的一部分

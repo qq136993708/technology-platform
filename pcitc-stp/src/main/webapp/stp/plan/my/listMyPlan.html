@@ -63,7 +63,7 @@
 		var table, selectRowData, workOrderStatus;
 		layui.use([ 'jquery', 'table', 'laypage', 'publicMethods', 'laydate' ], function() {
 			table = layui.table, $ = layui.jquery, layer = layui.layer, publicMethods = layui.publicMethods, laypage = layui.laypage, laydate = layui.laydate;
-			
+
 			laydate.render({
 				elem : '#startTime',
 				format : 'yyyy-MM-dd'
@@ -73,7 +73,7 @@
 				elem : '#endTime',
 				format : 'yyyy-MM-dd'
 			});
-			
+
 			function renderTable() {
 				table.render({
 					id : 'tableList', //唯一即可
@@ -85,7 +85,8 @@
 							workOrderName : $("#workOrderName").val(),
 							"startTime" : $("#startTime").val(),
 							"endTime" : $("#endTime").val(),
-							"workOrderStatus" : workOrderStatus
+							"workOrderStatus" : workOrderStatus,
+							"isSchedule" : 0
 						}
 					},
 					url : '/plan/my/getTableData',

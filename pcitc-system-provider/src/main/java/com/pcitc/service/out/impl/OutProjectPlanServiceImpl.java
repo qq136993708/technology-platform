@@ -41,6 +41,13 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	public List getPlanMoneyByDepartment(HashMap<String, String> map) {
 		return outProjectPlanMapper.getPlanMoneyByDepartment(map);
 	}
+	
+	/**
+     * 领导首页-科研投入-各个处室的新开结转情况, 专业处没做预算的情况下, 以数据字典中的为准 
+     */
+	public List getPlanMoneyByDepartmentSpecial(HashMap<String, String> map) {
+		return outProjectPlanMapper.getPlanMoneyByDepartmentSpecial(map);
+	}
 
 	/**
 	 * 批量插入项目计划数据
@@ -365,7 +372,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		// 公司性质，和out_unit本质一致，公司本质的属性，和合同没关系
 		if (param.getParam().get("define12")!=null&&!StringUtils.isBlank(param.getParam().get("define12")+"")) {
 			List define12 = new ArrayList();
-			String[] temS = param.getParam().get("define12").toString().split(",");
+			String[] temS = param.getParam().get("define12").toString().replaceAll("休斯顿研发中心", "休斯顿").replaceAll("中东研发中心", "中东").split(",");
 			for (int i = 0; i<temS.length; i++) {
 				define12.add(temS[i]);
 			}

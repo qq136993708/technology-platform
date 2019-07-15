@@ -63,7 +63,7 @@ public class HomeBudgetMysqlController extends BaseController{
 	public String kyzb_level2(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		String nd = HanaUtil.getBeforeYear();
+		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		return "stp/hana/home/level/home_budget_02";
 	}

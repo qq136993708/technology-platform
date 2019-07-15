@@ -29,7 +29,7 @@
 	<div class="layui-fluid">
 		<div class="">
 			<div class="fluid-top">
-			   <#if userLevel=="1">
+				<#if userLevel=="1">
 				<div class="breadcrumb">
 					<a href="/stpHome" target="_parent">首页 > </a>
 					<a href="/instituteIndex?url=/home_ld/direct_depart" target="_parent">直属研究院概况 > </a>
@@ -96,7 +96,9 @@
 							年直属研究院课题合同（任务书）数量占比
 						</div>
 						<div class="layui-card-body btn-function">
-							<table id="processdef_table" class="layui-hide" lay-filter="processdef_table"></table>
+							<div class="processdef_table">
+								<table id="processdef_table" class="layui-hide" lay-filter="processdef_table"></table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -141,7 +143,9 @@
 							年直属研究院课题合同（任务书）数量占比
 						</div>
 						<div class="layui-card-body btn-function">
-							<table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
+							<div id="processdef_tableN">
+								<table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -171,7 +175,7 @@
 			form.render(null, 'component-form-group');
 			laydate.render({
 				elem : '#year',
-				min : '2016-10-14',
+				min : '2018-01-01',
 				type : 'year',
 				done : function(value, date, endDate) {
 					$(".layui-time").html(date.year);
@@ -264,7 +268,7 @@
 			$("#contract_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#contract_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-			var chart1_url = "/direct/contract_01?type=1&nd=" + nd + "&v_date=" + v_date;
+			var chart1_url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + $('#year').val() + "&v_date=" + v_date;
 			var color = [ "#43c5ff", "#ffa70f" ];
 			var echart1 = load_single_bar_down(chart1_url, "contract_chart1", "", "", yAxis, color);
 			echart1.on('click', function(params) {
@@ -276,8 +280,8 @@
 
 			});
 
-			//圆圈
-			var url = "/direct/contract_01?type=2&nd=" + nd + "&v_date=" + v_date;
+			// 直属研究院课题合同（任务书）签定率  ,  饼状圈
+			var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + $('#year').val() + "&v_date=" + v_date;
 			var echart2 = loadCicle(url, "contract_chart1_02_02");
 			echart2.on('click', function(params) {
 				var xName = params.name;
@@ -286,18 +290,18 @@
 
 			});
 
-			var chart4_url = "/direct/contract_03?type=1&nd=" + nd + "&v_date=" + v_date;
+			var chart4_url = "/direct/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + $('#year').val() + "&v_date=" + v_date;
 			var colorTr = [ "#17a2b9", "#43c5ff", "#f9c16d" ];
 			var echart4 = load_mutl_bar_down_r(chart4_url, "contract_chart4", "", "", yAxis, 1, 25, colorTr);
 			echart4.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
 				var qdbz = "";
-				if (legentName=='实际签订') {
+				if (legentName == '实际签订') {
 					qdbz = "已签订";
 				}
 
-				var url = encodeURIComponent("/one_level_main/common_table?define2=" + xName + "&qdbz=" + qdbz + "&ysnd=" + nd + "&nd=" + nd + "&groupFlag=xmid,define8");
+				var url = encodeURIComponent("/one_level_main/common_table?define2=" + xName + "&qdbz=" + qdbz + "&ysnd=" + $('#year').val() + "&nd=" + nd + "&groupFlag=xmid,define8");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -305,12 +309,12 @@
 		}
 
 		function contract_chart1(qdbz) {
-			var url = encodeURIComponent("/one_level_main/common_table?define12=直属研究院&qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid");
+			var url = encodeURIComponent("/one_level_main/common_table?define12=直属研究院&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid");
 			window.open("/instituteIndex?url=" + url);
 		}
-		
+
 		function contract_chart2(qdbz) {
-			var url = encodeURIComponent("/one_level_main/common_table?define12=直属研究院&qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid,define8");
+			var url = encodeURIComponent("/one_level_main/common_table?define12=直属研究院&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid,define8");
 			window.open("/instituteIndex?url=" + url);
 		}
 
@@ -323,28 +327,22 @@
 			renderTable2();
 		}
 
+		// 直属研究院课题合同（任务书）数量占比
 		function renderTable() {
-
 			var month = $("#year").val();
 			var ptable = treeGridCom.render({
 				id : 'processdef_table',
 				elem : '#processdef_table',
-				url : '/direct/contract_02?nd=' + month,
+				url : '/direct/contract_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + month,
 				cellMinWidth : 200,
-				idField : 'id'//必須字段
-				,
-				treeId : 'id'//树形id字段名称
-				,
-				treeUpId : 'pId'//树形父id字段名称
-				,
-				treeShowName : 'name'//以树形式显示的字段
-				,
+				idField : 'id',//必須字段
+				treeId : 'id',//树形id字段名称
+				treeUpId : 'pId',//树形父id字段名称
+				treeShowName : 'name',//以树形式显示的字段
 				height : '299',
 				isFilter : false,
-				iconOpen : false//是否显示图标【默认显示】
-				,
-				isOpenDefault : true//节点默认是展开还是折叠【默认展开】
-				,
+				iconOpen : false,//是否显示图标【默认显示】
+				isOpenDefault : true,//节点默认是展开还是折叠【默认展开】
 				loading : false,
 				method : 'get',
 				cols : [ [ {
@@ -374,17 +372,17 @@
 					templet : function(d) {
 						return d.extend03 + "%"
 					}
-				}
-
-				] ],
+				} ] ],
 				isPage : false,
 				done : function(res, curr, count) {
-					$("tr").each(function() {
-						if ($(this).attr("u_id") == "9990" || $(this).attr("u_id") == "9991") {
-							$(this).click(function() {
-								//alert("1111")
-							});
+					$('.processdef_table .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function(e) {
+                        var index = parseInt($(this).index() + 1);
+                        var selectRowData = res.data[index - 1];
+					    if($(this).find(".layui-icon").length<=0){
+                            var url = encodeURIComponent("/one_level_main/common_table?define2=" + selectRowData.define2 + "&nd=" + nd + "&ysnd=" + nd + "&groupFlag=xmid,define8");
+                            window.open("/instituteIndex?url=" + url);
 						}
+
 					});
 				},
 				parseData : function(res) {
@@ -405,7 +403,7 @@
 			var nd = $('#year').val();
 			var tableOne = table.render({
 				elem : '#processdef_table_02',
-				url : '/direct/contract_03?nd=' + nd + "&type=2",
+				url : '/direct/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&type=2",
 				method : "GET",
 				height : 299,
 				where : {
@@ -449,7 +447,7 @@
 				done : function(res, curr, count) {
 					layer.closeAll('loading');
 					// 点击行联动选择框--单选
-					$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+					$('#processdef_tableN .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
 						var index = parseInt($(this).index() + 1);
 						$('tr').removeClass('layui-table-click');
 						$(this).addClass('layui-table-click');
