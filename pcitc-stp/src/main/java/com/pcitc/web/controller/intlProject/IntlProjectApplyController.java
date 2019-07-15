@@ -75,7 +75,7 @@ public class IntlProjectApplyController extends BaseController {
 			IntlProjectApply newApply = (IntlProjectApply) MyBeanUtils.createDefaultModel(IntlProjectApply.class);
 			apply.setApplyId(IdUtil.createIdByTime());
 			// apply.setAppendFiles(IdUtil.createFileIdByTime());
-			apply.setUnitId(sysUserInfo.getUnitId());
+			//apply.setUnitId(sysUserInfo.getUnitId());
 			apply.setCreater(sysUserInfo.getUserId());
 			MyBeanUtils.copyPropertiesIgnoreNull(apply, newApply);
 			// System.out.println(JSON.toJSONString(newApply));
@@ -94,7 +94,7 @@ public class IntlProjectApplyController extends BaseController {
 			if (!result.isSuccess()) {
 				return result;
 			}
-			oldApply.setUnitId(sysUserInfo.getUnitId());
+			//oldApply.setUnitId(sysUserInfo.getUnitId());
 			oldApply.setCreater(sysUserInfo.getUserId());
 			oldApply.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 			if (oldApply.getAppendFiles() == null) {
