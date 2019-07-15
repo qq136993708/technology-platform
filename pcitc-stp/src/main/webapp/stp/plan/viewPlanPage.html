@@ -97,7 +97,7 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label class="layui-form-label">
-									类型
+									紧急程度
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
@@ -106,6 +106,30 @@
 							</div>
 						</div>
 					</div>
+					
+					<div class="layui-row">
+						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+								<label for="" class="layui-form-label">
+									固定种类工作
+								</label>
+								<div class="layui-input-block">
+									<input class="layui-input readOnlyBox" name="scheduleType" id="scheduleType" readOnly="true" type="text" disabled>
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+								<label class="layui-form-label">
+									定时安排时间
+								</label>
+								<div class="layui-input-block">
+									<input class="layui-input readOnlyBox" name="scheduleDate" id="scheduleDate" readOnly="true" type="text" disabled>
+								</div>
+							</div>
+						</div>
+					</div>
+					
 					<div class="layui-form-item layui-form-text">
 						<label class="layui-form-label">任务描述</label>
 						<div class="layui-input-block">
@@ -203,6 +227,21 @@
 							$.each(data, function(index, item) {
 								if (dataJson.workOrderType == item.code) {
 									$("#workOrderType").val(item.name);
+								}
+							})
+							form.render();
+						}
+					});
+					
+					// 固定种类工作的初始化
+					$.ajax({
+						url : '/pageCommon/dic/ROOT_XTGL_GZRWDSZL',
+						dataType : 'json',
+						type : 'post',
+						success : function(data) {
+							$.each(data, function(index, item) {
+								if (dataJson.scheduleType == item.code) {
+									$("#scheduleType").val(item.name);
 								}
 							})
 							form.render();

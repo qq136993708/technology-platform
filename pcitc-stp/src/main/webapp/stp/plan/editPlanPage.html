@@ -23,7 +23,6 @@
 	overflow: visible !important;
 }
 
-
 .layui-table-none {
 	padding: 0 !important;
 }
@@ -31,15 +30,48 @@
 .layui-table {
 	width: 100% !important;
 }
-.form_tableAdd_container .tableBox input{width: 69.3% !important;}
-.form_tableAdd_container .tableBox .layui-table-cell input{width: 100% !important;margin-left: 15px;}
-.form_tableAdd_container .tableBox .layui-table-cell .layui-select-title input{margin-left: 3px;margin-top: 3px;}
-.layui-form-select dl{top:26px !important;left: 3px !important;}
-.tdSelect .layui-unselect input{ width: 100%!important;;}
-.tdSelect .layui-unselect {width: 70.5%;margin-left: 3px;}
-.tdSelect .layui-form-select dl{left: 8px !important;max-height:140px;}
-.tdSelect .layui-form-select .layui-edge{right: 5px;}
-.layui-table-box,.layui-table-cell, .layui-table-tool-panel li{overflow: visible !important;}
+
+.form_tableAdd_container .tableBox input {
+	width: 69.3% !important;
+}
+
+.form_tableAdd_container .tableBox .layui-table-cell input {
+	width: 100% !important;
+	margin-left: 15px;
+}
+
+.form_tableAdd_container .tableBox .layui-table-cell .layui-select-title input
+	{
+	margin-left: 3px;
+	margin-top: 3px;
+}
+
+.layui-form-select dl {
+	top: 26px !important;
+	left: 3px !important;
+}
+
+.tdSelect .layui-unselect input {
+	width: 100% !important;;
+}
+
+.tdSelect .layui-unselect {
+	width: 70.5%;
+	margin-left: 3px;
+}
+
+.tdSelect .layui-form-select dl {
+	left: 8px !important;
+	max-height: 140px;
+}
+
+.tdSelect .layui-form-select .layui-edge {
+	right: 5px;
+}
+
+.layui-table-box, .layui-table-cell, .layui-table-tool-panel li {
+	overflow: visible !important;
+}
 </style>
 </head>
 <body>
@@ -118,11 +150,34 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label class="layui-form-label">
-									类型
+									紧急程度
 									<span class="must-fill">*</span>
 								</label>
 								<div class="layui-input-block">
 									<select id="workOrderType" name="workOrderType" lay-filter="select_filter" lay-search></select>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="layui-row">
+						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+								<label class="layui-form-label">
+									固定种类工作
+								</label>
+								<div class="layui-input-block">
+									<select id="scheduleType" name="scheduleType" lay-filter="select_filter" lay-search></select>
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+								<label class="layui-form-label">
+									定时安排时间
+								</label>
+								<div class="layui-input-block">
+									<input class="layui-input" id="scheduleDate" name="scheduleDate" lay-verify="required" type="text">
 								</div>
 							</div>
 						</div>
@@ -204,6 +259,11 @@
 				elem : '#workOrderForm' //表单选择器
 			});
 			publicMethods = layui.publicMethods, form.render(null, 'component-form-group');
+			
+			laydate.render({
+				elem : '#scheduleDate',
+				type : 'datetime'
+			});
 
 			$(document).on("click", ".layui-select-title", function() {
 				if ($(this).next().css("display") == "none") {
@@ -233,7 +293,7 @@
 			form.on('submit(save)', function(data) {
 				var sthTrArr = [];
 				var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
-				if(!$(matterLength).find("td").attr("data-off")==1){
+				if (!$(matterLength).find("td").attr("data-off") == 1) {
 					$(matterLength).each(function() {
 						var sthTrObj = {};
 						sthTrObj.dataId = $(this).find("td").eq(2).text();
@@ -244,7 +304,6 @@
 						sthTrArr.push(sthTrObj);
 					});
 				}
-
 				if (sthTrArr.length < 1) {
 					layer.msg('请至少输入一项工作安排');
 					return false;
@@ -294,7 +353,7 @@
 				JSON.stringify(data.field);
 				var matterLength = $("#matterTableDiv  .layui-table-main table tbody tr");
 				var matterFlag = "1";
-				if(!$(matterLength).find("td").attr("data-off")==1){
+				if (!$(matterLength).find("td").attr("data-off") == 1) {
 					$(matterLength).each(function() {
 						var sthTrObj = {};
 						sthTrObj.dataId = $(this).find("td").eq(2).text();
@@ -379,6 +438,24 @@
 									$('#workOrderType').append("<option value='"+item.code+"' selected=''>" + item.name + "</option>");
 								} else {
 									$('#workOrderType').append("<option value='"+item.code+"'>" + item.name + "</option>");
+								}
+							})
+							form.render();
+						}
+					});
+					
+					// 固定种类工作的初始化
+					$.ajax({
+						url : '/pageCommon/dic/ROOT_XTGL_GZRWDSZL',
+						dataType : 'json',
+						type : 'post',
+						success : function(data) {
+							$('#scheduleType').append(new Option('--可设置定时工作任务--', ''));
+							$.each(data, function(index, item) {
+								if (dataJson.scheduleType == item.code) {
+									$('#scheduleType').append("<option value='"+item.code+"' selected=''>" + item.name + "</option>");
+								} else {
+									$('#scheduleType').append("<option value='"+item.code+"'>" + item.name + "</option>");
 								}
 							})
 							form.render();

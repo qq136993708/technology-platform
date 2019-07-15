@@ -935,7 +935,7 @@ function set_multi_graph_statistics(data, id) {
 	if (id == 'leader_knowledge_chart4') {
 		var count1 = getDataCountForName(data, '发明专利');
 		var count2 = getDataCountForName(data, '外观设计');
-		var count3 = getDataCountForName(data, '使用信息');
+		var count3 = getDataCountForName(data, '实用新型');
 		var allCount_3 = count1 + count2 + count3;
 
 		$("#leader_knowledge_chart4_01").html(allCount_3 + "个");
