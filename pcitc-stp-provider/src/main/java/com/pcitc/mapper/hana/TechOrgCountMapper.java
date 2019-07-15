@@ -27,6 +27,6 @@ public interface TechOrgCountMapper {
     
     TechOrgCount getChildSumByIds(List list);
     
-    
+    int deleteByParent(String parentId);
     
 }

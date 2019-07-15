@@ -55,8 +55,15 @@
     <result column="thesis_sci_inner_count" property="thesisSciInnerCount" jdbcType="INTEGER" />
     <result column="thesis_ei_inner_count"  property="thesisEiInnerCount" jdbcType="INTEGER" />
     <result column="device_innner_assets" property="deviceInnnerAssets" jdbcType="DECIMAL" />
-    <result column="write_type"  property="writeType" jdbcType="VARCHAR" />
-     <result column="parent_id"   property="parentId" jdbcType="VARCHAR" />
+    <result column="write_type"        property="writeType"      jdbcType="VARCHAR" />
+    <result column="parent_id"         property="parentId"       jdbcType="VARCHAR" />
+    <result column="statistics_type"   property="statisticsType" jdbcType="VARCHAR" />
+     
+     
+     
+     
+     
+     
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -71,7 +78,7 @@
     thesis_all_count, thesis_sci_count, thesis_ei_count, thesis_istp_count, thesis_isr_count, 
     audit_status, notes,parent_unit_code,parent_unit_name,attachment_doc,year,
     thesis_sci_inner_count,thesis_ei_inner_count
-    ,device_innner_assets,write_type,parent_id
+    ,device_innner_assets,write_type,parent_id,statistics_type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -83,6 +90,7 @@
     delete from tech_org_count
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  
   <insert id="insert" parameterType="com.pcitc.base.stp.report.TechOrgCount" >
     insert into tech_org_count (id, create_user_id, create_user_name, 
       unit_code, unit_name, create_user_mobile, 
@@ -102,7 +110,8 @@
       thesis_all_count, thesis_sci_count, thesis_ei_count, 
       thesis_istp_count, thesis_isr_count, audit_status, 
       notes,parent_unit_code,parent_unit_name,attachment_doc,
-      year,thesis_sci_inner_count,thesis_ei_inner_count,device_innner_assets,write_type,parent_id
+      year,thesis_sci_inner_count,thesis_ei_inner_count,device_innner_assets,
+      write_type,parent_id,statistics_type
       )
     values (#{id,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, 
       #{unitCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{createUserMobile,jdbcType=VARCHAR}, 
@@ -127,7 +136,7 @@
       , #{thesisSciInnerCount,jdbcType=INTEGER}
       , #{thesisEiInnerCount,jdbcType=INTEGER}
       , #{deviceInnnerAssets,jdbcType=DECIMAL}
-      , #{writeType,jdbcType=VARCHAR}  , #{parentId,jdbcType=VARCHAR}
+      , #{writeType,jdbcType=VARCHAR}  , #{parentId,jdbcType=VARCHAR} , #{statisticsType,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.report.TechOrgCount" >
@@ -298,7 +307,10 @@
       <if test="parentId != null" >
         parent_id,
       </if>
-    
+    <if test="statisticsType != null" >
+        statistics_type,
+      </if>
+     
     
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -467,8 +479,9 @@
       <if test="parentId != null" >
         #{parentId,jdbcType=VARCHAR},
       </if>
-      
-      
+     <if test="statisticsType != null" >
+        #{statisticsType,jdbcType=VARCHAR},
+      </if>  
       
       
       
@@ -637,12 +650,13 @@
      <if test="writeType != null" >
         write_type = #{writeType,jdbcType=VARCHAR},
       </if> 
-     <if test="parentId != null" >
+      <if test="parentId != null" >
         parent_id = #{parentId,jdbcType=VARCHAR},
       </if> 
-     
-     
-     
+      <if test="statisticsType != null" >
+        statistics_type = #{statisticsType,jdbcType=VARCHAR},
+      </if> 
+    
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -701,10 +715,10 @@
       year = #{year,jdbcType=VARCHAR},
       attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
       parent_unit_name = #{parentUnitName,jdbcType=VARCHAR},
+      statistics_type = #{statisticsType,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
   
   
     
@@ -716,7 +730,8 @@
 	     <if test="parentUnitCode != null      and parentUnitCode !=''  ">             AND t.parent_unit_code = #{parentUnitCode}</if>
 	     <if test="type != null          and type !=''  ">            AND t.type = #{type}</if>
 	     <if test="parentId != null          and parentId !=''  ">            AND t.parent_id = #{parentId}</if>
-	     <if test="year != null          and year !=''  ">            AND t.year = #{year}</if>
+	     <if test="year != null              and year !=''  ">                AND t.year = #{year}</if>
+	     <if test="statisticsType != null    and statisticsType !=''  ">      AND t.statistics_type = #{statisticsType}</if>
 	     <if test="writeType != null     and writeType !=''  ">       AND t.write_type = #{writeType}</if>
 	     <if test="auditStatus != null   and auditStatus !=''  ">     AND t.audit_status = #{auditStatus}</if>
 	     <if test="sqlStr != null        and sqlStr !='' ">           AND  ${sqlStr}</if>
@@ -908,6 +923,28 @@
             #{item}
        </foreach>
      </select>
+  
+  
+  
+  
+  
+  
+  
+  
+   <delete id="deleteByParent" parameterType="java.lang.String" >
+    delete from tech_org_count where parent_id = #{parentId,jdbcType=VARCHAR}
+   </delete>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
 </mapper>

@@ -70,6 +70,10 @@
 </div>
 
 </div>
+
+
+
+<script id="statisticsTypeTpl" type="text/html"> {{statistics_TypeTpl(d)}} </script>
 <script id="view_type" type="text/html"> {{view_type(d)}} </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
@@ -93,6 +97,22 @@
             return '';
         }
     }
+    
+    
+    function statistics_TypeTpl(d) 
+    {
+    	if (d.statisticsType=='1') 
+        {
+        	 return '<span style="color:orange">本单位填写</span>';
+        }else  if (d.statisticsType=='2') 
+        {
+        	 return '<span style="color:green">二级单位填写</span>';
+        }else
+     	  {
+      	     return '<span>-</span>';
+     	  }
+    }
+    
     
     function view_type(d) 
     {
@@ -220,7 +240,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/tech_org/statistics_list',
            method:"POST",
-           where: {param: {"unitName":$("#unitName").val(),"auditStatus":$("#auditStatus").val(),"year":$("#year").val(),"type":$("#type").val()}},
+           where: {param: {"unitName":$("#unitName").val(),"auditStatus":$("#auditStatus").val(),"year":$("#year").val(),"type":$("#type").val(),"statisticsType":"1"}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
@@ -277,7 +297,8 @@ var name=$('#name').val();
                {field : 'thesisIstpCount',          title : 'ISTP（科学技术会议录索引）数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'thesisIsrCount',           title : 'ISR（科学评论索引）数',   style : 'cursor: pointer;', align : 'center', width : '15%',sort : true},
                {field : 'createUserName',           title : '填写人',               style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'createDate',               title : '填写时间',             style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl',sort : true}
+               {field : 'createDate',               title : '填写时间',             style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl',sort : true},
+               {field : 'statisticsType',           title : '统计类型',            style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#statisticsTypeTpl',sort : true}
                
            ]],
            done: function (res, curr, count) {
@@ -291,31 +312,9 @@ var name=$('#name').val();
                    selectRowData=res.data[index-1];
                    var auditStatus=selectRowData.auditStatus;
                   
-                   if(auditStatus=='0' || auditStatus=='3' )
-                   {
-                	  
-                	   $("#editEvent").attr("disabled",false);
-                	   $("#deleteEvent").attr("disabled",false);
-                   }else if(auditStatus=='1' || auditStatus=='2')
-                   {
-                	   $("#editEvent").attr("disabled",true);
-                	   $("#deleteEvent").attr("disabled",true);
-                   }
                   
                });
-               /* //项目分类，项目性质
-               var dicMap = ['ROOT_ZBGL_ZBFL'];
-               var dicVal = {};
-				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
-					$.each(data,function(key,val){
-						$.each(val,function(i,dt){
-							dicVal[dt.code] = dt.name;
-						});
-					});
-			   	}); 
-				$.each(res.data,function(i,dt){
-					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
-			   	});  */
+               
            }
        });
     }

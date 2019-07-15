@@ -111,7 +111,17 @@ public class TechOrgCount {
     private List<TechOrgCount>  childList=new ArrayList<TechOrgCount>();
     
     
+    private String statisticsType;
     
+    
+    
+    
+	public String getStatisticsType() {
+		return statisticsType;
+	}
+	public void setStatisticsType(String statisticsType) {
+		this.statisticsType = statisticsType;
+	}
 	public List<TechOrgCount> getChildList() {
 		return childList;
 	}

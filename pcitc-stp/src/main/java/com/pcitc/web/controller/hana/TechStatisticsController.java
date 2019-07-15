@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
@@ -249,7 +250,9 @@ public class TechStatisticsController extends BaseController{
 			attachmentDoc = techCost.getAttachmentDoc();
 			request.setAttribute("techCost", techCost);
 			year=techCost.getYear();
-			
+			unitCode=techCost.getUnitCode();
+			unitName=techCost.getUnitName();
+			createUserName=techCost.getCreateUserName();
 		}
 		request.setAttribute("year", year);
 		request.setAttribute("attachmentDoc", attachmentDoc);
@@ -581,6 +584,9 @@ public class TechStatisticsController extends BaseController{
 			request.setAttribute("techOrgCount", techOrgCount);
 			year=techOrgCount.getYear();
 			attachmentDoc= techOrgCount.getAttachmentDoc();
+			unitCode=techOrgCount.getUnitCode();
+			unitName=techOrgCount.getUnitName();
+			createUserName=techOrgCount.getCreateUserName();
 		}
 		request.setAttribute("year", year);
 		request.setAttribute("attachmentDoc", attachmentDoc);
@@ -655,6 +661,7 @@ public class TechStatisticsController extends BaseController{
 		String thesisSciInnerCount = CommonUtil.getParameter(request, "thesisSciInnerCount", "0");
 		String deviceInnnerAssets = CommonUtil.getParameter(request, "deviceInnnerAssets", "0");
 		String writeType = CommonUtil.getParameter(request, "writeType", "1");
+		String statisticsType = CommonUtil.getParameter(request, "statisticsType", "1");
 		
 		String parentUnitCode="";
 		String parentUnitName="";
@@ -692,6 +699,7 @@ public class TechStatisticsController extends BaseController{
 		
 		System.out.println("---------------parentUnitName:" + parentUnitName + " parentUnitCode=" + parentUnitCode + " UserId=" + sysUserInfo.getUserId());
 		techOrgCount.setWriteType(writeType);
+		techOrgCount.setStatisticsType(statisticsType);
 		techOrgCount.setThesisEiInnerCount(Integer.valueOf(thesisEiInnerCount));
 		techOrgCount.setThesisSciInnerCount(Integer.valueOf(thesisSciInnerCount));
 		techOrgCount.setCreateUserId(sysUserInfo.getUserName());
@@ -808,6 +816,7 @@ public class TechStatisticsController extends BaseController{
 		String createUserMobile = CommonUtil.getParameter(request, "createUserMobile", "");
 		String techChargeMan = CommonUtil.getParameter(request, "techChargeMan", "");
 		String subTechOrgStr = CommonUtil.getParameter(request, "subTechOrgStr", "");
+		String statisticsType = CommonUtil.getParameter(request, "statisticsType", "1");
 		
 		if(!subTechOrgStr.equals(""))
 		{
@@ -861,7 +870,7 @@ public class TechStatisticsController extends BaseController{
 		techOrgCount.setUnitCode(unitCode);
 		techOrgCount.setUnitName(unitName);
 		techOrgCount.setSubTechOrgStr(subTechOrgStr);
-		
+		techOrgCount.setStatisticsType(statisticsType);
 		// 判断是新增还是修改
 		if (id.equals("")) {
 			responseEntity = this.restTemplate.exchange(ADD_ORG_BATCH_URL, HttpMethod.POST, new HttpEntity<TechOrgCount>(techOrgCount, this.httpHeaders), String.class);
@@ -950,6 +959,20 @@ public class TechStatisticsController extends BaseController{
 		}
 		
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/tech_org/get_item/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object selectBudgetGroupTotalItem(@PathVariable("id") String id,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<TechOrgCount> responseEntity = this.restTemplate.exchange(GET_ORG_URL+id, HttpMethod.GET, new HttpEntity<Object>(id, this.httpHeaders), TechOrgCount.class);
+		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		return JSON.toJSON(responseEntity.getBody()).toString();
+	}
+	
 	
 	
 	@RequestMapping(value = "/start_org_workflow")
