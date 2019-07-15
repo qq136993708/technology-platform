@@ -35,7 +35,7 @@
 			<div class="fluid-top">
 				<div class="breadcrumb">
 					<a href="/stpHome" target="_parent">首页 > </a>
-					<span>科研投入</span>
+					<span>科研预算</span>
 				</div>
 				<div class="searchBox">
 					<label class="dateInput">
@@ -325,7 +325,7 @@
 
 			// 新开课题科研预算统计
 			var chart6_url = "/one_level_main/investment_03?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&type=1&xkFlag=1";
-			var colorNew2 = [ "#f4974a", "#f3cc41", "#95c740" ];
+			var colorNew2 = [ "#FED56B", "#9DD783", "#95c740" ];
 			var echart6 = load_mutl_bar_down(chart6_url, "investment_chart6", "", "", yAxis3, 30, colorNew2);
 			echart6.on('click', function(params) {
 				var xName = params.name;
