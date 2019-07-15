@@ -1091,7 +1091,7 @@
                 for (var i = 0; i < data.length; i++) {
                     if (global_hos.province == data[i].dataId && global_hos != '') {
                         $("#province").append('<option value="' + data[i].dataId + '" selected>' + data[i].cityname + '</option>');
-                        cityAddress(global_hos.province);//通过省id获取市列表
+                        // cityAddress(global_hos.province);//通过省id获取市列表
                     } else {
                         $("#province").append('<option value="' + data[i].dataId + '">' + data[i].cityname + '</option>');
                     }
@@ -1157,39 +1157,6 @@
     }
 </script>
 <script>
-
-    // var zNodes;
-    // $(function() {
-    //     $.ajax({
-    //         url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
-    //         type : 'get',
-    //         headers : {
-    //             'Content-Type' : 'application/json',
-    //         },
-    //         dataType : 'json',
-    //         async : false,
-    //         success : function(data) {
-    //             zNodes = data;
-    //         },
-    //         error : function(msg) {
-    //             layer.msg(msg);
-    //         }
-    //     });
-    // });
-    // // 下拉树初始化
-    // $(document).ready(function() {
-    //     /*
-    //      * initSelectTree参数：
-    //      * 参数1：div的id，
-    //      * 参数2：isMultiple 是否多选(true或false),
-    //      * 参数3：是否显示连接线(true或false),
-    //      * 参数4：是否显示图标(true或false),
-    //      *
-    //      */
-    //     initSelectTree("companyDiv", false, true, false);
-    //     initHideMenu(); //不加此方法则默认打开下拉树
-    //
-    // });
     function choose_joinUnitName_callback(unitIds, unitNames) {
         $("#companyName").val(unitNames);
         $("#company").val(unitIds);
@@ -1208,35 +1175,6 @@
             //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
             area: ['60%', '80%'],
             content: temUrl
-            // end: function () {
-            //     var arrJ = $("#joinUnitName").val().split(",");
-            //     if(arrJ=='undefined'|| arrJ=='')
-            //     {
-            //
-            //     }else {
-            //         $("#units").empty();
-            //         $.each(arrJ, function (i, val) {
-            //             var html = ' <div class="layui-form-item layui-form-text" >' +
-            //                 '        <div class="layui-input-block" id="yearTr'+i+'">' +
-            //                 '        <label class="layui-form-label" style="width:100%;text-align: left;margin-left: 0;">' + arrJ[i] + '</label>' +
-            //                 '            <table class="layui-table">' +
-            //                 '             <thead>' +
-            //                 '             <tr>' +
-            //                 '                <td width="20%">年  度</td>' +
-            //                 '                <td width="8%">费用性支出(万元)</td>' +
-            //                 '                <td width="8%">资本性支出(万元)</td>' +
-            //                 '                <td width="8%">小  计(万元)</td>' +
-            //                 '             </tr>' +
-            //                 '            </thead>' +
-            //                 '            <tbody></tbody>' +
-            //                 '          </table>' +
-            //                 '        </div>' +
-            //                 '       </div>';
-            //             $("#units").append(html);
-            //             publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr"+i, 2, yearFeeStr);
-            //         });
-            //     }
-            // }
         });
     }
 

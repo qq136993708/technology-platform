@@ -289,12 +289,7 @@
 
 <script>
     var unitList = [],unitMap={};
-    //获得机构信息
-    ajaxPost('/unit/list-data', null, function (data, status) {
-        $.each(data,function(i,dt){
-            unitMap[data[i].unitId]=data[i];
-        });
-    });
+
     //机构检索页面初始化数据
     window.initUnitTreeChoose = function(){
         return unitList;
@@ -316,6 +311,12 @@
         $("#company").val(unitdataIds.length>0?unitdataIds.substring(1):"");
     }
     $("#companyName").on("click", function() {
+        //获得机构信息
+        ajaxPost('/unit/list-data', null, function (data, status) {
+            $.each(data,function(i,dt){
+                unitMap[data[i].unitId]=data[i];
+            });
+        });
         layer.open({
             title : "详情",
             skin : 'layui-layer-lan',
@@ -439,6 +440,9 @@
                     //地址-开始
                     address("city", data.province, data.city);
                     address("county", data.city, data.county);
+                    // let addressData = data.bak8.split(",");
+                    // $("#city").find("option:selected").text(addressData[1]);
+                    // $("#county").find("option:selected").text(addressData[2]);
                     global_hos = data;
                     //地址-结束
                     //myEditor.setData(data.userDesc);
@@ -488,6 +492,7 @@
 
             /* 监听保存 */
             form.on('submit(component-form-save)', function (data) {
+                data.field.bak8=$("#province").find("option:selected").text()+","+$("#city").find("option:selected").text()+","+$("#county").find("option:selected").text()
                 saveFormData(data);
                 layer.msg("操作成功");
                 parent.layui.table.reload('zjkBaseInfoTableId', {where: {param: {}}});
@@ -713,6 +718,8 @@
     function photoContent(picId) {
         var ret = getFileResult(picId);
         console.log(ret);
+        // return ret.list[0].filePath;
+
         if (ret != null && ret.list.length > 0) {
             picId = ret.list[0].id;
         }
