@@ -20,8 +20,15 @@ import ${svcPackageName}.${beanName}Service;
  */
 @Service("${beanNamePropertis}Service")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-public class ${beanName}ServiceImpl  extends BaseServiceImpl<${beanName},Serializable,${beanName}Example>  implements ${beanName}Service
+public class ${beanName}ServiceImpl  extends BaseServiceImpl<${beanName},String,${beanName}Example>  implements ${beanName}Service
 {
+	@Autowired
+	public BudgetOrganMapper mp;
+	@Override
+	public BudgetBaseMapper<${beanName},String,${beanName}Example> getMapper() 
+	{
+		return mp;
+	}
 
 	@Override
 	public ${beanName} select${beanName}(String dataId) 

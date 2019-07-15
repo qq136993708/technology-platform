@@ -9,6 +9,10 @@ public class BudgetMoneyDecompose {
 
     private String cb;
 
+    private String budgetCode;
+
+    private String unitCode;
+
     private String jfyszjys;
 
     private String jfyszjlht;
@@ -63,6 +67,22 @@ public class BudgetMoneyDecompose {
 
     public void setCb(String cb) {
         this.cb = cb;
+    }
+
+    public String getBudgetCode() {
+        return budgetCode;
+    }
+
+    public void setBudgetCode(String budgetCode) {
+        this.budgetCode = budgetCode;
+    }
+
+    public String getUnitCode() {
+        return unitCode;
+    }
+
+    public void setUnitCode(String unitCode) {
+        this.unitCode = unitCode;
     }
 
     public String getJfyszjys() {

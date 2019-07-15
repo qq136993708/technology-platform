@@ -27,8 +27,8 @@ import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetItemTypeEnum;
-import com.pcitc.base.common.enums.BudgetSplitEnum;
-import com.pcitc.base.common.enums.BudgetSplitNdEnum;
+import com.pcitc.base.common.enums.BudgetStockEnum;
+import com.pcitc.base.common.enums.BudgetStockNdEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
@@ -296,6 +296,7 @@ public class BudgetStockTotalProviderClient
 			if(stock != null) {
 				MyBeanUtils.copyPropertiesIgnoreNull(item, stock);
 				stock.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				stock.setSimpleName(BudgetStockEnum.getByCode(stock.getDisplayCode()).getName());
 				budgetStockTotalService.updateBudgetStockTotal(stock);
 			}else {
 				stock = (BudgetStockTotal)MyBeanUtils.createDefaultModel(BudgetStockTotal.class);
@@ -307,6 +308,7 @@ public class BudgetStockTotalProviderClient
 				stock.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				stock.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				stock.setDataVersion(info.getDataVersion());
+				stock.setSimpleName(BudgetStockEnum.getByCode(stock.getDisplayCode()).getName());
 				budgetStockTotalService.saveOrUpdateBudgetStockTotal(stock);
 			}
 		}
@@ -580,13 +582,13 @@ public class BudgetStockTotalProviderClient
 		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.STOCK_TOTAL.getCode());
 		return budgetStockTotalService.selectFinalStockTotalBudget(info);
 	}
-	@ApiOperation(value="股份公司预算-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
+	@ApiOperation(value="股份公司预算-获取指定年度预算项",notes="获取指定年度股份公司预算项列表")
 	@RequestMapping(value = "/stp-provider/budget/get-stockitem-type-dictionary", method = RequestMethod.POST)
 	public Object getStockItemTypeDictionary(@RequestBody String nd) throws Exception 
 	{
 		List<SysDictionary> dis = new ArrayList<SysDictionary>();
-		List<BudgetSplitEnum> enums = BudgetSplitNdEnum.getStockTotalTypes(nd).getSplits();
-		for(BudgetSplitEnum em:enums) {
+		List<BudgetStockEnum> enums = BudgetStockNdEnum.getStockTotalTypes(nd).getSplits();
+		for(BudgetStockEnum em:enums) {
 			SysDictionary d = new SysDictionary();
 			d.setCode(em.getCode());
 			d.setName(em.getName());
