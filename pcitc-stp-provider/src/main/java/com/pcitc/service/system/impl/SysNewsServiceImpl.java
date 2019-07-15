@@ -202,7 +202,7 @@ public class SysNewsServiceImpl implements SysNewsService {
 //            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
 //            example.or(criteria2);
         //       }
-        example.setOrderByClause("create_date desc");
+        example.setOrderByClause("public_date desc");
         return this.findByExample(param, example);
 
     }
@@ -277,7 +277,7 @@ public class SysNewsServiceImpl implements SysNewsService {
         for (int i = 0; i < strStypeArray.length; i++) {
             SysNewsExample e = new SysNewsExample();
             e.createCriteria().andStypeEqualTo(strStypeArray[i]);
-            e.setOrderByClause("public_date asc");
+            e.setOrderByClause("public_date desc");
 
             int pageSize = limit;
             int pageStart = 0;
