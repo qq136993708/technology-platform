@@ -374,6 +374,146 @@ public class BudgetMoneyDecomposeExample {
             return (Criteria) this;
         }
 
+        public Criteria andBudgetCodeIsNull() {
+            addCriterion("budget_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeIsNotNull() {
+            addCriterion("budget_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeEqualTo(String value) {
+            addCriterion("budget_code =", value, "budgetCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeNotEqualTo(String value) {
+            addCriterion("budget_code <>", value, "budgetCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeGreaterThan(String value) {
+            addCriterion("budget_code >", value, "budgetCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("budget_code >=", value, "budgetCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeLessThan(String value) {
+            addCriterion("budget_code <", value, "budgetCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeLessThanOrEqualTo(String value) {
+            addCriterion("budget_code <=", value, "budgetCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeLike(String value) {
+            addCriterion("budget_code like", value, "budgetCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeNotLike(String value) {
+            addCriterion("budget_code not like", value, "budgetCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeIn(List<String> values) {
+            addCriterion("budget_code in", values, "budgetCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeNotIn(List<String> values) {
+            addCriterion("budget_code not in", values, "budgetCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeBetween(String value1, String value2) {
+            addCriterion("budget_code between", value1, value2, "budgetCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetCodeNotBetween(String value1, String value2) {
+            addCriterion("budget_code not between", value1, value2, "budgetCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeIsNull() {
+            addCriterion("unit_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeIsNotNull() {
+            addCriterion("unit_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeEqualTo(String value) {
+            addCriterion("unit_code =", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotEqualTo(String value) {
+            addCriterion("unit_code <>", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeGreaterThan(String value) {
+            addCriterion("unit_code >", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("unit_code >=", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeLessThan(String value) {
+            addCriterion("unit_code <", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeLessThanOrEqualTo(String value) {
+            addCriterion("unit_code <=", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeLike(String value) {
+            addCriterion("unit_code like", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotLike(String value) {
+            addCriterion("unit_code not like", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeIn(List<String> values) {
+            addCriterion("unit_code in", values, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotIn(List<String> values) {
+            addCriterion("unit_code not in", values, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeBetween(String value1, String value2) {
+            addCriterion("unit_code between", value1, value2, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotBetween(String value1, String value2) {
+            addCriterion("unit_code not between", value1, value2, "unitCode");
+            return (Criteria) this;
+        }
+
         public Criteria andJfyszjysIsNull() {
             addCriterion("jfyszjys is null");
             return (Criteria) this;

@@ -1,10 +1,12 @@
 package com.pcitc.web.controller.intlProject;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import com.pcitc.base.common.WorkFlowStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.enums.FlowStatusEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
@@ -38,7 +41,7 @@ public class IntlProjectInfoController extends BaseController {
 	private static final String PROJECT_INFO_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/start-info-activity/";
 	
 	private static final String PROJECT_INFO_CODE = "http://pcitc-zuul/stp-proxy/stp-provider/project/project-info-code";
-	
+	private static final String PROJECT_INFO_COUNT = "http://pcitc-zuul/stp-proxy/stp-provider/project/info-count";
 	
 	@RequestMapping(value = "/project/info-list", method = RequestMethod.POST)
 	public Object getTableData(@ModelAttribute("param") LayuiTableParam param) throws IOException {
@@ -133,5 +136,14 @@ public class IntlProjectInfoController extends BaseController {
 		String rs = this.restTemplate.exchange(PROJECT_INFO_CODE, HttpMethod.POST, new HttpEntity<Object>(info,this.httpHeaders), String.class).getBody();
 		System.out.println("rs------------------"+rs);
 		return new Result(true, rs);
+	}
+	@RequestMapping(value = "/project/info-count", method = RequestMethod.POST)
+	public Object getProjectInfoCount(@RequestParam(value = "nd", required = false) String nd,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		if(StringUtils.isBlank(nd)) 
+		{
+			nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
+		}
+		Integer prject = this.restTemplate.exchange(PROJECT_INFO_COUNT, HttpMethod.POST, new HttpEntity<String>(nd,this.httpHeaders), Integer.class).getBody();
+		return JSON.toJSON(prject);
 	}
 }

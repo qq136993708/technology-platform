@@ -103,4 +103,11 @@ public class IntlProjectInfoProviderClient
 		System.out.println("project-info-codeproject-info-codeproject-info-code");
 		return intlProjectInfoService.createProjectInfoCode();
 	}
+	
+	@ApiOperation(value="项目数量检索",notes="检索立项项目数量")
+	@RequestMapping(value = "/stp-provider/project/info-count")
+	public Object getProjectCount(@RequestBody String nd) throws Exception 
+	{
+		return intlProjectInfoService.selectCurrentYearProjectCount(nd);
+	}
 }

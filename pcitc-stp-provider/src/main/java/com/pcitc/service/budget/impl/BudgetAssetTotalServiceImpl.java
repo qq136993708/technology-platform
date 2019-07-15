@@ -332,7 +332,7 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 			List<BudgetAssetTotal> totals = selectItemsByBudgetId(info.getDataId());
 			Double items_total = 0d;
 			for(BudgetAssetTotal total:totals) {
-				items_total += (total.getTotal()==null?0:total.getTotal());
+				items_total += (total.getXmjf()==null?0d:total.getXmjf());
 			}
 			rsmap.put("items", totals);
 			rsmap.put("items_total", items_total);

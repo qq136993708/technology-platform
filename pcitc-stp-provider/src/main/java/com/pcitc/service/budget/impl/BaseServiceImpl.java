@@ -19,9 +19,6 @@ public class BaseServiceImpl<Bean, PK,Example>
 	{
 		return mapper;
 	}
-
-	
-
 	public Bean selectByPrimaryKey(PK id)
 	{
 		return getMapper().selectByPrimaryKey(id);

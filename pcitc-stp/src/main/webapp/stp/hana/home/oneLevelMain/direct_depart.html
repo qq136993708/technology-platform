@@ -114,8 +114,8 @@
 						<span class="layui-box-icon bg-7"></span>
 						<div class="layui-box-content">
 							<span class="layui-box-text">国际合作</span>
-							<span class="layui-box-number">
-								65 <small>(个)</small>
+							<span class="layui-box-number" id="intlProjectCount">
+								<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 							</span>
 						</div>
 					</div>
@@ -563,6 +563,25 @@
 			});
 
 		}
+		//国际合作项目数量
+		function setIntlProjectCount(nd) {
+			$.ajax({
+				type : 'POST',
+				url : "/project/info-count",
+				dataType : 'json',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				data:{"nd":nd},
+				timeout : 20000,
+				error : function(XMLHttpRequest, status) {
+				},
+				success : function(data) {
+					$("#intlProjectCount").html(data+"<small>(个)</small>");
+				}
+			});
+
+		}
 
 		function init() {
 
@@ -576,6 +595,7 @@
 				appraisalCount(nd);//成果
 				setContractCount(nd);
 				setContcator_id(nd, v_date);//合同签订率
+				setIntlProjectCount(nd);
 				var yAxis = [ {
 					type : 'value',
 					name : '数量（个）',

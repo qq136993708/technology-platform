@@ -69,13 +69,14 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    data_id, nd, `no`, organ_id, organ_code, organ_name, del_flag
+    data_id, nd, no, organ_id, organ_code, organ_name, del_flag
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetOrganExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from out_tem_budget_organ
     <if test="_parameter != null">
@@ -83,14 +84,6 @@
     </if>
     <if test="orderByClause != null">
       order by ${orderByClause}
-    </if>
-    <if test="limit != null">
-      <if test="offset != null">
-        limit ${offset}, ${limit}
-      </if>
-      <if test="offset == null">
-        limit ${limit}
-      </if>
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -110,7 +103,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetOrgan">
-    insert into out_tem_budget_organ (data_id, nd, `no`, 
+    insert into out_tem_budget_organ (data_id, nd, no, 
       organ_id, organ_code, organ_name, 
       del_flag)
     values (#{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
@@ -127,7 +120,7 @@
         nd,
       </if>
       <if test="no != null">
-        `no`,
+        no,
       </if>
       <if test="organId != null">
         organ_id,
@@ -182,7 +175,7 @@
         nd = #{record.nd,jdbcType=VARCHAR},
       </if>
       <if test="record.no != null">
-        `no` = #{record.no,jdbcType=INTEGER},
+        no = #{record.no,jdbcType=INTEGER},
       </if>
       <if test="record.organId != null">
         organ_id = #{record.organId,jdbcType=VARCHAR},
@@ -205,7 +198,7 @@
     update out_tem_budget_organ
     set data_id = #{record.dataId,jdbcType=VARCHAR},
       nd = #{record.nd,jdbcType=VARCHAR},
-      `no` = #{record.no,jdbcType=INTEGER},
+      no = #{record.no,jdbcType=INTEGER},
       organ_id = #{record.organId,jdbcType=VARCHAR},
       organ_code = #{record.organCode,jdbcType=VARCHAR},
       organ_name = #{record.organName,jdbcType=VARCHAR},
@@ -221,7 +214,7 @@
         nd = #{nd,jdbcType=VARCHAR},
       </if>
       <if test="no != null">
-        `no` = #{no,jdbcType=INTEGER},
+        no = #{no,jdbcType=INTEGER},
       </if>
       <if test="organId != null">
         organ_id = #{organId,jdbcType=VARCHAR},
@@ -241,7 +234,7 @@
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetOrgan">
     update out_tem_budget_organ
     set nd = #{nd,jdbcType=VARCHAR},
-      `no` = #{no,jdbcType=INTEGER},
+      no = #{no,jdbcType=INTEGER},
       organ_id = #{organId,jdbcType=VARCHAR},
       organ_code = #{organCode,jdbcType=VARCHAR},
       organ_name = #{organName,jdbcType=VARCHAR},

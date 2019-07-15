@@ -10,10 +10,6 @@ public class BudgetOrganItemsExample {
 
     protected List<Criteria> oredCriteria;
 
-    private Integer limit;
-
-    private Long offset;
-
     public BudgetOrganItemsExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
@@ -65,22 +61,6 @@ public class BudgetOrganItemsExample {
         oredCriteria.clear();
         orderByClause = null;
         distinct = false;
-    }
-
-    public void setLimit(Integer limit) {
-        this.limit = limit;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public void setOffset(Long offset) {
-        this.offset = offset;
-    }
-
-    public Long getOffset() {
-        return offset;
     }
 
     protected abstract static class GeneratedCriteria {
@@ -1015,8 +995,6 @@ public class BudgetOrganItemsExample {
         }
     }
 
-    /**
-     */
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {
