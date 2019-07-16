@@ -368,11 +368,11 @@ layui.config({
   	        ,cellMinWidth: 200
   	        ,idField:'id'//必須字段
   	        ,treeId:'id'//树形id字段名称
-  	        ,treeUpId:'parentId'//树形父id字段名称
+  	        ,treeUpId:'pId'//树形父id字段名称 
   	        ,treeShowName:'unitName'//以树形式显示的字段
   	        ,height: commonDislodgeTable()
   	        //,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
-  	        ,isFilter: false
+  	        //,isFilter: false
   	        ,iconOpen: false//是否显示图标【默认显示】
   	        ,isOpenDefault: true//节点默认是展开还是折叠【默认展开】
   	        ,loading: true
@@ -381,7 +381,7 @@ layui.config({
   	        ,method:'POST',
            page: {
                groups: 5,
-               limits: [15,30,45,60],
+               limits : [  15, 30, 45, 60 ],
                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                first: '首页', //不显示首页
                last: '尾页', //不显示尾页
@@ -457,7 +457,16 @@ layui.config({
 	                selectRowData=res.data[index-1];
 	            });
              }
+             
        });
+       
+       
+       
+       
+    	  renderfunc = function removeHeaderCheckbox(){
+	        	$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+	        }
+	        renderfunc();
     }
     
     
