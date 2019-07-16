@@ -339,6 +339,9 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .layui-expert .layui-row>div{margin-bottom: 15px;}
 .border-span{    border-left: 5px #fff solid;height: 14px;line-height: 14px;text-indent: 6px;margin-right: 6px;
     top:2px;position: relative;}
+.layui-expert .layui-layer-ico{    width: 16px;height: 16px;display: inline-block;
+    background-position: -32px -40px;position: absolute;top: 14px;right: 16px;}
+.layui-expert .layui-layer-icon{background-position: -65px -40px;}
 /*面包屑导航*/
 .breadcrumb{float: left;font-size: 14px;}
 .breadcrumb{color: black;}
