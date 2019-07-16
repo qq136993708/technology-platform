@@ -32,6 +32,8 @@ import com.pcitc.base.stp.budget.BudgetInfoExample;
 import com.pcitc.base.stp.budget.BudgetMoneyDecompose;
 import com.pcitc.base.stp.budget.BudgetMoneyDecomposeExample;
 import com.pcitc.base.stp.budget.BudgetMoneyTotal;
+import com.pcitc.base.stp.budget.BudgetSplitData;
+import com.pcitc.base.stp.budget.BudgetSplitDataExample;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.util.DateUtil;
@@ -40,6 +42,7 @@ import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.mapper.budget.BudgetMoneyDecomposeMapper;
+import com.pcitc.mapper.budget.BudgetSplitDataMapper;
 import com.pcitc.service.budget.BudgetAssetSplitService;
 import com.pcitc.service.budget.BudgetAssetTotalService;
 import com.pcitc.service.budget.BudgetGroupSplitService;
@@ -61,6 +64,8 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	@Autowired
 	private BudgetInfoMapper budgetInfoMapper;
 	
+	@Autowired
+	private BudgetSplitDataMapper budgetSplitDataMapper;
 	
 	@Autowired
 	private BudgetMoneyDecomposeMapper budgetMoneyDecomposeMapper;
@@ -717,6 +722,16 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	private String dToI(Object obj) 
 	{
 		return new Double(obj.toString()).intValue()+"";
+	}
+
+	@Override
+	public List<BudgetSplitData> selectSplitDataByNd(String nd,List<String> budgetTypes) 
+	{
+		BudgetSplitDataExample example = new BudgetSplitDataExample();
+		BudgetSplitDataExample.Criteria c = example.createCriteria();
+		c.andNdEqualTo(nd);
+		c.andBudgetInfoIdIn(budgetTypes);
+		return budgetSplitDataMapper.selectByExample(example);
 	}
 	
 }

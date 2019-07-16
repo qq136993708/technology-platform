@@ -7,6 +7,7 @@ import java.util.Set;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.workflow.WorkflowVo;
 
@@ -132,4 +133,10 @@ public interface BudgetInfoService
 	 * @return
 	 */
 	public void processDataImport(BudgetInfo info) throws Exception;
+	/**
+	 * 根据年度获取预算数据
+	 * @param nd
+	 * @return
+	 */
+	public List<BudgetSplitData> selectSplitDataByNd(String nd,List<String> budgetTypes);
 }
