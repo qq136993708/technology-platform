@@ -68,21 +68,21 @@ public class HanaProjectJob implements Job, Serializable {
 				// 研究院
 				String G0GSJC = json.getString("G0GSJC");
 				if (G0GSJC.equals("上海院")) {
-					G0GSJC = "A07" + G0GSJC;
+					G0GSJC = "A0107" + G0GSJC;
 				} else if (G0GSJC.equals("勘探院")) {
-					G0GSJC = "A01" + G0GSJC;
+					G0GSJC = "A0101" + G0GSJC;
 				} else if (G0GSJC.equals("北化院")) {
-					G0GSJC = "A06" + G0GSJC;
+					G0GSJC = "A0106" + G0GSJC;
 				} else if (G0GSJC.equals("大连院")) {
-					G0GSJC = "A05" + G0GSJC;
+					G0GSJC = "A0105" + G0GSJC;
 				} else if (G0GSJC.equals("安工院")) {
-					G0GSJC = "A08" + G0GSJC;
+					G0GSJC = "A0108" + G0GSJC;
 				} else if (G0GSJC.equals("物探院")) {
-					G0GSJC = "A02" + G0GSJC;
+					G0GSJC = "A0102" + G0GSJC;
 				} else if (G0GSJC.equals("工程院")) {
-					G0GSJC = "A03" + G0GSJC;
+					G0GSJC = "A0103" + G0GSJC;
 				} else if (G0GSJC.equals("石科院")) {
-					G0GSJC = "A04" + G0GSJC;
+					G0GSJC = "A0104" + G0GSJC;
 				} 
 				System.out.println("=========研究院-----------------"+G0GSJC);
 				opi.setDefine2(G0GSJC);
@@ -122,14 +122,14 @@ public class HanaProjectJob implements Job, Serializable {
 				opi.setFzdw(json.getString("G0GSJC"));
 				opi.setXmlbbm("GB");
 				opi.setXmlbmc("国拨项目");
-				opi.setTypeFlag("A直属研究院");
+				opi.setTypeFlag("A01直属研究院");
 				
 				opp.setProjectType("0");
 				opp.setFzdwbm(json.getString("G0GSDM"));
 				opp.setFzdw(json.getString("G0GSJC"));
 				opp.setXmlbbm("GB");
 				opp.setXmlbmc("国拨项目");
-				opp.setDefine3("A直属研究院");
+				opp.setDefine3("A01直属研究院");
 				
 				opi.setDataId(dataId);
 				opi.setXmid(G0PROJCODE);
@@ -162,7 +162,8 @@ public class HanaProjectJob implements Job, Serializable {
 				insertPlanDate.add(opp);
 				
 			}
-			
+			System.out.println("定时结束feign获取hana数据---------------"+insertPlanDate.size());
+			System.out.println("定时结束feign获取hana数据---------------"+insertData.size());
 			if (insertPlanDate != null && insertPlanDate.size() > 0) {
 				
 				outProjectPlanService.insertCountryProjectPlanBatch(insertPlanDate, ysYear);
