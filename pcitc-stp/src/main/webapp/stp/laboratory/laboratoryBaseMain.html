@@ -19,12 +19,65 @@
         <div class="layui-main-lab">
             <div class="layui-card">
                 <div class="layui-card-header-lab layui-card-header-l">
-                    	国家级研发机构
+                    国家级研发机构
                 </div>
-                <div class="layui-card-body btn-function" style="padding: 10px;">
+                <div class="layui-card-body btn-function">
                     <div class="layui-country">
-                        <div class="layui-country-div">
-                            <table id="countryUnit" class="layui-hide" lay-filter="countryUnit"></table>
+                        <p class="layui-country-p">国家级研发机构</p>
+                        <div id="countryUnit" class="layui-country-div">
+                            <div>
+                                <a href="/instituteIndex?url=/layui/labDetails.html" target="_blank">
+                                    <span class="layui-text-span">依托单位：石油勘探开发研究院、石油工程技术研究院</span>
+                                    <span class="layui-lab-span">页岩油气富集机理与有效开发国家重点实验室</span>
+                                </a>
+                            </div>
+                            <div>
+                                <span class="layui-lab-span">聚烯烃国家工程研究中心</span>
+                                <span class="layui-text-span">依托单位：北京化工研究院</span>
+                            </div>
+                            <div>
+                                <span class="layui-text-span">依托单位：石油化工科学研究院</span>
+                                <span class="layui-lab-span">石油化工催化材料与反应工程国家重点实验室</span>
+                            </div>
+                            <div>
+                                <span class="layui-lab-span">橡塑新型材料合成国家工程研究中心</span>
+                                <span class="layui-text-span">依托单位：北京化工研究院</span>
+                            </div>
+                            <div>
+                                <span class="layui-text-span">依托单位：上海石油化工研究院</span>
+                                <span class="layui-lab-span">绿色化工与工业催化国家重点实验室</span>
+                            </div>
+                            <div>
+                                <span class="layui-lab-span">基本有机原料催化剂国家工程研究中心</span>
+                                <span class="layui-text-span">依托单位：上海石油化工研究院</span>
+                            </div>
+
+                            <div>
+                                <span class="layui-text-span">依托单位：青岛安全工程研究院</span>
+                                <span class="layui-lab-span">化学品安全控制国家重点实验室</span>
+                            </div>
+                            <div>
+                                <span class="layui-lab-span">国家地热能源开发利用研究及应用技术推广中心</span>
+                                <span class="layui-text-span">依托单位：新星石油有限责任公司</span>
+                            </div>
+
+                            <div>
+                                <span class="layui-text-span">依托单位：上海石油化工股份有限公司</span>
+                                <span class="layui-lab-span">合成纤维国家工程研究中心</span>
+                            </div>
+                            <div>
+                                <span class="layui-lab-span">国家能源页岩油技术研发中心</span>
+                                <span class="layui-text-span">依托单位：石油勘探开发研究院、胜利油田分公司、石油工程技术研究院</span>
+                            </div>
+
+                            <div>
+                                <span class="layui-text-span">依托单位：石油化工科学研究院</span>
+                                <span class="layui-lab-span">炼油工艺与催化剂国家工程研究中心</span>
+                            </div>
+                            <div>
+                                <span class="layui-lab-span">国家能源石油炼制技术研发（实验）中心</span>
+                                <span class="layui-text-span">依托单位：石油化工科学研究院</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -33,7 +86,7 @@
                 <div class="layui-card-header-lab layui-card-header-r">
                     中石化重点实验室
                 </div>
-                <div class="layui-card-body btn-function prospecting">
+                <div class="layui-card-body prospecting">
                     <div class="layui-prospecting">
                         <p>勘探开发</p>
                         <div class="layui-prospecting-div">
@@ -238,7 +291,7 @@
     	layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
         	var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             //国家级
-            function renderTable() {
+            /*function renderTable() {
                 var lodingMsg = layer.msg('数据加载中....');
                 //渲染
                 table.render({
@@ -287,30 +340,18 @@
                 });
                 $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
             }
-            renderTable();
+            renderTable();*/
             /*publicMethods.ajaxAsyncPost("/laboratoryBase/listByBak1",{"bak1":"国家级研发机构"}, function (data) {
-                var middNumber=Math.ceil(data.length/2);
-                console.log(data)
     			$.each(data,function(i,d){
-    			    if(middNumber>i){
-                        var html ='<div>'+
-                            '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+d.dataId+'" target="_blank">'+
-                            '<span class="layui-text-span">依托单位：'+d.dependentUnit+'</span>'+
-                            '<span class="layui-lab-span">'+d.orgName+'</span>'+
-                            '</a>'+
-                            '</div>';
-                        if(data[i+middNumber].orgName!=undefined){
-                            html+='<div>'+
-                                    '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+data[i+middNumber].dataId+'" target="_blank">'+
-                                    '<span class="layui-lab-span">'+data[i+middNumber].orgName+'</span>'+
-                                    '<span class="layui-text-span">依托单位：'+data[i+middNumber].dependentUnit+'</span>'+
-                                    '</a>'+
-                                '</div>'
-                        }
-                    }
+                    var html ='<div>'+
+                        '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+d.dataId+'" target="_blank">'+
+                        '<span class="layui-lab-span">'+d.orgName+'</span>'+
+                        '<span class="layui-text-span">依托单位：'+d.dependentUnit+'</span>'+
+                        '</a>'+
+                        '</div>';
     				$("#countryUnit").append(html);          
     			});
-	   		}); */
+	   		});*/
         });
     </script>
 </body>

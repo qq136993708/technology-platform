@@ -7,6 +7,9 @@
 	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .layui-table-page{border-width: 1px 0 1px 0;}
+    </style>
 </head>
 <body>
 
@@ -139,8 +142,8 @@ layui.config({
                }},
         
         id: 'processdef-table',
-        height: "620px",
         limit: 15,
+          height:"620px",
         page: {
             groups: 5,
             limits: [15,30,45,60],
