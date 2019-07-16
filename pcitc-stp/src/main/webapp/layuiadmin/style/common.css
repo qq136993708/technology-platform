@@ -730,8 +730,9 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .skill .layui-tab-content{padding: 5px 0px;}
 .skill-left{margin: 0 auto;padding-left: 10px;}
 .skill-left>ul{height: auto;overflow: hidden;margin-bottom: 5px;}
-.skill-left>ul li{height: 40px;line-height: 40px;text-align: center;width: 20%;float: left;color: #5258f3;
+.skill-left>ul li{height: 40px;line-height: 40px;text-align: center;width: 18%;float: left;color: #5258f3;
     background-color: #e8e4ff;margin-top: 2px;padding: 0 8px;box-sizing: border-box;}
+.skill-left>ul li:nth-child(1){width: 28%;}
 .skill-left .layui-tab .layui-tab-title li{margin: 0 4px;border-radius: 3px 3px 0 0;
     }
 .skill-left .layui-tab .layui-tab-title li:nth-child(1){margin-left: 0;}
@@ -746,11 +747,25 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .doc-box ul{margin-bottom: 10px;}
 .ck-editor__editable { min-height: 240px; }
 .enlarge{ position: absolute;top: 0;left: 0;z-index: 999;height: 100%;width: 100% !important;}
-@media (min-width: 1673px) {
-    .layui-q>.layui-tab-title li{width: 148px;
+
+@media (max-width: 1308px) {
+    .layui-q>.layui-tab-title li{width: 142px;
         height: 99px;background-size: 100%;}
     .layui-q>.layui-tab-title li .search-img{background-size: 100%;
         left: 58px;}
     .layui-q>.layui-tab-title li:hover,.layui-q>.layui-tab-title li.layui-this:hover,.layui-q>.layui-tab-title li.layui-this{background-size: 100%;}
     .layui-q>.layui-tab-title .search-text{bottom: -61px;}
+}
+@media (min-width: 1673px) {
+    .layui-leader .layui-q>.layui-tab-title li{width: 155px;
+        height: 104px;background-size: 100%;}
+    .layui-cs .layui-q>.layui-tab-title li{width: 167px;
+        height: 112px;background-size: 100%;}
+    .layui-q>.layui-tab-title li .search-img{background-size: 100%;
+        left: 58px;top: 22px;}
+    .layui-q>.layui-tab-title li:hover,.layui-q>.layui-tab-title li.layui-this:hover,.layui-q>.layui-tab-title li.layui-this{background-size: 100%;}
+    .layui-leader .layui-q>.layui-tab-title .search-text{bottom: -66px;}
+    .layui-cs .layui-q>.layui-tab-title .search-text{bottom: -72px;}
+    .layui-q>.layui-tab-title .search-number{
+        right: 30px;top: 18px;}
 }
