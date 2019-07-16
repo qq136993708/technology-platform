@@ -155,8 +155,8 @@
                     <span id="keyan" class="search-number"></span></li>
                 <li><span class="search-img"></span><span class="search-text">科技成果</span>
                     <span id="achivement" class="search-number"></span></li>
-                <li><span class="search-img"></span><span class="search-text">图表</span>
-                    <span id="report" class="search-number"></span></li>
+                <!--<li><span class="search-img"></span><span class="search-text">图表</span>-->
+                    <!--<span id="report" class="search-number"></span></li>-->
                 <li><span class="search-img"></span><span class="search-text">科技奖励</span>
                     <span id="outreward" class="search-number"></span></li>
                 <li><span class="search-img"></span><span class="search-text">科研装备</span>
@@ -181,9 +181,9 @@
                 <div class="layui-tab-item layui-tab-i">
                     <iframe id="ifrTwo" src="" class="layui-iframe"></iframe>
                 </div>
-                <div class="layui-tab-item layui-tab-i">
-                    <iframe id="ifrreport" src="" class="layui-iframe"></iframe>
-                </div>
+                <!--<div class="layui-tab-item layui-tab-i">-->
+                    <!--<iframe id="ifrreport" src="" class="layui-iframe"></iframe>-->
+                <!--</div>-->
                 <div class="layui-tab-item layui-tab-i">
                     <iframe id="ifroutreward" src="" class="layui-iframe"></iframe>
                 </div>
@@ -340,7 +340,7 @@
         $("#ifrIndex").attr("src","/fullSearch/searchIndex?keyword="+keyword);
         $("#ifrOne").attr("src","/fullSearch/query_scientific?keyword="+keyword);
         $("#ifrTwo").attr("src","/fullSearch/query_achievement?keyword="+keyword);
-        $("#ifrreport").attr("src","/fullSearch/searchReport?keyword="+keyword);
+        // $("#ifrreport").attr("src","/fullSearch/searchReport?keyword="+keyword);
         $("#ifroutreward").attr("src","/fullSearch/searchOutreward?keyword="+keyword);
         $("#ifroutequipment").attr("src","/fullSearch/searchEquipment?keyword="+keyword);
         $("#ifrtech").attr("src","/fullSearch/searchTfmType?keyword="+keyword);
