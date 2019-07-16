@@ -160,7 +160,7 @@ public class StpProjectJob implements Job, Serializable {
 							}
 							
 						} else if (hth.indexOf("PE") == 0 || hth.indexOf("JPE") == 0 || hth.indexOf("LPE") == 0) {
-							opi.setDefine10("101石油工程技术处");
+							opi.setDefine10("101石油工程处");
 						} else if (hth.indexOf("1") == 0 || hth.indexOf("J1") == 0 || hth.indexOf("L1") == 0) {
 							opi.setDefine10("102炼油处");
 						} else if (hth.indexOf("4") == 0 || hth.indexOf("J4") == 0 || hth.indexOf("L4") == 0) {
