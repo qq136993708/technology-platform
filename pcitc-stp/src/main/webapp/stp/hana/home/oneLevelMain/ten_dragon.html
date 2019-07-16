@@ -40,23 +40,6 @@
 						<span>年份</span>
 						<input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
 					</label>
-
-					<!-- <div class="layui-input-inline">
-                    <select name="companyCode" id="companyCode"  >
-                        <#list companyCodeList as vo>
-                        <#if vo.g0GSJC == '全部'>
-                        <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-                    </#if>
-                    <#if vo.g0GSJC != '全部'>
-                    <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-                        </#if>
-                    </#list>
-                    </select>
-                </div> -->
-					<!--按钮组-->
-					<!-- <div class="btnGroup">
-                     <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
-                 </div>-->
 				</div>
 			</div>
 
@@ -145,8 +128,8 @@
 						<div class="layui-row-main">
 							<div class="work-report">
 								<ul class="work-one">
-									<li><a href="/one_level_main/report_download/2012" download="w3logo">汇报材料</a></li>
-									<li><a href="/one_level_main/report_download/2013" download="w3logo">汇报材料</a></li>
+									<li><a href="javascript:export_doc(2012);" download="w3logo">汇报材料</a></li>
+									<li><a href="javascript:export_doc(2013);" download="w3logo">汇报材料</a></li>
 									<li><a href="javascript:export_doc(2014);">汇报材料</a></li>
 									<li><a href="javascript:export_doc(2015);">汇报材料</a></li>
 								</ul>
@@ -212,10 +195,9 @@
 			var year = $("#year").val();
 			$(".layui-time").html(year);
 			$(".layui-time1").html(year - 1);
-			form.render(null, 'component-form-group');
 			laydate.render({
 				elem : '#year',
-				min : '2016-10-14',
+				min : '2018-01-01',
 				type : 'year',
 				done : function(value, date, endDate) {
 					$(".layui-time").html(date.year);
@@ -225,8 +207,7 @@
 			});
 			renderTable();
 			renderStlTable();
-			//目前沒有2018年的数据，只显示2017年度的数据
-			$("#year").val("2018");
+			$("#year").val(${year});
 			//初始化图形
 			initEchart();
 		});
@@ -337,18 +318,18 @@
 				height : commonDislodgeTable(),
 				cols : [ [
 						{
-							type : 'numbers',
+							field : 'realIndex',
 							title : '序号',
 							style : 'cursor: pointer;',
 							align : 'center',
-							width : '5%'
+							width : '45'
 						},
 						{
 							field : 'xmmc',
 							title : '项目名称',
 							style : 'cursor: pointer;',
 							align : 'left',
-							width : '15%'
+							width : '20%'
 						},
 						{
 							field : 'zzdw',
@@ -369,21 +350,14 @@
 							title : '组员单位',
 							style : 'cursor: pointer;',
 							align : 'left',
-							width : '15%'
+							width : '18%'
 						},
 						{
 							field : 'xzdw',
 							title : '协作单位',
 							style : 'cursor: pointer;',
 							align : 'left',
-							width : '8%'
-						},
-						{
-							field : 'zycmc',
-							title : '专业处',
-							style : 'cursor: pointer;',
-							align : 'left',
-							width : '8%'
+							width : '12%'
 						},
 						{
 							field : 'status',
@@ -396,7 +370,8 @@
 							field : 'jdap',
 							title : '存在问题',
 							style : 'cursor: pointer;',
-							align : 'left'
+							align : 'left',
+							width : '6%'
 						},
 						{
 							field : 'xmlbmc',
@@ -410,7 +385,7 @@
 							}
 						} ] ],
 				done : function(res, curr, count) {
-					//merge(res);
+					merge(res);
 				}
 			});
 			function merge(res) {
@@ -418,8 +393,8 @@
 				var data = res.data;
 				var mergeIndex = 0;//定位需要添加合并属性的行数
 				var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
-				var columsName = [ 'showIndex', 'xmmc', 'zzdw', 'status' ];//需要合并的列名称
-				var columsIndex = [ 0, 1, 2, 5 ];//需要合并的列索引值
+				var columsName = [ 'realIndex', 'xmmc', 'status' ];//需要合并的列名称
+				var columsIndex = [ 0, 1, 7 ];//需要合并的列索引值
 
 				for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
 					var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
@@ -463,38 +438,46 @@
 				id : 'processdef_table',
 				height : commonDislodgeTable(),
 				cols : [ [ {
+					field : 'realIndex',
 					title : '序号',
-					type : 'numbers',
-					width : '5%'
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '45'
 				}, {
 					field : 'hth',
 					title : '合同号',
 					edit : 'text',
-					width : '8%'
+					width : '7%'
 				}, {
 					field : 'xmmc',
 					title : '项目名',
 					style : 'cursor: pointer;',
 					align : 'left',
-					width : '22%'
+					width : '25%'
 				}, {
 					field : 'ysje',
 					title : '年度预算（万元）',
 					style : 'cursor: pointer;',
 					align : 'right',
-					width : '8%'
+					width : '9%'
 				}, {
 					field : 'fzdw',
 					title : '负责单位',
 					style : 'cursor: pointer;',
 					align : 'left',
-					width : '12%'
+					width : '15%'
+				}, {
+					field : 'define8',
+					title : '承担单位',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '15%'
 				}, {
 					field : 'zylb',
 					title : '专业类别',
 					style : 'cursor: pointer;',
 					align : 'left',
-					width : '12%'
+					width : '10%'
 				}, {
 					field : 'fzrxm',
 					title : '负责人',
@@ -509,20 +492,45 @@
 					field : 'xmlbmc',
 					title : '项目类别',
 					style : 'cursor: pointer;',
-					align : 'center'
-				}, {
-					field : 'define1',
-					title : '资本/费用',
-					style : 'cursor: pointer;',
-					align : 'center'
-				}, {
-					field : 'fwdx',
-					title : '公司性质',
-					style : 'cursor: pointer;',
 					align : 'center',
-					width : '8%'
-				} ] ]
+					width : '6%'
+				} ] ],
+				done : function(res, curr, count) {
+					mergeZDZX(res);
+				}
 			});
+			
+			function mergeZDZX(res) {
+
+				var data = res.data;
+				var mergeIndex = 0;//定位需要添加合并属性的行数
+				var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+				var columsName = [ 'realIndex', 'xmmc'];//需要合并的列名称
+				var columsIndex = [ 0, 1];//需要合并的列索引值
+
+				for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
+					var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
+					for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
+						var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
+						var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
+
+						if (data[i][columsName[k]] === data[i - 1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
+							mark += 1;
+							tdPreArr.each(function() {//相同列的第一列增加rowspan属性
+								$(this).attr("rowspan", mark);
+							});
+							tdCurArr.each(function() {//当前行隐藏
+								$(this).css("display", "none");
+							});
+						} else {
+							mergeIndex = i;
+							mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+						}
+					}
+					mergeIndex = 0;
+					mark = 1;
+				}
+			}
 		}
 		function export_doc(date_year) {
 			//window.location.target = "_blank";

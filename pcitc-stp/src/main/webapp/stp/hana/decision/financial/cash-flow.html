@@ -7,41 +7,49 @@
      <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <link rel="stylesheet" href="/common/css/echart-common.css">
+    <style>
+        html{background-color: #F0F2F5;}
+        .layui-fluid{padding: 0;}
+        .main-chart,.layui-row-main{padding: 10px;}
+    </style>
 </head>
 <body >
 <div class="layui-fluid">
-    <div class="layui-main-oil">
-        <div class="searchBox">
-            <!--查询条件-->
-             <label class="dateInput">
-	            <span>月份</span>
-	            <input type="text" name="month"  title="月份" value="${month}"  id="month">
-	            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
-		        </label>
-		       <div class="layui-input-inline"  style="margin-left:10px">
-		           <select id="companyCode" name="companyCode" class="form-control"></select>
-		        </div>
-            <!--按钮组-->
-            <div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    <div class="">
+
+        <div class="fluid-top">
+            <div class="searchBox">
+                <!--查询条件-->
+                 <label class="dateInput">
+                    <span>月份</span>
+                    <input type="text" name="month"  title="月份" value="${month}"  id="month">
+                    <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+                    </label>
+                   <div class="layui-input-inline"  style="margin-left:10px">
+                       <select id="companyCode" name="companyCode" class="form-control"></select>
+                    </div>
+                <!--按钮组-->
+                <div class="btnGroup">
+                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+                </div>
+                <span class="unitBox">单位：万元</span>
             </div>
-            <span class="unitBox">单位：万元</span>
         </div>
-        <div class="layui-row layui-col-space10">
+        <div class="layui-row" style="margin-bottom: 15px;">
             <div class="layui-col-sm12">
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <span class="layui-time"></span>科研资金净现金余额分析
                     </div>
                     <div class="layui-row-main">
-                        <div class="main-chart" id="cash-flow-01" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="cash-flow-01" style="height:280px;width: 96%;"></div>
                     </div>
                 </div>
             </div>
         </div>
         
         
-        <div class="layui-row layui-col-space10" style="display:none">
+        <div class="layui-row" style="display:none">
             <div class="layui-col-sm4">
                 <div class="layui-card">
                     <div class="layui-card-header">
@@ -77,7 +85,7 @@
         
         
         
-        <div class="layui-row layui-col-space10">
+        <div class="layui-row">
             <div class="layui-col-sm12">
                 <div class="layui-card">
                     <div class="layui-card-header">

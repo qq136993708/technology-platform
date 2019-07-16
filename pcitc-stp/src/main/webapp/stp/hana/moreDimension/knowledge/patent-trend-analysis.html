@@ -15,34 +15,41 @@
     <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
-    
+	<style>
+		html{background-color: #F0F2F5;}
+		.layui-fluid{padding: 0 8px;}
+		.main-chart{padding: 10px;}
+		.searchBox{background: none;}
+	</style>
     
 </head>
 <body>
 	<div class="layui-fluid">
-		<div class="layui-main-oil">
-			<div class="searchBox">
-			
-			<label class="dateInput">
-                <span>年份</span>
-                <input type="text" name="nd"  title="月份" value="${nd}"  id="nd">
-                <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
-            </label>
-            
-            
-				<div class="layui-input-inline">
-             </div>
-				<!--按钮组-->
-				<span class="unitBox">单位：万元</span>
+		<div class="">
+			<div class="fluid-top">
+				<div class="searchBox">
+
+				<label class="dateInput">
+					<span>年份</span>
+					<input type="text" name="nd"  title="月份" value="${nd}"  id="nd">
+					<i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+				</label>
+
+
+					<div class="layui-input-inline">
+				 </div>
+					<!--按钮组-->
+					<span class="unitBox">单位：万元</span>
+				</div>
 			</div>
-			<div class="layui-row layui-col-space10">
+			<div class="layui-row layui-col-space15">
 				<div class="layui-col-sm6">
 					<div class="layui-card">
 						<div class="layui-card-header">
 							<span class="layui-time"></span>专利授权数量年趋势分析
 						</div>
 						<div class="layui-row-main">
-							<div class="main-chart" id="chart1" style="height: 280px; width: 100%;"></div>
+							<div class="main-chart" id="chart1" style="height: 280px; width: 96%;"></div>
 						</div>
 					</div>
 				</div>
@@ -51,18 +58,18 @@
 						<div class="layui-card-header">
 						<span class="layui-time"></span>年专利申请/授权数量
 						</div>
-						<div class="layui-row-main" style="height: 280px;">
+						<div class="layui-row-main" style="height: 300px;">
 							   <div class="text-total">
 		                            <span>总计:<span class="text-total-blue"    id="knowldege_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
 		                            <span>专利申请:<span class="text-total-blue" id="knowldege_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
 		                            <span>专利授权:<span class="text-total-blue" id="knowldege_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
 		                        </div>
-		                        <div class="main-chart" id="knowldege_chart1" style="height:280px;width: 100%;"></div>
+		                        <div class="main-chart" id="knowldege_chart1" style="height:270px;width: 100%;"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="layui-row layui-col-space10">
+			<div class="layui-row layui-col-space15">
 				<div class="layui-col-sm6">
 					<div class="layui-card">
 						<div class="layui-card-header">
@@ -86,7 +93,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="layui-row layui-col-space10">
+			<div class="layui-row layui-col-space15">
 				<div class="layui-col-sm12">
 					<div class="layui-card">
 						<div class="layui-card-header">
@@ -94,7 +101,7 @@
 						</div>
 						<div class="layui-row-main">
 							<div class="main-chart" id="main5"
-								style="height: 280px; width: 100%;"></div>
+								style="height: 280px; width: 96%;"></div>
 						</div>
 					</div>
 				</div>
@@ -151,7 +158,7 @@
 					formatter : '{value}'
 				}
 			}];
-            var color = ["#E06959", "#FBCD48" ];
+            var color = ["#E06959", "#FBCD48","#75c9c0"];
 			var chart1_url = "/more-dimension/patent_trend_analysis_01?nd=" + nd + "&v_date=" + v_date ;
 			var echart1 = load_mult_bar(chart1_url, "chart1", "", "",color, function(data){
 				console.log(data);

@@ -2,9 +2,10 @@ package com.pcitc.service.job;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.quartz.Job;
@@ -19,6 +20,7 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.config.SpringContextUtil;
 import com.pcitc.service.out.OutRewardService;
 import com.pcitc.utils.DataServiceUtil;
+import com.pcitc.utils.RestfulHttpClient;
 
 //奖励系统
 public class RewardJob implements Job, Serializable {
@@ -71,15 +73,57 @@ public class RewardJob implements Job, Serializable {
 					insertData.add(op);
 					if (temI > 1000) {
 						temI = 0;
-						outRewardService.insertRewardData(insertData);
+						//outRewardService.insertRewardData(insertData);
 						temB = false;
 						insertData.clear();
 					} else {
 						temB = true;
 					}
+					
+					
+					
+					
+					
+					try {
+						String temS = "";
+						String TEST_URL = "http://10.1.19.131:9001/DataService/BasicQuery/Sql";
+						System.out.println("=====开始访问===" + TEST_URL);
+						// 创建一个请求客户端
+						RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(TEST_URL);
+						client.get();
+
+						Map<String, String> headerMap = new HashMap<String, String>();
+						headerMap.put("Authorization", "Basic AwardsClientTest:wangcong382.slyt");
+						
+						// 设置全局默认请求头，每次请求都会带上这些请求头
+						RestfulHttpClient.setDefaultHeaders(headerMap);
+						// 添加多个参数请求头
+						client.addHeaders(headerMap);
+
+						Map<String, String> paramMap = new HashMap<String, String>();
+						paramMap.put("sqlName", "GetZYWCR");
+						JsonObject jo1 = new JsonObject();
+						jo1.addProperty("xmid", String.valueOf(object.getInteger("XMID")));
+
+						paramMap.put("conditions", jo1.toString());
+						// 添加多个参数
+						client.queryParams(paramMap);
+
+						// 最终访问路径是：http://10.1.19.131:9001/DataService/BasicQuery/Sql?sqlName=SelectAllProjectInfo&nd=2008
+						RestfulHttpClient.HttpResponse response = client.request();
+
+						// 根据状态码判断请求是否成功
+						if (response.getCode() == 200) {
+							// 获取响应内容
+							String result = response.getContent();
+							System.out.println("===返回======" + result);
+						}
+					} catch (Exception e) {
+
+					}
 				}
 				if (temB && insertData != null && insertData.size() > 0) {
-					outRewardService.insertRewardData(insertData);
+					//outRewardService.insertRewardData(insertData);
 				}
 
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "奖励--保存到本地数据库-结束=========");

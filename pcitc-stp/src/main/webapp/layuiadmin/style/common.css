@@ -731,7 +731,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .skill-left{margin: 0 auto;padding-left: 10px;}
 .skill-left>ul{height: auto;overflow: hidden;margin-bottom: 5px;}
 .skill-left>ul li{height: 40px;line-height: 40px;text-align: center;width: 20%;float: left;color: #5258f3;
-    background-color: #e8e4ff;margin-top: 2px;padding: 0 10px;box-sizing: border-box;}
+    background-color: #e8e4ff;margin-top: 2px;padding: 0 8px;box-sizing: border-box;}
 .skill-left .layui-tab .layui-tab-title li{margin: 0 4px;border-radius: 3px 3px 0 0;
     }
 .skill-left .layui-tab .layui-tab-title li:nth-child(1){margin-left: 0;}
@@ -745,7 +745,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .skill-right{width: 35%;float: right;}
 .doc-box ul{margin-bottom: 10px;}
 .ck-editor__editable { min-height: 240px; }
-.enlarge{ position: absolute;top: 0;left: 0;z-index: 999;height: 100%;width: 100%;}
+.enlarge{ position: absolute;top: 0;left: 0;z-index: 999;height: 100%;width: 100% !important;}
 @media (min-width: 1673px) {
     .layui-q>.layui-tab-title li{width: 148px;
         height: 99px;background-size: 100%;}

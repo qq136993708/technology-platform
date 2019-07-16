@@ -763,12 +763,15 @@
     <select id="getStatisticsList" resultMap="BaseResultMap" parameterType="Map" >
       SELECT 
           '-' AS id ,
+          '-' AS parent_id,
 		  '-' AS YEAR ,
 		  '-' AS  TYPE,
 		  '-' AS  create_user_name,
 		  '总计' AS  unit_name,
 		  '-' AS  parent_unit_name,
 		  '-' AS  statistics_type,
+		   '-' AS  write_type,
+		 
 		  NULL AS  create_date,
 		  '-' AS  audit_status,
 		  SUM(t.`workers_count`)        AS workers_count,
@@ -814,12 +817,15 @@
     SELECT * FROM(
 	SELECT 
 		  t.id,
+		  t.parent_id,
 		  t.`year`,
 		  t.`type`,
 		  t.`create_user_name`,
 		  t.`unit_name`,
 		  t.`parent_unit_name`,
 		  t.`statistics_type`,
+		  t.`write_type`,
+		  
 		  t.`create_date`,
 		  t.`audit_status`,
 		  t.`workers_count`,
@@ -878,13 +884,16 @@
   <select id="getChildSumByIds" resultMap="BaseResultMap"  >
    SELECT 
           '-' AS id ,
+          '-' AS parent_id,
 		  '-' AS YEAR ,
 		  '-' AS  TYPE,
 		  '-' AS  create_user_name,
 		  '总计' AS  unit_name,
 		  '-' AS  parent_unit_name,
-		  '-' AS  statistics_type,
+		 
 		  NULL AS  create_date,
+		  '-' AS  write_type,
+		  '-' AS  statistics_type,
 		  '-' AS  audit_status,
 		  SUM(t.`workers_count`)        AS workers_count,
 		  SUM(t.`female_count`)         AS female_count,

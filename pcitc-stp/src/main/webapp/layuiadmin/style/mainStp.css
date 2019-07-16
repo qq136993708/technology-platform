@@ -28,7 +28,7 @@
 .layui-main-box .bg-8{background: url("/layuiadmin/layui/images/icon-revise.png") no-repeat;background-size: cover;}
 .layui-main-box .layui-box-content{margin-left: 70px;}
 .layui-main-box .layui-box-content span{display: block;height: 32px;line-height: 32px;}
-.layui-main-box .layui-box-content span:first-child{font-size: 14px;color: #000;}
+.layui-main-box .layui-box-content span:first-child{font-size: 16px;color: #000;}
 .layui-main-box .layui-box-content span:last-child{font-family: Impact;font-size: 22px;}
 .layui-main-box .layui-box-content span:last-child small{font-size: 14px;}
 /*领导首页*/
@@ -91,6 +91,8 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .layui-leader-admin .layui-bottom .layui-box:nth-child(2) .layui-main-box{background: #69aab2}
 .layui-leader-admin .layui-bottom .layui-box:nth-child(3) .layui-main-box{background: #4ac5a8}
 .layui-leader-admin  .layui-bottom .layui-box:nth-child(4) .layui-main-box{background: #eeb412}
+@media screen and (max-width: 1673px) {
+    .layui-main-box .layui-box-content span:first-child{font-size: 14px;color: #000;}}
 @media screen and (max-width: 1366px) {
     .layui-main-box .layui-box-icon{width: 44px;height: 44px;background-size: cover;}
     .layui-main-oil .layui-main-box .layui-box-icon{width: 34px !important;

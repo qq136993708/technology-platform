@@ -100,10 +100,10 @@
     	var parentUnitName=d.parentUnitName;
     	var title=parentUnitName+'-'+unitName;
     	
-    	/* var str=parentUnitName+""+unitName;
+    	var str=parentUnitName+""+unitName;
     	str=str.replace("中国石油化工集团","");
-    	str=str.replace("中国石油化工股份有限公司",""); */
-    	 var str=unitName;
+    	str=str.replace("中国石油化工股份有限公司","");
+    	
     	return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" title='+title+' style="color:#1890ff">'+str+'</span>';
     }
     
@@ -152,26 +152,23 @@ var unitCodes = "";
 var postCodes = "";
 var type=$("#type").val();
 
-var treeGridCom;
+
 var table,selectRowData;
 var publicMethods;
 var laydate;
-layui.config({
-    base: '/layuiadmin/lib/extend/'
-}).extend({
-    treeGridCom:'treeGridCom'
-}).use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate','treeGridCom'], function(){
-           table = layui.table,
+layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate'], function(){
+            table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
             laypage = layui.laypage;
             publicMethods=layui.publicMethods;
+            
             laydate = layui.laydate;
-            treeGridCom = layui.treeGridCom;//很重要
             laydate.render({
                 elem: '#year' ,type: 'year'
                 
              });
+           
 	     //加载表格      
 	     renderTable();
 	     //移除表头的复选框,去掉全选
@@ -264,7 +261,7 @@ layui.config({
             			    return;
            			  }
            		      var url="/tech_org/delete/"+id;
-	           		  layer.confirm('确定要删除 “'+unitName+'”该行吗？如果存在下级节点则一并删除', { btn: ['确定','取消']}, function(){
+	           		  layer.confirm('确定要删除 “'+unitName+'”该行的填报信息吗？', { btn: ['确定','取消']}, function(){
 	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
 	         			}, function(){
 	         			 
@@ -321,7 +318,7 @@ layui.config({
             
         };
 
-       /*  //监听排序
+      //监听排序
         table.on('sort(processdef-table)', function(obj){
             console.log(this, obj.field, obj.type)
             //return;
@@ -342,7 +339,7 @@ layui.config({
         	openFullWin("详情",temUrl);
         });
         
-         */
+        
         
         
         //区别按钮属性
@@ -361,24 +358,15 @@ layui.config({
     
     function renderTable()
     { 
-    	table=treeGridCom.render({
-  	        id: 'processdef-table'
-  	        ,elem: '#processdef-table'
-  	        ,url: '/tech_org/statistics_list'
-  	        ,cellMinWidth: 200
-  	        ,idField:'id'//必須字段
-  	        ,treeId:'id'//树形id字段名称
-  	        ,treeUpId:'parentId'//树形父id字段名称
-  	        ,treeShowName:'unitName'//以树形式显示的字段
-  	        ,height: commonDislodgeTable()
-  	        //,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
-  	        ,isFilter: false
-  	        ,iconOpen: false//是否显示图标【默认显示】
-  	        ,isOpenDefault: true//节点默认是展开还是折叠【默认展开】
-  	        ,loading: true
-  	        ,limit: 15
-  	        ,where: {param: {"unitName":$("#unitName").val(),"auditStatus":$("#auditStatus").val(),"year":$("#year").val(),"type":$("#type").val()}}
-  	        ,method:'POST',
+       //渲染
+       table.render({
+           elem: '#processdef-table',
+           url: '/tech_org/list',
+           method:"POST",
+           where: {param: {"unitName":$("#unitName").val(),"auditStatus":$("#auditStatus").val(),"year":$("#year").val(),"type":$("#type").val()}},
+           limit: 15,
+           id: 'processdef-table',
+           height: commonDislodgeTable(),
            page: {
                groups: 5,
                limits: [15,30,45,60],
@@ -437,26 +425,17 @@ layui.config({
                {field : 'createDate',               title : '填写时间',             style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl',sort : true}
            
            ]],
-           isPage: true
- 	        ,parseData:function (res) {
- 	            return res;
- 	        }
- 	        ,onClickRow:function (index, o) {
- 	            console.log(index,o,"单击！");
- 	        }
- 	        ,onDblClickRow:function (index, o) {
- 	            console.log(index,o,"双击");
- 	        },
- 	        done: function (res, curr, count) {
-	  	         $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-	             	 var index=parseInt($(this).index()+1);
-	                $('tr').removeClass('layui-table-click');
-	                $(this).addClass('layui-table-click');
-	                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-	                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-	                selectRowData=res.data[index-1];
-	            });
-             }
+           done: function (res, curr, count) {
+        	         $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                   	 var index=parseInt($(this).index()+1);
+                      $('tr').removeClass('layui-table-click');
+                      $(this).addClass('layui-table-click');
+                      $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                      $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                      selectRowData=res.data[index-1];
+                      var auditStatus=selectRowData.auditStatus; 
+                  });
+           }
        });
     }
     
