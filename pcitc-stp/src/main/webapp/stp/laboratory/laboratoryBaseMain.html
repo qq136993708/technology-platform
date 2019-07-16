@@ -21,10 +21,10 @@
                 <div class="layui-card-header-lab layui-card-header-l">
                     	国家级研发机构
                 </div>
-                <div class="layui-card-body btn-function" style="padding: 10px;">
+                <div class="layui-card-body" style="padding: 10px;">
                     <div class="layui-country">
                         <div class="layui-country-div">
-                            <table id="countryUnit" class="layui-hide" lay-filter="countryUnit"></table>
+                            <table id="countryUnit"  class="layui-hide" lay-filter="countryUnit"></table>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="layui-card-header-lab layui-card-header-r">
                     中石化重点实验室
                 </div>
-                <div class="layui-card-body btn-function prospecting">
+                <div class="layui-card-body prospecting">
                     <div class="layui-prospecting">
                         <p>勘探开发</p>
                         <div class="layui-prospecting-div">
@@ -289,28 +289,16 @@
             }
             renderTable();
             /*publicMethods.ajaxAsyncPost("/laboratoryBase/listByBak1",{"bak1":"国家级研发机构"}, function (data) {
-                var middNumber=Math.ceil(data.length/2);
-                console.log(data)
     			$.each(data,function(i,d){
-    			    if(middNumber>i){
-                        var html ='<div>'+
-                            '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+d.dataId+'" target="_blank">'+
-                            '<span class="layui-text-span">依托单位：'+d.dependentUnit+'</span>'+
-                            '<span class="layui-lab-span">'+d.orgName+'</span>'+
-                            '</a>'+
-                            '</div>';
-                        if(data[i+middNumber].orgName!=undefined){
-                            html+='<div>'+
-                                    '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+data[i+middNumber].dataId+'" target="_blank">'+
-                                    '<span class="layui-lab-span">'+data[i+middNumber].orgName+'</span>'+
-                                    '<span class="layui-text-span">依托单位：'+data[i+middNumber].dependentUnit+'</span>'+
-                                    '</a>'+
-                                '</div>'
-                        }
-                    }
+                    var html ='<div>'+
+                        '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+d.dataId+'" target="_blank">'+
+                        '<span class="layui-lab-span">'+d.orgName+'</span>'+
+                        '<span class="layui-text-span">依托单位：'+d.dependentUnit+'</span>'+
+                        '</a>'+
+                        '</div>';
     				$("#countryUnit").append(html);          
     			});
-	   		}); */
+	   		});*/
         });
     </script>
 </body>
