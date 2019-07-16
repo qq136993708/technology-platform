@@ -113,9 +113,34 @@ public class TechOrgCount {
     
     private String statisticsType;
     
+   private boolean lay_is_open;
+    
+    private String lay_icon_open;
+    
+    private String lay_icon;
     
     
     
+    
+    
+	public boolean isLay_is_open() {
+		return lay_is_open;
+	}
+	public void setLay_is_open(boolean lay_is_open) {
+		this.lay_is_open = lay_is_open;
+	}
+	public String getLay_icon_open() {
+		return lay_icon_open;
+	}
+	public void setLay_icon_open(String lay_icon_open) {
+		this.lay_icon_open = lay_icon_open;
+	}
+	public String getLay_icon() {
+		return lay_icon;
+	}
+	public void setLay_icon(String lay_icon) {
+		this.lay_icon = lay_icon;
+	}
 	public String getStatisticsType() {
 		return statisticsType;
 	}
