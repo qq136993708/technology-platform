@@ -167,7 +167,7 @@ function exput_excel()
         method:"POST",
         where: {param: {"month":month, "companyCode":$("#companyCode").val()}},
         id: 'processdef-table',
-        height: "620px",
+        height:commonDislodgeTable()-100,
         limit: 15,
         cols: [[
             {field:'g0GSJC',            title:'院所',            style:'cursor: pointer;',align: 'left', width: '9%',templet:function(d){return '<span onclick="view(\''+d.g0GSJC+'\')" style="color:#1890ff">'+d.g0GSJC+'</span>'},sort : true},

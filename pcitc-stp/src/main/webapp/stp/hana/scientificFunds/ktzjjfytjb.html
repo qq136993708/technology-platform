@@ -181,7 +181,8 @@ function myTable()
 	 var v_date=(new Date()).getTime();
 	 var url= '/ktzjjfytjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode+"&functionId="+functionId;
      table.init('myTable', {
-		  url: url
+		  url: url,
+		  height:commonDislodgeTable()-100
 		  ,where: {} ,
 		  done: function (res, curr, count) {
 			  layer.closeAll();
