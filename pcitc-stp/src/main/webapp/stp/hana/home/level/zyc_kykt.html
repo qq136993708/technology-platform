@@ -344,7 +344,7 @@
 			$("#topic_chart8_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
 			var chart1_url = "/direct/topic_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
-			var colorOne = [ "#3ec0c2", "#55b6e9" ];
+			var colorOne = [ "#F7D453", "#49A7FB" ];
 			var echart1 = load_mutl_bar_down(chart1_url, "topic_chart1", "", "", yAxis, 20, colorOne);
 			echart1.on('click', function(params) {
 				var xName = params.name;
@@ -380,7 +380,7 @@
 
 			var chart6_url = "/direct/topic_03?functionId=984b64b13cf54222bf57bd840759fabe&type=4&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 			var colorTr = [ "#71d398", "#96bfff" ];
-			var echart6 = load_mutl_bar_down(chart6_url, "topic_chart7", "", "", "", 50, colorTr);
+			var echart6 = load_mutl_bar_down(chart6_url, "topic_chart7", "", "", "", 50, colorOne);
 			echart6.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
@@ -396,7 +396,7 @@
 
 			var chart8_url = "/direct/topic_08?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&xmlbbm=fkyzb";
 			var colorTr = [ "#71d398", "#96bfff" ];
-			var echart8 = load_mutl_bar_down(chart8_url, "topic_chart8", "", "", "", 30, colorTr);
+			var echart8 = load_mutl_bar_down(chart8_url, "topic_chart8", "", "", "", 30, colorOne);
 			echart8.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;

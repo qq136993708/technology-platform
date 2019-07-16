@@ -75,6 +75,8 @@
 	            	 {type:'checkbox',align:"center"}
 	            	,{title:'序号', type:'numbers',align:"center" ,width : 55}
 	            	,{field:'flowStartStatus',  title:'审批状态', width: 80,style:'cursor: pointer;',align:"center"}
+	            	,{field:'reportYear',   title:'申报年度', width: 80,  style:'cursor: pointer;',align:"center"}
+	            	,{field:'unitId',   title:'所属研究院', width: 120,  style:'cursor: pointer;',align:"center"}
 	                ,{field:'applyName',   title:'申报项目名称',  style:'cursor: pointer;',align:"left"}
 	                ,{field:'applyCode',title:'项目编码',	width: '10%',   style:'cursor: pointer;',align:"left"}
 	                ,{field:'outerCompanyName',title:'中方合作单位',	width: '10%',   style:'cursor: pointer;',align:"left"}
@@ -97,7 +99,7 @@
 	                    selectRowData=res.data[index-1];
 	                }); 
 	              	//项目分类，项目性质
-	                var dicMap = ['GJXM_XMXZ','GJXM_XMFL'];
+	                var dicMap = ['GJXM_XMXZ','GJXM_XMFL','ROOT_ZGSHJT_GFGS_ZSYJY'];
                     var dicVal = {};
 					publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
 						$.each(data,function(key,val){
@@ -121,6 +123,7 @@
 				   		}else{
 				   			apply_status = "未提交";
 				   		}
+                		$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(dicVal[res.data[i].unitId]);
 		            	$("tr[data-index='"+i+"'] td[data-field='flowStartStatus'] div").html(apply_status);
 		            	$("tr[data-index='"+i+"'] td[data-field='dcProjectCategory'] div").html(dicVal[res.data[i].dcProjectCategory]);
 		            	$("tr[data-index='"+i+"'] td[data-field='dcProjectNature'] div").html(dicVal[res.data[i].dcProjectNature]);

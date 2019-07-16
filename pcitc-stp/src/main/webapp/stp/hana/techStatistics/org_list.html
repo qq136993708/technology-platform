@@ -69,6 +69,7 @@
 </div>
 
 </div>
+<script id="view_detail" type="text/html"> {{view_detail(d)}} </script>
 <script id="view_type" type="text/html"> {{view_type(d)}} </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
@@ -92,6 +93,21 @@
             return '';
         }
     }
+    
+    function view_detail(d) 
+    {
+    	var unitName=d.unitName;
+    	var parentUnitName=d.parentUnitName;
+    	var title=parentUnitName+'-'+unitName;
+    	
+    	var str=parentUnitName+""+unitName;
+    	str=str.replace("中国石油化工集团","");
+    	str=str.replace("中国石油化工股份有限公司","");
+    	
+    	return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" title='+title+' style="color:#1890ff">'+str+'</span>';
+    }
+    
+    
     function view_type(d) 
     {
         if (d.type=='1') 
@@ -198,13 +214,19 @@ layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate
            		     
            		  var unitName=selectRowData.unitName;
            		  var auditStatus=selectRowData.auditStatus;
+           		  var writeType=selectRowData.writeType;
         		  if(auditStatus!=='0')
        			  {
         			   layer.alert('请选择未上报的行');
         			    return;
        			  }
+        		  if(writeType=='3')
+       			  {
+        			   layer.alert('请选择总公司一起起修改');
+        			   return;
+       			  }
         		  
-        		  var title="股份科研机构填报";
+        	    var title="股份科研机构填报";
               	if(type=='2')
               	{
               		title="集团科研机构填报";
@@ -218,7 +240,7 @@ layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate
                       //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                       maxmin: true,
                       //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                      area: ['70%', '90%'],
+                      area: ['90%', '90%'],
                       content:  url
                   });
             	}
@@ -238,7 +260,6 @@ layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate
             			   layer.alert('请选择未上报的行');
             			    return;
            			  }
-            		  
            		      var url="/tech_org/delete/"+id;
 	           		  layer.confirm('确定要删除 “'+unitName+'”该行的填报信息吗？', { btn: ['确定','取消']}, function(){
 	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
@@ -342,7 +363,7 @@ layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate
            elem: '#processdef-table',
            url: '/tech_org/list',
            method:"POST",
-           where: {param: {"unitName":$("#unitName").val(),"auditStatus":$("#auditStatus").val(),"year":$("#year").val(),"type":$("#type").val()}},
+           where: {param: {"unitName":$("#unitName").val(),"auditStatus":$("#auditStatus").val(),"year":$("#year").val(),"type":$("#type").val(),"statisticsType":"1"}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
@@ -357,7 +378,9 @@ layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate
            cols: [[
         	   {type : 'checkbox', event : 'changeEvents', width : 55, fixed: 'left'},
                {title : '序号', type : 'numbers', width : 55, fixed: 'left'},
-               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '19%',templet:function(d){return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" style="color:#1890ff">'+d.unitName+'</span>'},sort : true, fixed: 'left'},
+                      
+             //  {field : 'parentUnitName',        title : '父亲单位名称',        style : 'cursor: pointer;', align : 'left', width : '19%',sort : true, fixed: 'left'},
+               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '19%',templet : '#view_detail',sort : true, fixed: 'left'},
                {field : 'year',            title : '统计年度',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'auditStatus',     title : '审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
                {field : 'type',            title : '公司类型',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true,templet : '#view_type'},
