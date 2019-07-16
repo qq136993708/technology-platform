@@ -104,7 +104,8 @@ function myTable2()
 	 var v_date=(new Date()).getTime();
 	 var url= '/rgcbzctjb_data_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
 	 table2.init('myTable2', {
-			  url: url
+			  url: url,
+			  height:commonDislodgeTable()-100
 			  ,where: {}  ,
                done: function (res, curr, count) {
 				  
