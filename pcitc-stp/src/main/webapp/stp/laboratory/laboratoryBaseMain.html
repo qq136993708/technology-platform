@@ -243,9 +243,9 @@
                 //渲染
                 table.render({
                     elem : '#countryUnit',
-                    url : '/laboratoryBase/listByBak1',
+                    url : '/laboratoryBase/getTableData',
                     method : "POST",
-                    where : {"bak1":"国家级研发机构"},
+                    where : {param:{"bak1":"国家级研发机构"}},
                     limit : 10,
                     id : 'countryUnit',
                     height : commonDislodgeTable()-200,
