@@ -459,6 +459,8 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		  		map.put("writeType", writeType);
 		  		
 				List<TechOrgCount> list = techOrgCountMapper.getList(map);
+				
+				
 				Integer count=techOrgCountMapper.getCount(map);
 				System.out.println(">>>>>>>>>任务书查询分页结果 "+count);
 				
@@ -525,7 +527,9 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 					}
 				}
 				
-				
+				Map mapcount=new HashMap();
+				mapcount=map;
+				mapcount.put("parentId", "0");
 				
 				Integer count=techOrgCountMapper.getStatisticsCount(map);
 				System.out.println(">>>>>>>>>任务书查询分页结果 "+count);

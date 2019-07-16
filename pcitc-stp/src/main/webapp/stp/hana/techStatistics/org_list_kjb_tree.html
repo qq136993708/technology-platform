@@ -63,7 +63,7 @@
     </div>
 </div>
 
-<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
+<div class="btnGroup" style="float:right;margin-right:20px;display:none"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
 <div class="tableBox" style="clear:both">
     
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table>
@@ -281,7 +281,7 @@ layui.config({
  	               theme: '#0F9EE0'
  	           }
   	        ,cols: [[
-  	        	{field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '16%',templet : '#view_detail',sort : true,fixed:'left'},
+  	        	{field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '25%',templet : '#view_detail',sort : true},
                 {field : 'year',            title : '统计年度',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'auditStatus',     title : '审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
                 {field : 'type',            title : '公司类型',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true,templet : '#view_type'},
