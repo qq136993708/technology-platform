@@ -150,10 +150,16 @@ public class OutProjectInfoClient {
 	public JSONObject getProjectMoney(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoMoney(map);
+		HashMap<String, String> temBudMap = outProjectService.getProjectBudgetMoney(map);
 		if (temMap != null) {
 			retJson.put("projectMoney", temMap.get("projectMoney"));
 		} else {
 			retJson.put("projectMoney", 0);
+		}
+		if (temBudMap != null) {
+			retJson.put("budgetMoney", temBudMap.get("budgetMoney"));
+		} else {
+			retJson.put("budgetMoney", 0);
 		}
 		return retJson;
     }

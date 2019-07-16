@@ -141,9 +141,12 @@ public class OneLevelMainController extends BaseController {
 				JSONObject jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
 				String projectMoney = String.valueOf(jSONArray.getString("projectMoney"));
+				String budgetMoney = String.valueOf(jSONArray.getString("budgetMoney"));
 				projectMoney = String.format("%.2f", Double.valueOf(projectMoney));
+				budgetMoney = String.format("%.2f", Double.valueOf(budgetMoney));
 				Map map = new HashMap();
 				map.put("projectMoney", projectMoney);
+				map.put("budgetMoney", budgetMoney);
 				result.setSuccess(true);
 				result.setData(map);
 
