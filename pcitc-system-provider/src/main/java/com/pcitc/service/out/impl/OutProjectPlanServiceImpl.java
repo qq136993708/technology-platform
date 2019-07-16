@@ -292,11 +292,8 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		
 		JSONObject paramstr = JSONObject.parseObject(JSONObject.toJSONString(param));
 		System.out.println(">>>>>>>>>入口-》参数："+paramstr.toString());
-		// 每页显示条数
 		int pageSize = param.getLimit();
-		// 当前是第几页
 		int pageNum = param.getPage();
-		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
 
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
@@ -471,11 +468,8 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
      * 全生命周期查询，计划为起点
      */
 	public LayuiTableData selectProjectCycleByCondition(LayuiTableParam param) {
-		// 每页显示条数
-		int pageSize = 10;
-		// 当前是第几页
-		int pageNum = 1;
-		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		int pageSize = param.getLimit();
+		int pageNum = param.getPage();
 		PageHelper.startPage(pageNum, pageSize);
 
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
@@ -494,6 +488,19 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("xmlb", param.getParam().get("xmlb"));
 		}
 		
+		if (param.getParam().get("startDate")!=null&&!StringUtils.isBlank(param.getParam().get("startDate")+"")) {
+			hashmap.put("startDate", param.getParam().get("startDate"));
+		}
+		
+		if (param.getParam().get("endDate")!=null&&!StringUtils.isBlank(param.getParam().get("endDate")+"")) {
+			hashmap.put("endDate", param.getParam().get("endDate"));
+		}
+		
+		if (param.getParam().get("xmmc")!=null&&!StringUtils.isBlank(param.getParam().get("xmmc")+"")) {
+			hashmap.put("xmmc", param.getParam().get("xmmc"));
+		}
+		System.out.println("11>>>>>>>>>查询分页结果"+param.getParam().get("startDate"));
+		System.out.println("11>>>>>>>>>查询分页结果"+param.getParam().get("endDate"));
 		List list = outProjectPlanMapper.selectProjectCycleByCondition(hashmap);
 		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
 		PageInfo<HashMap> pageInfo = new PageInfo<HashMap>(list);

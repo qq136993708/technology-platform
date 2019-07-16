@@ -1,5 +1,8 @@
 package com.pcitc.web.controller.wholeProcess;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,7 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.HanaUtil;
 
 /**
  * @author zhf
@@ -40,8 +45,6 @@ public class WholeProcessController extends BaseController {
 	@RequestMapping(value = "/whole-process/science/data/list")
 	@ResponseBody
 	public Object getScienceWholeProcessData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		param.getParam().put("showType", "重点项目");
-		param.getParam().put("xmlb", "非科研装备");
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SCIENCE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
@@ -54,13 +57,10 @@ public class WholeProcessController extends BaseController {
 	 */
 	@RequestMapping(value = "/whole-process/science/ini")
 	public String iniScienceWholeProcess(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		param.getParam().put("showType", "重点项目");
-		param.getParam().put("xmlb", "非科研装备");
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SCIENCE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
-		LayuiTableData retJson = responseEntity.getBody();
-		
-		request.setAttribute("sciList", retJson.getData());
+		Date startDate = DateUtil.dateAdd(new Date(), -365);
+		Date endDate = new Date();
+		request.setAttribute("startDate", DateUtil.dateToStr(startDate, DateUtil.FMT_DD).substring(0, 7));
+		request.setAttribute("endDate", DateUtil.dateToStr(endDate, DateUtil.FMT_DD).substring(0, 7));
 		
 		return "/stp/wholeProcess/scienceProcess";
 	}
@@ -70,14 +70,18 @@ public class WholeProcessController extends BaseController {
 	 */
 	@RequestMapping(value = "/whole-process/major-science/ini")
 	public String iniMajorScienceWholeProcess(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		param.getParam().put("showType", "重大专项");
+		/*param.getParam().put("showType", "重大专项");
 		param.getParam().put("xmlb", "非科研装备");
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SCIENCE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
 		
-		request.setAttribute("sciList", retJson.getData());
+		request.setAttribute("sciList", retJson.getData());*/
 		
+		Date startDate = DateUtil.dateAdd(new Date(), -365);
+		Date endDate = new Date();
+		request.setAttribute("startDate", DateUtil.dateToStr(startDate, DateUtil.FMT_DD).substring(0, 7));
+		request.setAttribute("endDate", DateUtil.dateToStr(endDate, DateUtil.FMT_DD).substring(0, 7));
 		return "/stp/wholeProcess/majorScienceProcess";
 	}
 	
@@ -97,16 +101,14 @@ public class WholeProcessController extends BaseController {
 	}
 	
 	/**
-	 * 科技全流程可视化：国家项目。需要在项目管理中把国家项目和erp关联上
+	 * 科技全流程可视化：装备项目
 	 */
 	@RequestMapping(value = "/whole-process/equipment-science/ini")
 	public String iniEquipmentScienceWholeProcess(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		param.getParam().put("xmlb", "科研装备");
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SCIENCE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
-		LayuiTableData retJson = responseEntity.getBody();
-		
-		request.setAttribute("sciList", retJson.getData());
+		Date startDate = DateUtil.dateAdd(new Date(), -365);
+		Date endDate = new Date();
+		request.setAttribute("startDate", DateUtil.dateToStr(startDate, DateUtil.FMT_DD).substring(0, 7));
+		request.setAttribute("endDate", DateUtil.dateToStr(endDate, DateUtil.FMT_DD).substring(0, 7));
 		
 		return "/stp/wholeProcess/equipmentScienceProcess";
 	}
