@@ -185,7 +185,12 @@ public class EquipmentProviderClient
 	
 	
 	/**===============================================计划上报===================================================*/
-	
+
+    @RequestMapping(value = "/sre-provider/project_basic/page_search", method = RequestMethod.POST)
+    public LayuiTableData getSreProjectBasicListSearch(@RequestBody LayuiTableParam paramsJson)throws Exception
+    {
+        return equipmentService.getProjectPageSearch(paramsJson);
+    }
 	
 	@ApiOperation(value = "计划上报统计列表", notes = "计划上报统计列表")
 	@RequestMapping(value = "/sre-provider/project_basic/page", method = RequestMethod.POST)

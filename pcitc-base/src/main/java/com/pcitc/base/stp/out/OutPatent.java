@@ -1,5 +1,6 @@
 package com.pcitc.base.stp.out;
 
+import java.beans.Transient;
 import java.util.Date;
 
 public class OutPatent {
@@ -130,6 +131,18 @@ public class OutPatent {
     private String define3;
 
     private String define4;
+
+    private String select_type;
+
+    @Transient
+    public String getSelect_type() {
+        return select_type;
+    }
+
+    public void setSelect_type(String select_type) {
+        this.select_type = select_type;
+    }
+
 
     public String getDataId() {
         return dataId;

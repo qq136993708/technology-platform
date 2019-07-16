@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.pcitc.service.expert.ZjkZhuanliService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -380,6 +381,45 @@ public class EquipmentServiceImpl implements EquipmentService {
 		data.setData(pageInfo.getList());
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
+	    return data;
+	}
+
+	@Autowired
+    ZjkZhuanliService zjkZhuanliService;
+
+    /**
+     * 搜索查询装备
+     * @param param
+     * @return
+     * @throws Exception
+     */
+	public LayuiTableData getProjectPageSearch(LayuiTableParam param)throws Exception
+	{
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+		logger.info("============参数：" + parmamss.toString());
+        //每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+
+		String keywords=getTableParam(param,"keywords","");
+		Map map=new HashMap();
+		map.put("name", keywords);
+		List<SreProject> list = sreProjectMapper.getList(map);
+		PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
+
+        LayuiTableData data = new LayuiTableData();
+        if (keywords != null && !"".equals(keywords)) {
+            data.setData(zjkZhuanliService.setKeyWordCss(pageInfo, keywords.toString()));
+        } else {
+            data.setData(pageInfo.getList());
+        }
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
 	    return data;
 	}
 	

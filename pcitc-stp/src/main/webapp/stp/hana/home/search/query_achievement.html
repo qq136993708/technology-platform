@@ -79,33 +79,6 @@
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
 <div class="relevant">
-    <!--<p>相关内容</p>
-    <div class="relevant-cont">
-        <div class="item">
-            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-            <a href="javascript:;">合同签订率</a>
-        </div>
-        <div class="item">
-            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-            <a href="javascript:;">合同签订率</a>
-        </div>
-        <div class="item">
-            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-            <a href="javascript:;">合同签订率</a>
-        </div>
-        <div class="item">
-            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-            <a href="javascript:;">合同签订率</a>
-        </div>
-        <div class="item">
-            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-            <a href="javascript:;">合同签订率</a>
-        </div>
-        <div class="item">
-            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-            <a href="javascript:;">合同签订率</a>
-        </div>
-    </div>-->
     <p>搜索热点</p>
     <div class="relevant-cont hotspot">
         <div class="item">
@@ -167,6 +140,22 @@
                    }); */
             //加载表格
             renderTable();
+        //监听行双击事件
+        table.on('rowDouble(tableEvent)', function(obj) {
+            var temUrl = "/out/appraisal-detail/" + obj.data.dataId;
+            layer.open({
+                title : '详情',
+                skin : 'layui-layer-lan',
+                shadeClose : true,
+                type : 2,
+                fixed : false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin : true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area : [ '900px', '450px' ],
+                content : temUrl
+            });
+        });
         //移除表头的复选框,去掉全选
         $(".layui-table-header table thead th input").remove();
 
@@ -236,9 +225,19 @@
                 last: '尾页', //不显示尾页
                 theme: '#0F9EE0'
             },
+            // 项目名称
+            // 单位
+            // 年度
+            // 奖励类型(SBJZ)
+            // 专业类别
+            // 奖项等级psdj
+
             cols: [[
                 {field:'LAY_TABLE_INDEX',title:'年度',
-                    templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
+                    templet:  function (d) {
+                        return d.cgmc+"      "+d.nd+"   "+d.sqjddw+"       "+d.cglx+"       "+d.jdh;
+                    }},
+                    // templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
@@ -255,10 +254,7 @@
             }
         });
     }
-    function back()
-    {
 
-    }
 </script>
 </body>
 </html>

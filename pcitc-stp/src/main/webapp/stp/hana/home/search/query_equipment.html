@@ -9,45 +9,124 @@
     <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/modules/base.js" media="all">
     <style>
-        .tableBox{width: 50%;float: left;margin-top: 10px;}
-        .searchBox{margin-top: 20px;}
-        .relevant{width: 34%;float: right;margin-right: 20px;}
+        .layui-table-click, .layui-table-hover, .layui-table tbody tr:hover {
+            background: none;
+        }
+
+        .layui-table-header {
+            display: none;
+        }
+
+        .layui-table-view, .layui-table-page, .tableBox table tr td {
+            border: none;
+        }
+
+        .layui-table-body {
+            margin-top: 20px;
+        }
+
+        .layui-table-cell {
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        p {
+            width: 500px;
+            height: auto;
+            overflow: hidden;
+            white-space: normal; /*text-overflow: ellipsis;*/
+            font-size: 13px;
+            word-break: break-all;
+            word-wrap: break-word;
+            line-height: 20px;
+        }
+
+        .layui-table-page {
+            margin-bottom: 20px;
+        }
+
+        .tableBox, .searchBox {
+            padding-left: 18px;
+            margin: 0 auto;
+        }
+
+        .tableBox {
+            width: 50%;
+            float: left;
+            margin-bottom: 70px;
+        }
+
+        .searchBox {
+            margin-top: 20px;
+        }
+
+        .relevant {
+            width: 34%;
+            float: right;
+            margin-right: 20px;
+        }
+
+        .hotspot > .item {
+            width: 100%;
+            text-align: left;
+            padding: 0;
+            padding-top: 10px;
+        }
+
+        .hotspot > .item a {
+            font-size: 14px;
+            color: #1890ff;
+            line-height: 26px;
+        }
+
+        .hotspot > .item a:hover {
+            text-decoration: underline;
+        }
+
+        .c-nameC {
+            height: 0px;
+        }
+
+        .layui-table-none {
+            padding: 0;
+        }
     </style>
 </head>
 <body>
-<input type="hidden" name="keyword"  value="${keyword}"   id="keyword">
+<input type="hidden" name="keyword" value="${keyword}" id="keyword">
 <div class="tableBox">
     <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
 </div>
 <div class="relevant">
-    <p>相关内容</p>
-    <div class="relevant-cont">
-        <div class="item">
-            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-            <a href="/instituteIndex?url=/pc/kytztjb" target="_blank">科研投资统计表</a>
-        </div>
-        <div class="item">
-            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-            <a href="/instituteIndex?url=/budget/budget_detail_stocksplitzsy_nd" target="_blank">股份经费分解-直属院</a>
-        </div>
-        <div class="item">
-            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-            <a href="/instituteIndex?url=/si/tzxmzcqkb" target="_blank">投资项目转出情况表</a>
-        </div>
-        <div class="item">
-            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-            <a href="/instituteIndex?url=/budget/budget_detail_grouptotal_nd" target="_blank">集团公司经费预算</a>
-        </div>
-        <div class="item">
-            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-            <a href="/instituteIndex?url=/sf/yclzctjb" target="_blank">原材料支出统计表</a>
-        </div>
-        <div class="item">
-            <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-            <a href="/instituteIndex?url=/budget/budget_detail_stocksplitxtw_nd" target="_blank">股份经费分解-系统外</a>
-        </div>
-    </div>
+    <!--<p>相关内容</p>-->
+    <!--<div class="relevant-cont">-->
+        <!--<div class="item">-->
+            <!--<img src="/layuiadmin/layui/images/search-relevant.jpg"/>-->
+            <!--<a href="/instituteIndex?url=/pc/kytztjb" target="_blank">科研投资统计表</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<img src="/layuiadmin/layui/images/search-relevant.jpg"/>-->
+            <!--<a href="/instituteIndex?url=/budget/budget_detail_stocksplitzsy_nd" target="_blank">股份经费分解-直属院</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<img src="/layuiadmin/layui/images/search-relevant.jpg"/>-->
+            <!--<a href="/instituteIndex?url=/si/tzxmzcqkb" target="_blank">投资项目转出情况表</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<img src="/layuiadmin/layui/images/search-relevant.jpg"/>-->
+            <!--<a href="/instituteIndex?url=/budget/budget_detail_grouptotal_nd" target="_blank">集团公司经费预算</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<img src="/layuiadmin/layui/images/search-relevant.jpg"/>-->
+            <!--<a href="/instituteIndex?url=/sf/yclzctjb" target="_blank">原材料支出统计表</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<img src="/layuiadmin/layui/images/search-relevant.jpg"/>-->
+            <!--<a href="/instituteIndex?url=/budget/budget_detail_stocksplitxtw_nd" target="_blank">股份经费分解-系统外</a>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
@@ -59,9 +138,9 @@
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 <script type="text/javascript">
-    var table,selectRowData;
+    var table, selectRowData;
 
-    layui.use(['jquery','table','laypage','form','layer','laytpl','laydate',"publicMethods"], function() {
+    layui.use(['jquery', 'table', 'laypage', 'form', 'layer', 'laytpl', 'laydate', "publicMethods"], function () {
         table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
@@ -73,41 +152,67 @@
         renderTable();
         //移除表头的复选框,去掉全选
         $(".layui-table-header table thead th input").remove();
-        function renderTable()
-        {
+        //监听表格双击事件
+        table.on('rowDouble(processdef_table_02)', function (obj) {
+            var temUrl = '/sre-project-basic/get/' + obj.data.id;
+            layer.open({
+                title:"详情"
+                ,skin: 'layui-layer-lan'
+                ,shadeClose: false
+                ,type: 2
+                ,fixed: false
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                ,maxmin : true
+                ,area : [ '70%', '90%' ]
+                ,content:  temUrl
+            });
+        });
+
+        function renderTable() {
             //渲染
             table.render({
                 elem: '#processdef_table_02',
-                url: '/sre-project-basic/list',
-                method:"POST",
-                where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"leadUnitCode":$("#leadUnitCode").val()}},
+                url: '/fullSearch/getTableSearchEquipment',
+                method: "POST",
+                where: {
+                    param: {
+                        "keywords": "${keyword}"
+                    }
+                },
                 limit: 15,
                 id: 'processdef_table_02',
+                height: commonDislodgeTable(),
                 page: {
                     groups: 5,
-                    limits: [15,30,45,60],
+                    limits: [15, 30, 45, 60],
                     layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                     first: '首页', //不显示首页
                     last: '尾页', //不显示尾页
                     theme: '#0F9EE0'
                 },
                 cols: [[
-                    {title : '序号', type :'numbers', width : 55},
-                    {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '40%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'},sort : true},
-                    {field : 'leadUnitName',   title : '单位',         style : 'cursor: pointer;', align: 'left',sort : true, width : '30%'},
-                    {field : 'setupYear', title : '年度', style : 'cursor: pointer;', align: 'center',sort : true}
+                    {type: 'checkbox', event: 'changeEvents', width: 55},
+                    {title: '序号', type: 'numbers', width: 55},
+                    {
+                        field: 'name', title: '课题名称', style: 'cursor: pointer;', align: 'left', width: '40%'
+                        // , templet: function (d) {
+                        //     return '<span onclick="view_project(\'' + d.id + '\')" style="color:#1890ff">' + d.name + '</span>'
+                        // }, sort: true
+                    },
+                    {field: 'leadUnitName', title: '单位', style: 'cursor: pointer;', align: 'left', sort: true, width: '30%'},
+                    {field: 'setupYear', title: '年度', style: 'cursor: pointer;', align: 'center', sort: true}
                 ]],
                 done: function (res, curr, count) {
                     parent.$("#equipment").html(count);
                     // 点击行联动选择框--单选
-                    $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                        var index=parseInt($(this).index()+1);
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
                         $('tr').removeClass('layui-table-click');
                         $(this).addClass('layui-table-click');
                         $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                        $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                        selectRowData=res.data[index-1];
-                        var auditStatus=selectRowData.auditStatus;
+                        $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                        var auditStatus = selectRowData.auditStatus;
                     });
                 }
             });
