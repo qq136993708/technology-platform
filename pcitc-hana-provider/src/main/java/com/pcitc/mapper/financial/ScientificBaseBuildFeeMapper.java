@@ -3,6 +3,7 @@ package com.pcitc.mapper.financial;
 import java.util.List;
 import java.util.Map;
 
+import com.pcitc.base.hana.report.Financial;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee01;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee02;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee03;
@@ -17,5 +18,21 @@ public interface ScientificBaseBuildFeeMapper {
 	 
 	 public List<ScientificBaseBuildFee04> getList(Map map);
 	 public Integer getCount(Map map);
+	 
+	 
+	 
+	 
+	 public List<Financial> getYfftjData(Map map);
+	 public List<Financial> getYfftjDetailData(Map map);
+	 public Integer getYfftjDetailDataCount(Map map);
+	 
+	 
+	 
+	 
+	 public List<Financial> getJsgztjData(Map map);
+	 public List<Financial> getJsgztjDetailData(Map map);
+	 public Integer getJsgztjDetailDataCount(Map map);
+	 
+	 
 
 }
