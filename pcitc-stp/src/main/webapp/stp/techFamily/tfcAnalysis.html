@@ -117,7 +117,7 @@
         </div>
     </div>
 
-    <div class="layui-col-md6" id="container" style="height: 482px;"></div>
+    <div class="layui-col-md6" id="container"></div>
     <!--右侧-->
     <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 </div>
@@ -195,6 +195,8 @@
             $(this).addClass("layui-this");
         });
         $(".layui-tab-content").css("height", (parseInt(parent.$("#LAY_app_body .layui-show iframe").height()) - 174) + "px");
+        $("#container").css("height",$(".skill-left").height()+"px");
+        myChart.resize();
         //人员
         var colsRy =
             [
@@ -583,7 +585,7 @@
                 position: 'left',
                 formatter:function(params){
                     console.log(params)
-                    return params.name+"年<br/>"+days[params.data[1]]+"数量:"+params.data[2]
+                    return params.name+"年<br/>"+days[params.data[1]]+"相关课题数:"+params.data[2]
                 }
             },
             animation: false,

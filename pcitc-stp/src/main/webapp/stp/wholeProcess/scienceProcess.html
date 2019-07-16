@@ -7,21 +7,23 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .layui-table-header{height: 0;}
+        .layui-table-view,.layui-table-page{border: 0;}
+    </style>
 </head>
 <body>
 <div class="cycle">
-    <p class="cycle-title">重点项目</p>
     <div class="cycle-search">
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="start" placeholder="启动时间">
+            <input type="text" class="layui-input" id="startDate" name="startDate" placeholder="开始时间">
         </div>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="end" placeholder="结束时间">
+            <input type="text" class="layui-input" id="endDate" name="endDate" placeholder="结束时间">
         </div>
+        
         <div class="layui-input-inline">
-            <select name="" id="">
-                <option>负责人</option>
-            </select>
+            <input type="text" class="layui-input" id="xmmc" name="xmmc" autocomplete="off"  placeholder="项目名称">
         </div>
         <div class="btnGroup">
             <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
@@ -30,59 +32,26 @@
             </button>
         </div>
     </div>
-    <div class="cycle-c">
-        <#if sciList?exists> <#list sciList as sci>
-        <div class="cycle-cont" id="${sci.XMID}">
-            <div class="cycle-item">
-                <div class="cycle-cont-left">
-                    <p>${sci.FZDW}</p>
-                    <p>${sci.XMMC}</p>
-                    <p>${sci.YJSJ}</p>
-                </div>
-                <!--灰色-->
-                <div class="cycle-cont-right">
-                    <p>项目计划<span></span></p>
-                    <p>计划年度：${sci.ND}</p>
-                    <p class="cycle-mey">专业类别：${sci.ZYLB}</p>
-                </div>
-                <#if sci.contractFlag?? && sci.contractFlag != "">
-                	<div class="cycle-cont-right">
-	                	<p>项目启动<span></span></p>
-	                    <p>启动日期：${sci.kssj}</p>
-                        <p class="cycle-mey">总金额：${sci.jf}万元</p>
-	                </div>
-	                <#else>
-	                <div class="cycle-cont-midd">
-	                	<p>项目启动<span></span></p>
-	                </div>
-                </#if>
-                
-                <div class="cycle-cont-midd">
-                    <p>过程管理<span></span></p>
-                </div>
-                <div class="cycle-cont-midd">
-                    <p>结题<span></span></p>
-                </div>
-            </div>
+    <div class="cycle-z" style="padding-bottom: 10px;">
+        <div class="cycle-c">
+
         </div>
-    </#list> </#if>
+        <table id="userTable" class="layui-hide"  lay-filter="userEvent"></table>
     </div>
+
 </div>
 
 <script>
     layui.use(['jquery', 'form', 'laydate', 'table', 'laypage','laytpl','publicMethods'], function () {
         var table = layui.table, util = layui.laytpl, form = layui.form, laydate = layui.laydate, $ = layui.jquery,
             laytpl = layui.laytpl, publicMethods = layui.publicMethods;
-        $(".cycle-cont").each(function (i,val) {
-            var widthDiv=(86/($(".cycle-cont:eq("+i+") .cycle-item>div").length-1));
-            $(".cycle-cont:eq("+i+") .cycle-cont-midd,.cycle-cont:eq("+i+") .cycle-cont-right").css("width",widthDiv+"%");
-        });
-
+        
         //开始日期
         var insStart = laydate.render({
-            elem: '#start'
-            ,min: 0
-            ,done: function(value, date){
+            elem: '#startDate',
+            type: 'month',
+            value : '${startDate}',
+            done: function(value, date){
                 //更新结束日期的最小日期
                 insEnd.config.min = lay.extend({}, date, {
                     month: date.month - 1
@@ -93,38 +62,140 @@
         });
         //结束日期
         var insEnd = laydate.render({
-            elem: '#end'
-            ,min: 0
-            ,done: function(value, date){
+            elem: '#endDate',
+            type: 'month',
+            value : '${endDate}',
+            done: function(value, date){
                 //更新开始日期的最大日期
                 insStart.config.max = lay.extend({}, date, {
                     month: date.month - 1
                 });
             }
         });
-        $(".cycle-c").css("height",parent.$("#LAY_app_body").height()-155+"px");
-        $(".cycle-cont-right").click(function () {
-            //当前id
-            var id=$(this).parents(".cycle-cont").attr("id");
-            layer.open({
-                title:'项目进展详情'
-                ,skin: 'layui-layer-lan'
-                ,shadeClose: false
-                ,type: 2
-                ,id:"cycle"
-                ,fixed: false
-                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                ,maxmin: true
-                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                ,area: ['70%', '90%'],
-                content: "/whole-process/science/details?xmid="+id,
-                success: function (layero, index) {
-                    var iframe = window['layui-layer-iframe' + index];
-                    var iframeH=$(layero).find("iframe");
-                    $(iframeH).contents().find(".cycle-img").css("height",$(iframe).height()+"px");
+        
+        function renderTable(){
+        	var param = JSON.parse(window.localStorage.getItem("param"));
+            var lodingMsg = layer.msg('数据加载中....');
+            //渲染
+            
+            table.render({
+                elem: '#userTable',
+                url: '/whole-process/science/data/list',
+                where : {
+					param : {
+						"showType" : '重点项目',
+						"xmlb" : '非科研装备',
+						"xmmc" : $('#xmmc').val(),
+						"startDate" : $('#startDate').val(),
+						"endDate" : $('#endDate').val(),
+						"functionCode" : param.code
+					}
+				},
+				limit : 5,
+                method:"POST",
+                id: 'userTable',
+                height:40,
+                page : {
+					groups : 5,
+					limits : [ 5, 15, 30, 45, 60 ],
+					layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+					first : '首页', //不显示首页
+					last : '尾页', //不显示尾页
+					theme : '#0F9EE0'
+				},
+                cols: [[
+                    {type:'checkbox',event: 'changeEvents',width : 55}
+                    ,{title:'序号', type:'numbers',width : 55}
+                    ,{field:'ND',   title:'登录名称',	width: '8%',  style:'cursor: pointer;'}
+                ]],
+                done: function (res, curr, count) {
+                    var html='';
+                    $.each(res.data,function (i, val) {
+                        html+='<div class="cycle-cont" id="'+val.XMID+'">' +
+                            '            <div class="cycle-item">' +
+                            '                <div class="cycle-cont-left">' +
+                            '                    <p>'+val.FZDW+'</p>' +
+                            '                    <p>'+val.XMMC+'</p>' +
+                            '                    <p>'+val.YJSJ+'</p>' +
+                            '                </div>' +
+                            '                <!--灰色-->' +
+                            '                <div class="cycle-cont-right">' +
+                            '                    <p>项目计划<span></span></p>' +
+                            '                    <p>计划年度：'+val.YJSJ+'${sci.ND}</p>' +
+                            '                    <p class="cycle-mey">专业类别：'+val.ZYLB+'</p>' +
+                            '                </div>' +
+                            '                <div class="cycle-cont-right">' +
+                            '                <p>项目启动<span></span></p>' +
+                            '                    <p>启动日期：'+val.kssj+'</p>' +
+                            '                        <p class="cycle-mey">总金额：'+val.jf+'万元</p>' +
+                            '                </div>' +
+                            '                <div class="cycle-cont-midd">' +
+                            '                <p>项目启动<span></span></p>' +
+                            '                </div>' +
+                            '                <div class="cycle-cont-midd">' +
+                            '                    <p>过程管理<span></span></p>' +
+                            '                </div>' +
+                            '                <div class="cycle-cont-midd">' +
+                            '                    <p>结题<span></span></p>' +
+                            '                </div>' +
+                            '               <div class="cycle-cont-end">' +
+                            '                    <span>付款情况</span><span>到账情况</span>' +
+                            '                </div>' +
+                            '            </div>' +
+                            '        </div>'
+                    });
+                    $(".cycle-c").html("");
+                    $(".cycle-c").append(html);
+                    totalEvents();
+                    layer.close(lodingMsg);
                 }
             });
-        });
+        }
+        renderTable();
+        
+        var $ = layui.$;
+		var active = {
+			searchEvent : function() { //点击查询按钮
+				selectRowData = '';
+				renderTable();
+			}
+		}
+		
+		//区别按钮属性
+		$('.layui-btn').on('click', function() {
+			var type = $(this).data('type');
+			active[type] ? active[type].call(this) : '';
+		});
+		
+        function totalEvents() {
+            $(".cycle-cont").each(function (i,val) {
+                var widthDiv=(86/($(".cycle-cont:eq("+i+") .cycle-item>div").length-1));
+                $(".cycle-cont:eq("+i+") .cycle-cont-midd,.cycle-cont:eq("+i+") .cycle-cont-right").css("width",widthDiv+"%");
+            });
+            $(".cycle-cont-right").click(function () {
+                //当前id
+                var id=$(this).parents(".cycle-cont").attr("id");
+                layer.open({
+                    title:'项目进展详情',
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    id:"cycle",
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['70%', '90%'],
+                    content: "/whole-process/science/details?xmid="+id,
+                    success: function (layero, index) {
+                        var iframe = window['layui-layer-iframe' + index];
+                        var iframeH=$(layero).find("iframe");
+                        $(iframeH).contents().find(".cycle-img").css("height",$(iframe).height()+"px");
+                    }
+                });
+            });
+        }
+        
     });
 
 </script>

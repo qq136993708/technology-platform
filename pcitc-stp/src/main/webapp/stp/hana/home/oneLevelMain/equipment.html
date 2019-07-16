@@ -104,6 +104,11 @@ layui.config({
         elem: '#month',type: 'month'
         ,done: function(value, date, endDate){
             $(".layui-time").html(date.year+"年"+date.month+"月");
+            
+            var str=date.year+"-"+PrefixInteger(date.month, 2);
+			$("#month").val(str);
+			
+			
             search_Event();
         }
     });
@@ -261,6 +266,12 @@ function renderTable(){
         }
     }
 }
+
+
+function PrefixInteger(num, length) {
+	  return (num/Math.pow(10,length)).toFixed(length).substr(2);
+	}
+	
 /* 
 function renderTable()
 {  

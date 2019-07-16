@@ -10,23 +10,9 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
     <style>
-        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
-        .layui-table-header{display: none;}
-        .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
-        .layui-table-body{margin-top: 20px;}
-        .layui-table-cell{height: auto;margin-bottom: 10px;}
-        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
-            font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
-        .layui-table-page{margin-bottom: 20px;}
-        .tableBox,.searchBox{padding-left:18px;margin: 0 auto;}
-        .tableBox{width: 50%;float: left;margin-bottom: 70px;}
+        .tableBox{width: 50%;float: left;margin-top: 10px;}
         .searchBox{margin-top: 20px;}
         .relevant{width: 34%;float: right;margin-right: 20px;}
-        .hotspot>.item{width: 100%;text-align: left;padding: 0;padding-top: 10px;}
-        .hotspot>.item a{font-size: 14px;color: #1890ff;line-height: 26px;}
-        .hotspot>.item a:hover{text-decoration:underline;}
-        .c-nameC{height: 0px;}
-        .layui-table-none{padding: 0;}
     </style>
 </head>
 <body>
@@ -97,7 +83,6 @@
                 where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"leadUnitCode":$("#leadUnitCode").val()}},
                 limit: 15,
                 id: 'processdef_table_02',
-                height: commonDislodgeTable(),
                 page: {
                     groups: 5,
                     limits: [15,30,45,60],
@@ -107,13 +92,13 @@
                     theme: '#0F9EE0'
                 },
                 cols: [[
-                    {type : 'checkbox', event : 'changeEvents', width : 55},
                     {title : '序号', type :'numbers', width : 55},
                     {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '40%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'},sort : true},
                     {field : 'leadUnitName',   title : '单位',         style : 'cursor: pointer;', align: 'left',sort : true, width : '30%'},
                     {field : 'setupYear', title : '年度', style : 'cursor: pointer;', align: 'center',sort : true}
                 ]],
                 done: function (res, curr, count) {
+                    parent.$("#equipment").html(count);
                     // 点击行联动选择框--单选
                     $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
                         var index=parseInt($(this).index()+1);

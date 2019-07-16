@@ -446,7 +446,7 @@ layui.define(['jquery'],function (e) {
             var select_type='';
         }
         html='<div class="layui-div layui-div-n">' +
-            '        <a href="#">'+title+'</a>' +
+            '        <a href="javascript:;">'+title+'</a>' +
             '        <div class="c-row c-gap-top-small">' +
             '            <div class="c-span18 c-span-last">' +
             '                <p>'+abstract+'</p>' +
