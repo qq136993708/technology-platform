@@ -11,12 +11,19 @@
 		<!-- 数据库配置 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://10.246.94.11:3306/pcitc_stp?characterEncoding=UTF-8&amp;autoReconnect=true&amp;serverTimezone=GMT%2B8&amp;useSSL=false" userId="pcitc" password="Pcitc@123456" />
 		<!--model配置   -->
-	    <javaModelGenerator targetPackage="com.pcitc.base.stp.equipment" targetProject="pcitc-base" /> 
+	    <javaModelGenerator targetPackage="com.pcitc.base.stp.report" targetProject="pcitc-base" /> 
 		<!-- MAPPER配置 -->
-		<sqlMapGenerator     targetPackage="com.pcitc.mapper.equipment" targetProject="pcitc-hana-provider"  />
-	    <javaClientGenerator targetPackage="com.pcitc.mapper.equipment"    targetProject="pcitc-hana-provider"  type="XMLMAPPER" />
+		<sqlMapGenerator     targetPackage="com.pcitc.mapper.report" targetProject="pcitc-hana-provider"  />
+	    <javaClientGenerator targetPackage="com.pcitc.mapper.report"    targetProject="pcitc-hana-provider"  type="XMLMAPPER" />
 		<!-- 数据库表配置 -->
-		<table schema="pcitc-hana-provider" tableName="sre_project_money" domainObjectName="ProjectMoney"
+		<table schema="pcitc-hana-provider" tableName="tech_org_count" domainObjectName="TechOrgCount"
+			enableCountByExample="false" 
+			enableUpdateByExample="false"
+			enableDeleteByExample="false" 
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
+		<table schema="pcitc-hana-provider" tableName="tech_cost" domainObjectName="TechCost"
 			enableCountByExample="false" 
 			enableUpdateByExample="false"
 			enableDeleteByExample="false" 
