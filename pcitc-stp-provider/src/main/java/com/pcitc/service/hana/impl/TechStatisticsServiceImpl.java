@@ -521,7 +521,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 						ss.setLay_is_open(false);
 					}else
 					{
-						ss.setLay_is_open(false);
+						ss.setLay_is_open(true);
 					}
 				}
 				
