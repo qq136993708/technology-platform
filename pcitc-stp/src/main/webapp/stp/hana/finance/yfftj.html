@@ -129,7 +129,7 @@ layui.config({
         method:"POST",
         where: {param: {"month":month}},
         id: 'processdef-table',
-        height: "320px",
+        height: commonDislodgeTable()-100,
         limit: 15,
         cols: [[
             {field:'g0BK',              title:'板块',             style:'cursor: pointer;',align: 'left', width: '38%',templet:function(d){return '<span onclick="view(\''+d.g0BK+'\')" style="color:#1890ff">'+d.g0BK+'</span>'}},

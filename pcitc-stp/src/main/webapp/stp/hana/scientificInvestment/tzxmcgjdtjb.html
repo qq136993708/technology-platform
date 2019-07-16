@@ -136,6 +136,7 @@ layui.config({
         elem: '#processdef-table',
         url: '/tzxmcgjdtjb_data?v_date='+v_date,
         method:"POST",
+        height:commonDislodgeTable()-100,
         where: {param: {
         	      "month":month,
         	      "companyCode":$("#companyCode").val()
