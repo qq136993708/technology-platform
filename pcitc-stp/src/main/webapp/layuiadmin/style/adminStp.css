@@ -490,7 +490,7 @@ font-size: 14px;color: #212529;text-indent: 0;
 .layadmin-header{display: none; height: 50px; line-height: 50px; margin-bottom: 0; border-radius: 0;}
 .layadmin-header .layui-breadcrumb{padding: 0 15px;}
 .layui-card-header{position: relative;border-bottom: 1px solid #e7e6eb;background: #fcfcfc;border-radius:6px 6px 0 0;}
-.layui-card{border-radius:2px;margin-bottom: 10px;}
+.layui-main-lab .layui-card{border-radius:4px;margin-bottom: 10px;border-top:3px solid #3CBCFF;}
 .layui-card:hover{box-shadow: 2px 2px 4px 0 rgba(47,156,255,0.10);}
 .layui-row-main{margin-bottom: 0 !important;}
 /*.layui-card:last-child{margin-bottom: 10px}*/
