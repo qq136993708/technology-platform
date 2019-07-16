@@ -6,32 +6,39 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <style>
+        html{background-color: #F0F2F5;}
+        .layui-fluid{padding: 0 8px;}
+        .main-chart{padding: 10px;}
+        .searchBox{background: none;}
+    </style
 </head>
 <body >
 <div class="layui-fluid">
-    <div class="layui-main-oil">
-        <div class="searchBox">
-            <!--查询条件-->
-            <label class="dateInput">
-                <span>年份</span>
-                <input type="text" name="year"  title="月份" value="${year}"  id="year">
-                <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
-            </label>
-           <!--  <form class="layui-form" style="    display: inline;padding-left: 10px;">
-                <div class="layui-input-inline">
-                    <#list projectCodeList as vo>
-                        <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
-                    </#list>
-                </div>
-            </form> -->
-            <!--按钮组-->
-            <!-- <div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
-            </div> -->
-            <span class="unitBox">单位：万元</span>
+    <div class="">
+        <div class="fluid-top">
+            <div class="searchBox">
+                <!--查询条件-->
+                <label class="dateInput">
+                    <span>年份</span>
+                    <input type="text" name="year"  title="月份" value="${year}"  id="year">
+                    <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+                </label>
+               <!--  <form class="layui-form" style="    display: inline;padding-left: 10px;">
+                    <div class="layui-input-inline">
+                        <#list projectCodeList as vo>
+                            <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
+                        </#list>
+                    </div>
+                </form> -->
+                <!--按钮组-->
+                <!-- <div class="btnGroup">
+                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+                </div> -->
+                <span class="unitBox">单位：万元</span>
+            </div>
         </div>
-        
-        <div class="layui-row layui-col-space10">
+        <div class="layui-row layui-col-space15">
             <div class="layui-col-sm8">
              <div class="layui-card">
                     <div class="layui-card-header">
@@ -49,14 +56,14 @@
                         <span class="layui-time"></span>近三年专业类别成果鉴定结论数量论占比分
                     </div>
                     <div class="layui-row-main">
-                        <div class="main-chart" id="topic_chart2" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="topic_chart2" style="height:280px;width: 96%;"></div>
                     </div>
                 </div>
             </div>
         </div>
         
         
-        <div class="layui-row layui-col-space10">
+        <div class="layui-row layui-col-space15">
             <div class="layui-col-sm8">
                 <div class="layui-card">
                     <div class="layui-card-header">
@@ -73,7 +80,7 @@
                         <span class="layui-time"></span>成果鉴定结论数量按研究院占比分析
                     </div>
                     <div class="layui-row-main">
-                        <div class="main-chart" id="topic_chart4" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="topic_chart4" style="height:280px;width: 96%;"></div>
                     </div>
                 </div>
             </div>
