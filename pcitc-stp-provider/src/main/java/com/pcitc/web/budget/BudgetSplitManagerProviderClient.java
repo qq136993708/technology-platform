@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -82,16 +82,18 @@ public class BudgetSplitManagerProviderClient
 					map.put("xq", 0d);
 					if(organ != null) 
 					{
-						Optional<BudgetSplitData> dt = datas.stream()
+						List<BudgetSplitData> list = datas.stream()
 								.filter(a -> a.getOrganCode().equals(organ.getCode()))
 								.filter(a -> codes.contains(a.getSplitCode()))
-								.findFirst();
-						if(dt != null && dt.isPresent()) 
+								.collect(Collectors.toList());
+						if(list != null && list.size()>0) 
 						{
-							map.put("total", dt.get().getTotal());
-							map.put("jz", dt.get().getJz());
-							map.put("xq", dt.get().getXq());
-							
+							for(BudgetSplitData dt:list) 
+							{
+								map.put("total", (Double)map.get("total")+dt.getTotal());
+								map.put("jz", (Double)map.get("jz")+dt.getJz());
+								map.put("xq", (Double)map.get("xq")+dt.getXq());
+							}
 						}
 					}
 					rsdata.add(map);
