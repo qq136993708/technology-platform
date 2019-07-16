@@ -225,8 +225,10 @@
             $(".layui-tab-i,.layui-tab-title").css("width","100%");
             $(".layui-q>.layui-tab-title li").css("margin-right","22px");
             $(".layui-tab-i").css("height",parent.$(document).height()-90+"px");
+            $(".layui-leader").addClass("layui-cs")
         }else {
-            $(".layui-tab-i").css("height",parent.$(document).height()-110+"px");
+            $(".layui-tab-i").css("height",parent.$(document).height()-120+"px");
+            $(".layui-leader").removeClass("layui-cs")
         }
         search();
         parent.$("#LAY_app_body").css("height","82%");
