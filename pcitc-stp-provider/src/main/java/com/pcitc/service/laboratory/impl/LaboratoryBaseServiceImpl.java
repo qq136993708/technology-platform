@@ -1,30 +1,28 @@
 package com.pcitc.service.laboratory.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.laboratory.*;
-import com.pcitc.base.laboratory.LaboratoryBaseExample;
-import com.pcitc.base.util.IdUtil;
-import com.pcitc.base.util.StrUtil;
-import com.pcitc.base.util.TreeNodeUtil;
-import com.pcitc.mapper.laboratory.LaboratoryBaseMapper;
-import com.pcitc.service.laboratory.LaboratoryBaseService;
-import org.apache.commons.lang3.StringUtils;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.common.enums.DataOperationStatusEnum;
+import com.pcitc.base.common.enums.DelFlagEnum;
+import com.pcitc.base.laboratory.LaboratoryBase;
+import com.pcitc.base.laboratory.LaboratoryBaseExample;
+import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.TreeNodeUtil;
+import com.pcitc.mapper.laboratory.LaboratoryBaseMapper;
+import com.pcitc.service.laboratory.LaboratoryBaseService;
 
 /**
  * <p>接口实现类</p>
@@ -160,15 +158,12 @@ public class LaboratoryBaseServiceImpl implements LaboratoryBaseService {
     public LayuiTableData findLaboratoryBaseByPage(LayuiTableParam param) {
         LaboratoryBaseExample example = new LaboratoryBaseExample();
         LaboratoryBaseExample.Criteria c = example.createCriteria();
-//        c.andStatusEqualTo("1");
-//        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
-//        {
-        //   c.andIdLike("'%"+param.getParam().get("fileKind")+"%'");
-//            LaboratoryBaseExample.Criteria criteria2 = example.or();
-//            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
-//            example.or(criteria2);
-        //       }
-        example.setOrderByClause("create_date desc");
+       
+        if(param.getParam().get("bak1") != null && !"".equals(param.getParam().get("bak1")))
+        {
+        	c.andBak1EqualTo(param.getParam().get("bak1").toString());
+        }
+        example.setOrderByClause("data_order desc");
         return this.findByExample(param, example);
 
     }

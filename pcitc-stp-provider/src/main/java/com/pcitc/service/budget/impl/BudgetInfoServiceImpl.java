@@ -397,14 +397,16 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			List<Map<String,Object>> xtw = budgetStockSplitXtwSplitService.selectBudgetSplitDataList(xtwInfo==null?"xxx":xtwInfo.getDataId());
 			List<Map<String,Object>> zgs = budgetStockSplitZgsSplitService.selectBudgetSplitDataList(zgsInfo == null?"xxx":zgsInfo.getDataId());
 			List<Map<String,Object>> zsy = budgetStockSplitZsySplitService.selectBudgetSplitDataList(zsyInfo == null?"xxx":zsyInfo.getDataId());
-			for(int i = 0;i<xtw.size();i++) {
+			List<BudgetOrganEnum> orgs = BudgetOrganNdEnum.getByNd(nd).getOrgans();
+			for(int i = 0;i<orgs.size();i++) {
 				Map<String,Object> rowmap = new HashMap<String,Object>();
-				rowmap.put("no", xtw.get(i).get("no"));
-				rowmap.put("organCode", xtw.get(i).get("organCode"));
-				rowmap.put("organName", xtw.get(i).get("organName"));
-				rowmap.put("stock_jz", (Double)xtw.get(i).get("total_jz")+(Double)zgs.get(i).get("total_jz")+(Double)zsy.get(i).get("total_jz"));
-				rowmap.put("stock_xq", (Double)xtw.get(i).get("total_xq")+(Double)zgs.get(i).get("total_xq")+(Double)zsy.get(i).get("total_xq"));
-				rowmap.put("stock_total", (Double)xtw.get(i).get("total")+(Double)zgs.get(i).get("total")+(Double)zsy.get(i).get("total"));
+				rowmap.put("no", i+1);
+				rowmap.put("organCode",orgs.get(i).getCode());
+				rowmap.put("organName",orgs.get(i).getName());
+				
+				rowmap.put("stock_jz", (xtw.size()==0?0d:(Double)xtw.get(i).get("total_jz"))+(zgs.size()==0?0d:(Double)zgs.get(i).get("total_jz"))+(zsy.size()==0?0d:(Double)zsy.get(i).get("total_jz")));
+				rowmap.put("stock_xq", (xtw.size()==0?0d:(Double)xtw.get(i).get("total_xq"))+(zgs.size()==0?0d:(Double)zgs.get(i).get("total_xq"))+(zsy.size()==0?0d:(Double)zsy.get(i).get("total_xq")));
+				rowmap.put("stock_total", (xtw.size()==0?0d:(Double)xtw.get(i).get("total"))+(zgs.size()==0?0d:(Double)zgs.get(i).get("total"))+(zsy.size()==0?0d:(Double)zsy.get(i).get("total")));
 			
 				rsdata.add(rowmap);
 			}
