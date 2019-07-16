@@ -33,22 +33,22 @@
 </head>
 
 <body>
-	<div class="searchBox">
-		<!--查询条件-->
-		<label class="dateInput">
-			<span>项目编号</span>
-			<input type="text" id="xmbh" name="xmbh" placeholder="请输入项目编号" title="项目编号" class="form-control">
-		</label>
-		<label class="dateInput">
-			<span>项目名称</span>
-			<input type="text" id="xmmc" name="xmmc" placeholder="请输入项目名称" title="项目名称" class="form-control">
-		</label>
-		<!--按钮组-->
-		<div class="btnGroup">
-			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
-			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
-		</div>
-	</div>
+	<!--<div class="searchBox">-->
+		<!--&lt;!&ndash;查询条件&ndash;&gt;-->
+		<!--<label class="dateInput">-->
+			<!--<span>项目编号</span>-->
+			<!--<input type="text" id="xmbh" name="xmbh" placeholder="请输入项目编号" title="项目编号" class="form-control">-->
+		<!--</label>-->
+		<!--<label class="dateInput">-->
+			<!--<span>项目名称</span>-->
+			<!--<input type="text" id="xmmc" name="xmmc" placeholder="请输入项目名称" title="项目名称" class="form-control">-->
+		<!--</label>-->
+		<!--&lt;!&ndash;按钮组&ndash;&gt;-->
+		<!--<div class="btnGroup">-->
+			<!--<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>-->
+			<!--<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>-->
+		<!--</div>-->
+	<!--</div>-->
 
 	<div class="tableBox">
 
@@ -57,56 +57,23 @@
         <table id="showTable" class="layui-hide" lay-filter="tableData"></table>
 	</div>
 
-	<div class="relevant">
-		<p>相关内容</p>
-        <div class="relevant-cont">
+    <div class="relevant">
+        <p>搜索热点</p>
+        <div class="relevant-cont hotspot">
             <div class="item">
-                <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-                <a href="/instituteIndex?url=/pc/kytztjb" target="_blank">科研投资统计表</a>
+                <a href="javascript:void(0)" onclick="renderTableKeyword('可燃气体探测器')">可燃气体探测器</a>
             </div>
             <div class="item">
-                <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-                <a href="/instituteIndex?url=/budget/budget_detail_stocksplitzsy_nd" target="_blank">股份经费分解-直属院</a>
+                <a href="javascript:void(0)" onclick="renderTableKeyword('加油加氢')">加油加氢</a>
             </div>
             <div class="item">
-                <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-                <a href="/instituteIndex?url=/si/tzxmzcqkb" target="_blank">投资项目转出情况表</a>
+                <a href="javascript:void(0)" onclick="renderTableKeyword('井筒工程技术')">井筒工程技术</a>
             </div>
             <div class="item">
-                <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-                <a href="/instituteIndex?url=/budget/budget_detail_grouptotal_nd" target="_blank">集团公司经费预算</a>
-            </div>
-            <div class="item">
-                <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-                <a href="/instituteIndex?url=/sf/yclzctjb" target="_blank">原材料支出统计表</a>
-            </div>
-            <div class="item">
-                <img src="/layuiadmin/layui/images/search-relevant.jpg"/>
-                <a href="/instituteIndex?url=/budget/budget_detail_stocksplitxtw_nd" target="_blank">股份经费分解-系统外</a>
+                <a href="javascript:void(0)" onclick="renderTableKeyword('催化剂')">催化剂</a>
             </div>
         </div>
-		<!--<p>搜索热点</p>
-		<div class="relevant-cont hotspot">
-			<div class="item">
-				<a href="javascript:;">动载条件下水泥环密封失效机理与控制方法</a>
-			</div>
-			<div class="item">
-				<a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-			</div>
-			<div class="item">
-				<a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-			</div>
-			<div class="item">
-				<a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-			</div>
-			<div class="item">
-				<a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-			</div>
-			<div class="item">
-				<a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-			</div>
-		</div>-->
-	</div>
+    </div>
 	<!--表格数据操作js-->
 	<script>
 		var table, active, selectRowData = '';
@@ -144,7 +111,7 @@
 					},
                     cols: [[
                         {field:'LAY_TABLE_INDEX',title:'年度',
-                            templet:  '<div>{{ d.xmmc+"----"+d.sbdw+"   "+d.nd+"      "+d.sbjz+"         "+d.xkfl+"       "+d.psdj }}</div>' },
+                            templet:  '<div>{{ d.xmmc+"</br>"+d.sbdw+"</br>"+d.nd+"</br>"+d.sbjz+"</br>"+d.xkfl+"</br>"+d.psdj }}</div>' },
                             // templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
                     ]],
 					done : function(res, curr, count) {
@@ -227,7 +194,7 @@
 			});
 
 			//监听行双击事件
-			table.on('rowDouble(tableData)', function(obj) {
+			table.on('row(tableData)', function(obj) {
 				var temUrl = "/out/reward-detail/" + obj.data.dataId;
 				layer.open({
 					title : '详情',

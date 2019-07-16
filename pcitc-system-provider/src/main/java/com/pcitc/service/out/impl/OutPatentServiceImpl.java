@@ -287,9 +287,9 @@ public class OutPatentServiceImpl implements OutPatentService {
             data.setData(fullSearchService.setKeyWordCss(pageInfo, keyword.toString()));
         }else {
             data.setData(pageInfo.getList());
-            Long total = pageInfo.getTotal();
-            data.setCount(total.intValue());
         }
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
 
         //获取成果数量
 //        OutProjectInfoExample outProjectInfoExample = new OutProjectInfoExample();

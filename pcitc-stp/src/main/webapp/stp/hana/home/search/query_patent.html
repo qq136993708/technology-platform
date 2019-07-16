@@ -40,22 +40,16 @@
     <p>搜索热点</p>
     <div class="relevant-cont hotspot">
         <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法</a>
+            <a href="javascript:void(0)" onclick="renderTableKeyword('可燃气体探测器')">可燃气体探测器</a>
         </div>
         <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+            <a href="javascript:void(0)" onclick="renderTableKeyword('加油加氢')">加油加氢</a>
         </div>
         <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+            <a href="javascript:void(0)" onclick="renderTableKeyword('井筒工程技术')">井筒工程技术</a>
         </div>
         <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-        </div>
-        <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-        </div>
-        <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
+            <a href="javascript:void(0)" onclick="renderTableKeyword('催化剂')">催化剂</a>
         </div>
     </div>
 </div>
@@ -86,7 +80,7 @@
 
                 cols: [[
                     {field:'patentCode',title:'年度',
-                    templet:  '<div>{{ d.fmmc+"---"+d.wxlx+"---"+d.fmr}}</div>' }
+                    templet:  '<div>{{"名称:"+d.fmmc+"</br>"+"类型:"+d.wxlx+"</br>"+"发明人:"+d.fmr}}</div>' }
                     // templet:  '<div>{{ layui.laytpl.search(d) }}</div>' }
                 ]],
                 done: function (res, curr, count) {
