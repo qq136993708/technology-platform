@@ -57,15 +57,23 @@ public class HomeBudgetMysqlController extends BaseController{
 
 
 	/**
-	 * =====================================科研项目二级页面============================
+	 * ===========专业处--合同签订率=====================
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/home_budget_02/home_budget")
+	@RequestMapping(method = RequestMethod.GET, value = "/home_budget_02/zyc/contract")
 	public String kyzb_level2(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		String nd = HanaUtil.getCurrentYear();
-		request.setAttribute("nd", nd);
-		return "stp/hana/home/level/home_budget_02";
+		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
+		String unitCode = userInfo.getUnitCode();
+		request.setAttribute("unitCode", unitCode);
+
+		String year = HanaUtil.getCurrentYear();
+		request.setAttribute("year", year);
+
+		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
+		request.setAttribute("userLevel", userLevel);
+		
+		return "stp/hana/home/level/zyc_contract";
 	}
 
 
