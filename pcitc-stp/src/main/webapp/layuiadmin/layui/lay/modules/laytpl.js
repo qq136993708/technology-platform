@@ -439,6 +439,9 @@ layui.define(['jquery'],function (e) {
             //成果:成果名称---年度----成果单位---专业类别----鉴定号
             abstract=d.cgmc+"   "+d.nd+"   "+d.sqjddw+"   "+d.zy+"    "+d.jdh;
         }
+        if(abstract==undefined){
+            abstract = "";
+        }
         var cName="c-nameC";
         var select_type=d.select_type;
         if(d.select_type==undefined){
