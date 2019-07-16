@@ -306,6 +306,7 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
     .stay-do-m:hover .stay-doz-n{transform:translate(226px,64px)}
     .layui-col-md15{padding: 10px 8px 8px;}
     .layui-main-box .layui-box-icon{background-size: contain !important;}
+    .layui-main-box .layui-box-content span:first-child{font-size: 16px;}
     .workNews .layui-col-md3{width: 30.35%;}
     .layui-top{width: 99.4%;}
 }
