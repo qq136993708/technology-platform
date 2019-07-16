@@ -31,22 +31,6 @@
 </head>
 <body>
 <input type="hidden" name="keyword"  value="${keyword}"   id="keyword">
-<input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
-<div class="searchBox" hidden>
-    <label class="dateInput">
-        <span>年月</span>
-        <input type="text" name="month" placeholder="请选择年月" title="年月" value="${month}"  autocomplete="off" class="form-control" id="month">
-    </label>
-    <!--按钮组-->
-    <!--<div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
-                onclick="search_Event()">查询</button>
-    </div>-->
-    <!--<div class="btnGroup">-->
-    <!--<button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"-->
-    <!--&gt;详情</button>-->
-    <!--</div>-->
-</div>
 <div class="tableBox">
     <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
 </div>
@@ -78,31 +62,9 @@
             <a href="/instituteIndex?url=/budget/budget_detail_stocksplitxtw_nd" target="_blank">股份经费分解-系统外</a>
         </div>
     </div>
-    <!--<p>搜索热点</p>
-    <div class="relevant-cont hotspot">
-        <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法</a>
-        </div>
-        <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-        </div>
-        <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-        </div>
-        <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-        </div>
-        <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-        </div>
-        <div class="item">
-            <a href="javascript:;">动载条件下水泥环密封失效机理与控制方法控制方法</a>
-        </div>
-    </div>-->
 </div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<!-- <script src="/common/js/layer-v3.1.1/layer.js"></script> -->
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
@@ -111,66 +73,59 @@
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 <script type="text/javascript">
-    layui.config({
-        base: '/layuiadmin/lib/extend/'
-    }).extend({
-        treeGridCom:'treeGridCom'
-    }).use(['jquery','form', 'laydate','treeGridCom','table','laypage'], function(){
-        var $=layui.jquery,table=layui.table;
-        var month=$("#month").val();
-        var companyCode=$("#companyCode").val();
-        table.render({
-            elem: '#processdef_table_02' //表格容器
-            , url: '/fullSearch/getTableSearchEquipment?month='+month+"&companyCode="+companyCode+"&keyword="+$("#keyword").val()
-            , limit: 15 //每页默认显示的数量
-            , id: 'processdef_table_02'
-            ,page: {
-                groups: 5,
-                limits: [15,30,45,60],
-                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-                first: '首页', //不显示首页
-                last: '尾页', //不显示尾页
-                theme: '#0F9EE0'
-            }
-            ,cols: [[
-                {field:'LAY_TABLE_INDEX',title:'年度',
-                    templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
-            ]],
-            done: function(res, curr, count){
-                //merge(res);
-                parent.$("#equipment").html(count);
-            }
-        });
-        function merge(res) {
+    var table,selectRowData;
 
-            var data = res.data;
-            var mergeIndex = 0;//定位需要添加合并属性的行数
-            var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
-            var columsName = ['extend01','extend02'];//需要合并的列名称
-            var columsIndex = [0,1];//需要合并的列索引值
-
-            for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
-                var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
-                for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
-                    var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
-                    var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
-
-                    if (data[i][columsName[k]] === data[i-1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
-                        mark += 1;
-                        tdPreArr.each(function () {//相同列的第一列增加rowspan属性
-                            $(this).attr("rowspan", mark);
-                        });
-                        tdCurArr.each(function () {//当前行隐藏
-                            $(this).css("display", "none");
-                        });
-                    }else {
-                        mergeIndex = i;
-                        mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
-                    }
+    layui.use(['jquery','table','laypage','form','layer','laytpl','laydate',"publicMethods"], function() {
+        table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            form = layui.form,
+            laypage = layui.laypage;
+        publicMethods = layui.publicMethods;
+        //加载表格
+        renderTable();
+        //移除表头的复选框,去掉全选
+        $(".layui-table-header table thead th input").remove();
+        function renderTable()
+        {
+            //渲染
+            table.render({
+                elem: '#processdef_table_02',
+                url: '/sre-project-basic/list',
+                method:"POST",
+                where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"leadUnitCode":$("#leadUnitCode").val()}},
+                limit: 15,
+                id: 'processdef_table_02',
+                height: commonDislodgeTable(),
+                page: {
+                    groups: 5,
+                    limits: [15,30,45,60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+                    {type : 'checkbox', event : 'changeEvents', width : 55},
+                    {title : '序号', type :'numbers', width : 55},
+                    {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '40%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'},sort : true},
+                    {field : 'leadUnitName',   title : '单位',         style : 'cursor: pointer;', align: 'left',sort : true, width : '30%'},
+                    {field : 'setupYear', title : '年度', style : 'cursor: pointer;', align: 'center',sort : true}
+                ]],
+                done: function (res, curr, count) {
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        var index=parseInt($(this).index()+1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData=res.data[index-1];
+                        var auditStatus=selectRowData.auditStatus;
+                    });
                 }
-                mergeIndex = 0;
-                mark = 1;
-            }
+            });
         }
     });
 
