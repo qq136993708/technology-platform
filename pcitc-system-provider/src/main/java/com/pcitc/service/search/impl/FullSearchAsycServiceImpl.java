@@ -100,65 +100,66 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
         data.setCount(total.intValue());
         return new AsyncResult<LayuiTableData>(data);
     }
-
     @Async
     public Future<LayuiTableData> getEquipmentListPage(LayuiTableParam param_common) throws Exception {
-        JSONArray jSONArray = homeProviderClient.get_home_KYZB_02(JSONObject.toJSONString(param_common.getParam()));
-        Object keyword = param_common.getParam().get("keyword");
+//        JSONArray jSONArray = homeProviderClient.get_home_KYZB_02(JSONObject.toJSONString(param_common.getParam()));
+//        Object keyword = param_common.getParam().get("keyword");
         LayuiTableData layuiTableData = new LayuiTableData();
 
-        List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
-
-        List<TreeNode2> chartCircleList = new ArrayList<TreeNode2>();
-        List<TreeNode2> chartCircleListRed = new ArrayList<TreeNode2>();
-        String strKeyword = "";
-        for (int i = 0; i < list.size(); i++) {
-            H1AMKYSY100117 bean = list.get(i);
-
-            TreeNode2 node = new TreeNode2();
-            node.setExtend01(bean.getG0ZCXLMS());//设备类型
-            node.setExtend02(bean.getG0GSJC());//直属研究院
-            node.setExtend04(bean.getG0ZBHND());//购置年度
-            node.setExtend05(bean.getG0NDJAR());//使用年限
-            node.setExtend06(bean.getG0NDSYN());//剩余年限
-
-            DecimalFormat decimalFormat = new DecimalFormat(".00");
-            node.setExtend07(bean.getG0NCGZYZJE());//购置金额(万元)
-            if (bean.getG0NCGZYZJE() != null) {
-                node.setExtend07(decimalFormat.format(Double.valueOf(bean.getG0NCGZYZJE()) / 10000l));
-            }
-            node.setExtend08(bean.getG0LJZJJE());//折旧金额（万元）
-            if (bean.getG0LJZJJE() != null) {
-                node.setExtend08(decimalFormat.format(Double.valueOf(bean.getG0LJZJJE()) / 10000l));
-            }
-            node.setExtend09("0");
-            if (bean.getG0NCGZYZJE() != null && bean.getG0LJZJJE() != null) {
-                Double rs = Double.valueOf(node.getExtend07()) - Double.valueOf(node.getExtend08());
-                node.setExtend09(decimalFormat.format(rs));
-            }
-            node.setExtend10(bean.getBl() + "%");//折旧率
-            strKeyword = bean.getG0TXT50();
-            if (keyword != null && !"".equals(keyword) && strKeyword.contains(keyword.toString())) {
-                strKeyword = bean.getG0TXT50().replace(keyword.toString(), "<span style=\"color:red\">" + keyword + "</span>");
-                node.setExtend03(strKeyword);//设备名称
-                chartCircleListRed.add(node);
-            } else {
-                node.setExtend03(strKeyword);//设备名称
-                chartCircleList.add(node);
-            }
-        }
-        List<TreeNode2> resultList = new ArrayList<TreeNode2>();
-        if (keyword != null && !"".equals(keyword)) {
-            if (chartCircleListRed.size() > 0) {
-                resultList.add(chartCircleListRed.get(0));
-            }
-            layuiTableData.setData(resultList);
-        } else {
-            if (chartCircleList.size() > 0) {
-                resultList.add(chartCircleList.get(0));
-            }
-            layuiTableData.setData(resultList);
-        }
+//
+//        List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
+//
+//        List<TreeNode2> chartCircleList = new ArrayList<TreeNode2>();
+//        List<TreeNode2> chartCircleListRed = new ArrayList<TreeNode2>();
+//        String strKeyword = "";
+//        for (int i = 0; i < list.size(); i++) {
+//            H1AMKYSY100117 bean = list.get(i);
+//
+//            TreeNode2 node = new TreeNode2();
+//            node.setExtend01(bean.getG0ZCXLMS());//设备类型
+//            node.setExtend02(bean.getG0GSJC());//直属研究院
+//            node.setExtend04(bean.getG0ZBHND());//购置年度
+//            node.setExtend05(bean.getG0NDJAR());//使用年限
+//            node.setExtend06(bean.getG0NDSYN());//剩余年限
+//
+//            DecimalFormat decimalFormat = new DecimalFormat(".00");
+//            node.setExtend07(bean.getG0NCGZYZJE());//购置金额(万元)
+//            if (bean.getG0NCGZYZJE() != null) {
+//                node.setExtend07(decimalFormat.format(Double.valueOf(bean.getG0NCGZYZJE()) / 10000l));
+//            }
+//            node.setExtend08(bean.getG0LJZJJE());//折旧金额（万元）
+//            if (bean.getG0LJZJJE() != null) {
+//                node.setExtend08(decimalFormat.format(Double.valueOf(bean.getG0LJZJJE()) / 10000l));
+//            }
+//            node.setExtend09("0");
+//            if (bean.getG0NCGZYZJE() != null && bean.getG0LJZJJE() != null) {
+//                Double rs = Double.valueOf(node.getExtend07()) - Double.valueOf(node.getExtend08());
+//                node.setExtend09(decimalFormat.format(rs));
+//            }
+//            node.setExtend10(bean.getBl() + "%");//折旧率
+//            strKeyword = bean.getG0TXT50();
+//            if (keyword != null && !"".equals(keyword) && strKeyword.contains(keyword.toString())) {
+//                strKeyword = bean.getG0TXT50().replace(keyword.toString(), "<span style=\"color:red\">" + keyword + "</span>");
+//                node.setExtend03(strKeyword);//设备名称
+//                chartCircleListRed.add(node);
+//            } else {
+//                node.setExtend03(strKeyword);//设备名称
+//                chartCircleList.add(node);
+//            }
+//        }
+//        List<TreeNode2> resultList = new ArrayList<TreeNode2>();
+//        if (keyword != null && !"".equals(keyword)) {
+//            if (chartCircleListRed.size() > 0) {
+//                resultList.add(chartCircleListRed.get(0));
+//            }
+//            layuiTableData.setData(resultList);
+//        } else {
+//            if (chartCircleList.size() > 0) {
+//                resultList.add(chartCircleList.get(0));
+//            }
+//            layuiTableData.setData(resultList);
+//        }
+        layuiTableData = zjkBaseInfoServiceClient.getSreProjectBasicListSearch(param_common);
         return new AsyncResult<LayuiTableData>(layuiTableData);
     }
 

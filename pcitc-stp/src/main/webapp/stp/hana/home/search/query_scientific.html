@@ -85,6 +85,8 @@
                     {field: 'nd', title: '立项年度', style: 'cursor: pointer;', align: 'center'},
                 ]],
                 done: function (res, curr, count) {
+                    console.log(res.data);
+                    parent.$("#keyan").html(count);
                     // 点击行联动选择框--单选
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
