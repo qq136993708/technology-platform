@@ -37,7 +37,7 @@
 <input type="hidden" name="id" id="id" value="${techOrgCount.id}">
 <input type="hidden" name="attachmentDoc" id="attachmentDoc" value="${attachmentDoc}">      
 <input type="hidden" name="type" id="type" value="${type}">
-<input type="hidden" name="unitCode" id="unitCode" value="">
+<input type="hidden" name="unitCode" id="unitCode"  value="${unitCode}">
 <input type="hidden" name="allUnitName" id="allUnitName" value="${allUnitName}">
 
 <input type="hidden" name="subTechOrgStr" id="subTechOrgStr" value="">
@@ -45,7 +45,7 @@
     <div class="formBox">
         <div class="tableToolBox">
             <div class="tableBtns">
-                <div class="tableTitle"><span class="red">（标*号为必填项）</span>
+                <div class="tableTitle"><span class="red">1、标*号为必填项；2、统计单位类型：本单位统计指“本单位名称”和“下级单位名称”是同一名称</span>
                 </div>
             </div>
         </div>
@@ -62,15 +62,15 @@
                     <div class="layui-form-item">
 			        <label class="layui-form-label">统计单位类型<span class="must-fill">*</span></label>
 			        <div class="layui-input-block">
-			          <input type="radio"  id="writeType1"   onclick="chooseWriteType('1')"  name="writeType" value="1"  title="本单位统计"   <#if techOrgCount.writeType=='1' || techOrgCount.writeType==null> checked="checked"</#if>>
-			          <input type="radio"  id="writeType2"  onclick="chooseWriteType('2')" name="writeType" value="2"  title="二级单位统计"  <#if techOrgCount.writeType=='2'> checked="checked"</#if>>
+			          <input type="radio"  id="statisticsType1"   onclick="choosestatisticsType('1')"  name="statisticsType" value="1"  title="本单位统计"   <#if techOrgCount.statisticsType=='1' || techOrgCount.statisticsType==null> checked="checked"</#if>>
+			          <input type="radio"  id="statisticsType2"   onclick="choosestatisticsType('2')"  name="statisticsType" value="2"  title="二级单位统计"  <#if techOrgCount.statisticsType=='2'> checked="checked"</#if>>
 			        </div>
                 </div>
              </div>
              
              
               <div class="layui-form-item">
-                    <label class="layui-form-label" id="unitName_01_id">单位名称<span class="must-fill">*</span></label>
+                    <label class="layui-form-label" id="unitName_01_id">本单位名称<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
                         <input class="layui-input readOnlyBox" readonly="readonly" onclick="chooseUnitRaio('setCompanyData')" id="unitName" name="unitName" lay-verify="required"
                                value="${unitName}" type="text">
@@ -121,7 +121,7 @@
 			  <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label" id="unitName_02_id">单位名称<span class="must-fill"></span></label>
+                        <label for="" class="layui-form-label" id="unitName_02_id">下级单位名称<span class="must-fill"></span></label>
                         <div class="layui-input-block">
                             <div class="tableToolBox">
 					            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"  onclick="chooseUnitRaio('chooseUnitRaio_callback')">新增</a>
@@ -148,9 +148,6 @@
                     </div>
                 </div>
               <!-- 2行结束-->
-              <div class="demo_line_05" style="text-align:center;">———————————<span>单位信息</span>————————————</div>
-             
-             <!-- 2行结束-->
                
         </div>
     </div>
@@ -176,23 +173,22 @@
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript">
-
 window.viewObj = 
 {
     tbData: []
 }
-    var v_date = (new Date()).getTime();
-    var id = "${id?default('')}";
-    var file_ids = "attachmentDoc";
-    //detail:详情，edit：编辑
-    file_edit_detail = "edit";
-    //统管理-附件管理-附件配置：页面标识
-    file_opt_flag = "7f22fb4e579a40b0813f6090c15a3435";
-    var layTableId = "dataTable";
-    var curent_tabel_data = null;//当前表格数据
-    var table;
-    var publicMethods;
-    layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
+var v_date = (new Date()).getTime();
+var id = "${id?default('')}";
+var file_ids = "attachmentDoc";
+//detail:详情，edit：编辑
+file_edit_detail = "edit";
+//统管理-附件管理-附件配置：页面标识
+file_opt_flag = "7f22fb4e579a40b0813f6090c15a3435";
+var layTableId = "dataTable";
+var curent_tabel_data = null;//当前表格数据
+var table;
+var publicMethods;
+layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
     	     table = layui.table
             , layer = layui.layer
             , laydate = layui.laydate
@@ -220,6 +216,35 @@ window.viewObj =
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
         });
+        
+       function  init()
+       {
+    	   
+    	   var id = "${techOrgCount.id?default('')}";
+    	   if(id!='')
+    	   {
+    		   publicMethods.ajaxPost("/tech_org/get_item/${techOrgCount.id}",null, function (data) {
+    	           	console.log(data);
+    	   			//parentInfo = data;
+    	   			var statisticsType=data.statisticsType;
+    	   			var childLength=data.childList.length;
+    	   			if(childLength>0)
+    	   			{
+    	   				$.each(data.childList,function(index,dt){
+        	   				viewObj.tbData.push(dt);
+        	   			});
+    	   			}else
+    	   			{
+    	   				viewObj.tbData.push(data);
+    	   			}
+    	   			  table.reload('dataTable', {data: viewObj.tbData});
+    	   			  curent_tabel_data=viewObj.tbData;
+    	      		});
+    	   }
+    	  
+       }
+       init();
+       
         
         
         
@@ -422,6 +447,19 @@ window.viewObj =
              } 
              return JSON.stringify(viewObj.tbData);
          }
+         
+         function getTableDataUnitCode()
+         {
+        	 var unitCode="";
+             for(var i=0, row; i < viewObj.tbData.length; i++)
+             {
+                 row = viewObj.tbData[i];
+                 unitCode=unitCode + row.unitCode;
+             } 
+             return unitCode;
+         }
+         
+         
         /* 监听提交 */
         form.on('submit(sub)', function (data) {
             //JSON.stringify(data.field)  提交信息json格式
@@ -431,7 +469,9 @@ window.viewObj =
             
             var allUnitName=$("#allUnitName").val();
             var unitName=$("#unitName").val();
+            var unitCode=$("#unitCode").val();
             var arr= unitName.split(",");
+            var lengthCount=viewObj.tbData.length;
             if(unitName==null || unitName=='')
            	{
             	 layer.alert("单位名称为空");
@@ -446,16 +486,36 @@ window.viewObj =
          	   return false;
             } */else
        		{
-            	 var formData = JSON.stringify(data.field);
-                 console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
-                 var subTechOrgStr=getTableData();
-                 $("#subTechOrgStr").val(subTechOrgStr);  
-                 //return false;
-            	 var type= $("#type").val();
-            	 var url = '/tech_org/save_new?v_date=' + v_date + "&id=" + id;
-                 var backurl = "/tech_org/to-list?v_date=" + v_date+"&type="+type;
-                 ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
-                 return false;
+            	
+            	
+            	var statisticsType =$("input[name='statisticsType']:checked").val();
+            	var subTechOrgStr=getTableData();
+            	var secondUnitCodes=getTableDataUnitCode();
+            	console.log("下级单位名称："+secondUnitCodes+"本单位名称:"+unitCode);
+            	//alert(statisticsType);
+            	//  return false;
+            	if(statisticsType=='1' && lengthCount>1)
+            	{
+            		layer.alert("本单位统计时只能统计本单位信息");
+             	    return false;
+            	}
+            	if(statisticsType=='1' && unitCode!=secondUnitCodes)
+            	{
+            		layer.alert("统计单位类型为本单位统计时：“本单位名称”和“下级单位名称”必须同一单位");
+             	    return false;
+            	}else
+           		{
+            		 var formData = JSON.stringify(data.field);
+                     console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
+                     $("#subTechOrgStr").val(subTechOrgStr);  
+                     //return false;
+                	 var type= $("#type").val();
+                	 var url = '/tech_org/save_new?v_date=' + v_date + "&id=" + id;
+                     var backurl = "/tech_org/to-list?v_date=" + v_date+"&type="+type;
+                     ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
+                     return false;
+           		}
+            	
        		}
             
             
@@ -523,9 +583,9 @@ window.viewObj =
     }
     
     
-    function chooseWriteType(value) 
+    function choosestatisticsType(value) 
     {
-    	alert(value);
+    	/* alert(value);
     	if(value=='1')
     	{
     		$("#unitName_01_id").val("单位名称");
@@ -536,7 +596,7 @@ window.viewObj =
     	{
     		$("#unitName_01_id").val("本单位名称");
         	$("#unitName_02_id").val("下级单位名称");
-    	}
+    	} */
     	
     	
     }

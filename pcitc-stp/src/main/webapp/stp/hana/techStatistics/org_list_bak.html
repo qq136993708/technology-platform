@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
     <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
-       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
@@ -16,6 +16,7 @@
 <div class="searchBox" >
  <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
  <input type="hidden" name="unitCode" id="unitCode" value="${unitCode}">
+ <input type="hidden" name="type" id="type" value="${type}">
  
  
  
@@ -26,16 +27,15 @@
 <input  name="userIds"        id="userIds"           type="hidden">
 </form>
 
-
-   <label class="dateInput">
+ <label class="dateInput">
         <span>统计年度</span>
         <input type="text" name="year"  style="cursor:pointer"  value="" readonly="readonly" placeholder="请选择统计年度" title="统计年度" autocomplete="off" class="form-control" id="year">
-       <i class="layui-icon layui-icon-date" style="margin-left:-35px"></i>
+         <i class="layui-icon layui-icon-date" style="margin-left:-35px"></i>
     </label>
     <!--查询条件-->
     <label class="dateInput" style="margin-left:20px">
-        <span>科研机构</span>
-        <input type="text" name="unitName" id="unitName" placeholder="请输入科研机构" title="单位名称" autocomplete="off" class="form-control" >
+        <span>单位名称</span>
+        <input type="text" name="unitName" id="unitName" placeholder="请输入单位名称" title="单位名称" autocomplete="off" class="form-control" >
     </label>
      <label class="dateInput">
          <span>审核状态</span>
@@ -46,16 +46,6 @@
 		      </#list>
 		 </select>
      </label>
-     
-     <label class="dateInput">
-         <span>公司类型</span>
-          <select name="type" id="type"   class="form-control"  >
-             <option value="" >--请选择--</option>
-             <option value="1"  >股份公司</option>
-             <option value="2"  >集团公司</option>
-		 </select>
-     </label>
-     
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -65,15 +55,21 @@
 
 
 <div class="tableBox">
-<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
+	<div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"    data-type="editEvent"  id="editEvent" >编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg"  id="applyEvent" data-type="applyEvent">上报</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
+        </div>
+    </div>
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
 
 </div>
-
-
 <script id="view_detail" type="text/html"> {{view_detail(d)}} </script>
-<script id="statisticsTypeTpl" type="text/html"> {{statistics_TypeTpl(d)}} </script>
 <script id="view_type" type="text/html"> {{view_type(d)}} </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
@@ -97,6 +93,7 @@
             return '';
         }
     }
+    
     function view_detail(d) 
     {
     	var unitName=d.unitName;
@@ -111,44 +108,19 @@
     }
     
     
-    function statistics_TypeTpl(d) 
-    {
-    	//alert(d.statisticsType);
-    	if(d.statisticsType==1) 
-        {
-        	 return '<span style="color:orange">本单位填写</span>';
-        }else if(d.statisticsType==2) 
-        {
-        	 return '<span style="color:green">二级单位填写</span>';
-        }else
-     	  {
-      	     return '<span>-</span>';
-     	  }
-    }
-    
-    
     function view_type(d) 
     {
-    	if (d.type=='1') 
+        if (d.type=='1') 
         {
         	 return '<span style="color:orange">股份</span>';
-        }else  if (d.type=='2') 
+        } else 
         {
         	 return '<span style="color:green">集团</span>';
-        }else
-     	  {
-      	  return '<span>-</span>';
-     	  }
+        }
     }
-
     
     function view(id,type,unitName) 
     {
-    	
-    	if(unitName=='总计')
-   		{
-   		  return;
-   		}
     	 var temUrl="/tech_org/get/" + id;
     	 
     	    var title="股份科研机构填报";
@@ -157,8 +129,8 @@
         		title="集团科研机构填报";
         	}
         	
-        	openFullWin(unitName+"-"+title+'-详情',temUrl);
-		/*  layer.open({
+        	
+		 layer.open({
             title:unitName+"-"+title+'-详情',
             skin: 'layui-layer-lan',
             shadeClose: true,
@@ -167,11 +139,9 @@
             maxmin: false,
             area: ['70%', '90%'],
             content:  temUrl
-        }); */
+        });
     }
 </script>
-
-<!--表格数据操作js-->
 
 <script>
 var param=JSON.parse(window.localStorage.getItem("param"));
@@ -182,22 +152,23 @@ var unitCodes = "";
 var postCodes = "";
 var type=$("#type").val();
 
-var laydate;
+
 var table,selectRowData;
 var publicMethods;
-var name=$('#name').val();
-    layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate'], function(){
-           table = layui.table,
+var laydate;
+layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods", 'laydate'], function(){
+            table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
             laypage = layui.laypage;
             publicMethods=layui.publicMethods;
+            
             laydate = layui.laydate;
-           
             laydate.render({
                 elem: '#year' ,type: 'year'
                 
              });
+           
 	     //加载表格      
 	     renderTable();
 	     //移除表头的复选框,去掉全选
@@ -211,16 +182,148 @@ var name=$('#name').val();
             resetEvent: function() { //点击重置按钮
             	$('#unitName').val("");
             	$('#auditStatus').val("");
+            },
+            addEvent: function(){ //点击新增按钮
+            	
+            	 var title="股份科研机构填报";
+                	if(type=='2')
+                	{
+                		title="集团科研机构填报";
+                	}
+                	
+                layer.open({
+                    title: title,
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                   area: ['70%', '90%'],
+                    content:  '/tech_org/add?type='+type
+                });
             }
+            ,editEvent: function(){  //点击编辑按钮
+            	
+            	if (typeof(selectRowData) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var id=selectRowData.id;
+           		     var url="/tech_org/add?id="+id+"&type="+type;
+           		     
+           		  var unitName=selectRowData.unitName;
+           		  var auditStatus=selectRowData.auditStatus;
+           		  var writeType=selectRowData.writeType;
+        		  if(auditStatus!=='0')
+       			  {
+        			   layer.alert('请选择未上报的行');
+        			    return;
+       			  }
+        		  if(writeType=='3')
+       			  {
+        			   layer.alert('请选择总公司一起起修改');
+        			   return;
+       			  }
+        		  
+        	    var title="股份科研机构填报";
+              	if(type=='2')
+              	{
+              		title="集团科研机构填报";
+              	}
+           		  layer.open({
+                      title:unitName+"-"+title+'-修改',
+                      skin: 'layui-layer-lan',
+                      shadeClose: true,
+                      type: 2,
+                      fixed: false,
+                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                      maxmin: true,
+                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                      area: ['90%', '90%'],
+                      content:  url
+                  });
+            	}
+               
+            },deleteEvent: function(){  //点击删除按钮
+                 console.log('点击了删除按钮')
+                 if (typeof(selectRowData) == "undefined") 
+                 {
+            		layer.alert('请点击选择一行数据');
+            	 } else 
+            	 {
+            		  var id=selectRowData.id;
+            		  var unitName=selectRowData.unitName;
+            		  var auditStatus=selectRowData.auditStatus;
+            		  if(auditStatus!=='0')
+           			  {
+            			   layer.alert('请选择未上报的行');
+            			    return;
+           			  }
+           		      var url="/tech_org/delete/"+id;
+	           		  layer.confirm('确定要删除 “'+unitName+'”该行的填报信息吗？', { btn: ['确定','取消']}, function(){
+	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
+	         			}, function(){
+	         			 
+	         			});
+            	}
+            
+              
+            },
+            detailEvent: function(){  //点击详情按钮
+            	if (typeof(selectRowData) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var id=selectRowData.id;
+            		 var temUrl="/tech_org/get/" + id;
+            		 layer.open({
+                         title:'详情',
+                         skin: 'layui-layer-lan',
+                         shadeClose: true,
+                         type: 2,
+                         fixed: false,
+                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                         maxmin: true,
+                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['70%', '90%'],
+                         content:  temUrl
+                     });
+            	}
+            
+            },
+            applyEvent: function(){  //点击详情按钮
+            	
+            	if (typeof(selectRowData) == "undefined") 
+            	{
+            		layer.msg('请点击选择一行数据');
+            	}
+            	else 
+            	{
+            		
+            		 var auditStatus=selectRowData.auditStatus;
+            		 var id=selectRowData.id;
+            		 if(auditStatus!=='0')
+           			 {
+            			 layer.alert('请选择未上报的行');
+            			 return;
+           			 }else
+           			 {
+           				$('#id').val(id);
+                	 	dealFlow(id);
+           			 }
+            		 
+            	}
+            }
+            
             
         };
 
       //监听排序
-        table.on('sort(model-table)', function(obj){
+        table.on('sort(processdef-table)', function(obj){
             console.log(this, obj.field, obj.type)
             //return;
             //服务端排序
-            table.reload('model-table', {
+            table.reload('processdef-table', {
                 initSort: obj,
                 page: {curr: 1}, //重新从第一页开始
                 where: { //重新请求服务端
@@ -236,13 +339,20 @@ var name=$('#name').val();
         	openFullWin("详情",temUrl);
         });
         
+        
+        
+        
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+
+         
+        
         
     });
+    
     
     
     
@@ -251,7 +361,7 @@ var name=$('#name').val();
        //渲染
        table.render({
            elem: '#processdef-table',
-           url: '/tech_org/statistics_list',
+           url: '/tech_org/list',
            method:"POST",
            where: {param: {"unitName":$("#unitName").val(),"auditStatus":$("#auditStatus").val(),"year":$("#year").val(),"type":$("#type").val()}},
            limit: 15,
@@ -266,9 +376,11 @@ var name=$('#name').val();
                theme: '#0F9EE0'
            },
            cols: [[
-           	  // {type : 'checkbox', event : 'changeEvents', width : 55,fixed:'left'},
-               {title : '序号', type : 'numbers', width : 55,fixed:'left'},
-               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '16%',templet : '#view_detail',sort : true,fixed:'left'},
+        	   {type : 'checkbox', event : 'changeEvents', width : 55, fixed: 'left'},
+               {title : '序号', type : 'numbers', width : 55, fixed: 'left'},
+                      
+             //  {field : 'parentUnitName',        title : '父亲单位名称',        style : 'cursor: pointer;', align : 'left', width : '19%',sort : true, fixed: 'left'},
+               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '19%',templet : '#view_detail',sort : true, fixed: 'left'},
                {field : 'year',            title : '统计年度',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'auditStatus',     title : '审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
                {field : 'type',            title : '公司类型',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true,templet : '#view_type'},
@@ -310,28 +422,29 @@ var name=$('#name').val();
                {field : 'thesisIstpCount',          title : 'ISTP（科学技术会议录索引）数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'thesisIsrCount',           title : 'ISR（科学评论索引）数',   style : 'cursor: pointer;', align : 'center', width : '15%',sort : true},
                {field : 'createUserName',           title : '填写人',               style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'createDate',               title : '填写时间',             style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl',sort : true},
-               {field : 'statisticsType',           title : '统计类型',            style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#statisticsTypeTpl',sort : true}
-               
+               {field : 'createDate',               title : '填写时间',             style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl',sort : true}
+           
            ]],
            done: function (res, curr, count) {
-               // 点击行联动选择框--单选
-               $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-               	var index=parseInt($(this).index()+1);
-                   $('tr').removeClass('layui-table-click');
-                   $(this).addClass('layui-table-click');
-                   $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                   selectRowData=res.data[index-1];
-                   var auditStatus=selectRowData.auditStatus;
-                  
-                  
-               });
-               
+        	         $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                   	 var index=parseInt($(this).index()+1);
+                      $('tr').removeClass('layui-table-click');
+                      $(this).addClass('layui-table-click');
+                      $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                      $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                      selectRowData=res.data[index-1];
+                      var auditStatus=selectRowData.auditStatus; 
+                  });
            }
        });
     }
     
+    
+    /*formName：form表单名称，
+    type：post、get,delete,put 
+    backurl:操作成功后返回地址
+    successMsg：成功提示
+    failMsg：失败提示 */
     function ajaxDeleteOpt(url,type,successMsg,failMsg)
     {
     	 $.ajax({
@@ -372,14 +485,136 @@ var name=$('#name').val();
     
 
 
-    function exput_excel()
+    function dealFlow(id) 
     {
-    	var unitName=$('#unitName').val();
-    	var auditStatus=$('#auditStatus').val();
-    	var year=$('#year').val();
-    	var type=$('#type').val();
-    	window.open("/tech_org/exput_excel?year="+year+"&year="+year+"&auditStatus="+auditStatus+"&unitName="+unitName);
-    } 
+    	
+    	//alert(id);
+    	//return;
+    	//return;
+    	var json = {functionId: functionId};
+    	 $.ajax({
+             type : 'POST',
+             url : "/workflow/start/audit-type",
+             contentType: "application/json;charset=UTF-8",
+             data : JSON.stringify(json),
+             //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
+             success : function(data) 
+             {
+          	   if (data.code == 'role')
+          	   {
+              		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+              		// roleCodes，参数名必须一致，方便公共弹出页面调用
+              		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
+              		  var temUrl="/task/deal/users/ini";
+                      layer.open({
+                          title:'选择审批人',
+                          skin: 'layui-layer-lan',
+                          shadeClose: true,
+                          type: 2,
+                          fixed: false,
+                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                          maxmin: true,
+                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['800px', '550px'],
+                          content:  temUrl
+                      });
+              	} else if (data.code == 'unit' || data.code == 'post') 
+              	{
+              		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+              		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
+    	          		if (data.code == 'unit') 
+    	          		{
+    	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
+    	          		} else 
+    	          		{
+    	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
+    	          		}
+              		
+              		   var temUrl="/task/deal/user/unit/ini";
+                       layer.open({
+                          title:'选择审批人',
+                          skin: 'layui-layer-lan',
+                          shadeClose: true,
+                          type: 2,
+                          fixed: false,
+                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                          maxmin: true,
+                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['800px', '550px'],
+                          content:  temUrl
+                      });
+              	} else if (data.code == 'int') 
+              	{
+              		layer.msg('启动参数不足');
+              	} else if (data.code == 'con') 
+              	{
+              		layer.msg('请给此功能菜单配置流程');
+              	} else if (data.code == 'exist') 
+              	{
+              		layer.msg('工作流部署异常，请联系管理员');
+              	} else 
+              	{
+              		// 直接处理此任务
+              		handleTask('');
+              	}
+             },
+             error : function(msg) {//请求失败处理函数  
+            }
+         });
+    }
+
+    //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
+    function handleTask(userIds) 
+    {
+    	
+    	$('#userIds').val(userIds);
+    	$('#applyEvent').attr("disabled",true);
+    	var v_date=(new Date()).getTime();
+        var url="/start_org_workflow?v_date="+v_date;
+        var backurl="/tech_org/to-list?v_date="+v_date;
+        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+        $('#applyEvent').attr("disabled",false);
+    }
+    function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
+    {
+    	 $.ajax({
+      	     type:type,
+      	     url: url,
+      	     dataType:"json",
+      	     data:$("#"+formName).serialize(),
+      	     async: false, 
+      	     cache: false,
+      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+             success:function(data,status)
+             {    
+        	  
+    	          if(data.success==true ||data.success=='true')
+    	          {
+
+    	        	  
+    	        	          layer.alert(
+    	        			  successMsg, 
+    	                      {icon: 1,closeBtn: 0 },
+    	                      function () 
+    	                      {
+    	                    	  myTable();
+    	                    	      layer.closeAll();
+    	                      });
+    	        	  
+    	          } else
+    	          {
+    	        	 layer.alert(failMsg);
+    	          }
+    	     
+    		   },
+    		   error:function()
+    		   {
+    		    	layer.alert("网络访问错误");
+    		   }
+        
+      });
+    }
+   
 
 </script>
 

@@ -328,6 +328,9 @@ public class ZjkBaseInfoController extends BaseController {
         return "stp/expert/zjkBaseInfo_list_count";
     }
 
+
+
+
     /**
      * 根据ID查询对象信息
      *
@@ -340,8 +343,15 @@ public class ZjkBaseInfoController extends BaseController {
     public Object getzjkBaseInfoInfo(HttpServletRequest request) {
         String id = request.getParameter("id");
         ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
-        ZjkExpert news = responseEntity.getBody();
-        return news;
+        ZjkExpert expert = responseEntity.getBody();
+        //获取省市县
+//        LayuiTableParam param = new LayuiTableParam();
+//        param.getParam().put("dataIds",expert.getProvince()+","+expert.getCity()+","+expert.getCounty());
+//        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+//        ResponseEntity<LayuiTableData> list = this.restTemplate.exchange(LISTPAGEADDRESS, HttpMethod.POST, entity, LayuiTableData.class);
+//        LayuiTableData body = list.getBody();
+
+        return expert;
     }
 
 

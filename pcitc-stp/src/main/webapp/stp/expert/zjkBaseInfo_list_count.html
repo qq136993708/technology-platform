@@ -171,13 +171,13 @@
                 url: '/zjkBaseInfo/getTableDataCount',
                 method: "POST",
                 where: {param: where},
-                limit: 10,
+                limit: 15,
                 id: 'zjkBaseInfoTableId',
                 height: commonDislodgeTable(),
                 page: {
                     count: 500, //数据总数，从服务端得到
                     groups: 5,
-                    limits: [10, 30, 45, 60],
+                    limits: [15,30, 45, 60],
                     layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                     first: '首页', //不显示首页
                     last: '尾页', //不显示尾页
@@ -187,18 +187,18 @@
                 cols: [[
                     {type: 'checkbox', event: 'changeEvents'},
                     {title: '序号', type: 'numbers', width: 55},
-                    {
-                        field: 'auditStatus',
-                        title: '状态',
-                        event: 'setActive',
-                        align: 'center',
-                        style: 'cursor: pointer;',
-                        templet: '<div>{{ layui.laytpl.auditStatus(d.auditStatus) }}</div>',
-                        width: 55
-                    },
+                    // {
+                    //     field: 'auditStatus',
+                    //     title: '状态',
+                    //     event: 'setActive',
+                    //     align: 'center',
+                    //     style: 'cursor: pointer;',
+                    //     templet: '<div>{{ layui.laytpl.auditStatus(d.auditStatus) }}</div>',
+                    //     width: 55
+                    // },
                     {
                         field: "expertName",
-                        title: "姓名", event: 'setActive', style: 'cursor: pointer;', width: 80
+                        title: "姓名", event: 'setActive', style: 'cursor: pointer;', width: 70
                     },
                     {
                         field: "sex",
@@ -210,7 +210,7 @@
                     },
                     {
                         field: "email",
-                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;', width: 160
+                        title: "邮箱", event: 'setActive', style: 'cursor: pointer;', width: 190
                     },
                     {
                         field: "mobile",
@@ -218,7 +218,7 @@
                     },
                     {
                         field: "expertProfessionalField",
-                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;', width: 90
+                        title: "专业领域", event: 'setActive', style: 'cursor: pointer;', width: 130
                     },
                     {
                         field: "expertProfessinal",
@@ -226,25 +226,25 @@
                     },
                     {
                         field: "companyName",
-                        title: "所在单位", event: 'setActive', style: 'cursor: pointer;', width: 100
+                        title: "所在单位", event: 'setActive', style: 'cursor: pointer;', width: 160
                     },
                     {
                         field: "projectCount",
-                        title: "课题数量", event: 'setActive', style: 'cursor: pointer;', width: 90
+                        title: "课题数量", event: 'setActive', style: 'cursor: pointer;', width: 70
                         , templet: function (d) {
                             return "<a href='javascript:void(0);return false;' onclick=showPatent('/expertController/zjkOutProjectListPublicCount?expertName=encodeURI(encodeURI("+d.expertName+"))&expertId=" + d.dataId + "')>" + d.projectCount + "</a>"
                         }
                     },
                     {
                         field: "achievementCount",
-                        title: "成果数量", event: 'setActive', style: 'cursor: pointer;', width: 90
+                        title: "成果数量", event: 'setActive', style: 'cursor: pointer;', width: 70
                         , templet: function (d) {
                             return "<a href='javascript:void(0);return false;' onclick=showPatent('/expertController/zjkAchievementListCount?expertName=encodeURI(encodeURI("+d.expertName+"))&expertId=" + d.dataId + "')>" + d.achievementCount + "</a>"
                         }
                     },
                     {
                         field: "patentCount",
-                        title: "专利数量", event: 'setActive', style: 'cursor: pointer;', width: 90
+                        title: "专利数量", event: 'setActive', style: 'cursor: pointer;', width: 70
                         , templet: function (d) {
                             return "<a href='javascript:void(0);return false;' onclick=showPatent('/expertController/zjkPatentListPublicCount?expertName=encodeURI(encodeURI("+d.expertName+"))&expertId=" + d.dataId + "')>" + d.patentCount + "</a>"
                         }
@@ -280,7 +280,7 @@
                     var param = {
                         data: res.data,//数据
                         element: ".layui-table-body table",// 当前的表格元素
-                        column: 4,//列数 从0开始
+                        column: 3,//列数 从0开始
                         field: "sex",//当前数据的字段
                         url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
                     };
@@ -304,7 +304,7 @@
                     var param = {
                         data: res.data,//数据
                         element: ".layui-table-body table",// 当前的表格元素
-                        column: 10,//列数 从0开始
+                        column: 9,//列数 从0开始
                         field: "companyName",//当前数据的字段
                         url: "/pageCommon/dic/ROOT_ZGSHJT_GFGS_ZSYJY"//接口
                     };

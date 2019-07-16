@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -260,6 +261,15 @@ public class ForApplicationController extends BaseController {
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST, value = "/sre-forapplicatio/save")
 	public String savePrivilege(String[] arr,String equipmentIds,String froname,String companyCode,HttpServletResponse response) throws Exception{ 
+		List<String> sList = new ArrayList<String>();
+		List<String> list = new ArrayList<String>();
+		Collections.addAll(sList, arr);
+		for(String tr : sList) {
+			if(!tr.equals("")) {
+				list.add(tr);
+			}
+		}
+		String[] strArray = list.toArray(new String[list.size()]); 
 		String result = "";
 		SreForApplication pplication = new SreForApplication();
 		ResponseEntity<String> responseEntity = null;
@@ -313,9 +323,9 @@ public class ForApplicationController extends BaseController {
 			sreDeta.setConfigure(id);//转资申请ID
 			sreDeta.setIsscrap(Constant.EQUME_ZERO);
 			if(arr!=null) {
-			for(int j=0;j<arr.length;j++){
+			for(int j=0;j<strArray.length;j++){
 				if(i == j) {
-					sreDeta.setAssetNumber(arr[j]);//资产编号
+					sreDeta.setAssetNumber(strArray[j]);//资产编号
 				}
 	         }
 			}

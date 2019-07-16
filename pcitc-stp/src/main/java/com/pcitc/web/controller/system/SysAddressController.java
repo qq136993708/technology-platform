@@ -42,8 +42,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>控制类</p>
@@ -89,6 +92,9 @@ public class SysAddressController extends BaseController {
      */
     private static final String SAVE = "http://pcitc-zuul/system-proxy/sysaddress-provider/sysaddress/save_sysaddress";
 
+
+    private static List<Map<String,String>> list = new ArrayList<>();
+
     /**
      * 省市县地址表-查询列表
      *
@@ -99,11 +105,21 @@ public class SysAddressController extends BaseController {
     @ResponseBody
     @OperationFilter(modelName = "省市县地址表", actionName = "查询列表getList")
     public Object getList(@RequestBody SysAddress sysAddress) {
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<SysAddress>(sysAddress, this.httpHeaders), JSONObject.class);
-        JSONObject retJson = responseEntity.getBody();
-        List<SysAddress> list = (List<SysAddress>) retJson.get("list");
-        return list;
+        Object obj = null;
+        if (list==null||list.size()==0){
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<SysAddress>(new SysAddress(), this.httpHeaders), JSONObject.class);
+            JSONObject retJson = responseEntity.getBody();
+            list = (List<Map<String, String>>) retJson.get("list");
+        }
+        if (!"".equals(sysAddress.getParentid()+"")&&sysAddress.getParentid()!=null){
+            obj= list.stream().filter(s->String.valueOf(s.get("parentid")).equals(String.valueOf(sysAddress.getParentid()))).collect(Collectors.toList());
+        }
+        if (sysAddress.getDepth()!=null&&!"".equals(sysAddress.getDepth()+"")){
+            obj= list.stream().filter(s->String.valueOf(s.get("depth")).equals("1")).collect(Collectors.toList());
+        }
+
+        return obj;
     }
 
     @RequestMapping(value = "/listParam", method = RequestMethod.POST)

@@ -404,10 +404,29 @@ layui.define(['jquery'],function (e) {
         }else if(d.name!=undefined){
             title=d.name;
         }
+
+//         科研装备：
+// 课题名称
+//         单位
+//         年度
+
         if(d.userDesc){
-            abstract=d.userDesc;
+            var userDesc = d.userDesc;
+            if (userDesc.length>50){
+                abstract = userDesc.substring(0,50)+"...";
+            } else {
+                abstract=userDesc;
+            }
         }else if(d.patentDesc){
-            abstract=d.patentDesc;
+            //奖励 :
+            // 项目名称
+            // 单位
+            // 年度
+            // 奖励类型(SBJZ)
+            // 专业类别
+            // 奖项等级psdj
+            abstract=d.xmmc+'----'+d.sbdw+"   "+d.nd+'      '+d.sbjz+"         "+d.xkfl+"       "+d.psdj;
+            // abstract=d.patentDesc;
         }else if(d.typeScope){
             abstract=d.typeScope;
         }else if(d.sbdw){
@@ -417,7 +436,8 @@ layui.define(['jquery'],function (e) {
         }else if(d.define8){
             abstract=d.define8;
         }else if(d.cgmc){
-            abstract=d.cgmc;
+            //成果:成果名称---年度----成果单位---专业类别----鉴定号
+            abstract=d.cgmc+"   "+d.nd+"   "+d.sqjddw+"   "+d.zy+"    "+d.jdh;
         }
         var cName="c-nameC";
         var select_type=d.select_type;

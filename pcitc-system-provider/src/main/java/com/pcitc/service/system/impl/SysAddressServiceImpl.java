@@ -9,6 +9,7 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.system.*;
 import com.pcitc.base.system.SysAddressExample;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.system.SysAddressMapper;
 import com.pcitc.service.system.SysAddressService;
@@ -19,7 +20,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -164,6 +167,10 @@ public class SysAddressServiceImpl implements SysAddressService {
 //            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
 //            example.or(criteria2);
         //       }
+        Object dataIds = param.getParam().get("dataIds");
+        if(StrUtil.isNullEmpty(dataIds)){
+            c.andDataIdIn(Arrays.asList(dataIds.toString().split(",")));
+        }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
 
