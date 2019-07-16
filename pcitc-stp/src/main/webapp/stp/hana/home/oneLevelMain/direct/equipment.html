@@ -50,8 +50,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time1"></span>
-							年直属研究院科研装备课题数量
+							<span class="layui-time1"></span>年直属研究院科研装备课题数量
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -84,8 +83,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time1"></span>
-							直属研究院科研课题数量占比
+							<span class="layui-time1"></span>直属研究院科研课题数量占比
 						</div>
 						<div class="layui-row-main myTable">
 							<table id="myTable" class="layui-table" lay-filter="myTable">
@@ -123,8 +121,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							直属研究院科研装备数量
+							<span class="layui-time"></span>直属研究院科研装备数量
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total" style="font-size: 12px;">
@@ -162,8 +159,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							科研课题数量占比
+							<span class="layui-time"></span>科研课题数量占比
 						</div>
 						<div class="layui-row-main processdef_table_02">
 							<table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
@@ -178,8 +174,7 @@
 				<div class="layui-col-md12">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							直属研究院科研装备数量
+							<span class="layui-time"></span>直属研究院科研装备数量
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -232,6 +227,7 @@
 
 	<script type="text/javascript">
 		var companyCode = $('#companyCode').val();
+		
 		var layer;
 		var table;
 		layui.config({
@@ -343,6 +339,7 @@
 			});
 
 			var chart5_url = "/direct/equipment_03?companyCode=" + companyCode + "&v_date=" + v_date + "&month=" + month;
+			console.log("公司代码："+companyCode);
 			var echart5 = load_mutl_bar_stack_02(chart5_url, "equipment_chart5", "", "", yAxis, 1, function(data) {
 
 				var bCount_4 = getDataCountForName_t(data, '大型分析仪器');
@@ -419,6 +416,8 @@
 			var month = $('#month').val();
 
 			month = month.replace("-", "");
+			
+			console.log("表格："+companyCode);
 			var v_date = (new Date()).getTime();
 			var tableOne = table.render({
 				elem : '#processdef_table_02',

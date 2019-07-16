@@ -118,9 +118,6 @@ layui.config({
     function renderTable()
     {
     	
-    	var index = layer.load(1, {
-    		  shade: [0.1,'#fff'] 
-    		}); 
     	
     	
     	var month=$('#month').val();
@@ -154,11 +151,12 @@ layui.config({
             {field:'g0GSJC',           title:'直属研究院',        style:'cursor: pointer;',align: 'center', width: '11%'},
             {field:'g0ZDXZCT',         title:'资产类别描述',        style:'cursor: pointer;',align: 'left', width: '11%'},
             {field:'g0TXT50',          title:'设备名称',        style:'cursor: pointer;',align: 'left', width: '11%'},
-            {field:'g0ZBHND',          title:'使用年限',        style:'cursor: pointer;',align: 'right', width: '11%'},
+            {field:'g0ZBHND',          title:'首次资本化年月',        style:'cursor: pointer;',align: 'right', width: '11%'},
             {field:'g0NDJAR',          title:'计划年使用期',        style:'cursor: pointer;',align: 'right', width: '11%'},
             {field:'g0NDSYN',          title:'剩余年限 ',        style:'cursor: pointer;',align: 'right', width: '11%'},
-            {field:'g0NCGZYZJE',       title:'资产净值 ',        style:'cursor: pointer;',align: 'right', width: '11%' ,templet:function(d){return (d.g0NCGZYZJE)+""}},
-            {field:'bl',               title:'折旧率',         style:'cursor: pointer;',align: 'right',  width: '11%' ,templet:function(d){return d.bl+"%"}}
+            {field:'g0NCGZYZJE',       title:'购置价值 ',        style:'cursor: pointer;',align: 'right', width: '11%' ,templet:function(d){return (d.g0NCGZYZJE)+""}},
+            {field:'g0LJZJJE',         title:'累计折旧 ',        style:'cursor: pointer;',align: 'right', width: '11%' ,templet:function(d){return (d.g0NCGZYZJE)+""}},
+            {field:'bl',               title:'设备成新率',         style:'cursor: pointer;',align: 'right',  width: '11%' ,templet:function(d){return d.bl+"%"}}
             
             
         ]],
@@ -173,7 +171,6 @@ layui.config({
                 selectRowData=res.data[index-1];
             });
             
-            layer.close(index); 
         }
       });
       

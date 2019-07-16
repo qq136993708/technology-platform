@@ -1278,67 +1278,73 @@
      
      
      <sql id="SELECT_KYZB_detail">
-         select
-		     ifnull("G0ZCXLMS",
-		    '') as "G0ZCXLMS",
-		     ifnull("G0GSJC",
-		    '') as "G0GSJC",
-		     ifnull("G0ZDXZCT",
-		    '') as "G0ZDXZCT",
-		     ifnull("G0TXT50",
-		    '') as "G0TXT50",
-		     ifnull( "G0ZBHND",
-		    '') as "G0ZBHND",
-		     ifnull( "G0NDJAR",
-		    '') as "G0NDJAR",
-		     ifnull( "G0NDSYN",
-		    '') as "G0NDSYN",
-		     sum("G0NCGZYZJE") AS "G0NCGZYZJE",
-		     sum("G0LJZJJE") AS "G0LJZJJE",
-		     case when sum("G0NCGZYZJE")=0 
+     
+     
+     
+		     select
+			 ifnull("G0ZCXLMS",
+			 '') as "G0ZCXLMS",
+			 ifnull("G0GSJC",
+			 '') as "G0GSJC",
+			 ifnull("G0ZDXZCT",
+			 '') as "G0ZDXZCT",
+			 ifnull("G0TXT50",
+			 '') as "G0TXT50",
+			 ifnull( "G0ZBHND",
+			 '') as "G0ZBHND",
+			 ifnull( "G0NDJAR",
+			 '') as "G0NDJAR",
+			 ifnull( "G0NDSYN",
+			 '') as "G0NDSYN",
+			 round(sum("G0NCGZYZJE"),2) AS "G0NCGZYZJE",
+			 sum("G0LJZJJE") AS "G0LJZJJE",
+			 case when sum("G0NCGZYZJE")=0 
 		then 0 
 		else round (sum("G0LJZJJE") / sum("G0NCGZYZJE")*100 ,
-		    2) 
+			 2) 
 		end as "bl" 
 		from ( SELECT
-		     "G0ZCXLMS",
-		     "G0GSJC",
-		     "G0ZDXZCT",
-		     "G0TXT50",
-		     "G0ZBHND",
-		     "G0NDJAR",
-		     "G0NDSYN",
-		     "G0GSOR",
-		     "G0ANLN1",
-		     sum("G0NCGZYZJE") AS "G0NCGZYZJE",
-		     sum("G0LJZJJE") AS "G0LJZJJE",
-		     sum("K0BNZCJE") AS "K0BNZCJE",
-		     sum("G0BNGZYZJE") AS "G0BNGZYZJE" 
-		    FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_18"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
-		     '${month}'),
-		     'PLACEHOLDER' = ('$$PR_GSDM$$',
-		     '${companyCode}')) 
-		     <if test="type != null and type !=''">  where "G0SBFL"= '${type}' </if>   
-		    GROUP BY "G0ZCXLBM",
-		     "G0ZCXLMS",
-		     "G0GSJC",
-		     "G0ZDXZCT",
-		     "G0TXT50",
-		     "G0ZBHND",
-		     "G0NDJAR",
-		     "G0NDSYN",
-		     "G0GSOR"  ,"G0ANLN1"
-		 ) 
+			 "G0ZCXLMS",
+			 "G0GSJC",
+			 "G0ZDXZCT",
+			 "G0TXT50",
+			 "G0ZBHND" ,
+			right( "G0NDJAR",2) as G0NDJAR,
+			 "G0NDSYN",
+			 "G0GSOR",
+			 "G0ANLN1",
+			 sum("G0NCGZYZJE") AS "G0NCGZYZJE",
+			 sum("G0LJZJJE") AS "G0LJZJJE",
+			 sum("K0BNZCJE") AS "K0BNZCJE",
+			 sum("G0BNGZYZJE") AS "G0BNGZYZJE" 
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_18"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+			  <if test="type != null and type !=''">  where "G0SBFL"= '${type}' </if>   
+			GROUP BY "G0ZCXLBM",
+			 "G0ZCXLMS",
+			 "G0GSJC",
+			 "G0ZDXZCT",
+			 "G0TXT50",
+			 "G0ZBHND",
+			 "G0NDJAR",
+			 "G0NDSYN",
+			 "G0GSOR" ,
+			"G0ANLN1" ) 
 		GROUP BY "G0ZCXLMS",
-		     "G0GSJC",
-		     "G0ZDXZCT",
-		     "G0TXT50",
-		     "G0ZBHND",
-		     "G0NDJAR",
-		     "G0NDSYN" ,
-		     "G0GSOR"  ,"G0ANLN1"
+			 "G0GSJC",
+			 "G0ZDXZCT",
+			 "G0TXT50",
+			 "G0ZBHND",
+			 "G0NDJAR",
+			 "G0NDSYN" ,
+			 "G0GSOR" ,
+			"G0ANLN1" 
 		order by "G0ZCXLMS" desc,
-		    "G0GSOR" 
+			 "G0GSOR"  
+	 
+	 
      </sql>
      
      
