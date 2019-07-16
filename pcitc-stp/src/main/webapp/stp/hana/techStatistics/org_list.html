@@ -388,11 +388,10 @@ layui.config({
                theme: '#0F9EE0'
            },
            cols: [[
-        	   {type : 'checkbox', event : 'changeEvents', width : 55, fixed: 'left'},
-               {title : '序号', type : 'numbers', width : 55, fixed: 'left'},
-                      
+        	   {type : 'checkbox', event : 'changeEvents', width : 55},
+               {title : '序号', type : 'numbers', width : 55},
              //  {field : 'parentUnitName',        title : '父亲单位名称',        style : 'cursor: pointer;', align : 'left', width : '19%',sort : true, fixed: 'left'},
-               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '19%',templet : '#view_detail',sort : true, fixed: 'left'},
+               {field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '25%',templet : '#view_detail',sort : true},
                {field : 'year',            title : '统计年度',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'auditStatus',     title : '审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
                {field : 'type',            title : '公司类型',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true,templet : '#view_type'},
