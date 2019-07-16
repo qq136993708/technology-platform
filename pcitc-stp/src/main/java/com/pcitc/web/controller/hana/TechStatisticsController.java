@@ -500,13 +500,13 @@ public class TechStatisticsController extends BaseController{
 	
 	@RequestMapping(value = "/tech_org/to-list-kjb")
 	public String tech_org_kjb(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		
 		//流程状态
 		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("auditStatusList", auditStatusList);
-		return "/stp/hana/techStatistics/org_list_kjb";
+		return "/stp/hana/techStatistics/org_list_kjb_tree";
 	}
+	
 	
 	/**
 	 * 列表

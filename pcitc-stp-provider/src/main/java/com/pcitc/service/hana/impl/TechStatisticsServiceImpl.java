@@ -22,6 +22,7 @@ import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.hana.report.ScientificCashFlow02;
 import com.pcitc.base.stp.report.TechCost;
 import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.mapper.hana.TechCostMapper;
@@ -261,6 +262,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 
 	public int deleteTechOrgCount(String id)throws Exception
 	{
+		techOrgCountMapper.deleteByParent(id);
 		return techOrgCountMapper.deleteByPrimaryKey(id);
 	}
 	
@@ -507,6 +509,24 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		  		
 		  		
 				List<TechOrgCount> list = techOrgCountMapper.getStatisticsList(map);
+				
+				for(int i=0;i<list.size();i++)
+				{
+					TechOrgCount ss=(TechOrgCount)list.get(i);
+					ss.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
+					ss.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
+					String levle=ss.getWriteType();
+					if(levle.equals("1") || levle.equals("2"))
+					{
+						ss.setLay_is_open(false);
+					}else
+					{
+						ss.setLay_is_open(false);
+					}
+				}
+				
+				
+				
 				Integer count=techOrgCountMapper.getStatisticsCount(map);
 				System.out.println(">>>>>>>>>任务书查询分页结果 "+count);
 				
