@@ -80,6 +80,11 @@ public interface OutProjectService {
 	public HashMap<String, String> getOutProjectInfoMoney(HashMap<String, String> map);
 	
 	/**
+     * 领导页，总的预算金额，按专业处
+     */
+    public HashMap<String, String> getProjectBudgetMoney(HashMap<String, String> map);
+	
+	/**
 	 * 修改项目属性
 	 * @param opi
 	 * @return
