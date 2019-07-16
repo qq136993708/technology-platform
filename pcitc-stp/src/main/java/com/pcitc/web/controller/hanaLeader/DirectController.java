@@ -1800,7 +1800,7 @@ public class DirectController extends BaseController {
 		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
-		paramsMap.put("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+		paramsMap.put("companyCode", companyCode);
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
 			paramsMap.put("leaderFlag", "1");

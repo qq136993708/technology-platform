@@ -30,6 +30,7 @@ import com.pcitc.base.common.ChartSingleLineResultData;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.hana.report.CompanyCode;
 import com.pcitc.base.hana.report.DayCashFlow;
 import com.pcitc.base.hana.report.TotalCostProjectPay01;
 import com.pcitc.base.system.SysUser;
@@ -46,9 +47,13 @@ public class FinanceController extends BaseController {
 	private static final String getDayCashFlowReport = "http://pcitc-zuul/hana-proxy/hana/decision/financial/getDayCashFlowReport";
 	private static final String getDayCashFlowReport2 = "http://pcitc-zuul/hana-proxy/hana/decision/financial/getDayCashFlowReport2";
 	private static final String xjrllfx_data = "http://pcitc-zuul/hana-proxy/hana/decision/financial/xjrllfx";
-
-	
-	
+    //研发费统计
+	private static final String yfftj_data =        "http://pcitc-zuul/hana-proxy/hana/decision/financial/yfftj";
+	private static final String yfftj_detail_data = "http://pcitc-zuul/hana-proxy/hana/decision/financial/yfftj_detail";
+	//技术改造统计
+	private static final String jsgztj_data =        "http://pcitc-zuul/hana-proxy/hana/decision/financial/jsgztj";
+	private static final String jsgztj_detail_data = "http://pcitc-zuul/hana-proxy/hana/decision/financial/jsgztj_detail";
+		
 	
 	
 	  //研发费用总体情况
@@ -416,6 +421,169 @@ public class FinanceController extends BaseController {
 	        return "stp/hana/finance/ppjszcqkmxb";
 	  }
 	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	    //研发费统计
+	    @RequestMapping(method = RequestMethod.GET, value = "/finance/yfftj")
+	    public String yfftj(HttpServletRequest request) throws Exception
+	    {
+			 String month = HanaUtil.getCurrentYear_Moth();
+			 request.setAttribute("month", month);
+			 return "stp/hana/finance/yfftj";
+			 
+	    }
+	    
+	    // 三级表格
+		@RequestMapping(method = RequestMethod.POST, value = "/yfftj_data")
+		@ResponseBody
+		public String yfftj_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+		{
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+			System.out.println(">>>>>>>>>>>>>>>>>yfftj_data 参数 "+resultObj.toString());
+			
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(yfftj_data, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>yfftj_data:" + result.toString());
+			return result.toString();
+		}
+		
+		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/finance/yfftj_detail")
+		  public String yfftj_detail(HttpServletRequest request) throws Exception
+		  {
+
+				  String month = CommonUtil.getParameter(request, "month", "");
+				  request.setAttribute("month", month);
+				  String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
+				  request.setAttribute("monthstr", monthstr);
+				  
+				  
+				  String g0BK = CommonUtil.getParameter(request, "g0BK", "");
+				  request.setAttribute("g0BK", g0BK);
+				  
+				  return "stp/hana/finance/yfftj_detail";
+		  }
+	     
+		  
+		  
+		  @RequestMapping(method = RequestMethod.POST, value = "/yfftj_detail_data")
+			@ResponseBody
+		  public String yfftj_detail_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+			{
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+				System.out.println(">>>>>>>>>>>>>>>>>yfftj_detail_data 参数 "+resultObj.toString());
+				
+				LayuiTableData layuiTableData = new LayuiTableData();
+				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+				ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(yfftj_detail_data, HttpMethod.POST, entity, LayuiTableData.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200)
+				{
+					layuiTableData = responseEntity.getBody();
+				}
+				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+				System.out.println(">>>>>>>>>>>>>yfftj_detail_data 返回结果:" + result.toString());
+				return result.toString();
+			}
+		  
+		  
+		  
+		  
+		  
+		//技术改造统计
+		  
+		  
+		  @RequestMapping(method = RequestMethod.GET, value = "/finance/jsgztj")
+		    public String jsgztj(HttpServletRequest request) throws Exception
+		    {
+				String month = HanaUtil.getCurrentYear_Moth();
+				request.setAttribute("month", month);
+				
+				 return "stp/hana/finance/jsgztj";
+				 
+		    }
+		    
+		    // 三级表格
+			@RequestMapping(method = RequestMethod.POST, value = "/jsgztj_data")
+			@ResponseBody
+			public String jsgztj_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+			{
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+				System.out.println(">>>>>>>>>>>>>>>>>jsgztj_data 参数 "+resultObj.toString());
+				
+				LayuiTableData layuiTableData = new LayuiTableData();
+				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+				ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(jsgztj_data, HttpMethod.POST, entity, LayuiTableData.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200)
+				{
+					layuiTableData = responseEntity.getBody();
+				}
+				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+				System.out.println(">>>>>>>>>>>>>jsgztj_data:" + result.toString());
+				return result.toString();
+			}
+			
+			
+			
+			@RequestMapping(method = RequestMethod.GET, value = "/finance/jsgztj_detail")
+			  public String jsgztj_detail(HttpServletRequest request) throws Exception
+			  {
+
+					  String month = CommonUtil.getParameter(request, "month", "");
+					  request.setAttribute("month", month);
+					  String monthstr =DateUtil.dateToStr(DateUtil.strToDate(month, DateUtil.FMT_MM), DateUtil.FMT_YYYY_ZH);
+					  request.setAttribute("monthstr", monthstr);
+					  request.setAttribute("monthName",HanaUtil.getMonthName(month));
+					  
+					  
+					  String g0BK = CommonUtil.getParameter(request, "g0BK", "");
+					  request.setAttribute("g0BK", g0BK);
+					  
+					  return "stp/hana/finance/jsgztj_detail";
+			  }
+		     
+			  
+			  
+			  @RequestMapping(method = RequestMethod.POST, value = "/jsgztj_detail_data")
+				@ResponseBody
+			  public String jsgztj_detail_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+				{
+					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
+					System.out.println(">>>>>>>>>>>>>>>>>jsgztj_detail_data 参数 "+resultObj.toString());
+					
+					LayuiTableData layuiTableData = new LayuiTableData();
+					HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+					ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(jsgztj_detail_data, HttpMethod.POST, entity, LayuiTableData.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200)
+					{
+						layuiTableData = responseEntity.getBody();
+					}
+					JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+					System.out.println(">>>>>>>>>>>>>jsgztj_detail_data 返回结果:" + result.toString());
+					return result.toString();
+				}
+			  
+			  
+		  
+		  
 	  
 	  
 }

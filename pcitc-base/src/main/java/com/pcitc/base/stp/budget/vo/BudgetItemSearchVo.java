@@ -19,7 +19,7 @@ public class BudgetItemSearchVo
 	//检索参数【预算项编码列表】
 	private List<String> budgetItemCodes = new ArrayList<String>();
 	
-	
+	//预算检索返回结果
 	private List<Map<String,Object>> rsItems = new ArrayList<Map<String,Object>>();
 	
 	/**
@@ -31,7 +31,7 @@ public class BudgetItemSearchVo
 	 */
 	public Double getBudgetTotal(String nd,String unitId,String budgetItemCode) 
 	{
-		return getBudgetJZ(nd,unitId,budgetItemCode)+getBudgetJZ(nd,unitId,budgetItemCode);
+		return getBudgetJZ(nd,unitId,budgetItemCode)+getBudgetXQ(nd,unitId,budgetItemCode);
 	}
 	/**
 	 * 获得结转数

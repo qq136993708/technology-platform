@@ -111,8 +111,25 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 <script src="/stp/hana/common/hana_common.js"></script>
-<script>
+<script id="view_detail" type="text/html"> {{view_detail(d)}} </script>
+<script type="text/javascript">
+    function view_detail(d) 
+    {
+    	var name=d.name;
+    	if(name.indexOf("年初现金流余额")!=-1 || name.indexOf("当前现金流余额")!=-1 )
+    	{
+    		//alert(name);
+    		
+    		return '<span title='+name+' style="font-weight:bold">'+name+'</span>';
+    	}else
+   		{
+    		return '<span title='+name+'>'+name+'</span>';
+   		}
+    }
+</script>
 
+
+<script>
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
 var editObj=null,ptable=null,treeGridCom=null,tableId='processdef-table',layer=null;
@@ -156,14 +173,13 @@ function renderTable()
 	        ,treeUpId:'pId'//树形父id字段名称
 	        ,treeShowName:'name'//以树形式显示的字段
 	        ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
-
 	        ,isFilter:false
 	        ,iconOpen:false//是否显示图标【默认显示】
 	        ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
 	        ,loading:true
 	        ,method:'get'
 	        ,cols: [[
-	            {field:'name', title: '项目名称',edit:'text',sort:true},
+	            {field:'name', title: '项目名称',sort:true,templet : '#view_detail'},
 	            {field:'k0BQLJJE',  title:'本期累计余额',  style:'cursor: pointer;',align: 'center', templet: '<div>{{ layui.laytpl.milliFormat(d.k0BQLJJE,2) }}</div>'},
 	            {field:'k0TBLJJE',  title:'同期累计余额',  style:'cursor: pointer;',align: 'center', templet: '<div>{{ layui.laytpl.milliFormat(d.k0TBLJJE,2) }}</div>'},
 	            {field:'k0TQLJJE',  title:'同期金额',    style:'cursor: pointer;',align: 'center', templet: '<div>{{ layui.laytpl.milliFormat(d.k0TQLJJE,2) }}</div>'}

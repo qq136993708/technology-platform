@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <link rel="stylesheet" href="/common/css/echart-common.css">
 	<style>
@@ -18,18 +18,20 @@
 	<div class="">
 		<div class="fluid-top">
 			<div class="searchBox">
-				<!--查询条件-->
-				<label class="dateInput">
-					<span>日期</span>
-					<input type="text" name="day"   value="${day}"  id="day">
-					<i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
-				</label>
-				<div class="layui-input-inline"  style="margin-left:10px">
-					<select id="companyCode" name="companyCode" class="form-control"></select>
-				</div>
-				<!--按钮组-->
-				<div class="btnGroup">
-					<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+			<div style="float:left">
+					<!--查询条件-->
+					<label class="dateInput">
+						<span>日期</span>
+						<input type="text" name="day"   value="${day}"  id="day">
+						<i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+					</label>
+					<div class="layui-input-inline"  style="margin-left:10px">
+						<select id="companyCode" name="companyCode" style="width:150px" class="form-control"></select>
+					</div>
+					<!--按钮组-->
+					<div class="btnGroup">
+						<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+					</div>
 				</div>
 				<span class="unitBox" style="padding-right: 8px;">单位：万元</span>
 			</div>
@@ -39,7 +41,7 @@
 			<div class="layui-col-sm12">
 				<div class="layui-card">
 					<div class="layui-card-header">
-						<span class="layui-time"></span><span id="lable1"></span> 现金流余额月度统计
+						<span class="layui-time"  id="lable1"></span>现金流余额月度统计
 					</div>
 					<div class="layui-row-main">
 						<div class="main-chart" id="main1" style="height:280px;width: 96%;"></div>
@@ -51,7 +53,7 @@
 			<div class="layui-col-sm12">
 				<div class="layui-card">
 					<div class="layui-card-header">
-						<span class="layui-time"></span><span id="lable2"></span>周现金流余额统计
+						<span class="layui-time"  id="lable2"></span>周现金流余额统计
 					</div>
 					<div class="layui-row-main">
 						<div class="main-chart">
@@ -174,7 +176,7 @@ var table;
                }},
         
         id: 'processdef-table',
-        height: "620px",
+        height: "420px",
         limit: 15,
         cols: [[
         	{field:'g0GSJC',            title:'研究院',                    style:'cursor: pointer;',align: 'center'},

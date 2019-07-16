@@ -166,6 +166,7 @@ function initEchart()
 	var month=$("#month").val();
 	month=month.replace("-","");
 	var chart1_url="/one_level_main/equipment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	console.log("图："+companyCode);
 	var echart1=load_mutl_bar_down(chart1_url,"equipment_01_chart","","",yAxis2);
 	echart1.on('click', function (params) {
 		var xName=params.name;
@@ -206,7 +207,7 @@ function renderTable(){
 	var month=$("#month").val();
 	month=month.replace("-","");
 	var companyCode=$("#companyCode").val();
-	
+	console.log("表格："+companyCode);
     table.render({
         elem: '#processdef_table_02' //表格容器
         , url: '/one_level_main/equipment_02?month='+month+"&companyCode="+companyCode
