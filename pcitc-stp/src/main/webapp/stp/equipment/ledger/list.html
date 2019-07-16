@@ -210,7 +210,22 @@ var name=$('#name').val();
 	{    
     	
     	var month=$('#month').val();
-    	month=month.replace("-","");
+        if(month==""){
+            var date = new Date();
+            var seperator1 = "-";
+            var year = date.getFullYear();
+            var month = date.getMonth();
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var month = year + 0 + month
+        }else{
+            month=month.replace("-","");
+        }
     	
     	//渲染
         table.render({
