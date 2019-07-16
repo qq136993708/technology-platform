@@ -462,7 +462,7 @@
 			var v_date = (new Date()).getTime();
 			$.ajax({
 				type : "GET",
-				url : '/small_leader/getInvestmentAll?nd=' + nd + '&v_date' + v_date,
+				url : '/small_leader/getInvestmentAll?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + '&v_date' + v_date,
 				dataType : "json",
 				timeout : 20000,
 				cache : false,
@@ -473,13 +473,12 @@
 						var investMoneystr = "";
 						var investMoney = data.data.investMoney;
 						if (investMoney != null && investMoney != '') {
-
+							
 							if (investMoney > 9999) {
-								investMoneystr = (investMoney / 10000).toFixed(2) + "<small>亿元</small>";
+								investMoneystr = (parseFloat(investMoney) / 10000).toFixed(2) + "<small>亿元</small>";
 							} else {
-								investMoneystr = investMoney.toFixed(2) + "<small>万元</small>";
+								investMoneystr = parseFloat(investMoney).toFixed(2) + "<small>万元</small>";
 							}
-
 						}
 						$("#pay_id").html(investMoneystr);
 					}
