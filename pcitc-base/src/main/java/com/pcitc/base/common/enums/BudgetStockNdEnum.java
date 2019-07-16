@@ -26,7 +26,7 @@ public enum BudgetStockNdEnum
 	
 	//分子公司
 	SPLIT_STOCK_ZGS_2018("2018", BudgetStockEnum.SPLIT_STOCK_FZGS,BudgetStockEnum.SPLIT_STOCK_XSD,BudgetStockEnum.SPLIT_STOCK_ZD),
-	SPLIT_STOCK_ZGS_2019("2019", BudgetStockEnum.SPLIT_STOCK_FZGS,BudgetStockEnum.SPLIT_STOCK_XSD,BudgetStockEnum.SPLIT_STOCK_ZD),
+	SPLIT_STOCK_ZGS_2019("2019", BudgetStockEnum.SPLIT_STOCK_FZGS,BudgetStockEnum.SPLIT_STOCK_XSD,BudgetStockEnum.SPLIT_STOCK_ZD,BudgetStockEnum.SPLIT_STOCK_MYSGZS),
 	SPLIT_STOCK_ZGS_2020("2020", BudgetStockEnum.SPLIT_STOCK_FZGS,BudgetStockEnum.SPLIT_STOCK_XSD,BudgetStockEnum.SPLIT_STOCK_ZD);
 		
 	
