@@ -150,13 +150,6 @@
 					}
 				});
 				$(".layui-time").html($("#nd").val());
-				$("#knowledge_table").click(function() {
-
-					var nd = $("#nd").val();
-					var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd + "&ysnd=" + nd);
-					window.open("/instituteIndex?url=" + url);
-
-				});
 
 				//监听行单击事件
 				table.on('row(myTable)', function(obj) {
