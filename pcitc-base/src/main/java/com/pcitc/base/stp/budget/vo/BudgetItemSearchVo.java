@@ -31,7 +31,7 @@ public class BudgetItemSearchVo
 	 */
 	public Double getBudgetTotal(String nd,String unitId,String budgetItemCode) 
 	{
-		return getBudgetJZ(nd,unitId,budgetItemCode)+getBudgetJZ(nd,unitId,budgetItemCode);
+		return getBudgetJZ(nd,unitId,budgetItemCode)+getBudgetXQ(nd,unitId,budgetItemCode);
 	}
 	/**
 	 * 获得结转数
