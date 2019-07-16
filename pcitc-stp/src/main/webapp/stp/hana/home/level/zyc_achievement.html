@@ -34,7 +34,7 @@
 					<input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}" autocomplete="off" class="form-control" id="nd">
 					<i class="layui-icon layui-icon-date" style="margin-left: -35px"></i>
 				</label>
-				<div class="btnGroup" style="display: none">
+				<div class="btnGroup" style="margin-left: 10px">
 					<button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details">详情</button>
 				</div>
 			</div>
@@ -183,12 +183,11 @@
 
 			$(".layui-time").html($("#nd").val());
 			$("#knowledge_table").click(function() {
-				//window.open("");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table?nd=" + nd + "&groupFlag=jdh", "科技成果详情");
 			});
 		});
 
 		function initEchart() {
-
 			var v_date = (new Date()).getTime();
 			var ndstr = nd + "年";
 			var yAxis = [ {
@@ -217,9 +216,9 @@
 			echart1.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var url = encodeURIComponent("/one_level_main/achievement_table?define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
-				window.open("/instituteIndex?url=" + url);
-
+				//var url = encodeURIComponent("/one_level_main/achievement_table?define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				//window.open("/instituteIndex?url=" + url);
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table?define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 			var chart4_url = "/direct_second/direct_second_data_02?type=1&nd=" + nd + "&v_date=" + v_date;
@@ -233,8 +232,9 @@
 			echart4.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var url = encodeURIComponent("/one_level_main/achievement_table?cglx="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
-				window.open("/instituteIndex?url=" + url);
+				//var url = encodeURIComponent("/one_level_main/achievement_table?cglx="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				//window.open("/instituteIndex?url=" + url);
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table?cglx="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 			var chart5_url = "/direct_second/direct_second_data_03?type=2&nd=" + nd + "&v_date=" + v_date;
@@ -247,9 +247,9 @@
 			});
 			echart5.on('click', function(params) {
 				var xName = params.name;
-				var url = encodeURIComponent("/one_level_main/achievement_table?define3=直属研究院&cglx=A.工业化&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
-				window.open("/instituteIndex?url=" + url);
-
+				//var url = encodeURIComponent("/one_level_main/achievement_table?define3=直属研究院&cglx=A.工业化&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				//window.open("/instituteIndex?url=" + url);
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table?define3=直属研究院&cglx=A.工业化&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 			var chart6_url = "/direct_second/direct_second_data_04?nd=" + nd + "&v_date=" + v_date;
@@ -263,9 +263,9 @@
 			echart6.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var url = encodeURIComponent("/one_level_main/achievement_table?define3=直属研究院&cglx=B.工业试验&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
-				window.open("/instituteIndex?url=" + url);
-
+				//var url = encodeURIComponent("/one_level_main/achievement_table?define3=直属研究院&cglx=B.工业试验&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				//window.open("/instituteIndex?url=" + url);
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table?define3=直属研究院&cglx=B.工业试验&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 			var chart7_url = "/direct_second/direct_second_data_05?nd=" + nd + "&v_date=" + v_date;
@@ -278,9 +278,9 @@
 			});
 			echart7.on('click', function(params) {
 				var xName = params.name;
-				var url = encodeURIComponent("/one_level_main/achievement_table?zy="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
-				window.open("/instituteIndex?url=" + url);
-
+				//var url = encodeURIComponent("/one_level_main/achievement_table?zy="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				//window.open("/instituteIndex?url=" + url);
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table?zy="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 		}
@@ -298,8 +298,9 @@
 			if (unitFlag == 'unit') {
 				groupFlag = 'jdh,sqjddw';
 			}
-			var url = encodeURIComponent("/one_level_main/achievement_table?define3="+showFlag+"&nd=" + nd+"&groupFlag="+groupFlag);
-			window.open("/instituteIndex?url=" + url);
+			//var url = encodeURIComponent("/one_level_main/achievement_table?define3="+showFlag+"&nd=" + nd+"&groupFlag="+groupFlag);
+			//window.open("/instituteIndex?url=" + url);
+			parent.layui.index.openTabsPage("/one_level_main/achievement_table?define3="+showFlag+"&nd=" + nd+"&groupFlag="+groupFlag, "科技成果详情");
 		}
 	</script>
 </body>
