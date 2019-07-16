@@ -257,23 +257,18 @@
                         last : '尾页', //不显示尾页
                         theme : '#0F9EE0'
                     },
-                    cols : [ [ {
-                        type : 'checkbox',
-                        event : 'changeEvents',
-                        width : 45
-                    }, {
+                    cols : [ [  {
                         title : '序号',
                         type : 'numbers',
                         width : 45
                     }, {
                         field : 'orgName',
                         title : '实验室名称',
-                        width : '13%',
+                        width : '44%',
                         style : 'cursor: pointer;'
                     }, {
                         field : 'dependentUnit',
                         title : '依托单位',
-                        width : '13%',
                         style : 'cursor: pointer;'
                     }]],
                     done : function(res, curr, count) {
