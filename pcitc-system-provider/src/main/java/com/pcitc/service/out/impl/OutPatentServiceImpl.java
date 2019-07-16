@@ -5,6 +5,7 @@ import java.util.*;
 import com.pcitc.base.stp.out.*;
 import com.pcitc.base.system.EmailTemplate;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
+import com.pcitc.service.search.FullSearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -244,6 +245,11 @@ public class OutPatentServiceImpl implements OutPatentService {
             criteria.andFmrLike("%"+name + "%");
         }
 
+        Object keyword = param.getParam().get("keyword");
+        if (keyword != null&&!"".equals(keyword)) {
+            criteria.andFmmcLike("%"+keyword + "%");
+        }
+
         //特殊处理专家名称
 //        Object expertNames = param.getParam().get("expertNames");
 //        if (expertNames != null&&!"".equals(expertNames)) {
@@ -276,9 +282,15 @@ public class OutPatentServiceImpl implements OutPatentService {
         // 3、获取分页查询后的数据
         PageInfo<OutPatent> pageInfo = new PageInfo<OutPatent>(list);
         LayuiTableData data = new LayuiTableData();
-        data.setData(pageInfo.getList());
-        Long total = pageInfo.getTotal();
-        data.setCount(total.intValue());
+
+        if (keyword != null&&!"".equals(keyword)) {
+            data.setData(fullSearchService.setKeyWordCss(pageInfo, keyword.toString()));
+        }else {
+            data.setData(pageInfo.getList());
+            Long total = pageInfo.getTotal();
+            data.setCount(total.intValue());
+        }
+
         //获取成果数量
 //        OutProjectInfoExample outProjectInfoExample = new OutProjectInfoExample();
 //        OutProjectInfoExample.Criteria criteria1 = outProjectInfoExample.createCriteria();
@@ -287,4 +299,6 @@ public class OutPatentServiceImpl implements OutPatentService {
 //        data.setMsg((outProjectInfos==null||outProjectInfos.size()==0)?"0":(outProjectInfos.size()+""));
         return data;
     }
+    @Autowired
+    FullSearchService fullSearchService;
 }

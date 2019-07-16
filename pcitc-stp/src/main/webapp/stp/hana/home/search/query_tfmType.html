@@ -72,108 +72,15 @@
             [
                 {type: 'checkbox', event: 'changeEvents', width: 55},
                 {title: '序号', type: 'numbers', width: 55},
-                // {
-                //     field: 'workOrderStatus',
-                //     title: '状态',
-                //     event: 'setActive',
-                //     align: 'center',
-                //     style: 'cursor: pointer;',
-                //     templet: '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>',
-                //     width: 55
-                // },
-                // {
-                //     field: 'attachment',
-                //     title: '附件',
-                //     event: 'setActive',
-                //     align: 'center',
-                //     style: 'cursor: pointer;',
-                //     width: 55,
-                //     templet: '<div>{{ layui.laytpl.attToPic(d) }}</div>'
-                // },
-                // {
-                //     field: "typeCode",
-                //     title: "分类编码", event: 'setActive', style: 'cursor: pointer;'
-                // },
                 {
                     field: "typeName",
                     title: "分类名称", event: 'setActive', style: 'cursor: pointer;'
                 },
-                // {
-                //     field: "parentId",
-                //     title: "父节点id", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "parentCode",
-                //     title: "父节点编码", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "isParent",
-                //     title: "是否是父亲节点", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "typeIndex",
-                //     title: "检索辅助字段", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "status",
-                //     title: "状态位", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "levelCode",
-                //     title: "层级", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "dataOrder",
-                //     title: "数据排序字段", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "remarks",
-                //     title: "分类说明", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "typeScope",
-                //     title: "分类的范畴（五大分类）", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "createUser",
-                //     title: "创建人名称", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "createUserId",
-                //     title: "创建人id", event: 'setActive', style: 'cursor: pointer;'
-                // },
                 {
                     field: "createDate",
                     title: "创建时间", event: 'setActive', style: 'cursor: pointer;'
                 },
-                // {
-                //     field: "updateDate",
-                //     title: "修改时间", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "updateUser",
-                //     title: "修改人", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "auditStatus",
-                //     title: "审批状态，默认不审批", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "isHot",
-                //     title: "是否是热点技术", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "developInfo",
-                //     title: "未来发展情况", event: 'setActive', style: 'cursor: pointer;'
-                // },
-                // {
-                //     field: "directionInfo",
-                //     title: "发展情况", event: 'setActive', style: 'cursor: pointer;'
-                // },
-            ]/*[
-            {field:'LAY_TABLE_INDEX',title:'年度',
-                templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
-            ]*/;
+            ]
 
         function renderTable() {
 
@@ -219,6 +126,25 @@
             });
         }
 
+        //双击时间开始
+        table.on('rowDouble(tableEvent)', function (obj) {
+            var temUrl = "/standardBaseExpert/tfcAnalysisDetail?typeIndex=" + obj.data.typeIndex+"&typeName="+obj.data.typeName+"&typeCode="+obj.data.typeCode;
+            layer.open({
+                title: "查看",
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['900px', '450px'],
+                content: temUrl
+            });
+        });
+
+
+        //双击时间结束
         renderTable();
         window.renderTable = renderTable;
         $(function () {
@@ -231,145 +157,6 @@
             });
         })
 
-        var $ = layui.$, active = {
-            searchEvent: function () { //点击查询按钮
-                renderTable();
-            },
-            allEvent: function () { //点击查询按钮
-                workOrderStatus = '';
-                renderTable();
-            },
-            draftEvent: function () { //点击查询按钮
-                workOrderStatus = '0';
-                renderTable();
-            },
-            approvalEvent: function () { //点击查询按钮
-                workOrderStatus = '1';
-                renderTable();
-            },
-            approvedEvent: function () { //点击查询按钮
-                workOrderStatus = '2';
-                renderTable();
-            },
-            resetEvent: function () { //点击重置按钮
-                $('#workOrderName').val("");
-            },
-            addEvent: function () { //点击新增按钮
-                layer.open({
-                    title: param.name + '-新增',
-                    skin: 'layui-layer-lan',
-                    shadeClose: false,
-                    type: 2,
-                    fixed: false,
-                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                    maxmin: true,
-                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    area: ['70%', '90%'],
-                    content: "/tfmType/edit"
-                });
-            },
-            editEvent: function () {  //点击编辑按钮
-                var id;
-                if (selectRowData != undefined) {
-                    if (selectRowData.workOrderStatus == '0') {
-                        id = selectRowData.dataId;
-                        layer.open({
-                            title: param.name + '-编辑',
-                            skin: 'layui-layer-lan',
-                            shadeClose: false,
-                            type: 2,
-                            fixed: false,
-                            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                            maxmin: true,
-                            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                            area: ['70%', '90%'],
-                            content: "/tfmType/edit?id=" + selectRowData.dataId
-                        });
-                    } else {
-                        layer.msg('只可操作未下发的数据');
-                        return;
-                    }
-                } else {
-                    layer.msg('请选择一条数据');
-                    return;
-                }
-            },
-            detailEvent: function () {  //点击详情按钮
-                var dataId;
-                if (selectRowData != undefined) {
-                    dataId = selectRowData.dataId;
-                    layer.open({
-                        title: param.name + '-查看',
-                        skin: 'layui-layer-lan',
-                        shadeClose: false,
-                        type: 2,
-                        fixed: false,
-                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        maxmin: true,
-                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        area: ['70%', '90%'],
-                        content: "/tfmType/view?id=" + selectRowData.dataId
-                        // content: '/plan/viewPlanPage?dataId='+dataId
-                    });
-                    // }
-                } else {
-                    layer.msg('请选择一条数据');
-                    return;
-                }
-            },
-            deleteEvent: function () { //点击删除按钮
-                var id;
-                if (selectRowData != undefined) {
-                    if (selectRowData.workOrderStatus == '0') {
-                        id = selectRowData.dataId;
-                        layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
-                            layer.close(index);
-                            $.ajax({
-                                type: 'post',
-                                dataType: 'text',
-                                async: false,
-                                data: {"id": selectRowData.dataId},
-                                url: '/tfmType/del-real',
-                                success: function (data) {
-                                    // if(data==200){
-                                    layer.msg("删除成功");
-                                    active.searchEvent();
-                                    // }
-                                },
-                                error: function (e) {
-                                    alert("出错了");
-                                    console.log(e);
-                                }
-                            });
-                        });
-                    } else {
-                        layer.msg('当前记录已经提交,不能进行删除操作！');
-                        return;
-                    }
-                } else {
-                    layer.msg('请选择一条数据');
-                    return;
-                }
-            },
-            getCheckData: function () { //获取选中数据
-                var checkStatus = table.checkStatus('tfmTypeTableId')
-                    , data = checkStatus.data;
-            },
-            getCheckLength: function () { //获取选中数目
-                var checkStatus = table.checkStatus('tfmTypeTableId')
-                    , data = checkStatus.data;
-                layer.msg('选中了：' + data.length + ' 个');
-            },
-            isAll: function () { //验证是否全选
-                var checkStatus = table.checkStatus('tfmTypeTableId');
-                layer.msg(checkStatus.isAll ? '全选' : '未全选')
-            }
-        };
-
-        $('.layui-btn').on('click', function () {
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
     });
 </script>
 </body>

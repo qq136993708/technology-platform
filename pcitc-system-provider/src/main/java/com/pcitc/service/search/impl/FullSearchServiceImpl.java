@@ -197,14 +197,15 @@ public class FullSearchServiceImpl implements FullSearchService {
             }
         }
 
-        List<Map<String, String>> zjkPatents = (List<Map<String, String>>) tableDataPatent.get().getData();
+        List<OutPatent> zjkPatents = (List<OutPatent>) tableDataPatent.get().getData();
         if (zjkPatents != null && zjkPatents.size() > 0) {
             total = total + 1;
             for (int i = 0, j = zjkPatents.size(); i < j; i++) {
-                Map<String, String> map = (zjkPatents.get(i));
-                map.put("select_type", "知识产权");
+                OutPatent outPatent = (zjkPatents.get(i));
+                outPatent.setSelect_type("知识产权");
+//                map.put("select_type", "知识产权");
 //                map.put("select_type", "patent");
-                list.add(map);
+                list.add(outPatent);
 
             }
         }

@@ -16,6 +16,7 @@ import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.mapper.out.OutRewardMapper;
 import com.pcitc.service.expert.TfmTypeService;
+import com.pcitc.service.out.OutPatentService;
 import com.pcitc.service.report.SysReportStpService;
 import com.pcitc.service.search.FullSearchAsycService;
 import com.pcitc.service.search.FullSearchService;
@@ -178,12 +179,16 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
 
     @Override
     public Future<LayuiTableData> selectZjkZhuanliByPage(LayuiTableParam param) {
-        LayuiTableData data = zjkBaseInfoServiceClient.selectZjkZhuanliByPage(param);
+        LayuiTableData data = outPatentService.findOutPatentListByName(param);
+//        LayuiTableData data = zjkBaseInfoServiceClient.selectZjkZhuanliByPage(param);
         return new AsyncResult<LayuiTableData>(data);
     }
 
     @Autowired
     private SysFunctionService sysFunctionService;
+
+    @Autowired
+    private OutPatentService outPatentService;
 
     @Override
     @Async

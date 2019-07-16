@@ -144,7 +144,8 @@
 					},
                     cols: [[
                         {field:'LAY_TABLE_INDEX',title:'年度',
-                            templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
+                            templet:  '<div>{{ d.xmmc+"----"+d.sbdw+"   "+d.nd+"      "+d.sbjz+"         "+d.xkfl+"       "+d.psdj }}</div>' },
+                            // templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
                     ]],
 					done : function(res, curr, count) {
 						// 关闭等待刷新
