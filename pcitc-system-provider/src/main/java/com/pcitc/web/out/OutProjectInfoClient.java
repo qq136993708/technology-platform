@@ -883,6 +883,18 @@ public class OutProjectInfoClient {
 	public JSONArray getZDSTLProjectInfo(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZDSTLProjectInfo===========================" + map);
 		List temList = outProjectService.getZDSTLProjectInfo(map);
+		// 特殊处理，显示序号问题。相同的十条龙项目合并序号
+		int realIndex = 0;
+		String hth = "";
+		for (int i = 0 ; i< temList.size(); i++) {
+			HashMap temMap = (HashMap) temList.get(i);
+			String temHth = temMap.get("showHth").toString();
+			if (!temHth.equals(hth)) {
+				realIndex++;
+				hth = temHth;
+			}
+			temMap.put("realIndex", realIndex);
+		}
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
@@ -948,6 +960,20 @@ public class OutProjectInfoClient {
 	public JSONArray getDragonProjectDetails(@RequestBody HashMap<String, Object> map) throws Exception {
 		logger.info("==================page getDragonProjectDetails===========================" + map);
 		List temList = outProjectService.getDragonProjectDetails(map);
+		
+		// 特殊处理，显示序号问题。相同的十条龙项目合并序号
+		int realIndex = 0;
+		String xmid = "";
+		for (int i = 0 ; i< temList.size(); i++) {
+			HashMap temMap = (HashMap) temList.get(i);
+			String temXmid = temMap.get("xmid").toString();
+			if (!temXmid.equals(xmid)) {
+				realIndex++;
+				xmid = temXmid;
+			}
+			temMap.put("realIndex", realIndex);
+		}
+		System.out.println("======JSON.toJSONString(temList)-----"+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}

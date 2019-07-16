@@ -2804,11 +2804,18 @@
 	<!-- 领导二级页面，重大专项项目详情 -->
 	<select id="getZDSTLProjectInfo" resultType="java.util.Map" parameterType="java.util.HashMap">
 			select 
-				nd,ysnd,hth,xmmc,jf,ysje,fzdw,zylb,fzrxm,zycmc,xmlbmc,define1,fwdx
+				nd,ysnd,hth,left(hth,INSTR(hth,'-')-1) showHth,xmmc,jf,ysje,
+				GROUP_CONCAT(DISTINCT fzdw separator '<![CDATA[<br>]]>') as fzdw,
+				GROUP_CONCAT(DISTINCT zylb) as zylb,
+				GROUP_CONCAT(DISTINCT fzrxm separator '<![CDATA[<br>]]>') as fzrxm,
+        		GROUP_CONCAT(DISTINCT zycmc) as zycmc,
+				GROUP_CONCAT(DISTINCT define8 separator '<![CDATA[<br>]]>') as define8,
+        		xmlbmc,define1,fwdx
 			from out_project_info
 			where 
-				project_property = '重大专项' and ysnd = '${nd}'
-			order by nd desc,hth
+				project_property = '重大专项' and nd = '${nd}' and project_type != '1'
+			group by hth
+			order by hth
 	</select>
 	
 	<!--  领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况 -->
@@ -2974,6 +2981,7 @@
 				from out_project_info
 				WHERE
 					 project_property = '十条龙项目'
+					 and project_type != '1'
 					<if test="nd != null">
 						and out_project_info.nd = #{nd}
 					</if>
@@ -3017,7 +3025,7 @@
 										left join out_project_info as tableD on (tableA.hth = tableD.hth and tableD.define6 = '3协作单位')
 										left join out_project_info as tableE on (tableA.hth = tableE.hth and tableE.define6 = '4组员单位')
 			GROUP BY tableA.hth
-			ORDER BY xmmc
+			ORDER BY hth
 	</select>
 	
   	

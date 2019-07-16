@@ -66,9 +66,9 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "SelectAllProjectFromSinopecData2017");
+			paramMap.put("sqlName", "GetZYWCR");
 			JsonObject jo = new JsonObject();
-			jo.addProperty("ND", "2018");
+			jo.addProperty("xmid", "3613");
 
 			System.out.println(jo.toString());
 			paramMap.put("conditions", jo.toString());
