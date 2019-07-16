@@ -754,6 +754,13 @@ public class OutProjectServiceImpl implements OutProjectService {
     public HashMap<String, String> getOutProjectInfoMoney(HashMap<String, String> map) {
         return outProjectInfoMapper.getOutProjectInfoMoney(map);
     }
+    
+    /**
+     * 领导页，总的预算金额，按专业处
+     */
+    public HashMap<String, String> getProjectBudgetMoney(HashMap<String, String> map) {
+        return outProjectInfoMapper.getProjectBudgetMoney(map);
+    }
 
     public int deleteProjectErpBatch(Map map) {
         outProjectErpMapper.deleteOutProjectErpBatch(map);
