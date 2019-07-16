@@ -185,6 +185,187 @@
 			 'PLACEHOLDER' = ('$$PR_GSDM$$',
 			 '${companyCode}')) 
      </select>
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+
+	 
+     
+     
+     
+     <resultMap id="financialResultMap" type="com.pcitc.base.hana.report.Financial" >
+       <result column="G0BK"         property="g0BK"    jdbcType="VARCHAR" />
+       <result column="G0GSDM"       property="g0GSDM"  jdbcType="VARCHAR" />
+       <result column="G0GSJC"       property="g0GSJC"  jdbcType="VARCHAR" />
+       <result column="G0ZZKM"       property="g0ZZKM"  jdbcType="VARCHAR" />
+       <result column="G0ZZKMTX"       property="g0ZZKMTX"  jdbcType="VARCHAR" />
+       <result column="G0CURRCY"       property="g0CURRCY"  jdbcType="VARCHAR" />
+       <result column="G0GSDMTX"       property="g0GSDMTX"  jdbcType="VARCHAR" />
+       <result column="G0PROID"        property="g0PROID"  jdbcType="VARCHAR" />
+       <result column="G0PROTX"        property="g0PROTX"  jdbcType="VARCHAR" />
+       <result column="K0ZTJHTZ"       property="k0ZTJHTZ"  jdbcType="DECIMAL" />
+       <result column="K0NDJHTZ"       property="k0NDJHTZ"  jdbcType="DECIMAL" />
+       
+       <result column="K0LJJHTZ"     property="k0LJJHTZ"  jdbcType="DECIMAL" />
+       <result column="K0NDJE"       property="k0NDJE"  jdbcType="DECIMAL" />
+       <result column="K0LJJE"       property="k0LJJE"  jdbcType="DECIMAL" />
+       <result column="K0SNYE"       property="k0SNYE"  jdbcType="DECIMAL" />
+       <result column="K0BNYE"       property="k0BNYE"  jdbcType="DECIMAL" />
+       <result column="G0PRNAM"      property="g0PRNAM"  jdbcType="VARCHAR" />
+       <result column="G0GJAHRTZ"    property="g0GJAHRTZ"  jdbcType="VARCHAR" />
+       <result column="G0POSID"      property="g0POSID"  jdbcType="VARCHAR" />
+       <result column="G0POST1"      property="g0POST1"  jdbcType="VARCHAR" />
+     </resultMap>
+     
+     
+     
+     <!-- 研发费统计计表--> 
+	 <select id="getYfftjData" resultMap="financialResultMap" parameterType="java.util.Map" >
+	    SELECT
+				'总计' AS "G0BK",
+				  ROUND(sum("K0SNYE")/10000,2) AS "K0SNYE",
+				  ROUND(sum("K0BNYE")/10000,2) AS "K0BNYE" 
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_TJ_1001_01"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$', '${month}')
+			) 
+			
+			UNION ALL 
+			
+			SELECT
+				 "G0BK",
+				 sum("K0SNYE") AS "K0SNYE",
+				 sum("K0BNYE") AS "K0BNYE" 
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_TJ_1001_01"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$', '${month}')
+			) 
+			GROUP BY"G0BK"
+			order by "G0BK"
+	    
+	 </select>
+	 
+	 <sql id="getTzxmwcqktjbDetai_sql">
+	       SELECT
+				 "G0BK",
+				 "G0GSDM",
+				 "G0GSJC",
+				 "G0ZZKM",
+				 "G0ZZKMTX",
+				 "G0CURRCY",
+				 ROUND(sum("K0SNYE")/10000,2) AS "K0SNYE",
+				 ROUND(sum("K0BNYE")/10000,2) AS "K0BNYE" 
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_TJ_1001_01"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$', '${month}')
+			) 
+			   <if test="g0BK != null and g0BK !=''"> 
+			     where G0BK='${g0BK}'
+			   </if>   
+			 
+			GROUP BY
+				 "G0BK",
+				 "G0GSDM",
+				 "G0GSJC",
+				 "G0ZZKM",
+				 "G0ZZKMTX",
+				 "G0CURRCY"
+			order by "G0BK","G0GSDM" 
+	 </sql>
+	 
+      <select id="getYfftjDetailData" resultMap="financialResultMap" parameterType="java.util.Map" >
+        <include refid="getTzxmwcqktjbDetai_sql"></include>
+        <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+     </select>
+      <select id="getYfftjDetailDataCount" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getTzxmwcqktjbDetai_sql"></include>)
+     </select>
+     
+     
+     
+     
+     
+     
+     <!-- 技术改造统计 --> 
+	 <select id="getJsgztjData" resultMap="financialResultMap" parameterType="java.util.Map" >
+	      SELECT
+			     '总计' AS "G0BK",
+				 ROUND(sum("K0NDJHTZ")/10000,2) AS "K0NDJHTZ",
+				 ROUND( sum("K0NDJE")/10000,2) AS "K0NDJE"
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_TJ_1001_02"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}')
+			) 
+			      
+			UNION ALL 
+			
+			SELECT
+			     "G0BK",
+				 sum("K0NDJHTZ") AS "K0NDJHTZ",
+				 sum("K0NDJE") AS "K0NDJE"
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_TJ_1001_02"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}')
+			) 
+				 GROUP BY
+			      "G0BK"         
+			ORDER BY "G0BK"
+	      
+	 </select>
+	 
+	 <sql id="getJsgztjDataDetai_sql">
+	    SELECT
+		      "G0BK",
+			 "G0GSDM",
+			 "G0GSDMTX",
+			 "G0PRNAM",
+			 "G0GJAHRTZ",
+			 "G0POSID",
+			 "G0POST1",
+			 "G0PROID",
+			 "G0PROTX",
+			 ROUND(sum("K0ZTJHTZ")/10000,2) AS "K0ZTJHTZ",
+			 ROUND(sum("K0NDJHTZ")/10000,2) AS "K0NDJHTZ",
+			 ROUND(sum("K0LJJHTZ")/10000,2) AS "K0LJJHTZ",
+			 ROUND(sum("K0NDJE")/10000,2) AS "K0NDJE",
+			 ROUND(sum("K0LJJE")/10000,2) AS "K0LJJE" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_TJ_1001_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}')) 
+			 
+			 <if test="g0BK != null and g0BK !=''"> 
+			     where G0BK='${g0BK}'
+			   </if> 
+			   
+		GROUP BY
+		      "G0BK",
+			 "G0GSDM",
+			 "G0GSDMTX",
+			 "G0PRNAM",
+			 "G0GJAHRTZ",
+			 "G0POSID",
+			 "G0POST1",
+			 "G0PROID",
+			 "G0PROTX"
+		ORDER BY "G0BK", "G0GSDM","G0PROID"
+	    
+	 </sql>
+	 
+      <select id="getJsgztjDetailData" resultMap="financialResultMap" parameterType="java.util.Map" >
+        <include refid="getJsgztjDataDetai_sql"></include>
+        <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+     </select>
+      <select id="getJsgztjDetailDataCount" resultType="int"  parameterType="java.util.Map" >
+         SELECT COUNT(*) FROM( <include refid="getJsgztjDataDetai_sql"></include>)
+     </select>
+     
 	 
 	 
 	 

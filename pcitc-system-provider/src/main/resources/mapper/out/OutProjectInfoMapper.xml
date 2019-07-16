@@ -1870,6 +1870,18 @@
 			</if>
 	</select>
 	
+	<!-- 领导页，总的预算金额，按专业处 -->
+	<select id="getProjectBudgetMoney" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+        	round(sum(jfyszjys),4) as budgetMoney
+		from out_tem_money_decompose
+		where 
+			out_tem_money_decompose.nd = '${nd}'
+			<if test="zycbm != null and zycbm != ''">
+				and find_in_set(unit_code, '${zycbm}')
+			</if>
+	</select>
+	
 	<!-- 研究院首页计算装备和科研合同总数 -->
 	<select id="getOutProjectInfoCountWithKYZB" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 

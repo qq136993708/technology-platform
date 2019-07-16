@@ -56,6 +56,17 @@ public enum BudgetOrganEnum
 		}
 		return null;
 	}
+	public static BudgetOrganEnum getByUnitCode(String unitCode)
+	{
+		for(BudgetOrganEnum v:BudgetOrganEnum.values()) 
+		{
+			if(v.getUnitCode().equals(unitCode)) 
+			{
+				return v;
+			}
+		}
+		return null;
+	}
 	
 	private Integer id;
 	private String code;

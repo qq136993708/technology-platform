@@ -1,4 +1,5 @@
 package com.pcitc.service.impl;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Page;
 import com.pcitc.base.hana.report.BrandConstructionPay;
 import com.pcitc.base.hana.report.DayCashFlow;
+import com.pcitc.base.hana.report.Financial;
 import com.pcitc.base.hana.report.InvisibleCapitalDevelop;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee01;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee02;
@@ -540,6 +542,143 @@ public class DecisionFinancialServiceImpl implements IDecisionFinancialService {
 	      }
 		  
 		  
+		  
+		  
+		  
+		  
+		  
+		    //研发费统计统计表
+			public LayuiTableData getYfftjData(LayuiTableParam param)throws Exception
+		  	{
+		  		//每页显示条数
+		  		int pageSize = param.getLimit();
+		  		//从第多少条开始
+		  		//int pageStart = (param.getPage()-1)*pageSize;
+		  		//当前是第几页
+		  		int pageNum = param.getPage();
+		  		Page p=new Page(pageNum,pageSize);
+				int start=(pageNum-1)*p.getPageSize();
+		  		String month=(String)param.getParam().get("month");
+		  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
+		  		Map map=new HashMap();
+		  		map.put("start", start);
+		  		map.put("pageSize", pageSize);
+		  		map.put("month", month);
+		  		
+		  		List<Financial> list = scientificBaseBuildFeeMapper.getYfftjData(map);
+		  		if(list!=null && list.size()==1)
+		  		{
+		  			list=new ArrayList<Financial>();
+		  		}
+		  		System.out.println(">>>>>>投资项目完成情况统计表>>>查询分页结果");
+		  		LayuiTableData data = new LayuiTableData();
+		  		data.setData(list);
+		  		data.setCount(1000);
+		  	    return data;
+		  	}
+			
+			public LayuiTableData getYfftjDetailData(LayuiTableParam param)throws Exception
+		  	{
+				 //每页显示条数
+		  		int pageSize = param.getLimit();
+		  		int pageNum = param.getPage();
+		  		Page p=new Page(pageNum,pageSize);
+				int start=(pageNum-1)*p.getPageSize();
+		  		String month=(String)param.getParam().get("month");
+		  		String g0BK=(String)param.getParam().get("g0BK");
+		  		
+		  		logger.info("=====getTzxmwcqktjbDetailPage param: "+JSONObject.toJSONString(param));
+		  		Map map=new HashMap();
+		  		map.put("start", start);
+		  		map.put("pageSize", pageSize);
+		  		map.put("month", month);
+		  		map.put("g0BK", g0BK);
+		  		
+		  		
+		  		List<Financial> list = scientificBaseBuildFeeMapper.getYfftjDetailData(map);
+		  		
+		  		Integer totalRecords = scientificBaseBuildFeeMapper.getYfftjDetailDataCount(map);
+		  		System.out.println(">>>>>>totalRecords："+totalRecords);
+		  		LayuiTableData data = new LayuiTableData();
+		  		data.setData(list);
+		  		data.setCount(totalRecords);
+				
+		  	    return data;
+				
+				
+		  	}
+			
+			
+			
+			 //技术改造统计表
+			public LayuiTableData getJsgztjData(LayuiTableParam param)throws Exception
+		  	{
+		  		//每页显示条数
+		  		int pageSize = param.getLimit();
+		  		//从第多少条开始
+		  		//int pageStart = (param.getPage()-1)*pageSize;
+		  		//当前是第几页
+		  		int pageNum = param.getPage();
+		  		Page p=new Page(pageNum,pageSize);
+				int start=(pageNum-1)*p.getPageSize();
+		  		String month=(String)param.getParam().get("month");
+		  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
+		  		Map map=new HashMap();
+		  		map.put("start", start);
+		  		map.put("pageSize", pageSize);
+		  		map.put("month", month);
+		  		
+		  		List<Financial> list = scientificBaseBuildFeeMapper.getJsgztjData(map);
+		  		if(list!=null && list.size()==1)
+		  		{
+		  			list=new ArrayList<Financial>();
+		  		}
+		  		System.out.println(">>>>>>投资项目完成情况统计表>>>查询分页结果");
+		  		LayuiTableData data = new LayuiTableData();
+		  		data.setData(list);
+		  		data.setCount(1000);
+		  	    return data;
+		  	}
+			
+			public LayuiTableData getJsgztjDetailData(LayuiTableParam param)throws Exception
+		  	{
+				 //每页显示条数
+		  		int pageSize = param.getLimit();
+		  		int pageNum = param.getPage();
+		  		Page p=new Page(pageNum,pageSize);
+				int start=(pageNum-1)*p.getPageSize();
+		  		String month=(String)param.getParam().get("month");
+		  		String g0BK=(String)param.getParam().get("g0BK");
+		  		
+		  		logger.info("=====getTzxmwcqktjbDetailPage param: "+JSONObject.toJSONString(param));
+		  		Map map=new HashMap();
+		  		map.put("start", start);
+		  		map.put("pageSize", pageSize);
+		  		map.put("month", month);
+		  		map.put("g0BK", g0BK);
+		  		
+		  		
+		  		List<Financial> list = scientificBaseBuildFeeMapper.getJsgztjDetailData(map);
+		  		
+		  		Integer totalRecords = scientificBaseBuildFeeMapper.getJsgztjDetailDataCount(map);
+		  		System.out.println(">>>>>>totalRecords："+totalRecords);
+		  		LayuiTableData data = new LayuiTableData();
+		  		data.setData(list);
+		  		data.setCount(totalRecords);
+				
+		  	    return data;
+				
+				
+		  	}
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		  
 		  
 

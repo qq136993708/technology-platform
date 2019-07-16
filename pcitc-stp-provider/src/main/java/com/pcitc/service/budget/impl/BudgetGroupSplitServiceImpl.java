@@ -103,6 +103,9 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 	{
 		BudgetInfo info = budgetInfoMapper.selectByPrimaryKey(budgetInfoId);
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
+		if(info == null) {
+			return rsdata;
+		}
 		//检索数据
 		BudgetSplitDataExample example = new BudgetSplitDataExample();
 		BudgetSplitDataExample.Criteria c = example.createCriteria();

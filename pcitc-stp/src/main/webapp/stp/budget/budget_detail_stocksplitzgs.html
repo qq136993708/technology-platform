@@ -51,7 +51,7 @@
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
                 <thead>
 	                <tr>
-	                	<th lay-data="{field:'no',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">序号</th>
+	                	<th lay-data="{type:'numbers',align: 'center', width: '5%',totalRowText: '合计'}" rowspan="2">序号</th>
 	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
 	                    <!--  <th lay-data="{field:'total', width: '6%',align: 'center',totalRow: true}" rowspan="2">合计</th> -->
 	                    <#list items as item>

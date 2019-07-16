@@ -116,5 +116,14 @@ public interface IDecisionFinancialService
 	  public LayuiTableData getXjrllfx(LayuiTableParam param)throws Exception;
 	  
 	  
+	  public LayuiTableData getYfftjData(LayuiTableParam param)throws Exception;
+	  public LayuiTableData getYfftjDetailData(LayuiTableParam param)throws Exception;
+	  
+	  
+	  
+	  public LayuiTableData getJsgztjData(LayuiTableParam param)throws Exception;
+	  public LayuiTableData getJsgztjDetailData(LayuiTableParam param)throws Exception;
+	  
+	  
       
 }

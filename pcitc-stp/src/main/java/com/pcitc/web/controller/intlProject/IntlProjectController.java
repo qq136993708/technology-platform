@@ -1,5 +1,7 @@
 package com.pcitc.web.controller.intlProject;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -298,4 +300,9 @@ public class IntlProjectController extends BaseController
 	{
 		return "stp/intlproject/project_report";
     }
+	@RequestMapping(method = RequestMethod.GET, value = "/project/info_list_manager")
+	public String toManagerPage(HttpServletRequest request) throws IOException 
+	{
+		return "stp/intlproject/info_list_manager";
+	}
 }

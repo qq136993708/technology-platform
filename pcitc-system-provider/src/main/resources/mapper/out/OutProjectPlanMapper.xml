@@ -1892,6 +1892,9 @@
 					   <if test="showType != null and showType != ''.toString() ">
 					   	   and out_project_plan.PROJECT_PROPERTY = '${showType}'
 					   </if>
+					   <if test="xmmc != null and xmmc != ''.toString() ">
+					   	   and out_project_plan.XMMC like '%${xmmc}%'
+					   </if>
 					   <if test="xmlb != null and xmlb == '科研装备' ">
 					   	   and out_project_plan.XMLBMC = '${xmlb}'
 					   </if>
@@ -1899,14 +1902,17 @@
 					   	   and out_project_plan.XMLBMC != '科研装备'
 					   </if>
 					   <if test="startDate != null and startDate != ''.toString() ">
-					   	   and STRCMP(out_project_plan.KSSJ, ${orderKey}) > 0
+					   	   and STRCMP(out_project_plan.KSSJ, '${startDate}') &gt;= 0
+					   </if>
+					   <if test="endDate != null and endDate != ''.toString() ">
+					   	   and STRCMP(out_project_plan.KSSJ, '${endDate}') &lt;= 0
 					   </if>
 				group by out_project_plan.XMID
-				<if test="orderKey != null and orderKey != ''">
-					<if test="orderType != null and orderType != ''">
+				<if test="orderKey != null">
+					<if test="orderType != ''">
 						order by ${orderKey} ${orderType}
 					</if>
-					<if test="orderType == null or orderType == ''">
+					<if test="orderType == ''">
 						order by ${orderKey} desc
 					</if>
 				</if>

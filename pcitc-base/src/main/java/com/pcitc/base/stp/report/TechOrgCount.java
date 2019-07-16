@@ -119,10 +119,16 @@ public class TechOrgCount {
     
     private String lay_icon;
     
+    private String pId;
     
     
     
-    
+	public String getpId() {
+		return pId;
+	}
+	public void setpId(String pId) {
+		this.pId = pId;
+	}
 	public boolean isLay_is_open() {
 		return lay_is_open;
 	}

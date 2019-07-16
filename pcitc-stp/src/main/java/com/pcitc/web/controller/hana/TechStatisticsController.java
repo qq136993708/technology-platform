@@ -547,6 +547,10 @@ public class TechStatisticsController extends BaseController{
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		
+		System.out.println("---------------tech_org_statistics_list:" +result.toString());
+		
+		
 		// 安全设置：归档文件下载
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Cache-Control", "no-cache");

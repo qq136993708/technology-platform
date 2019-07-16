@@ -21,11 +21,10 @@
                 <div class="layui-card-header-lab layui-card-header-l">
                     	国家级研发机构
                 </div>
-                <div class="layui-card-body btn-function">
+                <div class="layui-card-body btn-function" style="padding: 10px;">
                     <div class="layui-country">
-                        <p class="layui-country-p">国家级研发机构</p>
-                        <div id="countryUnit" class="layui-country-div">
-                            
+                        <div class="layui-country-div">
+                            <table id="countryUnit" class="layui-hide" lay-filter="countryUnit"></table>
                         </div>
                     </div>
                 </div>
@@ -239,7 +238,57 @@
     	layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
         	var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             //国家级
-            publicMethods.ajaxAsyncPost("/laboratoryBase/listByBak1",{"bak1":"国家级研发机构"}, function (data) {
+            function renderTable() {
+                var lodingMsg = layer.msg('数据加载中....');
+                //渲染
+                table.render({
+                    elem : '#countryUnit',
+                    url : '/laboratoryBase/getTableData',
+                    method : "POST",
+                    where : {param:{"bak1":"国家级研发机构"}},
+                    limit : 10,
+                    id : 'countryUnit',
+                    height : commonDislodgeTable()-200,
+                    page : {
+                        groups : 5,
+                        limits : [ 10, 15, 30, 45, 60 ],
+                        layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+                        first : '首页', //不显示首页
+                        last : '尾页', //不显示尾页
+                        theme : '#0F9EE0'
+                    },
+                    cols : [ [  {
+                        title : '序号',
+                        type : 'numbers',
+                        width : 45
+                    }, {
+                        field : 'orgName',
+                        title : '实验室名称',
+                        width : '44%',
+                        style : 'cursor: pointer;'
+                    }, {
+                        field : 'dependentUnit',
+                        title : '依托单位',
+                        style : 'cursor: pointer;'
+                    }]],
+                    done : function(res, curr, count) {
+                        // 关闭等待刷新
+                        layer.close(lodingMsg);
+                        // 点击行联动选择框--单选
+                        $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+                            var index = parseInt($(this).index() + 1);
+                            $('tr').removeClass('layui-table-click');
+                            $(this).addClass('layui-table-click');
+                            $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                            $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                            selectRowData = res.data[index - 1];
+                        });
+                    }
+                });
+                $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+            }
+            renderTable();
+            /*publicMethods.ajaxAsyncPost("/laboratoryBase/listByBak1",{"bak1":"国家级研发机构"}, function (data) {
                 var middNumber=Math.ceil(data.length/2);
                 console.log(data)
     			$.each(data,function(i,d){
@@ -261,7 +310,7 @@
                     }
     				$("#countryUnit").append(html);          
     			});
-	   		}); 
+	   		}); */
         });
     </script>
 </body>

@@ -589,9 +589,12 @@
             },
             success : function(data) {
                 var projectMoney = data.data.projectMoney;
-                var tt = parseFloat(projectMoney) / 10000;
+                var budgetMoney = data.data.budgetMoney;
+                var tt1 = parseFloat(projectMoney) / 10000;
+                var tt2 = parseFloat(budgetMoney) / 10000;
 
-                $("#moneyCurrent").html(tt.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
+                $("#moneyTotal").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
+                $("#moneyCurrent").html(tt1.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
             }
         });
     }

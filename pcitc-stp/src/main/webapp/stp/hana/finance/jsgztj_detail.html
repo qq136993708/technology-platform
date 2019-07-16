@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+
+
+<div class="">
+<input  name="month"          id="month"        value="${month}"   type="hidden">
+<input  name="g0BK"    id="g0BK"  value="${g0BK}"   type="hidden">
+    
+    
+</div>
+
+<div class="tableBox" style="clear:both">
+
+<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>${monthstr}${g0BK}技改支出统计表</h3>
+<h3 style="font-weight: bold;text-align: right;margin: 10px 0;" id="stp_table_title"><label id="ttt" ></label>(单位：万元)</h3>
+
+ <table id="myTable2" class="layui-hide" lay-filter="myTable2">
+</div>
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+      function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else { 
+            return '';
+        }
+    }
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+   <script src="/stp/hana/common/hana_common.js"></script>
+<script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+var table,selectRowData,form,laydate;
+
+
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery;
+      table = layui.table;
+      form = layui.form
+      laydate = layui.laydate;
+	 form.render(null, 'component-form-group');
+
+            
+           //加载表格      
+    	     renderTable();
+    	     //移除表头的复选框,去掉全选
+    	     $(".layui-table-header table thead th input").remove();  
+
+      
+        //监听排序
+        table.on('sort(processdef-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('processdef-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    orderKey: obj.field, //排序字段
+                    orderType: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        
+    });
+    
+
+
+    
+    function renderTable()
+    {
+    	var month=$('#month').val();
+    	month=month.replace("-","");
+      //渲染
+      table.render({
+        elem: '#myTable2',
+        url: '/jsgztj_detail_data',
+        method:"POST",
+        where: {param: {"month":month, "g0BK":$("#g0BK").val()}},
+        id: 'myTable2',
+        limit: 10,
+        page: {
+            groups: 5,
+            limits: [10,20,30,40],
+            layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+            first: '首页', //不显示首页
+            last: '尾页', //不显示尾页
+            theme: '#0F9EE0'
+        },
+        cols: [[
+            {field:'g0BK',              title:'板块',             style:'cursor: pointer;',align: 'center', width: '9%'},
+            {field:'g0GSDM',            title:'公司代码',          style:'cursor: pointer;',align: 'center', width: '9%'},
+            {field:'g0GSDMTX',          title:'公司简称',          style:'cursor: pointer;',align: 'left', width: '20%'},
+            {field:'g0PRNAM',           title:'投资程序名称',       style:'cursor: pointer;',align: 'center', width: '10%'},
+            {field:'g0GJAHRTZ',         title:'投资程序的批准年度',   style:'cursor: pointer;',align: 'center', width: '10%'},
+            {field:'g0POSID',           title:'投资程序定位标识',    style:'cursor: pointer;',align: 'center', width: '9%'},
+            {field:'g0POST1',           title:'投资程序定位标识描述', style:'cursor: pointer;',align: 'left', width: '9%'},
+            {field:'g0PROID',           title:'项目编码',          style:'cursor: pointer;',align: 'right', width: '9%'},
+            {field:'g0PROTX',           title:'项目描述',          style:'cursor: pointer;',align: 'left', width: '20%'},
+            {field:'k0ZTJHTZ',          title:'项目总体资金',       style:'cursor: pointer;',align: 'right', width: '9%'},
+            {field:'k0NDJHTZ',          title:'年度计划资金',       style:'cursor: pointer;',align: 'right', width: '9%'},
+            {field:'k0LJJHTZ',          title:'累计年度计划资金',    style:'cursor: pointer;',align: 'right', width: '9%'},
+            {field:'k0NDJE',            title:'当年值',           style:'cursor: pointer;',align: 'right', width: '9%'},
+            {field:'k0LJJE',            title:'累计值',           style:'cursor: pointer;',align: 'right', width: '9%'}
+            
+        ]],
+        done: function (res, curr, count) {
+            // 点击行联动选择框--单选
+            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+            	var index=parseInt($(this).index()+1);
+                $('tr').removeClass('layui-table-click');
+                $(this).addClass('layui-table-click');
+                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                selectRowData=res.data[index-1];
+            });
+            
+            
+        }
+      });
+      
+      
+}
+    
+    
+    function exput_excel()
+    {
+    	var companyCode=$('#companyCode').val();
+    	var month=$('#month').val();
+    	window.open("/tzxmwcqktjb_detail_data_exput_excel?month="+month+"&companyCode="+companyCode);
+    } 
+       
+   
+   
+
+</script>
+
+</body>
+</html>

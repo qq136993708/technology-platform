@@ -702,6 +702,53 @@ public class DecisionFinancailProviderClient {
 	{
 		return decisionFinancialService.getXjrllfx(param) ;
 	}
+	
+	
+	
+	
+	
+
+	@ApiOperation(value = "研发费统计统计表", notes = "研发费统计统计表")
+	@RequestMapping(value = "/yfftj", method = RequestMethod.POST)
+	public LayuiTableData yfftj(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return decisionFinancialService.getYfftjData(param);
+	}
+	
+	
+	
+	@ApiOperation(value = "详情-研发费统计统计表", notes = "详情-研发费统计统计表")
+	@RequestMapping(value = "/yfftj_detail", method = RequestMethod.POST)
+	public LayuiTableData yfftj_detail(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return decisionFinancialService.getYfftjDetailData(param);
+	}
+	
+	
+	
+	
+	
+
+	@ApiOperation(value = "技术改造统计表", notes = "技术改造统计表")
+	@RequestMapping(value = "/jsgztj", method = RequestMethod.POST)
+	public LayuiTableData jsgztj(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return decisionFinancialService.getJsgztjData(param);
+	}
+	
+	
+	
+	@ApiOperation(value = "详情-技术改造统计表", notes = "详情-技术改造统计表")
+	@RequestMapping(value = "/jsgztj_detail", method = RequestMethod.POST)
+	public LayuiTableData jsgztj_detail(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return decisionFinancialService.getJsgztjDetailData(param);
+	}
+	
+	
+	
+	
+	
 }
 	
 	

@@ -14,18 +14,16 @@
 </head>
 <body>
 <div class="cycle">
-    <p class="cycle-title">重大项目</p>
     <div class="cycle-search">
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="start" placeholder="启动时间">
+            <input type="text" class="layui-input" id="startDate" name="startDate" placeholder="开始时间">
         </div>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="end" placeholder="结束时间">
+            <input type="text" class="layui-input" id="endDate" name="endDate" placeholder="结束时间">
         </div>
+        
         <div class="layui-input-inline">
-            <select name="" id="">
-                <option>负责人</option>
-            </select>
+            <input type="text" class="layui-input" id="xmmc" name="xmmc" autocomplete="off"  placeholder="项目名称">
         </div>
         <div class="btnGroup">
             <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
@@ -47,25 +45,64 @@
     layui.use(['jquery', 'form', 'laydate', 'table', 'laypage','laytpl','publicMethods'], function () {
         var table = layui.table, util = layui.laytpl, form = layui.form, laydate = layui.laydate, $ = layui.jquery,
             laytpl = layui.laytpl, publicMethods = layui.publicMethods;
-        function renderTable(where){
+        
+        //开始日期
+        var insStart = laydate.render({
+            elem: '#startDate',
+            type: 'month',
+            value : '${startDate}',
+            done: function(value, date){
+                //更新结束日期的最小日期
+                insEnd.config.min = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+                //自动弹出结束日期的选择器
+                insEnd.config.elem[0].focus();
+            }
+        });
+        //结束日期
+        var insEnd = laydate.render({
+            elem: '#endDate',
+            type: 'month',
+            value : '${endDate}',
+            done: function(value, date){
+                //更新开始日期的最大日期
+                insStart.config.max = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+            }
+        });
+        
+        function renderTable(){
+        	var param = JSON.parse(window.localStorage.getItem("param"));
             var lodingMsg = layer.msg('数据加载中....');
             //渲染
+            
             table.render({
                 elem: '#userTable',
                 url: '/whole-process/science/data/list',
-                limit : 10,
+                where : {
+					param : {
+						"showType" : '重大专项',
+						"xmlb" : '非科研装备',
+						"xmmc" : $('#xmmc').val(),
+						"startDate" : $('#startDate').val(),
+						"endDate" : $('#endDate').val(),
+						"functionCode" : param.code
+					}
+				},
+				limit : 5,
                 method:"POST",
-                where: where,
                 id: 'userTable',
                 height:40,
-                page: {
-                    groups: 5
-                    ,limits : [ 10, 15, 30, 45, 60 ]
-                    ,layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                    ,first: '首页' //不显示首页
-                    ,last: '尾页' //不显示尾页
-                    ,theme: '#0F9EE0'
-                },
+                page : {
+					groups : 5,
+					limits : [ 5, 15, 30, 45, 60 ],
+					layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+					first : '首页', //不显示首页
+					last : '尾页', //不显示尾页
+					theme : '#0F9EE0'
+				},
                 cols: [[
                     {type:'checkbox',event: 'changeEvents',width : 55}
                     ,{title:'序号', type:'numbers',width : 55}
@@ -114,7 +151,22 @@
                 }
             });
         }
-        renderTable()
+        renderTable();
+        
+        var $ = layui.$;
+		var active = {
+			searchEvent : function() { //点击查询按钮
+				selectRowData = '';
+				renderTable();
+			}
+		}
+		
+		//区别按钮属性
+		$('.layui-btn').on('click', function() {
+			var type = $(this).data('type');
+			active[type] ? active[type].call(this) : '';
+		});
+		
         function totalEvents() {
             $(".cycle-cont").each(function (i,val) {
                 var widthDiv=(86/($(".cycle-cont:eq("+i+") .cycle-item>div").length-1));
@@ -123,18 +175,17 @@
             $(".cycle-cont-right").click(function () {
                 //当前id
                 var id=$(this).parents(".cycle-cont").attr("id");
-                alert(id);
                 layer.open({
-                    title:'项目进展详情'
-                    ,skin: 'layui-layer-lan'
-                    ,shadeClose: false
-                    ,type: 2
-                    ,id:"cycle"
-                    ,fixed: false
+                    title:'项目进展详情',
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    id:"cycle",
+                    fixed: false,
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                    ,maxmin: true
+                    maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    ,area: ['70%', '90%'],
+                    area: ['70%', '90%'],
                     content: "/whole-process/science/details?xmid="+id,
                     success: function (layero, index) {
                         var iframe = window['layui-layer-iframe' + index];
@@ -144,30 +195,7 @@
                 });
             });
         }
-        //开始日期
-        var insStart = laydate.render({
-            elem: '#start'
-            ,min: 0
-            ,done: function(value, date){
-                //更新结束日期的最小日期
-                insEnd.config.min = lay.extend({}, date, {
-                    month: date.month - 1
-                });
-                //自动弹出结束日期的选择器
-                insEnd.config.elem[0].focus();
-            }
-        });
-        //结束日期
-        var insEnd = laydate.render({
-            elem: '#end'
-            ,min: 0
-            ,done: function(value, date){
-                //更新开始日期的最大日期
-                insStart.config.max = lay.extend({}, date, {
-                    month: date.month - 1
-                });
-            }
-        });
+        
     });
 
 </script>

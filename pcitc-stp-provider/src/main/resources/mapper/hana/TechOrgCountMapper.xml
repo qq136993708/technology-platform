@@ -58,12 +58,7 @@
     <result column="write_type"        property="writeType"      jdbcType="VARCHAR" />
     <result column="parent_id"         property="parentId"       jdbcType="VARCHAR" />
     <result column="statistics_type"   property="statisticsType" jdbcType="VARCHAR" />
-     
-     
-     
-     
-     
-     
+    <result column="p_id"   property="pId" jdbcType="VARCHAR" />
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -78,7 +73,7 @@
     thesis_all_count, thesis_sci_count, thesis_ei_count, thesis_istp_count, thesis_isr_count, 
     audit_status, notes,parent_unit_code,parent_unit_name,attachment_doc,year,
     thesis_sci_inner_count,thesis_ei_inner_count
-    ,device_innner_assets,write_type,parent_id,statistics_type
+    ,device_innner_assets,write_type,parent_id,statistics_type,parent_id AS p_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -739,7 +734,7 @@
 	</sql>
     
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from tech_org_count t <include refid="selectCondition" />    
+     select t.*,t.parent_id AS p_id from tech_org_count t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
@@ -764,6 +759,7 @@
       SELECT 
           '-' AS id ,
           '-' AS parent_id,
+          '-' AS p_id,
 		  '-' AS YEAR ,
 		  '-' AS  TYPE,
 		  '-' AS  create_user_name,
@@ -818,6 +814,7 @@
 	SELECT 
 		  t.id,
 		  t.parent_id,
+		  t.parent_id AS p_id,
 		  t.`year`,
 		  t.`type`,
 		  t.`create_user_name`,
@@ -825,7 +822,6 @@
 		  t.`parent_unit_name`,
 		  t.`statistics_type`,
 		  t.`write_type`,
-		  
 		  t.`create_date`,
 		  t.`audit_status`,
 		  t.`workers_count`,
@@ -885,6 +881,7 @@
    SELECT 
           '-' AS id ,
           '-' AS parent_id,
+          '-' AS p_id,
 		  '-' AS YEAR ,
 		  '-' AS  TYPE,
 		  '-' AS  create_user_name,

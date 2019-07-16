@@ -104,10 +104,13 @@ public class BudgetStockSplitXtwServiceImpl implements BudgetStockSplitXtwSplitS
 	{
 		BudgetInfo info = budgetInfoMapper.selectByPrimaryKey(budgetInfoId);
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
+		if(info == null) {
+			return rsdata;
+		}
 		//检索数据
 		BudgetSplitDataExample example = new BudgetSplitDataExample();
 		BudgetSplitDataExample.Criteria c = example.createCriteria();
-		c.andBudgetInfoIdEqualTo(info.getDataId());
+		c.andBudgetInfoIdEqualTo(budgetInfoId);
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		List<BudgetSplitData> datas =  budgetSplitDataMapper.selectByExample(example);
 		//检索分类
