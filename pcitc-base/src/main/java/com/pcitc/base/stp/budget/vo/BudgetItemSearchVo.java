@@ -15,9 +15,9 @@ public class BudgetItemSearchVo
 	//检索参数【年度】
 	private String nd;
 	//检索参数【单位编码列表】
-	private List<String> unitIds;
+	private List<String> unitIds = new ArrayList<String>();
 	//检索参数【预算项编码列表】
-	private List<String> budgetItemCodes;
+	private List<String> budgetItemCodes = new ArrayList<String>();
 	
 	
 	private List<Map<String,Object>> rsItems = new ArrayList<Map<String,Object>>();

@@ -25,7 +25,7 @@ public enum BudgetStockEnum
 	SPLIT_STOCK_YK(305,"GFFYK","ROOT_ZGSHJT_GFGS_SHYK","盈科"),
 	SPLIT_STOCK_XSD(306,"GFFXSD","ROOT_ZGSHJT_GFGS_XSDYFZX","休斯顿研发中心"),
 	SPLIT_STOCK_ZD(307,"GFFZD","ROOT_ZGSHJT_GFGS_ZDYFZX","中东研发中心"),
-	SPLIT_STOCK_MYSGZS(308,"MYSGZS","ROOT_ZGSHJT_GFGS_ZDYFZX","马永生工作室");			
+	SPLIT_STOCK_MYSGZS(308,"MYSGZS","ROOT_ZGSHJT_GFGS_MYSGZS","马永生工作室");			
 	
 	//股份公司分类
 	public static List<BudgetStockEnum> getStockSplitTypes()
@@ -56,6 +56,17 @@ public enum BudgetStockEnum
 		for(BudgetStockEnum v:BudgetStockEnum.values()) 
 		{
 			if(v.getCode().equals(code)) 
+			{
+				return v;
+			}
+		}
+		return null;
+	}
+	public static BudgetStockEnum getByUnitCode(String unitCode)
+	{
+		for(BudgetStockEnum v:BudgetStockEnum.values()) 
+		{
+			if(v.getUnitCode().equals(unitCode)) 
 			{
 				return v;
 			}

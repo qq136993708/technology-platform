@@ -2,9 +2,11 @@ package com.pcitc.web.budget;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetOrganEnum;
+import com.pcitc.base.common.enums.BudgetStockEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
@@ -55,6 +58,21 @@ public class BudgetSplitManagerProviderClient
 				for(java.util.Iterator<String> biter = vo.getBudgetItemCodes().iterator();biter.hasNext();) 
 				{
 					String itemCode = biter.next();
+					Set<String> codes = new HashSet<String>();
+					//如果是研究院
+					if(BudgetStockEnum.SPLIT_STOCK_YJY.getUnitCode().equals(itemCode)) 
+					{
+						codes.add(BudgetStockEnum.SPLIT_STOCK_YJY_KTY.getCode());
+						codes.add(BudgetStockEnum.SPLIT_STOCK_YJY_GCY.getCode());
+						codes.add(BudgetStockEnum.SPLIT_STOCK_YJY_WTY.getCode());
+						codes.add(BudgetStockEnum.SPLIT_STOCK_YJY_SKY.getCode());
+						codes.add(BudgetStockEnum.SPLIT_STOCK_YJY_FSY.getCode());
+						codes.add(BudgetStockEnum.SPLIT_STOCK_YJY_BHY.getCode());
+						codes.add(BudgetStockEnum.SPLIT_STOCK_YJY_SHY.getCode());
+						codes.add(BudgetStockEnum.SPLIT_STOCK_YJY_AGY.getCode());
+					}else {
+						codes.add(BudgetStockEnum.getByUnitCode(itemCode).getCode());
+					}
 					BudgetOrganEnum organ = BudgetOrganEnum.getByUnitCode(unitId);
 					Map<String,Object> map = new HashMap<String,Object>();
 					map.put("unitId", unitId);
@@ -62,13 +80,11 @@ public class BudgetSplitManagerProviderClient
 					map.put("total", 0d);
 					map.put("jz", 0d);
 					map.put("xq", 0d);
-					
-					
 					if(organ != null) 
 					{
 						Optional<BudgetSplitData> dt = datas.stream()
 								.filter(a -> a.getOrganCode().equals(organ.getCode()))
-								.filter(a -> a.getSplitCode().equals(itemCode))
+								.filter(a -> codes.contains(a.getSplitCode()))
 								.findFirst();
 						if(dt != null && dt.isPresent()) 
 						{
