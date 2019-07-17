@@ -25,7 +25,7 @@ public enum BudgetOrganEnum
 	ORG_JD(17,"JD","","机动"),
 	
 	ORG_KTKFC(21,"KTKFC","30130064","勘探开发处"),
-	ORG_GCJSC(22,"GCJSC","30130065","工程技术处");
+	ORG_GCJSC(22,"GCJSC","30130065","石油工程处");
 	
 	
 	private BudgetOrganEnum(Integer id,String code,String unitCode,String name) {
