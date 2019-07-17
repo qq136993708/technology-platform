@@ -982,7 +982,6 @@ function set_multi_graph_statistics(data, id) {
 		var fxyMoney = getDataCountForNameFloat(data, '费用性科研投入');
 		var zbxMoney = getDataCountForNameFloat(data, '资本性科研投入');
 		var totalMoney = getDataCountForNameFloat(data, '总预算科研投入');
-		
 		$("#investment_chart1_01").html(totalMoney.toFixed(2) + "亿元");
 		$("#investment_chart1_02").html(fxyMoney.toFixed(2) + "亿元");
 		$("#investment_chart1_03").html(zbxMoney.toFixed(2) + "亿元");

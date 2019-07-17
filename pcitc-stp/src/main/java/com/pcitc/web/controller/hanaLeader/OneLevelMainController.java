@@ -203,21 +203,27 @@ public class OneLevelMainController extends BaseController {
 								investMoney6 = investMoney6 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_JTDW");
 							}
 							System.out.println("===111============"+investMoney1+"===="+investMoney2);
+							investMoney1 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney1)));
+							investMoney2 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney2)));
+							investMoney3 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney3)));
+							investMoney4 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney4)));
+							investMoney5 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney5)));
+							investMoney6 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney6)));
 							investMoney = investMoney1+investMoney2+investMoney3+investMoney4+investMoney5+investMoney6;
 							System.out.println("===1112222============"+investMoney+"===="+investMoney2);
 							for (int k = 0; k < list.size(); k++) {
 								BudgetMysql bm = list.get(k);
 								System.out.println("===11111115============"+bm.getDefine3());
 								if (bm.getDefine3() != null && bm.getDefine3().equals("股份付资产")) {
-									investMoney = investMoney + Double.parseDouble(bm.getZysje().toString());
+									investMoney = investMoney + Double.parseDouble(String.format("%.2f", Double.valueOf(Double.parseDouble(bm.getZysje().toString()))));
 									System.out.println("===1115============"+bm.getZysje().toString()+"===="+investMoney2);
 								}
 								if (bm.getDefine3() != null && bm.getDefine3().equals("集团公司")) {
-									investMoney = investMoney + Double.parseDouble(bm.getZysje().toString());
+									investMoney = investMoney + Double.parseDouble(String.format("%.2f", Double.valueOf(Double.parseDouble(bm.getZysje().toString()))));
 									System.out.println("===1116============"+bm.getZysje().toString()+"===="+investMoney2);
 								}
 								if (bm.getDefine3() != null && bm.getDefine3().equals("资产公司")) {
-									investMoney = investMoney + Double.parseDouble(bm.getZysje().toString());
+									investMoney = investMoney + Double.parseDouble(String.format("%.2f", Double.valueOf(Double.parseDouble(bm.getZysje().toString()))));
 									System.out.println("===1117============"+bm.getZysje().toString()+"===="+investMoney2);
 								}
 								
