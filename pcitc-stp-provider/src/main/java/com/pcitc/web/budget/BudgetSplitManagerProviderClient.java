@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,9 @@ import com.pcitc.base.common.enums.BudgetStockEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.service.budget.BudgetInfoService;
+import com.pcitc.service.feign.SystemRemoteClient;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +37,8 @@ public class BudgetSplitManagerProviderClient
 	@Autowired
 	private BudgetInfoService budgetInfoService;
 	
+	@Resource
+	private SystemRemoteClient systemRemoteClient;
 	
 	@ApiOperation(value="预算管理-获取预算项数据",notes="按年度、处部门、预算对象获取预算详情")
 	@RequestMapping(value = "/stp-provider/budget/out-organ-items", method = RequestMethod.POST)
@@ -70,6 +76,23 @@ public class BudgetSplitManagerProviderClient
 						codes.add(BudgetStockEnum.SPLIT_STOCK_YJY_BHY.getCode());
 						codes.add(BudgetStockEnum.SPLIT_STOCK_YJY_SHY.getCode());
 						codes.add(BudgetStockEnum.SPLIT_STOCK_YJY_AGY.getCode());
+					}else if(BudgetStockEnum.SPLIT_GROUP_TOTAL.getUnitCode().equals(itemCode)) 
+					{
+						//集团单位
+						List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode(BudgetStockEnum.SPLIT_GROUP_TOTAL.getCode()+vo.getNd());
+						for(SysDictionary d:dis) 
+						{
+							codes.add(d.getCode());
+						}
+						
+					}else if(BudgetStockEnum.SPLIT_ASSET_TOTAL.getUnitCode().equals(itemCode)) 
+					{
+						//资产单位
+						List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode(BudgetStockEnum.SPLIT_ASSET_TOTAL.getCode()+vo.getNd());
+						for(SysDictionary d:dis) 
+						{
+							codes.add(d.getCode());
+						}
 					}else {
 						codes.add(BudgetStockEnum.getByUnitCode(itemCode).getCode());
 					}
