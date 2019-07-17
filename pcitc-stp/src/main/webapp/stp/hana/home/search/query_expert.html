@@ -15,18 +15,21 @@
         .layui-table-header{display: none;}
         .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
         .layui-table-body{margin-top: 20px;}
-        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+        p{width: 100%;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
             font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
-        .layui-table-body{margin-top: 40px;}
+        .layui-table-body{margin-top: 10px;}
         .layui-table-page{margin-bottom: 20px;}
         .tableBox,.searchBox{padding-left:18px;margin: 0 auto;}
-        .tableBox{width: 55%;float: left;}
         .searchBox{margin-top: 20px;}
         .relevant{width: 34%;float: right;margin-right: 20px;}
         .hotspot>.item{width: 100%;text-align: left;padding: 0;padding-top: 10px;}
         .hotspot>.item a{font-size: 14px;color: #1890ff;line-height: 26px;}
         .hotspot>.item a:hover{text-decoration:underline;}
         .c-nameC{height: 0px;}
+        .layui-table-cell {
+            height: auto;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -79,11 +82,12 @@
 
                 cols: [[{field:'LAY_TABLE_INDEX',title:'年度',
                     templet:  function (d) {
+                        var result=d.userDesc.replace(/<.*?>/ig,"");
                         return '<div class="layui-div layui-div-n">' +
                             '        <a href="javascript:;">'+d.expertName+'</a>' +
                             '        <div class="c-row c-gap-top-small">' +
                             '            <div class="c-span18 c-span-last">' +
-                            '                <p><span>描述:'+d.userDesc+'</span></p>' +
+                            '                <p><span>描述:'+result+'</span></p>' +
                             '            </div>' +
                             '        </div>' +
                             '    </div>';
