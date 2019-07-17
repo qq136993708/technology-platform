@@ -323,12 +323,10 @@
 							<div class="layui-tab-content">
 								<div class="layui-tab-item layui-show">
 									<ul>
-										<li><a href="http://10.1.19.130:8008/info/view.aspx?csurl=A18601F1F6941FDB" target="_blank" rel="noopener noreferrer">关于2019年新开科研项目合同（任务书）上报相关事宜的通知</a> <span>[2019-06-03]</span></li>
-										<li><a href="http://10.1.19.130:8008/info/view.aspx?csurl=350F3DDF5DA6C3F9" target="_blank" rel="noopener noreferrer">关于需求征集功能的使用说明</a> <span>[2019-05-29]</span></li>
-										<li><a href="http://10.1.19.130:8008/info/view.aspx?csurl=C4BA941E60642152" target="_blank" rel="noopener noreferrer">关于2019年年度合同及任务书5月31日之后停止上报的通知</a> <span>[2019-05-19]</span></li>
-										<li><a href="http://10.1.19.130:8008/info/view.aspx?csurl=2B4E70D3871FB149" target="_blank" rel="noopener noreferrer">关于2019年度合同及任务书上报时间的重要通知</a> <span>[2019-04-22]</span></li>
-										<li><a href="http://10.1.19.130:8008/info/view.aspx?csurl=AEB85C183F813175" target="_blank" rel="noopener noreferrer">2019年计划已发布</a> <span>[2019-04-09]</span></li>
-										<li><a href="http://10.1.19.130:8008/info/view.aspx?csurl=C793F827BD0B5FC8" target="_blank" rel="noopener noreferrer">科技项目管理系统更新简要说明</a> <span>[2019-03-11]</span></li>
+										<#list waitList as wait> <#if wait?exists>
+										<li><a href="${wait.url}" target="_blank" rel="noopener noreferrer">${wait.title}</a> <span>[${wait.waitTime}]</span></li>
+										</#if> <#else>
+										</#list>
 									</ul>
 								</div>
 								<div class="layui-tab-item">

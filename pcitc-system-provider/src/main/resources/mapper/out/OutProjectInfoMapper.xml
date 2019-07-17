@@ -1675,7 +1675,7 @@
 			#{projectInfo.status,jdbcType=VARCHAR},
 			#{projectInfo.updateDate,jdbcType=TIMESTAMP},
 			#{projectInfo.projectId,jdbcType=VARCHAR},
-			#{projectInfo.parentProjectId,jdbcType=TIMESTAMP},
+			#{projectInfo.parentProjectId,jdbcType=VARCHAR},
 			#{projectInfo.projectType,jdbcType=VARCHAR},
 			#{projectInfo.projectProperty,jdbcType=VARCHAR},
 			#{projectInfo.erpProjectCode,jdbcType=VARCHAR},
