@@ -111,7 +111,16 @@
 					},
                     cols: [[
                         {field:'LAY_TABLE_INDEX',title:'年度',
-                            templet:  '<div>{{ d.xmmc+"</br>"+d.sbdw+"</br>"+d.nd+"</br>"+d.sbjz+"</br>"+d.xkfl+"</br>"+d.psdj }}</div>' },
+                            templet:  function (d) {
+                                return '<div class="layui-div layui-div-n">' +
+                                    '        <a href="javascript:;">'+d.xmmc+'</a>' +
+                                    '        <div class="c-row c-gap-top-small">' +
+                                    '            <div class="c-span18 c-span-last">' +
+                                    '                <p><span>年度:'+d.nd+'</span><br/><span>单位:'+d.sbdw+'</span><br/><span>奖励类型:'+d.sbjz+'</span><br/><span>奖项等级:'+d.psdj+'</span></p>' +
+                                    '            </div>' +
+                                    '        </div>' +
+                                    '    </div>'
+                            }},
                             // templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
                     ]],
 					done : function(res, curr, count) {

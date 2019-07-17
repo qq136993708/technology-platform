@@ -235,7 +235,14 @@
             cols: [[
                 {field:'LAY_TABLE_INDEX',title:'年度',
                     templet:  function (d) {
-                        return d.cgmc+"</br>"+d.nd+"</br>"+d.sqjddw+"</br>"+d.cglx+"</br>"+d.jdh;
+                        return '<div class="layui-div layui-div-n">' +
+                            '        <a href="javascript:;">'+d.cgmc+'</a>' +
+                            '        <div class="c-row c-gap-top-small">' +
+                            '            <div class="c-span18 c-span-last">' +
+                            '                <p><span>年度:'+d.nd+'</span><br/><span>成果单位:'+d.sqjddw+'</span><br/><span>成果类型:'+d.cglx+'</span><br/><span>鉴定号:'+d.jdh+'</span></p>' +
+                            '            </div>' +
+                            '        </div>' +
+                            '    </div>';
                     }},
                     // templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
             ]],
