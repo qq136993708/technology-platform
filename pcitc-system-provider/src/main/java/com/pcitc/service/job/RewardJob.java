@@ -2,6 +2,7 @@ package com.pcitc.service.job;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,9 @@ public class RewardJob implements Job, Serializable {
 
 		String sqlName = "SelectAllProject";
 		JsonObject jo = new JsonObject();
+		Calendar date = Calendar.getInstance();
+		//String ndCon = String.valueOf(date.get(Calendar.YEAR));
+		// jo.addProperty("nd", ndCon);
 
 		System.out.println("==========开始导入---定时任务--奖励系统接口--=============");
 		// 参数
@@ -45,7 +49,7 @@ public class RewardJob implements Job, Serializable {
 				List<OutReward> insertData = new ArrayList<OutReward>();
 				int temI = 0;
 				boolean temB = true;
-				System.out.println("==========开始导入---定时任务--奖励系统接口--============="+jSONArray.size());
+				System.out.println("==========开始导入---定时任务--奖励系统接口--=============" + jSONArray.size());
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
 					temI++;
@@ -53,7 +57,7 @@ public class RewardJob implements Job, Serializable {
 
 					op.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 					op.setCreateDate(new Date());
-					
+
 					op.setXmid(String.valueOf(object.getInteger("XMID")));
 					op.setXmbh(object.getString("XMBH"));
 					op.setNd(object.getString("ND"));
@@ -70,31 +74,19 @@ public class RewardJob implements Job, Serializable {
 					op.setJssj(object.getString("JSSJ"));
 					op.setSbzt(object.getString("sbzt"));
 					op.setPsdj(object.getString("PSDJ"));
-					insertData.add(op);
-					if (temI > 1000) {
-						temI = 0;
-						//outRewardService.insertRewardData(insertData);
-						temB = false;
-						insertData.clear();
-					} else {
-						temB = true;
-					}
 					
-					
-					
-					
-					
+					op.setStatus("newData");
+
 					try {
 						String temS = "";
 						String TEST_URL = "http://10.1.19.131:9001/DataService/BasicQuery/Sql";
-						System.out.println("=====开始访问===" + TEST_URL);
 						// 创建一个请求客户端
 						RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(TEST_URL);
 						client.get();
 
 						Map<String, String> headerMap = new HashMap<String, String>();
 						headerMap.put("Authorization", "Basic AwardsClientTest:wangcong382.slyt");
-						
+
 						// 设置全局默认请求头，每次请求都会带上这些请求头
 						RestfulHttpClient.setDefaultHeaders(headerMap);
 						// 添加多个参数请求头
@@ -111,19 +103,44 @@ public class RewardJob implements Job, Serializable {
 
 						// 最终访问路径是：http://10.1.19.131:9001/DataService/BasicQuery/Sql?sqlName=SelectAllProjectInfo&nd=2008
 						RestfulHttpClient.HttpResponse response = client.request();
-
+						System.out.println(String.valueOf(object.getInteger("XMID"))+"===返回======" + response.getCode()+"============="+(response.getCode() == 200));
 						// 根据状态码判断请求是否成功
 						if (response.getCode() == 200) {
 							// 获取响应内容
 							String result = response.getContent();
-							System.out.println("===返回======" + result);
+							JSONArray jSONArray1 = JSONArray.parseArray(result);
+							StringBuffer xm = new StringBuffer("");
+							StringBuffer sfzh = new StringBuffer("");
+							for (int k = 0; k < jSONArray1.size(); k++) {
+								JSONObject object1 = (JSONObject) jSONArray1.get(k);
+								if (k != 0) {
+									xm.append(",");
+									sfzh.append(",");
+								}
+								xm.append(object1.getString("xm"));
+								sfzh.append(object1.getString("sfzh"));
+								
+							}
+							System.out.println(xm+"===返1111111111回======" + sfzh);
+							op.setDefine3(xm.toString());
+							op.setDefine4(sfzh.toString());
 						}
 					} catch (Exception e) {
 
 					}
+
+					insertData.add(op);
+					if (temI > 1000) {
+						temI = 0;
+						outRewardService.insertRewardData(insertData);
+						temB = false;
+						insertData.clear();
+					} else {
+						temB = true;
+					}
 				}
 				if (temB && insertData != null && insertData.size() > 0) {
-					//outRewardService.insertRewardData(insertData);
+					outRewardService.insertRewardData(insertData);
 				}
 
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "奖励--保存到本地数据库-结束=========");
