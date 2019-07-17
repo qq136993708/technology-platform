@@ -146,6 +146,9 @@ var publicMethods;
 var param=JSON.parse(window.localStorage.getItem("param"));
 
 var table,selectRowData;
+var ny;//年月
+var zcbh;//资产编号
+var zcms;//资产描述
 var name=$('#name').val();
     layui.use(['jquery','table','laypage','form','layer','laytpl','laydate',"publicMethods"], function(){
             table = layui.table,
@@ -163,12 +166,14 @@ var name=$('#name').val();
            elem: '#month'
            ,type: 'month'
        });
-  	   
-  	   
+
          // 触发不同的按钮事件
          var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
             	 renderTable();
+                ny =$('#month').val();
+                zcbh = $('#g0anln1').val();
+                zcms = $('#g0txt50').val();
             },
             resetEvent: function() { //点击重置按钮
             	$('#g0anln1').val("");
@@ -177,8 +182,8 @@ var name=$('#name').val();
             	$('#g0txt50').val("");
             },
              exportEvent:function(){
-                 var month=$('#month').val();
-                 if(month==""){
+                 var ny = window.ny
+                 if(ny==""){
                      var date = new Date();
                      var seperator1 = "-";
                      var year = date.getFullYear();
@@ -190,14 +195,14 @@ var name=$('#name').val();
                      if (strDate >= 0 && strDate <= 9) {
                          strDate = "0" + strDate;
                      }
-                     var month = year + 0 + month
+                     var ny = year + 0 + month
                  }else{
-                     month=month.replace("-","");
+                     ny=ny.replace("-","");
                  }
-                 var g0anln1= $('#g0anln1').val();
+                 /*var g0anln1= $('#g0anln1').val();
+                 var g0txt50= $('#g0txt50').val();*/
                  var g0gsjc= $('#g0gsjc').val();
-                 var g0txt50= $('#g0txt50').val();
-                 window.open("/sre-ledger/exportLedgerExcel?g0anln1="+g0anln1+"&g0gsjc="+g0gsjc+"&month="+month+"&g0txt50="+g0txt50);
+                 window.open("/sre-ledger/exportLedgerExcel?g0anln1="+zcbh+"&g0gsjc="+g0gsjc+"&month="+ny+"&g0txt50="+zcms);
              }
             
             
