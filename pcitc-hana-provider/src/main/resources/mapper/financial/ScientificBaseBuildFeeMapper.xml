@@ -242,8 +242,8 @@
 			
 			SELECT
 				 "G0BK",
-				 sum("K0SNYE") AS "K0SNYE",
-				 sum("K0BNYE") AS "K0BNYE" 
+				 ROUND(sum("K0SNYE")/10000,2) AS "K0SNYE",
+				 ROUND(sum("K0BNYE")/10000,2) AS "K0BNYE" 
 			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_TJ_1001_01"
 			(
 			'PLACEHOLDER' = ('$$PR_CALMONTH$$', '${month}')
@@ -309,8 +309,8 @@
 			
 			SELECT
 			     "G0BK",
-				 sum("K0NDJHTZ") AS "K0NDJHTZ",
-				 sum("K0NDJE") AS "K0NDJE"
+				 ROUND(sum("K0NDJHTZ")/10000,2) AS "K0NDJHTZ",
+				 ROUND(sum("K0NDJE")/10000,2) AS "K0NDJE"
 			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_TJ_1001_02"
 			(
 			'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}')
