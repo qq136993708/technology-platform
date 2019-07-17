@@ -21,6 +21,7 @@ public interface SreEquipmentLedgerMapper {
 	List getList(Map map);
 
     void deleteByMonth(Map month);
-	
-	
+
+
+    List<SreEquipmentLedger> getListMap(Map map);
 }

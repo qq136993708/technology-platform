@@ -15,344 +15,171 @@
     <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
-    <div class="layui-fluid">
-        <div class="layui-main-lab">
-            <div class="layui-card">
-                <div class="layui-card-header-lab layui-card-header-l">
-                    国家级研发机构
-                </div>
-                <div class="layui-card-body btn-function">
-                    <div class="layui-country">
-                        <p class="layui-country-p">国家级研发机构</p>
-                        <div id="countryUnit" class="layui-country-div">
-                            <div>
-                                <a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/004" target="_blank" rel="noopener noreferrer">
-                                    <span class="layui-text-span">依托单位：石油勘探开发研究院、石油工程技术研究院</span>
-                                    <span class="layui-lab-span">中国石化页岩油气勘探开发重点实验室</span>
-                                </a>
-                            </div>
-                            <div>
-                                <span class="layui-lab-span">聚烯烃国家工程研究中心</span>
-                                <span class="layui-text-span">依托单位：北京化工研究院</span>
-                            </div>
-                            <div>
-                                <span class="layui-text-span">依托单位：石油化工科学研究院</span>
-                                <span class="layui-lab-span">石油化工催化材料与反应工程国家重点实验室</span>
-                            </div>
-                            <div>
-                                <span class="layui-lab-span">橡塑新型材料合成国家工程研究中心</span>
-                                <span class="layui-text-span">依托单位：北京化工研究院</span>
-                            </div>
-                            <div>
-                                <span class="layui-text-span">依托单位：上海石油化工研究院</span>
-                                <span class="layui-lab-span">绿色化工与工业催化国家重点实验室</span>
-                            </div>
-                            <div>
-                                <span class="layui-lab-span">基本有机原料催化剂国家工程研究中心</span>
-                                <span class="layui-text-span">依托单位：上海石油化工研究院</span>
-                            </div>
-
-                            <div>
-                                <span class="layui-text-span">依托单位：青岛安全工程研究院</span>
-                                <span class="layui-lab-span">化学品安全控制国家重点实验室</span>
-                            </div>
-                            <div>
-                                <span class="layui-lab-span">国家地热能源开发利用研究及应用技术推广中心</span>
-                                <span class="layui-text-span">依托单位：新星石油有限责任公司</span>
-                            </div>
-
-                            <div>
-                                <span class="layui-text-span">依托单位：上海石油化工股份有限公司</span>
-                                <span class="layui-lab-span">合成纤维国家工程研究中心</span>
-                            </div>
-                            <div>
-                                <span class="layui-lab-span">国家能源页岩油技术研发中心</span>
-                                <span class="layui-text-span">依托单位：石油勘探开发研究院、胜利油田分公司、石油工程技术研究院</span>
-                            </div>
-
-                            <div>
-                                <span class="layui-text-span">依托单位：石油化工科学研究院</span>
-                                <span class="layui-lab-span">炼油工艺与催化剂国家工程研究中心</span>
-                            </div>
-                            <div>
-                                <span class="layui-lab-span">国家能源石油炼制技术研发（实验）中心</span>
-                                <span class="layui-text-span">依托单位：石油化工科学研究院</span>
-                            </div>
+<div class="layui-fluid">
+    <div class="layui-main-lab">
+        <div class="layui-card">
+            <div class="layui-card-header-lab layui-card-header-l">
+                国家级研发机构
+            </div>
+            <div class="layui-card-body btn-function">
+                <div class="layui-country">
+                    <!-- <p class="layui-country-p">国家级研发机构</p>-->
+                    <div id="countryUnit" class="layui-country-div">
+                        <!--<div>
+                            <a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/004" target="_blank">
+                                <span class="layui-text-span">依托单位：石油勘探开发研究院、石油工程技术研究院</span>
+                                <span class="layui-lab-span">中国石化页岩油气勘探开发重点实验室</span>
+                            </a>
                         </div>
+                        <div>
+                            <span class="layui-lab-span">聚烯烃国家工程研究中心</span>
+                            <span class="layui-text-span">依托单位：北京化工研究院</span>
+                        </div>
+                        <div>
+                            <span class="layui-text-span">依托单位：石油化工科学研究院</span>
+                            <span class="layui-lab-span">石油化工催化材料与反应工程国家重点实验室</span>
+                        </div>
+                        <div>
+                            <span class="layui-lab-span">橡塑新型材料合成国家工程研究中心</span>
+                            <span class="layui-text-span">依托单位：北京化工研究院</span>
+                        </div>
+                        <div>
+                            <span class="layui-text-span">依托单位：上海石油化工研究院</span>
+                            <span class="layui-lab-span">绿色化工与工业催化国家重点实验室</span>
+                        </div>
+                        <div>
+                            <span class="layui-lab-span">基本有机原料催化剂国家工程研究中心</span>
+                            <span class="layui-text-span">依托单位：上海石油化工研究院</span>
+                        </div>
+
+                        <div>
+                            <span class="layui-text-span">依托单位：青岛安全工程研究院</span>
+                            <span class="layui-lab-span">化学品安全控制国家重点实验室</span>
+                        </div>
+                        <div>
+                            <span class="layui-lab-span">国家地热能源开发利用研究及应用技术推广中心</span>
+                            <span class="layui-text-span">依托单位：新星石油有限责任公司</span>
+                        </div>
+
+                        <div>
+                            <span class="layui-text-span">依托单位：上海石油化工股份有限公司</span>
+                            <span class="layui-lab-span">合成纤维国家工程研究中心</span>
+                        </div>
+                        <div>
+                            <span class="layui-lab-span">国家能源页岩油技术研发中心</span>
+                            <span class="layui-text-span">依托单位：石油勘探开发研究院、胜利油田分公司、石油工程技术研究院</span>
+                        </div>
+
+                        <div>
+                            <span class="layui-text-span">依托单位：石油化工科学研究院</span>
+                            <span class="layui-lab-span">炼油工艺与催化剂国家工程研究中心</span>
+                        </div>
+                        <div>
+                            <span class="layui-lab-span">国家能源石油炼制技术研发（实验）中心</span>
+                            <span class="layui-text-span">依托单位：石油化工科学研究院</span>
+                        </div>-->
                     </div>
                 </div>
             </div>
-            <div class="layui-card layui-petrifaction">
-                <div class="layui-card-header-lab layui-card-header-r">
-                    中石化重点实验室
-                </div>
-                <div class="layui-card-body prospecting">
-                    <div class="layui-prospecting">
-                        <p>勘探开发</p>
-                        <div class="layui-prospecting-div">
-                            <div class="layui-red-left"></div>
-                            <div class="layui-red-list">
-                                <div>
-                                    <span class="layui-lab-span">中国石化化学驱提高石油采收率重点实验室</span>
-                                    <span class="layui-text-span">依托单位：胜利油田分公司</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化微生物采油重点实验室</span>
-                                    <span class="layui-text-span">依托单位：胜利油田分公司</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化多波地震技术重点实验室</span>
-                                    <span class="layui-text-span">依托单位：西南油气分公司</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化随钻测控重点实验室</span>
-                                    <span class="layui-text-span">依托单位：胜利石油工程有限公司</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化油气成藏重点实验室</span>
-                                    <span class="layui-text-span">依托单位：石油勘探开发研究院</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化海相油气藏开发重点实验室</span>
-                                    <span class="layui-text-span">依托单位：石油勘探开发研究院</span>
-                                </div>
-                            </div>
-                            <div class="layui-right-list">
-                                <div>
-                                    <span class="layui-lab-span">中国石化页岩油气勘探开发重点实验室</span>
-                                    <span class="layui-text-span">依托单位：石油勘探开发研究院（牵头）、胜利油田分公司</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化固井与完井重点实验室</span>
-                                    <span class="layui-text-span">依托单位：石油工程技术研究院</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化页岩油气钻完井及压裂重点实验室</span>
-                                    <span class="layui-text-span">依托单位：石油工程技术研究院</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化地球物理重点实验室</span>
-                                    <span class="layui-text-span">依托单位：石油物探技术研究院</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化气驱提高石油采收率重点实验室</span>
-                                    <span class="layui-text-span">依托单位：胜利油田分公司</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化缝洞型油藏提高采收率重点实验室</span>
-                                    <span class="layui-text-span">依托单位：西北油田分公司</span>
-                                </div>
-                            </div>
+        </div>
+        <div class="layui-card layui-petrifaction">
+            <div class="layui-card-header-lab layui-card-header-r">
+                中石化重点实验室
+            </div>
+            <div class="layui-card-body prospecting">
+                <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this" lay-id="11">勘探开发</li>
+                        <li lay-id="22">石油炼制</li>
+                        <li lay-id="33">石油化工</li>
+                        <li lay-id="33">公共技术</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show exploration">
+                            <table id="exploration" class="layui-table" lay-filter="exploration"></table>
                         </div>
-                    </div>
-                    <div class="layui-oil">
-                        <p>石油炼制</p>
-                        <div class="layui-oil-div">
-                            <div>
-                                <span class="layui-text-span">依托单位：石油化工科学研究院</span>
-                                <span class="layui-lab-span">中国石化化学驱提高石油采收率重点实验室</span>
-                                <img src="/layuiadmin/layui/images/icon-purple-u.png" alt="">
-                            </div>
-                            <div>
-                                <span class="layui-text-span">依托单位：石油化工科学研究院</span>
-                                <span class="layui-lab-span">中国石化生物液体燃料重点实验室</span>
-                                <img src="/layuiadmin/layui/images/icon-purple-u.png" alt="">
-                            </div>
-                            <div>
-                                <img src="/layuiadmin/layui/images/icon-purple-d.png" alt="">
-                                <span class="layui-lab-span">中国石化重（劣）质油及非常规油气资源炼制技术重点实验室</span>
-                                <span class="layui-text-span">依托单位：石油化工科学研究院</span>
-                            </div>
-                            <div>
-                                <img src="/layuiadmin/layui/images/icon-purple-d.png" alt="">
-                                <span class="layui-lab-span">中国石化芳烃技术重点实验室</span>
-                                <span class="layui-text-span">依托单位：石油化工科学研究院（牵头）、上海石油化工研究院 扬子石油化工有限公司、工程建设有限公司 </span>
-                            </div>
-                            <div>
-                                <img src="/layuiadmin/layui/images/icon-purple-d.png" alt="">
-                                <span class="layui-lab-span">中国石化生物燃料及生物化工重点实验室 </span>
-                                <span class="layui-text-span">依托单位：抚顺石油化工研究院</span>
-                            </div>
+                        <div class="layui-tab-item refine">
+                            <table id="refine" class="layui-table" lay-filter="refine"></table>
                         </div>
-                        <img src="/layuiadmin/layui/images/icon-purple-y.png" alt="">
-                    </div>
-
-                    <div class="layui-industry">
-                        <p>石油化工</p>
-                        <div class="layui-industry-div">
-                            <div class="layui-industry-left">
-                                <div class="layui-green-list">
-                                    <div>
-                                        <span class="layui-lab-span">中国石化碳纤维及其复合材料重点实验室</span>
-                                        <span class="layui-text-span">依托单位：上海石油化工股份有限公司、上海石油化工研究院</span>
-                                    </div>
-                                    <div>
-                                        <span class="layui-lab-span">中国石化烯烃聚合（非茂）及加工重点实验室</span>
-                                        <span class="layui-text-span">依托单位：扬子石油化工有限公司</span>
-                                    </div>
-                                    <div>
-                                        <span class="layui-lab-span">中国石化苯乙烯类热塑性弹性体重点实验室</span>
-                                        <span class="layui-text-span">依托单位：巴陵石化公司</span>
-                                    </div>
-                                    <div>
-                                        <span class="layui-lab-span">中国石化合成气制天然气重点实验室</span>
-                                        <span class="layui-text-span">依托单位：南京化学工业有限公司</span>
-                                    </div>
-                                    <div>
-                                        <span class="layui-lab-span">中国石化二氧化碳捕集与资源化利用重点实验室</span>
-                                        <span class="layui-text-span">依托单位：南京化学工业有限公司</span>
-                                    </div>
-                                    <div>
-                                        <span class="layui-lab-span">中国石化高分子物理及表征重点实验室</span>
-                                        <span class="layui-text-span">依托单位：北京化工研究院</span>
-                                    </div>
-                                </div>
-                                <img src="/layuiadmin/layui/images/icon-green-y.png" alt="">
-                            </div>
-                            <div class="layui-industry-right">
-                                <div>
-                                    <span class="layui-lab-span">中国石化合成橡胶新技术开发重点实验室</span>
-                                    <span class="layui-text-span">依托单位：北京化工研究院</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化三采用表面活性剂重点实验室</span>
-                                    <span class="layui-text-span">依托单位：上海石油化工研究院</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化甲醇转化技术重点实验室</span>
-                                    <span class="layui-text-span">依托单位：上海石油化工研究院</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化尼龙单体制备新技术开发及综合利用重点实验室</span>
-                                    <span class="layui-text-span">依托单位：扬子石油化工有限公司</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化分离用膜材料研究与应用重点实验室</span>
-                                    <span class="layui-text-span">依托单位：北京化工研究院</span>
-                                </div>
-                                <div>
-                                    <span class="layui-lab-span">中国石化高端精细化学品重点实验室</span>
-                                    <span class="layui-text-span">依托单位：上海石油化工研究院</span>
-                                </div>
-                            </div>
+                        <div class="layui-tab-item chemical">
+                            <table id="chemical" class="layui-table" lay-filter="chemical"></table>
                         </div>
-                    </div>
-                    <div class="layui-technique">
-                        <p>公共技术</p>
-                        <div class="layui-technique-div">
-                            <div class="layui-technique-left">
-                                <div class="layui-orange-bg">
-                                    <div class="layui-orange-list">
-                                        <div>
-                                            <span class="layui-lab-span">中国石化石油机械装备重点实验室</span>
-                                            <span class="layui-text-span">依托单位：石油工程机械有限公司</span>
-                                        </div>
-                                        <div>
-                                            <span class="layui-lab-span">中国石化化学品和化学反应过程安全技术重点实验室</span>
-                                            <span class="layui-text-span">依托单位：青岛安全工程研究院</span>
-                                        </div>
-                                        <div>
-                                            <span class="layui-lab-span">中国石化雷电静电危害控制重点实验室</span>
-                                            <span class="layui-text-span">依托单位：青岛安全工程研究院</span>
-                                        </div>
-                                    </div>
-
-                                    <img src="/layuiadmin/layui/images/icon-orange-y.png" alt="">
-                                </div>
-                            </div>
-                            <div class="layui-technique-right">
-                                <div class="layui-orange-list">
-                                    <div>
-                                        <span class="layui-lab-span">中国石化地热资源开发利用重点实验室</span>
-                                        <span class="layui-text-span">依托单位：洛阳工程有限公司</span>
-                                    </div>
-                                    <div>
-                                        <span class="layui-lab-span">中国石化炼油反应工程技术研究重点实验室</span>
-                                        <span class="layui-text-span">依托单位：洛阳工程有限公司</span>
-                                    </div>
-                                    <div>
-                                        <span class="layui-lab-span">中国石化等离子体技术重点实验室</span>
-                                        <span class="layui-text-span">依托单位：青岛安全工程研究院</span>
-                                    </div>
-                                    <div>
-                                        <span class="layui-lab-span">中国石化工业互联网重点实验室</span>
-                                        <span class="layui-text-span">依托单位：石化盈科信息技术有限责任公司</span>
-                                    </div>
-                                </div>
-                                <img src="/layuiadmin/layui/images/icon-orange-y.png" alt="">
-                            </div>
+                        <div class="layui-tab-item technology">
+                            <table id="technology" class="layui-table" lay-filter="technology"></table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-    	layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
-        	var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
-            //国家级
-            /*function renderTable() {
-                var lodingMsg = layer.msg('数据加载中....');
-                //渲染
-                table.render({
-                    elem : '#countryUnit',
-                    url : '/laboratoryBase/getTableData',
-                    method : "POST",
-                    where : {param:{"bak1":"国家级研发机构"}},
-                    limit : 10,
-                    id : 'countryUnit',
-                    height : commonDislodgeTable()-200,
-                    page : {
-                        groups : 5,
-                        limits : [ 10, 15, 30, 45, 60 ],
-                        layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
-                        first : '首页', //不显示首页
-                        last : '尾页', //不显示尾页
-                        theme : '#0F9EE0'
-                    },
-                    cols : [ [  {
-                        title : '序号',
-                        type : 'numbers',
-                        width : 45
-                    }, {
-                        field : 'orgName',
-                        title : '实验室名称',
-                        width : '44%',
-                        style : 'cursor: pointer;'
-                    }, {
-                        field : 'dependentUnit',
-                        title : '依托单位',
-                        style : 'cursor: pointer;'
-                    }]],
-                    done : function(res, curr, count) {
-                        // 关闭等待刷新
-                        layer.close(lodingMsg);
-                        // 点击行联动选择框--单选
-                        $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
-                            var index = parseInt($(this).index() + 1);
-                            $('tr').removeClass('layui-table-click');
-                            $(this).addClass('layui-table-click');
-                            $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                            $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                            selectRowData = res.data[index - 1];
-                        });
-                    }
-                });
-                $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
-            }
-            renderTable();*/
-            /*publicMethods.ajaxAsyncPost("/laboratoryBase/listByBak1",{"bak1":"国家级研发机构"}, function (data) {
-    			$.each(data,function(i,d){
-                    var html ='<div>'+
-                        '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+d.dataId+'" target="_blank" rel="noopener noreferrer">'+
-                        '<span class="layui-lab-span">'+d.orgName+'</span>'+
-                        '<span class="layui-text-span">依托单位：'+d.dependentUnit+'</span>'+
-                        '</a>'+
-                        '</div>';
-    				$("#countryUnit").append(html);          
-    			});
-	   		});*/
+</div>
+<script>
+    layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods','element'], function () {
+        var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods,element=layui.element;
+        //国家级
+        function renderTable(id,url,where) {
+            var lodingMsg = layer.msg('数据加载中....');
+            //渲染
+            table.render({
+                elem : '#'+id,
+                url : url,
+                method : "get",
+                where : where,
+                limit : 10,
+                id : id,
+                height : commonDislodgeTable()-200,
+                page : {
+                    groups : 5,
+                    limits : [ 10, 15, 30, 45, 60 ],
+                    layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+                    first : '首页', //不显示首页
+                    last : '尾页', //不显示尾页
+                    theme : '#0F9EE0'
+                },
+                cols : [ [  {
+                    title : '序号',
+                    type : 'numbers',
+                    width : 45
+                }, {
+                    field : 'orgName',
+                    title : '实验室名称',
+                    width : '44%',
+                    style : 'cursor: pointer;'
+                }, {
+                    field : 'dependentUnit',
+                    title : '依托单位',
+                    style : 'cursor: pointer;'
+                }]],
+                done : function(res, curr, count) {
+                    console.log(res)
+                    layer.close(lodingMsg);
+                }
+            });
+            $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+        }
+        renderTable("exploration",'/layuiadmin/json/json1.json',{param:{"bak1":"国家级研发机构"}});
+        renderTable("refine",'/layuiadmin/json/json2.json',{param:{"bak1":"国家级研发机构"}});
+        renderTable("chemical",'/layuiadmin/json/json3.json',{param:{"bak1":"国家级研发机构"}});
+        renderTable("technology",'/layuiadmin/json/json4.json',{param:{"bak1":"国家级研发机构"}});
+        publicMethods.ajaxAsyncPost("/laboratoryBase/listByBak1",{"bak1":"国家级研发机构"}, function (data) {
+            var number=data.length;
+            $.each(data,function(i,d){
+                var html ='<div>'+
+                    '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+d.dataId+'" target="_blank">'+
+                    '<span class="layui-lab-span">'+d.orgName+'</span>'+
+                    '<span class="layui-text-span">依托单位：'+d.dependentUnit+'</span>'+
+                    '</a>'+
+                    '</div>';
+                $("#countryUnit").append(html);
+                if(i==(number-1)){
+                    console.log($(".layui-country-div div").eq(i-1))
+                    $(".layui-country-div div").eq(i-1).addClass("borderB");
+                    $(".layui-country-div div").eq(i-2).addClass("borderB");
+                    $(".layui-country-div div").eq(i).addClass("borderB");
+                }
+            });
         });
-    </script>
+    });
+</script>
 </body>
 </html>

@@ -340,10 +340,10 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
             };
         
         //监听行单击事件
-        /* table.on('row(myTable)', function(obj){
+        /*  table.on('row(myTable)', function(obj){
             console.log(obj.data) //得到当前行数据
             selectRowData=obj.data;
-        }); */
+        });  */
         
         //区别按钮属性
         $('.layui-btn').on('click', function(){
@@ -382,12 +382,12 @@ function myTable()
 		  done: function (res, curr, count) {
 			  
 			        $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-	               	var index=parseInt($(this).index()+1);
-	                   $('tr').removeClass('layui-table-click');
+			            var index=parseInt($(this).index());
+	                   $('.layui-table-fixed tbody tr').removeClass('layui-table-click');
 	                   $(this).addClass('layui-table-click');
-	                   $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-	                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-	                   selectRowData=res.data[index-1];
+	                   $('.layui-table-fixed tbody tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	                   $('.layui-table-fixed tbody tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	                   selectRowData=res.data[index];
 	               });
 			  
 			  layer.closeAll();

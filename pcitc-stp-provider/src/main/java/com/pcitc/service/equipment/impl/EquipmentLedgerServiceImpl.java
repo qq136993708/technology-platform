@@ -72,7 +72,7 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 		map.put("g0cald", month);
 		map.put("g0gsdm", g0gsdm);
 		map.put("g0gsjc", g0gsjc);
-		List<SreEquipmentLedger> list=sreEquipmentLedgerMapper.getList(map);
+		List<SreEquipmentLedger> list=sreEquipmentLedgerMapper.getListMap(map);
 		
 		
 		PageInfo<SreEquipmentLedger> pageInfo = new PageInfo<SreEquipmentLedger>(list);
