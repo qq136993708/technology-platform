@@ -27,5 +27,10 @@ public interface OutWaitWorkService {
 	public int insertProjectData(List<OutProjectInfo> list, String nd);
 	
 	public int insertAppraisalData(List<OutAppraisal> list, String nd);
+	
+	/**
+     * 批量插入待办任务数据
+     */
+    public Integer insertOutWaitWorkBatch(List<OutWaitWork> workList);
 
 }

@@ -94,7 +94,11 @@ public class AdminController extends BaseController {
 	// 工作完成情况统计
 	private static final String WORKORDER_STAT = "http://pcitc-zuul/system-proxy/planbase-provider/workorder/stat";
 
-	private Integer TIME_OUT= 1*60*60;
+	// 项目管理系统待办任务
+	private static final String PROJECT_PENDING = "http://pcitc-zuul/system-proxy/out-wait-work/page";
+		
+	private Integer TIME_OUT = 1 * 60 * 60;
+
 	/**
 	 * 科技平台统一身份认证首页
 	 * 
@@ -684,14 +688,22 @@ public class AdminController extends BaseController {
 		}
 		request.setAttribute("scShowList", scShowList);
 		request.setAttribute("scList", scList);
-		
+
 		String unitPathId = sysUserInfo.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 		request.setAttribute("isKJBPerson", isKJBPerson);
 
 		// oa系统的服务器地址
 		request.setAttribute("outOAIp", "10.1.4.10");
-
+		
+		// 获取其他系统的待办任务
+		LayuiTableParam waitPara = new LayuiTableParam();
+		waitPara.setLimit(10);
+		waitPara.getParam().put("userCode", sysUserInfo.getUserName());
+		HttpEntity<LayuiTableParam> waitEntity = new HttpEntity<LayuiTableParam>(waitPara, this.httpHeaders);
+		ResponseEntity<LayuiTableData> waitRes = this.restTemplate.exchange(PROJECT_PENDING, HttpMethod.POST, waitEntity, LayuiTableData.class);
+		LayuiTableData waitJTD = waitRes.getBody();
+		request.setAttribute("waitList", waitJTD.getData());
 		return "/mainStp";
 	}
 
