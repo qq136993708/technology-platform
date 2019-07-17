@@ -250,13 +250,13 @@
 										<td style="text-align: center;">${taskList.workOrderAllotUserName}</td>
 										<td><div class="layui-table-cell-td1">${taskList.createDate}</div></td>
 										<td><div class="layui-table-cell-td">${taskList.workOrderName}</div></td>
-										<td align="right"><#if taskList.bl==''>
+										<td align="right"><#if taskList.announcements==''>
 											<div class="layui-progress">
 												<div class="layui-progress-bar" lay-percent="0%"></div>
-											</div>0% </#if> <#if taskList.bl!=''>
+											</div>0% </#if> <#if taskList.announcements!=''>
 											<div class="layui-progress">
-												<div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
-											</div> ${taskList.bl}% </#if>
+												<div class="layui-progress-bar" lay-percent="${taskList.announcements}%"></div>
+											</div> ${taskList.announcements}% </#if>
 										</td>
 									</tr>
 									</#if> <#else>
