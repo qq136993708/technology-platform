@@ -71,7 +71,7 @@ public class OutRewardServiceImpl implements OutRewardService {
 
         //添加name值查询 start
         if (paraMap.get("name")!=null&&!paraMap.get("name").toString().equals("")) {
-            criteria.andXmmcLike("%"+paraMap.get("name").toString()+"%");
+            criteria.andDefine3Like("%"+paraMap.get("name").toString()+"%");
         }
         //添加name值查询 end
 
