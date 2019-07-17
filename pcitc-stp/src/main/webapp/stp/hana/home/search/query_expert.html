@@ -82,11 +82,12 @@
 
                 cols: [[{field:'LAY_TABLE_INDEX',title:'年度',
                     templet:  function (d) {
+                        var result=d.userDesc.replace(/<.*?>/ig,"");
                         return '<div class="layui-div layui-div-n">' +
                             '        <a href="javascript:;">'+d.expertName+'</a>' +
                             '        <div class="c-row c-gap-top-small">' +
                             '            <div class="c-span18 c-span-last">' +
-                            '                <p><span>描述:'+d.userDesc+'</span></p>' +
+                            '                <p><span>描述:'+result+'</span></p>' +
                             '            </div>' +
                             '        </div>' +
                             '    </div>';
