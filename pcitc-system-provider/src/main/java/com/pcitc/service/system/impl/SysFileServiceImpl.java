@@ -475,9 +475,11 @@ public class SysFileServiceImpl implements SysFileService {
 		JSONObject jsonObject = selectSysFileListEs(vo);
 		List<SysFile> sysFiles = (List<SysFile>) jsonObject.get("list");
 		List<SysFunction> sysFunctions = sysFunctionService.selectByExample(new SysFunctionExample());
-        Map<String,String> map = sysFunctions.stream().collect(Collectors.toMap(SysFunction::getId,SysFunction::getName,(e1,e2)->e1));
+        Map<String,String> id_name = sysFunctions.stream().collect(Collectors.toMap(SysFunction::getId,SysFunction::getName,(e1,e2)->e1));
+        Map<String,String> id_parent = sysFunctions.stream().collect(Collectors.toMap(SysFunction::getId,SysFunction::getParentId,(e1,e2)->e1));
 		sysFiles.stream().filter(e->{
-		    e.setVersion(map.get(e.getVersion()));
+            e.setBak1(id_name.get(id_parent.get(e.getVersion())));
+            e.setVersion(id_name.get(e.getVersion()));
 		    return true;
         }).collect(Collectors.toList());
 		jsonObject.put("list", sysFiles);

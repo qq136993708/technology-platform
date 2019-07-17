@@ -356,7 +356,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
         ];
 
         function renderTable() {
-            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/queryIndex', false, cols, where, true, function (res, curr, count) {
+            publicMethods.tableRenderH('expertTable', 'expertTable',260, '/expertController/queryIndex', false, cols, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -388,9 +388,10 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                         "name": "${zjkBaseInfo.expertName}",
                     }
                 },
+
+                height: 260,
                 limit : param.selfRownum,
                 id : 'showTableAward',
-                height : commonDislodgeTable(),
                 page : {
                     groups : 5,
                     limits : [ param.selfRownum, 15, 30, 45, 60 ],
@@ -470,7 +471,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
             limit: param.selfRownum,
             // limit: 15,
             id: 'showTableCg',
-            height: commonDislodgeTable(),
+            height: 260,
             page: {
                 groups: 5,
                 limits: [param.selfRownum,  30, 45, 60],
@@ -533,7 +534,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 },
                 limit: param.selfRownum,
                 id: 'showTableKt',
-                height: commonDislodgeTable(),
+                height: 260,
                 page: {
                     groups: 5,
                     limits: [param.selfRownum,  30, 45, 60],
@@ -612,7 +613,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 },
                 limit: param.selfRownum,
                 id: 'showTable',
-                height: commonDislodgeTable()-200,
+                height: 260,
                 page: {
                     groups: 5,
                     limits: [param.selfRownum, 30, 45, 60],

@@ -63,8 +63,8 @@
         function renderSysFileTable() {
             table.render({
                 elem: '#fileShowTable',
-                // url: '/sysfile/getTableDataEsIndex',
-                url: '/sysfile/getTableDataEs',
+                url: '/sysfile/getTableDataEsIndex',
+                // url: '/sysfile/getTableDataEs',
                 method: "POST",
                 where: {param: {"bak4": $("#bak4").val()}},
                 limit: 15,
@@ -86,7 +86,7 @@
                     '        <a href="javascript:;">'+d.fileName+'</a>' +
                     '        <div class="c-row c-gap-top-small">' +
                     '            <div class="c-span18 c-span-last">' +
-                    '                <p><span>文件名称:'+d.version+'</span></p>' +
+                    '                <p><span>文件来源:'+d.bak1+"->"+d.version+'</span></p>' +
                     '            </div>' +
                     '        </div>' +
                     '    </div>'
