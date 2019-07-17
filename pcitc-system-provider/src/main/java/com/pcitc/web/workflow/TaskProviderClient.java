@@ -284,7 +284,7 @@ public class TaskProviderClient {
 			}
 			if (param.getParam().get("dateFlag").toString().equals("7")) {
 				query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -7));
-				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -3));
+				query.taskCreatedBefore(new Date());
 			}
 			if (param.getParam().get("dateFlag").toString().equals("8")) {
 				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -7));
@@ -451,7 +451,7 @@ public class TaskProviderClient {
 			}
 			if (param.getParam().get("dateFlag").toString().equals("7")) {
 				query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -7));
-				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -3));
+				query.taskCreatedBefore(new Date());
 			}
 			if (param.getParam().get("dateFlag").toString().equals("8")) {
 				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -7));
