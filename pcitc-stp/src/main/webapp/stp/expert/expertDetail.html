@@ -274,8 +274,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
         var twoUrl = "/expertController/picIndex?id=1&expertId=" + expertId + "&type=bar";
         var coloTwo = ["#ff9945"];
         var two = load_single_bar(twoUrl, "two", "", "", yAxis, coloTwo, 80, "", function (d) {
-            console.log(seriesDataList);
-            if (d.seriesDataList == undefined) {
+            if (d.data.seriesDataList.length==0) {
                 $("#two").html("<img src='/layuiadmin/layui/images/null-data.png' />");
             }
         });

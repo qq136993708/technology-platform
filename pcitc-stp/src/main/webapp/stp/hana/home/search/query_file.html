@@ -63,6 +63,7 @@
         function renderSysFileTable() {
             table.render({
                 elem: '#fileShowTable',
+                // url: '/sysfile/getTableDataEsIndex',
                 url: '/sysfile/getTableDataEs',
                 method: "POST",
                 where: {param: {"bak4": $("#bak4").val()}},
@@ -79,7 +80,17 @@
                 },
                 cols: [[
                     {field:'createDateTime',title:'年度',
-                        templet:  '<div>{{ layui.laytpl.search(d) }}</div>' }
+                        // templet:  '<div>{{ layui.laytpl.search(d) }}</div>' }
+                    templet:  function (d) {
+                return '<div class="layui-div layui-div-n">' +
+                    '        <a href="javascript:;">'+d.fileName+'</a>' +
+                    '        <div class="c-row c-gap-top-small">' +
+                    '            <div class="c-span18 c-span-last">' +
+                    '                <p><span>文件名称:'+d.version+'</span></p>' +
+                    '            </div>' +
+                    '        </div>' +
+                    '    </div>'
+            }},
                 ]],
                 done: function (res, curr, count) {
                     parent.$("#file").html(count);

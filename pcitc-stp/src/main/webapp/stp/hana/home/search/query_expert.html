@@ -110,18 +110,19 @@
         table.on('row(tableEvent)', function (obj) {
             // parent.layui.index.openTabsPage("/expertController/expertDetail?expertId=" + obj.data.dataId, "专家详情");
             var temUrl = "/expertController/expertDetail?expertId=" + obj.data.dataId;
-            layer.open({
-                title: '详情',
-                skin: 'layui-layer-lan',
-                shadeClose: true,
-                type: 2,
-                fixed: false,
-                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                maxmin: true,
-                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                area: ['90%', '80%'],
-                content: temUrl
-            });
+            window.open(temUrl);
+            // layer.open({
+            //     title: '详情',
+            //     skin: 'layui-layer-lan',
+            //     shadeClose: true,
+            //     type: 2,
+            //     fixed: false,
+            //     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            //     maxmin: true,
+            //     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            //     area: ['90%', '80%'],
+            //     content: temUrl
+            // });
         });
 
         loadtable();

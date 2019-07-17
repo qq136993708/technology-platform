@@ -69,6 +69,7 @@ public class SysFileController extends BaseController {
     private static final String getTableData = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/getTableData";
 
     private static final String getTableDataEs = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/getTableDataEs";
+    private static final String getTableDataEsIndex = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/getTableDataEsIndex";
 
     private static final String GET = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/get-sysfile/";
     private static final String TREE_DATA = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/tree-data";
@@ -906,6 +907,42 @@ public class SysFileController extends BaseController {
             List<SysFile> SysFileList = JSONObject.parseArray(retJson.getJSONArray("list").toJSONString(), SysFile.class);
             data.setData(SysFileList);
             // 要显示的总条数
+            data.setCount(totalCount);
+        }
+        return data;
+    }
+
+    /**
+     * 首页搜索ES查询,添加菜单名称显示
+     *
+     * @param param
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/sysfile/getTableDataEsIndex", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getTableDataEsIndex(@ModelAttribute("param") LayuiTableParam param) throws IOException {
+        DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
+        dataTableInfoVo.setiDisplayLength(param.getLimit());
+        dataTableInfoVo.setiDisplayStart((param.getPage() - 1) * param.getLimit());
+        SysFileVo vo = new SysFileVo();
+        vo.setDataTableInfoVo(dataTableInfoVo);
+        if (param.getParam().get("bak4") != null) {
+            vo.setFileName(param.getParam().get("bak4").toString());
+        }
+        if (param.getParam().get("fileKind") != null) {
+            vo.setFileKind(param.getParam().get("fileKind").toString());
+        }
+        HttpEntity<SysFileVo> entity = new HttpEntity<SysFileVo>(vo, this.httpHeaders);
+        ResponseEntity<String> responseEntity = this.restTemplate.exchange(getTableDataEsIndex, HttpMethod.POST, entity, String.class);
+        String result = responseEntity.getBody();
+        JSONObject retJson = JSONObject.parseObject(result);
+        // DataTableParameter data = new DataTableParameter();
+        LayuiTableData data = new LayuiTableData();
+        if (retJson != null) {
+            int totalCount = retJson.get("totalCount") != null ? Integer.parseInt(retJson.get("totalCount").toString()) : 0;
+            List<SysFile> SysFileList = JSONObject.parseArray(retJson.getJSONArray("list").toJSONString(), SysFile.class);
+            data.setData(SysFileList);
             data.setCount(totalCount);
         }
         return data;
