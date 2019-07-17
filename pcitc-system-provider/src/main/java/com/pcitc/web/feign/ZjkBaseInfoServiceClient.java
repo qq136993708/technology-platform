@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author:Administrator
@@ -22,4 +23,13 @@ public interface ZjkBaseInfoServiceClient {
     @RequestMapping(value = "/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli-page")
     public LayuiTableData selectZjkZhuanliByPage(@RequestBody LayuiTableParam param);
 
+    /**
+     * 课题列表
+     * @param paramsJson
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/sre-provider/project_basic/page_search", method = RequestMethod.POST)
+    public LayuiTableData getSreProjectBasicListSearch(@RequestBody LayuiTableParam paramsJson)throws Exception;
 }
+

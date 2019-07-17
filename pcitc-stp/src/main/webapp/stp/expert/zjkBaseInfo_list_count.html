@@ -171,13 +171,13 @@
                 url: '/zjkBaseInfo/getTableDataCount',
                 method: "POST",
                 where: {param: where},
-                limit: 15,
+                limit: 30,
                 id: 'zjkBaseInfoTableId',
                 height: commonDislodgeTable(),
                 page: {
                     count: 500, //数据总数，从服务端得到
                     groups: 5,
-                    limits: [15,30, 45, 60],
+                    limits: [30, 45, 60],
                     layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                     first: '首页', //不显示首页
                     last: '尾页', //不显示尾页

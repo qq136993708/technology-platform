@@ -6,16 +6,20 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,6 +47,7 @@ import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ProjectForMysql;
+import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
 import com.pcitc.base.system.SysNewsVo;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
@@ -113,11 +118,14 @@ public class OneLevelMainController extends BaseController {
 	// 数量--知识
 	private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
 
+	private static final String getInvestment = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/money-hana-type";
+	private static final String getInvestmentAll = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_first_page_count")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String investment_first_page_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
@@ -140,8 +148,97 @@ public class OneLevelMainController extends BaseController {
 
 				JSONObject jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
+				
+				double investMoney = 0d;
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+				ResponseEntity<JSONArray> responseEntity2 = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode2 = responseEntity.getStatusCodeValue();
+				if (statusCode2 == 200) {
+					
+					JSONArray jSONArray2 = responseEntity2.getBody();
+					System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray2.toString());
+					List<BudgetMysql> list = JSONObject.parseArray(jSONArray2.toJSONString(), BudgetMysql.class);
+					// 单独计算预算金额
+					if (!zycbm.equals("")) {
+						BudgetItemSearchVo vo = new BudgetItemSearchVo();
+						vo.setNd(nd);
+						Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
+						List<String> list_1 = new ArrayList<>(set);
+						vo.getUnitIds().addAll(list_1);
+						vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY");
+						vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_FZGS");
+						vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_WBDW");
+						vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_SHYK");
+						vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_XSDYFZX");
+						vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_JTDW");
+						HttpEntity<BudgetItemSearchVo> entity1 = new HttpEntity<BudgetItemSearchVo>(vo, httpHeaders);
+						
+						httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+						ResponseEntity<BudgetItemSearchVo> responseEntity1 = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity1, BudgetItemSearchVo.class);
+						int statusCode1 = responseEntity1.getStatusCodeValue();
+						if (statusCode1 == 200) {
+							BudgetItemSearchVo bis = responseEntity1.getBody();
+							double investMoney1 = 0d;
+							double investMoney2 = 0d;
+							double investMoney3 = 0d;
+							double investMoney4 = 0d;
+							double investMoney5 = 0d;
+							double investMoney6 = 0d;
+							for (int i = 0; i < list_1.size(); i++) {
+								investMoney1 = investMoney1 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY");
+								investMoney2 = investMoney2 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_FZGS");
+								investMoney3 = investMoney3 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_WBDW");
+								investMoney4 = investMoney4 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_SHYK");
+								investMoney5 = investMoney5 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_XSDYFZX");
+								investMoney6 = investMoney6 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_JTDW");
+							}
+							System.out.println("===111============"+investMoney1+"===="+investMoney2);
+							investMoney1 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney1)));
+							investMoney2 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney2)));
+							investMoney3 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney3)));
+							investMoney4 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney4)));
+							investMoney5 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney5)));
+							investMoney6 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney6)));
+							investMoney = investMoney1+investMoney2+investMoney3+investMoney4+investMoney5+investMoney6;
+							System.out.println("===1112222============"+investMoney+"===="+investMoney2);
+							for (int k = 0; k < list.size(); k++) {
+								BudgetMysql bm = list.get(k);
+								System.out.println("===11111115============"+bm.getDefine3());
+								if (bm.getDefine3() != null && bm.getDefine3().equals("股份付资产")) {
+									investMoney = investMoney + Double.parseDouble(String.format("%.2f", Double.valueOf(Double.parseDouble(bm.getZysje().toString()))));
+									System.out.println("===1115============"+bm.getZysje().toString()+"===="+investMoney2);
+								}
+								if (bm.getDefine3() != null && bm.getDefine3().equals("集团公司")) {
+									investMoney = investMoney + Double.parseDouble(String.format("%.2f", Double.valueOf(Double.parseDouble(bm.getZysje().toString()))));
+									System.out.println("===1116============"+bm.getZysje().toString()+"===="+investMoney2);
+								}
+								if (bm.getDefine3() != null && bm.getDefine3().equals("资产公司")) {
+									investMoney = investMoney + Double.parseDouble(String.format("%.2f", Double.valueOf(Double.parseDouble(bm.getZysje().toString()))));
+									System.out.println("===1117============"+bm.getZysje().toString()+"===="+investMoney2);
+								}
+								
+							}
+							
+							
+						}
+					}
+				}
+				
+				
+				
+				
 				String projectMoney = String.valueOf(jSONArray.getString("projectMoney"));
-				String budgetMoney = String.valueOf(jSONArray.getString("budgetMoney"));
+				String budgetMoney = String.valueOf(investMoney);
 				projectMoney = String.format("%.2f", Double.valueOf(projectMoney));
 				budgetMoney = String.format("%.2f", Double.valueOf(budgetMoney));
 				Map map = new HashMap();
@@ -2506,6 +2603,65 @@ public class OneLevelMainController extends BaseController {
 				System.out.println(">>>>>>>>>>>>>>investment_01 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
+				// 单独计算预算金额
+				if (!zycbm.equals("")) {
+					BudgetItemSearchVo vo = new BudgetItemSearchVo();
+					vo.setNd(nd);
+					Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
+					List<String> list_1 = new ArrayList<>(set);
+					vo.getUnitIds().addAll(list_1);
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY");
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_FZGS");
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_WBDW");
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_SHYK");
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_XSDYFZX");
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_JTDW");
+					HttpEntity<BudgetItemSearchVo> entity1 = new HttpEntity<BudgetItemSearchVo>(vo, httpHeaders);
+					ResponseEntity<BudgetItemSearchVo> responseEntity1 = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity1, BudgetItemSearchVo.class);
+					int statusCode1 = responseEntity1.getStatusCodeValue();
+					if (statusCode1 == 200) {
+						BudgetItemSearchVo bis = responseEntity1.getBody();
+						double investMoney = 0d;
+						double investMoney1 = 0d;
+						double investMoney2 = 0d;
+						double investMoney3 = 0d;
+						double investMoney4 = 0d;
+						double investMoney5 = 0d;
+						double investMoney6 = 0d;
+						for (int i = 0; i < list_1.size(); i++) {
+							investMoney1 = investMoney1 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY");
+							investMoney2 = investMoney2 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_FZGS");
+							investMoney3 = investMoney3 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_WBDW");
+							investMoney4 = investMoney4 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_SHYK");
+							investMoney5 = investMoney5 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_XSDYFZX");
+							investMoney6 = investMoney6 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_JTDW");
+						}
+						investMoney = investMoney1+investMoney2+investMoney3+investMoney4+investMoney5+investMoney6;
+						System.out.println("===1112222yyyy============"+investMoney+"===="+investMoney2);
+						for (int k = 0; k < list.size(); k++) {
+							BudgetMysql bm = list.get(k);
+							if (bm.getDefine3() != null && bm.getDefine3().equals("直属研究院")) {
+								bm.setZysje(investMoney1);
+							}
+							if (bm.getDefine3() != null && bm.getDefine3().equals("分子公司")) {
+								bm.setZysje(investMoney2);
+							}
+							if (bm.getDefine3() != null && bm.getDefine3().equals("外部单位")) {
+								bm.setZysje(investMoney3);
+							}
+							if (bm.getDefine3() != null && bm.getDefine3().equals("盈科")) {
+								bm.setZysje(investMoney4);
+							}
+							if (bm.getDefine3() != null && bm.getDefine3().equals("休斯顿")) {
+								bm.setZysje(investMoney5);
+							}
+							if (bm.getDefine3() != null && bm.getDefine3().equals("股份付集团")) {
+								bm.setZysje(investMoney6);
+							}
+						}
+					}
+				}
+				
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define3");
 				barLine.setxAxisDataList(xAxisDataList);
 				List<String> legendDataList = new ArrayList<String>();

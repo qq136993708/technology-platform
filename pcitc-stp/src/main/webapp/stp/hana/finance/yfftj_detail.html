@@ -112,10 +112,11 @@ layui.config({
         method:"POST",
         where: {param: {"month":month, "g0BK":$("#g0BK").val()}},
         id: 'myTable2',
-        limit: 10,
+        limit: 15,
+        height:commonDislodgeTable()-100,
         page: {
             groups: 5,
-            limits: [10,20,30,40],
+            limits: [15,20,30,40],
             layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
             first: '首页', //不显示首页
             last: '尾页', //不显示尾页

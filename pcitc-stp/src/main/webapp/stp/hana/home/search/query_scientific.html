@@ -85,6 +85,8 @@
                     {field: 'nd', title: '立项年度', style: 'cursor: pointer;', align: 'center'},
                 ]],
                 done: function (res, curr, count) {
+                    console.log(res.data);
+                    parent.$("#keyan").html(count);
                     // 点击行联动选择框--单选
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
@@ -112,6 +114,23 @@
             });
         }
         renderTable();
+
+        //监听行双击事件
+        table.on('row(processdef-table)', function (obj) {
+            var temUrl = "/out/project-detail/" + obj.data.dataId;
+            layer.open({
+                title: '详情',
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['90%', '80%'],
+                content: temUrl
+            });
+        });
     });
 </script>
 </body>

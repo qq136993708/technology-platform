@@ -20,7 +20,7 @@ public interface FullSearchService {
      * @param param
      * @return
      */
-    public LayuiTableData getTableDataScientific(LayuiTableParam param);
+    public LayuiTableData getTableDataScientific(LayuiTableParam param) throws Exception;
 
     /**
      * 成果查询
@@ -57,4 +57,6 @@ public interface FullSearchService {
     LayuiTableData getTableDataReport(LayuiTableParam param_common);
 
     public List<Map<String, Object>> setKeyWordCss(PageInfo<?> pageInfo, String keywords);
+
+    public LayuiTableData getTableSearchEquipment(LayuiTableParam param);
 }

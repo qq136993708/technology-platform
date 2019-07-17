@@ -51,6 +51,13 @@ public class FullSearchClient {
     }
 
 
+    @ApiOperation(value = "分页显示搜索装备数据", notes = "分页显示搜索装备数据")
+    @RequestMapping(value = "/search/getTableSearchEquipment", method = RequestMethod.POST)
+    public LayuiTableData getTableSearchEquipment(@RequestBody LayuiTableParam param) throws Exception {
+        return fullSearchService.getTableSearchEquipment(param);
+    }
+
+
     @ApiOperation(value = "首页报表查询", notes = "分页显示报表")
     @RequestMapping(value = "/search/getTableDataReport", method = RequestMethod.POST)
     public LayuiTableData getTableDataReport(@RequestBody LayuiTableParam param) throws Exception {

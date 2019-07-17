@@ -10,6 +10,7 @@ import com.pcitc.base.expert.ZjkPatentExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>接口类</p>
@@ -181,4 +182,6 @@ public interface ZjkZhuanliService {
      * @return
      */
     List<TreeNode> selectObjectByTree();
+
+    public List<Map<String, Object>> setKeyWordCss(PageInfo<?> pageInfo, String keywords);
 }
