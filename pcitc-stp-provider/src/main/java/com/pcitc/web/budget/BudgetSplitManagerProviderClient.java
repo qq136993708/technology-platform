@@ -111,15 +111,9 @@ public class BudgetSplitManagerProviderClient
 				}
 				vo.setUnitIds(new ArrayList<String>(temp));
 			}
-			
-			System.out.println(JSON.toJSONString(vo.getBudgetItemCodes()));
-			System.out.println(JSON.toJSONString(vo.getUnitIds()));
 			for(java.util.Iterator<String> uiter = vo.getUnitIds().iterator();uiter.hasNext();) 
 			{
 				String unitId = uiter.next();//部门编码
-				System.out.println("unitId-------------------------------------"+unitId);
-				
-				
 				for(java.util.Iterator<String> biter = vo.getBudgetItemCodes().iterator();biter.hasNext();) 
 				{
 					String itemCode = biter.next();
@@ -224,7 +218,6 @@ public class BudgetSplitManagerProviderClient
 		List<BudgetOrganEnum> organs = BudgetOrganNdEnum.getByNd(nd).getOrgans();
 		for(BudgetOrganEnum enums:organs) 
 		{
-			System.out.println(JSON.toJSONString(enums));
 			list.add(enums.getUnitCode());
 		}
 		return list;
