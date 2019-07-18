@@ -7,6 +7,7 @@ import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
+import com.pcitc.service.doc.IndexAccessorService;
 import com.pcitc.service.system.IndexOutProjectInfoService;
 import com.pcitc.service.system.SysFileService;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
@@ -24,8 +25,8 @@ import java.util.*;
  * @author:Administrator
  * @date:2018/11/5
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@SpringBootTest(classes = SystemProviderApplication.class)// 指定spring-boot的启动类
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = SystemProviderApplication.class)// 指定spring-boot的启动类
 public class ZjkBaseInfoServiceTest {
 
 
@@ -35,6 +36,16 @@ public class ZjkBaseInfoServiceTest {
     private SysFileService sysFileService;
     @Autowired
     private IndexOutProjectInfoService index;
+
+
+    @Autowired
+    private IndexAccessorService indexAccessorService;
+
+    @Test
+    public void testselectHotWord(){
+        indexAccessorService.selectHotWord();
+    }
+
     //@Test
     public void excelInto_zjkExpertPatent() {
 

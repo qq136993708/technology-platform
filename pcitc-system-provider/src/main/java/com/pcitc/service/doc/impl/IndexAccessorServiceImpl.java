@@ -1,15 +1,23 @@
 package com.pcitc.service.doc.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
+import org.elasticsearch.action.search.SearchRequestBuilder;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -259,5 +267,25 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
     @Override
     public boolean deleteType(Class clazz) {
         return deleteType(SearchUtil.getIndexName(clazz), SearchUtil.getTypeName(clazz));
+    }
+
+    /**
+     * 查询出现的热点词汇
+     */
+    public void selectHotWord(){
+        //获取搜索日志
+        SearchRequestBuilder requestBuilder = clientFactoryBuilder.getClient().prepareSearch("files").setTypes("bak3").setQuery(QueryBuilders.matchAllQuery());
+        //聚合分析查询出现次数最多的10个词汇
+        SearchResponse actionGet = requestBuilder.addAggregation(AggregationBuilders.terms("hotWord").field("keywords").size(10)).execute().actionGet();
+        //获取分析后的数据
+        Aggregations aggregations = actionGet.getAggregations();
+        Terms trem = aggregations.get("hotWord");
+        List<Terms.Bucket> buckets = (List<Terms.Bucket>) trem.getBuckets();
+//        List<Terms.Bucket> buckets = trem.getBuckets();
+        List<String> hotWords = new ArrayList<>();
+        for (Terms.Bucket bucket : buckets) {
+            String key = (String) bucket.getKey();
+            hotWords.add(key);
+        }
     }
 }
