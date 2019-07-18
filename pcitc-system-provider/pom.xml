@@ -391,12 +391,18 @@
 		</dependency>
 		<!-- web service end -->
 
-		<!-- 密码的加密操作
+		<!-- 密码的加密操作, 采用低版本，高版本springboot有缺失 -->
 		<dependency>
 			<groupId>com.github.ulisesbocchio</groupId>
 			<artifactId>jasypt-spring-boot-starter</artifactId>
-			<version>2.1.0</version>
-		</dependency> -->
+			<version>1.14</version>
+			<!-- <exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-parent</artifactId>
+				</exclusion>
+			</exclusions> -->
+		</dependency>
 
 		<!-- 事务lcn相关 -->
 		<!-- <dependency> <groupId>com.codingapi</groupId> <artifactId>transaction-springcloud</artifactId> 
