@@ -661,8 +661,9 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .cycle-cont-left{width: 14%;float: left;margin: 10px 0;text-align: center;}
 .cycle-cont-midd,.cycle-cont-right{width: 43%;float: left;padding-top: 30px;box-sizing: border-box;padding-right: 10px;
     position: relative;}
-.cycle-cont-end{padding-top: 30px;}
-.cycle-cont-end span{ display: inline-block; padding: 10px;margin: 0 6px;background-color: #1890ff;color: #fff;border-radius: 3px;}
+.cycle-cont-end{padding-top: 16px;}
+.cycle-cont-end span{ display: inline-block; padding: 10px;margin: 0 6px;background-color: #1890ff;color: #fff;cursor: pointer;
+    border-radius: 3px;}
 .cycle-cont-left p{text-align: center;font-size: 12px;}
 .cycle-cont-left p:nth-child(1){background-color: #1890ff;display:inline-block;height: 26px;line-height: 26px;
     margin:  0 auto;border-radius: 6px;color: white;font-size: 12px;padding: 0 6px;}
@@ -720,6 +721,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     border: 1px solid #1890ff !important;}
 .xm-select-parent dd .xm-cz:hover{color: #1890ff !important;}
 .layui-tab-brief>.layui-tab-title .layui-this{color: #1890ff}
+.cycle-midd{width: 7% !important;}
 /*skill*/
 .skill{padding: 6px 0px 15px;border: 1px solid #dadada;
     border-radius: 3px;}

@@ -94,7 +94,14 @@ public class OutRewardServiceImpl implements OutRewardService {
 	}
 
 	public int insertRewardData(List<OutReward> list) {
+		// 删除原有的2018年及以后年份的数据(新数据)
+		OutRewardExample example = new OutRewardExample();
+		OutRewardExample.Criteria criteria = example.createCriteria();
+		criteria.andStatusEqualTo("newData");
+		outRewardMapper.deleteByExample(example);
+		
 		outRewardMapper.insertOutRewardBatch(list);
+		outRewardMapper.updateOutReward();
 		return 1;
 	}
 

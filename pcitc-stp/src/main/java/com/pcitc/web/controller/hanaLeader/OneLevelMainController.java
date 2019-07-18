@@ -48,6 +48,7 @@ import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ProjectForMysql;
 import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysNewsVo;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
@@ -168,7 +169,7 @@ public class OneLevelMainController extends BaseController {
 					JSONArray jSONArray2 = responseEntity2.getBody();
 					System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray2.toString());
 					List<BudgetMysql> list = JSONObject.parseArray(jSONArray2.toJSONString(), BudgetMysql.class);
-					// 单独计算预算金额
+					// 单独计算各个专业处的预算金额
 					if (!zycbm.equals("")) {
 						BudgetItemSearchVo vo = new BudgetItemSearchVo();
 						vo.setNd(nd);
@@ -739,15 +740,177 @@ public class OneLevelMainController extends BaseController {
 			ktlxList.add("结转课题");
 			request.setAttribute("ktlxList", ktlxList);
 		}
+		
 		return "stp/hana/home/oneLevelMain/count_table";
 	}
+	
+	
+	
+	
+	
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/count_table_new")
+	public String count_table_new(HttpServletRequest request) throws Exception {
+
+		String nd = CommonUtil.getParameter(request, "nd", "");// 年度
+		String ysnd = CommonUtil.getParameter(request, "ysnd", "");// 预算年磁
+		String xmmc = CommonUtil.getParameter(request, "xmmc", "");// 项目名
+		String hth = CommonUtil.getParameter(request, "hth", "");// 合同号
+		String define1 = CommonUtil.getParameter(request, "define1", "");// 费用类别->资本性、费用性
+		String define2 = CommonUtil.getParameter(request, "define2", "");// 8大院研究院
+		String type_flag = CommonUtil.getParameter(request, "type_flag", "");// 直属研究院、分子公司、集团等9种类型
+		String project_property = CommonUtil.getParameter(request, "project_property", "");// 国家项目、重大专项、重点项目、其他项目
+		String project_scope = CommonUtil.getParameter(request, "project_scope", "");// 新开项目、续建项目、完工项目
+		String zylb = CommonUtil.getParameter(request, "zylb", "");// 装备的各种技术类型
+		String define10 = CommonUtil.getParameter(request, "define10", "");// 各个处室
+		String define5 = CommonUtil.getParameter(request, "define5", "");// 技术分布
+		String ktlx = CommonUtil.getParameter(request, "ktlx", "");
+		String define11 = CommonUtil.getParameter(request, "define11", "");// 费用来源
+		String define12 = CommonUtil.getParameter(request, "define12", "");// 单位类别
+		String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
+		String fzdwflag = CommonUtil.getParameter(request, "fzdwflag", "承担单位");
+		request.setAttribute("fzdwflag", fzdwflag);
+		request.setAttribute("define12", define12);
+		request.setAttribute("define11", define11);
+		request.setAttribute("ktlx", ktlx);
+		request.setAttribute("define5", define5);
+		request.setAttribute("nd", nd);
+		request.setAttribute("ysnd", ysnd);
+		request.setAttribute("define10", define10);
+		request.setAttribute("xmmc", xmmc);
+		request.setAttribute("hth", hth);
+		request.setAttribute("define1", define1);
+		request.setAttribute("define2", define2);
+		request.setAttribute("type_flag", type_flag);
+		request.setAttribute("project_property", project_property);
+		request.setAttribute("project_scope", project_scope);
+		request.setAttribute("zylb", zylb);
+		request.setAttribute("groupFlag", groupFlag);
+		String projectId = CommonUtil.getParameter(request, "projectId", "");
+		request.setAttribute("projectId", projectId);
+
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+			request.setAttribute("leaderFlag", "1");
+		}
+		
+		//费用类别
+		List<SysDictionary>  fylbList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
+		request.setAttribute("fylbList", fylbList);
+		//课题类型
+		List<SysDictionary>  ktlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
+		request.setAttribute("ktlxList", ktlxList);
+		//技术分类
+		List<SysDictionary>  jsflList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
+		request.setAttribute("jsflList", jsflList);
+		//三级级联：经费来源(公司类型财务)->单位类别->研究院
+		List<SysDictionary>  jflyList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
+		request.setAttribute("jflyList", jflyList);
+		//科技部二级级联： 专业处->专业类别
+		List<SysDictionary>  zycList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
+		request.setAttribute("zycList", zycList);
+		//负责单位
+		List<SysDictionary>  fzdwList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
+		request.setAttribute("fzdwList", fzdwList);
+		//分组类型
+		List<SysDictionary>  fzlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
+		request.setAttribute("fzlxList", fzlxList);
+		
+		
+		
+		
+		return "stp/hana/home/oneLevelMain/count_table_new";
+	}
+
+	
+	
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/common_table_new")
+	public String common_table_new(HttpServletRequest request) throws Exception {
+
+		String nd = CommonUtil.getParameter(request, "nd", "");// 项目名
+		String ysnd = CommonUtil.getParameter(request, "ysnd", "");// 项目名
+		String xmmc = CommonUtil.getParameter(request, "xmmc", "");// 项目名
+		String hth = CommonUtil.getParameter(request, "hth", "");// 合同号
+		String define1 = CommonUtil.getParameter(request, "define1", "");// 资本性、费用性
+		String define2 = CommonUtil.getParameter(request, "define2", "");// 8大院等细分结构
+		String define3 = CommonUtil.getParameter(request, "define3", "");// 直属研究院、分子公司、集团等9种类型
+		String project_property = CommonUtil.getParameter(request, "project_property", "");// 国家项目、重大专项、重点项目、其他项目
+		String project_scope = CommonUtil.getParameter(request, "project_scope", "");// 新开项目、续建项目、完工项目
+		String zylb = CommonUtil.getParameter(request, "zylb", "");// 装备的各种技术类型
+		String define10 = CommonUtil.getParameter(request, "define10", "");// 各个处室
+		String qdbz = CommonUtil.getParameter(request, "qdbz", "");// 签订标识
+		String define11 = CommonUtil.getParameter(request, "define11", "");// 费用来源
+		String define12 = CommonUtil.getParameter(request, "define12", "");// 单位类别
+		String fzdwflag = CommonUtil.getParameter(request, "fzdwflag", "承担单位");
+		String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 查询分组条件
+		request.setAttribute("fzdwflag", fzdwflag);
+		request.setAttribute("define12", define12);
+		request.setAttribute("define11", define11);
+		request.setAttribute("qdbz", qdbz);
+		request.setAttribute("nd", nd);
+		request.setAttribute("ysnd", ysnd);
+		request.setAttribute("define10", define10);
+		request.setAttribute("xmmc", xmmc);
+		request.setAttribute("hth", hth);
+		request.setAttribute("define1", define1);
+		request.setAttribute("define2", define2);
+		request.setAttribute("define3", define3);
+		request.setAttribute("project_property", project_property);
+		request.setAttribute("project_scope", project_scope);
+		request.setAttribute("zylb", zylb);
+		request.setAttribute("groupFlag", groupFlag);
+		String projectId = CommonUtil.getParameter(request, "projectId", "");
+		request.setAttribute("projectId", projectId);
+
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+			request.setAttribute("leaderFlag", "1");
+		}
+		
+		
+		
+		//费用类别
+		List<SysDictionary>  fylbList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
+		request.setAttribute("fylbList", fylbList);
+		//课题类型
+		List<SysDictionary>  ktlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
+		request.setAttribute("ktlxList", ktlxList);
+		//三级级联：经费来源(公司类型财务)->单位类别->研究院
+		List<SysDictionary>  jflyList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
+		request.setAttribute("jflyList", jflyList);
+		//科技部二级级联： 专业处->专业类别
+		List<SysDictionary>  zycList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
+		request.setAttribute("zycList", zycList);
+		//负责单位
+		List<SysDictionary>  fzdwList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
+		request.setAttribute("fzdwList", fzdwList);
+		//签订标示
+		List<SysDictionary>  qdbsList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_QDBS", restTemplate, httpHeaders);
+		request.setAttribute("qdbsList", qdbsList);
+		//分组类型
+		List<SysDictionary>  fzlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
+		request.setAttribute("fzlxList", fzlxList);
+				
+		
+		return "stp/hana/home/oneLevelMain/common_table_new";
+	}
+	
+	
+	
 
 	// 三级表格
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/count_table_data")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String count_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println(">>>>>>>>>>>>count_table_data>param:" + JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>>>count_table_data三级表格参数：" + JSONObject.toJSONString(param));
 
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			// 领导标识，不控制数据
@@ -1347,6 +1510,8 @@ public class OneLevelMainController extends BaseController {
 		}
 		ChartPieResultData pie = new ChartPieResultData();
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_01, HttpMethod.POST, entity, JSONArray.class);
@@ -2603,7 +2768,7 @@ public class OneLevelMainController extends BaseController {
 				System.out.println(">>>>>>>>>>>>>>investment_01 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
-				// 单独计算预算金额
+				// 单独计算各个专业处的预算金额
 				if (!zycbm.equals("")) {
 					BudgetItemSearchVo vo = new BudgetItemSearchVo();
 					vo.setNd(nd);
@@ -2872,6 +3037,129 @@ public class OneLevelMainController extends BaseController {
 				legendDataList.add("预算执行率");
 				barLine.setxAxisDataList(xAxisDataList);
 				barLine.setLegendDataList(legendDataList);
+				
+				
+				// 单独计算各个专业处的预算金额
+				if (!zycbm.equals("")) {
+					BudgetItemSearchVo vo = new BudgetItemSearchVo();
+					vo.setNd(nd);
+					Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
+					List<String> list_1 = new ArrayList<>(set);
+					System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + String.join("", list_1));
+					System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + String.join(",", list_1));
+					vo.getUnitIds().addAll(list_1);
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_KTY");
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_GCY");
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_WTY");
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_SKY");
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_DLY");
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_BHY");
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_SHY");
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_AGY");
+					HttpEntity<BudgetItemSearchVo> entity1 = new HttpEntity<BudgetItemSearchVo>(vo, httpHeaders);
+					ResponseEntity<BudgetItemSearchVo> responseEntity1 = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity1, BudgetItemSearchVo.class);
+					int statusCode1 = responseEntity1.getStatusCodeValue();
+					if (statusCode1 == 200) {
+						BudgetItemSearchVo bis = responseEntity1.getBody();
+						double investMoney1 = 0d;
+						double investMoney2 = 0d;
+						double investMoney3 = 0d;
+						double investMoney4 = 0d;
+						double investMoney5 = 0d;
+						double investMoney6 = 0d;
+						double investMoney7 = 0d;
+						double investMoney8 = 0d;
+						for (int i = 0; i < list_1.size(); i++) {
+							investMoney1 = investMoney1 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_KTY");
+							investMoney2 = investMoney2 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_GCY");
+							investMoney3 = investMoney3 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_WTY");
+							investMoney4 = investMoney4 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_SKY");
+							investMoney5 = investMoney5 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_DLY");
+							investMoney6 = investMoney6 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_BHY");
+							investMoney7 = investMoney7 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_SHY");
+							investMoney8 = investMoney8 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_AGY");
+						}
+						
+						// 替换原查询结果list中的总预算、未执行、预算执行率属性
+						for (int k = 0; k < list.size(); k++) {
+							BudgetMysql bm = list.get(k);
+							if (bm.getDefine2() != null && bm.getDefine2().equals("勘探院")) {
+								bm.setZysje(investMoney1);
+								bm.setWxdje(investMoney1 - Double.parseDouble(bm.getZsjje().toString()));
+								if (investMoney1 != 0d) {
+									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
+								} else {
+									bm.setJeRate(0);
+								}
+							}
+							if (bm.getDefine2() != null && bm.getDefine2().equals("工程院")) {
+								bm.setZysje(investMoney2);
+								bm.setWxdje(investMoney2 - Double.parseDouble(bm.getZsjje().toString()));
+								if (investMoney2 != 0d) {
+									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
+								} else {
+									bm.setJeRate(0);
+								}
+							}
+							if (bm.getDefine2() != null && bm.getDefine2().equals("物探院")) {
+								bm.setZysje(investMoney3);
+								bm.setWxdje(investMoney3 - Double.parseDouble(bm.getZsjje().toString()));
+								if (investMoney3 != 0d) {
+									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
+								} else {
+									bm.setJeRate(0);
+								}
+							}
+							if (bm.getDefine2() != null && bm.getDefine2().equals("石科院")) {
+								bm.setZysje(investMoney4);
+								bm.setWxdje(investMoney4 - Double.parseDouble(bm.getZsjje().toString()));
+								if (investMoney4 != 0d) {
+									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
+								} else {
+									bm.setJeRate(0);
+								}
+							}
+							if (bm.getDefine2() != null && bm.getDefine2().equals("大连院")) {
+								bm.setZysje(investMoney5);
+								bm.setWxdje(investMoney5 - Double.parseDouble(bm.getZsjje().toString()));
+								if (investMoney5 != 0d) {
+									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
+								} else {
+									bm.setJeRate(0);
+								}
+							}
+							if (bm.getDefine2() != null && bm.getDefine2().equals("北化院")) {
+								bm.setZysje(investMoney6);
+								bm.setWxdje(investMoney6 - Double.parseDouble(bm.getZsjje().toString()));
+								if (investMoney6 != 0d) {
+									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
+								} else {
+									bm.setJeRate(0);
+								}
+							}
+							if (bm.getDefine2() != null && bm.getDefine2().equals("上海院")) {
+								bm.setZysje(investMoney7);
+								bm.setWxdje(investMoney7 - Double.parseDouble(bm.getZsjje().toString()));
+								if (investMoney7 != 0d) {
+									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
+								} else {
+									bm.setJeRate(0);
+								}
+							}
+							if (bm.getDefine2() != null && bm.getDefine2().equals("安工院")) {
+								bm.setZysje(investMoney8);
+								bm.setWxdje(investMoney8 - Double.parseDouble(bm.getZsjje().toString()));
+								if (investMoney8 != 0d) {
+									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
+								} else {
+									bm.setJeRate(0);
+								}
+							}
+						}
+					}
+				}
+				
+				
 				// X轴数据
 				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 				ChartBarLineSeries s1 = HanaUtil.getinvestmentBarLineSeries2(list, "zsjje");

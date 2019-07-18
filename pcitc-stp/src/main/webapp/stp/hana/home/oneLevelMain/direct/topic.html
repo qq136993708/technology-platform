@@ -353,8 +353,8 @@
 				if (legentName == '新开课题') {
 					nd_temp = nd;
 				}
-
-				var url = encodeURIComponent("/one_level_main/count_table?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + legentName + "&define1=费用性&groupFlag=xmid,define8");
+                //alert(xName);
+				var url = encodeURIComponent("/one_level_main/count_table_new?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + legentName + "&define1=费用性&groupFlag=xmid,define8&define11=股份公司&define12=直属研究院");
 				window.open("/instituteIndex?url=" + url);
 
 			});

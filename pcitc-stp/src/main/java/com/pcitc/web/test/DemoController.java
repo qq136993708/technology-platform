@@ -68,7 +68,7 @@ public class DemoController {
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("sqlName", "GetZYWCR");
 			JsonObject jo = new JsonObject();
-			jo.addProperty("xmid", "3613");
+			jo.addProperty("xmid", "4409");
 
 			System.out.println(jo.toString());
 			paramMap.put("conditions", jo.toString());
