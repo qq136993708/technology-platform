@@ -35,6 +35,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.HanaConstant;
+import com.pcitc.base.stp.out.OutWaitWork;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysModule;
@@ -96,7 +97,7 @@ public class AdminController extends BaseController {
 
 	// 项目管理系统待办任务
 	private static final String PROJECT_PENDING = "http://pcitc-zuul/system-proxy/out-wait-work/page";
-		
+
 	private Integer TIME_OUT = 1 * 60 * 60;
 
 	/**
@@ -695,7 +696,7 @@ public class AdminController extends BaseController {
 
 		// oa系统的服务器地址
 		request.setAttribute("outOAIp", "10.1.4.10");
-		
+
 		// 获取其他系统的待办任务
 		LayuiTableParam waitPara = new LayuiTableParam();
 		waitPara.setLimit(10);
@@ -703,7 +704,17 @@ public class AdminController extends BaseController {
 		HttpEntity<LayuiTableParam> waitEntity = new HttpEntity<LayuiTableParam>(waitPara, this.httpHeaders);
 		ResponseEntity<LayuiTableData> waitRes = this.restTemplate.exchange(PROJECT_PENDING, HttpMethod.POST, waitEntity, LayuiTableData.class);
 		LayuiTableData waitJTD = waitRes.getBody();
-		request.setAttribute("waitList", waitJTD.getData());
+		List<OutWaitWork> waitList = null;
+		if (waitJTD.getData() != null) {
+			waitList = (List<OutWaitWork>) waitJTD.getData();
+			for (int i = 0; i < waitList.size(); i++) {
+				OutWaitWork oww = waitList.get(i);
+				if (oww.getWaitTime() != null)
+					oww.setShowDate(DateUtil.dateToStr(oww.getWaitTime(), DateUtil.FMT_SS));
+			}
+		}
+
+		request.setAttribute("waitList", waitList);
 		return "/mainStp";
 	}
 
