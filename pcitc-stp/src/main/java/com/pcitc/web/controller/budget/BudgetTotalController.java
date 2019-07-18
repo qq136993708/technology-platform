@@ -45,7 +45,6 @@ import com.pcitc.base.stp.budget.BudgetAssetTotal;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
-import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 /**
@@ -64,37 +63,7 @@ public class BudgetTotalController extends BaseController {
 	public Object toBudgetMainTotal(HttpServletRequest request) throws IOException 
 	{
 		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
-		/*
 		
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd("2019");
-		//String unitIds = "30130054,30130055,30130064,30130055,30130065,30130054,30130055,30130064,30130055,30130065,30130056,30130057,30130058,30130059,30130061,30130062,30130063,3013000901,30130009,3013001101,3013001601,3013001602,3013001603,3013001604,3013001605,3013001607,3013001608,3013001609,3013001610,3013001611,3013001613";
-		String unitIds = "30130009,3013001610,3013001611,30130055,30130054,3013001613,3013000901,30130057,30130056,30130059,30130058,3013001101,30130062,30130061,30130064,3013001601,30130063,3013001603,30130065,3013001602,3013001605,3013001604,3013001607,3013001609,3013001608";
-		for(String unit:unitIds.split(",")) {
-			vo.getUnitIds().add(unit);//化工处
-		}
-		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_WTY");
-		
-		ResponseEntity<BudgetItemSearchVo> responseEntity = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<BudgetItemSearchVo>(vo, this.httpHeaders), BudgetItemSearchVo.class);
-		System.out.println(JSON.toJSONString(responseEntity.getBody())); 
-		
-		BudgetItemSearchVo rs = responseEntity.getBody();
-		for(String u:unitIds.split(",")) 
-		{
-			System.out.println(rs.getBudgetTotal("2018", u, "ROOT_ZGSHJT_GFGS_ZSYJY"));
-		}*/
-		String url = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd("2018");
-		//vo.getUnitIds().add("30130054");
-		ResponseEntity<BudgetItemSearchVo> responseEntity = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<BudgetItemSearchVo>(vo, this.httpHeaders), BudgetItemSearchVo.class);
-		vo = responseEntity.getBody();
-		System.out.println(JSON.toJSONString(vo)); 
-		
-		System.out.println(vo.getBudgetTotal());
-		System.out.println(JSON.toJSONString(vo.getBudgetByUnit("30130054")));
-		System.out.println(vo.getBudgetByUnitAndItem("30130054", "ROOT_ZGSHJT_GFGS_ZSYJY"));
-		System.out.println(JSON.toJSONString(vo.getBudgetByAllUnit()));
 		
 		return "stp/budget/budget_main_total";
 	}

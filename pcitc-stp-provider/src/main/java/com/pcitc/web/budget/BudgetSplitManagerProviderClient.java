@@ -3,6 +3,7 @@ package com.pcitc.web.budget;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetOrganEnum;
 import com.pcitc.base.common.enums.BudgetOrganNdEnum;
@@ -80,22 +82,44 @@ public class BudgetSplitManagerProviderClient
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
 		{
+			//集团单位
+			List<SysDictionary> groupDics = systemRemoteClient.getDictionaryListByParentCode(BudgetStockEnum.SPLIT_GROUP_TOTAL.getCode()+vo.getNd());
+			//资产单位
+			List<SysDictionary> assetDics = systemRemoteClient.getDictionaryListByParentCode(BudgetStockEnum.SPLIT_ASSET_TOTAL.getCode()+vo.getNd());
 			//检索预算项数据
 			List<BudgetSplitData> datas = getFinalBudgetSplitData(vo.getNd());
-			//如果不传入预算项
+			
+			//如果不传入预算项则计算所有预算项
 			if(vo.getBudgetItemCodes().size() == 0) 
 			{
 				vo.setBudgetItemCodes(getBudgetItemCodes(vo.getNd()));
+			}else {
+				Set<String> temp = new LinkedHashSet<String>();
+				for(String t:vo.getBudgetItemCodes()) {
+					temp.add(t);
+				}
+				vo.setBudgetItemCodes(new ArrayList<String>(temp));
 			}
 			//如果不传入预算部门
 			if(vo.getUnitIds().size() == 0) 
 			{
 				vo.setUnitIds(getBudgetUnitIds(vo.getNd()));
+			}else {
+				Set<String> temp = new LinkedHashSet<String>();
+				for(String t:vo.getUnitIds()) {
+					temp.add(t);
+				}
+				vo.setUnitIds(new ArrayList<String>(temp));
 			}
 			
+			System.out.println(JSON.toJSONString(vo.getBudgetItemCodes()));
+			System.out.println(JSON.toJSONString(vo.getUnitIds()));
 			for(java.util.Iterator<String> uiter = vo.getUnitIds().iterator();uiter.hasNext();) 
 			{
 				String unitId = uiter.next();//部门编码
+				System.out.println("unitId-------------------------------------"+unitId);
+				
+				
 				for(java.util.Iterator<String> biter = vo.getBudgetItemCodes().iterator();biter.hasNext();) 
 				{
 					String itemCode = biter.next();
@@ -113,48 +137,46 @@ public class BudgetSplitManagerProviderClient
 						codes.add(BudgetStockEnum.SPLIT_STOCK_YJY_AGY.getCode());
 					}else if(BudgetStockEnum.SPLIT_GROUP_TOTAL.getUnitCode().equals(itemCode)) 
 					{
-						//集团单位
-						List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode(BudgetStockEnum.SPLIT_GROUP_TOTAL.getCode()+vo.getNd());
-						for(SysDictionary d:dis) 
+						for(SysDictionary d:groupDics) 
 						{
 							codes.add(d.getCode());
 						}
-						
 					}else if(BudgetStockEnum.SPLIT_ASSET_TOTAL.getUnitCode().equals(itemCode)) 
 					{
-						//资产单位
-						List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode(BudgetStockEnum.SPLIT_ASSET_TOTAL.getCode()+vo.getNd());
-						for(SysDictionary d:dis) 
+						for(SysDictionary d:assetDics) 
 						{
 							codes.add(d.getCode());
 						}
 					}else {
 						codes.add(BudgetStockEnum.getByUnitCode(itemCode).getCode());
 					}
+					
 					BudgetOrganEnum organ = BudgetOrganEnum.getByUnitCode(unitId);
 					Map<String,Object> map = new HashMap<String,Object>();
 					map.put("unitId", unitId);
-					map.put("unitName", organ.getName());
+					map.put("unitName", "");
 					map.put("budgetItemCode", itemCode);
 					map.put("budgetItemName", BudgetStockEnum.getByUnitCode(itemCode).getName());
 					map.put("total", 0d);
 					map.put("jz", 0d);
 					map.put("xq", 0d);
-					
-					List<BudgetSplitData> list = datas.stream()
-							.filter(a -> a.getOrganCode().equals(organ.getCode()))
-							.filter(a -> codes.contains(a.getSplitCode()))
-							.collect(Collectors.toList());
-					if(list != null && list.size()>0) 
-					{
-						for(BudgetSplitData dt:list) 
+					if(organ != null) {
+						map.put("unitName", organ.getName());
+						List<BudgetSplitData> list = datas.stream()
+								.filter(a -> a.getOrganCode().equals(organ.getCode()))
+								.filter(a -> codes.contains(a.getSplitCode()))
+								.collect(Collectors.toList());
+						if(list != null && list.size()>0) 
 						{
-							map.put("total", (Double)map.get("total")+dt.getTotal());
-							map.put("jz", (Double)map.get("jz")+dt.getJz());
-							map.put("xq", (Double)map.get("xq")+dt.getXq());
+							for(BudgetSplitData dt:list) 
+							{
+								map.put("total", (Double)map.get("total")+dt.getTotal());
+								map.put("jz", (Double)map.get("jz")+dt.getJz());
+								map.put("xq", (Double)map.get("xq")+dt.getXq());
+							}
 						}
 					}
-					
+					System.out.println("unitId:"+unitId+"----itemCode:"+itemCode+"----item:"+JSON.toJSONString(codes)+"----v:"+JSON.toJSONString(map));
 					rsdata.add(map);
 				}
 			}
@@ -165,7 +187,7 @@ public class BudgetSplitManagerProviderClient
 		{
 			e.printStackTrace();
 		}
-		return rsdata;
+		return vo;
 	}
 	
 	private List<BudgetSplitData> getFinalBudgetSplitData(String nd) 
@@ -184,17 +206,17 @@ public class BudgetSplitManagerProviderClient
 	//获得预算项及预算项下面的编码列表【直属院：下面有8个，股份下面有N个，集团下面有N个】
 	private List<String> getBudgetItemCodes(String nd)
 	{
-		List<String> list = new ArrayList<String>();
+		Set<String> set = new LinkedHashSet<String>();
 		List<BudgetStockEnum> stocks = BudgetStockNdEnum.getStockTotalTypes(nd).getSplits();
-		stocks.add(BudgetStockEnum.SPLIT_GROUP_TOTAL);
-		stocks.add(BudgetStockEnum.SPLIT_ASSET_TOTAL);
 		for(BudgetStockEnum enums:stocks) 
 		{
 			if(enums.getId()<3000) {//直属院只统计“直属研究院”
-				list.add(enums.getUnitCode());
+				set.add(enums.getUnitCode());
 			}
 		}
-		return list;
+		set.add(BudgetStockEnum.SPLIT_GROUP_TOTAL.getUnitCode());
+		set.add(BudgetStockEnum.SPLIT_ASSET_TOTAL.getUnitCode());
+		return new ArrayList<String>(set);
 	}
 	private List<String> getBudgetUnitIds(String nd)
 	{
@@ -202,6 +224,7 @@ public class BudgetSplitManagerProviderClient
 		List<BudgetOrganEnum> organs = BudgetOrganNdEnum.getByNd(nd).getOrgans();
 		for(BudgetOrganEnum enums:organs) 
 		{
+			System.out.println(JSON.toJSONString(enums));
 			list.add(enums.getUnitCode());
 		}
 		return list;
