@@ -80,17 +80,11 @@ public class OutNewsController extends BaseController
 			if (response.getCode() == 200) {
 				// 获取响应内容
 				result = response.getContent();
-				System.out.println("返回--------" + result);
 				JSONArray jsArr = JSONObject.parseArray(result);
-				System.out.println("返回--------" + jsArr.size());
-				for (int i =0; i < jsArr.size(); i++) {
-					JSONObject jsonObject = JSON.parseObject(jsArr.get(i).toString());
-					System.out.println(jsonObject.toJSONString());
-				}
 				return jsArr;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return null;
 	}
