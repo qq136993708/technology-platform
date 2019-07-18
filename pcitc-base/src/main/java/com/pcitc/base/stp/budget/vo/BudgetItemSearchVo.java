@@ -1,6 +1,7 @@
 package com.pcitc.base.stp.budget.vo;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,7 +40,7 @@ public class BudgetItemSearchVo
 		return total;
 	}
 	/**
-	 * 获取指定单位的预算列表
+	 * 获取指定机构按预算项目[研究院、分子公司、外部单位...]汇总结果
 	 * @param unitId
 	 * @return
 	 */
@@ -53,6 +54,31 @@ public class BudgetItemSearchVo
 			}
 		}
 		return rs;
+	}
+	/**
+	 * 获取所有机构按预算项目[研究院、分子公司、外部单位...]汇总结果
+	 * @return
+	 */
+	public List<Map<String,Object>> getBudgetByAllUnit() 
+	{
+		Map<String,Map<String,Object>> maps = new LinkedHashMap<String,Map<String,Object>>();
+		for(Map<String,Object> map:rsItems) 
+		{
+			String budgetItemCode= map.get("budgetItemCode").toString();
+			if(!maps.containsKey(budgetItemCode)) {
+				map.put("unitName", "");
+				map.put("unitId", "");
+				maps.put(budgetItemCode, map);
+			}else {
+				Double jz = (Double)maps.get(budgetItemCode).get("jz");
+				Double xq = (Double)maps.get(budgetItemCode).get("xq");
+				Double total = (Double)maps.get(budgetItemCode).get("total");
+				maps.get(budgetItemCode).put("jz", Double.valueOf(map.get("jz")+"")+jz);
+				maps.get(budgetItemCode).put("xq", Double.valueOf(map.get("xq")+"")+xq);
+				maps.get(budgetItemCode).put("total", Double.valueOf(map.get("total")+"")+total);
+			}
+		}
+		return new ArrayList<Map<String,Object>>(maps.values());
 	}
 	/**
 	 * 获取指定单位的指定预算项的值

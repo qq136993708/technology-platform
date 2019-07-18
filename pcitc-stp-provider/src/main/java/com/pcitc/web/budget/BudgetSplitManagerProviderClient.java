@@ -20,6 +20,7 @@ import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetOrganEnum;
 import com.pcitc.base.common.enums.BudgetOrganNdEnum;
 import com.pcitc.base.common.enums.BudgetStockEnum;
+import com.pcitc.base.common.enums.BudgetStockNdEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetMoneyTotal;
 import com.pcitc.base.stp.budget.BudgetSplitData;
@@ -184,7 +185,10 @@ public class BudgetSplitManagerProviderClient
 	private List<String> getBudgetItemCodes(String nd)
 	{
 		List<String> list = new ArrayList<String>();
-		for(BudgetStockEnum enums:BudgetStockEnum.values()) 
+		List<BudgetStockEnum> stocks = BudgetStockNdEnum.getStockTotalTypes(nd).getSplits();
+		stocks.add(BudgetStockEnum.SPLIT_GROUP_TOTAL);
+		stocks.add(BudgetStockEnum.SPLIT_ASSET_TOTAL);
+		for(BudgetStockEnum enums:stocks) 
 		{
 			if(enums.getId()<3000) {//直属院只统计“直属研究院”
 				list.add(enums.getUnitCode());

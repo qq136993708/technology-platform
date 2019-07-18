@@ -85,8 +85,8 @@ public class BudgetTotalController extends BaseController {
 		}*/
 		String url = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd("2019");
-		vo.getUnitIds().add("30130054");
+		vo.setNd("2018");
+		//vo.getUnitIds().add("30130054");
 		ResponseEntity<BudgetItemSearchVo> responseEntity = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<BudgetItemSearchVo>(vo, this.httpHeaders), BudgetItemSearchVo.class);
 		vo = responseEntity.getBody();
 		System.out.println(JSON.toJSONString(vo)); 
@@ -94,7 +94,7 @@ public class BudgetTotalController extends BaseController {
 		System.out.println(vo.getBudgetTotal());
 		System.out.println(JSON.toJSONString(vo.getBudgetByUnit("30130054")));
 		System.out.println(vo.getBudgetByUnitAndItem("30130054", "ROOT_ZGSHJT_GFGS_ZSYJY"));
-		
+		System.out.println(JSON.toJSONString(vo.getBudgetByAllUnit()));
 		
 		return "stp/budget/budget_main_total";
 	}
