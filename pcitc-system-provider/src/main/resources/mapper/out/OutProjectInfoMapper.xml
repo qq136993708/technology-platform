@@ -3274,6 +3274,18 @@
 			</if>
 			<!-- 数据控制 -->
 			
+			<!-- 部门-处室--专业类别, 加Flag和数据控制的字段区分出来-->
+			<if test="gsbmbmFlag != null and gsbmbmFlag != ''">
+				and find_in_set(out_project_info.gsbmbm, '${gsbmbmFlag}')
+			</if>
+			<if test="zycbmFlag != null and zycbmFlag != ''">
+				and find_in_set(out_project_info.zycbm, '${zycbmFlag}')
+			</if>
+			<if test="zylbbmFlag != null and zylbbmFlag != ''">
+				and find_in_set(out_project_info.zylbbm, '${zylbbmFlag}')
+			</if>
+			
+			
 			<if test="groupFlag != null">
 				<if test="groupFlag != ''">
 					GROUP BY ${groupFlag}
