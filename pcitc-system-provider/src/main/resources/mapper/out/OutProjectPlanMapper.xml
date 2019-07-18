@@ -1851,7 +1851,7 @@
 			</if>
 			<!-- 数据控制 -->
 			
-			<!-- 部门-处室--专业类别, 加Flag和数据控制的字段区分出来-->
+			<!-- 部门-处室-专业类别, 加Flag和数据控制的字段区分出来-->
 			<if test="gsbmbmFlag != null and gsbmbmFlag != ''">
 				and find_in_set(tableA.gsbmbm, '${gsbmbmFlag}')
 			</if>

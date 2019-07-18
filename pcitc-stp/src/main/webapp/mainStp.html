@@ -324,7 +324,7 @@
 								<div class="layui-tab-item layui-show">
 									<ul>
 										<#list waitList as wait> <#if wait?exists>
-										<li><a href="${wait.url}" target="_blank" rel="noopener noreferrer">${wait.title}</a> <span>[${wait.waitTime}]</span></li>
+										<li><a href="${wait.url}" target="_blank" rel="noopener noreferrer">${wait.title}</a> <span>[${wait.showDate}]</span></li>
 										</#if> <#else>
 										</#list>
 									</ul>
