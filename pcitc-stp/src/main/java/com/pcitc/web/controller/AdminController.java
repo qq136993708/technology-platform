@@ -704,17 +704,7 @@ public class AdminController extends BaseController {
 		HttpEntity<LayuiTableParam> waitEntity = new HttpEntity<LayuiTableParam>(waitPara, this.httpHeaders);
 		ResponseEntity<LayuiTableData> waitRes = this.restTemplate.exchange(PROJECT_PENDING, HttpMethod.POST, waitEntity, LayuiTableData.class);
 		LayuiTableData waitJTD = waitRes.getBody();
-		List<OutWaitWork> waitList = null;
-		if (waitJTD.getData() != null) {
-			waitList = (List<OutWaitWork>) waitJTD.getData();
-			for (int i = 0; i < waitList.size(); i++) {
-				OutWaitWork oww = waitList.get(i);
-				if (oww.getWaitTime() != null)
-					oww.setShowDate(DateUtil.dateToStr(oww.getWaitTime(), DateUtil.FMT_SS));
-			}
-		}
-
-		request.setAttribute("waitList", waitList);
+		request.setAttribute("waitList", waitJTD.getData());
 		return "/mainStp";
 	}
 
