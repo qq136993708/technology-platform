@@ -330,8 +330,6 @@ layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
                  data : oldData
              });
          	viewObj.tbData=oldData;
-            //viewObj.tbData.push(newRow);
-            //table.reload('dataTable', {data: viewObj.tbData});
             curent_tabel_data=oldData;
          }
        
@@ -421,7 +419,8 @@ layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
                  if (!(/(^[1-9]\d*$)/.test(obj.value)))
                  {
                      layer.msg('请输入整数!');
-                     $(this).parent().find("div").html("");
+                     obj.value = 0;
+                     //$(this).parent().find("div").html("");
                      $(this).val("0")
                  }
              }else {
@@ -430,30 +429,37 @@ layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
                  if (!(reg.test(obj.value)))
                  {
                      layer.msg('请输入金额!');
-                     $(this).parent().find("div").html("");
-                     $(this).val("0")
+                     obj.value = 0;
+                    $(this).val("0")
                  }
 
              }
+         
+             $.each(curent_tabel_data,function(index,dt){
+          		if(obj.data.id == dt.id)
+          		{
+          			curent_tabel_data[index][obj.field] = obj.value;
+          		}
+          	});
 
          }); 
          
          
-         function getTableData(){
+         function getTableData()
+         {
         	
-             for(var i=0, row; i < viewObj.tbData.length; i++)
+            /*  for(var i=0, row; i < viewObj.tbData.length; i++)
              {
                  row = viewObj.tbData[i];
-                  /* alert(row.workersCount);
                  if(!row.workersCount){
-                     layer.msg("检查每一行，请填写职工总人数！", { icon: 5 }); //提示
+                     layer.msg("检查每一行，请填写职工总人数！", { icon: 5 });
                      return;
                  }else if(!row.femaleCount){
-                     layer.msg("检查每一行，请填写女性人数！", { icon: 5 }); //提示
+                     layer.msg("检查每一行，请填写女性人数！", { icon: 5 }); 
                      return;
-                 } */ 
-             } 
-             return JSON.stringify(viewObj.tbData);
+                 } 
+             }  */
+             return JSON.stringify(curent_tabel_data);
          }
          
          function getTableDataUnitCode()
