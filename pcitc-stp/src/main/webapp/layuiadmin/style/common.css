@@ -721,7 +721,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     border: 1px solid #1890ff !important;}
 .xm-select-parent dd .xm-cz:hover{color: #1890ff !important;}
 .layui-tab-brief>.layui-tab-title .layui-this{color: #1890ff}
-.cycle-midd{width: 7% !important;}
+.cycle-midd{width: 6% !important;}
 /*skill*/
 .skill{padding: 6px 0px 15px;border: 1px solid #dadada;
     border-radius: 3px;}

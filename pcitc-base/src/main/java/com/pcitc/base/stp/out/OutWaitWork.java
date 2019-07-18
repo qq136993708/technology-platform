@@ -22,8 +22,20 @@ public class OutWaitWork {
     private String userName;
 
     private Date waitTime;
+    
+    private String showDate;
+    
+    
 
-    public Long getId() {
+    public String getShowDate() {
+		return showDate;
+	}
+
+	public void setShowDate(String showDate) {
+		this.showDate = showDate;
+	}
+
+	public Long getId() {
         return id;
     }
 

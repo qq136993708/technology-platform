@@ -323,8 +323,8 @@
 							<div class="layui-tab-content">
 								<div class="layui-tab-item layui-show">
 									<ul>
-										<#list waitList as wait> <#if wait?exists>
-										<li><a href="${wait.url}" target="_blank" rel="noopener noreferrer">${wait.title}</a> <span>[${wait.waitTime}]</span></li>
+										<#list noticeList as notice> <#if notice?exists>
+										<li><a href="javascript:parent.layui.index.openTabsPage('/admin/project/notice/detail?dataId=${notice.dataId}', '科研项目动态');">${notice.noticeTitle}</a> <span>[${notice.noticeDate}]</span></li>
 										</#if> <#else>
 										</#list>
 									</ul>

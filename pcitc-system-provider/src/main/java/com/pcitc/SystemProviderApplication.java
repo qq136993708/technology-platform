@@ -10,6 +10,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,6 +31,7 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan
 @EnableFeignClients
 @EnableHystrix      //方便turbine进行监控
+@PropertySource(name="EncryptedProperties", value = "classpath:application-${spring.profiles.active}.properties")
 public class SystemProviderApplication {
 
     public static void main(String[] args) {

@@ -19,6 +19,7 @@ import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.stp.out.OutWaitWork;
 import com.pcitc.base.stp.out.OutWaitWorkExample;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.mapper.out.OutWaitWorkMapper;
@@ -34,27 +35,33 @@ public class OutWaitWorkServiceImpl implements OutWaitWorkService {
 
 	@Autowired
 	private OutProjectInfoMapper outProjectInfoMapper;
-	
+
 	@Autowired
 	private OutAppraisalMapper outAppraisalMapper;
 
 	private final static Logger logger = LoggerFactory.getLogger(OutWaitWorkServiceImpl.class);
 
 	public LayuiTableData getOutWaitWorkPage(LayuiTableParam param) throws Exception {
-		
+
 		PageHelper.startPage(param.getPage(), param.getLimit());
-		
+
 		String title = (String) param.getParam().get("title");
-		
+
 		OutWaitWorkExample example = new OutWaitWorkExample();
 		OutWaitWorkExample.Criteria criteria = example.createCriteria();
-		
-		if (param.getParam().get("userCode")!=null&&!StringUtils.isBlank(param.getParam().get("userCode")+"")) {
+
+		if (param.getParam().get("userCode") != null && !StringUtils.isBlank(param.getParam().get("userCode") + "")) {
 			criteria.andUserIdEqualTo(param.getParam().get("userCode").toString());
 		}
 		example.setOrderByClause(" wait_time desc ");
 
 		List<OutWaitWork> list = outWaitWorkMapper.selectByExample(example);
+
+		for (int i = 0; i < list.size(); i++) {
+			OutWaitWork oww = list.get(i);
+			if (oww.getWaitTime() != null)
+				oww.setShowDate(DateUtil.dateToStr(oww.getWaitTime(), DateUtil.FMT_SS));
+		}
 		PageInfo<OutWaitWork> pageInfo = new PageInfo<OutWaitWork>(list);
 		System.out.println(">>>>>>>>>查询分页结果" + pageInfo.getList().size());
 
@@ -89,9 +96,9 @@ public class OutWaitWorkServiceImpl implements OutWaitWorkService {
 	public Integer insertOutWaitWork(OutWaitWork record) throws Exception {
 		return outWaitWorkMapper.insert(record);
 	}
-	
+
 	public Integer insertOutWaitWorkBatch(List<OutWaitWork> workList) {
-		
+
 		return outWaitWorkMapper.insertOutWaitWorkBatch(workList);
 	}
 

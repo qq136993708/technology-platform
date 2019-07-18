@@ -27,7 +27,15 @@
         <span>资产描述</span>
         <input type="text" name="g0txt50"  title="资产描述" placeholder="请输入资产描述"  autocomplete="off" class="form-control" id="g0txt50">
     </label>
-                            
+    <label class="dateInput" style="margin-left:10px;">
+         <span>研究院</span>
+         <select name="g0gsjcyy" id="g0gsjcyy"  class="form-control"  >
+             <option value="" >--请选择--</option>
+             <#list leaddicList as vo> 
+		          <option value="${vo.numValue}"  >${vo.name}</option>
+		      </#list>
+		 </select>
+     </label>           
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"                 data-type="searchEvent">查询</button>
@@ -252,6 +260,10 @@ var name=$('#name').val();
     		month=month.replace("-","");
     	}
     	
+       var g0gsjcyy = $("#g0gsjcyy").val();
+       if(g0gsjcyy!=""){
+    	    $("#g0gsjc").val(g0gsjcyy);
+       }
     	//渲染
         table.render({
             elem: '#processdef-table',

@@ -733,5 +733,12 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		c.andBudgetInfoIdIn(budgetTypes);
 		return budgetSplitDataMapper.selectByExample(example);
 	}
+
+	@Override
+	public List<BudgetMoneyDecompose> selectTotalByNd(String nd) 
+	{
+		
+		return null;
+	}
 	
 }

@@ -35,6 +35,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.HanaConstant;
+import com.pcitc.base.stp.out.OutNotice;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysModule;
@@ -94,9 +95,10 @@ public class AdminController extends BaseController {
 	// 工作完成情况统计
 	private static final String WORKORDER_STAT = "http://pcitc-zuul/system-proxy/planbase-provider/workorder/stat";
 
-	// 项目管理系统待办任务
-	private static final String PROJECT_PENDING = "http://pcitc-zuul/system-proxy/out-wait-work/page";
-		
+	// 项目管理系统通知公告
+	private static final String PROJECT_NOTICE = "http://pcitc-zuul/system-proxy/out-notice/type/page";
+	private static final String PROJECT_NOTICE_DETAILS = "http://pcitc-zuul/system-proxy/out-notice/type/notice/";
+
 	private Integer TIME_OUT = 1 * 60 * 60;
 
 	/**
@@ -695,15 +697,14 @@ public class AdminController extends BaseController {
 
 		// oa系统的服务器地址
 		request.setAttribute("outOAIp", "10.1.4.10");
-		
+
 		// 获取其他系统的待办任务
-		LayuiTableParam waitPara = new LayuiTableParam();
-		waitPara.setLimit(10);
-		waitPara.getParam().put("userCode", sysUserInfo.getUserName());
-		HttpEntity<LayuiTableParam> waitEntity = new HttpEntity<LayuiTableParam>(waitPara, this.httpHeaders);
-		ResponseEntity<LayuiTableData> waitRes = this.restTemplate.exchange(PROJECT_PENDING, HttpMethod.POST, waitEntity, LayuiTableData.class);
-		LayuiTableData waitJTD = waitRes.getBody();
-		request.setAttribute("waitList", waitJTD.getData());
+		LayuiTableParam noticePara = new LayuiTableParam();
+		noticePara.setLimit(10);
+		HttpEntity<LayuiTableParam> noticeEntity = new HttpEntity<LayuiTableParam>(noticePara, this.httpHeaders);
+		ResponseEntity<LayuiTableData> noticeRes = this.restTemplate.exchange(PROJECT_NOTICE, HttpMethod.POST, noticeEntity, LayuiTableData.class);
+		LayuiTableData noticeJTD = noticeRes.getBody();
+		request.setAttribute("noticeList", noticeJTD.getData());
 		return "/mainStp";
 	}
 
@@ -1228,4 +1229,20 @@ public class AdminController extends BaseController {
 		return retJson;
 	}
 
+	/**
+	 * 科研项目动态
+	 */
+	@RequestMapping(value = "/admin/project/notice/detail")
+	public String showNoticeDetail(HttpServletRequest request) {
+		String dataId = request.getParameter("dataId");
+		System.out.println("1==="+dataId);
+		System.out.println("2==="+restTemplate);
+		System.out.println("3==="+httpHeaders);
+		System.out.println("4==="+PROJECT_NOTICE_DETAILS + dataId);
+		ResponseEntity<OutNotice> responseEntity = restTemplate.exchange(PROJECT_NOTICE_DETAILS + dataId, HttpMethod.POST, new HttpEntity<String>(httpHeaders), OutNotice.class);
+		OutNotice outNotice = responseEntity.getBody();
+		request.setAttribute("outNotice", outNotice);
+		return "/stp/out/notice-details";
+	}
+	
 }

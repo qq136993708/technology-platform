@@ -122,6 +122,9 @@ public class OneLevelMainController extends BaseController {
 	private static final String getInvestment = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/money-hana-type";
 	private static final String getInvestmentAll = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
 	
+	
+	
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_first_page_count")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
@@ -819,7 +822,9 @@ public class OneLevelMainController extends BaseController {
 		List<SysDictionary>  fzlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
 		request.setAttribute("fzlxList", fzlxList);
 		
-		
+		//部门
+		List<SysDictionary>  gsbmbmList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+		request.setAttribute("gsbmbmList", gsbmbmList);
 		
 		
 		return "stp/hana/home/oneLevelMain/count_table_new";
