@@ -1,7 +1,13 @@
 package com.pcitc.service.job;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -36,8 +42,8 @@ public class WaitWorkJob implements Job, Serializable {
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "项目管理所有待办任务接口返回 success=====");
 			if (str != null) {
 				// 先删除所有类型为2的代办
-				outWaitWorkService.deleteOutWaitWorkByType("2");
 				JSONArray jSONArray = JSONArray.parseArray(str);
+				List<OutWaitWork> insertList = new ArrayList<OutWaitWork>();
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
 					String title = object.getString("HDMC");
@@ -47,18 +53,47 @@ public class WaitWorkJob implements Job, Serializable {
 					String userId = object.getString("YHMC");
 					String userName = object.getString("YHXM");
 					String XMLB_MC = object.getString("XMLB_MC");
+					String RWDDSJ = object.getString("RWDDSJ");
 
 					String FZDW_MC = object.getString("FZDW_MC");
+					StringBuffer noteSB = new StringBuffer("");
 					OutWaitWork outWaitWork = new OutWaitWork();
+					if (title != null) {
+						noteSB.append(title);
+					}
+					if (XMLB_MC != null) {
+						noteSB.append("--"+XMLB_MC);
+					}
+					if (FZDW_MC != null) {
+						noteSB.append("--"+FZDW_MC);
+					}
+					outWaitWork.setNotes(noteSB.toString());
+					
+					StringBuffer realUrl = new StringBuffer(DataServiceUtil.HOME_PAGE);
+					if (url != null && url.length() > 5) {
+						realUrl.append(url.substring(5));
+					}
+					outWaitWork.setUrl(realUrl.toString());
+					
 					outWaitWork.setUserId(userId);
 					outWaitWork.setTitle(gcslxgxx);
 					outWaitWork.setType("2");
 					outWaitWork.setUserName(userName);
-					outWaitWork.setUrl(DataServiceUtil.HOME_PAGE);
 					outWaitWork.setCreateTime(new Date());
-					outWaitWork.setNotes(title + "--" + XMLB_MC + "--" + FZDW_MC);
+					
+					if (RWDDSJ != null && RWDDSJ.length() > 18) {// 待办任务时间含T
+						outWaitWork.setWaitTime(DateUtil.strToDate(RWDDSJ.substring(0, 19).replaceAll("T", " "), DateUtil.FMT_SS));
+					}
+					
 					// 运程代办--》保存到本地数据库
-					outWaitWorkService.insertOutWaitWork(outWaitWork);
+					//outWaitWorkService.insertOutWaitWork(outWaitWork);
+					insertList.add(outWaitWork);
+				}
+				
+				if (insertList != null && insertList.size() > 1) {
+					outWaitWorkService.deleteOutWaitWorkByType("2");
+					System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "开始插入=========");
+					outWaitWorkService.insertOutWaitWorkBatch(insertList);
 				}
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--项目管理所有待办任务接口 --保存到本地数据库-结束=========");
 			}

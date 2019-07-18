@@ -122,9 +122,13 @@ public class SearchFullController extends BaseController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/search")
-	public String search(HttpServletRequest request) throws Exception {
-		String keyword = request.getParameter("keyword");
-		request.setAttribute("keyword", (keyword == null || "undefined".equals(keyword)) ? "" : keyword);
+	public String search(HttpServletRequest request) {
+        try {
+            String keyword = request.getParameter("keyword");
+            request.setAttribute("keyword", (keyword == null || "undefined".equals(keyword)) ? "" : keyword);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 		return "stp/hana/home/search/search";
 	}
 

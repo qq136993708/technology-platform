@@ -288,4 +288,25 @@
       wait_time = #{waitTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  
+    <!-- 批量插入待办任务数据（其他系统的待办数据） -->
+	<insert id="insertOutWaitWorkBatch" parameterType="java.util.List">
+		
+		insert into out_wait_work (title, url, type, create_time, notes, status, user_id, user_name, wait_time)
+        values 
+		<foreach collection="list" item="workInfo" index="index" separator=",">
+			(
+			#{workInfo.title,jdbcType=VARCHAR},
+			#{workInfo.url,jdbcType=VARCHAR},
+			#{workInfo.type,jdbcType=VARCHAR},
+			#{workInfo.createTime,jdbcType=TIMESTAMP},
+			#{workInfo.notes,jdbcType=VARCHAR},
+			#{workInfo.status,jdbcType=VARCHAR},
+			#{workInfo.userId,jdbcType=VARCHAR},
+			#{workInfo.userName,jdbcType=VARCHAR},
+			#{workInfo.waitTime,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
 </mapper>

@@ -53,6 +53,11 @@ public interface OutProjectInfoMapper {
 	public List<OutProjectInfo> selectCommonProjectByCond(HashMap<String, Object> map);
 	
 	/**
+     * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息
+     */
+	public List<OutProjectInfo> selectProjectInfoWithAllInfoByCond(HashMap<String, Object> map);
+	
+	/**
      * 分页显示项目数据数据,国拨项目统计的第三级展示
      */
 	public List<OutProjectInfo> selectCountryProjectByCond(HashMap<String, Object> map);

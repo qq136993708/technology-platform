@@ -16,10 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,10 +48,6 @@ import com.pcitc.base.common.UploadType;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileShare;
 import com.pcitc.base.doc.SysFileShareExample;
-import com.pcitc.base.system.SysFile;
-import com.pcitc.base.system.SysFileConfig;
-import com.pcitc.base.system.SysFileExample;
-import com.pcitc.base.system.SysFileVo;
 import com.pcitc.base.util.DataTableInfoVo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -466,6 +464,25 @@ public class SysFileServiceImpl implements SysFileService {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("totalCount", result.getSearchHits().getTotalHits());
 		jsonObject.put("list", list);
+		return jsonObject;
+	}
+
+	@Autowired
+    SysFunctionService sysFunctionService;
+
+	@Override
+	public JSONObject selectSysFileListEsIndex(SysFileVo vo) throws Exception {
+		JSONObject jsonObject = selectSysFileListEs(vo);
+		List<SysFile> sysFiles = (List<SysFile>) jsonObject.get("list");
+		List<SysFunction> sysFunctions = sysFunctionService.selectByExample(new SysFunctionExample());
+        Map<String,String> id_name = sysFunctions.stream().collect(Collectors.toMap(SysFunction::getId,SysFunction::getName,(e1,e2)->e1));
+        Map<String,String> id_parent = sysFunctions.stream().collect(Collectors.toMap(SysFunction::getId,SysFunction::getParentId,(e1,e2)->e1));
+		sysFiles.stream().filter(e->{
+            e.setBak1(id_name.get(id_parent.get(e.getVersion())));
+            e.setVersion(id_name.get(e.getVersion()));
+		    return true;
+        }).collect(Collectors.toList());
+		jsonObject.put("list", sysFiles);
 		return jsonObject;
 	}
 

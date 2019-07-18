@@ -226,10 +226,23 @@ public class OutProjectServiceImpl implements OutProjectService {
             hashmap.put("zycbm", param.getParam().get("zycbm"));
         }
         
+        
+        // 部门-处室--专业类别, 加Flag和数据控制的字段区分出来
+        if (param.getParam().get("gsbmbmFlag") != null && !StringUtils.isBlank(param.getParam().get("gsbmbmFlag") + "")) {
+            hashmap.put("gsbmbmFlag", param.getParam().get("gsbmbmFlag"));
+        }
+        
+        if (param.getParam().get("zylbbmFlag") != null && !StringUtils.isBlank(param.getParam().get("zylbbmFlag") + "")) {
+            hashmap.put("zylbbmFlag", param.getParam().get("zylbbmFlag"));
+        }
+        
+        if (param.getParam().get("zycbmFlag") != null && !StringUtils.isBlank(param.getParam().get("zycbmFlag") + "")) {
+            hashmap.put("zycbmFlag", param.getParam().get("zycbmFlag"));
+        }
+        
         if (param.getParam().get("groupFlag") != null && !StringUtils.isBlank(param.getParam().get("groupFlag") + "")) {
             hashmap.put("groupFlag", param.getParam().get("groupFlag"));
         }
-        
         
         JSONObject hashmapstr = JSONObject.parseObject(JSONObject.toJSONString(hashmap));
     	System.out.println(">>>>>>>封装后->参数： " + hashmapstr.toString());

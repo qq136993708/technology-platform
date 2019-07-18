@@ -1675,7 +1675,7 @@
 			#{projectInfo.status,jdbcType=VARCHAR},
 			#{projectInfo.updateDate,jdbcType=TIMESTAMP},
 			#{projectInfo.projectId,jdbcType=VARCHAR},
-			#{projectInfo.parentProjectId,jdbcType=TIMESTAMP},
+			#{projectInfo.parentProjectId,jdbcType=VARCHAR},
 			#{projectInfo.projectType,jdbcType=VARCHAR},
 			#{projectInfo.projectProperty,jdbcType=VARCHAR},
 			#{projectInfo.erpProjectCode,jdbcType=VARCHAR},
@@ -3274,6 +3274,18 @@
 			</if>
 			<!-- 数据控制 -->
 			
+			<!-- 部门-处室-专业类别, 加Flag和数据控制的字段区分出来-->
+			<if test="gsbmbmFlag != null and gsbmbmFlag != ''">
+				and find_in_set(out_project_info.gsbmbm, '${gsbmbmFlag}')
+			</if>
+			<if test="zycbmFlag != null and zycbmFlag != ''">
+				and find_in_set(out_project_info.zycbm, '${zycbmFlag}')
+			</if>
+			<if test="zylbbmFlag != null and zylbbmFlag != ''">
+				and find_in_set(out_project_info.zylbbm, '${zylbbmFlag}')
+			</if>
+			
+			
 			<if test="groupFlag != null">
 				<if test="groupFlag != ''">
 					GROUP BY ${groupFlag}
@@ -3285,6 +3297,179 @@
 			<if test="groupFlag == null">
 				GROUP BY xmid
 			</if>
+			<if test="orderKey != null">
+				<if test="orderType != ''">
+					order by ${orderKey} ${orderType}
+				</if>
+				<if test="orderType == ''">
+					order by out_project_info.hth desc, out_project_info.define10
+				</if>
+			</if>
+			<if test="orderKey == null">
+				order by out_project_info.hth desc, out_project_info.define10
+			</if>
+	</select>
+	
+	
+	<!-- 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息 -->
+	<select id="selectProjectInfoWithAllInfoByCond" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select out_project_info.define1,out_project_info.define9,
+			   substr(out_project_info.define2 FROM 6) as define2,
+			   substr(out_project_info.type_flag FROM 4) as type_flag,
+			   out_project_info.xmmc,out_project_info.ysnd,
+			   out_project_info.jf,sum(out_project_info.ysje) as ysje,
+			   sum(out_project_info.yszbxje) as yszbxje,sum(out_project_info.ysfyxje) as ysfyxje,
+			   out_project_info.project_property,out_project_info.fzdw,out_project_info.zylb,
+			   substr(out_project_info.define10 from 4) as define10,
+			   substr(out_project_info.define11 from 2) as define11,
+			   substr(out_project_info.define12 from 4) as define12,
+		       out_project_info.nd,GROUP_CONCAT(out_project_info.define8) as define8,out_project_info.hth,out_project_info.zycmc,
+		       out_appraisal.jdh,out_appraisal.cgmc,out_appraisal.jdjg,
+		       out_reward.psdj,out_reward.xkfl
+		from out_project_info left join out_appraisal on (out_project_info.hth = out_appraisal.hth)
+							  left join out_reward on (out_project_info.hth = out_reward.hth)
+		where
+			 out_project_info.project_type != '1'
+			 and out_project_info.define3 = '项目管理系统'
+			<if test="nd != null and nd != ''">
+				and out_project_info.nd = #{nd}
+			</if>
+			<if test="ysnd != null and ysnd != ''">
+				and out_project_info.ysnd = #{ysnd}
+			</if>
+			<if test="ktlx != null and ktlx == '新开课题' and nd != null and nd != ''">
+				and out_project_info.ysnd = #{nd} and out_project_info.nd = #{nd} 
+			</if>
+			<if test="ktlx != null and ktlx == '结转课题' and ysnd != null and ysnd != ''">
+				and out_project_info.ysnd = #{ysnd} and out_project_info.nd &lt; #{ysnd} 
+			</if>
+			<if test="hth != null and hth != ''">
+				and out_project_info.hth like '%${hth}%'
+			</if>
+			<if test="xmmc != null and xmmc != ''">
+				and out_project_info.xmmc like '%${xmmc}%'
+			</if>
+			<if test="define1 != null">
+				and (
+				<foreach collection="define1" item="define1" index="index" separator=" or ">
+					out_project_info.define1 like '%${define1}%'
+				</foreach>
+				)
+			</if>
+			<if test="define9 != null">
+				and (
+				<foreach collection="define9" item="define9" index="index" separator=" or ">
+					out_project_info.define9 like '%${define9}%'
+				</foreach>
+				)
+			</if>
+			<if test="define10 != null">
+				and (
+				<foreach collection="define10" item="define10" index="index" separator=" or ">
+					out_project_info.define10 like '%${define10}%'
+				</foreach>
+				)
+			</if>
+			<if test="define11 != null">
+				and (
+				<foreach collection="define11" item="define11" index="index" separator=" or ">
+					out_project_info.define11 like '%${define11}%'
+				</foreach>
+				)
+			</if>
+			
+			<!-- define12, 财务相关的牵头单位，所以查询define13 -->
+			<if test="fzdwflag != null and fzdwflag == '牵头单位'">
+				<if test="define12 != null">
+					and (
+					<foreach collection="define12" item="define12" index="index" separator=" or ">
+						out_project_info.define13 like '%${define12}%'
+					</foreach>
+					)
+				</if>
+				<if test="define2 != null">
+					and (
+					<foreach collection="define2" item="define2" index="index" separator=" or ">
+						out_project_info.fzdwunitcw like '%${define2}%'
+					</foreach>
+					)
+				</if>
+			</if>
+			
+			<!-- define12, 财务相关的承担单位，所以查询type_flag -->
+			<if test="fzdwflag == null or fzdwflag == '' or fzdwflag == '承担单位'">
+				<if test="define12 != null">
+					and (
+					<foreach collection="define12" item="define12" index="index" separator=" or ">
+						out_project_info.type_flag like '%${define12}%'
+					</foreach>
+					)
+				</if>
+				<if test="define2 != null">
+					and (
+					<foreach collection="define2" item="define2" index="index" separator=" or ">
+						out_project_info.define2 like '%${define2}%'
+					</foreach>
+					)
+				</if>
+			</if>
+			<if test="define5 != null">
+				and (
+				<foreach collection="define5" item="define5" index="index" separator=" or ">
+					out_project_info.define5 like '%${define5}%'
+				</foreach>
+				)
+			</if>
+			<if test="project_property != null">
+				and (
+				<foreach collection="project_property" item="project_property" index="index" separator=" or ">
+					out_project_info.project_property like '%${project_property}%'
+				</foreach>
+				)
+			</if>
+			<if test="zylb != null">
+				and (
+				<foreach collection="zylb" item="zylb" index="index" separator=" or ">
+					out_project_info.zylb like '%${zylb}%'
+				</foreach>
+				)
+			</if>
+			<if test="type_flag != null">
+				and (
+				<foreach collection="type_flag" item="type_flag" index="index" separator=" or ">
+					out_project_info.type_flag like '%${type_flag}%'
+				</foreach>
+				)
+			</if>
+			
+			<!-- 数据控制 -->
+			<if test="zylbbm != null and zylbbm != ''">
+				and find_in_set(out_project_info.zylbbm, '${zylbbm}')
+			</if>
+			<if test="zycbm != null and zycbm != ''">
+				and find_in_set(out_project_info.zycbm, '${zycbm}')
+			</if>
+			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(out_project_info.zycbm, '${zycbm}')
+				</if>
+				<if test="zycbm == null or zycbm == ''">
+					and out_project_info.ND = '1900'
+				</if>
+			</if>
+			<!-- 数据控制 -->
+			
+			<!-- 部门-处室-专业类别, 加Flag和数据控制的字段区分出来-->
+			<if test="gsbmbmFlag != null and gsbmbmFlag != ''">
+				and find_in_set(out_project_info.gsbmbm, '${gsbmbmFlag}')
+			</if>
+			<if test="zycbmFlag != null and zycbmFlag != ''">
+				and find_in_set(out_project_info.zycbm, '${zycbmFlag}')
+			</if>
+			<if test="zylbbmFlag != null and zylbbmFlag != ''">
+				and find_in_set(out_project_info.zylbbm, '${zylbbmFlag}')
+			</if>
+			GROUP BY out_project_info.xmid
 			<if test="orderKey != null">
 				<if test="orderType != ''">
 					order by ${orderKey} ${orderType}
@@ -3919,7 +4104,7 @@
   <!--首页查询end-->
   <select id="selectProjectInfoByCond" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
 		select out_project_info.data_id,out_project_info.hth,out_project_info.xmmc,
-			   out_project_info.nd,out_project_info.xmid,out_project_info.fzdw,
+			   out_project_info.nd,out_project_info.xmid,GROUP_CONCAT(out_project_info.fzdw) as fzdw,
 			   out_project_info.jf,out_project_info.zylb,substr(out_project_info.define10, 4) as define10,
 			   out_project_info.ysje,out_project_info.ysnd,out_project_info.fwdx,out_project_info.status,
 			   out_project_info.fzrxm,out_project_info.define14
@@ -3943,6 +4128,6 @@
 		</if>
 		
 		group by ysnd,xmid
-		order by ysnd
+		order by nd desc,hth
 	</select>
 </mapper>

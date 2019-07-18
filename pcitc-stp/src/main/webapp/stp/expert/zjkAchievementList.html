@@ -64,17 +64,18 @@
                 where: {
                     param: {
                         "cgmc": $('#cgmc').val(),
+                        // "nd":"desc"
                         // "fmh": $('#fmh').val()
                     }
                 },
                 limit: param.selfRownum,
-                // limit: 15,
+                limit: 15,
                 id: 'showTable',
                 height: commonDislodgeTable(),
                 page: {
                     groups: 5,
-                    // limits: [15, 30, 45, 60],
-                    limits: [param.selfRownum,30, 45, 60],
+                    limits: [15, 30, 45, 60],
+                    // limits: [param.selfRownum,30, 45, 60],
                     // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                     first: '首页', //不显示首页
                     last: '尾页', //不显示尾页

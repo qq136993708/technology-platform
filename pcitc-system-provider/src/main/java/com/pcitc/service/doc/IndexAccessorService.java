@@ -42,4 +42,9 @@ public interface IndexAccessorService {
     boolean hasMapping(Class clazz);
 
     boolean hasMapping(String indexName, String typeName);
+
+    /**
+     * 查询出现的热点词汇
+     */
+    public void selectHotWord();
 }
