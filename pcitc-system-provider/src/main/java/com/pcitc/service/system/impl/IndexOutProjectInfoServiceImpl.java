@@ -312,13 +312,84 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
         return data;
     }
 
-    /**
-     * 根据条件分页搜索
-     *
-     * @param param
-     * @param example
-     * @return
-     */
+    @Override
+    public LayuiTableData findIndexOutProjectInfoByPageTreeIndex(LayuiTableParam param) {
+        IndexOutProjectInfoExample example = new IndexOutProjectInfoExample();
+        IndexOutProjectInfoExample.Criteria c = example.createCriteria();
+        Object typeIndex = param.getParam().get("typeIndex");
+        if (typeIndex != null) {
+            c.andTypeIndexLike(typeIndex + "%");
+        }
+        example.setOrderByClause("create_date desc");
+
+        int pageSize = param.getLimit();
+        int pageStart = (param.getPage() - 1) * pageSize;
+        int pageNum = pageStart / pageSize + 1;
+
+        Object type = param.getParam().get("type");
+        if ("ry".equals(type)) {
+            pageSize = 1000000000;
+        }
+
+        if ("fy".equals(type)) {
+            pageSize = 1000000000;
+        }
+        PageHelper.startPage(pageNum, pageSize);
+        List<IndexOutProjectInfo> list = indexOutProjectInfoMapper.selectByExample(example);
+        Map<String, List<IndexOutProjectInfo>> map = new HashMap<>();
+
+        for (int i = 0, j = list.size(); i < j; i++) {
+            IndexOutProjectInfo obj = list.get(i);
+            String name = obj.getFzrxm();
+
+            if (StrUtil.isBlank(name)) continue;
+            List<IndexOutProjectInfo> l = map.get(name);
+            if (l == null || l.size() == 0) {
+                l = new ArrayList<>();
+                l.add(obj);
+                map.put(name, l);
+            } else {
+                l.add(obj);
+                map.put(name, l);
+            }
+        }
+        int count = 0;
+        //遍历map,复制list dataID,nd
+        List<IndexOutProjectInfo> tree = new ArrayList<>();
+        for (Map.Entry<String, List<IndexOutProjectInfo>> entry : map.entrySet()) {
+            IndexOutProjectInfo index = new IndexOutProjectInfo();
+            String key = entry.getKey();
+            String uuid = UUID.randomUUID().toString();
+            index.setDataId(uuid);
+            index.setFzrxm(key);
+            index.setXmmc("");
+            tree.add(index);
+            List<IndexOutProjectInfo> valueList = entry.getValue();
+            for (int i = 0, j = valueList.size(); i < j; i++) {
+                count++;
+                valueList.get(i).setNd(uuid);
+                valueList.get(i).setFzrxm(valueList.get(i).getXmmc());
+                tree.add(valueList.get(i));
+            }
+        }
+        // 3、获取分页查询后的数据
+//        PageInfo<IndexOutProjectInfo> pageInfo = new PageInfo<IndexOutProjectInfo>(tree);
+        LayuiTableData data = new LayuiTableData();
+        data.setData(tree);
+        Long total = Long.valueOf(tree.size());
+        data.setCount(map.size());
+
+        return data;
+    }
+
+
+        /**
+         * 根据条件分页搜索
+         *
+         * @param param
+         * @param example
+         * @return
+         */
     private LayuiTableData findByExample(LayuiTableParam param, IndexOutProjectInfoExample example) {
         int pageSize = param.getLimit();
         int pageStart = (param.getPage() - 1) * pageSize;

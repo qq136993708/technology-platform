@@ -65,7 +65,7 @@
                 elem: '#zjkZhuanliTableId',
                 url: '/expertController/queryOutPatentList',
                 method: "POST",
-                where: {param: {"keyword":$("#keyword").val()}},
+                where: {param: {"keyword":"${keyword}"}},
                 limit: 15,
                 id: 'zjkZhuanliTableId',
                 page: {
@@ -85,7 +85,7 @@
                                 '        <a href="javascript:;">'+d.fmmc+'</a>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
-                                '                <p><span>发明人:'+d.fmr+'</span><br/><span>类型:'+d.wxlx+'</span></p>' +
+                                '                <p><span>发明人:'+d.fmr+'</span><br/><span>类型:'+d.wxlx+'</span><br/><span>专利号:'+d.zlh+'</span><br/></p>' +
                                 '            </div>' +
                                 '        </div>' +
                                 '    </div>'

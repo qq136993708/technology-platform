@@ -208,12 +208,7 @@
             url: '/fullSearch/getTableDataAchivement',
             method:"POST",
             where: {param: {
-                    "hth":$("#hth").val(),
-                    "xmmc":$("#xmmc").val(),
-                    "cgmc":$("#cgmc").val(),
-                    "keyword":$("#keyword").val(),
-
-
+                    "keyword":"${keyword}",
                 }},
             limit: 15,
             id: 'processdef-table',
@@ -225,13 +220,6 @@
                 last: '尾页', //不显示尾页
                 theme: '#0F9EE0'
             },
-            // 项目名称
-            // 单位
-            // 年度
-            // 奖励类型(SBJZ)
-            // 专业类别
-            // 奖项等级psdj
-
             cols: [[
                 {field:'LAY_TABLE_INDEX',title:'年度',
                     templet:  function (d) {
