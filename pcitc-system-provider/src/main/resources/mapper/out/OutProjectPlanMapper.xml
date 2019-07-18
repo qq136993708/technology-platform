@@ -1694,7 +1694,7 @@
 				   SUBSTR(out_project_plan.DEFINE13 FROM 2) as DEFINE13,
 				   SUBSTR(out_project_plan.FZDWUNITCW FROM 6) as FZDWUNITCW,
 				   SUBSTR(out_project_plan.FZDWUNIT FROM 4) as FZDWUNIT,
-				   out_project_plan.zycbm,out_project_plan.zylbbm,
+				   out_project_plan.zycbm,out_project_plan.zylbbm,out_project_plan.gsbmbm,
 				   out_project_plan.XMID,out_project_plan.XMMC,out_project_plan.YSND,
 				   out_project_plan.JF,out_project_plan.YSJE,
 				   out_project_plan.YSZBXJE,out_project_plan.YSFYXJE,
@@ -1850,6 +1850,17 @@
 				</if>
 			</if>
 			<!-- 数据控制 -->
+			
+			<!-- 部门-处室--专业类别, 加Flag和数据控制的字段区分出来-->
+			<if test="gsbmbmFlag != null and gsbmbmFlag != ''">
+				and find_in_set(tableA.gsbmbm, '${gsbmbmFlag}')
+			</if>
+			<if test="zycbmFlag != null and zycbmFlag != ''">
+				and find_in_set(tableA.zycbm, '${zycbmFlag}')
+			</if>
+			<if test="zylbbmFlag != null and zylbbmFlag != ''">
+				and find_in_set(tableA.zylbbm, '${zylbbmFlag}')
+			</if>
 			
 			<if test="groupFlag != null">
 				<if test="groupFlag != ''">
