@@ -416,18 +416,26 @@ layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
              }
          });
          table.on('edit(dataTable)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-         	if (!(/(^[1-9]\d*$)/.test(obj.value))) {
-         		layer.msg('请输入数字!');
-         		obj.value = 0;
-         	}
-         	$.each(curent_tabel_data,function(index,dt){
-         		if(obj.data.id == dt.id)
-         		{
-         			curent_tabel_data[index][obj.field] = parseInt(obj.value);
-         		}
-         	});
-         	//刷新表格数据
-         	table.reload('dataTable', {data: curent_tabel_data});
+             if(obj.field.indexOf("Count")!=-1)//如果是数量的字段，必须是整数
+             {
+                 if (!(/(^[1-9]\d*$)/.test(obj.value)))
+                 {
+                     layer.msg('请输入整数!');
+                     $(this).parent().find("div").html("");
+                     $(this).val("0")
+                 }
+             }else {
+                 var reg = /^\d+(\.\d{1,4})?$/;//金额类的可整数可以小数
+
+                 if (!(reg.test(obj.value)))
+                 {
+                     layer.msg('请输入金额!');
+                     $(this).parent().find("div").html("");
+                     $(this).val("0")
+                 }
+
+             }
+
          }); 
          
          
