@@ -1,6 +1,7 @@
 package com.pcitc.web.controller.budget;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetOrgan;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 
 @Controller
@@ -34,11 +36,13 @@ public class BudgetOrganController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_organ_main")
 	public Object toBudgetOrganMainPage(HttpServletRequest request) throws IOException 
 	{
+		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_organ_main";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_organ_edit")
 	public Object toBudgetOrganEditPage(HttpServletRequest request) throws IOException 
 	{
+		request.setAttribute("dataId", request.getParameter("dataId"));
 		return "stp/budget/budget_organ_edit";
 	}
 	

@@ -144,6 +144,7 @@ public class BudgetOrganServiceImpl implements BudgetOrganService
 		{
 			c.andNdEqualTo(param.getParam().get("nd")+"");
 		}
+		example.setOrderByClause("no");
 		return selectTableData(param, example);
 	}
 	@Override
