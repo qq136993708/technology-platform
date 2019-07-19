@@ -46,7 +46,7 @@ public class ZjkBaseInfoServiceTest {
         indexAccessorService.selectHotWord();
     }
 
-    //@Test
+//    @Test
     public void excelInto_zjkExpertPatent() {
 
         index.selectTfcToIndexProjectInfo();

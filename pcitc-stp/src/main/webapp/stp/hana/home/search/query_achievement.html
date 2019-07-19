@@ -82,16 +82,16 @@
     <p>搜索热点</p>
     <div class="relevant-cont hotspot">
         <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('炼化企业胺液系统')">炼化企业胺液系统</a>
+            <a href="/instituteIndex?url=/fullSearch/search?keyword=可燃气体探测器" target="_top">可燃气体探测器</a>
         </div>
         <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('油库加油加气站')">油库加油加气站</a>
+            <a href="/instituteIndex?url=/fullSearch/search?keyword=加油加氢" target="_top">加油加氢</a>
         </div>
         <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('井筒工程技术')">井筒工程技术</a>
+            <a href="/instituteIndex?url=/fullSearch/search?keyword=井筒工程技术" target="_top">井筒工程技术</a>
         </div>
         <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('催化剂')">催化剂</a>
+            <a href="/instituteIndex?url=/fullSearch/search?keyword=催化剂" target="_top">催化剂</a>
         </div>
     </div>
 </div>
@@ -166,9 +166,6 @@
         };
         //监听排序
         table.on('sort(model-table)', function(obj){
-            console.log(this, obj.field, obj.type)
-            //return;
-            //服务端排序
             table.reload('model-table', {
                 initSort: obj,
                 page: {curr: 1}, //重新从第一页开始
