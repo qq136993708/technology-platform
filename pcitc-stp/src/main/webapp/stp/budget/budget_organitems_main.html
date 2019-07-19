@@ -49,18 +49,18 @@
 	<script type="text/javascript">
 	var table,selectRowData,renderfunc,param;
     layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ], function(){
-    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,selectRowData;
     	table = layui.table;
     	var publicMethods=layui.publicMethods;
     	var param = JSON.parse(window.localStorage.getItem("param"));
-    	function renderTable(where){
+    	window.renderTable = function(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		var cols = [
     			{
     				type:'checkbox',style: 'cursor: pointer;',width: 55
     			},
     			{
-                    field: "no",
+    				type:'numbers',
                     title: "序号", event: 'setActive', style: 'cursor: pointer;',align:'center',width: 80
                 },
     			{
@@ -89,12 +89,20 @@
                 },
                 {
                     field: "contactsPhone",
-                    title: "电话", event: 'setActive', style: 'cursor: pointer;',align:'left'
+                    title: "联系电话", event: 'setActive', style: 'cursor: pointer;',align:'left'
                 }
     		];
     		var where = {param:{"nd":"2019"}};
     		publicMethods.tableRender("organTable","organTable","/budget/budget-organitems-table",false,cols,where,true,function(res, curr, count){
     			layer.close(lodingMsg);
+    			 	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	                	var index=parseInt($(this).index()+1);
+	                    $('tr').removeClass('layui-table-click');
+	                    $(this).addClass('layui-table-click');
+	                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	                    selectRowData=res.data[index-1];
+	                }); 
     		});
 	        $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
 		}
@@ -104,85 +112,40 @@
             console.log(obj);
         });
         table.on('rowDouble(organEvent)', function(obj){
-        	var temUrl = '/intl_project/apply_view?applyId='+obj.data.applyId;
-         	openFullWin("详情",temUrl);
+        	var temUrl = '/budget/budget_organitems_edit?dataId='+obj.data.dataId;
+        	publicMethods.openBaseWinFull("详情",temUrl);
         });
         // 触发不同的按钮事件
         var $ = layui.$, active = {
-            searchEvent: function() { //点击查询按钮
-                renderTable({param: {"applyName":$("#applyName").val()},sorts:{"plant_money":"desc"}});
-            },resetEvent: function() { 
-            	//点击重置按钮
-                $("#applyName").val("");
-                renderTable({param: {"applyName":$("#applyName").val()},sorts:{"plant_money":"desc"}});
-            },addEvent: function(){ 
+           addEvent: function(){ 
             	//点击新增按钮
-            	var temUrl = '/intl_project/apply_edit';
-            	openFullWin("新增",temUrl);
+        	   	var temUrl = '/budget/budget_organitems_edit';
+           		publicMethods.openBaseWinFull("详情",temUrl);
             },editEvent: function(){  
             	//点击编辑按钮
             	if(!selectRowData){
             		layer.msg('请点击选择一行数据!');
             		return;
             	}
-            	var temUrl = '/intl_project/apply_edit?applyId='+selectRowData.applyId;
-            	openFullWin("编辑",temUrl);
+            	var temUrl = '/budget/budget_organitems_edit?dataId='+selectRowData.dataId;
+            	publicMethods.openBaseWinFull("详情",temUrl);
             },detailEvent:function(){
             	if(!selectRowData){
             		layer.msg('请点击选择一行数据!');
             		return;
             	}
-            	var temUrl = '/intl_project/apply_view?applyId='+selectRowData.applyId;
-            	openFullWin("详情",temUrl);
-            },exportEvent:function(){
-            	if(!selectRowData){
-            		layer.msg('请点击选择一行数据!');
-            		return;
-            	}
-            	window.open("/intl_project/report_download/apply/"+selectRowData.applyId);
-            },commitEvent:function(){
-            	if(!selectRowData){
-            		layer.msg('请点击选择一行数据!');
-            		return;
-            	}
-            	layer.confirm('提交后将不可再编辑，确定要提交吗？',{title:"提交确认"},function(index){
-					layer.close(index);
-					publicMethods.ajaxAsyncPost("/project/apply-start-workflow",{applyId: selectRowData.applyId,functionId:param.id}, function (data) {
-          		   		if (data.success) {
-          	        	 	renderTable({param: {"applyName":$("#applyName").val()}});
-          	        		layer.msg('操作成功!');
-          	           } else {
-          	        	 	layer.msg(data.message);
-          	           }
-          	       });
-          	   });
-            },closeEvent:function(){
-            	if(!selectRowData){
-            		layer.msg('请点击选择一行数据!');
-            		return;
-            	} 
-            	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
-					layer.close(index);
-					publicMethods.ajaxAsyncPost("/project/apply-close/" + selectRowData.applyId, null, function (data) {
-	                     if (data.success) {
-	                    	 renderTable({param: {"applyName":$("#applyName").val()}});
-	                    	 layer.msg('操作成功!');
-	                     } else {
-	                    	 layer.msg(data.message);
-	                     }
-	                });
-            	});
+            	var temUrl = '/budget/budget_organitems_edit?dataId='+selectRowData.dataId;
+            	publicMethods.openBaseWinFull("详情",temUrl);
             },deleteEvent: function(){  //点击删除按钮
-            	//var dt = table.checkStatus('userTable').data;
             	if(!selectRowData){
             		layer.msg('请选择要删除的数据!');
             		return;
             	}
 				layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 					layer.close(index);
-					publicMethods.ajaxAsyncPost("/project/apply-delete/"+selectRowData.applyId, null, function (data) {
+					publicMethods.ajaxAsyncPost("/budget/budget-organitems-del", {"dataId":selectRowData.dataId}, function (data) {
 	                     if (data.success) {
-	                    	 renderTable({param: {"applyName":$("#applyName").val()}});
+	                    	 renderTable();
 	                    	 layer.msg('操作成功!');
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
@@ -208,10 +171,7 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">查看</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg" data-type="exportEvent">导出</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg" data-type="commitEvent">提交</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="closeEvent">删除</button>
-            <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button> -->
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>
         </div>
     </div>
     <table id="organTable" class="layui-hide"  lay-filter="organEvent"></table>

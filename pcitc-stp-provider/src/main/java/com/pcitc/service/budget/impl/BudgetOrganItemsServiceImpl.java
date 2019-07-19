@@ -115,6 +115,8 @@ public class BudgetOrganItemsServiceImpl  implements BudgetOrganItemsService
 			BudgetOrganItems old = mapper.selectByPrimaryKey(bean.getDataId());
 			if(old == null) 
 			{
+				bean.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
+				bean.setDataId((bean.getOrganId()+1000)+"");
 				return this.saveBudgetOrganItems(bean);
 			}else {
 				MyBeanUtils.copyPropertiesIgnoreNull(bean, old);
