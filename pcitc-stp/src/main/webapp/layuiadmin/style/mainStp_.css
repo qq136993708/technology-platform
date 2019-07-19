@@ -22,6 +22,7 @@
 .arrange-title a,.accept-title a{background: none !important;color:#666666;text-align: right !important;
     height: 22px;line-height: 22px; float: right;padding: 0;margin: 0;position: relative;bottom: -3px;}
 .project .layui-col-md5{width: 50%;}
+.project table tbody tr{cursor: pointer;}
 .project .layui-table tbody tr td:nth-child(1) div{border-left:1px solid #fff; }
 
 .accept{padding-right: 10px;}
