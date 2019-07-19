@@ -3,10 +3,11 @@
 <mapper namespace="com.pcitc.mapper.budget.BudgetOrganItemsMapper">
   <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.BudgetOrganItems">
     <id column="data_id" jdbcType="VARCHAR" property="dataId" />
-    <result column="data_no" jdbcType="INTEGER" property="dataNo" />
+    <result column="organ_id" jdbcType="INTEGER" property="organId" />
     <result column="organ_code" jdbcType="VARCHAR" property="organCode" />
     <result column="organ_name" jdbcType="VARCHAR" property="organName" />
     <result column="organ_desc" jdbcType="VARCHAR" property="organDesc" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
     <result column="creater" jdbcType="VARCHAR" property="creater" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
     <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
@@ -15,6 +16,9 @@
     <result column="contacts" jdbcType="VARCHAR" property="contacts" />
     <result column="data_version" jdbcType="VARCHAR" property="dataVersion" />
     <result column="append_files" jdbcType="VARCHAR" property="appendFiles" />
+    <result column="contacts_name" jdbcType="VARCHAR" property="contactsName" />
+    <result column="contacts_phone" jdbcType="VARCHAR" property="contactsPhone" />
+    <result column="contacts_email" jdbcType="VARCHAR" property="contactsEmail" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,8 +79,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    data_id, data_no, organ_code, organ_name, organ_desc, creater, create_time, update_time, 
-    del_flag, remark, contacts, data_version, append_files
+    data_id, organ_id, organ_code, organ_name, organ_desc, unit_code, creater, create_time, 
+    update_time, del_flag, remark, contacts, data_version, append_files, contacts_name, 
+    contacts_phone, contacts_email
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetOrganItemsExample" resultMap="BaseResultMap">
     select
@@ -110,16 +115,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetOrganItems">
-    insert into out_tem_budget_organ_items (data_id, data_no, organ_code, 
-      organ_name, organ_desc, creater, 
-      create_time, update_time, del_flag, 
-      remark, contacts, data_version, 
-      append_files)
-    values (#{dataId,jdbcType=VARCHAR}, #{dataNo,jdbcType=INTEGER}, #{organCode,jdbcType=VARCHAR}, 
-      #{organName,jdbcType=VARCHAR}, #{organDesc,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, #{dataVersion,jdbcType=VARCHAR}, 
-      #{appendFiles,jdbcType=VARCHAR})
+    insert into out_tem_budget_organ_items (data_id, organ_id, organ_code, 
+      organ_name, organ_desc, unit_code, 
+      creater, create_time, update_time, 
+      del_flag, remark, contacts, 
+      data_version, append_files, contacts_name, 
+      contacts_phone, contacts_email)
+    values (#{dataId,jdbcType=VARCHAR}, #{organId,jdbcType=INTEGER}, #{organCode,jdbcType=VARCHAR}, 
+      #{organName,jdbcType=VARCHAR}, #{organDesc,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, 
+      #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, 
+      #{dataVersion,jdbcType=VARCHAR}, #{appendFiles,jdbcType=VARCHAR}, #{contactsName,jdbcType=VARCHAR}, 
+      #{contactsPhone,jdbcType=VARCHAR}, #{contactsEmail,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetOrganItems">
     insert into out_tem_budget_organ_items
@@ -127,8 +134,8 @@
       <if test="dataId != null">
         data_id,
       </if>
-      <if test="dataNo != null">
-        data_no,
+      <if test="organId != null">
+        organ_id,
       </if>
       <if test="organCode != null">
         organ_code,
@@ -138,6 +145,9 @@
       </if>
       <if test="organDesc != null">
         organ_desc,
+      </if>
+      <if test="unitCode != null">
+        unit_code,
       </if>
       <if test="creater != null">
         creater,
@@ -163,13 +173,22 @@
       <if test="appendFiles != null">
         append_files,
       </if>
+      <if test="contactsName != null">
+        contacts_name,
+      </if>
+      <if test="contactsPhone != null">
+        contacts_phone,
+      </if>
+      <if test="contactsEmail != null">
+        contacts_email,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="dataId != null">
         #{dataId,jdbcType=VARCHAR},
       </if>
-      <if test="dataNo != null">
-        #{dataNo,jdbcType=INTEGER},
+      <if test="organId != null">
+        #{organId,jdbcType=INTEGER},
       </if>
       <if test="organCode != null">
         #{organCode,jdbcType=VARCHAR},
@@ -179,6 +198,9 @@
       </if>
       <if test="organDesc != null">
         #{organDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null">
+        #{unitCode,jdbcType=VARCHAR},
       </if>
       <if test="creater != null">
         #{creater,jdbcType=VARCHAR},
@@ -204,6 +226,15 @@
       <if test="appendFiles != null">
         #{appendFiles,jdbcType=VARCHAR},
       </if>
+      <if test="contactsName != null">
+        #{contactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsPhone != null">
+        #{contactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsEmail != null">
+        #{contactsEmail,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.pcitc.base.stp.budget.BudgetOrganItemsExample" resultType="java.lang.Long">
@@ -218,8 +249,8 @@
       <if test="record.dataId != null">
         data_id = #{record.dataId,jdbcType=VARCHAR},
       </if>
-      <if test="record.dataNo != null">
-        data_no = #{record.dataNo,jdbcType=INTEGER},
+      <if test="record.organId != null">
+        organ_id = #{record.organId,jdbcType=INTEGER},
       </if>
       <if test="record.organCode != null">
         organ_code = #{record.organCode,jdbcType=VARCHAR},
@@ -229,6 +260,9 @@
       </if>
       <if test="record.organDesc != null">
         organ_desc = #{record.organDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitCode != null">
+        unit_code = #{record.unitCode,jdbcType=VARCHAR},
       </if>
       <if test="record.creater != null">
         creater = #{record.creater,jdbcType=VARCHAR},
@@ -254,6 +288,15 @@
       <if test="record.appendFiles != null">
         append_files = #{record.appendFiles,jdbcType=VARCHAR},
       </if>
+      <if test="record.contactsName != null">
+        contacts_name = #{record.contactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactsPhone != null">
+        contacts_phone = #{record.contactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactsEmail != null">
+        contacts_email = #{record.contactsEmail,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -262,10 +305,11 @@
   <update id="updateByExample" parameterType="map">
     update out_tem_budget_organ_items
     set data_id = #{record.dataId,jdbcType=VARCHAR},
-      data_no = #{record.dataNo,jdbcType=INTEGER},
+      organ_id = #{record.organId,jdbcType=INTEGER},
       organ_code = #{record.organCode,jdbcType=VARCHAR},
       organ_name = #{record.organName,jdbcType=VARCHAR},
       organ_desc = #{record.organDesc,jdbcType=VARCHAR},
+      unit_code = #{record.unitCode,jdbcType=VARCHAR},
       creater = #{record.creater,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=VARCHAR},
       update_time = #{record.updateTime,jdbcType=VARCHAR},
@@ -273,7 +317,10 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       contacts = #{record.contacts,jdbcType=VARCHAR},
       data_version = #{record.dataVersion,jdbcType=VARCHAR},
-      append_files = #{record.appendFiles,jdbcType=VARCHAR}
+      append_files = #{record.appendFiles,jdbcType=VARCHAR},
+      contacts_name = #{record.contactsName,jdbcType=VARCHAR},
+      contacts_phone = #{record.contactsPhone,jdbcType=VARCHAR},
+      contacts_email = #{record.contactsEmail,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -281,8 +328,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.budget.BudgetOrganItems">
     update out_tem_budget_organ_items
     <set>
-      <if test="dataNo != null">
-        data_no = #{dataNo,jdbcType=INTEGER},
+      <if test="organId != null">
+        organ_id = #{organId,jdbcType=INTEGER},
       </if>
       <if test="organCode != null">
         organ_code = #{organCode,jdbcType=VARCHAR},
@@ -292,6 +339,9 @@
       </if>
       <if test="organDesc != null">
         organ_desc = #{organDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null">
+        unit_code = #{unitCode,jdbcType=VARCHAR},
       </if>
       <if test="creater != null">
         creater = #{creater,jdbcType=VARCHAR},
@@ -317,15 +367,25 @@
       <if test="appendFiles != null">
         append_files = #{appendFiles,jdbcType=VARCHAR},
       </if>
+      <if test="contactsName != null">
+        contacts_name = #{contactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsPhone != null">
+        contacts_phone = #{contactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsEmail != null">
+        contacts_email = #{contactsEmail,jdbcType=VARCHAR},
+      </if>
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetOrganItems">
     update out_tem_budget_organ_items
-    set data_no = #{dataNo,jdbcType=INTEGER},
+    set organ_id = #{organId,jdbcType=INTEGER},
       organ_code = #{organCode,jdbcType=VARCHAR},
       organ_name = #{organName,jdbcType=VARCHAR},
       organ_desc = #{organDesc,jdbcType=VARCHAR},
+      unit_code = #{unitCode,jdbcType=VARCHAR},
       creater = #{creater,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=VARCHAR},
@@ -333,7 +393,10 @@
       remark = #{remark,jdbcType=VARCHAR},
       contacts = #{contacts,jdbcType=VARCHAR},
       data_version = #{dataVersion,jdbcType=VARCHAR},
-      append_files = #{appendFiles,jdbcType=VARCHAR}
+      append_files = #{appendFiles,jdbcType=VARCHAR},
+      contacts_name = #{contactsName,jdbcType=VARCHAR},
+      contacts_phone = #{contactsPhone,jdbcType=VARCHAR},
+      contacts_email = #{contactsEmail,jdbcType=VARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
 </mapper>

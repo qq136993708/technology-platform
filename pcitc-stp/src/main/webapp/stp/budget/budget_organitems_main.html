@@ -61,27 +61,39 @@
     			},
     			{
                     field: "no",
-                    title: "序号", event: 'setActive', style: 'cursor: pointer;',align:'center',width: 100
+                    title: "序号", event: 'setActive', style: 'cursor: pointer;',align:'center',width: 80
                 },
     			{
                      field: "organId",
-                     title: "预算项ID", event: 'setActive',align:'center', style: 'cursor: pointer;',width: 200
+                     title: "预算项ID", event: 'setActive',align:'center', style: 'cursor: pointer;',width: 120
                 },
                 {
                     field: "organCode",
-                    title: "预算项编码", event: 'setActive', style: 'cursor: pointer;',align:'left',width: 300
+                    title: "预算项编码", event: 'setActive', style: 'cursor: pointer;',align:'left',width: 150
                 },
                 {
                     field: "unitCode",
-                    title: "单位编码", event: 'setActive', style: 'cursor: pointer;',align:'left',width: 300
+                    title: "单位编码", event: 'setActive', style: 'cursor: pointer;',align:'left',width: 150
                 },
                 {
                     field: "organName",
-                    title: "预算项名称", event: 'setActive', style: 'cursor: pointer;',align:'left'
+                    title: "预算单位名称", event: 'setActive', style: 'cursor: pointer;',align:'left'
+                },
+                {
+                    field: "contactsName",
+                    title: "联系人", event: 'setActive', style: 'cursor: pointer;',align:'left'
+                },
+                {
+                    field: "contactsEmail",
+                    title: "邮箱", event: 'setActive', style: 'cursor: pointer;',align:'left'
+                },
+                {
+                    field: "contactsPhone",
+                    title: "电话", event: 'setActive', style: 'cursor: pointer;',align:'left'
                 }
     		];
     		var where = {param:{"nd":"2019"}};
-    		publicMethods.tableRender("organTable","organTable","/budget/budget-organ-table",false,cols,where,true,function(res, curr, count){
+    		publicMethods.tableRender("organTable","organTable","/budget/budget-organitems-table",false,cols,where,true,function(res, curr, count){
     			layer.close(lodingMsg);
     		});
 	        $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选

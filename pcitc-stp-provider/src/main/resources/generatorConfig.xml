@@ -56,8 +56,7 @@
 	  <table schema="pcitc-stp-provider" domainObjectName="BudgetOrgan" tableName="out_tem_budget_organ" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	  <table schema="pcitc-stp-provider" domainObjectName="BudgetOrganItems" tableName="out_tem_budget_organ_items" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 		-->
-	  <table schema="pcitc-stp-provider" domainObjectName="BudgetMoneyTotal" tableName="out_tem_money_total" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
-	  <table schema="pcitc-stp-provider" domainObjectName="BudgetMoneyDecompose" tableName="out_tem_money_decompose" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+	   <table schema="pcitc-stp-provider" domainObjectName="BudgetOrganItems" tableName="out_tem_budget_organ_items" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	
 		
 	</context>
