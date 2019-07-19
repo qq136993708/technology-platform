@@ -173,7 +173,8 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
 
     @Override
     public Future<LayuiTableData> selectZjkBaseInfoByPage(LayuiTableParam param) {
-        LayuiTableData data = zjkBaseInfoServiceClient.selectZjkBaseInfoByPage(param);
+//        LayuiTableData data = zjkBaseInfoServiceClient.selectZjkBaseInfoByPage(param);
+        LayuiTableData data = zjkBaseInfoServiceClient.selectZjkBaseInfoByPageCount(param);
         return new AsyncResult<LayuiTableData>(data);
     }
 
@@ -226,22 +227,47 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
     @Override
     @Async
     public Future<LayuiTableData> getTableDataScientific(LayuiTableParam param) {
+//        // 每页显示条数
+//        int pageSize = param.getLimit();
+//        // 当前是第几页
+//        int pageNum = param.getPage();
+//        // 1、设置分页信息，包括当前页数和每页显示的总计数
+//        PageHelper.startPage(pageNum, pageSize);
+//        OutProjectInfo opi = new OutProjectInfo();
+//        //关键字
+//        Object keywords = param.getParam().get("keywords");
+//        if (!StrUtil.isNullEmpty(keywords)) {
+//            opi.setXmmc(keywords.toString());
+//        }
+//        List<OutProjectInfo> list = outProjectInfoMapper.selectProjectByCondExpert(opi);
+//        PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
+//        LayuiTableData data = new LayuiTableData();
+//        if (keywords != null && !"".equals(keywords) && listInfo.size() > 0) {
+//            data.setData(fullSearchService.setKeyWordCss(pageInfo, keywords.toString()));
+//        } else {
+//            data.setData(pageInfo.getList());
+//        }
+//        Long total = pageInfo.getTotal();
+//        data.setCount(total.intValue());
         // 每页显示条数
         int pageSize = param.getLimit();
         // 当前是第几页
         int pageNum = param.getPage();
         // 1、设置分页信息，包括当前页数和每页显示的总计数
         PageHelper.startPage(pageNum, pageSize);
+
         OutProjectInfo opi = new OutProjectInfo();
         //关键字
-        Object keywords = param.getParam().get("keywords");
-        if (!StrUtil.isNullEmpty(keywords)) {
+        Object keywords = param.getParam().get("keyword");
+        if(!StrUtil.isNullEmpty(keywords)){
             opi.setXmmc(keywords.toString());
         }
+
         List<OutProjectInfo> list = outProjectInfoMapper.selectProjectByCondExpert(opi);
         PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
+//        listInfo = getListInfo(info);
         LayuiTableData data = new LayuiTableData();
-        if (keywords != null && !"".equals(keywords) && listInfo.size() > 0) {
+        if (keywords != null && !"".equals(keywords)) {
             data.setData(fullSearchService.setKeyWordCss(pageInfo, keywords.toString()));
         } else {
             data.setData(pageInfo.getList());

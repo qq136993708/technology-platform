@@ -24,35 +24,43 @@
         .layui-table-body{margin-top: 0;}
         .layui-table-page{margin-bottom: 20px;}
         .tableBox,.searchBox{width: 94%;margin: 0 auto;}
-        .searchBox{margin-top: 20px;}
+        .tableBox{width: 55%;float: left;}
         .layui-table-none{padding: 0;}
+        .relevant{width: 34%;float: right;margin-right: 20px;}
+        .relevant p{margin-top: 0}
+        .hotspot>.item a {
+            font-size: 14px;
+            color: #1890ff;
+            line-height: 26px;
+        }
+        .hotspot>.item {
+            width: 100%;
+            text-align: left;
+            padding: 0;
+            padding-top: 10px;
+        }
     </style>
 </head>
 <body>
-        <!--<div class="searchBox">-->
-            <!--&lt;!&ndash;查询条件&ndash;&gt;-->
-            <!--<label class="dateInput">-->
-                <!--<span>关键词</span>-->
-                <!--<input type="text" name="bak4" id="bak4" placeholder="关键词" value="${keyword}"-->
-                       <!--title="文件名称" autocomplete="off"-->
-                       <!--class="form-control" id="name">-->
-            <!--</label>-->
-            <!--&lt;!&ndash;按钮组&ndash;&gt;-->
-            <!--<div class="btnGroup">-->
-                <!--<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询-->
-                <!--</button>-->
-                <!--&lt;!&ndash;<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置&ndash;&gt;-->
-                <!--&lt;!&ndash;</button>&ndash;&gt;-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="tableToolBox">
-            <div class="whiteLine"></div>
-            <div class="tableBtns">
-                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="downloadEvent">下载</button>
-            </div>
-        </div>-->
         <div class="tableBox">
             <table id="fileShowTable" class="layui-hide" lay-filter="tableEvent"></table>
+        </div>
+        <div class="relevant">
+            <p>搜索热点</p>
+            <div class="relevant-cont hotspot">
+                <div class="item">
+                    <a href="javascript:void(0)" onclick="renderTableKeyword('可燃气体探测器')">可燃气体探测器</a>
+                </div>
+                <div class="item">
+                    <a href="javascript:void(0)" onclick="renderTableKeyword('加油加氢')">加油加氢</a>
+                </div>
+                <div class="item">
+                    <a href="javascript:void(0)" onclick="renderTableKeyword('井筒工程技术')">井筒工程技术</a>
+                </div>
+                <div class="item">
+                    <a href="javascript:void(0)" onclick="renderTableKeyword('催化剂')">催化剂</a>
+                </div>
+            </div>
         </div>
 <a href="" target="_self" id="download"></a>
 

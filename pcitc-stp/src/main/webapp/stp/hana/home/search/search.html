@@ -229,9 +229,9 @@
         }else {
             $(".layui-tab-i").css("height",parent.$(document).height()-120+"px");
             $(".layui-leader").removeClass("layui-cs")
+            parent.$("#LAY_app_body").css("height","82%");
         }
         search();
-        parent.$("#LAY_app_body").css("height","82%");
         $("#toUserInfo").on("click", function() {
             layer.open({
                 title : "用户详情",

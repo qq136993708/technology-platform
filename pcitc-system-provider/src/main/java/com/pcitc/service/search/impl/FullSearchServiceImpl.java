@@ -91,6 +91,7 @@ public class FullSearchServiceImpl implements FullSearchService {
         LayuiTableParam param_common = new LayuiTableParam();
         param_common.setPage(page);
         Map<String, Object> map_common = param.getParam();
+        map_common.put("keywords", keyword);
         map_common.put("keyword", keyword);
         param_common.setParam(map_common);
         param_common.setLimit(limit_scientific);
@@ -116,8 +117,7 @@ public class FullSearchServiceImpl implements FullSearchService {
         //科研装备
         Future<LayuiTableData> tableDataEquipment = fullSearchAsycService.getEquipmentListPage(param_common);
 
-        //技术族
-        Future<LayuiTableData> tableDataTech = fullSearchAsycService.findTfmTypeByPage(param_common);
+
 //        List<?> TechData = tableDataTech.getData();
         //专家信息
         Future<LayuiTableData> tableDataExpert = fullSearchAsycService.selectZjkBaseInfoByPage(param_common);
@@ -125,6 +125,8 @@ public class FullSearchServiceImpl implements FullSearchService {
         //知识产权
         Future<LayuiTableData> tableDataPatent = fullSearchAsycService.selectZjkZhuanliByPage(param_common);
 
+        //技术族
+        Future<LayuiTableData> tableDataTech = fullSearchAsycService.findTfmTypeByPage(param_common);
         //汇总
         List list = new ArrayList<>();
         int total = 0;
@@ -191,7 +193,7 @@ public class FullSearchServiceImpl implements FullSearchService {
             total = total + 1;
             for (int i = 0, j = zjkExpert.size(); i < j; i++) {
                 Map<String, String> map = (zjkExpert.get(i));
-                map.put("select_type", "专家信息");
+                map.put("select_type", "科研人才");
 //                map.put("select_type", "expert");
                 list.add(map);
             }
@@ -203,9 +205,10 @@ public class FullSearchServiceImpl implements FullSearchService {
                 total = total + 1;
                 for (int i = 0, j = zjkPatents.size(); i < j; i++) {
                     OutPatent outPatent = (zjkPatents.get(i));
-                    outPatent.setSelect_type("知识产权");
-                    list.add(outPatent);
-
+                    Map<String, Object> map = MyBeanUtils.transBean2Map(outPatent);
+                    map.put("select_type", "知识产权");
+//                    outPatent.setSelect_type("知识产权");
+                    list.add(map);
                 }
             }
         }else {
@@ -214,10 +217,8 @@ public class FullSearchServiceImpl implements FullSearchService {
                 total = total + 1;
                 for (int i = 0, j = zjkPatents.size(); i < j; i++) {
                     Map<String, String> map = (zjkPatents.get(i));
-                map.put("select_type", "知识产权");
-//                map.put("select_type", "patent");
+                    map.put("select_type", "知识产权");
                     list.add(map);
-
                 }
             }
         }
@@ -581,7 +582,6 @@ public class FullSearchServiceImpl implements FullSearchService {
                 }
             }
             maps.add(objectMap);
-
         }
         return maps;
     }
@@ -610,39 +610,36 @@ public class FullSearchServiceImpl implements FullSearchService {
         OutAppraisalExample example = new OutAppraisalExample();
         OutAppraisalExample.Criteria criteria = example.createCriteria();
 
-        if (paraMap.get("cgmc") != null && !paraMap.get("cgmc").equals("")) {
-            strings.removeIf(value -> value.equals("cgmc"));
-
-            criteria.andCgmcLike("%" + paraMap.get("cgmc").toString() + "%");
-        }
-        if (paraMap.get("hth") != null && !paraMap.get("hth").equals("")) {
-            strings.removeIf(value -> value.equals("hth"));
-
-            criteria.andHthLike("%" + paraMap.get("hth").toString() + "%");
-        }
-        if (paraMap.get("xmmc") != null && !paraMap.get("xmmc").equals("")) {
-            strings.removeIf(value -> value.equals("xmmc"));
-
-            criteria.andXmmcLike("%" + paraMap.get("xmmc").toString() + "%");
-        }
-        if (paraMap.get("nd") != null && !"".equals(paraMap.get("nd"))) {
-            strings.removeIf(value -> value.equals("nd"));
-            criteria.andNdEqualTo(paraMap.get("nd").toString());
-        }
+//        if (paraMap.get("cgmc") != null && !paraMap.get("cgmc").equals("")) {
+//            strings.removeIf(value -> value.equals("cgmc"));
+//
+//            criteria.andCgmcLike("%" + paraMap.get("cgmc").toString() + "%");
+//        }
+//        if (paraMap.get("hth") != null && !paraMap.get("hth").equals("")) {
+//            strings.removeIf(value -> value.equals("hth"));
+//
+//            criteria.andHthLike("%" + paraMap.get("hth").toString() + "%");
+//        }
+//        if (paraMap.get("xmmc") != null && !paraMap.get("xmmc").equals("")) {
+//            strings.removeIf(value -> value.equals("xmmc"));
+//
+//            criteria.andXmmcLike("%" + paraMap.get("xmmc").toString() + "%");
+//        }
+//        if (paraMap.get("nd") != null && !"".equals(paraMap.get("nd"))) {
+//            strings.removeIf(value -> value.equals("nd"));
+//            criteria.andNdEqualTo(paraMap.get("nd").toString());
+//        }
         Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {
             criteria.andOrColumn(keywords.toString(), strings.toArray(new String[strings.size()]), "like");
         }
+
         example.setOrderByClause(" nd desc ");
 
         List<OutAppraisal> list = outAppraisalMapper.selectByExample(example);
         PageInfo<OutAppraisal> pageInfo = new PageInfo<OutAppraisal>(list);
 
         LayuiTableData data = new LayuiTableData();
-
-//        for (int i = 0; i < pageInfo.getList().size(); i++) {
-//            pageInfo.getList().get(i).setDefine6("achivement");
-//        }
 
         if (keywords != null && !"".equals(keywords) && getListInfo(achievement).size() > 0) {
             data.setData(setKeyWordCss(pageInfo, keywords.toString()));
@@ -657,7 +654,7 @@ public class FullSearchServiceImpl implements FullSearchService {
     }
 
     public static String[] outreward = {"xmmc", "sbdw", "sbjz", "xkfl", "sbdj", "rwly", "jddw", "psdj"};
-    public static String[] achievement = {"hth", "xmmc", "cgmc", "zy"};
+    public static String[] achievement = {"sqjddw", "jdh", "cgmc", "cglx"};
     public static String[] info = {"xmmc", "xmjb", "ysnd", "yshf", "ysxd", "ysje", "jf", "fwdxbm", "fwdx", "zylbbm", "zylb", "fzdwbm", "fzdw", "jtfzdwbm", "jtfzdw", "fzryx", "fzrdh", "fzrxm", "lxrdh", "lxryx", "lxrxm", "jssxxm", "jssj", "kssj", "yjsj", "zyly", "zysx", "sjid", "status", "yjsjks", "yjsjjs", "xmlbbm", "xmlbmc", "gsbmmc", "gsbmbm", "zycmc", "zycbm", "type_flag", "define3", "define4", "define5", "define6", "define7", "define8", "define9"};
     public List<String> listInfo;
 

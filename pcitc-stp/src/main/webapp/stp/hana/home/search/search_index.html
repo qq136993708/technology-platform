@@ -93,16 +93,48 @@
         //移除表头的复选框,去掉全选
         $(".layui-table-header table thead th input").remove();
 
-        // 触发不同的按钮事件
-        var $ = layui.$, active = {
+        table.on('row(tableEvent)', function(obj) {
+            console.log(obj.data);
 
+            var select_type=obj.data.select_type;
+            var temUrl = "";
+            if(select_type=="科技成果"){
+                temUrl = "/out/appraisal-detail/" + obj.data.dataId;
+            }else if(select_type=="科研课题"){
+                temUrl =  "/out/project-detail/" + obj.data.dataId;
+            }else if(select_type=="科技奖励"){
+                temUrl = "/out/reward-detail/" + obj.data.dataId;
+            }else if(select_type=="技术族"){
+                temUrl = "/standardBaseExpert/tfcAnalysisDetail?typeIndex=" + obj.data.typeIndex+"&typeName="+obj.data.typeName+"&typeCode="+obj.data.typeCode;
+            }else if(select_type=="科研人才"){
+                var temUrl = "/expertController/expertDetailLeader?expertId=" + obj.data.dataId;
+                window.open(temUrl);
+                return false;
+            }else if(select_type=="科研装备"){
+                temUrl = '/sre-project-basic/get/' + obj.data.id;
+            }
+            else if(select_type=="知识产权"){
+                return false;
+            }
+            else if(d.select_type=="文档资料"){
+                return false;
+            }
 
-        };
+            layer.open({
+                title : '详情',
+                skin : 'layui-layer-lan',
+                shadeClose : true,
+                type : 2,
+                fixed : false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin : true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area : [ '900px', '450px' ],
+                content : temUrl
+            });
+        });
         //监听排序
         table.on('sort(model-table)', function(obj){
-            //console.log(this, obj.field, obj.type)
-            //return;
-            //服务端排序
             table.reload('model-table', {
                 initSort: obj,
                 page: {curr: 1}, //重新从第一页开始
@@ -126,20 +158,19 @@
     function renderTable()
     {
         where =  {param: {
-                "keyword":$("#keyword").val(),
+                "keyword":"${keyword}",
+                "keywords":"${keyword}",
+                "iscount":"1",
                 "fileCount":$("#fileCount").val(),
                 "month":$("#month").val(),
                 "companyCode":$("#companyCode").val()
             }};
 
-        var index = layer.load(1, {
-            shade: [0.1,'#fff']
-        });
+
 
         var monthParam = $("#month").val();
         var companyCodeParam = $("#companyCode").val();
         var fileCount = $("#fileCount").val();
-        console.log("tab数量："+fileCount);
         //渲染
         table.render({
             elem: '#processdef-table',
@@ -158,14 +189,104 @@
             },*/
             cols: [[
                 {field:'LAY_TABLE_INDEX',title:'年度',
-                    templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
+                    templet:  function (d) {
+                        var select_type=d.select_type;
+                        var desc = "";
+                        if(select_type=="科技成果"){
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.cgmc+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>年度:'+d.nd+'</span><br/><span>成果单位:'+d.sqjddw+'</span><br/><span>成果类型:'+d.cglx+'</span><br/><span>鉴定号:'+d.jdh+'</span></p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(select_type=="科研课题"){
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.xmmc+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>立项年度:'+d.nd+'</span><br/><span>牵头单位:'+d.fzdw+'</span><br/>' +
+                                '<span>专业领域:'+((typeof d.zyly=="undefined")?"":d.fzrxm)+'</span><br/>' +
+                                '<span>课题负责人:'+((typeof d.fzrxm=="undefined")?"":d.fzrxm)+'</span><br/>' +
+                                '<span>技术首席:'+((typeof d.jssxxm=="undefined")?"":d.jssxxm)+'</span>' +
+                                '</p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(select_type=="科技奖励"){
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.xmmc+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>获奖年度:'+d.nd+'</span><br/><span>获奖单位:'+d.sbdw+'</span><br/><span>奖励类型:'+d.sbjz+'</span><br/><span>获奖等级:'+d.psdj+'</span></p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(select_type=="技术族"){
+                            var array = d.remarks.split("|");
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.typeName+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>相关项目:'+array[0]+'</span><br/><span>相关成果:'+array[1]+'</span><br/>' +
+                                '<span>相关专利:'+array[2]+'</span><br/>' +
+                                '<span>相关人员:'+array[3]+'</span><br/>' +
+                                '</p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(select_type=="科研人才"){
+                            var result=d.userDesc.replace(/<.*?>/ig,"").substring(0,100)+"...";
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.expertName+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>人物简介:'+result+'</span></p>' +
+                                '            </div>' +
+                                '        </div><br/>' +
+                                '<span>相关课题:'+d.projectCount+'</span><br/>' +
+                                '<span>相关成果:'+d.achievementCount+'</span><br/>' +
+                                '<span>相关专利:'+d.patentCount+'</span><br/>' +
+                                '<span>相关奖励:'+d.bak7+'</span><br/>' +
+                                '    </div>';
+                        }else if(select_type=="科研装备"){
+                            var result=(typeof d.projectBackground=="undefined")?"":d.projectBackground.replace(/<.*?>/ig,"").substring(0,50)+"...";
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.name+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>立项背景:'+result+'</span></p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(select_type=="知识产权"){
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.fmmc+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>发明人:'+d.fmr+'</span><br/><span>类型:'+d.wxlx+'</span><br/><span>专利号:'+d.zlh+'</span><br/></p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(d.select_type=="文档资料"){
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.fileName+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>文件来源:'+d.bak1+"->"+d.version+'</span></p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }
+                        return select_type+"<br/>"+desc;
+                    }}
             ]],
             done: function (res, curr, count) {
-                console.log("综合"+count);
-                console.log(res.data);
+                // console.log("综合"+count);
+                // console.log(res.data);
                 parent.$("#index").html(count);
                 $("#fileCount").val(res.msg);
-                layer.close(index);
             }
         });
     }
