@@ -14,9 +14,9 @@
         .layui-table-page{border-width: 1px 0 1px 0;}
     </style>
 </head>
-<body>
+<body style="padding-top:20px; ">
 <input type="hidden" name="keyword" value="${keyword}" id="keyword">
-<div class="tableBox" style="margin-top: 10px;">
+<div class="tableBox">
     <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
 </div>
 <div class="relevant">
@@ -131,7 +131,7 @@
                             '        <a href="javascript:;">'+d.name+'</a>' +
                             '        <div class="c-row c-gap-top-small">' +
                             '            <div class="c-span18 c-span-last">' +
-                            '                <p><span>立项背景:'+result+'</span></p>' +
+                            '                <p><span>'+result+'</span></p>' +
                             '            </div>' +
                             '        </div>' +
                             '    </div>';

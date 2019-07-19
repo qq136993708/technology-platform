@@ -15,7 +15,6 @@
 </style>
 </head>
 <body>
-<form action=""  name="form1" id="form1" action="" method="POST">
 <!-- 国家项目、重大专项、重点项目、其他项目   -->
 <input type="hidden" name="project_property" value="${project_property}" id="project_property">
 <!-- 新开项目、续建项目、完工项目  -->
@@ -59,7 +58,9 @@
             </div>
           </div>
           
-           <!-- 三级级联 begin-->
+          
+          
+          <!-- 三级级联 begin-->
           <div class="layui-inline">
             <label class="layui-form-label">经费来源：</label>
             <div class="layui-input-inline">
@@ -87,16 +88,25 @@
           </div>
            <!-- 三级级联 end -->
            
-         <!-- 二级级联 begin -->
-           <div class="layui-inline">
-            <label class="layui-form-label">专&nbsp;业&nbsp; 处：</label>
+           
+          <!-- 三级级联 begin -->
+          <div class="layui-inline">
+            <label class="layui-form-label">部门：</label>
             <div class="layui-input-inline">
-               <select name="define10" id="define10" lay-filter="select_define10"   >
+               <select name="gsbmbmFlag" id="gsbmbmFlag" lay-filter="select_gsbmbmFlag"   >
                       <option value="" >--请选择--</option>
-		              <#list zycList as vo> 
-				          <option value="${vo.code}"  <#if define10=vo.name>selected="selected"</#if>>${vo.name}</option>
+		              <#list gsbmbmList as vo> 
+				          <option value="${vo.code}"  <#if gsbmbmFlag=vo.name>selected="selected"</#if>>${vo.name}</option>
 				      </#list>
               </select>
+            </div>
+           </div>
+          
+          
+            <div class="layui-inline">
+            <label class="layui-form-label">处室：</label>
+            <div class="layui-input-inline">
+               <select name="zycbmFlag" id="zycbmFlag" lay-filter="select_zycbmFlag" > </select>
             </div>
           </div>
           
@@ -104,7 +114,7 @@
           <div class="layui-inline">
             <label class="layui-form-label">专业类别：</label>
             <div class="layui-input-inline">
-               <select name="zylb" id="zylb" > </select>
+               <select name="zylbbmFlag" id="zylbbmFlag" > </select>
             </div>
           </div>
        <!-- 二级级联 end -->   
@@ -161,15 +171,14 @@
             </div>
           </div>
           
-          <div class="layui-inline" data-type="searchEvent">
-            <button class="layui-btn layuiadmin-btn-list" >
+          <div class="layui-inline" >
+            <button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
                 <i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
             </button>
           </div>
           
         </div>
       </div>
-</form>	
 
 	 <div class="layui-card-body">
 		<table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
@@ -204,14 +213,14 @@
 					$("#ysnd").val(date.year);
 				}
 			});
-			//加载表格      
-			renderTable();
 			//移除表头的复选框,去掉全选
 			$(".layui-table-header table thead th input").remove();
 
 			// 触发不同的按钮事件
 			var $ = layui.$, active = {
-
+					searchEvent: function() { //点击查询按钮
+		            	 renderTable();
+		            }
 			};
 
 			//区别按钮属性
@@ -219,36 +228,45 @@
 				var type = $(this).data('type');
 				active[type] ? active[type].call(this) : '';
 			});
-			
-			
 			 //监听经费来源
 			   form.on('select(select_define11)', function(data){
 				//alert(data.value);
 				   var parentCode=data.value;
 				   getDicByParentCode(parentCode,'define12');
-				   console.log(data);
+				   console.log("监听经费来源:"+data);
 			   });
 			   //监听单位类别
 			   form.on('select(select_define12)', function(data){
 					   var parentCode=data.value;
 					   getDicByParentCode(parentCode,'define2');
-					   console.log(data);
+					   console.log("监听单位类别:"+data);
 			   });
-			   //监听专业 处
-			   form.on('select(select_define10)', function(data){
+			   
+			   //监听部门
+			   form.on('select(select_gsbmbmFlag)', function(data){
+				//alert(data.value);
+				   var parentCode=data.value;
+				   getDicByParentCode(parentCode,'zycbmFlag');
+				   console.log("监听部门:"+data);
+			   });
+			   
+			   //监听处室
+			   form.on('select(select_zycbmFlag)', function(data){
 					   var parentCode=data.value;
 					  
-					   getDicByParentCode(parentCode,'zylb');
-					   console.log("监听专业 处:"+data);
+					   getDicByParentCode(parentCode,'zylbbmFlag');
+					   console.log("监听处室:"+data);
 			   });
 			
 				//初始化经费来源
 				var define11=$("#define11").val();
 				getDicByParentCode(define11,'define12');
 				
-				//初始化专 业  处
-				var define10=$("#define10").val();
-				getDicByParentCode(define10,'zylb');
+				//初始部门
+				var gsbmbmFlag=$("#gsbmbmFlag").val();
+				getDicByParentCode(gsbmbmFlag,'zycbmFlag');
+			
+			
 				renderTable();
 				
 				
@@ -262,19 +280,25 @@
 			    var define1=$("#define1 option:selected").text();
 			    var define5=$("#define5 option:selected").text();
 			    var define11=$("#define11 option:selected").text();
-			    var define10=$("#define10 option:selected").text();
 			    var fzdwflag=$("#fzdwflag option:selected").text();
 			    var zylb=$("#zylb option:selected").text();
-			    var groupFlag=$("#groupFlag").val();
 			    var qdbz=$("#qdbz option:selected").text();
+			    
+			    //
+			    var groupFlag=$("#groupFlag").val();
+		        var gsbmbmFlag=$("#gsbmbmFlag").val();
+		        var zycbmFlag=$("#zycbmFlag").val();
+		        var zylbbmFlag=$("#zylbbmFlag").val();
+			    
+			    
 			    
 			    if(define1=='--请选择--') {define1=''}
 			    if(define2=='--请选择--') {define2=''}
 			    if(define5=='--请选择--') {define5=''}
 			    if(define12=='--请选择--') {define12=''}
 			    if(define11=='--请选择--') {define11=''}
-			    if(define10=='--请选择--') {define10=''}
 			    if(fzdwflag=='--请选择--') {fzdwflag=''}
+			    if(zycbmFlag=='--请选择--') {zycbmFlag=''}
 			    if(zylb=='--请选择--') {zylb=''}
 			    if(groupFlag=='--请选择--') {groupFlag=''}
 			    if(qdbz=='--请选择--') {qdbz=''}
@@ -294,16 +318,19 @@
 						"define1" :  define1,
 						"define11" : define11,
 						"define2" :  define2,
+						"define5" :  define5,
 						"define12" : define12,
-						"define10" : define10,
 						"zylb" : zylb,
 						"qdbz" : qdbz,
 						"project_scope" :    $("#project_scope").val(),
 						"project_property" : $("#project_property").val(),
 						"projectId" :        $("#projectId").val(),
 						"leaderFlag" :       $("#leaderFlag").val(),
-						"fzdwflag" :         fzdwflag,
-						"groupFlag" :        groupFlag
+						"fzdwflag"  :         fzdwflag,
+						"groupFlag" :         groupFlag,
+						"gsbmbmFlag":         gsbmbmFlag,
+						"zycbmFlag" :         zycbmFlag,
+						"zylbbmFlag":         zylbbmFlag
 
 					}
 				},
@@ -484,61 +511,84 @@
 			});
 
 		}
-			/**======================================联动=====================================*/	
-			var define12="${define12?default('')}";
-			var define2="${define2?default('')}";
 			
 			
-			//获取单位类别
-			function getDicByParentCode(parentCode,downId)
-		    {
-		    	 //alert(parentCode+"--"+downId);
-		    	 $("#"+downId).empty();
-		    	 if(parentCode==null || parentCode=='')
-		     	 {
-		     		parentCode='-1';
-		     	 }
-		    	 var v_date=(new Date()).getTime();
-		    	 if(parentCode!=null && parentCode!='')
-		         {
-		    		 
-		    		 $.ajax({
-		    				url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&parentCode="+parentCode,
-		    				type : "post",
-		    				async: false,
-		    				dataType : "json",
-		    				success : function(data) 
-		    				{
-		    					$("#"+downId).append("<option value=''>--请选择--</option>");
-		    					$.each(data, function(i, el) 
-		    					{
-		    						$("#"+downId).append('<option value="'+ el.code +'">' + el.name+ '</option>');
-		    						if(define12==el.name)
-		    						{
-		    							$("#"+downId).val(el.code);
-		    						} 
-		    						if(define2==el.name)
-		    						{
-		    							$("#"+downId).val(el.code);
-		    						} 
-		    					});
-		    					 form.render();
-		    				},
-		    				error : function() 
-		    				{
-		    					alert("发生未知错误 ,请重新操作.");
-		    				}
-		    			});
-		    		
-		         }
-		    	 var code_temp=$("#"+downId).val();
-		    	 //如果ID=单位类别 ,再调用一次，形成第三级
-		    	 if(downId=='define12')
-		    	 {
-		    		getDicByParentCode(code_temp,'define2');
-		    	 }
-		    	 form.render();
-		    }
+  /**======================================联动=====================================*/	
+	var define11="${define11?default('')}";//单位类别
+	var define12="${define12?default('')}";//单位类别
+	var define2="${define2?default('')}";//研究院
+	var zycbmFlag="${zycbmFlag?default('')}";
+	var zylbbmFlag="${zylbbmFlag?default('')}";
+	
+	//alert(define11);
+	
+	//获取单位类别
+	function getDicByParentCode(parentCode,downId)
+    {
+    	 //alert(parentCode+"--"+downId);
+    	 $("#"+downId).empty();
+    	 if(parentCode==null || parentCode=='')
+     	 {
+     		parentCode='-1';
+     	 }
+    	 console.log("级联：\n parentCode="+parentCode+" downId="+downId);
+    	 var v_date=(new Date()).getTime();
+    	 if(parentCode!=null && parentCode!='')
+         {
+    		 
+    		 $.ajax({
+    				url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&parentCode="+parentCode,
+    				type : "post",
+    				async: false,
+    				dataType : "json",
+    				success : function(data) 
+    				{
+    					$("#"+downId).append("<option value=''>--请选择--</option>");
+    					$.each(data, function(i, el) 
+    					{
+    						$("#"+downId).append('<option value="'+ el.code +'">' + el.name+ '</option>');
+    						if(define12==el.name)
+    						{
+    							$("#"+downId).val(el.code);
+    						} 
+    						if(define2==el.name)
+    						{
+    							$("#"+downId).val(el.code);
+    						} 
+    						if(zycbmFlag==el.name)
+    						{
+    							$("#"+downId).val(el.code);
+    						}
+    						if(zycbmFlag==el.name)
+    						{
+    							$("#"+downId).val(el.code);
+    						}
+    						
+    					});
+    					 form.render();
+    				},
+    				error : function() 
+    				{
+    					alert("发生未知错误 ,请重新操作.");
+    				}
+    			});
+    		
+         }
+    	 var code_temp=$("#"+downId).val();
+    	 //如果ID=单位类别 ,再调用一次，形成第三级
+    	 if(downId=='define12')
+    	 {
+    		getDicByParentCode(code_temp,'define2');
+    	 }
+    	 if(downId=='zycbmFlag')
+    	 {
+    		getDicByParentCode(code_temp,'zylbbmFlag');
+    	 }
+    	 form.render();
+    }
+				
+			
+			
 			
 </script>
 </body>
