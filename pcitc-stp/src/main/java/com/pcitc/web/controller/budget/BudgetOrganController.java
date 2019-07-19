@@ -43,6 +43,7 @@ public class BudgetOrganController extends BaseController
 	public Object toBudgetOrganEditPage(HttpServletRequest request) throws IOException 
 	{
 		request.setAttribute("dataId", request.getParameter("dataId"));
+		request.setAttribute("nd", request.getParameter("nd"));
 		return "stp/budget/budget_organ_edit";
 	}
 	

@@ -106,14 +106,14 @@
             console.log(obj);
         });
         table.on('rowDouble(organEvent)', function(obj){
-        	var temUrl = '/budget/budget_organ_edit?dataId='+selectRowData.dataId;
+        	var temUrl = '/budget/budget_organ_edit?dataId='+selectRowData.dataId+"&nd="+cu_date;
         	publicMethods.openBaseWinFull("详情",temUrl);
         });
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             addEvent: function(){ 
             	//点击新增按钮
-            	var temUrl = '/budget/budget_organ_edit';
+            	var temUrl = '/budget/budget_organ_edit?nd='+cu_date;
             	publicMethods.openBaseWinFull("详情",temUrl);
             },editEvent: function(){  
             	//点击编辑按钮
@@ -121,7 +121,7 @@
             		layer.msg('请点击选择一行数据!');
             		return;
             	}
-            	var temUrl = '/budget/budget_organ_edit?dataId='+selectRowData.dataId;
+            	var temUrl = '/budget/budget_organ_edit?dataId='+selectRowData.dataId+'&nd='+cu_date;
             	publicMethods.openBaseWinFull("详情",temUrl);
             },deleteEvent: function(){  //点击删除按钮
             	//var dt = table.checkStatus('userTable').data;
@@ -131,9 +131,9 @@
             	}
 				layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 					layer.close(index);
-					publicMethods.ajaxAsyncPost("/project/apply-delete/"+selectRowData.applyId, null, function (data) {
+					publicMethods.ajaxAsyncPost("/budget/budget-organ-del", {"dataId":selectRowData.dataId}, function (data) {
 	                     if (data.success) {
-	                    	 renderTable({param: {"applyName":$("#applyName").val()}});
+	                    	 renderTable(where);
 	                    	 layer.msg('操作成功!');
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
