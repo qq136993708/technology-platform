@@ -59,4 +59,5 @@ public @interface Field {
 
     String format() default "yyyy-MM-dd HH:mm:ss";
     // String indexAnalyzer() default "";
+    boolean fielddata() default false;
 }
