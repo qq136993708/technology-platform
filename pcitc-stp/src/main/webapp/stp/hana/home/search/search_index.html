@@ -178,6 +178,8 @@
             method:"POST",
             where:where,
             limit: 15,
+
+            height: 1000,
             id: 'processdef-table',
             // page: {
             //     groups: 5,
@@ -194,7 +196,7 @@
                         var desc = "";
                         if(select_type=="科技成果"){
                             desc = '<div class="layui-div layui-div-n">' +
-                                '        <a href="javascript:;">'+d.cgmc+'</a>' +
+                                '        <a href="javascript:;">'+d.cgmc+'_'+select_type+'</a>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
                                 '                <p><span>年度:'+d.nd+'</span><br/><span>成果单位:'+d.sqjddw+'</span><br/><span>成果类型:'+d.cglx+'</span><br/><span>鉴定号:'+d.jdh+'</span></p>' +
@@ -203,7 +205,7 @@
                                 '    </div>';
                         }else if(select_type=="科研课题"){
                             desc = '<div class="layui-div layui-div-n">' +
-                                '        <a href="javascript:;">'+d.xmmc+'</a>' +
+                                '        <a href="javascript:;">'+d.xmmc+'_'+select_type+'</a>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
                                 '                <p><span>立项年度:'+d.nd+'</span><br/><span>牵头单位:'+d.fzdw+'</span><br/>' +
@@ -216,7 +218,7 @@
                                 '    </div>';
                         }else if(select_type=="科技奖励"){
                             desc = '<div class="layui-div layui-div-n">' +
-                                '        <a href="javascript:;">'+d.xmmc+'</a>' +
+                                '        <a href="javascript:;">'+d.xmmc+'_'+select_type+'</a>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
                                 '                <p><span>获奖年度:'+d.nd+'</span><br/><span>获奖单位:'+d.sbdw+'</span><br/><span>奖励类型:'+d.sbjz+'</span><br/><span>获奖等级:'+d.psdj+'</span></p>' +
@@ -226,7 +228,7 @@
                         }else if(select_type=="技术族"){
                             var array = d.remarks.split("|");
                             desc = '<div class="layui-div layui-div-n">' +
-                                '        <a href="javascript:;">'+d.typeName+'</a>' +
+                                '        <a href="javascript:;">'+d.typeName+'_'+select_type+'</a>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
                                 '                <p><span>相关项目:'+array[0]+'</span><br/><span>相关成果:'+array[1]+'</span><br/>' +
@@ -239,21 +241,19 @@
                         }else if(select_type=="科研人才"){
                             var result=d.userDesc.replace(/<.*?>/ig,"").substring(0,100)+"...";
                             desc = '<div class="layui-div layui-div-n">' +
-                                '        <a href="javascript:;">'+d.expertName+'</a>' +
+                                '        <a href="javascript:;">'+d.expertName+'_'+select_type+'</a>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
-                                '                <p><span>人物简介:'+result+'</span></p>' +
+                                '                <p><span>人物简介:'+result+'</span><br/><span>相关课题:'+d.projectCount+'</span><br/>' +
+                                '                   <span>相关成果:'+d.achievementCount+'</span><br/><span>相关奖励:'+d.bak7+'</span><br/>' +
+                                '               </p>' +
                                 '            </div>' +
-                                '        </div><br/>' +
-                                '<span>相关课题:'+d.projectCount+'</span><br/>' +
-                                '<span>相关成果:'+d.achievementCount+'</span><br/>' +
-                                '<span>相关专利:'+d.patentCount+'</span><br/>' +
-                                '<span>相关奖励:'+d.bak7+'</span><br/>' +
+                                '        </div>' +
                                 '    </div>';
                         }else if(select_type=="科研装备"){
                             var result=(typeof d.projectBackground=="undefined")?"":d.projectBackground.replace(/<.*?>/ig,"").substring(0,50)+"...";
                             desc = '<div class="layui-div layui-div-n">' +
-                                '        <a href="javascript:;">'+d.name+'</a>' +
+                                '        <a href="javascript:;">'+d.name+'_'+select_type+'</a>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
                                 '                <p><span>立项背景:'+result+'</span></p>' +
@@ -262,7 +262,7 @@
                                 '    </div>';
                         }else if(select_type=="知识产权"){
                             desc = '<div class="layui-div layui-div-n">' +
-                                '        <a href="javascript:;">'+d.fmmc+'</a>' +
+                                '        <a href="javascript:;">'+d.fmmc+'_'+select_type+'</a>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
                                 '                <p><span>发明人:'+d.fmr+'</span><br/><span>类型:'+d.wxlx+'</span><br/><span>专利号:'+d.zlh+'</span><br/></p>' +
@@ -271,7 +271,7 @@
                                 '    </div>';
                         }else if(d.select_type=="文档资料"){
                             desc = '<div class="layui-div layui-div-n">' +
-                                '        <a href="javascript:;">'+d.fileName+'</a>' +
+                                '        <a href="javascript:;">'+d.fileName+'_'+select_type+'</a>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
                                 '                <p><span>文件来源:'+d.bak1+"->"+d.version+'</span></p>' +
@@ -279,7 +279,7 @@
                                 '        </div>' +
                                 '    </div>';
                         }
-                        return select_type+"<br/>"+desc;
+                        return desc;
                     }}
             ]],
             done: function (res, curr, count) {
