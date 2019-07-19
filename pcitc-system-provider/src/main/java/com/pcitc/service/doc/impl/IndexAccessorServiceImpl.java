@@ -14,6 +14,7 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
@@ -274,9 +275,17 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
      */
     public void selectHotWord(){
         //获取搜索日志
-        SearchRequestBuilder requestBuilder = clientFactoryBuilder.getClient().prepareSearch("files").setTypes("bak3").setQuery(QueryBuilders.matchAllQuery());
+        TransportClient client = clientFactoryBuilder.getClient();
+        SearchRequestBuilder requestBuilder = client.prepareSearch("files").setTypes("sysfiletype").setQuery(QueryBuilders.matchAllQuery());
+
+        String source = "{\"sysfiletype\":{\"properties\":{\"filePath\":{\"type\":\"text\",\"fielddata\":true}}}}";
+        client.admin().indices().preparePutMapping("files")
+                .setType("sysfiletype")
+                .setSource(source, XContentType.JSON)
+                .get();
+
         //聚合分析查询出现次数最多的10个词汇
-        SearchResponse actionGet = requestBuilder.addAggregation(AggregationBuilders.terms("hotWord").field("keywords").size(10)).execute().actionGet();
+        SearchResponse actionGet = requestBuilder.addAggregation(AggregationBuilders.terms("hotWord").field("fileName").size(10)).execute().actionGet();
         //获取分析后的数据
         Aggregations aggregations = actionGet.getAggregations();
         Terms trem = aggregations.get("hotWord");
@@ -286,6 +295,9 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
         for (Terms.Bucket bucket : buckets) {
             String key = (String) bucket.getKey();
             hotWords.add(key);
+            System.out.println("热点:"+key);
         }
+        System.out.println("完成");
+        System.out.println(hotWords);
     }
 }

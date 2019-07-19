@@ -23,16 +23,16 @@
     <p>搜索热点</p>
     <div class="relevant-cont hotspot">
         <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('可燃气体探测器')">可燃气体探测器</a>
+            <a href="/instituteIndex?url=/fullSearch/search?keyword=可燃气体探测器" target="_top">可燃气体探测器</a>
         </div>
         <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('加油加氢')">加油加氢</a>
+            <a href="/instituteIndex?url=/fullSearch/search?keyword=加油加氢" target="_top">加油加氢</a>
         </div>
         <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('井筒工程技术')">井筒工程技术</a>
+            <a href="/instituteIndex?url=/fullSearch/search?keyword=井筒工程技术" target="_top">井筒工程技术</a>
         </div>
         <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('催化剂')">催化剂</a>
+            <a href="/instituteIndex?url=/fullSearch/search?keyword=催化剂" target="_top">催化剂</a>
         </div>
     </div>
 </div>
@@ -100,6 +100,7 @@
         });
 
         function renderTable() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
             //渲染
             table.render({
                 elem: '#processdef_table_02',
@@ -116,7 +117,7 @@
                 page: {
                     count: 500, //数据总数，从服务端得到
                     groups: 5,
-                    limits: [15, 30, 45, 60],
+                    limits: [15,30,45,60],
                     layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                     first: '首页', //不显示首页
                     last: '尾页', //不显示尾页
