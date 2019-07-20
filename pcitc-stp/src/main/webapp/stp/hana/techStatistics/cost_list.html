@@ -46,7 +46,8 @@
      </label>
     <!--按钮组-->
     <div class="btnGroup">
-     <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+      <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+      <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
     </div>
 </div>
 <div class="tableBox">
@@ -72,7 +73,8 @@
                       <th lay-data="{align:'center'}" colspan="6">科技投入情况（单位：万元）</th>
                       <th lay-data="{align:'center'}" colspan="3">承担和参加国家级科技项目</th>
                       <th lay-data="{align:'center'}" colspan="3">承担和参加地方（省级）科技项目</th>
-                     <th lay-data="{field:'createDate', width:'10%',align:'center', templet : '#dateTpl'}" rowspan="2" >创建日期</th>
+                      <th lay-data="{field:'createDate', width:'10%',align:'center', templet : '#dateTpl'}" rowspan="2" >创建日期</th>
+                      <th lay-data="{field:'createUserName', width:'10%',align:'center'}" rowspan="2" >填写人</th>
                   </tr>
                   <tr>
                       <th lay-data="{field:'techProjectCost', width:'7%',align:'right'}">科技项目费</th>
@@ -200,15 +202,16 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
 
      	    // 触发不同的按钮事件
              var $ = layui.$, active = {
-                searchEvent: function() { //点击查询按钮
+                searchEvent: function() {
                 	myTable();
                    
                 },
-                resetEvent: function() { //点击重置按钮
-                	//$('#name').val("");
-                	//$('#auditStatus').val("");
+                resetEvent: function() { 
+                	$('#unitName').val("");
+                	$('#auditStatus').val("");
+                	$('#year').val("");
                 },
-                addEvent: function(){ //点击新增按钮
+                addEvent: function(){ 
                 	var title="股份科技投入填报";
                 	if(type=='2')
                 	{
