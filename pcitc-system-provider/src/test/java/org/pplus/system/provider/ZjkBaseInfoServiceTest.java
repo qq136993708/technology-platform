@@ -47,22 +47,22 @@ public class ZjkBaseInfoServiceTest {
     @Autowired
     private TechFamilyProviderClient techFamilyProviderClient;
 
-    @Test
-    public void testselectHotWord() {
+//    @Test
+//    public void testselectHotWord() {
 //        List<SysFile> sysFiles = sysFileService.selectByExample(new SysFileExample());
 //        for (int i = 0; i < sysFiles.size(); i++) {
 //            SearchLog searchLog = new SearchLog();
 //            searchLog.setName(sysFiles.get(i).getFileName());
 //            indexAccessorService.saveSearchLogToEs(searchLog);
 //        }
-        HotWord hotWord = new HotWord();
-        hotWord.setField("name");
-        hotWord.setIndices("search");
-        hotWord.setSize(10);
-        hotWord.setTerms("hotWord");
-        hotWord.setTypes("searchlog");
-        indexAccessorService.selectHotWord(hotWord);
-    }
+//        HotWord hotWord = new HotWord();
+//        hotWord.setField("name");
+//        hotWord.setIndices("search");
+//        hotWord.setSize(10);
+//        hotWord.setTerms("hotWord");
+//        hotWord.setTypes("searchlog");
+//        indexAccessorService.selectHotWord(hotWord);
+//    }
 
     //    @Test
     public void excelInto_zjkExpertPatent() {
