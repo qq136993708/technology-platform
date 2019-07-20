@@ -133,7 +133,7 @@
 					layer.close(index);
 					publicMethods.ajaxAsyncPost("/budget/budget-organ-del", {"dataId":selectRowData.dataId}, function (data) {
 	                     if (data.success) {
-	                    	 renderTable(where);
+	                    	 renderTable({param:{"nd":cu_date}});
 	                    	 layer.msg('操作成功!');
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
