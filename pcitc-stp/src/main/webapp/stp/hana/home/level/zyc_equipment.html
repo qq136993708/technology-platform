@@ -31,7 +31,6 @@
 .processdef_table_02 td:nth-child(3) .layui-table-cell{color: #1890ff ;}
 .processdef_table_02 td:nth-child(4) .layui-table-cell{color: red   ;}
 .processdef_table_02 td:nth-child(5) .layui-table-cell{color: #9DD783   ;}
-
 </style>
 </head>
 <body>
@@ -52,25 +51,26 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time1"></span>年直属研究院科研装备课题数量
+							<span class="layui-time1"></span>
+							年直属研究院科研装备课题数量
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
 								<span>
 									总计:
-									<span class="text-total-blue" id="equipment_chart1_01" onclick="nzsyjykyzbktsl('')" style="cursor: pointer">
+									<span class="text-total-blue" id="equipment_chart1_01" onclick="equipment_chart1('')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									新开课题:
-									<span class="text-total-blue" id="equipment_chart1_02" onclick="nzsyjykyzbktsl('新开课题')" style="cursor: pointer">
+									<span class="text-total-blue" id="equipment_chart1_02" onclick="equipment_chart1('新开课题')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									结转课题:
-									<span class="text-total-blue" id="equipment_chart1_03" onclick="nzsyjykyzbktsl('结转课题')" style="cursor: pointer">
+									<span class="text-total-blue" id="equipment_chart1_03" onclick="equipment_chart1('结转课题')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
@@ -85,7 +85,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time1"></span>直属研究院科研课题数量占比
+							<span class="layui-time1"></span>
+							直属研究院科研课题数量占比
 						</div>
 						<div class="layui-row-main myTable">
 							<table id="myTable" class="layui-table" lay-filter="myTable">
@@ -123,7 +124,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>直属研究院科研装备数量
+							<span class="layui-time"></span>
+							直属研究院科研装备数量
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total" style="font-size: 12px;">
@@ -161,10 +163,53 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>科研课题数量占比
+							<span class="layui-time"></span>
+							科研课题数量占比
 						</div>
 						<div class="layui-row-main processdef_table_02">
 							<table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							直属研究院科研装备数量
+						</div>
+						<div class="layui-row-main">
+							<div class="text-total">
+								<span>
+									大型分析仪器:
+									<span class="text-total-blue" id="equipment_chart5_01">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									中型实验装置:
+									<span class="text-total-blue" id="equipment_chart5_02">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									单台值大于500万:
+									<span class="text-total-blue" id="equipment_chart5_03">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									专业软件（外购）:
+									<span class="text-total-blue" id="equipment_chart5_04">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+							</div>
+							<div class="main-chart" id="equipment_chart5" style="height: 280px; width: 100%;"></div>
 						</div>
 					</div>
 				</div>
@@ -252,6 +297,11 @@
 			$("#bar4_2_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#bar4_3_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#bar4_4_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			//直属研究院科研装备数量
+			$("#equipment_chart5_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#equipment_chart5_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#equipment_chart5_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#equipment_chart5_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
 			var chart1_url = "/direct/equipment_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=kyzb";
 			var echart1 = load_mutl_bar_down_color(chart1_url, "equipment_chart1", "", "", yAxis);
@@ -266,7 +316,9 @@
 					nd_temp = "";
 				}
 
-				parent.layui.index.openTabsPage("/one_level_main/count_table_new?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + ndv + "&define1=资本性&ktlx=" + legentName + "&define11=股份公司&define12=直属研究院&groupFlag=xmid", "装备课题详情");
+				//var url = encodeURIComponent("/one_level_main/count_table?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + ndv + "&define1=资本性&ktlx=" + legentName + "&groupFlag=xmid");
+				//window.open("/instituteIndex?url=" + url);
+				parent.layui.index.openTabsPage("/one_level_main/count_table?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + ndv + "&define1=资本性&ktlx=" + legentName + "&groupFlag=xmid", "装备课题详情");
 			});
 
 			var url_01 = "/direct/equipment_02?type=1&companyCode=" + companyCode + "&month=" + month + "&v_date=" + v_date;
@@ -288,9 +340,32 @@
 				var xName = params.name;
 				var legentName = params.seriesName;
 
+				//var url = encodeURIComponent("/one_level_main/equipment_03_detail?month=" + $("#month").val() + "&companyName=" + xName);
+				//window.open("/instituteIndex?url=" + url);
 				parent.layui.index.openTabsPage("/one_level_main/equipment_03_detail?month=" + $("#month").val() + "&companyName=" + xName, "装备课题详情");
 			});
 
+			var chart5_url = "/direct/equipment_03?companyCode=" + companyCode + "&v_date=" + v_date + "&month=" + month;
+			var echart5 = load_mutl_bar_stack_02(chart5_url, "equipment_chart5", "", "", yAxis, 1, function(data) {
+
+				var bCount_4 = getDataCountForName_t(data, '大型分析仪器');
+				var zCount_4 = getDataCountForName_t(data, '中型实验装置');
+				var dCount_4 = getDataCountForName_t(data, '单台值大于500万');
+				var zyCount_4 = getDataCountForName_t(data, '专业软件（外购）');
+				var allCount_4 = bCount_4 + zCount_4 + dCount_4 + zyCount_4;
+				//alert(bCount_4);
+				$("#equipment_chart5_01").html(bCount_4 + "套");
+				$("#equipment_chart5_02").html(zCount_4 + "台");
+				$("#equipment_chart5_03").html(dCount_4 + "台");
+				$("#equipment_chart5_04").html(zyCount_4 + "套");
+			});
+			echart5.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
+				//var url = encodeURIComponent("/one_level_main/equipment_03_detail?month=" + $("#month").val() + "&companyName=" + xName);
+				//window.open("/instituteIndex?url=" + url);
+				parent.layui.index.openTabsPage("/one_level_main/equipment_03_detail?month=" + $("#month").val() + "&companyName=" + xName, "装备课题详情");
+			});
 
 		}
 
@@ -317,8 +392,8 @@
 			return parseInt(xkCount);
 
 		}
-        //直属研究院科研装备课题数量
-		function nzsyjykyzbktsl(ktlx) {
+
+		function equipment_chart1(ktlx) {
 
 			var month = $('#month').val();
 			month = month.replace("-", "");
@@ -329,7 +404,9 @@
 			if (ktlx == '新开课题') {
 				nd_temp = nd;
 			}
-			parent.layui.index.openTabsPage("/one_level_main/count_table_new?nd=" + nd_temp + "&ysnd=" + nd + "&define11=股份公司&define12=直属研究院&define1=资本性&v_date=" + v_date + "&ktlx=" + ktlx + "&groupFlag=xmid", "装备课题详情");
+			//var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&define12=直属研究院&define1=资本性&v_date=" + v_date + "&ktlx=" + ktlx + "&groupFlag=xmid");
+			//window.open("/instituteIndex?url=" + url);
+			parent.layui.index.openTabsPage("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&define12=直属研究院&define1=资本性&v_date=" + v_date + "&ktlx=" + ktlx + "&groupFlag=xmid", "装备课题详情");
 		}
 
 		//初始化图形
@@ -443,7 +520,10 @@
 				console.log(obj.tr) //得到当前行元素对象
 				console.log(obj.data) //得到当前行数据
 				var selectRowData = obj.data;
-				parent.layui.index.openTabsPage("/one_level_main/count_table_new?define2=" + selectRowData.define2 + "&nd=&ysnd=" + nd + "&define11=股份公司&define12=直属研究院&define1=资本性&v_date=" + v_date, "装备课题详情");
+				//var url = encodeURIComponent("/one_level_main/count_table?define2=" + selectRowData.define2 + "&nd=&ysnd=" + nd + "&define1=资本性&v_date=" + v_date);
+				//window.open("/instituteIndex?url=" + url);
+				
+				parent.layui.index.openTabsPage("/one_level_main/count_table?define2=" + selectRowData.define2 + "&nd=&ysnd=" + nd + "&define1=资本性&v_date=" + v_date, "装备课题详情");
 			});
 
 		}
