@@ -20,6 +20,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
+import com.pcitc.base.common.enums.BudgetReleaseEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -328,21 +329,21 @@ public class BudgetInfoProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-info-release", method = RequestMethod.POST)
 	public Object budgetRelease(@RequestBody BudgetInfo info) 
 	{
-		//List<BudgetInfo> data = null;
-		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
+		Result rs = new Result(false,"下发失败!");
 		try
 		{
-			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),info.getBudgetType());
-			for(BudgetInfo dt:datalist) {
-				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
-				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
-				rsdata.add(map);
+			BudgetInfo rsinfo = budgetInfoService.selectBudgetInfo(info.getDataId());
+			if(rsinfo != null) 
+			{
+				rsinfo.setReleaseStatus(BudgetReleaseEnum.STATUS_RELEASE.getCode());
+				budgetInfoService.updateBudgetInfo(rsinfo);	
+				rs = new Result(true,"下发成功!");
 			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return rsdata;
+		return rs;
 	}
 }

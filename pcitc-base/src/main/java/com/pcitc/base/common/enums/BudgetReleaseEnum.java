@@ -18,7 +18,7 @@ public enum BudgetReleaseEnum
 				return v;
 			}
 		}
-		return STATUS_RELEASE;
+		return STATUS_NORELEASE;
 	}
 	
 	private BudgetReleaseEnum(Integer code, String desc) {

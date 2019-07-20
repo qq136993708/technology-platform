@@ -34,7 +34,8 @@ public class BudgetInfoController extends BaseController
 	private static final String BUDGET_INFO_DEL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-del";
 	private static final String BUDGET_INFO_CREATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-create";
 	private static final String BUDGET_INFO_CREATE_BYTEMPLATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-create-bytemplate";
-	private static final String BUDGET_INFO_RELEASE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-release-list";
+	private static final String BUDGET_RELEASE_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-release-list";
+	private static final String BUDGET_INFO_RELEASE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-release";
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_total")
@@ -151,7 +152,17 @@ public class BudgetInfoController extends BaseController
 	@ResponseBody
 	public Object getBudgetRelaseList(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_RELEASE, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_RELEASE_LIST, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
+		Object rs = JSON.toJSON(responseEntity.getBody());
+		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		return rs;
+		
+	}
+	@RequestMapping(value = "/budget/budget-info-release", method = RequestMethod.POST)
+	@ResponseBody
+	public Object budgetInfoRelase(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_RELEASE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		Object rs = JSON.toJSON(responseEntity.getBody());
 		System.out.println(JSON.toJSONString(responseEntity.getBody()));
 		return rs;
