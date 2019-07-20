@@ -3525,7 +3525,7 @@ public class HanaUtil {
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("xkMoney")) {
-			chartBarLineSeries.setName("新开课题实际金额");
+			chartBarLineSeries.setName("新开课题已签金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 
@@ -3748,7 +3748,7 @@ public class HanaUtil {
 				}
 				if (name.equals("zbxsjje")) {
 
-					if (zbxsjje != null) {
+					if (zbxsjje != null && !zbxsjje.equals("null") && !zbxsjje.equals("")) {
 						dataList.add(String.format("%.4f", Double.valueOf(zbxsjje) / 10000));
 					} else {
 						dataList.add(0);
