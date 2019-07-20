@@ -6,8 +6,8 @@ package com.pcitc.base.common.enums;
  */
 public enum BudgetReleaseEnum 
 {
-	STATUS_RELEASE(1,"已下发"),
-	STATUS_NORELEASE(0,"未下发");
+	STATUS_RELEASE(1,"已发布"),
+	STATUS_NORELEASE(0,"未发布");
 	
 	public static BudgetReleaseEnum getByCode(Integer code) 
 	{
