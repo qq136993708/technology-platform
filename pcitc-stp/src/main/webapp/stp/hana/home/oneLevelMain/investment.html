@@ -225,6 +225,42 @@
 					search_Event();
 				}
 			});
+			
+			
+			//监听行单击事件
+			table.on('row(myTable)', function(obj) {
+				console.log(obj.tr);
+				console.log(obj.data); 
+				selectRowData = obj.data;
+				var xName=selectRowData.budgetItemName;
+				var nd = $('#nd').val();
+				
+				var qdbz = '已签订';
+				var define11 = "";
+				var define12 = "";
+				if (xName == '资产公司' || xName == '集团公司') 
+				{
+					define11 = xName;
+
+				} else {
+					define11 = "股份公司";
+				}
+				
+				define12 = xName;
+				if (xName == '休斯顿') {
+					define12 = '休斯顿研发中心';
+				}
+				if (xName == '中东') {
+					define12 = '中东研发中心';
+				}
+				
+				var url = encodeURIComponent("/one_level_main/common_table_new?define12=" + define12 +  "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8&define11="+define11);
+				window.open("/instituteIndex?url=" + url);
+				
+
+			});
+			
+			
 			myTable();
 			$("#knowledge_table").click(function() {
 				var url = encodeURIComponent("/one_level_main/common_table_new?ysnd=" + nd + "&groupFlag=xmid,define8");
@@ -348,7 +384,7 @@
 				if (legentName == '新开课题已签金额') {
 					qdbz = '已签订';
 				}
-				var url = encodeURIComponent("/one_level_main/common_table?qdbz=" + qdbz + "&ysnd=" + nd + "&define10=" + xName + "&groupFlag=xmid,define8");
+				var url = encodeURIComponent("/one_level_main/common_table_new?qdbz=" + qdbz + "&ysnd=" + nd + "&define10=" + xName + "&groupFlag=xmid,define8&zycbmFlag="+xName);
 				window.open("/instituteIndex?url=" + url);
 			});
 
@@ -369,7 +405,7 @@
 				if (legentName == '未执行') {
 					qdbz = '未签订';
 				}
-				var url = encodeURIComponent("/one_level_main/common_table?define2=" + xName + "&qdbz=" + qdbz + "&ysnd=" + nd + "&groupFlag=xmid,define8");
+				var url = encodeURIComponent("/one_level_main/common_table_new?define2=" + xName + "&qdbz=" + qdbz + "&ysnd=" + nd + "&groupFlag=xmid,define8&define11=股份公司&define12=直属研究院");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -478,7 +514,7 @@
 				qdbz = '未签订';
 			}
 			var define12 = '直属研究院';
-			var url = encodeURIComponent("/one_level_main/common_table?qdbz=" + qdbz + "&define12=" + define12 + "&ysnd=" + nd + "&nd=" + nd + "&groupFlag=xmid,define8");
+			var url = encodeURIComponent("/one_level_main/common_table_new?qdbz=" + qdbz + "&define12=" + define12 + "&ysnd=" + nd + "&nd=" + nd + "&groupFlag=xmid,define8&define11=股份公司");
 			window.open("/instituteIndex?url=" + url);
 		}
 	</script>
