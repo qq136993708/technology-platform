@@ -3,13 +3,15 @@ package com.pcitc.base.stp.budget;
 public class BudgetOrganItems {
     private String dataId;
 
-    private Integer dataNo;
+    private Integer organId;
 
     private String organCode;
 
     private String organName;
 
     private String organDesc;
+
+    private String unitCode;
 
     private String creater;
 
@@ -27,6 +29,12 @@ public class BudgetOrganItems {
 
     private String appendFiles;
 
+    private String contactsName;
+
+    private String contactsPhone;
+
+    private String contactsEmail;
+
     public String getDataId() {
         return dataId;
     }
@@ -35,12 +43,12 @@ public class BudgetOrganItems {
         this.dataId = dataId;
     }
 
-    public Integer getDataNo() {
-        return dataNo;
+    public Integer getOrganId() {
+        return organId;
     }
 
-    public void setDataNo(Integer dataNo) {
-        this.dataNo = dataNo;
+    public void setOrganId(Integer organId) {
+        this.organId = organId;
     }
 
     public String getOrganCode() {
@@ -65,6 +73,14 @@ public class BudgetOrganItems {
 
     public void setOrganDesc(String organDesc) {
         this.organDesc = organDesc;
+    }
+
+    public String getUnitCode() {
+        return unitCode;
+    }
+
+    public void setUnitCode(String unitCode) {
+        this.unitCode = unitCode;
     }
 
     public String getCreater() {
@@ -129,5 +145,29 @@ public class BudgetOrganItems {
 
     public void setAppendFiles(String appendFiles) {
         this.appendFiles = appendFiles;
+    }
+
+    public String getContactsName() {
+        return contactsName;
+    }
+
+    public void setContactsName(String contactsName) {
+        this.contactsName = contactsName;
+    }
+
+    public String getContactsPhone() {
+        return contactsPhone;
+    }
+
+    public void setContactsPhone(String contactsPhone) {
+        this.contactsPhone = contactsPhone;
+    }
+
+    public String getContactsEmail() {
+        return contactsEmail;
+    }
+
+    public void setContactsEmail(String contactsEmail) {
+        this.contactsEmail = contactsEmail;
     }
 }

@@ -1,9 +1,14 @@
 package com.pcitc.service.doc.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.pcitc.base.common.HotWord;
+import com.pcitc.es.clientmanager.IndexHelperBuilder;
+import com.pcitc.service.doc.AccessorService;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
@@ -235,6 +240,8 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
             String indexName = SearchUtil.getIndexName(clazz);
             String typeName = SearchUtil.getTypeName((clazz));
             XContentBuilder mapping = SearchUtil.getMappingXContentBuilder(clazz);
+            System.out.println("------------mapping-------------");
+            System.out.println(mapping);
             //创建映射
             PutMappingRequest mappingRequest =Requests.putMappingRequest(indexName).type(typeName).source(mapping);
             client.admin().indices().putMapping(mappingRequest).get();
@@ -269,17 +276,52 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
         return deleteType(SearchUtil.getIndexName(clazz), SearchUtil.getTypeName(clazz));
     }
 
+
+
+    public AccessorService getAccessorService() {
+        AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
+        return accessor;
+    }
+    public IndexAccessorService getIndexAccessorService(AccessorService accessor) {
+        IndexAccessorService indexAccessor = new IndexHelperBuilder.Builder().withClient(accessor.getClient()).creatAccessor();
+        return indexAccessor;
+    }
+
+    public static void setMethodVal(Class clazz, Object object, String strName, Object strVal) {
+        try {
+            Method method = clazz.getMethod(strName, Integer.class);
+            method.invoke(object, new Object[]{strVal});
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+    public void saveSearchLogToEs(Object object,String methodName){
+        AccessorService accessor = getAccessorService();
+        IndexAccessorService indexAccessor = getIndexAccessorService(accessor);
+        Class clazz = object.getClass();
+        indexAccessor.createIndexWithSettings(clazz);
+        indexAccessor.createMappingXContentBuilder(clazz);
+        setMethodVal(clazz,object,"".equals(methodName)?"setEsId":methodName,(int) (accessor.count(clazz, null))+1);
+//        object.setEsId((int) (accessor.count(clazz, null))+1);
+        accessor.add(object);
+    }
+
     /**
      * 查询出现的热点词汇
      */
-    public void selectHotWord(){
+    public List<String> selectHotWord(HotWord hotWord){
         //获取搜索日志
-        SearchRequestBuilder requestBuilder = clientFactoryBuilder.getClient().prepareSearch("files").setTypes("bak3").setQuery(QueryBuilders.matchAllQuery());
-        //聚合分析查询出现次数最多的10个词汇
-        SearchResponse actionGet = requestBuilder.addAggregation(AggregationBuilders.terms("hotWord").field("keywords").size(10)).execute().actionGet();
+        TransportClient client = clientFactoryBuilder.getClient();
+        SearchRequestBuilder requestBuilder = client.prepareSearch(hotWord.getIndices()).setTypes(hotWord.getTypes()).setQuery(QueryBuilders.matchAllQuery());
+        //聚合分析查询出现次数最多的个词汇
+        SearchResponse actionGet = requestBuilder.addAggregation(AggregationBuilders.terms(hotWord.getTerms()).field(hotWord.getField()).size(hotWord.getSize())).execute().actionGet();
         //获取分析后的数据
         Aggregations aggregations = actionGet.getAggregations();
-        Terms trem = aggregations.get("hotWord");
+        Terms trem = aggregations.get(hotWord.getTerms());
         List<Terms.Bucket> buckets = (List<Terms.Bucket>) trem.getBuckets();
 //        List<Terms.Bucket> buckets = trem.getBuckets();
         List<String> hotWords = new ArrayList<>();
@@ -287,5 +329,6 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
             String key = (String) bucket.getKey();
             hotWords.add(key);
         }
+        return hotWords;
     }
 }

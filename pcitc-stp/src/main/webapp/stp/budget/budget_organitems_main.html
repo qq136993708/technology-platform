@@ -50,15 +50,10 @@
 	<script type="text/javascript">
 	var table,selectRowData,renderfunc,param;
     layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ], function(){
-    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,table = layui.table,publicMethods=layui.publicMethods,selectRowData;
+    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,selectRowData;
+    	table = layui.table;
+    	var publicMethods=layui.publicMethods;
     	var param = JSON.parse(window.localStorage.getItem("param"));
-    	var cu_date = "${nd}";
-    	var where = {param:{"nd":cu_date}};
-    	laydate.render({elem: '#choose-year',value: cu_date,min:'2018-01-01',type: 'year',done:function (val, date, endDate) {
-            	cu_date = val;
-            	renderTable({param:{"nd":cu_date}});
-            }            
-        });
     	window.renderTable = function(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		var cols = [
@@ -66,74 +61,85 @@
     				type:'checkbox',style: 'cursor: pointer;',width: 55
     			},
     			{
-                    field: "no",
-                    title: "序号", event: 'setActive', style: 'cursor: pointer;',align:'center',width: 100
+    				type:'numbers',
+                    title: "序号", event: 'setActive', style: 'cursor: pointer;',align:'center',width: 80
                 },
     			{
                      field: "organId",
-                     title: "预算项ID", event: 'setActive',align:'center', style: 'cursor: pointer;',width: 200
+                     title: "预算项ID", event: 'setActive',align:'center', style: 'cursor: pointer;',width: 120
                 },
                 {
                     field: "organCode",
-                    title: "预算项编码", event: 'setActive', style: 'cursor: pointer;',align:'left',width: 300
+                    title: "预算项编码", event: 'setActive', style: 'cursor: pointer;',align:'left',width: 150
                 },
                 {
                     field: "unitCode",
-                    title: "单位编码", event: 'setActive', style: 'cursor: pointer;',align:'left',width: 300
+                    title: "单位编码", event: 'setActive', style: 'cursor: pointer;',align:'left',width: 150
                 },
                 {
                     field: "organName",
-                    title: "预算项名称", event: 'setActive', style: 'cursor: pointer;',align:'left'
+                    title: "预算单位名称", event: 'setActive', style: 'cursor: pointer;',align:'left'
+                },
+                {
+                    field: "contactsName",
+                    title: "联系人", event: 'setActive', style: 'cursor: pointer;',align:'left'
+                },
+                {
+                    field: "contactsEmail",
+                    title: "邮箱", event: 'setActive', style: 'cursor: pointer;',align:'left'
+                },
+                {
+                    field: "contactsPhone",
+                    title: "联系电话", event: 'setActive', style: 'cursor: pointer;',align:'left'
                 }
     		];
-    		
-    		publicMethods.tableRender("organTable","organTable","/budget/budget-organ-table",false,cols,where,true,function(res, curr, count){
+    		var where = {param:{"nd":"2019"}};
+    		publicMethods.tableRender("organTable","organTable","/budget/budget-organitems-table",false,cols,where,true,function(res, curr, count){
     			layer.close(lodingMsg);
-    			$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                	var index=parseInt($(this).index()+1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData=res.data[index-1];
-                }); 
+    			 	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	                	var index=parseInt($(this).index()+1);
+	                    $('tr').removeClass('layui-table-click');
+	                    $(this).addClass('layui-table-click');
+	                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	                    selectRowData=res.data[index-1];
+	                }); 
     		});
 	        $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
 		}
-    	renderTable(where);
+    	renderTable();
         //监听表格复选框选择
         table.on('checkbox(organEvent)', function(obj){
             console.log(obj);
         });
         table.on('rowDouble(organEvent)', function(obj){
-        	var temUrl = '/budget/budget_organ_edit?dataId='+selectRowData.dataId+"&nd="+cu_date;
+        	var temUrl = '/budget/budget_organitems_edit?dataId='+obj.data.dataId;
         	publicMethods.openBaseWinFull("详情",temUrl);
         });
         // 触发不同的按钮事件
         var $ = layui.$, active = {
-            addEvent: function(){ 
+           addEvent: function(){ 
             	//点击新增按钮
-            	var temUrl = '/budget/budget_organ_edit?nd='+cu_date;
-            	publicMethods.openBaseWinFull("详情",temUrl);
+        	   	var temUrl = '/budget/budget_organitems_edit';
+           		publicMethods.openBaseWinFull("详情",temUrl);
             },editEvent: function(){  
             	//点击编辑按钮
             	if(!selectRowData){
             		layer.msg('请点击选择一行数据!');
             		return;
             	}
-            	var temUrl = '/budget/budget_organ_edit?dataId='+selectRowData.dataId+'&nd='+cu_date;
+            	var temUrl = '/budget/budget_organitems_edit?dataId='+selectRowData.dataId;
             	publicMethods.openBaseWinFull("详情",temUrl);
             },deleteEvent: function(){  //点击删除按钮
-            	//var dt = table.checkStatus('userTable').data;
             	if(!selectRowData){
             		layer.msg('请选择要删除的数据!');
             		return;
             	}
 				layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
 					layer.close(index);
-					publicMethods.ajaxAsyncPost("/budget/budget-organ-del", {"dataId":selectRowData.dataId}, function (data) {
+					publicMethods.ajaxAsyncPost("/budget/budget-organitems-del", {"dataId":selectRowData.dataId}, function (data) {
 	                     if (data.success) {
-	                    	 renderTable(where);
+	                    	 renderTable();
 	                    	 layer.msg('操作成功!');
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
@@ -156,9 +162,7 @@
     <div class="tableToolBox">
     	<div class="num-box">
             <label class="dateInput">
-                <span>预算年度：</span>
-                <input type="text" id="choose-year" readonly="readonly">
-                <span>&nbsp;&nbsp;此功能由实施人员负责维护，请谨慎操作！</span>
+                <span>此功能由实施人员负责维护，请谨慎操作！</span>
             </label>
         </div>
         <div class="whiteLine"></div>

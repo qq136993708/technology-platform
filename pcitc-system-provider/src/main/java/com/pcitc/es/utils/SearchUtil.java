@@ -461,6 +461,7 @@ public class SearchUtil {
                     String stored = ann.stored() + "";
                     String analyzer = ann.analyzer();
                     String format = ann.format();
+                    boolean fielddata = ann.fielddata();
 
                     // type = "string", index = "analyzed", stored = "true", analyzer = "standard"
                     if (type.equals("Auto")) {// 如果是Auto类型则跳过，不进行mapping设置
@@ -469,7 +470,9 @@ public class SearchUtil {
                     //分词start
                     builder.startObject(field.getName());
                     builder.field("type",type);
-
+                    if (fielddata){
+                        builder.field("fielddata",fielddata);
+                    }
                         // 数值类的不能添加分词
                         if (!words.contains(type)) {
                             builder.field("analyzer",analyzer);

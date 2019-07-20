@@ -39,6 +39,7 @@ public class BudgetOrganItemsController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_organitems_edit")
 	public Object toBudgetOrganItemsEditPage(HttpServletRequest request) throws IOException 
 	{
+		request.setAttribute("dataId", request.getParameter("dataId"));
 		return "stp/budget/budget_organitems_edit";
 	}
 	
