@@ -48,8 +48,7 @@
 					<div class="layui-col-md5">
 						<div class="layui-card">
 							<div class="layui-card-header">
-								<span class="layui-time"></span>
-								年全口径新开课题合同（任务书）签订率
+								<span class="layui-time"></span>年全口径新开课题合同（任务书）签订率
 							</div>
 							<div class="layui-row-main">
 								<div class="text-total">
@@ -79,8 +78,7 @@
 					<div class="layui-col-md5" style="padding-left: 15px;">
 						<div class="layui-card">
 							<div class="layui-card-header">
-								<span class="layui-time"></span>
-								年全口径新开课题合同（任务书）签订率
+								<span class="layui-time"></span>年全口径新开课题合同（任务书）签订率
 							</div>
 							<div class="layui-row-main">
 								<div class="main-chart" id="direct_contract_01_01" style="height: 270px; width: 100%;"></div>
@@ -91,8 +89,7 @@
 				<div class="layui-col-md4">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年全口径新开课题合同（任务书）签订率清单
+							<span class="layui-time"></span>年全口径新开课题合同（任务书）签订率清单
 						</div>
 						<div class="layui-row-main" style="height: 270px;">
 							<table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
@@ -107,8 +104,7 @@
 				<div class="layui-col-md8">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年新开课题合同（任务书）签订率
+							<span class="layui-time"></span>年新开课题合同（任务书）签订率
 						</div>
 						<div class="layui-row-main">
 
@@ -119,11 +115,8 @@
 				<div class="layui-col-md4">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年新开课题合同（任务书）签订率清单
+							<span class="layui-time"></span>年新开课题合同（任务书）签订率清单
 							<div class="layui-tool">
-								<!--  <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button> -->
 							</div>
 						</div>
 						<div class="layui-row-main" id="processdef_table_div">
@@ -137,8 +130,7 @@
 				<div class="layui-col-md12">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院新开课题合同（任务书）签订率
+							<span class="layui-time"></span>年直属研究院新开课题合同（任务书）签订率
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -207,7 +199,7 @@
 			$(".layui-time").html($("#nd").val());
 			var nd = $("#nd").val();
 			$("#table_detail_id").click(function() {
-				var url = encodeURIComponent("/one_level_main/common_table?nd=" + nd + "&groupFlag=xmid");
+				var url = encodeURIComponent("/one_level_main/common_table_new?nd=" + nd + "&groupFlag=xmid");
 				window.open("/instituteIndex?url=" + url);
 			});
 			renderTable2();
@@ -265,7 +257,7 @@
 				if (legentName == '实际签订数') {
 					qdbz = "已签订";
 				}
-				var url = encodeURIComponent("/one_level_main/common_table?define1=" + xName + "&qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid");
+				var url = encodeURIComponent("/one_level_main/common_table_new?define1=" + xName + "&qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -275,16 +267,17 @@
 			var echart2 = load_single_line(chart2_url, "direct_contract_04", "", "", yAxis);
 			echart2.on('click', function(params) {
 				var xName = params.name;
-				var legentName = params.seriesName;
-				// alert(xName+"------"+projectId);
-				var define12 = "";
 				var define11 = "";
-				if (xName == '资产公司' || xName == '集团公司') {
+				var define12 = "";
+				if (xName == '资产公司' || xName == '集团公司') 
+				{
 					define11 = xName;
 
 				} else {
-					define12 = xName;
+					define11 = "股份公司";
 				}
+				
+				define12 = xName;
 				if (xName == '休斯顿') {
 					define12 = '休斯顿研发中心';
 				}
@@ -292,7 +285,7 @@
 					define12 = '中东研发中心';
 				}
 
-				var url = encodeURIComponent("/one_level_main/common_table?nd=" + nd + "&define12=" + define12 + "&define11=" + define11 + "&groupFlag=xmid,define8");
+				var url = encodeURIComponent("/one_level_main/common_table_new?nd=" + nd + "&define12=" + define12 + "&define11=" + define11 + "&groupFlag=xmid,define8");
 				window.open("/instituteIndex?url=" + url);
 			});
 
@@ -307,20 +300,21 @@
 			echart6.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var url = encodeURIComponent("/one_level_main/common_table?define2=" + xName + "&nd=" + nd + "&groupFlag=xmid,define8");
+				//alert(legentName);
+				var url = encodeURIComponent("/one_level_main/common_table_new?define2=" + xName + "&define12=直属研究院&define11=股份公司&nd=" + nd + "&groupFlag=xmid,define8&qdbz="+legentName+"订");
 				window.open("/instituteIndex?url=" + url);
 			});
 
 		}
-
+        //直属研究院新开课题合同（任务书）签订率
 		function contract_chart1(qdbz) {
 			// define12, 后台查询时用的是define2、define3（type_flag）
-			var url = encodeURIComponent("/one_level_main/common_table?define12=直属研究院&qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid,define8");
+			var url = encodeURIComponent("/one_level_main/common_table_new?define12=直属研究院&define11=股份公司&qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid,define8");
 			window.open("/instituteIndex?url=" + url);
 		}
-
+         //全口径新开课题合同（任务书）签订率
 		function contract_chart_oneLevel(qdbz) {
-			var url = encodeURIComponent("/one_level_main/common_table?qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid");
+			var url = encodeURIComponent("/one_level_main/common_table_new?qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid");
 			window.open("/instituteIndex?url=" + url);
 		}
 
@@ -501,7 +495,8 @@
 						$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
 						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 						selectRowData = res.data[index - 1];
-						var url = encodeURIComponent("/one_level_main/common_table?define12=" + selectRowData.define3 + "&nd=" + nd + "&define2=" + selectRowData.define2 + "&groupFlag=xmid,define8");
+						//alert(selectRowData.define3+""+selectRowData.define2);
+						var url = encodeURIComponent("/one_level_main/common_table_new?define12=" + selectRowData.define3 + "&define11=股份公司&nd=" + nd + "&define2=" + selectRowData.define2 + "&groupFlag=xmid,define8");
 						window.open("/instituteIndex?url=" + url);
 					});
 
@@ -620,7 +615,7 @@
 						$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
 						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 						selectRowData = res.data[index - 1];
-						var url = encodeURIComponent("/one_level_main/common_table?define1=" + selectRowData.define1 + "&nd=" + nd + "&groupFlag=xmid");
+						var url = encodeURIComponent("/one_level_main/common_table_new?define1=" + selectRowData.define1 + "&nd=" + nd + "&groupFlag=xmid");
 						window.open("/instituteIndex?url=" + url);
 
 					});

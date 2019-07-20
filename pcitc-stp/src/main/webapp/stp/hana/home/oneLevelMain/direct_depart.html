@@ -626,7 +626,8 @@
 						formatter : '{value} %'
 					}
 				} ];
-
+				
+                //直属研究院科研课题数量
 				var chart1_url = "/direct/topic_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 				var colorOne = [ "#75C9C0", "#5181E6" ]
 				var echart1 = load_mutl_bar_down(chart1_url, "topic_chart1", "", "", yAxis, '', colorOne);
@@ -639,7 +640,7 @@
 						nd_temp = "";
 					}
 					var define1 = '费用性';
-					var url = encodeURIComponent("/one_level_main/count_table?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define1=" + define1 + "&ktlx=" + legentName + "&groupFlag=xmid,define8");
+					var url = encodeURIComponent("/one_level_main/count_table_new?define2=" + xName + "&define11=股份公司&define12=直属研究院&nd=" + nd_temp + "&ysnd=" + nd + "&define1=" + define1 + "&ktlx=" + legentName + "&groupFlag=xmid,define8");
 					window.open("/instituteIndex?url=" + url);
 				});
 
@@ -651,12 +652,12 @@
 				echart2.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					var url = encodeURIComponent("/one_level_main/common_table?define2=" + xName + "&define1=" + legentName + "&ysnd=" + nd + "&groupFlag=xmid,define8");
+					var url = encodeURIComponent("/one_level_main/common_table_new?define2=" + xName + "&define11=股份公司&define12=直属研究院&define1=" + legentName + "&ysnd=" + nd + "&groupFlag=xmid,define8");
 
 					window.open("/instituteIndex?url=" + url);
 
 				});
-
+                //直属研究院科研装备课题数量
 				var chart3_url = "/direct/topic_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=kyzb";
 				var color = [ "#ea886d", "#9799ec" ];
 				var echart3 = load_mutl_bar_down(chart3_url, "direct_topic_chart3", "", "", yAxis, 20, color);
@@ -670,7 +671,7 @@
 						nd_temp = "";
 					}
 					var define1 = '资本性';
-					var url = encodeURIComponent("/one_level_main/count_table?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define1=" + define1 + "&ktlx=" + legentName + "&groupFlag=xmid,define8");
+					var url = encodeURIComponent("/one_level_main/count_table_new?define2=" + xName + "&define11=股份公司&define12=直属研究院&nd=" + nd_temp + "&ysnd=" + nd + "&define1=" + define1 + "&ktlx=" + legentName + "&groupFlag=xmid,define8");
 					window.open("/instituteIndex?url=" + url);
 				});
 				//统计
@@ -732,7 +733,7 @@
 					//window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 				});
 
-				//第4排
+				//直属研究院承担国家课题情况
 				var chart7_url = "/direct/contry_01?type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 				var colorNew = [ "#70b1ab", "#87d359" ];
 				var data7 = load_mutl_bar_down(chart7_url, "direct_kt_chart1", "", "", yAxis, 20, colorNew);
@@ -743,27 +744,27 @@
 					if (legentName == '结转课题') {
 						temNd = '';
 					}
-					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&nd=" + temNd + "&ysnd=" + nd + "&ktlx=" + legentName);
+					var url = encodeURIComponent("/one_level_main/country_table_new?define2=" + xName + "&nd=" + temNd + "&ysnd=" + nd + "&ktlx=" + legentName);
 					window.open("/instituteIndex?url=" + url);
 				});
 
-				//新开课题
+				//直属研究院承担国家课题情况-->新开课题
 				var url_8 = "/direct/contry_01?type=3&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 				var echart8 = loadPie_02(url_8, "direct_kt_chart2", "", "");
 				echart8.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd + "&ktlx=新开课题");
+					var url = encodeURIComponent("/one_level_main/country_table_new?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd + "&ktlx=新开课题");
 					window.open("/instituteIndex?url=" + url);
 				});
 
-				//结转课题
+				//直属研究院承担国家课题情况->结转课题
 				var url_9 = "/direct/contry_01?type=2&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 				var echart9 = loadPie_02(url_9, "direct_kt_chart3", "", "");
 				echart9.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					var url = encodeURIComponent("/one_level_main/country_table?define2=" + xName + "&ysnd=" + nd + "&ktlx=结转课题");
+					var url = encodeURIComponent("/one_level_main/country_table_new?define2=" + xName + "&ysnd=" + nd + "&ktlx=结转课题");
 					window.open("/instituteIndex?url=" + url);
 				});
 
@@ -826,10 +827,10 @@
 			if (ktlx == '新开课题') {
 				temND = nd
 			}
-			var url = encodeURIComponent("/one_level_main/count_table?ysnd=" + nd + "&nd=" + temND + "&v_date=" + v_date + "&ktlx=" + ktlx + "&define1=" + define1 + "&define12=直属研究院&groupFlag=xmid,define8");
+			var url = encodeURIComponent("/one_level_main/count_table_new?ysnd=" + nd + "&nd=" + temND + "&v_date=" + v_date + "&ktlx=" + ktlx + "&define1=" + define1 + "&define11=股份公司&define12=直属研究院&groupFlag=xmid,define8");
 			window.open("/instituteIndex?url=" + url);
 		}
-
+        //直属研究院科研装备课题数量
 		function equipment_chart2(ktlx) {
 			var nd = $('#nd').val();
 			var v_date = (new Date()).getTime();
@@ -838,7 +839,7 @@
 			if (ktlx == '新开课题') {
 				temND = nd
 			}
-			var url = encodeURIComponent("/one_level_main/count_table?ysnd=" + nd + "&nd=" + temND + "&v_date=" + v_date + "&ktlx=" + ktlx + "&define1=" + define1 + "&define12=直属研究院&groupFlag=xmid,define8");
+			var url = encodeURIComponent("/one_level_main/count_table_new?ysnd=" + nd + "&nd=" + temND + "&v_date=" + v_date + "&ktlx=" + ktlx + "&define1=" + define1 + "&define12=直属研究院&groupFlag=xmid,define8");
 			window.open("/instituteIndex?url=" + url);
 		}
 
@@ -849,7 +850,7 @@
 			if (labelFlag == '新开课题') {
 				temNd = nd;
 			}
-			var url = encodeURIComponent("/one_level_main/country_table?nd=" + temNd + "&ysnd=" + nd + "&ktlx=" + labelFlag);
+			var url = encodeURIComponent("/one_level_main/country_table_new?nd=" + temNd + "&ysnd=" + nd + "&ktlx=" + labelFlag);
 			window.open("/instituteIndex?url=" + url);
 		}
 	</script>

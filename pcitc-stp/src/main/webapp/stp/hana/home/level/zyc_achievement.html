@@ -45,8 +45,7 @@
 			<div class="layui-col-md12">
 				<div class="layui-card">
 					<div class="layui-card-header">
-						<span class="layui-time"></span>
-						直属研究院成果数量
+						<span class="layui-time"></span>直属研究院成果数量
 					</div>
 					<div class="layui-row-main">
 						<div class="text-total">
@@ -66,8 +65,7 @@
 			<div class="layui-col-md6">
 				<div class="layui-card">
 					<div class="layui-card-header">
-						<span class="layui-time"></span>
-						年成果类型分布
+						<span class="layui-time"></span>年成果类型分布
 					</div>
 					<div class="layui-row-main">
 						<div class="text-total">
@@ -86,8 +84,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院成果类型-工业化分布统计
+							<span class="layui-time"></span>年直属研究院成果类型-工业化分布统计
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -105,8 +102,7 @@
 				<div class="layui-col-md6" style="padding-right: 0;">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院成果类型-工业试验分布统计
+							<span class="layui-time"></span>年直属研究院成果类型-工业试验分布统计
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -127,8 +123,7 @@
 			<div class="layui-col-md12">
 				<div class="layui-card">
 					<div class="layui-card-header">
-						<span class="layui-time"></span>
-						年成果所属技术专业分布统计
+						<span class="layui-time"></span>年成果所属技术专业分布统计
 					</div>
 					<div class="layui-row-main">
 						<div class="text-total">
@@ -183,7 +178,7 @@
 
 			$(".layui-time").html($("#nd").val());
 			$("#knowledge_table").click(function() {
-				parent.layui.index.openTabsPage("/one_level_main/achievement_table?nd=" + nd + "&groupFlag=jdh", "科技成果详情");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?nd=" + nd + "&groupFlag=jdh", "科技成果详情");
 			});
 		});
 
@@ -216,9 +211,7 @@
 			echart1.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				//var url = encodeURIComponent("/one_level_main/achievement_table?define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
-				//window.open("/instituteIndex?url=" + url);
-				parent.layui.index.openTabsPage("/one_level_main/achievement_table?define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define1="+xName+"&nd=" + nd+"&define3=直属研究院&define11=股份公司&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 			var chart4_url = "/direct_second/direct_second_data_02?type=1&nd=" + nd + "&v_date=" + v_date;
@@ -232,9 +225,7 @@
 			echart4.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				//var url = encodeURIComponent("/one_level_main/achievement_table?cglx="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
-				//window.open("/instituteIndex?url=" + url);
-				parent.layui.index.openTabsPage("/one_level_main/achievement_table?cglx="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?cglx="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 			var chart5_url = "/direct_second/direct_second_data_03?type=2&nd=" + nd + "&v_date=" + v_date;
@@ -247,9 +238,7 @@
 			});
 			echart5.on('click', function(params) {
 				var xName = params.name;
-				//var url = encodeURIComponent("/one_level_main/achievement_table?define3=直属研究院&cglx=A.工业化&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
-				//window.open("/instituteIndex?url=" + url);
-				parent.layui.index.openTabsPage("/one_level_main/achievement_table?define3=直属研究院&cglx=A.工业化&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=A.工业化&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 			var chart6_url = "/direct_second/direct_second_data_04?nd=" + nd + "&v_date=" + v_date;
@@ -263,9 +252,7 @@
 			echart6.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				//var url = encodeURIComponent("/one_level_main/achievement_table?define3=直属研究院&cglx=B.工业试验&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
-				//window.open("/instituteIndex?url=" + url);
-				parent.layui.index.openTabsPage("/one_level_main/achievement_table?define3=直属研究院&cglx=B.工业试验&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=B.工业试验&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 			var chart7_url = "/direct_second/direct_second_data_05?nd=" + nd + "&v_date=" + v_date;
@@ -278,9 +265,7 @@
 			});
 			echart7.on('click', function(params) {
 				var xName = params.name;
-				//var url = encodeURIComponent("/one_level_main/achievement_table?zy="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
-				//window.open("/instituteIndex?url=" + url);
-				parent.layui.index.openTabsPage("/one_level_main/achievement_table?zy="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?zy="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 		}
@@ -298,9 +283,7 @@
 			if (unitFlag == 'unit') {
 				groupFlag = 'jdh,sqjddw';
 			}
-			//var url = encodeURIComponent("/one_level_main/achievement_table?define3="+showFlag+"&nd=" + nd+"&groupFlag="+groupFlag);
-			//window.open("/instituteIndex?url=" + url);
-			parent.layui.index.openTabsPage("/one_level_main/achievement_table?define3="+showFlag+"&nd=" + nd+"&groupFlag="+groupFlag, "科技成果详情");
+			parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define3="+showFlag+"&nd=" + nd+"&define11=股份公司&groupFlag="+groupFlag, "科技成果详情");
 		}
 	</script>
 </body>
