@@ -309,4 +309,40 @@ public class BudgetInfoProviderClient
 		}
 		return new Result(true);
 	}
+	@ApiOperation(value="预算管理-预算下发列表",notes="按年检索所有最终预算版本")
+	@RequestMapping(value = "/stp-provider/budget/budget-release-list", method = RequestMethod.POST)
+	public Object selectBudgetReleaseList(@RequestBody LayuiTableParam param) 
+	{
+		LayuiTableData data = null;
+		try
+		{
+			data = budgetInfoService.selectReleaseBudgetPage(param);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return data;
+	}
+	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度预算表信息列表（不分页）。")
+	@RequestMapping(value = "/stp-provider/budget/budget-info-release", method = RequestMethod.POST)
+	public Object budgetRelease(@RequestBody BudgetInfo info) 
+	{
+		//List<BudgetInfo> data = null;
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
+		try
+		{
+			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),info.getBudgetType());
+			for(BudgetInfo dt:datalist) {
+				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
+				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
+				rsdata.add(map);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rsdata;
+	}
 }

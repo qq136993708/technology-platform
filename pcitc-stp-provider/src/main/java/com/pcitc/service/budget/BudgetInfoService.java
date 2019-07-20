@@ -146,4 +146,10 @@ public interface BudgetInfoService
 	 * @return
 	 */
 	public List<BudgetMoneyDecompose> selectTotalByNd(String nd);
+	/**
+	 * 查询所有最终预算
+	 * @param param
+	 * @return
+	 */
+	public LayuiTableData selectReleaseBudgetPage(LayuiTableParam param);
 }
