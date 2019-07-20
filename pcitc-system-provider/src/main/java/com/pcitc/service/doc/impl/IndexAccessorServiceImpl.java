@@ -299,7 +299,7 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
             e.printStackTrace();
         }
     }
-    public void saveSearchLogToEs(Object object,String methodName){
+    public void saveObjToEs(Object object,String methodName){
         AccessorService accessor = getAccessorService();
         IndexAccessorService indexAccessor = getIndexAccessorService(accessor);
         Class clazz = object.getClass();
