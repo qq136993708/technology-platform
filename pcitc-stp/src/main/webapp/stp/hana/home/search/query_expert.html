@@ -88,7 +88,7 @@
                     templet:  function (d) {
                         var result=d.userDesc.replace(/<.*?>/ig,"").substring(0,100)+"...";
                         return '<div class="layui-div layui-div-n">' +
-                            '        <a href="javascript:;">'+d.expertName+'</a>' +
+                            '        <a href=javascript:void(0);" onclick="showDetail(\''+d.dataId+'\')">'+d.expertName+'</a>' +
                             '        <div class="c-row c-gap-top-small">' +
                             '            <div class="c-span18 c-span-last">' +
                             '                <p><span>人物简介:'+result+'</span></p>' +
@@ -102,8 +102,6 @@
                     }},
                 ]],
                 done: function (res, curr, count) {
-                    console.log(res.data);
-
                     parent.$("#expert").html(count);
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
@@ -119,11 +117,29 @@
             $(".layui-table-header table thead th input").remove();
         }
         //监听行双击事件
-        table.on('row(tableEvent)', function (obj) {
-            // parent.layui.index.openTabsPage("/expertController/expertDetail?expertId=" + obj.data.dataId, "专家详情");
-            var temUrl = "/expertController/expertDetailLeader?expertId=" + obj.data.dataId;
+        // table.on('row(tableEvent)', function (obj) {
+        //     // parent.layui.index.openTabsPage("/expertController/expertDetail?expertId=" + obj.data.dataId, "专家详情");
+        //     var temUrl = "/expertController/expertDetailLeader?expertId=" + obj.data.dataId;
+        //     window.open(temUrl);
+        // });
+
+        function showDetail(data_id){
+            var temUrl = "/expertController/expertDetailLeader?expertId=" + data_id;
             window.open(temUrl);
-        });
+            // layer.open({
+            //     title: '详情',
+            //     skin: 'layui-layer-lan',
+            //     shadeClose: true,
+            //     type: 2,
+            //     fixed: false,
+            //     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            //     maxmin: true,
+            //     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            //     area: ['90%', '80%'],
+            //     content: temUrl
+            // });
+        }
+        window.showDetail = showDetail;
 
         loadtable();
         $('.layui-btn').on('click', function () {
