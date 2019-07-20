@@ -49,9 +49,10 @@ public interface IndexAccessorService {
 
     /**
      * 保存查询日志到ES
-     * @param searchLog
+     * @param obj 对象
+     * @param methodName 自定义方法名称,默认为空
      */
-    public void saveSearchLogToEs(Object searchLog,String methodName);
+    public void saveObjToEs(Object obj,String methodName);
     /**
      * 查询出现的热点词汇
      */

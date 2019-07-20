@@ -48,18 +48,18 @@
         <div class="relevant">
             <p>搜索热点</p>
             <div class="relevant-cont hotspot">
-                <div class="item">
-                    <a href="/instituteIndex?url=/fullSearch/search?keyword=可燃气体探测器" target="_top">可燃气体探测器</a>
-                </div>
-                <div class="item">
-                    <a href="/instituteIndex?url=/fullSearch/search?keyword=加油加氢" target="_top">加油加氢</a>
-                </div>
-                <div class="item">
-                    <a href="/instituteIndex?url=/fullSearch/search?keyword=井筒工程技术" target="_top">井筒工程技术</a>
-                </div>
-                <div class="item">
-                    <a href="/instituteIndex?url=/fullSearch/search?keyword=催化剂" target="_top">催化剂</a>
-                </div>
+                <!--<div class="item">-->
+                    <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=可燃气体探测器" target="_top">可燃气体探测器</a>-->
+                <!--</div>-->
+                <!--<div class="item">-->
+                    <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=加油加氢" target="_top">加油加氢</a>-->
+                <!--</div>-->
+                <!--<div class="item">-->
+                    <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=井筒工程技术" target="_top">井筒工程技术</a>-->
+                <!--</div>-->
+                <!--<div class="item">-->
+                    <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=催化剂" target="_top">催化剂</a>-->
+                <!--</div>-->
             </div>
         </div>
 <a href="" target="_self" id="download"></a>
@@ -216,6 +216,15 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+        var hotKeyWord = '${hotKeyWord}';
+        let array = hotKeyWord.split(",");
+        var html = "";
+        for (let i = 0,j = array.length; i <j ; i++) {
+            html =html+"<div class=\"item\">";
+            html=html+"<a href=\"/instituteIndex?url=/fullSearch/search?keyword="+array[i]+"\" target=\"_top\">"+array[i]+"</a>";
+            html=html+"</div>";
+        }
+        $(".relevant-cont").html(html);
     });
 </script>
 </body>
