@@ -379,6 +379,57 @@ public class OneLevelMainController extends BaseController {
 		}
 		return "stp/hana/home/oneLevelMain/achievement_table";
 	}
+	
+	
+	
+
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/achievement_table_new")
+	public String achievement_table_new(HttpServletRequest request) throws Exception {
+
+		String nd = CommonUtil.getParameter(request, "nd", "");// 项目名
+		String cglx = CommonUtil.getParameter(request, "cglx", "");// 成果类型
+		String zy = CommonUtil.getParameter(request, "zy", "");// 成果专业
+		String define3 = CommonUtil.getParameter(request, "define3", "");// 单位类别
+		String define1 = CommonUtil.getParameter(request, "define1", "");// 研究院
+		String define11 = CommonUtil.getParameter(request, "define11", "");
+		String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
+		
+		request.setAttribute("define11", define11);
+		request.setAttribute("nd", nd);
+		request.setAttribute("cglx", cglx);
+		request.setAttribute("zy", zy);
+		request.setAttribute("define3", define3);
+		request.setAttribute("define1", define1);
+		request.setAttribute("groupFlag", groupFlag);
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
+		
+		//技术分类
+		List<SysDictionary>  jsflList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
+		request.setAttribute("jsflList", jsflList);
+		//三级级联：经费来源(公司类型财务)->单位类别->研究院
+		List<SysDictionary>  jflyList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
+		request.setAttribute("jflyList", jflyList);
+		//成果分组类型
+		List<SysDictionary>  fzlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGFZLX", restTemplate, httpHeaders);
+		request.setAttribute("fzlxList", fzlxList);
+		
+		//成果类型
+		List<SysDictionary>  cglxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGLB", restTemplate, httpHeaders);
+		request.setAttribute("cglxList", cglxList);
+		//成果专业
+		List<SysDictionary> zyList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGLX", restTemplate, httpHeaders);
+		request.setAttribute("zyList", zyList);
+		
+		return "stp/hana/home/oneLevelMain/achievement_table_new";
+	}
+	
+	
 
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/achievement_table_data")
 	@ResponseBody
