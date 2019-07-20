@@ -49,7 +49,7 @@ $(document).ready(function() {
 		form.on('submit(submitBtn)', function(data) {
 			publicMethods.ajaxPost('/budget/budget-organ-saveorupd', data.field, function (data, status) {
                       if (data.success) {
-                      	parent.renderTable();
+                      	parent.renderTable({param:{"nd":${nd?default(0)}}});
                       	var index = parent.layer.getFrameIndex(window.name);
 			       	parent.layer.close(index);
                       }else{

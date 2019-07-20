@@ -18,7 +18,7 @@ public enum BudgetOrganEnum
 	ORG_WZB(10,"WZB","30130011","物装部"),
 	ORG_XXB(11,"XXB","30130017","信息部"),
 	ORG_GCB(12,"GCB","30130018","工程部"),
-	ORG_LYSYBJG(13,"LYSYBJG","30130009","炼油事业部（军工）"),	
+	ORG_LYSYBJG(13,"LYSYBJG","3013000902","炼油事业部（军工）"),	
 	ORG_LYSYBB2C(14,"LYSYBB2C","30130009","炼油事业部（B2、C类）"),
 	ORG_HGSYBB2C(15,"HGSYBB2C","30130016","化工事业部（B2、C类）"),
 	ORG_ZX(16,"ZX","ZX","专项"),

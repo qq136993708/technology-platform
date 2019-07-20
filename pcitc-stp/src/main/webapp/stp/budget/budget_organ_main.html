@@ -59,7 +59,7 @@
             	renderTable({param:{"nd":cu_date}});
             }            
         });
-    	function renderTable(where){
+    	window.renderTable = function(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		var cols = [
     			{
