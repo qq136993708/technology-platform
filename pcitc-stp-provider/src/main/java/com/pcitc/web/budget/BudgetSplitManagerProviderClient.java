@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetOrganEnum;
 import com.pcitc.base.common.enums.BudgetOrganNdEnum;
@@ -170,7 +169,7 @@ public class BudgetSplitManagerProviderClient
 							}
 						}
 					}
-					System.out.println("unitId:"+unitId+"----itemCode:"+itemCode+"----item:"+JSON.toJSONString(codes)+"----v:"+JSON.toJSONString(map));
+					//System.out.println("unitId:"+unitId+"----itemCode:"+itemCode+"----item:"+JSON.toJSONString(codes)+"----v:"+JSON.toJSONString(map));
 					rsdata.add(map);
 				}
 			}

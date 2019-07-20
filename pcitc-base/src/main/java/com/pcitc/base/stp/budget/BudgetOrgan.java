@@ -7,11 +7,13 @@ public class BudgetOrgan {
 
     private Integer no;
 
-    private String organId;
+    private Integer organId;
 
     private String organCode;
 
     private String organName;
+
+    private String unitCode;
 
     private Integer delFlag;
 
@@ -39,11 +41,11 @@ public class BudgetOrgan {
         this.no = no;
     }
 
-    public String getOrganId() {
+    public Integer getOrganId() {
         return organId;
     }
 
-    public void setOrganId(String organId) {
+    public void setOrganId(Integer organId) {
         this.organId = organId;
     }
 
@@ -61,6 +63,14 @@ public class BudgetOrgan {
 
     public void setOrganName(String organName) {
         this.organName = organName;
+    }
+
+    public String getUnitCode() {
+        return unitCode;
+    }
+
+    public void setUnitCode(String unitCode) {
+        this.unitCode = unitCode;
     }
 
     public Integer getDelFlag() {
