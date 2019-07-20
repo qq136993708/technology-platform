@@ -586,6 +586,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 				budget.setGfyshjxq(dToI(stocksplit.get(i).get("stock_xq")));
 				budget.setGfyshjys(dToI(stocksplit.get(i).get("stock_total")));
 			}
+			System.out.println("JSON..stocksplit.."+JSON.toJSONString(stocksplit));
 		}
 		//计算总数
 		for(int i =0;i<list.size();i++) {
