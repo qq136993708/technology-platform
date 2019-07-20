@@ -230,7 +230,7 @@ public class AdminController extends BaseController {
 
 		String cFlag = request.getParameter("cFlag");
 		request.setAttribute("userId", rsUser.getUserId());
-		if (rsUser.getUserLevel() != null && rsUser.getUserLevel() == 1 && cFlag == null) {
+		if (rsUser.getUserLevel() != null && (rsUser.getUserLevel() == 1 || rsUser.getUserLevel() == 2) && cFlag == null) {
 			String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 			request.setAttribute("companyCode", companyCode);
 			String month = HanaUtil.getCurrentYearMoth();
@@ -481,7 +481,7 @@ public class AdminController extends BaseController {
 
 			request.setAttribute("userId", userDetails.getUserId());
 			String cFlag = request.getParameter("cFlag");
-			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
+			if (userDetails.getUserLevel() != null && (userDetails.getUserLevel() == 1 || userDetails.getUserLevel() == 2) && cFlag == null) {
 				String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 				request.setAttribute("companyCode", companyCode);
 				String month = HanaUtil.getCurrentYearMoth();
@@ -548,7 +548,7 @@ public class AdminController extends BaseController {
 
 			String cFlag = request.getParameter("cFlag");
 			request.setAttribute("userId", userDetails.getUserId());
-			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
+			if (userDetails.getUserLevel() != null && (userDetails.getUserLevel() == 1 || userDetails.getUserLevel() == 2) && cFlag == null) {
 				String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 				request.setAttribute("companyCode", companyCode);
 				String month = HanaUtil.getCurrentYearMoth();
@@ -1235,10 +1235,6 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/admin/project/notice/detail")
 	public String showNoticeDetail(HttpServletRequest request) {
 		String dataId = request.getParameter("dataId");
-		System.out.println("1==="+dataId);
-		System.out.println("2==="+restTemplate);
-		System.out.println("3==="+httpHeaders);
-		System.out.println("4==="+PROJECT_NOTICE_DETAILS + dataId);
 		ResponseEntity<OutNotice> responseEntity = restTemplate.exchange(PROJECT_NOTICE_DETAILS + dataId, HttpMethod.POST, new HttpEntity<String>(httpHeaders), OutNotice.class);
 		OutNotice outNotice = responseEntity.getBody();
 		request.setAttribute("outNotice", outNotice);

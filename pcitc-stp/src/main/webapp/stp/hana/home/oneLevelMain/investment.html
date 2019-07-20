@@ -96,7 +96,7 @@
 							<table id="myTable" class="layui-table" lay-filter="myTable">
 								<thead>
 									<tr>
-										<th lay-data="{field:'define3', width:'16%'}" rowspan="2">企业类型</th>
+										<th lay-data="{field:'budgetItemName', width:'13%'}" rowspan="2">企业类型</th>
 										<th lay-data="{align:'center'}" colspan="3">总计</th>
 										<th lay-data="{align:'center'}" colspan="3">费用性</th>
 										<th lay-data="{align:'center'}" colspan="3">资本性</th>
@@ -104,15 +104,15 @@
 									<tr>
 										<th lay-data="{field:'zysje', width:'10%',align:'right'}">年度预算</th>
 										<th lay-data="{field:'zsjje', width:'10%',align:'right'}">实际签订</th>
-										<th lay-data="{field:'zRate', width:'8%',align:'right',templet:function(d){return d.zRate+'%'}}">执行率</th>
+										<th lay-data="{field:'zRate', width:'9%',align:'right',templet:function(d){return d.zRate+'%'}}">执行率</th>
 
 										<th lay-data="{field:'fyxysje', width:'10%',align:'right'}">年度预算</th>
 										<th lay-data="{field:'fyxsjje', width:'10%',align:'right'}">实际签订</th>
-										<th lay-data="{field:'fyxRate', width:'8%',align:'right',templet:function(d){return d.fyxRate+'%'}}">执行率</th>
+										<th lay-data="{field:'fyxRate', width:'9%',align:'right',templet:function(d){return d.fyxRate+'%'}}">执行率</th>
 
 										<th lay-data="{field:'zbxysje', width:'10%',align:'right'}">年度预算</th>
 										<th lay-data="{field:'zbxsjje', width:'10%',align:'right'}">实际签订</th>
-										<th lay-data="{field:'zbxRate', width:'8%',align:'right',templet:function(d){return d.zbxRate+'%'}}">执行率</th>
+										<th lay-data="{field:'zbxRate', width:'9%',align:'right',templet:function(d){return d.zbxRate+'%'}}">执行率</th>
 									</tr>
 								</thead>
 							</table>
@@ -139,8 +139,8 @@
 									</span>
 								</span>
 								<span>
-									新开课题实际总金额:
-									<span class="text-total-blue" id="investment_chart6_02" onclick="budget_implementation('新开课题实际总金额')" style="cursor: pointer">
+									新开课题已签总金额:
+									<span class="text-total-blue" id="investment_chart6_02" onclick="budget_implementation('新开课题已签总金额')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
@@ -331,7 +331,7 @@
 				var xName = params.name;
 				var legentName = params.seriesName;
 				var qdbz = '';
-				if (legentName == '新开课题实际金额') {
+				if (legentName == '新开课题已签金额') {
 					qdbz = '已签订';
 				}
 				var url = encodeURIComponent("/one_level_main/common_table?qdbz=" + qdbz + "&ysnd=" + nd + "&define10=" + xName + "&groupFlag=xmid,define8");

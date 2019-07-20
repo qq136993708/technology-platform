@@ -82,7 +82,7 @@ public interface OutProjectService {
 	/**
      * 领导页，总的预算金额，按专业处
      */
-    public HashMap<String, String> getProjectBudgetMoney(HashMap<String, String> map);
+    public HashMap<String, String> getProjectBudgetFyxMoney(HashMap<String, String> map);
 	
 	/**
 	 * 修改项目属性
@@ -366,4 +366,9 @@ public interface OutProjectService {
     public void saveProjectToES();
 
     JSONObject getOutProjectShowCount(String dataId);
+    
+    /**
+     * 领导首页，计算资本性预算金额。预算资本性金额没办法进行权限控制
+     */
+    public HashMap<String, String> getBudgetZBXMoney(HashMap<String, String> map);
 }

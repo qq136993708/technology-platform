@@ -154,4 +154,14 @@ public interface OutProjectPlanMapper {
 	@Options(statementType= StatementType.CALLABLE )
 	public HashMap updateOutProjectPlan();
 	
+	/**
+     * 领导首页-预算投入 资本性预算分组,资本性不按照专业处权限控制
+     */
+	public List getOutTemMoneyTotalInfo(HashMap<String, String> map);
+	
+	/**
+     * 领导首页-获取专项、机动的预算费用，专项和机动特殊，不按照专业处进行权限控制
+     */
+	public List getOutTemMoneyDecomposeInfo(HashMap<String, String> map);
+	
 }

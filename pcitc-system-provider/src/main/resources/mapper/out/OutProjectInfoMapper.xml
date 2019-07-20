@@ -1870,10 +1870,10 @@
 			</if>
 	</select>
 	
-	<!-- 领导页，总的预算金额，按专业处 -->
-	<select id="getProjectBudgetMoney" resultType="java.util.Map" parameterType="java.util.HashMap">
+	<!-- 领导页，总的预算金额（费用性），按专业处 -->
+	<select id="getProjectBudgetFyxMoney" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 
-        	round(sum(jfyszjys),4) as budgetMoney
+        	round(sum(jfyszjys),4) as budgetFyxMoney
 		from out_tem_money_decompose
 		where 
 			out_tem_money_decompose.nd = '${nd}'
@@ -2729,6 +2729,14 @@
 				  </if>
 			  </if>
 	    group by define2
+	</select>
+	
+	<!-- 领导首页，计算资本性预算金额。预算资本性金额没办法进行权限控制  -->
+	<select id="getBudgetZBXMoney" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT sum(zbx_money) as budgetZbxMoney
+		FROM out_tem_money_total
+		WHERE 
+			nd = '${nd}' AND money_level = 1
 	</select>
 	
 	<!-- 领导二级页面，预算数据，8个院费用性和资本性的柱状图 -->
