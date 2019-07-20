@@ -31,7 +31,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
-			System.out.println("TokenInterceptor--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
+			//System.out.println("TokenInterceptor--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			String path = request.getRequestURI();
 			/*if(!doLoginInterceptor(path, basePath) ){//是否进行登陆拦截
 				return true;
@@ -64,7 +64,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 					resultData(request,response);  
 					return false;
 				}
-				System.out.println("特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
+				//System.out.println("特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			} else {
 				for (Cookie c : cookies) {
 					if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
@@ -78,7 +78,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 			}
 			if (token != null) {
-				System.out.println("token is not null:"+token);
+				//System.out.println("token is not null:"+token);
 				httpHeaders.set("Authorization", "Bearer " + token);
 				sysUser = JwtTokenUtil.getUserFromTokenByValue(token);
 				// 验证当前url登录人是否有权限查看（url中不会包含ajax请求的）
@@ -88,7 +88,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 					baerInfo.setUserProfile(sysUser);
 				}
 			} else {
-				System.out.println("token is null ------特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
+				//System.out.println("token is null ------特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 				// login和index为了开发需要，避开统一身份认证
 				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
 					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
