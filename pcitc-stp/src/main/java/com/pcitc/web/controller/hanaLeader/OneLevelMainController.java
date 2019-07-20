@@ -517,6 +517,33 @@ public class OneLevelMainController extends BaseController {
 		}
 		return "stp/hana/home/oneLevelMain/country_table";
 	}
+	
+
+	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/country_table_new")
+	public String country_table_new(HttpServletRequest request) throws Exception {
+
+		String define1 = CommonUtil.getParameter(request, "define1", "");// 资本性、费用性
+		String define2 = CommonUtil.getParameter(request, "define2", "");// 8大院等细分结构
+		String nd = CommonUtil.getParameter(request, "nd", "");// 项目名
+		String ysnd = CommonUtil.getParameter(request, "ysnd", "");// 项目名
+		String xmmc = CommonUtil.getParameter(request, "xmmc", "");// 项目名
+		String ktlx = CommonUtil.getParameter(request, "ktlx", "");// 合同号
+		
+		request.setAttribute("define1", define1);
+		request.setAttribute("define2", define2);
+		request.setAttribute("ktlx", ktlx);
+		request.setAttribute("nd", nd);
+		request.setAttribute("ysnd", ysnd);
+		request.setAttribute("xmmc", xmmc);
+		//费用类别
+		List<SysDictionary>  fylbList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
+		request.setAttribute("fylbList", fylbList);
+		//研究院
+		List<SysDictionary>  define2List= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+		request.setAttribute("define2List", define2List);
+			
+		return "stp/hana/home/oneLevelMain/country_table_new";
+	}
 
 	// 三级表格
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/country_table_data")
