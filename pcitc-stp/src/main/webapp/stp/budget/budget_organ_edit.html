@@ -48,17 +48,15 @@ $(document).ready(function() {
 		/* 监听提交 */
 		form.on('submit(submitBtn)', function(data) {
 			publicMethods.ajaxPost('/budget/budget-organ-saveorupd', data.field, function (data, status) {
-                      if (data.success) {
-                      	parent.renderTable({param:{"nd":${nd?default(0)}}});
-                      	var index = parent.layer.getFrameIndex(window.name);
+            	if (data.success) {
+                	parent.renderTable({param:{"nd":${nd?default(0)}}});
+                    var index = parent.layer.getFrameIndex(window.name);
 			       	parent.layer.close(index);
-                      }else{
-                      	parent.layer.alert(data.message, {
-						title : '信息'
-					});
+                }else{
+                    parent.layer.alert(data.message, {title : '信息'});
 					return false;
-                      }
-                  });
+                }
+            });
 			return false;
 		});
 	});

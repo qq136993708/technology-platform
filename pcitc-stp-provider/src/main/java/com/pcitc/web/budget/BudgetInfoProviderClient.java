@@ -20,6 +20,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
+import com.pcitc.base.common.enums.BudgetReleaseEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -308,5 +309,41 @@ public class BudgetInfoProviderClient
 			e.printStackTrace();
 		}
 		return new Result(true);
+	}
+	@ApiOperation(value="预算管理-预算下发列表",notes="按年检索所有最终预算版本")
+	@RequestMapping(value = "/stp-provider/budget/budget-release-list", method = RequestMethod.POST)
+	public Object selectBudgetReleaseList(@RequestBody LayuiTableParam param) 
+	{
+		LayuiTableData data = null;
+		try
+		{
+			data = budgetInfoService.selectReleaseBudgetPage(param);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return data;
+	}
+	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度预算表信息列表（不分页）。")
+	@RequestMapping(value = "/stp-provider/budget/budget-info-release", method = RequestMethod.POST)
+	public Object budgetRelease(@RequestBody BudgetInfo info) 
+	{
+		Result rs = new Result(false,"下发失败!");
+		try
+		{
+			BudgetInfo rsinfo = budgetInfoService.selectBudgetInfo(info.getDataId());
+			if(rsinfo != null) 
+			{
+				rsinfo.setReleaseStatus(BudgetReleaseEnum.STATUS_RELEASE.getCode());
+				budgetInfoService.updateBudgetInfo(rsinfo);	
+				rs = new Result(true,"下发成功!");
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
 	}
 }

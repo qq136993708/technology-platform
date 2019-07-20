@@ -17,8 +17,8 @@ public enum BudgetInfoEnum
 	GROUP_SPLIT(203,"集团预算分解表（集团公司）"),
 	ASSET_SPLIT(204,"资产预算分解表（资产公司）"),
 	STOCK_ZSY_SPLIT(205,"股份预算分解表（直属院）"),
-	STOCK_XTY_SPLIT(206,"股份预算分解表（系统外及集团）"),
-	STOCK_ZGS_SPLIT(207,"股份预算分解表（分子公司）");
+	STOCK_XTY_SPLIT(206,"股份预算分解表（集团单位、外部单位、盈科）"),
+	STOCK_ZGS_SPLIT(207,"股份预算分解表（分子公司等）");
 	
 	public static BudgetInfoEnum getByCode(Integer code) 
 	{

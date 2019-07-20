@@ -29,6 +29,8 @@ public class BudgetInfo {
 
     private Double budgetMoney;
 
+    private Integer releaseStatus;
+
     public String getDataId() {
         return dataId;
     }
@@ -139,5 +141,13 @@ public class BudgetInfo {
 
     public void setBudgetMoney(Double budgetMoney) {
         this.budgetMoney = budgetMoney;
+    }
+
+    public Integer getReleaseStatus() {
+        return releaseStatus;
+    }
+
+    public void setReleaseStatus(Integer releaseStatus) {
+        this.releaseStatus = releaseStatus;
     }
 }

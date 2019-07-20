@@ -113,12 +113,29 @@ public class BudgetOrganServiceImpl implements BudgetOrganService
 	{
 		Boolean status =  false;
 		try {
-			BudgetOrgan old = mapper.selectByPrimaryKey(bean.getDataId());
-			if(old == null) 
+			BudgetOrganExample example = new BudgetOrganExample();
+			BudgetOrganExample.Criteria c = example.createCriteria();
+			c.andOrganIdEqualTo(bean.getOrganId());
+			c.andNdEqualTo(bean.getNd());
+			List<BudgetOrgan> organs = mapper.selectByExample(example);
+			if(organs == null || organs.size()==0) 
 			{
+				//生成data_id
+				example = new BudgetOrganExample();
+				example.setOrderByClause("data_id desc");
+				organs = mapper.selectByExample(example);
+				String dataId = "1001";
+				if(organs != null && organs.size() > 0) 
+				{
+					dataId = (new Integer(organs.get(0).getDataId())+1)+"";
+				}
+				bean.setDataId(dataId);
+				bean.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 				return this.saveBudgetOrgan(bean);
 			}else {
+				BudgetOrgan old = organs.get(0);
 				MyBeanUtils.copyPropertiesIgnoreNull(bean, old);
+				old.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 				Integer rs = mapper.updateByPrimaryKey(old);
 				if(rs > 0) {
 					status = true;
@@ -140,6 +157,7 @@ public class BudgetOrganServiceImpl implements BudgetOrganService
 	{
 		BudgetOrganExample example = new BudgetOrganExample();
 		BudgetOrganExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		if(!StringUtils.isBlank(param.getParam().get("nd")+"")) 
 		{
 			c.andNdEqualTo(param.getParam().get("nd")+"");

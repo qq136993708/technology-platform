@@ -1,6 +1,7 @@
 package com.pcitc.web.controller.budget;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.InputCheckUtil;
 
@@ -32,6 +34,8 @@ public class BudgetInfoController extends BaseController
 	private static final String BUDGET_INFO_DEL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-del";
 	private static final String BUDGET_INFO_CREATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-create";
 	private static final String BUDGET_INFO_CREATE_BYTEMPLATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-create-bytemplate";
+	private static final String BUDGET_RELEASE_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-release-list";
+	private static final String BUDGET_INFO_RELEASE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-release";
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_total")
@@ -61,6 +65,18 @@ public class BudgetInfoController extends BaseController
 		request.setAttribute("budgetType", budgetType);
 		return "stp/budget/budget_create_all_split";
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_release_main")
+	public Object toBudgetReleaseMainPage(HttpServletRequest request) throws IOException 
+	{
+		String nd = request.getParameter("nd");
+		if(nd == null) {
+			nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
+		}
+		request.setAttribute("nd", nd);
+		return "stp/budget/budget_release_main";
+	}
+	
 	
 	@RequestMapping(value = "/budget/budget-info-get", method = RequestMethod.POST)
 	@ResponseBody
@@ -131,5 +147,25 @@ public class BudgetInfoController extends BaseController
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_FINAL_LIST, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		return JSON.toJSON(responseEntity.getBody());
+	}
+	@RequestMapping(value = "/budget/budget-release-list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getBudgetRelaseList(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_RELEASE_LIST, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
+		Object rs = JSON.toJSON(responseEntity.getBody());
+		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		return rs;
+		
+	}
+	@RequestMapping(value = "/budget/budget-info-release", method = RequestMethod.POST)
+	@ResponseBody
+	public Object budgetInfoRelase(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_RELEASE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
+		Object rs = JSON.toJSON(responseEntity.getBody());
+		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		return rs;
+		
 	}
 }
