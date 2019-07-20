@@ -45,6 +45,7 @@ import com.pcitc.base.stp.budget.BudgetAssetTotal;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
+import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 /**
@@ -64,6 +65,17 @@ public class BudgetTotalController extends BaseController {
 	{
 		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
 		
+		String url = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd("2019");
+		//vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_KTY");
+		
+		ResponseEntity<BudgetItemSearchVo> responseEntity = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<BudgetItemSearchVo>(vo, this.httpHeaders), BudgetItemSearchVo.class);
+		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		
+		BudgetItemSearchVo rsvo = responseEntity.getBody();
+		System.out.println(JSON.toJSONString(rsvo.getBudgetByAllUnit()));
+		System.out.println(rsvo.getBudgetTotal());
 		
 		return "stp/budget/budget_main_total";
 	}

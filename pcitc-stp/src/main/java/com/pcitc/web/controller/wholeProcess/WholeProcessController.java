@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.HanaUtil;
@@ -61,7 +62,8 @@ public class WholeProcessController extends BaseController {
 		Date endDate = new Date();
 		request.setAttribute("startDate", DateUtil.dateToStr(startDate, DateUtil.FMT_DD).substring(0, 7));
 		request.setAttribute("endDate", DateUtil.dateToStr(endDate, DateUtil.FMT_DD).substring(0, 7));
-		
+		String xmmc = CommonUtil.getParameter(request, "xmmc", "");
+		request.setAttribute("xmmc", xmmc);
 		return "/stp/wholeProcess/scienceProcess";
 	}
 	
@@ -77,6 +79,9 @@ public class WholeProcessController extends BaseController {
 		LayuiTableData retJson = responseEntity.getBody();
 		
 		request.setAttribute("sciList", retJson.getData());*/
+		
+		String xmmc = CommonUtil.getParameter(request, "xmmc", "");
+		request.setAttribute("xmmc", xmmc);
 		
 		Date startDate = DateUtil.dateAdd(new Date(), -365);
 		Date endDate = new Date();
@@ -109,7 +114,8 @@ public class WholeProcessController extends BaseController {
 		Date endDate = new Date();
 		request.setAttribute("startDate", DateUtil.dateToStr(startDate, DateUtil.FMT_DD).substring(0, 7));
 		request.setAttribute("endDate", DateUtil.dateToStr(endDate, DateUtil.FMT_DD).substring(0, 7));
-		
+		String xmmc = CommonUtil.getParameter(request, "xmmc", "");
+		request.setAttribute("xmmc", xmmc);
 		return "/stp/wholeProcess/equipmentScienceProcess";
 	}
 

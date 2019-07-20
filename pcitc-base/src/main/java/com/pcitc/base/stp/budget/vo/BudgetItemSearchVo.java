@@ -24,7 +24,6 @@ public class BudgetItemSearchVo
 	//检索参数【单位编码列表】
 	private List<String> unitIds = new ArrayList<String>();
 	//检索参数【预算项编码列表】废弃
-	@Deprecated
 	private List<String> budgetItemCodes = new ArrayList<String>();
 	
 	//预算检索返回结果

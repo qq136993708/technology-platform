@@ -1043,6 +1043,66 @@ public class BudgetInfoExample {
             addCriterion("budget_money not between", value1, value2, "budgetMoney");
             return (Criteria) this;
         }
+
+        public Criteria andReleaseStatusIsNull() {
+            addCriterion("release_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReleaseStatusIsNotNull() {
+            addCriterion("release_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReleaseStatusEqualTo(Integer value) {
+            addCriterion("release_status =", value, "releaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReleaseStatusNotEqualTo(Integer value) {
+            addCriterion("release_status <>", value, "releaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReleaseStatusGreaterThan(Integer value) {
+            addCriterion("release_status >", value, "releaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReleaseStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("release_status >=", value, "releaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReleaseStatusLessThan(Integer value) {
+            addCriterion("release_status <", value, "releaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReleaseStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("release_status <=", value, "releaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReleaseStatusIn(List<Integer> values) {
+            addCriterion("release_status in", values, "releaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReleaseStatusNotIn(List<Integer> values) {
+            addCriterion("release_status not in", values, "releaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReleaseStatusBetween(Integer value1, Integer value2) {
+            addCriterion("release_status between", value1, value2, "releaseStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReleaseStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("release_status not between", value1, value2, "releaseStatus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
