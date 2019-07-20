@@ -49,8 +49,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院合同（任务书）签定率
+							<span class="layui-time"></span>年直属研究院合同（任务书）签定率
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -83,8 +82,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院合同（任务书）数量占比
+							<span class="layui-time"></span>年直属研究院合同（任务书）数量占比
 						</div>
 						<div class="layui-card-body btn-function">
 							<div class="processdef_table">
@@ -98,8 +96,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院合同（任务书）签订情况
+							<span class="layui-time"></span>年直属研究院合同（任务书）签订情况
 						</div>
 						<div class="layui-row-main">
 
@@ -130,8 +127,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院合同（任务书）签订情况
+							<span class="layui-time"></span>年直属研究院合同（任务书）签订情况
 						</div>
 						<div class="layui-card-body btn-function">
 							<div id="processdef_tableN">
@@ -177,8 +173,6 @@
 			$(".layui-time").html($("#year").val());
 			var nd = $("#year").val();
 			$("#table_detail_id").click(function() {
-				//var url = encodeURIComponent("/one_level_main/common_table?nd=" + nd + "&ysnd=" + nd);
-				//window.open("/instituteIndex?url=" + url);
 				parent.layui.index.openTabsPage("/one_level_main/common_table?nd=" + nd + "&ysnd=" + nd, "合同签订率详情");
 			});
 
@@ -266,9 +260,6 @@
 			echart1.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				// alert(xName);
-				//var url = encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz=" + xName + "订&nd=" + nd + "&ysnd=" + nd);
-				//window.open("/instituteIndex?url=" + url);
 				
 				parent.layui.index.openTabsPage("/one_level_main/common_table?define3=直属研究院&qdbz=" + xName + "订&nd=" + nd + "&ysnd=" + nd, "合同签订率详情");
 
@@ -294,24 +285,17 @@
 				if (legentName == '实际签订') {
 					qdbz = "已签订";
 				}
-
-				//var url = encodeURIComponent("/one_level_main/common_table?define2=" + xName + "&qdbz=" + qdbz + "&ysnd=" + $('#year').val() + "&nd=" + nd + "&groupFlag=xmid,define8");
-				//window.open("/instituteIndex?url=" + url);
 				parent.layui.index.openTabsPage("/one_level_main/common_table?define2=" + xName + "&qdbz=" + qdbz + "&ysnd=" + $('#year').val() + "&nd=" + nd + "&groupFlag=xmid,define8", "合同签订率详情");
 			});
 
 		}
 
 		function contract_chart1(qdbz) {
-			//var url = encodeURIComponent("/one_level_main/common_table?define12=直属研究院&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid");
-			//window.open("/instituteIndex?url=" + url);
 			
 			parent.layui.index.openTabsPage("/one_level_main/common_table?define12=直属研究院&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 		}
 
 		function contract_chart2(qdbz) {
-			//var url = encodeURIComponent("/one_level_main/common_table?define12=直属研究院&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid,define8");
-			//window.open("/instituteIndex?url=" + url);
 			parent.layui.index.openTabsPage("/one_level_main/common_table?define12=直属研究院&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid,define8", "合同签订率详情");
 		}
 
@@ -453,8 +437,6 @@
 						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 						selectRowData = res.data[index - 1];
 
-						//var url = encodeURIComponent("/one_level_main/common_table?define2=" + selectRowData.define2 + "&nd=" + nd + "&ysnd=" + nd + "&groupFlag=xmid,define8");
-						//window.open("/instituteIndex?url=" + url);
 						
 						parent.layui.index.openTabsPage("/one_level_main/common_table?define2=" + selectRowData.define2 + "&nd=" + nd + "&ysnd=" + nd + "&groupFlag=xmid,define8", "合同签订率详情");
 					});

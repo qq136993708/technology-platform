@@ -38,7 +38,7 @@
                 <div class="main-agency">
                     <p class="main-left-p">
                         待办事项
-                        <a href="/instituteIndex?url=/task/pending/list/ini" target="_blank" rel="noopener noreferrer">
+                        <a href="/instituteIndex?url=/task/pending/list/ini" target="_blank">
                             <span id="pendingSpan"></span>
                         </a>
                     </p>
@@ -73,7 +73,7 @@
                     <p>
                         研究院动态
                         <span>
-								<a href="/instituteIndex?url=/expertController/leader_speech" target="_blank" rel="noopener noreferrer">更多></a>
+								<a href="/instituteIndex?url=/expertController/leader_speech" target="_blank">更多></a>
 							</span>
                     </p>
                     <ul id="news">
@@ -590,9 +590,10 @@
             },
             success : function(data) {
                 var projectMoney = data.data.projectMoney;
-                var budgetMoney = data.data.budgetMoney;
+                var budgetFyxMoney = data.data.budgetFyxMoney;
+                var budgetZbxMoney = data.data.budgetZbxMoney;
                 var tt1 = parseFloat(projectMoney) / 10000;
-                var tt2 = parseFloat(budgetMoney) / 10000;
+                var tt2 = (parseFloat(budgetFyxMoney) + parseFloat(budgetZbxMoney)) / 10000;
 
                 $("#moneyTotal").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
                 $("#moneyCurrent").html(tt1.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
@@ -628,7 +629,7 @@
                             }
                             if (index == 0) {
                                 var html = '<li>' + '           <span class="time">' + '               <span class="date">' + time[2] + '</span>' + '               <span class="yearM">' + ym + '</span>' + '           </span>' + '           <span class="content">'
-                                    + '               <a href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=' + dt.id + '" target="_blank" rel="noopener noreferrer">' + dt.title + '</a>' + '               <span>' + content + '</span>' + '      </li>';
+                                    + '               <a href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=' + dt.id + '" target="_blank">' + dt.title + '</a>' + '               <span>' + content + '</span>' + '      </li>';
                             } else {
                                 var html = "<li><span class='time'>" + md + "</span><a href='/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + dt.id + "' target='_blank'>" + dt.title + "</a></li>"
                             }
@@ -648,7 +649,7 @@
                             }
                             if (index == 0) {
                                 var html = '<li>' + '           <span class="time">' + '               <span class="date">' + time[2] + '</span>' + '               <span class="yearM">' + ym + '</span>' + '           </span>' + '           <span class="content">'
-                                    + '               <a href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=' + dt.id + '" target="_blank" rel="noopener noreferrer">' + dt.title + '</a>' + '               <span>' + content + '</span>' + '      </li>';
+                                    + '               <a href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=' + dt.id + '" target="_blank">' + dt.title + '</a>' + '               <span>' + content + '</span>' + '      </li>';
                             } else {
                                 var html = "<li><span class='time'>" + md + "</span><a href='/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + dt.id + "' target='_blank'>" + dt.title + "</a></li>"
                             }
@@ -682,7 +683,7 @@
 
             $.each(data, function(index, dt) {
                 if (index < 10) {
-                    content += '<li class="state_1"><a target="_blank" rel="noopener noreferrer" href="instituteIndex?url=/task/pending/deal/' + dt.id + '"> ';
+                    content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/task/pending/deal/' + dt.id + '"> ';
                     if (dt.createTime != null) {
                         content += layui.laytpl.toDateString(dt.createTime);
                     }
@@ -715,7 +716,7 @@
             }
             $.each(data.data, function(index, dt) {
                 if (index < 10) {
-                    content += '<li class="state_1"><a target="_blank" rel="noopener noreferrer" href="instituteIndex?url=/plan/viewPlanPage/' + dt.dataId + '"> ';
+                    content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/plan/viewPlanPage/' + dt.dataId + '"> ';
                     if (dt.createDate != null) {
                         content += layui.laytpl.toDateString(dt.createDate);
                     }

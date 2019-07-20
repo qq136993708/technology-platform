@@ -1,5 +1,8 @@
 package com.pcitc.web.budget;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,9 +33,6 @@ import com.pcitc.base.system.SysDictionary;
 import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.budget.BudgetMoneyTotalService;
 import com.pcitc.service.feign.SystemRemoteClient;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 @Api(value="预算-预算数据检索",tags= {"预算-预算管理数据对外接口"})
 @RestController
@@ -76,7 +76,7 @@ public class BudgetSplitManagerProviderClient
 	
 	@ApiOperation(value="预算管理-获取预算项数据",notes="按年度、处部门、预算对象获取预算详情")
 	@RequestMapping(value = "/stp-provider/budget/out-organ-items", method = RequestMethod.POST)
-	public Object selectBudgetInfoList(@RequestBody BudgetItemSearchVo vo) 
+	public BudgetItemSearchVo selectBudgetInfoList(@RequestBody BudgetItemSearchVo vo) 
 	{
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
