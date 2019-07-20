@@ -125,11 +125,15 @@ public class OneLevelMainController extends BaseController {
 	
 	
 	
+	/**
+	 * 获取本年的预算金额，其中费用性的预算金额通过专业处权限进行控制。
+	 * 资本性的预算金额，只有综合计划处等处能看
+	 * 专项和机动的预算金额，只有综合计划处等处能看
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_first_page_count")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String investment_first_page_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
@@ -153,104 +157,18 @@ public class OneLevelMainController extends BaseController {
 				JSONObject jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
 				
-				double investMoney = 0d;
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-				ResponseEntity<JSONArray> responseEntity2 = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
-				int statusCode2 = responseEntity.getStatusCodeValue();
-				if (statusCode2 == 200) {
-					
-					JSONArray jSONArray2 = responseEntity2.getBody();
-					System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray2.toString());
-					List<BudgetMysql> list = JSONObject.parseArray(jSONArray2.toJSONString(), BudgetMysql.class);
-					// 单独计算各个专业处的预算金额
-					if (!zycbm.equals("")) {
-						BudgetItemSearchVo vo = new BudgetItemSearchVo();
-						vo.setNd(nd);
-						Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
-						List<String> list_1 = new ArrayList<>(set);
-						vo.getUnitIds().addAll(list_1);
-						vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY");
-						vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_FZGS");
-						vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_WBDW");
-						vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_SHYK");
-						vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_XSDYFZX");
-						vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_JTDW");
-						HttpEntity<BudgetItemSearchVo> entity1 = new HttpEntity<BudgetItemSearchVo>(vo, httpHeaders);
-						
-						httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-						ResponseEntity<BudgetItemSearchVo> responseEntity1 = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity1, BudgetItemSearchVo.class);
-						int statusCode1 = responseEntity1.getStatusCodeValue();
-						if (statusCode1 == 200) {
-							BudgetItemSearchVo bis = responseEntity1.getBody();
-							double investMoney1 = 0d;
-							double investMoney2 = 0d;
-							double investMoney3 = 0d;
-							double investMoney4 = 0d;
-							double investMoney5 = 0d;
-							double investMoney6 = 0d;
-							for (int i = 0; i < list_1.size(); i++) {
-								investMoney1 = investMoney1 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY");
-								investMoney2 = investMoney2 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_FZGS");
-								investMoney3 = investMoney3 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_WBDW");
-								investMoney4 = investMoney4 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_SHYK");
-								investMoney5 = investMoney5 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_XSDYFZX");
-								investMoney6 = investMoney6 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_JTDW");
-							}
-							System.out.println("===111============"+investMoney1+"===="+investMoney2);
-							investMoney1 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney1)));
-							investMoney2 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney2)));
-							investMoney3 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney3)));
-							investMoney4 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney4)));
-							investMoney5 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney5)));
-							investMoney6 = Double.parseDouble(String.format("%.2f", Double.valueOf(investMoney6)));
-							investMoney = investMoney1+investMoney2+investMoney3+investMoney4+investMoney5+investMoney6;
-							System.out.println("===1112222============"+investMoney+"===="+investMoney2);
-							for (int k = 0; k < list.size(); k++) {
-								BudgetMysql bm = list.get(k);
-								System.out.println("===11111115============"+bm.getDefine3());
-								if (bm.getDefine3() != null && bm.getDefine3().equals("股份付资产")) {
-									investMoney = investMoney + Double.parseDouble(String.format("%.2f", Double.valueOf(Double.parseDouble(bm.getZysje().toString()))));
-									System.out.println("===1115============"+bm.getZysje().toString()+"===="+investMoney2);
-								}
-								if (bm.getDefine3() != null && bm.getDefine3().equals("集团公司")) {
-									investMoney = investMoney + Double.parseDouble(String.format("%.2f", Double.valueOf(Double.parseDouble(bm.getZysje().toString()))));
-									System.out.println("===1116============"+bm.getZysje().toString()+"===="+investMoney2);
-								}
-								if (bm.getDefine3() != null && bm.getDefine3().equals("资产公司")) {
-									investMoney = investMoney + Double.parseDouble(String.format("%.2f", Double.valueOf(Double.parseDouble(bm.getZysje().toString()))));
-									System.out.println("===1117============"+bm.getZysje().toString()+"===="+investMoney2);
-								}
-								
-							}
-							
-							
-						}
-					}
-				}
-				
-				
-				
-				
 				String projectMoney = String.valueOf(jSONArray.getString("projectMoney"));
-				String budgetMoney = String.valueOf(investMoney);
-				projectMoney = String.format("%.2f", Double.valueOf(projectMoney));
-				budgetMoney = String.format("%.2f", Double.valueOf(budgetMoney));
+				String budgetFyxMoney = String.valueOf(jSONArray.getString("budgetFyxMoney"));
+				String budgetZbxMoney = String.valueOf(jSONArray.getString("budgetZbxMoney"));
+				projectMoney = String.format("%.4f", Double.valueOf(projectMoney));
+				budgetFyxMoney = String.format("%.4f", Double.valueOf(budgetFyxMoney));
+				budgetZbxMoney = String.format("%.4f", Double.valueOf(budgetZbxMoney));
 				Map map = new HashMap();
 				map.put("projectMoney", projectMoney);
-				map.put("budgetMoney", budgetMoney);
+				map.put("budgetFyxMoney", budgetFyxMoney);
+				map.put("budgetZbxMoney", budgetZbxMoney);
 				result.setSuccess(true);
 				result.setData(map);
-
 			}
 
 		} else {
@@ -461,6 +379,57 @@ public class OneLevelMainController extends BaseController {
 		}
 		return "stp/hana/home/oneLevelMain/achievement_table";
 	}
+	
+	
+	
+
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/achievement_table_new")
+	public String achievement_table_new(HttpServletRequest request) throws Exception {
+
+		String nd = CommonUtil.getParameter(request, "nd", "");// 项目名
+		String cglx = CommonUtil.getParameter(request, "cglx", "");// 成果类型
+		String zy = CommonUtil.getParameter(request, "zy", "");// 成果专业
+		String define3 = CommonUtil.getParameter(request, "define3", "");// 单位类别
+		String define1 = CommonUtil.getParameter(request, "define1", "");// 研究院
+		String define11 = CommonUtil.getParameter(request, "define11", "");
+		String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
+		
+		request.setAttribute("define11", define11);
+		request.setAttribute("nd", nd);
+		request.setAttribute("cglx", cglx);
+		request.setAttribute("zy", zy);
+		request.setAttribute("define3", define3);
+		request.setAttribute("define1", define1);
+		request.setAttribute("groupFlag", groupFlag);
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+			// 领导标识，不控制数据
+			paramsMap.put("leaderFlag", "1");
+		}
+		
+		//技术分类
+		List<SysDictionary>  jsflList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
+		request.setAttribute("jsflList", jsflList);
+		//三级级联：经费来源(公司类型财务)->单位类别->研究院
+		List<SysDictionary>  jflyList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
+		request.setAttribute("jflyList", jflyList);
+		//成果分组类型
+		List<SysDictionary>  fzlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGFZLX", restTemplate, httpHeaders);
+		request.setAttribute("fzlxList", fzlxList);
+		
+		//成果类型
+		List<SysDictionary>  cglxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGLB", restTemplate, httpHeaders);
+		request.setAttribute("cglxList", cglxList);
+		//成果专业
+		List<SysDictionary> zyList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGLX", restTemplate, httpHeaders);
+		request.setAttribute("zyList", zyList);
+		
+		return "stp/hana/home/oneLevelMain/achievement_table_new";
+	}
+	
+	
 
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/achievement_table_data")
 	@ResponseBody
@@ -598,6 +567,33 @@ public class OneLevelMainController extends BaseController {
 			request.setAttribute("ktlxList", ktlxList);
 		}
 		return "stp/hana/home/oneLevelMain/country_table";
+	}
+	
+
+	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/country_table_new")
+	public String country_table_new(HttpServletRequest request) throws Exception {
+
+		String define1 = CommonUtil.getParameter(request, "define1", "");// 资本性、费用性
+		String define2 = CommonUtil.getParameter(request, "define2", "");// 8大院等细分结构
+		String nd = CommonUtil.getParameter(request, "nd", "");// 项目名
+		String ysnd = CommonUtil.getParameter(request, "ysnd", "");// 项目名
+		String xmmc = CommonUtil.getParameter(request, "xmmc", "");// 项目名
+		String ktlx = CommonUtil.getParameter(request, "ktlx", "");// 合同号
+		
+		request.setAttribute("define1", define1);
+		request.setAttribute("define2", define2);
+		request.setAttribute("ktlx", ktlx);
+		request.setAttribute("nd", nd);
+		request.setAttribute("ysnd", ysnd);
+		request.setAttribute("xmmc", xmmc);
+		//费用类别
+		List<SysDictionary>  fylbList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
+		request.setAttribute("fylbList", fylbList);
+		//研究院
+		List<SysDictionary>  define2List= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+		request.setAttribute("define2List", define2List);
+			
+		return "stp/hana/home/oneLevelMain/country_table_new";
 	}
 
 	// 三级表格
@@ -2918,10 +2914,9 @@ public class OneLevelMainController extends BaseController {
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -2931,67 +2926,8 @@ public class OneLevelMainController extends BaseController {
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>investment_01 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
-
-				// 单独计算各个专业处的预算金额
-				if (!zycbm.equals("")) {
-					BudgetItemSearchVo vo = new BudgetItemSearchVo();
-					vo.setNd(nd);
-					Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
-					List<String> list_1 = new ArrayList<>(set);
-					vo.getUnitIds().addAll(list_1);
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_FZGS");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_WBDW");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_SHYK");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_XSDYFZX");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_JTDW");
-					HttpEntity<BudgetItemSearchVo> entity1 = new HttpEntity<BudgetItemSearchVo>(vo, httpHeaders);
-					ResponseEntity<BudgetItemSearchVo> responseEntity1 = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity1, BudgetItemSearchVo.class);
-					int statusCode1 = responseEntity1.getStatusCodeValue();
-					if (statusCode1 == 200) {
-						BudgetItemSearchVo bis = responseEntity1.getBody();
-						double investMoney = 0d;
-						double investMoney1 = 0d;
-						double investMoney2 = 0d;
-						double investMoney3 = 0d;
-						double investMoney4 = 0d;
-						double investMoney5 = 0d;
-						double investMoney6 = 0d;
-						for (int i = 0; i < list_1.size(); i++) {
-							investMoney1 = investMoney1 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY");
-							investMoney2 = investMoney2 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_FZGS");
-							investMoney3 = investMoney3 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_WBDW");
-							investMoney4 = investMoney4 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_SHYK");
-							investMoney5 = investMoney5 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_XSDYFZX");
-							investMoney6 = investMoney6 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_JTDW");
-						}
-						investMoney = investMoney1+investMoney2+investMoney3+investMoney4+investMoney5+investMoney6;
-						System.out.println("===1112222yyyy============"+investMoney+"===="+investMoney2);
-						for (int k = 0; k < list.size(); k++) {
-							BudgetMysql bm = list.get(k);
-							if (bm.getDefine3() != null && bm.getDefine3().equals("直属研究院")) {
-								bm.setZysje(investMoney1);
-							}
-							if (bm.getDefine3() != null && bm.getDefine3().equals("分子公司")) {
-								bm.setZysje(investMoney2);
-							}
-							if (bm.getDefine3() != null && bm.getDefine3().equals("外部单位")) {
-								bm.setZysje(investMoney3);
-							}
-							if (bm.getDefine3() != null && bm.getDefine3().equals("盈科")) {
-								bm.setZysje(investMoney4);
-							}
-							if (bm.getDefine3() != null && bm.getDefine3().equals("休斯顿")) {
-								bm.setZysje(investMoney5);
-							}
-							if (bm.getDefine3() != null && bm.getDefine3().equals("股份付集团")) {
-								bm.setZysje(investMoney6);
-							}
-						}
-					}
-				}
 				
-				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define3");
+				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "budgetItemName");
 				barLine.setxAxisDataList(xAxisDataList);
 				List<String> legendDataList = new ArrayList<String>();
 				legendDataList.add("费用性科研投入");
@@ -3062,7 +2998,7 @@ public class OneLevelMainController extends BaseController {
 		return resultObj.toString();
 	}
 
-	// 重在集团
+	// 科研预算执行率
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_01_01")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
@@ -3080,10 +3016,9 @@ public class OneLevelMainController extends BaseController {
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -3102,48 +3037,36 @@ public class OneLevelMainController extends BaseController {
 				Object zbxRate = budgetMysql.getZbxRate();
 				Object zRate = budgetMysql.getzRate();
 
-				// System.out.println(">>>>>>>>>>>> fyxRate>>> " + fyxRate);
-
 				Object fyxRate_str = "0";
-				if (fyxRate == null) {
-					fyxRate_str = "0";
-				} else if (fyxRate.toString().equals("0")) {
+				if (fyxRate == null || fyxRate.toString().equals("0") || fyxRate.toString().equals("")) {
 					fyxRate_str = "0";
 				} else {
-					fyxRate_str = String.format("%.2f", fyxRate);
+					fyxRate_str = String.format("%.2f", Double.parseDouble(fyxRate.toString()));
 				}
 
 				Object jeRate_str = "0";
-
-				if (jeRate == null) {
-					jeRate_str = 0;
-				} else if (jeRate.toString().equals("0")) {
+				if (jeRate == null || jeRate.toString().equals("0") || jeRate.toString().equals("")) {
 					jeRate_str = "0";
 				} else {
-					jeRate_str = String.format("%.2f", jeRate);
+					jeRate_str = String.format("%.2f", Double.parseDouble(jeRate.toString()));
 				}
 
 				Object zbxRate_str = "0";
-
-				if (zbxRate == null) {
-					zbxRate_str = 0;
-				} else if (zbxRate.toString().equals("0")) {
+				if (zbxRate == null || zbxRate.toString().equals("0") || zbxRate.toString().equals("")) {
 					zbxRate_str = "0";
 				} else {
-					zbxRate_str = String.format("%.2f", zbxRate);
+					zbxRate_str = String.format("%.2f", Double.parseDouble(zbxRate.toString()));
 				}
-
+				
 				Object zRate_str = "0";
-				if (zRate == null) {
-					zRate_str = 0;
-				} else if (zRate.toString().equals("0")) {
+				if (zRate == null || zRate.toString().equals("0") || zRate.toString().equals("")) {
 					zRate_str = "0";
 				} else {
-					zRate_str = String.format("%.2f", zRate);
+					zRate_str = String.format("%.2f", Double.parseDouble(zRate.toString()));
 				}
 
+
 				budgetMysql.setFyxRate(fyxRate_str);
-				;
 				budgetMysql.setJeRate(jeRate_str);
 				budgetMysql.setZbxRate(zbxRate_str);
 				budgetMysql.setzRate(zRate_str);
@@ -3166,7 +3089,6 @@ public class OneLevelMainController extends BaseController {
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String investment_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		Result result = new Result();
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
@@ -3179,10 +3101,9 @@ public class OneLevelMainController extends BaseController {
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -3373,10 +3294,10 @@ public class OneLevelMainController extends BaseController {
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -3391,7 +3312,7 @@ public class OneLevelMainController extends BaseController {
 					barLine.setxAxisDataList(xAxisDataList);
 					List<String> legendDataList = new ArrayList<String>();
 					legendDataList.add("新开课题预算金额");
-					legendDataList.add("新开课题实际金额");
+					legendDataList.add("新开课题已签金额");
 
 					barLine.setLegendDataList(legendDataList);
 					// X轴数据

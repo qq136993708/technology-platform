@@ -27,14 +27,23 @@
  <div class="layui-fluid">
     <div class="layui-card">
  
-     <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding:0px">
-        <div class="layui-form-item">
+       <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding:0px">
+          <div class="layui-form-item">
           <div class="layui-inline">
             <label class="layui-form-label">项目名称：</label>
             <div class="layui-input-inline">
               <input type="text" name="xmmc" title="项目名称" placeholder="请输入项目名称" autocomplete="off" class="layui-input" id="xmmc"  >
             </div>
           </div>
+          
+           <div class="layui-inline">
+            <label class="layui-form-label">合同号：</label>
+            <div class="layui-input-inline">
+              <input type="text" name="hth" title="合同号" placeholder="请输入合同号" autocomplete="off" class="layui-input" id="hth"  >
+            </div>
+          </div>
+          
+          
           <div class="layui-inline">
             <label class="layui-form-label">项目年度：</label>
             <div class="layui-input-inline">
@@ -312,7 +321,7 @@
 						"define2"   :          define2,
 						"define5"   :          define5,
 						"define12"  :          define12,
-						
+						"hth" :              $("#hth").val(),
 						"zylb" :             zylb,
 						"ktlx" :             $("#ktlx").val(),
 						"project_scope" :    $("#project_scope").val(),
@@ -374,6 +383,7 @@
 				}, {
 					field : 'xmmc',
 					title : '项目名称',
+					templet:function(d){return '<span   onclick="view_pro(\''+d.xmmc+'\',\''+d.projectProperty+'\')" style="color: #1890ff">'+d.xmmc+'</span>'},
 					style : 'cursor: pointer;',
 					align : 'left',
 					width : '350',
@@ -499,7 +509,41 @@
 
 		}
 		
-		
+		function view_pro(xmmc,projectProperty) 
+		{
+			
+			var temUrl="";
+			if(projectProperty=='重大专项')
+			{
+				temUrl="/whole-process/major-science/ini?xmmc="+xmmc;
+			}
+			if(projectProperty=='重点项目')
+			{
+				temUrl="/whole-process/science/ini?xmmc="+xmmc;
+			}
+			if(projectProperty=='装备项目')
+			{
+				temUrl="/whole-process/equipment-science/ini?xmmc="+xmmc;
+			}
+			if(temUrl!='')
+			{
+				
+				//alert(projectProperty);
+				
+				 layer.open({
+			         title: projectProperty+"->"+xmmc+'->详情',
+			         skin: 'layui-layer-lan',
+			         shadeClose: true,
+			         type: 2,
+			         fixed: false,
+			         maxmin: true,
+			         area: ['70%', '90%'],
+			         content:  temUrl
+			     });
+			}
+			
+			
+		}
 	/**======================================联动=====================================*/	
 	var define11="${define11?default('')}";//单位类别
 	var define12="${define12?default('')}";//单位类别

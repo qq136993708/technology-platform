@@ -224,7 +224,7 @@
 			echart1.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var url = encodeURIComponent("/one_level_main/achievement_table?define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				var url = encodeURIComponent("/one_level_main/achievement_table_new?define1="+xName+"&define3=直属研究院&define11=股份公司&nd=" + nd+"&groupFlag=jdh,sqjddw");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -240,10 +240,11 @@
 			echart4.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var url = encodeURIComponent("/one_level_main/achievement_table?define3=直属研究院&cglx="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				var cglx=xName;
+				var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw&cglx="+cglx);
 				window.open("/instituteIndex?url=" + url);
 			});
-
+            //直属研究院成果类型-工业化分布统计
 			var chart5_url = "/direct_second/direct_second_data_03?define3=直属研究院&type=2&nd=" + nd + "&v_date=" + v_date;
 			var echart5 = loadPie_02(chart5_url, "chart5", "", "", function(data) {
 				var total_count = 0;
@@ -254,7 +255,7 @@
 			});
 			echart5.on('click', function(params) {
 				var xName = params.name;
-				var url = encodeURIComponent("/one_level_main/achievement_table?define3=直属研究院&cglx=A.工业化&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=A.工业化&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -270,7 +271,7 @@
 			echart6.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var url = encodeURIComponent("/one_level_main/achievement_table?define3=直属研究院&cglx=B.工业试验&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=B.工业试验&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -285,7 +286,7 @@
 			});
 			echart7.on('click', function(params) {
 				var xName = params.name;
-				var url = encodeURIComponent("/one_level_main/achievement_table?define3=直属研究院&zy="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&zy="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -305,7 +306,7 @@
 			if (unitFlag == 'unit') {
 				groupFlag = 'jdh,sqjddw';
 			}
-			var url = encodeURIComponent("/one_level_main/achievement_table?define3="+showFlag+"&nd=" + nd+"&groupFlag="+groupFlag);
+			var url = encodeURIComponent("/one_level_main/achievement_table_new?define3="+showFlag+"&nd=" + nd+"&define11=股份公司&groupFlag="+groupFlag);
 			window.open("/instituteIndex?url=" + url);
 		}
 	</script>
