@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css">
+<link rel="stylesheet" href="/layuiadmin/style/admin.css">
+<script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<!-- 国家项目、重大专项、重点项目、其他项目   -->
+<input type="hidden" name="project_property" value="${project_property}" id="project_property">
+<!-- 新开项目、续建项目、完工项目  -->
+<input type="hidden" name="project_scope" value="${project_scope}" id="project_scope">
+<!-- 各个处室 -->
+<input type="hidden" name="zycmc" value="${zycmc}" id="zycmc">
+<input type="hidden" name="projectId" value="${projectId}" id="projectId">
+		
+<div class="layui-fluid">
+    <div class="layui-card">
+    
+     <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding:0px">
+        <div class="layui-form-item">
+        
+        
+        
+          
+          <!-- 三级级联 begin-->
+          <div class="layui-inline">
+            <label class="layui-form-label">部门：</label>
+            <div class="layui-input-inline">
+               <select name="define11" id="define11"  lay-filter="select_define11"  >
+                     <option value="" >--请选择--</option>
+		             <#list jflyList as vo> 
+				          <option value="${vo.code}"  <#if define11=vo.name>selected="selected"</#if>>${vo.name}</option>
+				      </#list>
+              </select>
+            </div>
+          </div>
+          
+           <div class="layui-inline">
+            <label class="layui-form-label">单位类别：</label>
+            <div class="layui-input-inline">
+               <select name="define3" id="define3" lay-filter="select_define3"   > </select>
+            </div>
+          </div>
+          
+           <div class="layui-inline">
+            <label class="layui-form-label">研究院：</label>
+            <div class="layui-input-inline">
+               <select name="define1" id="define1"  > </select>
+            </div>
+          </div>
+           <!-- 三级级联 end -->
+           
+           
+           
+           <div class="layui-inline">
+            <label class="layui-form-label">成果类型：</label>
+            <div class="layui-input-inline">
+               <select name="cglx" id="cglx"  >
+                        <option value="" >--请选择--</option>
+			             <#list cglxList as vo> 
+					          <option value="${vo.numValue}" <#if cglx=vo.name>selected="selected"</#if> >${vo.name}</option>
+					      </#list>
+              </select>
+            </div>
+          </div>
+          
+           <div class="layui-inline">
+            <label class="layui-form-label">成果专业：</label>
+            <div class="layui-input-inline">
+               <select name="zy" id="zy"  >
+                        <option value="" >--请选择--</option>
+			             <#list zyList as vo> 
+					          <option value="${vo.numValue}" <#if zy=vo.name>selected="selected"</#if>  >${vo.name}</option>
+					      </#list>
+              </select>
+            </div>
+          </div>
+          
+          
+            <div class="layui-inline">
+            <label class="layui-form-label">项目名称：</label>
+            <div class="layui-input-inline">
+              <input type="text" name="xmmc" title="项目名称" placeholder="请输入项目名称" autocomplete="off" class="layui-input" id="xmmc"  >
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">项目年度：</label>
+            <div class="layui-input-inline">
+              <input type="text" name="nd" readonly="readonly" style="cursor:pointer" placeholder="请选择项目年度" title="项目年度" value="${nd}" autocomplete="off" class="layui-input" id="nd" width="100px" >
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">分组类型：</label>
+            <div class="layui-input-inline">
+               <select name="groupFlag" id="groupFlag"  >
+                        <option value="" >--请选择--</option>
+			             <#list fzlxList as vo> 
+					          <option value="${vo.numValue}"  >${vo.name}</option>
+					      </#list>
+              </select>
+            </div>
+          </div>
+          
+          
+          <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
+            </button>
+          </div>
+          
+          
+          
+    
+	   </div>
+	</div>  
+     <div class="tableBox" >
+	  <table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
+    </div>
+</div>
+</div>  
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+	var table, selectRowData;
+	var xmmc = $('#xmmc').val();
+	layui.config({
+		base : '/layuiadmin/lib/extend/'
+	}).use([ 'jquery', 'form', 'laydate', 'table', 'laypage', 'laytpl' ], function() {
+		$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate, form.render(null, 'component-form-group');
+		laydate.render({
+			elem : '#nd',
+			type : 'year',
+			done : function(value, date, endDate) {
+				$("#nd").val(date.year);
+			}
+		});
+		
+		//移除表头的复选框,去掉全选
+		$(".layui-table-header table thead th input").remove();
+		// 触发不同的按钮事件
+		var $ = layui.$, active = {
+				searchEvent: function() { //点击查询按钮
+	            	 renderTable();
+	            }
+		};
+
+		//区别按钮属性
+		$('.layui-btn').on('click', function() {
+			var type = $(this).data('type');
+			active[type] ? active[type].call(this) : '';
+		});
+		
+		
+		   //监听经费来源
+		   form.on('select(select_define11)', function(data){
+			   var parentCode=data.value;
+			   getDicByParentCode(parentCode,'define3');
+			   console.log("监听经费来源:"+data);
+		   });
+		   //监听单位类别
+		   form.on('select(select_define3)', function(data){
+				   var parentCode=data.value;
+				   getDicByParentCode(parentCode,'define1');
+				   console.log("监听单位类别:"+data);
+		   });
+		   
+		    //初始化经费来源
+			var define11=$("#define11").val();
+			getDicByParentCode(define11,'define3');
+			
+		   
+			//加载表格      
+			renderTable();
+
+	});	
+					
+					
+				function renderTable()
+				{
+
+					  var define11=$("#define11 option:selected").text();
+					  var define1=$("#define1 option:selected").text();
+					  var define3=$("#define3 option:selected").text();
+					  if(define11=='--请选择--') {define11=''}
+					  if(define1=='--请选择--') {define1=''}
+					  if(define3=='--请选择--') {define3=''}
+					  
+					  var cglx=$("#cglx").val();
+					  var zy=$("#zy").val();
+					  var groupFlag=$("#groupFlag").val();
+					  
+					  //渲染
+					  table.render({
+						elem : '#processdef-table',
+						url : '/one_level_main/achievement_table_data',
+						method : "POST",
+						where : {
+							param : {
+								"nd" : $("#nd").val(),
+								"xmmc" : $("#xmmc").val(),
+								"define11"  : define11,
+								"define1" : define1,
+								"define3" : define3,
+								"cglx" : cglx,
+								"zy" : zy,
+								"groupFlag" :groupFlag
+							}
+						},
+						limit : 15,
+						id : 'processdef-table',
+						height : commonDislodgeTable()-100,
+						page : {
+							groups : 5,
+							limits : [ 15, 30, 45, 60 ],
+							layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+							first : '首页', //不显示首页
+							last : '尾页', //不显示尾页
+							theme : '#0F9EE0'
+						},
+						cols : [ [ {
+							title : '序号',
+							type : 'numbers',
+							width : '4%'
+						}, {
+							field : 'nd',
+							title : '项目年度',
+							style : 'cursor: pointer;',
+							align : 'center',
+							width : '100',
+							sort : true
+						}, {
+							field : 'hth',
+							title : '合同号',
+							style : 'cursor: pointer;',
+							align : 'left',
+							width : '150',
+							sort : true
+						}, {
+							field : 'cgmc',
+							title : '成果名称',
+							style : 'cursor: pointer;',
+							align : 'left',
+							width : '350',
+							sort : true
+						}, {
+							field : 'xmmc',
+							title : '项目名称',
+							style : 'cursor: pointer;',
+							align : 'left',
+							width : '380',
+							sort : true
+						}, {
+							field : 'jdh',
+							title : '鉴定号',
+							style : 'cursor: pointer;',
+							align : 'center',
+							width : '190',
+							sort : true
+						}, {
+							field : 'define1',
+							title : '二级单位',
+							style : 'cursor: pointer;',
+							align : 'left',
+							width : '100',
+							sort : true
+						}, {
+							field : 'zy',
+							title : '成果专业',
+							style : 'cursor: pointer;',
+							align : 'left',
+							width : '100',
+							sort : true
+						}, {
+							field : 'define3',
+							title : '单位类别',
+							style : 'cursor: pointer;',
+							align : 'left',
+							width : '100',
+							sort : true
+						}, {
+							field : 'cglx',
+							title : '专业类别',
+							style : 'cursor: pointer;',
+							align : 'left',
+							width : '100',
+							sort : true
+						}, {
+							field : 'starttime',
+							title : '开始时间',
+							style : 'cursor: pointer;',
+							align : 'left',
+							width : '100',
+							sort : true,
+							templet : '<div>{{ d.starttime.substring(0, 10) }}</div>'
+						}, {
+							field : 'endtime',
+							title : '结束时间',
+							style : 'cursor: pointer;',
+							align : 'left',
+							width : '100',
+							sort : true,
+							templet : '<div>{{ d.endtime.substring(0, 10) }}</div>'
+						}
+
+						] ],
+						done : function(res, curr, count) {
+							// 点击行联动选择框--单选
+							$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+								var index = parseInt($(this).index() + 1);
+								$('tr').removeClass('layui-table-click');
+								$(this).addClass('layui-table-click');
+								$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+								$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+								selectRowData = res.data[index - 1];
+							});
+
+						}
+					});
+
+					//监听排序
+					table.on('sort(processdef-table)', function(obj) {
+						console.log(this, obj.field, obj.type)
+						//return;
+						//服务端排序
+						table.reload('processdef-table', {
+							initSort : obj,
+							page : {
+								curr : 1
+							}, //重新从第一页开始
+							where : { //重新请求服务端
+								orderKey : obj.field, //排序字段
+								orderType : obj.type
+							}
+						});
+					});
+
+				}
+				
+				
+				
+				/**======================================联动=====================================*/	
+				var define3="${define3?default('')}";//单位类别
+				var define1="${define1?default('')}";//单位类别
+				//alert(define3);
+				
+				//获取单位类别
+				function getDicByParentCode(parentCode,downId)
+			    {
+			    	 //alert(parentCode+"--"+downId);
+			    	 $("#"+downId).empty();
+			    	 if(parentCode==null || parentCode=='')
+			     	 {
+			     		parentCode='-1';
+			     	 }
+			    	 console.log("级联：\n parentCode="+parentCode+" downId="+downId);
+			    	 var v_date=(new Date()).getTime();
+			    	 if(parentCode!=null && parentCode!='')
+			         {
+			    		 
+			    		 $.ajax({
+			    				url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&parentCode="+parentCode,
+			    				type : "post",
+			    				async: false,
+			    				dataType : "json",
+			    				success : function(data) 
+			    				{
+			    					$("#"+downId).append("<option value=''>--请选择--</option>");
+			    					$.each(data, function(i, el) 
+			    					{
+			    						$("#"+downId).append('<option value="'+ el.code +'">' + el.name+ '</option>');
+			    						if(define3==el.name)
+			    						{
+			    							$("#"+downId).val(el.code);
+			    						} 
+			    						if(define1==el.name)
+			    						{
+			    							$("#"+downId).val(el.code);
+			    						}
+			    					});
+			    					 form.render();
+			    				},
+			    				error : function() 
+			    				{
+			    					alert("发生未知错误 ,请重新操作.");
+			    				}
+			    			});
+			    		
+			         }
+			    	 var code_temp=$("#"+downId).val();
+			    	 //如果ID=单位类别 ,再调用一次，形成第三级
+			    	 if(downId=='define3')
+			    	 {
+			    		getDicByParentCode(code_temp,'define1');
+			    	 }
+			    	 form.render();
+			    }				
+
+</script>
+</body>
+</html>
