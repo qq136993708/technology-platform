@@ -215,11 +215,11 @@ console.log("tfcCode:"+tfcCode);
                     $("#indexOutProjectInfoTableIdRyCount").html("(" + rycount + ")");
                 },
                 onDblClickRow: function (index, o) {
-                    console.log(o);
-                    if(o.xmmc==""){
-                    }else {
-                        detailEvent(o.dataId);
-                    }
+                    // console.log(o);
+                    // if(o.xmmc==""){
+                    // }else {
+                    //     detailEvent(o.dataId);
+                    // }
 
                 }
             });
@@ -358,15 +358,15 @@ console.log("tfcCode:"+tfcCode);
                 },
                 {
                     field: "xmmc",
-                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;', width: 300
+                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;', width: 250
                 },
                 {
-                    field: "jf",
-                    title: "项目经费总额", event: 'setActive', style: 'cursor: pointer;', width: 100
+                    field: "fzdw",
+                    title: "牵头单位", event: 'setActive', style: 'cursor: pointer;', width: 120
                 },
                 {
-                    field: "kssj",
-                    title: "开始时间", event: 'setActive', style: 'cursor: pointer;', width: 100
+                    field: "zyly",
+                    title: "专业类别", event: 'setActive', style: 'cursor: pointer;'
                 }
             ];
 
@@ -394,9 +394,9 @@ console.log("tfcCode:"+tfcCode);
         renderTable();
         window.renderTable = renderTable;
 
-        table.on('rowDouble(indexOutProjectInfoTableIdEvent)', function (obj) {
-            detailEvent(obj.data.dataId);
-        });
+        // table.on('rowDouble(indexOutProjectInfoTableIdEvent)', function (obj) {
+        //     detailEvent(obj.data.dataId);
+        // });
 
         //成果
         var colsCg =
