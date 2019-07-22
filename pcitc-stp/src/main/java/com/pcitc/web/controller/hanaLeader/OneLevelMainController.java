@@ -966,7 +966,8 @@ public class OneLevelMainController extends BaseController {
 		Object zylbbmFlag_code=param.getParam().get("zylbbmFlag");
 		
 		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
-		
+		// 领导标识
+		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 		String gsbmbmFlag="";
 		if(gsbmbmFlag_code!=null)
 		{

@@ -14,6 +14,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +26,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
 import com.pcitc.service.feign.stp.BudgetClient;
 import com.pcitc.service.out.OutProjectPlanService;
@@ -470,6 +474,7 @@ public class OutProjectPlanClient {
 				if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("集团单位") && actMoney.get("type_flag") != null && (actMoney.get("type_flag").toString().contains("集团单位") || actMoney.get("type_flag").toString().contains("股份付集团"))) {
 					// 费用性预算金额、费用性实际投入金额、投入比率、 资本性实际投入、总实际投入
 					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
+					bm.put("budgetItemName", "股份付集团");
 					break;
 				}
 
@@ -508,9 +513,10 @@ public class OutProjectPlanClient {
 					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
 					break;
 				}
+				
 			}
 		}
-
+		
 		// 如果有看资本性预算的权限的话
 		if (zbxFlag) {
 			for (int i = 0; i < budMoneyList.size(); i++) {
@@ -529,7 +535,7 @@ public class OutProjectPlanClient {
 						break;
 					}
 
-					if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("集团单位") && zbxMoney.get("show_ali") != null && (zbxMoney.get("show_ali").toString().contains("集团单位") || zbxMoney.get("show_ali").toString().contains("股份付集团"))) {
+					if (bm.get("budgetItemName") != null && (bm.get("budgetItemName").toString().contains("集团单位") || bm.get("budgetItemName").toString().contains("股份付集团")) && zbxMoney.get("show_ali") != null && (zbxMoney.get("show_ali").toString().contains("集团单位") || zbxMoney.get("show_ali").toString().contains("股份付集团"))) {
 						// 资本性预算金额、总预算金额、资本性投入比率、总费用投入比
 						bm = this.getMoneyProperty2(bm, zbxMoney, zbxFlag);
 						break;
@@ -642,6 +648,29 @@ public class OutProjectPlanClient {
 				if (temMap.get("budgetItemName") != null && temMap.get("budgetItemName").toString().contains("资产公司")) {
 					retList.add(temMap);
 				}
+			}
+		}
+		
+		for (int k = 0; k < actMoneyList.size(); k++) {
+			Map<String, Object> actMoney = (Map<String, Object>) actMoneyList.get(k);
+			// 股份付资产，特殊
+			if (actMoney.get("type_flag") != null && (actMoney.get("type_flag").toString().contains("资产单位") || actMoney.get("type_flag").toString().contains("股份付资产"))) {
+				Map<String, Object> bm = new HashMap<String, Object>();
+				bm.put("budgetItemName", "股份付资产");
+				bm.put("fyxysje", "0");
+				bm.put("fyxsjje", actMoney.get("fyxsjje") == null ? "0" : actMoney.get("fyxsjje"));
+				bm.put("fyxRate", 0);
+				
+				bm.put("zbxysje", "0");
+				bm.put("zbxsjje", actMoney.get("zbxsjje") == null ? "0" : actMoney.get("zbxsjje"));
+				bm.put("zbxRate", 0);
+				
+				bm.put("zysje", "0");
+				bm.put("zsjje", Double.parseDouble(bm.get("fyxsjje").toString()) + Double.parseDouble(bm.get("zbxsjje").toString()));
+				bm.put("zRate", 0);
+				
+				retList.add(bm);
+				break;
 			}
 		}
 
