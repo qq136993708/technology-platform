@@ -94,7 +94,7 @@
 					<div class="layui-card">
 						<div class="layui-card-header">
 							<span class="layui-time"></span>
-							年直属研究院项目分布情况
+							年直属研究院十条龙科技攻关及重大项目项目分布
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -124,24 +124,13 @@
 				</div>
 				<div class="layui-col-md6">
 					<div class="layui-card">
-						<div class="layui-card-header" title="">十条龙年度领导小组汇报材料</div>
+						<div class="layui-card-header" title="">十条龙科技攻关项目领导小组汇报材料</div>
 						<div class="layui-row-main work-report-main">
 							<p></p>
 							<div class="work-report">
-								<ul class="work-one">
-									<li><a href="javascript:export_doc(2019);" download="w3logo"><span>2019</span><span>汇报材料</span></a></li>
-									<li><a href="javascript:export_doc(2018);" download="w3logo"><span>2018</span><span>汇报材料</span></a></a></li>
-									<li><a href="javascript:export_doc(2017);"><span>2017</span><span>汇报材料</span></a></a></li>
-									<li><a href="javascript:export_doc(2016);"><span>2016</span><span>汇报材料</span></a></a></li>
-									<li><a href="javascript:export_doc(2015);" download="w3logo"><span>2015</span><span>汇报材料</span></a></a></li>
-									<li><a href="javascript:export_doc(2014);"><span>2014</span><span>汇报材料</span></a></a></li>
-									<li><a href="javascript:export_doc(2013);"><span>2013</span><span>汇报材料</span></a></a></li>
+								<ul class="work-one" id="report">
+
 								</ul>
-								<!--<ul class="work-two">
-									<li><a href="javascript:export_doc(2016);">汇报材料</a></li>
-									<li><a href="javascript:export_doc(2017);">汇报材料</a></li>
-									<li><a href="/layui/downloadPage.html">汇报材料</a></li>
-								</ul>-->
 							</div>
 						</div>
 					</div>
@@ -214,6 +203,13 @@
 			$("#year").val(${year});
 			//初始化图形
 			initEchart();
+			/*汇报资料*/
+            var dateYear=parseInt((new Date()).getFullYear());
+            var htmlYear='';
+            for(var i=0;i<8;i++){
+                htmlYear+='<li><a href="javascript:export_doc('+(dateYear-i)+');" download="w3logo"><span>'+(dateYear-i)+'</span><span>汇报材料</span></a></li>'
+			}
+			$("#report").append(htmlYear);
 		});
 
 		function initEchart() {

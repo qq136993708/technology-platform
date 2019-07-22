@@ -267,7 +267,7 @@ layui.config({
   	        ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
   	        ,isFilter: false
   	        ,iconOpen: false//是否显示图标【默认显示】
-  	        ,isOpenDefault: false//节点默认是展开还是折叠【默认展开】
+  	        ,isOpenDefault: true//节点默认是展开还是折叠【默认展开】
   	        ,loading:true
   	        ,limit: 15
   	        ,where: {param: {"unitName":$("#unitName").val(),"auditStatus":$("#auditStatus").val(),"year":$("#year").val(),"type":$("#type").val()}}
@@ -281,6 +281,7 @@ layui.config({
  	               theme: '#0F9EE0'
  	           }
   	        ,cols: [[
+  	        	{title : '序号', type : 'numbers', width : 55,fixed:'left'},
   	        	{field : 'unitName',        title : '单位名称',          style : 'cursor: pointer;', align : 'left', width : '25%',templet : '#view_detail',sort : true},
                 {field : 'year',            title : '统计年度',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'auditStatus',     title : '审核状态',        style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
@@ -297,18 +298,18 @@ layui.config({
                 {field : 'specialistProvinceCount',     title : '省级-专家人数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'researcherCount',             title : 'R&D)-人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'directResearcherCount',       title : '直接参与',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-                {field : 'assistResearcherCount',       title : '辅助工作人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+                {field : 'assistResearcherCount',       title : '研究与试验发展项目(课题)管理和辅助工作人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'workerSalary',    title : '职工薪酬总额(万元)',            style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'assetsTotal',     title : '资产合计(万元)',               style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'fixedAssets',     title : '固定资产',                    style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-                {field : 'deviceAssets',    title : '仪器设备原值(万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+                {field : 'deviceAssets',    title : '技术开发仪器设备原值(万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'deviceInnnerAssets',     title : '其中：国产技术',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'totaIncome',             title : '总收入',                       style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-                {field : 'countryInvestCost',     title : '政府科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-                {field : 'groupInvestCost',       title : '总部科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-                {field : 'subInvestCost',         title : '分公司科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-                {field : 'outInvestCost',         title : '外部技术性收入',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-                {field : 'allPatentCount',        title : '全部专利数',                 style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+                {field : 'countryInvestCost',     title : '国家、政府科研投入(￥万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+                {field : 'groupInvestCost',       title : '总部科研投入(￥万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+                {field : 'subInvestCost',         title : '分(子)公司科研投入(￥万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+                {field : 'outInvestCost',         title : '外部技术性收入(￥万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+                {field : 'allPatentCount',        title : '持有全部专利数',                 style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'allPatentLookCount',    title : '其中：发明专利数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'currentYearPatentCount',        title : '当年专利申请数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'currentPatentLookCount',        title : '其中：发明专利数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
@@ -375,18 +376,18 @@ layui.config({
                {field : 'specialistProvinceCount',     title : '省级-专家人数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'researcherCount',             title : 'R&D)-人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'directResearcherCount',       title : '直接参与',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'assistResearcherCount',       title : '辅助工作人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'assistResearcherCount',       title : '研究与试验发展项目(课题)管理和辅助工作人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'workerSalary',    title : '职工薪酬总额(万元)',            style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'assetsTotal',     title : '资产合计(万元)',               style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'fixedAssets',     title : '固定资产',                    style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'deviceAssets',    title : '仪器设备原值(万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'deviceInnnerAssets',     title : '其中：国产技术',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'totaIncome',             title : '总收入',                       style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'countryInvestCost',     title : '政府科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'groupInvestCost',       title : '总部科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'subInvestCost',         title : '分公司科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'outInvestCost',         title : '外部技术性收入',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'allPatentCount',        title : '全部专利数',                 style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'countryInvestCost',     title : '国家、政府科研投入(￥万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'groupInvestCost',       title : '总部科研投入(￥万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'subInvestCost',         title : '分(子)公司科研投入(￥万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'outInvestCost',         title : '外部技术性收入(￥万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'allPatentCount',        title : '持有全部专利数',                 style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'allPatentLookCount',    title : '其中：发明专利数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'currentYearPatentCount',        title : '当年专利申请数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'currentPatentLookCount',        title : '其中：发明专利数',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},

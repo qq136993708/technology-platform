@@ -29,6 +29,7 @@
         .hotspot>.item a:hover{text-decoration:underline;}
         .c-nameC{height: 0px;}
         .layui-table-none{padding: 0;}
+        .layui-table-grid-down{display: none;}
     </style>
 </head>
 <body>
@@ -80,7 +81,7 @@
                 },
 
                 cols: [[
-                    {field:'patentCode',title:'年度',
+                    {field:'patentCode',title:'年度',edit: 'text',
                         templet:  function (d) {
                             return '<div class="layui-div layui-div-n">' +
                                 '        <a href="javascript:;">'+d.fmmc+'</a>' +
