@@ -31,6 +31,7 @@ $(document).ready(function() {
 		var publicMethods=layui.publicMethods;
 		var form = layui.form;
 		var table = layui.table;
+		var flowCurrentStatus=0;
 		laydate.render({elem: '#reportYear',type: 'year'});
 		//研究院字典
     	var dicMap = ['ROOT_ZGSHJT_GFGS_ZSYJY'];
@@ -48,6 +49,7 @@ $(document).ready(function() {
     	{
     		publicMethods.ajaxAsyncPost('/project/get-plant', {plantId:$("#plantId").val()}, function (data, status) {
          		form.val("plant-form",data);
+         		flowCurrentStatus = data.flowCurrentStatus;
             });
     	}else{
     		$("#appendFiles").val("${appendFiles}");
@@ -112,6 +114,18 @@ $(document).ready(function() {
     	}
     	form.on('submit(submitBtn)', function(data) {
     		//data.field.plantContent = editor.getData();
+    		if(flowCurrentStatus>=1)
+			{
+				var msg = "审批中不可编辑!";
+				if(flowCurrentStatus==1){
+					msg = "审批中不可编辑!";
+				}
+				if(flowCurrentStatus==2){
+					msg = "审批通过不可编辑!";
+				}
+				parent.layer.alert(msg, {title : '信息'});
+				return false;
+			}
             publicMethods.ajaxAsyncPost('/project/plant-saveorupdate', data.field, function (data, status) {
                 if (data.success) {
                 	parent.layui.table.reload("plantTable",null);
