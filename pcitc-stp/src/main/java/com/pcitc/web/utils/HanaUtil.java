@@ -3563,18 +3563,16 @@ public class HanaUtil {
 	public static ChartBarLineSeries getinvestmentBarLineSeries2(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("zysje")) {
+			chartBarLineSeries.setName("预算金额");
+
+			chartBarLineSeries.setyAxisIndex(0);
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
 		if (name.equals("zsjje")) {
 			chartBarLineSeries.setName("实际科研投入");
 
 			chartBarLineSeries.setyAxisIndex(0);
-
-			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
-		}
-		if (name.equals("wxdje")) {
-			chartBarLineSeries.setName("未执行");
-
-			chartBarLineSeries.setyAxisIndex(0);
-
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("jeRate")) {
@@ -3588,8 +3586,14 @@ public class HanaUtil {
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
+				if (name.equals("zysje")) {
+					if (f03.getZysje() != null && Double.parseDouble(f03.getZysje().toString()) != 0d) {
+						dataList.add(String.format("%.4f", Double.parseDouble(f03.getZysje().toString()) / 10000));
+					} else {
+						dataList.add(0);
+					}
+				}
 				if (name.equals("zsjje")) {
-
 					if (f03.getZsjje() != null && Double.parseDouble(f03.getZsjje().toString()) != 0d) {
 						dataList.add(String.format("%.4f", Double.parseDouble(f03.getZsjje().toString()) / 10000));
 
@@ -3598,16 +3602,7 @@ public class HanaUtil {
 					}
 
 				}
-				if (name.equals("wxdje")) {
-					if (f03.getWxdje() != null && Double.parseDouble(f03.getWxdje().toString()) != 0d) {
-						dataList.add(String.format("%.4f", Double.parseDouble(f03.getWxdje().toString()) / 10000));
-					} else {
-						dataList.add(0);
-					}
-				}
-
 				if (name.equals("jeRate")) {
-
 					if (f03.getJeRate() != null && Double.parseDouble(f03.getJeRate().toString()) != 0d) {
 						dataList.add(String.format("%.4f", Double.parseDouble(f03.getJeRate().toString())));
 					} else {
@@ -3735,36 +3730,30 @@ public class HanaUtil {
 				String fyxsjje = String.valueOf(f03.getFyxsjje());
 				String zbxsjje = String.valueOf(f03.getZbxsjje());
 				String zysje = String.valueOf(f03.getZysje());
-				// System.out.println("==============fyxsjje:"+fyxsjje);
-				if (name.equals("fyxsjje")) {
-
-					if (fyxsjje != null && !fyxsjje.equals("null") && !fyxsjje.equals("")) {
-						dataList.add(String.format("%.4f", Double.valueOf(fyxsjje) / 10000));
-
-					} else {
-						dataList.add(0);
-					}
-
-				}
-				if (name.equals("zbxsjje")) {
-
-					if (zbxsjje != null && !zbxsjje.equals("null") && !zbxsjje.equals("")) {
-						dataList.add(String.format("%.4f", Double.valueOf(zbxsjje) / 10000));
-					} else {
-						dataList.add(0);
-					}
-
-				}
 
 				if (name.equals("zysje")) {
-
 					if (zysje != null && !zysje.equals("null") && !zysje.equals("")) {
 						dataList.add(String.format("%.4f", Double.valueOf(zysje) / 10000));
 
 					} else {
 						dataList.add(0);
 					}
+				}
+				
+				if (name.equals("fyxsjje")) {
+					if (fyxsjje != null && !fyxsjje.equals("null") && !fyxsjje.equals("")) {
+						dataList.add(String.format("%.4f", Double.valueOf(fyxsjje) / 10000));
 
+					} else {
+						dataList.add(0);
+					}
+				}
+				if (name.equals("zbxsjje")) {
+					if (zbxsjje != null && !zbxsjje.equals("null") && !zbxsjje.equals("")) {
+						dataList.add(String.format("%.4f", Double.valueOf(zbxsjje) / 10000));
+					} else {
+						dataList.add(0);
+					}
 				}
 
 			}

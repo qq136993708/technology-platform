@@ -1,7 +1,5 @@
 package com.pcitc.web.Intlproject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +19,7 @@ import io.swagger.annotations.ApiOperation;
 public class IntlProjectResultProviderClient 
 {
 	
-	private final static Logger logger = LoggerFactory.getLogger(IntlProjectResultProviderClient.class);
+	//private final static Logger logger = LoggerFactory.getLogger(IntlProjectResultProviderClient.class);
 
 	
 	@Autowired
@@ -32,7 +30,6 @@ public class IntlProjectResultProviderClient
 	@RequestMapping(value = "/stp-provider/project/result-list", method = RequestMethod.POST)
 	public Object selectProjectResultByPage(@RequestBody LayuiTableParam param) 
 	{
-		logger.info("remark-list...");
 		return projectResultService.selectProjectReultByPage(param);
 	}
 	

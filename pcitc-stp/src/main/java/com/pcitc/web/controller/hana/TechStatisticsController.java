@@ -35,12 +35,12 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.hana.report.ScientificInvestment;
 import com.pcitc.base.stp.report.TechCost;
 import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -151,6 +151,9 @@ public class TechStatisticsController extends BaseController{
 		return result.toString();
 	}
 	
+	
+	
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/tech_cost/exput_excel")
 	@ResponseBody
 	public String tech_cost_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -174,12 +177,12 @@ public class TechStatisticsController extends BaseController{
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(LIST_COST_URL, HttpMethod.POST, httpEntity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		List<ScientificInvestment> list =new ArrayList();
+		List<TechCost> list =new ArrayList();
 		JSONArray jSONArray=null;
 		if (statusCode == 200)
 		{
 			jSONArray = responseEntity.getBody();
-			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificInvestment.class);
+			list = JSONObject.parseArray(jSONArray.toJSONString(), TechCost.class);
 			
 			/*for(int i=0;i<list.size();i++)
 			{
@@ -199,7 +202,7 @@ public class TechStatisticsController extends BaseController{
 	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
 	        try {
 		        OutputStream os = response.getOutputStream();
-		        PoiExcelExportUitl<ScientificInvestment>  pee = new PoiExcelExportUitl<ScientificInvestment>(fileName, headers, cols, list,os);
+		        PoiExcelExportUitl<TechCost>  pee = new PoiExcelExportUitl<TechCost>(fileName, headers, cols, list,os);
 		        pee.exportExcel();
 	            
 	        } catch (Exception e)
@@ -493,6 +496,8 @@ public class TechStatisticsController extends BaseController{
 		request.setAttribute("auditStatusList", auditStatusList);
 		String type = CommonUtil.getParameter(request, "type", "");
 		request.setAttribute("type", type);
+		String beforeYear= HanaUtil.getBeforeYear();
+		request.setAttribute("beforeYear", beforeYear);
 		return "/stp/hana/techStatistics/org_list";
 	}
 
@@ -504,6 +509,8 @@ public class TechStatisticsController extends BaseController{
 		//流程状态
 		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("auditStatusList", auditStatusList);
+		String beforeYear= HanaUtil.getBeforeYear();
+		request.setAttribute("beforeYear", beforeYear);
 		return "/stp/hana/techStatistics/org_list_kjb_tree";
 	}
 	
@@ -598,6 +605,8 @@ public class TechStatisticsController extends BaseController{
 		request.setAttribute("unitName", unitName);
 		request.setAttribute("unitCode", unitCode);
 		request.setAttribute("allUnitName", unitName);
+		String beforeYear= HanaUtil.getBeforeYear();
+		request.setAttribute("beforeYear", beforeYear);
 		return "/stp/hana/techStatistics/org_add_new";
 	}
 
@@ -954,6 +963,9 @@ public class TechStatisticsController extends BaseController{
 		TechOrgCount techOrgCount = responseEntity.getBody();
 		request.setAttribute("techOrgCount", techOrgCount);
 		List list=techOrgCount.getChildList();
+		
+		String beforeYear= HanaUtil.getBeforeYear();
+		request.setAttribute("beforeYear", beforeYear);
 		if(list!=null && list.size()>0)
 		{
 			return "/stp/hana/techStatistics/org_view_child";
@@ -1028,23 +1040,153 @@ public class TechStatisticsController extends BaseController{
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(LIST_ORG_URL, HttpMethod.POST, httpEntity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		List<ScientificInvestment> list =new ArrayList();
+		List<TechOrgCount> list =new ArrayList();
 		JSONArray jSONArray=null;
 		if (statusCode == 200)
 		{
 			jSONArray = responseEntity.getBody();
-			list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificInvestment.class);
+			list = JSONObject.parseArray(jSONArray.toJSONString(), TechOrgCount.class);
 			
-			/*for(int i=0;i<list.size();i++)
+			for(int i=0;i<list.size();i++)
 			{
-				ScientificInvestment scientificInvestment=list.get(i);
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      getG0GSJC = "+scientificInvestment.getG0GSJC());
-			}*/
+				TechOrgCount techOrgCount=list.get(i);
+				techOrgCount.setCreateDateStr(DateUtil.dateToStr(techOrgCount.getCreateDate(), DateUtil.FMT_DD));
+				String status=techOrgCount.getAuditStatus();
+				//流程状态
+				List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+				if(auditStatusList!=null)
+				{
+					for(int j=0;j<auditStatusList.size();j++)
+					{
+						SysDictionary sysDictionary=auditStatusList.get(j);
+						if(sysDictionary.getNumValue().equals(status))
+						{
+							status=sysDictionary.getName();
+						}
+						
+					}
+				}
+				
+				techOrgCount.setAuditStatus(auditStatus);
+				String companyType=techOrgCount.getType();
+				if(companyType.equals("1"))
+				{
+					companyType="股份";
+				}
+				if(companyType.equals("2"))
+				{
+					companyType="集团";
+				}
+				techOrgCount.setType(companyType);
+				String statisticsType=techOrgCount.getStatisticsType();
+				if(statisticsType.equals("1"))
+				{
+					statisticsType="本单位填写";
+				}
+				if(statisticsType.equals("2"))
+				{
+					statisticsType="二级单位填写";
+				}
+				techOrgCount.setStatisticsType(statisticsType);
+				
+			}
 		}
 		
-		
-		    String[] headers = { "院所", "计划总投资", "累计支出额",       "预付余额",     "累计投资完成额", "项目资金计划结余",     "本年投资计划",         "本年累计支出"   , "本年预付款", "本年投资完成额"};
-		    String[] cols =    {"g0GSJC","k0ZTYSJE","k0LJGLFPHJECB","k0LJSJDJJE","aDD1",       "k0LJYSJY",       "k0BNYSJHJE",       "k0BNGLFPHJECB","k0BNSJDJJE","k0BNSJDJJE"};
+		    String beforeYear =HanaUtil.getBeforeYear();
+		    String[] headers = {   "单位名称", 
+		    		               "上级单位名称",
+		    		               "统计年度", 
+		    		               "审核状态",       
+		    		               "公司类型",     
+		    		               "职工总数", 
+		    		               "女性人数",     
+		    		               "职称->高级技术职称",         
+		    		               "职称->中级技术职称", 
+		    		               "职称->无高中级技术职称的大学本科及以上学历人员", 
+		    		               "学历->博士数",
+		    		               "学历->硕士数",
+		    		               "学历->本科",
+		    		               "专家人数->国家级",
+		    		               "专家人数->省、部、计划单列市级",
+		    		               "研究与试验发展(R&D)人员数",
+		    		               "直接参与研究与试验发展项目(课题)人员数",
+		    		               "研究与试验发展项目(课题)管理和辅助工作人员数",
+		    		               "职工薪酬总额(万元)",
+		    		               "资产合计(万元)",
+		    		               "固定资产(万元)",
+		    		               "技术开发仪器设备原值(万元)",
+		    		               "技术开发仪器设备原值->其中：国产技术",
+		    		               "总收入(￥万元)",
+		    		               "国家、政府科研投入(￥万元)",
+		    		               "总部科研投入(￥万元)",
+		    		               "分(子)公司科研投入(￥万元)",
+		    		               "外部技术性收入(￥万元)",
+		    		               "持有全部专利数",
+		    		               "其中：发明专利数",
+		    		               "当年专利申请数",
+		    		               "其中：发明专利数",
+		    		               beforeYear+"年度获奖成果数(第一完成单位)->成果数(国家)",
+		    		               beforeYear+"年度获奖成果数(第一完成单位)->成果数(省)",
+		    		               beforeYear+"年度获奖成果数(第一完成单位)->成果数(公司)",
+		    		               "论文总量",
+		    		               beforeYear+"年度科技论文发表->SCI（科学引文索引）数量",
+		    		               beforeYear+"年度科技论文发表->SCI->其中：本单位员工作为第一作者数量",
+		    		               beforeYear+"年度科技论文发表->EI（工程索引）数量",
+		    		               beforeYear+"年度科技论文发表->EI->其中：本单位员工作为第一作者数量",
+		    		               beforeYear+"年度科技论文发表->ISTP（科学技术会议录索引）数量",
+		    		               beforeYear+"年度科技论文发表->ISR（科学评论索引）数量",
+		    		               "填写人",
+		    		               "填写时间",
+		    		               "统计类型"
+		    		               
+		      };
+		    String[] cols =    {
+		    		             "unitName",
+		    		             "parentUnitName",
+		    		             "year",
+		    		             "auditStatus",
+		    		             "type",
+		    		             "workersCount",       
+		    		             "femaleCount",       
+		    		             "titleSeniorCount",       
+		    		             "titleMiddleCount",
+		    		             "titleLowerCount",
+		    		             "diplomaDoctorCount",
+		    		             "diplomaMasterCount",
+		    		             "diplomaUndergraduateCount",
+		    		             "specialistCountryCount",
+		    		             "specialistProvinceCount",
+		    		             "researcherCount",
+		    		             "directResearcherCount",
+		    		             "assistResearcherCount",
+		    		             "workerSalary",
+		    		             "assetsTotal",
+		    		             "fixedAssets",
+		    		             "deviceAssets",
+		    		             "deviceInnnerAssets",
+		    		             "totaIncome",
+		    		             "countryInvestCost",
+		    		             "groupInvestCost",
+		    		             "subInvestCost",
+		    		             "outInvestCost",
+		    		             "allPatentCount",
+		    		             "allPatentLookCount",
+		    		             "currentYearPatentCount",
+		    		             "currentPatentLookCount",
+		    		             "achievementsCountryCount",
+		    		             "achievementsPrivanceCount",
+		    		             "achievementsCompanyCount",
+		    		             "thesisAllCount",
+		    		             "thesisSciCount",
+		    		             "thesisSciInnerCount",
+		    		             "thesisEiCount",
+		    		             "thesisEiInnerCount",
+		    		             "thesisIstpCount",
+		    		             "thesisIsrCount",
+		    		             "createUserName",
+		    		             "createDateStr",
+		    		             "statisticsType"
+		    		             };
 		   
 	        // 文件名默认设置为当前时间：年月日时分秒
 	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
@@ -1054,7 +1196,7 @@ public class TechStatisticsController extends BaseController{
 	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
 	        try {
 		        OutputStream os = response.getOutputStream();
-		        PoiExcelExportUitl<ScientificInvestment>  pee = new PoiExcelExportUitl<ScientificInvestment>(fileName, headers, cols, list,os);
+		        PoiExcelExportUitl<TechOrgCount>  pee = new PoiExcelExportUitl<TechOrgCount>(fileName, headers, cols, list,os);
 		        pee.exportExcel();
 	            
 	        } catch (Exception e)

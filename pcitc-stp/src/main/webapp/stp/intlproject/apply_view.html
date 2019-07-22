@@ -21,11 +21,12 @@
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 
 <script type="text/javascript">
+var param = JSON.parse(window.localStorage.getItem("param"));
 var file_ids = "appendFiles";
 	//detail:详情，edit：编辑
 	file_edit_detail = "detail";
 	//统管理-附件管理-附件配置：页面标识
-	file_opt_flag = "9ca77a7e92a94d7799a9cb3cdaf9c858";
+	file_opt_flag = param.code;
 $(document).ready(function() {
 	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ],
 			function() {

@@ -60,15 +60,17 @@ public class IntlProjectInfoController extends BaseController {
 	@RequestMapping(value = "/project/get-project")
 	public Object getProjectInfo(@RequestParam(value = "projectId", required = true) String projectId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		IntlProjectInfo prject = this.restTemplate.exchange(PROJECT_GET_INFO + projectId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectInfo.class).getBody();
-		System.out.println(JSON.toJSON(prject));
+		//System.out.println(JSON.toJSON(prject));
 		return prject;
 	}
 
 	@RequestMapping(value = "/project/addorupd-project")
 	public Object saveProjectInfo(@ModelAttribute(value = "projectInfo") IntlProjectInfo info) throws Exception {
-		IntlProjectInfo prject = this.restTemplate.exchange(PROJECT_GET_INFO + info.getProjectId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectInfo.class).getBody();
-		if (prject != null && FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(prject.getFlowStartStatus())) {
-			return new Result(false, "已提交不可更改");
+		if(!StringUtils.isBlank(info.getProjectId())) {
+			IntlProjectInfo prject = this.restTemplate.exchange(PROJECT_GET_INFO + info.getProjectId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectInfo.class).getBody();
+			if (prject != null && FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(prject.getFlowStartStatus())) {
+				return new Result(false, "已提交不可更改");
+			}
 		}
 		if (info.getProjectId() == null || "".equals(info.getProjectId())) {
 			info.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
@@ -116,7 +118,7 @@ public class IntlProjectInfoController extends BaseController {
 	public Object startProjectApplyWorkflow(@RequestParam(value = "projectId", required = true) String projectId,
 			@RequestParam(value = "functionId", required = true) String functionId, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("开始审批！！！！ projectId:" + projectId);
+		//System.out.println("开始审批！！！！ projectId:" + projectId);
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
@@ -127,14 +129,14 @@ public class IntlProjectInfoController extends BaseController {
 		
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
 		Result rs = this.restTemplate.exchange(PROJECT_INFO_WORKFLOW_URL + projectId, HttpMethod.POST, entity, Result.class).getBody();
-		System.out.println(JSON.toJSONString(rs));
+		//System.out.println(JSON.toJSONString(rs));
 		return rs;
 	}
 	@RequestMapping(value = "/project/project-info-code", method = RequestMethod.POST)
 	public Object getInfoCode(@ModelAttribute(value = "projectInfo") IntlProjectInfo info,HttpServletRequest request) throws IOException {
-		System.out.println("start.................");
+		//System.out.println("start.................");
 		String rs = this.restTemplate.exchange(PROJECT_INFO_CODE, HttpMethod.POST, new HttpEntity<Object>(info,this.httpHeaders), String.class).getBody();
-		System.out.println("rs------------------"+rs);
+		//System.out.println("rs------------------"+rs);
 		return new Result(true, rs);
 	}
 	@RequestMapping(value = "/project/info-count", method = RequestMethod.POST)

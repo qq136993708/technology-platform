@@ -1825,19 +1825,17 @@
 			<if test="typeFlag != null and typeFlag != ''">
 				and type_flag like '%${typeFlag}%'
 			</if>
-			<if test="zylbbm != null and zylbbm != ''">
-				and find_in_set(zylbbm, '${zylbbm}')
-			</if>
-			<if test="zycbm != null and zycbm != ''">
-				and find_in_set(zycbm, '${zycbm}')
-			</if>
-			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+			<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 				<if test="zycbm != null and zycbm != ''">
-					and find_in_set(zycbm, '${zycbm}')
+					and find_in_set(out_project_info.zycbm, '${zycbm}')
 				</if>
 				<if test="zycbm == null or zycbm == ''">
 					and out_project_info.nd = '1900'
 				</if>
+			</if>
+			<if test="leaderFlag == null or leaderFlag == ''">
+				and out_project_info.nd = '1900'
 			</if>
 	</select>
 	
@@ -1854,19 +1852,18 @@
 			<if test="typeFlag != null and typeFlag != ''">
 				and type_flag like '%${typeFlag}%'
 			</if>
-			<if test="zylbbm != null and zylbbm != ''">
-				and find_in_set(zylbbm, '${zylbbm}')
-			</if>
-			<if test="zycbm != null and zycbm != ''">
-				and find_in_set(zycbm, '${zycbm}')
-			</if>
-			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+			
+			<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 				<if test="zycbm != null and zycbm != ''">
-					and find_in_set(zycbm, '${zycbm}')
+					and find_in_set(out_project_info.zycbm, '${zycbm}')
 				</if>
 				<if test="zycbm == null or zycbm == ''">
 					and out_project_info.nd = '1900'
 				</if>
+			</if>
+			<if test="leaderFlag == null or leaderFlag == ''">
+				and out_project_info.nd = '1900'
 			</if>
 	</select>
 	
@@ -1877,8 +1874,17 @@
 		from out_tem_money_decompose
 		where 
 			out_tem_money_decompose.nd = '${nd}'
-			<if test="zycbm != null and zycbm != ''">
-				and find_in_set(unit_code, '${zycbm}')
+			<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(out_tem_money_decompose.unit_code, '${zycbm}')
+				</if>
+				<if test="zycbm == null or zycbm == ''">
+					and out_tem_money_decompose.unit_code = 'xxxxxxxxx'
+				</if>
+			</if>
+			<if test="leaderFlag == null or leaderFlag == ''">
+				and out_tem_money_decompose.unit_code = 'xxxxxxxxx'
 			</if>
 	</select>
 	
@@ -1908,19 +1914,17 @@
 				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 					and xmlbbm != 'KYZB'
 				</if>
-				<if test="zylbbm != null and zylbbm != ''">
-					and find_in_set(zylbbm, '${zylbbm}')
-				</if>
-				<if test="zycbm != null and zycbm != ''">
-					and find_in_set(zycbm, '${zycbm}')
-				</if>
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 				
 			GROUP BY xmid) tableA
@@ -1939,13 +1943,17 @@
 				<if test="define2 != null and define2 != ''">
 					and define2 is not null and type_flag like '%直属研究院%'
 				</if>
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 		) as tableA
 	</select>
@@ -1963,14 +1971,18 @@
 				  ysnd= '${nd}' and project_type != '1' and 
 				  out_project_info.define3 = '项目管理系统' and
 				  xmlbbm != 'KYZB'
-				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				 <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
-				 </if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
+				</if>
 			group by xmid
 		) as tableA
 		group BY tableA.type_flag
@@ -1990,14 +2002,18 @@
 				  ysnd= '${nd}' and project_type != '1' and 
 				  out_project_info.define3 = '项目管理系统' and
 				  xmlbbm = 'KYZB'
-				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				 <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
-				 </if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
+				</if>
 			group by xmid
 		) as tableA
 		group BY tableA.type_flag
@@ -2027,14 +2043,18 @@
 				  <if test="typeFlag != null and typeFlag != ''">
 						and type_flag like '%${typeFlag}%'
 				  </if>
-				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					    <if test="zycbm != null and zycbm != ''">
-							and find_in_set(zycbm, '${zycbm}')
-						</if>
-						<if test="zycbm == null or zycbm == ''">
-							and out_project_info.nd = '1900'
-						</if>
-				  </if>
+				  <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
+				</if>
 			group by xmid
 		) as tableA
 		
@@ -2070,14 +2090,18 @@
 				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 					 and xmlbbm !='KYZB'
 				</if>
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
-				    <if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
-			   </if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
+				</if>
 			group by xmid
 		) as tableA
 		
@@ -2097,13 +2121,17 @@
 				out_project_info.define3 = '项目管理系统' and
 				xmlbbm != 'KYZB' and 
 				define10 is not null
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 			GROUP BY xmid
 		) as tableA
@@ -2127,14 +2155,18 @@
 				  xmlbbm != 'KYZB' and 
 				  type_flag like '%直属研究院%' and 
 				  define2 is not null
-				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				  <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
-				 </if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
+				</if>
 			group by xmid
 		) as tableA
 		group BY tableA.define2
@@ -2157,14 +2189,18 @@
 				  xmlbbm = 'KYZB' and 
 				  type_flag like '%直属研究院%' and 
 				  define2 is not null
-				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				  <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
-				 </if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
+				</if>
 			group by xmid
 		) as tableA
 		group BY tableA.define2
@@ -2184,13 +2220,17 @@
 				out_project_info.define3 = '项目管理系统' and
 				xmlbbm = 'KYZB' and 
 				zylb is not null
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 			GROUP BY xmid
 		) as tableA
@@ -2214,14 +2254,18 @@
 				  ysnd= '${nd}' and project_type != '1' and 
 				  out_project_info.define3 = '项目管理系统' and
 				  define2 is not null
-				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				  <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
-				 </if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
+				</if>
 			group by xmid
 		) as tableA
 		group BY tableA.xmlbbm
@@ -2251,14 +2295,18 @@
 				  ysnd= '${nd}' and project_type != '1' and 
 				  out_project_plan.define4 = '项目管理系统' and
 				  xmlbbm is not null
-				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				  <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_plan.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
-						and out_project_info.nd = '1900'
+						and out_project_plan.nd = '1900'
 					</if>
-				 </if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_plan.nd = '1900'
+				</if>
 			group by xmid
 		) as tableA left join (
 			select
@@ -2270,14 +2318,18 @@
 				  ysnd= '${nd}' and project_type != '1' and 
 				  out_project_info.define3 = '项目管理系统' and
 				  xmlbbm is not null
-				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				  <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
-				 </if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
+				</if>
 			group by xmid
 		) as tableB on (tableA.xmid = tableB.xmid)
 		group BY tableA.DEFINE3
@@ -2306,14 +2358,18 @@
 				  ysnd= '${nd}' and project_type != '1' and 
 				  out_project_info.define3 = '项目管理系统' and
 				  xmlbbm is not null
-				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				  <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
-				 </if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
+				</if>
 			group by xmid
 		) as tableA
 	    group by tableA.define2
@@ -2338,17 +2394,18 @@
 				  <if test="zylbbm != null and zylbbm != ''">
 					  and find_in_set(zylbbm, '${zylbbm}')
 				  </if>
-				  <if test="zycbm != null and zycbm != ''">
-					  and find_in_set(zycbm, '${zycbm}')
-				  </if>
-				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					  <if test="zycbm != null and zycbm != ''">
-						  and find_in_set(zycbm, '${zycbm}')
-					  </if>
-					  <if test="zycbm == null or zycbm == ''">
-						  and ND = '1900'
-					  </if>
-				  </if>
+				  <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
+				</if>
 			group by xmid
 		) as tableA
 	    GROUP BY tableA.define2
@@ -2366,13 +2423,17 @@
 				out_project_info.define3 = '项目管理系统' and
 				xmlbbm != 'KYZB' and 
 				type_flag is not null
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 		    group by xmid
 		) as tableA 
@@ -2391,13 +2452,17 @@
 				out_project_info.define3 = '项目管理系统' and
 				xmlbbm != 'KYZB' and 
 				define10 is not null
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 		    group by xmid
 		) as tableA 
@@ -2416,13 +2481,17 @@
 				out_project_info.define3 = '项目管理系统' and
 				xmlbbm = 'KYZB' and 
 				type_flag is not null
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 		    group by xmid
 		) as tableA 
@@ -2441,13 +2510,17 @@
 				xmlbbm = 'KYZB' and 
 				type_flag like '%直属研究院%' and
 				define2 is not null 
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 		    group by xmid
 		) as tableA 
@@ -2466,13 +2539,17 @@
 			where ysnd = '${nd}' and project_type != '1' and 
 				out_project_info.define3 = '项目管理系统' and
 				xmlbbm is not null
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 		    group by xmid
 		) as tableA 
@@ -2490,13 +2567,17 @@
 			where ysnd = '${nd}' and project_type != '1' and 
 				out_project_info.define3 = '项目管理系统' and
 				xmlbbm is not null
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 		    group by xmid
 		) as tableA 
@@ -2514,13 +2595,17 @@
 			from out_project_info
 			where ysnd = '${nd}' and project_type != '1' and 
 				project_property is not null
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 		    group by xmid
 		) as tableA
@@ -2540,13 +2625,17 @@
 			where ysnd = '${nd}' and project_type != '1' and 
 				type_flag is not null and
 				xmlbbm !='KYZB'
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 		    group by xmid
 		) as tableA
@@ -2568,13 +2657,17 @@
 			where ysnd = '${nd}' and project_type != '1' and 
 				type_flag is not null and
 				xmlbbm !='KYZB'
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(zycbm, '${zycbm}')
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 		    group by xmid
 		) as tableA
@@ -2603,20 +2696,18 @@
 				  <if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 					  and xmlbbm !='KYZB'
 				  </if>
-				  <if test="zylbbm != null and zylbbm != ''">
-					  and find_in_set(zylbbm, '${zylbbm}')
-				  </if>
-				  <if test="zycbm != null and zycbm != ''">
-					  and find_in_set(zycbm, '${zycbm}')
-				  </if>
-				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					  <if test="zycbm != null and zycbm != ''">
-						  and find_in_set(out_project_info.zycbm, '${zycbm}')
-					  </if>
-					  <if test="zycbm == null or zycbm == ''">
-						  and out_project_info.ND = '1900'
-					  </if>
-				  </if>
+				  <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_info.zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
+				</if>
 		    group by xmid
 		) as tableA
 		group by tableA.define10
@@ -2639,19 +2730,17 @@
 											<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 												 and xmlbbm !='KYZB'
 											</if>
-											<if test="zylbbm != null and zylbbm != ''">
-												and find_in_set(zylbbm, '${zylbbm}')
-											</if>
-											<if test="zycbm != null and zycbm != ''">
-												and find_in_set(zycbm, '${zycbm}')
-											</if>
-											<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+											<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+											<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 												<if test="zycbm != null and zycbm != ''">
 													and find_in_set(out_project_info.zycbm, '${zycbm}')
 												</if>
 												<if test="zycbm == null or zycbm == ''">
-													and out_project_info.ND = '1900'
+													and out_project_info.nd = '1900'
 												</if>
+											</if>
+											<if test="leaderFlag == null or leaderFlag == ''">
+												and out_project_info.nd = '1900'
 											</if>
 		    						)*100,4) zslRate,
 			round(sum(case when nd = '${nd}' then 1 else 0 end)/(select count(DISTINCT xmid) 
@@ -2664,19 +2753,17 @@
 											<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 												 and xmlbbm !='KYZB'
 											</if>
-											<if test="zylbbm != null and zylbbm != ''">
-												and find_in_set(zylbbm, '${zylbbm}')
-											</if>
-											<if test="zycbm != null and zycbm != ''">
-												and find_in_set(zycbm, '${zycbm}')
-											</if>
-											<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+											<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+											<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 												<if test="zycbm != null and zycbm != ''">
 													and find_in_set(out_project_info.zycbm, '${zycbm}')
 												</if>
 												<if test="zycbm == null or zycbm == ''">
-													and out_project_info.ND = '1900'
+													and out_project_info.nd = '1900'
 												</if>
+											</if>
+											<if test="leaderFlag == null or leaderFlag == ''">
+												and out_project_info.nd = '1900'
 											</if>
 		    						)*100,4) xkRate,
 			round(sum(case when nd != '${nd}' then 1 else 0 end)/(select count(DISTINCT xmid) 
@@ -2689,19 +2776,17 @@
 											<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 												 and xmlbbm !='KYZB'
 											</if>
-											<if test="zylbbm != null and zylbbm != ''">
-												and find_in_set(zylbbm, '${zylbbm}')
-											</if>
-											<if test="zycbm != null and zycbm != ''">
-												and find_in_set(zycbm, '${zycbm}')
-											</if>
-											<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+											<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+											<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 												<if test="zycbm != null and zycbm != ''">
 													and find_in_set(out_project_info.zycbm, '${zycbm}')
 												</if>
 												<if test="zycbm == null or zycbm == ''">
-													and out_project_info.ND = '1900'
+													and out_project_info.nd = '1900'
 												</if>
+											</if>
+											<if test="leaderFlag == null or leaderFlag == ''">
+												and out_project_info.nd = '1900'
 											</if>
 		    						)*100,4) xjRate,
 	    	SUBSTR(define2 FROM 6) define2
@@ -2714,19 +2799,17 @@
 			  <if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 				 and xmlbbm !='KYZB'
 			  </if>
-			  <if test="zylbbm != null and zylbbm != ''">
-				 and find_in_set(zylbbm, '${zylbbm}')
-			  </if>
-			  <if test="zycbm != null and zycbm != ''">
-				 and find_in_set(zycbm, '${zycbm}')
-			  </if>
-			  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
+			  <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+			  <if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 				  <if test="zycbm != null and zycbm != ''">
 					  and find_in_set(out_project_info.zycbm, '${zycbm}')
 				  </if>
 				  <if test="zycbm == null or zycbm == ''">
-					  and out_project_info.ND = '1900'
+					  and out_project_info.nd = '1900'
 				  </if>
+			  </if>
+			  <if test="leaderFlag == null or leaderFlag == ''">
+				  and out_project_info.nd = '1900'
 			  </if>
 	    group by define2
 	</select>
@@ -2874,20 +2957,18 @@
 					   and type_flag like '%直属研究院%'
 				  </if>
 				  <!-- 数据控制 -->
-				  <if test="zylbbm != null and zylbbm != ''">
-					  and find_in_set(out_project_info.zylbbm, '${zylbbm}')
-				  </if>
-				  <if test="zycbm != null and zycbm != ''">
-					  and find_in_set(out_project_info.zycbm, '${zycbm}')
-				  </if>
-				  <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-					  <if test="zycbm != null and zycbm != ''">
+				  <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+					<if test="zycbm != null and zycbm != ''">
 						and find_in_set(out_project_info.zycbm, '${zycbm}')
-					  </if>
-					  <if test="zycbm == null or zycbm == ''">
-						and out_project_info.ND = '1900'
-					  </if>
-				  </if>
+					</if>
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_info.nd = '1900'
+					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
+				</if>
 				  <!-- 数据控制 -->
 				  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
 					 and xmlbbm ='KYZB'
@@ -2922,19 +3003,17 @@
 					 and xmlbbm !='KYZB'
 				</if>
 				<!-- 数据控制 -->
-				<if test="zylbbm != null and zylbbm != ''">
-					and find_in_set(out_project_info.zylbbm, '${zylbbm}')
-				</if>
-				<if test="zycbm != null and zycbm != ''">
-					and find_in_set(out_project_info.zycbm, '${zycbm}')
-				</if>
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
 						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
-						and out_project_info.ND = '1900'
+						and out_project_info.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_info.nd = '1900'
 				</if>
 				<!-- 数据控制 -->
 			group by xmid) AS tableA 
@@ -3266,19 +3345,17 @@
 			</if>
 			
 			<!-- 数据控制 -->
-			<if test="zylbbm != null and zylbbm != ''">
-				and find_in_set(out_project_info.zylbbm, '${zylbbm}')
-			</if>
-			<if test="zycbm != null and zycbm != ''">
-				and find_in_set(out_project_info.zycbm, '${zycbm}')
-			</if>
-			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+			<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 				<if test="zycbm != null and zycbm != ''">
 					and find_in_set(out_project_info.zycbm, '${zycbm}')
 				</if>
 				<if test="zycbm == null or zycbm == ''">
-					and out_project_info.ND = '1900'
+					and out_project_info.nd = '1900'
 				</if>
+			</if>
+			<if test="leaderFlag == null or leaderFlag == ''">
+				and out_project_info.nd = '1900'
 			</if>
 			<!-- 数据控制 -->
 			
@@ -3451,19 +3528,17 @@
 			</if>
 			
 			<!-- 数据控制 -->
-			<if test="zylbbm != null and zylbbm != ''">
-				and find_in_set(out_project_info.zylbbm, '${zylbbm}')
-			</if>
-			<if test="zycbm != null and zycbm != ''">
-				and find_in_set(out_project_info.zycbm, '${zycbm}')
-			</if>
-			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+			<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 				<if test="zycbm != null and zycbm != ''">
 					and find_in_set(out_project_info.zycbm, '${zycbm}')
 				</if>
 				<if test="zycbm == null or zycbm == ''">
-					and out_project_info.ND = '1900'
+					and out_project_info.nd = '1900'
 				</if>
+			</if>
+			<if test="leaderFlag == null or leaderFlag == ''">
+				and out_project_info.nd = '1900'
 			</if>
 			<!-- 数据控制 -->
 			

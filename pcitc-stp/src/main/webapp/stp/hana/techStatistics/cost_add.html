@@ -76,7 +76,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">人工成本<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">与科技相关的人工成本<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input"  placeholder="￥（万元）" name="techResearcherCost" id="techResearcherCost"
                                    value="${techCost.techResearcherCost}" lay-verify="required" autocomplete="off" type="text"
@@ -99,7 +99,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">科技设施投资<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">科技装备、设施投资<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" name="techFacilitiesCost" id="techFacilitiesCost"
                                    value="${techCost.techFacilitiesCost}" placeholder="￥（万元）"  lay-verify="required" autocomplete="off" type="text"
@@ -161,7 +161,7 @@
                 </div>
              </div>
               <div class="layui-form-item">
-                    <label class="layui-form-label">国家投入经费<span class="must-fill">*</span></label>
+                    <label class="layui-form-label">国家投入经费（当年拨付到位经费，单位：万元）<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
                         <input class="layui-input" id="countryFunds" placeholder="￥（万元）"  name="countryFunds" lay-verify="required"
                                value="${techCost.countryFunds}" type="text"  onkeyup="clearNoNum(this)">
@@ -198,7 +198,7 @@
                 </div>
              </div>
               <div class="layui-form-item">
-                    <label class="layui-form-label">地方政府投入经费<span class="must-fill">*</span></label>
+                    <label class="layui-form-label">地方（省级）政府投入经费（当年拨付到位经费，单位：万元）<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
                         <input class="layui-input" id="provinceFunds" placeholder="￥（万元）"  name="provinceFunds" lay-verify="required"
                                value="${techCost.provinceFunds}" type="text"  onkeyup="clearNoNum(this)">

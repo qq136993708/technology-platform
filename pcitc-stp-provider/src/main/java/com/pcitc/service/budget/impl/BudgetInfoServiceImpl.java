@@ -7,9 +7,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -113,7 +115,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	private BudgetStockSplitZsySplitService budgetStockSplitZsySplitService;
 	
 	@Override
-	public BudgetInfo selectBudgetInfo(String dataId) throws Exception
+	public BudgetInfo selectBudgetInfo(String dataId)
 	{
 		return budgetInfoMapper.selectByPrimaryKey(dataId);
 	}
@@ -138,7 +140,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	}
 
 	@Override
-	public List<BudgetInfo> selectBudgetInfoListByIds(List<String> list) throws Exception
+	public List<BudgetInfo> selectBudgetInfoListByIds(List<String> list)
 	{
 		BudgetInfoExample example = new BudgetInfoExample();
 		BudgetInfoExample.Criteria c = example.createCriteria();
@@ -772,6 +774,34 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		}
 		data.setData(mapdata);
 		return data;
+	}
+
+	@Override
+	public List<Map<String, Object>> filterDataByUnit(List<Map<String, Object>> data, String unitCodes) 
+	{
+		if(StringUtils.isBlank(unitCodes) || "0".equals(unitCodes) || data == null || data.size()==0) 
+		{
+			return data;
+		}
+		String [] codes = unitCodes.split(",");
+		Set<String> organCodeSet = new HashSet<String>();
+		for(String code:codes) 
+		{
+			BudgetOrganEnum organ = BudgetOrganEnum.getByUnitCode(code);
+			if(organ != null) 
+			{
+				organCodeSet.add(organ.getCode());
+			}
+		}
+		String budgetInfoId = (String)data.get(0).get("budgetInfoId");
+		//判断预算是否已发布
+		BudgetInfo info = selectBudgetInfo(budgetInfoId);
+		if(BudgetReleaseEnum.STATUS_RELEASE.getCode().equals(info.getReleaseStatus())) 
+		{
+			return data.stream().filter(a -> organCodeSet.contains(a.get("organCode"))).collect(Collectors.toList());
+		}else {
+			return new ArrayList<Map<String, Object>>();
+		}
 	}
 	
 }

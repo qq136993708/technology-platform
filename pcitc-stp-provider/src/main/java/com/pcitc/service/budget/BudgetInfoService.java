@@ -25,7 +25,7 @@ public interface BudgetInfoService
 	 * @return
 	 * @throws Exception
 	 */
-	public BudgetInfo selectBudgetInfo(String dataId) throws Exception;
+	public BudgetInfo selectBudgetInfo(String dataId);
 	/**
 	 * 
 	 * @param budgetInfo
@@ -46,7 +46,7 @@ public interface BudgetInfoService
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BudgetInfo> selectBudgetInfoListByIds(List<String> list)throws Exception;
+	public List<BudgetInfo> selectBudgetInfoListByIds(List<String> list);
 	/**
 	 * 
 	 * @param budgetInfo
@@ -152,4 +152,11 @@ public interface BudgetInfoService
 	 * @return
 	 */
 	public LayuiTableData selectReleaseBudgetPage(LayuiTableParam param);
+	/**
+	 * 根据部门过滤预算单位数据
+	 * @param data
+	 * @param unitCodes
+	 * @return
+	 */
+	public List<Map<String,Object>> filterDataByUnit(List<Map<String,Object>> data,String unitCodes);
 }

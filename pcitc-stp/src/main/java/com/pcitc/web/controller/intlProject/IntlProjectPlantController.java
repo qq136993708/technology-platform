@@ -61,7 +61,7 @@ public class IntlProjectPlantController extends BaseController {
 			IntlProjectPlant newplant = (IntlProjectPlant) MyBeanUtils.createDefaultModel(IntlProjectPlant.class);
 			newplant.setAppendFiles(IdUtil.createFileIdByTime());
 			MyBeanUtils.copyPropertiesIgnoreNull(plant, newplant);
-			System.out.println("save plant........" + JSON.toJSONString(newplant));
+			//System.out.println("save plant........" + JSON.toJSONString(newplant));
 			status = this.restTemplate.exchange(PROJECT_PLANT_ADD_URL, HttpMethod.POST, new HttpEntity<IntlProjectPlant>(newplant, this.httpHeaders), Integer.class);
 		} else {
 			// 如果已提交则不可更新
@@ -73,7 +73,7 @@ public class IntlProjectPlantController extends BaseController {
 				plant.setAppendFiles(IdUtil.createFileIdByTime());
 			}
 			MyBeanUtils.copyPropertiesIgnoreNull(plant, oldplant);
-			System.out.println("update plant........" + JSON.toJSONString(oldplant));
+			//System.out.println("update plant........" + JSON.toJSONString(oldplant));
 			status = this.restTemplate.exchange(PROJECT_PLANT_UPD_URL, HttpMethod.POST, new HttpEntity<IntlProjectPlant>(oldplant, this.httpHeaders), Integer.class);
 		}
 		if (status.getBody() == 0) {
@@ -117,9 +117,9 @@ public class IntlProjectPlantController extends BaseController {
 
 	@RequestMapping(value = "/project/get-plant")
 	public Object getProjectPlant(@RequestParam(value = "plantId", required = true) String plantId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("start .... get plant .....");
+		//System.out.println("start .... get plant .....");
 		IntlProjectPlant plant = this.restTemplate.exchange(PROJECT_PLANT_GET_URL + plantId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectPlant.class).getBody();
-		System.out.println(JSON.toJSON(plant));
+		//System.out.println(JSON.toJSON(plant));
 		return plant;
 	}
 

@@ -39,11 +39,11 @@ public class IntlProjectRemarkController extends BaseController {
 
 	@RequestMapping(value = "/project/remark-list", method = RequestMethod.POST)
 	public Object getApplyTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
-		System.out.println("get remark_list data ..........");
+		//System.out.println("get remark_list data ..........");
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_REMARK_LIST_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
-		System.out.println(JSON.toJSON(data).toString());
+		//System.out.println(JSON.toJSON(data).toString());
 		return JSON.toJSON(data).toString();
 	}
 
@@ -105,7 +105,7 @@ public class IntlProjectRemarkController extends BaseController {
 
 	@RequestMapping(value = "/project/get-remark")
 	public Object getProjectApply(@RequestParam(value = "remarkId", required = true) String remarkId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("remarkId................." + remarkId);
+		//System.out.println("remarkId................." + remarkId);
 		return this.restTemplate.exchange(PROJECT_REMARK_GET_URL + remarkId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectRemark.class).getBody();
 	}
 

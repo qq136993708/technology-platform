@@ -48,7 +48,7 @@ public class IntlProjectAcceptController extends BaseController {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_ACCEPT_LIST_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
-		System.out.println(JSON.toJSON(data).toString());
+		//System.out.println(JSON.toJSON(data).toString());
 		return JSON.toJSON(data).toString();
 	}
 	@RequestMapping(value = "/project/accept-process", method = RequestMethod.POST)
@@ -72,7 +72,7 @@ public class IntlProjectAcceptController extends BaseController {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_ACCEPT_PASS_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
-		System.out.println(JSON.toJSON(data).toString());
+		//System.out.println(JSON.toJSON(data).toString());
 		return JSON.toJSON(data).toString();
 	}
 	@RequestMapping(value = "/project/accept-refuse-list", method = RequestMethod.POST)
@@ -80,7 +80,7 @@ public class IntlProjectAcceptController extends BaseController {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_ACCEPT_REFUSE_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
-		System.out.println(JSON.toJSON(data).toString());
+		//System.out.println(JSON.toJSON(data).toString());
 		return JSON.toJSON(data).toString();
 	}
 
@@ -140,7 +140,7 @@ public class IntlProjectAcceptController extends BaseController {
 
 	@RequestMapping(value = "/project/get-accept")
 	public Object getProjectAccept(@RequestParam(value = "acceptId", required = true) String acceptId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("acceptId................." + acceptId);
+		//System.out.println("acceptId................." + acceptId);
 		return this.restTemplate.exchange(PROJECT_ACCEPT_GET_URL + acceptId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectApply.class).getBody();
 	}
 }
