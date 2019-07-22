@@ -1616,8 +1616,8 @@
 		select
 			 SUBSTR(type_flag FROM 4) as type_flag,
 			 round(sum(yszbxje),4) as yszbxje,round(sum(ysfyxje),4) as ysfyxje,
-			 round(sum(case when xmlbbm = 'KYZB' then ysje else 0 end), 4) as zbxsjje,
-			 round(sum(case when xmlbbm != 'KYZB' then ysje else 0 end), 4) as fyxsjje,
+			 round(sum(case when xmlbbm = 'KYZB' then yszbxje else 0 end), 4) as zbxsjje,
+			 round(sum(case when xmlbbm != 'KYZB' then ysfyxje else 0 end), 4) as fyxsjje,
 			 round(sum(ysje), 4) as zsjje
 		from out_project_info
 		where 
