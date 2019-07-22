@@ -118,7 +118,7 @@ public class IntlProjectInfoController extends BaseController {
 	public Object startProjectApplyWorkflow(@RequestParam(value = "projectId", required = true) String projectId,
 			@RequestParam(value = "functionId", required = true) String functionId, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("开始审批！！！！ projectId:" + projectId);
+		//System.out.println("开始审批！！！！ projectId:" + projectId);
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
@@ -129,7 +129,7 @@ public class IntlProjectInfoController extends BaseController {
 		
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
 		Result rs = this.restTemplate.exchange(PROJECT_INFO_WORKFLOW_URL + projectId, HttpMethod.POST, entity, Result.class).getBody();
-		System.out.println(JSON.toJSONString(rs));
+		//System.out.println(JSON.toJSONString(rs));
 		return rs;
 	}
 	@RequestMapping(value = "/project/project-info-code", method = RequestMethod.POST)

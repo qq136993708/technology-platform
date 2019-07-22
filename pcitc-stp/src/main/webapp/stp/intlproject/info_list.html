@@ -144,7 +144,7 @@
 							layer.close(index);
 							publicMethods.ajaxAsyncPost("/project/project-start-workflow", {projectId:selectRowData.projectId,functionId:param.id}, function (data) {
 		          	           if (data.success) {
-		          	        	 renderTable({param: {"applyName":$("#applyName").val()}});
+		          	        	 renderTable({param: {"infoName":$("#infoName").val()}});
 		          	        	 layer.msg('提交成功!');
 		          	           } else {
 		          	        	 layer.msg(data.message);
