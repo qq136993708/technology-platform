@@ -940,11 +940,13 @@ public class DirectController extends BaseController {
 		return resault;
 	}
 
+	/**
+	 * 直属研究院合同签订分析
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/contract_04")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String contract_04(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		Result result = new Result();
 		String type = CommonUtil.getParameter(request, "type", "");
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
@@ -1098,11 +1100,13 @@ public class DirectController extends BaseController {
 		return "stp/hana/home/oneLevelMain/direct/topic";
 	}
 
+	/**
+	 * 直属研究院科研课题数量
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/topic_01")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String topic_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		String resault = "";
 		PageResult pageResult = new PageResult();
 		Result result = new Result();
