@@ -115,7 +115,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	private BudgetStockSplitZsySplitService budgetStockSplitZsySplitService;
 	
 	@Override
-	public BudgetInfo selectBudgetInfo(String dataId) throws Exception
+	public BudgetInfo selectBudgetInfo(String dataId)
 	{
 		return budgetInfoMapper.selectByPrimaryKey(dataId);
 	}
@@ -140,7 +140,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	}
 
 	@Override
-	public List<BudgetInfo> selectBudgetInfoListByIds(List<String> list) throws Exception
+	public List<BudgetInfo> selectBudgetInfoListByIds(List<String> list)
 	{
 		BudgetInfoExample example = new BudgetInfoExample();
 		BudgetInfoExample.Criteria c = example.createCriteria();
@@ -779,7 +779,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	@Override
 	public List<Map<String, Object>> filterDataByUnit(List<Map<String, Object>> data, String unitCodes) 
 	{
-		if(StringUtils.isBlank(unitCodes)) 
+		if(StringUtils.isBlank(unitCodes) || "0".equals(unitCodes) || data == null || data.size()==0) 
 		{
 			return data;
 		}
@@ -793,10 +793,15 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 				organCodeSet.add(organ.getCode());
 			}
 		}
-		return data.stream()
-				.filter(a -> organCodeSet.contains(a.get("organCode")))
-				.collect(Collectors.toList());
-		
+		String budgetInfoId = (String)data.get(0).get("budgetInfoId");
+		//判断预算是否已发布
+		BudgetInfo info = selectBudgetInfo(budgetInfoId);
+		if(BudgetReleaseEnum.STATUS_RELEASE.getCode().equals(info.getReleaseStatus())) 
+		{
+			return data.stream().filter(a -> organCodeSet.contains(a.get("organCode"))).collect(Collectors.toList());
+		}else {
+			return new ArrayList<Map<String, Object>>();
+		}
 	}
 	
 }

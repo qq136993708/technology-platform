@@ -173,7 +173,27 @@ public class BudgetAssetSplitController extends BaseController {
 		request.setAttribute("dataId", rs == null?"0":rs.getDataId());
 		return "stp/budget/budget_detail_assetsplit";
 	}
-	
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_detail_assetsplit_unit")
+	public Object toBudgetGroupDetailByUnit(HttpServletRequest request) throws IOException 
+	{
+		String nd = request.getParameter("nd");
+		if(nd == null) {
+			nd = DateUtils.dateToStr(new Date(),"yyyy");
+		}
+		//找到最新
+		BudgetInfo param = new BudgetInfo();
+		param.setNd(nd);
+		param.setBudgetType(BudgetInfoEnum.ASSET_SPLIT.getCode());
+		BudgetInfo rs = this.restTemplate.exchange(BUDGET_FINAL_INFO, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), BudgetInfo.class).getBody();
+		
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_ASSETSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+		request.setAttribute("items", infors.getBody());
+		
+		request.setAttribute("nd", nd);
+		request.setAttribute("dataId", rs == null?"0":rs.getDataId());
+		request.setAttribute("unitCodes", getUserProfile().getUnitCode());
+		return "stp/budget/budget_detail_assetsplit";
+	}
 	@RequestMapping(value = "/budget/budget-assetsplit-info-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetGroupSplitList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 

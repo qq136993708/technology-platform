@@ -138,6 +138,7 @@ public class BudgetAssetSplitProviderClient
 		try
 		{
 			data =  budgetAssetSplitService.selectBudgetSplitDataList(dataId);
+			data = budgetInfoService.filterDataByUnit(data, (String)param.getParam().get("unitCodes"));
 			table.setData(data);
 			table.setCount(data.size());
 		}
