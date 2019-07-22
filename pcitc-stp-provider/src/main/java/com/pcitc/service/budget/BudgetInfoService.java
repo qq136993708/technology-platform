@@ -152,4 +152,11 @@ public interface BudgetInfoService
 	 * @return
 	 */
 	public LayuiTableData selectReleaseBudgetPage(LayuiTableParam param);
+	/**
+	 * 根据部门过滤预算单位数据
+	 * @param data
+	 * @param unitCodes
+	 * @return
+	 */
+	public List<Map<String,Object>> filterDataByUnit(List<Map<String,Object>> data,String unitCodes);
 }
