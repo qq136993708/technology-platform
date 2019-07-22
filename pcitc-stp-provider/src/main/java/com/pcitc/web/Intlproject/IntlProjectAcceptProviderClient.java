@@ -1,7 +1,5 @@
 package com.pcitc.web.Intlproject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +20,7 @@ import io.swagger.annotations.ApiOperation;
 public class IntlProjectAcceptProviderClient 
 {
 	
-	private final static Logger logger = LoggerFactory.getLogger(IntlProjectAcceptProviderClient.class);
+	//private final static Logger logger = LoggerFactory.getLogger(IntlProjectAcceptProviderClient.class);
 
 	
 	@Autowired
@@ -33,7 +31,6 @@ public class IntlProjectAcceptProviderClient
 	@RequestMapping(value = "/stp-provider/project/accept-pass-list", method = RequestMethod.POST)
 	public Object selectProjectPassAcceptList(@RequestBody LayuiTableParam param) 
 	{
-		logger.info("accept-list...");
 		param.getParam().put("status", AcceptStatusEnum.STATUS_PASS.getCode());
 		return projectAcceptService.selectProjectAcceptList(param);
 	}
@@ -41,7 +38,6 @@ public class IntlProjectAcceptProviderClient
 	@RequestMapping(value = "/stp-provider/project/accept-process", method = RequestMethod.POST)
 	public Object saveProjectProcess(@RequestBody IntlProjectAccept accept) 
 	{
-		logger.info("accept-list...");
 		return projectAcceptService.saveProjectAccept(accept);
 	}
 	
