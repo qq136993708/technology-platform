@@ -598,6 +598,8 @@ public class TechStatisticsController extends BaseController{
 		request.setAttribute("unitName", unitName);
 		request.setAttribute("unitCode", unitCode);
 		request.setAttribute("allUnitName", unitName);
+		String beforeYear= HanaUtil.getBeforeYear();
+		request.setAttribute("beforeYear", beforeYear);
 		return "/stp/hana/techStatistics/org_add_new";
 	}
 
@@ -954,6 +956,9 @@ public class TechStatisticsController extends BaseController{
 		TechOrgCount techOrgCount = responseEntity.getBody();
 		request.setAttribute("techOrgCount", techOrgCount);
 		List list=techOrgCount.getChildList();
+		
+		String beforeYear= HanaUtil.getBeforeYear();
+		request.setAttribute("beforeYear", beforeYear);
 		if(list!=null && list.size()>0)
 		{
 			return "/stp/hana/techStatistics/org_view_child";
