@@ -143,18 +143,24 @@ public class OutProjectController extends BaseController {
 		return outProjectInfo;
 	}
 
+    /**
+     * 搜索科研课题权限判断
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/out/getOutProjectShowSearch", method = RequestMethod.POST)
     @ResponseBody
     @OperationFilter(dataFlag = "true")
     public Object getOutProjectShowSearch(HttpServletRequest request) {
         ResponseEntity<OutProjectInfo> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT + request.getParameter("data_id"), HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), OutProjectInfo.class);
         OutProjectInfo outProjectInfo = responseEntity.getBody();
-        //权限判断
-        Object zycbm = request.getAttribute("zycbm");
-        zycbm = (zycbm==null)?"":zycbm;
-        if(!Arrays.asList(zycbm.toString().split(",")).contains(outProjectInfo.getZycbm())){
-            outProjectInfo = new OutProjectInfo();
-            outProjectInfo.setFzrxm("0");
+        if (sysUserInfo.getUserLevel()!=2){
+            Object zycbm = request.getAttribute("zycbm");
+            zycbm = (zycbm==null)?"":zycbm;
+            if(!Arrays.asList(zycbm.toString().split(",")).contains(outProjectInfo.getZycbm())){
+                outProjectInfo = new OutProjectInfo();
+                outProjectInfo.setFzrxm("0");
+            }
         }
         return outProjectInfo;
     }
