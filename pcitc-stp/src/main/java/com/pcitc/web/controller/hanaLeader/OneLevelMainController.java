@@ -138,15 +138,12 @@ public class OneLevelMainController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
-		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("zycbm", zycbm);
-		paramsMap.put("zylbbm", zylbbm);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1634,7 +1631,7 @@ public class OneLevelMainController extends BaseController {
 	}
 
 	/**
-	 * =========================================科研合同============================
+	 * =========领导页-科研合同============================
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/contract")
 	public String contract(HttpServletRequest request) throws Exception {
@@ -1648,11 +1645,13 @@ public class OneLevelMainController extends BaseController {
 		return "stp/hana/home/oneLevelMain/contract";
 	}
 
+	/**
+	 * 全口径新开课题合同（任务书）签订率
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/contract_01")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String contract_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
@@ -1664,10 +1663,9 @@ public class OneLevelMainController extends BaseController {
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		
 		ChartPieResultData pie = new ChartPieResultData();
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		
@@ -1706,9 +1704,7 @@ public class OneLevelMainController extends BaseController {
 					map2.put("value", Double.valueOf(qdl));
 					result.setSuccess(true);
 					result.setData(map2);
-
 				}
-
 			}
 
 		} else {
