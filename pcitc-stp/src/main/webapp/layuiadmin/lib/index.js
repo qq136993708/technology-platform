@@ -130,8 +130,10 @@ layui.extend({
   $(".layui-side .layadmin-flexible").click(function () {
     if($("#LAY_app").hasClass("layadmin-side-shrink")){
         $("#LAY_app").removeClass("layadmin-side-shrink")
+        $(".layadmin-flexible div").removeClass('flexd')
     }else {
         $("#LAY_app").addClass("layadmin-side-shrink")
+        $(".layadmin-flexible div").addClass('flexd')
     }
   });
   $(document).on('click', '#LAY_app_tabsheader li', function() {

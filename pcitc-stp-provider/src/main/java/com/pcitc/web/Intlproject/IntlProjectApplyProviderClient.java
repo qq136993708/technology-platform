@@ -6,8 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class IntlProjectApplyProviderClient 
 {
-	private final static Logger logger = LoggerFactory.getLogger(IntlProjectApplyProviderClient.class);
+	//private final static Logger logger = LoggerFactory.getLogger(IntlProjectApplyProviderClient.class);
 
 	
 	@Autowired
@@ -55,7 +53,6 @@ public class IntlProjectApplyProviderClient
 	@RequestMapping(value = "/stp-provider/project/add-apply", method = RequestMethod.POST)
 	public Integer insertApplyInfo(@RequestBody IntlProjectApply apply) 
 	{
-		logger.info("save notice....");
 		
 		return projectApplyService.saveProjectApply(apply);
 	}
@@ -63,7 +60,6 @@ public class IntlProjectApplyProviderClient
 	@RequestMapping(value = "/stp-provider/project/upd-apply", method = RequestMethod.POST)
 	public Integer updApplyInfo(@RequestBody IntlProjectApply apply) 
 	{
-		logger.info("upd notice....");
 	
 		return projectApplyService.updProjectApply(apply);
 	}
@@ -71,7 +67,6 @@ public class IntlProjectApplyProviderClient
 	@RequestMapping(value = "/stp-provider/project/close-apply/{applyId}", method = RequestMethod.POST)
 	public Integer delApplyClose(@PathVariable("applyId") String applyId) 
 	{
-		logger.info("del apply....");
 	
 		return projectApplyService.delProjectApply(applyId);
 	}
@@ -79,7 +74,6 @@ public class IntlProjectApplyProviderClient
 	@RequestMapping(value = "/stp-provider/project/del-apply/{applyId}", method = RequestMethod.POST)
 	public Integer delApplyReal(@PathVariable("applyId") String applyId) 
 	{
-		logger.info("del apply real....");
 	
 		return projectApplyService.delProjectApplyReal(applyId);
 	}
@@ -87,7 +81,6 @@ public class IntlProjectApplyProviderClient
 	@RequestMapping(value = "/stp-provider/project/get-apply/{applyId}", method = RequestMethod.POST)
 	public IntlProjectApply findApplyInfo(@PathVariable("applyId") String applyId) 
 	{
-		logger.info("find notice....");
 	
 		return projectApplyService.findProjectApply(applyId);
 	}
@@ -95,7 +88,6 @@ public class IntlProjectApplyProviderClient
 	@RequestMapping(value = "/stp-provider/project/start-apply-activity/{applyId}", method = RequestMethod.POST)
 	public Object satrtApplyActivity(@PathVariable("applyId") String applyId,@RequestBody WorkflowVo workflowVo) 
 	{
-		System.out.println("startwork  apply  ...."+applyId);
 		IntlProjectApply apply = projectApplyService.findProjectApply(applyId);
 		//如果审批已发起则不能再次发起
 		if(!WorkFlowStatusEnum.STATUS_WAITING.getCode().equals(apply.getFlowStartStatus())) 
@@ -130,7 +122,6 @@ public class IntlProjectApplyProviderClient
 	@RequestMapping(value = "/stp-provider/project/apply-mail-notice/{applyId}", method = RequestMethod.POST)
 	public Integer sentApplyMail(@PathVariable("applyId") String applyId) 
 	{
-		logger.info("sent notice....");
 		
 		IntlProjectApply apply = projectApplyService.findProjectApply(applyId);
 		
@@ -152,9 +143,7 @@ public class IntlProjectApplyProviderClient
 	@RequestMapping(value = "/stp-provider/project/join-plant-apply-list")
 	public Object getJoinPlantApplyList(@RequestBody LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		System.out.println("start.....");
 		Object obj =  projectApplyService.findJoinPlantApply(param);
-		System.out.println( JSON.toJSON(obj).toString());
 		return obj;
 	
 	}
@@ -162,9 +151,7 @@ public class IntlProjectApplyProviderClient
 	@RequestMapping(value = "/stp-provider/project/notjoin-plant-apply-list")
 	public Object getNotJoinPlantApplyList(@RequestBody LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		System.out.println("start.....");
 		Object obj =   projectApplyService.findNotJoinPlantApply(param);
-		System.out.println( JSON.toJSON(obj).toString());
 		return obj;
 		
 	}
@@ -172,7 +159,6 @@ public class IntlProjectApplyProviderClient
 	@RequestMapping(value = "/stp-provider/project/get-pass-plant-apply-list")
 	public Object getPlantWorkflowPassApplyProject(@RequestBody LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		System.out.println("获取已通过详见计划审查的项目申报.....");
 		return projectApplyService.findJoinPlantAndPassApply(param);
 	}
 	

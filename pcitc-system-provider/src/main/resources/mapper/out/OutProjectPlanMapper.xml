@@ -1226,19 +1226,17 @@
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
-				<if test="zylbbm != null and zylbbm != ''">
-					and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
-				</if>
-				<if test="zycbm != null and zycbm != ''">
-					and find_in_set(out_project_plan.zycbm, '${zycbm}')
-				</if>
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
 						and find_in_set(out_project_plan.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
-						and out_project_plan.ND = '1900'
+						and out_project_plan.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_plan.nd = '1900'
 				</if>
 				
 				group by out_project_plan.xmid
@@ -1263,11 +1261,10 @@
 				<if test="xkFlag != null and xkFlag != ''">
 					and out_project_info.nd= '${nd}'
 				</if>
-				<!-- 2领导能看所有的， 1领导能看到自己管理的部分，非领导啥都看不了-->
-				<if test="leaderFlag != null and leaderFlag == '1'.toString()">
-					<if test="zylbbm != null and zylbbm != ''">
-						and find_in_set(out_project_info.zylbbm, '${zylbbm}')
-					</if>
+				
+				<!-- 数据控制 -->
+				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
 						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
@@ -1278,6 +1275,7 @@
 				<if test="leaderFlag == null or leaderFlag == ''">
 					and out_project_info.nd = '1900'
 				</if>
+				<!-- 数据控制 -->
 				and out_project_info.PROJECT_TYPE != '1'
 				and define3='项目管理系统' and define2 not like '%休斯顿%' and define2 not like '%中东%' 
 				group by out_project_info.define10) as tableA ON (out_tem_money_decompose.unit_code = tableA.zycbm)
@@ -1285,8 +1283,9 @@
 			out_tem_money_decompose.nd = '${nd}' 
 			and cb not like '专项' 
 			and cb not like '机动'
-			<!-- 2领导能看所有的， 1领导能看到自己管理的部分，非领导啥都看不了-->
-			<if test="leaderFlag != null and leaderFlag == '1'.toString()">
+			<!-- 数据控制 -->
+			<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 				<if test="zycbm != null and zycbm != ''">
 					and find_in_set(out_tem_money_decompose.unit_code, '${zycbm}')
 				</if>
@@ -1316,11 +1315,8 @@
 				<if test="xkFlag != null and xkFlag != ''">
 					and out_project_info.nd= '${nd}'
 				</if>
-				<!-- 2领导能看所有的， 1领导能看到自己管理的部分，非领导啥都看不了-->
-				<if test="leaderFlag != null and leaderFlag == '1'.toString()">
-					<if test="zylbbm != null and zylbbm != ''">
-						and find_in_set(out_project_info.zylbbm, '${zylbbm}')
-					</if>
+				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
 						and find_in_set(out_project_info.zycbm, '${zycbm}')
 					</if>
@@ -1337,7 +1333,8 @@
 		where
 			sys_dictionary.`code` like 'ROOT_ZGSHJT_ZBJG%' 
 			and ((sys_dictionary.level_code = '3' and sys_dictionary.num_value != '30130006') or sys_dictionary.parent_code = 'ROOT_ZGSHJT_ZBJG_KJB')
-			<if test="leaderFlag != null and leaderFlag == '1'.toString()">
+			<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 				<if test="zycbm != null and zycbm != ''">
 					and find_in_set(sys_dictionary.num_value, '${zycbm}')
 				</if>
@@ -1348,6 +1345,8 @@
 			<if test="leaderFlag == null or leaderFlag == ''">
 				and sys_dictionary.num_value = 'xxxxxxxx'
 			</if>
+			
+			
 		ORDER BY isdelete
 	</select>
 	
@@ -1375,19 +1374,18 @@
 				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 					and out_project_plan.xmlbbm != 'KYZB'
 				</if>
-				<if test="zylbbm != null and zylbbm != ''">
-					and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
-				</if>
-				<if test="zycbm != null and zycbm != ''">
-					and find_in_set(out_project_plan.zycbm, '${zycbm}')
-				</if>
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				
+				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
 						and find_in_set(out_project_plan.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
-						and out_project_plan.ND = '1900'
+						and out_project_plan.nd = '1900'
 					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_plan.nd = '1900'
 				</if>
 			group by out_project_plan.XMID
 		) as tableB
@@ -1420,20 +1418,20 @@
 																 and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
-				<if test="zylbbm != null and zylbbm != ''">
-					and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
-				</if>
-				<if test="zycbm != null and zycbm != ''">
-					and find_in_set(out_project_plan.zycbm, '${zycbm}')
-				</if>
-				<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+				
+				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
 						and find_in_set(out_project_plan.zycbm, '${zycbm}')
 					</if>
 					<if test="zycbm == null or zycbm == ''">
-						and out_project_plan.ND = '1900'
+						and out_project_plan.nd = '1900'
 					</if>
 				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_plan.nd = '1900'
+				</if>
+				
 				and out_project_plan.DEFINE3 like '%直属研究院%'
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.define4 = '项目管理系统'
@@ -1445,31 +1443,31 @@
 	
 	<!-- 直属研究院二级页面（领导），各个院的合同预算金额-->
 	<select id="getPlanMoneyCompleteRateByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select define2,zsjje, round((out_tem_money_total.zbx_money+out_tem_money_total.fyx_money), 4) as zysje,
-				round((out_tem_money_total.zbx_money+out_tem_money_total.fyx_money)-zsjje,4) as wxdje,
-				round(zsjje/(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money)*100,4) as jeRate
-		from (
-			select 
-						 SUBSTR(out_project_info.define2 FROM 6) as define2,
-						 round(sum(ysje),4) as zsjje
-			from out_project_info
-			WHERE
-				out_project_info.ysnd= '${nd}' 
-				<!-- 2领导能看所有的， 1领导能看到自己管理的部分，非领导啥都看不了-->
-				<if test="leaderFlag != null and leaderFlag == '1'.toString()">
-					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(out_project_info.zycbm, '${zycbm}')
-					</if>
-					<if test="zycbm == null or zycbm == ''">
-						and out_project_info.nd = '1900'
-					</if>
+		select 
+			 SUBSTR(out_project_info.define2 FROM 6) as define2,
+			 round(sum(ysje),4) as zsjje
+		from out_project_info
+		WHERE
+			out_project_info.ysnd= '${nd}' 
+			<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
+			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(out_project_info.zycbm, '${zycbm}')
 				</if>
-				<if test="leaderFlag == null or leaderFlag == ''">
+				<if test="zsyjy != null and zsyjy != ''">
+					and find_in_set(SUBSTR(out_project_info.define2 FROM 6), '${zsyjy}')
+				</if>
+				<if test="zycbm == null or zycbm == ''">
 					and out_project_info.nd = '1900'
 				</if>
-				and out_project_info.PROJECT_TYPE != '1' and out_project_info.type_flag like '%直属研究院%'
-				and define3='项目管理系统'
-				group by out_project_info.define2) as tableA LEFT JOIN out_tem_money_total ON (tableA.define2 = out_tem_money_total.show_ali and out_tem_money_total.nd = '${nd}')
+			</if>
+			<if test="leaderFlag == null or leaderFlag == ''">
+				and out_project_info.nd = '1900'
+			</if>
+			and out_project_info.PROJECT_TYPE != '1' and out_project_info.type_flag like '%直属研究院%'
+			and define3='项目管理系统'
+			group by out_project_info.define2
+			order by out_project_info.define2
 	</select>
 	
 	<!-- 首页-直属研究院，项目计划完成的比率，按照资本性费用性来分组 -->
@@ -1483,20 +1481,19 @@
 																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
-				<if test="zylbbm != null and zylbbm != ''">
-				    and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
-			    </if>
-			    <if test="zycbm != null and zycbm != ''">
-				    and find_in_set(out_project_plan.zycbm, '${zycbm}')
-			    </if>
-			    <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-				    <if test="zycbm != null and zycbm != ''">
-					    and find_in_set(out_project_plan.zycbm, '${zycbm}')
-				    </if>
-				    <if test="zycbm == null or zycbm == ''">
-					    and ND = '1900'
-				    </if>
-			    </if>
+				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_plan.zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_plan.nd = '1900'
+					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_plan.nd = '1900'
+				</if>
+				
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.define4 = '项目管理系统'
 				group by out_project_plan.xmid
@@ -1594,20 +1591,19 @@
 																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
-				<if test="zylbbm != null and zylbbm != ''">
-				    and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
-			    </if>
-			    <if test="zycbm != null and zycbm != ''">
-				    and find_in_set(out_project_plan.zycbm, '${zycbm}')
-			    </if>
-			    <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-				    <if test="zycbm != null and zycbm != ''">
-					    and find_in_set(out_project_plan.zycbm, '${zycbm}')
-				    </if>
-				    <if test="zycbm == null or zycbm == ''">
-					    and ND = '1900'
-				    </if>
-			    </if>
+				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_plan.zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_plan.nd = '1900'
+					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_plan.nd = '1900'
+				</if>
+				
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.define4 = '项目管理系统'
 				group by out_project_plan.xmid,out_project_plan.define2,out_project_plan.define8
@@ -1628,11 +1624,8 @@
 		where 
 			  ysnd= '${nd}' and project_type != '1' and 
 			  out_project_info.define3 = '项目管理系统'
-		    <!-- 2领导能看所有的， 1领导能看到自己管理的部分，非领导啥都看不了-->
-			<if test="leaderFlag != null and leaderFlag == '1'.toString()">
-				<if test="zylbbm != null and zylbbm != ''">
-					and find_in_set(out_project_info.zylbbm, '${zylbbm}')
-				</if>
+		    <!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 				<if test="zycbm != null and zycbm != ''">
 					and find_in_set(out_project_info.zycbm, '${zycbm}')
 				</if>
@@ -1674,20 +1667,19 @@
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.ND= '${nd}'  and out_project_info.define3 = '项目管理系统')
 			WHERE
 				out_project_plan.ND = '${nd}' 
-				<if test="zylbbm != null and zylbbm != ''">
-				    and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
-			    </if>
-			    <if test="zycbm != null and zycbm != ''">
-				    and find_in_set(out_project_plan.zycbm, '${zycbm}')
-			    </if>
-			    <if test="leaderFlag == null or leaderFlag != '1'.toString()">
-				    <if test="zycbm != null and zycbm != ''">
-					    and find_in_set(out_project_plan.zycbm, '${zycbm}')
-				    </if>
-				    <if test="zycbm == null or zycbm == ''">
-					    and ND = '1900'
-				    </if>
-			    </if>
+				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+					<if test="zycbm != null and zycbm != ''">
+						and find_in_set(out_project_plan.zycbm, '${zycbm}')
+					</if>
+					<if test="zycbm == null or zycbm == ''">
+						and out_project_plan.nd = '1900'
+					</if>
+				</if>
+				<if test="leaderFlag == null or leaderFlag == ''">
+					and out_project_plan.nd = '1900'
+				</if>
+				
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.define4 = '项目管理系统'
 				group by out_project_plan.xmid,out_project_plan.define2,out_project_plan.define8
@@ -1847,28 +1839,19 @@
 				</foreach>
 				)
 			</if>
-			<if test="zycmc != null">
-				and (
-				<foreach collection="zycmc" item="zycmc" index="index" separator=" or ">
-					tableA.zycmc like '%${zycmc}%'
-				</foreach>
-				)
-			</if>
 			
 			<!-- 数据控制 -->
-			<if test="zylbbm != null and zylbbm != ''">
-				and find_in_set(tableA.zylbbm, '${zylbbm}')
-			</if>
-			<if test="zycbm != null and zycbm != ''">
-				and find_in_set(tableA.zycbm, '${zycbm}')
-			</if>
-			<if test="leaderFlag == null or leaderFlag != '1'.toString()">
+			<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 				<if test="zycbm != null and zycbm != ''">
 					and find_in_set(tableA.zycbm, '${zycbm}')
 				</if>
 				<if test="zycbm == null or zycbm == ''">
-					and tableA.ND = '1900'
+					and tableA.nd = '1900'
 				</if>
+			</if>
+			<if test="leaderFlag == null or leaderFlag == ''">
+				and tableA.nd = '1900'
 			</if>
 			<!-- 数据控制 -->
 			

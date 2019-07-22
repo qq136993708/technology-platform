@@ -90,10 +90,8 @@ public class HomeBudgetMysqlController extends BaseController{
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("zycmc", zycmc);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!month.equals("")) {
@@ -143,10 +141,8 @@ public class HomeBudgetMysqlController extends BaseController{
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("zycmc", zycmc);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -194,10 +190,8 @@ public class HomeBudgetMysqlController extends BaseController{
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("zycmc", zycmc);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -235,10 +229,8 @@ public class HomeBudgetMysqlController extends BaseController{
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("zycmc", zycmc);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -289,10 +281,8 @@ public class HomeBudgetMysqlController extends BaseController{
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("zycmc", zycmc);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -334,10 +324,8 @@ public class HomeBudgetMysqlController extends BaseController{
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("zycmc", zycmc);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+		
 		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);

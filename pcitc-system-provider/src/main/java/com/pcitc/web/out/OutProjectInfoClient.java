@@ -149,16 +149,26 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/project-money", method = RequestMethod.POST)
 	public JSONObject getProjectMoney(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
-		HashMap<String, String> temMap = outProjectService.getOutProjectInfoMoney(map);
-		// 机动、专项的费用，只能由拥有计划处（30130054）等特殊处室的人能看到
-		if (map != null && map.get("zycbm") != null && (map.get("zycbm").toString().indexOf("30130054") > -1)) {
-			map.put("zycbm", map.get("zycbm").toString() + ",ZX,JD");
+		String zycbm = map.get("zycbm");
+		if (map.get("leaderFlag") != null && (map.get("leaderFlag").toString().equals("2"))) {
+			// 大领导特殊，能看所有
+			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016,ZX,JD";
+			map.put("zycbm", zycbm);
+		} else {
+			// 机动、专项的费用，只能由拥有计划处（30130054）等特殊处室的人能看到
+			if (map != null && zycbm != null && (map.get("zycbm").toString().indexOf("30130054") > -1)) {
+				map.put("zycbm", map.get("zycbm").toString() + ",ZX,JD");
+			}
 		}
+		System.out.println("1------------------"+map.get("zycbm").toString());
+		System.out.println("2------------------"+map.get("leaderFlag").toString());
+		HashMap<String, String> temMap = outProjectService.getOutProjectInfoMoney(map);
+		
 		HashMap<String, String> temBudFyxMap = outProjectService.getProjectBudgetFyxMoney(map);
 		
 		HashMap<String, String> temBudZbxMap = null;
-		// 资本性费用，只能由拥有计划处（30130054）等特殊处室的人能看到
-		if (map != null && map.get("zycbm") != null && (map.get("zycbm").toString().indexOf("30130054") > -1)) {
+		// 资本性费用，只能由拥有大领导、计划处（30130054）等特殊处室的人能看到
+		if ((map.get("leaderFlag") != null && (map.get("leaderFlag").toString().equals("2"))) || (map != null && map.get("zycbm") != null && (map.get("zycbm").toString().indexOf("30130054") > -1))) {
 			temBudZbxMap = outProjectService.getBudgetZBXMoney(map);
 		}
 		if (temMap != null) {

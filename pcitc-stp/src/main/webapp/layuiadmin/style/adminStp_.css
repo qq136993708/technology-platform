@@ -177,7 +177,7 @@ html{background-color: #f2f2f2; color: #666;}
 /* 辅助 */
 .layadmin-flexible div{background:url("/layuiadmin/layui/images/stpicon_08.png") no-repeat;
     width: 18px;height: 18px;position: absolute;right: 20px;top: 12px;cursor: pointer;}
-
+.layadmin-flexible div.flexd{background:url("/layuiadmin/layui/images/stpicon_08_d.png") no-repeat !important;}
 .layui-bg-white{background-color: #fff;}
 .layadmin-loading{position: absolute; left: 50%; top: 50%; margin: -16px -15px; font-size: 30px; color: #c2c2c2;}
 .layadmin-fixed{position: fixed; left: 0; top: 0; z-index: 999;}

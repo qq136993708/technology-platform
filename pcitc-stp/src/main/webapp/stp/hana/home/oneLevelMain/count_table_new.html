@@ -185,6 +185,14 @@
             </button>
           </div>
           
+          
+           <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-list" data-type="resetEvent">
+                <i class="layui-icon  layuiadmin-button-btn">重置</i>
+            </button>
+          </div>
+          
+          
         </div>
       </div>
       <div class="layui-card-body">
@@ -194,6 +202,11 @@
       </div>    
 	<!--表格数据操作js-->
 	<script src="/common/js/jquery-1.11.3.min.js"></script>
+	<script id="view_taskVersion" type="text/html"> {{purchase_money(d.jf)}} </script>
+	<script id="view_taskVersion2" type="text/html"> {{purchase_money(d.ysje)}} </script>
+	<script id="view_taskVersion3" type="text/html"> {{purchase_money(d.yszbxje)}} </script>
+	<script id="view_taskVersion4" type="text/html"> {{purchase_money(d.ysfyxje)}} </script>
+	
 	<script>
 		var table, selectRowData,laydate;
 		var xmmc = $('#xmmc').val();
@@ -227,7 +240,29 @@
 			var $ = layui.$, active = {
 					searchEvent: function() { //点击查询按钮
 		            	 renderTable();
+		            },
+		            resetEvent: function() { 
+		            	$('#nd').val("");
+		            	$('#ysnd').val("");
+		            	$('#xmmc').val("");
+		            	$('#define11').val("");
+		            	$("#define11").trigger("change");
+		            	$('#define2').val("");
+		            	$('#define1').val("");
+		            	$('#define5').val("");
+		            	$('#define12').val("");
+		            	$('#hth').val("");
+		            	$('#zylb').val("");
+		            	$('#ktlx').val("");
+		            	$('#project_property').val("");
+		            	$('#fzdwflag').val("");
+		            	$('#groupFlag').val("");
+		            	$('#gsbmbmFlag').val("");
+		            	$('#zycbmFlag').val("");
+		            	$('#zylbbmFlag').val("");
 		            }
+		            
+		           
 			};
 			//区别按钮属性
 			$('.layui-btn').on('click', function() {
@@ -394,6 +429,7 @@
 					style : 'cursor: pointer;',
 					align : 'center',
 					width : '100',
+					templet : '#view_taskVersion',
 					sort : true
 				}, {
 					field : 'ysje',
@@ -401,12 +437,14 @@
 					style : 'cursor: pointer;',
 					align : 'center',
 					width : '130',
+					templet : '#view_taskVersion2',
 					sort : true
 				}, {
 					field : 'yszbxje',
 					title : '资本性预算',
 					style : 'cursor: pointer;',
 					align : 'center',
+					templet : '#view_taskVersion3',
 					width : '100',
 					sort : true
 				}, {
@@ -414,6 +452,7 @@
 					title : '费用性预算',
 					style : 'cursor: pointer;',
 					align : 'center',
+					templet : '#view_taskVersion4',
 					width : '100',
 					sort : true
 				}, {
@@ -618,6 +657,30 @@
     	 form.render();
     }
 	
+	
+	
+	
+	
+	
+
+	function purchase_money(jf) 
+	{
+	    if (jf) 
+	    {
+	    	//jf=layui.laytpl.milliFormat(jf,0)
+			var h_strs=jf.substring(jf.lastIndexOf("."),jf.length); 
+			if(h_strs=='.0')
+			{
+				jf=jf.replace(".0","");
+			}
+			
+	        return '<span style="color:red">'+jf+'</span>';
+	    } else 
+	    {
+	        return "<span></span>";
+	    }
+	}
+
 	
 	</script>
 </body>

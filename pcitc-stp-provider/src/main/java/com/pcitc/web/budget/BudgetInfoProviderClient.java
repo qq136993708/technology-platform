@@ -20,7 +20,6 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
-import com.pcitc.base.common.enums.BudgetReleaseEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -329,15 +328,15 @@ public class BudgetInfoProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-info-release", method = RequestMethod.POST)
 	public Object budgetRelease(@RequestBody BudgetInfo info) 
 	{
-		Result rs = new Result(false,"下发失败!");
+		Result rs = new Result(false,"操作失败!");
 		try
 		{
 			BudgetInfo rsinfo = budgetInfoService.selectBudgetInfo(info.getDataId());
 			if(rsinfo != null) 
 			{
-				rsinfo.setReleaseStatus(BudgetReleaseEnum.STATUS_RELEASE.getCode());
+				rsinfo.setReleaseStatus(info.getReleaseStatus());
 				budgetInfoService.updateBudgetInfo(rsinfo);	
-				rs = new Result(true,"下发成功!");
+				rs = new Result(true,"操作成功!");
 			}
 		}
 		catch (Exception e)

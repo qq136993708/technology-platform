@@ -66,15 +66,16 @@
 .layui-contract{
     background:url("/layuiadmin/layui/images/icon-contract.png") center center no-repeat #4b54a3;}
 .layui-textBottom-four p{line-height: 128px;margin: 0;}
-.layui-news{background-color: #0089c7;height: 278px;padding: 16px 14px 20px;box-sizing: border-box;}
+.layui-news{background-color: #0089c7;height: 278px;padding: 16px 14px 20px;
+    box-sizing: border-box;overflow: hidden;}
 .layui-agency{display: flex;}
 .layui-news p,.layui-agency-right p{color: white;    height: 16px;line-height: 16px;font-size: 16px;margin-bottom: 12px;}
 .layui-agency-left p{color: white;font-size: 22px;padding: 19px 20px 10px;}
 .layui-agency-right p{line-height: 80px;margin-bottom: 10px;}
 .layui-news p span{font-size: 12px;float: right;}
 .layui-news p span a{color:#fff;}
-.layui-news ul{height: auto;overflow: hidden;}
-.layui-news ul li{height: 36px;line-height: 36px;text-align: left;}
+.layui-news ul{height: 100%;overflow: hidden;}
+.layui-news ul li{height: 30px;line-height: 30px;text-align: left;}
 .layui-news ul li a{font-size: 12px;color: white;}
 .layui-news ul li>a{float: right;width: 84%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;box-sizing: border-box;
     background: url("/layuiadmin/layui/images/icon-news-r.png") no-repeat center right;padding-right: 10px;}

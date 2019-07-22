@@ -129,10 +129,8 @@ public class HomeKnowledgeController extends BaseController{
 			paramsMap.put("nd", nd);
 			paramsMap.put("type", type);
 			paramsMap.put("zycmc", zycmc);
-			if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-				// 领导标识，不控制数据
-				paramsMap.put("leaderFlag", "1");
-			}
+			paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+			
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!nd.equals(""))
@@ -232,10 +230,8 @@ public class HomeKnowledgeController extends BaseController{
 			paramsMap.put("nd", nd);
 			paramsMap.put("type", type);
 			paramsMap.put("zycmc", zycmc);
-			if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-				// 领导标识，不控制数据
-				paramsMap.put("leaderFlag", "1");
-			}
+			paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+			
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!nd.equals(""))
@@ -336,10 +332,8 @@ public class HomeKnowledgeController extends BaseController{
 			paramsMap.put("nd", nd);
 			paramsMap.put("type", type);
 			paramsMap.put("zycmc", zycmc);
-			if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-				// 领导标识，不控制数据
-				paramsMap.put("leaderFlag", "1");
-			}
+			paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+			
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 			if (!nd.equals(""))
