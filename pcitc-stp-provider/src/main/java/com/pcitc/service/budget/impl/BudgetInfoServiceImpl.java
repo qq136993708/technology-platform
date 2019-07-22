@@ -7,9 +7,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -772,6 +774,29 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		}
 		data.setData(mapdata);
 		return data;
+	}
+
+	@Override
+	public List<Map<String, Object>> filterDataByUnit(List<Map<String, Object>> data, String unitCodes) 
+	{
+		if(StringUtils.isBlank(unitCodes)) 
+		{
+			return data;
+		}
+		String [] codes = unitCodes.split(",");
+		Set<String> organCodeSet = new HashSet<String>();
+		for(String code:codes) 
+		{
+			BudgetOrganEnum organ = BudgetOrganEnum.getByUnitCode(code);
+			if(organ != null) 
+			{
+				organCodeSet.add(organ.getCode());
+			}
+		}
+		return data.stream()
+				.filter(a -> organCodeSet.contains(a.get("organCode")))
+				.collect(Collectors.toList());
+		
 	}
 	
 }

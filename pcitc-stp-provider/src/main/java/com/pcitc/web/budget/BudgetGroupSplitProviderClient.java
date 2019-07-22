@@ -136,7 +136,7 @@ public class BudgetGroupSplitProviderClient
 		try
 		{
 			data =  budgetGroupSplitService.selectBudgetSplitDataList(dataId);
-			System.out.println(JSON.toJSONString(data));
+			data = budgetInfoService.filterDataByUnit(data, (String)param.getParam().get("unitCodes"));
 			table.setData(data);
 			table.setCount(data.size());
 		}
