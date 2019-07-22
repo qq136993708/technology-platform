@@ -66,9 +66,11 @@ public class IntlProjectInfoController extends BaseController {
 
 	@RequestMapping(value = "/project/addorupd-project")
 	public Object saveProjectInfo(@ModelAttribute(value = "projectInfo") IntlProjectInfo info) throws Exception {
-		IntlProjectInfo prject = this.restTemplate.exchange(PROJECT_GET_INFO + info.getProjectId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectInfo.class).getBody();
-		if (prject != null && FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(prject.getFlowStartStatus())) {
-			return new Result(false, "已提交不可更改");
+		if(!StringUtils.isBlank(info.getProjectId())) {
+			IntlProjectInfo prject = this.restTemplate.exchange(PROJECT_GET_INFO + info.getProjectId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectInfo.class).getBody();
+			if (prject != null && FlowStatusEnum.FLOW_START_STATUS_YES.getCode().equals(prject.getFlowStartStatus())) {
+				return new Result(false, "已提交不可更改");
+			}
 		}
 		if (info.getProjectId() == null || "".equals(info.getProjectId())) {
 			info.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());

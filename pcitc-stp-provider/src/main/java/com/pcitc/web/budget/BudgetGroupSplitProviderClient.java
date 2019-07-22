@@ -136,6 +136,7 @@ public class BudgetGroupSplitProviderClient
 		try
 		{
 			data =  budgetGroupSplitService.selectBudgetSplitDataList(dataId);
+			System.out.println(JSON.toJSONString(data));
 			table.setData(data);
 			table.setCount(data.size());
 		}
