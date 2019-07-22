@@ -165,21 +165,20 @@
 					<div class="layui-card-header">${nd}年直属研究院科研合同签订率</div>
 					<div class="layui-card-body btn-function">
 						<div class="text-total">
-							<!-- <span>总计:<span class="text-total-blue"    id="contract_line_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span> -->
 							<span>
 								费用性:
-								<span class="text-total-blue" id="contract_line_02">
+								<span class="text-total-blue" id="institute_contract_line_02">
 									<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 								</span>
 							</span>
 							<span>
 								资本性:
-								<span class="text-total-blue" id="contract_line_03">
+								<span class="text-total-blue" id="institute_contract_line_03">
 									<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 								</span>
 							</span>
 						</div>
-						<div style="height: 270px; width: 100%;" id="contract_line"></div>
+						<div style="height: 270px; width: 100%;" id="institute_contract_line"></div>
 					</div>
 				</div>
 			</div>
@@ -457,7 +456,6 @@
 		}
 
 		// 科研投入
-
 		function getInvestmentAll(nd) {
 			var v_date = (new Date()).getTime();
 			$.ajax({
@@ -466,7 +464,9 @@
 				dataType : "json",
 				timeout : 20000,
 				cache : false,
-				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				headers : {
+					'Content-Type' : 'application/json'
+				},
 				success : function(data, status) {
 					if (data.success == true || data.success == 'true') {
 
@@ -539,30 +539,6 @@
 
 		}
 
-		//合同签订率总计
-		function setContractCount(nd) {
-			$.ajax({
-				type : 'GET',
-				url : "/direct/contract_04?type=2&nd=" + nd,
-				dataType : 'json',
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-				timeout : 20000,
-				error : function(XMLHttpRequest, status) {
-
-				},
-				success : function(data) {
-					var fyxsl_rate = data.data.fyxsl_rate;
-					var zbxsl_rate = data.data.zbxsl_rate;
-					//$("#contract_line_01").html("100%"); 
-					$("#contract_line_02").html(fyxsl_rate);
-					$("#contract_line_03").html(zbxsl_rate);
-
-				}
-			});
-
-		}
 		//国际合作项目数量
 		function setIntlProjectCount(nd) {
 			$.ajax({
@@ -593,7 +569,6 @@
 				getInvestmentAll(nd);//科研投入
 				patentCount(nd);//专利
 				appraisalCount(nd);//成果
-				setContractCount(nd);
 				setContcator_id(nd, v_date);//合同签订率
 				setIntlProjectCount(nd);
 				var yAxis = [ {
@@ -647,7 +622,7 @@
 				//直属研究院合同签订分析
 				var chart2_url = "/direct/contract_04?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&type=1";
 				var colorLine = [ "#b68d01", "#9799ec" ];
-				var echart2 = load_mony_line_down(chart2_url, "contract_line", "", "", yAxis3, colorLine);
+				var echart2 = load_mony_line_down(chart2_url, "institute_contract_line", "", "", yAxis3, colorLine);
 
 				echart2.on('click', function(params) {
 					var xName = params.name;
