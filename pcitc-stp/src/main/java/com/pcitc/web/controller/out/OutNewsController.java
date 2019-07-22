@@ -36,7 +36,6 @@ public class OutNewsController extends BaseController
 	public Object outAppraisalList(@ModelAttribute("param") LayuiTableParam param) {
 		
 		JSONArray jsArr = getDataService(OUT_URL);
-		System.out.println(jsArr.toString());
 		//[{"xxbt":"关于2019年新开科研项目合同（任务书）上报相关事宜的通知","fbsj":"2019-06-03T16:59:22"}]
 		return jsArr.toString();
 	}
