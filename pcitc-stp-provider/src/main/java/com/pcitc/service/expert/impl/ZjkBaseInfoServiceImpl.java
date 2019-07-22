@@ -951,6 +951,13 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             c1.andDelFlagEqualTo("0");
             c1.andSysFlagEqualTo("0");
             c1.andExpertNameLike("%" + keywords + "%");
+
+            ZjkExpertExample.Criteria c2 = example.createCriteria();
+            c2.andStatusEqualTo("0");
+            c2.andDelFlagEqualTo("0");
+            c2.andSysFlagEqualTo("0");
+            c2.andUserDescLike("%" + keywords + "%");
+            example.or(c2);
 //            example.or().andExpertNameLike("%" + keywords + "%");
 //            example.or().andUserDescLike("%" + keywords + "%");
         }
