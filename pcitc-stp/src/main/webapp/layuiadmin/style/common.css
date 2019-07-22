@@ -791,7 +791,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
         left: 80px;top: 22px;}
     .layui-q>.layui-tab-title li:hover,.layui-q>.layui-tab-title li.layui-this:hover,.layui-q>.layui-tab-title li.layui-this{background-size: 100%;}
     .layui-leader .layui-q>.layui-tab-title .search-text{bottom: -70px;font-size: 16px;}
-    .layui-cs .layui-q>.layui-tab-title .search-text{bottom: -72px;}
+    .layui-cs .layui-q>.layui-tab-title .search-text{bottom: -82px;}
     .layui-q>.layui-tab-title .search-number{
         right: 30px;top: 18px;}
 }
