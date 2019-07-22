@@ -138,6 +138,8 @@ public class BudgetAssetSplitProviderClient
 		try
 		{
 			data =  budgetAssetSplitService.selectBudgetSplitDataList(dataId);
+			//param.getParam().put("unitCodes", "30130058,30130017");
+			data = budgetInfoService.filterDataByUnit(data, (String)param.getParam().get("unitCodes"));
 			table.setData(data);
 			table.setCount(data.size());
 		}
@@ -224,8 +226,6 @@ public class BudgetAssetSplitProviderClient
 		Map<String,Object> map = new HashMap<String,Object>();
 		try
 		{
-			System.out.println(JSON.toJSONString(vo));
-			System.out.println("--------------");
 			map = budgetAssetSplitService.selectAssetSplitItem(vo.getBudgetInfoId(),vo.getOrganCode());
 		}
 		catch (Exception e)
@@ -247,8 +247,6 @@ public class BudgetAssetSplitProviderClient
 				String cnd = iter.next();
 				rsmap.put(cnd, budgetAssetSplitService.selectAssetSplitFinalItem(cnd,vo.getOrganCode()));
 			}
-			System.out.println("**********");
-			System.out.println(JSON.toJSONString(rsmap));
 		}
 		catch (Exception e)
 		{

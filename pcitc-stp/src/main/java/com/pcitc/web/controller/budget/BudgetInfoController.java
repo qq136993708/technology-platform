@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.BudgetReleaseEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
@@ -154,7 +155,7 @@ public class BudgetInfoController extends BaseController
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_RELEASE_LIST, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
 		Object rs = JSON.toJSON(responseEntity.getBody());
-		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
 		return rs;
 		
 	}
@@ -162,9 +163,21 @@ public class BudgetInfoController extends BaseController
 	@ResponseBody
 	public Object budgetInfoRelase(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
+		info.setReleaseStatus(BudgetReleaseEnum.STATUS_RELEASE.getCode());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_RELEASE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		Object rs = JSON.toJSON(responseEntity.getBody());
-		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		return rs;
+		
+	}
+	@RequestMapping(value = "/budget/budget-info-norelease", method = RequestMethod.POST)
+	@ResponseBody
+	public Object budgetInfoNoRelase(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
+	{
+		info.setReleaseStatus(BudgetReleaseEnum.STATUS_NORELEASE.getCode());
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_RELEASE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
+		Object rs = JSON.toJSON(responseEntity.getBody());
+		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
 		return rs;
 		
 	}

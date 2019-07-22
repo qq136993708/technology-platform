@@ -135,6 +135,25 @@
 	                     }
 	                });
             	});
+            },
+            noRelaseEvent:function(){
+            	if(!selectRowData){
+            		layer.msg('请选择已发布的数据!');
+            		return;
+            	}
+            	layer.confirm('确定要取消发布吗？',{title:"取消发布确认"},function(index){
+					layer.close(index);
+					publicMethods.ajaxAsyncPost("/budget/budget-info-norelease", {"dataId":selectRowData.dataId}, function (data) {
+	                     if (data.success) {
+	                    	 renderTable({param:{"nd":cu_date}});
+	                    	 layer.msg('操作成功!');
+	                     } else {
+	                    	 layer.msg('操作异常，请重试!');
+	                     }
+	                });
+            	});
+            	
+            	
             }
         };
         //区别按钮属性
@@ -158,6 +177,7 @@
         <div class="whiteLine"></div>
         <div  class="tableBtns">
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg" data-type="relaseEvent">发布</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="noRelaseEvent">取消发布</button>
         </div>
     </div>
     <table id="organTable" class="layui-hide"  lay-filter="organEvent"></table>

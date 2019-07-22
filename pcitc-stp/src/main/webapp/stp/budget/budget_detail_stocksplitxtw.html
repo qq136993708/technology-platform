@@ -78,6 +78,7 @@
     <script>
 	    var cu_date = "${nd?default(0)}";
 	    var dataId = "${dataId}";
+	    var unitCodes = "${unitCodes?default(0)}";
 	    var budget_info_map=null;
 	    var curent_tabel_data = null;//当前表格数据
 	    var curent_budget_info = null;//当前报表
@@ -100,7 +101,11 @@
             	$(".headline-tool").css("display","block");
             	laydate.render({elem: '#choose-year',value: cu_date,type: 'year'
                     ,done:function (val, date, endDate) {
-                    	window.location.href="/budget/budget_detail_stocksplitxtw_nd?nd="+val;
+                    	if(unitCodes == 0){
+                    		window.location.href="/budget/budget_detail_stocksplitxtw_nd?nd="+val;
+                    	}else{
+                    		window.location.href="/budget/budget_detail_stocksplitxtw_unit?nd="+val;
+                    	}
                     }            
                 });
             }
@@ -120,7 +125,7 @@
 				});
 			}
 			//数据版本选择
-	        publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-items",{page:1,limit:100,param: {"budget_info_id":dataId}}, function (data) {
+	        publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-items",{page:1,limit:100,param: {"budget_info_id":dataId,"unitCodes":unitCodes}}, function (data) {
        			reloadTable('dataTable', data.data);
             	if(data.data.length >0){
             		cu_date = data.data[0].nd;
