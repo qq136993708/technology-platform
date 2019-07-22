@@ -18,11 +18,12 @@
 
 
 <script type="text/javascript">
+var param = JSON.parse(window.localStorage.getItem("param"));
 var file_ids = "appendFiles";
 	//detail:详情，edit：编辑
 	file_edit_detail = "edit";
 	//统管理-附件管理-附件配置：页面标识
-	file_opt_flag = "abe0a7e8ffca436683c0c334fc6f168b";
+	file_opt_flag = param.code;
 $(document).ready(function() {
 	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ],
 			function() {

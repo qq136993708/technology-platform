@@ -13,15 +13,15 @@
 	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 	<script type="text/javascript">
+	var param = JSON.parse(window.localStorage.getItem("param"));
 	var file_ids = "appendFiles";
     var file_ids2 = "appendFiles2";
     //detail:详情，edit：编辑
 	file_edit_detail = "edit";
     file_edit_detail2 = "detail";
 	//统管理-附件管理-附件配置：页面标识
-	file_opt_flag = "4c20bd28057543839c0db8754f417c6a";
-	file_opt_flag2 = "4c20bd28057543839c0db8754f417c6a";
-
+	file_opt_flag = param.code;
+	file_opt_flag2 = param.code;
 
 	
 	$(document).ready(function() {
@@ -31,6 +31,7 @@
 	    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
 	            form = layui.form,publicMethods=layui.publicMethods,table = layui.table;	
 	    		var projectId = "${projectId?default(0)}";
+	    		
 	    		//加载项目 apply-list-all
 	    		publicMethods.ajaxPost("/project/get-pass-apply-list",null, function (data) {
 					$.each(data,function(i,val){
