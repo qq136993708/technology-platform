@@ -167,6 +167,28 @@ public class BudgetGroupSplitController extends BaseController {
 		request.setAttribute("dataId", rs == null?"0":rs.getDataId());
 		return "stp/budget/budget_detail_groupsplit";
 	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_detail_groupsplit_unit")
+	public Object toBudgetGroupDetailByUnit(HttpServletRequest request) throws IOException 
+	{
+		String nd = request.getParameter("nd");
+		if(nd == null) {
+			nd = DateUtils.dateToStr(new Date(),"yyyy");
+		}
+		//找到最新
+		BudgetInfo param = new BudgetInfo();
+		param.setNd(nd);
+		param.setBudgetType(BudgetInfoEnum.GROUP_SPLIT.getCode());
+		BudgetInfo rs = this.restTemplate.exchange(BUDGET_FINAL_INFO, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), BudgetInfo.class).getBody();
+		
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+		request.setAttribute("items", infors.getBody());
+		
+		request.setAttribute("nd", nd);
+		request.setAttribute("dataId", rs == null?"0":rs.getDataId());
+		
+		request.setAttribute("unitCodes", getUserProfile().getUnitCode());
+		return "stp/budget/budget_detail_groupsplit";
+	}
 	
 	@RequestMapping(value = "/budget/budget-groupsplit-info-list", method = RequestMethod.POST)
 	@ResponseBody
@@ -189,7 +211,7 @@ public class BudgetGroupSplitController extends BaseController {
 	public Object getBudgetGroupItems(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPSPLIT_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
-		System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-groupsplit-create", method = RequestMethod.POST)
