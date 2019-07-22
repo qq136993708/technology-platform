@@ -992,6 +992,17 @@ function set_multi_graph_statistics(data, id) {
 		}
 
 	}
+	
+	// 领导页--科研投入--直属院投入
+	if (id == 'zsyjy_chart7') {
+		var ysje = getDataCountForNameFloat(data, '预算金额');
+		var kytr = getDataCountForNameFloat(data, '实际科研投入');
+		var zRate = kytr*100/ysje;
+
+		$("#zsyjy_chart7_01").html(ysje.toFixed(2) + "亿元");
+		$("#zsyjy_chart7_02").html(kytr.toFixed(2) + "亿元");
+		$("#zsyjy_chart7_03").html(zRate.toFixed(2) + "%");
+	}
 
 }
 function getDataCountForNameFloat(data, strName) {
