@@ -59,6 +59,8 @@
      <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
     </div>
 </div>
+
+<div class="btnGroup" style="float:right;margin-right:20px;"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
 <div class="tableBox">
 
 <div class="tableToolBox">
@@ -305,6 +307,14 @@ function ajaxDeleteOpt(url,type,successMsg,failMsg)
   });
 } 
 
+function exput_excel()
+{
+	var unitName=$('#unitName').val();
+	var auditStatus=$('#auditStatus').val();
+	var year=$('#year').val();
+	var type=$('#type').val();
+	window.open("/tech_cost/exput_excel?year="+year+"&year="+year+"&auditStatus="+auditStatus+"&unitName="+unitName);
+} 
 
 
 </script>
