@@ -100,7 +100,6 @@ public class IntlProjectInfoProviderClient
 	@RequestMapping(value = "/stp-provider/project/project-info-code", method = RequestMethod.POST)
 	public Object getProjectContractCode(@RequestBody IntlProjectInfo project) 
 	{
-		System.out.println("project-info-codeproject-info-codeproject-info-code");
 		return intlProjectInfoService.createProjectInfoCode();
 	}
 	

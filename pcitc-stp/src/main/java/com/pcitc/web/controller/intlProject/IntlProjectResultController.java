@@ -39,11 +39,9 @@ public class IntlProjectResultController extends BaseController {
 
 	@RequestMapping(value = "/project/result-list", method = RequestMethod.POST)
 	public Object getResultTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
-		System.out.println("get result-list data ..........");
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_RESULT_LIST_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
-		System.out.println(JSON.toJSON(data).toString());
 		return JSON.toJSON(data).toString();
 	}
 
@@ -104,7 +102,6 @@ public class IntlProjectResultController extends BaseController {
 
 	@RequestMapping(value = "/project/get-result")
 	public Object getProjectResult(@RequestParam(value = "resultId", required = true) String resultId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("applyId................." + resultId);
 		return this.restTemplate.exchange(PROJECT_RESULT_GET_URL + resultId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectResult.class).getBody();
 	}
 }
