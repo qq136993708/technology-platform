@@ -749,7 +749,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .doc-box ul{margin-bottom: 10px;}
 .ck-editor__editable { min-height: 240px; }
 .enlarge{ position: absolute;top: 0;left: 0;z-index: 999;height: 100%;width: 100% !important;}
-
+.demo_line_05{font-size: 16px;font-weight: bold;margin: 16px 0;}
 @media (max-width: 1308px) {
     .layui-leader .layui-q>.layui-tab-title li{width: 114px;
         height: 77px;background-size: 100%;}
