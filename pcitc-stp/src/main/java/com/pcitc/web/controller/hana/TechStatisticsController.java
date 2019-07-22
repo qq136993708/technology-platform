@@ -493,6 +493,8 @@ public class TechStatisticsController extends BaseController{
 		request.setAttribute("auditStatusList", auditStatusList);
 		String type = CommonUtil.getParameter(request, "type", "");
 		request.setAttribute("type", type);
+		String beforeYear= HanaUtil.getBeforeYear();
+		request.setAttribute("beforeYear", beforeYear);
 		return "/stp/hana/techStatistics/org_list";
 	}
 
@@ -504,6 +506,8 @@ public class TechStatisticsController extends BaseController{
 		//流程状态
 		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("auditStatusList", auditStatusList);
+		String beforeYear= HanaUtil.getBeforeYear();
+		request.setAttribute("beforeYear", beforeYear);
 		return "/stp/hana/techStatistics/org_list_kjb_tree";
 	}
 	
