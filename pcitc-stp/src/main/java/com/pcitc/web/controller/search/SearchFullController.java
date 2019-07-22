@@ -1,17 +1,14 @@
 package com.pcitc.web.controller.search;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pcitc.base.common.*;
 import com.pcitc.base.search.ZjkSearchLog;
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.system.SearchLog;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -38,117 +35,120 @@ import com.pcitc.web.utils.HanaUtil;
 @Controller
 public class SearchFullController extends BaseController {
 
-	private static final String common_table = "http://pcitc-zuul/system-proxy/search/getTableDataScientific";
-	private static final String contract_dic = "http://pcitc-zuul/system-proxy/out-project-provider/select-condition/list";
+    private static final String common_table = "http://pcitc-zuul/system-proxy/search/getTableDataScientific";
+    private static final String contract_dic = "http://pcitc-zuul/system-proxy/out-project-provider/select-condition/list";
 
-	private static final String getAwardTable = "http://pcitc-zuul/system-proxy/search/getTableDataAchivement";
-	private static final String getTableSearchEquipment = "http://pcitc-zuul/system-proxy/search/getTableSearchEquipment";
-	private static final String getTableDataReport = "http://pcitc-zuul/system-proxy/search/getTableDataReport";
-	private static final String getOutRewardTable = "http://pcitc-zuul/system-proxy/search/reward-list";
+    private static final String getAwardTable = "http://pcitc-zuul/system-proxy/search/getTableDataAchivement";
+    private static final String getTableSearchEquipment = "http://pcitc-zuul/system-proxy/search/getTableSearchEquipment";
+    private static final String getTableDataReport = "http://pcitc-zuul/system-proxy/search/getTableDataReport";
+    private static final String getOutRewardTable = "http://pcitc-zuul/system-proxy/search/reward-list";
 
-	private static final String search = "http://pcitc-zuul/system-proxy/search/search";
+    private static final String search = "http://pcitc-zuul/system-proxy/search/search";
 
-	private static final String equipment_02 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_02";
+    private static final String equipment_02 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_02";
 
-	private static final String[] tabString = { "科研", "成果" };
+    private static final String[] tabString = {"科研", "成果"};
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchEquipment")
-	public String searchEquipment(HttpServletRequest request) throws Exception {
-		request.setAttribute("keyword", request.getParameter("keyword"));
+    @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchEquipment")
+    public String searchEquipment(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
         String hotKeyWord = request.getParameter("hotKeyWord");
-        request.setAttribute("hotKeyWord", (hotKeyWord==null||"".equals(hotKeyWord))?"":java.net.URLDecoder.decode(hotKeyWord,"utf-8"));
+        request.setAttribute("hotKeyWord", (hotKeyWord == null || "".equals(hotKeyWord)) ? "" : java.net.URLDecoder.decode(hotKeyWord, "utf-8"));
         System.out.println(request.getAttribute("hotKeyWord"));
-		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
-		String unitCode = userInfo.getUnitCode();
-		request.setAttribute("unitCode", unitCode);
+        SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+        HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
+        String unitCode = userInfo.getUnitCode();
+        request.setAttribute("unitCode", unitCode);
 
-		String year = HanaUtil.getCurrentYear();
-		request.setAttribute("year", year);
+        String year = HanaUtil.getCurrentYear();
+        request.setAttribute("year", year);
 
-		request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
-		return "stp/hana/home/search/query_equipment";
-	}
+        String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);
+        request.setAttribute("leadUnitCode", leadUnitCode);
+        request.setAttribute("userLevel", sysUserInfo.getUserLevel());
 
-	//保存搜索日志
+        request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
+        return "stp/hana/home/search/query_equipment";
+    }
+
+    //保存搜索日志
     private static final String SAVE_SEARCH_LOG = "http://pcitc-zuul/system-proxy/zjksearchlog-provider/zjksearchlog/save_zjksearchlog";
 
-
     @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchIndex")
-	public String searchIndex(HttpServletRequest request) throws Exception {
+    public String searchIndex(HttpServletRequest request) throws Exception {
         String keyword = request.getParameter("keyword");
-		request.setAttribute("keyword", keyword);
+        request.setAttribute("keyword", keyword);
         String hotKeyWord = request.getParameter("hotKeyWord");
-        request.setAttribute("hotKeyWord", (hotKeyWord==null||"".equals(hotKeyWord))?"":java.net.URLDecoder.decode(hotKeyWord,"utf-8"));
+        request.setAttribute("hotKeyWord", (hotKeyWord == null || "".equals(hotKeyWord)) ? "" : java.net.URLDecoder.decode(hotKeyWord, "utf-8"));
         System.out.println(request.getAttribute("hotKeyWord"));
-		return "stp/hana/home/search/search_index";
-	}
+        return "stp/hana/home/search/search_index";
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchExpert")
-	public String searchExpert(HttpServletRequest request) throws Exception {
-		request.setAttribute("keyword", request.getParameter("keyword"));
+    @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchExpert")
+    public String searchExpert(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
         String hotKeyWord = request.getParameter("hotKeyWord");
-        request.setAttribute("hotKeyWord", (hotKeyWord==null||"".equals(hotKeyWord))?"":java.net.URLDecoder.decode(hotKeyWord,"utf-8"));
+        request.setAttribute("hotKeyWord", (hotKeyWord == null || "".equals(hotKeyWord)) ? "" : java.net.URLDecoder.decode(hotKeyWord, "utf-8"));
         System.out.println(request.getAttribute("hotKeyWord"));
-		return "stp/hana/home/search/query_expert";
-	}
+        return "stp/hana/home/search/query_expert";
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchPatent")
-	public String searchPatent(HttpServletRequest request) throws Exception {
-		request.setAttribute("keyword", request.getParameter("keyword"));
+    @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchPatent")
+    public String searchPatent(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
         String hotKeyWord = request.getParameter("hotKeyWord");
-        request.setAttribute("hotKeyWord", (hotKeyWord==null||"".equals(hotKeyWord))?"":java.net.URLDecoder.decode(hotKeyWord,"utf-8"));
+        request.setAttribute("hotKeyWord", (hotKeyWord == null || "".equals(hotKeyWord)) ? "" : java.net.URLDecoder.decode(hotKeyWord, "utf-8"));
         System.out.println(request.getAttribute("hotKeyWord"));
-		return "stp/hana/home/search/query_patent";
-	}
+        return "stp/hana/home/search/query_patent";
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchFile")
-	public String searchFile(HttpServletRequest request) throws Exception {
-		String keyword = request.getParameter("keyword");
-		request.setAttribute("keyword", (keyword == null || "undefined".equals(keyword)) ? "" : keyword);
+    @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchFile")
+    public String searchFile(HttpServletRequest request) throws Exception {
+        String keyword = request.getParameter("keyword");
+        request.setAttribute("keyword", (keyword == null || "undefined".equals(keyword)) ? "" : keyword);
         String hotKeyWord = request.getParameter("hotKeyWord");
         String userid = sysUserInfo.getUserId();
-        request.setAttribute("hotKeyWord", (hotKeyWord==null||"".equals(hotKeyWord))?"":java.net.URLDecoder.decode(hotKeyWord,"utf-8"));
+        request.setAttribute("hotKeyWord", (hotKeyWord == null || "".equals(hotKeyWord)) ? "" : java.net.URLDecoder.decode(hotKeyWord, "utf-8"));
         request.setAttribute("userid", userid);
 
-		return "stp/hana/home/search/query_file";
-	}
+        return "stp/hana/home/search/query_file";
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchOutreward")
-	public String searchOutreward(HttpServletRequest request) throws Exception {
-		request.setAttribute("keyword", request.getParameter("keyword"));
+    @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchOutreward")
+    public String searchOutreward(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
         String hotKeyWord = request.getParameter("hotKeyWord");
-        request.setAttribute("hotKeyWord", (hotKeyWord==null||"".equals(hotKeyWord))?"":java.net.URLDecoder.decode(hotKeyWord,"utf-8"));
+        request.setAttribute("hotKeyWord", (hotKeyWord == null || "".equals(hotKeyWord)) ? "" : java.net.URLDecoder.decode(hotKeyWord, "utf-8"));
         System.out.println(request.getAttribute("hotKeyWord"));
-		return "stp/hana/home/search/query_outreward";
-	}
+        return "stp/hana/home/search/query_outreward";
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchTfmType")
-	public String searchTfmType(HttpServletRequest request) throws Exception {
-		request.setAttribute("keyword", request.getParameter("keyword"));
+    @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchTfmType")
+    public String searchTfmType(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
         String hotKeyWord = request.getParameter("hotKeyWord");
-        request.setAttribute("hotKeyWord", (hotKeyWord==null||"".equals(hotKeyWord))?"":java.net.URLDecoder.decode(hotKeyWord,"utf-8"));
+        request.setAttribute("hotKeyWord", (hotKeyWord == null || "".equals(hotKeyWord)) ? "" : java.net.URLDecoder.decode(hotKeyWord, "utf-8"));
         System.out.println(request.getAttribute("hotKeyWord"));
-		return "stp/hana/home/search/query_tfmType";
-	}
+        return "stp/hana/home/search/query_tfmType";
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchReport")
-	public String searchReport(HttpServletRequest request) throws Exception {
-		request.setAttribute("keyword", request.getParameter("keyword"));
+    @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchReport")
+    public String searchReport(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
         String hotKeyWord = request.getParameter("hotKeyWord");
-        request.setAttribute("hotKeyWord", (hotKeyWord==null||"".equals(hotKeyWord))?"":java.net.URLDecoder.decode(hotKeyWord,"utf-8"));
+        request.setAttribute("hotKeyWord", (hotKeyWord == null || "".equals(hotKeyWord)) ? "" : java.net.URLDecoder.decode(hotKeyWord, "utf-8"));
         System.out.println(request.getAttribute("hotKeyWord"));
-		return "stp/hana/home/search/query_report";
-	}
+        return "stp/hana/home/search/query_report";
+    }
 
     private static final String getListEs = "http://pcitc-zuul/system-proxy/zjksearchlog-provider/zjksearchlog/getListEs";
 
     @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/search")
-	public String search(HttpServletRequest request) {
+    public String search(HttpServletRequest request) {
         try {
             String keyword = request.getParameter("keyword");
-            String hotKeyWord="";
-            if (keyword!=null&&!"".equals(keyword)){
+            String hotKeyWord = "";
+            if (keyword != null && !"".equals(keyword)) {
                 //插入搜索
                 ZjkSearchLog record = new ZjkSearchLog();
                 record.setKeyword(keyword);
@@ -181,12 +181,12 @@ public class SearchFullController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-		return "stp/hana/home/search/search";
-	}
+        return "stp/hana/home/search/search";
+    }
 
-	@RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableSearchEquipment")
-	@ResponseBody
-	public String getTableSearchEquipment(@ModelAttribute("param") LayuiTableParam param) throws Exception {
+    @RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableSearchEquipment")
+    @ResponseBody
+    public String getTableSearchEquipment(@ModelAttribute("param") LayuiTableParam param) throws Exception {
 
         JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
         LayuiTableData layuiTableData = new LayuiTableData();
@@ -198,120 +198,135 @@ public class SearchFullController extends BaseController {
         }
         JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
         return result.toString();
-	}
+    }
 
-	@RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableSearch")
-	@ResponseBody
-	public String getTableSearch(@ModelAttribute("param") LayuiTableParam param) {
+    @RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableSearch")
+    @ResponseBody
+    public String getTableSearch(@ModelAttribute("param") LayuiTableParam param) {
 
-		PageResult pageResult = new PageResult();
-		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		param.getParam().put("month", month);
-		param.getParam().put("companyCode", companyCode);
-		param.getParam().put("fileCount", request.getParameter("fileCount"));
+        PageResult pageResult = new PageResult();
+        String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+        String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+        param.getParam().put("month", month);
+        param.getParam().put("companyCode", companyCode);
+        param.getParam().put("fileCount", request.getParameter("fileCount"));
 
-		System.out.println("param.getParam().get(\"\") = " + param.getParam().get("fileCount"));
-		LayuiTableData layuiTableData = new LayuiTableData();
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(search, HttpMethod.POST, entity, LayuiTableData.class);
-		layuiTableData = responseEntity.getBody();
-		return JSONObject.toJSONString(layuiTableData);
-	}
+        System.out.println("param.getParam().get(\"\") = " + param.getParam().get("fileCount"));
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(search, HttpMethod.POST, entity, LayuiTableData.class);
+        layuiTableData = responseEntity.getBody();
+        return JSONObject.toJSONString(layuiTableData);
+    }
 
-	@RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataReport")
-	@ResponseBody
-	public String getTableDataReport(@ModelAttribute("param") LayuiTableParam param) {
-		LayuiTableData layuiTableData = new LayuiTableData();
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getTableDataReport, HttpMethod.POST, entity, LayuiTableData.class);
-		layuiTableData = responseEntity.getBody();
-		return JSONObject.toJSONString(layuiTableData);
-	}
+    @RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataReport")
+    @ResponseBody
+    public String getTableDataReport(@ModelAttribute("param") LayuiTableParam param) {
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getTableDataReport, HttpMethod.POST, entity, LayuiTableData.class);
+        layuiTableData = responseEntity.getBody();
+        return JSONObject.toJSONString(layuiTableData);
+    }
 
-	/**
-	 * -------------------------------------------------成果----------------------
-	 * ---------------
-	 */
+    @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/getEquipmentIsShow")
+    @ResponseBody
+    public String getEquipmentIsShow(HttpServletRequest request) {
+        String flag = "0";
+        if (sysUserInfo.getUserLevel()!=2) {
+            String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);
+            if (leadUnitCode.equals(request.getParameter("leadUnitCode"))){
+                flag="1";
+            }
+        }else {
+            flag="1";
+        }
+        return flag;
+    }
 
-	@RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataAchivement")
-	@ResponseBody
-	public String getTableDataAchivement(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+    /**
+     * -------------------------------------------------成果----------------------
+     * ---------------
+     */
 
-		JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
-		LayuiTableData layuiTableData = new LayuiTableData();
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getAwardTable, HttpMethod.POST, entity, LayuiTableData.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) {
-			layuiTableData = responseEntity.getBody();
-		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		return result.toString();
-	}
+    @RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataAchivement")
+    @ResponseBody
+    public String getTableDataAchivement(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-	@RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataOutReward")
-	@ResponseBody
-	public String getTableDataOutReward(@ModelAttribute("param") LayuiTableParam param) {
+        JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getAwardTable, HttpMethod.POST, entity, LayuiTableData.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        if (statusCode == 200) {
+            layuiTableData = responseEntity.getBody();
+        }
+        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+        return result.toString();
+    }
 
-		JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
-		LayuiTableData layuiTableData = new LayuiTableData();
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getOutRewardTable, HttpMethod.POST, entity, LayuiTableData.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) {
-			layuiTableData = responseEntity.getBody();
-		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		return result.toString();
-	}
+    @RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataOutReward")
+    @ResponseBody
+    public String getTableDataOutReward(@ModelAttribute("param") LayuiTableParam param) {
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/query_achievement")
-	public String achievement(HttpServletRequest request) throws Exception {
+        JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getOutRewardTable, HttpMethod.POST, entity, LayuiTableData.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        if (statusCode == 200) {
+            layuiTableData = responseEntity.getBody();
+        }
+        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+        return result.toString();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/query_achievement")
+    public String achievement(HttpServletRequest request) throws Exception {
         request.setAttribute("keyword", request.getParameter("keyword"));
         //归属部门
-        List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+        List<SysDictionary> departmentList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
         request.setAttribute("departmentList", departmentList);
         //专业领域
-        List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
+        List<SysDictionary> fieldList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
         request.setAttribute("fieldList", fieldList);
         //流程状态
-        List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+        List<SysDictionary> auditStatusList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
         request.setAttribute("auditStatusList", auditStatusList);
         List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
                 httpHeaders);
         request.setAttribute("dicList", dicList);
         String hotKeyWord = request.getParameter("hotKeyWord");
-        request.setAttribute("hotKeyWord", (hotKeyWord==null||"".equals(hotKeyWord))?"":java.net.URLDecoder.decode(hotKeyWord,"utf-8"));
+        request.setAttribute("hotKeyWord", (hotKeyWord == null || "".equals(hotKeyWord)) ? "" : java.net.URLDecoder.decode(hotKeyWord, "utf-8"));
         System.out.println(request.getAttribute("hotKeyWord"));
         return "stp/hana/home/search/query_achievement";
-	}
+    }
 
-	/**
-	 * -------------------------------------------------科研----------------------
-	 * ---------------
-	 */
-	/**
-	 * 科研查询
-	 *
-	 * @param param
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataScientific")
-	@ResponseBody
-	public String getTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+    /**
+     * -------------------------------------------------科研----------------------
+     * ---------------
+     */
+    /**
+     * 科研查询
+     *
+     * @param param
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataScientific")
+    @ResponseBody
+    public String getTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		LayuiTableData layuiTableData = new LayuiTableData();
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(common_table, HttpMethod.POST, entity, LayuiTableData.class);
-		layuiTableData = responseEntity.getBody();
-		return JSONObject.toJSONString(layuiTableData);
-	}
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(common_table, HttpMethod.POST, entity, LayuiTableData.class);
+        layuiTableData = responseEntity.getBody();
+        return JSONObject.toJSONString(layuiTableData);
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/fullSearch/query_scientific")
-	public String query_scientific(HttpServletRequest request) throws Exception {
+    @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/query_scientific")
+    public String query_scientific(HttpServletRequest request) throws Exception {
         request.setAttribute("keyword", request.getParameter("keyword"));
 //
 //        String nd = CommonUtil.getParameter(request, "nd", "");// 项目名
@@ -417,8 +432,8 @@ public class SearchFullController extends BaseController {
 //            request.setAttribute("qdbzList", qdbzList);
 //        }
         String hotKeyWord = request.getParameter("hotKeyWord");
-        request.setAttribute("hotKeyWord", (hotKeyWord==null||"".equals(hotKeyWord))?"":java.net.URLDecoder.decode(hotKeyWord,"utf-8"));
+        request.setAttribute("hotKeyWord", (hotKeyWord == null || "".equals(hotKeyWord)) ? "" : java.net.URLDecoder.decode(hotKeyWord, "utf-8"));
         System.out.println(request.getAttribute("hotKeyWord"));
-		return "stp/hana/home/search/query_scientific";
-	}
+        return "stp/hana/home/search/query_scientific";
+    }
 }
