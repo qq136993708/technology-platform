@@ -233,7 +233,6 @@ public class SearchFullController extends BaseController {
     @ResponseBody
     public String getEquipmentIsShow(HttpServletRequest request) {
         String flag = "0";
-        System.out.println("sysUserInfo.getUserLevel()"+sysUserInfo.getUserLevel());
         if (sysUserInfo.getUserLevel()!=2) {
             String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);
             if (leadUnitCode.equals(request.getParameter("leadUnitCode"))){
