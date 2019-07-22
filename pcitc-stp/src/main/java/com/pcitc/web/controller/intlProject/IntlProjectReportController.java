@@ -32,7 +32,7 @@ public class IntlProjectReportController extends BaseController {
 	public Object totalReportProjectInfo(@ModelAttribute("param") LayuiTableParam param) throws IOException 
 	{
 		LayuiTableData data = new LayuiTableData();
-		System.out.println(JSON.toJSON(data).toString());
+		//System.out.println(JSON.toJSON(data).toString());
 		data.setCode(0);
 		data.setCount(10);
 		

@@ -266,8 +266,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {
             c.andExpertNameLike("%" + keywords + "%");
-//            example.or().andExpertNameLike("%" + keywords + "%");
-//            example.or().andUserDescLike("%" + keywords + "%");
         }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
@@ -946,6 +944,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         LayuiTableData data = new LayuiTableData();
         Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {
+            example = new ZjkExpertExample();
             example.or().andExpertNameLike("%" + keywords + "%");
             example.or().andUserDescLike("%" + keywords + "%");
         }
@@ -953,7 +952,17 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         //查询专家数量
         data = this.findByExample(param, example);
-        List<ZjkExpert> experts = (List<ZjkExpert>) data.getData();
+        List<ZjkExpert> experts = new ArrayList<>();
+        if (keywords != null && !"".equals(keywords)) {
+            List<Map<String,Object>> maps = (List<Map<String, Object>>) data.getData();
+            for (int i = 0, j = maps.size(); i < j; i++) {
+                ZjkExpert expert = new ZjkExpert();
+                MyBeanUtils.transMap2Bean(maps.get(i),expert);
+                experts.add(expert);
+            }
+        }else {
+            experts = (List<ZjkExpert>) data.getData();
+        }
 //        List ids = experts.stream().map(ZjkExpert::getDataId).distinct().collect(Collectors.toList());
 //        List names = experts.stream().map(ZjkExpert::getExpertName).distinct().collect(Collectors.toList());
 //        if (ids == null || ids.size() == 0) {
@@ -995,28 +1004,13 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         for (int i = 0, j = experts.size(); i < j; i++) {
             String eName = experts.get(i).getExpertName();
-//            int appSize = 0;
-//            for (int k = 0; k < outAppraisalListPage.getData().size(); k++) {
-//                OutAppraisal appraisal = (OutAppraisal) outAppraisalListPage.getData().get(k);
-//                if (outPatent.getFmr().contains(eName)){
-//                    appSize++;
-//                }
-//            }
-//            expert.setAchievementCount(StrUtil.objectToString(a_count.get(eId), "0"));
-//            int patentSize = 0;
-//            for (int k = 0; k < patentList.getData().size(); k++) {
-//                Map<String,String> map  = (Map<String, String>) patentList.getData().get(k);
-//                System.out.println(eName+"---"+map.get("fmr"));
-//                if (map.get("fmr")!=null&&map.get("fmr").indexOf(eName)>-1){
-//                    System.out.println("ddddddddddddddddd");
-//                    patentSize++;
-//                }
-//            }
 
-            param.getParam().put("name", eName);
+            Map<String,Object> map = new HashMap<>();
+
+            map.put("name", eName);
+            param.setParam(map);
             int count = systemRemoteClient.selectOutPatentList(param).getCount();
             experts.get(i).setPatentCount(count + "");
-
             LayuiTableData outAppraisalListPage = null;
             try {
                 outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
@@ -1027,7 +1021,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-//            expert.setPatentCount(StrUtil.objectToString(patent_count.get(eId), "0"));
         }
 
         data.setData(experts);

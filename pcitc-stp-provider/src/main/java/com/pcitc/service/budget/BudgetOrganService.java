@@ -6,9 +6,8 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.BudgetOrgan;
-import com.pcitc.base.stp.budget.BudgetOrganExample;
 
-public interface BudgetOrganService extends BaseService<BudgetOrgan,String,BudgetOrganExample>
+public interface BudgetOrganService
 {
 	
 	public BudgetOrgan selectBudgetOrgan(String dataId);
@@ -20,6 +19,8 @@ public interface BudgetOrganService extends BaseService<BudgetOrgan,String,Budge
 	public Result saveOrUpdBudgetOrgan(BudgetOrgan bean) throws Exception;
 	
 	public Result deleteBudgetOrgan(String dataId) throws Exception;
+	
+	public Result deleteBudgetOrganReal(String id) throws Exception;
 	
 	public List<BudgetOrgan> selectListBudgetOrgan();
 	

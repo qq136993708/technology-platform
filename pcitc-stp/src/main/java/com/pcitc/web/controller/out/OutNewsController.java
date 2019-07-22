@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
@@ -35,14 +34,10 @@ public class OutNewsController extends BaseController
 	@RequestMapping(value = "/out/news-workdynamics-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object outAppraisalList(@ModelAttribute("param") LayuiTableParam param) {
-		String result = getDataService(OUT_URL);
-		JSONArray jsArr = JSONObject.parseArray(result);
+		
+		JSONArray jsArr = getDataService(OUT_URL);
 		//[{"xxbt":"关于2019年新开科研项目合同（任务书）上报相关事宜的通知","fbsj":"2019-06-03T16:59:22"}]
-		if (jsArr != null) {
-			return jsArr.toString();
-		} else {
-			return null;
-		}
+		return jsArr.toString();
 	}
 	/**
 	 * 获取新闻列表
@@ -50,7 +45,7 @@ public class OutNewsController extends BaseController
 	 * @param jo
 	 * @return
 	 */
-	private String getDataService(String url){
+	private JSONArray getDataService(String url){
 		String result = null;
 		try {
 			RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(url);
@@ -80,17 +75,12 @@ public class OutNewsController extends BaseController
 			if (response.getCode() == 200) {
 				// 获取响应内容
 				result = response.getContent();
-				System.out.println("返回--------" + result);
 				JSONArray jsArr = JSONObject.parseArray(result);
-				System.out.println("返回--------" + jsArr.size());
-				for (int i =0; i < jsArr.size(); i++) {
-					JSONObject jsonObject = JSON.parseObject(jsArr.get(i).toString());
-					System.out.println(jsonObject.toJSONString());
-				}
+				return jsArr;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
-		return result;
+		return null;
 	}
 }

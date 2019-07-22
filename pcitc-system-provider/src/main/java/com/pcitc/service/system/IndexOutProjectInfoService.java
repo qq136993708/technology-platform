@@ -191,7 +191,8 @@ public interface IndexOutProjectInfoService {
 
     void selectPatentToIndexProjectInfo();
 
-    Object findIndexOutProjectInfoByPageTree(LayuiTableParam param);
+    LayuiTableData findIndexOutProjectInfoByPageTree(LayuiTableParam param);
+    LayuiTableData findIndexOutProjectInfoByPageTreeIndex(LayuiTableParam param);
 
     JSONObject selectByExampleByTypeIndexCode(JSONObject obj);
 

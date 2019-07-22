@@ -408,6 +408,18 @@ public class SysFileClient {
         return tem == null ? "" : tem.toString();
     }
 
+    @RequestMapping(value = "/sysfile-provider/sysfile/getTableDataEsIndex", method = RequestMethod.POST)
+    public String selectSysFileByPageEsIndex(@RequestBody SysFileVo vo) {
+        JSONObject tem = null;
+        try {
+            tem = sysFileService.selectSysFileListEsIndex(vo);
+        } catch (Exception e) {
+            logger.error("[文件查询-ES分页查询文件信息失败：]", e);
+            e.printStackTrace();
+        }
+        return tem == null ? "" : tem.toString();
+    }
+
     /**
      * 分页查询
      *

@@ -7,37 +7,51 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+
     <style>
-        .searchBox {
-            margin: 10px 10px 0;
-        }
-
-        .searchBox .dateInput span {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .searchBox, .selector, .tableBox {
-            width: 96%;
-            margin: 10px auto 0;
-        }
-
-        .tableBox table tr th {
-            border-top: 2px solid #1890ff !important;
-        }
-
-        .layui-table tbody tr:nth-child(odd) {
-            background-color: #f6f9fb;
-        }
-
-        .layui-table-page {
-            border-bottom: 1px solid #e6e6e6;
-        }
+        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+        .layui-table-header{display: none;}
+        .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
+        .layui-table-body{margin-top: 20px;}
+        .layui-table-cell{height: auto;margin-bottom: 10px;}
+        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+            font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
+        .layui-table-body{margin-top: 0;}
+        .layui-table-page{margin-bottom: 40px;}
+        .tableBox,.searchBox{padding-left:18px;margin: 0 auto;}
+        .tableBox{width: 55%;float: left;}
+        .searchBox{height: 50px;border-bottom: 1px solid #dfdfdf;margin: 0 20px 10px 28px;padding-left: 0;
+            padding-top: 30px;}
+        .relevant{width: 34%;float: right;margin-right: 20px;}
+        .hotspot>.item{width: 100%;text-align: left;padding: 0;padding-top: 10px;}
+        .hotspot>.item a{font-size: 14px;color: #1890ff;line-height: 26px;}
+        .hotspot>.item a:hover{text-decoration:underline;}
+        .form-control{height: 28px !important;line-height: 28px !important;}
+        .c-nameC{height: 0px;}
+        .relevant p{margin-top: 0}
+        .layui-table-none{padding: 0;}
     </style>
 </head>
-<body>
-<div class="tableBox" style="clear:both;margin-bottom: 20px;">
+<body style="padding-top:20px; ">
+<div class="tableBox">
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
+</div>
+<div class="relevant">
+    <p>搜索热点</p>
+    <div class="relevant-cont hotspot">
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=可燃气体探测器" target="_top">可燃气体探测器</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=加油加氢" target="_top">加油加氢</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=井筒工程技术" target="_top">井筒工程技术</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=催化剂" target="_top">催化剂</a>-->
+        <!--</div>-->
+    </div>
 </div>
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
@@ -78,14 +92,23 @@
                     theme: '#0F9EE0'
                 },
                 cols: [[
-                    {title: '序号', type: 'numbers', width: 55},
-                    {field: 'xmmc', title: '项目名称', style: 'cursor: pointer;', align: 'left', width: '30%'},
-                    {field: 'fzdw', title: '牵头单位', style: 'cursor: pointer;', align: 'left', width: '20%'},
-                    {field: 'zylb', title: '专业类别', style: 'cursor: pointer;', align: 'left', width: '20%'},
-                    {field: 'nd', title: '立项年度', style: 'cursor: pointer;', align: 'center'},
+                    {field:'LAY_TABLE_INDEX',title:'年度',
+                        templet:  function (d) {
+                            return '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:void(0);" onclick="showDetail(\''+d.dataId+'\')">'+d.xmmc+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>立项年度:'+d.nd+'</span><br/><span>牵头单位:'+d.fzdw+'</span><br/>' +
+                                '<span>专业领域:'+((typeof d.zyly=="undefined")?"":d.fzrxm)+'</span><br/>' +
+                                '<span>课题负责人:'+((typeof d.fzrxm=="undefined")?"":d.fzrxm)+'</span><br/>' +
+                                '<span>技术首席:'+((typeof d.jssxxm=="undefined")?"":d.jssxxm)+'</span>' +
+                                '</p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>'
+                        }},
                 ]],
                 done: function (res, curr, count) {
-                    console.log(res.data);
                     parent.$("#keyan").html(count);
                     // 点击行联动选择框--单选
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
@@ -115,9 +138,8 @@
         }
         renderTable();
 
-        //监听行双击事件
-        table.on('row(processdef-table)', function (obj) {
-            var temUrl = "/out/project-detail/" + obj.data.dataId;
+        function showDetail(data_id){
+            var temUrl = "/out/project-detail/" + data_id;
             layer.open({
                 title: '详情',
                 skin: 'layui-layer-lan',
@@ -130,7 +152,33 @@
                 area: ['90%', '80%'],
                 content: temUrl
             });
-        });
+        }
+        window.showDetail = showDetail;
+        // table.on('row(processdef-table)', function (obj) {
+        //     var temUrl = "/out/project-detail/" + obj.data.dataId;
+        //     layer.open({
+        //         title: '详情',
+        //         skin: 'layui-layer-lan',
+        //         shadeClose: true,
+        //         type: 2,
+        //         fixed: false,
+        //         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+        //         maxmin: true,
+        //         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+        //         area: ['90%', '80%'],
+        //         content: temUrl
+        //     });
+        // });
+
+        var hotKeyWord = '${hotKeyWord}';
+        let array = hotKeyWord.split(",");
+        var html = "";
+        for (let i = 0,j = array.length; i <j ; i++) {
+            html =html+"<div class=\"item\">";
+            html=html+"<a href=\"/instituteIndex?url=/fullSearch/search?keyword="+array[i]+"\" target=\"_top\">"+array[i]+"</a>";
+            html=html+"</div>";
+        }
+        $(".relevant-cont").html(html);
     });
 </script>
 </body>

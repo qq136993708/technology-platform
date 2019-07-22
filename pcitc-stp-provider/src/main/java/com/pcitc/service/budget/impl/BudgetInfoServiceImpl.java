@@ -3,12 +3,15 @@ package com.pcitc.service.budget.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,6 +28,7 @@ import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetOrganEnum;
 import com.pcitc.base.common.enums.BudgetOrganNdEnum;
+import com.pcitc.base.common.enums.BudgetReleaseEnum;
 import com.pcitc.base.common.enums.BudgetStockEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
@@ -586,6 +590,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 				budget.setGfyshjxq(dToI(stocksplit.get(i).get("stock_xq")));
 				budget.setGfyshjys(dToI(stocksplit.get(i).get("stock_total")));
 			}
+			System.out.println("JSON..stocksplit.."+JSON.toJSONString(stocksplit));
 		}
 		//计算总数
 		for(int i =0;i<list.size();i++) {
@@ -732,6 +737,66 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		c.andNdEqualTo(nd);
 		c.andBudgetInfoIdIn(budgetTypes);
 		return budgetSplitDataMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<BudgetMoneyDecompose> selectTotalByNd(String nd) 
+	{
+		
+		return null;
+	}
+
+	@Override
+	public LayuiTableData selectReleaseBudgetPage(LayuiTableParam param) 
+	{
+		Set<Integer> types = new HashSet<Integer>();
+		types.add(BudgetInfoEnum.GROUP_SPLIT.getCode());
+		types.add(BudgetInfoEnum.ASSET_SPLIT.getCode());
+		types.add(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
+		types.add(BudgetInfoEnum.STOCK_XTY_SPLIT.getCode());
+		types.add(BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode());
+		BudgetInfoExample example = new BudgetInfoExample();
+		BudgetInfoExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andBudgetTypeIn(new ArrayList<Integer>(types));
+		c.andNdEqualTo(param.getParam().get("nd").toString());
+		c.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+		example.setOrderByClause("data_version");
+		
+		LayuiTableData data = this.findByExample(param, example);
+		List<Map<String,Object>> mapdata = new ArrayList<Map<String,Object>>();
+		for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
+			Map<String,Object> map = MyBeanUtils.transBean2Map(iter.next());
+			map.put("status", BudgetAuditStatusEnum.getStatusByCode((Integer)map.get("auditStatus")).getDesc());
+			map.put("budgetName", BudgetInfoEnum.getByCode((Integer)map.get("budgetType")).getDesc());
+			map.put("releaseStatusName", BudgetReleaseEnum.getByCode((Integer)map.get("releaseStatus")).getDesc());
+			mapdata.add(map);
+		}
+		data.setData(mapdata);
+		return data;
+	}
+
+	@Override
+	public List<Map<String, Object>> filterDataByUnit(List<Map<String, Object>> data, String unitCodes) 
+	{
+		if(StringUtils.isBlank(unitCodes)) 
+		{
+			return data;
+		}
+		String [] codes = unitCodes.split(",");
+		Set<String> organCodeSet = new HashSet<String>();
+		for(String code:codes) 
+		{
+			BudgetOrganEnum organ = BudgetOrganEnum.getByUnitCode(code);
+			if(organ != null) 
+			{
+				organCodeSet.add(organ.getCode());
+			}
+		}
+		return data.stream()
+				.filter(a -> organCodeSet.contains(a.get("organCode")))
+				.collect(Collectors.toList());
+		
 	}
 	
 }

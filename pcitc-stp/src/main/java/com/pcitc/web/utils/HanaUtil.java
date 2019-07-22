@@ -1251,7 +1251,7 @@ public class HanaUtil {
 					extend02_count = extend02_count + sjqds;
 
 				}
-				System.out.println(title+"------"+name+"======="+i+"=========="+j+"==========="+extend01_count+"===="+jhqds+"----------------"+sjqds);
+				System.out.println(title + "------" + name + "=======" + i + "==========" + j + "===========" + extend01_count + "====" + jhqds + "----------------" + sjqds);
 			}
 			node.setName(title);
 			node.setExtend01(String.valueOf(extend01_count));
@@ -2964,8 +2964,7 @@ public class HanaUtil {
 		return chartBarLineSeries;
 	}
 
-
-public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> list, String name) {
+	public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zysje")) {
@@ -2990,101 +2989,79 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 		}
 
 		List<Object> dataList = new ArrayList<Object>();
-		if (list != null && list.size() > 0) 
-		{
-			for (int i = 0; i < list.size(); i++) 
-			{
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
 				Object zysje = f03.getZysje();
 				Object zsjje = f03.getZsjje();
 				Object hanaMoney = f03.getHanaMoney();
 				Object wqhtzje = f03.getWqhtzje();
 				Object wbkzje = f03.getWbkzje();
-				
-				if (name.equals("zysje"))
-				{
-					
-					if(zysje!=null)
-					{
-						String str=HanaUtil.DecimalFormatObject(zysje);
+
+				if (name.equals("zysje")) {
+
+					if (zysje != null) {
+						String str = HanaUtil.DecimalFormatObject(zysje);
 						dataList.add(str);
-						
-					}else
-					{
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				
-				if (name.equals("zsjje"))
-				{
-					
-					if(zsjje!=null)
-					{
-						String str=HanaUtil.DecimalFormatObject(zsjje);
+
+				if (name.equals("zsjje")) {
+
+					if (zsjje != null) {
+						String str = HanaUtil.DecimalFormatObject(zsjje);
 						dataList.add(str);
-						
-					}else
-					{
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				if (name.equals("hanaMoney"))
-				{
-					
-					if(hanaMoney!=null)
-					{
-						String str=HanaUtil.DecimalFormatObject(hanaMoney);
+				if (name.equals("hanaMoney")) {
+
+					if (hanaMoney != null) {
+						String str = HanaUtil.DecimalFormatObject(hanaMoney);
 						dataList.add(str);
-						
-					}else
-					{
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				
-				
-				
-				if (name.equals("wqhtzje"))
-				{
-					
-					if(wqhtzje!=null)
-					{
-						String str=HanaUtil.DecimalFormatObject(wqhtzje);
+
+				if (name.equals("wqhtzje")) {
+
+					if (wqhtzje != null) {
+						String str = HanaUtil.DecimalFormatObject(wqhtzje);
 						dataList.add(str);
-						
-					}else
-					{
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				
-				if (name.equals("wbkzje"))
-				{
-					
-					if(wbkzje!=null)
-					{
-						String str=HanaUtil.DecimalFormatObject(wbkzje);
+
+				if (name.equals("wbkzje")) {
+
+					if (wbkzje != null) {
+						String str = HanaUtil.DecimalFormatObject(wbkzje);
 						dataList.add(str);
-						
-					}else
-					{
+
+					} else {
 						dataList.add(0);
 					}
-					
+
 				}
-				
-				
 
 			}
 			chartBarLineSeries.setData(dataList);
 		}
 		return chartBarLineSeries;
 	}
-	
 
 	public static ChartBarLineSeries getInvestmentBarLineSeries02(List<BudgetMysql> list, String name) {
 
@@ -3113,8 +3090,9 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 				if (name.equals("zysje")) {
 
 					if (zysje != null) {
-						String str=HanaUtil.DecimalFormatObject(zysje);
-						dataList.add(str);//String.format("%.2f", Double.valueOf(String.valueOf(zysje)))
+						String str = HanaUtil.DecimalFormatObject(zysje);
+						dataList.add(str);// String.format("%.2f",
+											// Double.valueOf(String.valueOf(zysje)))
 
 					} else {
 						dataList.add(0);
@@ -3125,7 +3103,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 				if (name.equals("zsjje")) {
 
 					if (zsjje != null) {
-						String str=HanaUtil.DecimalFormatObject(zsjje);
+						String str = HanaUtil.DecimalFormatObject(zsjje);
 						dataList.add(str);
 
 					} else {
@@ -3136,7 +3114,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 				if (name.equals("hanaMoney")) {
 
 					if (hanaMoney != null) {
-						String str=HanaUtil.DecimalFormatObject(hanaMoney);
+						String str = HanaUtil.DecimalFormatObject(hanaMoney);
 						dataList.add(str);
 
 					} else {
@@ -3547,7 +3525,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("xkMoney")) {
-			chartBarLineSeries.setName("新开课题实际金额");
+			chartBarLineSeries.setName("新开课题已签金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 
@@ -3585,18 +3563,16 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 	public static ChartBarLineSeries getinvestmentBarLineSeries2(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("zysje")) {
+			chartBarLineSeries.setName("预算金额");
+
+			chartBarLineSeries.setyAxisIndex(0);
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
 		if (name.equals("zsjje")) {
 			chartBarLineSeries.setName("实际科研投入");
 
 			chartBarLineSeries.setyAxisIndex(0);
-
-			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
-		}
-		if (name.equals("wxdje")) {
-			chartBarLineSeries.setName("未执行");
-
-			chartBarLineSeries.setyAxisIndex(0);
-
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("jeRate")) {
@@ -3610,43 +3586,25 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-				// System.out.println("======f03.getZsjje=="+f03.getZsjje()+" getWxdje="+f03.getWxdje());
-				Object wxdjeStr = f03.getWxdje();
-				String wxdje = "0";
-				if (wxdjeStr != null) {
-					wxdje = ((BigDecimal) f03.getWxdje()).toString();
+				if (name.equals("zysje")) {
+					if (f03.getZysje() != null && Double.parseDouble(f03.getZysje().toString()) != 0d) {
+						dataList.add(String.format("%.4f", Double.parseDouble(f03.getZysje().toString()) / 10000));
+					} else {
+						dataList.add(0);
+					}
 				}
-
-				String zsjje = ((BigDecimal) f03.getZsjje()).toString();
-				String jeRate = "0";
-				Object o = f03.getJeRate();
-				if (o != null) {
-					jeRate = ((BigDecimal) f03.getJeRate()).toString();
-				}
-
 				if (name.equals("zsjje")) {
-
-					if (zsjje != null) {
-						dataList.add(String.format("%.2f", Double.valueOf(zsjje) / 10000));
+					if (f03.getZsjje() != null && Double.parseDouble(f03.getZsjje().toString()) != 0d) {
+						dataList.add(String.format("%.4f", Double.parseDouble(f03.getZsjje().toString()) / 10000));
 
 					} else {
 						dataList.add(0);
 					}
 
 				}
-				if (name.equals("wxdje")) {
-
-					if (!wxdje.equals("0")) {
-						dataList.add(String.format("%.2f", Double.valueOf(wxdje) / 10000));
-					} else {
-						dataList.add(0);
-					}
-				}
-
 				if (name.equals("jeRate")) {
-
-					if (!jeRate.equals("0")) {
-						dataList.add(String.format("%.2f", Double.valueOf(jeRate)));
+					if (f03.getJeRate() != null && Double.parseDouble(f03.getJeRate().toString()) != 0d) {
+						dataList.add(String.format("%.4f", Double.parseDouble(f03.getJeRate().toString())));
 					} else {
 						dataList.add(0);
 					}
@@ -3758,7 +3716,7 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 			// chartBarLineSeries.setSmooth(true);
 		}
-		
+
 		if (name.equals("zysje")) {
 			chartBarLineSeries.setName("总预算科研投入");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
@@ -3785,14 +3743,14 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 				}
 				if (name.equals("zbxsjje")) {
 
-					if (zbxsjje != null) {
+					if (zbxsjje != null && !zbxsjje.equals("null") && !zbxsjje.equals("")) {
 						dataList.add(String.format("%.4f", Double.valueOf(zbxsjje) / 10000));
 					} else {
 						dataList.add(0);
 					}
 
 				}
-				
+
 				if (name.equals("zysje")) {
 
 					if (zysje != null && !zysje.equals("null") && !zysje.equals("")) {
@@ -5849,31 +5807,25 @@ public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> li
 		double f1 = new BigDecimal((float) a / b).setScale(wei, BigDecimal.ROUND_HALF_UP).doubleValue();
 		return f1 * 100;
 	}
-	
-	
-	public static String  DecimalFormatObject(Object object) 
-	{
-		double data =Double.valueOf(object.toString());
-		String str=new DecimalFormat("#.###").format(data);
+
+	public static String DecimalFormatObject(Object object) {
+		double data = Double.valueOf(object.toString());
+		String str = new DecimalFormat("#.###").format(data);
 		return str;
 	}
-	
-	
-	public static String  DecimalFormatBigDecimal(BigDecimal object) 
-	{
-		double data =Double.valueOf(object.toString());
-		String str=new DecimalFormat(",###.###").format(object);
+
+	public static String DecimalFormatBigDecimal(BigDecimal object) {
+		double data = Double.valueOf(object.toString());
+		String str = new DecimalFormat(",###.###").format(object);
 		return str;
 	}
-	
 
 	public static void main(String[] args) {
 
-		
-		Object o=33;
-		
-		System.out.println(">>>>>>>>>>>thesisEiInnerCount="+o);
-		System.out.println(">>>>>>>>>>>thesisEiInnerCount="+(Integer)o);
+		Object o = 33;
+
+		System.out.println(">>>>>>>>>>>thesisEiInnerCount=" + o);
+		System.out.println(">>>>>>>>>>>thesisEiInnerCount=" + (Integer) o);
 
 	}
 

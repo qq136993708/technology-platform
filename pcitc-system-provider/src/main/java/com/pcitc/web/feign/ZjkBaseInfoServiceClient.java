@@ -31,5 +31,14 @@ public interface ZjkBaseInfoServiceClient {
      */
     @RequestMapping(value = "/sre-provider/project_basic/page_search", method = RequestMethod.POST)
     public LayuiTableData getSreProjectBasicListSearch(@RequestBody LayuiTableParam paramsJson)throws Exception;
+
+    /**
+     * 专家信息
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page-count")
+    public LayuiTableData selectZjkBaseInfoByPageCount(@RequestBody LayuiTableParam param);
+
 }
 

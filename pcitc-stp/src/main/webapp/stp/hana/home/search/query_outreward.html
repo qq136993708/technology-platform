@@ -32,7 +32,7 @@
 </style>
 </head>
 
-<body>
+<body style="padding-top:20px; ">
 	<!--<div class="searchBox">-->
 		<!--&lt;!&ndash;查询条件&ndash;&gt;-->
 		<!--<label class="dateInput">-->
@@ -60,18 +60,18 @@
     <div class="relevant">
         <p>搜索热点</p>
         <div class="relevant-cont hotspot">
-            <div class="item">
-                <a href="javascript:void(0)" onclick="renderTableKeyword('可燃气体探测器')">可燃气体探测器</a>
-            </div>
-            <div class="item">
-                <a href="javascript:void(0)" onclick="renderTableKeyword('加油加氢')">加油加氢</a>
-            </div>
-            <div class="item">
-                <a href="javascript:void(0)" onclick="renderTableKeyword('井筒工程技术')">井筒工程技术</a>
-            </div>
-            <div class="item">
-                <a href="javascript:void(0)" onclick="renderTableKeyword('催化剂')">催化剂</a>
-            </div>
+            <!--<div class="item">-->
+                <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=可燃气体探测器" target="_top">可燃气体探测器</a>-->
+            <!--</div>-->
+            <!--<div class="item">-->
+                <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=加油加氢" target="_top">加油加氢</a>-->
+            <!--</div>-->
+            <!--<div class="item">-->
+                <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=井筒工程技术" target="_top">井筒工程技术</a>-->
+            <!--</div>-->
+            <!--<div class="item">-->
+                <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=催化剂" target="_top">催化剂</a>-->
+            <!--</div>-->
         </div>
     </div>
 	<!--表格数据操作js-->
@@ -99,11 +99,11 @@
                             "keyword":$("#keyword").val()
                         }
 					},
-					limit : param.selfRownum,
+					limit : 15,
 					id : 'showTable',
 					page : {
 						groups : 5,
-						limits : [ param.selfRownum, 15, 30, 45, 60 ],
+						limits : [ 15, 30, 45, 60 ],
 						layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
 						first : '首页', //不显示首页
 						last : '尾页', //不显示尾页
@@ -113,10 +113,10 @@
                         {field:'LAY_TABLE_INDEX',title:'年度',
                             templet:  function (d) {
                                 return '<div class="layui-div layui-div-n">' +
-                                    '        <a href="javascript:;">'+d.xmmc+'</a>' +
+                                    '        <a href="javascript:void(0);" onclick="showDetail(\''+d.dataId+'\')">'+d.xmmc+'</a>' +
                                     '        <div class="c-row c-gap-top-small">' +
                                     '            <div class="c-span18 c-span-last">' +
-                                    '                <p><span>年度:'+d.nd+'</span><br/><span>单位:'+d.sbdw+'</span><br/><span>奖励类型:'+d.sbjz+'</span><br/><span>奖项等级:'+d.psdj+'</span></p>' +
+                                    '                <p><span>获奖年度:'+d.nd+'</span><br/><span>获奖单位:'+d.sbdw+'</span><br/><span>奖励类型:'+d.sbjz+'</span><br/><span>获奖等级:'+d.psdj+'</span></p>' +
                                     '            </div>' +
                                     '        </div>' +
                                     '    </div>'
@@ -202,22 +202,38 @@
 				});
 			});
 
-			//监听行双击事件
-			table.on('row(tableData)', function(obj) {
-				var temUrl = "/out/reward-detail/" + obj.data.dataId;
-				layer.open({
-					title : '详情',
-					skin : 'layui-layer-lan',
-					shadeClose : true,
-					type : 2,
-					fixed : false,
-					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-					maxmin : true,
-					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-					area : [ '900px', '450px' ],
-					content : temUrl
-				});
-			});
+            function showDetail(data_id){
+                var temUrl = "/out/reward-detail/" + data_id;
+                layer.open({
+                    title: '详情',
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['90%', '80%'],
+                    content: temUrl
+                });
+            }
+            window.showDetail = showDetail;
+
+			// table.on('row(tableData)', function(obj) {
+			// 	var temUrl = "/out/reward-detail/" + obj.data.dataId;
+			// 	layer.open({
+			// 		title : '详情',
+			// 		skin : 'layui-layer-lan',
+			// 		shadeClose : true,
+			// 		type : 2,
+			// 		fixed : false,
+			// 		//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+			// 		maxmin : true,
+			// 		//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+			// 		area : [ '900px', '450px' ],
+			// 		content : temUrl
+			// 	});
+			// });
 
 			//区别按钮属性
 			$('.layui-btn').on('click', function() {
@@ -225,6 +241,15 @@
 				active[type] ? active[type].call(this) : '';
 			});
 
+            var hotKeyWord = '${hotKeyWord}';
+            let array = hotKeyWord.split(",");
+            var html = "";
+            for (let i = 0,j = array.length; i <j ; i++) {
+                html =html+"<div class=\"item\">";
+                html=html+"<a href=\"/instituteIndex?url=/fullSearch/search?keyword="+array[i]+"\" target=\"_top\">"+array[i]+"</a>";
+                html=html+"</div>";
+            }
+            $(".relevant-cont").html(html);
 		});
 	</script>
 

@@ -48,6 +48,8 @@ public class EquipmentLedgerController extends BaseController{
 	{
 		String unitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);
 		String g0gsjc = EquipmentUtils.getHanaUnitNameByUnitCode(unitCode, restTemplate, httpHeaders);
+		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+		request.setAttribute("leaddicList", leaddicList);
 		request.setAttribute("g0gsjc", g0gsjc);
 		return "/stp/equipment/ledger/company_list";
 	}

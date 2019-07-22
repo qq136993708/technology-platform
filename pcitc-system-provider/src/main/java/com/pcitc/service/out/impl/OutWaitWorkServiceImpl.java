@@ -19,10 +19,12 @@ import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.stp.out.OutWaitWork;
 import com.pcitc.base.stp.out.OutWaitWorkExample;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.mapper.out.OutWaitWorkMapper;
 import com.pcitc.service.out.OutWaitWorkService;
+import com.pcitc.utils.StringUtils;
 
 @Service("outWaitWorkService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -33,29 +35,33 @@ public class OutWaitWorkServiceImpl implements OutWaitWorkService {
 
 	@Autowired
 	private OutProjectInfoMapper outProjectInfoMapper;
-	
+
 	@Autowired
 	private OutAppraisalMapper outAppraisalMapper;
 
 	private final static Logger logger = LoggerFactory.getLogger(OutWaitWorkServiceImpl.class);
 
 	public LayuiTableData getOutWaitWorkPage(LayuiTableParam param) throws Exception {
-		// 每页显示条数
-		int pageSize = param.getLimit();
-		// 从第多少条开始
-		int pageStart = (param.getPage() - 1) * pageSize;
-		// 当前是第几页
-		int pageNum = pageStart / pageSize + 1;
-		// 1、设置分页信息，包括当前页数和每页显示的总计数
-		PageHelper.startPage(pageNum, pageSize);
+
+		PageHelper.startPage(param.getPage(), param.getLimit());
+
 		String title = (String) param.getParam().get("title");
-		logger.info("================= pageNum: " + pageNum + "pageSize=" + pageSize + "title=" + title);
 
 		OutWaitWorkExample example = new OutWaitWorkExample();
 		OutWaitWorkExample.Criteria criteria = example.createCriteria();
-		example.setOrderByClause(" create_date desc ");
+
+		if (param.getParam().get("userCode") != null && !StringUtils.isBlank(param.getParam().get("userCode") + "")) {
+			criteria.andUserIdEqualTo(param.getParam().get("userCode").toString());
+		}
+		example.setOrderByClause(" wait_time desc ");
 
 		List<OutWaitWork> list = outWaitWorkMapper.selectByExample(example);
+
+		for (int i = 0; i < list.size(); i++) {
+			OutWaitWork oww = list.get(i);
+			if (oww.getWaitTime() != null)
+				oww.setShowDate(DateUtil.dateToStr(oww.getWaitTime(), DateUtil.FMT_SS));
+		}
 		PageInfo<OutWaitWork> pageInfo = new PageInfo<OutWaitWork>(list);
 		System.out.println(">>>>>>>>>查询分页结果" + pageInfo.getList().size());
 
@@ -89,6 +95,11 @@ public class OutWaitWorkServiceImpl implements OutWaitWorkService {
 
 	public Integer insertOutWaitWork(OutWaitWork record) throws Exception {
 		return outWaitWorkMapper.insert(record);
+	}
+
+	public Integer insertOutWaitWorkBatch(List<OutWaitWork> workList) {
+
+		return outWaitWorkMapper.insertOutWaitWorkBatch(workList);
 	}
 
 	public int deleteOutWaitWorkByType(String type) throws Exception {

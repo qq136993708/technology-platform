@@ -1,5 +1,9 @@
 package com.pcitc.service.doc;
 
+import com.pcitc.base.common.HotWord;
+
+import java.util.List;
+
 /**
  * @author:Administrator
  * @date:2018/6/23
@@ -42,4 +46,15 @@ public interface IndexAccessorService {
     boolean hasMapping(Class clazz);
 
     boolean hasMapping(String indexName, String typeName);
+
+    /**
+     * 保存查询日志到ES
+     * @param obj 对象
+     * @param methodName 自定义方法名称,默认为空
+     */
+    public void saveObjToEs(Object obj,String methodName);
+    /**
+     * 查询出现的热点词汇
+     */
+    public List<String> selectHotWord(HotWord hotWord);
 }

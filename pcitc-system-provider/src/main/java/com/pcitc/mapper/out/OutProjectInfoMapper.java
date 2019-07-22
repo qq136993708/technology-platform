@@ -53,6 +53,11 @@ public interface OutProjectInfoMapper {
 	public List<OutProjectInfo> selectCommonProjectByCond(HashMap<String, Object> map);
 	
 	/**
+     * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息
+     */
+	public List<OutProjectInfo> selectProjectInfoWithAllInfoByCond(HashMap<String, Object> map);
+	
+	/**
      * 分页显示项目数据数据,国拨项目统计的第三级展示
      */
 	public List<OutProjectInfo> selectCountryProjectByCond(HashMap<String, Object> map);
@@ -73,9 +78,14 @@ public interface OutProjectInfoMapper {
 	public HashMap<String, String> getOutProjectInfoMoney(HashMap<String, String> map);
 	
 	/**
-     * 领导页，总的预算金额，按专业处
+     * 领导页，总的费用性预算金额，按专业处
      */
-    public HashMap<String, String> getProjectBudgetMoney(HashMap<String, String> map);
+    public HashMap<String, String> getProjectBudgetFyxMoney(HashMap<String, String> map);
+    
+    /**
+     * 领导首页，计算资本性预算金额。预算资本性金额没办法进行权限控制
+     */
+    public HashMap<String, String> getBudgetZBXMoney(HashMap<String, String> map);
 	
 	/**
      * @param nd

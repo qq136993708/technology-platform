@@ -5,8 +5,10 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/second.css">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/modules/layer/default/layer.css">
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <title>专家详情</title>
     <style>
         .layui-row-main {
             text-align: center;
@@ -126,10 +128,11 @@
                 </div>
             </div>
         </div>
-        <div class="layui-col-md5">
+        <div class="layui-col-md5" id="enlargeP">
             <div class="layui-card">
-                <div class="layui-card-header">
+                <div class="layui-card-header" id="enlarge">
                     <span class="border-span"></span>专家画像
+                    <a class="layui-layer-ico layui-layer-max" href="javascript:;"></a>
                 </div>
                 <div class="layui-row-main">
                     <div class="main-chart" id="five" style="height:320px;width: 100%;"></div>
@@ -208,7 +211,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     });
                 }else {
                     $("#enlargeP").removeClass("enlarge");
-                    $("#enlargeP .main-chart").css("height","250px");
+                    $("#enlargeP .main-chart").css("height","320px");
                     var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
                     var colorFive = ["#8fc31f"];
                     var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
@@ -350,7 +353,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
         ];
 
         function renderTable() {
-            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/queryIndex', false, cols, where, true, function (res, curr, count) {
+            publicMethods.tableRenderH('expertTable', 'expertTable',260, '/expertController/queryIndex', false, cols, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -384,7 +387,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 },
                 limit : param.selfRownum,
                 id : 'showTableAward',
-                height : commonDislodgeTable(),
+                height : 260,
                 page : {
                     groups : 5,
                     limits : [ param.selfRownum, 15, 30, 45, 60 ],
@@ -464,7 +467,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
             limit: param.selfRownum,
             // limit: 15,
             id: 'showTableCg',
-            height: commonDislodgeTable(),
+            height: 260,
             page: {
                 groups: 5,
                 limits: [param.selfRownum,  30, 45, 60],
@@ -527,7 +530,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 },
                 limit: param.selfRownum,
                 id: 'showTableKt',
-                height: commonDislodgeTable(),
+                height: 260,
                 page: {
                     groups: 5,
                     limits: [param.selfRownum,  30, 45, 60],
@@ -606,7 +609,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 },
                 limit: param.selfRownum,
                 id: 'showTable',
-                height: commonDislodgeTable()-200,
+                height: 260,
                 page: {
                     groups: 5,
                     limits: [param.selfRownum, 30, 45, 60],

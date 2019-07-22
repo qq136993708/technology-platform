@@ -521,7 +521,7 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 					String levle=ss.getWriteType();
 					if(levle.equals("1") || levle.equals("2"))
 					{
-						ss.setLay_is_open(false);
+						ss.setLay_is_open(true);
 					}else
 					{
 						ss.setLay_is_open(true);

@@ -10,10 +10,14 @@ import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.expert.TfmTypeExample;
 import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.expert.TfmTypeMapper;
 import com.pcitc.service.expert.TfmTypeService;
 import com.pcitc.service.search.FullSearchService;
+import com.pcitc.service.system.IndexOutAppraisalService;
+import com.pcitc.service.system.IndexOutPatentService;
+import com.pcitc.service.system.IndexOutProjectInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -156,33 +161,66 @@ public class TfmTypeServiceImpl implements TfmTypeService {
         }
     }
 
+    @Autowired
+    IndexOutAppraisalService indexOutAppraisalService;
+    @Autowired
+    IndexOutPatentService indexOutPatentService;
+    @Autowired
+    IndexOutProjectInfoService indexOutProjectInfoService;
+    @Autowired
+    FullSearchService fullSearchService;
+
     @Override
     public LayuiTableData findTfmTypeByPage(LayuiTableParam param) {
         TfmTypeExample example = new TfmTypeExample();
         TfmTypeExample.Criteria c = example.createCriteria();
         Object typeName = param.getParam().get("typeName");
         Object keyword = param.getParam().get("keyword");
-        if (typeName != null&&!"".equals(typeName)) {
+        if (typeName != null && !"".equals(typeName)) {
             c.andTypeNameLike("%" + typeName + "%");
         }
-        if (keyword != null&&!"".equals(keyword)) {
+        if (keyword != null && !"".equals(keyword)) {
             c.andTypeNameLike("%" + keyword + "%");
         }
-//        c.andStatusEqualTo("1");
-//        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
-//        {
-        //   c.andIdLike("'%"+param.getParam().get("fileKind")+"%'");
-//            TfmTypeExample.Criteria criteria2 = example.or();
-//            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
-//            example.or(criteria2);
-        //       }
         example.setOrderByClause("create_date desc");
-        return this.findByExample(param, example);
 
+        Object iscount = param.getParam().get("iscount");
+
+        LayuiTableData data = this.findByExample(param, example);
+
+        List<TfmType> tfmTypes = new ArrayList<>();
+
+        Object keywords = param.getParam().get("keyword");
+        if (keywords != null && !"".equals(keywords)) {
+            List<Map<String, Object>> maps = (List<Map<String, Object>>) data.getData();
+            for (int i = 0, j = maps.size(); i < j; i++) {
+                TfmType tfmType = new TfmType();
+                MyBeanUtils.transMap2Bean(maps.get(i), tfmType);
+                tfmTypes.add(tfmType);
+            }
+        }else {
+            tfmTypes = (List<TfmType>) data.getData();
+        }
+
+        if (iscount != null && "1".equals(iscount)) {
+            for (int i = 0, j = tfmTypes.size(); i < j; i++) {
+                Map map = new HashMap();
+                map.put("typeIndex", tfmTypes.get(i).getTypeIndex());
+                param.setParam(map);
+                //获取项目数
+                //获取成果数
+                //获取专利数
+                //获取人员数
+                String strCount = indexOutProjectInfoService.findIndexOutProjectInfoByPage(param).getCount() + "|" + indexOutAppraisalService.findIndexOutAppraisalByPage(param).getCount() + "|" + indexOutPatentService.findIndexOutPatentByPage(param).getCount() + "|";
+                map.put("type", "ry");
+                param.setParam(map);
+                LayuiTableData ry_data = indexOutProjectInfoService.findIndexOutProjectInfoByPageTreeIndex(param);
+                tfmTypes.get(i).setRemarks(strCount + ry_data.getCount());
+            }
+            data.setData(tfmTypes);
+        }
+        return data;
     }
-
-    @Autowired
-    FullSearchService fullSearchService;
 
     /**
      * 根据条件分页搜索

@@ -661,8 +661,9 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .cycle-cont-left{width: 14%;float: left;margin: 10px 0;text-align: center;}
 .cycle-cont-midd,.cycle-cont-right{width: 43%;float: left;padding-top: 30px;box-sizing: border-box;padding-right: 10px;
     position: relative;}
-.cycle-cont-end{padding-top: 30px;}
-.cycle-cont-end span{ display: inline-block; padding: 10px;margin: 0 6px;background-color: #1890ff;color: #fff;border-radius: 3px;}
+.cycle-cont-end{padding-top: 16px;}
+.cycle-cont-end span{ display: inline-block; padding: 10px;margin: 0 6px;background-color: #1890ff;color: #fff;cursor: pointer;
+    border-radius: 3px;}
 .cycle-cont-left p{text-align: center;font-size: 12px;}
 .cycle-cont-left p:nth-child(1){background-color: #1890ff;display:inline-block;height: 26px;line-height: 26px;
     margin:  0 auto;border-radius: 6px;color: white;font-size: 12px;padding: 0 6px;}
@@ -720,6 +721,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     border: 1px solid #1890ff !important;}
 .xm-select-parent dd .xm-cz:hover{color: #1890ff !important;}
 .layui-tab-brief>.layui-tab-title .layui-this{color: #1890ff}
+.cycle-midd{width: 6% !important;}
 /*skill*/
 .skill{padding: 6px 0px 15px;border: 1px solid #dadada;
     border-radius: 3px;}
@@ -749,22 +751,46 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .enlarge{ position: absolute;top: 0;left: 0;z-index: 999;height: 100%;width: 100% !important;}
 
 @media (max-width: 1308px) {
-    .layui-q>.layui-tab-title li{width: 142px;
-        height: 99px;background-size: 100%;}
-    .layui-q>.layui-tab-title li .search-img{background-size: 100%;
-        left: 58px;}
+    .layui-leader .layui-q>.layui-tab-title li{width: 114px;
+        height: 77px;background-size: 100%;}
+    .layui-leader .layui-q>.layui-tab-title li .search-img{background-size: 100%;
+        left: 46px;}
     .layui-q>.layui-tab-title li:hover,.layui-q>.layui-tab-title li.layui-this:hover,.layui-q>.layui-tab-title li.layui-this{background-size: 100%;}
-    .layui-q>.layui-tab-title .search-text{bottom: -61px;}
+    .layui-leader .layui-q>.layui-tab-title .search-text{bottom: -44px;}
+}
+@media (max-width: 1504px) {
+    .layui-leader .layui-q>.layui-tab-title li{width: 130px;
+        height: 88px;background-size: 100%;margin-right: 14px;}
+    .layui-leader .layui-q>.layui-tab-title li .search-img{background-size: 100%;
+        left: 54px;}
+    .layui-q>.layui-tab-title li:hover,.layui-q>.layui-tab-title li.layui-this:hover,.layui-q>.layui-tab-title li.layui-this{background-size: 100%;}
+    .layui-leader .layui-q>.layui-tab-title .search-text{bottom: -52px;}
+
+    .layui-cs .layui-q>.layui-tab-title li{width: 142px;
+        height: 95px;background-size: 100%;}
+    .layui-cs .layui-q>.layui-tab-title li .search-img{background-size: 100%;
+        left: 60px;}
+    .layui-cs .layui-q>.layui-tab-title .search-text{bottom: -58px;}
+}
+@media (max-width: 1044px) {
+    .layui-cs .layui-q>.layui-tab-title li{width: 111px;
+        height: 75px;background-size: 100%;}
+    .layui-cs .layui-q>.layui-tab-title li .search-img{background-size: 100%;
+        left: 42px;}
+    .layui-cs .layui-q>.layui-tab-title .search-text{bottom: -42px;}
 }
 @media (min-width: 1673px) {
-    .layui-leader .layui-q>.layui-tab-title li{width: 155px;
-        height: 104px;background-size: 100%;}
-    .layui-cs .layui-q>.layui-tab-title li{width: 167px;
-        height: 112px;background-size: 100%;}
-    .layui-q>.layui-tab-title li .search-img{background-size: 100%;
-        left: 58px;top: 22px;}
+    .layui-leader .layui-q>.layui-tab-title li{width: 164px;
+        height: 110px;background-size: 100%;margin-right: 16px;}
+    .layui-cs .layui-q>.layui-tab-title li{width: 190px;
+        height: 127px;background-size: 100%;}
+    .layui-cs  .layui-tab-title{    margin: 0 auto 5px;}
+    .layui-leader .layui-q>.layui-tab-title li .search-img{background-size: 100%;
+        left: 68px;top: 22px;}
+    .layui-cs   .layui-q>.layui-tab-title li .search-img{background-size: 100%;
+        left: 80px;top: 22px;}
     .layui-q>.layui-tab-title li:hover,.layui-q>.layui-tab-title li.layui-this:hover,.layui-q>.layui-tab-title li.layui-this{background-size: 100%;}
-    .layui-leader .layui-q>.layui-tab-title .search-text{bottom: -66px;}
+    .layui-leader .layui-q>.layui-tab-title .search-text{bottom: -70px;font-size: 16px;}
     .layui-cs .layui-q>.layui-tab-title .search-text{bottom: -72px;}
     .layui-q>.layui-tab-title .search-number{
         right: 30px;top: 18px;}

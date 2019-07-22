@@ -5,9 +5,10 @@
     <id column="data_id" jdbcType="VARCHAR" property="dataId" />
     <result column="nd" jdbcType="VARCHAR" property="nd" />
     <result column="no" jdbcType="INTEGER" property="no" />
-    <result column="organ_id" jdbcType="VARCHAR" property="organId" />
+    <result column="organ_id" jdbcType="INTEGER" property="organId" />
     <result column="organ_code" jdbcType="VARCHAR" property="organCode" />
     <result column="organ_name" jdbcType="VARCHAR" property="organName" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    data_id, nd, no, organ_id, organ_code, organ_name, del_flag
+    data_id, nd, no, organ_id, organ_code, organ_name, unit_code, del_flag
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetOrganExample" resultMap="BaseResultMap">
     select
@@ -105,10 +106,10 @@
   <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetOrgan">
     insert into out_tem_budget_organ (data_id, nd, no, 
       organ_id, organ_code, organ_name, 
-      del_flag)
+      unit_code, del_flag)
     values (#{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
-      #{organId,jdbcType=VARCHAR}, #{organCode,jdbcType=VARCHAR}, #{organName,jdbcType=VARCHAR}, 
-      #{delFlag,jdbcType=INTEGER})
+      #{organId,jdbcType=INTEGER}, #{organCode,jdbcType=VARCHAR}, #{organName,jdbcType=VARCHAR}, 
+      #{unitCode,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetOrgan">
     insert into out_tem_budget_organ
@@ -131,6 +132,9 @@
       <if test="organName != null">
         organ_name,
       </if>
+      <if test="unitCode != null">
+        unit_code,
+      </if>
       <if test="delFlag != null">
         del_flag,
       </if>
@@ -146,13 +150,16 @@
         #{no,jdbcType=INTEGER},
       </if>
       <if test="organId != null">
-        #{organId,jdbcType=VARCHAR},
+        #{organId,jdbcType=INTEGER},
       </if>
       <if test="organCode != null">
         #{organCode,jdbcType=VARCHAR},
       </if>
       <if test="organName != null">
         #{organName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null">
+        #{unitCode,jdbcType=VARCHAR},
       </if>
       <if test="delFlag != null">
         #{delFlag,jdbcType=INTEGER},
@@ -178,13 +185,16 @@
         no = #{record.no,jdbcType=INTEGER},
       </if>
       <if test="record.organId != null">
-        organ_id = #{record.organId,jdbcType=VARCHAR},
+        organ_id = #{record.organId,jdbcType=INTEGER},
       </if>
       <if test="record.organCode != null">
         organ_code = #{record.organCode,jdbcType=VARCHAR},
       </if>
       <if test="record.organName != null">
         organ_name = #{record.organName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitCode != null">
+        unit_code = #{record.unitCode,jdbcType=VARCHAR},
       </if>
       <if test="record.delFlag != null">
         del_flag = #{record.delFlag,jdbcType=INTEGER},
@@ -199,9 +209,10 @@
     set data_id = #{record.dataId,jdbcType=VARCHAR},
       nd = #{record.nd,jdbcType=VARCHAR},
       no = #{record.no,jdbcType=INTEGER},
-      organ_id = #{record.organId,jdbcType=VARCHAR},
+      organ_id = #{record.organId,jdbcType=INTEGER},
       organ_code = #{record.organCode,jdbcType=VARCHAR},
       organ_name = #{record.organName,jdbcType=VARCHAR},
+      unit_code = #{record.unitCode,jdbcType=VARCHAR},
       del_flag = #{record.delFlag,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -217,13 +228,16 @@
         no = #{no,jdbcType=INTEGER},
       </if>
       <if test="organId != null">
-        organ_id = #{organId,jdbcType=VARCHAR},
+        organ_id = #{organId,jdbcType=INTEGER},
       </if>
       <if test="organCode != null">
         organ_code = #{organCode,jdbcType=VARCHAR},
       </if>
       <if test="organName != null">
         organ_name = #{organName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null">
+        unit_code = #{unitCode,jdbcType=VARCHAR},
       </if>
       <if test="delFlag != null">
         del_flag = #{delFlag,jdbcType=INTEGER},
@@ -235,9 +249,10 @@
     update out_tem_budget_organ
     set nd = #{nd,jdbcType=VARCHAR},
       no = #{no,jdbcType=INTEGER},
-      organ_id = #{organId,jdbcType=VARCHAR},
+      organ_id = #{organId,jdbcType=INTEGER},
       organ_code = #{organCode,jdbcType=VARCHAR},
       organ_name = #{organName,jdbcType=VARCHAR},
+      unit_code = #{unitCode,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=INTEGER}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>

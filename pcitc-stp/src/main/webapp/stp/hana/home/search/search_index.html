@@ -37,21 +37,22 @@
 <div class="relevant">
     <p>搜索热点</p>
     <div class="relevant-cont hotspot">
-        <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('可燃气体探测器')">可燃气体探测器</a>
-        </div>
-        <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('加油加氢')">加油加氢</a>
-        </div>
-        <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('井筒工程技术')">井筒工程技术</a>
-        </div>
-        <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('催化剂')">催化剂</a>
-        </div>
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=可燃气体探测器" target="_top">可燃气体探测器</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=加油加氢" target="_top">加油加氢</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=井筒工程技术" target="_top">井筒工程技术</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=催化剂" target="_top">催化剂</a>-->
+        <!--</div>-->
     </div>
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+
 <script type="text/javascript">
     // 时间格式化
     function formatTime(d) {
@@ -93,16 +94,48 @@
         //移除表头的复选框,去掉全选
         $(".layui-table-header table thead th input").remove();
 
-        // 触发不同的按钮事件
-        var $ = layui.$, active = {
+        table.on('row(tableEvent)', function(obj) {
+            console.log(obj.data);
 
+            var select_type=obj.data.select_type;
+            var temUrl = "";
+            if(select_type=="科技成果"){
+                temUrl = "/out/appraisal-detail/" + obj.data.dataId;
+            }else if(select_type=="科研课题"){
+                temUrl =  "/out/project-detail/" + obj.data.dataId;
+            }else if(select_type=="科技奖励"){
+                temUrl = "/out/reward-detail/" + obj.data.dataId;
+            }else if(select_type=="技术族"){
+                temUrl = "/standardBaseExpert/tfcAnalysisDetail?typeIndex=" + obj.data.typeIndex+"&typeName="+obj.data.typeName+"&typeCode="+obj.data.typeCode;
+            }else if(select_type=="科研人才"){
+                var temUrl = "/expertController/expertDetailLeader?expertId=" + obj.data.dataId;
+                window.open(temUrl);
+                return false;
+            }else if(select_type=="科研装备"){
+                temUrl = '/sre-project-basic/get/' + obj.data.id;
+            }
+            else if(select_type=="知识产权"){
+                return false;
+            }
+            else if(d.select_type=="文档资料"){
+                return false;
+            }
 
-        };
+            layer.open({
+                title : '详情',
+                skin : 'layui-layer-lan',
+                shadeClose : true,
+                type : 2,
+                fixed : false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin : true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area : [ '900px', '450px' ],
+                content : temUrl
+            });
+        });
         //监听排序
         table.on('sort(model-table)', function(obj){
-            //console.log(this, obj.field, obj.type)
-            //return;
-            //服务端排序
             table.reload('model-table', {
                 initSort: obj,
                 page: {curr: 1}, //重新从第一页开始
@@ -121,25 +154,24 @@
     var where =  {};
     function renderTableKeyword(key) {
         $("#keyword").val(key);
-        renderTable();
+        // renderTable();
     }
     function renderTable()
     {
         where =  {param: {
-                "keyword":$("#keyword").val(),
+                "keyword":"${keyword}",
+                "keywords":"${keyword}",
+                "iscount":"1",
                 "fileCount":$("#fileCount").val(),
                 "month":$("#month").val(),
                 "companyCode":$("#companyCode").val()
             }};
 
-        var index = layer.load(1, {
-            shade: [0.1,'#fff']
-        });
+
 
         var monthParam = $("#month").val();
         var companyCodeParam = $("#companyCode").val();
         var fileCount = $("#fileCount").val();
-        console.log("tab数量："+fileCount);
         //渲染
         table.render({
             elem: '#processdef-table',
@@ -147,27 +179,137 @@
             method:"POST",
             where:where,
             limit: 15,
+
+            height: 1000,
             id: 'processdef-table',
-            /*page: {
-                groups: 5,
-                limits: [15,30,45,60],
-                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-                first: '首页', //不显示首页
-                last: '尾页', //不显示尾页
-                theme: '#0F9EE0'
-            },*/
+            // page: {
+            //     groups: 5,
+            //     limits: [15,30,45,60],
+            //     layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+            //     first: '首页', //不显示首页
+            //     last: '尾页', //不显示尾页
+            //     theme: '#0F9EE0'
+            // },
             cols: [[
                 {field:'LAY_TABLE_INDEX',title:'年度',
-                    templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
+                    templet:  function (d) {
+                        var select_type=d.select_type;
+                        var desc = "";
+                        if(select_type=="科技成果"){
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.cgmc+'_'+select_type+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>年度:'+d.nd+'</span><br/><span>成果单位:'+d.sqjddw+'</span><br/><span>成果类型:'+d.cglx+'</span><br/><span>鉴定号:'+d.jdh+'</span></p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(select_type=="科研课题"){
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.xmmc+'_'+select_type+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>立项年度:'+d.nd+'</span><br/><span>牵头单位:'+d.fzdw+'</span><br/>' +
+                                '<span>专业领域:'+((typeof d.zyly=="undefined")?"":d.fzrxm)+'</span><br/>' +
+                                '<span>课题负责人:'+((typeof d.fzrxm=="undefined")?"":d.fzrxm)+'</span><br/>' +
+                                '<span>技术首席:'+((typeof d.jssxxm=="undefined")?"":d.jssxxm)+'</span>' +
+                                '</p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(select_type=="科技奖励"){
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.xmmc+'_'+select_type+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>获奖年度:'+d.nd+'</span><br/><span>获奖单位:'+d.sbdw+'</span><br/><span>奖励类型:'+d.sbjz+'</span><br/><span>获奖等级:'+d.psdj+'</span></p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(select_type=="技术族"){
+                            var array = d.remarks.split("|");
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.typeName+'_'+select_type+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>相关项目:'+array[0]+'</span><br/><span>相关成果:'+array[1]+'</span><br/>' +
+                                '<span>相关专利:'+array[2]+'</span><br/>' +
+                                '<span>相关人员:'+array[3]+'</span><br/>' +
+                                '</p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(select_type=="科研人才"){
+                            var result=d.userDesc.replace(/<.*?>/ig,"").substring(0,100)+"...";
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.expertName+'_'+select_type+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>人物简介:'+result+'</span><br/><span>相关课题:'+d.projectCount+'</span><br/>' +
+                                '                   <span>相关成果:'+d.achievementCount+'</span><br/><span>相关奖励:'+d.bak7+'</span><br/>' +
+                                '               </p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(select_type=="科研装备"){
+                            var result=(typeof d.projectBackground=="undefined")?"":d.projectBackground.replace(/<.*?>/ig,"").substring(0,50)+"...";
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.name+'_'+select_type+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>'+result+'</span></p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(select_type=="知识产权"){
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.fmmc+'_'+select_type+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>发明人:'+d.fmr+'</span><br/><span>类型:'+d.wxlx+'</span><br/><span>专利号:'+d.zlh+'</span><br/></p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }else if(d.select_type=="文档资料"){
+                            desc = '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:;">'+d.fileName+'_'+select_type+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>文件来源:'+d.bak1+"->"+d.version+'</span></p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>';
+                        }
+                        return desc;
+                    }}
             ]],
             done: function (res, curr, count) {
-                console.log("综合"+count);
-                console.log(res.data);
+                // console.log("综合"+count);
+                // console.log(res.data);
                 parent.$("#index").html(count);
                 $("#fileCount").val(res.msg);
-                layer.close(index);
             }
         });
+
+        //热点开始
+        function getUrlParam(name) {
+            var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return "";
+        }
+
+        var hotKeyWord = '${hotKeyWord}';
+        let array = hotKeyWord.split(",");
+        var html = "";
+        for (let i = 0,j = array.length; i <j ; i++) {
+            html =html+"<div class=\"item\">";
+            html=html+"<a href=\"/instituteIndex?url=/fullSearch/search?keyword="+array[i]+"\" target=\"_top\">"+array[i]+"</a>";
+            html=html+"</div>";
+        }
+        $(".relevant-cont").html(html);
     }
 </script>
 </body>

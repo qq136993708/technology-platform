@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css">
+<link rel="stylesheet" href="/layuiadmin/style/admin.css">
+<script src="/layuiadmin/layui/layui.js"></script>
+<style>
+.dateInput {
+	font-size: 12px;
+}
+</style>
+</head>
+<body>
+<!-- 国家项目、重大专项、重点项目、其他项目   -->
+<input type="hidden" name="project_property" value="${project_property}" id="project_property">
+<!-- 新开项目、续建项目、完工项目  -->
+<input type="hidden" name="project_scope" value="${project_scope}" id="project_scope">
+<input type="hidden" name="projectId" value="${projectId}" id="projectId">
+<!-- 直属研究院、分子公司、集团等9种类型 -->
+<input type="hidden" name="type_flag" value="${type_flag}" id="type_flag">
+<input type="hidden" name="leaderFlag" value="${leaderFlag}" id="leaderFlag">
+ <div class="layui-fluid">
+    <div class="layui-card">
+ 
+     <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding:0px">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">项目名称：</label>
+            <div class="layui-input-inline">
+              <input type="text" name="xmmc" title="项目名称" placeholder="请输入项目名称" autocomplete="off" class="layui-input" id="xmmc"  >
+            </div>
+          </div>
+          
+          <div class="layui-inline">
+            <label class="layui-form-label">合同号：</label>
+            <div class="layui-input-inline">
+              <input type="text" name="hth" title="合同号" placeholder="请输入合同号" autocomplete="off" class="layui-input" id="hth"  >
+            </div>
+          </div>
+          
+          <div class="layui-inline">
+            <label class="layui-form-label">项目年度：</label>
+            <div class="layui-input-inline">
+              <input type="text" name="nd" readonly="readonly" style="cursor:pointer" placeholder="请选择项目年度" title="项目年度" value="${nd}" autocomplete="off" class="layui-input" id="nd" width="100px" >
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">预算年度：</label>
+            <div class="layui-input-inline">
+            <input type="text" name="ysnd" readonly="readonly" style="cursor:pointer" placeholder="请选择预算年度" title="预算年度" value="${ysnd}" autocomplete="off" class="layui-input" id="ysnd" width="100px" >
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">费用类别：</label>
+            <div class="layui-input-inline">
+               <select name="define1" id="define1"  >
+                      <option value="" >--请选择--</option>
+	              <#list fylbList as vo> 
+			          <option  value="${vo.numValue}" <#if define1==vo.numValue>selected="selected"</#if> >${vo.name}</option>
+			      </#list>
+              </select>
+            </div>
+          </div>
+          
+          
+          
+          <!-- 三级级联 begin-->
+          <div class="layui-inline">
+            <label class="layui-form-label">经费来源：</label>
+            <div class="layui-input-inline">
+               <select name="define11" id="define11"  lay-filter="select_define11"  >
+                     <option value="" >--请选择--</option>
+		             <#list jflyList as vo> 
+				          <option value="${vo.code}"  <#if define11=vo.name>selected="selected"</#if>>${vo.name}</option>
+				      </#list>
+              </select>
+            </div>
+          </div>
+          
+           <div class="layui-inline">
+            <label class="layui-form-label">单位类别：</label>
+            <div class="layui-input-inline">
+               <select name="define12" id="define12" lay-filter="select_define12"   > </select>
+            </div>
+          </div>
+          
+           <div class="layui-inline">
+            <label class="layui-form-label">研究院：</label>
+            <div class="layui-input-inline">
+               <select name="define2" id="define2"  > </select>
+            </div>
+          </div>
+           <!-- 三级级联 end -->
+           
+           
+          <!-- 三级级联 begin -->
+          <div class="layui-inline">
+            <label class="layui-form-label">部门：</label>
+            <div class="layui-input-inline">
+               <select name="gsbmbmFlag" id="gsbmbmFlag" lay-filter="select_gsbmbmFlag"   >
+                      <option value="" >--请选择--</option>
+		              <#list gsbmbmList as vo> 
+				          <option value="${vo.code}"  <#if gsbmbmFlag=vo.name>selected="selected"</#if>>${vo.name}</option>
+				      </#list>
+              </select>
+            </div>
+           </div>
+          
+          
+            <div class="layui-inline">
+            <label class="layui-form-label">处室：</label>
+            <div class="layui-input-inline">
+               <select name="zycbmFlag" id="zycbmFlag" lay-filter="select_zycbmFlag" > </select>
+            </div>
+          </div>
+          
+          
+          <div class="layui-inline">
+            <label class="layui-form-label">专业类别：</label>
+            <div class="layui-input-inline">
+               <select name="zylbbmFlag" id="zylbbmFlag" > </select>
+            </div>
+          </div>
+       <!-- 二级级联 end -->   
+       
+       
+       
+       
+       <div class="layui-inline">
+            <label class="layui-form-label">签订标示：</label>
+            <div class="layui-input-inline">
+               <select name="qdbz" id="qdbz"  >
+                      <option value="" >--请选择--</option>
+		             <#list qdbsList as vo> 
+				          <option value="${vo.name}"  <#if qdbz==vo.name>selected="selected"</#if>>${vo.name}</option>
+				      </#list>
+              </select>
+            </div>
+          </div>
+          
+          <div class="layui-inline">
+            <label class="layui-form-label">课题类别：</label>
+            <div class="layui-input-inline">
+               <select name="ktlx" id="ktlx"  >
+                      <option value="" >--请选择--</option>
+		              <#list ktlxList as vo> 
+				          <option value="${vo.numValue}"  <#if ktlx==vo.numValue>selected="selected"</#if> >${vo.name}</option>
+				      </#list>
+              </select>
+            </div>
+          </div>
+          
+          
+          <div class="layui-inline">
+            <label class="layui-form-label">负责单位：</label>
+            <div class="layui-input-inline">
+               <select name="fzdwflag" id="fzdwflag"  >
+			              <#list fzdwList as vo> 
+					          <option value="${vo.numValue}"  >${vo.name}</option>
+					      </#list>
+              </select>
+            </div>
+          </div>
+          
+          
+           <div class="layui-inline">
+            <label class="layui-form-label">分组类型：</label>
+            <div class="layui-input-inline">
+               <select name="groupFlag" id="groupFlag"  >
+                        <option value="" >--请选择--</option>
+			             <#list fzlxList as vo> 
+					          <option value="${vo.numValue}"  >${vo.name}</option>
+					      </#list>
+              </select>
+            </div>
+          </div>
+          
+          <div class="layui-inline" >
+            <button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
+            </button>
+          </div>
+          
+        </div>
+      </div>
+
+	 <div class="layui-card-body">
+		<table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
+		</table>
+	</div>
+	
+	
+	</div>
+      </div> 
+	<!--表格数据操作js-->
+	<script src="/common/js/jquery-1.11.3.min.js"></script>
+	<script>
+		var table, selectRowData,form;
+		var xmmc = $('#xmmc').val();
+		layui.config({
+			base : '/layuiadmin/lib/extend/'
+		}).use([ 'jquery', 'form', 'laydate', 'table', 'laypage' ], function() {
+			$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate, form.render(null, 'component-form-group');
+			
+			
+			laydate.render({
+				elem : '#nd',
+				type : 'year',
+				done : function(value, date, endDate) {
+					$("#nd").val(date.year);
+				}
+			});
+			laydate.render({
+				elem : '#ysnd',
+				type : 'year',
+				done : function(value, date, endDate) {
+					$("#ysnd").val(date.year);
+				}
+			});
+			//移除表头的复选框,去掉全选
+			$(".layui-table-header table thead th input").remove();
+
+			// 触发不同的按钮事件
+			var $ = layui.$, active = {
+					searchEvent: function() { //点击查询按钮
+		            	 renderTable();
+		            }
+			};
+
+			//区别按钮属性
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+			 //监听经费来源
+			   form.on('select(select_define11)', function(data){
+				//alert(data.value);
+				   var parentCode=data.value;
+				   getDicByParentCode(parentCode,'define12');
+				   console.log("监听经费来源:"+data);
+			   });
+			   //监听单位类别
+			   form.on('select(select_define12)', function(data){
+					   var parentCode=data.value;
+					   getDicByParentCode(parentCode,'define2');
+					   console.log("监听单位类别:"+data);
+			   });
+			   
+			   //监听部门
+			   form.on('select(select_gsbmbmFlag)', function(data){
+				//alert(data.value);
+				   var parentCode=data.value;
+				   getDicByParentCode(parentCode,'zycbmFlag');
+				   console.log("监听部门:"+data);
+			   });
+			   
+			   //监听处室
+			   form.on('select(select_zycbmFlag)', function(data){
+					   var parentCode=data.value;
+					  
+					   getDicByParentCode(parentCode,'zylbbmFlag');
+					   console.log("监听处室:"+data);
+			   });
+			
+				//初始化经费来源
+				var define11=$("#define11").val();
+				getDicByParentCode(define11,'define12');
+				
+				//初始部门
+				var gsbmbmFlag=$("#gsbmbmFlag").val();
+				getDicByParentCode(gsbmbmFlag,'zycbmFlag');
+			
+			
+				renderTable();
+				
+				
+		});
+			function renderTable() 
+			{
+				
+				//获取选中的option的文本值
+			    var define2=$("#define2 option:selected").text();  
+			    var define12=$("#define12 option:selected").text();
+			    var define1=$("#define1 option:selected").text();
+			    var define5=$("#define5 option:selected").text();
+			    var define11=$("#define11 option:selected").text();
+			    var fzdwflag=$("#fzdwflag option:selected").text();
+			    var zylb=$("#zylb option:selected").text();
+			    var qdbz=$("#qdbz option:selected").text();
+			    
+			    //
+			    var groupFlag=$("#groupFlag").val();
+		        var gsbmbmFlag=$("#gsbmbmFlag").val();
+		        var zycbmFlag=$("#zycbmFlag").val();
+		        var zylbbmFlag=$("#zylbbmFlag").val();
+			    
+			    
+			    
+			    if(define1=='--请选择--') {define1=''}
+			    if(define2=='--请选择--') {define2=''}
+			    if(define5=='--请选择--') {define5=''}
+			    if(define12=='--请选择--') {define12=''}
+			    if(define11=='--请选择--') {define11=''}
+			    if(fzdwflag=='--请选择--') {fzdwflag=''}
+			    if(zycbmFlag=='--请选择--') {zycbmFlag=''}
+			    if(zylb=='--请选择--') {zylb=''}
+			    if(groupFlag=='--请选择--') {groupFlag=''}
+			    if(qdbz=='--请选择--') {qdbz=''}
+			    var v_date=(new Date()).getTime();
+			    
+			    
+			    table.render({
+				elem : '#processdef-table',
+				url : '/one_level_main/common_table_data',
+				method : "POST",
+				where : {
+					param : {
+						"functionId" : '984b64b13cf54222bf57bd840759fabe', //数据控制标示
+						"nd" :     $("#nd").val(),
+						"ysnd" :   $("#ysnd").val(),
+						"xmmc" :    $("#xmmc").val(),
+						"define1" :  define1,
+						"define11" : define11,
+						"define2" :  define2,
+						"define5" :  define5,
+						"define12" : define12,
+						"zylb" : zylb,
+						"qdbz" : qdbz,
+						"project_scope" :    $("#project_scope").val(),
+						"project_property" : $("#project_property").val(),
+						"projectId" :        $("#projectId").val(),
+						"leaderFlag" :       $("#leaderFlag").val(),
+						"hth" :              $("#hth").val(),
+						"fzdwflag"  :         fzdwflag,
+						"groupFlag" :         groupFlag,
+						"gsbmbmFlag":         gsbmbmFlag,
+						"zycbmFlag" :         zycbmFlag,
+						"zylbbmFlag":         zylbbmFlag
+
+					}
+				},
+				limit : 15,
+				id : 'processdef-table',
+				height : commonDislodgeTable()-130,
+				page : {
+					groups : 5,
+					limits : [ 15, 30, 45, 60 ],
+					layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+					first : '首页', //不显示首页
+					last : '尾页', //不显示尾页
+					theme : '#0F9EE0'
+				},
+				cols : [ [ {
+					title : '序号',
+					type : 'numbers',
+					width : '45'
+				}, {
+					field : 'nd',
+					title : '项目年度',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '80',
+					sort : true
+				}, {
+					field : 'ysnd',
+					title : '预算年度',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '80',
+					sort : true
+				}, {
+					field : 'hth',
+					title : '合同号',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '80',
+					sort : true
+				}, {
+					field : 'define10',
+					title : '专业处',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '80',
+					sort : true
+				}, {
+					field : 'xmmc',
+					title : '项目名称',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '350',
+					templet:function(d){return '<span   onclick="view_pro(\''+d.xmmc+'\',\''+d.projectProperty+'\')" style="color: #1890ff">'+d.xmmc+'</span>'},
+					sort : true
+				}, {
+					field : 'jf',
+					title : '总额（万元）',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '100',
+					sort : true
+				}, {
+					field : 'ysje',
+					title : '年度预算（万元）',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '130',
+					sort : true
+				}, {
+					field : 'yszbxje',
+					title : '资本性预算',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '100',
+					sort : true
+				}, {
+					field : 'ysfyxje',
+					title : '费用性预算',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '100',
+					sort : true
+				}, {
+					field : 'fzdw',
+					title : '负责单位',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '150',
+					sort : true
+				}, {
+					field : 'define8',
+					title : '承担单位',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '150',
+					sort : true
+				}, {
+					field : 'define11',
+					title : '经费来源',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '100',
+					sort : true
+				}, {
+					field : 'define1',
+					title : '资本/费用',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '110',
+					sort : true
+				}, {
+					field : 'define12',
+					title : '一级单位类别',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '150',
+					sort : true
+				}, {
+					field : 'define2',
+					title : '二级单位类别',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '140',
+					sort : true
+				}, {
+					field : 'projectProperty',
+					title : '项目类型',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '100',
+					sort : true
+				}, {
+					field : 'zylb',
+					title : '专业类别',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '130',
+					sort : true
+				}, {
+					field : 'qdbz',
+					title : '签订标识',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '80',
+					sort : true
+				}
+
+				] ],
+				done : function(res, curr, count) {
+					// 点击行联动选择框--单选
+					$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+						var index = parseInt($(this).index() + 1);
+						$('tr').removeClass('layui-table-click');
+						$(this).addClass('layui-table-click');
+						$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+						selectRowData = res.data[index - 1];
+					});
+
+				}
+			});
+
+			//监听排序
+			table.on('sort(processdef-table)', function(obj) {
+				console.log(this, obj.field, obj.type)
+				//return;
+				//服务端排序
+				table.reload('processdef-table', {
+					initSort : obj,
+					page : {
+						curr : 1
+					}, //重新从第一页开始
+					where : { //重新请求服务端
+						orderKey : obj.field, //排序字段
+						orderType : obj.type
+					//排序方式
+					}
+				});
+			});
+
+		}
+			
+			function view_pro(xmmc,projectProperty) 
+			{
+				
+				var temUrl="";
+				if(projectProperty=='重大专项')
+				{
+					temUrl="/whole-process/major-science/ini?xmmc="+xmmc;
+				}
+				if(projectProperty=='重点项目')
+				{
+					temUrl="/whole-process/science/ini?xmmc="+xmmc;
+				}
+				if(projectProperty=='装备项目')
+				{
+					temUrl="/whole-process/equipment-science/ini?xmmc="+xmmc;
+				}
+				if(temUrl!='')
+				{
+					
+					//alert(projectProperty);
+					
+					 layer.open({
+				         title: projectProperty+"->"+xmmc+'->详情',
+				         skin: 'layui-layer-lan',
+				         shadeClose: true,
+				         type: 2,
+				         fixed: false,
+				         maxmin: true,
+				         area: ['70%', '90%'],
+				         content:  temUrl
+				     });
+				}
+				
+				
+			}		
+  /**======================================联动=====================================*/	
+	var define11="${define11?default('')}";//单位类别
+	var define12="${define12?default('')}";//单位类别
+	var define2="${define2?default('')}";//研究院
+	var zycbmFlag="${zycbmFlag?default('')}";
+	var zylbbmFlag="${zylbbmFlag?default('')}";
+	
+	//alert(define11);
+	
+	//获取单位类别
+	function getDicByParentCode(parentCode,downId)
+    {
+    	 //alert(parentCode+"--"+downId);
+    	 $("#"+downId).empty();
+    	 if(parentCode==null || parentCode=='')
+     	 {
+     		parentCode='-1';
+     	 }
+    	 console.log("级联：\n parentCode="+parentCode+" downId="+downId);
+    	 var v_date=(new Date()).getTime();
+    	 if(parentCode!=null && parentCode!='')
+         {
+    		 
+    		 $.ajax({
+    				url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&parentCode="+parentCode,
+    				type : "post",
+    				async: false,
+    				dataType : "json",
+    				success : function(data) 
+    				{
+    					$("#"+downId).append("<option value=''>--请选择--</option>");
+    					$.each(data, function(i, el) 
+    					{
+    						$("#"+downId).append('<option value="'+ el.code +'">' + el.name+ '</option>');
+    						if(define12==el.name)
+    						{
+    							$("#"+downId).val(el.code);
+    						} 
+    						if(define2==el.name)
+    						{
+    							$("#"+downId).val(el.code);
+    						} 
+    						if(zycbmFlag==el.name)
+    						{
+    							$("#"+downId).val(el.code);
+    						}
+    						if(zycbmFlag==el.name)
+    						{
+    							$("#"+downId).val(el.code);
+    						}
+    						
+    					});
+    					 form.render();
+    				},
+    				error : function() 
+    				{
+    					alert("发生未知错误 ,请重新操作.");
+    				}
+    			});
+    		
+         }
+    	 var code_temp=$("#"+downId).val();
+    	 //如果ID=单位类别 ,再调用一次，形成第三级
+    	 if(downId=='define12')
+    	 {
+    		getDicByParentCode(code_temp,'define2');
+    	 }
+    	 if(downId=='zycbmFlag')
+    	 {
+    		getDicByParentCode(code_temp,'zylbbmFlag');
+    	 }
+    	 form.render();
+    }
+				
+			
+			
+			
+</script>
+</body>
+</html>

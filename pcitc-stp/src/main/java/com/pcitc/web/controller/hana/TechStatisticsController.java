@@ -493,6 +493,8 @@ public class TechStatisticsController extends BaseController{
 		request.setAttribute("auditStatusList", auditStatusList);
 		String type = CommonUtil.getParameter(request, "type", "");
 		request.setAttribute("type", type);
+		String beforeYear= HanaUtil.getBeforeYear();
+		request.setAttribute("beforeYear", beforeYear);
 		return "/stp/hana/techStatistics/org_list";
 	}
 
@@ -504,6 +506,8 @@ public class TechStatisticsController extends BaseController{
 		//流程状态
 		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("auditStatusList", auditStatusList);
+		String beforeYear= HanaUtil.getBeforeYear();
+		request.setAttribute("beforeYear", beforeYear);
 		return "/stp/hana/techStatistics/org_list_kjb_tree";
 	}
 	
@@ -598,6 +602,8 @@ public class TechStatisticsController extends BaseController{
 		request.setAttribute("unitName", unitName);
 		request.setAttribute("unitCode", unitCode);
 		request.setAttribute("allUnitName", unitName);
+		String beforeYear= HanaUtil.getBeforeYear();
+		request.setAttribute("beforeYear", beforeYear);
 		return "/stp/hana/techStatistics/org_add_new";
 	}
 
@@ -954,6 +960,9 @@ public class TechStatisticsController extends BaseController{
 		TechOrgCount techOrgCount = responseEntity.getBody();
 		request.setAttribute("techOrgCount", techOrgCount);
 		List list=techOrgCount.getChildList();
+		
+		String beforeYear= HanaUtil.getBeforeYear();
+		request.setAttribute("beforeYear", beforeYear);
 		if(list!=null && list.size()>0)
 		{
 			return "/stp/hana/techStatistics/org_view_child";

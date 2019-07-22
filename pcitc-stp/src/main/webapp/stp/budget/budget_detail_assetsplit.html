@@ -32,7 +32,7 @@
 <body>
     <div class="headline-box">
         <div class="headline-title" title="集团经费预算总表">
-            	<span class="nd">${nd}</span>年资产经费预算明细表(建议稿)
+            	<span class="nd">${nd}</span>年资产经费预算明细表
         </div>
         <div class="headline-tool" style="display: none;">
             <div class="tool-left">
@@ -51,7 +51,7 @@
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
                 <thead>
 	                <tr>
-	                	<th lay-data="{field:'no',align: 'center', width: 55,totalRowText: '合计'}" rowspan="2">序号</th>
+	                	<th lay-data="{type:'numbers',align: 'center', width: 55,totalRowText: '合计'}" rowspan="2">序号</th>
 	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="2">专业处/部门</th>
 	                    <th lay-data="{field:'total', align: 'right', width: '10%',totalRow: true}" rowspan="2">预算合计</th>
 	                   	<th lay-data="{align: 'center',totalRow: true}" colspan="${items?size+1}">${nd}年结转项目经费</th>

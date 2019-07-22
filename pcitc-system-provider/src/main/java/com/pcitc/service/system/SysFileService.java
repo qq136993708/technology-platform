@@ -110,6 +110,14 @@ public interface SysFileService {
     JSONObject selectSysFileListEs(SysFileVo vo) throws Exception;
 
     /**
+     * 全文搜索ES
+     * @param vo
+     * @return
+     * @throws Exception
+     */
+    JSONObject selectSysFileListEsIndex(SysFileVo vo) throws Exception;
+
+    /**
      * 分页查询
      *
      * @param param

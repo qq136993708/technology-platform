@@ -163,10 +163,15 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 
 		System.out.println("0>>>>>>>>>查询分页结果" + param.getOrderKey());
 		System.out.println("0>>>>>>>>>查询分页结果" + param.getOrderType());
-		if (param.getOrderKey() != null && !StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
-			// 1、设置分页信息，包括当前页数和每页显示的总计数
-			PageHelper.startPage(param.getPage(), param.getLimit(), param.getOrderKey().toString() + " " + param.getOrderType());
-		}
+
+        int pageSize = param.getLimit();
+        int pageNum = param.getPage();
+        PageHelper.startPage(pageNum, pageSize);
+
+//		if (param.getOrderKey() != null && !StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+//			// 1、设置分页信息，包括当前页数和每页显示的总计数
+//			PageHelper.startPage(param.getPage(), param.getLimit(), param.getOrderKey().toString() + " " + param.getOrderType());
+//		}
 
 
 		OutAppraisalExample example = new OutAppraisalExample();

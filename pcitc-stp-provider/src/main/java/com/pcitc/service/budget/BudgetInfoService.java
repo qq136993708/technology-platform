@@ -7,6 +7,7 @@ import java.util.Set;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.budget.BudgetMoneyDecompose;
 import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -139,4 +140,23 @@ public interface BudgetInfoService
 	 * @return
 	 */
 	public List<BudgetSplitData> selectSplitDataByNd(String nd,List<String> budgetTypes);
+	/**
+	 * 
+	 * @param nd
+	 * @return
+	 */
+	public List<BudgetMoneyDecompose> selectTotalByNd(String nd);
+	/**
+	 * 查询所有最终预算
+	 * @param param
+	 * @return
+	 */
+	public LayuiTableData selectReleaseBudgetPage(LayuiTableParam param);
+	/**
+	 * 根据部门过滤预算单位数据
+	 * @param data
+	 * @param unitCodes
+	 * @return
+	 */
+	public List<Map<String,Object>> filterDataByUnit(List<Map<String,Object>> data,String unitCodes);
 }

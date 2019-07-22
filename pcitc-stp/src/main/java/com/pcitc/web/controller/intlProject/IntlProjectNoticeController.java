@@ -60,7 +60,7 @@ public class IntlProjectNoticeController extends BaseController {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_NOTICE_LIST_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
-		System.out.println(JSON.toJSON(data).toString());
+		//System.out.println(JSON.toJSON(data).toString());
 		return JSON.toJSON(data).toString();
 	}
 
@@ -75,7 +75,7 @@ public class IntlProjectNoticeController extends BaseController {
 	@RequestMapping(value = "/project/get-notice")
 	public Object getProjectInfo(@RequestParam(value = "noticeId", required = true) String noticeId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		IntlProjectNotice notice = this.restTemplate.exchange(PROJECT_NOTICE_GET + noticeId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectNotice.class).getBody();
-		System.out.println(JSON.toJSON(notice));
+		//System.out.println(JSON.toJSON(notice));
 		return notice;
 	}
 

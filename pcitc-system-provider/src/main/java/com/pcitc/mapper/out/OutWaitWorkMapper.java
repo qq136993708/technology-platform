@@ -29,4 +29,9 @@ public interface OutWaitWorkMapper {
     int updateByPrimaryKeySelective(OutWaitWork record);
 
     int updateByPrimaryKey(OutWaitWork record);
+    
+    /**
+     * 批量插入待办任务数据
+     */
+    public Integer insertOutWaitWorkBatch(List<OutWaitWork> workList);
 }

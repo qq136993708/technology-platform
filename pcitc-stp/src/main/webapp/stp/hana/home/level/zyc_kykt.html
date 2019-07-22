@@ -23,6 +23,11 @@
 .searchBox {
 	background: none;
 }
+.layui-row-main .layui-table-cell{cursor: pointer;}
+.layui-row-main td:nth-child(2) .layui-table-cell{color: red;}
+.layui-row-main td:nth-child(4) .layui-table-cell{color: #1890ff ;}
+.layui-row-main td:nth-child(6) .layui-table-cell{color: #1890ff ;}
+
 </style>
 </head>
 <body>
@@ -46,26 +51,25 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院科研课题数量分布
+							<span class="layui-time"></span>年直属研究院科研课题数量分布
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
 								<span>
 									总计:
-									<span class="text-total-blue" id="topic_chart1_01" onclick="topic_chart1('')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart1_01" onclick="zsyjykyktslfb('')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									新开课题:
-									<span class="text-total-blue" id="topic_chart1_02" onclick="topic_chart1('新开课题')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart1_02" onclick="zsyjykyktslfb('新开课题')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									结转课题:
-									<span class="text-total-blue" id="topic_chart1_03" onclick="topic_chart1('结转课题')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart1_03" onclick="zsyjykyktslfb('结转课题')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
@@ -77,8 +81,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院科研课题数量占比
+							<span class="layui-time"></span>年直属研究院科研课题数量占比
 						</div>
 						<div class="layui-row-main">
 							<table id="myTable" class="layui-table" lay-filter="myTable">
@@ -107,26 +110,25 @@
 				<div class="layui-col-md12">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年科研课题数量技术分布
+							<span class="layui-time"></span>年科研课题数量技术分布
 						</div>
 						<div class="layui-card-body btn-function">
 							<div class="text-total">
 								<span>
 									总计:
-									<span class="text-total-blue" id="topic_chart7_01" onclick="topic_chart7('')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart7_01" onclick="nkyktsljsfb('')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									新开课题:
-									<span class="text-total-blue" id="topic_chart7_02" onclick="topic_chart7('新开课题')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart7_02" onclick="nkyktsljsfb('新开课题')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									结转课题:
-									<span class="text-total-blue" id="topic_chart7_03" onclick="topic_chart7('结转课题')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart7_03" onclick="nkyktsljsfb('结转课题')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
@@ -141,26 +143,25 @@
 				<div class="layui-col-md12">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年专业处所属科研课题分布
+							<span class="layui-time"></span>年专业处所属科研课题分布
 						</div>
 						<div class="layui-card-body btn-function">
 							<div class="text-total">
 								<span>
 									总计:
-									<span class="text-total-blue" id="topic_chart8_01" onclick="topic_chart8('')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart8_01" onclick="zycsskyktfb('')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									新开课题:
-									<span class="text-total-blue" id="topic_chart8_02" onclick="topic_chart8('新开课题')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart8_02" onclick="zycsskyktfb('新开课题')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									结转课题:
-									<span class="text-total-blue" id="topic_chart8_03" onclick="topic_chart8('结转课题')" style="cursor: pointer">
+									<span class="text-total-blue" id="topic_chart8_03" onclick="zycsskyktfb('结转课题')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
@@ -203,9 +204,7 @@
 			$("#knowledge_table").click(function() {
 
 				var nd = $("#year").val();
-				//var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd + "&ysnd=" + nd);
-				//window.open("/instituteIndex?url=" + url);
-				parent.layui.index.openTabsPage("/one_level_main/count_table?nd=" + nd + "&ysnd=" + nd, "科研课题详情");
+				parent.layui.index.openTabsPage("/one_level_main/count_table_new?nd=" + nd + "&ysnd=" + nd, "科研课题详情");
 			});
 
 			//监听行单击事件
@@ -216,9 +215,7 @@
 				//obj.update(fields) //修改当前行数据
 				selectRowData = obj.data;
 				var nd = $("#year").val();
-				//var url = encodeURIComponent("/one_level_main/count_table?define2=" + selectRowData.define2 + "&nd=&ysnd=" + nd + "&define1=费用性");
-				//window.open("/instituteIndex?url=" + url);
-				parent.layui.index.openTabsPage("/one_level_main/count_table?define2=" + selectRowData.define2 + "&nd=&ysnd=" + nd + "&define1=费用性", "科研课题详情");
+				parent.layui.index.openTabsPage("/one_level_main/count_table_new?define2=" + selectRowData.define2 + "&nd=&ysnd=" + nd + "&define1=费用性&define11=股份公司&define12=直属研究院", "科研课题详情");
 			});
 
 			myTable();
@@ -242,10 +239,6 @@
 			$("#topic_chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#topic_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#topic_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-			//科研课题数量
-			//$("#topic_chart4_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-			//$("#topic_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-			//$("#topic_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			//科研课题数量技术分布
 			$("#topic_chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#topic_chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
@@ -266,10 +259,7 @@
 				if (legentName == '新开课题') {
 					nd_temp = nd;
 				}
-
-				//var url = encodeURIComponent("/one_level_main/count_table?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + legentName + "&define1=费用性&groupFlag=xmid,define8");
-				//window.open("/instituteIndex?url=" + url);
-				parent.layui.index.openTabsPage("/one_level_main/count_table?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + legentName + "&define1=费用性&groupFlag=xmid,define8", "科研课题详情");
+				parent.layui.index.openTabsPage("/one_level_main/count_table_new?define2=" + xName + "&define11=股份公司&define12=直属研究院&nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + legentName + "&define1=费用性&groupFlag=xmid,define8", "科研课题详情");
 			});
 
 			var chart6_url = "/direct/topic_03?functionId=984b64b13cf54222bf57bd840759fabe&type=4&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
@@ -284,9 +274,7 @@
 				if (legentName == '新开课题') {
 					nd_temp = nd;
 				}
-				//var url = encodeURIComponent("/one_level_main/count_table?define5=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define1=费用性&groupFlag=xmid");
-				//window.open("/instituteIndex?url=" + url);
-				parent.layui.index.openTabsPage("/one_level_main/count_table?define5=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define1=费用性&groupFlag=xmid", "科研课题详情");
+				parent.layui.index.openTabsPage("/one_level_main/count_table_new?define5=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define11=股份公司&define12=直属研究院&define1=费用性&groupFlag=xmid", "科研课题详情");
 			});
 
 			var chart8_url = "/direct/topic_08?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&xmlbbm=fkyzb";
@@ -301,13 +289,11 @@
 				if (legentName == '新开课题') {
 					nd_temp = nd;
 				}
-				//var url = encodeURIComponent("/one_level_main/count_table?define10=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define1=费用性&groupFlag=xmid");
-				//window.open("/instituteIndex?url=" + url);
-				parent.layui.index.openTabsPage("/one_level_main/count_table?define10=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define1=费用性&groupFlag=xmid", "科研课题详情");
+				parent.layui.index.openTabsPage("/one_level_main/count_table_new?zycbmFlag=" + xName + "&nd=" + nd_temp + "&define11=股份公司&define12=直属研究院&ysnd=" + nd + "&define1=费用性&groupFlag=xmid", "科研课题详情");
 			});
 		}
-
-		function topic_chart1(labelFlag) {
+        //直属研究院科研课题数量分布
+		function zsyjykyktslfb(labelFlag) {
 
 			var nd = $("#year").val();
 			var nd_temp = "";
@@ -315,48 +301,28 @@
 				nd_temp = nd;
 			}
 			// var v_date = (new Date()).getTime();
-			//var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define12=直属研究院&define1=费用性&groupFlag=xmid,define8");
-			//window.open("/instituteIndex?url=" + url);
-			parent.layui.index.openTabsPage("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define12=直属研究院&define1=费用性&groupFlag=xmid,define8", "科研课题详情");
+			parent.layui.index.openTabsPage("/one_level_main/count_table_new?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define11=股份公司&define12=直属研究院&define1=费用性&groupFlag=xmid,define8", "科研课题详情");
 		}
 
-		function topic_chart2(labelFlag) {
+        //年科研课题数量技术分布
+		function nkyktsljsfb(labelFlag) {
 
 			var nd = $("#year").val();
 			var nd_temp = "";
 			if (labelFlag == '新开课题') {
 				nd_temp = nd;
 			}
-			// var v_date = (new Date()).getTime();
-			//var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define1=费用性&groupFlag=xmid");
-			//window.open("/instituteIndex?url=" + url);
-			parent.layui.index.openTabsPage("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define1=费用性&groupFlag=xmid", "科研课题详情");
+			parent.layui.index.openTabsPage("/one_level_main/count_table_new?nd=" + nd_temp + "&define11=股份公司&define12=直属研究院&ysnd=" + nd + "&ktlx=" + labelFlag + "&define1=费用性&groupFlag=xmid", "科研课题详情");
 		}
-
-		function topic_chart7(labelFlag) {
-
-			var nd = $("#year").val();
-			var nd_temp = "";
-			if (labelFlag == '新开课题') {
-				nd_temp = nd;
-			}
-			// var v_date = (new Date()).getTime();
-			//var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define1=费用性&groupFlag=xmid");
-			//window.open("/instituteIndex?url=" + url);
-			parent.layui.index.openTabsPage("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define1=费用性&groupFlag=xmid", "科研课题详情");
-		}
-
-		function topic_chart8(labelFlag) {
+        //专业处所属科研课题分布
+		function zycsskyktfb(labelFlag) {
 
 			var nd = $("#year").val();
 			var nd_temp = "";
 			if (labelFlag == '新开课题') {
 				nd_temp = nd;
 			}
-			// var v_date = (new Date()).getTime();
-			//var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define1=费用性&groupFlag=xmid");
-			//window.open("/instituteIndex?url=" + url);
-			parent.layui.index.openTabsPage("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define1=费用性&groupFlag=xmid", "科研课题详情");
+			parent.layui.index.openTabsPage("/one_level_main/count_table_new?nd=" + nd_temp + "&define11=股份公司&define12=直属研究院&ysnd=" + nd + "&ktlx=" + labelFlag + "&define1=费用性&groupFlag=xmid", "科研课题详情");
 		}
 
 		//初始化图形
@@ -365,7 +331,6 @@
 		function search_Event() {
 			initEchart();
 			myTable();
-			//myTable2();
 		}
 
 		function myTable() {
@@ -381,18 +346,7 @@
 
 		}
 
-		function myTable2() {
-			var v_date = (new Date()).getTime();
-			var nd = $('#year').val();
-			var chart1_url = "/direct/topic_02?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
-			table.init('myTable2', {
-				url : chart1_url,
-				height : "299px",
-				where : {}
-
-			});
-
-		}
+		
 	</script>
 
 </body>

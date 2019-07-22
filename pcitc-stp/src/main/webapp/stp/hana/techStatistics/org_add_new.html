@@ -45,7 +45,7 @@
     <div class="formBox">
         <div class="tableToolBox">
             <div class="tableBtns">
-                <div class="tableTitle"><span class="red">1、标*号为必填项；2、统计单位类型：本单位统计指“本单位名称”和“下级单位名称”是同一名称</span>
+                <div class="tableTitle"><span class="red">1、标*号为必填项；2、统计单位类型：本单位统计指“本单位名称”和“下属科研机构”是同一名称</span>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
 			        <label class="layui-form-label">统计单位类型<span class="must-fill">*</span></label>
 			        <div class="layui-input-block">
 			          <input type="radio"  id="statisticsType1"   onclick="choosestatisticsType('1')"  name="statisticsType" value="1"  title="本单位统计"   <#if techOrgCount.statisticsType=='1' || techOrgCount.statisticsType==null> checked="checked"</#if>>
-			          <input type="radio"  id="statisticsType2"   onclick="choosestatisticsType('2')"  name="statisticsType" value="2"  title="二级单位统计"  <#if techOrgCount.statisticsType=='2'> checked="checked"</#if>>
+			          <input type="radio"  id="statisticsType2"   onclick="choosestatisticsType('2')"  name="statisticsType" value="2"  title="下属科研机构统计"  <#if techOrgCount.statisticsType=='2'> checked="checked"</#if>>
 			        </div>
                 </div>
              </div>
@@ -121,7 +121,7 @@
 			  <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label" id="unitName_02_id">下级单位名称<span class="must-fill"></span></label>
+                        <label for="" class="layui-form-label" id="unitName_02_id">下属科研机构<span class="must-fill"></span></label>
                         <div class="layui-input-block">
                             <div class="tableToolBox">
 					            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"  onclick="chooseUnitRaio('chooseUnitRaio_callback')">新增</a>
@@ -330,8 +330,6 @@ layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
                  data : oldData
              });
          	viewObj.tbData=oldData;
-            //viewObj.tbData.push(newRow);
-            //table.reload('dataTable', {data: viewObj.tbData});
             curent_tabel_data=oldData;
          }
        
@@ -344,43 +342,43 @@ layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
              , totalRow: true
              , cols: [[
                  {field: 'unitName',  width : '20%', title: '单位名称',edit:true,totalRowText: '合计'},
-                 {field : 'workersCount',        title : '职工总数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'femaleCount',         title : '女性人数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'titleSeniorCount',    title : '高级技术职称',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'titleMiddleCount',    title : '中级技术职称',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'titleLowerCount',     title : '低级技术职称',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'diplomaDoctorCount',    title : '博士数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'diplomaMasterCount',    title : '硕士数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'diplomaUndergraduateCount',    title : '本科',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'specialistCountryCount',      title : '国家级-专家人数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'specialistProvinceCount',     title : '省级-专家人数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'researcherCount',             title : '(R&D)-人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'directResearcherCount',       title : '直接参与',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'assistResearcherCount',       title : '辅助工作人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'workerSalary',                title : '职工薪酬总额(万元)',            style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'assetsTotal',     title : '资产合计(万元)',               style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'fixedAssets',     title : '固定资产',                    style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'deviceAssets',    title : '仪器设备原值(万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'deviceInnnerAssets',     title : '其中：国产技术',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'totaIncome',             title : '总收入',                       style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'countryInvestCost',     title : '政府科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'groupInvestCost',       title : '总部科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'subInvestCost',         title : '分公司科研投入',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'outInvestCost',         title : '外部技术性收入',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'allPatentCount',        title : '全部专利数',                 style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'allPatentLookCount',    title : '其中：发明专利数',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'currentYearPatentCount',        title : '当年专利申请数',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'currentPatentLookCount',        title : '其中：发明专利数',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'achievementsCountryCount',      title : '成果数(国家)',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'achievementsPrivanceCount',     title : '成果数(省)',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'achievementsCompanyCount',      title : '成果数(公司)',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'thesisAllCount',           title : '论文总量',                       style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'thesisSciCount',           title : 'SCI（科学引文索引）数',              style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'thesisSciInnerCount',      title : 'SCI->第一作者数',              style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'thesisEiCount',            title : 'EI（工程索引）数',                  style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'thesisEiInnerCount',       title : 'EI->第一作者数',                  style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'thesisIstpCount',          title : 'ISTP（科学技术会议录索引）数',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
-                 {field : 'thesisIsrCount',           title : 'ISR（科学评论索引）数',   style : 'cursor: pointer;', align : 'center', width : '15%',edit:true,totalRow: true},
+                 {field : 'workersCount',        title : '职工总数',                style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'femaleCount',         title : '女性人数',                style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'titleSeniorCount',    title : '职称->高级技术职称',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'titleMiddleCount',    title : '职称->中级技术职称',             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'titleLowerCount',     title : '职称->无高中级技术职称的大学本科及以上学历人员',            style : 'cursor: pointer;', align : 'center', width : '25%',edit:true,totalRow: true},
+                 {field : 'diplomaDoctorCount',           title : '学历->博士毕业数',                                  style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'diplomaMasterCount',           title : '学历->硕士毕业数',                                  style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'diplomaUndergraduateCount',    title : '学历->本科毕业数',                            style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'specialistCountryCount',      title : '专家人数->国家级',                      style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'specialistProvinceCount',     title : '专家人数->省、部、计划单列市级',                       style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'researcherCount',             title : '研究与试验发展(R&D)人员数',              style : 'cursor: pointer;', align : 'center', width : '20%',edit:true,totalRow: true},
+                 {field : 'directResearcherCount',       title : '直接参与研究与试验发展项目(课题)人员数',              style : 'cursor: pointer;', align : 'center', width : '25%',edit:true,totalRow: true},
+                 {field : 'assistResearcherCount',       title : '研究与试验发展项目(课题)管理和辅助工作人员数',          style : 'cursor: pointer;', align : 'center', width : '30%',edit:true,totalRow: true},
+                 {field : 'workerSalary',                title : '职工薪酬总额(万元)',                             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'assetsTotal',     title : '资产合计(万元)',                                           style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'fixedAssets',     title : '固定资产原值(万元)',                             style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'deviceAssets',    title : '技术开发仪器设备原值(万元)',                        style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'deviceInnnerAssets',     title : '技术开发仪器设备原值->其中：国产技术(万元)',     style : 'cursor: pointer;', align : 'center', width : '30%',edit:true,totalRow: true},
+                 {field : 'totaIncome',             title : '总收入(万元)',                                style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'countryInvestCost',     title : '国家、政府科研投入(￥万元)',                  style : 'cursor: pointer;', align : 'center', width : '13%',edit:true,totalRow: true},
+                 {field : 'groupInvestCost',       title : '总部科研投入(￥万元)',                      style : 'cursor: pointer;', align : 'center', width : '13%',edit:true,totalRow: true},
+                 {field : 'subInvestCost',         title : '分(子)公司科研投入(￥万元)',                 style : 'cursor: pointer;', align : 'center', width : '13%',edit:true,totalRow: true},
+                 {field : 'outInvestCost',         title : '外部技术性收入(￥万元)',                     style : 'cursor: pointer;', align : 'center', width : '13%',edit:true,totalRow: true},
+                 {field : 'allPatentCount',        title : '持有全部专利数',                           style : 'cursor: pointer;', align : 'center', width : '13%',edit:true,totalRow: true},
+                 {field : 'allPatentLookCount',    title : '其中：发明专利数',                          style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'currentYearPatentCount',        title : '当年专利申请数',                   style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'currentPatentLookCount',        title : '其中：发明专利数',                  style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'achievementsCountryCount',      title : '${beforeYear}年度获奖成果数(第一完成单位)->成果数(国家)',             style : 'cursor: pointer;', align : 'center', width : '25%',edit:true,totalRow: true},
+                 {field : 'achievementsPrivanceCount',     title : '${beforeYear}年度获奖成果数(第一完成单位)->成果数(省)',               style : 'cursor: pointer;', align : 'center', width : '25%',edit:true,totalRow: true},
+                 {field : 'achievementsCompanyCount',      title : '${beforeYear}年度获奖成果数(第一完成单位)->成果数(公司)',             style : 'cursor: pointer;', align : 'center', width : '25%',edit:true,totalRow: true},
+                 {field : 'thesisAllCount',           title : '论文总量',                                                         style : 'cursor: pointer;', align : 'center', width : '10%',edit:true,totalRow: true},
+                 {field : 'thesisSciCount',           title : '${beforeYear}年度科技论文发表->SCI（科学引文索引）数',                              style : 'cursor: pointer;', align : 'center', width : '25%',edit:true,totalRow: true},
+                 {field : 'thesisSciInnerCount',      title : '${beforeYear}年度科技论文发表->SCI->其中：本单位员工作为第一作者数量',                  style : 'cursor: pointer;', align : 'center', width : '30%',edit:true,totalRow: true},
+                 {field : 'thesisEiCount',            title : '${beforeYear}年度科技论文发表->EI（工程索引）数',                                 style : 'cursor: pointer;', align : 'center', width : '25%',edit:true,totalRow: true},
+                 {field : 'thesisEiInnerCount',       title : '${beforeYear}年度科技论文发表->EI->其中：本单位员工作为第一作者数量',                   style : 'cursor: pointer;', align : 'center', width : '30%',edit:true,totalRow: true},
+                 {field : 'thesisIstpCount',          title : '${beforeYear}年度科技论文发表->ISTP（科学技术会议录索引）数',                         style : 'cursor: pointer;', align : 'center', width : '25%',edit:true,totalRow: true},
+                 {field : 'thesisIsrCount',           title : '${beforeYear}年度科技论文发表->ISR（科学评论索引）数',                              style : 'cursor: pointer;', align : 'center', width : '25%',edit:true,totalRow: true},
                  {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
                      return '<a href="#" lay-event="del" lay-id="'+ d.id +'">删除</a>';
                  }}
@@ -416,36 +414,52 @@ layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
              }
          });
          table.on('edit(dataTable)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-         	if (!(/(^[1-9]\d*$)/.test(obj.value))) {
-         		layer.msg('请输入数字!');
-         		obj.value = 0;
-         	}
-         	$.each(curent_tabel_data,function(index,dt){
-         		if(obj.data.id == dt.id)
-         		{
-         			curent_tabel_data[index][obj.field] = parseInt(obj.value);
-         		}
-         	});
-         	//刷新表格数据
-         	table.reload('dataTable', {data: curent_tabel_data});
+             if(obj.field.indexOf("Count")!=-1)//如果是数量的字段，必须是整数
+             {
+                 if (!(/(^[1-9]\d*$)/.test(obj.value)))
+                 {
+                     layer.msg('请输入整数!');
+                     obj.value = 0;
+                     //$(this).parent().find("div").html("");
+                     $(this).val("0")
+                 }
+             }else {
+                 var reg = /^\d+(\.\d{1,4})?$/;//金额类的可整数可以小数
+
+                 if (!(reg.test(obj.value)))
+                 {
+                     layer.msg('请输入金额!');
+                     obj.value = 0;
+                    $(this).val("0")
+                 }
+
+             }
+         
+             $.each(curent_tabel_data,function(index,dt){
+          		if(obj.data.id == dt.id)
+          		{
+          			curent_tabel_data[index][obj.field] = obj.value;
+          		}
+          	});
+
          }); 
          
          
-         function getTableData(){
+         function getTableData()
+         {
         	
-             for(var i=0, row; i < viewObj.tbData.length; i++)
+            /*  for(var i=0, row; i < viewObj.tbData.length; i++)
              {
                  row = viewObj.tbData[i];
-                  /* alert(row.workersCount);
                  if(!row.workersCount){
-                     layer.msg("检查每一行，请填写职工总人数！", { icon: 5 }); //提示
+                     layer.msg("检查每一行，请填写职工总人数！", { icon: 5 });
                      return;
                  }else if(!row.femaleCount){
-                     layer.msg("检查每一行，请填写女性人数！", { icon: 5 }); //提示
+                     layer.msg("检查每一行，请填写女性人数！", { icon: 5 }); 
                      return;
-                 } */ 
-             } 
-             return JSON.stringify(viewObj.tbData);
+                 } 
+             }  */
+             return JSON.stringify(curent_tabel_data);
          }
          
          function getTableDataUnitCode()
@@ -491,7 +505,7 @@ layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
             	var statisticsType =$("input[name='statisticsType']:checked").val();
             	var subTechOrgStr=getTableData();
             	var secondUnitCodes=getTableDataUnitCode();
-            	console.log("下级单位名称："+secondUnitCodes+"本单位名称:"+unitCode);
+            	console.log("下属科研机构："+secondUnitCodes+"本单位名称:"+unitCode);
             	//alert(statisticsType);
             	//  return false;
             	if(statisticsType=='1' && lengthCount>1)
@@ -501,7 +515,7 @@ layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
             	}
             	if(statisticsType=='1' && unitCode!=secondUnitCodes)
             	{
-            		layer.alert("统计单位类型为本单位统计时：“本单位名称”和“下级单位名称”必须同一单位");
+            		layer.alert("统计单位类型为本单位统计时：“本单位名称”和“下属科研机构”必须同一单位");
              	    return false;
             	}else
            		{
@@ -595,7 +609,7 @@ layui.use(['form', 'laydate', 'table', 'layer','publicMethods'], function () {
     	if(value=='2')
     	{
     		$("#unitName_01_id").val("本单位名称");
-        	$("#unitName_02_id").val("下级单位名称");
+        	$("#unitName_02_id").val("下属科研机构");
     	} */
     	
     	

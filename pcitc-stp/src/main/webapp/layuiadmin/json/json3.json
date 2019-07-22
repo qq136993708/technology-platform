@@ -1,0 +1,16 @@
+{
+  "msg":"","code":0,
+  "data":[
+    {"orgName":"中国石化碳纤维及其复合材料重点实验室", "dependentUnit":"上海石油化工股份有限公司、上海石油化工研究院"},
+    {"orgName":"中国石化烯烃聚合（非茂）及加工重点实验室", "dependentUnit":"扬子石油化工有限公司"},
+    {"orgName":"中国石化苯乙烯类热塑性弹性体重点实验室", "dependentUnit":"巴陵石化公司"},
+    {"orgName":"中国石化合成气制天然气重点实验室", "dependentUnit":"南京化学工业有限公司"},
+    {"orgName":"中国石化二氧化碳捕集与资源化利用重点实验室", "dependentUnit":"南京化学工业有限公司"},
+    {"orgName":"中国石化高分子物理及表征重点实验室", "dependentUnit":"北京化工研究院"},
+    {"orgName":"中国石化合成橡胶新技术开发重点实验室", "dependentUnit":"北京化工研究院"},
+    {"orgName":"中国石化三采用表面活性剂重点实验室", "dependentUnit":"上海石油化工研究院"},
+    {"orgName":"中国石化甲醇转化技术重点实验室", "dependentUnit":"上海石油化工研究院"},
+    {"orgName":"中国石化尼龙单体制备新技术开发及综合利用重点实验室", "dependentUnit":"扬子石油化工有限公司"},
+    {"orgName":"中国石化分离用膜材料研究与应用重点实验室", "dependentUnit":"北京化工研究院"},
+    {"orgName":"中国石化高端精细化学品重点实验室", "dependentUnit":"上海石油化工研究院"}
+  ]}

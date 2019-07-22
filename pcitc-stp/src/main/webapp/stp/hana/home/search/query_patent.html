@@ -29,6 +29,7 @@
         .hotspot>.item a:hover{text-decoration:underline;}
         .c-nameC{height: 0px;}
         .layui-table-none{padding: 0;}
+        .layui-table-grid-down{display: none;}
     </style>
 </head>
 <body>
@@ -39,18 +40,18 @@
 <div class="relevant">
     <p>搜索热点</p>
     <div class="relevant-cont hotspot">
-        <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('可燃气体探测器')">可燃气体探测器</a>
-        </div>
-        <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('加油加氢')">加油加氢</a>
-        </div>
-        <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('井筒工程技术')">井筒工程技术</a>
-        </div>
-        <div class="item">
-            <a href="javascript:void(0)" onclick="renderTableKeyword('催化剂')">催化剂</a>
-        </div>
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=可燃气体探测器" target="_top">可燃气体探测器</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=加油加氢" target="_top">加油加氢</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=井筒工程技术" target="_top">井筒工程技术</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=催化剂" target="_top">催化剂</a>-->
+        <!--</div>-->
     </div>
 </div>
 <script>
@@ -61,17 +62,18 @@
         table = layui.table;
 
         function loadtable() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
             table.render({
                 elem: '#zjkZhuanliTableId',
                 url: '/expertController/queryOutPatentList',
                 method: "POST",
-                where: {param: {"keyword":$("#keyword").val()}},
+                where: {param: {"keyword":"${keyword}"}},
                 limit: 15,
                 id: 'zjkZhuanliTableId',
                 page: {
                     count: 500, //数据总数，从服务端得到
                     groups: 5,
-                    limits: [15, 30, 45, 60],
+                    limits: [15,30,45,60],
                     layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                     first: '首页', //不显示首页
                     last: '尾页', //不显示尾页
@@ -79,13 +81,13 @@
                 },
 
                 cols: [[
-                    {field:'patentCode',title:'年度',
+                    {field:'patentCode',title:'年度',edit: 'text',
                         templet:  function (d) {
                             return '<div class="layui-div layui-div-n">' +
                                 '        <a href="javascript:;">'+d.fmmc+'</a>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
-                                '                <p><span>发明人:'+d.fmr+'</span><br/><span>类型:'+d.wxlx+'</span></p>' +
+                                '                <p><span>发明人:'+d.fmr+'</span><br/><span>类型:'+d.wxlx+'</span><br/><span>专利号:'+d.zlh+'</span><br/></p>' +
                                 '            </div>' +
                                 '        </div>' +
                                 '    </div>'
@@ -113,6 +115,15 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+        var hotKeyWord = '${hotKeyWord}';
+        let array = hotKeyWord.split(",");
+        var html = "";
+        for (let i = 0,j = array.length; i <j ; i++) {
+            html =html+"<div class=\"item\">";
+            html=html+"<a href=\"/instituteIndex?url=/fullSearch/search?keyword="+array[i]+"\" target=\"_top\">"+array[i]+"</a>";
+            html=html+"</div>";
+        }
+        $(".relevant-cont").html(html);
     });
 </script>
 </body>

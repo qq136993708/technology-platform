@@ -63,7 +63,7 @@ public class IntlProjectApplyController extends BaseController {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_APPLY_LIST_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
-		System.out.println(JSON.toJSON(data).toString());
+		//System.out.println(JSON.toJSON(data).toString());
 		return JSON.toJSON(data).toString();
 	}
 
@@ -149,7 +149,7 @@ public class IntlProjectApplyController extends BaseController {
 
 	@RequestMapping(value = "/project/get-apply")
 	public Object getProjectApply(@RequestParam(value = "applyId", required = true) String applyId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("applyId................." + applyId);
+		//System.out.println("applyId................." + applyId);
 		return this.restTemplate.exchange(PROJECT_APPLY_GET_URL + applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), IntlProjectApply.class).getBody();
 	}
 
@@ -177,7 +177,7 @@ public class IntlProjectApplyController extends BaseController {
 	@RequestMapping(value = "/project/get-pass-apply-list")
 	public Object getPassApplyProjectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		System.out.println("获取已审批通过的申报信息。。。。");
+		//System.out.println("获取已审批通过的申报信息。。。。");
 		List<?> rs = this.restTemplate.exchange(PROJECT_APPLY_PASS_LIST, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
 
 		// System.out.println("------------"+retJson.toString());
@@ -225,7 +225,7 @@ public class IntlProjectApplyController extends BaseController {
 	public Object getApplyListData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
 		HttpEntity<Map<?, ?>> entity = new HttpEntity<Map<?, ?>>(param.getParam(), this.httpHeaders);
 		List<?> data = this.restTemplate.exchange(PROJECT_APPLY_LIST_ALL_URL, HttpMethod.POST, entity, List.class).getBody();
-		System.out.println(JSON.toJSON(data).toString());
+		//System.out.println(JSON.toJSON(data).toString());
 		return JSON.toJSON(data).toString();
 	}
 

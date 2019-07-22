@@ -314,62 +314,52 @@ public class BudgetOrganExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrganIdEqualTo(String value) {
+        public Criteria andOrganIdEqualTo(Integer value) {
             addCriterion("organ_id =", value, "organId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganIdNotEqualTo(String value) {
+        public Criteria andOrganIdNotEqualTo(Integer value) {
             addCriterion("organ_id <>", value, "organId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganIdGreaterThan(String value) {
+        public Criteria andOrganIdGreaterThan(Integer value) {
             addCriterion("organ_id >", value, "organId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganIdGreaterThanOrEqualTo(String value) {
+        public Criteria andOrganIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("organ_id >=", value, "organId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganIdLessThan(String value) {
+        public Criteria andOrganIdLessThan(Integer value) {
             addCriterion("organ_id <", value, "organId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganIdLessThanOrEqualTo(String value) {
+        public Criteria andOrganIdLessThanOrEqualTo(Integer value) {
             addCriterion("organ_id <=", value, "organId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganIdLike(String value) {
-            addCriterion("organ_id like", value, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdNotLike(String value) {
-            addCriterion("organ_id not like", value, "organId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganIdIn(List<String> values) {
+        public Criteria andOrganIdIn(List<Integer> values) {
             addCriterion("organ_id in", values, "organId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganIdNotIn(List<String> values) {
+        public Criteria andOrganIdNotIn(List<Integer> values) {
             addCriterion("organ_id not in", values, "organId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganIdBetween(String value1, String value2) {
+        public Criteria andOrganIdBetween(Integer value1, Integer value2) {
             addCriterion("organ_id between", value1, value2, "organId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganIdNotBetween(String value1, String value2) {
+        public Criteria andOrganIdNotBetween(Integer value1, Integer value2) {
             addCriterion("organ_id not between", value1, value2, "organId");
             return (Criteria) this;
         }
@@ -511,6 +501,76 @@ public class BudgetOrganExample {
 
         public Criteria andOrganNameNotBetween(String value1, String value2) {
             addCriterion("organ_name not between", value1, value2, "organName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeIsNull() {
+            addCriterion("unit_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeIsNotNull() {
+            addCriterion("unit_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeEqualTo(String value) {
+            addCriterion("unit_code =", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotEqualTo(String value) {
+            addCriterion("unit_code <>", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeGreaterThan(String value) {
+            addCriterion("unit_code >", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("unit_code >=", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeLessThan(String value) {
+            addCriterion("unit_code <", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeLessThanOrEqualTo(String value) {
+            addCriterion("unit_code <=", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeLike(String value) {
+            addCriterion("unit_code like", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotLike(String value) {
+            addCriterion("unit_code not like", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeIn(List<String> values) {
+            addCriterion("unit_code in", values, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotIn(List<String> values) {
+            addCriterion("unit_code not in", values, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeBetween(String value1, String value2) {
+            addCriterion("unit_code between", value1, value2, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotBetween(String value1, String value2) {
+            addCriterion("unit_code not between", value1, value2, "unitCode");
             return (Criteria) this;
         }
 

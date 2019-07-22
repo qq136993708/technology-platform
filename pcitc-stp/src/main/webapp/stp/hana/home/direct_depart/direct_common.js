@@ -213,7 +213,7 @@ function load_mutl_bar_down(url, id, title, subtext, yAxis, width, color, callba
 		type : 'category',
 		axisLabel : {
 			interval : 0,// 0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-			rotate : 0,// 倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+			rotate : 30,// 倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
 		}
 	} ]
 	echartsobj.clear();
@@ -903,7 +903,7 @@ function set_multi_graph_statistics(data, id) {
 
 	if (id == 'investment_chart6') {
 		var jzCount_1 = getDataCountForNameFloat(data, '新开课题预算金额');
-		var jzCount_2 = getDataCountForNameFloat(data, '新开课题实际金额');
+		var jzCount_2 = getDataCountForNameFloat(data, '新开课题已签金额');
 		$("#investment_chart6_01").html(jzCount_1.toFixed(2) + "亿元");
 		$("#investment_chart6_02").html(jzCount_2.toFixed(2) + "亿元");
 	}
@@ -991,6 +991,17 @@ function set_multi_graph_statistics(data, id) {
 			$("#investment_chart1_04").html(percentNum(fxyMoney + zbxMoney, totalMoney));
 		}
 
+	}
+	
+	// 领导页--科研投入--直属院投入
+	if (id == 'zsyjy_chart7') {
+		var ysje = getDataCountForNameFloat(data, '预算金额');
+		var kytr = getDataCountForNameFloat(data, '实际科研投入');
+		var zRate = kytr*100/ysje;
+
+		$("#zsyjy_chart7_01").html(ysje.toFixed(2) + "亿元");
+		$("#zsyjy_chart7_02").html(kytr.toFixed(2) + "亿元");
+		$("#zsyjy_chart7_03").html(zRate.toFixed(2) + "%");
 	}
 
 }

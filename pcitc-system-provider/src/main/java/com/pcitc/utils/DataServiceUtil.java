@@ -17,7 +17,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 public class DataServiceUtil {
 
-	public static final String HOME_PAGE = "10.1.19.130:8008";
+	public static final String HOME_PAGE = "http://10.1.19.130:8008";
 	public static final String HOST_PORT = "10.1.19.131:9001";
 	public static final String GET_URL = "http://" + HOST_PORT + "/DataService/BasicQuery/Sql";
 

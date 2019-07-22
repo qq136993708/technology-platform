@@ -11,27 +11,30 @@
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
     <style>
-
-        .tableBox,.searchBox{width: 96%;margin: 0 auto;}
-        .searchBox{padding-top: 20px;}
-        .tableBox{padding-bottom: 15px;}
-        .tableBox table tr th{border-top:2px solid #1890ff !important;}
-        .layui-table tbody tr:nth-child(odd) {
-            background-color: #f6f9fb;
-        }
-        /*放开*/
-        /*.layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
         .layui-table-header{display: none;}
         .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
         .layui-table-body{margin-top: 20px;}
         .layui-table-cell{height: auto;margin-bottom: 10px;}
-        p{width: 500px;height: auto;overflow: hidden;white-space: normal;!*text-overflow: ellipsis;*!
+        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
             font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
         .layui-table-body{margin-top: 0;}
-        .layui-table-page{margin-bottom: 20px;}*/
+        .layui-table-page{margin-bottom: 40px;}
+        .tableBox,.searchBox{padding-left:18px;margin: 0 auto;}
+        .tableBox{width: 55%;float: left;}
+        .searchBox{height: 50px;border-bottom: 1px solid #dfdfdf;margin: 0 20px 10px 28px;padding-left: 0;
+            padding-top: 30px;}
+        .relevant{width: 34%;float: right;margin-right: 20px;}
+        .hotspot>.item{width: 100%;text-align: left;padding: 0;padding-top: 10px;}
+        .hotspot>.item a{font-size: 14px;color: #1890ff;line-height: 26px;}
+        .hotspot>.item a:hover{text-decoration:underline;}
+        .form-control{height: 28px !important;line-height: 28px !important;}
+        .c-nameC{height: 0px;}
+        .relevant p{margin-top: 0}
+        .layui-table-none{padding: 0;}
     </style>
 </head>
-<body>
+<body style="padding-top:20px; ">
 
 <!--<div class="searchBox">-->
     <!--&lt;!&ndash;查询条件&ndash;&gt;-->
@@ -55,11 +58,29 @@
 
     <table id="tfmTypeTableId" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
-<input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
+<div class="relevant">
+    <p>搜索热点</p>
+    <div class="relevant-cont hotspot">
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=可燃气体探测器" target="_top">可燃气体探测器</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=加油加氢" target="_top">加油加氢</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=井筒工程技术" target="_top">井筒工程技术</a>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=催化剂" target="_top">催化剂</a>-->
+        <!--</div>-->
+    </div>
+</div>
 
+<input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
 <script>
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus;
+
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element'], function () {
         table = layui.table,
             $ = layui.jquery,
@@ -67,32 +88,33 @@
             publicMethods = layui.publicMethods,
             laypage = layui.laypage;
         /*cols第一个arr注释掉  第二个打开*/
-
-        var cols =
-            [
-                {type: 'checkbox', event: 'changeEvents', width: 55},
-                {title: '序号', type: 'numbers', width: 55},
-                {
-                    field: "typeName",
-                    title: "分类名称", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "createDate",
-                    title: "创建时间", event: 'setActive', style: 'cursor: pointer;'
-                },
-            ]
-
+        var cols= [
+            {field:'LAY_TABLE_INDEX',title:'年度',
+                templet:  function (d) {
+                var array = d.remarks.split("|");
+                    return '<div class="layui-div layui-div-n">' +
+                        '        <a href="javascript:void(0);" onclick="showDetail(\''+d.typeIndex+'\',\''+d.typeIndex+'\',\''+d.typeCode+'\')">'+d.typeName+'</a>' +
+                        '        <div class="c-row c-gap-top-small">' +
+                        '            <div class="c-span18 c-span-last">' +
+                        '                <p><span>相关项目:'+array[0]+'</span><br/><span>相关成果:'+array[1]+'</span><br/>' +
+                        '<span>相关专利:'+array[2]+'</span><br/>' +
+                        '<span>相关人员:'+array[3]+'</span><br/>' +
+                        '</p>' +
+                        '            </div>' +
+                        '        </div>' +
+                        '    </div>'
+                }}
+        ];
         function renderTable() {
-
             var where = {
                 param:
                     {
                         "typeName": $("input[name=typeName]").val(),
                         "workOrderStatus": workOrderStatus,
-                        "keyword":$("#keyword").val()
+                        "keyword":$("#keyword").val(),
+                        "iscount":"1"
                     }
             };
-
             publicMethods.tableRenderH('tfmTypeTableId', 'tfmTypeTableId',500, '/tfmType/getTableData', false, cols, where, true, function (res, curr, count) {
                 parent.$("#tech").html(count);
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
@@ -126,11 +148,10 @@
             });
         }
 
-        //双击时间开始
-        table.on('row(tableEvent)', function (obj) {
-            var temUrl = "/standardBaseExpert/tfcAnalysisDetail?typeIndex=" + obj.data.typeIndex+"&typeName="+obj.data.typeName+"&typeCode="+obj.data.typeCode;
+        function showDetail(typeIndex,typeName,typeCode){
+            var temUrl = "/standardBaseExpert/tfcAnalysisDetail?typeIndex=" + typeIndex+"&typeName="+typeName+"&typeCode="+typeCode;
             layer.open({
-                title: "查看",
+                title: '详情',
                 skin: 'layui-layer-lan',
                 shadeClose: true,
                 type: 2,
@@ -138,12 +159,28 @@
                 //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                 maxmin: true,
                 //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                area: ['900px', '450px'],
+                area: ['90%', '80%'],
                 content: temUrl
             });
-        });
+        }
+        window.showDetail = showDetail;
 
-
+        //双击时间开始
+        // table.on('row(tableEvent)', function (obj) {
+        //     var temUrl = "/standardBaseExpert/tfcAnalysisDetail?typeIndex=" + obj.data.typeIndex+"&typeName="+obj.data.typeName+"&typeCode="+obj.data.typeCode;
+        //     layer.open({
+        //         title: "查看",
+        //         skin: 'layui-layer-lan',
+        //         shadeClose: true,
+        //         type: 2,
+        //         fixed: false,
+        //         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+        //         maxmin: true,
+        //         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+        //         area: ['900px', '450px'],
+        //         content: temUrl
+        //     });
+        // });
         //双击时间结束
         renderTable();
         window.renderTable = renderTable;
@@ -156,7 +193,15 @@
                 $this.css("width", current_width + "px");
             });
         })
-
+        var hotKeyWord = '${hotKeyWord}';
+        let array = hotKeyWord.split(",");
+        var html = "";
+        for (let i = 0,j = array.length; i <j ; i++) {
+            html =html+"<div class=\"item\">";
+            html=html+"<a href=\"/instituteIndex?url=/fullSearch/search?keyword="+array[i]+"\" target=\"_top\">"+array[i]+"</a>";
+            html=html+"</div>";
+        }
+        $(".relevant-cont").html(html);
     });
 </script>
 </body>

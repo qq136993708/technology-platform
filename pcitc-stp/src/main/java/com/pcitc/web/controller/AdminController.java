@@ -35,6 +35,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.HanaConstant;
+import com.pcitc.base.stp.out.OutNotice;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysModule;
@@ -94,7 +95,12 @@ public class AdminController extends BaseController {
 	// 工作完成情况统计
 	private static final String WORKORDER_STAT = "http://pcitc-zuul/system-proxy/planbase-provider/workorder/stat";
 
-	private Integer TIME_OUT= 1*60*60;
+	// 项目管理系统通知公告
+	private static final String PROJECT_NOTICE = "http://pcitc-zuul/system-proxy/out-notice/type/page";
+	private static final String PROJECT_NOTICE_DETAILS = "http://pcitc-zuul/system-proxy/out-notice/type/notice/";
+
+	private Integer TIME_OUT = 1 * 60 * 60;
+
 	/**
 	 * 科技平台统一身份认证首页
 	 * 
@@ -224,7 +230,7 @@ public class AdminController extends BaseController {
 
 		String cFlag = request.getParameter("cFlag");
 		request.setAttribute("userId", rsUser.getUserId());
-		if (rsUser.getUserLevel() != null && rsUser.getUserLevel() == 1 && cFlag == null) {
+		if (rsUser.getUserLevel() != null && (rsUser.getUserLevel() == 1 || rsUser.getUserLevel() == 2) && cFlag == null) {
 			String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 			request.setAttribute("companyCode", companyCode);
 			String month = HanaUtil.getCurrentYearMoth();
@@ -475,7 +481,7 @@ public class AdminController extends BaseController {
 
 			request.setAttribute("userId", userDetails.getUserId());
 			String cFlag = request.getParameter("cFlag");
-			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
+			if (userDetails.getUserLevel() != null && (userDetails.getUserLevel() == 1 || userDetails.getUserLevel() == 2) && cFlag == null) {
 				String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 				request.setAttribute("companyCode", companyCode);
 				String month = HanaUtil.getCurrentYearMoth();
@@ -542,7 +548,7 @@ public class AdminController extends BaseController {
 
 			String cFlag = request.getParameter("cFlag");
 			request.setAttribute("userId", userDetails.getUserId());
-			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
+			if (userDetails.getUserLevel() != null && (userDetails.getUserLevel() == 1 || userDetails.getUserLevel() == 2) && cFlag == null) {
 				String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 				request.setAttribute("companyCode", companyCode);
 				String month = HanaUtil.getCurrentYearMoth();
@@ -684,7 +690,7 @@ public class AdminController extends BaseController {
 		}
 		request.setAttribute("scShowList", scShowList);
 		request.setAttribute("scList", scList);
-		
+
 		String unitPathId = sysUserInfo.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 		request.setAttribute("isKJBPerson", isKJBPerson);
@@ -692,6 +698,13 @@ public class AdminController extends BaseController {
 		// oa系统的服务器地址
 		request.setAttribute("outOAIp", "10.1.4.10");
 
+		// 获取其他系统的待办任务
+		LayuiTableParam noticePara = new LayuiTableParam();
+		noticePara.setLimit(10);
+		HttpEntity<LayuiTableParam> noticeEntity = new HttpEntity<LayuiTableParam>(noticePara, this.httpHeaders);
+		ResponseEntity<LayuiTableData> noticeRes = this.restTemplate.exchange(PROJECT_NOTICE, HttpMethod.POST, noticeEntity, LayuiTableData.class);
+		LayuiTableData noticeJTD = noticeRes.getBody();
+		request.setAttribute("noticeList", noticeJTD.getData());
 		return "/mainStp";
 	}
 
@@ -1216,4 +1229,16 @@ public class AdminController extends BaseController {
 		return retJson;
 	}
 
+	/**
+	 * 科研项目动态
+	 */
+	@RequestMapping(value = "/admin/project/notice/detail")
+	public String showNoticeDetail(HttpServletRequest request) {
+		String dataId = request.getParameter("dataId");
+		ResponseEntity<OutNotice> responseEntity = restTemplate.exchange(PROJECT_NOTICE_DETAILS + dataId, HttpMethod.POST, new HttpEntity<String>(httpHeaders), OutNotice.class);
+		OutNotice outNotice = responseEntity.getBody();
+		request.setAttribute("outNotice", outNotice);
+		return "/stp/out/notice-details";
+	}
+	
 }

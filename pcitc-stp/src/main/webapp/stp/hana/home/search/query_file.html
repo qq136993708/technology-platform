@@ -24,46 +24,44 @@
         .layui-table-body{margin-top: 0;}
         .layui-table-page{margin-bottom: 20px;}
         .tableBox,.searchBox{width: 94%;margin: 0 auto;}
-        .searchBox{margin-top: 20px;}
+        .tableBox{width: 55%;float: left;}
         .layui-table-none{padding: 0;}
+        .relevant{width: 34%;float: right;margin-right: 20px;}
+        .relevant p{margin-top: 0}
+        .hotspot>.item a {
+            font-size: 14px;
+            color: #1890ff;
+            line-height: 26px;
+        }
+        .hotspot>.item {
+            width: 100%;
+            text-align: left;
+            padding: 0;
+            padding-top: 10px;
+        }
     </style>
 </head>
-<body>
-        <!--<div class="searchBox">-->
-            <!--&lt;!&ndash;查询条件&ndash;&gt;-->
-            <!--<label class="dateInput">-->
-                <!--<span>关键词</span>-->
-                <!--<input type="text" name="bak4" id="bak4" placeholder="关键词" value="${keyword}"-->
-                       <!--title="文件名称" autocomplete="off"-->
-                       <!--class="form-control" id="name">-->
-            <!--</label>-->
-            <!--&lt;!&ndash;按钮组&ndash;&gt;-->
-            <!--<div class="btnGroup">-->
-                <!--<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询-->
-                <!--</button>-->
-                <!--&lt;!&ndash;<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置&ndash;&gt;-->
-                <!--&lt;!&ndash;</button>&ndash;&gt;-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="tableToolBox">
-            <div class="whiteLine"></div>
-            <div class="tableBtns">
-                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="downloadEvent">下载</button>
-            </div>
-        </div>-->
+<body style="padding-top:20px; ">
         <div class="tableBox">
             <table id="fileShowTable" class="layui-hide" lay-filter="tableEvent"></table>
+        </div>
+        <div class="relevant">
+            <p>搜索热点</p>
+            <div class="relevant-cont hotspot">
+            </div>
         </div>
 <a href="" target="_self" id="download"></a>
 
 <script>
+    var userid = "${userid}";
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'], function () {
         var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
         table = layui.table;
         function renderSysFileTable() {
             table.render({
                 elem: '#fileShowTable',
-                url: '/sysfile/getTableDataEs',
+                url: '/sysfile/getTableDataEsIndex',
+                // url: '/sysfile/getTableDataEs',
                 method: "POST",
                 where: {param: {"bak4": $("#bak4").val()}},
                 limit: 15,
@@ -79,7 +77,23 @@
                 },
                 cols: [[
                     {field:'createDateTime',title:'年度',
-                        templet:  '<div>{{ layui.laytpl.search(d) }}</div>' }
+                        // templet:  '<div>{{ layui.laytpl.search(d) }}</div>' }
+                    templet:  function (d) {
+                        if (d.createUserId == userid) {
+                            d.filePath = "/sysfile/viewPicByte/"+d.id;
+                            // d.filePath = "/sysfile/viewPicByte/16c0e9b8f93_1ad63be2";
+                        }else {
+                            d.filePath="javascript:void(0);";
+                        }
+                return '<div class="layui-div layui-div-n">' +
+                    '        <a href="'+d.filePath+'" target="_self">'+d.fileName+'</a>' +
+                    '        <div class="c-row c-gap-top-small">' +
+                    '            <div class="c-span18 c-span-last">' +
+                    '                <p><span>文件来源:'+d.bak1+"->"+d.version+'</span></p>' +
+                    '            </div>' +
+                    '        </div>' +
+                    '    </div>'
+            }},
                 ]],
                 done: function (res, curr, count) {
                     parent.$("#file").html(count);
@@ -97,106 +111,17 @@
             //移除表头的复选框,去掉全选
             // $(".layui-table-header table thead th input").remove();
         }
-        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
-            var index = $(this).attr('data-index');
-            var tableBox = $(this).parents('.layui-table-box');
-            //存在固定列
-            if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
-                tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
-            } else {
-                tableDiv = tableBox.find(".layui-table-body.layui-table-main");
-            }
-            var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
-            if (checkCell.length > 0) {
-                checkCell.click();
-            }
-        });
-        $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
-            e.stopPropagation();
-        });
-
         renderSysFileTable();
-        // 触发不同的按钮事件
-        var $ = layui.$, active = {
-            searchEvent: function () { //点击查询按钮
-                table.reload('sysFileId', {
-                    where: {param: {"bak4": $("#bak4").val()}}
-                });
-            },
-            resetEvent: function () { //点击查询按钮
-                $("#fileName").val("");
-                table.reload('sysFileId', {
-                    where: {param: {"bak4": ""}}
 
-                });
-            },
-            downloadEvent: function () {
-                var ids = active.getChecked();
-                if (ids == "") {
-                    layer.msg("请选择文件");
-                    return;
-                }
-                $("#download").attr("href", "/sysfile/download/" + ids);
-                document.getElementById("download").click();
-            },
-            deleteEvent: function () {
-                var ids = active.getChecked();
-                if (ids == "") {
-                    layer.msg("请选择文件");
-                    return;
-                }
-                ajaxPost("/sysfile/delete", {"id": ids}, function (data) {
-                    layer.msg("文件删除成功");
-                });
-                active.searchEvent();
-            }, getChecked: function () {
-                var ids = "";
-                var selectedData = active.getCheckData();
-                for (var i = 0; i < selectedData.length; i++) {
-                    ids = (ids == "" ? selectedData[i].id : (ids + "|" + selectedData[i].id));
-                }
-                if (typeof (ids) == "undefined") {
-                    ids = "";
-                }
-                return ids;
-            }, getCheckData: function () { //获取选中数据
-                var checkStatus = table.checkStatus('sysFileId')
-                    , data = checkStatus.data;
-                return data;
-            }
-            , getCheckLength: function () { //获取选中数目
-                var checkStatus = table.checkStatus('sysFileId')
-                    , data = checkStatus.data;
-                layer.msg('选中了：' + data.length + ' 个');
-            }
-            , isAll: function () { //验证是否全选
-                var checkStatus = table.checkStatus('sysFileId');
-                layer.msg(checkStatus.isAll ? '全选' : '未全选')
-            },
-            addEvent: function () {
-                openBaseWin("新增", "/sysfilekind/editUpload?opt=edit&parentId="+parentId);
-            },
-            editEvent: function () {
-                var ids = active.getCheckData();
-                if(ids.length>1||ids.length==0){
-                    layer.msg("请选择一条数据");
-                    return;
-                }
-                openBaseWin("编辑", "/sysfilekind/editUpload?opt=edit&id=" + ids[0].id+"&parentId="+parentId);
-            },
-            shareEvent: function () {
-                var ids = active.getCheckData();
-                if(ids.length>1||ids.length==0){
-                    layer.msg("请选择一条数据");
-                    return;
-                }
-                openBaseWin("共享设置", "/sysfileshare/edit?opt="+parentId+"&id=" + ids.id+"&fieldId="+ids.id);
-            }
-        };
-        $('.layui-btn').on('click', function () {
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
+        var hotKeyWord = '${hotKeyWord}';
+        let array = hotKeyWord.split(",");
+        var html = "";
+        for (let i = 0,j = array.length; i <j ; i++) {
+            html =html+"<div class=\"item\">";
+            html=html+"<a href=\"/instituteIndex?url=/fullSearch/search?keyword="+array[i]+"\" target=\"_top\">"+array[i]+"</a>";
+            html=html+"</div>";
+        }
+        $(".relevant-cont").html(html);
     });
 </script>
 </body>

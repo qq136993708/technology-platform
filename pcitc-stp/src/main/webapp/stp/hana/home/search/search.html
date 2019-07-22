@@ -145,10 +145,10 @@
         <input type="text" class="selfRownum layui-hide" id="userConfig1" value="${userInfo.userConfig1?default(15)}">
         <div class="layui-tab layui-tab-brief layui-q" lay-filter="component-tabs-hash">
             <ul class="layui-tab-title">
-                <li class="layui-this">
-                    <span class="search-img"></span>
-                    <span class="search-text">综合查询</span>
-                    <span id="index" class="search-number"></span></li>
+                <!--<li class="layui-this">-->
+                    <!--<span class="search-img"></span>-->
+                    <!--<span class="search-text">综合查询</span>-->
+                    <!--<span id="index" class="search-number"></span></li>-->
                 <li>
                     <span class="search-img"></span>
                     <span class="search-text">科研课题</span>
@@ -172,10 +172,10 @@
             </ul>
 
             <div class="layui-tab-content">
+                <!--<div class="layui-tab-item layui-tab-i layui-show">-->
+                    <!--<iframe id="ifrIndex" src="" class="layui-iframe"></iframe>-->
+                <!--</div>-->
                 <div class="layui-tab-item layui-tab-i layui-show">
-                    <iframe id="ifrIndex" src="" class="layui-iframe"></iframe>
-                </div>
-                <div class="layui-tab-item layui-tab-i">
                     <iframe id="ifrOne" src="" class="layui-iframe"></iframe>
                 </div>
                 <div class="layui-tab-item layui-tab-i">
@@ -229,9 +229,9 @@
         }else {
             $(".layui-tab-i").css("height",parent.$(document).height()-120+"px");
             $(".layui-leader").removeClass("layui-cs")
+            parent.$("#LAY_app_body").css("height","82%");
         }
         search();
-        parent.$("#LAY_app_body").css("height","82%");
         $("#toUserInfo").on("click", function() {
             layer.open({
                 title : "用户详情",
@@ -337,18 +337,23 @@
             $(this).find("img").addClass("layui-hide");
         });
     });
+
     function search() {
         var keyword="${keyword}";
-        $("#ifrIndex").attr("src","/fullSearch/searchIndex?keyword="+keyword);
-        $("#ifrOne").attr("src","/fullSearch/query_scientific?keyword="+keyword);
-        $("#ifrTwo").attr("src","/fullSearch/query_achievement?keyword="+keyword);
-        // $("#ifrreport").attr("src","/fullSearch/searchReport?keyword="+keyword);
-        $("#ifroutreward").attr("src","/fullSearch/searchOutreward?keyword="+keyword);
-        $("#ifroutequipment").attr("src","/fullSearch/searchEquipment?keyword="+keyword);
-        $("#ifrtech").attr("src","/fullSearch/searchTfmType?keyword="+keyword);
-        $("#ifrexpert").attr("src","/fullSearch/searchExpert?keyword="+keyword);
-        $("#ifrpatent").attr("src","/fullSearch/searchPatent?keyword="+keyword);
-        $("#ifrfile").attr("src","/fullSearch/searchFile?keyword="+keyword);
+        var hotKeyWord = '${hotKeyWord}';
+        console.log("--------hotKeyWord----------");
+        console.log(hotKeyWord);
+        hotKeyWord = encodeURI(encodeURI(hotKeyWord));
+        $("#ifrIndex").attr("src","/fullSearch/searchIndex?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
+        $("#ifrOne").attr("src","/fullSearch/query_scientific?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
+        $("#ifrTwo").attr("src","/fullSearch/query_achievement?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
+        // $("#ifrreport").attr("src","/fullSearch/searchReport?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
+        $("#ifroutreward").attr("src","/fullSearch/searchOutreward?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
+        $("#ifroutequipment").attr("src","/fullSearch/searchEquipment?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
+        $("#ifrtech").attr("src","/fullSearch/searchTfmType?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
+        $("#ifrexpert").attr("src","/fullSearch/searchExpert?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
+        $("#ifrpatent").attr("src","/fullSearch/searchPatent?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
+        $("#ifrfile").attr("src","/fullSearch/searchFile?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
     }
 </script>
 </body>

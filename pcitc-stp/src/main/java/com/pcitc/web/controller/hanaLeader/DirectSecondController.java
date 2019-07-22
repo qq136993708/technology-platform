@@ -58,10 +58,8 @@ public class DirectSecondController  extends BaseController
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+		
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -105,10 +103,8 @@ public class DirectSecondController  extends BaseController
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+		
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -152,10 +148,8 @@ public class DirectSecondController  extends BaseController
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+		
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -198,10 +192,8 @@ public class DirectSecondController  extends BaseController
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+		
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -245,10 +237,8 @@ public class DirectSecondController  extends BaseController
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
+		
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_05, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();

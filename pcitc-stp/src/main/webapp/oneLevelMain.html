@@ -590,9 +590,10 @@
             },
             success : function(data) {
                 var projectMoney = data.data.projectMoney;
-                var budgetMoney = data.data.budgetMoney;
+                var budgetFyxMoney = data.data.budgetFyxMoney;
+                var budgetZbxMoney = data.data.budgetZbxMoney;
                 var tt1 = parseFloat(projectMoney) / 10000;
-                var tt2 = parseFloat(budgetMoney) / 10000;
+                var tt2 = (parseFloat(budgetFyxMoney) + parseFloat(budgetZbxMoney)) / 10000;
 
                 $("#moneyTotal").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
                 $("#moneyCurrent").html(tt1.toFixed(2) + "<span style='font-size:14px;'>亿</span>");

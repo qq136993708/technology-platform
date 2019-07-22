@@ -442,6 +442,19 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("leaderFlag", param.getParam().get("leaderFlag"));
 		}
 		
+		// 部门-处室--专业类别, 加Flag和数据控制的字段区分出来
+        if (param.getParam().get("gsbmbmFlag") != null && !StringUtils.isBlank(param.getParam().get("gsbmbmFlag") + "")) {
+            hashmap.put("gsbmbmFlag", param.getParam().get("gsbmbmFlag"));
+        }
+        
+        if (param.getParam().get("zylbbmFlag") != null && !StringUtils.isBlank(param.getParam().get("zylbbmFlag") + "")) {
+            hashmap.put("zylbbmFlag", param.getParam().get("zylbbmFlag"));
+        }
+        
+        if (param.getParam().get("zycbmFlag") != null && !StringUtils.isBlank(param.getParam().get("zycbmFlag") + "")) {
+            hashmap.put("zycbmFlag", param.getParam().get("zycbmFlag"));
+        }
+		
 		if (param.getParam().get("groupFlag")!=null&&!StringUtils.isBlank(param.getParam().get("groupFlag")+"")) {
 			hashmap.put("groupFlag", param.getParam().get("groupFlag"));
 		}
@@ -651,5 +664,19 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		System.out.println("====执行存储过程updateOutProjectPlan------------------------");
 		outProjectPlanMapper.updateOutProjectPlan();
 		System.out.println("====执行存储过程结束------------------------");
+	}
+	
+	/**
+     * 领导首页-预算投入 资本性预算分组,资本性不按照专业处权限控制
+     */
+	public List getOutTemMoneyTotalInfo(HashMap<String, String> map) {
+		return outProjectPlanMapper.getOutTemMoneyTotalInfo(map);
+	}
+	
+	/**
+     * 领导首页-获取专项、机动的预算费用，专项和机动特殊，不按照专业处进行权限控制
+     */
+	public List getOutTemMoneyDecomposeInfo(HashMap<String, String> map) {
+		return outProjectPlanMapper.getOutTemMoneyDecomposeInfo(map);
 	}
 }
