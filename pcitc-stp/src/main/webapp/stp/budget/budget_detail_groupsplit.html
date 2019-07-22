@@ -109,7 +109,12 @@
             	$(".headline-tool").css("display","block");
             	laydate.render({elem: '#choose-year',value: cu_date,type: 'year'
                     ,done:function (val, date, endDate) {
-                    	window.location.href="/budget/budget_detail_groupsplit_nd?nd="+val;
+                    	if(unitCodes == 0){
+                    		window.location.href="/budget/budget_detail_groupsplit_nd?nd="+val;
+                    	}else{
+                    		window.location.href="/budget/budget_detail_groupsplit_unit?nd="+val;
+                    	}
+                    	
                     }            
                 });
             }

@@ -162,6 +162,7 @@ public class BudgetStockSplitXtwProviderClient
 		try
 		{
 			data =  budgetStockSplitXtwSplitService.selectBudgetSplitDataList(dataId);
+			data = budgetInfoService.filterDataByUnit(data, (String)param.getParam().get("unitCodes"));
 			table.setData(data);
 			table.setCount(data.size());
 		}

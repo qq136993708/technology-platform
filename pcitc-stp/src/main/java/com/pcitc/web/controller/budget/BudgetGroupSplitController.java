@@ -187,6 +187,7 @@ public class BudgetGroupSplitController extends BaseController {
 		request.setAttribute("dataId", rs == null?"0":rs.getDataId());
 		
 		request.setAttribute("unitCodes", getUserProfile().getUnitCode());
+		//request.setAttribute("unitCodes", "30130058,30130063,30130017");
 		return "stp/budget/budget_detail_groupsplit";
 	}
 	
