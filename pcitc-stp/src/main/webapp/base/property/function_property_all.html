@@ -83,7 +83,7 @@
 
 					<div class="treeTableBox" style="display: none; margin-top: 6px; margin-left: 50%; margin-right: 0;" name="configDiv" id="G0DSM">
 						<div class="tableToolBox">
-							研究院配置项
+							研究院配置项（ERP）
 							<span>
 								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add1 btnMyBgImg thirdBtn" data-type="saveInstituteEvent">保存</button>
 							</span>
@@ -146,7 +146,28 @@
 						<div id="zylbbmContaints">
 							<table id="zylbbmTable" class="layui-hide" lay-filter="zylbbmTableEvent"></table>
 						</div>
-
+					</div>
+					
+					<div class="treeTableBox" style="display: none; margin-top: 6px; margin-left: 50%; margin-right: 0;" name="configDiv" id="zsyjy">
+						<div class="tableToolBox">
+							研究院配置项
+							<span>
+								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add1 btnMyBgImg thirdBtn" data-type="saveZsyjyEvent">保存</button>
+							</span>
+							连接符
+							<span>
+								<select id="connectorZsyjy" name="connectorZsyjy">
+									<option value=",">,</option>
+									<option value="|">|</option>
+									<option value="*">*</option>
+									<option value="-">-</option>
+									<option value="&">&</option>
+								</select>
+							</span>
+						</div>
+						<div id="zsyjyContaints">
+							<table id="zsyjyTable" class="layui-hide" lay-filter="zsyjyTableEvent"></table>
+						</div>
 					</div>
 
 
@@ -235,6 +256,9 @@
 							}
 							if (configProCode == 'zylbbm') {
 								iniZylbbm();
+							}
+							if (configProCode == 'zsyjy') {
+								iniZsyjy();
 							}
 						}
 					},
@@ -349,6 +373,9 @@
 							}
 							if (configProCode == 'zylbbm') {
 								iniZylbbm();
+							}
+							if (configProCode == 'zsyjy') {
+								iniZsyjy();
 							}
 						})
 					}
@@ -552,6 +579,9 @@
 				}
 				if (configProCode == 'zylbbm') {
 					iniZylbbm();
+				}
+				if (configProCode == 'zsyjy') {
+					iniZsyjy();
 				}
 			}
 
@@ -1264,6 +1294,118 @@
 					"proCode" : configProCode,
 					"postConfigValue" : JSON.stringify(configValue),
 					"connector" : $("#connectorZylbbm").val(),
+				},
+				url : '/userProperty/function/config/post/save',
+				success : function(data) {
+					layer.msg("操作成功");
+				},
+				error : function(e) {
+					layer.msg("出错了！");
+				}
+			});
+		}
+	</script>
+	
+	
+	
+	<!-- 配置研究院zsyjy 一个配置项一个js-->
+	<script type="text/javascript">
+		var zsyjyTable;
+		layui.use([ 'jquery', 'table' ], function() {
+
+			zsyjyTable = layui.table, $ = layui.jquery;
+			// 触发不同的按钮事件
+			var active = {
+				saveZsyjyEvent : function() {
+					saveZsyjyConfigEvent();
+				}
+			};
+
+			//区别按钮属性
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+
+		//渲染
+		function renderZsyjyTable() {
+			zsyjyTable.render({
+				elem : '#zsyjyTable',
+				url : '/functionProperty/dictionary/data/control/list',
+				method : "POST",
+				id : 'zsyjyTable',
+				where : {
+					"proCode" : configProCode,
+					"postId" : configSelectPostId,
+					"functionId" : $('#funcId').val(),
+					"keyWord" : 'ROOT_FZJCZX_YS',
+				},
+				height : commonDislodgeTable() / 2 - 45,
+				cols : [ [ {
+					type : 'checkbox',
+					event : 'changeEvents'
+				}, {
+					title : '序号',
+					type : 'numbers',
+					width : 45
+				}, {
+					field : 'name',
+					title : '名称',
+					width : '20%',
+					style : 'cursor: pointer;'
+				}, {
+					field : 'num_value',
+					title : '编码',
+					style : 'cursor: pointer;'
+				} ] ],
+				done : function(res, curr, count) {
+					for (var i = 0; i < res.data.length; i++) {
+						if (typeof (res.data[i].is_available) != "undefined" && (res.data[i].is_available) == 1) {
+							res.data[i]["LAY_CHECKED"] = 'true';
+							//找到对应数据改变勾选样式，呈现出选中效果
+							var index = res.data[i]['LAY_TABLE_INDEX'];
+							$('#zsyjyContaints .layui-table tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+							$('#zsyjyContaints .layui-table tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+						}
+					}
+				},
+			});
+		}
+
+		function iniZsyjy() {
+			renderZsyjyTable();
+		}
+
+		// 保存功能、配置项、岗位三者与 配置内容的关联（研究院）
+		function saveZsyjyConfigEvent() {
+			if (isBlank($('#funcId').val())) {
+				layer.msg('请点击选择功能菜单');
+				return false;
+			}
+			if (isBlank(configProCode)) {
+				layer.msg('请点击选择配置项');
+				return false;
+			}
+			if (isBlank(configPostIds)) {
+				layer.msg('请点击选择岗位(复选框)');
+				return false;
+			}
+
+			var zsyjyData = table.checkStatus('zsyjyTable').data;
+			var configValue = new Array();//要配置的功能
+			for (var i = 0; i < zsyjyData.length; i++) {
+				configValue.push(zsyjyData[i].num_value);
+			}
+			$.ajax({
+				type : 'post',
+				dataType : 'text',
+				data : {
+					"postId" : JSON.stringify(configPostIds),
+					"functionId" : $('#funcId').val(),
+					"proCode" : configProCode,
+					"postConfigValue" : JSON.stringify(configValue),
+					"connector" : $("#connectorZsyjy").val(),
 				},
 				url : '/userProperty/function/config/post/save',
 				success : function(data) {

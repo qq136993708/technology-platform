@@ -3099,8 +3099,10 @@ public class OneLevelMainController extends BaseController {
 		// 数据控制属性
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		String zsyjy = request.getAttribute("zsyjy") == null ? "" : request.getAttribute("zsyjy").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
+		paramsMap.put("zsyjy", zsyjy);
 		
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
@@ -3117,138 +3119,16 @@ public class OneLevelMainController extends BaseController {
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
 				barLine.setxAxisDataList(xAxisDataList);
 				List<String> legendDataList = new ArrayList<String>();
+				legendDataList.add("预算金额");
 				legendDataList.add("实际科研投入");
-				legendDataList.add("未执行");
 				legendDataList.add("预算执行率");
 				barLine.setxAxisDataList(xAxisDataList);
 				barLine.setLegendDataList(legendDataList);
 				
-				
-				// 单独计算各个专业处的预算金额
-				if (!zycbm.equals("")) {
-					BudgetItemSearchVo vo = new BudgetItemSearchVo();
-					vo.setNd(nd);
-					Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
-					List<String> list_1 = new ArrayList<>(set);
-					System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + String.join("", list_1));
-					System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + String.join(",", list_1));
-					vo.getUnitIds().addAll(list_1);
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_KTY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_GCY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_WTY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_SKY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_DLY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_BHY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_SHY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_AGY");
-					HttpEntity<BudgetItemSearchVo> entity1 = new HttpEntity<BudgetItemSearchVo>(vo, httpHeaders);
-					ResponseEntity<BudgetItemSearchVo> responseEntity1 = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity1, BudgetItemSearchVo.class);
-					int statusCode1 = responseEntity1.getStatusCodeValue();
-					if (statusCode1 == 200) {
-						BudgetItemSearchVo bis = responseEntity1.getBody();
-						double investMoney1 = 0d;
-						double investMoney2 = 0d;
-						double investMoney3 = 0d;
-						double investMoney4 = 0d;
-						double investMoney5 = 0d;
-						double investMoney6 = 0d;
-						double investMoney7 = 0d;
-						double investMoney8 = 0d;
-						for (int i = 0; i < list_1.size(); i++) {
-							investMoney1 = investMoney1 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_KTY");
-							investMoney2 = investMoney2 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_GCY");
-							investMoney3 = investMoney3 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_WTY");
-							investMoney4 = investMoney4 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_SKY");
-							investMoney5 = investMoney5 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_DLY");
-							investMoney6 = investMoney6 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_BHY");
-							investMoney7 = investMoney7 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_SHY");
-							investMoney8 = investMoney8 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_AGY");
-						}
-						
-						// 替换原查询结果list中的总预算、未执行、预算执行率属性
-						for (int k = 0; k < list.size(); k++) {
-							BudgetMysql bm = list.get(k);
-							if (bm.getDefine2() != null && bm.getDefine2().equals("勘探院")) {
-								bm.setZysje(investMoney1);
-								bm.setWxdje(investMoney1 - Double.parseDouble(bm.getZsjje().toString()));
-								if (investMoney1 != 0d) {
-									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
-								} else {
-									bm.setJeRate(0);
-								}
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("工程院")) {
-								bm.setZysje(investMoney2);
-								bm.setWxdje(investMoney2 - Double.parseDouble(bm.getZsjje().toString()));
-								if (investMoney2 != 0d) {
-									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
-								} else {
-									bm.setJeRate(0);
-								}
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("物探院")) {
-								bm.setZysje(investMoney3);
-								bm.setWxdje(investMoney3 - Double.parseDouble(bm.getZsjje().toString()));
-								if (investMoney3 != 0d) {
-									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
-								} else {
-									bm.setJeRate(0);
-								}
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("石科院")) {
-								bm.setZysje(investMoney4);
-								bm.setWxdje(investMoney4 - Double.parseDouble(bm.getZsjje().toString()));
-								if (investMoney4 != 0d) {
-									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
-								} else {
-									bm.setJeRate(0);
-								}
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("大连院")) {
-								bm.setZysje(investMoney5);
-								bm.setWxdje(investMoney5 - Double.parseDouble(bm.getZsjje().toString()));
-								if (investMoney5 != 0d) {
-									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
-								} else {
-									bm.setJeRate(0);
-								}
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("北化院")) {
-								bm.setZysje(investMoney6);
-								bm.setWxdje(investMoney6 - Double.parseDouble(bm.getZsjje().toString()));
-								if (investMoney6 != 0d) {
-									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
-								} else {
-									bm.setJeRate(0);
-								}
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("上海院")) {
-								bm.setZysje(investMoney7);
-								bm.setWxdje(investMoney7 - Double.parseDouble(bm.getZsjje().toString()));
-								if (investMoney7 != 0d) {
-									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
-								} else {
-									bm.setJeRate(0);
-								}
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("安工院")) {
-								bm.setZysje(investMoney8);
-								bm.setWxdje(investMoney8 - Double.parseDouble(bm.getZsjje().toString()));
-								if (investMoney8 != 0d) {
-									bm.setJeRate(String.format("%.4f", Double.parseDouble(bm.getZsjje().toString())/Double.parseDouble(bm.getZysje().toString())*100));
-								} else {
-									bm.setJeRate(0);
-								}
-							}
-						}
-					}
-				}
-				
-				
 				// X轴数据
 				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-				ChartBarLineSeries s1 = HanaUtil.getinvestmentBarLineSeries2(list, "zsjje");
-				ChartBarLineSeries s2 = HanaUtil.getinvestmentBarLineSeries2(list, "wxdje");
+				ChartBarLineSeries s1 = HanaUtil.getinvestmentBarLineSeries2(list, "zysje");
+				ChartBarLineSeries s2 = HanaUtil.getinvestmentBarLineSeries2(list, "zsjje");
 				ChartBarLineSeries ztzwcl = HanaUtil.getinvestmentBarLineSeries2(list, "jeRate");
 				seriesList.add(s1);
 				seriesList.add(s2);
@@ -3346,6 +3226,7 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_02_count")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String investment_02_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
@@ -3354,10 +3235,16 @@ public class OneLevelMainController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
-		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-			// 领导标识，不控制数据
-			paramsMap.put("leaderFlag", "1");
-		}
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		String zsyjy = request.getAttribute("zsyjy") == null ? "" : request.getAttribute("zsyjy").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
+		paramsMap.put("zsyjy", zsyjy);
+		
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
