@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 
 import com.netflix.discovery.converters.Auto;
 import com.pcitc.base.expert.*;
+import com.pcitc.base.search.ZjkSearchLogExample;
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutPatent;
 import com.pcitc.mapper.expert.*;
@@ -945,8 +946,13 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {
             example = new ZjkExpertExample();
-            example.or().andExpertNameLike("%" + keywords + "%");
-            example.or().andUserDescLike("%" + keywords + "%");
+            ZjkExpertExample.Criteria c1 = example.createCriteria();
+            c1.andStatusEqualTo("0");
+            c1.andDelFlagEqualTo("0");
+            c1.andSysFlagEqualTo("0");
+            c1.andExpertNameLike("%" + keywords + "%");
+//            example.or().andExpertNameLike("%" + keywords + "%");
+//            example.or().andUserDescLike("%" + keywords + "%");
         }
         example.setOrderByClause("create_date desc");
 

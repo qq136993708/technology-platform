@@ -341,8 +341,6 @@
     function search() {
         var keyword="${keyword}";
         var hotKeyWord = '${hotKeyWord}';
-        console.log("--------hotKeyWord----------");
-        console.log(hotKeyWord);
         hotKeyWord = encodeURI(encodeURI(hotKeyWord));
         $("#ifrIndex").attr("src","/fullSearch/searchIndex?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
         $("#ifrOne").attr("src","/fullSearch/query_scientific?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
@@ -354,6 +352,10 @@
         $("#ifrexpert").attr("src","/fullSearch/searchExpert?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
         $("#ifrpatent").attr("src","/fullSearch/searchPatent?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
         $("#ifrfile").attr("src","/fullSearch/searchFile?keyword="+keyword+"&hotKeyWord="+hotKeyWord);
+    }
+    function sonsearch(name) {
+        var url = "/fullSearch/search?keyword="+name;
+        window.location.href=url;
     }
 </script>
 </body>
