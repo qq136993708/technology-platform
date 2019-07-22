@@ -158,31 +158,25 @@
 						<div class="layui-card-body btn-function">
 							<div class="text-total">
 								<span>
-									年度预算总计:
-									<span class="text-total-blue" id="chart7_01">
+									预算总计:
+									<span class="text-total-blue" id="zsyjy_chart7_01">
 										<img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
-									实际科研投入:
-									<span class="text-total-blue" id="chart7_02" onclick="budget_institute_implementation('实际科研投入')" style="cursor: pointer">
-										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-									</span>
-								</span>
-								<span>
-									未执行:
-									<span class="text-total-blue" id="chart7_03" onclick="budget_institute_implementation('未执行')" style="cursor: pointer">
+									实际科研投入总计:
+									<span class="text-total-blue" id="zsyjy_chart7_02" onclick="budget_institute_implementation('实际科研投入')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
 									预算执行率:
-									<span class="text-total-blue" id="chart7_04" onclick="budget_institute_implementation('预算执行率')" style="cursor: pointer">
+									<span class="text-total-blue" id="zsyjy_chart7_03" onclick="budget_institute_implementation('预算执行率')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 							</div>
-							<div class="main-chart" id="chart7" style="height: 280px; width: 100%;"></div>
+							<div class="main-chart" id="zsyjy_chart7" style="height: 280px; width: 100%;"></div>
 						</div>
 					</div>
 				</div>
@@ -388,13 +382,12 @@
 				window.open("/instituteIndex?url=" + url);
 			});
 
-			$("#chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-			$("#chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-			$("#chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
-			$("#chart7_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#zsyjy_chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#zsyjy_chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+			$("#zsyjy_chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			var chart7_url = "/one_level_main/investment_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date;
 			var color = [ "#f3655b", "#8ab3cf", "#f19049" ];
-			var echart7 = load_mutl_bar_down(chart7_url, "chart7", "", "", yAxis2, 30, color);
+			var echart7 = load_mutl_bar_down(chart7_url, "zsyjy_chart7", "", "", yAxis2, 30, color);
 			echart7.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
@@ -407,10 +400,7 @@
 				}
 				var url = encodeURIComponent("/one_level_main/common_table_new?define2=" + xName + "&qdbz=" + qdbz + "&ysnd=" + nd + "&groupFlag=xmid,define8&define11=股份公司&define12=直属研究院");
 				window.open("/instituteIndex?url=" + url);
-
 			});
-			var investment_02_count_url = "/one_level_main/investment_02_count?nd=" + nd + "&v_date=" + v_date;
-			setInvestment_02_count(investment_02_count_url);
 		}
 
 		//初始化图形
@@ -433,51 +423,6 @@
 
 			});
 
-		}
-
-		function setInvestment_02_count(url) {
-			$.ajax({
-				type : "GET",
-				url : url,
-				dataType : "json",
-				timeout : 11000,
-				cache : false,
-				contentType : "application/x-www-form-urlencoded; charset=utf-8",
-				success : function(data, status) {
-					if (data.success == true || data.success == 'true') {
-
-						var zysje_count = 0;
-						var zsjje_count = 0;
-						var wxdje_count = 0;
-
-						var list = data.data;
-						for (var i = 0; i < list.length; i++) {
-							var zysje = list[i].zysje;//预算总计 
-							var zsjje = list[i].zsjje;//实际签订
-							var wxdje = list[i].wxdje;//未签订
-							zysje_count = zysje_count + parseFloat(zysje);
-							zsjje_count = zsjje_count + parseFloat(zsjje);
-							wxdje_count = wxdje_count + parseFloat(wxdje);
-						}
-
-						$("#chart7_01").html(zysje_count.toFixed(2) + "亿元");
-						$("#chart7_02").html(zsjje_count.toFixed(2) + "亿元");
-						$("#chart7_03").html(wxdje_count.toFixed(2) + "亿元");
-
-						if (zysje_count == 0) {
-							$("#chart7_04").html("0%");
-						} else {
-							$("#chart7_04").html(percentNum(zsjje_count, zysje_count));
-
-						}
-					}
-				},
-				error : function() {
-				},
-				complete : function(XMLHttpRequest, status) {
-
-				}
-			});
 		}
 
 		function percent_Num(num, num2) {

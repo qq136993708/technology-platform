@@ -1445,31 +1445,31 @@
 	
 	<!-- 直属研究院二级页面（领导），各个院的合同预算金额-->
 	<select id="getPlanMoneyCompleteRateByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select define2,zsjje, round((out_tem_money_total.zbx_money+out_tem_money_total.fyx_money), 4) as zysje,
-				round((out_tem_money_total.zbx_money+out_tem_money_total.fyx_money)-zsjje,4) as wxdje,
-				round(zsjje/(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money)*100,4) as jeRate
-		from (
-			select 
-						 SUBSTR(out_project_info.define2 FROM 6) as define2,
-						 round(sum(ysje),4) as zsjje
-			from out_project_info
-			WHERE
-				out_project_info.ysnd= '${nd}' 
-				<!-- 2领导能看所有的， 1领导能看到自己管理的部分，非领导啥都看不了-->
-				<if test="leaderFlag != null and leaderFlag == '1'.toString()">
-					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(out_project_info.zycbm, '${zycbm}')
-					</if>
-					<if test="zycbm == null or zycbm == ''">
-						and out_project_info.nd = '1900'
-					</if>
+		select 
+			 SUBSTR(out_project_info.define2 FROM 6) as define2,
+			 round(sum(ysje),4) as zsjje
+		from out_project_info
+		WHERE
+			out_project_info.ysnd= '${nd}' 
+			<!-- 2领导能看所有的， 1领导能看到自己管理的部分，非领导啥都看不了-->
+			<if test="leaderFlag != null and leaderFlag == '1'.toString()">
+				<if test="zycbm != null and zycbm != ''">
+					and find_in_set(out_project_info.zycbm, '${zycbm}')
 				</if>
-				<if test="leaderFlag == null or leaderFlag == ''">
+				<if test="zsyjy != null and zsyjy != ''">
+					and find_in_set(SUBSTR(out_project_info.define2 FROM 6), '${zsyjy}')
+				</if>
+				<if test="zycbm == null or zycbm == ''">
 					and out_project_info.nd = '1900'
 				</if>
-				and out_project_info.PROJECT_TYPE != '1' and out_project_info.type_flag like '%直属研究院%'
-				and define3='项目管理系统'
-				group by out_project_info.define2) as tableA LEFT JOIN out_tem_money_total ON (tableA.define2 = out_tem_money_total.show_ali and out_tem_money_total.nd = '${nd}')
+			</if>
+			<if test="leaderFlag == null or leaderFlag == ''">
+				and out_project_info.nd = '1900'
+			</if>
+			and out_project_info.PROJECT_TYPE != '1' and out_project_info.type_flag like '%直属研究院%'
+			and define3='项目管理系统'
+			group by out_project_info.define2
+			order by out_project_info.define2
 	</select>
 	
 	<!-- 首页-直属研究院，项目计划完成的比率，按照资本性费用性来分组 -->

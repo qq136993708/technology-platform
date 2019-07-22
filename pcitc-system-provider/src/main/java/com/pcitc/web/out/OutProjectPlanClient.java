@@ -14,6 +14,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +26,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
 import com.pcitc.service.feign.stp.BudgetClient;
 import com.pcitc.service.out.OutProjectPlanService;
@@ -232,7 +236,43 @@ public class OutProjectPlanClient {
 		logger.info("==================page getPlanMoneyCompleteRateByInstitute===========================" + map);
 		List temList = outProjectPlanService.getPlanMoneyCompleteRateByInstitute(map);
 
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd(map.get("nd"));
+		String zycbm = map.get("zycbm");
+		if (map.get("leaderFlag") != null && (map.get("leaderFlag").toString().equals("2"))) {
+			// 大领导特殊，能看所有的费用性预算
+			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016";
+		}
+		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
+		List<String> list_1 = new ArrayList<>(set);
+
+		vo.getUnitIds().addAll(list_1);
+		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_KTY");
+		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_GCY");
+		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_WTY");
+		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_SKY");
+		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_DLY");
+		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_BHY");
+		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_SHY");
+		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_AGY");
+		vo = budgetClient.selectBudgetInfoList(vo);
+		List<Map<String, Object>> budMoneyList = vo.getBudgetByAllUnit();
+
+		for (int i = 0; i < temList.size(); i++) {
+			Map<String, Object> temMap = (HashMap<String, Object>) temList.get(i);
+			for (int k = 0; i < budMoneyList.size(); k++) {
+				Map<String, Object> budMap = budMoneyList.get(k);
+				if (budMap.get("budgetItemName") != null && budMap.get("budgetItemName").toString().equals(temMap.get("define2"))) {
+					temMap.put("zysje", budMap.get("total") == null ? "0" : budMap.get("total").toString());
+					temMap.put("wxdje", Double.parseDouble(temMap.get("zysje").toString()) - Double.parseDouble(temMap.get("zsjje").toString()));
+					temMap.put("jeRate", Double.parseDouble(temMap.get("zsjje").toString()) * 100 / Double.parseDouble(temMap.get("zysje").toString()));
+					break;
+				}
+			}
+		}
+
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		System.out.println("======"+json.toJSONString());
 		return json;
 	}
 
@@ -394,12 +434,16 @@ public class OutProjectPlanClient {
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
 		vo.setNd(map.get("nd"));
 		String zycbm = map.get("zycbm");
+		if (map.get("leaderFlag") != null && (map.get("leaderFlag").toString().equals("2"))) {
+			// 大领导特殊，能看所有的费用性预算
+			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016";
+		}
 		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 		List<String> list_1 = new ArrayList<>(set);
+
 		vo.getUnitIds().addAll(list_1);
 		vo = budgetClient.selectBudgetInfoList(vo);
 		List<Map<String, Object>> budMoneyList = vo.getBudgetByAllUnit();
-
 		// 获取实际的科研投入(费用性和资本性)
 		List actMoneyList = outProjectPlanService.getPlanMoneyCompleteRateByCompanyType(map);
 
@@ -620,7 +664,7 @@ public class OutProjectPlanClient {
 		} else {
 			bm.put("fyxRate", Double.parseDouble(actMoney.get("fyxsjje").toString()) * 100 / Double.parseDouble(bm.get("fyxysje").toString()));
 		}
-		
+
 		if (zbxFlag) {
 			bm.put("zbxsjje", actMoney.get("zbxsjje") == null ? "0" : actMoney.get("zbxsjje"));
 			bm.put("zsjje", Double.parseDouble(actMoney.get("zbxsjje").toString()) + Double.parseDouble(actMoney.get("fyxsjje").toString()));
