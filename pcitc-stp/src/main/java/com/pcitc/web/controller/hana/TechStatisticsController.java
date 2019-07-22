@@ -1,9 +1,16 @@
 package com.pcitc.web.controller.hana;
 
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,6 +22,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -35,6 +50,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.report.TechCost;
 import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.system.SysDictionary;
@@ -154,7 +170,7 @@ public class TechStatisticsController extends BaseController{
 	
 	
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/tech_cost/exput_excel")
+	@RequestMapping(method = RequestMethod.GET, value = "/tech_cost/exput_excel_02")
 	@ResponseBody
 	public String tech_cost_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
@@ -219,6 +235,59 @@ public class TechStatisticsController extends BaseController{
 	            }
 	        }
 		   return null;
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(method = RequestMethod.GET, value = "/tech_cost/exput_excel")
+	public void downBudgetGroupTotal(HttpServletResponse res) throws Exception 
+	{
+		
+		
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		String unitName = CommonUtil.getParameter(request, "unitName", "" );
+		String auditStatus = CommonUtil.getParameter(request, "auditStatus", "");
+		String year = CommonUtil.getParameter(request, "year", "");
+		String type = CommonUtil.getParameter(request, "type", "");
+		
+		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		paramMap.put("unitName", unitName);
+		paramMap.put("auditStatus", auditStatus);
+		paramMap.put("year", year);
+		paramMap.put("type", type);
+		System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      type = "+type+" year="+year);
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		
+		
+		ResponseEntity<JSONArray> responseEntity =  this.restTemplate.exchange(LIST_COST_URL, HttpMethod.POST, httpEntity, JSONArray.class);
+
+		int statusCode = responseEntity.getStatusCodeValue();
+		List<TechCost> list =new ArrayList();
+		JSONArray jSONArray=null;
+		if (statusCode == 200)
+		{
+			jSONArray = responseEntity.getBody();
+			list = JSONObject.parseArray(jSONArray.toJSONString(), TechCost.class);
+			
+			/*for(int i=0;i<list.size();i++)
+			{
+				ScientificInvestment scientificInvestment=list.get(i);
+				System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      getG0GSJC = "+scientificInvestment.getG0GSJC());
+			}*/
+		}
+		
+		
+		
+		URL path = this.getClass().getResource("/");
+		File f = new File(path.getPath() + "static/techStatistics/tech_cost_template.xlsx");
+		//System.out.println(f.getAbsolutePath());
+		//写入新文件2019年集团公司总部科技经费预算
+		String newFilePath = path.getPath() + "static/techStatistics/科技投入统计表"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
+		File outFile = new File(newFilePath);
+		
+		processDataAndDownload(f,list,outFile);
+	    //下载文件
+		this.fileDownload(new File(newFilePath), res);
 	}
 	
 	/**
@@ -1216,6 +1285,17 @@ public class TechStatisticsController extends BaseController{
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/unit_select_radio")
 	public Object unit_select_radio(HttpServletRequest request) throws IOException 
@@ -1229,5 +1309,222 @@ public class TechStatisticsController extends BaseController{
 	}
 	
 	
+	
+	
+	
+	
+	
+	private XSSFWorkbook workbook;
+	private XSSFSheet sheet;
+	private void processDataAndDownload(File template,List<TechCost> list,File outFile) 
+	{
+		try {
+			if(workbook != null) {
+				System.out.println("workbook != null .............");
+			}else {
+				System.out.println("workbook == null .............");
+			}
+			if(sheet != null) {
+				System.out.println("sheet != null .............");
+			}else {
+				System.out.println("sheet == null .............");
+			}
+			
+			InputStream is = new FileInputStream(template);
+			workbook = new XSSFWorkbook(is);
+			sheet = workbook.getSheetAt(0);
+			System.out.println(">>>>>>>>>>sheet: "+sheet);
+			//从第五行开始，第五行是测试数据
+			/*Row templateRow = sheet.getRow(3);
+			Double total_xmjf = 0d;
+			Double total_zxjf = 0d;
+			
+			//水平，垂直居中
+			CellStyle centerStyle =workbook.createCellStyle();
+			centerStyle.cloneStyleFrom(templateRow.getCell(0).getCellStyle());
+			centerStyle.setAlignment(HorizontalAlignment.CENTER);
+			centerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			//水平居左，垂直居中
+			CellStyle leftCenterStyle =workbook.createCellStyle();
+			leftCenterStyle.cloneStyleFrom(templateRow.getCell(1).getCellStyle());
+			leftCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			leftCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			//水平居右，垂直居中
+			CellStyle rightCenterStyle =workbook.createCellStyle();
+			rightCenterStyle.cloneStyleFrom(templateRow.getCell(3).getCellStyle());
+			rightCenterStyle.setAlignment(HorizontalAlignment.RIGHT);
+			rightCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);*/
+			
+			for(int i = 0;i<list.size();i++) 
+			{
+				TechCost techCost=list.get(i);
+				techCost.setCreateDateStr(DateUtil.dateToStr(techCost.getCreateDate(), DateUtil.FMT_DD));
+				String unitName=techCost.getUnitName();
+				String year=techCost.getYear();
+				String type=techCost.getType();
+				String typeStr="";
+				if(type.equals("1"))
+				{
+					typeStr="股份";
+				}
+				if(type.equals("2"))
+				{
+					typeStr="集团";
+				}
+				//科技投入情况（单位：万元）
+				BigDecimal techProjectCost=techCost.getTechProjectCost();//科技项目费
+				BigDecimal techResearcherCost=techCost.getTechResearcherCost();//科研人员费
+				BigDecimal techSubsidyCost=techCost.getTechSubsidyCost();//科研折旧费补贴
+				BigDecimal techFacilitiesCost=techCost.getTechFacilitiesCost();//科技装备、设施投资
+				BigDecimal techOtherCost=techCost.getTechOtherCost();
+				BigDecimal techSubtotalCost=techCost.getTechSubtotalCost();
+				//承担和参加国家级科技项目
+				Integer countryLeadCount=techCost.getCountryLeadCount();//牵头项目数量
+				Integer countryJoinCount=techCost.getCountryJoinCount();//参加项目数量
+				BigDecimal countryFunds=techCost.getCountryFunds();//家投入经费（当年拨付到位经费，单位：万元
+				//承担和参加地方（省级）科技项目
+				Integer provinceLeadCount=techCost.getProvinceLeadCount();
+				Integer provinceJoinCount=techCost.getProvinceJoinCount();
+				BigDecimal provinceFunds=techCost.getProvinceFunds();
+				
+                
+                 
+   
+			
+				//total_xmjf += xmjf;
+				//total_zxjf += zxjf;
+				
+				
+				Row crow = sheet.getRow(i+3);
+				
+				System.out.println(">>>>>>>>>>crow.createCell(0): "+crow.createCell(0));
+				crow.createCell(0).setCellValue(unitName);
+				crow.createCell(1).setCellValue(year);
+				crow.createCell(2).setCellValue(typeStr);
+				crow.createCell(3).setCellValue(techProjectCost.toString());
+				crow.createCell(4).setCellValue(techResearcherCost.toString());
+				crow.createCell(5).setCellValue(techSubsidyCost.toString());
+				crow.createCell(6).setCellValue(techFacilitiesCost.toString());
+				crow.createCell(7).setCellValue(techOtherCost.toString());
+				crow.createCell(8).setCellValue(techSubtotalCost.toString());
+				crow.createCell(9).setCellValue(countryLeadCount.toString());
+				crow.createCell(10).setCellValue(countryJoinCount.toString());
+				crow.createCell(11).setCellValue(countryFunds.toString());
+				crow.createCell(12).setCellValue(provinceLeadCount.toString());
+				crow.createCell(13).setCellValue(provinceJoinCount.toString());
+				crow.createCell(14).setCellValue(provinceFunds.toString());
+				crow.createCell(15).setCellValue(techCost.getCreateDateStr());
+				
+				
+				
+				/*crow.getCell(0).setCellStyle(leftCenterStyle);
+				crow.getCell(1).setCellStyle(centerStyle);
+				crow.getCell(2).setCellStyle(centerStyle);
+				crow.getCell(3).setCellStyle(rightCenterStyle);
+				crow.getCell(4).setCellStyle(rightCenterStyle);
+				crow.getCell(5).setCellStyle(rightCenterStyle);
+				crow.getCell(6).setCellStyle(rightCenterStyle);
+				crow.getCell(7).setCellStyle(rightCenterStyle);
+				crow.getCell(8).setCellStyle(rightCenterStyle);
+				crow.getCell(9).setCellStyle(rightCenterStyle);
+				crow.getCell(10).setCellStyle(rightCenterStyle);
+				crow.getCell(11).setCellStyle(rightCenterStyle);
+				crow.getCell(12).setCellStyle(rightCenterStyle);
+				crow.getCell(13).setCellStyle(rightCenterStyle);
+				crow.getCell(14).setCellStyle(rightCenterStyle);
+				crow.getCell(15).setCellStyle(rightCenterStyle);*/
+				
+			}
+			/*//汇总数据
+			Row totalrow =sheet.getRow(list.size()+4);
+			totalrow.createCell(0).setCellValue("合计");
+			totalrow.createCell(1).setCellValue("");
+			totalrow.createCell(2).setCellValue(total_xmjf+total_zxjf);
+			totalrow.createCell(3).setCellValue(total_xmjf);
+			totalrow.createCell(4).setCellValue(total_zxjf);
+			//设置格式
+			totalrow.getCell(0).setCellStyle(centerStyle);
+			totalrow.getCell(1).setCellStyle(centerStyle);
+			totalrow.getCell(2).setCellStyle(rightCenterStyle);
+			totalrow.getCell(3).setCellStyle(rightCenterStyle);
+			totalrow.getCell(4).setCellStyle(rightCenterStyle);*/
+			
+			//合计单元格合并
+			sheet.addMergedRegion(new CellRangeAddress(list.size()+3,list.size()+3,0,1));
+			//写入新文件
+			FileOutputStream fos  = new FileOutputStream(outFile);
+			workbook.write(fos);
+		    //关闭流
+		    closeIO(fos);
+		    closeIO(is);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	private void fileDownload(File file,HttpServletResponse res) 
+	{
+        OutputStream out = null;
+        InputStream in = null;
+        try 
+        {
+        	
+          res.setHeader("content-type", "application/octet-stream");
+          res.setContentType("application/octet-stream");
+          res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
+        	
+          out = res.getOutputStream();
+          in = new FileInputStream(file);
+          
+          byte[] b = new byte[1000];
+          int len;
+          while ((len = in.read(b)) > 0)
+          {
+			out.write(b, 0, len);
+          }
+          closeIO(in);
+     	  closeIO(out);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+	}
+	private void closeIO(Closeable io) 
+	{
+		if(io != null) 
+		{
+			try 
+			{
+				io.close();
+			}
+			catch(Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	private String readCell(Cell cell) 
+	{
+		String  cellVal = null;
+		switch (cell.getCellTypeEnum()) 
+		{
+	        case NUMERIC:
+	        	cellVal = cell.getNumericCellValue()+"";
+	            break;
+	        case STRING:
+	        	cellVal = cell.getStringCellValue();
+	            break;
+	        case FORMULA:
+	        	cellVal = cell.getRichStringCellValue().getString();
+	            break;
+	        case BLANK:
+	            break;
+	        case BOOLEAN:
+	            break;
+	        case ERROR:
+	            break;
+	        default:
+	            break;
+        }
+		return cellVal;
+	}
 
 }
