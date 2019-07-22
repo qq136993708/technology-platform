@@ -84,20 +84,37 @@
         //移除表头的复选框,去掉全选
         $(".layui-table-header table thead th input").remove();
         //监听表格双击事件
-        table.on('row(processdef_table_02)', function (obj) {
-            var temUrl = '/sre-project-basic/get/' + obj.data.id;
+        // table.on('row(processdef_table_02)', function (obj) {
+        //     var temUrl = '/sre-project-basic/get/' + obj.data.id;
+        //     layer.open({
+        //         title:"详情"
+        //         ,skin: 'layui-layer-lan'
+        //         ,shadeClose: false
+        //         ,type: 2
+        //         ,fixed: false
+        //         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+        //         ,maxmin : true
+        //         ,area : [ '70%', '90%' ]
+        //         ,content:  temUrl
+        //     });
+        // });
+        function showDetail(data_id){
+            var temUrl = "/sre-project-basic/get/" + data_id;
             layer.open({
-                title:"详情"
-                ,skin: 'layui-layer-lan'
-                ,shadeClose: false
-                ,type: 2
-                ,fixed: false
+                title: '详情',
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
                 //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                ,maxmin : true
-                ,area : [ '70%', '90%' ]
-                ,content:  temUrl
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['90%', '80%'],
+                content: temUrl
             });
-        });
+        }
+        window.showDetail = showDetail;
+
 
         function renderTable() {
             var param = JSON.parse(window.localStorage.getItem("param"));
@@ -128,7 +145,7 @@
                     templet:  function (d) {
                         var result=(typeof d.projectBackground=="undefined")?"":d.projectBackground.replace(/<.*?>/ig,"").substring(0,50)+"...";
                         return '<div class="layui-div layui-div-n">' +
-                            '        <a href="javascript:;">'+d.name+'</a>' +
+                            '        <a href="javascript:void(0);" onclick="showDetail(\''+d.id+'\')">'+d.name+'</a>' +
                             '        <div class="c-row c-gap-top-small">' +
                             '            <div class="c-span18 c-span-last">' +
                             '                <p><span>'+result+'</span></p>' +
@@ -139,7 +156,6 @@
                 ]],
 
                 done: function (res, curr, count) {
-                    console.log(res.data);
                     parent.$("#equipment").html(count);
                     // 点击行联动选择框--单选
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {

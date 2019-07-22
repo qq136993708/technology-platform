@@ -107,8 +107,10 @@ public class SearchFullController extends BaseController {
 		String keyword = request.getParameter("keyword");
 		request.setAttribute("keyword", (keyword == null || "undefined".equals(keyword)) ? "" : keyword);
         String hotKeyWord = request.getParameter("hotKeyWord");
+        String userid = sysUserInfo.getUserId();
         request.setAttribute("hotKeyWord", (hotKeyWord==null||"".equals(hotKeyWord))?"":java.net.URLDecoder.decode(hotKeyWord,"utf-8"));
-        System.out.println(request.getAttribute("hotKeyWord"));
+        request.setAttribute("userid", userid);
+
 		return "stp/hana/home/search/query_file";
 	}
 
