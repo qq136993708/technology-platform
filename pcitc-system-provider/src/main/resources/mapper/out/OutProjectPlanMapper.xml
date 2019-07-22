@@ -1418,7 +1418,6 @@
 																 and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
-				
 				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
 				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 					<if test="zycbm != null and zycbm != ''">
@@ -1435,7 +1434,7 @@
 				and out_project_plan.DEFINE3 like '%直属研究院%'
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.define4 = '项目管理系统'
-				group by out_project_plan.xmid,out_project_plan.YSND,out_project_plan.DEFINE2
+				group by out_project_plan.xmid,out_project_plan.DEFINE2
 		) as tableB 
 		group by tableB.DEFINE2
 		ORDER BY tableB.DEFINE2
@@ -1448,7 +1447,7 @@
 			 round(sum(ysje),4) as zsjje
 		from out_project_info
 		WHERE
-			out_project_info.ysnd= '${nd}' 
+			out_project_info.ysnd= '${nd}' and out_project_info.xmlbbm !='KYZB'
 			<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
 			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 				<if test="zycbm != null and zycbm != ''">

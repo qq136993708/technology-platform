@@ -3730,36 +3730,30 @@ public class HanaUtil {
 				String fyxsjje = String.valueOf(f03.getFyxsjje());
 				String zbxsjje = String.valueOf(f03.getZbxsjje());
 				String zysje = String.valueOf(f03.getZysje());
-				// System.out.println("==============fyxsjje:"+fyxsjje);
-				if (name.equals("fyxsjje")) {
-
-					if (fyxsjje != null && !fyxsjje.equals("null") && !fyxsjje.equals("")) {
-						dataList.add(String.format("%.4f", Double.valueOf(fyxsjje) / 10000));
-
-					} else {
-						dataList.add(0);
-					}
-
-				}
-				if (name.equals("zbxsjje")) {
-
-					if (zbxsjje != null && !zbxsjje.equals("null") && !zbxsjje.equals("")) {
-						dataList.add(String.format("%.4f", Double.valueOf(zbxsjje) / 10000));
-					} else {
-						dataList.add(0);
-					}
-
-				}
 
 				if (name.equals("zysje")) {
-
 					if (zysje != null && !zysje.equals("null") && !zysje.equals("")) {
 						dataList.add(String.format("%.4f", Double.valueOf(zysje) / 10000));
 
 					} else {
 						dataList.add(0);
 					}
+				}
+				
+				if (name.equals("fyxsjje")) {
+					if (fyxsjje != null && !fyxsjje.equals("null") && !fyxsjje.equals("")) {
+						dataList.add(String.format("%.4f", Double.valueOf(fyxsjje) / 10000));
 
+					} else {
+						dataList.add(0);
+					}
+				}
+				if (name.equals("zbxsjje")) {
+					if (zbxsjje != null && !zbxsjje.equals("null") && !zbxsjje.equals("")) {
+						dataList.add(String.format("%.4f", Double.valueOf(zbxsjje) / 10000));
+					} else {
+						dataList.add(0);
+					}
 				}
 
 			}
