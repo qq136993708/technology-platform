@@ -1,6 +1,7 @@
 package com.pcitc.mapper.system;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -103,4 +104,9 @@ public interface SysDictionaryMapper {
 	 * @return
 	 */
 	int batchDelete(@Param("dataIds") List<String> dataIds);
+	
+	/**
+	 * 批量修改用户编码规则
+	 */
+	int updateDictionaryCodeBatch(HashMap<String, String> hashmap);
 }

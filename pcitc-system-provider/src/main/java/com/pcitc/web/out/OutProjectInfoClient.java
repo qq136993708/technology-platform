@@ -383,14 +383,14 @@ public class OutProjectInfoClient {
 		temList = iniListValue(temList, "zycmc", "炼油处", keyList);
 		temList = iniListValue(temList, "zycmc", "化工处", keyList);
 		temList = iniListValue(temList, "zycmc", "材料处", keyList);
-		temList = iniListValue(temList, "zycmc", "装储处", keyList);
+		temList = iniListValue(temList, "zycmc", "装备与储运处", keyList);
 		temList = iniListValue(temList, "zycmc", "计划处", keyList);
 		temList = iniListValue(temList, "zycmc", "技术监督处", keyList);
 		temList = iniListValue(temList, "zycmc", "三剂处", keyList);
 		temList = iniListValue(temList, "zycmc", "知识产权处", keyList);
 		temList = iniListValue(temList, "zycmc", "物装部", keyList);
-		temList = iniListValue(temList, "zycmc", "炼油部（B2、C类）", keyList);
-		temList = iniListValue(temList, "zycmc", "化工部（B2、C类）", keyList);
+		temList = iniListValue(temList, "zycmc", "炼油部", keyList);
+		temList = iniListValue(temList, "zycmc", "化工部", keyList);
 		logger.info("==================page getProjectCountByProjectType===========================" + JSON.toJSONString(temList));
 
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -673,14 +673,14 @@ public class OutProjectInfoClient {
 		keyList.add("炼油处");
 		keyList.add("化工处");
 		keyList.add("材料处");
-		keyList.add("装储处");
+		keyList.add("装备与储运处");
 		keyList.add("计划处");
 		keyList.add("技术监督处");
 		keyList.add("三剂处");
 		keyList.add("知识产权处");
 		keyList.add("物装部");
-		keyList.add("炼油部（B2、C类）");
-		keyList.add("化工部（B2、C类）");
+		keyList.add("炼油部");
+		keyList.add("化工部");
 		logger.info("==================page getProjectCountByTypeForTree===========================" + JSON.toJSONString(temList));
 		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList, "zycmc");
 		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList, "zycmc");
@@ -820,14 +820,14 @@ public class OutProjectInfoClient {
 		temList = iniListValue(temList, "zycmc", "炼油处", keyList);
 		temList = iniListValue(temList, "zycmc", "化工处", keyList);
 		temList = iniListValue(temList, "zycmc", "材料处", keyList);
-		temList = iniListValue(temList, "zycmc", "装储处", keyList);
+		temList = iniListValue(temList, "zycmc", "装备与储运处", keyList);
 		temList = iniListValue(temList, "zycmc", "计划处", keyList);
 		temList = iniListValue(temList, "zycmc", "技术监督处", keyList);
 		temList = iniListValue(temList, "zycmc", "三剂处", keyList);
 		temList = iniListValue(temList, "zycmc", "知识产权处", keyList);
 		temList = iniListValue(temList, "zycmc", "物装部", keyList);
-		temList = iniListValue(temList, "zycmc", "炼油部（B2、C类）", keyList);
-		temList = iniListValue(temList, "zycmc", "化工部（B2、C类）", keyList);
+		temList = iniListValue(temList, "zycmc", "炼油部", keyList);
+		temList = iniListValue(temList, "zycmc", "化工部", keyList);
 
 		System.out.println("====" + JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));

@@ -311,5 +311,12 @@
 			#{item}
 		</foreach>
 	</delete>
+	
+	<!-- 批量修改用户编码规则 -->
+	<update id="updateDictionaryCodeBatch" parameterType="java.util.HashMap">
+	   update sys_dictionary
+	   set code = REPLACE (code, #{oldCode}, #{newCode})
+	   where code like '${oldCode}%'
+	</update>
 
 </mapper>
