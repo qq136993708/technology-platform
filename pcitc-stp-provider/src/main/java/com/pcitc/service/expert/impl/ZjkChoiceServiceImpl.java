@@ -317,6 +317,8 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         if (!StrUtil.isObjectEmpty(projectId)) {
             c.andXmIdEqualTo(projectId.toString());
         }
+        c.andBak1NotEqualTo("ROOT_XTGL_XMJD_CGJD");
+        c.andBak1NotEqualTo("ROOT_XTGL_XMJD_JLPS");
         example.setOrderByClause("create_date desc");
 
         LayuiTableData data = this.findByExample(param, example);
