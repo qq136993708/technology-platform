@@ -51,8 +51,17 @@ public class SysDictionaryServiceImpl implements SysDictionaryService{
 			if(sameCount > 0){
 				return 201;//(有相同名字菜单)
 			}
+			
+			SysDictionary oldDic = dictionaryDao.getDictionaryById(dictionary.getId());
+			HashMap<String, String> hashmap = new HashMap<String, String>();
+			hashmap.put("oldCode", oldDic.getCode());
+			hashmap.put("newCode", dictionary.getCode());
+			
 			dictionary.setUpdateTime(new Date());
 			dictionaryDao.updateByPrimaryKeySelective(dictionary);
+			
+			// 修改他所有孩子的编码，如果他的编码有调整
+			dictionaryDao.updateDictionaryCodeBatch(hashmap);
 		}else{
 			String id = UUID.randomUUID().toString().replace("-", "");
 			dictionary.setId(id);

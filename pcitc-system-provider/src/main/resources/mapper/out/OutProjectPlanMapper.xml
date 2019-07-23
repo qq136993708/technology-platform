@@ -1781,8 +1781,8 @@
 				</if>
 			</if>
 			
-			<!-- define12, 财务相关的承担单位，所以查询define3 -->
-			<if test="fzdwflag == null or fzdwflag == '' or fzdwflag == '承担单位'">
+			<!-- define12, 财务相关的参与单位，所以查询define3 -->
+			<if test="fzdwflag == null or fzdwflag == '' or fzdwflag == '参与单位'">
 				<if test="define12 != null">
 					and (
 					<foreach collection="define12" item="define12" index="index" separator=" or ">
