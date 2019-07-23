@@ -126,8 +126,8 @@
                 <div class="layui-card-header">
                     <span class="border-span"></span>参与项目评审信息
                 </div>
-                <table id="zjkChoiceTableId" class="layui-hide" lay-filter="tableEvent"></table>
                 <div class="layui-row-main">
+                    <table id="zjkChoiceTableId" class="layui-hide" lay-filter="tableEvent"></table>
                     <!--<div class="main-chart" id="two" style="height:250px;width: 100%;"></div>-->
                 </div>
             </div>
@@ -259,7 +259,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     where: where,
                     limit: 15,
                     id: 'zjkChoiceTableId',
-                    height: commonDislodgeTable(),
+                    height: 250,
                     page: {
                         count: 500, //数据总数，从服务端得到
                         groups: 5,
@@ -334,12 +334,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
         // });
 
 
-        var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
         var colorFive = ["#8fc31f"];
-
-
-
-
         // load_single_forces("/expertController/picIndexImg?hyly="+hyly, "one", "专家画像", "", "", "", 10);
         // five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
 
