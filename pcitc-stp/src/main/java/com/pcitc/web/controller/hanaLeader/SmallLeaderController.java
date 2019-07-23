@@ -59,7 +59,7 @@ public class SmallLeaderController extends BaseController {
 	/**
 	 * 获取预算总额（按照专业处进行权限获取）
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/small_leader/getInvestmentAll")
+	@RequestMapping(value = "/small_leader/getInvestmentAll")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String getInvestmentAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -68,11 +68,11 @@ public class SmallLeaderController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
 		vo.setNd(nd);
-		
+
 		// 数据控制属性
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
-		System.out.println("getInvestmentAll================="+zycbm);
-		
+		System.out.println("getInvestmentAll=================" + zycbm);
+
 		if (zycbm.equals("")) {
 			// 无权限;
 			return null;
@@ -80,7 +80,7 @@ public class SmallLeaderController extends BaseController {
 		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 		List<String> list_1 = new ArrayList<>(set);
 		vo.getUnitIds().addAll(list_1);
-		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY");	//查询直属研究院的预算
+		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY"); // 查询直属研究院的预算
 		HttpEntity<BudgetItemSearchVo> entity = new HttpEntity<BudgetItemSearchVo>(vo, httpHeaders);
 		ResponseEntity<BudgetItemSearchVo> responseEntity = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity, BudgetItemSearchVo.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -120,8 +120,8 @@ public class SmallLeaderController extends BaseController {
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
-		
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+
 		paramsMap.put("nd", nd);
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -130,11 +130,11 @@ public class SmallLeaderController extends BaseController {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getInvestment, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
-				
+
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
-				
+
 				// 单独计算预算金额
 				if (!zycbm.equals("")) {
 					BudgetItemSearchVo vo = new BudgetItemSearchVo();
@@ -173,7 +173,7 @@ public class SmallLeaderController extends BaseController {
 							investMoney7 = investMoney7 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_SHY");
 							investMoney8 = investMoney8 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_AGY");
 						}
-						System.out.println("===111============"+investMoney1+"===="+investMoney2);
+						System.out.println("===111============" + investMoney1 + "====" + investMoney2);
 						for (int k = 0; k < list.size(); k++) {
 							BudgetMysql bm = list.get(k);
 							if (bm.getDefine2() != null && bm.getDefine2().equals("勘探院")) {
@@ -203,7 +203,7 @@ public class SmallLeaderController extends BaseController {
 						}
 					}
 				}
-				
+
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
@@ -274,14 +274,14 @@ public class SmallLeaderController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		
+
 		// 数据控制属性
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
-		
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+
 		paramsMap.put("nd", nd);
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -294,7 +294,7 @@ public class SmallLeaderController extends BaseController {
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
-				
+
 				// 单独计算预算金额
 				if (!zycbm.equals("")) {
 					BudgetItemSearchVo vo = new BudgetItemSearchVo();
@@ -302,7 +302,7 @@ public class SmallLeaderController extends BaseController {
 					Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 					List<String> list_1 = new ArrayList<>(set);
 					vo.getUnitIds().addAll(list_1);
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY");	//查询直属研究院的预算
+					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY"); // 查询直属研究院的预算
 					HttpEntity<BudgetItemSearchVo> entity1 = new HttpEntity<BudgetItemSearchVo>(vo, httpHeaders);
 					ResponseEntity<BudgetItemSearchVo> responseEntity1 = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity1, BudgetItemSearchVo.class);
 					int statusCode1 = responseEntity1.getStatusCodeValue();
@@ -312,15 +312,15 @@ public class SmallLeaderController extends BaseController {
 						for (int i = 0; i < list_1.size(); i++) {
 							investMoney = investMoney + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY");
 						}
-						
+
 						for (int k = 0; k < list.size(); k++) {
 							BudgetMysql bm = list.get(k);
 							bm.setZysje(investMoney);
 						}
-						System.out.println("investMoneyinvestMoney============="+investMoney);
+						System.out.println("investMoneyinvestMoney=============" + investMoney);
 					}
 				}
-				
+
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "yearMonth");
@@ -339,7 +339,7 @@ public class SmallLeaderController extends BaseController {
 
 					ChartBarLineSeries s12 = HanaUtil.getInvestmentBarLineSeries02(list, "zsjje");
 					seriesList.add(s12);
-					
+
 					ChartBarLineSeries s2 = HanaUtil.getInvestmentBarLineSeries02(list, "hanaMoney");
 					seriesList.add(s2);
 					barLine.setSeriesList(seriesList);

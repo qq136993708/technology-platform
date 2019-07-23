@@ -432,7 +432,7 @@
 		function setContcator_id(nd, v_date) {
 			var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date;
 			$.ajax({
-				type : 'GET',
+				type : 'POST',
 				url : url,
 				dataType : 'json',
 				headers : {
@@ -459,7 +459,7 @@
 		function getInvestmentAll(nd) {
 			var v_date = (new Date()).getTime();
 			$.ajax({
-				type : "GET",
+				type : "POST",
 				url : '/small_leader/getInvestmentAll?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + '&v_date' + v_date,
 				dataType : "json",
 				timeout : 20000,
