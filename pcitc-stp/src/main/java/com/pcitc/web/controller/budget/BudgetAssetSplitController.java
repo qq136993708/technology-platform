@@ -216,7 +216,7 @@ public class BudgetAssetSplitController extends BaseController {
 	public Object getBudgetGroupItems(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSETSPLIT_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
-		System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-assetsplit-create", method = RequestMethod.POST)
@@ -356,7 +356,6 @@ public class BudgetAssetSplitController extends BaseController {
 	@ResponseBody
 	public Object selectBudgetGroupSplitCompareProject(@RequestParam(value="nd",required = false)String nd,@RequestParam(value="code",required = false)String code,HttpServletRequest request) throws IOException 
 	{
-		System.out.println("plan............"+nd+"------"+code);
 		if(nd == null || code == null) {
 			return new ArrayList<Object>();
 		}
