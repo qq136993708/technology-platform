@@ -87,9 +87,9 @@ public class BudgetGroupTotalController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_grouptotal")
 	public Object toBudgetGroupPage(HttpServletRequest request) throws IOException 
 	{
-		Integer objIndex = System.identityHashCode(request);
+		/*Integer objIndex = System.identityHashCode(request);
 		Integer conIndex = System.identityHashCode(this);
-		System.out.println("Controller:"+conIndex+"   objIndex :"+objIndex+" "+this.hashCode());
+		System.out.println("Controller:"+conIndex+"   objIndex :"+objIndex+" "+this.hashCode());*/
 		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
 		request.setAttribute("cnd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		request.setAttribute("budgetType", BudgetInfoEnum.GROUP_TOTAL.getCode());
