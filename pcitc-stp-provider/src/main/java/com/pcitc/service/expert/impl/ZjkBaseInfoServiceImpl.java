@@ -642,22 +642,37 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         }
         return object;
     }
+
     @Override
     public JSONObject picExpertDetail(ZjkExpert zjkBaseInfo) {
         JSONObject object = new JSONObject();
         try {
             Result result = new Result();
             //查询专家信息
+            ZjkExpert expert = this.selectByPrimaryKey(zjkBaseInfo.getDataId());
+            String eName = expert.getExpertName();
+            Map<String, Object> map = new HashMap<>();
+            LayuiTableParam param = new LayuiTableParam();
+            map.put("name", eName);
+            param.setParam(map);
+            param.setLimit(100000000);
+            param.setPage(0);
+
+//         成果   LayuiTableData outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
+//         奖励   LayuiTableData outRewardListPage = systemRemoteClient.getOutRewardListPage(param);
+            //查询专家相关技术族信息---
+            //查询专家企业信息---
 
             //查询专利信息
+            LayuiTableData dataPatent = systemRemoteClient.selectOutPatentList(param);
 
             //查询课题信息
+            LayuiTableData outProjectListPageExpert = systemRemoteClient.getOutProjectListPageExpert(param);
 
             //查询评审数量
-
-            //查询专家相关技术族信息---
-
-            //查询专家企业信息---
+            ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+            zjkChoiceExample.createCriteria().andZjIdEqualTo(zjkBaseInfo.getDataId());
+            List<ZjkChoice> zjkChoices = zjkChoiceMapper.selectByExample(zjkChoiceExample);
 
             String column_show = "expertProfessinal,college,expertProfessionalFieldName,unitBelongs,professionalAndTime,administrativeDuties,technicalPositiion,";
             List<ZjkExpert> experts = this.findZjkBaseInfoListRandom(zjkBaseInfo);
@@ -993,7 +1008,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             c.andCompanyEqualTo(company1DivValue.toString());
         }
 
-
         Object sysFlag = param.getParam().get("sysFlag");
         if (!StrUtil.isNullEmpty(sysFlag)) {
             c.andSysFlagEqualTo(sysFlag.toString());
@@ -1034,13 +1048,13 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         data = this.findByExample(param, example);
         List<ZjkExpert> experts = new ArrayList<>();
         if (keywords != null && !"".equals(keywords)) {
-            List<Map<String,Object>> maps = (List<Map<String, Object>>) data.getData();
+            List<Map<String, Object>> maps = (List<Map<String, Object>>) data.getData();
             for (int i = 0, j = maps.size(); i < j; i++) {
                 ZjkExpert expert = new ZjkExpert();
-                MyBeanUtils.transMap2Bean(maps.get(i),expert);
+                MyBeanUtils.transMap2Bean(maps.get(i), expert);
                 experts.add(expert);
             }
-        }else {
+        } else {
             experts = (List<ZjkExpert>) data.getData();
         }
 //        List ids = experts.stream().map(ZjkExpert::getDataId).distinct().collect(Collectors.toList());
@@ -1085,7 +1099,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         for (int i = 0, j = experts.size(); i < j; i++) {
             String eName = experts.get(i).getExpertName();
 
-            Map<String,Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
 
             map.put("name", eName);
             param.setParam(map);
@@ -1094,10 +1108,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             LayuiTableData outAppraisalListPage = null;
             try {
                 outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
-                experts.get(i).setAchievementCount(outAppraisalListPage.getCount()+"");
+                experts.get(i).setAchievementCount(outAppraisalListPage.getCount() + "");
 
-                experts.get(i).setProjectCount(systemRemoteClient.getOutProjectListPageExpert(param).getCount()+"");
-                experts.get(i).setBak7(systemRemoteClient.getOutRewardListPage(param).getCount()+"");
+                experts.get(i).setProjectCount(systemRemoteClient.getOutProjectListPageExpert(param).getCount() + "");
+                experts.get(i).setBak7(systemRemoteClient.getOutRewardListPage(param).getCount() + "");
             } catch (Exception e) {
                 e.printStackTrace();
             }
