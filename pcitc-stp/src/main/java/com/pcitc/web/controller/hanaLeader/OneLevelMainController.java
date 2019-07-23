@@ -966,7 +966,8 @@ public class OneLevelMainController extends BaseController {
 		Object zylbbmFlag_code=param.getParam().get("zylbbmFlag");
 		
 		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
-		
+		// 领导标识
+		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 		String gsbmbmFlag="";
 		if(gsbmbmFlag_code!=null)
 		{
@@ -1700,6 +1701,9 @@ public class OneLevelMainController extends BaseController {
 		return resault;
 	}
 
+	/**
+	 *全口径新开课题合同（任务书）签订率--费用性、资本性
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/contract_01_01")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
@@ -2886,17 +2890,17 @@ public class OneLevelMainController extends BaseController {
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "budgetItemName");
 				barLine.setxAxisDataList(xAxisDataList);
 				List<String> legendDataList = new ArrayList<String>();
+				legendDataList.add("总预算科研投入");
 				legendDataList.add("费用性科研投入");
 				legendDataList.add("资本性科研投入");
-				legendDataList.add("总预算科研投入");
 				barLine.setxAxisDataList(xAxisDataList);
 				barLine.setLegendDataList(legendDataList);
 
 				// X轴数据
 				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-				ChartBarLineSeries s1 = HanaUtil.getinvestmentChartBarLineSeries(list, "fyxsjje");
-				ChartBarLineSeries s2 = HanaUtil.getinvestmentChartBarLineSeries(list, "zbxsjje");
-				ChartBarLineSeries s3 = HanaUtil.getinvestmentChartBarLineSeries(list, "zysje");
+				ChartBarLineSeries s1 = HanaUtil.getinvestmentChartBarLineSeries(list, "zysje");
+				ChartBarLineSeries s2 = HanaUtil.getinvestmentChartBarLineSeries(list, "fyxsjje");
+				ChartBarLineSeries s3 = HanaUtil.getinvestmentChartBarLineSeries(list, "zbxsjje");
 				seriesList.add(s1);
 				seriesList.add(s2);
 				seriesList.add(s3);
@@ -3040,6 +3044,9 @@ public class OneLevelMainController extends BaseController {
 		return resultObj.toString();
 	}
 
+	/**
+	 * 直属研究院科研课题预算执行率
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_02")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")

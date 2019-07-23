@@ -60,7 +60,8 @@
             <input type="text" name="ysnd" readonly="readonly" style="cursor:pointer" placeholder="请选择预算年度" title="预算年度" value="${ysnd}" autocomplete="off" class="layui-input" id="ysnd" width="100px" >
             </div>
           </div>
-          <div class="layui-inline">
+          
+           <div class="layui-inline">
             <label class="layui-form-label">费用类别：</label>
             <div class="layui-input-inline">
                <select name="define1" id="define1"  >
@@ -72,10 +73,25 @@
             </div>
           </div>
           
+           <div class="layui-inline">
+            <label class="layui-form-label">签订标示：</label>
+            <div class="layui-input-inline">
+               <select name="qdbz" id="qdbz"  lay-filter="select_qdbz">
+                      <option value="" >--请选择--</option>
+		             <#list qdbsList as vo> 
+				          <option value="${vo.name}"  <#if qdbz==vo.name>selected="selected"</#if>>${vo.name}</option>
+				      </#list>
+              </select>
+            </div>
+          </div>
+          
+          
+         
+          
           
           
           <!-- 三级级联 begin-->
-          <div class="layui-inline">
+          <div class="layui-inline" id="define11_div">
             <label class="layui-form-label">经费来源：</label>
             <div class="layui-input-inline">
                <select name="define11" id="define11"  lay-filter="select_define11"  >
@@ -87,17 +103,30 @@
             </div>
           </div>
           
-           <div class="layui-inline">
+           <div class="layui-inline" id="define12_div">
             <label class="layui-form-label">单位性质：</label>
             <div class="layui-input-inline">
                <select name="define12" id="define12" lay-filter="select_define12"   > </select>
             </div>
           </div>
           
-           <div class="layui-inline">
+           <div class="layui-inline" id="define2_div">
             <label class="layui-form-label">研究院：</label>
             <div class="layui-input-inline">
                <select name="define2" id="define2"  > </select>
+            </div>
+          </div>
+          
+          
+          <div class="layui-inline" id="yjy_div">
+            <label class="layui-form-label">研究院：</label>
+            <div class="layui-input-inline">
+               <select name="yjy" id="yjy"    >
+                     <option value="" >--请选择--</option>
+		             <#list yjyList as vo> 
+				          <option value="${vo.name}" >${vo.name}</option>
+				      </#list>
+              </select>
             </div>
           </div>
            <!-- 三级级联 end -->
@@ -132,17 +161,7 @@
             </div>
           </div>
        <!-- 二级级联 end -->   
-       <div class="layui-inline">
-            <label class="layui-form-label">签订标示：</label>
-            <div class="layui-input-inline">
-               <select name="qdbz" id="qdbz"  lay-filter="select_qdbz">
-                      <option value="" >--请选择--</option>
-		             <#list qdbsList as vo> 
-				          <option value="${vo.name}"  <#if qdbz==vo.name>selected="selected"</#if>>${vo.name}</option>
-				      </#list>
-              </select>
-            </div>
-          </div>
+      
           
           
           
@@ -186,6 +205,16 @@
                 <i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
             </button>
           </div>
+          
+          <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-list" data-type="resetEvent">
+                <i class="layui-icon  layuiadmin-button-btn">重置</i>
+            </button>
+          </div>
+          
+          
+          
+          
           
         </div>
       </div>
@@ -234,6 +263,29 @@
 			var $ = layui.$, active = {
 					searchEvent: function() { //点击查询按钮
 		            	 renderTable();
+		            },
+		            resetEvent: function() { 
+		            	$('#nd').val("");
+		            	$('#ysnd').val("");
+		            	$('#xmmc').val("");
+		            	$('#define11').val("");
+		            	$("#define11").trigger("change");
+		            	$('#define2').val("");
+		            	$('#define1').val("");
+		            	$('#define5').val("");
+		            	$('#define12').val("");
+		            	$('#hth').val("");
+		            	$('#zylb').val("");
+		            	$('#ktlx').val("");
+		            	$('#project_property').val("");
+		            	$('#groupFlag').val("");
+		            	$('#gsbmbmFlag').val("");
+		            	$('#zycbmFlag').val("");
+		            	$('#zylbbmFlag').val("");
+		            	$('#qdbz').val("");
+		            	
+		            	
+		            	 form.render();
 		            }
 			};
 
@@ -278,6 +330,7 @@
 				       console.log("监听签订标示:"+data);
 					   var value=data.value;
 					   qdbz_change(value);
+					   form.render();
 			   });
 			   
 			   
@@ -308,16 +361,29 @@
 				$("#define11").val("");
 				$("#define12").val("");
 				$("#define2").val("");
-				$('#define11').attr("disabled",true);
+				/* $('#define11').attr("disabled",true);
 				$('#define12').attr("disabled",true);
-				$('#define2').attr("disabled",true);
+				$('#define2').attr("disabled",true); */
+				
+				$('#define11_div').hide();
+				$('#define12_div').hide();
+				$('#define2_div').hide();
+				$('#yjy_div').show();
+				
 			}else
 			{
-				$('#define11').attr("disabled",false);
+				
+				$('#define11_div').show();
+				$('#define12_div').show();
+				$('#define2_div').show();
+				$('#yjy_div').hide();
+				$("#yjy").val("");
+				
+				/* $('#define11').attr("disabled",false);
 				$('#define12').attr("disabled",false);
-				$('#define2').attr("disabled",false);
+				$('#define2').attr("disabled",false); */
 			}
-			 form.render();
+			
 		}
 		
 			function renderTable() 
@@ -333,6 +399,7 @@
 			    var zylb=$("#zylb option:selected").text();
 			    var qdbz=$("#qdbz option:selected").text();
 			    var ktlx=$("#ktlx").val();
+			    var yjy=$("#yjy").val();
 			    //
 			    var groupFlag=$("#groupFlag").val();
 		        var gsbmbmFlag=$("#gsbmbmFlag").val();
@@ -347,13 +414,15 @@
 			    if(define11=='--请选择--') {define11=''}
 			    if(fzdwflag=='--请选择--') {fzdwflag=''}
 			    if(zycbmFlag=='--请选择--') {zycbmFlag=''}
-			    if(zylb=='--请选择--') {zylb=''}
+			    if(zylb=='--请选择--')      {zylb=''}
 			    if(groupFlag=='--请选择--') {groupFlag=''}
-			    if(qdbz=='--请选择--') {qdbz=''}
-			    if(ktlx=='结转课题') {isCarry='1'}
+			    if(qdbz=='--请选择--')      {qdbz=''}
+			    if(ktlx=='结转课题')         {isCarry='1'}
+			    if(yjy!='')
+			    {
+			    	define2=yjy;
+			    }
 			    var v_date=(new Date()).getTime();
-			    
-			    
 			    table.render({
 				elem : '#processdef-table',
 				url : '/one_level_main/common_table_data',
@@ -435,7 +504,7 @@
 					style : 'cursor: pointer;',
 					align : 'left',
 					width : '350',
-					templet:function(d){return '<span   onclick="view_pro(\''+d.xmmc+'\',\''+d.projectProperty+'\')" style="color: #1890ff">'+d.xmmc+'</span>'},
+					templet:function(d){return '<span   onclick="view_pro(\''+d.xmmc+'\',\''+d.projectProperty+'\',\''+d.hth+'\')" style="color: #1890ff">'+d.xmmc+'</span>'},
 					sort : true
 				}, {
 					field : 'jf',
@@ -562,41 +631,47 @@
 
 		}
 			
-			function view_pro(xmmc,projectProperty) 
+			function view_pro(xmmc,projectProperty,hth) 
 			{
-				
-				var temUrl="";
-				if(projectProperty=='重大专项')
+				if(hth==null || hth=='' || hth == "undefined")
 				{
-					temUrl="/whole-process/major-science/ini?xmmc="+xmmc;
-				}
-				if(projectProperty=='重点项目')
+					layer.msg("未签合同");
+				}else
 				{
-					temUrl="/whole-process/science/ini?xmmc="+xmmc;
-				}
-				if(projectProperty=='装备项目')
-				{
-					temUrl="/whole-process/equipment-science/ini?xmmc="+xmmc;
-				}
-				if(temUrl!='')
-				{
+					var temUrl="";
+					if(projectProperty=='重大专项')
+					{
+						temUrl="/whole-process/major-science/ini?xmmc="+xmmc;
+					}
+					if(projectProperty=='重点项目')
+					{
+						temUrl="/whole-process/science/ini?xmmc="+xmmc;
+					}
+					if(projectProperty=='装备项目')
+					{
+						temUrl="/whole-process/equipment-science/ini?xmmc="+xmmc;
+					}
+					if(temUrl!='')
+					{
+						
+						//alert(projectProperty);
+						
+						 layer.open({
+					         title: projectProperty+"->"+xmmc+'->详情',
+					         skin: 'layui-layer-lan',
+					         shadeClose: true,
+					         type: 2,
+					         fixed: false,
+					         maxmin: true,
+					         area: ['70%', '90%'],
+					         content:  temUrl
+					     });
+					}
 					
-					//alert(projectProperty);
-					
-					 layer.open({
-				         title: projectProperty+"->"+xmmc+'->详情',
-				         skin: 'layui-layer-lan',
-				         shadeClose: true,
-				         type: 2,
-				         fixed: false,
-				         maxmin: true,
-				         area: ['70%', '90%'],
-				         content:  temUrl
-				     });
 				}
 				
 				
-			}		
+		   }		
   /**======================================联动=====================================*/	
 	var define11="${define11?default('')}";//单位性质
 	var define12="${define12?default('')}";//单位性质

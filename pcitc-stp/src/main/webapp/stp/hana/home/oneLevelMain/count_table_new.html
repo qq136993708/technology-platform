@@ -175,7 +175,7 @@
                <select name="groupFlag" id="groupFlag"  >
                         <option value="" >--请选择--</option>
 			             <#list fzlxList as vo> 
-					          <option value="${vo.numValue}"  >${vo.name}</option>
+					          <option value="${vo.numValue}"  <#if groupFlag==vo.numValue>selected="selected"</#if>>${vo.name}</option>
 					      </#list>
               </select>
             </div>
