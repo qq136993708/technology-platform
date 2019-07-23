@@ -68,7 +68,8 @@ public class TechStatisticsController extends BaseController{
 	
 	private static final String LIST_ORG_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/list";
 	private static final String PAGE_ORG_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/page";
-	private static final String PAGE_ORG_STATISTICS_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/statistics_page";
+	private static final String PAGE_ORG_STATISTICS_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/statistics_page";
+	private static final String EXCEL_ORG_STATISTICS_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/statistics_excel";
 	public static final String  ADD_ORG_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/add";
 	public static final String  ADD_ORG_BATCH_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/add_batch";
 	public static final String  UPDATE_ORG_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/update";
@@ -80,6 +81,7 @@ public class TechStatisticsController extends BaseController{
 	
 	private static final String PAGE_COST_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/page";
 	private static final String PAGE_COST_STATISTICS_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/statistics_page";
+	private static final String EXCEL_COST_STATISTICS_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/statistics_excel";
 	public static final String  ADD_COST_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techCost/add";
 	public static final String  UPDATE_COST_URL = "http://pcitc-zuul/stp-proxy/sre-provider/techCost/update";
 	private static final String DEL_COST_URL =    "http://pcitc-zuul/stp-proxy/sre-provider/techCost/delete/";
@@ -88,6 +90,10 @@ public class TechStatisticsController extends BaseController{
 	private static final String LIST_COST_URL =   "http://pcitc-zuul/stp-proxy/sre-provider/techCost/list";
 	
 
+	
+	
+	
+	
 	
 	@RequestMapping(value = "/tech_cost/to-list")
 	public String tech_cost(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -259,7 +265,7 @@ public class TechStatisticsController extends BaseController{
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		
 		
-		ResponseEntity<JSONArray> responseEntity =  this.restTemplate.exchange(LIST_COST_URL, HttpMethod.POST, httpEntity, JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity =  this.restTemplate.exchange(EXCEL_COST_STATISTICS_URL, HttpMethod.POST, httpEntity, JSONArray.class);
 
 		int statusCode = responseEntity.getStatusCodeValue();
 		List<TechCost> list =new ArrayList();
@@ -1107,7 +1113,7 @@ public class TechStatisticsController extends BaseController{
 		System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      type = "+type+" year="+year);
 		
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(LIST_ORG_URL, HttpMethod.POST, httpEntity, JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(EXCEL_ORG_STATISTICS_URL, HttpMethod.POST, httpEntity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		List<TechOrgCount> list =new ArrayList();
 		JSONArray jSONArray=null;
@@ -1136,7 +1142,7 @@ public class TechStatisticsController extends BaseController{
 					}
 				}
 				
-				techOrgCount.setAuditStatus(auditStatus);
+				techOrgCount.setAuditStatus(status);
 				String companyType=techOrgCount.getType();
 				if(companyType.equals("1"))
 				{
@@ -1333,27 +1339,28 @@ public class TechStatisticsController extends BaseController{
 			InputStream is = new FileInputStream(template);
 			workbook = new XSSFWorkbook(is);
 			sheet = workbook.getSheetAt(0);
+			
+			sheet.setDefaultColumnWidth(20);// 设置表格默认列宽度为20个字节  
+			sheet.setColumnWidth(0, 9966); 
+            
 			System.out.println(">>>>>>>>>>sheet: "+sheet);
 			//从第五行开始，第五行是测试数据
 			/*Row templateRow = sheet.getRow(3);
 			Double total_xmjf = 0d;
 			Double total_zxjf = 0d;
-			
+			*/
 			//水平，垂直居中
 			CellStyle centerStyle =workbook.createCellStyle();
-			centerStyle.cloneStyleFrom(templateRow.getCell(0).getCellStyle());
 			centerStyle.setAlignment(HorizontalAlignment.CENTER);
 			centerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 			//水平居左，垂直居中
 			CellStyle leftCenterStyle =workbook.createCellStyle();
-			leftCenterStyle.cloneStyleFrom(templateRow.getCell(1).getCellStyle());
 			leftCenterStyle.setAlignment(HorizontalAlignment.LEFT);
 			leftCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 			//水平居右，垂直居中
 			CellStyle rightCenterStyle =workbook.createCellStyle();
-			rightCenterStyle.cloneStyleFrom(templateRow.getCell(3).getCellStyle());
 			rightCenterStyle.setAlignment(HorizontalAlignment.RIGHT);
-			rightCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);*/
+			rightCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 			
 			for(int i = 0;i<list.size();i++) 
 			{
@@ -1417,7 +1424,7 @@ public class TechStatisticsController extends BaseController{
 				
 				
 				
-				/*crow.getCell(0).setCellStyle(leftCenterStyle);
+				crow.getCell(0).setCellStyle(leftCenterStyle);
 				crow.getCell(1).setCellStyle(centerStyle);
 				crow.getCell(2).setCellStyle(centerStyle);
 				crow.getCell(3).setCellStyle(rightCenterStyle);
@@ -1432,7 +1439,7 @@ public class TechStatisticsController extends BaseController{
 				crow.getCell(12).setCellStyle(rightCenterStyle);
 				crow.getCell(13).setCellStyle(rightCenterStyle);
 				crow.getCell(14).setCellStyle(rightCenterStyle);
-				crow.getCell(15).setCellStyle(rightCenterStyle);*/
+				crow.getCell(15).setCellStyle(rightCenterStyle);
 				
 			}
 			/*//汇总数据

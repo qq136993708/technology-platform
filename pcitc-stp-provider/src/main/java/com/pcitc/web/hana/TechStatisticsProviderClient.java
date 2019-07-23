@@ -62,6 +62,16 @@ public class TechStatisticsProviderClient {
 	}
 	
 	
+	@ApiOperation(value = "科研投入表分页", notes = "科研投入表分页")
+	@RequestMapping(value = "/sre-provider/techCost/statistics_excel", method = RequestMethod.POST)
+	public JSONArray getTechCostStatisticsexcel(@RequestBody Map map)throws Exception
+	{
+		JSONArray rageResult=techStatisticsService.getTechCostStatisticsList(map);
+		return rageResult;
+	}
+	
+	
+	
 	@ApiOperation(value = "增加科研投入表", notes = "增加科研投入表")
 	@RequestMapping(value = "/sre-provider/techCost/add", method = RequestMethod.POST)
 	public String insertTechCost(@RequestBody TechCost techCost) throws Exception{
@@ -177,7 +187,13 @@ public class TechStatisticsProviderClient {
 		return rageResult;
 	}
 	
-	
+	@ApiOperation(value = "科研机构调查表excel", notes = "科研机构调查表excel")
+	@RequestMapping(value = "/sre-provider/techOrgCount/statistics_excel", method = RequestMethod.POST)
+	public JSONArray getTechOrgCountStatisticsexcel(@RequestBody Map map)throws Exception
+	{
+		JSONArray rageResult=techStatisticsService.getTechOrgCountStatisticsList(map);
+		return rageResult;
+	}
 	
 	
 	

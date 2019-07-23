@@ -113,7 +113,7 @@ public class TechOrgCount {
     
     private String statisticsType;
     
-   private boolean lay_is_open;
+   private String lay_is_open;
     
     private String lay_icon_open;
     
@@ -130,6 +130,12 @@ public class TechOrgCount {
     
     
     
+	public String getLay_is_open() {
+		return lay_is_open;
+	}
+	public void setLay_is_open(String lay_is_open) {
+		this.lay_is_open = lay_is_open;
+	}
 	public String getCreateDateStr() {
 		return createDateStr;
 	}
@@ -137,12 +143,7 @@ public class TechOrgCount {
 		this.createDateStr = createDateStr;
 	}
 	
-	public boolean isLay_is_open() {
-		return lay_is_open;
-	}
-	public void setLay_is_open(boolean lay_is_open) {
-		this.lay_is_open = lay_is_open;
-	}
+	
 	public String getLay_icon_open() {
 		return lay_icon_open;
 	}
