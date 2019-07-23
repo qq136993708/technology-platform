@@ -189,7 +189,6 @@ function forceAjax_single(url, echartsobj, options, callback) {
 }
 
 
-
 //单图
 function load_single_force(url, id, title, subtext, yAxis) {
     load_single_force(url, id, title, subtext, yAxis, null);
@@ -226,6 +225,108 @@ function load_single_force(url, id, title, subtext, yAxis, callback) {
     forceAjax_single(url, echartsobj, option_force_single, callback);
     return echartsobj;
 }
+
+function force_img(url, id, title, subtext, yAxis, callback, len) {
+    force_img_render(url, "", option_force_single, callback, len, id, title, subtext);
+}
+function force_img_render(url, echartsobj, options, callback, len, id, title, subtext) {
+    var nodes_Array = [];
+    var links_Array = [];
+    var categories_Array = [];
+    var legend_Array = [];
+    $.ajax({
+        type: "get",
+        url: url,
+        timeout: 9000,
+        dataType: "json",
+        cache: false,
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        success: function (data, status) {
+                document.getElementById(id).style.display = "block";
+                var echartsobj = echarts.init(document.getElementById(id));
+                option_force_single.title.text = title;
+                option_force_single.title.subtext = subtext;
+
+                echartsobj.setOption(option_force_single);
+                echartsobj.showLoading();
+
+                if (data.success == true || data.success == 'true') {
+                    echartsobj.hideLoading();
+                    console.log("data");
+                    console.log(data);
+                    var nodes = data.data.nodes;
+                    var links = data.data.links;
+                    var categories = data.data.categories;
+                    var legendDataList = data.data.legendDataList;
+                    //加载数据图表
+                    echartsobj.setOption({
+                        legend: {
+                            x: 'left',
+                            data: legend_Array
+                        },
+                        series: [
+                            {
+                                type: 'force',
+                                name: "人物关系",
+                                ribbonType: false,
+                                categories: categories,
+                                itemStyle: {
+                                    normal: {
+                                        label: {
+                                            show: true,
+                                            textStyle: {
+                                                color: '#333'
+                                            }
+                                        },
+                                        nodeStyle: {
+                                            brushType: 'both',
+                                            borderColor: 'rgba(255,215,0,0.4)',
+                                            borderWidth: 1
+                                        },
+                                        linkStyle: {
+                                            type: 'curve'
+                                        }
+                                    },
+                                    emphasis: {
+                                        label: {
+                                            show: false
+                                            // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
+                                        },
+                                        nodeStyle: {
+                                            //r: 30
+                                        },
+                                        linkStyle: {}
+                                    }
+                                },
+                                useWorker: false,
+                                minRadius: 25,
+                                maxRadius: 75,
+                                gravity: 2.8,
+                                scaling: 2,
+                                roam: 'move',
+                                nodes: nodes,
+                                links: links
+                            }
+                        ]
+                    });
+                    echartsobj.resize();
+                    if (callback) {
+                        callback(data);
+                    }
+                }
+        },
+        error: function () {
+            layer.msg('图表加载失败');
+        },
+        complete: function (XMLHttpRequest, status) {
+            if (status == 'timeout') {
+                layer.msg('超时');
+            }
+        }
+    });
+
+}
+
 /**
  * 支持回调函数的bar
  * @param url
@@ -236,7 +337,7 @@ function load_single_force(url, id, title, subtext, yAxis, callback) {
  * @param callback
  * @returns
  */
-function load_single_forces(url, id, title, subtext, yAxis, callback,len) {
+function load_single_forces(url, id, title, subtext, yAxis, callback, len) {
     // for (let i = 0; i < len; i++) {
     //     var echartsobj = echarts.init(document.getElementById(id));
     //     option_force_single.title.text = title;
@@ -244,17 +345,18 @@ function load_single_forces(url, id, title, subtext, yAxis, callback,len) {
     //
     //     echartsobj.setOption(option_force_single);
     //     echartsobj.showLoading();
-        forceAjax_singles(url, "", option_force_single, callback,len,id, title, subtext);
-        // return echartsobj;
+    forceAjax_singles(url, "", option_force_single, callback, len, id, title, subtext);
+    // return echartsobj;
     // }
 }
-function forceAjax_singles(url, echartsobj, options, callback,len,id, title, subtext) {
+
+function forceAjax_singles(url, echartsobj, options, callback, len, id, title, subtext) {
     var nodes_Array = [];
     var links_Array = [];
     var categories_Array = [];
     var legend_Array = [];
-    for (var i = 0; i <len; i++) {
-        document.getElementById(id+i).style.display="none";
+    for (var i = 0; i < len; i++) {
+        document.getElementById(id + i).style.display = "none";
     }
     $.ajax({
         type: "get",
@@ -265,9 +367,9 @@ function forceAjax_singles(url, echartsobj, options, callback,len,id, title, sub
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         success: function (datas, status) {
             // for (var j = 0; j < len; j++) {
-                for (var j = 0; j < datas.length; j++) {
-                document.getElementById(id+j).style.display="block";
-                var echartsobj = echarts.init(document.getElementById(id+j));
+            for (var j = 0; j < datas.length; j++) {
+                document.getElementById(id + j).style.display = "block";
+                var echartsobj = echarts.init(document.getElementById(id + j));
                 option_force_single.title.text = title;
                 option_force_single.title.subtext = subtext;
 
@@ -356,6 +458,7 @@ function forceAjax_singles(url, echartsobj, options, callback,len,id, title, sub
     });
 
 }
+
 //假的
 function load_single_force_tt(id, title, xAxisData, seriesdata, subtext) {
     var echartsobj = echarts.init(document.getElementById(id));

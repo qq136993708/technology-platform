@@ -236,4 +236,5 @@ public interface ZjkBaseInfoService {
      */
     List<ZjkExpert> selectYsList();
 
+    public JSONObject picExpertDetail(ZjkExpert zjkBaseInfo);
 }

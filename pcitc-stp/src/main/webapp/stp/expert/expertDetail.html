@@ -142,16 +142,6 @@
                 </div>
             </div>
         </div>
-        <!--<div class="layui-col-md12" style="padding-right: 9px;" id="enlargeP">
-            <div class="layui-card">
-                <div class="layui-card-header" id="enlarge">
-                    <span class="border-span"></span>所在行业领域统计
-                </div>
-                <div class="layui-row-main">
-                    <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
-                </div>
-            </div>
-        </div>-->
     </div>
 </div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
@@ -208,22 +198,22 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     $("#enlargeP .main-chart").css("height",$(document).height()+"px");
                     var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
                     var colorFive = ["#8fc31f"];
-                    var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
-                        if (d.seriesDataList == undefined) {
-                            $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
-                        }
-                    });
+                    // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
+                    //     if (d.seriesDataList == undefined) {
+                    //         $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+                    //     }
+                    // });
                 }else {
                     $(this).removeClass("layui-layer-icon");
                     $("#enlargeP").removeClass("enlarge");
                     $("#enlargeP .main-chart").css("height","250px");
                     var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
                     var colorFive = ["#8fc31f"];
-                    var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
-                        if (d.seriesDataList == undefined) {
-                            $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
-                        }
-                    });
+                    // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
+                    //     if (d.seriesDataList == undefined) {
+                    //         $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+                    //     }
+                    // });
                 }
             });
             var record = {};
@@ -290,11 +280,18 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
 
         var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
         var colorFive = ["#8fc31f"];
-        var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
-            if (d.seriesDataList == undefined) {
-                $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
-            }
-        });
+
+
+
+
+        // load_single_forces("/expertController/picIndexImg?hyly="+hyly, "one", "专家画像", "", "", "", 10);
+        five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
+
+        // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
+        //     if (d.seriesDataList == undefined) {
+        //         $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+        //     }
+        // });
 
 
     }

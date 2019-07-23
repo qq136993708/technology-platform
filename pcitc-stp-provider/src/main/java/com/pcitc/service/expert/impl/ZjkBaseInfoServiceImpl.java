@@ -642,6 +642,73 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         }
         return object;
     }
+    @Override
+    public JSONObject picExpertDetail(ZjkExpert zjkBaseInfo) {
+        JSONObject object = new JSONObject();
+        try {
+            Result result = new Result();
+            //查询专家信息
+
+            //查询专利信息
+
+            //查询课题信息
+
+            //查询评审数量
+
+            //查询专家相关技术族信息---
+
+            //查询专家企业信息---
+
+            String column_show = "expertProfessinal,college,expertProfessionalFieldName,unitBelongs,professionalAndTime,administrativeDuties,technicalPositiion,";
+            List<ZjkExpert> experts = this.findZjkBaseInfoListRandom(zjkBaseInfo);
+            int length = experts.size() > 10 ? 10 : experts.size();
+            for (int ind = 0; ind < length; ind++) {
+                ZjkExpert e = experts.get(ind);
+                Map<String, Object> maps = MyBeanUtils.transBean2Map(e);
+                //组装数据
+                ChartForceResultData force = new ChartForceResultData();
+                List<ChartForceDataNode> nodes = new ArrayList<ChartForceDataNode>();
+
+                List<ChartForceDataLink> links = new ArrayList<ChartForceDataLink>();
+
+                List<ChartForceCategories> categories = new ArrayList<ChartForceCategories>();
+
+                List<String> legendDataList = new ArrayList<String>();
+
+                String firstName = e.getExpertName();
+                Object object_first_val = e.getDataId();
+                String firstValue = object_first_val == null ? "" : object_first_val.toString();
+
+                nodes.add(new ChartForceDataNode(0, firstName, firstValue, firstName));
+//                System.out.println(column_show);
+                for (Map.Entry<String, Object> entry : maps.entrySet()) {
+                    Object val = entry.getValue();
+                    if (val == null) {
+                        continue;
+                    }
+                    if (column_show.indexOf(entry.getKey() + ",") < 0) {
+                        continue;
+                    }
+                    String name = val.toString();
+                    categories.add(new ChartForceCategories(name));
+                    String value = entry.getValue().toString();
+                    nodes.add(new ChartForceDataNode(ind + 1, name, value, name));
+                    links.add(new ChartForceDataLink(name, firstName, ind + 1, name));
+                    legendDataList.add(name);
+                }
+                force.setLegendDataList(legendDataList);
+                force.setCategories(categories);
+                force.setNodes(nodes);
+                force.setLinks(links);
+                result.setSuccess(true);
+                result.setData(force);
+            }
+            object.put("results", result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
 
     public Map<String, Object> getResult(Map<String, Object> param) {
         ZjkExpert zjkBaseInfo = this.selectByPrimaryKey(param.get("expertId").toString());
