@@ -309,6 +309,7 @@
                     $("input[name=yjnr]").val(data.yjnr);
                     $("input[name=yjmb]").val(data.yjmb);
                     $("input[name=createDate]").val(data.createDate);
+
                     $("input[name=projectScope]").val(data.projectScope);
                     $("input[name=projectLevel]").val(data.projectLevel);
                     $("input[name=projectProperty]").val(data.projectProperty);
@@ -317,6 +318,13 @@
                     $("input[name=zycmc]").val(data.zycmc);
                     $("input[name=typeFlag]").val(data.typeFlag);
                     $("input[name=define1]").val(data.define1);
+
+                    laydate.render({
+                        elem: '#createDate'
+                        , value: new Date()//必须遵循format参数设定的格式
+                        ,format:"yyyy-MM-dd"
+                    });
+
                 },
                 error : function(e) {
                     alertError("出错了！", e);
