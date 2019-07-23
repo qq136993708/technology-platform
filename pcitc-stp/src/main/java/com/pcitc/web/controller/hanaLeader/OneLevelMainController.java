@@ -775,6 +775,9 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("groupFlag", groupFlag);
 		String projectId = CommonUtil.getParameter(request, "projectId", "");
 		request.setAttribute("projectId", projectId);
+		
+		
+		
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -811,36 +814,117 @@ public class OneLevelMainController extends BaseController {
 		List<SysDictionary>  gsbmbmList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 		request.setAttribute("gsbmbmList", gsbmbmList);
 		
-		//倒推部门
-		String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");// 各个处室(汉字)->倒推部门
-		String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");
-		String gsbmbmFlag ="";//部门
-		List<SysDictionary>  kjbList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
-		if(kjbList!=null)
+		//倒推部门-各个处室(汉字)->倒推部门
+		String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");//部门
+		String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");//处室    
+		String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");//专业类别
+		if(gsbmbmFlag.equals("") && !zycbmFlag.equals(""))
 		{
-			for(int i=0;i<kjbList.size();i++)
-			{
-				SysDictionary sysDictionary=kjbList.get(i);
-				String name=sysDictionary.getName();
-				if(zycbmFlag.equals(name))
-				{
-					
-					gsbmbmFlag ="科技部";//先写死
-				}
-			}
+			gsbmbmFlag=getGsbmbmFlagByzycbmFlag(gsbmbmFlag,zycbmFlag);
 		}
+		
 		request.setAttribute("zycbmFlag", zycbmFlag);
 		request.setAttribute("gsbmbmFlag", gsbmbmFlag);
 		request.setAttribute("zylbbmFlag", zylbbmFlag);
 		//(汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2    
 		
-		
-		
-		
 		return "stp/hana/home/oneLevelMain/count_table_new";
 	}
 
 	
+	//总部机关下的部--反查
+	private String getGsbmbmFlagByzycbmFlag(String gsbmbmFlag,String zycbmFlag)
+	{
+		if(gsbmbmFlag.equals(""))
+		{
+			 //科技部下的
+			 List<SysDictionary>  kjbList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
+		     if(kjbList!=null && kjbList.size()>0)
+			 {
+				for(int i=0;i<kjbList.size();i++)
+				{
+					SysDictionary sysDictionary=kjbList.get(i);
+					String name=sysDictionary.getName();
+					String parentId=sysDictionary.getParentId();
+					if(zycbmFlag.equals(name))
+					{
+						//得到父类
+						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag+" parentId="+parentId);
+						SysDictionary sys_Dictionary=EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
+						gsbmbmFlag =sys_Dictionary.getName();
+					}
+				}
+			 }
+		}
+		
+		if(gsbmbmFlag.equals(""))
+		{
+		 //炼油部下的
+		 List<SysDictionary>  lianyouList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_LYB", restTemplate, httpHeaders);
+		 if(lianyouList!=null && lianyouList.size()>0)
+		 {
+			for(int i=0;i<lianyouList.size();i++)
+			{
+				SysDictionary sysDictionary=lianyouList.get(i);
+				String name=sysDictionary.getName();
+				String parentId=sysDictionary.getParentId();
+				if(zycbmFlag.equals(name))
+				{
+					//得到父类
+					System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag+" parentId="+parentId);
+					SysDictionary sys_Dictionary=EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
+					gsbmbmFlag =sys_Dictionary.getName();
+				}
+			}
+		 }
+		}
+		 
+		if(gsbmbmFlag.equals(""))
+		{
+		 //物装部下的
+		 List<SysDictionary>  wzList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_WZB", restTemplate, httpHeaders);
+		 if(wzList!=null && wzList.size()>0)
+		 {
+			for(int i=0;i<wzList.size();i++)
+			{
+				SysDictionary sysDictionary=wzList.get(i);
+				String name=sysDictionary.getName();
+				String parentId=sysDictionary.getParentId();
+				if(zycbmFlag.equals(name))
+				{
+					//得到父类
+					System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag+" parentId="+parentId);
+					SysDictionary sys_Dictionary=EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
+					gsbmbmFlag =sys_Dictionary.getName();
+				}
+			}
+		 }
+		}
+		
+		if(gsbmbmFlag.equals(""))
+		{
+		 //化工部下的
+		 List<SysDictionary>  hzList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_HGB", restTemplate, httpHeaders);
+		 if(hzList!=null && hzList.size()>0)
+		 {
+			for(int i=0;i<hzList.size();i++)
+			{
+				SysDictionary sysDictionary=hzList.get(i);
+				String name=sysDictionary.getName();
+				String parentId=sysDictionary.getParentId();
+				if(zycbmFlag.equals(name))
+				{
+					//得到父类
+					System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag+" parentId="+parentId);
+					SysDictionary sys_Dictionary=EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
+					gsbmbmFlag =sys_Dictionary.getName();
+				}
+			}
+		 }
+		}
+		 return gsbmbmFlag;
+		 
+	}
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/common_table_new")
@@ -921,28 +1005,28 @@ public class OneLevelMainController extends BaseController {
 		List<SysDictionary>  gsbmbmList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 		request.setAttribute("gsbmbmList", gsbmbmList);
 		
-		//倒推部门
-		String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");// 各个处室(汉字)->倒推部门
-		String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");
-		String gsbmbmFlag ="";//部门
-		List<SysDictionary>  kjbList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
-		if(kjbList!=null)
-		{
-			for(int i=0;i<kjbList.size();i++)
-			{
-				SysDictionary sysDictionary=kjbList.get(i);
-				String name=sysDictionary.getName();
-				if(zycbmFlag.equals(name))
+		
+		
+		
+		
+		//倒推部门-各个处室(汉字)->倒推部门
+				String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");//部门
+				String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");//处室    
+				String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");//专业类别
+				if(gsbmbmFlag.equals("") && !zycbmFlag.equals(""))
 				{
-					
-					gsbmbmFlag ="科技部";//先写死
+					gsbmbmFlag=getGsbmbmFlagByzycbmFlag(gsbmbmFlag,zycbmFlag);
 				}
-			}
-		}
-		request.setAttribute("zycbmFlag", zycbmFlag);
-		request.setAttribute("gsbmbmFlag", gsbmbmFlag);
-		request.setAttribute("zylbbmFlag", zylbbmFlag);
-		//(汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2    
+				
+				request.setAttribute("zycbmFlag", zycbmFlag);
+				request.setAttribute("gsbmbmFlag", gsbmbmFlag);
+				request.setAttribute("zylbbmFlag", zylbbmFlag);
+				//(汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2    
+				
+				
+				
+				
+		  
 
 		//直属研究院
 		List<SysDictionary>  yjyList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);

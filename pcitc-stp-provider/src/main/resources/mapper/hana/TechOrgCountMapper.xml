@@ -756,8 +756,8 @@
     
     <select id="getStatisticsList" resultMap="BaseResultMap" parameterType="Map" >
       SELECT 
-          '-' AS id ,
-          '-' AS parent_id,
+          '-1' AS id ,
+          '0' AS parent_id,
 		  '-' AS YEAR ,
 		  '-' AS  TYPE,
 		  '-' AS  create_user_name,
