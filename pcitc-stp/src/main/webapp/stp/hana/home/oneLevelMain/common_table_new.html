@@ -14,7 +14,7 @@
 }
 .layui-btn{height: 30px;line-height: 30px; padding: 0 15px;}
 .layuiadmin-card-header-auto i.layuiadmin-button-btn{font-size: 14px;}
-
+.layui-laydate-hint{display: none;}
 </style>
 </head>
 <body>
@@ -76,7 +76,7 @@
            <div class="layui-inline">
             <label class="layui-form-label">签订标示：</label>
             <div class="layui-input-inline">
-               <select name="qdbz" id="qdbz"  lay-filter="select_qdbz">
+               <select name="qdbz" id="qdbz" >
                       <option value="" >--请选择--</option>
 		             <#list qdbsList as vo> 
 				          <option value="${vo.name}"  <#if qdbz==vo.name>selected="selected"</#if>>${vo.name}</option>
@@ -326,12 +326,12 @@
 			   
 			   
 			   //监听签订标示
-			   form.on('select(select_qdbz)', function(data){
+			  /*  form.on('select(select_qdbz)', function(data){
 				       console.log("监听签订标示:"+data);
 					   var value=data.value;
 					   qdbz_change(value);
 					   form.render();
-			   });
+			   }); */
 			   
 			   
 			   
@@ -351,7 +351,7 @@
 		});
 		
 		//初始化
-		qdbz_change($("#qdbz").val());
+		/* qdbz_change($("#qdbz").val());
 		
 		function qdbz_change(value)
 		{
@@ -361,9 +361,6 @@
 				$("#define11").val("");
 				$("#define12").val("");
 				$("#define2").val("");
-				/* $('#define11').attr("disabled",true);
-				$('#define12').attr("disabled",true);
-				$('#define2').attr("disabled",true); */
 				
 				$('#define11_div').hide();
 				$('#define12_div').hide();
@@ -379,12 +376,9 @@
 				$('#yjy_div').hide();
 				$("#yjy").val("");
 				
-				/* $('#define11').attr("disabled",false);
-				$('#define12').attr("disabled",false);
-				$('#define2').attr("disabled",false); */
 			}
 			
-		}
+		} */
 		
 			function renderTable() 
 			{
@@ -777,7 +771,7 @@
 				jf=jf.replace(".0","");
 			}
 			
-	        return '<span style="color:#1890ff">'+jf+'</span>';
+	        return '<span style="color:green">'+jf+'</span>';
 	    } else 
 	    {
 	        return "<span></span>";
