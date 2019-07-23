@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pcitc.base.system.*;
+import com.pcitc.mapper.system.SysUserMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -469,6 +470,8 @@ public class SysFileServiceImpl implements SysFileService {
 
 	@Autowired
     SysFunctionService sysFunctionService;
+	@Autowired
+    SysUserMapper sysUserMapper;
 
 	@Override
 	public JSONObject selectSysFileListEsIndex(SysFileVo vo) throws Exception {
@@ -477,9 +480,17 @@ public class SysFileServiceImpl implements SysFileService {
 		List<SysFunction> sysFunctions = sysFunctionService.selectByExample(new SysFunctionExample());
         Map<String,String> id_name = sysFunctions.stream().collect(Collectors.toMap(SysFunction::getId,SysFunction::getName,(e1,e2)->e1));
         Map<String,String> id_parent = sysFunctions.stream().collect(Collectors.toMap(SysFunction::getId,SysFunction::getParentId,(e1,e2)->e1));
-		sysFiles.stream().filter(e->{
+
+        List<String> createUsers = sysFiles.stream().map(e->e.getCreateUserId()).collect(Collectors.toList());
+        SysUserExample ex = new SysUserExample();
+        ex.createCriteria().andUserIdIn(createUsers);
+        List<SysUser> sysUsers = sysUserMapper.selectByExample(ex);
+        Map<String,String> mapUsers = sysUsers.stream().collect(Collectors.toMap(SysUser::getUserId,SysUser::getUserName,(e1,e2)->e1));
+
+        sysFiles.stream().filter(e->{
             e.setBak1(id_name.get(id_parent.get(e.getVersion())));
             e.setVersion(id_name.get(e.getVersion()));
+            e.setUpdatePersonName(mapUsers.get(e.getCreateUserId()));
 		    return true;
         }).collect(Collectors.toList());
 		jsonObject.put("list", sysFiles);

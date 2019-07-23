@@ -90,10 +90,22 @@ public class ZjkBaseInfoClient {
 
     @ApiOperation(value = "专家-基本信息查询画像", notes = "自定义对象(条件)查询专家-基本信息信息,返回存储在JSONObject对象中的专家-基本信息列表")
     @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_img", method = RequestMethod.POST)
-    public JSONObject selectZjkBaseInfoListImg(@RequestBody ZjkExpert zjkBaseInfo){
+    public JSONObject selectZjkBaseInfoListImg(@RequestBody ZjkExpert zjkBaseInfo) {
         JSONObject retJson = new JSONObject();
         try {
             retJson = zjkBaseInfoService.findZjkBaseInfoListImg(zjkBaseInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retJson;
+    }
+
+    @ApiOperation(value = "专家-详情画像力导向图", notes = "详情画像力导向图,返回存储在JSONObject对象中的数据")
+    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/picExpertDetail", method = RequestMethod.POST)
+    public JSONObject picExpertDetail(@RequestBody ZjkExpert zjkBaseInfo){
+        JSONObject retJson = new JSONObject();
+        try {
+            retJson = zjkBaseInfoService.picExpertDetail(zjkBaseInfo);
         } catch (Exception e) {
             e.printStackTrace();
         }

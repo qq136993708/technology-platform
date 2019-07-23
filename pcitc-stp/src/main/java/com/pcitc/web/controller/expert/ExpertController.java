@@ -62,6 +62,8 @@ public class ExpertController extends BaseController {
 
     private static final String LIST_RANDOM = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_random";
     private static final String LIST_RANDOM_IMG = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_img";
+    //首页详情专家画像
+    private static final String picExpertDetail = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/picExpertDetail";
 
     private static final String LIST_index = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_index";
 
@@ -175,6 +177,15 @@ public class ExpertController extends BaseController {
         return "stp/expert/pageExpertIndex";
     }
 
+    @RequestMapping(value = "/picExpertDetail", method = RequestMethod.GET)
+    @ResponseBody
+    public Object picExpertDetail() {
+        ZjkExpert expert = new ZjkExpert();
+        expert.setExpertProfessionalField(request.getParameter("expertId"));
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(picExpertDetail, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
+        return JSONArray.toJSONString(responseEntity.getBody().get("results"));
+    }
+
     @RequestMapping(value = "/picIndexImg", method = RequestMethod.GET)
     @ResponseBody
     @OperationFilter(modelName = "首页图形展示", actionName = "首页图形展示indexPicTwo")
@@ -185,12 +196,7 @@ public class ExpertController extends BaseController {
             expert.setExpertProfessionalField(hyly);
         }
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM_IMG, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
-//        JSONObject object =responseEntity.getBody() ;
-//        Result result = (Result) retJson.get("results");
-//        request.setAttribute("results", result.getData());
-//        return object.get("result");
         return JSONArray.toJSONString(responseEntity.getBody().get("results"));
-//        return JSONObject.parseObject(JSONObject.toJSONString(responseEntity.getBody().get("results"))).toString();
     }
 
     /**

@@ -149,19 +149,37 @@
         });
     }
     getTfcBase();
-    function detailEvent(id) {
-        var temUrl = "/out/project-detail/" + id;
-        layer.open({
-            title: '详情',
-            skin: 'layui-layer-lan',
-            shadeClose: true,
-            type: 2,
-            fixed: false,
-            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-            maxmin: true,
-            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-            area: ['90%', '80%'],
-            content: temUrl
+    function detailEvent(data_id) {
+        $.ajax({
+            type : 'post',
+            dataType : 'json',
+            async : false,
+            data : {
+                "dataId" : data_id
+            },
+            url : "/out/getOutProjectShowSearch?data_id=" + data_id+"&functionId=984b64b13cf54222bf57bd840759fabe",
+            success : function(data) {
+                if(data.fzrxm=="0"){
+                    layer.msg("权限不够,请联系系统管理员");
+                }else {
+                    var temUrl = "/out/project-detail/" + data_id;
+                    layer.open({
+                        title: '详情',
+                        skin: 'layui-layer-lan',
+                        shadeClose: true,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['90%', '80%'],
+                        content: temUrl
+                    });
+                }
+            },
+            error : function(e) {
+                alertError("出错了！", e);
+            }
         });
     }
 </script>
@@ -402,13 +420,14 @@
                     field: "xmmc",
                     title: "项目名称", event: 'setActive', style: 'cursor: pointer;', width: 300
                 },
-                {
-                    field: "jf",
-                    title: "项目经费总额", event: 'setActive', style: 'cursor: pointer;', width: 100
-                },
+
                 {
                     field: "kssj",
-                    title: "开始时间", event: 'setActive', style: 'cursor: pointer;', width: 100
+                    title: "开始时间", event: 'setActive', style: 'cursor: pointer;', width: 80
+                },
+                {
+                    field: "jssj",
+                    title: "结束时间", event: 'setActive', style: 'cursor: pointer;', width: 80
                 }
             ];
 
