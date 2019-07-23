@@ -3234,7 +3234,7 @@
 			 out_project_info.project_type != '1'
 			 and define3 = '项目管理系统'
 			<if test="nd != null and nd != ''">
-				and out_project_info.nd = #{nd}
+				and find_in_set(out_project_info.nd, '${nd}')
 			</if>
 			<if test="ysnd != null and ysnd != ''">
 				and out_project_info.ysnd = #{ysnd}
