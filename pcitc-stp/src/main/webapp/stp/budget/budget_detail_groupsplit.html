@@ -51,9 +51,7 @@
 	                     <span>单位：万元</span>
 	                </label>
 	         </div>
-	         <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-                    data-type="sumEvent">预算汇总
-             </button>
+	         <button style="display: none;" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="sumEvent">预算汇总</button>
         </div>
         <div id="tableBox">
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
@@ -122,9 +120,12 @@
                     	}else{
                     		window.location.href="/budget/budget_detail_groupsplit_unit?nd="+val;
                     	}
-                    	
                     }            
                 });
+            	if(unitCodes != 0)
+                {
+            		$("button").show();
+                }
             }
             
             initDateView = function(){
