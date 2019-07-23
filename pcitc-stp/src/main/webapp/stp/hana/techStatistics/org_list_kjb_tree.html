@@ -14,7 +14,6 @@
 <body>
 <div id="bodyId" >
 <div class="searchBox" >
-<input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
 <input type="hidden" name="unitCode" id="unitCode" value="${unitCode}">
  
  
@@ -219,6 +218,8 @@ layui.config({
             resetEvent: function() { //点击重置按钮
             	$('#unitName').val("");
             	$('#auditStatus').val("");
+            	$('#type').val("");
+            	$('#year').val("");
             }
             
         };
