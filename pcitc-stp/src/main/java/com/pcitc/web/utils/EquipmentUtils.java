@@ -344,7 +344,14 @@ public class EquipmentUtils {
 		
 	}
 	
-	
+	public static SysDictionary  getDictionaryById(String id ,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		
+		String DICTIONARY_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/getDictionary/";
+		SysDictionary sysDictionary =restTemplate.exchange(DICTIONARY_CODE + id, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysDictionary.class).getBody();
+		return sysDictionary;
+		
+	}
 	
 	public static String  getDictionaryNameByCode(String code ,RestTemplate restTemplate,HttpHeaders httpHeaders)
 	{
