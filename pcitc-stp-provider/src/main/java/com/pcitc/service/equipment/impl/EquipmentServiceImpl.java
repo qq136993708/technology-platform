@@ -200,7 +200,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String unitPathIds=getTableParam(param,"unitPathIds","");
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String isLinkedProject=getTableParam(param,"isLinkedProject","");
-		Map map=new HashMap();
+        String parentUnitPathNames = getTableParam(param, "parentUnitPathNames", "");
+
+        Map map=new HashMap();
 		map.put("name", name);
 		map.put("equipmentIds", equipmentIds);
 		map.put("auditStatus", auditStatus);
@@ -208,6 +210,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("isLinkedProject", isLinkedProject);
+        map.put("parentUnitPathNames", parentUnitPathNames);
+
 		
 		List<SreEquipment> list = sreEquipmentMapper.getList(map);
 		PageInfo<SreEquipment> pageInfo = new PageInfo<SreEquipment>(list);
@@ -345,8 +349,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 		
 		String belongDepartmentCode=getTableParam(param,"belongDepartmentCode","");
 		String professionalDepartCode=getTableParam(param,"professionalDepartCode","");
-		
-		Map map=new HashMap();
+        String contractNum = getTableParam(param, "contractNum", "");
+
+        Map map=new HashMap();
 		map.put("belongDepartmentName", belongDepartmentName);
 		map.put("belongDepartmentCode", belongDepartmentCode);
 		map.put("professionalDepartName", professionalDepartName);
@@ -371,7 +376,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("taskId", taskId);
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
-		
+        map.put("contractNum", contractNum);
+
 		
 		List<SreProject> list = sreProjectMapper.getList(map);
 		PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);

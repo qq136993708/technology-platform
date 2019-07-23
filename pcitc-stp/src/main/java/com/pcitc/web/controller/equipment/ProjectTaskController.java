@@ -189,8 +189,15 @@ public class ProjectTaskController extends BaseController {
 		//专业领域
 		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
 		request.setAttribute("fieldList", fieldList);
-		
-		
+
+        //获取八大院数据字典
+        List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+        request.setAttribute("leaddicList", leaddicList);
+        //判断是否是科技部人员
+        String unitPathIds = sysUserInfo.getUnitPath();
+        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+        request.setAttribute("isKJBPerson", isKJBPerson);
+
 		return "/stp/equipment/task/write_list";
 	}
 	
@@ -238,7 +245,14 @@ public class ProjectTaskController extends BaseController {
 		//专业领域
 		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
 		request.setAttribute("fieldList", fieldList);
-				
+
+        //获取八大院数据字典
+        List<SysDictionary>  leaddicListYs= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+        request.setAttribute("leaddicListYs", leaddicListYs);
+        //判断是否是科技部人员
+        String unitPathIds = sysUserInfo.getUnitPath();
+        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+        request.setAttribute("isKJBPerson", isKJBPerson);
 		
 		
 		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
@@ -337,7 +351,14 @@ public class ProjectTaskController extends BaseController {
 		//专业领域
 		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
 		request.setAttribute("fieldList", fieldList);
-		
+		//获取八大院数据字典
+		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+		request.setAttribute("leaddicList", leaddicList);
+        //判断是否是科技部人员
+		String unitPathIds = sysUserInfo.getUnitPath();
+        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+        request.setAttribute("isKJBPerson", isKJBPerson);
+
 		return "/stp/equipment/task/confirm_list";
 	}
 	

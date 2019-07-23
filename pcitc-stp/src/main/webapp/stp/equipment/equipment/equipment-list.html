@@ -23,6 +23,15 @@
         <span>装备名称</span>
         <input type="text" name="name" id="name" placeholder="请输入装备名称" title="装备名称" autocomplete="off" class="form-control" >
     </label>
+    <!--<label class="dateInput" style="margin-left:10px;">
+        <span>研究院</span>
+        <select name="parentUnitPathNames" id="parentUnitPathNames"  class="form-control"  >
+            <option value="" >&#45;&#45;请选择&#45;&#45;</option>
+            <#list leaddicList as vo>
+            <option value="${vo.numValue}"  >${vo.name}</option>
+        </#list>
+        </select>
+    </label>-->
     
     
     <!--按钮组-->
@@ -262,10 +271,8 @@ var name=$('#name').val();
         
         
     });
-    
-    
-    
-    
+
+
     function renderTable()
     { 
        //渲染
@@ -273,7 +280,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/sre-equipment/list',
            method:"POST",
-           where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+           where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
