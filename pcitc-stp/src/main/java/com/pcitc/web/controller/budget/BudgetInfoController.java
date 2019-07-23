@@ -1,7 +1,10 @@
 package com.pcitc.web.controller.budget;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,10 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetInfoEnum;
+import com.pcitc.base.common.enums.BudgetReleaseEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.InputCheckUtil;
 
@@ -76,7 +84,31 @@ public class BudgetInfoController extends BaseController
 		request.setAttribute("nd", nd);
 		return "stp/budget/budget_release_main";
 	}
-	
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_detail_total_unit")
+	public Object toBudgetDetailTotalUnit(HttpServletRequest request) throws IOException 
+	{
+		String nd = request.getParameter("nd");
+		if(nd == null) {
+			nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
+		}
+		request.setAttribute("nd", nd);
+		request.setAttribute("unitCodes", getUserProfile().getUnitCode());
+		//request.setAttribute("unitCodes", "30130058,30130063,30130017");
+		
+		LayuiTableParam param = new LayuiTableParam();
+		param.getParam().put("nd", nd);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BUDGET_RELEASE_LIST, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
+		LayuiTableData tableData = responseEntity.getBody();
+		for(java.util.Iterator<?> iter = tableData.getData().iterator();iter.hasNext();) {
+			/*Map<String,Object> map = MyBeanUtils.transBean2Map(iter.next());
+			map.put("status", BudgetAuditStatusEnum.getStatusByCode((Integer)map.get("auditStatus")).getDesc());
+			map.put("budgetName", BudgetInfoEnum.getByCode((Integer)map.get("budgetType")).getDesc());
+			map.put("releaseStatusName", BudgetReleaseEnum.getByCode((Integer)map.get("releaseStatus")).getDesc());
+			mapdata.add(map);*/
+			System.out.println(JSON.toJSONString(iter.next()));
+		}
+		return "stp/budget/budget_detail_total_unit";
+	}
 	
 	@RequestMapping(value = "/budget/budget-info-get", method = RequestMethod.POST)
 	@ResponseBody
@@ -154,7 +186,7 @@ public class BudgetInfoController extends BaseController
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_RELEASE_LIST, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
 		Object rs = JSON.toJSON(responseEntity.getBody());
-		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
 		return rs;
 		
 	}
@@ -162,9 +194,21 @@ public class BudgetInfoController extends BaseController
 	@ResponseBody
 	public Object budgetInfoRelase(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
+		info.setReleaseStatus(BudgetReleaseEnum.STATUS_RELEASE.getCode());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_RELEASE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		Object rs = JSON.toJSON(responseEntity.getBody());
-		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		return rs;
+		
+	}
+	@RequestMapping(value = "/budget/budget-info-norelease", method = RequestMethod.POST)
+	@ResponseBody
+	public Object budgetInfoNoRelase(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
+	{
+		info.setReleaseStatus(BudgetReleaseEnum.STATUS_NORELEASE.getCode());
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_RELEASE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
+		Object rs = JSON.toJSON(responseEntity.getBody());
+		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
 		return rs;
 		
 	}

@@ -46,6 +46,12 @@
     </div>
     <div class="tableBox">
         <div class="tableToolBox">
+	         <div class="num-box">
+	                <label class="dateInput">
+	                     <span>单位：万元</span>
+	                </label>
+	         </div>
+	         <button style="display: none;" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="sumEvent">预算汇总</button>
         </div>
         <div id="tableBox">
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
@@ -109,9 +115,17 @@
             	$(".headline-tool").css("display","block");
             	laydate.render({elem: '#choose-year',value: cu_date,type: 'year'
                     ,done:function (val, date, endDate) {
-                    	window.location.href="/budget/budget_detail_groupsplit_nd?nd="+val;
+                    	if(unitCodes == 0){
+                    		window.location.href="/budget/budget_detail_groupsplit_nd?nd="+val;
+                    	}else{
+                    		window.location.href="/budget/budget_detail_groupsplit_unit?nd="+val;
+                    	}
                     }            
                 });
+            	if(unitCodes != 0)
+                {
+            		//$("button").show();
+                }
             }
             
             initDateView = function(){
@@ -136,7 +150,17 @@
        			
        			renderfunc();
             	initDateView();
-		   	}); 
+		   	});
+	        $('.layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+	        var $ = layui.$, active = {
+        		sumEvent: function () { 
+            		var url = '/budget/budget_detail_total_unit?nd='+cu_date;
+                    publicMethods.openBaseWinFull('预算汇总',url);
+                }
+	        }
         });
     </script>
 </body>

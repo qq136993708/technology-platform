@@ -151,6 +151,7 @@ public class BudgetStockSplitZsyProviderClient
 		try
 		{
 			data =  budgetStockSplitZsySplitService.selectBudgetSplitDataList(dataId);
+			data = budgetInfoService.filterDataByUnit(data, (String)param.getParam().get("unitCodes"));
 			table.setData(data);
 			table.setCount(data.size());
 		}
@@ -202,7 +203,6 @@ public class BudgetStockSplitZsyProviderClient
 		Integer rs = 0;
 		try
 		{
-			System.out.println(item);
 			List<BudgetSplitData> datas = budgetStockSplitZsySplitService.saveBudgetSplitDataItem(item);
 			rs = datas.size();
 		}
@@ -254,8 +254,6 @@ public class BudgetStockSplitZsyProviderClient
 		Map<String,Object> map = new HashMap<String,Object>();
 		try
 		{
-			System.out.println(JSON.toJSONString(vo));
-			System.out.println("--------------");
 			map = budgetStockSplitZsySplitService.selectAssetSplitItem(vo.getBudgetInfoId(),vo.getOrganCode());
 		}
 		catch (Exception e)

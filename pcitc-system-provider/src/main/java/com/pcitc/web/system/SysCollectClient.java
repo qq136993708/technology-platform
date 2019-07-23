@@ -48,6 +48,9 @@ public class SysCollectClient {
 		System.out.println("insertSysCollect=================="+sysCollect.getUserId());
 		
 		SysFunction function = sysFunctionService.getFunctionById(sysCollect.getFunctionId());
+		if (function == null) {
+			return null;
+		}
 		sysCollect.setCollectUrl(function.getUrl());
 		
 		List<SysCollect> scList = sysCollectService.getSysCollectByCond(sysCollect.getFunctionId(), sysCollect.getUserId());

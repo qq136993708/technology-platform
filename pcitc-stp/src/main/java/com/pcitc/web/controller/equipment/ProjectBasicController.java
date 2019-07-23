@@ -724,4 +724,52 @@ public class ProjectBasicController extends BaseController {
 		return "/stp/equipment/project/project-basic-view";
 	}
 
+    /**
+     * q
+     * @param id
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getSearch", method = RequestMethod.GET)
+    public String getSearch(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET,
+                new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        logger.info("============远程返回  statusCode " + statusCode);
+        SreProject sreProjectBasic = responseEntity.getBody();
+        request.setAttribute("sreProjectBasic", sreProjectBasic);
+
+        String leadUnitName = sreProjectBasic.getLeadUnitName();
+        String leadUnitCode = sreProjectBasic.getLeadUnitCode();
+        String createUserId = sreProjectBasic.getCreateUserId();
+        String documentDoc = sreProjectBasic.getDocumentDoc();
+        String beginYear = sreProjectBasic.getBeginYear();
+        String endYear = sreProjectBasic.getEndYear();
+
+        request.setAttribute("documentDoc", documentDoc);
+        request.setAttribute("leadUnitName", leadUnitName);
+        request.setAttribute("leadUnitCode", leadUnitCode);
+        request.setAttribute("createUserId", createUserId);
+        request.setAttribute("endYear", endYear);
+        request.setAttribute("beginYear", beginYear);
+
+        //归属部门
+        List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+        request.setAttribute("departmentList", departmentList);
+        //专业领域
+        List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
+        request.setAttribute("fieldList", fieldList);
+
+
+
+
+        List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate,
+                httpHeaders);
+        request.setAttribute("dicList", dicList);
+
+        return "/stp/equipment/project/project-basic-view";
+    }
 }

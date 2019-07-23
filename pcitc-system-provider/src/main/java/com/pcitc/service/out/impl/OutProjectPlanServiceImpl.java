@@ -287,9 +287,6 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	 * 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用
 	 */
 	public LayuiTableData selectProjectPlanByCond(LayuiTableParam param) {
-		
-		
-		
 		JSONObject paramstr = JSONObject.parseObject(JSONObject.toJSONString(param));
 		System.out.println(">>>>>>>>>入口-》参数："+paramstr.toString());
 		int pageSize = param.getLimit();
@@ -439,7 +436,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		}
 		
 		if (param.getParam().get("leaderFlag")!=null&&!StringUtils.isBlank(param.getParam().get("leaderFlag")+"")) {
-			hashmap.put("leaderFlag", param.getParam().get("leaderFlag"));
+			hashmap.put("leaderFlag", String.valueOf(param.getParam().get("leaderFlag")));
 		}
 		
 		// 部门-处室--专业类别, 加Flag和数据控制的字段区分出来

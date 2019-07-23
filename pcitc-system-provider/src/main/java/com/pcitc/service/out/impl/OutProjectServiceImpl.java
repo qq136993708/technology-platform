@@ -204,10 +204,10 @@ public class OutProjectServiceImpl implements OutProjectService {
         if (param.getParam().get("nd") != null && !StringUtils.isBlank(param.getParam().get("nd") + "")) {
             hashmap.put("nd", param.getParam().get("nd"));
         }
+        
         if (param.getParam().get("leaderFlag") != null && !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
-            hashmap.put("leaderFlag", param.getParam().get("leaderFlag"));
+            hashmap.put("leaderFlag", String.valueOf(param.getParam().get("leaderFlag")));
         }
-       
 
         if (param.getParam().get("ysnd") != null && !StringUtils.isBlank(param.getParam().get("ysnd") + "")) {
             hashmap.put("ysnd", param.getParam().get("ysnd"));

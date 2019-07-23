@@ -831,13 +831,12 @@ public class AdminController extends BaseController {
 
 		ResponseEntity<SysCollect> responseEntity = this.restTemplate.exchange(COLLECT_FUNCTION, HttpMethod.POST, new HttpEntity<SysCollect>(sysCollect, this.httpHeaders), SysCollect.class);
 		SysCollect retJson = responseEntity.getBody();
-		System.out.println("retJson.getStatus()=====" + retJson.getStatus());
 		if (retJson != null && retJson.getStatus().equals("1")) {
 			return new Result(true, JSONObject.toJSONString(retJson), "收藏成功!");
 		} else if (retJson != null && retJson.getStatus().equals("0")) {
 			return new Result(true, JSONObject.toJSONString(retJson), "取消收藏成功!");
 		} else {
-			return new Result(false, "操作失败!");
+			return new Result(false, "操作失败,只能收藏系统级功能菜单!");
 		}
 	}
 

@@ -227,10 +227,15 @@
                     $("input[name=rwly]").val(data.rwly);
                     $("input[name=jddw]").val(data.jddw);
                     $("input[name=hth]").val(data.hth);
-                    $("input[name=kssj]").val(data.kssj);
-                    $("input[name=jssj]").val(data.jssj);
                     $("input[name=sbzt]").val(data.sbzt);
                     $("input[name=psdj]").val(data.psdj);
+
+                    var kssj = data.kssj;
+                    kssj=kssj.substring(0,4)+"-"+kssj.substring(4,6)+"-"+kssj.substring(6,kssj.length);
+                    $("input[name=kssj]").val(kssj);
+                    var jssj = data.jssj;
+                    jssj=jssj.substring(0,4)+"-"+jssj.substring(4,6)+"-"+jssj.substring(6,jssj.length);
+                    $("input[name=jssj]").val(jssj);
                 },
                 error : function(e) {
                     alertError("出错了！", e);

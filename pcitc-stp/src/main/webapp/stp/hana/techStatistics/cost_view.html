@@ -29,6 +29,15 @@
     color: #222;
     margin:0 20px;
 }
+.layui-form-label{
+    min-width: 170px !important;
+    font-size: 12px;
+    line-height: 28px;
+    margin-left: 10px;
+    padding: 0;
+}
+.layui-input-block{margin-left: 185px !important;}
+.layui-form-item{margin-bottom: 16px !important;}
     </style>
 </head>
 <body>
@@ -143,7 +152,7 @@
                 </div>
              </div>
               <div class="layui-form-item">
-                    <label class="layui-form-label">国家投入经费（当年拨付到位经费，单位：万元）：</label>
+                    <label class="layui-form-label layui-form-labelH">国家投入经费（当年拨付到位经费，单位：万元）：</label>
                     <div class="layui-input-block">
                         <input class="layui-input readOnlyBox" id="countryFunds" placeholder="￥"  name="countryFunds" readonly="readonly"
                                value="${techCost.countryFunds}" type="text"  onkeyup="clearNoNum(this)">
@@ -180,7 +189,7 @@
                 </div>
              </div>
               <div class="layui-form-item">
-                    <label class="layui-form-label">地方（省级）政府投入经费（当年拨付到位经费，单位：万元）</label>
+                    <label class="layui-form-label layui-form-labelH">地方（省级）政府投入经费（当年拨付到位经费，单位：万元）</label>
                     <div class="layui-input-block">
                         <input class="layui-input readOnlyBox" id="provinceFunds" placeholder="￥"  name="provinceFunds" readonly="readonly"
                                value="${techCost.provinceFunds}" type="text"  onkeyup="clearNoNum(this)">

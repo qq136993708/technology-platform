@@ -64,10 +64,20 @@ public class TechCost {
     
     private String parentId;
     
+    private String createDateStr;
     
     
     
     
+    
+
+	public String getCreateDateStr() {
+		return createDateStr;
+	}
+
+	public void setCreateDateStr(String createDateStr) {
+		this.createDateStr = createDateStr;
+	}
 
 	public String getParentId() {
 		return parentId;

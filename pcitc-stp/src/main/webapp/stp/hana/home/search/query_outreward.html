@@ -29,6 +29,7 @@
 	.c-nameC{height: 0px;}
 	.relevant p{margin-top: 0}
     .layui-table-none{padding: 0;}
+    .layui-table,.layui-table-cell{width: 100% !important;}
 </style>
 </head>
 
@@ -246,9 +247,13 @@
             var html = "";
             for (let i = 0,j = array.length; i <j ; i++) {
                 html =html+"<div class=\"item\">";
-                html=html+"<a href=\"/instituteIndex?url=/fullSearch/search?keyword="+array[i]+"\" target=\"_top\">"+array[i]+"</a>";
+                html=html+"<a href='javascript:void(0);return false;' onclick='toSearchIndex(\""+array[i]+"\");'>"+array[i]+"</a>";
                 html=html+"</div>";
             }
+            function toSearchIndex(name){
+                parent.sonsearch(name);;
+            }
+            window.toSearchIndex=toSearchIndex;
             $(".relevant-cont").html(html);
 		});
 	</script>

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
@@ -144,7 +143,7 @@ public class BudgetGroupSplitProviderClient
 		{
 			e.printStackTrace();
 		}
-		System.out.println(JSON.toJSONString(table));
+		
 		return table;
 	}
 	@ApiOperation(value="集团公司预算分解-预算明细标题",notes="定义集团预算分解表标题。")

@@ -38,6 +38,86 @@
 <input type="hidden" name="attachmentDoc" id="attachmentDoc" value="${techOrgCount.attachmentDoc}">      
     <div class="formBox">
         <div class="box-body">
+        
+        
+        
+        <div class="demo_line_05" style="text-align:center;">———————————<span style="font-weight:bold">单位信息</span>————————————</div>
+              <div class="layui-form-item">
+                    <label class="layui-form-label">单位名称</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input readOnlyBox" readonly="readonly" readonly="readonly" id="unitName" name="unitName" lay-verify="required"
+                               value="${techOrgCount.parentUnitName}->${techOrgCount.unitName}" type="text">
+                    </div>
+              </div>
+                
+              <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">子公司负责人</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="分（子）公司科技负责人" name="techChargeMan" id="techChargeMan"
+                                   value="${techOrgCount.techChargeMan}" lay-verify="required" autocomplete="off" type="text" >
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">主管部门负责人</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" readonly="readonly" name="chargeDepartMan" id="chargeDepartMan"
+                                   value="${techOrgCount.chargeDepartMan}" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+             </div>
+             <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">填表人</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" readonly="readonly" readonly="readonly" placeholder="填表人" name="createUserName" id="createUserName"
+                                   value="${techOrgCount.createUserName}" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">填表人联系电话</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" readonly="readonly" name="createUserMobile" id="createUserMobile"
+                                   value="${techOrgCount.createUserMobile}" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+             </div>
+             
+             
+              <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">统计年度</label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="统计年度" name="year" id="year"
+                                   value="${techOrgCount.year}" readonly="readonly" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">公司类型</label>
+                        <div class="layui-input-block">
+                            <select name="type" disabled="disabled" id="type" lay-verify="required"  >
+		                	   <option value="1" <#if techOrgCount.type == '1'>selected="selected"</#if>>股份公司</option>
+		                	   <option value="2" <#if techOrgCount.type == '2'>selected="selected"</#if>>集团公司</option>
+		             	    </select>
+                        </div>
+                    </div>
+                </div>
+             </div>
+             
+             
+              <div class="demo_line_05" style="text-align:center;">———————————<span style="font-weight:bold">统计信息</span>————————————</div>
+             
              
              <!-- 2行begin-->
              <div class="layui-row">
@@ -92,7 +172,7 @@
               <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">无高中级技术职称的大学本科及以上学历人员</label>
+                        <label for="" class="layui-form-label  layui-form-labelH">无高中级技术职称的大学本科及以上学历人员</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly"  placeholder="无高中级技术职称的大学本科及以上学历人员"  name="titleLowerCount" id="titleLowerCount"
                                    value="${techOrgCount.titleLowerCount}" lay-verify="required" autocomplete="off" type="text"
@@ -171,7 +251,7 @@
              <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">研究与试验发展(R&D)人员数</label>
+                        <label for="" class="layui-form-label layui-form-labelH">研究与试验发展(R&D)人员数</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" placeholder="研究与试验发展(R&D)人员数" name="researcherCount" id="researcherCount"
                                    value="${techOrgCount.researcherCount}" lay-verify="required" autocomplete="off" type="text"
@@ -182,7 +262,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">直接参与研究与试验发展项目(课题)人员数</label>
+                        <label for="" class="layui-form-label layui-form-labelH">直接参与研究与试验发展项目(课题)人员数</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" placeholder="直接参与研究与试验发展项目(课题)人员数" name="directResearcherCount" id="directResearcherCount"
                                    value="${techOrgCount.directResearcherCount}" lay-verify="required" autocomplete="off" type="text"
@@ -207,7 +287,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">职工薪酬总额(万元)</label>
+                        <label for="" class="layui-form-label layui-form-labelH">职工薪酬总额(万元)</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" onkeyup="clearNoNum(this)" placeholder="职工薪酬总额(￥万元)" name="workerSalary" id="workerSalary"
                                    value="${techOrgCount.workerSalary}" lay-verify="required" autocomplete="off" type="text"
@@ -230,7 +310,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">固定资产原值(￥万元)</label>
+                        <label for="" class="layui-form-label layui-form-labelH">固定资产原值(￥万元)</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" onkeyup="clearNoNum(this)" placeholder="固定资产原值(￥万元)" name="fixedAssets" id="fixedAssets"
                                    value="${techOrgCount.fixedAssets}" lay-verify="required" autocomplete="off" type="text"
@@ -243,7 +323,7 @@
              <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">技术开发仪器设备原值(万元)</label>
+                        <label for="" class="layui-form-label layui-form-labelH">技术开发仪器设备原值(万元)</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly"  onkeyup="clearNoNum(this)" placeholder="技术开发仪器设备原值(￥万元)" name="deviceAssets" id="deviceAssets"
                                    value="${techOrgCount.deviceAssets}" lay-verify="required" autocomplete="off" type="text">
@@ -252,7 +332,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">其中国产设备原值</label>
+                        <label for="" class="layui-form-label layui-form-labelH">其中国产设备原值(万元)</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly"  onkeyup="clearNoNum(this)"  placeholder="其中国产设备原值" name="deviceInnnerAssets" id="deviceInnnerAssets"
                                    value="${techOrgCount.deviceInnnerAssets}" lay-verify="required" autocomplete="off" type="text">
@@ -263,7 +343,7 @@
              
               <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">总收入</label>
+                        <label for="" class="layui-form-label">总收入(￥万元)</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly"  onkeyup="clearNoNum(this)"  placeholder="总收入(￥万元)" name="totaIncome" id="totaIncome"
                                    value="${techOrgCount.totaIncome}" lay-verify="required" autocomplete="off" type="text">
@@ -275,7 +355,7 @@
               <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">国家、政府科研投入(￥万元)</label>
+                        <label for="" class="layui-form-label layui-form-labelH">国家、政府科研投入(￥万元)</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" onkeyup="clearNoNum(this)"  placeholder="国家、政府科研投入(￥万元)" name="countryInvestCost" id="countryInvestCost"
                                    value="${techOrgCount.countryInvestCost}" lay-verify="required" autocomplete="off" type="text"
@@ -285,7 +365,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">总部科研投入(￥万元)</label>
+                        <label for="" class="layui-form-label layui-form-labelH">总部科研投入(￥万元)</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" onkeyup="clearNoNum(this)"  placeholder="总部科研投入(￥万元)" name="groupInvestCost" id="groupInvestCost"
                                    value="${techOrgCount.groupInvestCost}" lay-verify="required" autocomplete="off" type="text"
@@ -301,7 +381,7 @@
               <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">分(子)公司科研投入(￥万元)</label>
+                        <label for="" class="layui-form-label layui-form-labelH">分(子)公司科研投入(￥万元)</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly"   placeholder="分(子)公司科研投入(￥万元)" name="subInvestCost" id="subInvestCost"
                                    value="${techOrgCount.subInvestCost}" lay-verify="required" autocomplete="off" type="text"
@@ -311,7 +391,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">外部技术性收入(￥万元)</label>
+                        <label for="" class="layui-form-label layui-form-labelH">外部技术性收入(￥万元)</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" placeholder="外部技术性收入(￥万元)" name="outInvestCost" id="outInvestCost"
                                    value="${techOrgCount.outInvestCost}" lay-verify="required" autocomplete="off" type="text"
@@ -374,11 +454,11 @@
                     </div>
                 </div>
              </div>
-              <div class="demo_line_05" style="text-align:center;">———————————<span>${beforeYear}年度获奖成果数(第一完成单位)</span>————————————</div>
+              <div class="demo_line_05" style="text-align:center;">———————————<span style="font-weight:bold">${beforeYear}年度获奖成果数(第一完成单位)</span>————————————</div>
                <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">国家级</label>
+                        <label for="" class="layui-form-label">专家人数->国家级</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" placeholder="${beforeYear}年度获奖成果数(第一完成单位)" name="achievementsCountryCount" id="achievementsCountryCount"
                                    value="${techOrgCount.achievementsCountryCount}" lay-verify="required" autocomplete="off" type="text"
@@ -389,7 +469,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">省部级</label>
+                        <label for="" class="layui-form-label">专家人数->省、部、计划单列市级</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" placeholder="${beforeYear}年度获奖成果数(第一完成单位)-》省部级(含集团公司)" name="achievementsPrivanceCount" id="achievementsPrivanceCount"
                                    value="${techOrgCount.achievementsPrivanceCount}" lay-verify="required" autocomplete="off" type="text"
@@ -418,7 +498,7 @@
                 </div>
              
              </div>
-              <div class="demo_line_05" style="text-align:center;">———————————<span>${beforeYear}年度科技论文发表情况</span>————————————</div>
+              <div class="demo_line_05" style="text-align:center;">———————————<span style="font-weight:bold">${beforeYear}年度科技论文发表情况</span>————————————</div>
              
               <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
@@ -436,7 +516,7 @@
                <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">SCI（科学引文索引）数量</label>
+                        <label for="" class="layui-form-label layui-form-labelH">SCI（科学引文索引）数量</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" placeholder="${beforeYear}年度科技论文发表情况-》SCI（科学引文索引）数量" name="thesisSciCount" id="thesisSciCount"
                                    value="${techOrgCount.thesisSciCount}" lay-verify="required" autocomplete="off" type="text"
@@ -447,7 +527,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">其中：本单位员工作为第一作者数量</label>
+                        <label for="" class="layui-form-label layui-form-labelH">其中：本单位员工作为第一作者数量</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" placeholder="SCI（科学引文索引）数量->其中：本单位员工作为第一作者数量" name="thesisSciInnerCount" id="thesisSciInnerCount"
                                    value="${techOrgCount.thesisSciInnerCount}" lay-verify="required" autocomplete="off" type="text"
@@ -469,7 +549,7 @@
                 
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">EI（工程索引）数量</label>
+                        <label for="" class="layui-form-label layui-form-labelH">EI（工程索引）数量</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" placeholder="${beforeYear}年度科技论文发表情况-》EI（工程索引）数量" name="thesisEiCount" id="thesisEiCount"
                                    value="${techOrgCount.thesisEiCount}" lay-verify="required" autocomplete="off" type="text"
@@ -480,7 +560,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">其中：本单位员工作为第一作者数量</label>
+                        <label for="" class="layui-form-label layui-form-labelH">其中：本单位员工作为第一作者数量</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" placeholder="EI-》其中：本单位员工作为第一作者数量" name="thesisEiInnerCount" id="thesisEiInnerCount"
                                    value="${techOrgCount.thesisEiInnerCount}" lay-verify="required" autocomplete="off" type="text"
@@ -505,7 +585,7 @@
                <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">ISTP（科学技术会议录索引）数量</label>
+                        <label for="" class="layui-form-label layui-form-labelH">ISTP（科学技术会议录索引）数量</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" placeholder="${beforeYear}年度科技论文发表情况-》ISTP（科学技术会议录索引）数量" name="thesisIstpCount" id="thesisIstpCount"
                                    value="${techOrgCount.thesisIstpCount}" lay-verify="required" autocomplete="off" type="text"
@@ -516,7 +596,7 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">ISR（科学评论索引）数量</label>
+                        <label for="" class="layui-form-label layui-form-labelH">ISR（科学评论索引）数量</label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" readonly="readonly" placeholder="${beforeYear}年度科技论文发表情况-》ISR（科学评论索引）数量" name="thesisIsrCount" id="thesisIsrCount"
                                    value="${techOrgCount.thesisIsrCount}" lay-verify="required" autocomplete="off" type="text"
@@ -540,80 +620,7 @@
                     </div>
                 </div>
               <!-- 2行结束-->
-              <div class="demo_line_05" style="text-align:center;">———————————<span>单位信息</span>————————————</div>
-              <div class="layui-form-item">
-                    <label class="layui-form-label">单位名称</label>
-                    <div class="layui-input-block">
-                        <input class="layui-input readOnlyBox" readonly="readonly" readonly="readonly" id="unitName" name="unitName" lay-verify="required"
-                               value="${techOrgCount.parentUnitName}->${techOrgCount.unitName}" type="text">
-                    </div>
-              </div>
-                
-              <div class="layui-row">
-                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">子公司负责人</label>
-                        <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="分（子）公司科技负责人" name="techChargeMan" id="techChargeMan"
-                                   value="${techOrgCount.techChargeMan}" lay-verify="required" autocomplete="off" type="text" >
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">主管部门负责人</label>
-                        <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" readonly="readonly" name="chargeDepartMan" id="chargeDepartMan"
-                                   value="${techOrgCount.chargeDepartMan}" lay-verify="required" autocomplete="off" type="text">
-                        </div>
-                    </div>
-                </div>
-             </div>
-             <div class="layui-row">
-                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">填表人</label>
-                        <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" readonly="readonly" readonly="readonly" placeholder="填表人" name="createUserName" id="createUserName"
-                                   value="${techOrgCount.createUserName}" lay-verify="required" autocomplete="off" type="text">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">填表人联系电话</label>
-                        <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" readonly="readonly" name="createUserMobile" id="createUserMobile"
-                                   value="${techOrgCount.createUserMobile}" lay-verify="required" autocomplete="off" type="text">
-                        </div>
-                    </div>
-                </div>
-             </div>
-             
-             
-              <div class="layui-row">
-                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">统计年度</label>
-                        <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" readonly="readonly" placeholder="统计年度" name="year" id="year"
-                                   value="${techOrgCount.year}" readonly="readonly" autocomplete="off" type="text">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">公司类型</label>
-                        <div class="layui-input-block">
-                            <select name="type" disabled="disabled" id="type" lay-verify="required"  >
-		                	   <option value="1" <#if techOrgCount.type == '1'>selected="selected"</#if>>股份公司</option>
-		                	   <option value="2" <#if techOrgCount.type == '2'>selected="selected"</#if>>集团公司</option>
-		             	    </select>
-                        </div>
-                    </div>
-                </div>
-             </div>
-             
+              
              <!-- 2行结束-->
                
         </div>

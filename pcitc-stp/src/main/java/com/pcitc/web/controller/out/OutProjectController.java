@@ -2,10 +2,13 @@ package com.pcitc.web.controller.out;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.OperationFilter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -138,8 +141,33 @@ public class OutProjectController extends BaseController {
 		System.out.println("-------------------------getOutProjectShow--------------------------------");
 		ResponseEntity<OutProjectInfo> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), OutProjectInfo.class);
 		OutProjectInfo outProjectInfo = responseEntity.getBody();
-		return outProjectInfo;
+//        System.out.println(outProjectInfo.getCreateDate());
+//        outProjectInfo.setCreateDate(DateUtil.strToDate(DateUtil.format(outProjectInfo.getCreateDate(),DateUtil.FMT_DD),DateUtil.FMT_DD));
+//        System.out.println(outProjectInfo.getCreateDate());
+        return outProjectInfo;
 	}
+
+    /**
+     * 搜索科研课题权限判断
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/out/getOutProjectShowSearch", method = RequestMethod.POST)
+    @ResponseBody
+    @OperationFilter(dataFlag = "true")
+    public Object getOutProjectShowSearch(HttpServletRequest request) {
+        ResponseEntity<OutProjectInfo> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT + request.getParameter("data_id"), HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), OutProjectInfo.class);
+        OutProjectInfo outProjectInfo = responseEntity.getBody();
+        if (sysUserInfo.getUserLevel()!=2){
+            Object zycbm = request.getAttribute("zycbm");
+            zycbm = (zycbm==null)?"":zycbm;
+            if(!Arrays.asList(zycbm.toString().split(",")).contains(outProjectInfo.getZycbm())){
+                outProjectInfo = new OutProjectInfo();
+                outProjectInfo.setFzrxm("0");
+            }
+        }
+        return outProjectInfo;
+    }
 	
 	@RequestMapping(value = "/out/report_download")
 	public ResponseEntity<byte[]> downLoadPlantRunningListInfo(@RequestParam(value = "fileName", required = true) String fileName,HttpServletRequest req,HttpServletResponse res) throws IOException {

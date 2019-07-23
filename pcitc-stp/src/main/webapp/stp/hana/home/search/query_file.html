@@ -24,7 +24,7 @@
         .layui-table-body{margin-top: 0;}
         .layui-table-page{margin-bottom: 20px;}
         .tableBox,.searchBox{width: 94%;margin: 0 auto;}
-        .tableBox{width: 55%;float: left;}
+        .tableBox{width: 55%;float: left;margin-bottom: 30px;}
         .layui-table-none{padding: 0;}
         .relevant{width: 34%;float: right;margin-right: 20px;}
         .relevant p{margin-top: 0}
@@ -39,6 +39,7 @@
             padding: 0;
             padding-top: 10px;
         }
+        .layui-table,.layui-table-cell{width: 100% !important;}
     </style>
 </head>
 <body style="padding-top:20px; ">
@@ -66,6 +67,8 @@
                 where: {param: {"bak4": $("#bak4").val()}},
                 limit: 15,
                 id: 'sysFileId',
+
+                height: 0,
                 page: {
                     count: 500, //数据总数，从服务端得到
                     groups: 5,
@@ -90,6 +93,7 @@
                     '        <div class="c-row c-gap-top-small">' +
                     '            <div class="c-span18 c-span-last">' +
                     '                <p><span>文件来源:'+d.bak1+"->"+d.version+'</span></p>' +
+                    '                <p><span>文件所有者:'+d.updatePersonName+""+""+'</span></p>' +
                     '            </div>' +
                     '        </div>' +
                     '    </div>'

@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 
 import com.netflix.discovery.converters.Auto;
 import com.pcitc.base.expert.*;
+import com.pcitc.base.search.ZjkSearchLogExample;
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutPatent;
 import com.pcitc.mapper.expert.*;
@@ -642,6 +643,88 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         return object;
     }
 
+    @Override
+    public JSONObject picExpertDetail(ZjkExpert zjkBaseInfo) {
+        JSONObject object = new JSONObject();
+        try {
+            Result result = new Result();
+            //查询专家信息
+            ZjkExpert expert = this.selectByPrimaryKey(zjkBaseInfo.getDataId());
+            String eName = expert.getExpertName();
+            Map<String, Object> map = new HashMap<>();
+            LayuiTableParam param = new LayuiTableParam();
+            map.put("name", eName);
+            param.setParam(map);
+            param.setLimit(100000000);
+            param.setPage(0);
+
+//         成果   LayuiTableData outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
+//         奖励   LayuiTableData outRewardListPage = systemRemoteClient.getOutRewardListPage(param);
+            //查询专家相关技术族信息---
+            //查询专家企业信息---
+
+            //查询专利信息
+            LayuiTableData dataPatent = systemRemoteClient.selectOutPatentList(param);
+
+            //查询课题信息
+            LayuiTableData outProjectListPageExpert = systemRemoteClient.getOutProjectListPageExpert(param);
+
+            //查询评审数量
+            ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+            zjkChoiceExample.createCriteria().andZjIdEqualTo(zjkBaseInfo.getDataId());
+            List<ZjkChoice> zjkChoices = zjkChoiceMapper.selectByExample(zjkChoiceExample);
+
+            String column_show = "expertProfessinal,college,expertProfessionalFieldName,unitBelongs,professionalAndTime,administrativeDuties,technicalPositiion,";
+            List<ZjkExpert> experts = this.findZjkBaseInfoListRandom(zjkBaseInfo);
+            int length = experts.size() > 10 ? 10 : experts.size();
+            for (int ind = 0; ind < length; ind++) {
+                ZjkExpert e = experts.get(ind);
+                Map<String, Object> maps = MyBeanUtils.transBean2Map(e);
+                //组装数据
+                ChartForceResultData force = new ChartForceResultData();
+                List<ChartForceDataNode> nodes = new ArrayList<ChartForceDataNode>();
+
+                List<ChartForceDataLink> links = new ArrayList<ChartForceDataLink>();
+
+                List<ChartForceCategories> categories = new ArrayList<ChartForceCategories>();
+
+                List<String> legendDataList = new ArrayList<String>();
+
+                String firstName = e.getExpertName();
+                Object object_first_val = e.getDataId();
+                String firstValue = object_first_val == null ? "" : object_first_val.toString();
+
+                nodes.add(new ChartForceDataNode(0, firstName, firstValue, firstName));
+//                System.out.println(column_show);
+                for (Map.Entry<String, Object> entry : maps.entrySet()) {
+                    Object val = entry.getValue();
+                    if (val == null) {
+                        continue;
+                    }
+                    if (column_show.indexOf(entry.getKey() + ",") < 0) {
+                        continue;
+                    }
+                    String name = val.toString();
+                    categories.add(new ChartForceCategories(name));
+                    String value = entry.getValue().toString();
+                    nodes.add(new ChartForceDataNode(ind + 1, name, value, name));
+                    links.add(new ChartForceDataLink(name, firstName, ind + 1, name));
+                    legendDataList.add(name);
+                }
+                force.setLegendDataList(legendDataList);
+                force.setCategories(categories);
+                force.setNodes(nodes);
+                force.setLinks(links);
+                result.setSuccess(true);
+                result.setData(force);
+            }
+            object.put("results", result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
+
     public Map<String, Object> getResult(Map<String, Object> param) {
         ZjkExpert zjkBaseInfo = this.selectByPrimaryKey(param.get("expertId").toString());
         param.put(ChartForceResultData.name, zjkBaseInfo.getExpertName());
@@ -925,7 +1008,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             c.andCompanyEqualTo(company1DivValue.toString());
         }
 
-
         Object sysFlag = param.getParam().get("sysFlag");
         if (!StrUtil.isNullEmpty(sysFlag)) {
             c.andSysFlagEqualTo(sysFlag.toString());
@@ -945,8 +1027,20 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {
             example = new ZjkExpertExample();
-            example.or().andExpertNameLike("%" + keywords + "%");
-            example.or().andUserDescLike("%" + keywords + "%");
+            ZjkExpertExample.Criteria c1 = example.createCriteria();
+            c1.andStatusEqualTo("0");
+            c1.andDelFlagEqualTo("0");
+            c1.andSysFlagEqualTo("0");
+            c1.andExpertNameLike("%" + keywords + "%");
+
+            ZjkExpertExample.Criteria c2 = example.createCriteria();
+            c2.andStatusEqualTo("0");
+            c2.andDelFlagEqualTo("0");
+            c2.andSysFlagEqualTo("0");
+            c2.andUserDescLike("%" + keywords + "%");
+            example.or(c2);
+//            example.or().andExpertNameLike("%" + keywords + "%");
+//            example.or().andUserDescLike("%" + keywords + "%");
         }
         example.setOrderByClause("create_date desc");
 
@@ -954,13 +1048,13 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         data = this.findByExample(param, example);
         List<ZjkExpert> experts = new ArrayList<>();
         if (keywords != null && !"".equals(keywords)) {
-            List<Map<String,Object>> maps = (List<Map<String, Object>>) data.getData();
+            List<Map<String, Object>> maps = (List<Map<String, Object>>) data.getData();
             for (int i = 0, j = maps.size(); i < j; i++) {
                 ZjkExpert expert = new ZjkExpert();
-                MyBeanUtils.transMap2Bean(maps.get(i),expert);
+                MyBeanUtils.transMap2Bean(maps.get(i), expert);
                 experts.add(expert);
             }
-        }else {
+        } else {
             experts = (List<ZjkExpert>) data.getData();
         }
 //        List ids = experts.stream().map(ZjkExpert::getDataId).distinct().collect(Collectors.toList());
@@ -1005,7 +1099,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         for (int i = 0, j = experts.size(); i < j; i++) {
             String eName = experts.get(i).getExpertName();
 
-            Map<String,Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
 
             map.put("name", eName);
             param.setParam(map);
@@ -1014,10 +1108,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             LayuiTableData outAppraisalListPage = null;
             try {
                 outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
-                experts.get(i).setAchievementCount(outAppraisalListPage.getCount()+"");
+                experts.get(i).setAchievementCount(outAppraisalListPage.getCount() + "");
 
-                experts.get(i).setProjectCount(systemRemoteClient.getOutProjectListPageExpert(param).getCount()+"");
-                experts.get(i).setBak7(systemRemoteClient.getOutRewardListPage(param).getCount()+"");
+                experts.get(i).setProjectCount(systemRemoteClient.getOutProjectListPageExpert(param).getCount() + "");
+                experts.get(i).setBak7(systemRemoteClient.getOutRewardListPage(param).getCount() + "");
             } catch (Exception e) {
                 e.printStackTrace();
             }

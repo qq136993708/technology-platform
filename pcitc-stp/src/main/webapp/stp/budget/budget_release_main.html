@@ -121,10 +121,10 @@
         var $ = layui.$, active = {
             relaseEvent: function(){ 
             	if(!selectRowData){
-            		layer.msg('请选择要发布的数据!');
+            		layer.msg('请选择要下发的数据!');
             		return;
             	}
-				layer.confirm('确定要发布吗？',{title:"发布确认"},function(index){
+				layer.confirm('确定要下发吗？',{title:"下发确认"},function(index){
 					layer.close(index);
 					publicMethods.ajaxAsyncPost("/budget/budget-info-release", {"dataId":selectRowData.dataId}, function (data) {
 	                     if (data.success) {
@@ -135,6 +135,25 @@
 	                     }
 	                });
             	});
+            },
+            noRelaseEvent:function(){
+            	if(!selectRowData){
+            		layer.msg('请选择已下发的数据!');
+            		return;
+            	}
+            	layer.confirm('确定要取消下发吗？',{title:"取消下发确认"},function(index){
+					layer.close(index);
+					publicMethods.ajaxAsyncPost("/budget/budget-info-norelease", {"dataId":selectRowData.dataId}, function (data) {
+	                     if (data.success) {
+	                    	 renderTable({param:{"nd":cu_date}});
+	                    	 layer.msg('操作成功!');
+	                     } else {
+	                    	 layer.msg('操作异常，请重试!');
+	                     }
+	                });
+            	});
+            	
+            	
             }
         };
         //区别按钮属性
@@ -157,7 +176,8 @@
         </div>
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg" data-type="relaseEvent">发布</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg" data-type="relaseEvent">下发</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="noRelaseEvent">取消下发</button>
         </div>
     </div>
     <table id="organTable" class="layui-hide"  lay-filter="organEvent"></table>
