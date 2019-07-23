@@ -1,5 +1,6 @@
 package com.pcitc.web.out;
 
+import com.pcitc.base.stp.out.OutProjectInfoExample;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -1050,5 +1051,11 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/report-project-list", method = RequestMethod.POST)
 	public LayuiTableData selectOutProjectInfoList(@RequestBody LayuiTableParam param) throws Exception {
 		return outProjectService.selectOutProjectInfoList(param);
+	}
+
+	@ApiOperation(value = "检索项目数据", notes = "根据自定义条件查询项目信息")
+	@RequestMapping(value = "/out-provider/selectByExample", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) throws Exception {
+		return outProjectService.selectByExample(example);
 	}
 }

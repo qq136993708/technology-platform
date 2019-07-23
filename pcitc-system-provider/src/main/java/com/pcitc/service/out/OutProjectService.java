@@ -9,6 +9,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoExample;
 
 public interface OutProjectService {
 
@@ -348,6 +349,8 @@ public interface OutProjectService {
      * @return
      */
     public List<OutProjectInfo> selectAllProjectInfo();
+
+    public List<OutProjectInfo> selectByExample(OutProjectInfoExample example);
     /**
      * 
      * @param info

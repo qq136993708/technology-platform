@@ -1229,6 +1229,12 @@ public class OutProjectServiceImpl implements OutProjectService {
         return outProjectInfoMapper.selectByExample(example);
     }
 
+
+    @Override
+    public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) {
+        return outProjectInfoMapper.selectByExample(example);
+    }
+
     @Override
     public LayuiTableData selectOutProjectInfoList(LayuiTableParam param) {
         // 每页显示条数

@@ -82,9 +82,11 @@ public class ZjkChoiceController extends BaseController {
      */
     private static final String LISTPARAM = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice_list_param";
     /**
-     * 分页查询
+     * 分页查询,返回项目下的专家列表
      */
     private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page";
+    //返回项目列表
+    private static final String getListChoice = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/getListChoice";
     private static final String LISTPAGE_choice = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page-choice";
     /**
      * 保存
@@ -136,6 +138,20 @@ public class ZjkChoiceController extends BaseController {
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        return JSON.toJSON(data).toString();
+    }
+
+    /**
+     * 人员匹配项目列表
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/getListChoice", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getListChoice(@ModelAttribute("param") LayuiTableParam param) {
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(getListChoice, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
         return JSON.toJSON(data).toString();
     }

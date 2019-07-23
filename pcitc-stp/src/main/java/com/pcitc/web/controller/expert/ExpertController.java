@@ -177,11 +177,12 @@ public class ExpertController extends BaseController {
         return "stp/expert/pageExpertIndex";
     }
 
+    //图表
     @RequestMapping(value = "/picExpertDetail", method = RequestMethod.GET)
     @ResponseBody
     public Object picExpertDetail() {
         ZjkExpert expert = new ZjkExpert();
-        expert.setExpertProfessionalField(request.getParameter("expertId"));
+        expert.setDataId(request.getParameter("expertId"));
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(picExpertDetail, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
         return JSONArray.toJSONString(responseEntity.getBody().get("results"));
     }

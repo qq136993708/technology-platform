@@ -64,7 +64,7 @@
                 url: '/sysfile/getTableDataEsIndex',
                 // url: '/sysfile/getTableDataEs',
                 method: "POST",
-                where: {param: {"bak4": $("#bak4").val()}},
+                where: {param: {"bak4": "${keyword}"}},
                 limit: 15,
                 id: 'sysFileId',
 
@@ -88,11 +88,12 @@
                         }else {
                             d.filePath="javascript:void(0);";
                         }
+                        var fileFrom = (typeof d.bak1=="undefined"||typeof d.version =="undefined")?"未定义":(d.bak1+"->"+d.version);
                 return '<div class="layui-div layui-div-n">' +
                     '        <a href="'+d.filePath+'" target="_self">'+d.fileName+'</a>' +
                     '        <div class="c-row c-gap-top-small">' +
                     '            <div class="c-span18 c-span-last">' +
-                    '                <p><span>文件来源:'+d.bak1+"->"+d.version+'</span></p>' +
+                    '                <p><span>文件来源:'+fileFrom+'</span></p>' +
                     '                <p><span>文件所有者:'+d.updatePersonName+""+""+'</span></p>' +
                     '            </div>' +
                     '        </div>' +

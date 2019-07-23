@@ -84,42 +84,36 @@ html {
 	<script>
 		layui.use([ 'jquery', 'publicMethods' ], function() {
 			var $ = layui.jquery, publicMethods = layui.publicMethods;
-			/* $("#leader").click(function () {
-			     var data={"power":"1", "name":"领导讲话","color":"#f10033","img":"/layuiadmin/layui/images/icon-party.png","class":"layui-col-md3","id":"","spareId":null};
-			     publicMethods.moduleConfig(data);
-			 });
-			 $("#home_budget").click(function () {
-			     var data=
-			         {"power":"3", "name":"科研装备","color":"#488c34","img":"/layuiadmin/layui/images/textTopThree.png","class":"layui-col-md3","id":"equipment","spareId":"K0BNGLFPHJECB_t"};
-			     publicMethods.moduleConfig(data);
-			 });*/
 			$(".module .selectOption .option").each(function (i, val) {
 				if($(this).find("p").length==0){
 				    $(this).parent().css("margin-bottom","15px");
 				}
             });
-			dele();
 			$(".module").css("height", parent.$(".layui-layer-content").height() - 61 + "px");
             addP();
 			$("#confirm").click(function() {
+			    /*获取统计模块*/
+                gainSelection("selectedProject");
+				/*获取业务模块*/
+                gainSelection("selectedTechnical");
 				//获取选中项
 				var selectedOP = [];
 				$(".selectedTechnical .option p").each(function() {
 					selectedOP.push($(this).find(".textSpan").html())
 				});
                 var addHtml='<div class="add"></div>';
-                var layId=parseInt(parent.$(".main-two .main-left1 .add").prev().attr("layid"));
+                var layId=parseInt(parent.$(".main-two .main-left1 .add").prev().find("div").attr("layid"));
 				$.each(selectedOP,function (i,val) {
 				    if(!isNaN(layId)){
-                        var html='<div class="main-left'+(i+1+layId)+'" layId="'+(i+1+layId)+'">' +
+                        var html='<a href="javascript:;"><div class="main-left'+(i+1+layId)+'" layId="'+(i+1+layId)+'">' +
                             '                    <p class="title">'+val+'</p>' +
                             '                    <p class="number"></p>' +
-                            '                </div>';
+                            '                </div></a>';
 					}else {
-                        var html='<div class="main-left'+i+'" layId="'+i+'">' +
+                        var html='<a href="javascript:;"><div class="main-left'+i+'" layId="'+i+'">' +
                             '                    <p class="title">'+val+'</p>' +
                             '                    <p class="number"></p>' +
-                            '                </div>';
+                            '                </div></a>';
 					}
                     parent.$(".main-two .main-left1 .add").before(html);
                 });
@@ -156,6 +150,13 @@ html {
 					});*/
 				});
 			}
+            function gainSelection(id) {
+                var gainSelectionArr=[];
+                $("."+id+" div p").each(function () {
+                    gainSelectionArr.push($(this).find(".textSpan").text())
+                });
+                return gainSelectionArr;
+            }
 		});
 	</script>
 </body>
