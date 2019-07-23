@@ -12,6 +12,9 @@
 .dateInput {
 	font-size: 12px;
 }
+.layui-btn{height: 30px;line-height: 30px; padding: 0 15px;}
+.layuiadmin-card-header-auto i.layuiadmin-button-btn{font-size: 14px;}
+
 </style>
 </head>
 <body>
@@ -173,7 +176,7 @@
                <select name="groupFlag" id="groupFlag"  >
                         <option value="" >--请选择--</option>
 			             <#list fzlxList as vo> 
-					          <option value="${vo.numValue}"  >${vo.name}</option>
+					          <option value="${vo.numValue}"  <#if groupFlag==vo.numValue>selected="selected"</#if>>${vo.name}</option>
 					      </#list>
               </select>
             </div>
