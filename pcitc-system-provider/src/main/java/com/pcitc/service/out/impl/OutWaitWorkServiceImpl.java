@@ -1,5 +1,6 @@
 package com.pcitc.service.out.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.stp.out.OutWaitWork;
 import com.pcitc.base.stp.out.OutWaitWorkExample;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.mapper.out.OutWaitWorkMapper;
@@ -50,9 +52,28 @@ public class OutWaitWorkServiceImpl implements OutWaitWorkService {
 		OutWaitWorkExample example = new OutWaitWorkExample();
 		OutWaitWorkExample.Criteria criteria = example.createCriteria();
 
-		if (param.getParam().get("userCode") != null && !StringUtils.isBlank(param.getParam().get("userCode") + "")) {
-			criteria.andUserIdEqualTo(param.getParam().get("userCode").toString());
+		if (param.getParam().get("userId") != null && !StringUtils.isBlank(param.getParam().get("userId") + "")) {
+			criteria.andUserIdEqualTo(param.getParam().get("userId").toString());
 		}
+		
+		if (param.getParam().get("taskName") != null && !StringUtils.isBlank(param.getParam().get("taskName") + "")) {
+			String taskName = "%"+param.getParam().get("taskName").toString()+"%";
+			criteria.andTitleLike(taskName);
+		}
+		
+		if (param.getParam().get("dateFlag") != null && !StrUtil.isBlankOrNull(param.getParam().get("dateFlag").toString())) {
+
+			if (param.getParam().get("dateFlag").toString().equals("3")) {
+				criteria.andWaitTimeGreaterThanOrEqualTo(DateUtil.dateAdd(new Date(), -3));
+			}
+			if (param.getParam().get("dateFlag").toString().equals("7")) {
+				criteria.andWaitTimeGreaterThanOrEqualTo(DateUtil.dateAdd(new Date(), -7));
+			}
+			if (param.getParam().get("dateFlag").toString().equals("8")) {
+				criteria.andWaitTimeLessThan(DateUtil.dateAdd(new Date(), -7));
+			}
+		}
+		
 		example.setOrderByClause(" wait_time desc ");
 
 		List<OutWaitWork> list = outWaitWorkMapper.selectByExample(example);

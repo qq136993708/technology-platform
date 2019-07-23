@@ -45,7 +45,8 @@
 			<div class="layui-col-md12">
 				<div class="layui-card">
 					<div class="layui-card-header">
-						<span class="layui-time"></span>直属研究院成果数量
+						<span class="layui-time"></span>
+						直属研究院成果数量
 					</div>
 					<div class="layui-row-main">
 						<div class="text-total">
@@ -65,7 +66,8 @@
 			<div class="layui-col-md6">
 				<div class="layui-card">
 					<div class="layui-card-header">
-						<span class="layui-time"></span>年成果类型分布
+						<span class="layui-time"></span>
+						年成果类型分布
 					</div>
 					<div class="layui-row-main">
 						<div class="text-total">
@@ -84,7 +86,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院成果类型-工业化分布统计
+							<span class="layui-time"></span>
+							年直属研究院成果类型-工业化分布统计
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -102,7 +105,8 @@
 				<div class="layui-col-md6" style="padding-right: 0;">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院成果类型-工业试验分布统计
+							<span class="layui-time"></span>
+							年直属研究院成果类型-工业试验分布统计
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -123,7 +127,8 @@
 			<div class="layui-col-md12">
 				<div class="layui-card">
 					<div class="layui-card-header">
-						<span class="layui-time"></span>年成果所属技术专业分布统计
+						<span class="layui-time"></span>
+						年成果所属技术专业分布统计
 					</div>
 					<div class="layui-row-main">
 						<div class="text-total">
@@ -178,7 +183,7 @@
 
 			$(".layui-time").html($("#nd").val());
 			$("#knowledge_table").click(function() {
-				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?nd=" + nd + "&groupFlag=jdh", "科技成果详情");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?nd=" + $('#nd').val() + "&groupFlag=jdh", "科技成果详情");
 			});
 		});
 
@@ -200,7 +205,7 @@
 			$("#chart_title_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#chart_title_05").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-			var chart1_url = "/direct_second/direct_second_data_01?nd=" + nd + "&v_date=" + v_date;
+			var chart1_url = "/direct_second/direct_second_data_01?nd=" + $('#nd').val() + "&v_date=" + v_date;
 			var echart1 = load_single_bar(chart1_url, "chart1", "", "", yAxis, [ "#87d359" ], 70, "", function(data) {
 				var total_count = 0;
 				$.each(data.data.seriesDataList, function(index, dt) {
@@ -211,10 +216,10 @@
 			echart1.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define1="+xName+"&nd=" + nd+"&define3=直属研究院&define11=股份公司&groupFlag=jdh,sqjddw", "科技成果详情");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define1=" + xName + "&nd=" + $('#nd').val() + "&define3=直属研究院&define11=股份公司&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
-			var chart4_url = "/direct_second/direct_second_data_02?type=1&nd=" + nd + "&v_date=" + v_date;
+			var chart4_url = "/direct_second/direct_second_data_02?type=1&nd=" + $('#nd').val() + "&v_date=" + v_date;
 			var echart4 = load_single_bar(chart4_url, "chart4", "", "", yAxis, [ "#ff9f7f" ], 70, "", function(data) {
 				var total_count = 0;
 				$.each(data.data.seriesDataList, function(index, dt) {
@@ -225,10 +230,10 @@
 			echart4.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?cglx="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?cglx=" + xName + "&nd=" + $('#nd').val() + "&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
-			var chart5_url = "/direct_second/direct_second_data_03?type=2&nd=" + nd + "&v_date=" + v_date;
+			var chart5_url = "/direct_second/direct_second_data_03?type=2&nd=" + $('#nd').val() + "&v_date=" + v_date;
 			var echart5 = loadPie_02(chart5_url, "chart5", "", "", function(data) {
 				var total_count = 0;
 				$.each(data.data.dataList, function(index, dt) {
@@ -238,7 +243,7 @@
 			});
 			echart5.on('click', function(params) {
 				var xName = params.name;
-				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=A.工业化&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=A.工业化&define1=" + xName + "&nd=" + $('#nd').val() + "&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 			var chart6_url = "/direct_second/direct_second_data_04?nd=" + nd + "&v_date=" + v_date;
@@ -252,7 +257,7 @@
 			echart6.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=B.工业试验&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=B.工业试验&define1=" + xName + "&nd=" + $('#nd').val() + "&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 			var chart7_url = "/direct_second/direct_second_data_05?nd=" + nd + "&v_date=" + v_date;
@@ -265,7 +270,7 @@
 			});
 			echart7.on('click', function(params) {
 				var xName = params.name;
-				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?zy="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw", "科技成果详情");
+				parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?zy=" + xName + "&nd=" + $('#nd').val() + "&groupFlag=jdh,sqjddw", "科技成果详情");
 			});
 
 		}
@@ -276,14 +281,13 @@
 		function search_Event() {
 			initEchart();
 		}
-		
-		
+
 		function achievementTotalUrl(showFlag, unitFlag) {
 			var groupFlag = 'jdh';
 			if (unitFlag == 'unit') {
 				groupFlag = 'jdh,sqjddw';
 			}
-			parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define3="+showFlag+"&nd=" + nd+"&define11=股份公司&groupFlag="+groupFlag, "科技成果详情");
+			parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define3=" + showFlag + "&nd=" + $('#nd').val() + "&define11=股份公司&groupFlag=" + groupFlag, "科技成果详情");
 		}
 	</script>
 </body>
