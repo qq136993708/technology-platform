@@ -59,6 +59,7 @@
 	        		form.val("contract-form",data);
 	            });
 	        }else{
+	        	$("#appendFiles").val("${appendFiles}");
 	        	publicMethods.ajaxPost('/project/project-contract-code', null, function (data, status) {
 	    			if (data.success) {
 	    				$("#contractNo").val(data.message);
