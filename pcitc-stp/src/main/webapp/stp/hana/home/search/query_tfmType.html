@@ -54,7 +54,7 @@
         <!--&lt;!&ndash;</button>&ndash;&gt;-->
     <!--&lt;!&ndash;</div>&ndash;&gt;-->
 <!--</div>-->
-<div class="tableBox" style="margin-top: 10px;">
+<div class="tableBox">
 
     <table id="tfmTypeTableId" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
@@ -115,7 +115,7 @@
                         "iscount":"1"
                     }
             };
-            publicMethods.tableRenderH('tfmTypeTableId', 'tfmTypeTableId',500, '/tfmType/getTableData', false, cols, where, true, function (res, curr, count) {
+            publicMethods.tableRenderH('tfmTypeTableId', 'tfmTypeTableId',0, '/tfmType/getTableData', false, cols, where, true, function (res, curr, count) {
                 parent.$("#tech").html(count);
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
