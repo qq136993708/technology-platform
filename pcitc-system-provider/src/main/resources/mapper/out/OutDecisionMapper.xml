@@ -72,7 +72,7 @@
 	
 	<!-- 预算分配,经费预算分析,股份公司总部科技经费预算（建议稿） -->
 	<select id="getStockCompanyMoneyTable" resultType="java.util.Map" parameterType="java.util.Map">
-		<!-- SELECT case when lbName = '10' then '直属研究院' when lbName = '20' then '分子公司' when lbName = '30' then '股份付集团' when lbName = '40' then '外部单位' else lbName end,
+		<!-- SELECT case when lbName = '10' then '直属研究院' when lbName = '20' then '分子公司' when lbName = '30' then '集团单位' when lbName = '40' then '外部单位' else lbName end,
 			   realIndex,indexName,fyxje,zbxje,zje
 		FROM (
 			select

@@ -273,8 +273,8 @@ public class OutProjectInfoClient {
 		// 各个组织机构名称，如果有基础数据库的话，也可以直接取，此处就不用写死
 		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
 		temList = iniListValue(temList, "type_flag", "分子公司", keyList);
-		temList = iniListValue(temList, "type_flag", "股份付集团", keyList);
-		temList = iniListValue(temList, "type_flag", "股份付资产", keyList);
+		temList = iniListValue(temList, "type_flag", "集团单位", keyList);
+		temList = iniListValue(temList, "type_flag", "资产单位", keyList);
 		temList = iniListValue(temList, "type_flag", "外部单位", keyList);
 		temList = iniListValue(temList, "type_flag", "集团公司", keyList);
 		temList = iniListValue(temList, "type_flag", "资产公司", keyList);
@@ -297,8 +297,8 @@ public class OutProjectInfoClient {
 		// 各个组织机构名称，如果有基础数据库的话，也可以直接取，此处就不用写死
 		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
 		temList = iniListValue(temList, "type_flag", "分子公司", keyList);
-		temList = iniListValue(temList, "type_flag", "股份付集团", keyList);
-		temList = iniListValue(temList, "type_flag", "股份付资产", keyList);
+		temList = iniListValue(temList, "type_flag", "集团单位", keyList);
+		temList = iniListValue(temList, "type_flag", "资产单位", keyList);
 		temList = iniListValue(temList, "type_flag", "外部单位", keyList);
 		temList = iniListValue(temList, "type_flag", "集团公司", keyList);
 		temList = iniListValue(temList, "type_flag", "资产公司", keyList);
@@ -383,14 +383,14 @@ public class OutProjectInfoClient {
 		temList = iniListValue(temList, "zycmc", "炼油处", keyList);
 		temList = iniListValue(temList, "zycmc", "化工处", keyList);
 		temList = iniListValue(temList, "zycmc", "材料处", keyList);
-		temList = iniListValue(temList, "zycmc", "装储处", keyList);
+		temList = iniListValue(temList, "zycmc", "装备与储运处", keyList);
 		temList = iniListValue(temList, "zycmc", "计划处", keyList);
 		temList = iniListValue(temList, "zycmc", "技术监督处", keyList);
 		temList = iniListValue(temList, "zycmc", "三剂处", keyList);
 		temList = iniListValue(temList, "zycmc", "知识产权处", keyList);
 		temList = iniListValue(temList, "zycmc", "物装部", keyList);
-		temList = iniListValue(temList, "zycmc", "炼油部（B2、C类）", keyList);
-		temList = iniListValue(temList, "zycmc", "化工部（B2、C类）", keyList);
+		temList = iniListValue(temList, "zycmc", "炼油部", keyList);
+		temList = iniListValue(temList, "zycmc", "化工部", keyList);
 		logger.info("==================page getProjectCountByProjectType===========================" + JSON.toJSONString(temList));
 
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -571,8 +571,8 @@ public class OutProjectInfoClient {
 		// 各个组件机构概念，如果有基础数据库的话，也可以直接取，此处就不用写死
 		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
 		temList = iniListValue(temList, "type_flag", "分子公司", keyList);
-		temList = iniListValue(temList, "type_flag", "股份付集团", keyList);
-		temList = iniListValue(temList, "type_flag", "股份付资产", keyList);
+		temList = iniListValue(temList, "type_flag", "集团单位", keyList);
+		temList = iniListValue(temList, "type_flag", "资产单位", keyList);
 		temList = iniListValue(temList, "type_flag", "外部单位", keyList);
 		temList = iniListValue(temList, "type_flag", "休斯顿", keyList);
 		temList = iniListValue(temList, "type_flag", "集团公司", keyList);
@@ -645,8 +645,8 @@ public class OutProjectInfoClient {
 		List keyList = new ArrayList<String>();
 		keyList.add("直属研究院");
 		keyList.add("分子公司");
-		keyList.add("股份付集团");
-		keyList.add("股份付资产");
+		keyList.add("集团单位");
+		keyList.add("资产单位");
 		keyList.add("外部单位");
 		keyList.add("休斯顿");
 		keyList.add("中东");
@@ -673,14 +673,14 @@ public class OutProjectInfoClient {
 		keyList.add("炼油处");
 		keyList.add("化工处");
 		keyList.add("材料处");
-		keyList.add("装储处");
+		keyList.add("装备与储运处");
 		keyList.add("计划处");
 		keyList.add("技术监督处");
 		keyList.add("三剂处");
 		keyList.add("知识产权处");
 		keyList.add("物装部");
-		keyList.add("炼油部（B2、C类）");
-		keyList.add("化工部（B2、C类）");
+		keyList.add("炼油部");
+		keyList.add("化工部");
 		logger.info("==================page getProjectCountByTypeForTree===========================" + JSON.toJSONString(temList));
 		temList = iniListValueTree(temList, "project_scope", "新开课题", keyList, "zycmc");
 		temList = iniListValueTree(temList, "project_scope", "结转课题", keyList, "zycmc");
@@ -699,8 +699,8 @@ public class OutProjectInfoClient {
 		List keyList = new ArrayList<String>();
 		keyList.add("直属研究院");
 		keyList.add("分子公司");
-		keyList.add("股份付集团");
-		keyList.add("股份付资产");
+		keyList.add("集团单位");
+		keyList.add("资产单位");
 		keyList.add("外部单位");
 		keyList.add("休斯顿");
 		keyList.add("集团公司");
@@ -765,8 +765,8 @@ public class OutProjectInfoClient {
 		List keyList = new ArrayList<String>();
 		keyList.add("直属研究院");
 		keyList.add("分子公司");
-		keyList.add("股份付集团");
-		keyList.add("股份付资产");
+		keyList.add("集团单位");
+		keyList.add("资产单位");
 		keyList.add("外部单位");
 		keyList.add("休斯顿");
 		keyList.add("中东");
@@ -794,8 +794,8 @@ public class OutProjectInfoClient {
 		// 各个组织机构名称，如果有基础数据库的话，也可以直接取，此处就不用写死
 		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
 		temList = iniListValue(temList, "type_flag", "分子公司", keyList);
-		temList = iniListValue(temList, "type_flag", "股份付集团", keyList);
-		temList = iniListValue(temList, "type_flag", "股份付资产", keyList);
+		temList = iniListValue(temList, "type_flag", "集团单位", keyList);
+		temList = iniListValue(temList, "type_flag", "资产单位", keyList);
 		temList = iniListValue(temList, "type_flag", "外部单位", keyList);
 		temList = iniListValue(temList, "type_flag", "集团公司", keyList);
 		temList = iniListValue(temList, "type_flag", "资产公司", keyList);
@@ -820,14 +820,14 @@ public class OutProjectInfoClient {
 		temList = iniListValue(temList, "zycmc", "炼油处", keyList);
 		temList = iniListValue(temList, "zycmc", "化工处", keyList);
 		temList = iniListValue(temList, "zycmc", "材料处", keyList);
-		temList = iniListValue(temList, "zycmc", "装储处", keyList);
+		temList = iniListValue(temList, "zycmc", "装备与储运处", keyList);
 		temList = iniListValue(temList, "zycmc", "计划处", keyList);
 		temList = iniListValue(temList, "zycmc", "技术监督处", keyList);
 		temList = iniListValue(temList, "zycmc", "三剂处", keyList);
 		temList = iniListValue(temList, "zycmc", "知识产权处", keyList);
 		temList = iniListValue(temList, "zycmc", "物装部", keyList);
-		temList = iniListValue(temList, "zycmc", "炼油部（B2、C类）", keyList);
-		temList = iniListValue(temList, "zycmc", "化工部（B2、C类）", keyList);
+		temList = iniListValue(temList, "zycmc", "炼油部", keyList);
+		temList = iniListValue(temList, "zycmc", "化工部", keyList);
 
 		System.out.println("====" + JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));

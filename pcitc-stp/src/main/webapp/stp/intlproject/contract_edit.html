@@ -25,6 +25,7 @@
 				$.each(data,function(i,val){
 					$("#projectId").append('<option value="'+data[i].projectId+'">'+data[i].projectName+'</option>');
 				});
+				
 		   	});
     		//加载字典
 			var dicMap = ['ROOT_UNIVERSAL_GJHBBZ','ROOT_UNIVERSAL_GJDQ'];
@@ -52,9 +53,13 @@
 	        {
 		 		$("#contractId").val(contractId);
 		 		publicMethods.ajaxPost('/project/get-contract', {"contractId":contractId}, function (data, status) {
+		 			publicMethods.ajaxPost('/project/get-project', {"projectId":data.projectId}, function (dt, status) {
+		 				$("#projectId").append('<option value="'+dt.projectId+'">'+dt.projectName+'</option>');
+	                });
 	        		form.val("contract-form",data);
 	            });
 	        }else{
+	        	$("#appendFiles").val("${appendFiles}");
 	        	publicMethods.ajaxPost('/project/project-contract-code', null, function (data, status) {
 	    			if (data.success) {
 	    				$("#contractNo").val(data.message);
@@ -100,7 +105,7 @@
 				<div class="layui-form-item">
 				  <label class="layui-form-label">签约项目<span class="must-fill">*</span></label>
 		          <div class="layui-input-block">
-					<select name="projectId" id="projectId" lay-verify="required"  lay-filter="">
+					<select name="projectId" id="projectId" lay-verify="required"  lay-filter=""  lay-search>
 	                	<option value="">请选择</option>
 	             	</select>
 				  </div>

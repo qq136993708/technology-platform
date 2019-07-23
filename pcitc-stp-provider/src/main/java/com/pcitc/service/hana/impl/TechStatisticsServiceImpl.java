@@ -4,12 +4,19 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale.Category;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,7 +29,6 @@ import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.hana.report.ScientificCashFlow02;
 import com.pcitc.base.stp.report.TechCost;
 import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.mapper.hana.TechCostMapper;
@@ -790,6 +796,9 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		return totalToc;
 		
 	}
+	
+	
+	
 	
 
 	public static <T> Object getFieldSumByFieldName(List<T> list, String fieldName) throws Exception 

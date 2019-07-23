@@ -46,6 +46,12 @@
     </div>
     <div class="tableBox">
         <div class="tableToolBox">
+        	<div class="num-box">
+	                <label class="dateInput">
+	                     <span>单位：万元</span>
+	                </label>
+	         </div>
+	         <button style="display: none;" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="sumEvent">预算汇总</button>
         </div>
         <div id="tableBox">
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
@@ -88,7 +94,7 @@
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             var param = JSON.parse(window.localStorage.getItem("param"));
-            renderfunc = function(){
+            window.renderfunc = function(){
             	$(".layui-table-header table thead th .layui-unselect").remove();  //移除表头的复选框,去掉全选
 	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
@@ -101,8 +107,7 @@
 	        }
             if(cu_date != 0){
             	$(".headline-tool").css("display","block");
-            	laydate.render({elem: '#choose-year',value: cu_date,type: 'year'
-                    ,done:function (val, date, endDate) {
+            	laydate.render({elem: '#choose-year',value: cu_date,type: 'year',done:function (val, date, endDate) {
                     	if(unitCodes == 0){
                     		window.location.href="/budget/budget_detail_assetsplit_nd?nd="+val;
                     	}else{
@@ -110,6 +115,10 @@
                     	}
                     }            
                 });
+            	if(unitCodes != 0)
+                {
+            		//$("button").show();
+                }
             }
             
             initDateView = function(){
@@ -134,7 +143,17 @@
        			
        			renderfunc();
             	initDateView();
-		   	}); 
+		   	});
+	        $('.layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+	        var $ = layui.$, active = {
+        		sumEvent: function () { 
+            		var url = '/budget/budget_detail_total_unit?nd='+cu_date;
+                    publicMethods.openBaseWinFull('预算汇总',url);
+                }
+	        }
         });
     </script>
 </body>
