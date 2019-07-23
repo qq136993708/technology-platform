@@ -124,7 +124,7 @@
                 });
             	if(unitCodes != 0)
                 {
-            		$("button").show();
+            		//$("button").show();
                 }
             }
             
@@ -150,7 +150,17 @@
        			
        			renderfunc();
             	initDateView();
-		   	}); 
+		   	});
+	        $('.layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+	        var $ = layui.$, active = {
+        		sumEvent: function () { 
+            		var url = '/budget/budget_detail_total_unit?nd='+cu_date;
+                    publicMethods.openBaseWinFull('预算汇总',url);
+                }
+	        }
         });
     </script>
 </body>
