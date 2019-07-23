@@ -57,6 +57,7 @@
     <!--按钮组-->
     <div class="btnGroup">
      <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+     <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
     </div>
 </div>
 
@@ -313,7 +314,7 @@ function exput_excel()
 	var auditStatus=$('#auditStatus').val();
 	var year=$('#year').val();
 	var type=$('#type').val();
-	window.open("/tech_cost/exput_excel?year="+year+"&year="+year+"&auditStatus="+auditStatus+"&unitName="+unitName);
+	window.open("/tech_cost/exput_excel?year="+year+"&type="+type+"&auditStatus="+auditStatus+"&unitName="+unitName);
 } 
 
 

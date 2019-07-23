@@ -77,7 +77,7 @@ public class WaitWorkJob implements Job, Serializable {
 					
 					outWaitWork.setUserId(userId);
 					outWaitWork.setTitle(gcslxgxx);
-					outWaitWork.setType("2");
+					outWaitWork.setType("项目管理系统");
 					outWaitWork.setUserName(userName);
 					outWaitWork.setCreateTime(new Date());
 					

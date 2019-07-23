@@ -71,16 +71,19 @@ public class TaskController extends BaseController {
 
 	private static final String TASK_PROCESS_INFO = "http://pcitc-zuul/system-proxy/task-provider/task/process/info";
 	private static final String BUSINESS_AUDIT_IMAGE = "http://pcitc-zuul/system-proxy/task-provider/task/business/audit/image";
-	
+
 	// 任务撤回操作
 	private static final String TASK_RECALL = "http://pcitc-zuul/system-proxy/task-provider/task/recall/";
 
 	// 消息列表
 	private static final String MESSAGE_LIST = "http://pcitc-zuul/system-proxy/message-provider/message/list";
-	
+
 	// 事例任务列表
 	private static final String BUSINESS_AUDIT_DETAIL = "http://pcitc-zuul/system-proxy/task-provider/task/business/audit/";
-	
+
+	// 获取项目管理系统的待办任务
+	private static final String XMGL_PENDING = "http://pcitc-zuul/system-proxy/out-wait-work/xmgl/page";
+
 	/**
 	 * 判断是否需要选择审批人
 	 */
@@ -115,7 +118,7 @@ public class TaskController extends BaseController {
 
 		return "/pplus/workflow/deal-user-list";
 	}
-	
+
 	/**
 	 * 跳转消息列表
 	 */
@@ -124,12 +127,7 @@ public class TaskController extends BaseController {
 
 		return "/pplus/workflow/message-list";
 	}
-	
-	
-	
 
-	
-	
 	/**
 	 * @author zhf
 	 * @date 2019年4月16日 上午10:28:42 消息列表数据
@@ -146,7 +144,7 @@ public class TaskController extends BaseController {
 
 		return JSON.toJSON(retJson).toString();
 	}
-	
+
 	/**
 	 * 跳转消息详情
 	 */
@@ -155,7 +153,7 @@ public class TaskController extends BaseController {
 
 		return "/pplus/workflow/message-details";
 	}
-	
+
 	/**
 	 * 查询所有的下一个节点需要处理的人（角色用列表）
 	 * 
@@ -185,23 +183,23 @@ public class TaskController extends BaseController {
 
 	@RequestMapping(value = "/task/pending/list/ini")
 	public String iniPendingList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("iniPendingList----------------"+request.getParameter("functionId"));
+		System.out.println("iniPendingList----------------" + request.getParameter("functionId"));
 		request.setAttribute("functionId", request.getParameter("functionId"));
-		
+
 		return "/pplus/workflow/pending-list";
 	}
 
 	@RequestMapping(value = "/task/done-task/list/ini")
 	public String iniDoneTaskList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("iniDoneTaskList----------------"+request.getParameter("functionId"));
+		System.out.println("iniDoneTaskList----------------" + request.getParameter("functionId"));
 		request.setAttribute("functionId", request.getParameter("functionId"));
-		
+
 		return "/pplus/workflow/done-task-list";
 	}
 
 	@RequestMapping(value = "/task/done-instance/list/ini")
 	public String iniDoneInstanceList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("iniDoneInstanceList----------------"+request.getParameter("functionId"));
+		System.out.println("iniDoneInstanceList----------------" + request.getParameter("functionId"));
 		request.setAttribute("functionId", request.getParameter("functionId"));
 		// response.addHeader("P3P", "CP=CAO PSA OUR");
 		return "/pplus/workflow/done-instance-list";
@@ -214,10 +212,7 @@ public class TaskController extends BaseController {
 	@RequestMapping(value = "/task/pending-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object pendingList(@ModelAttribute("param") LayuiTableParam param) {
-
-		
-		System.out.println("====待办param-->"+JSON.toJSON(param).toString());
-		
+		System.out.println("====待办param-->" + JSON.toJSON(param).toString());
 		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -226,85 +221,91 @@ public class TaskController extends BaseController {
 
 		return JSON.toJSON(retJson).toString();
 	}
-	
+
+	/**
+	 * @author zhf 其它系统的待办任务列表
+	 */
+	@RequestMapping(value = "/task/other/pending-list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object otherPendingList(@ModelAttribute("param") LayuiTableParam param) {
+		System.out.println("====待办param-->" + JSON.toJSON(param).toString());
+		// 获取当前登录人信息, 统一身份名作为用户id
+		param.getParam().put("userId", sysUserInfo.getUserName());
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(XMGL_PENDING, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+
+		return JSON.toJSON(retJson).toString();
+	}
+
 	/**
 	 * @author uuy
-	 * @date 2019年5月20日  待办任务列表(首页待办任务消息)
+	 * @date 2019年5月20日 待办任务列表(首页待办任务消息)
 	 */
 	@RequestMapping(value = "/task/index-pending-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getIndexPendingList(@ModelAttribute("param") LayuiTableParam param) {
-		List<Map<String,Object>> rsmap = new ArrayList<Map<String,Object>>();
+		List<Map<String, Object>> rsmap = new ArrayList<Map<String, Object>>();
 		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		LayuiTableData tableData = this.restTemplate.exchange(PENDING_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class).getBody();
-		for(java.util.Iterator<?> iter = tableData.getData().iterator();iter.hasNext();) {
-			Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
-			map.put("ago", DateUtils.getAgoDesc(DateUtils.strToDate(map.get("createTime").toString(),DateUtils.FMT_SS)));
+		for (java.util.Iterator<?> iter = tableData.getData().iterator(); iter.hasNext();) {
+			Map<String, Object> map = MyBeanUtils.java2Map(iter.next());
+			map.put("ago", DateUtils.getAgoDesc(DateUtils.strToDate(map.get("createTime").toString(), DateUtils.FMT_SS)));
 			rsmap.add(map);
 		}
 		return rsmap;
 	}
-	
-	
+
 	@RequestMapping(value = "/mobile/wait_task_list_mui")
 	public String pending_list_mobile(HttpServletRequest request) {
 		return "/mobile/wait_task_list_mui";
 	}
-	
-	
-	
-	
+
 	@RequestMapping(value = "/mobile/wait_task_list_data")
 	@ResponseBody
 	public Page wait_task_list_data(HttpServletRequest request) {
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
-		LayuiTableParam param= new LayuiTableParam();
+		LayuiTableParam param = new LayuiTableParam();
 		param.setPage(pageNo);
-        // 获取当前登录人信息
+		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PENDING_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
-		Page page =new Page();
+		Page page = new Page();
 		page.setRows(retJson.getData());
 		page.setPageNo(pageNo);
 		page.setPageSize(param.getLimit());
 		page.setTotalRecords(retJson.getCount());
 		return page;
 	}
-	
-	
-	
-	
+
 	@RequestMapping(value = "/mobile/message_list")
 	public String message_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		return "/mobile/message_list";
 	}
-	
+
 	@RequestMapping(value = "/mobile/message_list_data", method = RequestMethod.POST)
 	@ResponseBody
-	public Page message_list_data(HttpServletRequest request) 
-	{
+	public Page message_list_data(HttpServletRequest request) {
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
-		LayuiTableParam param= new LayuiTableParam();
+		LayuiTableParam param = new LayuiTableParam();
 		param.setPage(pageNo);
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(MESSAGE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
-		Page page =new Page();
+		Page page = new Page();
 		page.setRows(retJson.getData());
 		page.setPageNo(pageNo);
 		page.setPageSize(param.getLimit());
 		page.setTotalRecords(retJson.getCount());
 		return page;
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/mobile/message_list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object message_list(@ModelAttribute("param") LayuiTableParam param) {
@@ -314,12 +315,10 @@ public class TaskController extends BaseController {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(MESSAGE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
-		//return JSON.toJSON(retJson).toString();
-		
+		// return JSON.toJSON(retJson).toString();
+
 		return "/mobile/message_list";
 	}
-	
-	
 
 	/**
 	 * @author zhf
@@ -359,40 +358,31 @@ public class TaskController extends BaseController {
 
 		return JSON.toJSON(retJson).toString();
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/mobile/done_task_list")
 	public String done_task_list_mui(HttpServletRequest request) {
 
-		
 		return "/mobile/done_task_list";
 	}
-	
-	
-	
-	
-	
+
 	@RequestMapping(value = "/mobile/done_task_list_data")
 	@ResponseBody
 	public Page done_task_list_data(HttpServletRequest request) {
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
-		LayuiTableParam param= new LayuiTableParam();
+		LayuiTableParam param = new LayuiTableParam();
 		param.setPage(pageNo);
-        // 获取当前登录人信息
+		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(DONE_TASK_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
-		Page page =new Page();
+		Page page = new Page();
 		page.setRows(retJson.getData());
 		page.setPageNo(pageNo);
 		page.setPageSize(param.getLimit());
 		page.setTotalRecords(retJson.getCount());
 		return page;
 	}
-	
-	
 
 	/**
 	 * @author zhf
@@ -451,17 +441,20 @@ public class TaskController extends BaseController {
 		workflowVo.setVariables(variables);
 
 		ResponseEntity<JSONObject> status = this.restTemplate.exchange(COMPLETE_TASK_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, httpHeaders), JSONObject.class);
-		//System.out.println("=============completeTask=========" + status.getBody());
+		// System.out.println("=============completeTask=========" +
+		// status.getBody());
 		if (status.getBody() != null && status.getBody().get("result") != null) {
 			if (status.getBody().get("result").equals("1")) {
 				// 流程结束，调用各个业务的审批通过后的业务处理方法
-				//System.out.println("====auditAgreeMethod===============" + status.getBody().get("auditAgreeMethod").toString());
+				// System.out.println("====auditAgreeMethod===============" +
+				// status.getBody().get("auditAgreeMethod").toString());
 				this.restTemplate.exchange(status.getBody().get("auditAgreeMethod").toString(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), Integer.class).getBody();
 
 			}
 			if (status.getBody().get("result").equals("2")) {
 				// 驳回，调用各个业务的审批驳回后的业务处理方法
-				//System.out.println("====auditRejectMethod===============" + status.getBody().get("auditRejectMethod").toString());
+				// System.out.println("====auditRejectMethod===============" +
+				// status.getBody().get("auditRejectMethod").toString());
 				this.restTemplate.exchange(status.getBody().get("auditRejectMethod").toString(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), Integer.class).getBody();
 			}
 			return new Result(true, "启动成功");
@@ -470,7 +463,7 @@ public class TaskController extends BaseController {
 		}
 
 	}
-	
+
 	/**
 	 * 通过业务id，查看此单据的审批信息
 	 * 
@@ -492,7 +485,7 @@ public class TaskController extends BaseController {
 	public String processShow(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
 		return "/pplus/workflow/process-show";
 	}
-	
+
 	@RequestMapping(value = "/mobile/process_mobile/{instanceId}", method = RequestMethod.GET)
 	public String process_mobile(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
 		return "/pplus/workflow/process_mobile";
@@ -534,7 +527,7 @@ public class TaskController extends BaseController {
 		System.out.println("2====processList====" + jsonObj.toString());
 		return jsonObj.toString();
 	}
-	
+
 	/**
 	 * 显示流程的列表
 	 * 
@@ -573,15 +566,17 @@ public class TaskController extends BaseController {
 	/**
 	 * @author zhf
 	 * @date 2018年4月20日 下午3:07:29 显示流程资源文件
-	 *//*
-	@RequestMapping(value = "/task/show/image/{pdId}", method = RequestMethod.GET)
-	public String showResoure(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
-		System.out.println("====task/show/image" + instanceId);
-
-		Result image = generateImage(instanceId, request);
-		request.setAttribute("image", image.getData());
-		return "/pplus/workflow/process-show";
-	}*/
+	 */
+	/*
+	 * @RequestMapping(value = "/task/show/image/{pdId}", method =
+	 * RequestMethod.GET) public String showResoure(@PathVariable("instanceId")
+	 * String instanceId, HttpServletRequest request) {
+	 * System.out.println("====task/show/image" + instanceId);
+	 * 
+	 * Result image = generateImage(instanceId, request);
+	 * request.setAttribute("image", image.getData()); return
+	 * "/pplus/workflow/process-show"; }
+	 */
 
 	/**
 	 * 生成流程实例的流程图片，并重点高亮当前节点，高亮已经执行的链路
@@ -611,7 +606,7 @@ public class TaskController extends BaseController {
 		}
 		return "ok";
 	}
-	
+
 	/**
 	 * 生成流程实例的流程图片，并重点高亮当前节点，高亮已经执行的链路
 	 * 
@@ -640,12 +635,11 @@ public class TaskController extends BaseController {
 		}
 		return "ok";
 	}
-	
+
 	/**
 	 * @param taskId
 	 * @param request
-	 * @return
-	 * 任务撤回
+	 * @return 任务撤回
 	 */
 	@RequestMapping(value = "/task/recall/{taskId}", method = RequestMethod.POST)
 	@ResponseBody
