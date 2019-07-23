@@ -302,9 +302,8 @@
 			active = {
 				searchEvent : function() { //点击查询按钮
 					selectRowData = '';
-					
-					var systemFlag = $("[name='systemFlag']").filter(":checked");
-					if (systemFlag.attr("value") == 'system') {
+					var systemFlag = $(".btnGroupS button.layui-this").val();
+					if (systemFlag == 'system') {
 						renderTable();
 					} else {
 						renderOtherTable();
