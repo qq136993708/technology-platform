@@ -27,7 +27,7 @@ public class OutWaitWorkClient {
 	private final static Logger logger = LoggerFactory.getLogger(OutWaitWorkClient.class);
 
 	@ApiOperation(value = "项目管理系统的待办任务", notes = "待办分页")
-	@RequestMapping(value = "/out-wait-work/page", method = RequestMethod.POST)
+	@RequestMapping(value = "/out-wait-work/xmgl/page", method = RequestMethod.POST)
 	public LayuiTableData getOutWaitWorkPage(@RequestBody LayuiTableParam param) throws Exception {
 		logger.info("==================page OutWaitWork===========================" + param);
 		return outWaitWorkService.getOutWaitWorkPage(param);

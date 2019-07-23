@@ -13,6 +13,11 @@
 	<div class="searchBox">
 		<!--查询条件-->
 		<label class="dateInput">
+			系统类别：
+			<input type="radio" name="systemFlag" value="system" checked />
+			科技平台
+			<input type="radio" name="systemFlag" value="other" />
+			其它系统
 			<span>流程名称</span>
 			<input type="hidden" id="dateFlag" name="dateFlag">
 			<input type="text" id="taskName" name="taskName" placeholder="请输入流程名称" title="流程名称" class="form-control">
@@ -24,32 +29,63 @@
 		</div>
 	</div>
 
-	<div class="tableBox">
-		<div class="tableToolBox">
-			<div class="whiteLine"></div>
-			<div class="tableBtns">
-				<button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
-					<span class="btn-state btn-all-ryg"></span>
-					全部
-				</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="threeEvent">
-					<span class="btn-state btn-blue"></span>
-					三天内
-				</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="weekEvent">
-					<span class="btn-state btn-maize"></span>
-					一周内
-				</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="monthEvent">
-					<span class="btn-state btn-yellow"></span>
-					一周以上
-				</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="handleEvent">办理</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">详情</button>
+	<div id="systemDiv">
+		<div class="tableBox">
+			<div class="tableToolBox">
+				<div class="whiteLine"></div>
+				<div class="tableBtns">
+					<button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
+						<span class="btn-state btn-all-ryg"></span>
+						全部
+					</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="threeEvent">
+						<span class="btn-state btn-blue"></span>
+						三天内
+					</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="weekEvent">
+						<span class="btn-state btn-maize"></span>
+						一周内
+					</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="monthEvent">
+						<span class="btn-state btn-yellow"></span>
+						一周以上
+					</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="handleEvent">办理</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">详情</button>
+				</div>
 			</div>
+			<table id="pendingTable" class="layui-hide" lay-filter="tableData"></table>
 		</div>
-		<table id="pendingTable" class="layui-hide" lay-filter="tableData"></table>
 	</div>
+	
+	<div id="otherDiv" style="display:none;">
+		<div class="tableBox">
+			<div class="tableToolBox">
+				<div class="whiteLine"></div>
+				<div class="tableBtns">
+					<button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
+						<span class="btn-state btn-all-ryg"></span>
+						全部
+					</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="threeEvent">
+						<span class="btn-state btn-blue"></span>
+						三天内
+					</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="weekEvent">
+						<span class="btn-state btn-maize"></span>
+						一周内
+					</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="monthEvent">
+						<span class="btn-state btn-yellow"></span>
+						一周以上
+					</button>
+				</div>
+			</div>
+			<table id="pendingOtherTable" class="layui-hide" lay-filter="tableOtherData"></table>
+		</div>
+	</div>
+
+
 
 
 	<!--表格数据操作js-->
@@ -178,6 +214,83 @@
 				});
 				$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 			}
+			
+			function renderOtherTable() {
+				var taskName = $('#taskName').val();
+				var dateFlag = $('#dateFlag').val();
+				var param = JSON.parse(window.localStorage.getItem("param"));
+
+				var lodingMsg = layer.msg('数据加载中....');
+
+				//渲染
+				table.render({
+					elem : '#pendingOtherTable',
+					url : '/task/other/pending-list',
+					method : "POST",
+					where : {
+						param : {
+							"taskName" : taskName,
+							"dateFlag" : dateFlag,
+							"functionId" : functionId
+						}
+					},
+					limit : param.selfRownum,
+					id : 'pendingOtherTable',
+					height : commonDislodgeTable(),
+					page : {
+						groups : 5,
+						limits : [ param.selfRownum, 15, 30, 45, 60 ],
+						layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+						first : '首页', //不显示首页
+						last : '尾页', //不显示尾页
+						theme : '#0F9EE0'
+					},
+					cols : [ [ {
+						type : 'checkbox',
+						event : 'changeEvents',
+						width : 45
+					}, {
+						title : '序号',
+						type : 'numbers',
+						width : 45
+					}, {
+						field : 'type',
+						title : '系统来源',
+						width : '20%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'title',
+						title : '任务名称',
+						width : '60%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'showDate',
+						title : '发起时间',
+						style : 'cursor: pointer;',
+						sort : true
+					}] ],
+					done : function(res, curr, count) {
+						// 关闭等待刷新
+						layer.close(lodingMsg);
+						
+					}
+				});
+				$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+			}
+
+			$("[name='systemFlag']").on("change", function(e) {
+				var systemFlag = $("[name='systemFlag']").filter(":checked");
+				if (systemFlag.attr("value") == 'system') {
+					$('#otherDiv').css('display', 'none');
+					$('#systemDiv').css('display', 'block');
+					renderTable();
+				} else {
+					$('#otherDiv').css('display', 'block');
+					$('#systemDiv').css('display', 'none');
+					renderOtherTable();
+				}
+			});
+
 			renderTable();
 
 			// 触发不同的按钮事件
@@ -185,7 +298,13 @@
 			active = {
 				searchEvent : function() { //点击查询按钮
 					selectRowData = '';
-					renderTable();
+					
+					var systemFlag = $("[name='systemFlag']").filter(":checked");
+					if (systemFlag.attr("value") == 'system') {
+						renderTable();
+					} else {
+						renderOtherTable();
+					}
 				},
 				handleEvent : function() { //点击办理按钮
 					if (typeof (selectRowData.id) == "undefined") {
@@ -302,6 +421,28 @@
 					area : [ '70%', '90%' ],
 					content : temUrl
 				});
+			});
+			
+			//监听排序
+			table.on('sort(tableOtherData)', function(obj) {
+				console.log(this, obj.field, obj.type)
+				//服务端排序
+				table.reload('pendingOtherTable', {
+					initSort : obj,
+					page : {
+						curr : 1
+					}, //重新从第一页开始
+					where : { //重新请求服务端
+						orderKey : obj.field, //排序字段
+						orderType : obj.type
+					//排序方式
+					}
+				});
+			});
+
+			//监听行双击事件
+			table.on('rowDouble(tableOtherData)', function(obj) {
+				window.open(obj.data.url,obj.data.type,"fullscreen=1")
 			});
 
 			//区别按钮属性
