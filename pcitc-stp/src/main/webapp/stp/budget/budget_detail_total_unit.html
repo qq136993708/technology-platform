@@ -26,7 +26,18 @@
         
     </div>
     <div id="tableBox">
-        <table id="dataTable" class="layui-table" lay-filter="dataTable"></table>
+        <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
+            <thead>
+             <tr>
+             	<th lay-data="{type:'numbers',align: 'center', width: 65, totalRowText: '合计'}">序号</th>
+             	<th lay-data="{field:'organName',align: 'left'}" >专业处/部门</th>
+                 <th lay-data="{field:'total', align: 'right',totalRow: true}">预算合计</th>
+                 <th lay-data="{field:'groupMoney',align:'right',totalRow: true}">集团公司预算</th>
+                 <th lay-data="{field:'assetMoney',align:'right',totalRow: true}">资产公司预算</th>
+                 <th lay-data="{field:'stockMoney',align:'right',totalRow: true}">股份公司预算</th>
+             </tr>
+            </thead>
+        </table>
     </div>
 </div>
 <div class="form-bottom">
@@ -55,34 +66,71 @@
             		reloadTable();
             }
 	 	});
-        table.render({
-            elem: '#dataTable' //表格容器
-            , data: null 
-            , totalRow: true
-            , limit:100
-            , height: 300
-            , cols: [[
-                {field: 'unitName', title: '专业处/部门', style: 'cursor: pointer;'}
-                , {field: 'total', title: '预算合计', style: 'cursor: pointer;'}
-                , {field: 'groupMoney', title: '集团公司预算', style: 'cursor: pointer;',align: 'center'}
-                , {field: 'assetMoney', title: '资产公司预算', style: 'cursor: pointer;',align: 'center'}
-                , {field: 'stockMoney', title: '股份公司预算', style: 'cursor: pointer;',align: 'center'}
-            ]]
-        });
 	    function reloadTable()
 	    {
-	    	publicMethods.ajaxAsyncPost("/budget/budget-assetsplit-items",{page:1,limit:100,param: {"budget_info_id":dataId,"unitCodes":unitCodes}}, function (data) {
-	       		console.log(data);
+	    	var table_map = {};
+	    	function reflush()
+	    	{
+	    		var table_data = [];
+	    		$.each(table_map,function(k,v){
+	    			v.total = v.groupMoney+v.assetMoney+v.stockMoney;
+		    	    table_data.push(v);
+		    	});
+	    		table.reload('dataTable', {data: table_data});
+	    		//格式化求和
+				$.each($(".layui-table-total tr td"),function(i,d){
+					if(i>=2){
+						var val = $(this).find("div").html();
+						$(this).find("div").html(parseInt(val));
+					}
+				});
+	    	}
+	    	//资产单位
+	    	publicMethods.ajaxAsyncPost("/budget/budget-assetsplit-items",{page:1,limit:100,param: {"budget_info_id":"${assetDataId}","unitCodes":unitCodes}}, function (data) {
+	       		$.each(data.data,function(i,d){
+	       			if(!table_map[d.organId]){
+	       				table_map[d.organId]={"organId":d.organId,"organName": d.organName,"total":0,"groupMoney":0,"assetMoney":0,"stockMoney":0};
+	       			}
+	       			table_map[d.organId].assetMoney = (table_map[d.organId].assetMoney + d.total);
+	       		});
+	       		reflush();
 			});
-	    	publicMethods.ajaxAsyncPost("/budget/budget-groupsplit-items",{page:1,limit:100,param: {"budget_info_id":dataId,"unitCodes":unitCodes}}, function (data) {
-       			console.log(data);
-       			table.reload('dataTable', {data: data.data});
+	    	publicMethods.ajaxAsyncPost("/budget/budget-groupsplit-items",{page:1,limit:100,param: {"budget_info_id":"${groupDataId}","unitCodes":unitCodes}}, function (data) {
+	    		$.each(data.data,function(i,d){
+	       			if(!table_map[d.organId]){
+	       				table_map[d.organId]={"organId":d.organId,"organName": d.organName,"total":0,"groupMoney":0,"assetMoney":0,"stockMoney":0};
+	       			}
+	       			table_map[d.organId].groupMoney = (table_map[d.organId].groupMoney + d.total);
+	       		});
+	       		reflush();
 		   	});
-	    	
-	    	publicMethods.ajaxPost("/budget/budget-group-info-table",{page:1,limit:100,param: {"nd":select_date,"unitCodes":unitCodes}}, function (data) {
-	        	curent_tabel_data = data.data;
-	        	table.reload('dataTable', {data: data.data});
-	   		}); 
+	    	publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-zsy-items",{page:1,limit:100,param: {"budget_info_id":"${stockZsyDataId}","unitCodes":unitCodes}}, function (data) {
+	    		$.each(data.data,function(i,d){
+	       			if(!table_map[d.organId]){
+	       				table_map[d.organId]={"organId":d.organId,"organName": d.organName,"total":0,"groupMoney":0,"assetMoney":0,"stockMoney":0};
+	       			}
+	       			table_map[d.organId].stockMoney = (table_map[d.organId].stockMoney + d.total);
+	       		});
+	       		reflush();
+			});
+	    	publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-zgs-items",{page:1,limit:100,param: {"budget_info_id":"${stockZgsDataId}","unitCodes":unitCodes}}, function (data) {
+	    		$.each(data.data,function(i,d){
+	       			if(!table_map[d.organId]){
+	       				table_map[d.organId]={"organId":d.organId,"organName": d.organName,"total":0,"groupMoney":0,"assetMoney":0,"stockMoney":0};
+	       			}
+	       			table_map[d.organId].stockMoney = (table_map[d.organId].stockMoney + d.total);
+	       		});
+	       		reflush();
+			});
+	    	publicMethods.ajaxAsyncPost("/budget/budget-stocksplit-xtw-items",{page:1,limit:100,param: {"budget_info_id":"${stockXtwDataId}","unitCodes":unitCodes}}, function (data) {
+	    		$.each(data.data,function(i,d){
+	       			if(!table_map[d.organId]){
+	       				table_map[d.organId]={"organId":d.organId,"organName": d.organName,"total":0,"groupMoney":0,"assetMoney":0,"stockMoney":0};
+	       			}
+	       			table_map[d.organId].stockMoney = (table_map[d.organId].stockMoney + d.total);
+	       		});
+	       		reflush();
+			});
 	    }
 	    reloadTable();
 	    /*点击取消按钮*/

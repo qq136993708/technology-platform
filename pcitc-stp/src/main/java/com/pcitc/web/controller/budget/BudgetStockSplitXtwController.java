@@ -97,7 +97,7 @@ public class BudgetStockSplitXtwController extends BaseController {
 		request.setAttribute("budgetType", BudgetInfoEnum.STOCK_XTY_SPLIT.getCode());
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
 		request.setAttribute("items", infors.getBody());
-		System.out.println(JSON.toJSONString(infors.getBody()));
+		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return "stp/budget/budget_main_stocksplit_xtw";
 	}
 	
@@ -214,7 +214,7 @@ public class BudgetStockSplitXtwController extends BaseController {
 	public Object getBudgetStockItems(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_STOCKSPLIT_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
-		System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	@RequestMapping(value = "/budget/budget-stocksplit-xtw-create", method = RequestMethod.POST)
@@ -242,7 +242,7 @@ public class BudgetStockSplitXtwController extends BaseController {
 	public Object selectBudgetStockSplitItem(@ModelAttribute("vo") BudgetSplitBaseDataVo vo,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_STOCKSPLIT_GET_ITEM, HttpMethod.POST, new HttpEntity<Object>(vo, this.httpHeaders), Object.class);
-		System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
@@ -251,7 +251,7 @@ public class BudgetStockSplitXtwController extends BaseController {
 	public Object selectBudgetStockSplitHistoryItems(@ModelAttribute("vo") BudgetSplitBaseDataVo vo,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_STOCKSPLIT_HISTORY_ITEMS, HttpMethod.POST, new HttpEntity<Object>(vo, this.httpHeaders), Object.class);
-		System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
@@ -350,7 +350,6 @@ public class BudgetStockSplitXtwController extends BaseController {
 	@ResponseBody
 	public Object selectBudgetStockSplitCompareProject(@RequestParam(value="nd",required = false)String nd,@RequestParam(value="code",required = false)String code,HttpServletRequest request) throws IOException 
 	{
-		System.out.println("plan............"+nd+"------"+code);
 		if(nd == null || code == null) {
 			return new ArrayList<Object>();
 		}

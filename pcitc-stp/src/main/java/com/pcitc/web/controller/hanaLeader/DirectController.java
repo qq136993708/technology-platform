@@ -771,6 +771,9 @@ public class DirectController extends BaseController {
 		return resault;
 	}
 
+	/**
+	 * 年直属研究院合同（任务书）数量占比
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/contract_02")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")

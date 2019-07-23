@@ -1773,11 +1773,7 @@
 					)
 				</if>
 				<if test="unitName != null">
-					and (
-					<foreach collection="unitName" item="unitName" index="index" separator=" or ">
-						tableA.fzdw like '%${unitName}%'
-					</foreach>
-					)
+					and tableA.fzdw like '%${unitName}%'
 				</if>
 			</if>
 			
@@ -1798,11 +1794,7 @@
 					)
 				</if>
 				<if test="unitName != null">
-					and (
-					<foreach collection="unitName" item="unitName" index="index" separator=" or ">
-						tableA.define8 like '%${unitName}%'
-					</foreach>
-					)
+					and tableA.define8 like '%${unitName}%'
 				</if>
 			</if>
 			

@@ -2685,8 +2685,9 @@
 			select
 				nd,ysnd,define10
 			from out_project_info
-			where ysnd = '${nd}' and 
-				  project_type != '1'
+			where ysnd = '${nd}'  
+				  and project_type != '1'
+				  and define3 = '项目管理系统'
 				  <if test="typeFlag != null and typeFlag != ''">
 					  and type_flag like '%${typeFlag}%'
 				  </if>
@@ -2916,7 +2917,7 @@
         		xmlbmc,define1,fwdx
 			from out_project_info
 			where 
-				project_property = '重大专项' and nd = '${nd}' and project_type != '1'
+				project_property = '重大专项' and nd = '${nd}' and project_type != '1' and define3 = '项目管理系统'
 			group by hth
 			order by hth
 	</select>
@@ -3297,11 +3298,7 @@
 					)
 				</if>
 				<if test="unitName != null">
-					and (
-					<foreach collection="unitName" item="unitName" index="index" separator=" or ">
-						out_project_info.fzdw like '%${unitName}%'
-					</foreach>
-					)
+					and out_project_info.fzdw like '%${unitName}%'
 				</if>
 			</if>
 			
@@ -3322,11 +3319,7 @@
 					)
 				</if>
 				<if test="unitName != null">
-					and (
-					<foreach collection="unitName" item="unitName" index="index" separator=" or ">
-						out_project_info.define8 like '%${unitName}%'
-					</foreach>
-					)
+					and out_project_info.define8 like '%${unitName}%'
 				</if>
 			</if>
 			<if test="define5 != null">
