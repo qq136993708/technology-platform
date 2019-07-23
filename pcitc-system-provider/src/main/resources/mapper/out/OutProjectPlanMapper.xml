@@ -1616,8 +1616,8 @@
 		select
 			 SUBSTR(type_flag FROM 4) as type_flag,
 			 round(sum(yszbxje),4) as yszbxje,round(sum(ysfyxje),4) as ysfyxje,
-			 round(sum(case when xmlbbm = 'KYZB' then ysje else 0 end), 4) as zbxsjje,
-			 round(sum(case when xmlbbm != 'KYZB' then ysje else 0 end), 4) as fyxsjje,
+			 round(sum(case when xmlbbm = 'KYZB' then yszbxje else 0 end), 4) as zbxsjje,
+			 round(sum(case when xmlbbm != 'KYZB' then ysfyxje else 0 end), 4) as fyxsjje,
 			 round(sum(ysje), 4) as zsjje
 		from out_project_info
 		where 
@@ -1772,6 +1772,13 @@
 					</foreach>
 					)
 				</if>
+				<if test="unitName != null">
+					and (
+					<foreach collection="unitName" item="unitName" index="index" separator=" or ">
+						tableA.fzdw like '%${unitName}%'
+					</foreach>
+					)
+				</if>
 			</if>
 			
 			<!-- define12, 财务相关的承担单位，所以查询define3 -->
@@ -1787,6 +1794,13 @@
 					and (
 					<foreach collection="define2" item="define2" index="index" separator=" or ">
 						tableA.define2 like '%${define2}%'
+					</foreach>
+					)
+				</if>
+				<if test="unitName != null">
+					and (
+					<foreach collection="unitName" item="unitName" index="index" separator=" or ">
+						tableA.define8 like '%${unitName}%'
 					</foreach>
 					)
 				</if>

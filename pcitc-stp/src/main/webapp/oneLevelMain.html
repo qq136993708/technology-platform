@@ -616,46 +616,24 @@
             success : function(data) {
                 var list = data.data;
                 $.each(list, function(index, dt) {
-                    if($(document).width()==1905){
-                        if (index < 10) {
-                            var content = "";
-                            var time = (dt.createtimestr).split("-");
-                            var md = time[1] + "/" + time[2];
-                            var ym = time[0] + "/" + time[1];
-                            if (dt.content == undefined) {
-                                //content="详情请点击查看...";
-                            } else {
-                                content = (dt.content).substr(3, 70) + "...";
-                            }
-                            if (index == 0) {
-                                var html = '<li>' + '           <span class="time">' + '               <span class="date">' + time[2] + '</span>' + '               <span class="yearM">' + ym + '</span>' + '           </span>' + '           <span class="content">'
-                                    + '               <a href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=' + dt.id + '" target="_blank">' + dt.title + '</a>' + '               <span>' + content + '</span>' + '      </li>';
-                            } else {
-                                var html = "<li><span class='time'>" + md + "</span><a href='/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + dt.id + "' target='_blank'>" + dt.title + "</a></li>"
-                            }
-
-                            $("#news").append(html);
+                    if (index < 10) {
+                        var content = "";
+                        var time = (dt.createtimestr).split("-");
+                        var md = time[1] + "/" + time[2];
+                        var ym = time[0] + "/" + time[1];
+                        if (dt.content == undefined) {
+                            //content="详情请点击查看...";
+                        } else {
+                            content = (dt.content).substr(3, 70) + "...";
                         }
-                    }else {
-                        if (index < 5) {
-                            var content = "";
-                            var time = (dt.createtimestr).split("-");
-                            var md = time[1] + "/" + time[2];
-                            var ym = time[0] + "/" + time[1];
-                            if (dt.content == undefined) {
-                                //content="详情请点击查看...";
-                            } else {
-                                content = (dt.content).substr(3, 70) + "...";
-                            }
-                            if (index == 0) {
-                                var html = '<li>' + '           <span class="time">' + '               <span class="date">' + time[2] + '</span>' + '               <span class="yearM">' + ym + '</span>' + '           </span>' + '           <span class="content">'
-                                    + '               <a href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=' + dt.id + '" target="_blank">' + dt.title + '</a>' + '               <span>' + content + '</span>' + '      </li>';
-                            } else {
-                                var html = "<li><span class='time'>" + md + "</span><a href='/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + dt.id + "' target='_blank'>" + dt.title + "</a></li>"
-                            }
-
-                            $("#news").append(html);
+                        if (index == 0) {
+                            var html = '<li>' + '           <span class="time">' + '               <span class="date">' + time[2] + '</span>' + '               <span class="yearM">' + ym + '</span>' + '           </span>' + '           <span class="content">'
+                                + '               <a href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=' + dt.id + '" target="_blank">' + dt.title + '</a>' + '               <span>' + content + '</span>' + '      </li>';
+                        } else {
+                            var html = "<li><span class='time'>" + md + "</span><a href='/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + dt.id + "' target='_blank'>" + dt.title + "</a></li>"
                         }
+
+                        $("#news").append(html);
                     }
 
                 });

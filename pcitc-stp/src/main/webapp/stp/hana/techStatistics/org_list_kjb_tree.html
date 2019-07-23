@@ -63,7 +63,7 @@
     </div>
 </div>
 
-<div class="btnGroup" style="float:right;margin-right:20px;display:none"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
+<div class="btnGroup" style="float:right;margin-right:20px;"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
 <div class="tableBox" style="clear:both">
     
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table>
@@ -281,7 +281,7 @@ layui.config({
  	               theme: '#0F9EE0'
  	           }
   	        ,cols: [[
-  	        	{title : '序号', type : 'numbers', width : 55,fixed:'left'},
+  	        	{title : '序号', type : 'numbers', width : 55},
   	        	{field : 'unitName',        title : '单位名称',              style : 'cursor: pointer;', align : 'left', width : '25%',templet : '#view_detail',sort : true},
                 {field : 'year',            title : '统计年度',              style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'auditStatus',     title : '审核状态',              style : 'cursor: pointer;', align: 'center', width : '15%', width : 100, templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
@@ -301,10 +301,10 @@ layui.config({
                 {field : 'assistResearcherCount',       title : '研究与试验发展项目(课题)管理和辅助工作人员数',          style : 'cursor: pointer;', align : 'center', width : '25%',sort : true},
                 {field : 'workerSalary',    title : '职工薪酬总额(万元)',                  style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'assetsTotal',     title : '资产合计(万元)',                     style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-                {field : 'fixedAssets',     title : '固定资产',                          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+                {field : 'fixedAssets',     title : '固定资产(万元)',                          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'deviceAssets',    title : '技术开发仪器设备原值(万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'deviceInnnerAssets',     title : '技术开发仪器设备原值->其中：国产技术',               style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-                {field : 'totaIncome',             title : '总收入',                     style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+                {field : 'totaIncome',             title : '总收入(￥万元)',                     style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'countryInvestCost',     title : '国家、政府科研投入(￥万元)',        style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'groupInvestCost',       title : '总部科研投入(￥万元)',            style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                 {field : 'subInvestCost',         title : '分(子)公司科研投入(￥万元)',        style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
@@ -470,6 +470,7 @@ layui.config({
 
     function exput_excel()
     {
+		
     	var unitName=$('#unitName').val();
     	var auditStatus=$('#auditStatus').val();
     	var year=$('#year').val();

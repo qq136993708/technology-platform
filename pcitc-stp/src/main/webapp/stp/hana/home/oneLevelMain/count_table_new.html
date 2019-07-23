@@ -12,6 +12,9 @@
 .dateInput {
 	font-size: 12px;
 }
+.layui-btn{height: 30px;line-height: 30px; padding: 0 15px;}
+.layuiadmin-card-header-auto i.layuiadmin-button-btn{font-size: 14px;}
+
 </style>
 </head>
 <body>
@@ -24,6 +27,7 @@
 <!-- 直属研究院、分子公司、集团等9种类型 -->
 <input type="hidden" name="type_flag" value="${type_flag}" id="type_flag">
 <input type="hidden" name="leaderFlag" value="${leaderFlag}" id="leaderFlag">
+<input type="hidden" name="ktlx" value="${ktlx}" id="ktlx">
  <div class="layui-fluid">
     <div class="layui-card">
  
@@ -142,17 +146,6 @@
             </div>
           </div>
           
-          <div class="layui-inline">
-            <label class="layui-form-label">课题类别：</label>
-            <div class="layui-input-inline">
-               <select name="ktlx" id="ktlx"  >
-                      <option value="" >--请选择--</option>
-		              <#list ktlxList as vo> 
-				          <option value="${vo.numValue}"  <#if ktlx==vo.name>selected="selected"</#if> >${vo.name}</option>
-				      </#list>
-              </select>
-            </div>
-          </div>
           
           
           <div class="layui-inline">
@@ -167,13 +160,23 @@
           </div>
           
           
+          
+           <div class="layui-inline">
+            <label class="layui-form-label">单位名称：</label>
+            <div class="layui-input-inline">
+              <input type="text" name="unitName" id="unitName"  title="单位名称" placeholder="请输入单位名称" autocomplete="off" class="layui-input"  >
+            </div>
+          </div>
+          
+          
+          
            <div class="layui-inline">
             <label class="layui-form-label">分组类型：</label>
             <div class="layui-input-inline">
                <select name="groupFlag" id="groupFlag"  >
                         <option value="" >--请选择--</option>
 			             <#list fzlxList as vo> 
-					          <option value="${vo.numValue}"  >${vo.name}</option>
+					          <option value="${vo.numValue}"  <#if groupFlag==vo.numValue>selected="selected"</#if>>${vo.name}</option>
 					      </#list>
               </select>
             </div>
@@ -202,7 +205,7 @@
       </div>    
 	<!--表格数据操作js-->
 	<script src="/common/js/jquery-1.11.3.min.js"></script>
-	<script id="view_taskVersion" type="text/html"> {{purchase_money(d.jf)}} </script>
+	<script id="view_taskVersion" type="text/html"> {{purchase_money_jf(d.jf)}} </script>
 	<script id="view_taskVersion2" type="text/html"> {{purchase_money(d.ysje)}} </script>
 	<script id="view_taskVersion3" type="text/html"> {{purchase_money(d.yszbxje)}} </script>
 	<script id="view_taskVersion4" type="text/html"> {{purchase_money(d.ysfyxje)}} </script>
@@ -328,6 +331,13 @@
 		    var zycbmFlag=$("#zycbmFlag").val();
 		    var zylbbmFlag=$("#zylbbmFlag").val();
 		    
+		    
+		    
+		    
+		    
+		    
+		    //是否是：结转课题
+		    var isCarry="0";
 		    if(define1=='--请选择--')  {define1=''}
 		    if(define2=='--请选择--')  {define2=''}
 		    if(define5=='--请选择--')  {define5=''}
@@ -337,6 +347,8 @@
 		    if(fzdwflag=='--请选择--')  {fzdwflag=''}
 		    if(zylb=='--请选择--')      {zylb=''}
 		    if(groupFlag=='--请选择--') {groupFlag=''}
+		    if(ktlx=='结转课题') {isCarry='1'}
+		    
 		    var v_date=(new Date()).getTime();
 		    
 		    
@@ -356,6 +368,7 @@
 						"define2"   :          define2,
 						"define5"   :          define5,
 						"define12"  :          define12,
+						"isCarry"   :          isCarry,
 						"hth" :              $("#hth").val(),
 						"zylb" :             zylb,
 						"ktlx" :             $("#ktlx").val(),
@@ -363,6 +376,7 @@
 						"project_property" : $("#project_property").val(),
 						"leaderFlag" :       $("#leaderFlag").val(),
 						"projectId" :        $("#projectId").val(),
+						"unitName" :              $("#unitName").val(),
 						"fzdwflag"  :         fzdwflag,
 						"groupFlag" :         groupFlag,
 						"gsbmbmFlag":         gsbmbmFlag,
@@ -675,6 +689,24 @@
 			}
 			
 	        return '<span style="color:red">'+jf+'</span>';
+	    } else 
+	    {
+	        return "<span></span>";
+	    }
+	}
+	
+	function purchase_money_jf(jf) 
+	{
+	    if (jf) 
+	    {
+	    	//jf=layui.laytpl.milliFormat(jf,0)
+			var h_strs=jf.substring(jf.lastIndexOf("."),jf.length); 
+			if(h_strs=='.0')
+			{
+				jf=jf.replace(".0","");
+			}
+			
+	        return '<span style="color:#1890ff">'+jf+'</span>';
 	    } else 
 	    {
 	        return "<span></span>";

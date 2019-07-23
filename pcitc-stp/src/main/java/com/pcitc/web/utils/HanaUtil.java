@@ -3699,22 +3699,11 @@ public class HanaUtil {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("fyxsjje")) {
 			chartBarLineSeries.setName("费用性科研投入");
-			// chartBarLineSeries.setStack("总量");
-			// chartBarLineSeries.setAreaStyle(new Object());
-			// chartBarLineSeries.setColor("#4a94eb");
-			// chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
-			// chartBarLineSeries.setSmooth(true);
-
 		}
 		if (name.equals("zbxsjje")) {
 			chartBarLineSeries.setName("资本性科研投入");
-			// chartBarLineSeries.setyAxisIndex(1);
-			// chartBarLineSeries.setStack("总量");
-			// chartBarLineSeries.setAreaStyle(new Object());
-			// chartBarLineSeries.setColor("#43bb7c");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
-			// chartBarLineSeries.setSmooth(true);
 		}
 
 		if (name.equals("zysje")) {
@@ -3742,6 +3731,7 @@ public class HanaUtil {
 				
 				if (name.equals("fyxsjje")) {
 					if (fyxsjje != null && !fyxsjje.equals("null") && !fyxsjje.equals("")) {
+						System.out.println(fyxsjje+"===fyxsjje=="+String.format("%.4f", Double.valueOf(fyxsjje) / 10000));
 						dataList.add(String.format("%.4f", Double.valueOf(fyxsjje) / 10000));
 
 					} else {
