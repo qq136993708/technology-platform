@@ -1,9 +1,7 @@
 package com.pcitc.web.controller.budget;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +20,10 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetReleaseEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.InputCheckUtil;
 
@@ -99,14 +95,43 @@ public class BudgetInfoController extends BaseController
 		param.getParam().put("nd", nd);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BUDGET_RELEASE_LIST, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
 		LayuiTableData tableData = responseEntity.getBody();
+		
+		
+		String groupDataId = "0";
+		String assetDataId = "0";
+		String stockZsyDataId = "0";
+		String stockZgsDataId = "0";
+		String stockXtwDataId = "0";
 		for(java.util.Iterator<?> iter = tableData.getData().iterator();iter.hasNext();) {
-			/*Map<String,Object> map = MyBeanUtils.transBean2Map(iter.next());
-			map.put("status", BudgetAuditStatusEnum.getStatusByCode((Integer)map.get("auditStatus")).getDesc());
-			map.put("budgetName", BudgetInfoEnum.getByCode((Integer)map.get("budgetType")).getDesc());
-			map.put("releaseStatusName", BudgetReleaseEnum.getByCode((Integer)map.get("releaseStatus")).getDesc());
-			mapdata.add(map);*/
-			System.out.println(JSON.toJSONString(iter.next()));
+			Map<?,?> map = (Map<?,?>)iter.next();
+			if(!BudgetReleaseEnum.STATUS_RELEASE.getCode().equals(Integer.valueOf(map.get("releaseStatus").toString()))) 
+			{
+				continue;
+			}
+			if(BudgetInfoEnum.GROUP_SPLIT.getCode().equals(Integer.valueOf(map.get("budgetType").toString()))) 
+			{
+				groupDataId = map.get("dataId").toString();
+			}else if(BudgetInfoEnum.ASSET_SPLIT.getCode().equals(Integer.valueOf(map.get("budgetType").toString()))) 
+			{
+				assetDataId = map.get("dataId").toString();
+			}else if(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode().equals(Integer.valueOf(map.get("budgetType").toString()))) 
+			{
+				stockZsyDataId = map.get("dataId").toString();
+			}else if(BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode().equals(Integer.valueOf(map.get("budgetType").toString()))) 
+			{
+				stockZgsDataId = map.get("dataId").toString();
+			}else if(BudgetInfoEnum.STOCK_XTY_SPLIT.getCode().equals(Integer.valueOf(map.get("budgetType").toString()))) 
+			{
+				stockXtwDataId = map.get("dataId").toString();
+			}else {
+				System.out.println("......");
+			}
 		}
+		request.setAttribute("groupDataId", groupDataId);
+		request.setAttribute("assetDataId", assetDataId);
+		request.setAttribute("stockZsyDataId", stockZsyDataId);
+		request.setAttribute("stockZgsDataId", stockZgsDataId);
+		request.setAttribute("stockXtwDataId", stockXtwDataId);
 		return "stp/budget/budget_detail_total_unit";
 	}
 	
