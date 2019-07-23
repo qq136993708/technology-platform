@@ -332,7 +332,7 @@ span{display: inline-block;}
 .layui-tab-brief>.layui-tab-title .layui-this{background-color: #51acff;color: white;}
 .layui-tab-item{ padding: 20px;}
 .expert-h .layui-tab-content .layui-tab-item{height: 303px;box-sizing: border-box;}
-.expert-h .layui-tab-content .layui-tab-item:nth-child(1){overflow-y: scroll;}
+.expert-h .layui-tab-content .layui-tab-item:nth-child(1),.expert-h .layui-tab-content .layui-tab-item:nth-child(2){overflow-y: scroll;}
 .layui-tab-item ul li{background: url("/layuiadmin/layui/images/icon-expertu.png") no-repeat;
     padding-left: 25px;height: 90px;}
 .layui-tab-item ul li p{font-size: 16px; color: #000000;padding-bottom: 15px;}

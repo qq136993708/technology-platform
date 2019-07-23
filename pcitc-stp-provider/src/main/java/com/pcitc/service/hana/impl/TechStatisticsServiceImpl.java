@@ -162,6 +162,18 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		    return data;
 	}
 	
+	public JSONArray getTechCostStatisticsList(Map map)throws Exception
+	{
+		
+	  		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(map));
+			System.out.println(">>>>>>>>>> getTechCostStatisticsList 参数: "+parmamss.toJSONString());
+			List<TechCost> list = techCostMapper.getStatisticsList(map);
+			
+			JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+	  		return json;
+	  		
+	}
+	
 	
 	
 	
@@ -527,10 +539,10 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 					String levle=ss.getWriteType();
 					if(levle.equals("1") || levle.equals("2"))
 					{
-						ss.setLay_is_open(true);
+						ss.setLay_is_open("true");
 					}else
 					{
-						ss.setLay_is_open(true);
+						ss.setLay_is_open("true");
 					}
 				}
 				
@@ -548,7 +560,14 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 			    return data;
 	}
 	
-	
+	public JSONArray getTechOrgCountStatisticsList(Map map)throws Exception
+	{
+		List<TechOrgCount> list = techOrgCountMapper.getStatisticsList(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+  		return json;
+		
+	}
 	
 	
 
