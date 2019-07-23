@@ -135,6 +135,17 @@ public class BudgetInfoController extends BaseController
 		return "stp/budget/budget_detail_total_unit";
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_modify_main")
+	public Object toBudgetModifyMainPage(HttpServletRequest request) throws IOException 
+	{
+		String nd = request.getParameter("nd");
+		if(nd == null) {
+			nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
+		}
+		request.setAttribute("nd", nd);
+		return "stp/budget/budget_modify_main";
+	}
+	
 	@RequestMapping(value = "/budget/budget-info-get", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetInfo(@RequestParam(value = "dataId", required = true) String dataId,HttpServletRequest request) throws IOException 
