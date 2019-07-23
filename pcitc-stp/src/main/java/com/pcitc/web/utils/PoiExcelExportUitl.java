@@ -3,14 +3,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 
 
 public class PoiExcelExportUitl<T> {
@@ -48,9 +51,30 @@ public class PoiExcelExportUitl<T> {
 
     public void exportExcel() {
         HSSFWorkbook hssfworkbook = new HSSFWorkbook(); // 创建一个excel对象
-        for (int i = 0; i <= (list.size() / 65535); i++) {
+        
+        // 要设置数值型 列表
+        HSSFCellStyle cellstyle = hssfworkbook.createCellStyle();
+        cellstyle.setAlignment(HorizontalAlignment.RIGHT); ;//右
+        cellstyle.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
+        cellstyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("##0"));
+        
+        
+        HSSFCellStyle cellstylestr = hssfworkbook.createCellStyle();
+        cellstylestr.setAlignment(HorizontalAlignment.LEFT); ;//右
+        cellstylestr.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
+        
+        
+        HSSFCellStyle cellstyl_center = hssfworkbook.createCellStyle();
+        cellstyl_center.setAlignment(HorizontalAlignment.CENTER); ;//右
+        cellstyl_center.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
+        
+        
+        for (int i = 0; i <= (list.size() / 65535); i++)
+        {
             HSSFSheet hssfsheet = hssfworkbook.createSheet(); // 工作表
             hssfsheet.setDefaultColumnWidth(20);// 设置表格默认列宽度为20个字节  
+            hssfsheet.setColumnWidth(0, 9966); 
+           
             // 工作表名称
             hssfworkbook.setSheetName(i, fileName.replace(".xls", "") + "(第" + (i + 1) + "页)");
             int beginRows = 65535 * i;
@@ -61,11 +85,10 @@ public class PoiExcelExportUitl<T> {
                 for (int h = 0; h < heads.length; h++) {
                     HSSFCell hssfcell = hssfrowHead.createCell(h,Cell.CELL_TYPE_STRING);
                     hssfcell.setCellValue(heads[h]);
+                   // hssfcell.setCellStyle(cellstyl_center);
                 }
             }
-            // 要设置数值型 列表
-            HSSFCellStyle cellstyle = hssfworkbook.createCellStyle();
-            cellstyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("##0"));
+           
             // 是否是数值型
             boolean isnum = false;
             // 输出excel 数据
@@ -79,7 +102,10 @@ public class PoiExcelExportUitl<T> {
                 // 读取数据值
                 for (int k = 0; k < cols.length; k++) {
                     HSSFCell hssfcell = hssfrow.createCell(k);
-                    // hssfcell.setCellValue(hm.get(cols[k])==null?"":hm.get(cols[k]).toString());
+                    CellType cellType=  hssfcell.getCellTypeEnum();
+                    Object o=hm.get(cols[k]);
+                    String value=o.toString();
+                    
                     isnum = false;
                     /*for (int z = 0; z < numerics.length; z++) {
                         if (numerics[z] == k) {
@@ -87,18 +113,24 @@ public class PoiExcelExportUitl<T> {
                             break;
                         }
                     }*/
+                    //如果是数字，靠右样式
+                    if(value.matches("\\d+(.\\d+)?"))
+                    {
+                    	//System.out.println("------------>>数据值:"+o.toString()+""+cellType.toString());
+                        if (hm.get(cols[k]) == null || hm.get(cols[k]).equals("")) 
+                        {
 
-                    if (isnum) {
-                        if (hm.get(cols[k]) == null || hm.get(cols[k]).equals("")) {
-
-                        } else {
-                            //hssfcell.setCellStyle(cellstyle);
-                        	hssfcell.setCellStyle(cellstyle);
+                        } else 
+                        {
                             hssfcell.setCellValue(Double.parseDouble(
                                     hm.get(cols[k]) == null ? "" : hm.get(cols[k]).toString().replace(",", "")));
+                            hssfcell.setCellStyle(cellstyle);
                         }
-                    } else {
+                    } else 
+                    {
+                    	
                         hssfcell.setCellValue(hm.get(cols[k]) == null ? "" : hm.get(cols[k]).toString());
+                        hssfcell.setCellStyle(cellstylestr);
                     }
                 }
             }
