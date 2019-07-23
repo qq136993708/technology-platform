@@ -49,9 +49,9 @@
           </div>
           
           <div class="layui-inline">
-            <label class="layui-form-label">项目年度：</label>
+            <label class="layui-form-label">立项年度：</label>
             <div class="layui-input-inline">
-              <input type="text" name="nd" readonly="readonly" style="cursor:pointer" placeholder="请选择项目年度" title="项目年度" value="${nd}" autocomplete="off" class="layui-input" id="nd" width="100px" >
+              <input type="text" name="nd" readonly="readonly" style="cursor:pointer" placeholder="请选择立项年度" title="立项年度" value="${nd}" autocomplete="off" class="layui-input" id="nd" width="100px" >
             </div>
           </div>
           <div class="layui-inline">
@@ -88,7 +88,7 @@
           </div>
           
            <div class="layui-inline">
-            <label class="layui-form-label">单位类别：</label>
+            <label class="layui-form-label">单位性质：</label>
             <div class="layui-input-inline">
                <select name="define12" id="define12" lay-filter="select_define12"   > </select>
             </div>
@@ -147,7 +147,7 @@
           
           
            <div class="layui-inline">
-            <label class="layui-form-label">负责单位：</label>
+            <label class="layui-form-label">承担单位：</label>
             <div class="layui-input-inline">
                <select name="fzdwflag" id="fzdwflag"  >
 			              <#list fzdwList as vo> 
@@ -249,11 +249,11 @@
 				   getDicByParentCode(parentCode,'define12');
 				   console.log("监听经费来源:"+data);
 			   });
-			   //监听单位类别
+			   //监听单位性质
 			   form.on('select(select_define12)', function(data){
 					   var parentCode=data.value;
 					   getDicByParentCode(parentCode,'define2');
-					   console.log("监听单位类别:"+data);
+					   console.log("监听单位性质:"+data);
 			   });
 			   
 			   //监听部门
@@ -403,7 +403,7 @@
 					width : '45'
 				}, {
 					field : 'nd',
-					title : '项目年度',
+					title : '立项年度',
 					style : 'cursor: pointer;',
 					align : 'center',
 					width : '80',
@@ -471,14 +471,14 @@
 					sort : true
 				}, {
 					field : 'fzdw',
-					title : '负责单位',
+					title : '牵头单位',
 					style : 'cursor: pointer;',
 					align : 'left',
 					width : '150',
 					sort : true
 				}, {
 					field : 'define8',
-					title : '承担单位',
+					title : '参与单位',
 					style : 'cursor: pointer;',
 					align : 'left',
 					width : '150',
@@ -499,17 +499,10 @@
 					sort : true
 				}, {
 					field : 'define12',
-					title : '一级单位类别',
+					title : '单位性质',
 					style : 'cursor: pointer;',
 					align : 'left',
 					width : '150',
-					sort : true
-				}, {
-					field : 'define2',
-					title : '二级单位类别',
-					style : 'cursor: pointer;',
-					align : 'left',
-					width : '140',
 					sort : true
 				}, {
 					field : 'projectProperty',
@@ -605,15 +598,15 @@
 				
 			}		
   /**======================================联动=====================================*/	
-	var define11="${define11?default('')}";//单位类别
-	var define12="${define12?default('')}";//单位类别
+	var define11="${define11?default('')}";//单位性质
+	var define12="${define12?default('')}";//单位性质
 	var define2="${define2?default('')}";//研究院
 	var zycbmFlag="${zycbmFlag?default('')}";
 	var zylbbmFlag="${zylbbmFlag?default('')}";
 	
 	//alert(define11);
 	
-	//获取单位类别
+	//获取单位性质
 	function getDicByParentCode(parentCode,downId)
     {
     	 //alert(parentCode+"--"+downId);
