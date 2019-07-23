@@ -943,6 +943,10 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("gsbmbmFlag", gsbmbmFlag);
 		request.setAttribute("zylbbmFlag", zylbbmFlag);
 		//(汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2    
+
+		//直属研究院
+		List<SysDictionary>  yjyList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+		request.setAttribute("yjyList", yjyList);
 				
 		
 		return "stp/hana/home/oneLevelMain/common_table_new";
