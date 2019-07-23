@@ -234,9 +234,14 @@ public class SearchFullController extends BaseController {
     public String getEquipmentIsShow(HttpServletRequest request) {
         String flag = "0";
         if (sysUserInfo.getUserLevel()!=2) {
+            //同一个院
             String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);
             if (leadUnitCode.equals(request.getParameter("leadUnitCode"))){
                 flag="1";
+            }
+            //判断科技处
+            if (Arrays.asList(sysUserInfo.getUnitCode().split(",")).contains("30130054")){
+                flag = "1";
             }
         }else {
             flag="1";

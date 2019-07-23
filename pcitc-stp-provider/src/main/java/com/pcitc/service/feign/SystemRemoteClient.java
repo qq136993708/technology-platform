@@ -2,6 +2,8 @@ package com.pcitc.service.feign;
 
 import java.util.List;
 
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoExample;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -79,4 +81,7 @@ public interface SystemRemoteClient {
     //查询课题信息
     @RequestMapping(value = "/out-provider/project-list-expert", method = RequestMethod.POST)
     public LayuiTableData getOutProjectListPageExpert(@RequestBody LayuiTableParam param) throws Exception;
+    //自定义查询项目信息
+    @RequestMapping(value = "/out-provider/selectByExample", method = RequestMethod.POST)
+    public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) throws Exception;
 }
