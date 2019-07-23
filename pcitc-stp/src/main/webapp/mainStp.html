@@ -765,7 +765,7 @@
 				//科研课题 projectCount、科研装备 kyzbCount
 				function getCommonCount(nd) {
 					$.ajax({
-						type : 'GET',
+						type : 'POST',
 						url : "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
 						dataType : 'json',
 						headers : {
@@ -1086,7 +1086,9 @@
 						dataType : "json",
 						timeout : 11000,
 						cache : false,
-						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						headers : {
+							'Content-Type' : 'application/json'
+						},
 						success : function(data, status) {
 
 							$("#wait_work_id_count").html(data.count + "");
@@ -1269,7 +1271,9 @@
 						timeout : 9000,
 						dataType : "json",
 						cache : false,
-						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						headers : {
+							'Content-Type' : 'application/json'
+						},
 						success : function(data, status) {
 							var count = "";
 							for (var i = 0; i < data.length; i++) {

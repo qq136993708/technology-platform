@@ -1792,7 +1792,7 @@ public class OneLevelMainController extends BaseController {
 	/**
 	 *全口径新开课题合同（任务书）签订率--费用性、资本性
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/contract_01_01")
+	@RequestMapping(value = "/one_level_main/contract_01_01")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String contract_01_01(HttpServletRequest request, HttpServletResponse response) throws Exception {

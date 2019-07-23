@@ -88,11 +88,10 @@ public class DirectController extends BaseController {
 
 	private static final String actualPay_detail_data = "http://pcitc-zuul/hana-proxy/hana/home/actualPay_detail_data";
 
-	@RequestMapping(method = RequestMethod.GET, value = "/direct/topic_equipment_count")
+	@RequestMapping(value = "/direct/topic_equipment_count")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String topic_equipment_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));

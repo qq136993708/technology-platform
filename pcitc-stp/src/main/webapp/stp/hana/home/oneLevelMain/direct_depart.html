@@ -403,7 +403,7 @@
 		//科研课题 projectCount、科研装备 kyzbCount
 		function getCommonCount(nd) {
 			$.ajax({
-				type : 'GET',
+				type : 'POST',
 				url : "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&typeFlag=研究院&nd=" + nd,
 				dataType : 'json',
 				headers : {
@@ -651,7 +651,7 @@
 						var beforeYear = nd - 2;
 						nd_temp = beforeYear + "," + lastYear;
 					}
-					
+
 					var define1 = '资本性';
 					var url = encodeURIComponent("/one_level_main/count_table_new?define2=" + xName + "&define11=股份公司&define12=直属研究院&nd=" + nd_temp + "&ysnd=" + nd + "&define1=" + define1 + "&ktlx=" + legentName + "&groupFlag=xmid,define8");
 					window.open("/instituteIndex?url=" + url);
@@ -808,7 +808,7 @@
 			var temND = '';
 			if (ktlx == '新开课题') {
 				temND = nd
-			} else if(ktlx == '结转课题') {
+			} else if (ktlx == '结转课题') {
 				var lastYear = nd - 1;
 				var beforeYear = nd - 2;
 				temND = beforeYear + "," + lastYear;
@@ -822,16 +822,16 @@
 			var nd = $('#nd').val();
 			var v_date = (new Date()).getTime();
 			var define1 = '资本性';
-			
+
 			var nd_temp = "";
 			if (ktlx == '新开课题') {
 				nd_temp = nd;
-			} else if(ktlx == '结转课题') {
+			} else if (ktlx == '结转课题') {
 				var lastYear = nd - 1;
 				var beforeYear = nd - 2;
 				nd_temp = beforeYear + "," + lastYear;
 			}
-			
+
 			var url = encodeURIComponent("/one_level_main/count_table_new?ysnd=" + nd + "&nd=" + nd_temp + "&v_date=" + v_date + "&ktlx=" + ktlx + "&define1=" + define1 + "&define11=股份公司&define12=直属研究院&groupFlag=xmid,define8");
 			window.open("/instituteIndex?url=" + url);
 		}
