@@ -87,7 +87,7 @@
                 },
                 {
                     field: "status",
-                    title: "审批状态", event: 'setActive', style: 'cursor: pointer;',align:'left',width: 200
+                    title: "审批状态", event: 'setActive', style: 'cursor: pointer;',align:'center',width: 150
                 },
                 {
                     field: "releaseStatusName",
@@ -114,7 +114,7 @@
             console.log(obj);
         });
         table.on('rowDouble(organEvent)', function(obj){
-        	//var temUrl = '/budget/budget_organ_edit?dataId='+selectRowData.dataId+"&nd="+cu_date;
+        	//var temUrl = "/budget/budget_detail_grouptotal?dataId="+selectRowData.dataId;
         	//publicMethods.openBaseWinFull("详情",temUrl);
         });
         // 触发不同的按钮事件

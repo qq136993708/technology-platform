@@ -345,4 +345,19 @@ public class BudgetInfoProviderClient
 		}
 		return rs;
 	}
+	@ApiOperation(value="预算管理-预算下发列表",notes="按年检索所有最终预算版本")
+	@RequestMapping(value = "/stp-provider/budget/budget-modify-list", method = RequestMethod.POST)
+	public Object selectBudgetModifyList(@RequestBody LayuiTableParam param) 
+	{
+		LayuiTableData data = null;
+		try
+		{
+			data = budgetInfoService.selectReleaseModifyPage(param);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return data;
+	}
 }

@@ -803,5 +803,38 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 			return new ArrayList<Map<String, Object>>();
 		}
 	}
+
+	@Override
+	public LayuiTableData selectReleaseModifyPage(LayuiTableParam param) 
+	{
+		Set<Integer> types = new HashSet<Integer>();
+		types.add(BudgetInfoEnum.GROUP_TOTAL.getCode());
+		types.add(BudgetInfoEnum.ASSETS_TOTAL.getCode());
+		types.add(BudgetInfoEnum.STOCK_TOTAL.getCode());
+		types.add(BudgetInfoEnum.GROUP_SPLIT.getCode());
+		types.add(BudgetInfoEnum.ASSET_SPLIT.getCode());
+		types.add(BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
+		types.add(BudgetInfoEnum.STOCK_XTY_SPLIT.getCode());
+		types.add(BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode());
+		BudgetInfoExample example = new BudgetInfoExample();
+		BudgetInfoExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andBudgetTypeIn(new ArrayList<Integer>(types));
+		c.andNdEqualTo(param.getParam().get("nd").toString());
+		c.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+		example.setOrderByClause("data_version");
+		
+		LayuiTableData data = this.findByExample(param, example);
+		List<Map<String,Object>> mapdata = new ArrayList<Map<String,Object>>();
+		for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
+			Map<String,Object> map = MyBeanUtils.transBean2Map(iter.next());
+			map.put("status", BudgetAuditStatusEnum.getStatusByCode((Integer)map.get("auditStatus")).getDesc());
+			map.put("budgetName", BudgetInfoEnum.getByCode((Integer)map.get("budgetType")).getDesc());
+			map.put("releaseStatusName", BudgetReleaseEnum.getByCode((Integer)map.get("releaseStatus")).getDesc());
+			mapdata.add(map);
+		}
+		data.setData(mapdata);
+		return data;
+	}
 	
 }
