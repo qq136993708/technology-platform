@@ -30,6 +30,7 @@
         .c-nameC{height: 0px;}
         .relevant p{margin-top: 0}
         .layui-table-none{padding: 0;}
+        .layui-table,.layui-table-cell{width: 100% !important;}
     </style>
 </head>
 <body style="padding-top:20px; ">
@@ -99,7 +100,7 @@
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
                                 '                <p><span>立项年度:'+d.nd+'</span><br/><span>牵头单位:'+d.fzdw+'</span><br/>' +
-                                '<span>专业领域:'+((typeof d.zyly=="undefined")?"":d.fzrxm)+'</span><br/>' +
+                                '<span>专业领域:'+((typeof d.zyly=="undefined")?"":d.zyly)+'</span><br/>' +
                                 '<span>课题负责人:'+((typeof d.fzrxm=="undefined")?"":d.fzrxm)+'</span><br/>' +
                                 '<span>技术首席:'+((typeof d.jssxxm=="undefined")?"":d.jssxxm)+'</span>' +
                                 '</p>' +
@@ -139,19 +140,50 @@
         renderTable();
 
         function showDetail(data_id){
-            var temUrl = "/out/project-detail/" + data_id;
-            layer.open({
-                title: '详情',
-                skin: 'layui-layer-lan',
-                shadeClose: true,
-                type: 2,
-                fixed: false,
-                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                maxmin: true,
-                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                area: ['90%', '80%'],
-                content: temUrl
+            $.ajax({
+                type : 'post',
+                dataType : 'json',
+                async : false,
+                data : {
+                    "dataId" : data_id
+                },
+                url : "/out/getOutProjectShowSearch?data_id=" + data_id+"&functionId=984b64b13cf54222bf57bd840759fabe",
+                success : function(data) {
+                    if(data.fzrxm=="0"){
+                        layer.msg("权限不够,请联系系统管理员");
+                    }else {
+                        var temUrl = "/out/project-detail/" + data_id;
+                        layer.open({
+                            title: '详情',
+                            skin: 'layui-layer-lan',
+                            shadeClose: true,
+                            type: 2,
+                            fixed: false,
+                            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                            maxmin: true,
+                            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                            area: ['90%', '80%'],
+                            content: temUrl
+                        });
+                    }
+                },
+                error : function(e) {
+                    alertError("出错了！", e);
+                }
             });
+            // var temUrl = "/out/project-detail/" + data_id;
+            // layer.open({
+            //     title: '详情',
+            //     skin: 'layui-layer-lan',
+            //     shadeClose: true,
+            //     type: 2,
+            //     fixed: false,
+            //     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            //     maxmin: true,
+            //     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            //     area: ['90%', '80%'],
+            //     content: temUrl
+            // });
         }
         window.showDetail = showDetail;
         // table.on('row(processdef-table)', function (obj) {

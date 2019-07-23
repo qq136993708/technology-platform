@@ -2800,17 +2800,17 @@
 				 and xmlbbm !='KYZB'
 			  </if>
 			  <!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
-			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-				<if test="zycbm != null and zycbm != ''">
-					and find_in_set(out_project_info.zycbm, '${zycbm}')
-				</if>
-				<if test="zycbm == null or zycbm == ''">
-					and out_project_info.nd = '1900'
-				</if>
-			</if>
-			<if test="leaderFlag == null or leaderFlag == ''">
-				and out_project_info.nd = '1900'
-			</if>
+			  <if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+				  <if test="zycbm != null and zycbm != ''">
+					  and find_in_set(out_project_info.zycbm, '${zycbm}')
+				  </if>
+				  <if test="zycbm == null or zycbm == ''">
+					  and out_project_info.nd = '1900'
+				  </if>
+			  </if>
+			  <if test="leaderFlag == null or leaderFlag == ''">
+				  and out_project_info.nd = '1900'
+			  </if>
 	    group by define2
 	</select>
 	
@@ -3296,6 +3296,13 @@
 					</foreach>
 					)
 				</if>
+				<if test="unitName != null">
+					and (
+					<foreach collection="unitName" item="unitName" index="index" separator=" or ">
+						out_project_info.fzdw like '%${unitName}%'
+					</foreach>
+					)
+				</if>
 			</if>
 			
 			<!-- define12, 财务相关的承担单位，所以查询type_flag -->
@@ -3311,6 +3318,13 @@
 					and (
 					<foreach collection="define2" item="define2" index="index" separator=" or ">
 						out_project_info.define2 like '%${define2}%'
+					</foreach>
+					)
+				</if>
+				<if test="unitName != null">
+					and (
+					<foreach collection="unitName" item="unitName" index="index" separator=" or ">
+						out_project_info.define8 like '%${unitName}%'
 					</foreach>
 					)
 				</if>
@@ -3351,7 +3365,7 @@
 					and find_in_set(out_project_info.zycbm, '${zycbm}')
 				</if>
 				<if test="zycbm == null or zycbm == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			</if>
 			<if test="leaderFlag == null or leaderFlag == ''">

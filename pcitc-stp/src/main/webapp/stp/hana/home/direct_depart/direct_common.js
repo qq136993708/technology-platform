@@ -59,7 +59,9 @@ function barAjax_single_down(url, echartsobj, options, id) {
 		timeout : 9000,
 		dataType : "json",
 		cache : false,
-		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		headers : {
+			'Content-Type' : 'application/json'
+		},
 		success : function(data, status) {
 			if (data.success == true || data.success == 'true') {
 				echartsobj.hideLoading();
@@ -398,7 +400,9 @@ function barLineAjax_down(url, echartsobj, options, id, width, callback) {
 		dataType : "json",
 		timeout : 11000,
 		cache : false,
-		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		headers : {
+			'Content-Type' : 'application/json'
+		},
 		success : function(data, status) {
 			if (data.success == true || data.success == 'true') {
 				echartsobj.hideLoading();
@@ -486,7 +490,9 @@ function barLineAjax_down_f(url, echartsobj, options, id, width, callback) {
 		dataType : "json",
 		timeout : 11000,
 		cache : false,
-		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		headers : {
+			'Content-Type' : 'application/json'
+		},
 		success : function(data, status) {
 			if (data.success == true || data.success == 'true') {
 				echartsobj.hideLoading();
@@ -578,7 +584,9 @@ function barLineAjax_down_itemStyle(url, echartsobj, options, id, width, callbac
 		dataType : "json",
 		timeout : 11000,
 		cache : false,
-		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		headers : {
+			'Content-Type' : 'application/json'
+		},
 		success : function(data, status) {
 			if (data.success == true || data.success == 'true') {
 				echartsobj.hideLoading();
@@ -782,8 +790,7 @@ function set_multi_graph_statistics(data, id) {
 	 * 
 	 * $("#investment_smal_chart1_01").html(xkCount_1+"个");
 	 * $("#investment_smal_chart1_02").html(jzCount_2+"个");
-	 * $("#investment_smal_chart1_03").html(jzCount_3+"个");
-	 *  }
+	 * $("#investment_smal_chart1_03").html(jzCount_3+"个"); }
 	 */
 	/*
 	 * if(id=='investment_smal_chart2') { var
@@ -793,8 +800,7 @@ function set_multi_graph_statistics(data, id) {
 	 * 
 	 * $("#investment_smal_chart2_01").html(xkCount_1+"个");
 	 * $("#investment_smal_chart2_02").html(jzCount_2+"个");
-	 * $("#investment_smal_chart2_03").html(jzCount_3+"个");
-	 *  }
+	 * $("#investment_smal_chart2_03").html(jzCount_3+"个"); }
 	 */
 
 	if (id == 'direct_topic_chart3') {
@@ -976,12 +982,13 @@ function set_multi_graph_statistics(data, id) {
 		var allCount = xkCount_1 + jzCount_2 + jzCount_3 + jzCount_4;
 		$("#chart_title_01").html(allCount + "个");
 	}
-	
+
 	// 领导页-科研投入chart1
 	if (id == 'investment_chart1') {
-		var fxyMoney = getDataCountForNameFloat(data, '费用性科研投入');
-		var zbxMoney = getDataCountForNameFloat(data, '资本性科研投入');
-		var totalMoney = getDataCountForNameFloat(data, '总预算科研投入');
+		// 计算总数、并设置小数点(先计算再小数点，总数和真实的保持一致）
+		var fxyMoney = getDataValueTotalAndRadix(data, '费用性科研投入');
+		var zbxMoney = getDataValueTotalAndRadix(data, '资本性科研投入');
+		var totalMoney = getDataValueTotalAndRadix(data, '总预算科研投入');
 		$("#investment_chart1_01").html(totalMoney.toFixed(2) + "亿元");
 		$("#investment_chart1_02").html(fxyMoney.toFixed(2) + "亿元");
 		$("#investment_chart1_03").html(zbxMoney.toFixed(2) + "亿元");
@@ -992,12 +999,13 @@ function set_multi_graph_statistics(data, id) {
 		}
 
 	}
-	
+
 	// 领导页--科研投入--直属院投入
 	if (id == 'zsyjy_chart7') {
-		var ysje = getDataCountForNameFloat(data, '预算金额');
-		var kytr = getDataCountForNameFloat(data, '实际科研投入');
-		var zRate = kytr*100/ysje;
+		var ysje = getDataValueTotalAndRadix(data, '预算金额');
+		var kytr = getDataValueTotalAndRadix(data, '实际科研投入');
+		var ysRate = getDataValueTotalAndRadix(data, '预算执行率');
+		var zRate = kytr * 100 / ysje;
 
 		$("#zsyjy_chart7_01").html(ysje.toFixed(2) + "亿元");
 		$("#zsyjy_chart7_02").html(kytr.toFixed(2) + "亿元");
@@ -1005,6 +1013,32 @@ function set_multi_graph_statistics(data, id) {
 	}
 
 }
+
+// 计算总数、并设置小数点
+function getDataValueTotalAndRadix(data, strName) {
+	var seriesList = data.seriesList;
+	var xkCount = 0;
+	if (typeof (seriesList) == "undefined") {
+
+	} else {
+		for (var i = 0; i < seriesList.length; i++) {
+			var arr = seriesList[i].data;
+			var name = seriesList[i].name;
+			if (name == strName) {
+				var name_count = 0;
+				for (var j = 0; j < arr.length; j++) {
+					name_count = name_count + parseFloat(arr[j]);
+					
+					// 小数点设置两位
+					seriesList[i].data[j] = parseFloat(arr[j]).toFixed(2);
+				}
+				xkCount = name_count;
+			}
+		}
+	}
+	return parseFloat(xkCount);
+}
+
 function getDataCountForNameFloat(data, strName) {
 	var seriesList = data.seriesList;
 	var xkCount = 0;
@@ -1025,8 +1059,8 @@ function getDataCountForNameFloat(data, strName) {
 
 	}
 	return parseFloat(xkCount);
-
 }
+
 // 小数点后两位百分比
 function percentNum(num, num2) {
 

@@ -25,7 +25,7 @@ public interface BudgetInfoService
 	 * @return
 	 * @throws Exception
 	 */
-	public BudgetInfo selectBudgetInfo(String dataId) throws Exception;
+	public BudgetInfo selectBudgetInfo(String dataId);
 	/**
 	 * 
 	 * @param budgetInfo
@@ -46,7 +46,7 @@ public interface BudgetInfoService
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BudgetInfo> selectBudgetInfoListByIds(List<String> list)throws Exception;
+	public List<BudgetInfo> selectBudgetInfoListByIds(List<String> list);
 	/**
 	 * 
 	 * @param budgetInfo

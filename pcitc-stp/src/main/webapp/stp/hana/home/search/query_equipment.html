@@ -67,6 +67,7 @@
     .c-nameC{height: 0px;}
     .relevant p{margin-top: 0}
     .layui-table-none{padding: 0;}
+    .layui-table,.layui-table-cell{width: 100% !important;}
 </style>
 <script type="text/javascript">
     var table, selectRowData;
@@ -98,19 +99,34 @@
         //         ,content:  temUrl
         //     });
         // });
-        function showDetail(data_id){
-            var temUrl = "/sre-project-basic/get/" + data_id;
-            layer.open({
-                title: '详情',
-                skin: 'layui-layer-lan',
-                shadeClose: true,
-                type: 2,
-                fixed: false,
-                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                maxmin: true,
-                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                area: ['90%', '80%'],
-                content: temUrl
+
+        function showDetail(data_id,leadUnitCode_selected){
+            $.ajax({
+                type : 'get',
+                async : false,
+                url : "/fullSearch/getEquipmentIsShow?leadUnitCode="+leadUnitCode_selected,
+                success : function(data) {
+                    if(data=="0"){
+                        layer.msg("权限不够,请联系系统管理员");
+                    }else {
+                        var temUrl = "/sre-project-basic/get/" + data_id;
+                        layer.open({
+                            title: '详情',
+                            skin: 'layui-layer-lan',
+                            shadeClose: true,
+                            type: 2,
+                            fixed: false,
+                            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                            maxmin: true,
+                            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                            area: ['90%', '80%'],
+                            content: temUrl
+                        });
+                    }
+                },
+                error : function(e) {
+                    alertError("出错了！", e);
+                }
             });
         }
         window.showDetail = showDetail;
@@ -145,7 +161,7 @@
                     templet:  function (d) {
                         var result=(typeof d.projectBackground=="undefined")?"":d.projectBackground.replace(/<.*?>/ig,"").substring(0,50)+"...";
                         return '<div class="layui-div layui-div-n">' +
-                            '        <a href="javascript:void(0);" onclick="showDetail(\''+d.id+'\')">'+d.name+'</a>' +
+                            '        <a href="javascript:void(0);" onclick="showDetail(\''+d.id+'\',\''+d.leadUnitCode+'\')">'+d.name+'</a>' +
                             '        <div class="c-row c-gap-top-small">' +
                             '            <div class="c-span18 c-span-last">' +
                             '                <p><span>'+result+'</span></p>' +
