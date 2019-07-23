@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkExtractConfig;
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.stp.system.SysMeeting;
 import com.pcitc.base.system.SysDictionary;
@@ -94,5 +96,10 @@ public class SystemHystric implements SystemRemoteClient {
         System.out.println("执行断路器。。。。。。。。");
         throw new RuntimeException("调用失败.");
     }
+
+    @Override
+    public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) throws Exception {
+        System.out.println("执行断路器。。。。。。。。");
+        throw new RuntimeException("调用失败.");    }
 
 }

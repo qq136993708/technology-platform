@@ -26,6 +26,7 @@
             line-height: 18px;
             border-radius: 12px;
             font-size: 12px;}
+        .layui-table-page{text-align: left;}
         @media (min-width: 1673px){
             .layui-tab-title li{padding: 0 24px;}}
     </style>
@@ -124,10 +125,11 @@
         <div class="layui-col-md5">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    <span class="border-span"></span>参与项目评审统计
+                    <span class="border-span"></span>参与项目评审信息
                 </div>
                 <div class="layui-row-main">
-                    <div class="main-chart" id="two" style="height:250px;width: 100%;"></div>
+                    <table id="zjkChoiceTableId" class="layui-hide" lay-filter="tableEvent"></table>
+                    <!--<div class="main-chart" id="two" style="height:250px;width: 100%;"></div>-->
                 </div>
             </div>
         </div>
@@ -247,6 +249,61 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
 
                 $("#hylyshowall").click();
             }
+            loadtableExpertChoice();
+            function loadtableExpertChoice() {
+                var where = {param: {"status":"2","zjId": '${zjkBaseInfo.dataId}'}};
+                console.log(where);
+                table.render({
+                    elem: '#zjkChoiceTableId',
+                    url: '/zjkChoice/getListChoice',
+                    method: "POST",
+                    where: where,
+                    limit: 15,
+                    id: 'zjkChoiceTableId',
+                    height: 250,
+                    page: {
+                        count: 500, //数据总数，从服务端得到
+                        groups: 5,
+                        limits: [15, 30, 45, 60],
+                        layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                        first: '首页', //不显示首页
+                        last: '尾页', //不显示尾页
+                        theme: '#0F9EE0'
+                    },
+
+                    cols: [[
+                        // {type: 'checkbox', event: 'changeEvents'},
+                        {title: '序号', type: 'numbers',width:55},
+                        {
+                            field: "xmName",
+                            title: "项目名称", event: 'setActive', style: 'cursor: pointer;',"width":"40%"
+                        },
+                        {
+                            field: "bak6",
+                            title: "牵头单位", event: 'setActive', style: 'cursor: pointer;',"width":"30%"
+                        },
+                        {
+                            field: "bak4",
+                            title: "评审日期", event: 'setActive', style: 'cursor: pointer;'
+                        },
+
+                    ]],
+                    done: function (res, curr, count) {
+                        console.log("--------loadtableExpertChoice--------");
+                        console.log(res.data);
+                        $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                            var index = parseInt($(this).index() + 1);
+                            $(this).parent().find('tr').removeClass('layui-table-click');
+                            $(this).addClass('layui-table-click');
+                            $(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                            $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                            selectRowData = res.data[index - 1];
+                        });
+                    }
+                });
+                //移除表头的复选框,去掉全选
+                $(".layui-table-header table thead th input").remove();
+            }
         });
 
 
@@ -263,13 +320,13 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 }
             }
         ];
-        var twoUrl = "/expertController/picIndex?id=1&expertId=" + expertId + "&type=bar";
-        var coloTwo = ["#ff9945"];
-        var two = load_single_bar(twoUrl, "two", "", "", yAxis, coloTwo, 80, "", function (d) {
-            if (d.data.seriesDataList.length==0) {
-                $("#two").html("<img src='/layuiadmin/layui/images/null-data.png' />");
-            }
-        });
+        // var twoUrl = "/expertController/picIndex?id=1&expertId=" + expertId + "&type=bar";
+        // var coloTwo = ["#ff9945"];
+        // var two = load_single_bar(twoUrl, "two", "", "", yAxis, coloTwo, 80, "", function (d) {
+        //     if (d.data.seriesDataList.length==0) {
+        //         $("#two").html("<img src='/layuiadmin/layui/images/null-data.png' />");
+        //     }
+        // });
 
         // two.on('click', function (params) {
         //     var xName = params.name;
@@ -278,14 +335,9 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
         // });
 
 
-        var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
         var colorFive = ["#8fc31f"];
-
-
-
-
         // load_single_forces("/expertController/picIndexImg?hyly="+hyly, "one", "专家画像", "", "", "", 10);
-        five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
+        // five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
 
         // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
         //     if (d.seriesDataList == undefined) {

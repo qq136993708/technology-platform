@@ -28,13 +28,11 @@
 <body>
 	<div class="layui-fluid">
 		<div class="fluid-top">
-			<#if userLevel=="1">
 			<div class="breadcrumb">
 				<a href="/stpHome" target="_parent">首页 > </a>
 				<a href="/instituteIndex?url=/home_ld/direct_depart" target="_parent">直属研究院概况 > </a>
 				<span>科技成果</span>
 			</div>
-			</#if>
 			<div class="searchBox" style="margin-right: 6px;">
 				<label class="dateInput">
 					<span>年份</span>
@@ -224,12 +222,12 @@
 			echart1.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var url = encodeURIComponent("/one_level_main/achievement_table_new?define1="+xName+"&define3=直属研究院&define11=股份公司&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				var url = encodeURIComponent("/one_level_main/achievement_table_new?define1=" + xName + "&define3=直属研究院&define11=股份公司&nd=" + $('#nd').val() + "&groupFlag=jdh,sqjddw");
 				window.open("/instituteIndex?url=" + url);
 
 			});
 
-			var chart4_url = "/direct_second/direct_second_data_02?define3=直属研究院&type=1&nd=" + nd + "&v_date=" + v_date;
+			var chart4_url = "/direct_second/direct_second_data_02?define3=直属研究院&type=1&nd=" + $('#nd').val() + "&v_date=" + v_date;
 			var echart4 = load_single_bar(chart4_url, "chart4", "", "", yAxis, [ "#ff9f7f" ], 70, "", function(data) {
 				var total_count = 0;
 				$.each(data.data.seriesDataList, function(index, dt) {
@@ -240,12 +238,12 @@
 			echart4.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var cglx=xName;
-				var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw&cglx="+cglx);
+				var cglx = xName;
+				var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=" + xName + "&nd=" + $('#nd').val() + "&groupFlag=jdh,sqjddw&cglx=" + cglx);
 				window.open("/instituteIndex?url=" + url);
 			});
-            //直属研究院成果类型-工业化分布统计
-			var chart5_url = "/direct_second/direct_second_data_03?define3=直属研究院&type=2&nd=" + nd + "&v_date=" + v_date;
+			//直属研究院成果类型-工业化分布统计
+			var chart5_url = "/direct_second/direct_second_data_03?define3=直属研究院&type=2&nd=" + $('#nd').val() + "&v_date=" + v_date;
 			var echart5 = loadPie_02(chart5_url, "chart5", "", "", function(data) {
 				var total_count = 0;
 				$.each(data.data.dataList, function(index, dt) {
@@ -255,12 +253,12 @@
 			});
 			echart5.on('click', function(params) {
 				var xName = params.name;
-				var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=A.工业化&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=A.工业化&define1=" + xName + "&nd=" + $('#nd').val() + "&groupFlag=jdh,sqjddw");
 				window.open("/instituteIndex?url=" + url);
 
 			});
 
-			var chart6_url = "/direct_second/direct_second_data_04?define3=直属研究院&nd=" + nd + "&v_date=" + v_date;
+			var chart6_url = "/direct_second/direct_second_data_04?define3=直属研究院&nd=" + $('#nd').val() + "&v_date=" + v_date;
 			var echart6 = loadPie_02(chart6_url, "chart6", "", "", function(data) {
 				var total_count = 0;
 				$.each(data.data.dataList, function(index, dt) {
@@ -271,12 +269,12 @@
 			echart6.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=B.工业试验&define1="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&cglx=B.工业试验&define1=" + xName + "&nd=" + $('#nd').val() + "&groupFlag=jdh,sqjddw");
 				window.open("/instituteIndex?url=" + url);
 
 			});
 
-			var chart7_url = "/direct_second/direct_second_data_05?define3=直属研究院&nd=" + nd + "&v_date=" + v_date;
+			var chart7_url = "/direct_second/direct_second_data_05?define3=直属研究院&nd=" + $('#nd').val() + "&v_date=" + v_date;
 			var echart7 = load_single_bar(chart7_url, "chart7", "", "", yAxis, [ "#9799ec" ], 70, "", function(data) {
 				var total_count = 0;
 				$.each(data.data.seriesDataList, function(index, dt) {
@@ -286,7 +284,7 @@
 			});
 			echart7.on('click', function(params) {
 				var xName = params.name;
-				var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&zy="+xName+"&nd=" + nd+"&groupFlag=jdh,sqjddw");
+				var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=直属研究院&define11=股份公司&zy=" + xName + "&nd=" + $('#nd').val() + "&groupFlag=jdh,sqjddw");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -299,14 +297,13 @@
 		function search_Event() {
 			initEchart();
 		}
-		
-		
+
 		function achievementTotalUrl(showFlag, unitFlag) {
 			var groupFlag = 'jdh';
 			if (unitFlag == 'unit') {
 				groupFlag = 'jdh,sqjddw';
 			}
-			var url = encodeURIComponent("/one_level_main/achievement_table_new?define3="+showFlag+"&nd=" + nd+"&define11=股份公司&groupFlag="+groupFlag);
+			var url = encodeURIComponent("/one_level_main/achievement_table_new?define3=" + showFlag + "&nd=" + $('#nd').val() + "&define11=股份公司&groupFlag=" + groupFlag);
 			window.open("/instituteIndex?url=" + url);
 		}
 	</script>

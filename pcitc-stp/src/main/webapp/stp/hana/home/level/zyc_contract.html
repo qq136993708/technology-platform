@@ -361,8 +361,17 @@
 					    if($(this).find(".layui-icon").length<=0){
                             //var url = encodeURIComponent("/one_level_main/common_table?define2=" + selectRowData.define2 + "&nd=" + nd + "&ysnd=" + nd + "&groupFlag=xmid,define8");
                             //window.open("/instituteIndex?url=" + url);
-                            parent.layui.index.openTabsPage("/one_level_main/common_table?define10=" + selectRowData.name + "&nd=" + nd + "&ysnd=" + nd + "&groupFlag=xmid,define8", "合同签订率详情");
-						}
+                            var xName = selectRowData.name;
+                            if (xName == '油田处') {
+								xName = '科技部';
+							}
+					
+							if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
+								parent.layui.index.openTabsPage("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+							} else {
+								parent.layui.index.openTabsPage("/one_level_main/common_table_new?zycbmFlag=" + xName + "&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+							}
+					    }
 
 					});
 				},

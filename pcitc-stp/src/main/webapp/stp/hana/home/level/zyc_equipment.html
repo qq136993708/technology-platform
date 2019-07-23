@@ -261,12 +261,16 @@
 				var monthv = $('#month').val();
 				var ndv = monthv.substr(0, 4);
 
-				var nd_temp = ndv;
-				if (legentName == '结转课题') {
-					nd_temp = "";
+				var nd_temp = "";
+				if (legentName == '新开课题') {
+					nd_temp = ndv;
+				} else {
+					var lastYear = ndv - 1;
+					var beforeYear = ndv - 2;
+					nd_temp = beforeYear + "," + lastYear;
 				}
 
-				parent.layui.index.openTabsPage("/one_level_main/count_table_new?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + ndv + "&define1=资本性&ktlx=" + legentName + "&define11=股份公司&define12=直属研究院&groupFlag=xmid", "装备课题详情");
+				parent.layui.index.openTabsPage("/one_level_main/count_table_new?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + ndv + "&define1=资本性&define11=股份公司&define12=直属研究院&groupFlag=xmid,define8", "装备课题详情");
 			});
 
 			var url_01 = "/direct/equipment_02?type=1&companyCode=" + companyCode + "&month=" + month + "&v_date=" + v_date;
@@ -328,8 +332,12 @@
 			var nd_temp = "";
 			if (ktlx == '新开课题') {
 				nd_temp = nd;
+			} else {
+				var lastYear = nd - 1;
+				var beforeYear = nd - 2;
+				nd_temp = beforeYear + "," + lastYear;
 			}
-			parent.layui.index.openTabsPage("/one_level_main/count_table_new?nd=" + nd_temp + "&ysnd=" + nd + "&define11=股份公司&define12=直属研究院&define1=资本性&v_date=" + v_date + "&ktlx=" + ktlx + "&groupFlag=xmid", "装备课题详情");
+			parent.layui.index.openTabsPage("/one_level_main/count_table_new?nd=" + nd_temp + "&ysnd=" + nd + "&define11=股份公司&define12=直属研究院&define1=资本性&v_date=" + v_date + "&groupFlag=xmid,define8", "装备课题详情");
 		}
 
 		//初始化图形

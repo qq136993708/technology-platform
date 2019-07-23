@@ -29,21 +29,26 @@
     <div class="layui-row">
       <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label">年度<span class="must-fill"></span></label>
+          <label class="layui-form-label">立项年度<span class="must-fill"></span></label>
           <div class="layui-input-block">
 	          <input class="layui-input readOnlyBox" id="nd"  lay-verify="text" name="nd" type="text" autocomplete="off" disabled>
 	          <input id="dataId" name="dataId" type="hidden">
 	      </div>
         </div>
       </div>
-      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label">合同号<span class="must-fill"></span></label>
-          <div class="layui-input-block">
-	          <input class="layui-input readOnlyBox" id="hth"  lay-verify="text" name="hth" type="text" autocomplete="off" disabled>
-	      </div>
+
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">预算年度</label>
+                <div class="layui-input-block">
+                    <input class="layui-input readOnlyBox" id="ysnd"  lay-verify="text" name="ysnd" type="text" autocomplete="off" disabled>
+                </div>
+            </div>
         </div>
-      </div>
+
+
+
+
     </div>
     
       <div class="layui-row">
@@ -55,14 +60,17 @@
 	      </div>
         </div>
       </div>
-      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label">项目经费总额</label>
-          <div class="layui-input-block">
-	          <input class="layui-input readOnlyBox" id="jf"  lay-verify="text" name="jf" type="text" autocomplete="off" disabled>
-	      </div>
-        </div>
-      </div>
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+              <div class="layui-form-item">
+                  <label class="layui-form-label">合同号<span class="must-fill"></span></label>
+                  <div class="layui-input-block">
+                      <input class="layui-input readOnlyBox" id="hth"  lay-verify="text" name="hth" type="text" autocomplete="off" disabled>
+                  </div>
+              </div>
+          </div>
+
+
+
     </div>
     
     <div class="layui-row">
@@ -74,14 +82,15 @@
 	      </div>
         </div>
       </div>
-      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label">专业类别</label>
-          <div class="layui-input-block">
-	          <input class="layui-input readOnlyBox" id="zylb"  lay-verify="text" name="zylb" type="text" autocomplete="off" disabled>
-	      </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item">
+                <label class="layui-form-label">项目经费总额</label>
+                <div class="layui-input-block">
+                    <input class="layui-input readOnlyBox" id="jf"  lay-verify="text" name="jf" type="text" autocomplete="off" disabled>
+                </div>
+            </div>
         </div>
-      </div>
+
     </div>
      
       <div class="layui-row">
@@ -169,14 +178,17 @@
 	      </div>
         </div>
       </div>
-      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label">创建时间</label>
-          <div class="layui-input-block">
-	          <input class="layui-input readOnlyBox" id="createDate"  lay-verify="text" name="createDate" type="text" autocomplete="off" disabled>
-	      </div>
-        </div>
-      </div>
+
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+              <div class="layui-form-item">
+                  <label class="layui-form-label">专业类别</label>
+                  <div class="layui-input-block">
+                      <input class="layui-input readOnlyBox" id="zylb"  lay-verify="text" name="zylb" type="text" autocomplete="off" disabled>
+                  </div>
+              </div>
+          </div>
+
+
     </div>
     
     <div class="layui-row">
@@ -308,7 +320,7 @@
                     $("input[name=lxbj]").val(data.lxbj);
                     $("input[name=yjnr]").val(data.yjnr);
                     $("input[name=yjmb]").val(data.yjmb);
-                    $("input[name=createDate]").val(data.createDate);
+                    // $("input[name=createDate]").val(data.createDate);
 
                     $("input[name=projectScope]").val(data.projectScope);
                     $("input[name=projectLevel]").val(data.projectLevel);
@@ -316,6 +328,7 @@
                     $("input[name=projectAbc]").val(data.projectAbc);
                     $("input[name=gsbmmc]").val(data.gsbmmc);
                     $("input[name=zycmc]").val(data.zycmc);
+                    $("input[name=ysnd]").val(data.ysnd);
                     $("input[name=typeFlag]").val(data.typeFlag);
                     $("input[name=define1]").val(data.define1);
 

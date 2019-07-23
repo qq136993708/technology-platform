@@ -11,6 +11,8 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.expert.ZjkChoiceExample;
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.system.EmailTemplate;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.util.*;
@@ -131,7 +133,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 
     @Override
     public int insert(ZjkChoice record) {
-        if(record.getId()==null){
+        if (record.getId() == null) {
             record.setId(IdUtil.createIdByTime());
         }
         return zjkChoiceMapper.insert(record);
@@ -217,7 +219,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 
         Object xmName = param.getParam().get("xmName");
         if (!StrUtil.isObjectEmpty(xmName)) {
-            c.andXmNameLike("%"+xmName.toString()+"%");
+            c.andXmNameLike("%" + xmName.toString() + "%");
         }
         Object bak1 = param.getParam().get("bak1");
         if (!StrUtil.isObjectEmpty(bak1)) {
@@ -233,18 +235,18 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         ZjkEvaluateExample e = new ZjkEvaluateExample();
         List<String> xmidList = zjkChoices.stream().map(ZjkChoice::getXmId).collect(Collectors.toList());
         List<String> zjidList = zjkChoices.stream().map(ZjkChoice::getZjId).collect(Collectors.toList());
-        if (xmidList!=null&&xmidList.size()>0){
+        if (xmidList != null && xmidList.size() > 0) {
             e.createCriteria().andXmIdIn(xmidList);
         }
-        if (zjidList!=null&&zjidList.size()>0){
+        if (zjidList != null && zjidList.size() > 0) {
             e.createCriteria().andZjkIdIn(zjidList);
         }
         e.setOrderByClause("create_date desc");
         List<ZjkEvaluate> zjkEvaluates = zjkEvaluateService.selectByExample(e);
-        for (int i = 0,j = zjkChoices.size(); i < j; i++) {
+        for (int i = 0, j = zjkChoices.size(); i < j; i++) {
             ZjkChoice zjkChoice = zjkChoices.get(i);
-            List<ZjkEvaluate> collect = zjkEvaluates.stream().filter(obj -> obj.getXmId().equals(zjkChoice.getXmId())&&obj.getXmSteps().equals(zjkChoice.getBak1())&&obj.getZjkId().equals(zjkChoice.getZjId())).collect(Collectors.toList());
-            zjkChoice.setBak6((collect!=null&&collect.size()>0)?collect.get(0).getCreateDate():"");
+            List<ZjkEvaluate> collect = zjkEvaluates.stream().filter(obj -> obj.getXmId().equals(zjkChoice.getXmId()) && obj.getXmSteps().equals(zjkChoice.getBak1()) && obj.getZjkId().equals(zjkChoice.getZjId())).collect(Collectors.toList());
+            zjkChoice.setBak6((collect != null && collect.size() > 0) ? collect.get(0).getCreateDate() : "");
             dataList.add(zjkChoice);
         }
         data.setData(dataList);
@@ -263,6 +265,11 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         Object adduserId = param.getParam().get("addUserId");
         if (!StrUtil.isObjectEmpty(adduserId)) {
             c.andAddUserIdEqualTo(adduserId.toString());
+        }
+
+        Object zjId = param.getParam().get("zjId");
+        if (!StrUtil.isObjectEmpty(zjId)) {
+            c.andZjIdEqualTo(zjId.toString());
         }
 
         Object projectId = param.getParam().get("projectId");
@@ -286,9 +293,61 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 
             return data;
         }
+    }
 
-//        return zjkBaseInfoService.findByExample(param, ex);
+    @Override
+    public LayuiTableData getListChoice(LayuiTableParam param) throws Exception {
+        ZjkChoiceExample example = new ZjkChoiceExample();
+        ZjkChoiceExample.Criteria c = example.createCriteria();
+//        c.andStatusEqualTo("1");
 
+        c.andStatusEqualTo(param.getParam().get("status").toString());
+
+        Object adduserId = param.getParam().get("addUserId");
+        if (!StrUtil.isObjectEmpty(adduserId)) {
+            c.andAddUserIdEqualTo(adduserId.toString());
+        }
+
+        Object zjId = param.getParam().get("zjId");
+        if (!StrUtil.isObjectEmpty(zjId)) {
+            c.andZjIdEqualTo(zjId.toString());
+        }
+
+        Object projectId = param.getParam().get("projectId");
+        if (!StrUtil.isObjectEmpty(projectId)) {
+            c.andXmIdEqualTo(projectId.toString());
+        }
+        example.setOrderByClause("create_date desc");
+
+        LayuiTableData data = this.findByExample(param, example);
+        List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
+        OutProjectInfoExample ex = new OutProjectInfoExample();
+        List<String> xmids = zjkChoices.stream().map(e -> e.getXmId()).collect(Collectors.toList());
+        if (xmids == null || xmids.size() == 0) {
+            xmids = new ArrayList<>();
+        }
+        ex.createCriteria().andXmidIn(xmids);
+        List<OutProjectInfo> outProjectInfos = systemRemoteClient.selectByExample(ex);
+
+
+
+
+        if (outProjectInfos!=null&&outProjectInfos.size()>0){
+            List<OutProjectInfo> unique = outProjectInfos.stream().collect(
+                    Collectors.collectingAndThen(
+                            Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(OutProjectInfo::getXmid))), ArrayList::new)
+            );
+            for (int i = 0; i < unique.size(); i++) {
+                if (unique.get(i).getFzdw()==null||"".equals(unique.get(i).getFzdw())){
+                    unique.get(i).setFzdw("无");
+                }
+            }
+            Map<String,String> map = unique.stream().collect(Collectors.toMap(OutProjectInfo::getXmid,OutProjectInfo::getFzdw,(e1,e2)->e1));
+            for (int i = 0, j = zjkChoices.size(); i < j; i++) {
+                zjkChoices.get(i).setBak6(map.get(zjkChoices.get(i).getXmId()));
+            }
+        }
+        return data;
     }
 
     /**
@@ -372,20 +431,20 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         }
         //抽取次数
         String expertCount = zjkExtractConfigInfo.getExpertCount();
-        if (!"0".equals(expertCount)){
+        if (!"0".equals(expertCount)) {
             ZjkMsgExample zjkMsgExample = new ZjkMsgExample();
             ZjkMsgExample.Criteria criteria = zjkMsgExample.createCriteria();
             criteria.andIsCompleteEqualTo("ROOT_UNIVERSAL_WEHTHER_YES");
-            criteria.andStatusEqualTo(DateUtil.dateToStr(new Date(),DateUtil.FMT_YYYY));
+            criteria.andStatusEqualTo(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
             List<ZjkMsg> zjkMsgs = zjkMsgService.selectByExample(zjkMsgExample);
             Map<String, Long> collect = zjkMsgs.stream().collect(Collectors.groupingBy(ZjkMsg::getZjkId, Collectors.counting()));
             List<String> expertStrings = new ArrayList<>();
-            for (Map.Entry<String,Long> entry:collect.entrySet()){
-                if (entry.getValue()>Long.valueOf(expertCount)){
+            for (Map.Entry<String, Long> entry : collect.entrySet()) {
+                if (entry.getValue() > Long.valueOf(expertCount)) {
                     expertStrings.add(entry.getKey());
                 }
             }
-            if (expertStrings.size()>0){
+            if (expertStrings.size() > 0) {
                 c.andDataIdNotIn(expertStrings);
             }
         }
@@ -396,7 +455,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         }
         //规避本院
         String companyAvoid = zjkExtractConfigInfo.getCompanyAvoid();
-        if ("ROOT_UNIVERSAL_WEHTHER_YES".equals(companyAvoid)){
+        if ("ROOT_UNIVERSAL_WEHTHER_YES".equals(companyAvoid)) {
             c.andCompanyNotEqualTo(unitId);
         }
         //抽取人数不够的时候,给出提示,人数要凑够
@@ -465,7 +524,6 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         return data;
     }
 
-
     @Autowired
     private EmailTemplateService emailTemplateService;
 
@@ -518,8 +576,8 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
             msg.setCompleteType(type);
             msg.setZjkId(zjkChoice.get(i).getZjId());
             msg.setZjkName(zjkChoice.get(i).getBak2());
-            msg.setStatus(DateUtil.dateToStr(new Date(),DateUtil.FMT_YYYY));
-            msg.setCreateDate(DateUtil.dateToStr(new Date(),DateUtil.FMT_DD));
+            msg.setStatus(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+            msg.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
             zjkMsgService.insert(msg);
         }
         //发送消息
@@ -532,10 +590,10 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 //                m.setToAddress(new String[]{"635447170@qq.com"});
                 m.setToAddress(new String[]{obj.getBak3()});
                 String content = emailTemplate.getContent();
-                content =content.replace("${name}",obj.getBak2());
-                content =content.replace("${date}",obj.getBak4());
-                content =content.replace("${project}",obj.getXmName());
-                content =content.replace("${mobile}",obj.getBak5());
+                content = content.replace("${name}", obj.getBak2());
+                content = content.replace("${date}", obj.getBak4());
+                content = content.replace("${project}", obj.getXmName());
+                content = content.replace("${mobile}", obj.getBak5());
                 m.setContent(content);
                 m.setSubject("项目评审邀请");
                 int leng = files.size();
@@ -547,11 +605,11 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
                 }
                 m.setAttachFileUrls(urls);
                 m.setAttachFileNames(names);
-               mailSentService.sendMailFileInputStream(m);
+                mailSentService.sendMailFileInputStream(m);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
 
         }
         //返回

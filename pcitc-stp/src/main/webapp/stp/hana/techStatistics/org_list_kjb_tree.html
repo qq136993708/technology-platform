@@ -14,8 +14,7 @@
 <body>
 <div id="bodyId" >
 <div class="searchBox" >
- <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
- <input type="hidden" name="unitCode" id="unitCode" value="${unitCode}">
+<input type="hidden" name="unitCode" id="unitCode" value="${unitCode}">
  
  
  
@@ -106,7 +105,10 @@
     	var str=parentUnitName+""+unitName;
     	str=str.replace("中国石油化工集团","");
     	str=str.replace("中国石油化工股份有限公司","");
-    	
+    	if(str=='-总计')
+    	{
+    		str='总计'
+    	}
     	return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" title='+title+' style="color:#1890ff">'+str+'</span>';
     }
     
@@ -216,6 +218,8 @@ layui.config({
             resetEvent: function() { //点击重置按钮
             	$('#unitName').val("");
             	$('#auditStatus').val("");
+            	$('#type').val("");
+            	$('#year').val("");
             }
             
         };
@@ -475,7 +479,7 @@ layui.config({
     	var auditStatus=$('#auditStatus').val();
     	var year=$('#year').val();
     	var type=$('#type').val();
-    	window.open("/tech_org/exput_excel?year="+year+"&year="+year+"&auditStatus="+auditStatus+"&unitName="+unitName);
+    	window.open("/tech_org/exput_excel?year="+year+"&type="+type+"&auditStatus="+auditStatus+"&unitName="+unitName);
     } 
 
 </script>

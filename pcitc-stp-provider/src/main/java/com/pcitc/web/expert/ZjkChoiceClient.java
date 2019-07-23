@@ -127,6 +127,17 @@ public class ZjkChoiceClient {
     public Object selectZjkChoiceByPage(@RequestBody LayuiTableParam param) {
         return zjkChoiceService.findZjkChoiceByPage(param);
     }
+    /**
+     * 分页查询
+     *
+     * @param param
+     * @return
+     */
+    @ApiOperation(value = "查询专家-人员选择信息-分页查询", notes = "查询专家-人员选择信息-分页查询,Object")
+    @RequestMapping(value = "/zjkchoice-provider/zjkchoice/getListChoice")
+    public LayuiTableData getListChoice(@RequestBody LayuiTableParam param) throws Exception {
+        return zjkChoiceService.getListChoice(param);
+    }
 
     @ApiOperation(value = "查询专家-人员选择信息-分页查询", notes = "查询专家-人员选择信息-分页查询,Object")
     @RequestMapping(value = "/zjkchoice-provider/zjkchoice/zjkchoice-page-choice")
