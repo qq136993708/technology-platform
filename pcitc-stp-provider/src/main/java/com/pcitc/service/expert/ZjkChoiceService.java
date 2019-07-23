@@ -199,4 +199,6 @@ public interface ZjkChoiceService {
     public LayuiTableData findZjkChoiceByPageChoice(LayuiTableParam param);
 
     public int updateOrInsertZjkChoiceUpdateBat(JSONObject jsonObject);
+
+    public LayuiTableData getListChoice(LayuiTableParam param) throws Exception;
 }
