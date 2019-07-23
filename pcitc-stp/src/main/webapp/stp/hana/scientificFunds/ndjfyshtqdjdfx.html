@@ -273,12 +273,14 @@
 		function ajax_getGauge(url, echartsobj, options) {
 			var series = [];
 			$.ajax({
-				type : "get",
+				type : "POST",
 				url : url,
 				timeout : 9000,
 				dataType : "json",
 				cache : false,
-				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				headers : {
+					'Content-Type' : 'application/json'
+				},
 				success : function(data, status) {
 					if (data.success == true || data.success == 'true') {
 						echartsobj.hideLoading();
@@ -338,12 +340,14 @@
 			$("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
 			$.ajax({
-				type : "GET",
+				type : "POST",
 				url : url,
 				dataType : "json",
 				timeout : 11000,
 				cache : false,
-				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				headers : {
+					'Content-Type' : 'application/json'
+				},
 				success : function(data, status) {
 					if (data.success == true || data.success == 'true') {
 						var zysje_count = 0;

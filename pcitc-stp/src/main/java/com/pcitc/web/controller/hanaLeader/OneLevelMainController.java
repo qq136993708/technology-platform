@@ -1718,7 +1718,7 @@ public class OneLevelMainController extends BaseController {
 	/**
 	 * 全口径新开课题合同（任务书）签订率
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/contract_01")
+	@RequestMapping(value = "/one_level_main/contract_01")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String contract_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -3006,7 +3006,7 @@ public class OneLevelMainController extends BaseController {
 		return resultObj.toString();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_0101")
+	@RequestMapping(value = "/one_level_main/investment_0101")
 	@ResponseBody
 	public String investment_0101(HttpServletRequest request, HttpServletResponse response) throws Exception {
 

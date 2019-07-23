@@ -474,7 +474,7 @@ public class AdminController extends BaseController {
 			request.setAttribute("userInfo", userDetails);
 
 			Cookie loginCookie = new Cookie("loginErrorCount", null);
-			loginCookie.setMaxAge(0);// 设置有效期为一小时
+			loginCookie.setMaxAge(0);// 设置过期
 			loginCookie.setPath("/");
 			response.addCookie(loginCookie);
 			System.out.println("----------====登录成功2index....");
