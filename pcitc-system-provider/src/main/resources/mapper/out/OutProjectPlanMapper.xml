@@ -1725,7 +1725,7 @@
 		WHERE 
 			1 = 1
 			<if test="nd != null and nd != ''">
-				and tableA.nd = #{nd}
+				and find_in_set(tableA.nd, '${nd}')
 			</if>
 			<if test="ysnd != null and ysnd != ''">
 				and tableA.ysnd = #{ysnd}
