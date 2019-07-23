@@ -153,7 +153,7 @@
             <div class="layui-input-inline">
                <select name="fzdwflag" id="fzdwflag"  >
 			              <#list fzdwList as vo> 
-					          <option value="${vo.numValue}"  >${vo.name}</option>
+					          <option value="${vo.numValue}"  <#if vo.name='参与单位'>selected="selected"</#if>>${vo.name}</option>
 					      </#list>
               </select>
             </div>
