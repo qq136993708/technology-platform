@@ -7,6 +7,7 @@ import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.OperationFilter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -140,7 +141,10 @@ public class OutProjectController extends BaseController {
 		System.out.println("-------------------------getOutProjectShow--------------------------------");
 		ResponseEntity<OutProjectInfo> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), OutProjectInfo.class);
 		OutProjectInfo outProjectInfo = responseEntity.getBody();
-		return outProjectInfo;
+//        System.out.println(outProjectInfo.getCreateDate());
+//        outProjectInfo.setCreateDate(DateUtil.strToDate(DateUtil.format(outProjectInfo.getCreateDate(),DateUtil.FMT_DD),DateUtil.FMT_DD));
+//        System.out.println(outProjectInfo.getCreateDate());
+        return outProjectInfo;
 	}
 
     /**
