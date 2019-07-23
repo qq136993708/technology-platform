@@ -265,7 +265,8 @@ line-height: 60px;font-size: 22px;}
 .main-two .title{font-size: 16px;color: white;padding: 15px 0 0 12px;}
 .main-two .number{text-align: center;color: white;font-size: 24px;height: 24px;line-height: 24px;}
 .main-two .main-left1{float: none;position: relative;}
-.main-two .main-left1>div{width: 183px;}
+.main-two .main-left1 a{width: auto;display: inline-block;}
+.main-two .main-left1 a>div,.main-two .main-left1>div{width: 183px;}
 .petrification{background:#b265fb url("/layuiadmin/layui/images/unify.png") no-repeat right bottom;width: 100%;
     height: 131px;margin-bottom: 14px;}
 .main-two .main-left1 .main-left0{    background: #01a19a url(/layuiadmin/layui/images/unify.png) no-repeat right bottom;
