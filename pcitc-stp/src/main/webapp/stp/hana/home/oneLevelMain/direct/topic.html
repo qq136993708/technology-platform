@@ -146,7 +146,7 @@
 					<div class="layui-card">
 						<div class="layui-card-header">
 							<span class="layui-time"></span>
-							年专业处所属科研课题分布
+							年专业处科研课题分布
 						</div>
 						<div class="layui-card-body btn-function">
 							<div class="text-total">
@@ -207,7 +207,7 @@
 			$("#knowledge_table").click(function() {
 
 				var nd = $("#year").val();
-				var url = encodeURIComponent("/one_level_main/count_table_new?nd=" + nd + "&ysnd=" + nd);
+				var url = encodeURIComponent("/one_level_main/count_table_new?ysnd=" + nd+"&define1=费用性&define11=股份公司&define12=直属研究院&groupFlag=xmid");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -220,7 +220,7 @@
 				//obj.update(fields) //修改当前行数据
 				selectRowData = obj.data;
 				var nd = $("#year").val();
-				var url = encodeURIComponent("/one_level_main/count_table_new?define2=" + selectRowData.define2 + "&nd=&ysnd=" + nd + "&define1=费用性&define11=股份公司&define12=直属研究院");
+				var url = encodeURIComponent("/one_level_main/count_table_new?define2=" + selectRowData.define2 + "&nd=&ysnd=" + nd + "&define1=费用性&define11=股份公司&define12=直属研究院&groupFlag=xmid,define8");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -267,9 +267,13 @@
 				var nd_temp = "";
 				if (legentName == '新开课题') {
 					nd_temp = nd;
+				} else if(legentName == '结转课题') {
+					var lastYear = nd - 1;
+					var beforeYear = nd - 2;
+					nd_temp = beforeYear + "," + lastYear;
 				}
                 
-				var url = encodeURIComponent("/one_level_main/count_table_new?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + legentName + "&define1=费用性&groupFlag=xmid,define8&define11=股份公司&define12=直属研究院");
+				var url = encodeURIComponent("/one_level_main/count_table_new?define2=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define1=费用性&groupFlag=xmid,define8&define11=股份公司&define12=直属研究院");
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -287,8 +291,12 @@
 				var nd_temp = "";
 				if (legentName == '新开课题') {
 					nd_temp = nd;
+				} else if(legentName == '结转课题') {
+					var lastYear = nd - 1;
+					var beforeYear = nd - 2;
+					nd_temp = beforeYear + "," + lastYear;
 				}
-				var url = encodeURIComponent("/one_level_main/count_table_new?define5=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define11=股份公司&define12=直属研究院&define1=费用性&groupFlag=xmid&ktlx="+legentName);
+				var url = encodeURIComponent("/one_level_main/count_table_new?define5=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define11=股份公司&define12=直属研究院&define1=费用性&groupFlag=xmid");
 				window.open("/instituteIndex?url=" + url);
 			});
 
@@ -303,8 +311,12 @@
 				var nd_temp = "";
 				if (legentName == '新开课题') {
 					nd_temp = nd;
+				} else if(legentName == '结转课题') {
+					var lastYear = nd - 1;
+					var beforeYear = nd - 2;
+					nd_temp = beforeYear + "," + lastYear;
 				}
-				var url = encodeURIComponent("/one_level_main/count_table_new?zycbmFlag=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define11=股份公司&define12=直属研究院&define1=费用性&groupFlag=xmid&ktlx="+legentName);
+				var url = encodeURIComponent("/one_level_main/count_table_new?zycbmFlag=" + xName + "&nd=" + nd_temp + "&ysnd=" + nd + "&define11=股份公司&define12=直属研究院&define1=费用性&groupFlag=xmid");
 				window.open("/instituteIndex?url=" + url);
 			});
 		}
@@ -313,9 +325,15 @@
 
 			var nd = $("#year").val();
 			var nd_temp = "";
+			
 			if (labelFlag == '新开课题') {
 				nd_temp = nd;
+			} else if(labelFlag == '结转课题') {
+				var lastYear = nd - 1;
+				var beforeYear = nd - 2;
+				nd_temp = beforeYear + "," + lastYear;
 			}
+			
 			// var v_date = (new Date()).getTime();
 			var url = encodeURIComponent("/one_level_main/count_table_new?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define11=股份公司&define12=直属研究院&define1=费用性&groupFlag=xmid,define8");
 			window.open("/instituteIndex?url=" + url);
@@ -325,8 +343,13 @@
 
 			var nd = $("#year").val();
 			var nd_temp = "";
+			
 			if (labelFlag == '新开课题') {
 				nd_temp = nd;
+			} else if(labelFlag == '结转课题') {
+				var lastYear = nd - 1;
+				var beforeYear = nd - 2;
+				nd_temp = beforeYear + "," + lastYear;
 			}
 			// var v_date = (new Date()).getTime();
 			var url = encodeURIComponent("/one_level_main/count_table?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define11=股份公司&define12=直属研究院&define1=费用性&groupFlag=xmid");
@@ -337,9 +360,15 @@
 
 			var nd = $("#year").val();
 			var nd_temp = "";
+			
 			if (labelFlag == '新开课题') {
 				nd_temp = nd;
+			} else if(labelFlag == '结转课题') {
+				var lastYear = nd - 1;
+				var beforeYear = nd - 2;
+				nd_temp = beforeYear + "," + lastYear;
 			}
+			
 			// var v_date = (new Date()).getTime();
 			var url = encodeURIComponent("/one_level_main/count_table_new?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define11=股份公司&define12=直属研究院&define1=费用性&groupFlag=xmid");
 			window.open("/instituteIndex?url=" + url);
@@ -349,9 +378,15 @@
 
 			var nd = $("#year").val();
 			var nd_temp = "";
+			
 			if (labelFlag == '新开课题') {
 				nd_temp = nd;
+			} else if(labelFlag == '结转课题') {
+				var lastYear = nd - 1;
+				var beforeYear = nd - 2;
+				nd_temp = beforeYear + "," + lastYear;
 			}
+			
 			// var v_date = (new Date()).getTime();
 			var url = encodeURIComponent("/one_level_main/count_table_new?nd=" + nd_temp + "&ysnd=" + nd + "&ktlx=" + labelFlag + "&define11=股份公司&define12=直属研究院&define1=费用性&groupFlag=xmid&ktlx="+labelFlag);
 			window.open("/instituteIndex?url=" + url);

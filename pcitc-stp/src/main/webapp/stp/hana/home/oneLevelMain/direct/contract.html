@@ -29,13 +29,11 @@
 	<div class="layui-fluid">
 		<div class="">
 			<div class="fluid-top">
-				<#if userLevel=="1">
 				<div class="breadcrumb">
 					<a href="/stpHome" target="_parent">首页 > </a>
 					<a href="/instituteIndex?url=/home_ld/direct_depart" target="_parent">直属研究院概况 > </a>
 					<span>合同签订率</span>
 				</div>
-				</#if>
 				<div class="searchBox">
 					<label class="dateInput">
 						<span>年份</span>
@@ -58,7 +56,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院课题合同（任务书）签定率
+							<span class="layui-time"></span>
+							年直属研究院课题合同（任务书）签定率
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -91,7 +90,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院课题合同（任务书）数量占比
+							<span class="layui-time"></span>
+							年直属研究院课题合同（任务书）数量占比
 						</div>
 						<div class="layui-card-body btn-function">
 							<div class="processdef_table">
@@ -105,7 +105,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年课题合同（任务书）签订率
+							<span class="layui-time"></span>
+							年课题合同（任务书）签订率
 						</div>
 						<div class="layui-row-main">
 
@@ -136,7 +137,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院课题合同（任务书）数量占比
+							<span class="layui-time"></span>
+							年直属研究院课题合同（任务书）数量占比
 						</div>
 						<div class="layui-card-body btn-function">
 							<div id="processdef_tableN">
@@ -270,7 +272,7 @@
 			echart1.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				
+
 				var url = encodeURIComponent("/one_level_main/common_table_new?define12=直属研究院&define11=股份公司&qdbz=" + xName + "订&nd=" + nd + "&ysnd=" + nd);
 				window.open("/instituteIndex?url=" + url);
 
@@ -303,12 +305,12 @@
 			});
 
 		}
-        //年直属研究院课题合同
+		//年直属研究院课题合同
 		function nzsyjyktht(qdbz) {
 			var url = encodeURIComponent("/one_level_main/common_table_new?define12=直属研究院&define11=股份公司&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid");
 			window.open("/instituteIndex?url=" + url);
 		}
-        //年课题合同任务书签订率
+		//年课题合同任务书签订率
 		function nkthtrwsqdl(qdbz) {
 			var url = encodeURIComponent("/one_level_main/common_table_new?define12=直属研究院&define11=股份公司&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid,define8");
 			window.open("/instituteIndex?url=" + url);
@@ -372,11 +374,24 @@
 				isPage : false,
 				done : function(res, curr, count) {
 					$('.processdef_table .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function(e) {
-                        var index = parseInt($(this).index() + 1);
-                        var selectRowData = res.data[index - 1];
-					    if($(this).find(".layui-icon").length<=0){
-                            var url = encodeURIComponent("/one_level_main/common_table_new?define12=直属研究院&define11=股份公司&define2=" + selectRowData.define2 + "&nd=" + nd + "&ysnd=" + nd + "&groupFlag=xmid,define8");
-                            //window.open("/instituteIndex?url=" + url);
+						var index = parseInt($(this).index() + 1);
+						var selectRowData = res.data[index - 1];
+						if ($(this).find(".layui-icon").length <= 0) {
+							
+							var xName = selectRowData.name;
+                            if (xName == '油田处') {
+								xName = '科技部';
+							}
+					
+							if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
+								var url = encodeURIComponent("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid,define8", "合同签订率详情");
+								window.open("/instituteIndex?url=" + url);
+							} else {
+								var url = encodeURIComponent("/one_level_main/common_table_new?zycbmFlag=" + xName + "&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid,define8", "合同签订率详情");
+								window.open("/instituteIndex?url=" + url);
+							}
+							
+							
 						}
 
 					});
