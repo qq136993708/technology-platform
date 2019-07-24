@@ -28,22 +28,15 @@
 				<div class="layui-header-index inline-block">
 					<div class="layui-tab index-fixed-tab">
 						<ul class="layui-tab-title index-fixed">
-							<li lay-id="" lay-attr="" class="layui-this">
-								<img src="/layuiadmin/layui/images/header-index.png" />
-							</li>
+							<li lay-id="" lay-attr="" class="layui-this"><img src="/layuiadmin/layui/images/header-index.png" /></li>
 						</ul>
 					</div>
 				</div>
 				<!--导航-->
 				<div class="layui-header-nav inline-block">
 					<ul class="layui-nav layui-layout-left">
-						<#if upList?exists> 
-							<#list upList as p>
-								<li class="layui-nav-item ${p_index}" id="up${p.id}">
-									<a href="javascript:;" id="${p.id}">${p.name}</a>
-								</li> 
-							</#list> 
-						</#if>
+						<#if upList?exists> <#list upList as p>
+						<li class="layui-nav-item ${p_index}" id="up${p.id}"><a href="javascript:;" id="${p.id}">${p.name}</a></li> </#list> </#if>
 					</ul>
 					<div class="layui-icon layadmin-tabs-control layui-icon-prev layui-hide" id="navPrev">
 						<ul class="layui-nav layui-layout-left layui-hide"></ul>
@@ -58,31 +51,24 @@
 				</div>
 				<!--右侧-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
-					<li class="layui-nav-item layui-nav-itemnew chat" title="消息">
-						<a id="numberChat" lay-href="/message/sys_message_list" lay-text="消息">
+					<li class="layui-nav-item layui-nav-itemnew chat" title="消息"><a id="numberChat" lay-href="/message/sys_message_list" lay-text="消息">
 							<span id="nc" style="visibility: hidden"></span>
 						</a>
 						<div class="chat-content layui-hide">
 							<dl id="message_box" class="layui-nav-child-dl">
 							</dl>
-						</div>
-					</li>
-					<li class="layui-nav-item layui-nav-itemnew deal" title="待办任务">
-						<a id="numberDeal" lay-href="/task/pending/list/ini" lay-text="待办任务">
+						</div></li>
+					<li class="layui-nav-item layui-nav-itemnew deal" title="待办任务"><a id="numberDeal" lay-href="/task/pending/list/ini" lay-text="待办任务">
 							<span id="pendingCount" style="visibility: hidden"></span>
-						</a>
-					</li>
+						</a></li>
 					<!-- <li class="layui-nav-item layui-nav-itemnew notify">
 						<a id="numberNotify" lay-href="/task/pending/list/ini" lay-text="通知" title="通知"></a>
 					</li> -->
-					<li class="layui-nav-item layui-nav-itemnew " title="二维码">
-						<span class="QRCode"></span>
+					<li class="layui-nav-item layui-nav-itemnew " title="二维码"><span class="QRCode"></span>
 						<div class="QRCode-content layui-hide">
 							<img src="/layuiadmin/layui/images/weixin.png" />
-						</div>
-					</li>
-					<li class="layui-nav-item">
-						<a href="javascript:;" style="color: #fff;" class="layui-nav-item-a">
+						</div></li>
+					<li class="layui-nav-item"><a href="javascript:;" style="color: #fff;" class="layui-nav-item-a">
 							${userInfo.userDisp!}
 							<span class="layui-nav-more"></span>
 						</a>
@@ -105,8 +91,7 @@
 									<a id="logout" href="javascript:void(0)">退出登录</a>
 								</dd>
 							</dl>
-						</div>
-					</li>
+						</div></li>
 				</ul>
 			</div>
 
@@ -117,27 +102,21 @@
 					<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
 						<li class="layadmin-flexible">
 							<div></div>
-						</li>
-						<#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
+						</li> <#assign gztFlag="0"> <#if grgztList?exists> <#list grgztList as grgzt> <#if grgzt.url=='#'> <#if gztFlag=="0">
 						<li class="layui-nav-item layui-nav-itemed"></#if> <#if gztFlag=="1">
-						<li class="layui-nav-item">
-							</#if>
-							<a href="#" title="${grgzt.name}">
+						<li class="layui-nav-item"></#if> <a href="#" title="${grgzt.name}">
 								<span>${grgzt.name}</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
-							</a>
-							<#assign gztFlag="1"> </#if>
+							</a> <#assign gztFlag="1"> </#if>
 							<dl class="layui-nav-child">
 								<#list grgztList as threeLevel> <#if threeLevel.parentId == grgzt.id>
 								<dd>
 									<a lay-href="${threeLevel.url}" lay-text="${threeLevel.name}" data-id="${threeLevel.id}" data-code="${threeLevel.code}" data-functionbuttons="ALL">${threeLevel.name}</a>
 								</dd>
 								</#if> </#list>
-							</dl>
-							</#list> </#if> <#if scList?exists>
-						<li class="layui-nav-item">
-							<a href="#" title="我的收藏">
+							</dl> </#list> </#if> <#if scList?exists>
+						<li class="layui-nav-item"><a href="#" title="我的收藏">
 								<span>我的收藏</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
@@ -146,14 +125,11 @@
 								<#list scList as sc>
 								<dd id="${sc.dataId}">
 									<a lay-href="${sc.collectUrl}" lay-text="${sc.collectName}" data-id="${sc.functionId}" data-code="${sc.functionCode}" data-functionbuttons="ALL">
-										${sc.collectName}
-										<img title="取消收藏" src="/layuiadmin/layui/images/icon_collection.png" class="layui-hide" />
+										${sc.collectName} <img title="取消收藏" src="/layuiadmin/layui/images/icon_collection.png" class="layui-hide" />
 									</a>
 								</dd>
 								</#list>
-							</dl>
-						</li>
-						</#if>
+							</dl></li> </#if>
 
 					</ul>
 
@@ -161,10 +137,8 @@
 					<ul class="layui-nav layui-nav-tree layui-hide" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
 						<li class="layadmin-flexible">
 							<div></div>
-						</li>
-						<#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
-						<li class="layui-nav-item layui-nav-itemed">
-							<a href="#" title="${s.name}">
+						</li> <#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
+						<li class="layui-nav-item layui-nav-itemed"><a href="#" title="${s.name}">
 								<span>${s.name}</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
@@ -186,11 +160,8 @@
 									</#if>
 								</dd>
 								</#if> </#list>
-							</dl>
-						</li>
-						</#if> <#if openFlag!="0">
-						<li class="layui-nav-item">
-							<a href="#" title="${s.name}">
+							</dl></li> </#if> <#if openFlag!="0">
+						<li class="layui-nav-item"><a href="#" title="${s.name}">
 								<span>${s.name}</span>
 								<span class="arrow"></span>
 								<i class="fa fa-angle-left pull-right"></i>
@@ -212,15 +183,10 @@
 									</#if>
 								</dd>
 								</#if> </#list>
-							</dl>
-						</li>
-						</#if> <#assign openFlag="1"> </#if> <#if s.parentId == p.id && s.url!='#'>
-						<li class="layui-nav-item">
-							<a lay-href="${s.url}" lay-text="${s.name}" data-id="${s.id}" data-code="${s.code}" data-functionbuttons="${s.functionButtons}">
+							</dl></li> </#if> <#assign openFlag="1"> </#if> <#if s.parentId == p.id && s.url!='#'>
+						<li class="layui-nav-item"><a lay-href="${s.url}" lay-text="${s.name}" data-id="${s.id}" data-code="${s.code}" data-functionbuttons="${s.functionButtons}">
 								<span>${s.name}</span>
-							</a>
-						</li>
-						</#if> </#list>
+							</a></li> </#if> </#list>
 					</ul>
 					</#list> </#if>
 				</div>
@@ -250,8 +216,7 @@
 				<div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
 				<div class="layui-icon layadmin-tabs-control layui-icon-down">
 					<ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
-						<li class="layui-nav-item" lay-unselect>
-							<a href="javascript:;"></a>
+						<li class="layui-nav-item" lay-unselect><a href="javascript:;"></a>
 							<dl class="layui-nav-child layui-anim-fadein">
 								<dd layadmin-event="closeThisTabs">
 									<a href="javascript:;">关闭当前页</a>
@@ -265,8 +230,7 @@
 								<dd layadmin-event="collection" id="collection">
 									<a id="collectFunction" href="javascript:void(0)">收藏/取消</a>
 								</dd>
-							</dl>
-						</li>
+							</dl></li>
 					</ul>
 				</div>
 				<div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
@@ -316,16 +280,16 @@
 					});
 
 					$(".seacrhBox img").click(function() {
-                        var val = $(".seacrhBox input").val();
-                        parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
+						var val = $(".seacrhBox input").val();
+						parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
 					});
 					$(document).keyup(function(event) {
 						if (event.keyCode == 13) {
-                            var val = $(".seacrhBox input").val();
-                            parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
+							var val = $(".seacrhBox input").val();
+							parent.layui.index.openTabsPage("/fullSearch/search?keyword=" + val, "全文检索");
 						}
 					});
-					$(".layui-header .layui-icon-prev").css("left", (navLeft-10) + "px");
+					$(".layui-header .layui-icon-prev").css("left", (navLeft - 10) + "px");
 					if (!$(".layui-header .layui-icon-prev").hasClass("layui-hide")) {
 						$("#navPrev ul").append(headerNav);
 						$("#navPrev ul span").remove();
@@ -365,11 +329,11 @@
 						}
 						$(".layui-nav-tree").addClass("layui-hide");
 						$("#nav" + id).removeClass("layui-hide");
-						
+
 						if ($("#" + id).text() == "专家库") {
 							parent.layui.index.openTabsPage("/expertController/expertIndexNew", "专家库");
 						}
-						
+
 						$(".layui-header .layui-layout-left li").removeClass("layui-this");
 						if (!$(this).parent().hasClass("layui-this")) {
 							$(this).parent().addClass("layui-this");
@@ -606,35 +570,23 @@
 					}
 					//待办任务
 					window.getNotReadTaskList = function() {
-						//admin/pending-task-count
-						publicMethods.ajaxAsyncPost('/task/index-pending-list', {
-							page : 1,
-							limit : 100,
-							param : {
-								"isRead" : "0"
-							}
-						}, function(data, status) {
+						publicMethods.ajaxAsyncPost('/admin/pending-task-count', {page:1,limit:100,param: {"isRead":"0"}}, function (data, status) {
 							$(".task_more").unbind();
 							$(".task_info").unbind();
-							var pendingCount = data.length;
+							var pendingCount = data.pendingTaskCount;
 							var content = "";
 							if (pendingCount <= 0) {
 								$("#pendingCount").css("visibility", "hidden");
 							} else {
 								$("#pendingCount").text(pendingCount);
 								$("#pendingCount").css("visibility", "visible");
-								/* $.each(data,function(index,dt){
-									if(index < 3){//最新消息(取前三条未读)
-										content +='<dd class="task_info" dataId="'+dt.id+'"><p><span class="layui-icon-span"><img src="/layuiadmin/layui/images/icon-information.png"/></span><span class="layui-text-span">'+dt.name+'</span>	<span class="layui-date">'+dt.ago+'</span></p></dd>';
-									}
-								}); */
 							}
 							content += '<dd><a class="task_more"  href="javascript:void(0)">查看更多</a></dd>';
 							$("#task_box").html(content);
 							$(".task_more").on("click", function() {
 								parent.layui.index.openTabsPage("/task/pending/list/ini", "待办任务");
 							});
-						});
+			            });
 					}
 					$(document).ready(function() {
 						$("#mainIframe", parent.document.body).attr("src", "/mainStp");

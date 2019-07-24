@@ -178,17 +178,16 @@ public class TaskProviderClient {
 	public JSONObject getPendingTaskCount(@RequestBody HashMap<String, String> map) {
 		String userId = null;
 		JSONObject retJson = new JSONObject();
-		System.out.println("1jsonStr======" + map);
 		if (map != null && map.get("userId") != null && !map.get("userId").equals("")) {
 			userId = map.get("userId").toString();
 		} else {
 			retJson.put("pendingTaskCount", "0");
 		}
-		System.out.println("2jsonStr======" + userId);
 		TaskQuery query = taskService.createTaskQuery().taskCandidateOrAssigned(userId);
 		long count = query.count();
-		System.out.println("3jsonStr======" + count);
 		retJson.put("pendingTaskCount", count);
+		
+		
 		return retJson;
 	}
 
