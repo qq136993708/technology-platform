@@ -395,12 +395,14 @@
 		function setInvestment_02_count(url) {
 
 			$.ajax({
-				type : "GET",
+				type : "POST",
 				url : url,
 				dataType : "json",
 				timeout : 11000,
 				cache : false,
-				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				headers : {
+					'Content-Type' : 'application/json'
+				},
 				success : function(data, status) {
 					if (data.success == true || data.success == 'true') {
 

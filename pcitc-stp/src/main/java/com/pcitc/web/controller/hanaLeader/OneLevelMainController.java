@@ -3274,7 +3274,7 @@ public class OneLevelMainController extends BaseController {
 		return resultObj.toString();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_02_count")
+	@RequestMapping(value = "/one_level_main/investment_02_count")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String investment_02_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
