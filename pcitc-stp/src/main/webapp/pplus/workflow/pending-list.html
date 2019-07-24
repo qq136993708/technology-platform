@@ -201,7 +201,7 @@
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
-						$("#system").html(count)
+						$("#system").html(count);
 						// 点击行联动选择框--单选
 						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
 							var index = parseInt($(this).index() + 1);
@@ -273,7 +273,7 @@
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
-						$("#other").html(count)
+						$("#other").html(count);
 					}
 				});
 				$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选

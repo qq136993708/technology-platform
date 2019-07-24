@@ -1079,7 +1079,7 @@
 				}
 
 				function set_wait_work_id_count() {
-					var url = "/task/pending-list";
+					var url = "/task/pending/union/show";
 					$.ajax({
 						type : "POST",
 						url : url,
@@ -1090,7 +1090,6 @@
 							'Content-Type' : 'application/json'
 						},
 						success : function(data, status) {
-
 							$("#wait_work_id_count").html(data.count + "");
 							var list = data.data;
 							for (var i = 0; i < list.length; i++) {
