@@ -25,12 +25,22 @@
         <input  name="parentUnitPathIds"   id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
         <input  name="state"  id="state" value="${state}" type="hidden">
         <input  name="stage"  id="stage" value="${stage}" type="hidden">
+        <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
     </form>
 
     <!--查询条件-->
     <label class="dateInput">
         <span>申请名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
+    </label>
+    <label class="dateInput" style="margin-left:10px;" id="bodyId">
+        <span>研究院</span>
+        <select name="parentUnitPathNames" id="parentUnitPathNames"  class="form-control"  >
+            <option value="" >--请选择--</option>
+            <#list leaddicList as vo>
+            <option value="${vo.numValue}"  >${vo.name}</option>
+        </#list>
+        </select>
     </label>
     <div class="btnGroup" style="margin-right:10px">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -59,7 +69,15 @@
     <button class="layui-red layui-btn-primary layui-btn-xs">未上报</button>
     {{#  } }}
 </script>
-
+<script type="text/javascript">
+    $(function(){
+        if(isKJBPerson=="true" || isKJBPerson==true){
+            document.getElementById("bodyId").style.display = "inline";
+        }else{
+            document.getElementById("bodyId").style.display = "none";
+        }
+    })
+</script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -136,6 +154,7 @@
 <!--表格数据操作js-->
 
 <script>
+    var isKJBPerson=$('#isKJBPerson').val();
     var publicMethods;
     var param=JSON.parse(window.localStorage.getItem("param"));
     var functionId=param.id;
@@ -176,6 +195,7 @@
             resetEvent: function() { //点击重置按钮
 
                 $('#purchaseName').val("");
+                $('#parentUnitPathNames').val("");
             },
             upQianEvent: function(){ //上传采购合同
                 if (typeof(selectRowData) == "undefined")
@@ -300,7 +320,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {/*"state":"20",*/"stage":"2","parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val(),"purchaseName":$("#purchaseName").val()}},
+            where: {param: {/*"state":"20",*/"stage":"2","parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val(),"purchaseName":$("#purchaseName").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),

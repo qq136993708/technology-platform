@@ -13,6 +13,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysDictionary;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -316,6 +317,9 @@ public class EquipmentController extends BaseController {
 
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
 		request.setAttribute("isKJBPerson", isKJBPerson);
+
+		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+		request.setAttribute("leaddicList", leaddicList);
 
 		return "/stp/equipment/equipment/equipment-list";
 	}
