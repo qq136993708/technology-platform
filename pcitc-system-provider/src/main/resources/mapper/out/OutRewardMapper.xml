@@ -587,4 +587,15 @@
 		group by define2
 	</select>
 	
+	<!-- 查询合同号的奖励情况 -->
+	<select id="getRewardInfoForHth" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select  concat(hth,':',GROUP_CONCAT(psdj)) as psdj,
+				concat(hth,':',GROUP_CONCAT(xkfl)) as xkfl,
+				hth
+		from out_reward
+		WHERE
+			find_in_set(out_reward.hth, '${hth}')
+		group by hth
+	</select>
+	
 </mapper>
