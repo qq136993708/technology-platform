@@ -439,6 +439,7 @@
 	      <if test="purchaseStatus != null       and purchaseStatus !=''  ">     AND t.purchase_status = #{purchaseStatus}</if>
 	       <if test="forStatus != null       and forStatus !=''  ">     AND t.for_status = #{forStatus}</if>
 	     <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
+         <if test="parentUnitPathNames != null and parentUnitPathNames  !='' ">   AND t.parent_unit_path_names like CONCAT('%',#{parentUnitPathNames},'%')</if>
 	 </trim>
 	</sql>
 	

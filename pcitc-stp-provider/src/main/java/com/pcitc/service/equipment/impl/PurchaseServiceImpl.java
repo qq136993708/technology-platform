@@ -79,7 +79,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String createDate=getTableParam(param,"createDate","");
         String purchaseCode = getTableParam(param, "purchaseCode", "");
-        if(stage.equals(Constant.PURCHASE_CONTRACT_DOCKING)){
+
             Map map=new HashMap();
             map.put("purchaseName", purchaseName);
             map.put("departName", departName);
@@ -112,100 +112,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
 
             list = srePurchaseMapper.getList(map);
-		}else if(stage.equals(Constant.PURCHASE_CONTRACT_CLOSE)){//合同关闭列表展示的数据
-            Map map=new HashMap();
-            map.put("purchaseName", purchaseName);
-            map.put("departName", departName);
-            map.put("stage", stage);
-            map.put("state", state);
-            map.put("proposerName", proposerName);
-            map.put("parentUnitPathNames", parentUnitPathNames);
-            map.put("parentUnitPathIds", parentUnitPathIds);
-            map.put("createDate", createDate);
-            map.put("purchaseCode", purchaseCode);
 
-
-            System.out.println(">>>>>>>>applyDepartCode="+departCode);
-            StringBuffer applyUnitCodeStr=new StringBuffer(); if(!departCode.equals("")) {
-                applyUnitCodeStr.append(" ("); String arr[]=departCode.split(",");
-                for(int i=0;i<arr.length;i++) {
-                    if(i>0) {
-                        applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]
-                                +"', t.`depart_code`)");
-                    }else {
-                        applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`depart_code`)");
-                    }
-                }
-                applyUnitCodeStr.append(" )");
-            }
-
-            map.put("sqlStr", applyUnitCodeStr.toString());
-
-
-            list = srePurchaseMapper.getContractClosedList(map);
-        }else{
-			if(state.equals(Constant.PURCHASE_STATUS_PASS)){//采购申请成功的数据
-				Map map=new HashMap();
-				map.put("purchaseName", purchaseName);
-				map.put("departName", departName);
-				map.put("stage", stage);
-				map.put("state", state);
-				map.put("proposerName", proposerName);
-				map.put("parentUnitPathNames", parentUnitPathNames);
-                map.put("parentUnitPathIds", parentUnitPathIds);
-				map.put("createDate", createDate);
-                map.put("purchaseCode", purchaseCode);
-
-				System.out.println(">>>>>>>>applyDepartCode="+departCode);
-				StringBuffer applyUnitCodeStr=new StringBuffer(); if(!departCode.equals("")) {
-					applyUnitCodeStr.append(" ("); String arr[]=departCode.split(",");
-					for(int i=0;i<arr.length;i++) {
-						if(i>0) {
-							applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]
-									+"', t.`depart_code`)");
-						}else {
-							applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`depart_code`)");
-						}
-					}
-					applyUnitCodeStr.append(" )");
-				}
-
-				map.put("sqlStr", applyUnitCodeStr.toString());
-
-
-				 list = srePurchaseMapper.getPassList(map);
-			}else{//查询全部采购数据
-                Map map=new HashMap();
-                map.put("purchaseName", purchaseName);
-                map.put("departName", departName);
-                map.put("stage", stage);
-                map.put("state", state);
-                map.put("proposerName", proposerName);
-                map.put("parentUnitPathNames", parentUnitPathNames);
-                map.put("parentUnitPathIds", parentUnitPathIds);
-                map.put("createDate", createDate);
-                map.put("purchaseCode", purchaseCode);
-
-                 System.out.println(">>>>>>>>applyDepartCode="+departCode);
-                 StringBuffer applyUnitCodeStr=new StringBuffer(); if(!departCode.equals("")) {
-                 applyUnitCodeStr.append(" ("); String arr[]=departCode.split(",");
-                 for(int i=0;i<arr.length;i++) {
-                    if(i>0) {
-                     applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]
-                     +"', t.`depart_code`)");
-                    }else {
-                     applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`depart_code`)");
-                     }
-                 }
-                 applyUnitCodeStr.append(" )");
-                 }
-
-                 map.put("sqlStr", applyUnitCodeStr.toString());
-
-
-                    list = srePurchaseMapper.getList(map);
-                }
-            }
 		PageInfo<SrePurchase> pageInfo = new PageInfo<SrePurchase>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		LayuiTableData data = new LayuiTableData();

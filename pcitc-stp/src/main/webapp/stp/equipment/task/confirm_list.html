@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,6 +27,7 @@
 <input  name="joinUnitCodes"  id="joinUnitCodes"           type="hidden" >
 <input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
 <input  name="branchFlag"  id="branchFlag"           type="hidden" >
+<input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
 </form>
     <!--查询条件-->
     <label class="dateInput">
@@ -36,7 +37,11 @@
     
     <label class="dateInput">
         <span>任务名称</span>
-        <input type="text" name="topicName" title="任务名称" autocomplete="off" class="form-control" id="topicName">
+        <input type="text" name="topicName" title="任务名称" autocomplete="off" placeholder="请输入任务名称"class="form-control" id="topicName">
+    </label>
+    <label class="dateInput">
+        <span>合同号</span>
+        <input type="text" name="contractNum"  title="合同号" autocomplete="off"  placeholder="请输入合同号"class="form-control" id="contractNum">
     </label>
     
     
@@ -76,8 +81,17 @@
       <label class="dateInput">
          <span>专业</span>
          <select id="professionalFieldCode" name="professionalFieldCode"  class="form-control" ></select>
-     </label>
-    
+      </label>
+      <label class="dateInput" style="margin-left:10px;" id="bodyId">
+          <span>研究院</span>
+          <select name="leadUnitName" id="leadUnitName"  class="form-control"  >
+            <option value="" >--请选择--</option>
+            <#list leaddicList as vo>
+                <option value="${vo.numValue}"  >${vo.name}</option>
+            </#list>
+          </select>
+      </label>
+
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -99,6 +113,15 @@
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script id="isWriteSetup" type="text/html"> {{isWriteSetup(d.setupId)}} </script>
 <script id="view_taskVersion" type="text/html"> {{view_taskVersion(d.taskVersion)}} </script>
+<script type="text/javascript">
+    $(function(){
+        if(isKJBPerson=="true" || isKJBPerson==true){
+            document.getElementById("bodyId").style.display = "inline";
+        }else{
+            document.getElementById("bodyId").style.display = "none";
+        }
+    })
+</script>
 <script type="text/javascript">
     function view_taskVersion(taskVersion) 
     {
@@ -174,6 +197,7 @@
 <!--表格数据操作js-->
 
 <script>
+var isKJBPerson=$('#isKJBPerson').val();
 var publicMethods;
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
@@ -218,6 +242,9 @@ var name=$('#name').val();
             	$('#belongDepartmentCode').val("");
             	$('#professionalDepartCode').val("");
             	$('#professionalFieldCode').val("");
+                $('#leadUnitName').val("");
+                $('#contractNum').val("");
+
             },
             confirmEvent: function(){ 
             	if (typeof(selectRowData) == "undefined") 
@@ -309,7 +336,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"auditStatus":$("#auditStatus").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"leadUnitCode":$("#leadUnitCode").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"auditStatus":$("#auditStatus").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"leadUnitCode":$("#leadUnitCode").val(),"leadUnitName":$("#leadUnitName").val(),"contractNum":$("#contractNum").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

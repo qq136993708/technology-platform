@@ -48,8 +48,19 @@ public class EquipmentLedgerController extends BaseController{
 	{
 		String unitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);
 		String g0gsjc = EquipmentUtils.getHanaUnitNameByUnitCode(unitCode, restTemplate, httpHeaders);
-		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
-		request.setAttribute("leaddicList", leaddicList);
+		String unitPathIds = sysUserInfo.getUnitPath();
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+	    request.setAttribute("isKJBPerson", isKJBPerson);
+	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+	    String str ="1";
+	    if(isKJBPerson == true) {
+	    	//获取研究院
+			request.setAttribute("dictonary", dictonary);
+			request.setAttribute("str", "1");
+	    }else {
+	    	request.setAttribute("dictonary", dictonary);
+	    	request.setAttribute("str", "0");
+	    }
 		request.setAttribute("g0gsjc", g0gsjc);
 		return "/stp/equipment/ledger/company_list";
 	}

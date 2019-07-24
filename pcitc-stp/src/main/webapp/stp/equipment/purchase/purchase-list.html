@@ -18,6 +18,7 @@
 <input  name="id"         id="id"          type="hidden" >
 <input type="hidden" name="departCode" id="departCode" value="${departCode}">
 <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+<input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
 
 </form>
 
@@ -31,6 +32,15 @@
         <span>申请名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
     </label>
+    <label class="dateInput" style="margin-left:10px;" id="bodyId">
+        <span>研究院</span>
+        <select name="parentUnitPathNames" id="parentUnitPathNames"  class="form-control"  >
+            <option value="" >--请选择--</option>
+            <#list leaddicList as vo>
+            <option value="${vo.numValue}"  >${vo.name}</option>
+        </#list>
+        </select>
+    </label>
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -41,27 +51,6 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-        
-            <!--<button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
-					<span class="btn-state btn-all-ryg"></span>
-					全部
-				</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="draftEvent">
-                <span class="btn-state btnYellow"></span>未提交
-            </button>
-           <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="submitEvent">
-                <span class="btn-state btn-green"></span>已提交
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="passEvent">
-                <span class="btn-state btn-blue"></span>通过
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="rejectEvent">
-                <span class="btn-state btn-yellow"></span>审批未通过
-            </button>-->
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="editEvent" data-type="editEvent">编辑</button>
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="applyEvent" data-type="applyEvent">上报</button>-->
@@ -84,7 +73,15 @@
     <button class="layui-red layui-btn-primary layui-btn-xs">未上传</button>
     {{#  } }}
 </script>
-
+<script type="text/javascript">
+    $(function(){
+        if(isKJBPerson=="true" || isKJBPerson==true){
+            document.getElementById("bodyId").style.display = "inline";
+        }else{
+            document.getElementById("bodyId").style.display = "none";
+        }
+    })
+</script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -137,6 +134,7 @@
 </script>
 <!--表格数据操作js-->
 <script>
+var isKJBPerson=$('#isKJBPerson').val();
 var publicMethods;
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
@@ -178,7 +176,7 @@ var name=$('#name').val();
             	$('#purchaseName').val("");
             	$('#createDate').val("");
             	$('#proposerName').val("");
-
+                $('#parentUnitPathNames').val("");
             },
             
             addEvent: function(){ //点击新增按钮
@@ -389,7 +387,7 @@ var name=$('#name').val();
             url: '/sre_purchase/list',
             method:"POST",
 		//查询条件            
-            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"departCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"departCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
