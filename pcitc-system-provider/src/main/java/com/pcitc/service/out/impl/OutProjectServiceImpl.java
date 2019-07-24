@@ -265,6 +265,215 @@ public class OutProjectServiceImpl implements OutProjectService {
         data.setCount(total.intValue());
         return data;
     }
+    
+    /**
+     * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息
+     */
+    public LayuiTableData selectProjectInfoWithAllInfoByCond(LayuiTableParam param) {
+    	
+    	
+    	JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+    	System.out.println(">>>>>>>入口->参数： " + parmamss.toString());
+        // 每页显示条数
+        int pageSize = param.getLimit();
+        // 当前是第几页
+        int pageNum = param.getPage();
+        // 1、设置分页信息，包括当前页数和每页显示的总计数
+        PageHelper.startPage(pageNum, pageSize);
+
+        HashMap<String, Object> hashmap = new HashMap<String, Object>();
+        if (param.getOrderKey() != null && !StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+            // 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString()
+            // + " " + param.getOrderType());
+            hashmap.put("orderKey", param.getOrderKey());
+            hashmap.put("orderType", param.getOrderType());
+        }
+        if (param.getParam().get("xmmc") != null && !StringUtils.isBlank(param.getParam().get("xmmc") + "")) {
+            hashmap.put("xmmc", param.getParam().get("xmmc"));
+        }
+
+        if (param.getParam().get("fzdwflag") != null && !StringUtils.isBlank(param.getParam().get("fzdwflag") + "")) {
+            hashmap.put("fzdwflag", param.getParam().get("fzdwflag"));
+        }
+
+        if (param.getParam().get("hth") != null && !StringUtils.isBlank(param.getParam().get("hth") + "")) {
+            hashmap.put("hth", param.getParam().get("hth"));
+        }
+        // 资本性、费用性
+        if (param.getParam().get("define1") != null && !StringUtils.isBlank(param.getParam().get("define1") + "")) {
+            List define1 = new ArrayList();
+            String[] temS = param.getParam().get("define1").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+                define1.add(temS[i]);
+            }
+            hashmap.put("define1", define1);
+        }
+
+        // 各个专业处
+        if (param.getParam().get("define10") != null && !StringUtils.isBlank(param.getParam().get("define10") + "")) {
+            List define10 = new ArrayList();
+            String[] temS = param.getParam().get("define10").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+                define10.add(temS[i]);
+            }
+            hashmap.put("define10", define10);
+        }
+
+        // 费用来源
+        if (param.getParam().get("define11") != null && !StringUtils.isBlank(param.getParam().get("define11") + "")) {
+            List define11 = new ArrayList();
+            String[] temS = param.getParam().get("define11").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+                define11.add(temS[i]);
+            }
+            hashmap.put("define11", define11);
+        }
+
+        // 公司性质，和out_unit本质一致，公司本质的属性，和合同没关系
+        if (param.getParam().get("define12") != null && !StringUtils.isBlank(param.getParam().get("define12") + "")) {
+            List define12 = new ArrayList();
+            String[] temS = param.getParam().get("define12").toString().replaceAll("休斯顿研发中心", "休斯顿").replaceAll("中东研发中心", "中东").split(",");
+            for (int i = 0; i < temS.length; i++) {
+                define12.add(temS[i]);
+            }
+            hashmap.put("define12", define12);
+        }
+
+        // 8大院等细分结构
+        if (param.getParam().get("define2") != null && !StringUtils.isBlank(param.getParam().get("define2") + "")) {
+            List define2 = new ArrayList();
+            String[] temS = param.getParam().get("define2").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+                define2.add(temS[i]);
+            }
+            hashmap.put("define2", define2);
+        }
+
+        // 承担单位的code
+        if (param.getParam().get("define9") != null && !StringUtils.isBlank(param.getParam().get("define9") + "")) {
+            List define9 = new ArrayList();
+            String[] temS = param.getParam().get("define9").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+                define9.add(temS[i]);
+            }
+            hashmap.put("define9", define9);
+        }
+
+        // 基础研究技术/油气勘探技术等技术
+        if (param.getParam().get("define5") != null && !StringUtils.isBlank(param.getParam().get("define5") + "")) {
+            List define5 = new ArrayList();
+            String[] temS = param.getParam().get("define5").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+                define5.add(temS[i]);
+            }
+            hashmap.put("define5", define5);
+        }
+
+        // 国家项目、重大专项、重点项目、其他项目
+        if (param.getParam().get("project_property") != null && !StringUtils.isBlank(param.getParam().get("project_property") + "")) {
+            List project_property = new ArrayList();
+            String[] temS = param.getParam().get("project_property").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+                project_property.add(temS[i]);
+            }
+            hashmap.put("project_property", project_property);
+        }
+
+        // 一级单位（直属院、分子公司等）
+        if (param.getParam().get("type_flag") != null && !StringUtils.isBlank(param.getParam().get("type_flag") + "")) {
+
+            List type_flag = new ArrayList();
+            String[] temS = param.getParam().get("type_flag").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+                type_flag.add(temS[i]);
+            }
+            hashmap.put("type_flag", type_flag);
+        }
+
+        // 装备的各种技术类型
+        if (param.getParam().get("zylb") != null && !StringUtils.isBlank(param.getParam().get("zylb") + "")) {
+            List zylb = new ArrayList();
+            String[] temS = param.getParam().get("zylb").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+                zylb.add(temS[i]);
+            }
+            hashmap.put("zylb", zylb);
+        }
+
+        // 各个处室
+        if (param.getParam().get("zycmc") != null && !StringUtils.isBlank(param.getParam().get("zycmc") + "")) {
+            List zycmc = new ArrayList();
+            String[] temS = param.getParam().get("zycmc").toString().split(",");
+            for (int i = 0; i < temS.length; i++) {
+                zycmc.add(temS[i]);
+            }
+            hashmap.put("zycmc", zycmc);
+        }
+
+        if (param.getParam().get("nd") != null && !StringUtils.isBlank(param.getParam().get("nd") + "")) {
+            hashmap.put("nd", param.getParam().get("nd"));
+        }
+        
+        if (param.getParam().get("leaderFlag") != null && !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
+            hashmap.put("leaderFlag", String.valueOf(param.getParam().get("leaderFlag")));
+        }
+
+        if (param.getParam().get("ysnd") != null && !StringUtils.isBlank(param.getParam().get("ysnd") + "")) {
+            hashmap.put("ysnd", param.getParam().get("ysnd"));
+        }
+
+        // 新开课题结转课题标志
+        if (param.getParam().get("ktlx") != null && !StringUtils.isBlank(param.getParam().get("ktlx") + "")) {
+            hashmap.put("ktlx", param.getParam().get("ktlx"));
+        }
+        
+        if (param.getParam().get("zylbbm") != null && !StringUtils.isBlank(param.getParam().get("zylbbm") + "")) {
+            hashmap.put("zylbbm", param.getParam().get("zylbbm"));
+        }
+        
+        if (param.getParam().get("zycbm") != null && !StringUtils.isBlank(param.getParam().get("zycbm") + "")) {
+            hashmap.put("zycbm", param.getParam().get("zycbm"));
+        }
+        
+        
+        // 部门-处室--专业类别, 加Flag和数据控制的字段区分出来
+        if (param.getParam().get("gsbmbmFlag") != null && !StringUtils.isBlank(param.getParam().get("gsbmbmFlag") + "")) {
+            hashmap.put("gsbmbmFlag", param.getParam().get("gsbmbmFlag"));
+        }
+        
+        if (param.getParam().get("zylbbmFlag") != null && !StringUtils.isBlank(param.getParam().get("zylbbmFlag") + "")) {
+            hashmap.put("zylbbmFlag", param.getParam().get("zylbbmFlag"));
+        }
+        
+        if (param.getParam().get("zycbmFlag") != null && !StringUtils.isBlank(param.getParam().get("zycbmFlag") + "")) {
+            hashmap.put("zycbmFlag", param.getParam().get("zycbmFlag"));
+        }
+        
+        if (param.getParam().get("groupFlag") != null && !StringUtils.isBlank(param.getParam().get("groupFlag") + "")) {
+            hashmap.put("groupFlag", param.getParam().get("groupFlag"));
+        }
+        
+        if (param.getParam().get("unitName")!=null&&!StringUtils.isBlank(param.getParam().get("unitName")+"")) {
+			hashmap.put("unitName", param.getParam().get("unitName"));
+		}
+        
+        JSONObject hashmapstr = JSONObject.parseObject(JSONObject.toJSONString(hashmap));
+    	System.out.println(">>>>>>>封装后->参数： " + hashmapstr.toString());
+        
+        
+        
+
+        List list = outProjectInfoMapper.selectProjectInfoWithAllInfoByCond(hashmap);
+        System.out.println("1>>>>>>>>>查询分页结果" + list.size());
+        PageInfo<HashMap<String, Object>> pageInfo = new PageInfo<HashMap<String, Object>>(list);
+        System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
+
+        LayuiTableData data = new LayuiTableData();
+        data.setData(pageInfo.getList());
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
+        return data;
+    }
 
     /**
      * 分页显示项目数据数据,国拨项目统计的第三级展示
