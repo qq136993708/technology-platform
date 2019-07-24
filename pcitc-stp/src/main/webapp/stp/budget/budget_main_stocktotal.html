@@ -144,6 +144,7 @@
 	    var curent_tabel_data = null;//当前表格数据
 	    var curent_budget_info = null;//当前报表
 	    var selectRowData=null;
+	    var dataId = "${dataId}";
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             var param = JSON.parse(window.localStorage.getItem("param"));
@@ -358,7 +359,11 @@
           		}
           		return available;
           	}
-            initDataVersion();
+          	if(dataId){
+          		initDataVersion(dataId);
+          	}else{
+          		initDataVersion();
+          	}
             // 触发不同的按钮事件
             var $ = layui.$, active = {
             	createEvent: function () { //点击查询按钮

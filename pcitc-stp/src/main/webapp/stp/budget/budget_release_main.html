@@ -114,8 +114,27 @@
             console.log(obj);
         });
         table.on('rowDouble(organEvent)', function(obj){
-        	//var temUrl = "/budget/budget_detail_grouptotal?dataId="+selectRowData.dataId;
-        	//publicMethods.openBaseWinFull("详情",temUrl);
+        	var temUrl;
+        	if(obj.data.budgetType == 101){
+        		temUrl = "/budget/budget_detail_grouptotal?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 102){
+        		temUrl = "/budget/budget_detail_assettotal?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 103){
+        		temUrl = "/budget/budget_detail_stocktotal?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 203){
+        		temUrl = "/budget/budget_detail_groupsplit?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 204){
+        		temUrl = "/budget/budget_detail_assetsplit?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 205){
+        		temUrl = "/budget/budget_detail_stocksplitzsy?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 206){
+        		temUrl = "/budget/budget_detail_stocksplitxtw?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 207){
+        		temUrl = "/budget/budget_detail_stocksplitzgs?dataId="+obj.data.dataId;
+        	}
+        	if(temUrl){
+        		publicMethods.openBaseWinFull("详情",temUrl);
+        	}
         });
         // 触发不同的按钮事件
         var $ = layui.$, active = {

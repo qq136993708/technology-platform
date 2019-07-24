@@ -72,7 +72,15 @@
 		    		layer.alert("操作成功", {title : '信息'},function(i){
 						layer.close(i);
 						//跳转到编辑页面
-						parent.layui.index.openTabsPage("/budget/budget_main_grouptotal?nd="+nd+"&dataId="+dataId, "集团公司预算表");
+						if(budgetType==101){
+							parent.layui.index.openTabsPage("/budget/budget_main_grouptotal?nd="+nd+"&dataId="+dataId, "集团公司预算表");
+						}else if(budgetType==102){
+							parent.layui.index.openTabsPage("/budget/budget_main_assettotal?nd="+nd+"&dataId="+dataId, "资产公司预算表");
+						}else if(budgetType==103){
+							parent.layui.index.openTabsPage("/budget/budget_main_stocktotal?nd="+nd+"&dataId="+dataId, "股份公司预算表");
+						}else{
+							
+						}
 		    		});
 	 		   	});
     		 });
@@ -106,7 +114,7 @@
                 },
                 {	
                 	title : '操作',style : 'cursor: pointer;', align: 'center',width: 200, templet:function(d){
-                		return '<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg demo-delete" target="_top" onclick="modifyBudget(\''+d.nd+'\',\''+d.budgetType+'\',\''+d.dataId+'\')">预算调整</a>'
+                		return '<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg demo-delete" target="_top" onclick="modifyBudget(\''+d.nd+'\','+d.budgetType+',\''+d.dataId+'\')">预算调整</a>'
                 	}
                 }
                 
@@ -128,8 +136,27 @@
             console.log(obj);
         });
         table.on('rowDouble(organEvent)', function(obj){
-        	var temUrl = "/budget/budget_detail_grouptotal?dataId="+selectRowData.dataId;
-        	publicMethods.openBaseWinFull("详情",temUrl);
+        	var temUrl;
+        	if(obj.data.budgetType == 101){
+        		temUrl = "/budget/budget_detail_grouptotal?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 102){
+        		temUrl = "/budget/budget_detail_assettotal?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 103){
+        		temUrl = "/budget/budget_detail_stocktotal?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 203){
+        		temUrl = "/budget/budget_detail_groupsplit?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 204){
+        		temUrl = "/budget/budget_detail_assetsplit?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 205){
+        		temUrl = "/budget/budget_detail_stocksplitzsy?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 206){
+        		temUrl = "/budget/budget_detail_stocksplitxtw?dataId="+obj.data.dataId;
+        	}else if(obj.data.budgetType == 207){
+        		temUrl = "/budget/budget_detail_stocksplitzgs?dataId="+obj.data.dataId;
+        	}
+        	if(temUrl){
+        		publicMethods.openBaseWinFull("详情",temUrl);
+        	}
         });
     });
 </script>

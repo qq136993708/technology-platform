@@ -91,10 +91,10 @@ public class BudgetGroupTotalController extends BaseController {
 		if(nd == null) {
 			nd = DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY);
 		}
+		request.setAttribute("dataId", request.getParameter("dataId"));
 		request.setAttribute("nd", nd);
 		request.setAttribute("cnd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		request.setAttribute("budgetType", BudgetInfoEnum.GROUP_TOTAL.getCode());
-		request.setAttribute("dataId", request.getParameter("dataId"));
 		return "stp/budget/budget_main_grouptotal";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_grouptotal")
