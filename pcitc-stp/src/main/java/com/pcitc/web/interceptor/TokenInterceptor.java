@@ -144,6 +144,8 @@ public class TokenInterceptor implements HandlerInterceptor {
 				out.println(JSON.toJSON(rs));
 				out.close();
 			} else {
+				response.setHeader("Content-Type", "text/html; charset=utf-8");
+				//response.setHeader("X-Content-Type-Options", "nosniff");
 				PrintWriter out = response.getWriter();
 				out.println("<html>");
 				out.println("<script>");
