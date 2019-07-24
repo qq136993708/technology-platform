@@ -2,6 +2,7 @@ package com.pcitc.web.controller.equipment;
 
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,8 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.workflow.Constants;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -67,6 +70,19 @@ public class TaskClosureController extends BaseController {
 		String applyDepartCode = map.get("applyDepartCode");// 申报部门
 		String unitPathIds= map.get("applyDepartCode");
 		String unitPathNames= map.get("applyDepartName");
+		String unitPathId = sysUserInfo.getUnitPath();
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+	    request.setAttribute("isKJBPerson", isKJBPerson);
+	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+	    String str ="1";
+	    if(isKJBPerson == true) {
+	    	//获取研究院
+			request.setAttribute("dictonary", dictonary);
+			request.setAttribute("str", "1");
+	    }else {
+	    	request.setAttribute("dictonary", dictonary);
+	    	request.setAttribute("str", "0");
+	    }
 		request.setAttribute("unitPathIds", unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/taskclosure/task_closure_list";
@@ -163,6 +179,19 @@ public class TaskClosureController extends BaseController {
 		String applyDepartCode = map.get("applyDepartCode");// 申报部门
 		String unitPathIds= map.get("applyDepartCode");
 		String unitPathNames= map.get("applyDepartName");
+		String unitPathId = sysUserInfo.getUnitPath();
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+	    request.setAttribute("isKJBPerson", isKJBPerson);
+	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+	    String str ="1";
+	    if(isKJBPerson == true) {
+	    	//获取研究院
+			request.setAttribute("dictonary", dictonary);
+			request.setAttribute("str", "1");
+	    }else {
+	    	request.setAttribute("dictonary", dictonary);
+	    	request.setAttribute("str", "0");
+	    }
 		request.setAttribute("unitPathIds", unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/taskclosure/closure_list";

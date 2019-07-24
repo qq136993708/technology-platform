@@ -1409,6 +1409,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String applyDepartCode=getTableParam(param,"applyDepartCode","");
 		String unitPathIds=getTableParam(param,"unitPathIds","");
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
+		String leadUnitCode = getTableParam(param, "leadUnitCode", "");
 		Map map = new HashMap();
 		map.put("closeStatus", closeStatus);
 		map.put("topicName", topicName);
@@ -1416,6 +1417,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("contractNum", topicConten);
+		map.put("leadUnitName", leadUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 //		if(!applyDepartCode.equals(""))
 //		{
