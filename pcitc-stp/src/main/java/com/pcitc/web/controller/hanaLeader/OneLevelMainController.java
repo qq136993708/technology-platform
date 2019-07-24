@@ -437,7 +437,7 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>achievement_table_data:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>achievement_table_data:" + result.toString());
 		return result.toString();
 	}
 
