@@ -91,8 +91,9 @@ public class DetailServiceImpl implements DetailService {
 		String placeUse=getTableParam(param,"placeUse","");
 		String placePeople=getTableParam(param,"placePeople","");
 		String receivePeople=getTableParam(param,"receivePeople","");
-
 		
+		String contractNum=getTableParam(param,"contractNum","");
+		String leadUnitCode=getTableParam(param,"leadUnitCode","");
 		Map map=new HashMap();
 		map.put("equipmentName", equipmentName);
 		map.put("equipmentType", equipmentType);
@@ -114,6 +115,8 @@ public class DetailServiceImpl implements DetailService {
 	
 		map.put("unitPathIds", parentUnitPathIds);
 		map.put("parentUnitPathIds", unitPathIds);
+		map.put("declareUnit", leadUnitCode);
+		
 		Date dBefore = new Date();
 		Calendar   calendar= Calendar.getInstance();
         calendar.setTime(dBefore);
@@ -164,6 +167,21 @@ public class DetailServiceImpl implements DetailService {
 				detail.setSpecification(ject.getId());//获取课题ID
 				break;
 			}
+		}
+		if(!contractNum.equals("")) {
+			List<SreDetail> sreList = new ArrayList<SreDetail>();
+			for(SreDetail sre : list) {
+					if(sre.getContractNum().equals(contractNum)) {
+						sreList.add(sre);
+					}
+				}
+			PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(sreList);
+			System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+			LayuiTableData data = new LayuiTableData();
+			data.setData(pageInfo.getList());
+			Long total = pageInfo.getTotal();
+			data.setCount(total.intValue());
+		    return data;
 		}
 		PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());

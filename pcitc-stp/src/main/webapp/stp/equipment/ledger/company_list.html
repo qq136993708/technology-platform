@@ -10,6 +10,7 @@
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <script type="text/javascript" src="/stp/equipment/js/equipment.js"></script>
+     <input  name="str"     id="str"      value="${str}"    type="hidden">
 </head>
 <body>
 <div class="searchBox">
@@ -27,15 +28,17 @@
         <span>资产描述</span>
         <input type="text" name="g0txt50"  title="资产描述" placeholder="请输入资产描述"  autocomplete="off" class="form-control" id="g0txt50">
     </label>
-    <label class="dateInput" style="margin-left:10px;">
-         <span>研究院</span>
-         <select name="g0gsjcyy" id="g0gsjcyy"  class="form-control"  >
-             <option value="" >--请选择--</option>
-             <#list leaddicList as vo> 
-		          <option value="${vo.numValue}"  >${vo.name}</option>
-		      </#list>
-		 </select>
-     </label>           
+    <#if test="${str==0}">
+	     <label class="dateInput">
+	         <span>研究院</span>
+	         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
+	             <option value="" >--请选择--</option>
+	             <#list dictonary as vo> 
+			          <option value="${vo.numValue}"  >${vo.name}</option>
+			      </#list>
+			 </select>
+	     </label>
+   </#if>         
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"                 data-type="searchEvent">查询</button>
@@ -264,12 +267,12 @@ var name=$('#name').val();
        if(g0gsjcyy!=""){
     	    $("#g0gsjc").val(g0gsjcyy);
        }
-    	//渲染
+    	//渲染leadUnitCode
         table.render({
             elem: '#processdef-table',
             url: '/sre_equipment_ledger/company_list_data',
             method:"POST",
-            where: {param: {"month":month,"g0anln1":$("#g0anln1").val(),"g0gsjc":$("#g0gsjc").val(),"g0txt50":$("#g0txt50").val()}},
+            where: {param: {"leadUnitCode":$("#leadUnitCode").val(),"month":month,"g0anln1":$("#g0anln1").val(),"g0gsjc":$("#g0gsjc").val(),"g0txt50":$("#g0txt50").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
