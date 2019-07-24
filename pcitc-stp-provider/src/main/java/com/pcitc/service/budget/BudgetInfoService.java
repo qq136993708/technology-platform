@@ -165,4 +165,18 @@ public interface BudgetInfoService
 	 * @return
 	 */
 	public LayuiTableData selectReleaseModifyPage(LayuiTableParam param);
+	/**
+	 * 查询预算项数据
+	 * @param budgetInfoId
+	 * @return
+	 */
+	public List<BudgetSplitData> selectSplitDataByBudgetInfo(String budgetInfoId);
+	/**
+	 * 根据预算项复制并保存数据
+	 * @param budgetInfoId 来源预算表
+	 * @param nd 目标预算年度
+	 * @param budgetTypes 目标预算类型
+	 * @return
+	 */
+	public List<BudgetSplitData> copySplitDataByBudgetInfo(BudgetInfo oldInfo,BudgetInfo newInfo) throws Exception;
 }

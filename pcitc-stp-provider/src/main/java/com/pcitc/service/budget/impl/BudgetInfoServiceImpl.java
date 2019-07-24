@@ -42,6 +42,7 @@ import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.DateUtils;
+import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
@@ -235,7 +236,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		BudgetInfoExample.Criteria c = example.createCriteria();
 		c.andBudgetTypeEqualTo(info.getBudgetType());
 		c.andNdEqualTo(nd);
-		Integer size = budgetInfoMapper.selectByExample(example).size();
+		Long size = budgetInfoMapper.countByExample(example);
 		
 		
 		params.setDataVersion("vs-"+nd+"-"+info.getBudgetType()+"-"+((1001+size)+"").substring(1));
@@ -836,5 +837,32 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		data.setData(mapdata);
 		return data;
 	}
+	@Override
+	public List<BudgetSplitData> selectSplitDataByBudgetInfo(String budgetInfoId) 
+	{
+		BudgetSplitDataExample example = new BudgetSplitDataExample();
+		BudgetSplitDataExample.Criteria c = example.createCriteria();
+		c.andBudgetInfoIdEqualTo(budgetInfoId);
+		return budgetSplitDataMapper.selectByExample(example);
+	}
+	@Override
+	public List<BudgetSplitData> copySplitDataByBudgetInfo(BudgetInfo oldInfo, BudgetInfo newInfo) throws Exception
+	{
+		List<BudgetSplitData> datalist = selectSplitDataByBudgetInfo(oldInfo.getDataId());
+		List<BudgetSplitData> newdatas = new ArrayList<BudgetSplitData>();
+		for(BudgetSplitData dt:datalist) 
+		{
+			dt.setBudgetInfoId(newInfo.getDataId());
+			dt.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+			dt.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+			dt.setDataId(IdUtil.createIdByTime());
+			dt.setDataVersion(newInfo.getDataVersion());
+			newdatas.add(dt);
+		}
+		budgetSplitDataMapper.insertList(newdatas);
+		return newdatas;
+	}
+
+	
 	
 }

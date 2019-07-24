@@ -98,6 +98,7 @@ public class BudgetAssetSplitController extends BaseController {
 			return "error";
 		}
 		request.setAttribute("nd", nd);
+		request.setAttribute("dataId", request.getParameter("dataId"));
 		request.setAttribute("budgetType", BudgetInfoEnum.ASSET_SPLIT.getCode());
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_ASSETSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
 		request.setAttribute("items", infors.getBody());

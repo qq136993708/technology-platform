@@ -65,7 +65,7 @@
         });
     	window.modifyBudget = function(nd,budgetType,dataId)
     	{
-    		 layer.confirm('确定要调整吗？', function(index){
+    		 layer.confirm('确定要对预算进行调整吗？', function(index){
              	layer.close(index);
 	    		publicMethods.ajaxPost("/budget/budget-info-create-bytemplate",{"nd":nd,"budgetType":budgetType,"dataId":dataId}, function (dt) {
 	    			//提示消息
@@ -73,13 +73,23 @@
 						layer.close(i);
 						//跳转到编辑页面
 						if(budgetType==101){
-							parent.layui.index.openTabsPage("/budget/budget_main_grouptotal?nd="+nd+"&dataId="+dataId, "集团公司预算表");
+							parent.layui.index.openTabsPage("/budget/budget_main_grouptotal?nd="+nd+"&dataId="+dt.dataId, "集团公司预算表");
 						}else if(budgetType==102){
-							parent.layui.index.openTabsPage("/budget/budget_main_assettotal?nd="+nd+"&dataId="+dataId, "资产公司预算表");
+							parent.layui.index.openTabsPage("/budget/budget_main_assettotal?nd="+nd+"&dataId="+dt.dataId, "资产公司预算表");
 						}else if(budgetType==103){
-							parent.layui.index.openTabsPage("/budget/budget_main_stocktotal?nd="+nd+"&dataId="+dataId, "股份公司预算表");
+							parent.layui.index.openTabsPage("/budget/budget_main_stocktotal?nd="+nd+"&dataId="+dt.dataId, "股份公司预算表");
+						}else if(budgetType==203){
+							parent.layui.index.openTabsPage("/budget/budget_main_groupsplit?nd="+nd+"&dataId="+dt.dataId, "集团公司预算分解表");
+						}else if(budgetType==204){
+							parent.layui.index.openTabsPage("/budget/budget_main_assetsplit?nd="+nd+"&dataId="+dt.dataId, "资产公司预算分解表");
+						}else if(budgetType==205){
+							parent.layui.index.openTabsPage("/budget/budget_main_stocksplit_zsy?nd="+nd+"&dataId="+dt.dataId, "股份公司预算分解表（直属院）");
+						}else if(budgetType==206){
+							parent.layui.index.openTabsPage("/budget/budget_main_stocksplit_xtw?nd="+nd+"&dataId="+dt.dataId, "股份公司预算分解表（集团单位、外部单位、盈科）");
+						}else if(budgetType==207){
+							parent.layui.index.openTabsPage("/budget/budget_main_stocksplit_zgs?nd="+nd+"&dataId="+dt.dataId, "股份公司预算分解表（分子公司等）");
 						}else{
-							
+							console.log("......");
 						}
 		    		});
 	 		   	});
