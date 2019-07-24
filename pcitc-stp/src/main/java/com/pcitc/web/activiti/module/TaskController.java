@@ -45,10 +45,9 @@ import com.pcitc.web.common.OperationFilter;
 @Controller
 public class TaskController extends BaseController {
 
-	private static final String DIR_PATH = "";
-
 	// 待办任务列表
 	private static final String PENDING_PAGE_URL = "http://pcitc-zuul/system-proxy/task-provider/pending-page";
+
 	private static final String PENDING_PAGE_URL_MOBILE = "http://pcitc-zuul/system-proxy/task-provider/pending_page_mobile";
 	// 已办任务列表（每行代表一个流程）
 	private static final String DONE_INSTANCE_PAGE_URL = "http://pcitc-zuul/system-proxy/task-provider/done-instance-page";
@@ -223,6 +222,36 @@ public class TaskController extends BaseController {
 	}
 
 	/**
+	 * 获取四条待办任务和总的待办任务数，包括其他系统的待办任务
+	 */
+	@RequestMapping(value = "/task/pending/union/show", method = RequestMethod.POST)
+	@ResponseBody
+	public Object pendingUnionShow(@ModelAttribute("param") LayuiTableParam param) {
+		System.out.println("====待办param-->" + JSON.toJSON(param).toString());
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		param.setPage(1);
+		// 获取当前登录人信息
+		param.getParam().put("userId", sysUserInfo.getUserId());
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PENDING_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+
+		// 获取其他系统的待办任务数量
+		// 获取当前登录人信息, 统一身份名作为用户id
+		param.getParam().put("userId", sysUserInfo.getUserName());
+		param.setLimit(100);
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		HttpEntity<LayuiTableParam> entity1 = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity1 = this.restTemplate.exchange(XMGL_PENDING, HttpMethod.POST, entity1, LayuiTableData.class);
+		LayuiTableData retJson1 = responseEntity1.getBody();
+		int otherCount = retJson1.getCount();
+
+		retJson.setCount(retJson.getCount() + otherCount);
+
+		return JSON.toJSON(retJson).toString();
+	}
+
+	/**
 	 * @author zhf 其它系统的待办任务列表
 	 */
 	@RequestMapping(value = "/task/other/pending-list", method = RequestMethod.POST)
@@ -236,26 +265,6 @@ public class TaskController extends BaseController {
 		LayuiTableData retJson = responseEntity.getBody();
 
 		return JSON.toJSON(retJson).toString();
-	}
-
-	/**
-	 * @author uuy
-	 * @date 2019年5月20日 待办任务列表(首页待办任务消息)
-	 */
-	@RequestMapping(value = "/task/index-pending-list", method = RequestMethod.POST)
-	@ResponseBody
-	public Object getIndexPendingList(@ModelAttribute("param") LayuiTableParam param) {
-		List<Map<String, Object>> rsmap = new ArrayList<Map<String, Object>>();
-		// 获取当前登录人信息
-		param.getParam().put("userId", sysUserInfo.getUserId());
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		LayuiTableData tableData = this.restTemplate.exchange(PENDING_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class).getBody();
-		for (java.util.Iterator<?> iter = tableData.getData().iterator(); iter.hasNext();) {
-			Map<String, Object> map = MyBeanUtils.java2Map(iter.next());
-			map.put("ago", DateUtils.getAgoDesc(DateUtils.strToDate(map.get("createTime").toString(), DateUtils.FMT_SS)));
-			rsmap.add(map);
-		}
-		return rsmap;
 	}
 
 	@RequestMapping(value = "/mobile/wait_task_list_mui")
