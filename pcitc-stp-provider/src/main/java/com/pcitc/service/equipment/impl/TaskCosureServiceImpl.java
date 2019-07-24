@@ -62,6 +62,8 @@ public  class TaskCosureServiceImpl implements TaskCosureService {
 		String unitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String topicConten = getTableParam(param, "topicConten", "");
+		
+		String leadUnitCode = getTableParam(param, "leadUnitCode", "");
 		Map map = new HashMap();
 		map.put("closeStatus", closeStatus);
 		map.put("topicName", topicName);
@@ -69,7 +71,7 @@ public  class TaskCosureServiceImpl implements TaskCosureService {
 		map.put("firstApplyUser", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("contractNum", topicConten);
-		
+		map.put("leadUnitName", leadUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 //		if(!applyDepartCode.equals(""))
 //		{
