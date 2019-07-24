@@ -1986,7 +1986,7 @@ public class DirectController extends BaseController {
 		return map;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/direct/pay_03")
+	@RequestMapping(value = "/direct/pay_03")
 	@ResponseBody
 	public String pay_03(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String resault = "";
