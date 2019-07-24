@@ -55,6 +55,13 @@ public class OutProjectInfoClient {
 		logger.info("==================page selectCommonProjectByCond===========================" + JSONObject.toJSONString(param));
 		return outProjectService.selectCommonProjectByCond(param);
 	}
+	
+	@ApiOperation(value = "科研项目分析，包含项目基本信息，同时包含成果、奖励等信息", notes = "分页显示")
+	@RequestMapping(value = "/out-project-provider/project/all-info/list", method = RequestMethod.POST)
+	public LayuiTableData selectProjectInfoWithAllInfoByCond(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page selectProjectInfoWithAllInfoByCond===========================" + JSONObject.toJSONString(param));
+		return outProjectService.selectProjectInfoWithAllInfoByCond(param);
+	}
 
 	@ApiOperation(value = "分页显示项目数据数据,国拨课题统计的第三级展示", notes = "分页显示")
 	@RequestMapping(value = "/out-project-provider/country-project/list", method = RequestMethod.POST)

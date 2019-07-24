@@ -12,25 +12,26 @@
     <script type="text/javascript" src="/stp/equipment/js/equipment.js"></script>
 </head>
 <body>
+<input  name="str"     id="str"      value="${str}"    type="hidden">
 <div class="searchBox">
       <label class="dateInput">
             <span>月份</span>
             <input type="text" name="month"  title="月份" value="${month}"  id="month">
             <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
         </label>
-      <label class="dateInput" style="margin-left:10px;">
-         <span>研究院</span>
-         <select name="g0gsjc" id="g0gsjc"  class="form-control"  >
-             <option value="" >--请选择--</option>
-             <#list leaddicList as vo> 
-		          <option value="${vo.numValue}"  >${vo.name}</option>
-		      </#list>
-		 </select>
-     </label>
-    <label class="dateInput">
-        <span>资产号</span>
-        <input type="text" name="g0anln1"  title="资产号" autocomplete="off" class="form-control" id="g0anln1">
-    </label>
+        
+        &nbsp;&nbsp;&nbsp;
+	   <#if test="${str==0}">
+		     <label class="dateInput">
+		         <span>研究院</span>
+		         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
+		             <option value="" >--请选择--</option>
+		             <#list dictonary as vo> 
+				          <option value="${vo.numValue}"  >${vo.name}</option>
+				      </#list>
+				 </select>
+		     </label>
+	   </#if>         
     <label class="dateInput">
         <span>资产描述</span>
         <input type="text" name="g0txt50"  title="资产描述" autocomplete="off" class="form-control" id="g0txt50">
@@ -177,6 +178,7 @@ var name=$('#name').val();
             	$('#g0gsjc').val("");
             	$('#month').val("");
             	$('#g0txt50').val("");
+            	$('#leadUnitCode').val("");
             }
             
             
@@ -226,13 +228,13 @@ var name=$('#name').val();
         }else{
             month=month.replace("-","");
         }
-    	
+        
     	//渲染
         table.render({
             elem: '#processdef-table',
             url: '/sre_equipment_ledger/list_data',
             method:"POST",
-            where: {param: {"month":month,"g0anln1":$("#g0anln1").val(),"g0gsjc":$("#g0gsjc").val(),"g0txt50":$("#g0txt50").val()}},
+            where: {param: {"leadUnitCode":$("#leadUnitCode").val(),"month":month,"g0anln1":$("#g0anln1").val(),"g0gsjc":$("#g0gsjc").val(),"g0txt50":$("#g0txt50").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

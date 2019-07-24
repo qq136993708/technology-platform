@@ -65,17 +65,6 @@
 		 </select>
      </label>
      
-     <#if test="${str==0}">
-     <label class="dateInput">
-         <span>研究院</span>
-         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
-             <option value="" >--请选择--</option>
-             <#list dictonary as vo> 
-		          <option value="${vo.numValue}"  >${vo.name}</option>
-		      </#list>
-		 </select>
-     </label>
-   </#if>
     
        <label class="dateInput">
          <span>归属部门</span>

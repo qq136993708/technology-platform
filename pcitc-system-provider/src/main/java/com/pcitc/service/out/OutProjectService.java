@@ -19,6 +19,11 @@ public interface OutProjectService {
 	public LayuiTableData selectCommonProjectByCond(LayuiTableParam param);
 	
 	/**
+     * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息
+     */
+	public LayuiTableData selectProjectInfoWithAllInfoByCond(LayuiTableParam param);
+	
+	/**
 	 * 批量插入项目
 	 * @param list
 	 * @param nd
