@@ -155,99 +155,95 @@
 	 
       <!-- 课题直间接费用统计表--> 
 	 <select id="getKtzjjfytjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
-	 SELECT 
-			"G0GSJC",
-			sum("K0BNGLFPHJECB") AS K0BNGLFPHJECB,
-			sum("K0BNKYFPQCB") AS K0BNKYFPQCB,
-			sum("K0BNBL")      AS K0BNBL,
-			sum("K0SNLJJJCB")  AS K0SNLJJJCB,
-			sum("K0SNKYFPQCB") AS K0SNKYFPQCB,
-			sum("K0SNJJCB") AS K0SNJJCB,
-			sum("K0SNBL")   AS K0SNBL,
-			sum("K0TBZJ")   AS K0TBZJ,  
-			sum("K0TBZJ2")  AS K0TBZJ2,
-			sum("K0TBJJ")   AS K0TBJJ,
-			sum("K0TBBL")   AS K0TBBL
-			FROM
-			(
-			SELECT
-					     "G0GSJC",
-					     "G0GSOR",
-					     ROUND(IFNULL(sum("K0BNGLFPHJECB")/10000,0),2)            AS "K0BNGLFPHJECB",   
-					     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)              AS "K0BNKYFPQCB",
-					     ROUND(IFNULL(sum("K0BNJJCB"),0)/10000,2)                 AS "K0BNJJCB",
-					     CASE 
-					         WHEN  IFNULL(sum("K0BNJJCB"),0)=0 THEN 0
-					         ELSE   ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4)            
-					     END                                       AS "K0BNBL",
-					     
-					     ROUND(IFNULL(sum("K0SNLJJJCB")/10000,0),2)               AS "K0SNLJJJCB",
-					     ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0),2)              AS "K0SNKYFPQCB",
-					     ROUND(IFNULL(sum("K0SNJJCB"),0)/10000,2)                 AS "K0SNJJCB",
-					      CASE 
-					         WHEN  IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
-					         ELSE   ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)          
-					     END                                       AS "K0SNBL",   
-					      
-					     ROUND(IFNULL(IFNULL(sum("K0BNGLFPHJECB")/10000,0)-IFNULL(sum("K0SNLJJJCB")/10000,0),0),2)
-					                                               AS "K0TBZJ",  
-					     ROUND(IFNULL(IFNULL(sum("K0BNKYFPQCB")/10000,0)-IFNULL(sum("K0SNKYFPQCB")/10000,0),0),2)
-					                                               AS "K0TBZJ2",
-					     ROUND(IFNULL(IFNULL(sum("K0BNJJCB")/10000,0)-IFNULL(sum("K0SNJJCB")/10000,0),0),2)
-					                                               AS "K0TBJJ",
-					     CASE 
-					         WHEN   IFNULL(sum("K0BNJJCB"),0)=0 OR IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
-					         ELSE  ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) 
-					             - ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)           
-					     END                                        AS "K0TBBL"                                                                
-					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1014_01"
-					(
-					'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
-					'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
-					) 
-					GROUP BY     "G0GSJC","G0GSOR"
-			--		order by "G0GSOR"
+	     SELECT
+				 "G0GSJC",
+				 sum("K0BNGLFPHJECB") AS K0BNGLFPHJECB,
+				 sum("K0BNKYFPQCB") AS K0BNKYFPQCB,
+				 sum("K0BNJJCB") AS K0BNJJCB,	 
+				 sum("K0BNBL") AS K0BNBL,
+				 
+				 sum("K0SNLJJJCB") AS K0SNLJJJCB,
+				 sum("K0SNKYFPQCB") AS K0SNKYFPQCB,
+				 sum("K0SNJJCB") AS K0SNJJCB,
+				 sum("K0SNBL") AS K0SNBL,
+				 
+				 sum("K0TBZJ") AS K0TBZJ,
+				 sum("K0TBZJ2") AS K0TBZJ2,
+				 sum("K0TBJJ") AS K0TBJJ,
+				 sum("K0TBBL") AS K0TBBL 
+			FROM ( 
+			     SELECT
+				 "G0GSJC",
+				 "G0GSOR",
+				 ROUND(IFNULL(sum("K0BNGLFPHJECB")/10000,0),2) AS "K0BNGLFPHJECB", --本年总计
+				 ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2) AS "K0BNKYFPQCB",--本年直接费用
+				 ROUND(IFNULL(sum("K0BNJJCB"),0)/10000,2) AS "K0BNJJCB",     --本年间接费用
+				 CASE 
+				 WHEN IFNULL(sum("K0BNJJCB"),0)=0 THEN 0 
+				  ELSE ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) 
+				 END AS "K0BNBL",                                   --本年直间接比
+				 
+				 ROUND(IFNULL(sum("K0SNGLFPHJECB")/10000,0),2) AS "K0SNLJJJCB",    --上年总计
+				 ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0),2) AS "K0SNKYFPQCB",  --上年直接费用
+				 ROUND(IFNULL(sum("K0SNJJCB"),0)/10000,2) AS "K0SNJJCB",        --上年间接费用
+				 CASE
+				  WHEN IFNULL(sum("K0SNJJCB"),0)=0 THEN 0 
+				   ELSE ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4) 
+				END AS "K0SNBL",                                                --上年直间接比
+				
+				 ROUND(IFNULL(IFNULL(sum("K0BNGLFPHJECB")/10000,0)-IFNULL(sum("K0SNGLFPHJECB")/10000,0),0),2) AS "K0TBZJ",
+				 ROUND(IFNULL(IFNULL(sum("K0BNKYFPQCB")/10000,0)-IFNULL(sum("K0SNKYFPQCB")/10000,0),0),2) AS "K0TBZJ2",
+				 ROUND(IFNULL(IFNULL(sum("K0BNJJCB")/10000,0)-IFNULL(sum("K0SNJJCB")/10000,0),0),2) AS "K0TBJJ",
+				 CASE 
+				 WHEN IFNULL(sum("K0BNJJCB"),0)=0 OR IFNULL(sum("K0SNJJCB"),0)=0 THEN 0 
+				      ELSE ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) - ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4) 
+				END AS "K0TBBL" 
+				FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1014_01" 
+				( 
+				'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+				 'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}') 
+				) 
+				GROUP BY "G0GSJC",
+				"G0GSOR" 
+			union all 
 			
-			 union all 
-			 
 			SELECT
-					     '合计' as "G0GSJC",
-					     '0'    as  "G0GSOR",
-					     ROUND(IFNULL(sum("K0BNGLFPHJECB")/10000,0),2)            AS "K0BNGLFPHJECB",   
-					     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)              AS "K0BNKYFPQCB",
-					     ROUND(IFNULL(sum("K0BNJJCB"),0)/10000,2)                 AS "K0BNJJCB",
-					     CASE 
-					         WHEN  IFNULL(sum("K0BNJJCB"),0)=0 THEN 0
-					         ELSE   ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4)            
-					     END                                       AS "K0BNBL",
-					     
-					     ROUND(IFNULL(sum("K0SNLJJJCB")/10000,0),2)               AS "K0SNLJJJCB",
-					     ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0),2)              AS "K0SNKYFPQCB",
-					     ROUND(IFNULL(sum("K0SNJJCB"),0)/10000,2)                 AS "K0SNJJCB",
-					      CASE 
-					         WHEN  IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
-					         ELSE   ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)          
-					     END                                       AS "K0SNBL",   
-					      
-					     ROUND(IFNULL(IFNULL(sum("K0BNGLFPHJECB")/10000,0)-IFNULL(sum("K0SNLJJJCB")/10000,0),0),2)
-					                                               AS "K0TBZJ",  
-					     ROUND(IFNULL(IFNULL(sum("K0BNKYFPQCB")/10000,0)-IFNULL(sum("K0SNKYFPQCB")/10000,0),0),2)
-					                                               AS "K0TBZJ2",
-					     ROUND(IFNULL(IFNULL(sum("K0BNJJCB")/10000,0)-IFNULL(sum("K0SNJJCB")/10000,0),0),2)
-					                                               AS "K0TBJJ",
-					     CASE 
-					         WHEN   IFNULL(sum("K0BNJJCB"),0)=0 OR IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
-					         ELSE  ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) 
-					             - ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)           
-					     END                                        AS "K0TBBL"                                                                
-					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1014_01"
-					(
-					'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
-					'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
-					) 
-					GROUP BY     "G0GSJC","G0GSOR"
-			)GROUP BY     "G0GSJC","G0GSOR"
-					order by "G0GSOR"
+				 '合计' as "G0GSJC",
+				 '0' as "G0GSOR",
+				 ROUND(IFNULL(sum("K0BNGLFPHJECB")/10000,0),2) AS "K0BNGLFPHJECB", --本年总计
+				 ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2) AS "K0BNKYFPQCB",--本年直接费用
+				 ROUND(IFNULL(sum("K0BNJJCB"),0)/10000,2) AS "K0BNJJCB",     --本年间接费用
+				 CASE 
+				 WHEN IFNULL(sum("K0BNJJCB"),0)=0 THEN 0 
+				  ELSE ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) 
+				 END AS "K0BNBL",                                   --本年直间接比
+				 
+				 ROUND(IFNULL(sum("K0SNGLFPHJECB")/10000,0),2) AS "K0SNLJJJCB",    --上年总计
+				 ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0),2) AS "K0SNKYFPQCB",  --上年直接费用
+				 ROUND(IFNULL(sum("K0SNJJCB"),0)/10000,2) AS "K0SNJJCB",        --上年间接费用
+				 CASE
+				  WHEN IFNULL(sum("K0SNJJCB"),0)=0 THEN 0 
+				   ELSE ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4) 
+				END AS "K0SNBL",                                                --上年直间接比
+				
+				 ROUND(IFNULL(IFNULL(sum("K0BNGLFPHJECB")/10000,0)-IFNULL(sum("K0SNGLFPHJECB")/10000,0),0),2) AS "K0TBZJ",
+				 ROUND(IFNULL(IFNULL(sum("K0BNKYFPQCB")/10000,0)-IFNULL(sum("K0SNKYFPQCB")/10000,0),0),2) AS "K0TBZJ2",
+				 ROUND(IFNULL(IFNULL(sum("K0BNJJCB")/10000,0)-IFNULL(sum("K0SNJJCB")/10000,0),0),2) AS "K0TBJJ",
+				 CASE 
+				 WHEN IFNULL(sum("K0BNJJCB"),0)=0 OR IFNULL(sum("K0SNJJCB"),0)=0 THEN 0 
+				      ELSE ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) - ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4) 
+				END AS "K0TBBL"  
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1014_01" ( 'PLACEHOLDER' = ('$$PR_CALMONTH$$',
+				'${month}'),
+				 'PLACEHOLDER' = ('$$PR_GSDM$$',
+				'${companyCode}') ) 
+			GROUP BY "G0GSJC",
+				"G0GSOR"
+				 )
+			GROUP BY "G0GSJC",
+				"G0GSOR" 
+			order by "G0GSOR" 
+	 
 	 
 	 
 	 </select>

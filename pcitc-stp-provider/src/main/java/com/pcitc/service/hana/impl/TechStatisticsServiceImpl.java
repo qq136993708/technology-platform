@@ -480,6 +480,25 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		  		System.out.println(">>>>>>>>>> getTechOrgCountPage 参数: "+parmamss.toJSONString());
 				
 				List<TechOrgCount> list = techOrgCountMapper.getList(map);
+				
+				
+				for(int i=0;i<list.size();i++)
+				{
+					TechOrgCount ss=(TechOrgCount)list.get(i);
+					ss.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
+					ss.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
+					String levle=ss.getWriteType();
+					if(levle.equals("1") || levle.equals("2"))
+					{
+						ss.setLay_is_open("true");
+					}else
+					{
+						ss.setLay_is_open("true");
+					}
+				}
+				
+				
+				
 				Integer count=techOrgCountMapper.getCount(map);
 				System.out.println(">>>>>>>>>任务书查询分页结果 "+count);
 				
