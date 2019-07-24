@@ -47,10 +47,16 @@
 	white-space: nowrap;
 	width: 100px;
 }
-@media (min-width: 1052px) {
-	.layui-table-cell-td{width: 120px;}
-	.layui-table-cell-td1{width: 70px;}
+
+@media ( min-width : 1052px) {
+	.layui-table-cell-td {
+		width: 120px;
+	}
+	.layui-table-cell-td1 {
+		width: 70px;
+	}
 }
+
 @media ( min-width : 1673px) {
 	.layui-table-cell-td {
 		width: 320px;
@@ -324,9 +330,7 @@
 								<div class="layui-tab-item layui-show">
 									<ul>
 										<#list noticeList as notice> <#if notice?exists>
-										<li><a href="javascript:parent.layui.index.openTabsPage('/admin/project/notice/detail?dataId=${notice.dataId}', '科研项目动态');">${notice.noticeTitle}</a> <span>[${notice.noticeDate}]</span></li>
-										</#if> <#else>
-										</#list>
+										<li><a href="javascript:parent.layui.index.openTabsPage('/admin/project/notice/detail?dataId=${notice.dataId}', '科研项目动态');">${notice.noticeTitle}</a> <span>[${notice.noticeDate}]</span></li> </#if> <#else> </#list>
 									</ul>
 								</div>
 								<div class="layui-tab-item">
@@ -580,7 +584,7 @@
 						var ROOT_XTGL_XWLX_SHYW = "";//国家领导讲话
 						var ROOT_XTGL_XWLX_GCDT = "";//最新讲话
 						var ROOT_XTGL_XWLX_YJYDT = "";
-						for (var i = 0; i <data.length; i++) {
+						for (var i = 0; i < data.length; i++) {
 							var d = data[i];
 							if (d.stype == "ROOT_XTGL_XWLX_GCSY") {
 								ROOT_XTGL_XWLX_GCSY = ROOT_XTGL_XWLX_GCSY + "<li><a target='_blank' lay-text='新闻详情' lay-href='/sysNews/newsDetail?dataId=" + d.dataId + "'>" + d.title + "</a><span>[" + d.publicDate + "]</span></li>";
@@ -761,7 +765,7 @@
 				//科研课题 projectCount、科研装备 kyzbCount
 				function getCommonCount(nd) {
 					$.ajax({
-						type : 'GET',
+						type : 'POST',
 						url : "/direct/topic_equipment_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
 						dataType : 'json',
 						headers : {
@@ -789,10 +793,9 @@
 
 				//合同签订--bak--
 				function setContcator_id(nd, v_date) {
-					//var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date;
 					var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date;
 					$.ajax({
-						type : 'GET',
+						type : 'POST',
 						url : url,
 						dataType : 'json',
 						headers : {
@@ -818,19 +821,21 @@
 				function getInvestmentAll(nd) {
 					var v_date = (new Date()).getTime();
 					$.ajax({
-						type : "GET",
+						type : "POST",
 						url : '/small_leader/getInvestmentAll?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + '&v_date' + v_date,
 						dataType : "json",
 						timeout : 20000,
 						cache : false,
-						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						headers : {
+							'Content-Type' : 'application/json'
+						},
 						success : function(data, status) {
 							if (data.success == true || data.success == 'true') {
 
 								var investMoneystr = "";
 								var investMoney = data.data.investMoney;
 								if (investMoney != null && investMoney != '') {
-									
+
 									if (investMoney > 9999) {
 										investMoneystr = (parseFloat(investMoney) / 10000).toFixed(2) + "<small>亿元</small>";
 									} else {
@@ -937,12 +942,14 @@
 					$("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
 					$.ajax({
-						type : "GET",
+						type : "POST",
 						url : url,
 						dataType : "json",
 						timeout : 11000,
 						cache : false,
-						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						headers : {
+							'Content-Type' : 'application/json'
+						},
 						success : function(data, status) {
 							if (data.success == true || data.success == 'true') {
 								var zysje_count = 0;
@@ -1079,7 +1086,9 @@
 						dataType : "json",
 						timeout : 11000,
 						cache : false,
-						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						headers : {
+							'Content-Type' : 'application/json'
+						},
 						success : function(data, status) {
 
 							$("#wait_work_id_count").html(data.count + "");
@@ -1145,12 +1154,14 @@
 					var nd = $('#nd').val();
 					var series = [];
 					$.ajax({
-						type : "get",
+						type : "POST",
 						url : "/one_level_main/contract_01?type=1&nd=" + nd + "",
 						timeout : 9000,
 						dataType : "json",
 						cache : false,
-						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						headers : {
+							'Content-Type' : 'application/json'
+						},
 						success : function(data, status) {
 							if (data.success == true || data.success == 'true') {
 								$("#vdirect_contract_01_01").html(data.data.zsl + "个");
@@ -1210,12 +1221,14 @@
 				function ajax_getGauge(url, echartsobj, options) {
 					var series = [];
 					$.ajax({
-						type : "get",
+						type : "POST",
 						url : url,
 						timeout : 9000,
 						dataType : "json",
 						cache : false,
-						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						headers : {
+							'Content-Type' : 'application/json'
+						},
 						success : function(data, status) {
 							if (data.success == true || data.success == 'true') {
 								echartsobj.hideLoading();
@@ -1258,7 +1271,9 @@
 						timeout : 9000,
 						dataType : "json",
 						cache : false,
-						contentType : "application/x-www-form-urlencoded; charset=utf-8",
+						headers : {
+							'Content-Type' : 'application/json'
+						},
 						success : function(data, status) {
 							var count = "";
 							for (var i = 0; i < data.length; i++) {

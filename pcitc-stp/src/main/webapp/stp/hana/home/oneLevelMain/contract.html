@@ -48,7 +48,8 @@
 					<div class="layui-col-md5">
 						<div class="layui-card">
 							<div class="layui-card-header">
-								<span class="layui-time"></span>年全口径新开课题合同（任务书）签订率
+								<span class="layui-time"></span>
+								年全口径新开课题合同（任务书）签订率
 							</div>
 							<div class="layui-row-main">
 								<div class="text-total">
@@ -78,7 +79,8 @@
 					<div class="layui-col-md5" style="padding-left: 15px;">
 						<div class="layui-card">
 							<div class="layui-card-header">
-								<span class="layui-time"></span>年全口径新开课题合同（任务书）签订率
+								<span class="layui-time"></span>
+								年全口径新开课题合同（任务书）签订率
 							</div>
 							<div class="layui-row-main">
 								<div class="main-chart" id="direct_contract_01_01" style="height: 270px; width: 100%;"></div>
@@ -89,7 +91,8 @@
 				<div class="layui-col-md4">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年全口径新开课题合同（任务书）签订率清单
+							<span class="layui-time"></span>
+							年全口径新开课题合同（任务书）签订率清单
 						</div>
 						<div class="layui-row-main" style="height: 270px;">
 							<table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
@@ -104,7 +107,8 @@
 				<div class="layui-col-md8">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年新开课题合同（任务书）签订率
+							<span class="layui-time"></span>
+							年新开课题合同（任务书）签订率
 						</div>
 						<div class="layui-row-main">
 
@@ -115,9 +119,9 @@
 				<div class="layui-col-md4">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年新开课题合同（任务书）签订率清单
-							<div class="layui-tool">
-							</div>
+							<span class="layui-time"></span>
+							年新开课题合同（任务书）签订率清单
+							<div class="layui-tool"></div>
 						</div>
 						<div class="layui-row-main" id="processdef_table_div">
 							<table id="processdef_table" class="layui-hide" lay-filter="processdef_table"></table>
@@ -130,7 +134,8 @@
 				<div class="layui-col-md12">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院新开课题合同（任务书）签订率
+							<span class="layui-time"></span>
+							年直属研究院新开课题合同（任务书）签订率
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -269,14 +274,13 @@
 				var xName = params.name;
 				var define11 = "";
 				var define12 = "";
-				if (xName == '资产公司' || xName == '集团公司') 
-				{
+				if (xName == '资产公司' || xName == '集团公司') {
 					define11 = xName;
 
 				} else {
 					define11 = "股份公司";
 				}
-				
+
 				define12 = xName;
 				if (xName == '休斯顿') {
 					define12 = '休斯顿研发中心';
@@ -301,18 +305,18 @@
 				var xName = params.name;
 				var legentName = params.seriesName;
 				//alert(legentName);
-				var url = encodeURIComponent("/one_level_main/common_table_new?define2=" + xName + "&define12=直属研究院&define11=股份公司&nd=" + nd + "&groupFlag=xmid,define8&qdbz="+legentName+"订");
+				var url = encodeURIComponent("/one_level_main/common_table_new?define2=" + xName + "&define12=直属研究院&define11=股份公司&nd=" + nd + "&groupFlag=xmid,define8&qdbz=" + legentName + "订");
 				window.open("/instituteIndex?url=" + url);
 			});
 
 		}
-        //直属研究院新开课题合同（任务书）签订率
+		//直属研究院新开课题合同（任务书）签订率
 		function contract_chart1(qdbz) {
 			// define12, 后台查询时用的是define2、define3（type_flag）
 			var url = encodeURIComponent("/one_level_main/common_table_new?define12=直属研究院&define11=股份公司&qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid,define8");
 			window.open("/instituteIndex?url=" + url);
 		}
-         //全口径新开课题合同（任务书）签订率
+		//全口径新开课题合同（任务书）签订率
 		function contract_chart_oneLevel(qdbz) {
 			var url = encodeURIComponent("/one_level_main/common_table_new?qdbz=" + qdbz + "&nd=" + nd + "&groupFlag=xmid");
 			window.open("/instituteIndex?url=" + url);
@@ -336,12 +340,14 @@
 			var nd = $('#nd').val();
 			var series = [];
 			$.ajax({
-				type : "get",
+				type : "POST",
 				url : "/one_level_main/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
 				timeout : 9000,
 				dataType : "json",
 				cache : false,
-				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				headers : {
+					'Content-Type' : 'application/json'
+				},
 				success : function(data, status) {
 					if (data.success == true || data.success == 'true') {
 						$("#vdirect_contract_01_01").html(data.data.zsl + "个");
@@ -401,12 +407,14 @@
 		function ajax_getGauge(url, echartsobj, options) {
 			var series = [];
 			$.ajax({
-				type : "get",
+				type : "POST",
 				url : url,
 				timeout : 9000,
 				dataType : "json",
 				cache : false,
-				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				headers : {
+					'Content-Type' : 'application/json'
+				},
 				success : function(data, status) {
 					if (data.success == true || data.success == 'true') {
 						echartsobj.hideLoading();
@@ -574,7 +582,7 @@
 			var tableOne = table.render({
 				elem : '#processdef_table_02',
 				url : '/one_level_main/contract_01_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + '&type=2',
-				method : "GET",
+				method : "POST",
 				where : {
 					param : {
 						"month" : $("#month").val()
