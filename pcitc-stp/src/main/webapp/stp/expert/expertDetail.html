@@ -200,6 +200,8 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     $("#enlargeP .main-chart").css("height",$(document).height()+"px");
                     var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
                     var colorFive = ["#8fc31f"];
+                    five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
+
                     // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
                     //     if (d.seriesDataList == undefined) {
                     //         $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
@@ -209,8 +211,8 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     $(this).removeClass("layui-layer-icon");
                     $("#enlargeP").removeClass("enlarge");
                     $("#enlargeP .main-chart").css("height","250px");
-                    var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
                     var colorFive = ["#8fc31f"];
+                    five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
                     // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
                     //     if (d.seriesDataList == undefined) {
                     //         $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
@@ -337,7 +339,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
 
         var colorFive = ["#8fc31f"];
         // load_single_forces("/expertController/picIndexImg?hyly="+hyly, "one", "专家画像", "", "", "", 10);
-        // five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
+        five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
 
         // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
         //     if (d.seriesDataList == undefined) {

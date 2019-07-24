@@ -262,7 +262,7 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
                     echartsobj.setOption({
                         legend: {
                             x: 'left',
-                            data: legend_Array
+                            data: legendDataList
                         },
                         series: [
                             {
@@ -299,8 +299,8 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
                                     }
                                 },
                                 useWorker: false,
-                                minRadius: 25,
-                                maxRadius: 75,
+                                minRadius: 5,
+                                maxRadius: 35,
                                 gravity: 2.8,
                                 scaling: 2,
                                 roam: 'move',

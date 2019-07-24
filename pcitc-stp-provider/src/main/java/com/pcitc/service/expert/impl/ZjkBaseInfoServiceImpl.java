@@ -23,6 +23,9 @@ import com.pcitc.base.expert.*;
 import com.pcitc.base.search.ZjkSearchLogExample;
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutPatent;
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoExample;
+import com.pcitc.base.system.*;
 import com.pcitc.mapper.expert.*;
 import com.pcitc.service.expert.*;
 import org.apache.ibatis.annotations.Param;
@@ -49,7 +52,6 @@ import com.pcitc.base.common.ResultSKM;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.StrUtil;
@@ -650,6 +652,14 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             Result result = new Result();
             //查询专家信息
             ZjkExpert expert = this.selectByPrimaryKey(zjkBaseInfo.getDataId());
+            //查询专家类型
+            String expertType = "";
+            List<SysDictionary> dictionaryListByParentCode = systemRemoteClient.getDictionaryListByParentCode("ZJK_ZJLX");
+            for (int i = 0, j = dictionaryListByParentCode.size(); i < j; i++) {
+                if (dictionaryListByParentCode.get(i).getCode().equals(expert.getBak3())) {
+                    expertType = dictionaryListByParentCode.get(i).getName();
+                }
+            }
             String eName = expert.getExpertName();
             Map<String, Object> map = new HashMap<>();
             LayuiTableParam param = new LayuiTableParam();
@@ -657,67 +667,221 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             param.setParam(map);
             param.setLimit(100000000);
             param.setPage(0);
-
-//         成果   LayuiTableData outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
-//         奖励   LayuiTableData outRewardListPage = systemRemoteClient.getOutRewardListPage(param);
-            //查询专家相关技术族信息---
-            //查询专家企业信息---
-
+            //成果
+            LayuiTableData outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
+            //奖励
+            LayuiTableData outRewardListPage = systemRemoteClient.getOutRewardListPage(param);
             //查询专利信息
             LayuiTableData dataPatent = systemRemoteClient.selectOutPatentList(param);
-
             //查询课题信息
             LayuiTableData outProjectListPageExpert = systemRemoteClient.getOutProjectListPageExpert(param);
-
             //查询评审数量
             ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
-            zjkChoiceExample.createCriteria().andZjIdEqualTo(zjkBaseInfo.getDataId());
+            ZjkChoiceExample.Criteria criteria = zjkChoiceExample.createCriteria();
+            criteria.andZjIdEqualTo(zjkBaseInfo.getDataId());
+            criteria.andUserIdEqualTo("xm");
             List<ZjkChoice> zjkChoices = zjkChoiceMapper.selectByExample(zjkChoiceExample);
+            Map<String, String> map_choice = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId, ZjkChoice::getXmName, (e1, e2) -> e1));
 
-            String column_show = "expertProfessinal,college,expertProfessionalFieldName,unitBelongs,professionalAndTime,administrativeDuties,technicalPositiion,";
-            List<ZjkExpert> experts = this.findZjkBaseInfoListRandom(zjkBaseInfo);
-            int length = experts.size() > 10 ? 10 : experts.size();
-            for (int ind = 0; ind < length; ind++) {
-                ZjkExpert e = experts.get(ind);
-                Map<String, Object> maps = MyBeanUtils.transBean2Map(e);
-                //组装数据
-                ChartForceResultData force = new ChartForceResultData();
-                List<ChartForceDataNode> nodes = new ArrayList<ChartForceDataNode>();
+            //组装数据
+            ChartForceResultData force = new ChartForceResultData();
+            List<ChartForceDataNode> nodes = new ArrayList<ChartForceDataNode>();
 
-                List<ChartForceDataLink> links = new ArrayList<ChartForceDataLink>();
+            List<ChartForceDataLink> links = new ArrayList<ChartForceDataLink>();
 
-                List<ChartForceCategories> categories = new ArrayList<ChartForceCategories>();
+            List<ChartForceCategories> categories = new ArrayList<ChartForceCategories>();
 
-                List<String> legendDataList = new ArrayList<String>();
+            List<String> legendDataList = new ArrayList<String>();
 
-                String firstName = e.getExpertName();
-                Object object_first_val = e.getDataId();
-                String firstValue = object_first_val == null ? "" : object_first_val.toString();
+            //人员信息;基本信息;专利 课题  评审
+            String expertName = expert.getExpertName() + "(" + expertType + ")";
+            String dataId = expert.getDataId();
+            nodes.add(new ChartForceDataNode(0, expertName, 100, expertName));
+            categories.add(new ChartForceCategories(expertName));
 
-                nodes.add(new ChartForceDataNode(0, firstName, firstValue, firstName));
-//                System.out.println(column_show);
-                for (Map.Entry<String, Object> entry : maps.entrySet()) {
-                    Object val = entry.getValue();
-                    if (val == null) {
-                        continue;
-                    }
-                    if (column_show.indexOf(entry.getKey() + ",") < 0) {
-                        continue;
-                    }
-                    String name = val.toString();
-                    categories.add(new ChartForceCategories(name));
-                    String value = entry.getValue().toString();
-                    nodes.add(new ChartForceDataNode(ind + 1, name, value, name));
-                    links.add(new ChartForceDataLink(name, firstName, ind + 1, name));
-                    legendDataList.add(name);
+            String psName = "评审项目" + zjkChoices.size() + "个";
+
+            //相关课题
+            String projectName = "相关课题" + outProjectListPageExpert.getCount() + "个";
+            String projectValue = dataId + "kt";
+
+            nodes.add(new ChartForceDataNode(1, projectName, projectValue, projectName));
+            links.add(new ChartForceDataLink(projectName, expertName, 1, projectName));
+            categories.add(new ChartForceCategories(projectName));
+
+            List<Map<String, String>> list_kt = (List<Map<String, String>>) outProjectListPageExpert.getData();
+            List<String> xmids = new ArrayList<>();
+            //定义牵头单位,负责单位---企业
+            Map<String, String> map_dw = new HashMap<>();
+            for (int i = 0, j = list_kt.size(); i < j; i++) {
+                Map<String, String> map_obj = list_kt.get(i);
+                String name = map_obj.get("xmmc");
+                String value = map_obj.get("xmid");
+                xmids.add(map_obj.get("dataId"));
+                nodes.add(new ChartForceDataNode(1, name, value, name));
+                links.add(new ChartForceDataLink(name, projectName, 10, name));
+                //课题关联评审过的项目
+                if (map_choice.get(value) != null) {
+                    links.add(new ChartForceDataLink(name, psName, 50, name));
                 }
-                force.setLegendDataList(legendDataList);
-                force.setCategories(categories);
-                force.setNodes(nodes);
-                force.setLinks(links);
-                result.setSuccess(true);
-                result.setData(force);
+                //企业组装
+                String fzdw = map_obj.get("fzdw");
+                if (fzdw != null && !"".equals(fzdw)) {
+                    map_dw.put(fzdw, name);
+                }
+                String define8 = map_obj.get("define8");
+                if (define8 != null && !"".equals(define8)) {
+                    map_dw.put(define8, name);
+                }
             }
+
+            //相关专利
+            String patentName = "相关专利" + dataPatent.getCount() + "个";
+            String patentValue = dataId + "zl";
+
+            nodes.add(new ChartForceDataNode(2, patentName, patentValue, patentName));
+            links.add(new ChartForceDataLink(patentName, expertName, 2, patentName));
+            categories.add(new ChartForceCategories(patentName));
+            List<String> zlids = new ArrayList<>();
+
+            List<Map<String, String>> list_patent = (List<Map<String, String>>) dataPatent.getData();
+            for (int i = 0, j = list_patent.size(); i < j; i++) {
+                int l = 2;
+                String name = list_patent.get(i).get("fmmc");
+                String value = list_patent.get(i).get("dataId");
+                zlids.add(value);
+
+                nodes.add(new ChartForceDataNode(l, name, value, name));
+                links.add(new ChartForceDataLink(name, patentName, 20, name));
+                //发明人
+                String[] array_fmr = list_patent.get(i).get("fmr").split(";");
+                for (int k = 0, array_fmr_l = array_fmr.length; k < array_fmr_l; k++) {
+                    String array_fmr_name = array_fmr[k];
+                    nodes.add(new ChartForceDataNode(l, array_fmr_name, value, array_fmr_name));
+                    links.add(new ChartForceDataLink(array_fmr_name, name, 21, array_fmr_name));
+                }
+            }
+
+            //相关技术
+            String techName = "";
+            //查询专家相关技术族信息
+            //查询技术-课题
+            IndexOutProjectInfoExample indexOutProjectInfoExample = new IndexOutProjectInfoExample();
+            if (xmids == null || xmids.size() == 0) {
+                xmids.add("");
+            }
+            List<IndexOutProjectInfo> indexOutProjectInfos = systemRemoteClient.selectByExampleKt(xmids);
+            //查询技术-专利
+            IndexOutPatentExample indexOutPatentExample = new IndexOutPatentExample();
+            if (zlids == null || zlids.size() == 0) {
+                zlids.add("");
+            }
+            List<IndexOutPatent> indexOutPatents = systemRemoteClient.selectByExampleZl(zlids);
+            //-------------------合并技术
+            Map<String, String> map_index_kt = indexOutProjectInfos.stream().collect(Collectors.toMap(IndexOutProjectInfo::getTypeCode, IndexOutProjectInfo::getTypeName, (e1, e2) -> e1));
+            Map<String, String> map_index_kt_gl = indexOutProjectInfos.stream().collect(Collectors.toMap(IndexOutProjectInfo::getTypeCode, IndexOutProjectInfo::getXmmc, (e1, e2) -> e1));
+            Map<String, String> map_index_zl = indexOutPatents.stream().collect(Collectors.toMap(IndexOutPatent::getTypeCode, IndexOutPatent::getTypeName, (e1, e2) -> e1));
+            Map<String, String> map_index_zl_gl = indexOutPatents.stream().collect(Collectors.toMap(IndexOutPatent::getTypeCode, IndexOutPatent::getFmmc, (e1, e2) -> e1));
+
+            List<Map<String, String>> map_index_hb = new ArrayList<>();
+            map_index_hb.add(map_index_kt);
+            map_index_hb.add(map_index_zl);
+
+            Map<String, String> map_index = new HashMap<>();
+            map_index_hb.forEach(m -> map_index.putAll(m));
+
+            techName = "相关技术" + map_index.size() + "项";
+            String techValue = dataId + "tech";
+            nodes.add(new ChartForceDataNode(3, techName, techValue, techName));
+            links.add(new ChartForceDataLink(techName, expertName, 3, techName));
+            categories.add(new ChartForceCategories(techName));
+            //------------------遍历map_index--------拼装技术族
+            for (Map.Entry<String, String> entry : map_index.entrySet()) {
+                String typeCode = entry.getKey();
+                String typeName = entry.getValue();
+                nodes.add(new ChartForceDataNode(3, typeName, techValue, typeName));
+                links.add(new ChartForceDataLink(typeName, techName, 3, typeName));
+                //技术关联课题
+                String gl_kt_name = map_index_kt_gl.get(typeCode);
+                if (gl_kt_name != null && !"".equals(gl_kt_name)) {
+                    links.add(new ChartForceDataLink(gl_kt_name, typeName, 30, gl_kt_name));
+                }
+                //技术关联专利
+                String gl_zl_name = map_index_zl_gl.get(typeCode);
+                if (gl_zl_name != null && !"".equals(gl_zl_name)) {
+                    links.add(new ChartForceDataLink(gl_zl_name, typeName, 30, gl_zl_name));
+                }
+            }
+
+            //相关企业
+            int length_company = map_dw.size();
+            String companyName = "相关企业" + length_company + "个";
+            String companyValue = dataId + "company";
+
+            nodes.add(new ChartForceDataNode(4, companyName, companyValue, companyName));
+            links.add(new ChartForceDataLink(companyName, expertName, 4, companyName));
+            categories.add(new ChartForceCategories(companyName));
+            for (Map.Entry<String, String> entry : map_dw.entrySet()) {
+                //关联企业
+                String map_key = entry.getKey();
+                nodes.add(new ChartForceDataNode(4, map_key, companyValue, map_key));
+                links.add(new ChartForceDataLink(map_key, companyName, 9, map_key));
+                //企业子项关联课题
+                String map_val = entry.getValue();
+                nodes.add(new ChartForceDataNode(4, map_key, companyValue, map_key));
+                links.add(new ChartForceDataLink(map_key, map_val, 9, map_key));
+            }
+
+            //评审项目
+            String psValue = dataId + "ps";
+            nodes.add(new ChartForceDataNode(5, psName, psValue, psName));
+            links.add(new ChartForceDataLink(psName, expertName, 5, psName));
+            categories.add(new ChartForceCategories(psName));
+            //成果
+            String cgName = "成果" + outAppraisalListPage.getCount() + "个";
+            String cgValue = dataId + "cg";
+            nodes.add(new ChartForceDataNode(6, cgName, cgValue, cgName));
+            links.add(new ChartForceDataLink(cgName, expertName, 6, cgName));
+            categories.add(new ChartForceCategories(cgName));
+
+            List<Map<String, String>> list_appraisal = (List<Map<String, String>>) outAppraisalListPage.getData();
+            for (int i = 0, j = list_appraisal.size(); i < j; i++) {
+                String name = list_appraisal.get(i).get("cgmc");
+                String value = list_appraisal.get(i).get("dataId");
+                nodes.add(new ChartForceDataNode(6, name, value, name));
+                links.add(new ChartForceDataLink(name, cgName, 12, name));
+            }
+            //奖励
+            String awardName = "奖励" + outRewardListPage.getCount() + "个";
+            String awardValue = dataId + "award";
+            nodes.add(new ChartForceDataNode(7, awardName, awardValue, awardName));
+            links.add(new ChartForceDataLink(awardName, expertName, 7, awardName));
+            categories.add(new ChartForceCategories(awardName));
+
+            List<Map<String, String>> list_award = (List<Map<String, String>>) outRewardListPage.getData();
+            for (int i = 0, j = list_award.size(); i < j; i++) {
+                String name = list_award.get(i).get("xmmc");
+                String value = list_award.get(i).get("dataId");
+                nodes.add(new ChartForceDataNode(7, name, value, name));
+                links.add(new ChartForceDataLink(name, awardName, 11, name));
+            }
+            //图例
+            legendDataList.add(expertName);
+            legendDataList.add(projectName);
+            legendDataList.add(patentName);
+            legendDataList.add(psName);
+            legendDataList.add(techName);
+            legendDataList.add(companyName);
+            legendDataList.add(cgName);
+            legendDataList.add(awardName);
+
+            //封装
+            force.setLegendDataList(legendDataList);
+            force.setCategories(categories);
+            force.setNodes(nodes);
+            force.setLinks(links);
+            result.setSuccess(true);
+            result.setData(force);
             object.put("results", result);
         } catch (Exception e) {
             e.printStackTrace();

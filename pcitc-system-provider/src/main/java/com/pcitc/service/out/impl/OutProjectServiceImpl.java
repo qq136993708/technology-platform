@@ -1,13 +1,6 @@
 package com.pcitc.service.out.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
@@ -1232,7 +1225,12 @@ public class OutProjectServiceImpl implements OutProjectService {
 
     @Override
     public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) {
-        return outProjectInfoMapper.selectByExample(example);
+        List<OutProjectInfo> outProjectInfos = outProjectInfoMapper.selectByExample(example);
+        List<OutProjectInfo> unique = outProjectInfos.stream().collect(
+                Collectors.collectingAndThen(
+                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(OutProjectInfo::getXmid))), ArrayList::new)
+        );
+        return  unique;
     }
 
     @Override

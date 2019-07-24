@@ -156,4 +156,9 @@ public class IndexOutProjectInfoClient {
         }
         return retJson;
     }
+
+    @RequestMapping(value = "/indexoutprojectinfo-provider/indexoutprojectinfo/selectByExample", method = RequestMethod.POST)
+    public List<IndexOutProjectInfo> selectByExample(@RequestBody List<String> strings) {
+        return indexOutProjectInfoService.selectByExample(strings);
+    }
 }

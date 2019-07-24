@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
+import com.pcitc.base.system.*;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,9 +16,6 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkExtractConfig;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.stp.system.SysMeeting;
-import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysPost;
-import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
 
 import io.swagger.annotations.ApiOperation;
@@ -83,5 +81,11 @@ public interface SystemRemoteClient {
     public LayuiTableData getOutProjectListPageExpert(@RequestBody LayuiTableParam param) throws Exception;
     //自定义查询项目信息
     @RequestMapping(value = "/out-provider/selectByExample", method = RequestMethod.POST)
-    public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) throws Exception;
+    public List<OutProjectInfo> selectByExample(@RequestBody OutProjectInfoExample example) throws Exception;
+    //自定义查询index课题信息
+    @RequestMapping(value = "/indexoutprojectinfo-provider/indexoutprojectinfo/selectByExample", method = RequestMethod.POST)
+    public List<IndexOutProjectInfo> selectByExampleKt(@RequestBody List<String> strings);
+    //自定义查询index专利信息
+    @RequestMapping(value = "/indexoutpatent-provider/indexoutpatent/selectByExample", method = RequestMethod.POST)
+    public List<IndexOutPatent> selectByExampleZl(@RequestBody List<String> strings);
 }
