@@ -13,11 +13,6 @@
 	<div class="searchBox">
 		<!--查询条件-->
 		<label class="dateInput">
-			系统类别：
-			<input type="radio" name="systemFlag" value="system" checked />
-			科技平台
-			<input type="radio" name="systemFlag" value="other" />
-			其它系统
 			<span>流程名称</span>
 			<input type="hidden" id="dateFlag" name="dateFlag">
 			<input type="text" id="taskName" name="taskName" placeholder="请输入流程名称" title="流程名称" class="form-control">
@@ -28,7 +23,12 @@
 			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
 		</div>
 	</div>
-
+	<div class="btnGroupS">
+		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-this" value="system" >科技管理平台</button>
+		<span class="red" id="system"></span>
+		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" value="other" >其它系统</button>
+		<span class="red" id="other"></span>
+	</div>
 	<div id="systemDiv">
 		<div class="tableBox">
 			<div class="tableToolBox">
@@ -117,7 +117,7 @@
 					},
 					limit : param.selfRownum,
 					id : 'pendingTable',
-					height : commonDislodgeTable(),
+					height : commonDislodgeTable()-45,
 					page : {
 						groups : 5,
 						limits : [ param.selfRownum, 15, 30, 45, 60 ],
@@ -200,7 +200,7 @@
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
-
+						$("#system").html(count)
 						// 点击行联动选择框--单选
 						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
 							var index = parseInt($(this).index() + 1);
@@ -236,7 +236,7 @@
 					},
 					limit : param.selfRownum,
 					id : 'pendingOtherTable',
-					height : commonDislodgeTable(),
+					height : commonDislodgeTable()-45,
 					page : {
 						groups : 5,
 						limits : [ param.selfRownum, 15, 30, 45, 60 ],
@@ -272,35 +272,38 @@
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
-						
+						$("#other").html(count)
 					}
 				});
 				$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 			}
 
-			$("[name='systemFlag']").on("change", function(e) {
-				var systemFlag = $("[name='systemFlag']").filter(":checked");
-				if (systemFlag.attr("value") == 'system') {
+			$(".btnGroupS button").on("click", function(e) {
+				var systemFlag = $(this).val();
+				if (systemFlag == 'system') {
 					$('#otherDiv').css('display', 'none');
 					$('#systemDiv').css('display', 'block');
+                    $(".btnGroupS button").removeClass("layui-this");
+                    $(this).addClass("layui-this");
 					renderTable();
 				} else {
 					$('#otherDiv').css('display', 'block');
 					$('#systemDiv').css('display', 'none');
+                    $(".btnGroupS button").removeClass("layui-this");
+                    $(this).addClass("layui-this");
 					renderOtherTable();
 				}
 			});
 
 			renderTable();
-
+            renderOtherTable();
 			// 触发不同的按钮事件
 			var $ = layui.$;
 			active = {
 				searchEvent : function() { //点击查询按钮
 					selectRowData = '';
-					
-					var systemFlag = $("[name='systemFlag']").filter(":checked");
-					if (systemFlag.attr("value") == 'system') {
+					var systemFlag = $(".btnGroupS button.layui-this").val();
+					if (systemFlag == 'system') {
 						renderTable();
 					} else {
 						renderOtherTable();
