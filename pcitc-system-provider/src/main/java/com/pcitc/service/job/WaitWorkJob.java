@@ -46,37 +46,19 @@ public class WaitWorkJob implements Job, Serializable {
 				List<OutWaitWork> insertList = new ArrayList<OutWaitWork>();
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
-					String title = object.getString("HDMC");
-					String gcslxgxx = object.getString("gcslxgxx");
-					String url = object.getString("HREF_STR");
-					String shcl_href = object.getString("shcl_href");
+					String title = object.getString("hdmc");
+					String url = object.getString("href");
 					String userId = object.getString("YHMC");
 					String userName = object.getString("YHXM");
-					String XMLB_MC = object.getString("XMLB_MC");
+					String XMMC = object.getString("XMMC");
 					String RWDDSJ = object.getString("RWDDSJ");
 
-					String FZDW_MC = object.getString("FZDW_MC");
-					StringBuffer noteSB = new StringBuffer("");
 					OutWaitWork outWaitWork = new OutWaitWork();
-					if (title != null) {
-						noteSB.append(title);
-					}
-					if (XMLB_MC != null) {
-						noteSB.append("--"+XMLB_MC);
-					}
-					if (FZDW_MC != null) {
-						noteSB.append("--"+FZDW_MC);
-					}
-					outWaitWork.setNotes(noteSB.toString());
-					
-					StringBuffer realUrl = new StringBuffer(DataServiceUtil.HOME_PAGE);
-					if (url != null && url.length() > 5) {
-						realUrl.append(url.substring(5));
-					}
-					outWaitWork.setUrl(realUrl.toString());
+					outWaitWork.setNotes(title);
+					outWaitWork.setUrl(url);
 					
 					outWaitWork.setUserId(userId);
-					outWaitWork.setTitle(gcslxgxx);
+					outWaitWork.setTitle(XMMC);
 					outWaitWork.setType("项目管理系统");
 					outWaitWork.setUserName(userName);
 					outWaitWork.setCreateTime(new Date());
