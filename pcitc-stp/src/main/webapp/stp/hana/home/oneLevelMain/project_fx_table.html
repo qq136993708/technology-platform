@@ -432,7 +432,7 @@
 				}, {
 					field : 'xmmc',
 					title : '项目名称',
-					templet:function(d){return '<span   onclick="view_pro(\''+d.xmmc+'\',\''+d.projectProperty+'\')" style="color: #1890ff">'+d.xmmc+'</span>'},
+					templet:function(d){return '<span   onclick="view_pro(\''+d.xmmc+'\',\''+d.project_property+'\',\''+d.xmlbbm+'\')" style="color: #1890ff">'+d.xmmc+'</span>'},
 					style : 'cursor: pointer;',
 					align : 'left',
 					width : '350',
@@ -590,22 +590,26 @@
 
 		}
 		
-		function view_pro(xmmc,projectProperty) 
+		function view_pro(xmmc,projectProperty,xmlbbm) 
 		{
 			
+			
 			var temUrl="";
-			if(projectProperty=='重大专项')
+			if(xmlbbm=='KYZB')
 			{
-				temUrl="/whole-process/major-science/ini?xmmc="+xmmc;
-			}
-			if(projectProperty=='重点项目')
+				temUrl="/whole-process/equipment-science/ini?xmmc="+xmmc;//装备项目
+			}else
 			{
-				temUrl="/whole-process/science/ini?xmmc="+xmmc;
+				if(projectProperty=='重大专项')
+				{
+					temUrl="/whole-process/major-science/ini?xmmc="+xmmc;
+				}
+				if(projectProperty=='重点项目')
+				{
+					temUrl="/whole-process/science/ini?xmmc="+xmmc;
+				}
 			}
-			if(projectProperty=='装备项目')
-			{
-				temUrl="/whole-process/equipment-science/ini?xmmc="+xmmc;
-			}
+			
 			if(temUrl!='')
 			{
 				
