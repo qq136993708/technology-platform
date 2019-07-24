@@ -136,11 +136,37 @@ public class ScientificInvestmentController extends BaseController {
 				}
 				
 				
-				    String[] headers = { "院所", "计划总投资", "累计支出额",       "预付余额",     "累计投资完成额", "项目资金计划结余",     "本年投资计划",         "本年累计支出"   , "本年预付款", "本年投资完成额"};
-				    String[] cols =    {"g0GSJC","k0ZTYSJE","k0LJGLFPHJECB","k0LJSJDJJE","aDD1",       "k0LJYSJY",       "k0BNYSJHJE",       "k0BNGLFPHJECB","k0BNSJDJJE","k0BNSJDJJE"};
+				    String[] headers = {  
+				    		              "院所", 
+				    		              "计划总投资", 
+				    		              "累计支出额",       
+				    		              "预付余额",     
+				    		              "累计投资完成额", 
+				    		              "项目资金计划结余", 
+				    		              
+				    		              "本年投资计划",         
+				    		              "本年累计支出"   , 
+				    		              "本年预付款", 
+				    		              "本年投资完成额",
+				    		              "资金计划结余"
+				    		              };
+				    String[] cols =    {
+				    		              "g0GSJC",
+				    		              "k0ZTYSJE",
+				    		              "k0LJGLFPHJECB",
+				    		              "k0LJSJDJJE",
+				    		              "k0LJSJZC",       
+				    		              "k0LJYSJY",   
+				    		              
+				    		              "k0BNYSJHJE",       
+				    		              "k0BNGLFPHJECB",
+				    		              "k0BNSJDJJE",
+				    		              "k0BNSJZC",
+				    		              "k0BNYSJY"
+				    		              };
 				   
 			        // 文件名默认设置为当前时间：年月日时分秒
-			        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+			        String fileName = "投资完成情况统计表_"+month+"_"+DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
 			        // 设置response头信息
 			        response.reset();
 			        response.setContentType("application/vnd.ms-excel");

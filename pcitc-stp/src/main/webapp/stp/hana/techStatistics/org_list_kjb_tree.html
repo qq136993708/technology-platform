@@ -109,7 +109,15 @@
     	{
     		str='总计'
     	}
-    	return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" title='+title+' style="color:#1890ff">'+str+'</span>';
+    	if(str=='总计')
+    	{
+    		return '<span  title='+title+' >'+str+'</span>';
+    	}else
+   		{
+    		return '<span onclick="view(\''+d.id+'\',\''+d.type+'\',\''+d.unitName+'\')" title='+title+' style="color:#1890ff">'+str+'</span>';
+   		}
+    	
+    	
     }
     
     
