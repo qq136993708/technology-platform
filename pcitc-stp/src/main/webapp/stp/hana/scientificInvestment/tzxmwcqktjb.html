@@ -6,7 +6,11 @@
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script src="/stp/hana/common/hana_common.js"></script>
+   
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/laytpl.js"></script>
 </head>
 <body>
 
@@ -61,8 +65,7 @@
 </script>
 
 <!--表格数据操作js-->
-<script src="/common/js/jquery-1.11.3.min.js"></script>
-   <script src="/stp/hana/common/hana_common.js"></script>
+
 <script>
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
@@ -170,18 +173,17 @@ function exput_excel()
         height:commonDislodgeTable()-100,
         limit: 15,
         cols: [[
-            {field:'g0GSJC',            title:'院所',            style:'cursor: pointer;',align: 'left', width: '9%',templet:function(d){return '<span onclick="view(\''+d.g0GSJC+'\')" style="color:#1890ff">'+d.g0GSJC+'</span>'},sort : true},
-            {field:'k0ZTYSJE',          title:'计划总投资',        style:'cursor: pointer;',align: 'right', width: '9%'},
-            {field:'k0LJGLFPHJECB',     title:'累计支出额',        style:'cursor: pointer;',align: 'right', width: '9%'},
-            {field:'k0LJSJDJJE',        title:'预付余额',          style:'cursor: pointer;',align: 'right', width: '9%'},
-            {field:'k0LJSJZC',          title:'投资完成额',      style:'cursor: pointer;',align: 'right', width: '9%'},
-            {field:'k0LJYSJY',          title:'资金计划结余',     style:'cursor: pointer;',align: 'right', width: '9%'},
-            
-            {field:'k0BNYSJHJE',        title:'本年投资计划',        style:'cursor: pointer;',align: 'right', width: '9%'},
-            {field:'k0BNGLFPHJECB',     title:'本年累计支出',        style:'cursor: pointer;',align: 'right', width: '9%'},
-            {field:'k0BNSJDJJE',        title:'本年预付款',          style:'cursor: pointer;',align: 'right', width: '9%'},
-            {field:'k0BNSJZC',          title:'投资完成额',       style:'cursor: pointer;',align: 'right', width: '9%'},
-            {field:'k0BNYSJY',          title:'资金计划结余',      style:'cursor: pointer;',align: 'right', width: '9%'}
+            {field:'g0GSJC',            title:'院所',             style:'cursor: pointer;',align: 'left', width: '9%',templet:function(d){return '<span onclick="view(\''+d.g0GSJC+'\')" style="color:#1890ff">'+d.g0GSJC+'</span>'},sort : true},
+            {field:'k0ZTYSJE',          title:'计划总投资',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0ZTYSJE) }}</div>'},
+            {field:'k0LJGLFPHJECB',     title:'累计支出额',          style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0LJGLFPHJECB) }}</div>'},
+            {field:'k0LJSJDJJE',        title:'预付余额',           style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0LJSJDJJE) }}</div>'},
+            {field:'k0LJSJZC',          title:'投资完成额',          style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0LJSJZC) }}</div>'},
+            {field:'k0LJYSJY',          title:'资金计划结余',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0LJYSJY) }}</div>'},
+            {field:'k0BNYSJHJE',        title:'本年投资计划',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNYSJHJE) }}</div>'},
+            {field:'k0BNGLFPHJECB',     title:'本年累计支出',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNGLFPHJECB) }}</div>'},
+            {field:'k0BNSJDJJE',        title:'本年预付款',          style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNSJDJJE) }}</div>'},
+            {field:'k0BNSJZC',          title:'投资完成额',          style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNSJZC) }}</div>'},
+            {field:'k0BNYSJY',          title:'资金计划结余',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNYSJY) }}</div>'}
             
             
         ]],
@@ -224,8 +226,8 @@ function exput_excel()
          });
     }
     
-   
-   
+    
+    
 
 </script>
 

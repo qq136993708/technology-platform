@@ -147,7 +147,35 @@ layui.define(['jquery'],function (e) {
     	}
         return stateData;
     };
-	
+    
+    o.display_number = function(value){
+    	var resutlt_str="<span >"+value+"</span>"
+    	var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+        var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+        if(regPos.test(value) || regNeg.test(value))//是数字
+        {
+        	if(regNeg.test(value))
+        	{
+        		resutlt_str="<span style='color:red'>"+value+"</span>"
+        	}
+        }
+        return resutlt_str;
+    };
+    o.display_number_persent = function(value,fh){
+    	alert("d");
+    	var resutlt_str="<span >"+value+fh+"</span>"
+    	var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+        var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+        if(regPos.test(value) || regNeg.test(value))//是数字
+        {
+        	if(regNeg.test(value))
+        	{
+        		resutlt_str="<span style='color:red'>"+value+fh+"</span>"
+        	}
+        }
+        return resutlt_str;
+    };
+    
     
     o.arrange_man = function(d){
     	alert(d);

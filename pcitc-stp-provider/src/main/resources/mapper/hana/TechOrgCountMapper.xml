@@ -722,15 +722,30 @@
 	     <if test="parentUnitName != null     and parentUnitName  !='' ">              AND t.parent_unit_name like CONCAT('%',#{parentUnitName},'%')</if>
 	     <if test="unitCode != null           and unitCode !=''  ">                    AND t.unit_code = #{unitCode}</if>
 	     <if test="parentUnitCode != null      and parentUnitCode !=''  ">             AND t.parent_unit_code = #{parentUnitCode}</if>
-	     <if test="type != null          and type !=''  ">            AND t.type = #{type}</if>
+	     <if test="type != null          and type !=''  ">                    AND t.type = #{type}</if>
 	     <if test="parentId != null          and parentId !=''  ">            AND t.parent_id = #{parentId}</if>
 	     <if test="year != null              and year !=''  ">                AND t.year = #{year}</if>
 	     <if test="statisticsType != null    and statisticsType !=''  ">      AND t.statistics_type = #{statisticsType}</if>
-	     <if test="writeType != null     and writeType !=''  ">       AND t.write_type = #{writeType}</if>
-	     <if test="auditStatus != null   and auditStatus !=''  ">     AND t.audit_status = #{auditStatus}</if>
-	     <if test="sqlStr != null        and sqlStr !='' ">           AND  ${sqlStr}</if>
+	     <if test="writeType != null     and writeType !=''  ">               AND t.write_type = #{writeType}</if>
+	     <if test="auditStatus != null   and auditStatus !=''  ">             AND t.audit_status = #{auditStatus}</if>
+	     <if test="sqlStr != null        and sqlStr !='' ">                   AND  ${sqlStr}</if>
 	 </trim>
 	</sql>
+	
+	<sql id="selectConditionNotWhere">
+	     <if test="unitName != null and unitName  !='' ">                              AND t.unit_name like CONCAT('%',#{unitName},'%')</if>
+	     <if test="parentUnitName != null     and parentUnitName  !='' ">              AND t.parent_unit_name like CONCAT('%',#{parentUnitName},'%')</if>
+	     <if test="unitCode != null           and unitCode !=''  ">                    AND t.unit_code = #{unitCode}</if>
+	     <if test="parentUnitCode != null      and parentUnitCode !=''  ">             AND t.parent_unit_code = #{parentUnitCode}</if>
+	     <if test="type != null          and type !=''  ">                    AND t.type = #{type}</if>
+	     <if test="parentId != null          and parentId !=''  ">            AND t.parent_id = #{parentId}</if>
+	     <if test="year != null              and year !=''  ">                AND t.year = #{year}</if>
+	     <if test="statisticsType != null    and statisticsType !=''  ">      AND t.statistics_type = #{statisticsType}</if>
+	     <if test="writeType != null     and writeType !=''  ">               AND t.write_type = #{writeType}</if>
+	     <if test="auditStatus != null   and auditStatus !=''  ">             AND t.audit_status = #{auditStatus}</if>
+	     <if test="sqlStr != null        and sqlStr !='' ">                   AND  ${sqlStr}</if>
+	</sql>
+	
     
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
      select t.* from tech_org_count t <include refid="selectCondition" />    
@@ -805,7 +820,7 @@
 		  SUM(t.`thesis_isr_count`)       AS thesis_isr_count,
 		  SUM(t.`thesis_sci_inner_count`) AS thesis_sci_inner_count,
 		  SUM(t.`thesis_ei_inner_count`)  AS thesis_ei_inner_count 
-    FROM tech_org_count  t <include refid="selectCondition" />    
+    FROM tech_org_count  t where t.write_type in('1','2') <include refid="selectConditionNotWhere" />    
 		  
     UNION ALL 
     SELECT * FROM(

@@ -137,11 +137,19 @@
       }
       function viewv(d) 
       {
-          if (d) 
+          if(d) 
           {
-        	  var str= "<span onclick=\"view('"+d.id+"','"+d.type+"','"+d.unitName+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.unitName+"</span>";
+        	  var str="";
+        	  if(d.unitName=='总计')
+       		  {
+        		   str= "<span >"+d.unitName+"</span>";
+       		  }else
+   			  {
+       			 str= "<span onclick=\"view('"+d.id+"','"+d.type+"','"+d.unitName+"')\" style=\"color:#1890ff;cursor:pointer\">"+d.unitName+"</span>";
+   			  }
               return str;
-          } else {
+          } else 
+          {
               return '';
           }
       }

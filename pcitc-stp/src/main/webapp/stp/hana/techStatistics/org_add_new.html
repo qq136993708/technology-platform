@@ -62,8 +62,8 @@
                     <div class="layui-form-item">
 			        <label class="layui-form-label">统计单位类型<span class="must-fill">*</span></label>
 			        <div class="layui-input-block">
-			          <input type="radio"  id="statisticsType1"   onclick="choosestatisticsType('1')"  name="statisticsType" value="1"  title="本单位统计"   <#if techOrgCount.statisticsType=='1' || techOrgCount.statisticsType==null> checked="checked"</#if>>
-			          <input type="radio"  id="statisticsType2"   onclick="choosestatisticsType('2')"  name="statisticsType" value="2"  title="下属科研机构统计"  <#if techOrgCount.statisticsType=='2'> checked="checked"</#if>>
+			          <input type="radio"   id="statisticsType1"    onclick="choosestatisticsType('1')"  name="statisticsType" value="1"  title="本单位统计"      <#if techOrgCount.statisticsType=='1' || techOrgCount.statisticsType==null> checked="checked"</#if>    <#if techOrgCount.id != null &&  techOrgCount.id !=''> disabled </#if>>
+			          <input type="radio"   id="statisticsType2"    onclick="choosestatisticsType('2')"  name="statisticsType" value="2"  title="下属科研机构统计"  <#if techOrgCount.statisticsType=='2'> checked="checked"</#if> <#if techOrgCount.id != null &&  techOrgCount.id !=''> disabled</#if>>
 			        </div>
                 </div>
              </div>
