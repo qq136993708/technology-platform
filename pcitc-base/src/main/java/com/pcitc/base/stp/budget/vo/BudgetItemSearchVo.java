@@ -84,6 +84,7 @@ public class BudgetItemSearchVo
 				m.put("total", (Double)m.get("total")+(Double)map.get("total"));
 				m.put("jz", (Double)m.get("jz")+(Double)map.get("jz"));
 				m.put("xq", (Double)m.get("xq")+(Double)map.get("xq"));
+				m.put("realPayMoney", (Double)m.get("realPayMoney")+(Double)map.get("realPayMoney"));
 			}else {
 				m = new HashMap<String,Object>();
 				
@@ -94,6 +95,7 @@ public class BudgetItemSearchVo
 				m.put("total", map.get("total"));
 				m.put("jz", map.get("jz"));
 				m.put("xq", map.get("xq"));
+				m.put("realPayMoney", map.get("realPayMoney"));
 				rs.add(m);
 			}
 		}

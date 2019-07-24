@@ -1,8 +1,5 @@
 package com.pcitc.web.budget;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,12 +24,17 @@ import com.pcitc.base.common.enums.BudgetStockEnum;
 import com.pcitc.base.common.enums.BudgetStockNdEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetMoneyTotal;
+import com.pcitc.base.stp.budget.BudgetRealPayMoney;
 import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.budget.BudgetMoneyTotalService;
+import com.pcitc.service.budget.BudgetRealPayMoneyService;
 import com.pcitc.service.feign.SystemRemoteClient;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value="预算-预算数据检索",tags= {"预算-预算管理数据对外接口"})
 @RestController
@@ -45,6 +47,8 @@ public class BudgetSplitManagerProviderClient
 	@Autowired
 	private BudgetMoneyTotalService budgetMoneyTotalService;
 	
+	@Autowired
+	private BudgetRealPayMoneyService budgetRealPayMoneyService;
 	//@Autowired
 	//private BudgetMoneyDecomposeService budgetMoneyDecomposeService;
 	
@@ -78,6 +82,7 @@ public class BudgetSplitManagerProviderClient
 	@RequestMapping(value = "/stp-provider/budget/out-organ-items", method = RequestMethod.POST)
 	public BudgetItemSearchVo selectBudgetInfoList(@RequestBody BudgetItemSearchVo vo) 
 	{
+		long start = System.currentTimeMillis();
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
 		{
@@ -85,6 +90,9 @@ public class BudgetSplitManagerProviderClient
 			List<SysDictionary> groupDics = systemRemoteClient.getDictionaryListByParentCode(BudgetStockEnum.SPLIT_GROUP_TOTAL.getCode()+vo.getNd());
 			//资产单位
 			List<SysDictionary> assetDics = systemRemoteClient.getDictionaryListByParentCode(BudgetStockEnum.SPLIT_ASSET_TOTAL.getCode()+vo.getNd());
+			//实际花费
+			List<BudgetRealPayMoney> realPayMoneys = getBudgetRealPayMoneyByNd(vo.getNd());
+			
 			//检索预算项数据
 			List<BudgetSplitData> datas = getFinalBudgetSplitData(vo.getNd());
 			
@@ -153,6 +161,7 @@ public class BudgetSplitManagerProviderClient
 					map.put("total", 0d);
 					map.put("jz", 0d);
 					map.put("xq", 0d);
+					map.put("realPayMoney",0d);
 					if(organ != null) {
 						map.put("unitName", organ.getName());
 						List<BudgetSplitData> list = datas.stream()
@@ -168,12 +177,28 @@ public class BudgetSplitManagerProviderClient
 								map.put("xq", (Double)map.get("xq")+dt.getXq());
 							}
 						}
+						//计算实际花费
+						List<BudgetRealPayMoney> reals = realPayMoneys.stream()
+								.filter(a -> organ.getCode().equals(a.getOrganCode()))
+								.filter(a -> codes.contains(a.getSplitCode()))
+								.collect(Collectors.toList());
+						if(reals != null && reals.size()>0) 
+						{
+							for(BudgetRealPayMoney dt:reals) 
+							{
+								map.put("realPayMoney", (Double)map.get("realPayMoney")+dt.getMoney());
+							}
+						}
 					}
 					//System.out.println("unitId:"+unitId+"----itemCode:"+itemCode+"----item:"+JSON.toJSONString(codes)+"----v:"+JSON.toJSONString(map));
 					rsdata.add(map);
 				}
 			}
 			vo.setRsItems(rsdata);
+			long end = System.currentTimeMillis();
+			
+			
+			System.out.println("----------------process--------------"+(end-start));
 			return vo;
 		}
 		catch (Exception e)
@@ -220,5 +245,11 @@ public class BudgetSplitManagerProviderClient
 			list.add(enums.getUnitCode());
 		}
 		return list;
+	}
+	private List<BudgetRealPayMoney> getBudgetRealPayMoneyByNd(String nd)
+	{
+		BudgetRealPayMoney bean = new BudgetRealPayMoney();
+		bean.setNd(nd);
+		return budgetRealPayMoneyService.selectListBudgetRealPayMoneyByBean(bean);
 	}
 }
