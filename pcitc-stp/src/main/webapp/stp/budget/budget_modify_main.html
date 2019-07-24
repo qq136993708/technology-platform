@@ -49,7 +49,11 @@
 	</style>
 	<script type="text/javascript">
 	var table,selectRowData,renderfunc,param;
-    layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ], function(){
+	layui.config({
+		base : '../../layuiadmin/' //静态资源所在路径
+	}).extend({
+		index : 'lib/index' //主入口模块
+	}).use(['index','jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ], function(){
     	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,table = layui.table,publicMethods=layui.publicMethods,selectRowData;
     	var param = JSON.parse(window.localStorage.getItem("param"));
     	var cu_date = "${nd}";
@@ -59,12 +63,41 @@
             	renderTable({param:{"nd":cu_date}});
             }            
         });
+    	window.modifyBudget = function(nd,budgetType,dataId)
+    	{
+    		 layer.confirm('确定要对预算进行调整吗？', function(index){
+             	layer.close(index);
+	    		publicMethods.ajaxPost("/budget/budget-info-create-bytemplate",{"nd":nd,"budgetType":budgetType,"dataId":dataId}, function (dt) {
+	    			//提示消息
+		    		layer.alert("操作成功", {title : '信息'},function(i){
+						layer.close(i);
+						//跳转到编辑页面
+						if(budgetType==101){
+							parent.layui.index.openTabsPage("/budget/budget_main_grouptotal?nd="+nd+"&dataId="+dt.dataId, "集团公司预算表");
+						}else if(budgetType==102){
+							parent.layui.index.openTabsPage("/budget/budget_main_assettotal?nd="+nd+"&dataId="+dt.dataId, "资产公司预算表");
+						}else if(budgetType==103){
+							parent.layui.index.openTabsPage("/budget/budget_main_stocktotal?nd="+nd+"&dataId="+dt.dataId, "股份公司预算表");
+						}else if(budgetType==203){
+							parent.layui.index.openTabsPage("/budget/budget_main_groupsplit?nd="+nd+"&dataId="+dt.dataId, "集团公司预算分解表");
+						}else if(budgetType==204){
+							parent.layui.index.openTabsPage("/budget/budget_main_assetsplit?nd="+nd+"&dataId="+dt.dataId, "资产公司预算分解表");
+						}else if(budgetType==205){
+							parent.layui.index.openTabsPage("/budget/budget_main_stocksplit_zsy?nd="+nd+"&dataId="+dt.dataId, "股份公司预算分解表（直属院）");
+						}else if(budgetType==206){
+							parent.layui.index.openTabsPage("/budget/budget_main_stocksplit_xtw?nd="+nd+"&dataId="+dt.dataId, "股份公司预算分解表（集团单位、外部单位、盈科）");
+						}else if(budgetType==207){
+							parent.layui.index.openTabsPage("/budget/budget_main_stocksplit_zgs?nd="+nd+"&dataId="+dt.dataId, "股份公司预算分解表（分子公司等）");
+						}else{
+							console.log("......");
+						}
+		    		});
+	 		   	});
+    		 });
+    	}
     	window.renderTable = function(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		var cols = [
-    			{
-    				type:'checkbox',style: 'cursor: pointer;',width: 55
-    			},
     			{
     				type:'numbers',
                     title: "序号", event: 'setActive', style: 'cursor: pointer;',align:'center',width: 80
@@ -89,21 +122,20 @@
                     field: "status",
                     title: "审批状态", event: 'setActive', style: 'cursor: pointer;',align:'center',width: 150
                 },
-                {
-                    field: "releaseStatusName",
-                    title: "下发状态", event: 'setActive', style: 'cursor: pointer;',align:'center',width: 200
+                {	
+                	title : '操作',style : 'cursor: pointer;', align: 'center',width: 200, templet:function(d){
+                		return '<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg demo-delete" target="_top" onclick="modifyBudget(\''+d.nd+'\','+d.budgetType+',\''+d.dataId+'\')">预算调整</a>'
+                	}
                 }
+                
     		];
     		
-    		publicMethods.tableRender("organTable","organTable","/budget/budget-release-list",false,cols,where,true,function(res, curr, count){
+    		publicMethods.tableRender("organTable","organTable","/budget/budget-modify-list",false,cols,where,true,function(res, curr, count){
     			layer.close(lodingMsg);
     			$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
                 	var index=parseInt($(this).index()+1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData=res.data[index-1];
+                    console.log(selectRowData);
                 }); 
     		});
 	        $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
@@ -136,50 +168,6 @@
         		publicMethods.openBaseWinFull("详情",temUrl);
         	}
         });
-        // 触发不同的按钮事件
-        var $ = layui.$, active = {
-            relaseEvent: function(){ 
-            	if(!selectRowData){
-            		layer.msg('请选择要下发的数据!');
-            		return;
-            	}
-				layer.confirm('确定要下发吗？',{title:"下发确认"},function(index){
-					layer.close(index);
-					publicMethods.ajaxAsyncPost("/budget/budget-info-release", {"dataId":selectRowData.dataId}, function (data) {
-	                     if (data.success) {
-	                    	 renderTable({param:{"nd":cu_date}});
-	                    	 layer.msg('操作成功!');
-	                     } else {
-	                    	 layer.msg('操作异常，请重试!');
-	                     }
-	                });
-            	});
-            },
-            noRelaseEvent:function(){
-            	if(!selectRowData){
-            		layer.msg('请选择已下发的数据!');
-            		return;
-            	}
-            	layer.confirm('确定要取消下发吗？',{title:"取消下发确认"},function(index){
-					layer.close(index);
-					publicMethods.ajaxAsyncPost("/budget/budget-info-norelease", {"dataId":selectRowData.dataId}, function (data) {
-	                     if (data.success) {
-	                    	 renderTable({param:{"nd":cu_date}});
-	                    	 layer.msg('操作成功!');
-	                     } else {
-	                    	 layer.msg('操作异常，请重试!');
-	                     }
-	                });
-            	});
-            	
-            	
-            }
-        };
-        //区别按钮属性
-        $('.layui-btn').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
     });
 </script>
 
@@ -195,8 +183,8 @@
         </div>
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg" data-type="relaseEvent">下发</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="noRelaseEvent">取消下发</button>
+            <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg" data-type="relaseEvent">下发</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="noRelaseEvent">取消下发</button> -->
         </div>
     </div>
     <table id="organTable" class="layui-hide"  lay-filter="organEvent"></table>

@@ -139,6 +139,7 @@
 	    var curent_tabel_data = null;//当前表格数据
 	    var curent_budget_info = null;//当前报表
 	    var table_titles=[];
+	    var dataId = "${dataId}";
 	    <#list items as item>
 	    	<#list item?keys as key> 
 	    		table_titles.push('${key}');
@@ -314,7 +315,11 @@
             	});
           		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
           	}
-            initDataVersion();
+          	if(dataId){
+          		initDataVersion(dataId);
+          	}else{
+          		initDataVersion();
+          	}
             // 触发不同的按钮事件
             var $ = layui.$, active = {
             	createEvent: function () { //点击查询按钮
