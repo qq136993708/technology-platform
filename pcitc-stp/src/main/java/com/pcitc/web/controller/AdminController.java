@@ -702,7 +702,7 @@ public class AdminController extends BaseController {
 		// oa系统的服务器地址
 		request.setAttribute("outOAIp", "10.1.4.10");
 
-		// 获取其他系统的待办任务
+		// 获取其他系统的通知公告
 		LayuiTableParam noticePara = new LayuiTableParam();
 		noticePara.setLimit(10);
 		HttpEntity<LayuiTableParam> noticeEntity = new HttpEntity<LayuiTableParam>(noticePara, this.httpHeaders);
