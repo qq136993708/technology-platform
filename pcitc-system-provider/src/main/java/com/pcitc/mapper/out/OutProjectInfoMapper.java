@@ -325,8 +325,4 @@ public interface OutProjectInfoMapper {
 	 */
 	public List getDragonProjectInfoSelectCondition(HashMap<String, String> map);
 
-	//首页查询 end
-	public List<OutProjectInfo> findOutProjectInfoList(OutProjectInfo outProjectInfo);
-	public List<OutProjectInfo> findOutProjectInfoListOr(OutProjectInfo outProjectInfo);
-	//首页查询 start
 }
