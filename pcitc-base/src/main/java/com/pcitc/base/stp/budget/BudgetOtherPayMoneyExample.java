@@ -3,14 +3,14 @@ package com.pcitc.base.stp.budget;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BudgetRealPayMoneyExample {
+public class BudgetOtherPayMoneyExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public BudgetRealPayMoneyExample() {
+    public BudgetOtherPayMoneyExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -991,6 +991,76 @@ public class BudgetRealPayMoneyExample {
 
         public Criteria andBudgetTypeNotBetween(String value1, String value2) {
             addCriterion("budget_type not between", value1, value2, "budgetType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateIsNull() {
+            addCriterion("pay_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateIsNotNull() {
+            addCriterion("pay_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateEqualTo(String value) {
+            addCriterion("pay_date =", value, "payDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateNotEqualTo(String value) {
+            addCriterion("pay_date <>", value, "payDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateGreaterThan(String value) {
+            addCriterion("pay_date >", value, "payDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_date >=", value, "payDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateLessThan(String value) {
+            addCriterion("pay_date <", value, "payDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateLessThanOrEqualTo(String value) {
+            addCriterion("pay_date <=", value, "payDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateLike(String value) {
+            addCriterion("pay_date like", value, "payDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateNotLike(String value) {
+            addCriterion("pay_date not like", value, "payDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateIn(List<String> values) {
+            addCriterion("pay_date in", values, "payDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateNotIn(List<String> values) {
+            addCriterion("pay_date not in", values, "payDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateBetween(String value1, String value2) {
+            addCriterion("pay_date between", value1, value2, "payDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayDateNotBetween(String value1, String value2) {
+            addCriterion("pay_date not between", value1, value2, "payDate");
             return (Criteria) this;
         }
     }

@@ -14,31 +14,31 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.stp.budget.BudgetRealPayMoney;
-import com.pcitc.base.stp.budget.BudgetRealPayMoneyExample;
+import com.pcitc.base.stp.budget.BudgetOtherPayMoney;
+import com.pcitc.base.stp.budget.BudgetOtherPayMoneyExample;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.mapper.budget.BudgetRealPayMoneyMapper;
-import com.pcitc.service.budget.BudgetRealPayMoneyService;
+import com.pcitc.mapper.budget.BudgetOtherPayMoneyMapper;
+import com.pcitc.service.budget.BudgetOtherPayMoneyService;
 /**
  * 
  * @author fb
  *
  */
-@Service("budgetRealPayMoneyService")
+@Service("budgetOtherPayMoneyService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-public class BudgetRealPayMoneyServiceImpl  implements BudgetRealPayMoneyService
+public class BudgetOtherPayMoneyServiceImpl  implements BudgetOtherPayMoneyService
 {
 	@Autowired
-	public BudgetRealPayMoneyMapper mapper;
+	public BudgetOtherPayMoneyMapper mapper;
 	
 
 	@Override
-	public BudgetRealPayMoney selectBudgetRealPayMoney(String dataId) 
+	public BudgetOtherPayMoney selectBudgetOtherPayMoney(String dataId) 
 	{
 		return mapper.selectByPrimaryKey(dataId);
 	}
 	@Override
-	public Result saveBudgetRealPayMoney(BudgetRealPayMoney bean) throws Exception 
+	public Result saveBudgetOtherPayMoney(BudgetOtherPayMoney bean) throws Exception 
 	{
 		Boolean status = false;
 		try 
@@ -54,12 +54,12 @@ public class BudgetRealPayMoneyServiceImpl  implements BudgetRealPayMoneyService
 		return new Result(status);
 	}
 	@Override
-	public Result updateBudgetRealPayMoney(BudgetRealPayMoney budgetRealPayMoney) throws Exception 
+	public Result updateBudgetOtherPayMoney(BudgetOtherPayMoney budgetOtherPayMoney) throws Exception 
 	{
 		Boolean status = false;
 		try 
 		{
-			Integer rs = mapper.updateByPrimaryKey(budgetRealPayMoney);
+			Integer rs = mapper.updateByPrimaryKey(budgetOtherPayMoney);
 			if(rs > 0) 
 			{
 				status = true;
@@ -70,9 +70,9 @@ public class BudgetRealPayMoneyServiceImpl  implements BudgetRealPayMoneyService
 		return new Result(status);
 	}
 	@Override
-	public Result deleteBudgetRealPayMoney(String id) throws Exception 
+	public Result deleteBudgetOtherPayMoney(String id) throws Exception 
 	{
-		BudgetRealPayMoney b = mapper.selectByPrimaryKey(id);
+		BudgetOtherPayMoney b = mapper.selectByPrimaryKey(id);
 		Boolean status = false;
 		try{
 			if(b != null){
@@ -91,7 +91,7 @@ public class BudgetRealPayMoneyServiceImpl  implements BudgetRealPayMoneyService
 		return new Result(status);
 	}
 	@Override
-	public Result deleteBudgetRealPayMoneyReal(String id) throws Exception 
+	public Result deleteBudgetOtherPayMoneyReal(String id) throws Exception 
 	{
 		Boolean status = false;
 		try
@@ -107,14 +107,14 @@ public class BudgetRealPayMoneyServiceImpl  implements BudgetRealPayMoneyService
 		return new Result(status);
 	}
 	@Override
-	public Result saveOrUpdBudgetRealPayMoney(BudgetRealPayMoney bean) throws Exception 
+	public Result saveOrUpdBudgetOtherPayMoney(BudgetOtherPayMoney bean) throws Exception 
 	{
 		Boolean status =  false;
 		try {
-			BudgetRealPayMoney old = mapper.selectByPrimaryKey(bean.getDataId());
+			BudgetOtherPayMoney old = mapper.selectByPrimaryKey(bean.getDataId());
 			if(old == null) 
 			{
-				return this.saveBudgetRealPayMoney(bean);
+				return this.saveBudgetOtherPayMoney(bean);
 			}else {
 				MyBeanUtils.copyPropertiesIgnoreNull(bean, old);
 				Integer rs = mapper.updateByPrimaryKey(old);
@@ -128,22 +128,22 @@ public class BudgetRealPayMoneyServiceImpl  implements BudgetRealPayMoneyService
 		return new Result(status);
 	}
 	@Override
-	public List<BudgetRealPayMoney> selectListBudgetRealPayMoney() 
+	public List<BudgetOtherPayMoney> selectListBudgetOtherPayMoney() 
 	{
-		BudgetRealPayMoneyExample example = new BudgetRealPayMoneyExample();
+		BudgetOtherPayMoneyExample example = new BudgetOtherPayMoneyExample();
 		return mapper.selectByExample(example);
 	}
 	@Override
-	public LayuiTableData selectTableBudgetRealPayMoney(LayuiTableParam param) 
+	public LayuiTableData selectTableBudgetOtherPayMoney(LayuiTableParam param) 
 	{
-		BudgetRealPayMoneyExample example = new BudgetRealPayMoneyExample();
+		BudgetOtherPayMoneyExample example = new BudgetOtherPayMoneyExample();
 		return selectTableData(param, example);
 	}
 	@Override
-	public List<BudgetRealPayMoney> selectListBudgetRealPayMoneyByBean(BudgetRealPayMoney bean) 
+	public List<BudgetOtherPayMoney> selectListBudgetOtherPayMoneyByBean(BudgetOtherPayMoney bean) 
 	{
-		BudgetRealPayMoneyExample example = new BudgetRealPayMoneyExample();
-		BudgetRealPayMoneyExample.Criteria c = example.createCriteria();
+		BudgetOtherPayMoneyExample example = new BudgetOtherPayMoneyExample();
+		BudgetOtherPayMoneyExample.Criteria c = example.createCriteria();
 		if(bean.getNd() != null) 
 		{
 			c.andNdEqualTo(bean.getNd());
@@ -152,7 +152,7 @@ public class BudgetRealPayMoneyServiceImpl  implements BudgetRealPayMoneyService
 		return mapper.selectByExample(example);
 	}
 	
-	private LayuiTableData selectTableData(LayuiTableParam param,BudgetRealPayMoneyExample e)
+	private LayuiTableData selectTableData(LayuiTableParam param,BudgetOtherPayMoneyExample e)
 	{
 		//每页显示条数
 		int pageSize = param.getLimit();
@@ -163,9 +163,9 @@ public class BudgetRealPayMoneyServiceImpl  implements BudgetRealPayMoneyService
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
 		
-		List<BudgetRealPayMoney> list = mapper.selectByExample(e);
+		List<BudgetOtherPayMoney> list = mapper.selectByExample(e);
 		// 3、获取分页查询后的数据
-		PageInfo<BudgetRealPayMoney> pageInfo= new PageInfo<BudgetRealPayMoney>(list);
+		PageInfo<BudgetOtherPayMoney> pageInfo= new PageInfo<BudgetOtherPayMoney>(list);
 		// 3、获取分页查询后的数据
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pcitc.mapper.budget.BudgetRealPayMoneyMapper">
-  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.BudgetRealPayMoney">
+<mapper namespace="com.pcitc.mapper.budget.BudgetOtherPayMoneyMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.BudgetOtherPayMoney">
     <id column="data_id" jdbcType="VARCHAR" property="dataId" />
     <result column="creater" jdbcType="VARCHAR" property="creater" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
@@ -15,6 +15,10 @@
     <result column="split_name" jdbcType="VARCHAR" property="splitName" />
     <result column="money" jdbcType="DOUBLE" property="money" />
     <result column="budget_type" jdbcType="VARCHAR" property="budgetType" />
+    <result column="pay_date" jdbcType="VARCHAR" property="payDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pcitc.base.stp.budget.BudgetOtherPayMoney">
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,16 +80,21 @@
   </sql>
   <sql id="Base_Column_List">
     data_id, creater, create_time, update_time, audit_status, nd, organ_code, organ_name, 
-    organ_unitcode, split_code, split_name, money, budget_type
+    organ_unitcode, split_code, split_name, money, budget_type, pay_date
   </sql>
-  <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetRealPayMoneyExample" resultMap="BaseResultMap">
+  <sql id="Blob_Column_List">
+    remark
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.pcitc.base.stp.budget.BudgetOtherPayMoneyExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from out_tem_real_pay_money
+    ,
+    <include refid="Blob_Column_List" />
+    from out_tem_other_pay_money
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,36 +102,55 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetOtherPayMoneyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from out_tem_other_pay_money
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
-    from out_tem_real_pay_money
+    ,
+    <include refid="Blob_Column_List" />
+    from out_tem_other_pay_money
     where data_id = #{dataId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from out_tem_real_pay_money
+    delete from out_tem_other_pay_money
     where data_id = #{dataId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.budget.BudgetRealPayMoneyExample">
-    delete from out_tem_real_pay_money
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.budget.BudgetOtherPayMoneyExample">
+    delete from out_tem_other_pay_money
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetRealPayMoney">
-    insert into out_tem_real_pay_money (data_id, creater, create_time, 
+  <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetOtherPayMoney">
+    insert into out_tem_other_pay_money (data_id, creater, create_time, 
       update_time, audit_status, nd, 
       organ_code, organ_name, organ_unitcode, 
       split_code, split_name, money, 
-      budget_type)
+      budget_type, pay_date, remark
+      )
     values (#{dataId,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=VARCHAR}, #{auditStatus,jdbcType=INTEGER}, #{nd,jdbcType=VARCHAR}, 
       #{organCode,jdbcType=VARCHAR}, #{organName,jdbcType=VARCHAR}, #{organUnitcode,jdbcType=VARCHAR}, 
       #{splitCode,jdbcType=VARCHAR}, #{splitName,jdbcType=VARCHAR}, #{money,jdbcType=DOUBLE}, 
-      #{budgetType,jdbcType=VARCHAR})
+      #{budgetType,jdbcType=VARCHAR}, #{payDate,jdbcType=VARCHAR}, #{remark,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetRealPayMoney">
-    insert into out_tem_real_pay_money
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetOtherPayMoney">
+    insert into out_tem_other_pay_money
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="dataId != null">
         data_id,
@@ -162,6 +190,12 @@
       </if>
       <if test="budgetType != null">
         budget_type,
+      </if>
+      <if test="payDate != null">
+        pay_date,
+      </if>
+      <if test="remark != null">
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -204,16 +238,22 @@
       <if test="budgetType != null">
         #{budgetType,jdbcType=VARCHAR},
       </if>
+      <if test="payDate != null">
+        #{payDate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pcitc.base.stp.budget.BudgetRealPayMoneyExample" resultType="java.lang.Long">
-    select count(*) from out_tem_real_pay_money
+  <select id="countByExample" parameterType="com.pcitc.base.stp.budget.BudgetOtherPayMoneyExample" resultType="java.lang.Long">
+    select count(*) from out_tem_other_pay_money
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update out_tem_real_pay_money
+    update out_tem_other_pay_money
     <set>
       <if test="record.dataId != null">
         data_id = #{record.dataId,jdbcType=VARCHAR},
@@ -254,13 +294,19 @@
       <if test="record.budgetType != null">
         budget_type = #{record.budgetType,jdbcType=VARCHAR},
       </if>
+      <if test="record.payDate != null">
+        pay_date = #{record.payDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map">
-    update out_tem_real_pay_money
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update out_tem_other_pay_money
     set data_id = #{record.dataId,jdbcType=VARCHAR},
       creater = #{record.creater,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=VARCHAR},
@@ -273,13 +319,35 @@
       split_code = #{record.splitCode,jdbcType=VARCHAR},
       split_name = #{record.splitName,jdbcType=VARCHAR},
       money = #{record.money,jdbcType=DOUBLE},
-      budget_type = #{record.budgetType,jdbcType=VARCHAR}
+      budget_type = #{record.budgetType,jdbcType=VARCHAR},
+      pay_date = #{record.payDate,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.budget.BudgetRealPayMoney">
-    update out_tem_real_pay_money
+  <update id="updateByExample" parameterType="map">
+    update out_tem_other_pay_money
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      creater = #{record.creater,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=VARCHAR},
+      audit_status = #{record.auditStatus,jdbcType=INTEGER},
+      nd = #{record.nd,jdbcType=VARCHAR},
+      organ_code = #{record.organCode,jdbcType=VARCHAR},
+      organ_name = #{record.organName,jdbcType=VARCHAR},
+      organ_unitcode = #{record.organUnitcode,jdbcType=VARCHAR},
+      split_code = #{record.splitCode,jdbcType=VARCHAR},
+      split_name = #{record.splitName,jdbcType=VARCHAR},
+      money = #{record.money,jdbcType=DOUBLE},
+      budget_type = #{record.budgetType,jdbcType=VARCHAR},
+      pay_date = #{record.payDate,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.budget.BudgetOtherPayMoney">
+    update out_tem_other_pay_money
     <set>
       <if test="creater != null">
         creater = #{creater,jdbcType=VARCHAR},
@@ -317,11 +385,17 @@
       <if test="budgetType != null">
         budget_type = #{budgetType,jdbcType=VARCHAR},
       </if>
+      <if test="payDate != null">
+        pay_date = #{payDate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetRealPayMoney">
-    update out_tem_real_pay_money
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pcitc.base.stp.budget.BudgetOtherPayMoney">
+    update out_tem_other_pay_money
     set creater = #{creater,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=VARCHAR},
@@ -333,7 +407,26 @@
       split_code = #{splitCode,jdbcType=VARCHAR},
       split_name = #{splitName,jdbcType=VARCHAR},
       money = #{money,jdbcType=DOUBLE},
-      budget_type = #{budgetType,jdbcType=VARCHAR}
+      budget_type = #{budgetType,jdbcType=VARCHAR},
+      pay_date = #{payDate,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=LONGVARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetOtherPayMoney">
+    update out_tem_other_pay_money
+    set creater = #{creater,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=INTEGER},
+      nd = #{nd,jdbcType=VARCHAR},
+      organ_code = #{organCode,jdbcType=VARCHAR},
+      organ_name = #{organName,jdbcType=VARCHAR},
+      organ_unitcode = #{organUnitcode,jdbcType=VARCHAR},
+      split_code = #{splitCode,jdbcType=VARCHAR},
+      split_name = #{splitName,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DOUBLE},
+      budget_type = #{budgetType,jdbcType=VARCHAR},
+      pay_date = #{payDate,jdbcType=VARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
 </mapper>

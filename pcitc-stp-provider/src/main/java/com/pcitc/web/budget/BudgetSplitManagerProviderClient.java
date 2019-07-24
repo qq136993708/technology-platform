@@ -24,13 +24,13 @@ import com.pcitc.base.common.enums.BudgetStockEnum;
 import com.pcitc.base.common.enums.BudgetStockNdEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetMoneyTotal;
-import com.pcitc.base.stp.budget.BudgetRealPayMoney;
+import com.pcitc.base.stp.budget.BudgetOtherPayMoney;
 import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.budget.BudgetMoneyTotalService;
-import com.pcitc.service.budget.BudgetRealPayMoneyService;
+import com.pcitc.service.budget.BudgetOtherPayMoneyService;
 import com.pcitc.service.feign.SystemRemoteClient;
 
 import io.swagger.annotations.Api;
@@ -48,7 +48,7 @@ public class BudgetSplitManagerProviderClient
 	private BudgetMoneyTotalService budgetMoneyTotalService;
 	
 	@Autowired
-	private BudgetRealPayMoneyService budgetRealPayMoneyService;
+	private BudgetOtherPayMoneyService budgetOtherPayMoneyService;
 	//@Autowired
 	//private BudgetMoneyDecomposeService budgetMoneyDecomposeService;
 	
@@ -91,7 +91,7 @@ public class BudgetSplitManagerProviderClient
 			//资产单位
 			List<SysDictionary> assetDics = systemRemoteClient.getDictionaryListByParentCode(BudgetStockEnum.SPLIT_ASSET_TOTAL.getCode()+vo.getNd());
 			//实际花费
-			List<BudgetRealPayMoney> realPayMoneys = getBudgetRealPayMoneyByNd(vo.getNd());
+			List<BudgetOtherPayMoney> realPayMoneys = getBudgetOtherPayMoneyByNd(vo.getNd());
 			
 			//检索预算项数据
 			List<BudgetSplitData> datas = getFinalBudgetSplitData(vo.getNd());
@@ -161,7 +161,7 @@ public class BudgetSplitManagerProviderClient
 					map.put("total", 0d);
 					map.put("jz", 0d);
 					map.put("xq", 0d);
-					map.put("realPayMoney",0d);
+					map.put("otherPayMoney",0d);
 					if(organ != null) {
 						map.put("unitName", organ.getName());
 						List<BudgetSplitData> list = datas.stream()
@@ -178,15 +178,15 @@ public class BudgetSplitManagerProviderClient
 							}
 						}
 						//计算实际花费
-						List<BudgetRealPayMoney> reals = realPayMoneys.stream()
+						List<BudgetOtherPayMoney> reals = realPayMoneys.stream()
 								.filter(a -> organ.getCode().equals(a.getOrganCode()))
 								.filter(a -> codes.contains(a.getSplitCode()))
 								.collect(Collectors.toList());
 						if(reals != null && reals.size()>0) 
 						{
-							for(BudgetRealPayMoney dt:reals) 
+							for(BudgetOtherPayMoney dt:reals) 
 							{
-								map.put("realPayMoney", (Double)map.get("realPayMoney")+dt.getMoney());
+								map.put("otherPayMoney", (Double)map.get("otherPayMoney")+dt.getMoney());
 							}
 						}
 					}
@@ -246,10 +246,10 @@ public class BudgetSplitManagerProviderClient
 		}
 		return list;
 	}
-	private List<BudgetRealPayMoney> getBudgetRealPayMoneyByNd(String nd)
+	private List<BudgetOtherPayMoney> getBudgetOtherPayMoneyByNd(String nd)
 	{
-		BudgetRealPayMoney bean = new BudgetRealPayMoney();
+		BudgetOtherPayMoney bean = new BudgetOtherPayMoney();
 		bean.setNd(nd);
-		return budgetRealPayMoneyService.selectListBudgetRealPayMoneyByBean(bean);
+		return budgetOtherPayMoneyService.selectListBudgetOtherPayMoneyByBean(bean);
 	}
 }

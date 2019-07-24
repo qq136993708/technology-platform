@@ -1,6 +1,6 @@
 package com.pcitc.base.stp.budget;
 
-public class BudgetRealPayMoney {
+public class BudgetOtherPayMoney {
     private String dataId;
 
     private String creater;
@@ -26,6 +26,10 @@ public class BudgetRealPayMoney {
     private Double money;
 
     private String budgetType;
+
+    private String payDate;
+
+    private String remark;
 
     public String getDataId() {
         return dataId;
@@ -129,5 +133,21 @@ public class BudgetRealPayMoney {
 
     public void setBudgetType(String budgetType) {
         this.budgetType = budgetType;
+    }
+
+    public String getPayDate() {
+        return payDate;
+    }
+
+    public void setPayDate(String payDate) {
+        this.payDate = payDate;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
