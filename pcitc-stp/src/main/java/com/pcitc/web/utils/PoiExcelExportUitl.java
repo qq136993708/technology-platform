@@ -110,7 +110,7 @@ public class PoiExcelExportUitl<T> {
                     	value=o.toString();
                     }
                     
-                    System.out.println("------------>>数据值:"+value);
+                    //System.out.println("------------>>数据值:"+value);
                     isnum = false;
                     /*for (int z = 0; z < numerics.length; z++) {
                         if (numerics[z] == k) {
