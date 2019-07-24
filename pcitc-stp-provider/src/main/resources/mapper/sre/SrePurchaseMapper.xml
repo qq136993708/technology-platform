@@ -38,30 +38,6 @@
     purchase_code, document_doc_purchase_request, document_doc_agreement, document_doc_tender, 
     task_id
   </sql>
-  <sql id="selectCondition">
-    <trim prefix="WHERE" prefixOverrides="AND|OR">
-      <if test="state != null     and state !=''  ">   AND t.state = #{state}</if>
-      <if test="stage != null     and stage !=''  ">   AND t.stage >= #{stage}</if>
-      <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
-      <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
-      <if test="purchaseCode != null and purchaseCode  !='' ">               AND t.purchase_code like CONCAT('%',#{purchaseCode},'%')</if>
-      <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
-      <if test="departCode != null        and departCode !=''  ">       AND t.depart_code = #{departCode}</if>
-      <if test="parentUnitPathIds != null        and parentUnitPathIds !=''  ">       AND t.parent_unit_path_id = #{parentUnitPathIds}</if>
-      <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
-    </trim>
-  </sql>
-  <sql id="selectCondition2">
-    <if test="stage != null     and stage !=''  ">   AND t.stage >= #{stage}</if>
-    <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
-    <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
-    <if test="purchaseCode != null and purchaseCode  !='' ">               AND t.purchase_code like CONCAT('%',#{purchaseCode},'%')</if>
-    <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
-    <if test="departCode != null        and departCode !=''  ">       AND t.depart_code = #{departCode}</if>
-    <if test="parentUnitPathIds != null        and parentUnitPathIds !=''  ">       AND t.parent_unit_path_id = #{parentUnitPathIds}</if>
-    <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
-    <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
-  </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -377,6 +353,20 @@
       task_id = #{taskId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <sql id="selectCondition">
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      <if test="state != null     and state !=''  ">   AND t.state = #{state}</if>
+      <if test="stage != null     and stage !=''  ">   AND t.stage >= #{stage}</if>
+      <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
+      <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
+      <if test="purchaseCode != null and purchaseCode  !='' ">               AND t.purchase_code like CONCAT('%',#{purchaseCode},'%')</if>
+      <if test="parentUnitPathNames != null and parentUnitPathNames  !='' ">AND t.parent_unit_path_names like CONCAT('%',#{parentUnitPathNames},'%')</if>
+      <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
+      <if test="departCode != null        and departCode !=''  ">       AND t.depart_code = #{departCode}</if>
+      <if test="parentUnitPathIds != null        and parentUnitPathIds !=''  ">       AND t.parent_unit_path_id = #{parentUnitPathIds}</if>
+      <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
+    </trim>
+  </sql>
   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
     select * from sre_purchase t <include refid="selectCondition" />
     <choose>
@@ -386,11 +376,5 @@
       </otherwise>
     </choose>
     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
-  </select>
-  <select id="getPassList" resultMap="BaseResultMap" parameterType="Map" >
-    select * from sre_purchase t where t.state >=${state} <include refid="selectCondition2" />
-  </select>
-  <select id="getContractClosedList" resultMap="BaseResultMap" parameterType="Map" >
-    select * from sre_purchase t where  t.state='60' or t.state='70' <include refid="selectCondition2" />
   </select>
 </mapper>

@@ -16,12 +16,21 @@
     <form action=""  name="form1" id="form1" action="" method="POST">
         <input type="hidden" name="departCode" id="departCode" value="${departCode}">
         <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
-
+        <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
     </form>
     <!--查询条件-->
     <label class="dateInput">
         <span>申请名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
+    </label>
+    <label class="dateInput" style="margin-left:10px;" id="bodyId">
+        <span>研究院</span>
+        <select name="parentUnitPathNames" id="parentUnitPathNames"  class="form-control"  >
+            <option value="" >--请选择--</option>
+            <#list leaddicList as vo>
+            <option value="${vo.numValue}"  >${vo.name}</option>
+        </#list>
+        </select>
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -51,7 +60,15 @@
     <button class="layui-red layui-btn-primary layui-btn-xs">未上报</button>
     {{#  } }}
 </script>
-
+<script type="text/javascript">
+    $(function(){
+        if(isKJBPerson=="true" || isKJBPerson==true){
+            document.getElementById("bodyId").style.display = "inline";
+        }else{
+            document.getElementById("bodyId").style.display = "none";
+        }
+    })
+</script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -98,6 +115,7 @@
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
+    var isKJBPerson=$('#isKJBPerson').val();
     var table,selectRowData;
     var contractCode=$('#contractCode').val();
     layui.use(['jquery','table','laypage','form','layer','laytpl','laydate',"publicMethods"], function(){
@@ -119,6 +137,7 @@
             },
             resetEvent: function() { //点击重置按钮
                 $('#purchaseName').val("");
+                $('#parentUnitPathNames').val("");
             },
             upQianEvent: function(){ //上传到货签收单
                 if (typeof(selectRowData) == "undefined")
@@ -201,7 +220,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"purchaseName":$("#purchaseName").val(),"departCode":$("#departCode").val(),"stage":"5","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"purchaseName":$("#purchaseName").val(),"departCode":$("#departCode").val(),"stage":"5","setupYear":$("#setupYear").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
