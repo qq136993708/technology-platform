@@ -44,6 +44,7 @@ import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.equipment.SreDetail;
 import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.stp.equipment.UnitField;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
@@ -96,7 +97,19 @@ public class DetailController extends BaseController {
 		String applyDepartCode = map.get("applyDepartCode");// 申报部门
 		String unitPathIds= map.get("applyDepartCode");
 		String unitPathNames= map.get("applyDepartName");
-		
+		String unitPathId = sysUserInfo.getUnitPath();
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+	    request.setAttribute("isKJBPerson", isKJBPerson);
+	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+	    String str ="1";
+	    if(isKJBPerson == true) {
+	    	//获取研究院
+			request.setAttribute("dictonary", dictonary);
+			request.setAttribute("str", "1");
+	    }else {
+	    	request.setAttribute("dictonary", dictonary);
+	    	request.setAttribute("str", "0");
+	    }
 		request.setAttribute("unitPathIds", unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/detail/detail-list";
