@@ -469,6 +469,19 @@ public class OutProjectServiceImpl implements OutProjectService {
         System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
 
         LayuiTableData data = new LayuiTableData();
+        
+        // 查询科研奖励数据，单独查询，联合查询效率太慢
+        StringBuffer sb = new StringBuffer("");
+        for (int i = 0 ; i < pageInfo.getList().size(); i++) {
+        	HashMap<String, Object> temMap = pageInfo.getList().get(i);
+        	String temHth = temMap.get("hth").toString();
+        	if (i == 0) {
+        		sb.append(temHth);
+        	} else {
+        		sb.append(",");
+        		sb.append(temHth);
+        	}
+        }
         data.setData(pageInfo.getList());
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
