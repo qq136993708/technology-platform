@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <!--表格数据操作js-->
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
 </head>
 
 <body>
@@ -35,15 +37,6 @@
         </#list>
         </select>
     </label>
-    <script type="text/javascript">
-        $(function(){
-            if(isKJBPerson=="true" || isKJBPerson==true){
-                document.getElementById("bodyId").style.display = "inline";
-            }else{
-                document.getElementById("bodyId").style.display = "none";
-            }
-        })
-    </script>
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -74,7 +67,15 @@
     <button class="layui-red layui-btn-primary layui-btn-xs">未签收</button>
     {{#  } }}
 </script>
-
+<script type="text/javascript">
+    $(function(){
+        if(isKJBPerson=="true" || isKJBPerson==true){
+            document.getElementById("bodyId").style.display = "inline";
+        }else{
+            document.getElementById("bodyId").style.display = "none";
+        }
+    })
+</script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -118,8 +119,7 @@
     }
 </script>
 
-<!--表格数据操作js-->
-<script src="/common/js/jquery-1.11.3.min.js"></script>
+
 <script>
     var isKJBPerson=$('#isKJBPerson').val();
     var table,selectRowData;

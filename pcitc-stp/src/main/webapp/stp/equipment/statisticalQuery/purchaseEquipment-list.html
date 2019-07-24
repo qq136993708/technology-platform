@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <!--表格数据操作js-->
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
 </head>
 
 <body>
@@ -21,6 +23,15 @@
     <label class="dateInput">
         <span>申请名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
+    </label>
+    <label class="dateInput" style="margin-left:10px;" id="bodyId">
+        <span>研究院</span>
+        <select name="parentUnitPathNames" id="parentUnitPathNames"  class="form-control"  >
+            <option value="" >--请选择--</option>
+            <#list leaddicList as vo>
+            <option value="${vo.numValue}"  >${vo.name}</option>
+        </#list>
+        </select>
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -39,11 +50,19 @@
 </div>
 
 
-<div class="tableBox">
+<!--<div class="tableBox">
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
-</div>
+</div>-->
 
-
+<script type="text/javascript">
+    $(function(){
+        if(isKJBPerson=="true" || isKJBPerson==true){
+            document.getElementById("bodyId").style.display = "inline";
+        }else{
+            document.getElementById("bodyId").style.display = "none";
+        }
+    })
+</script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -87,9 +106,9 @@
     }
 </script>
 
-<!--表格数据操作js-->
-<script src="/common/js/jquery-1.11.3.min.js"></script>
+
 <script>
+    var isKJBPerson=$('#isKJBPerson').val();
     var table,selectRowData;
     var contractCode=$('#contractCode').val();
     layui.use(['jquery','table','laypage','layer','laytpl','laydate'], function(){
@@ -116,6 +135,8 @@
                 $('#purchaseName').val("");
                 $('#createDate').val("");
                 $('#proposerName').val("");
+                $('#parentUnitPathNames').val("");
+
             },
             detailEvent: function(){  //点击详情按钮
                 if (typeof(selectRowData) == "undefined") {
@@ -175,7 +196,7 @@
             elem: '#processdef-table',
             url: '/sre-statisticalQuery/purchaseEquipmentList',
             method:"POST",
-            where: {param: {/*"isKJBPerson":$("#isKJBPerson").val(),*/"purchaseName":$("#purchaseName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val()}},
+            where: {param: {"purchaseName":$("#purchaseName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
