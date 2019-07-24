@@ -65,9 +65,20 @@ public class InvestmentProgressController extends BaseController {
 		String parentUnitPathIds = map.get("unitCode");// 申报单位
 		String applyDepartName = map.get("applyDepartName");// 申报部门
 		String applyDepartCode = map.get("applyDepartCode");// 申报部门
-		String unitPathIds= map.get("applyDepartCode");
 		String unitPathNames= map.get("applyDepartName");
-
+		String unitPathIds = sysUserInfo.getUnitPath();
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+	    request.setAttribute("isKJBPerson", isKJBPerson);
+	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+	    String str ="1";
+	    if(isKJBPerson == true) {
+	    	//获取研究院
+			request.setAttribute("dictonary", dictonary);
+			request.setAttribute("str", "1");
+	    }else {
+	    	request.setAttribute("dictonary", dictonary);
+	    	request.setAttribute("str", "0");
+	    }
 		request.setAttribute("applyDepartCode", applyDepartCode);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/Investmentrogress/Investmentrogress-list";

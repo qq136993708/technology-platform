@@ -61,12 +61,14 @@ public  class TaskCosureServiceImpl implements TaskCosureService {
 		String applyDepartCode=getTableParam(param,"applyDepartCode","");
 		String unitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
+		String topicConten = getTableParam(param, "topicConten", "");
 		Map map = new HashMap();
 		map.put("closeStatus", closeStatus);
 		map.put("topicName", topicName);
 		map.put("setupYear", setupYear);
 		map.put("firstApplyUser", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
+		map.put("contractNum", topicConten);
 		
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 //		if(!applyDepartCode.equals(""))

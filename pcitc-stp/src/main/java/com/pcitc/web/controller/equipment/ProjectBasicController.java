@@ -91,7 +91,19 @@ public class ProjectBasicController extends BaseController {
 
 	@RequestMapping(value = "/project-list-kjb")
 	public String kjb(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		String unitPathIds = sysUserInfo.getUnitPath();
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+	    request.setAttribute("isKJBPerson", isKJBPerson);
+	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+	    String str ="1";
+	    if(isKJBPerson == true) {
+	    	//获取研究院
+			request.setAttribute("dictonary", dictonary);
+			request.setAttribute("str", "1");
+	    }else {
+	    	request.setAttribute("dictonary", dictonary);
+	    	request.setAttribute("str", "0");
+	    }
 		//归属部门
 		List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 		request.setAttribute("departmentList", departmentList);
@@ -105,7 +117,7 @@ public class ProjectBasicController extends BaseController {
 		List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
 						httpHeaders);
 				request.setAttribute("dicList", dicList);
-				
+			
 		return "/stp/equipment/project/project-list-kjb";
 	}
 

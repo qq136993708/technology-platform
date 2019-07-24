@@ -345,6 +345,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		
 		String belongDepartmentCode=getTableParam(param,"belongDepartmentCode","");
 		String professionalDepartCode=getTableParam(param,"professionalDepartCode","");
+		String contractNum=getTableParam(param,"contractNum","");
+		String leadUnit=getTableParam(param,"leadUnitCode","");
 		
 		Map map=new HashMap();
 		map.put("belongDepartmentName", belongDepartmentName);
@@ -371,8 +373,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("taskId", taskId);
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
-		
-		
+		map.put("contractNum", contractNum);
+		map.put("leadUnitName", leadUnit);
 		List<SreProject> list = sreProjectMapper.getList(map);
 		PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
@@ -1392,6 +1394,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String closeStatus = getTableParam(param, "closeStatus","");
 		String setupYear = getTableParam(param, "setupYear", "");
 		String topicName = getTableParam(param, "topicName", "");
+		String topicConten = getTableParam(param, "topicConten", "");
 		String applyDepartName=getTableParam(param,"applyDepartName","");
 		String applyDepartCode=getTableParam(param,"applyDepartCode","");
 		String unitPathIds=getTableParam(param,"unitPathIds","");
@@ -1402,6 +1405,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("setupYear", setupYear);
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
+		map.put("contractNum", topicConten);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 //		if(!applyDepartCode.equals(""))
 //		{
