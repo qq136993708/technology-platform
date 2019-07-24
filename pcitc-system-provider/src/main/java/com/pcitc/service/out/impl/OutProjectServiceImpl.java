@@ -459,9 +459,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		System.out.println(">>>>>>>封装后->参数： " + hashmapstr.toString());
 
 		List list = outProjectInfoMapper.selectProjectInfoWithAllInfoByCond(hashmap);
-		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
 		PageInfo<HashMap<String, String>> pageInfo = new PageInfo<HashMap<String, String>>(list);
-		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
 
 		LayuiTableData data = new LayuiTableData();
 
