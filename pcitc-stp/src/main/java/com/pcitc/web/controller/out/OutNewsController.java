@@ -22,30 +22,32 @@ import com.pcitc.web.utils.RestfulHttpClient;
  *
  */
 @Controller
-public class OutNewsController extends BaseController 
-{
+public class OutNewsController extends BaseController {
 	private static final String OUT_URL = "http://10.1.19.131:9001/DataService/BasicQuery/Sql";
 
 	/**
 	 * 新闻工作动态
+	 * 
 	 * @param param
 	 * @return
 	 */
 	@RequestMapping(value = "/out/news-workdynamics-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object outAppraisalList(@ModelAttribute("param") LayuiTableParam param) {
-		
+
 		JSONArray jsArr = getDataService(OUT_URL);
-		//[{"xxbt":"关于2019年新开科研项目合同（任务书）上报相关事宜的通知","fbsj":"2019-06-03T16:59:22"}]
-		return jsArr.toString();
+		// [{"xxbt":"关于2019年新开科研项目合同（任务书）上报相关事宜的通知","fbsj":"2019-06-03T16:59:22"}]
+		return jsArr == null ? null : jsArr.toString();
 	}
+
 	/**
 	 * 获取新闻列表
+	 * 
 	 * @param url
 	 * @param jo
 	 * @return
 	 */
-	private JSONArray getDataService(String url){
+	private JSONArray getDataService(String url) {
 		String result = null;
 		try {
 			RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(url);
@@ -61,12 +63,12 @@ public class OutNewsController extends BaseController
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("sqlName", "GetInfoList_KJBL");
 			JsonObject jo = new JsonObject();
-			//System.out.println(jo.toString());
-			//jo.addProperty("ND", "2019");
-			//jo.addProperty("ksrq", "2018-01-01");
-			//jo.addProperty("jzrq", "2018-02-05");
+			// System.out.println(jo.toString());
+			// jo.addProperty("ND", "2019");
+			// jo.addProperty("ksrq", "2018-01-01");
+			// jo.addProperty("jzrq", "2018-02-05");
 
-			//System.out.println(jo.toString());
+			// System.out.println(jo.toString());
 			paramMap.put("conditions", jo.toString());
 			client.queryParams(paramMap);
 			RestfulHttpClient.HttpResponse response = client.request();
@@ -79,7 +81,7 @@ public class OutNewsController extends BaseController
 				return jsArr;
 			}
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 		return null;
 	}
