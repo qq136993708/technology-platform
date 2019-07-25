@@ -163,15 +163,17 @@ public class ProjectTaskAcController extends BaseController{
 		record.setId(id);
 		record.setStatus(status);
 
-		SreProjectAudit sreProjectAudit = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectAudit.class).getBody();
-		if (sreProjectAudit!=null){
-			String projecttaskid = sreProjectAudit.getProjecttaskid();
+		if (status.equals("50")){
+            SreProjectAudit sreProjectAudit = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectAudit.class).getBody();
+            if (sreProjectAudit!=null){
+                String projecttaskid = sreProjectAudit.getProjecttaskid();
 
-			SreProjectTask sreProjectTask = EquipmentUtils.getSreProjectTask(projecttaskid, restTemplate, httpHeaders);
-			if (sreProjectTask!=null){
-				sreProjectTask.setIsCheck("1");
-				EquipmentUtils.updateSreProjectTask(sreProjectTask, restTemplate, httpHeaders);
-			}
+                SreProjectTask sreProjectTask = EquipmentUtils.getSreProjectTask(projecttaskid, restTemplate, httpHeaders);
+                if (sreProjectTask!=null){
+                    sreProjectTask.setIsCheck("1");
+                    EquipmentUtils.updateSreProjectTask(sreProjectTask, restTemplate, httpHeaders);
+                }
+            }
 		}
 
 		responseEntity = restTemplate.exchange(SUBMITAUDIT_URL, HttpMethod.POST,new HttpEntity<SreProjectAudit>(record, this.httpHeaders),String.class);
