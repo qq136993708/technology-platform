@@ -124,6 +124,7 @@ public class DetailServiceImpl implements DetailService {
         System.out.println(calendar.getTime());
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMM");//设置日期格式
 		map.put("g0cald", df.format(calendar.getTime()));
+		List<SreEquipmentLedger> sreequin = new ArrayList<SreEquipmentLedger>();
 		List<SreDetail> sreSunlike = new ArrayList<SreDetail>();
 		List<SreDetail> list = detailMapper.getList(map);
 		if(list.size()!=0) {
@@ -131,12 +132,13 @@ public class DetailServiceImpl implements DetailService {
 				for(SreDetail detail : list) {
 					SreScrapApply  sreScrap= sreScrapApplyMapper.getEquinntId(detail.getEquipmentId());
 					if(sreScrap==null) {
+						if(!detail.getAssetNumber().equals("")) {
 						map.put("g0anln1", detail.getAssetNumber());
 						map.put("g0gsdm", detail.getSupplier());
-						List<SreEquipmentLedger> sreequin  = sreEquipmentLedgerMapper.getSreDetailId(map);
+						sreequin  = sreEquipmentLedgerMapper.getSreDetailId(map);
+						}
 						if(sreequin.size()!=0) {
 						for(SreEquipmentLedger ledasd : sreequin) {
-							if(ledasd!=null) {
 								detail.setG0NDURJ(ledasd.getG0ndjar().toString());//使用年限
 								detail.setG0SCHRW(ledasd.getG0schrw().toString());//资产残值
 								detail.setG0LJGZYZJE(ledasd.getG0ljgzyzje().toString());//账面净额
@@ -144,8 +146,15 @@ public class DetailServiceImpl implements DetailService {
 								detail.setG0NCGZYZJE(ledasd.getG0ncgzyzje().toString());//年初购置价值
 								detail.setG0LJZJJE(ledasd.getG0ljzjje().toString());//累计折旧
 								sreSunlike.add(detail);
-							}
 						  }
+						}else {
+							detail.setG0NDURJ("");//使用年限
+							detail.setG0SCHRW("");//资产残值
+							detail.setG0LJGZYZJE("");//账面净额
+							detail.setG0LJDJZJJE("");//预付定金
+							detail.setG0NCGZYZJE("");//年初购置价值
+							detail.setG0LJZJJE("");//累计折旧
+							sreSunlike.add(detail);
 						}
 					  }
 				}
