@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetOtherPayMoney;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 
 @Controller
@@ -42,6 +44,10 @@ public class BudgetOtherPayMoneyController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_otherpaymoney_edit")
 	public Object toBudgetOtherPayMoneyEditPage(HttpServletRequest request) throws IOException 
 	{
+		String dataId =request.getParameter("dataId");
+		if(StringUtils.isBlank(dataId)) {
+			dataId = IdUtil.createIdByTime();
+		}
 		request.setAttribute("dataId", request.getParameter("dataId"));
 		request.setAttribute("nd", request.getParameter("nd"));
 		return "stp/budget/budget_otherpaymoney_edit";

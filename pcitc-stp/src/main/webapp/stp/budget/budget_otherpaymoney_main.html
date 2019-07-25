@@ -67,6 +67,9 @@
     		var lodingMsg = layer.msg('数据加载中....');
     		var cols = [
     			{
+    				type:'checkbox',style: 'cursor: pointer;',width: 55
+    			},
+    			{
     				type:'numbers',
                     title: "序号", event: 'setActive', style: 'cursor: pointer;',align:'center',width: 80
                 },
@@ -88,7 +91,7 @@
                 },
                 {
                     field: "money",
-                    title: "支出金额", event: 'setActive', style: 'cursor: pointer;',align:'center',width: 150
+                    title: "支出金额（万元）", event: 'setActive', style: 'cursor: pointer;',align:'right',width: 250
                 },
                 {
                     field: "remark",
@@ -101,8 +104,11 @@
     			layer.close(lodingMsg);
     			$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
                 	var index=parseInt($(this).index()+1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData=res.data[index-1];
-                    console.log(selectRowData);
                 }); 
     		});
 	        $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
