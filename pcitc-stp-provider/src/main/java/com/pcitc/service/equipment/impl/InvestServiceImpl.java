@@ -105,7 +105,7 @@ public  class InvestServiceImpl implements InvestService {
 				mentrogress.setPurchaseState(quipment.getPurchaseStatus());//获取采购状态
 			}
 			SreProjectTask sreProjectTask = sreProjectTaskMapper.selectByTopicKey(String.valueOf(sreProject.getId()));//通过课题ID获取任务数据
-			if(sreProjectTask!=null) {
+			if(sreProjectTask!=null&&sreProjectTask.getContractNum()!=null) {
 				mentrogress.setContractState(sreProjectTask.getContractNum());//获取合同编号
 				mentrogress.setTaskCloseState(sreProjectTask.getCloseStatus());//获取任务关闭状态
 				mentrogress.setAcceptanceState(sreProjectTask.getIsCheck());//获取项目验收状态
@@ -167,6 +167,12 @@ public  class InvestServiceImpl implements InvestService {
 					mentrogress.setPurchaseState("2");//获取采购状态
 					mentrogress.setContractState("");//获取合同编号
 				}
+		}else {
+			mentrogress.setTaskCloseState("10");//获取任务书关闭状态
+			mentrogress.setPurchaseState("10");//获取采购状态
+			mentrogress.setAcceptanceState("10");//获取项目验收状态
+			mentrogress.setContractState("10");//获取合同编号
+			mentrogress.setForapplicationState("10");//获取转资状态
 		}
 			list.add(mentrogress);
 		}

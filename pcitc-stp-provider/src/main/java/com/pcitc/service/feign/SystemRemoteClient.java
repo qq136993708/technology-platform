@@ -16,6 +16,10 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkExtractConfig;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.stp.system.SysMeeting;
+import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysFunction;
+import com.pcitc.base.system.SysPost;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
 
 import io.swagger.annotations.ApiOperation;
@@ -81,6 +85,10 @@ public interface SystemRemoteClient {
     public LayuiTableData getOutProjectListPageExpert(@RequestBody LayuiTableParam param) throws Exception;
     //自定义查询项目信息
     @RequestMapping(value = "/out-provider/selectByExample", method = RequestMethod.POST)
+    public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) throws Exception;
+    //根据菜单URL查询菜单信息
+    @RequestMapping(value = "/function-provider/get-by-url", method = RequestMethod.POST)
+	public SysFunction getFunctionByUrl(@RequestBody String url);
     public List<OutProjectInfo> selectByExample(@RequestBody OutProjectInfoExample example) throws Exception;
     //自定义查询index课题信息
     @RequestMapping(value = "/indexoutprojectinfo-provider/indexoutprojectinfo/selectByExample", method = RequestMethod.POST)

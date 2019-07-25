@@ -301,7 +301,7 @@
 			count(*) as zsl
 		from out_reward
 		where 
-		sbjz is not null 
+		sbjz is not null and sbzt = '已上报'
 		GROUP BY sbjz
 	</select>
 </mapper>

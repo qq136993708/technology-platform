@@ -147,7 +147,7 @@
 							<table id="zylbbmTable" class="layui-hide" lay-filter="zylbbmTableEvent"></table>
 						</div>
 					</div>
-					
+
 					<div class="treeTableBox" style="display: none; margin-top: 6px; margin-left: 50%; margin-right: 0;" name="configDiv" id="zsyjy">
 						<div class="tableToolBox">
 							研究院配置项
@@ -167,6 +167,29 @@
 						</div>
 						<div id="zsyjyContaints">
 							<table id="zsyjyTable" class="layui-hide" lay-filter="zsyjyTableEvent"></table>
+						</div>
+					</div>
+
+
+					<div class="treeTableBox" style="display: none; margin-top: 6px; margin-left: 50%; margin-right: 0;" name="configDiv" id="jlxkfl">
+						<div class="tableToolBox">
+							奖励技术分类配置项
+							<span>
+								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add1 btnMyBgImg thirdBtn" data-type="saveJlxkflEvent">保存</button>
+							</span>
+							连接符
+							<span>
+								<select id="connectorJlxkfl" name="connectorJlxkfl">
+									<option value=",">,</option>
+									<option value="|">|</option>
+									<option value="*">*</option>
+									<option value="-">-</option>
+									<option value="&">&</option>
+								</select>
+							</span>
+						</div>
+						<div id="jlxkflContaints">
+							<table id="jlxkflTable" class="layui-hide" lay-filter="jlxkflTableEvent"></table>
 						</div>
 					</div>
 
@@ -259,6 +282,9 @@
 							}
 							if (configProCode == 'zsyjy') {
 								iniZsyjy();
+							}
+							if (configProCode == 'jlxkfl') {
+								iniJlxkfl();
 							}
 						}
 					},
@@ -377,6 +403,9 @@
 							if (configProCode == 'zsyjy') {
 								iniZsyjy();
 							}
+							if (configProCode == 'jlxkfl') {
+								iniJlxkfl();
+							}
 						})
 					}
 				});
@@ -406,7 +435,7 @@
 							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
 							maxmin : true,
 							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-							area : [ '70%', '50%' ],
+							area : [ '70%', '90%' ],
 							content : temUrl
 						});
 					}
@@ -582,6 +611,9 @@
 				}
 				if (configProCode == 'zsyjy') {
 					iniZsyjy();
+				}
+				if (configProCode == 'jlxkfl') {
+					iniJlxkfl();
 				}
 			}
 
@@ -1012,9 +1044,9 @@
 					type : 'numbers',
 					width : 45
 				}, {
-					field : 'name',
+					field : 'selfName',
 					title : '名称',
-					width : '20%',
+					width : '30%',
 					style : 'cursor: pointer;'
 				}, {
 					field : 'num_value',
@@ -1128,7 +1160,7 @@
 				}, {
 					field : 'name',
 					title : '名称',
-					width : '60%',
+					width : '50%',
 					style : 'cursor: pointer;'
 				}, {
 					field : 'num_value',
@@ -1193,7 +1225,7 @@
 			});
 		}
 	</script>
-	
+
 	<!-- 配置专业处专业  一个配置项一个js-->
 	<script type="text/javascript">
 		var zylbbmTable;
@@ -1305,9 +1337,9 @@
 			});
 		}
 	</script>
-	
-	
-	
+
+
+
 	<!-- 配置研究院zsyjy 一个配置项一个js-->
 	<script type="text/javascript">
 		var zsyjyTable;
@@ -1350,9 +1382,9 @@
 					type : 'numbers',
 					width : 45
 				}, {
-					field : 'name',
+					field : 'selfName',
 					title : '名称',
-					width : '20%',
+					width : '30%',
 					style : 'cursor: pointer;'
 				}, {
 					field : 'num_value',
@@ -1406,6 +1438,116 @@
 					"proCode" : configProCode,
 					"postConfigValue" : JSON.stringify(configValue),
 					"connector" : $("#connectorZsyjy").val(),
+				},
+				url : '/userProperty/function/config/post/save',
+				success : function(data) {
+					layer.msg("操作成功");
+				},
+				error : function(e) {
+					layer.msg("出错了！");
+				}
+			});
+		}
+	</script>
+	
+	<!-- 配置奖励技术分类jlxkfl 一个配置项一个js-->
+	<script type="text/javascript">
+		var jlxkflTable;
+		layui.use([ 'jquery', 'table' ], function() {
+
+			jlxkflTable = layui.table, $ = layui.jquery;
+			// 触发不同的按钮事件
+			var active = {
+				saveJlxkflEvent : function() {
+					saveJlxkflConfigEvent();
+				}
+			};
+
+			//区别按钮属性
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+
+		//渲染
+		function renderJlxkflTable() {
+			jlxkflTable.render({
+				elem : '#jlxkflTable',
+				url : '/functionProperty/dictionary/data/control/list',
+				method : "POST",
+				id : 'jlxkflTable',
+				where : {
+					"proCode" : configProCode,
+					"postId" : configSelectPostId,
+					"functionId" : $('#funcId').val(),
+					"keyWord" : 'ROOT_FZJCZX_JLJSFL',
+				},
+				height : commonDislodgeTable() / 2 - 45,
+				cols : [ [ {
+					type : 'checkbox',
+					event : 'changeEvents'
+				}, {
+					title : '序号',
+					type : 'numbers',
+					width : 45
+				}, {
+					field : 'selfName',
+					title : '名称',
+					width : '30%',
+					style : 'cursor: pointer;'
+				}, {
+					field : 'num_value',
+					title : '编码',
+					style : 'cursor: pointer;'
+				} ] ],
+				done : function(res, curr, count) {
+					for (var i = 0; i < res.data.length; i++) {
+						if (typeof (res.data[i].is_available) != "undefined" && (res.data[i].is_available) == 1) {
+							res.data[i]["LAY_CHECKED"] = 'true';
+							//找到对应数据改变勾选样式，呈现出选中效果
+							var index = res.data[i]['LAY_TABLE_INDEX'];
+							$('#jlxkflContaints .layui-table tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+							$('#jlxkflContaints .layui-table tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+						}
+					}
+				},
+			});
+		}
+
+		function iniJlxkfl() {
+			renderJlxkflTable();
+		}
+
+		// 保存功能、配置项、岗位三者与 配置内容的关联（研究院）
+		function saveJlxkflConfigEvent() {
+			if (isBlank($('#funcId').val())) {
+				layer.msg('请点击选择功能菜单');
+				return false;
+			}
+			if (isBlank(configProCode)) {
+				layer.msg('请点击选择配置项');
+				return false;
+			}
+			if (isBlank(configPostIds)) {
+				layer.msg('请点击选择岗位(复选框)');
+				return false;
+			}
+
+			var jlxkflData = table.checkStatus('jlxkflTable').data;
+			var configValue = new Array();//要配置的功能
+			for (var i = 0; i < jlxkflData.length; i++) {
+				configValue.push(jlxkflData[i].num_value);
+			}
+			$.ajax({
+				type : 'post',
+				dataType : 'text',
+				data : {
+					"postId" : JSON.stringify(configPostIds),
+					"functionId" : $('#funcId').val(),
+					"proCode" : configProCode,
+					"postConfigValue" : JSON.stringify(configValue),
+					"connector" : $("#connectorJlxkfl").val(),
 				},
 				url : '/userProperty/function/config/post/save',
 				success : function(data) {

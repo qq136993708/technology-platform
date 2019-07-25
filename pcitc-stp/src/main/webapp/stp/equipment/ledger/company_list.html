@@ -11,10 +11,10 @@
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <script type="text/javascript" src="/stp/equipment/js/equipment.js"></script>
      <input  name="str"     id="str"      value="${str}"    type="hidden">
+     <input name="g0gsjc" id="g0gsjc" type="hidden" value="${g0gsjc}">
 </head>
 <body>
 <div class="searchBox">
-<input name="g0gsjc" id="g0gsjc" type="hidden" value="${g0gsjc}">
       <label class="dateInput">
             <span>月份</span>
             <input type="text" name="month"  title="月份" placeholder="请输入月份" value="${month}"  id="month">
@@ -262,9 +262,8 @@ var name=$('#name').val();
     	}else{
     		month=month.replace("-","");
     	}
-    	
-       var g0gsjcyy = $("#g0gsjcyy").val();
-       if(g0gsjcyy!=""){
+       var g0gsjcyy = $("#leadUnitCode").val();
+       if(g0gsjcyy!=undefined&&g0gsjcyy!=""){
     	    $("#g0gsjc").val(g0gsjcyy);
        }
     	//渲染leadUnitCode

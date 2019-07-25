@@ -367,7 +367,6 @@ public class ExpertController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/expertDetail", method = RequestMethod.GET)
-    @OperationFilter(modelName = "专家-专家详情", actionName = "专家详情pageExpertDetail")
     public String pageExpertDetail() {
         //专家详情
         String expertId = request.getParameter("expertId");
@@ -443,7 +442,6 @@ public class ExpertController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/expertDetailLeader", method = RequestMethod.GET)
-    @OperationFilter(modelName = "专家-专家详情", actionName = "专家详情expertDetailLeader")
     public String expertDetailLeader() {
         //专家详情
         String expertId = request.getParameter("expertId");

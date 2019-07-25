@@ -68,32 +68,52 @@
     		 layer.confirm('确定要对预算进行调整吗？', function(index){
              	layer.close(index);
 	    		publicMethods.ajaxPost("/budget/budget-info-create-bytemplate",{"nd":nd,"budgetType":budgetType,"dataId":dataId}, function (dt) {
-	    			//提示消息
-		    		layer.alert("数据克隆成功，开始调整！", {title : '提示'},function(i){
-						layer.close(i);
-						//跳转到编辑页面
-						if(budgetType==101){
-							parent.layui.index.openTabsPage("/budget/budget_main_grouptotal?nd="+nd+"&dataId="+dt.dataId, "集团公司预算表");
-						}else if(budgetType==102){
-							parent.layui.index.openTabsPage("/budget/budget_main_assettotal?nd="+nd+"&dataId="+dt.dataId, "资产公司预算表");
-						}else if(budgetType==103){
-							parent.layui.index.openTabsPage("/budget/budget_main_stocktotal?nd="+nd+"&dataId="+dt.dataId, "股份公司预算表");
-						}else if(budgetType==203){
-							parent.layui.index.openTabsPage("/budget/budget_main_groupsplit?nd="+nd+"&dataId="+dt.dataId, "集团公司预算分解表");
-						}else if(budgetType==204){
-							parent.layui.index.openTabsPage("/budget/budget_main_assetsplit?nd="+nd+"&dataId="+dt.dataId, "资产公司预算分解表");
-						}else if(budgetType==205){
-							parent.layui.index.openTabsPage("/budget/budget_main_stocksplit_zsy?nd="+nd+"&dataId="+dt.dataId, "股份公司预算分解表（直属院）");
-						}else if(budgetType==206){
-							parent.layui.index.openTabsPage("/budget/budget_main_stocksplit_xtw?nd="+nd+"&dataId="+dt.dataId, "股份公司预算分解表（集团单位、外部单位、盈科）");
-						}else if(budgetType==207){
-							parent.layui.index.openTabsPage("/budget/budget_main_stocksplit_zgs?nd="+nd+"&dataId="+dt.dataId, "股份公司预算分解表（分子公司等）");
-						}else{
-							console.log("......");
-						}
-		    		});
+					//跳转到编辑页面
+					if(budgetType==101){
+						parent.layui.index.openTabsPage("/budget/budget_main_grouptotal?nd="+nd+"&dataId="+dt.dataId, "集团公司预算表");
+					}else if(budgetType==102){
+						parent.layui.index.openTabsPage("/budget/budget_main_assettotal?nd="+nd+"&dataId="+dt.dataId, "资产公司预算表");
+					}else if(budgetType==103){
+						parent.layui.index.openTabsPage("/budget/budget_main_stocktotal?nd="+nd+"&dataId="+dt.dataId, "股份公司预算表");
+					}else if(budgetType==203){
+						parent.layui.index.openTabsPage("/budget/budget_main_groupsplit?nd="+nd+"&dataId="+dt.dataId, "集团公司预算分解表");
+					}else if(budgetType==204){
+						parent.layui.index.openTabsPage("/budget/budget_main_assetsplit?nd="+nd+"&dataId="+dt.dataId, "资产公司预算分解表");
+					}else if(budgetType==205){
+						parent.layui.index.openTabsPage("/budget/budget_main_stocksplit_zsy?nd="+nd+"&dataId="+dt.dataId, "股份公司预算分解表（直属院）");
+					}else if(budgetType==206){
+						parent.layui.index.openTabsPage("/budget/budget_main_stocksplit_xtw?nd="+nd+"&dataId="+dt.dataId, "股份公司预算分解表（集团单位、外部单位、盈科）");
+					}else if(budgetType==207){
+						parent.layui.index.openTabsPage("/budget/budget_main_stocksplit_zgs?nd="+nd+"&dataId="+dt.dataId, "股份公司预算分解表（分子公司等）");
+					}else{
+						console.log("......");
+					}
 	 		   	});
     		 });
+    	}
+    	window.budgetDetail = function(dataId,budgetType)
+    	{
+    		var temUrl;
+        	if(budgetType == 101){
+        		temUrl = "/budget/budget_detail_grouptotal?dataId="+dataId;
+        	}else if(budgetType == 102){
+        		temUrl = "/budget/budget_detail_assettotal?dataId="+dataId;
+        	}else if(budgetType == 103){
+        		temUrl = "/budget/budget_detail_stocktotal?dataId="+dataId;
+        	}else if(budgetType == 203){
+        		temUrl = "/budget/budget_detail_groupsplit?dataId="+dataId;
+        	}else if(budgetType == 204){
+        		temUrl = "/budget/budget_detail_assetsplit?dataId="+dataId;
+        	}else if(budgetType == 205){
+        		temUrl = "/budget/budget_detail_stocksplitzsy?dataId="+dataId;
+        	}else if(budgetType == 206){
+        		temUrl = "/budget/budget_detail_stocksplitxtw?dataId="+dataId;
+        	}else if(budgetType == 207){
+        		temUrl = "/budget/budget_detail_stocksplitzgs?dataId="+dataId;
+        	}
+        	if(temUrl){
+        		publicMethods.openBaseWinFull("详情",temUrl);
+        	}
     	}
     	window.renderTable = function(where){
     		var lodingMsg = layer.msg('数据加载中....');
@@ -104,7 +124,7 @@
                 },
                 {
                     field: "budgetName",
-                    title: "预算项目", event: 'setActive',align:'left', style: 'cursor: pointer;'
+                    title: "预算项目", event: 'setActive',align:'left', style: 'cursor: pointer;',templet:function(d){return '<span onclick="budgetDetail(\''+d.dataId+'\',\''+d.budgetType+'\')" style="color:#1890ff">'+d.budgetName+'</span>'}
                	},
     			{
                      field: "dataVersion",
@@ -143,30 +163,10 @@
     	renderTable(where);
         //监听表格复选框选择
         table.on('checkbox(organEvent)', function(obj){
-            console.log(obj);
+            //console.log(obj);
         });
         table.on('rowDouble(organEvent)', function(obj){
-        	var temUrl;
-        	if(obj.data.budgetType == 101){
-        		temUrl = "/budget/budget_detail_grouptotal?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 102){
-        		temUrl = "/budget/budget_detail_assettotal?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 103){
-        		temUrl = "/budget/budget_detail_stocktotal?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 203){
-        		temUrl = "/budget/budget_detail_groupsplit?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 204){
-        		temUrl = "/budget/budget_detail_assetsplit?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 205){
-        		temUrl = "/budget/budget_detail_stocksplitzsy?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 206){
-        		temUrl = "/budget/budget_detail_stocksplitxtw?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 207){
-        		temUrl = "/budget/budget_detail_stocksplitzgs?dataId="+obj.data.dataId;
-        	}
-        	if(temUrl){
-        		publicMethods.openBaseWinFull("详情",temUrl);
-        	}
+        	//console.log(obj);
         });
     });
 </script>
@@ -177,7 +177,7 @@
     <div class="tableToolBox">
     	<div class="num-box">
             <label class="dateInput">
-                <span>预算年度：</span>
+                <span>编制年度：</span>
                 <input type="text" id="choose-year" readonly="readonly">
             </label>
         </div>

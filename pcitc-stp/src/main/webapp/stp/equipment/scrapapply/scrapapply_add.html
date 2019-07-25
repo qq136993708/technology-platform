@@ -42,6 +42,7 @@
             <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
             <input name="functionId" id="functionId" type="hidden">
             <input type="hidden" value="1" id="sunlike" name="sunlike">
+            <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
@@ -132,7 +133,7 @@ var publicMethods;
 	            url: '/sre-detail/list',
 	            limit: 5,
 	            method:"POST",  
-	            where: {param:{"sunlike":$("#sunlike").val()}},
+	            where: {param:{"parentUnitPathIds":$("#parentUnitPathIds").val(),"sunlike":$("#sunlike").val()}},
 	        	id: 'notjoin_apply_table',
 	        	height: 220,
 	        	page: {

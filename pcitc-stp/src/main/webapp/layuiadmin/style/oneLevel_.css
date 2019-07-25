@@ -153,7 +153,7 @@ line-height: 60px;font-size: 22px;}
 .layui-level-main>div{float: left;}
 .layui-level-main .main-left{width: 183px;margin-right: 24px;}
 .main-one .main-left>div{height: 278px;box-sizing: border-box;background-color: #0068b7;border: 1px solid #0068b7;}
-.main-one .main-left>div:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;box-sizing: border-box;}
+/*.main-one .main-left>div:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;box-sizing: border-box;}*/
 .main-left .main-agency{margin-bottom: 12px;}
 .main-left .main-left-p{font-size: 16px; color: white;border-bottom: 1px solid #5296d6;margin: 17px 14px 0px 12px;
     padding-bottom: 4px;}
@@ -266,7 +266,7 @@ line-height: 60px;font-size: 22px;}
 .main-two .number{text-align: center;color: white;font-size: 24px;height: 24px;line-height: 24px;}
 .main-two .main-left1{float: none;position: relative;}
 .main-two .main-left1 a{width: auto;display: inline-block;}
-.main-two .main-left1 a>div,.main-two .main-left1>div{width: 183px;}
+.main-two .main-left1 a>div,.main-two .main-left1>div{width: 183px;cursor: pointer;}
 .petrification{background:#b265fb url("/layuiadmin/layui/images/unify.png") no-repeat right bottom;width: 100%;
     height: 131px;margin-bottom: 14px;}
 .main-two .main-left1 .main-left0{    background: #01a19a url(/layuiadmin/layui/images/unify.png) no-repeat right bottom;

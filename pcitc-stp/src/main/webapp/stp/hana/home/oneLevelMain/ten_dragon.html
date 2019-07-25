@@ -190,7 +190,6 @@
 			$(".layui-time1").html(year - 1);
 			laydate.render({
 				elem : '#year',
-				min : '2018-01-01',
 				type : 'year',
 				done : function(value, date, endDate) {
 					$(".layui-time").html(date.year);
@@ -533,9 +532,12 @@
 			}
 		}
 		function export_doc(date_year) {
-			//window.location.target = "_blank";
-			//window.location.href="/one_level_main/report_download/"+date_year;
-			window.open("/one_level_main/report_download/" + date_year);
+			if("2019" == date_year){
+				console.log(".....没有汇报材料材料!");
+			}else{
+				window.open("/one_level_main/report_download/" + date_year);
+			}
+			
 		}
 	</script>
 </body>
