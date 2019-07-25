@@ -266,7 +266,6 @@ public class SysFunctionPropertyController extends BaseController {
 		HttpEntity<HashMap<String, Object>> entity = new HttpEntity<HashMap<String, Object>>(map, this.httpHeaders);
 
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(SELECTED_LIST, HttpMethod.POST, entity, JSONArray.class);
-		System.out.println("======"+responseEntity.getBody().toJSONString());
 		
 		JSONArray jsonArr = responseEntity.getBody();
 		
@@ -275,7 +274,6 @@ public class SysFunctionPropertyController extends BaseController {
 		jsonObj.put("msg", "提示");
 		jsonObj.put("count", jsonArr.size());
 		jsonObj.put("data", jsonArr);
-		System.out.println("2====selectInstituteData====" + jsonObj.toString());
 		return jsonObj.toString();
 	}
 
