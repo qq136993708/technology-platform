@@ -9,6 +9,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.web.utils.EquipmentUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -160,6 +162,18 @@ public class ProjectTaskAcController extends BaseController{
 		SreProjectAudit record =new  SreProjectAudit();
 		record.setId(id);
 		record.setStatus(status);
+
+		SreProjectAudit sreProjectAudit = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectAudit.class).getBody();
+		if (sreProjectAudit!=null){
+			String projecttaskid = sreProjectAudit.getProjecttaskid();
+
+			SreProjectTask sreProjectTask = EquipmentUtils.getSreProjectTask(projecttaskid, restTemplate, httpHeaders);
+			if (sreProjectTask!=null){
+				sreProjectTask.setIsCheck("1");
+				EquipmentUtils.updateSreProjectTask(sreProjectTask, restTemplate, httpHeaders);
+			}
+		}
+
 		responseEntity = restTemplate.exchange(SUBMITAUDIT_URL, HttpMethod.POST,new HttpEntity<SreProjectAudit>(record, this.httpHeaders),String.class);
 		String success= "{}";
 		String getbody=responseEntity.getBody();
