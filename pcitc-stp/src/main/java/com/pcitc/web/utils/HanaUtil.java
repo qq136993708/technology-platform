@@ -5446,6 +5446,21 @@ public class HanaUtil {
 		return str;
 	}
 
+	
+	
+	public static String getBeforeYear_Moth() throws Exception {
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+
+		String monthstr = String.format("%02d", month);
+
+		String str = "" + (year) + "-" + monthstr;
+
+		System.out.println(">>>>>str=" + str);
+		return str;
+	}
+	
 	public static String getCurrent_Year_Moth() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);

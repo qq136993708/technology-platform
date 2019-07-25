@@ -941,6 +941,10 @@ public class ProjectTaskController extends BaseController {
 		Result resultsDate = new Result();
 		sreProjectTask.setContractNum(contractNum);
 		String str=EquipmentUtils.updateSreProjectTask(sreProjectTask,restTemplate,httpHeaders);
+		
+		SreProject sreProject=	EquipmentUtils.getSreProject(sreProjectTask.getTopicId(), restTemplate, httpHeaders);
+		sreProject.setContractNum(contractNum);
+		EquipmentUtils.updateSreProject(sreProject, restTemplate, httpHeaders);
 		if (!str.equals(""))
 		{
 			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());

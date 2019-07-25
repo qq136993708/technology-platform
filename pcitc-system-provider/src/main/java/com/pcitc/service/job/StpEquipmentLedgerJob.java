@@ -34,7 +34,6 @@ public class StpEquipmentLedgerJob implements Job, Serializable {
         EquipmentLedgerStpClient equipmentLedgerStpClient = SpringContextUtil.getApplicationContext().getBean(EquipmentLedgerStpClient.class);
 
         String  month="";
-        for (int i = 0; i < 6; i++) {
         System.out.println("调用feign获取ERP装备台账数据----"+new Date()+"-----------开始"+equipmentLedgerSysClient);
 
         HashMap<String, String> map = new HashMap<String, String>();
@@ -46,22 +45,9 @@ public class StpEquipmentLedgerJob implements Job, Serializable {
         Date m = c.getTime();
         String mon = format.format(m);
         Date date = DateUtil.strToDate(mon, DateUtil.FMT_MM);*/
-
-            if(i==0){
-                month="201901";
-            }else if(i==1){
-                month="201902";
-            }else if(i==2){
-                month="201903";
-            }else if(i==3){
-                month="201904";
-            }else if(i==4){
-                month="201905";
-            }else if(i==5){
-                month="201906";
-            }
-
-
+        System.out.println("开始_______________________________________________________________");
+        month="201906";
+        System.out.println("结束_______________________________________________________________");
 
         map.put("month", month/*DateUtil.dateToStr(date, DateUtil.FMT_MM)*/);
 
@@ -74,7 +60,6 @@ public class StpEquipmentLedgerJob implements Job, Serializable {
         }
 
         System.out.println("调用feign获取ERP装备台账数据----"+new Date()+"-----------结束"+resultList);
-    }
 
 
     }

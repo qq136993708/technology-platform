@@ -16,7 +16,7 @@
 <div class="searchBox">
       <label class="dateInput">
             <span>月份</span>
-            <input type="text" name="month"  title="月份" value="${month}"  id="month">
+            <input type="text" name="month"  title="月份" value="${month}"  readonly="readonly" id="month">
             <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
         </label>
         
@@ -176,7 +176,7 @@ var name=$('#name').val();
             resetEvent: function() { //点击重置按钮
             	$('#g0anln1').val("");
             	$('#g0gsjc').val("");
-            	$('#month').val("");
+            	//$('#month').val("");
             	$('#g0txt50').val("");
             	$('#leadUnitCode').val("");
             }

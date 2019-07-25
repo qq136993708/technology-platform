@@ -33,6 +33,7 @@ import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 public class EquipmentLedgerController extends BaseController{
@@ -102,6 +103,8 @@ public class EquipmentLedgerController extends BaseController{
 	    	request.setAttribute("dictonary", dictonary);
 	    	request.setAttribute("str", "0");
 	    }
+	    String month = HanaUtil.getBeforeYear_Moth();
+		request.setAttribute("month", month);
 		return "/stp/equipment/ledger/list";
 	}
 	@RequestMapping(value = "/sre_equipment_ledger/list_data")
