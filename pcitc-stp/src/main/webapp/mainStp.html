@@ -679,10 +679,12 @@
 					// 工作完成情况统计
 					publicMethods.ajaxAsyncPost('/admin/workorder/stat', null, function(data, status) {
 						if (data.success == true || data.success == 'true') {
-							lastWeekTotal = data.data.lastWeekTotal; // 上周应该处理的工作总数
-							lastWeekHaved = data.data.lastWeekHaved; // 上周处理的工作总数
-							thisWeekTotal = data.data.thisWeekTotal; // 本周安排出去的工作总数
-							thisWeekHaved = data.data.thisWeekHaved; // 本周安排出去已经完成的工作
+							if (typeof (data.data) != "undefined") {
+								lastWeekTotal = data.data.lastWeekTotal; // 上周应该处理的工作总数
+								lastWeekHaved = data.data.lastWeekHaved; // 上周处理的工作总数
+								thisWeekTotal = data.data.thisWeekTotal; // 本周安排出去的工作总数
+								thisWeekHaved = data.data.thisWeekHaved; // 本周安排出去已经完成的工作
+							}
 						}
 						if (lastWeekHaved == 0 && lastWeekTotal == 0) {
 							circle("circleOne", 0, lastWeekHaved + "/" + lastWeekTotal);
@@ -831,10 +833,12 @@
 									}
 								}
 								$("#pay_id").html(investMoneystr);
+							} else {
+								$("#pay_id").html("0");
 							}
 						},
 						error : function() {
-							//alert("您的网络不给力呀!");
+							$("#pay_id").html("0");
 						},
 						complete : function(XMLHttpRequest, status) {
 							if (status == 'timeout') {

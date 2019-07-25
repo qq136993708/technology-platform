@@ -73,9 +73,10 @@ public class SmallLeaderController extends BaseController {
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		System.out.println("getInvestmentAll=================" + zycbm);
 
+		JSONObject resultObj = new JSONObject();
 		if (zycbm.equals("")) {
 			// 无权限;
-			return null;
+			return resultObj.toString();
 		}
 		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 		List<String> list_1 = new ArrayList<>(set);
@@ -95,7 +96,7 @@ public class SmallLeaderController extends BaseController {
 			result.setSuccess(true);
 			result.setData(map);
 		}
-		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+		resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
 		System.out.println(">>>>>>>>>>>>>>>getInvestmentAll " + resultObj.toString());
 		return resault;
