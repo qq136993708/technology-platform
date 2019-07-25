@@ -19,35 +19,76 @@
 </head>
 <body>
 <form action="" id="budget-form" name="budget-form" lay-filter="budget-form" class="layui-form">
-	<input type="hidden" name="budgetInfoId" value="${budgetInfoId}">
-	<input type="hidden" name="dataId" value="${dataId}">
-	<input type="hidden" name="nd" id="nd" value="${nd}">
-	
-	<input type="hidden" name="xmjf" id="xmjf" value="0">
-	<input type="hidden" name="zxjf" id="zxjf" value="0">
-	<input type="hidden" name="total" id="total" value="0">
+<input type="hidden" name="dataId" id="dataId" value="${dataId}">
     <div class="con-box">
         <div class="formBox">
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">序号<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">支出年度<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" id="no" name="no" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
+                            <input class="layui-input" id="nd" name="nd" readonly="readonly" placeholder="" lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">承担单位<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">公司性质<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" name="displayName" id="displayName" placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
-                        	<input type="hidden" id="displayCode" name="displayCode">
+                        		<select name="budgetType" id="budgetType" lay-verify="required"  lay-filter="budgetType">
+                        			<option value="">--请选择公司性质--</option>
+									<option value="集团公司">集团公司</option>
+									<option value="资产公司">资产公司</option>
+									<option value="股份公司">股份公司</option>
+								</select>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">专业处/部门<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="organName" id="organName" placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">支出单位<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" id="splitName" name="splitName" placeholder="" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">金额（万元）<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" id="money" name="money" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">支出日期<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="payDate" id="payDate" readonly="readonly" placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="layui-form-item">
+		      	 <label class="layui-form-label">备注</label>
+		         <div class="layui-input-block">
+		         	   <textarea class="layui-textarea" rows="10" id="remark" name="remark" placeholder=""></textarea>
+		         </div>
+	       	</div>
+            <!-- <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">分类<span class="must-fill">*</span></label>
@@ -67,43 +108,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">项目经费结转<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <input class="layui-input" id="xmjfJz" name="xmjfJz" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">项目经费可新签<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <input type="text" id="xmjfXq" name="xmjfXq"  placeholder="" lay-verify="required|number" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">重点实验室专项结转<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <input class="layui-input" id="zxjfJz" name="zxjfJz" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">重点实验室专项可新签<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <input type="text" id="zxjfXq" name="zxjfXq"  placeholder="" lay-verify="required|number" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div> -->
+           
         </div>
     </div>
     <div class="form-bottom">
@@ -121,12 +127,26 @@
 		index : 'lib/index' //主入口模块
 	}).use(['index','jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ], function(){
         var $ = layui.jquery,form = layui.form,table = layui.table,laydate = layui.laydate,layer = layui.layer,publicMethods=layui.publicMethods;
-      	//集团分类编码字典 ROOT_JFYS_JTDWFL（动态字典，如果设置了年度字典则按年度字典获取）
+        var dataId = "${dataId}";
+        laydate.render({elem: '#nd',type: 'year',value: new Date()});
+        laydate.render({elem: '#payDate',type: 'date',value: new Date()});
+       
+        //集团分类编码字典 ROOT_JFYS_JTDWFL（动态字典，如果设置了年度字典则按年度字典获取）
         publicMethods.ajaxPost('/dictionary/list/ROOT_JFYS_JTDWFL'+nd, null, function (data, status) {
       		$.each(data,function(i,dt){
   	    		$("#simpleCode").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
   	    	});
 	    });
+        //organCode
+        
+        
+        publicMethods.ajaxAsyncPost('/budget/budget-otherpaymoney-get', {"dataId":dataId}, function (dt, status) {
+			form.val("budget-form",dt);
+			console.log(dt);
+        });
+       
+        
+        form.render();
         //监听select下拉选中事件
         form.on('select(type)', function(data){
             var elem = data.elem; //得到select原始DOM对象
@@ -136,8 +156,11 @@
         form.on('submit(saveEvent)', function(data){
             var lodingMsg = layer.msg('处理中....');
             //保存预算项目
-            publicMethods.ajaxAsyncPost('/budget/save-grouptotal-item', data.field, function (data, status) {
+            publicMethods.ajaxAsyncPost('/budget/budget-otherpaymoney-saveorupd', data.field, function (data, status) {
                 layer.close(lodingMsg);
+                var index = parent.layer.getFrameIndex(window.name);
+		       	parent.layer.close(index);
+		       	parent.renderTable();
             }); 
             //一定要加return false -- 2018.07.08
             return false;
