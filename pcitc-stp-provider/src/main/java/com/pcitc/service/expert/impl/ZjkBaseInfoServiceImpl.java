@@ -700,7 +700,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             ItemStyle itemStyle = new ItemStyle();
             itemStyle.normal().show(false);
             map_id.put(expertName,"0");
-            nodes.add(new ChartGraphDataNode(0, expertName, 100, "0",itemStyle,200,200));
+            nodes.add(new ChartGraphDataNode(0, expertName, null, "0",itemStyle,200,200,"50"));
             categories.add(new ChartForceCategories(expertName));
 
 //            String psName = "评审项目" + zjkChoices.size() + "个";
@@ -850,7 +850,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             //成果
             String cgName = "成果" + outAppraisalListPage.getCount() + "个";
             String cgValue = dataId + "cg";
-            nodes.add(new ChartGraphDataNode(6, cgName, cgValue, "6",itemStyle,220,200));
+            nodes.add(new ChartGraphDataNode(6, cgName, cgValue, "6",itemStyle,220,200,"20"));
             links.add(new ChartGraphDataLink("6", "0", link_index+++"", cgName));
             categories.add(new ChartForceCategories(cgName));
 
@@ -859,13 +859,14 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 String source = (6*1000+i)+"";
                 String name = list_appraisal.get(i).get("cgmc");
                 String value = list_appraisal.get(i).get("dataId");
-                nodes.add(new ChartGraphDataNode(6, name, value, source,itemStyle,240,300+i*10));
+                nodes.add(new ChartGraphDataNode(6, name, value, source,itemStyle,240,300+i*10,"10"));
                 links.add(new ChartGraphDataLink(source, "6", link_index+++"", name));
             }
             //奖励
             String awardName = "奖励" + outRewardListPage.getCount() + "个";
             String awardValue = dataId + "award";
-            nodes.add(new ChartGraphDataNode(7, awardName, awardValue, "7",itemStyle,220,400));
+            nodes.add(new ChartGraphDataNode(0, awardName, awardValue, "7",itemStyle,220,400,"20"));
+//            nodes.add(new ChartGraphDataNode(7, awardName, awardValue, "7",itemStyle,220,400));
             links.add(new ChartGraphDataLink("7", "0", link_index+++"", awardName));
             categories.add(new ChartForceCategories(awardName));
 
@@ -876,7 +877,8 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 String name = list_award.get(i).get("xmmc");
                 String value = list_award.get(i).get("dataId");
                 String source = (7*1000+i)+"";
-                nodes.add(new ChartGraphDataNode(7, name, value, source,itemStyle,220,200+i*10));
+                nodes.add(new ChartGraphDataNode(0, name, value, source,itemStyle,220,200+i*10,"10"));
+//                nodes.add(new ChartGraphDataNode(7, name, value, source,itemStyle,220,200+i*10));
                 links.add(new ChartGraphDataLink(source, "7", link_index+++"", name));
             }
             //图例

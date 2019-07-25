@@ -17,7 +17,7 @@ public class ChartGraphDataNode {
      * @param value
      * @param id
      */
-    public ChartGraphDataNode(int category, String name, Object value, String id,Object label,double x,double y) {
+    public ChartGraphDataNode(int category, String name, Object value, String id,Object label,double x,double y,String symbolSize) {
         this.category = category;
         this.name = name;
         this.value = value;
@@ -25,6 +25,7 @@ public class ChartGraphDataNode {
         this.label = label;
         this.x = x;
         this.y = y;
+        this.symbolSize = symbolSize;
     }
 
     @JSONField(ordinal = 1)

@@ -11,13 +11,10 @@ import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.stp.system.SysMeeting;
-import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysFunction;
+import com.pcitc.base.system.*;
 
 import org.springframework.stereotype.Component;
 
-import com.pcitc.base.system.SysPost;
-import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
 
 @Component
