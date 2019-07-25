@@ -10,6 +10,10 @@ public class BudgetOtherPayMoneyExample {
 
     protected List<Criteria> oredCriteria;
 
+    private Integer limit;
+
+    private Long offset;
+
     public BudgetOtherPayMoneyExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
@@ -61,6 +65,22 @@ public class BudgetOtherPayMoneyExample {
         oredCriteria.clear();
         orderByClause = null;
         distinct = false;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setOffset(Long offset) {
+        this.offset = offset;
+    }
+
+    public Long getOffset() {
+        return offset;
     }
 
     protected abstract static class GeneratedCriteria {
@@ -1063,8 +1083,140 @@ public class BudgetOtherPayMoneyExample {
             addCriterion("pay_date not between", value1, value2, "payDate");
             return (Criteria) this;
         }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDelFlagIsNull() {
+            addCriterion("del_flag is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDelFlagIsNotNull() {
+            addCriterion("del_flag is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDelFlagEqualTo(Integer value) {
+            addCriterion("del_flag =", value, "delFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDelFlagNotEqualTo(Integer value) {
+            addCriterion("del_flag <>", value, "delFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDelFlagGreaterThan(Integer value) {
+            addCriterion("del_flag >", value, "delFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDelFlagGreaterThanOrEqualTo(Integer value) {
+            addCriterion("del_flag >=", value, "delFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDelFlagLessThan(Integer value) {
+            addCriterion("del_flag <", value, "delFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDelFlagLessThanOrEqualTo(Integer value) {
+            addCriterion("del_flag <=", value, "delFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDelFlagIn(List<Integer> values) {
+            addCriterion("del_flag in", values, "delFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDelFlagNotIn(List<Integer> values) {
+            addCriterion("del_flag not in", values, "delFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDelFlagBetween(Integer value1, Integer value2) {
+            addCriterion("del_flag between", value1, value2, "delFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDelFlagNotBetween(Integer value1, Integer value2) {
+            addCriterion("del_flag not between", value1, value2, "delFlag");
+            return (Criteria) this;
+        }
     }
 
+    /**
+     */
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {

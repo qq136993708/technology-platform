@@ -1,5 +1,6 @@
 package com.pcitc.service.budget.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetOtherPayMoney;
 import com.pcitc.base.stp.budget.BudgetOtherPayMoneyExample;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.budget.BudgetOtherPayMoneyMapper;
 import com.pcitc.service.budget.BudgetOtherPayMoneyService;
@@ -43,6 +45,7 @@ public class BudgetOtherPayMoneyServiceImpl  implements BudgetOtherPayMoneyServi
 		Boolean status = false;
 		try 
 		{
+			bean.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 			Integer rs = mapper.insert(bean);
 			if(rs > 0) {
 				status = true;
@@ -112,8 +115,11 @@ public class BudgetOtherPayMoneyServiceImpl  implements BudgetOtherPayMoneyServi
 		Boolean status =  false;
 		try {
 			BudgetOtherPayMoney old = mapper.selectByPrimaryKey(bean.getDataId());
+			bean.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
+			bean.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 			if(old == null) 
 			{
+				bean.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				return this.saveBudgetOtherPayMoney(bean);
 			}else {
 				MyBeanUtils.copyPropertiesIgnoreNull(bean, old);
@@ -137,6 +143,9 @@ public class BudgetOtherPayMoneyServiceImpl  implements BudgetOtherPayMoneyServi
 	public LayuiTableData selectTableBudgetOtherPayMoney(LayuiTableParam param) 
 	{
 		BudgetOtherPayMoneyExample example = new BudgetOtherPayMoneyExample();
+		BudgetOtherPayMoneyExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		
 		return selectTableData(param, example);
 	}
 	@Override
@@ -148,7 +157,7 @@ public class BudgetOtherPayMoneyServiceImpl  implements BudgetOtherPayMoneyServi
 		{
 			c.andNdEqualTo(bean.getNd());
 		} 
-		example.setOrderByClause("create_time desc");
+		example.setOrderByClause("nd DESC,create_time DESC");
 		return mapper.selectByExample(example);
 	}
 	
