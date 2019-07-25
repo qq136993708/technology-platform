@@ -48,7 +48,7 @@ public class BudgetOtherPayMoneyController extends BaseController
 		if(StringUtils.isBlank(dataId)) {
 			dataId = IdUtil.createIdByTime();
 		}
-		request.setAttribute("dataId", request.getParameter("dataId"));
+		request.setAttribute("dataId", dataId);
 		request.setAttribute("nd", request.getParameter("nd"));
 		return "stp/budget/budget_otherpaymoney_edit";
 	}

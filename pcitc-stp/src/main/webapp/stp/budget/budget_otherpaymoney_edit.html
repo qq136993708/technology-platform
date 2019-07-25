@@ -85,7 +85,7 @@
             <div class="layui-form-item">
 		      	 <label class="layui-form-label">备注</label>
 		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea" id="remark" name="remark" placeholder=""></textarea>
+		         	   <textarea class="layui-textarea" rows="10" id="remark" name="remark" placeholder=""></textarea>
 		         </div>
 	       	</div>
             <!-- <div class="layui-row">
@@ -137,10 +137,13 @@
   	    		$("#simpleCode").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
   	    	});
 	    });
- 		publicMethods.ajaxAsyncPost('/budget/budget-organitems-get', {"dataId":$("#dataId").val()}, function (data, status) {
-       		form.val("organitem-form",data);
+        //organCode
+        
+        
+        publicMethods.ajaxAsyncPost('/budget/budget-otherpaymoney-get', {"dataId":dataId}, function (dt, status) {
+			form.val("budget-form",dt);
+			console.log(dt);
         });
-	 	
        
         
         form.render();
@@ -155,6 +158,9 @@
             //保存预算项目
             publicMethods.ajaxAsyncPost('/budget/budget-otherpaymoney-saveorupd', data.field, function (data, status) {
                 layer.close(lodingMsg);
+                var index = parent.layer.getFrameIndex(window.name);
+		       	parent.layer.close(index);
+		       	parent.renderTable();
             }); 
             //一定要加return false -- 2018.07.08
             return false;
