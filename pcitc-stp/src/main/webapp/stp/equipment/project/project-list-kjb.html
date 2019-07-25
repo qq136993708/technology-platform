@@ -102,6 +102,7 @@
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
 </div>
 </div>
+<script id="getErpOrderlist_tlp_id" type="text/html"> {{getErpOrderlist_tlp(d.erpNum)}} </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     
@@ -119,7 +120,32 @@
             content:  temUrl
         });
     }
-    
+    function getErpOrderlist_tlp(d) 
+    {
+        if (d) 
+        {
+            
+            return '<span onclick="getErpOrderlist(\''+d+'\')" style="color:#1890ff">'+d+'</span>';
+        } else 
+        {
+            return "<span></span>";
+        }
+    }
+    function getErpOrderlist(code) 
+    {
+   	    var v_date=(new Date()).getTime();
+   	    var url= '/sre_project_task/getErpOrderlist?v_date='+v_date+'&code='+code;
+        layer.open({
+            title:'采购订单详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: false,
+            area: ['70%', '90%'],
+            content:  url
+        });
+    }
     
 </script>
 <script type="text/javascript">
@@ -258,6 +284,7 @@ var name=$('#name').val();
                 {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '10%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'},sort : true},
                 
                 {field : 'contractNum', title : '合同号',  style : 'cursor: pointer;', align: 'center', width : '7%',sort : true},
+                {field : 'erpNum', title : 'ERP项目号',  style : 'cursor: pointer;', align: 'center', width : '7%',sort : true,templet : '#getErpOrderlist_tlp_id'},
                 
                 {field : 'status',         title : '状态',            style : 'cursor: pointer;', align: 'center', width : '8%', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',sort : true},
                 {field : 'leadUnitName',   title : '牵头单位',         style : 'cursor: pointer;', align: 'left', width : '10%',sort : true},
