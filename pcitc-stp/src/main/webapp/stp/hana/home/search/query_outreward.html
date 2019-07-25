@@ -127,6 +127,9 @@
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
+                        if(count<=0){
+                            parent.$("#outreward").addClass("search-numberG");
+                        }
                         parent.$("#outreward").html(count);
 
 						// 点击行联动选择框--单选

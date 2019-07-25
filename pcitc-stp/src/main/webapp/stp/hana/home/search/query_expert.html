@@ -101,6 +101,9 @@
                     }},
                 ]],
                 done: function (res, curr, count) {
+                    if(count<=0){
+                        parent.$("#expert").addClass("search-numberG");
+                    }
                     parent.$("#expert").html(count);
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);

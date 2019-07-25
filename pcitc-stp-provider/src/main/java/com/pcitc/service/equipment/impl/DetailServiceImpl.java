@@ -346,7 +346,7 @@ public class DetailServiceImpl implements DetailService {
 		map.put("assetNumber", sredetail.getAssetNumber());
 		map.put("supplier", sredetail.getSupplier());
 		map.put("g0CALD", df.format(calendar.getTime()));
-		map.put("g0CALD", "201805");
+		//map.put("g0CALD", "201805");
 		List<SreEquipmentLedger> sreequin  = sreEquipmentLedgerMapper.getDate(map);
 		if(sreequin.size()!=0) {
 			for(SreEquipmentLedger lesde : sreequin) {

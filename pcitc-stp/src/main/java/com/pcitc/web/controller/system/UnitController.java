@@ -63,7 +63,7 @@ public class UnitController extends BaseController {
 		unit.setUnitPath("1001"); // 查询根节点对应的树
 		ResponseEntity<?> responseEntity = restTemplate.exchange(UNIT_POST_CON_TREE, HttpMethod.POST, new HttpEntity<SysUnit>(unit, this.httpHeaders), List.class);
 		// List treeNodes = responseEntity.getBody();
-		System.out.println("getUnitPostTreeByCond=====" + JSONUtils.toJSONString(responseEntity.getBody()));
+		//System.out.println("getUnitPostTreeByCond=====" + JSONUtils.toJSONString(responseEntity.getBody()));
 		return JSONUtils.toJSONString(responseEntity.getBody());
 
 	}
@@ -76,7 +76,7 @@ public class UnitController extends BaseController {
 	public String getUnitTreeAndUserByUnitCodes(HttpServletRequest request) throws Exception {
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		JSONObject reJson = new JSONObject();
-		System.out.println("1getUnitTreeAndUserByUnitCodes=====" + request.getParameter("unitCodes"));
+		//System.out.println("1getUnitTreeAndUserByUnitCodes=====" + request.getParameter("unitCodes"));
 		reJson.put("unitCodes", request.getParameter("unitCodes"));
 
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
@@ -84,7 +84,7 @@ public class UnitController extends BaseController {
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, httpHeaders);
 
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(UNIT_PART_TREE, HttpMethod.POST, entity, List.class);
-		System.out.println("2getUnitTreeAndUserByUnitCodes=====" + JSONUtils.toJSONString(responseEntity.getBody()));
+		//System.out.println("2getUnitTreeAndUserByUnitCodes=====" + JSONUtils.toJSONString(responseEntity.getBody()));
 		return JSONUtils.toJSONString(responseEntity.getBody());
 	}
 
@@ -96,7 +96,7 @@ public class UnitController extends BaseController {
 	public String getUnitTreeAndPostsAndUserByPostCodes(HttpServletRequest request) throws Exception {
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		JSONObject reJson = new JSONObject();
-		System.out.println("getUnitTreeAndPostsAndUserByPostCodes=====" + request.getParameter("postCodes"));
+		//System.out.println("getUnitTreeAndPostsAndUserByPostCodes=====" + request.getParameter("postCodes"));
 		reJson.put("postCodes", request.getParameter("postCodes"));
 
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
@@ -104,7 +104,7 @@ public class UnitController extends BaseController {
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, httpHeaders);
 
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(UNIT_POST_PART_TREE, HttpMethod.POST, entity, List.class);
-		System.out.println("getUnitTreeAndPostsAndUserByPostCodes=====" + JSONUtils.toJSONString(responseEntity.getBody()));
+		//System.out.println("getUnitTreeAndPostsAndUserByPostCodes=====" + JSONUtils.toJSONString(responseEntity.getBody()));
 		return JSONUtils.toJSONString(responseEntity.getBody());
 	}
 
@@ -206,9 +206,9 @@ public class UnitController extends BaseController {
 	@RequestMapping(value = "/unit/ztree-unit-list")
 	@ResponseBody
 	public String getComboboxUnitTree(@RequestParam(value="name", required=false) String name,HttpServletRequest request) throws Exception {
-		System.out.println("name:"+name);
+		//System.out.println("name:"+name);
 		ResponseEntity<String> responseEntity = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>(name,this.httpHeaders), String.class);
-		System.out.println(responseEntity.getBody());
+		//System.out.println(responseEntity.getBody());
 		return responseEntity.getBody();
 
 	}
@@ -219,9 +219,9 @@ public class UnitController extends BaseController {
 	@RequestMapping(value = "/unit/ztree_unit_list_by_name")
 	@ResponseBody
 	public String ztree_unit_list_by_name(@RequestParam(value="name", required=false) String name,HttpServletRequest request) throws Exception {
-		System.out.println("name:"+name);
+		//System.out.println("name:"+name);
 		ResponseEntity<String> responseEntity = restTemplate.exchange(UNIT_LIST_ZTREE_DATA_BY_NAME, HttpMethod.POST, new HttpEntity<Object>(name,this.httpHeaders), String.class);
-		System.out.println(responseEntity.getBody());
+		//System.out.println(responseEntity.getBody());
 		return responseEntity.getBody();
 
 	}
