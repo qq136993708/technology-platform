@@ -1998,7 +1998,7 @@
 		select xmbh,nd,xmmc,sbdw,sbjz,xkfl,psdj,sbrq,jddw
 		from out_reward
 		where 
-			xmid = ${xmid}
+			xmid = ${xmid} and sbzt = '已上报'
 		order by out_reward.xmbh desc
 	</select>
 	

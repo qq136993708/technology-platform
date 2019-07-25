@@ -37,6 +37,8 @@ public class OutRewardServiceImpl implements OutRewardService {
 
 		OutRewardExample example = new OutRewardExample();
 		OutRewardExample.Criteria criteria = example.createCriteria();
+		criteria.andSbztEqualTo("已上报");
+		
 		example.setOrderByClause(" create_date desc ");
 
 		List<OutReward> list = outRewardMapper.selectByExample(example);
@@ -73,7 +75,8 @@ public class OutRewardServiceImpl implements OutRewardService {
         if (paraMap.get("name")!=null&&!paraMap.get("name").toString().equals("")) {
             criteria.andDefine3Like("%"+paraMap.get("name").toString()+"%");
         }
-        //添加name值查询 end
+
+        criteria.andSbztEqualTo("已上报");
 
         example.setOrderByClause(" sbjz,sbdj asc ");
 
