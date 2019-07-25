@@ -157,7 +157,6 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
 						List<SreEquipmentLedger> sreequin  = sreEquipmentLedgerMapper.getSreDetailId(map);
 						if(sreequin.size()!=0) {
 						for(SreEquipmentLedger ledasd : sreequin) {
-							if(ledasd!=null) {
 								String string = ledasd.getG0ndjar().toString().substring(1,2);
 								if(string.equals("0")) {
 									sserApply.setG0NDURJ(ledasd.getG0ndjar().toString().substring(2)+"年");//使用年限
@@ -169,9 +168,16 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
 								sserApply.setG0LJDJZJJE(ledasd.getG0ljdjzjje().toString());//预付定金
 								sserApply.setG0NCGZYZJE(ledasd.getG0ncgzyzje().toString());//年初购置价值
 								sserApply.setG0LJZJJE(ledasd.getG0ljzjje().toString());//累计折旧
-							}
 							listsre.add(sserApply);
 						  }
+					}else {
+						sserApply.setG0NDURJ("");//使用年限
+						sserApply.setG0SCHRW("");//资产残值
+						sserApply.setG0LJGZYZJE("");//账面净额
+						sserApply.setG0LJDJZJJE("");//预付定金
+						sserApply.setG0NCGZYZJE("");//年初购置价值
+						sserApply.setG0LJZJJE("");//累计折旧
+						listsre.add(sserApply);
 					}
 				}
 			}
