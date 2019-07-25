@@ -59,6 +59,30 @@
             	renderTable({param:{"nd":cu_date}});
             }            
         });
+    	window.budgetDetail = function(dataId,budgetType)
+    	{
+    		var temUrl;
+        	if(budgetType == 101){
+        		temUrl = "/budget/budget_detail_grouptotal?dataId="+dataId;
+        	}else if(budgetType == 102){
+        		temUrl = "/budget/budget_detail_assettotal?dataId="+dataId;
+        	}else if(budgetType == 103){
+        		temUrl = "/budget/budget_detail_stocktotal?dataId="+dataId;
+        	}else if(budgetType == 203){
+        		temUrl = "/budget/budget_detail_groupsplit?dataId="+dataId;
+        	}else if(budgetType == 204){
+        		temUrl = "/budget/budget_detail_assetsplit?dataId="+dataId;
+        	}else if(budgetType == 205){
+        		temUrl = "/budget/budget_detail_stocksplitzsy?dataId="+dataId;
+        	}else if(budgetType == 206){
+        		temUrl = "/budget/budget_detail_stocksplitxtw?dataId="+dataId;
+        	}else if(budgetType == 207){
+        		temUrl = "/budget/budget_detail_stocksplitzgs?dataId="+dataId;
+        	}
+        	if(temUrl){
+        		publicMethods.openBaseWinFull("详情",temUrl);
+        	}
+    	}
     	window.renderTable = function(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		var cols = [
@@ -71,7 +95,7 @@
                 },
                 {
                     field: "budgetName",
-                    title: "预算项目", event: 'setActive',align:'left', style: 'cursor: pointer;'
+                    title: "预算项目", event: 'setActive',align:'left', style: 'cursor: pointer;',templet:function(d){return '<span onclick="budgetDetail(\''+d.dataId+'\',\''+d.budgetType+'\')" style="color:#1890ff">'+d.budgetName+'</span>'}
                	},
     			{
                      field: "dataVersion",
@@ -111,30 +135,10 @@
     	renderTable(where);
         //监听表格复选框选择
         table.on('checkbox(organEvent)', function(obj){
-            console.log(obj);
+            //console.log(obj);
         });
         table.on('rowDouble(organEvent)', function(obj){
-        	var temUrl;
-        	if(obj.data.budgetType == 101){
-        		temUrl = "/budget/budget_detail_grouptotal?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 102){
-        		temUrl = "/budget/budget_detail_assettotal?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 103){
-        		temUrl = "/budget/budget_detail_stocktotal?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 203){
-        		temUrl = "/budget/budget_detail_groupsplit?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 204){
-        		temUrl = "/budget/budget_detail_assetsplit?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 205){
-        		temUrl = "/budget/budget_detail_stocksplitzsy?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 206){
-        		temUrl = "/budget/budget_detail_stocksplitxtw?dataId="+obj.data.dataId;
-        	}else if(obj.data.budgetType == 207){
-        		temUrl = "/budget/budget_detail_stocksplitzgs?dataId="+obj.data.dataId;
-        	}
-        	if(temUrl){
-        		publicMethods.openBaseWinFull("详情",temUrl);
-        	}
+        	//console.log(obj);
         });
         // 触发不同的按钮事件
         var $ = layui.$, active = {
@@ -189,7 +193,7 @@
     <div class="tableToolBox">
     	<div class="num-box">
             <label class="dateInput">
-                <span>预算年度：</span>
+                <span>编制年度：</span>
                 <input type="text" id="choose-year" readonly="readonly">
             </label>
         </div>
