@@ -117,6 +117,9 @@
                     }
             };
             publicMethods.tableRenderH('tfmTypeTableId', 'tfmTypeTableId',0, '/tfmType/getTableData', false, cols, where, true, function (res, curr, count) {
+                if(count<=0){
+                    parent.$("#tech").addClass("search-numberG");
+                }
                 parent.$("#tech").html(count);
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);

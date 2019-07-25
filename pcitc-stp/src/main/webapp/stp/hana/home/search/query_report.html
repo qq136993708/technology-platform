@@ -147,6 +147,9 @@
             };
 
             publicMethods.tableRenderH('sysReportStpTableId', 'sysReportStpTableId',40, '/fullSearch/getTableDataReport', false, cols, where, true, function (res, curr, count) {
+                if(count<=0){
+                    parent.$("#report").addClass("search-numberG");
+                }
                 parent.$("#report").html(count);
                 /*console.log(res.data);*/
                 var html="";
