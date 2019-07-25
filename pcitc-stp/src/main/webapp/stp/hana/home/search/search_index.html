@@ -287,6 +287,9 @@
             done: function (res, curr, count) {
                 // console.log("综合"+count);
                 // console.log(res.data);
+                if(count<=0){
+                    parent.$("#index").addClass("search-numberG");
+                }
                 parent.$("#index").html(count);
                 $("#fileCount").val(res.msg);
             }

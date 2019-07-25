@@ -73,9 +73,19 @@ public class SmallLeaderController extends BaseController {
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		System.out.println("getInvestmentAll=================" + zycbm);
 
+		JSONObject resultObj = new JSONObject();
 		if (zycbm.equals("")) {
 			// 无权限;
-			return null;
+			return resultObj.toString();
+		}
+		if (zycbm.contains("30130011")) {
+			zycbm = zycbm + ",30130011";
+		}
+		if (zycbm.contains("30130016")) {
+			zycbm = zycbm + ",30130016";
+		}
+		if (zycbm.contains("30130009")) {
+			zycbm = zycbm + ",30130009";
 		}
 		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 		List<String> list_1 = new ArrayList<>(set);
@@ -95,7 +105,7 @@ public class SmallLeaderController extends BaseController {
 			result.setSuccess(true);
 			result.setData(map);
 		}
-		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+		resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
 		System.out.println(">>>>>>>>>>>>>>>getInvestmentAll " + resultObj.toString());
 		return resault;
@@ -139,6 +149,16 @@ public class SmallLeaderController extends BaseController {
 				if (!zycbm.equals("")) {
 					BudgetItemSearchVo vo = new BudgetItemSearchVo();
 					vo.setNd(nd);
+					// 预算中，科技部外的部门特殊处理
+					if (zycbm.contains("30130011")) {
+						zycbm = zycbm + ",30130011";
+					}
+					if (zycbm.contains("30130016")) {
+						zycbm = zycbm + ",30130016";
+					}
+					if (zycbm.contains("30130009")) {
+						zycbm = zycbm + ",30130009";
+					}
 					Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 					List<String> list_1 = new ArrayList<>(set);
 					vo.getUnitIds().addAll(list_1);
@@ -263,7 +283,7 @@ public class SmallLeaderController extends BaseController {
 		return resault;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/small_leader/investment_data_02")
+	@RequestMapping(value = "/small_leader/investment_data_02")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String investment_data_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -299,6 +319,16 @@ public class SmallLeaderController extends BaseController {
 				if (!zycbm.equals("")) {
 					BudgetItemSearchVo vo = new BudgetItemSearchVo();
 					vo.setNd(nd);
+					// 预算中，科技部外的部门特殊处理
+					if (zycbm.contains("30130011")) {
+						zycbm = zycbm + ",30130011";
+					}
+					if (zycbm.contains("30130016")) {
+						zycbm = zycbm + ",30130016";
+					}
+					if (zycbm.contains("30130009")) {
+						zycbm = zycbm + ",30130009";
+					}
 					Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 					List<String> list_1 = new ArrayList<>(set);
 					vo.getUnitIds().addAll(list_1);

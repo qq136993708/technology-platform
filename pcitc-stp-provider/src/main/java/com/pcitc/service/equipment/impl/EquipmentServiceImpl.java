@@ -1477,7 +1477,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 					SreProjectTask s=new  SreProjectTask();
 					s=list.get(i);
 					l.add(s);
-					
+
 				}
 			}
 			if(l!=null && l.size()>0)
@@ -1487,11 +1487,11 @@ public class EquipmentServiceImpl implements EquipmentService {
 					list.remove(l.get(m));
 				}
 			}
-			
+
 		}
 		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
 		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
-		
+
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
 		Long total = pageInfo.getTotal();

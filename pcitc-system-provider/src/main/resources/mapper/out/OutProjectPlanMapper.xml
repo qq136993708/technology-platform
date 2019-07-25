@@ -1234,6 +1234,9 @@
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_plan.nd = '1900'
 					</if>
+					<if test="zylbbm != null and zylbbm != ''">
+						and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
+					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
 					and out_project_plan.nd = '1900'
@@ -1270,6 +1273,9 @@
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
+					</if>
+					<if test="zylbbm != null and zylbbm != ''">
+						and find_in_set(out_project_info.zylbbm, '${zylbbm}')
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
@@ -1322,6 +1328,9 @@
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_info.nd = '1900'
+					</if>
+					<if test="zylbbm != null and zylbbm != ''">
+						and find_in_set(out_project_info.zylbbm, '${zylbbm}')
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
@@ -1383,6 +1392,9 @@
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_plan.nd = '1900'
 					</if>
+					<if test="zylbbm != null and zylbbm != ''">
+						and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
+					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
 					and out_project_plan.nd = '1900'
@@ -1426,6 +1438,9 @@
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_plan.nd = '1900'
 					</if>
+					<if test="zylbbm != null and zylbbm != ''">
+						and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
+					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
 					and out_project_plan.nd = '1900'
@@ -1459,6 +1474,9 @@
 				<if test="zycbm == null or zycbm == ''">
 					and out_project_info.nd = '1900'
 				</if>
+				<if test="zylbbm != null and zylbbm != ''">
+					and find_in_set(out_project_info.zylbbm, '${zylbbm}')
+				</if>
 			</if>
 			<if test="leaderFlag == null or leaderFlag == ''">
 				and out_project_info.nd = '1900'
@@ -1487,6 +1505,9 @@
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_plan.nd = '1900'
+					</if>
+					<if test="zylbbm != null and zylbbm != ''">
+						and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
@@ -1558,6 +1579,21 @@
 					from out_project_info
 					where 
 						left(define16, 4) = '${nd}'
+						<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+						<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+							<if test="zycbm != null and zycbm != ''">
+								and find_in_set(out_project_info.zycbm, '${zycbm}')
+							</if>
+							<if test="zylbbm != null and zylbbm != ''">
+								and find_in_set(out_project_info.zylbbm, '${zylbbm}')
+							</if>
+							<if test="zycbm == null or zycbm == ''">
+								and out_project_info.nd = '1900'
+							</if>
+						</if>
+						<if test="leaderFlag == null or leaderFlag == ''">
+							and out_project_info.nd = '1900'
+						</if>
 					GROUP BY xmid
 			) tableC on (tableC.projectMount = tableB.yearMonth)
 			GROUP BY tableB.yearMonth) as tableD on (sys_dictionary.num_value = SUBSTR(tableD.yearMonth FROM 5))
@@ -1595,6 +1631,9 @@
 					<if test="zycbm != null and zycbm != ''">
 						and find_in_set(out_project_plan.zycbm, '${zycbm}')
 					</if>
+					<if test="zylbbm != null and zylbbm != ''">
+						and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
+					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_plan.nd = '1900'
 					</if>
@@ -1630,6 +1669,9 @@
 				</if>
 				<if test="zycbm == null or zycbm == ''">
 					and out_project_info.nd = '1900'
+				</if>
+				<if test="zylbbm != null and zylbbm != ''">
+					and find_in_set(out_project_info.zylbbm, '${zylbbm}')
 				</if>
 			</if>
 			<if test="leaderFlag == null or leaderFlag == ''">
@@ -1673,6 +1715,9 @@
 					</if>
 					<if test="zycbm == null or zycbm == ''">
 						and out_project_plan.nd = '1900'
+					</if>
+					<if test="zylbbm != null and zylbbm != ''">
+						and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
@@ -1854,6 +1899,9 @@
 				<if test="zycbm == null or zycbm == ''">
 					and tableA.nd = '1900'
 				</if>
+				<if test="zylbbm != null and zylbbm != ''">
+					and find_in_set(tableA.zylbbm, '${zylbbm}')
+				</if>
 			</if>
 			<if test="leaderFlag == null or leaderFlag == ''">
 				and tableA.nd = '1900'
@@ -1927,6 +1975,23 @@
 					   <if test="endDate != null and endDate != ''.toString() ">
 					   	   and STRCMP(out_project_plan.KSSJ, '${endDate}') &lt;= 0
 					   </if>
+					   <!-- 数据控制 -->
+						<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+						<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+							<if test="zycbm != null and zycbm != ''">
+								and find_in_set(out_project_plan.zycbm, '${zycbm}')
+							</if>
+							<if test="zycbm == null or zycbm == ''">
+								and out_project_plan.nd = '1900'
+							</if>
+							<if test="zylbbm != null and zylbbm != ''">
+								and find_in_set(out_project_plan.zylbbm, '${zylbbm}')
+							</if>
+						</if>
+						<if test="leaderFlag == null or leaderFlag == ''">
+							and out_project_plan.nd = '1900'
+						</if>
+						<!-- 数据控制 -->
 				group by out_project_plan.XMID
 				<if test="orderKey != null">
 					<if test="orderType != ''">
