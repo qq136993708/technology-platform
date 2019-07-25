@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +69,9 @@ public class BudgetTotalController extends BaseController {
 		String url = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
 		vo.setNd("2019");
-		//vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_KTY");
+		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY");
+		String unit = "30130055,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016,30130064,30130065";
+		vo.getUnitIds().addAll(Arrays.asList(unit.split(",")));
 		
 		ResponseEntity<BudgetItemSearchVo> responseEntity = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<BudgetItemSearchVo>(vo, this.httpHeaders), BudgetItemSearchVo.class);
 		System.out.println(JSON.toJSONString(responseEntity.getBody()));

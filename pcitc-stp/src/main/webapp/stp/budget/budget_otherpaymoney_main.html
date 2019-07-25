@@ -148,7 +148,7 @@
                 		parent.layer.alert("请选择编辑项", {title : '提示'});
                 		return;
                 	} 
-                	var url = '/budget/budget_otherpaymoney_edit?dataId='+selectRowData.dataId;
+                	var url = '/budget/budget_otherpaymoney_edit?dataId='+selectRowData.dataId+"&nd="+selectRowData.nd;
                    	publicMethods.openBaseWin76('实际投入-编辑',url);
                 },
                 deleteEvent:function(){

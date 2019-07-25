@@ -1,5 +1,6 @@
 package com.pcitc.service.budget.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetOtherPayMoney;
 import com.pcitc.base.stp.budget.BudgetOtherPayMoneyExample;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.budget.BudgetOtherPayMoneyMapper;
 import com.pcitc.service.budget.BudgetOtherPayMoneyService;
@@ -114,8 +116,11 @@ public class BudgetOtherPayMoneyServiceImpl  implements BudgetOtherPayMoneyServi
 			BudgetOtherPayMoney old = mapper.selectByPrimaryKey(bean.getDataId());
 			if(old == null) 
 			{
+				bean.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				bean.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				return this.saveBudgetOtherPayMoney(bean);
 			}else {
+				bean.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				MyBeanUtils.copyPropertiesIgnoreNull(bean, old);
 				Integer rs = mapper.updateByPrimaryKey(old);
 				if(rs > 0) {
@@ -148,7 +153,7 @@ public class BudgetOtherPayMoneyServiceImpl  implements BudgetOtherPayMoneyServi
 		{
 			c.andNdEqualTo(bean.getNd());
 		} 
-		example.setOrderByClause("create_time desc");
+		example.setOrderByClause("nd DESC,create_time DESC");
 		return mapper.selectByExample(example);
 	}
 	
