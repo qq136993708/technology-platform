@@ -45,6 +45,7 @@ public class BudgetOtherPayMoneyServiceImpl  implements BudgetOtherPayMoneyServi
 		Boolean status = false;
 		try 
 		{
+			bean.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 			Integer rs = mapper.insert(bean);
 			if(rs > 0) {
 				status = true;
@@ -114,13 +115,13 @@ public class BudgetOtherPayMoneyServiceImpl  implements BudgetOtherPayMoneyServi
 		Boolean status =  false;
 		try {
 			BudgetOtherPayMoney old = mapper.selectByPrimaryKey(bean.getDataId());
+			bean.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
+			bean.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 			if(old == null) 
 			{
 				bean.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-				bean.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				return this.saveBudgetOtherPayMoney(bean);
 			}else {
-				bean.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				MyBeanUtils.copyPropertiesIgnoreNull(bean, old);
 				Integer rs = mapper.updateByPrimaryKey(old);
 				if(rs > 0) {
@@ -142,6 +143,9 @@ public class BudgetOtherPayMoneyServiceImpl  implements BudgetOtherPayMoneyServi
 	public LayuiTableData selectTableBudgetOtherPayMoney(LayuiTableParam param) 
 	{
 		BudgetOtherPayMoneyExample example = new BudgetOtherPayMoneyExample();
+		BudgetOtherPayMoneyExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		
 		return selectTableData(param, example);
 	}
 	@Override
