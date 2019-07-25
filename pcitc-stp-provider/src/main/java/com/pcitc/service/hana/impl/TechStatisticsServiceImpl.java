@@ -296,13 +296,14 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 	//批量修改
 	public Integer updateTechOrgCountBatch(TechOrgCount headTOrg)throws Exception
 	{
-		//1、先删除
+		
+		//1、先删除子记录
 		String parentId=headTOrg.getId();
 		if(parentId!=null && !parentId.equals(""))
 		{
 			techOrgCountMapper.deleteByParent(parentId);
 		}
-	    //2、添加子表
+	    //2、添加子记录
 		String subTechOrgStr=headTOrg.getSubTechOrgStr();
 		List<TechOrgCount> list =null;
 		List<String> ids =new ArrayList<String>();

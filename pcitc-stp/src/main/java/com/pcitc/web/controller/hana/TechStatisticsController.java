@@ -316,7 +316,7 @@ public class TechStatisticsController extends BaseController{
 		String unitCode = sysUserInfo.getUnitCode();// 申报部门
 		
 		String type = CommonUtil.getParameter(request, "type", "");
-		request.setAttribute("type", type);
+		
 
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
@@ -331,7 +331,9 @@ public class TechStatisticsController extends BaseController{
 			unitCode=techCost.getUnitCode();
 			unitName=techCost.getUnitName();
 			createUserName=techCost.getCreateUserName();
+			type=techCost.getType();
 		}
+		request.setAttribute("type", type);
 		request.setAttribute("year", year);
 		request.setAttribute("attachmentDoc", attachmentDoc);
 		request.setAttribute("createUserName", createUserName);
@@ -658,7 +660,7 @@ public class TechStatisticsController extends BaseController{
 		String unitCode = sysUserInfo.getUnitCode();// 申报部门
 		String year =HanaUtil.getBeforeYear(); 
 		String type = CommonUtil.getParameter(request, "type", "");
-		request.setAttribute("type", type);
+		
 		
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
@@ -673,7 +675,9 @@ public class TechStatisticsController extends BaseController{
 			unitCode=techOrgCount.getUnitCode();
 			unitName=techOrgCount.getUnitName();
 			createUserName=techOrgCount.getCreateUserName();
+			type=techOrgCount.getType();
 		}
+		request.setAttribute("type", type);
 		request.setAttribute("year", year);
 		request.setAttribute("attachmentDoc", attachmentDoc);
 		request.setAttribute("createUserName", createUserName);
@@ -900,7 +904,7 @@ public class TechStatisticsController extends BaseController{
 		String year = CommonUtil.getParameter(request, "year", "");
 		String createUserName = CommonUtil.getParameter(request, "createUserName", "");
 		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
-		String writeType = CommonUtil.getParameter(request, "writeType", "1");
+		
 		String createUserMobile = CommonUtil.getParameter(request, "createUserMobile", "");
 		String techChargeMan = CommonUtil.getParameter(request, "techChargeMan", "");
 		String subTechOrgStr = CommonUtil.getParameter(request, "subTechOrgStr", "");
@@ -936,14 +940,14 @@ public class TechStatisticsController extends BaseController{
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			techOrgCount.setId(idv); 
 			techOrgCount.setAuditStatus(auditStatus);
-			
+			techOrgCount.setStatisticsType(statisticsType);
 		} else {
 			ResponseEntity<TechOrgCount> se = this.restTemplate.exchange(GET_ORG_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), TechOrgCount.class);
 			techOrgCount  = se.getBody();
 		}
 		
 		System.out.println("---------------parentUnitName:" + parentUnitName + " parentUnitCode=" + parentUnitCode + " UserId=" + sysUserInfo.getUserId());
-		techOrgCount.setWriteType(writeType);
+		
 		techOrgCount.setCreateUserId(sysUserInfo.getUserName());
 		techOrgCount.setCreateUserName(createUserName);
 		techOrgCount.setYear(year);
@@ -958,7 +962,7 @@ public class TechStatisticsController extends BaseController{
 		techOrgCount.setUnitCode(unitCode);
 		techOrgCount.setUnitName(unitName);
 		techOrgCount.setSubTechOrgStr(subTechOrgStr);
-		techOrgCount.setStatisticsType(statisticsType);
+		
 		// 判断是新增还是修改
 		if (id.equals("")) {
 			responseEntity = this.restTemplate.exchange(ADD_ORG_BATCH_URL, HttpMethod.POST, new HttpEntity<TechOrgCount>(techOrgCount, this.httpHeaders), String.class);
