@@ -36,16 +36,14 @@ public class EquipmentLedgerClient
         logger.info("====================add sreEquipmentLedger....========================");
         Map map = new HashMap();
 
-        SimpleDateFormat format = new SimpleDateFormat();
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
         c.add(Calendar.MONTH, -1);
-        Date m = c.getTime();
-        String mon = format.format(m);
-        Date date = DateUtil.strToDate(mon, DateUtil.FMT_MM);
+        Date date = c.getTime();
 
         map.put("month",DateUtil.dateToStr(date, DateUtil.FMT_MM));
         equipmentLedgerService.deleteByMonth(map);//删除当月数据
+
         if (sreEquipmentLedgerList!=null && sreEquipmentLedgerList.size()!=0){
             equipmentLedgerService.insertEquipmentLedger(sreEquipmentLedgerList);
         }
