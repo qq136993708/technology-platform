@@ -186,6 +186,8 @@ public class SreScrapApplyController extends BaseController {
 		String unitPathIds= map.get("applyDepartCode");
 		String unitPathNames= map.get("applyDepartName");
 		request.setAttribute("applyDepartName", applyDepartName);
+		
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id",id);
 		if(id=="")
