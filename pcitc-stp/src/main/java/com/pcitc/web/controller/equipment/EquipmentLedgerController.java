@@ -89,6 +89,8 @@ public class EquipmentLedgerController extends BaseController{
 	//查所有院的
 	@RequestMapping(value = "/sre_equipment_ledger/list")
 	public String searchEquipment(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String unitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);
+		String g0gsjc = EquipmentUtils.getHanaUnitNameByUnitCode(unitCode, restTemplate, httpHeaders);
 		String unitPathIds = sysUserInfo.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
 	    request.setAttribute("isKJBPerson", isKJBPerson);
@@ -102,6 +104,7 @@ public class EquipmentLedgerController extends BaseController{
 	    	request.setAttribute("dictonary", dictonary);
 	    	request.setAttribute("str", "0");
 	    }
+	    request.setAttribute("g0gsjc", g0gsjc);
 		return "/stp/equipment/ledger/list";
 	}
 	@RequestMapping(value = "/sre_equipment_ledger/list_data")
