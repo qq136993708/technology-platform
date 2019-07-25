@@ -45,7 +45,9 @@ public class StpEquipmentLedgerJob implements Job, Serializable {
         c.add(Calendar.MONTH, -1);
         Date m = c.getTime();
         String mon = format.format(m);
-        Date date = DateUtil.strToDate(mon, DateUtil.FMT_MM);*/
+        Date date = DateUtil.strToDate(mon, DateUtil.FMT_MM);
+        ***删除方法修改时间参数
+        */
 
             if(i==0){
                 month="201901";

@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Api(value = "PurchaseOrder-API",tags = {"装备台账订单相关的接口"})
 @RestController
@@ -37,7 +35,16 @@ public class EquipmentLedgerClient
     public void insertEquipmentLedger(@RequestBody List<SreEquipmentLedger> sreEquipmentLedgerList) throws Exception{
         logger.info("====================add sreEquipmentLedger....========================");
         Map map = new HashMap();
-        map.put("month",DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+
+        SimpleDateFormat format = new SimpleDateFormat();
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.MONTH, -1);
+        Date m = c.getTime();
+        String mon = format.format(m);
+        Date date = DateUtil.strToDate(mon, DateUtil.FMT_MM);
+
+        map.put("month",DateUtil.dateToStr(date, DateUtil.FMT_MM));
         equipmentLedgerService.deleteByMonth(map);//删除当月数据
         if (sreEquipmentLedgerList!=null && sreEquipmentLedgerList.size()!=0){
             equipmentLedgerService.insertEquipmentLedger(sreEquipmentLedgerList);
