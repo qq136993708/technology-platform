@@ -104,8 +104,13 @@ public class PoiExcelExportUitl<T> {
                     HSSFCell hssfcell = hssfrow.createCell(k);
                     CellType cellType=  hssfcell.getCellTypeEnum();
                     Object o=hm.get(cols[k]);
-                    String value=o.toString();
+                    String value="";
+                    if(o!=null)
+                    {
+                    	value=o.toString();
+                    }
                     
+                    //System.out.println("------------>>数据值:"+value);
                     isnum = false;
                     /*for (int z = 0; z < numerics.length; z++) {
                         if (numerics[z] == k) {
@@ -116,7 +121,7 @@ public class PoiExcelExportUitl<T> {
                     //如果是数字，靠右样式
                     if(value.matches("\\d+(.\\d+)?"))
                     {
-                    	//System.out.println("------------>>数据值:"+o.toString()+""+cellType.toString());
+                    	
                         if (hm.get(cols[k]) == null || hm.get(cols[k]).equals("")) 
                         {
 

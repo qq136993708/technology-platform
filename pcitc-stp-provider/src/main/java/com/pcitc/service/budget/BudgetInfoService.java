@@ -147,7 +147,7 @@ public interface BudgetInfoService
 	 */
 	public List<BudgetMoneyDecompose> selectTotalByNd(String nd);
 	/**
-	 * 查询所有最终预算
+	 * 查询所有需下发的最终预算
 	 * @param param
 	 * @return
 	 */
@@ -159,4 +159,24 @@ public interface BudgetInfoService
 	 * @return
 	 */
 	public List<Map<String,Object>> filterDataByUnit(List<Map<String,Object>> data,String unitCodes);
+	/**
+	 * 查询所有最终预算
+	 * @param param
+	 * @return
+	 */
+	public LayuiTableData selectReleaseModifyPage(LayuiTableParam param);
+	/**
+	 * 查询预算项数据
+	 * @param budgetInfoId
+	 * @return
+	 */
+	public List<BudgetSplitData> selectSplitDataByBudgetInfo(String budgetInfoId);
+	/**
+	 * 根据预算项复制并保存数据
+	 * @param budgetInfoId 来源预算表
+	 * @param nd 目标预算年度
+	 * @param budgetTypes 目标预算类型
+	 * @return
+	 */
+	public List<BudgetSplitData> copySplitDataByBudgetInfo(BudgetInfo oldInfo,BudgetInfo newInfo) throws Exception;
 }

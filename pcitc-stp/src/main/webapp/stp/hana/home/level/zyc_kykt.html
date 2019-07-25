@@ -219,7 +219,7 @@
 			$("#knowledge_table").click(function() {
 
 				var nd = $("#year").val();
-				parent.layui.index.openTabsPage("/one_level_main/count_table_new?nd=" + nd + "&ysnd=" + nd, "科研课题详情");
+				parent.layui.index.openTabsPage("/one_level_main/count_table_new?ysnd=" + nd+"&nd=" + nd+"&define1=费用性&groupFlag=xmid", "科研课题详情");
 			});
 
 			//监听行单击事件
@@ -230,7 +230,7 @@
 				//obj.update(fields) //修改当前行数据
 				selectRowData = obj.data;
 				var nd = $("#year").val();
-				parent.layui.index.openTabsPage("/one_level_main/count_table_new?define2=" + selectRowData.define2 + "&nd=&ysnd=" + nd + "&define1=费用性&define11=股份公司&define12=直属研究院", "科研课题详情");
+				parent.layui.index.openTabsPage("/one_level_main/count_table_new?define2=" + selectRowData.define2 + "&nd=&ysnd=" + nd + "&define1=费用性&define11=股份公司&define12=直属研究院&groupFlag=xmid,define8", "科研课题详情");
 			});
 
 			myTable();

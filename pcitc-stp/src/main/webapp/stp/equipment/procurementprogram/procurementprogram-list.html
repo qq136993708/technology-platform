@@ -18,7 +18,7 @@
 <input  name="id"         id="id"          type="hidden" >
 <input type="hidden" name="departCode" id="departCode" value="${departCode}">
 <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
-
+ <input  name="str"     id="str"      value="${str}"    type="hidden">
 
 </form>
 
@@ -32,6 +32,17 @@
         <span>采购名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入采购名称" title="采购名称" autocomplete="off" class="form-control" id="purchaseName">
     </label>
+    <#if test="${str==0}">
+	     <label class="dateInput">
+	         <span>研究院</span>
+	         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
+	             <option value="" >--请选择--</option>
+	             <#list dictonary as vo> 
+			          <option value="${vo.numValue}"  >${vo.name}</option>
+			      </#list>
+			 </select>
+	     </label>
+   </#if>
   <!--  <label class="dateInput">
         <span>立项年度</span>
         <input type="text" name="createDate" value="" placeholder="请输入立项年度" title="申请开始时间" autocomplete="off" class="form-control" id="createDate">
@@ -209,6 +220,7 @@ var name=$('#name').val();
             	$('#purchaseName').val("");   
             	$('#createDate').val("");
             	$('#proposerName').val("");
+            	$("#leadUnitCode").val("");
             },
             
             addEvent: function(){ //点击新增按钮
@@ -385,7 +397,7 @@ var name=$('#name').val();
             url: '/sre-procurementprogram/list',
             method:"POST",
 		//查询条件            
-            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"applyDepartCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"applyDepartCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"parentUnitPathNames":$("#leadUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

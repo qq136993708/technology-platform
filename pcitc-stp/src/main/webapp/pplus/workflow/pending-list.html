@@ -11,6 +11,13 @@
 
 <body>
 	<div class="searchBox">
+		<!--系统选择-->
+		<div class="btnGroupS">
+			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-this" value="system" >科技管理平台</button>
+			<span class="red" id="system"></span>
+			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" value="other" >其它系统</button>
+			<span class="red" id="other"></span>
+		</div>
 		<!--查询条件-->
 		<label class="dateInput">
 			<span>流程名称</span>
@@ -22,12 +29,6 @@
 			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
 			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
 		</div>
-	</div>
-	<div class="btnGroupS">
-		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-this" value="system" >科技管理平台</button>
-		<span class="red" id="system"></span>
-		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" value="other" >其它系统</button>
-		<span class="red" id="other"></span>
 	</div>
 	<div id="systemDiv">
 		<div class="tableBox">
@@ -117,7 +118,7 @@
 					},
 					limit : param.selfRownum,
 					id : 'pendingTable',
-					height : commonDislodgeTable()-45,
+					height : commonDislodgeTable(),
 					page : {
 						groups : 5,
 						limits : [ param.selfRownum, 15, 30, 45, 60 ],
@@ -200,7 +201,7 @@
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
-						$("#system").html(count)
+						$("#system").html(count);
 						// 点击行联动选择框--单选
 						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
 							var index = parseInt($(this).index() + 1);
@@ -236,7 +237,7 @@
 					},
 					limit : param.selfRownum,
 					id : 'pendingOtherTable',
-					height : commonDislodgeTable()-45,
+					height : commonDislodgeTable(),
 					page : {
 						groups : 5,
 						limits : [ param.selfRownum, 15, 30, 45, 60 ],
@@ -272,7 +273,7 @@
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
-						$("#other").html(count)
+						$("#other").html(count);
 					}
 				});
 				$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选

@@ -40,6 +40,8 @@ public class BudgetInfoController extends BaseController
 	private static final String BUDGET_INFO_CREATE_BYTEMPLATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-create-bytemplate";
 	private static final String BUDGET_RELEASE_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-release-list";
 	private static final String BUDGET_INFO_RELEASE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-release";
+	private static final String BUDGET_MODIFY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-modify-list";
+	
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_total")
@@ -133,6 +135,17 @@ public class BudgetInfoController extends BaseController
 		request.setAttribute("stockZgsDataId", stockZgsDataId);
 		request.setAttribute("stockXtwDataId", stockXtwDataId);
 		return "stp/budget/budget_detail_total_unit";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_modify_main")
+	public Object toBudgetModifyMainPage(HttpServletRequest request) throws IOException 
+	{
+		String nd = request.getParameter("nd");
+		if(nd == null) {
+			nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
+		}
+		request.setAttribute("nd", nd);
+		return "stp/budget/budget_modify_main";
 	}
 	
 	@RequestMapping(value = "/budget/budget-info-get", method = RequestMethod.POST)
@@ -232,6 +245,16 @@ public class BudgetInfoController extends BaseController
 	{
 		info.setReleaseStatus(BudgetReleaseEnum.STATUS_NORELEASE.getCode());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_INFO_RELEASE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
+		Object rs = JSON.toJSON(responseEntity.getBody());
+		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		return rs;
+		
+	}
+	@RequestMapping(value = "/budget/budget-modify-list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getBudgetModifyList(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_MODIFY_LIST, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
 		Object rs = JSON.toJSON(responseEntity.getBody());
 		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
 		return rs;

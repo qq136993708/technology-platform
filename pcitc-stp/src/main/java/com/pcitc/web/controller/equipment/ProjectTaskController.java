@@ -189,8 +189,15 @@ public class ProjectTaskController extends BaseController {
 		//专业领域
 		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
 		request.setAttribute("fieldList", fieldList);
-		
-		
+
+        //获取八大院数据字典
+        List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+        request.setAttribute("leaddicList", leaddicList);
+        //判断是否是科技部人员
+        String unitPathIds = sysUserInfo.getUnitPath();
+        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+        request.setAttribute("isKJBPerson", isKJBPerson);
+
 		return "/stp/equipment/task/write_list";
 	}
 	
@@ -238,7 +245,14 @@ public class ProjectTaskController extends BaseController {
 		//专业领域
 		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
 		request.setAttribute("fieldList", fieldList);
-				
+
+        //获取八大院数据字典
+        List<SysDictionary>  leaddicListYs= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+        request.setAttribute("leaddicListYs", leaddicListYs);
+        //判断是否是科技部人员
+        String unitPathIds = sysUserInfo.getUnitPath();
+        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+        request.setAttribute("isKJBPerson", isKJBPerson);
 		
 		
 		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
@@ -255,7 +269,20 @@ public class ProjectTaskController extends BaseController {
 		public String join_list_kjb(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 			request.setAttribute("dicList", dicList);
-
+			
+			String unitPathIds = sysUserInfo.getUnitPath();
+			boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+		    request.setAttribute("isKJBPerson", isKJBPerson);
+		    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+		    String str ="1";
+		    if(isKJBPerson == true) {
+		    	//获取研究院
+				request.setAttribute("dictonary", dictonary);
+				request.setAttribute("str", "1");
+		    }else {
+		    	request.setAttribute("dictonary", dictonary);
+		    	request.setAttribute("str", "0");
+		    }
 
 			//归属部门
 			List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
@@ -337,7 +364,14 @@ public class ProjectTaskController extends BaseController {
 		//专业领域
 		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
 		request.setAttribute("fieldList", fieldList);
-		
+		//获取八大院数据字典
+		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+		request.setAttribute("leaddicList", leaddicList);
+        //判断是否是科技部人员
+		String unitPathIds = sysUserInfo.getUnitPath();
+        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+        request.setAttribute("isKJBPerson", isKJBPerson);
+
 		return "/stp/equipment/task/confirm_list";
 	}
 	

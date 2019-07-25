@@ -122,21 +122,27 @@ public class BudgetInfoProviderClient
 			newInfo.setCreaterId(info.getCreaterId());
 			newInfo.setCreaterName(info.getCreaterName());
 			budgetInfoService.updateBudgetInfo(newInfo);
-			//集团预算总表
+			
 			if(BudgetInfoEnum.GROUP_TOTAL.getCode().equals(info.getBudgetType())) {
+				//集团预算总表
 				budgetGroupTotalService.createBudgetItemByTemplate(info.getDataId(), newInfo);
 			}else if(BudgetInfoEnum.ASSETS_TOTAL.getCode().equals(info.getBudgetType())){
+				//资产预算总表
 				budgetAssetTotalService.createBudgetItemByTemplate(info.getDataId(), newInfo);
 			}else if(BudgetInfoEnum.STOCK_TOTAL.getCode().equals(info.getBudgetType())) {
+				//股份预算总表
 				budgetStockTotalService.createBudgetItemByTemplate(info.getDataId(), newInfo);
 			}else if(BudgetInfoEnum.B2C_SPLIT.getCode().equals(info.getBudgetType())) {
+				//事业部预算表
 				budgetB2cSplitService.createBudgetItemByTemplate(info.getDataId(), newInfo);
 			}else if(BudgetInfoEnum.TECH_SPLIT.getCode().equals(info.getBudgetType())) {
+				//专项预算表
 				budgetTechSplitService.createBudgetItemByTemplate(info.getDataId(), newInfo);
 			}else {
-				System.out.println("create by template is null..........");
+				//System.out.println("create by template is null..........");
+				//预算分解表数据复制
+				budgetInfoService.copySplitDataByBudgetInfo(oldInfo,newInfo);
 			}
-			
 		}
 		catch (Exception e)
 		{
@@ -344,5 +350,20 @@ public class BudgetInfoProviderClient
 			e.printStackTrace();
 		}
 		return rs;
+	}
+	@ApiOperation(value="预算管理-预算下发列表",notes="按年检索所有最终预算版本")
+	@RequestMapping(value = "/stp-provider/budget/budget-modify-list", method = RequestMethod.POST)
+	public Object selectBudgetModifyList(@RequestBody LayuiTableParam param) 
+	{
+		LayuiTableData data = null;
+		try
+		{
+			data = budgetInfoService.selectReleaseModifyPage(param);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return data;
 	}
 }

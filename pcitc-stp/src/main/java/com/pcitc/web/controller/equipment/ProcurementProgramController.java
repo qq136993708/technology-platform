@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.equipment;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,8 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SreForApplication;
 import com.pcitc.base.stp.equipment.SrePurchase;
+import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
@@ -59,9 +62,21 @@ public class ProcurementProgramController extends BaseController {
 		String parentUnitPathIds = map.get("unitCode");// 申报单位
 		String applyDepartName = map.get("applyDepartName");// 申报部门
 		String applyDepartCode = map.get("applyDepartCode");// 申报部门
-		String unitPathIds= map.get("applyDepartCode");
 		String unitPathNames= map.get("applyDepartName");
 			request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+			String unitPathIds = sysUserInfo.getUnitPath();
+			boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+		    request.setAttribute("isKJBPerson", isKJBPerson);
+		    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+		    String str ="1";
+		    if(isKJBPerson == true) {
+		    	//获取研究院
+				request.setAttribute("dictonary", dictonary);
+				request.setAttribute("str", "1");
+		    }else {
+		    	request.setAttribute("dictonary", dictonary);
+		    	request.setAttribute("str", "0");
+		    }
 		return "/stp/equipment/procurementprogram/procurementprogram-list";
 	}
 	

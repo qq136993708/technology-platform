@@ -329,32 +329,20 @@
 							<div class="layui-tab-content">
 								<div class="layui-tab-item layui-show">
 									<ul>
-										<#list noticeList as notice> <#if notice?exists>
-										<li><a href="javascript:parent.layui.index.openTabsPage('/admin/project/notice/detail?dataId=${notice.dataId}', '科研项目动态');">${notice.noticeTitle}</a> <span>[${notice.noticeDate}]</span></li> </#if> <#else> </#list>
+										<#list noticeList as notice> <#if notice?exists> <#if notice.noticeSystemType == '项目管理系统'>
+										<li><a href="javascript:parent.layui.index.openTabsPage('/admin/project/notice/detail?dataId=${notice.dataId}', '科研项目动态');">${notice.noticeTitle}</a> <span>[${notice.noticeDate}]</span></li> </#if></#if> </#list>
 									</ul>
 								</div>
 								<div class="layui-tab-item">
 									<ul>
-										<li><a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=27" target="_blank" rel="noopener noreferrer">关于鉴定系统开放时间更改的通知</a> <span>[2019-06-06]</span></li>
-										<li><a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=26" target="_blank" rel="noopener noreferrer">关于各单位抓紧上报鉴定/奖励系统用户统一身份账号的通知</a> <span>[2019-05-28]</span></li>
-										<li><a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=25" target="_blank" rel="noopener noreferrer">关于各单位抓紧上传鉴定证书的通知</a> <span>[2019-05-23]</span></li>
-										<li><a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=24" target="_blank" rel="noopener noreferrer">关于经济效益内容无法填写的解决办法</a> <span>[2019-05-16]</span></li>
-										<li><a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=23" target="_blank" rel="noopener noreferrer">关于鉴定申报书知识产权内容填写的说明</a> <span>[2019-05-16]</span></li>
-										<li><a href="http://10.1.19.130/zshjdgl/xxgl/xxll.aspx?id=22" target="_blank" rel="noopener noreferrer">关于参加人员信息无法插入问题的解决办法</a> <span>[2019-05-09]</span></li>
+										<#list noticeList as notice> <#if notice?exists> <#if notice.noticeSystemType == '成果鉴定系统'>
+										<li><a href="javascript:parent.layui.index.openTabsPage('/admin/project/notice/detail?dataId=${notice.dataId}', '科技成果动态');">${notice.noticeTitle}</a> <span>[${notice.noticeDate}]</span></li> </#if></#if> </#list>
 									</ul>
 								</div>
 								<div class="layui-tab-item">
 									<ul>
-										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=96" target="_blank" rel="noopener noreferrer">附件上传不成功的话请下班人少的时候再传</a> <span>[ 2019-06-28]</span></li>
-										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=95" target="_blank" rel="noopener noreferrer">项目英文名称不用填写</a> <span>[ 2019-06-26]</span></li>
-										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=94" target="_blank" rel="noopener noreferrer">研究方向信息已有，请补填</a> <span>[2019-06-21]</span></li>
-										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=93" target="_blank" rel="noopener noreferrer">关于奖励申报注意事项的通知（重要）</a> <span>[2019-06-19]</span></li>
-										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=92" target="_blank" rel="noopener noreferrer">系统暂时不允许上报</a> <span>[2019-06-19]</span></li>
-										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=91" target="_blank" rel="noopener noreferrer">经济效益无法正常显示的问题说明</a> <span>[ 2019-06-17]</span></li>
-										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=90" target="_blank" rel="noopener noreferrer">英文无法录入、附件无法上传的问题说明</a> <span>[2019-06-14]</span></li>
-										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=89" target="_blank" rel="noopener noreferrer">一级用户给下级用户添加对照关系的方法说明</a> <span>[2019-06-10]</span></li>
-										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=88" target="_blank" rel="noopener noreferrer">系统开放申报的通知</a> <span>[2019-06-06]</span></li>
-										<li><a href="http://10.1.19.130/zshkjjl/xtgl/xxll.aspx?id=87" target="_blank" rel="noopener noreferrer">系统尚未开放的通知</a> <span>[2019-06-05]</span></li>
+										<#list noticeList as notice> <#if notice?exists> <#if notice.noticeSystemType == '科技奖励系统'>
+										<li><a href="javascript:parent.layui.index.openTabsPage('/admin/project/notice/detail?dataId=${notice.dataId}', '科技奖励动态');">${notice.noticeTitle}</a> <span>[${notice.noticeDate}]</span></li> </#if></#if> </#list>
 									</ul>
 								</div>
 							</div>
@@ -1079,7 +1067,7 @@
 				}
 
 				function set_wait_work_id_count() {
-					var url = "/task/pending-list";
+					var url = "/task/pending/union/show";
 					$.ajax({
 						type : "POST",
 						url : url,
@@ -1090,7 +1078,6 @@
 							'Content-Type' : 'application/json'
 						},
 						success : function(data, status) {
-
 							$("#wait_work_id_count").html(data.count + "");
 							var list = data.data;
 							for (var i = 0; i < list.length; i++) {

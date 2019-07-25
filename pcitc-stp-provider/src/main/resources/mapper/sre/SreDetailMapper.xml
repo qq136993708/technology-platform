@@ -360,7 +360,7 @@
 	     <if test="equipmentName != null and equipmentName!='' ">               AND t.equipment_name   like CONCAT('%',#{equipmentName },'%')</if>
 	     <if test="declareDepartment!= null and declareDepartment!='' "> AND t.declare_department    like CONCAT('%',#{declareDepartment},'%')</if>
 	 	 <if test="configure!= null and configure!='' "> AND t.configure    like CONCAT('%',#{configure},'%')</if>
-	 	 
+	 	  <if test="declareUnit!= null and declareUnit!='' "> AND t.declare_unit    like CONCAT('%',#{declareUnit},'%')</if>
 	 	 <if test="unitPathIds != null and unitPathIds!='' ">               AND t.unitPathIds   like CONCAT('%',#{unitPathIds },'%')</if>
 	     <if test="parentUnitPathIds!= null and parentUnitPathIds!='' "> AND t.parentUnitPathIds    like CONCAT('%',#{parentUnitPathIds},'%')</if>
 	 	 <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>

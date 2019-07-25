@@ -306,7 +306,9 @@ var layer;
             dataType: "json",
             timeout: 11000,
             cache: false,
-            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            headers : {
+				'Content-Type' : 'application/json'
+			},
             success: function (data, status) {
 				$("#numberNotice").html("("+data.count + ")");
             },
@@ -328,7 +330,9 @@ var layer;
             dataType: "json",
             timeout: 11000,
             cache: false,
-            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            headers : {
+				'Content-Type' : 'application/json'
+			},
             success: function (data, status) {
 				$("#doneTaskCount").html("("+data.count + ")");
             },

@@ -225,7 +225,7 @@ layui.config({
        			  }
         		  if(writeType=='3')
        			  {
-        			   layer.alert('请选择总公司一起起修改');
+        			   layer.alert('请选择上级单位一起修改');
         			   return;
        			  }
         		  
@@ -368,11 +368,11 @@ layui.config({
   	        ,cellMinWidth: 200
   	        ,idField:'id'//必須字段
   	        ,treeId:'id'//树形id字段名称
-  	        ,treeUpId:'pId'//树形父id字段名称 
+  	        ,treeUpId:'parentId'//树形父id字段名称 
   	        ,treeShowName:'unitName'//以树形式显示的字段
   	        ,height: commonDislodgeTable()
-  	        //,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
-  	        //,isFilter: false
+  	        ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
+  	        ,isFilter: false
   	        ,iconOpen: false//是否显示图标【默认显示】
   	        ,isOpenDefault: true//节点默认是展开还是折叠【默认展开】
   	        ,loading: true
@@ -408,8 +408,8 @@ layui.config({
                {field : 'researcherCount',             title : '研究与试验发展(R&D)人员数',          style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'directResearcherCount',       title : '直接参与研究与试验发展项目(课题)人员数',          style : 'cursor: pointer;', align : 'center', width : '25%',sort : true},
                {field : 'assistResearcherCount',       title : '研究与试验发展项目(课题)管理和辅助工作人员数',          style : 'cursor: pointer;', align : 'center', width : '25%',sort : true},
-               {field : 'workerSalary',    title : '职工薪酬总额(万元)',                  style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
-               {field : 'assetsTotal',     title : '资产合计(万元)',                     style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'workerSalary',                title : '职工薪酬总额(万元)',                  style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
+               {field : 'assetsTotal',                 title : '资产合计(万元)',                     style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'fixedAssets',     title : '固定资产(万元)',                     style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'deviceAssets',    title : '技术开发仪器设备原值(万元)',             style : 'cursor: pointer;', align : 'center', width : '10%',sort : true},
                {field : 'deviceInnnerAssets',     title : '技术开发仪器设备原值->其中：国产技术',             style : 'cursor: pointer;', align : 'center', width : '25%',sort : true},

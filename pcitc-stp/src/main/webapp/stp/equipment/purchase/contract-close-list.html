@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <!--表格数据操作js-->
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
 </head>
 
 <body>
@@ -16,12 +18,21 @@
     <form action=""  name="form1" id="form1" action="" method="POST">
         <input type="hidden" name="departCode" id="departCode" value="${departCode}">
         <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
-
+        <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
     </form>
     <!--查询条件-->
     <label class="dateInput">
         <span>申请名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入申请名称" title="申请名称" autocomplete="off" class="form-control" id="purchaseName">
+    </label>
+    <label class="dateInput" style="margin-left:10px;" id="bodyId">
+        <span>研究院</span>
+        <select name="parentUnitPathNames" id="parentUnitPathNames"  class="form-control"  >
+            <option value="" >--请选择--</option>
+            <#list leaddicList as vo>
+            <option value="${vo.numValue}"  >${vo.name}</option>
+        </#list>
+        </select>
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -50,6 +61,15 @@
     {{#  } else{ }}
     <button class="layui-red layui-btn-primary layui-btn-xs">未上传</button>
     {{#  } }}
+</script>
+<script type="text/javascript">
+    $(function(){
+        if(isKJBPerson=="true" || isKJBPerson==true){
+            document.getElementById("bodyId").style.display = "inline";
+        }else{
+            document.getElementById("bodyId").style.display = "none";
+        }
+    })
 </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
@@ -94,9 +114,8 @@
     }
 </script>
 
-<!--表格数据操作js-->
-<script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
+    var isKJBPerson=$('#isKJBPerson').val();
     var table,selectRowData;
     var contractCode=$('#contractCode').val();
     layui.use(['jquery','table','laypage','layer','laytpl'], function(){
@@ -115,6 +134,7 @@
             },
             resetEvent: function() { //点击重置按钮
                 $('#purchaseName').val("");
+                $('#parentUnitPathNames').val("");
             },contractCloseEvent: function(){  //关闭合同按钮
 
                 if (typeof(selectRowData) == "undefined")
@@ -196,7 +216,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"purchaseName":$("#purchaseName").val(),"departCode":$("#departCode").val(),"stage":"6","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"purchaseName":$("#purchaseName").val(),"departCode":$("#departCode").val(),"stage":"6","setupYear":$("#setupYear").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -211,13 +231,13 @@
             cols: [[
                 {type : 'checkbox', event : 'changeEvents', width : 55},
                 {title : '序号',sort : true, type :'numbers', width : 55},
-                {field : 'isContractClosed',    title : '合同状态',        style : 'cursor: pointer;', align: 'center', width : 100,templet : '#isContractClosed_temp'},
+                {field : 'isContractClosed',sort : true,title : '合同状态',style : 'cursor: pointer;', align: 'center', width : 100,templet : '#isContractClosed_temp'},
                 /*{field : 'stage',sort : true, title : '状态', style : 'cursor: pointer;', align : 'center',templet : '#stage_temp', width : '10%'},*/
-                {field : 'purchaseName',sort : true,     title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '18%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
-                {field : 'parentUnitPathNames',sort : true,     title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
+                {field : 'purchaseName',sort : true,   title : '申请名称', style : 'cursor: pointer;', align : 'left', width : '18%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.purchaseName+'</span>'}},
+                {field : 'parentUnitPathNames',sort : true,  title : '单位名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
                 {field : 'departName',sort : true,     title : '部门名称', style : 'cursor: pointer;', align : 'left', width : '18%'},
-                {field : 'proposerName',sort : true,      		title : '申请人',         style : 'cursor: pointer;', align: 'center',  width : '15%',},
-                {field : 'createDate',sort : true,      title : '申请日期', 		style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
+                {field : 'proposerName',sort : true,   title : '申请人',   style : 'cursor: pointer;', align: 'center',  width : '15%',},
+                {field : 'createDate',sort : true,     title : '申请日期', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

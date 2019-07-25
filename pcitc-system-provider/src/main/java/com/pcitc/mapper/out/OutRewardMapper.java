@@ -49,6 +49,11 @@ public interface OutRewardMapper {
 	public List getRewardInfoByYjy(HashMap<String, String> map);
 	
 	/**
+	 * 查询合同号的奖励情况
+	 */
+	public List getRewardInfoForHth(HashMap<String, String> map);
+	
+	/**
 	 * 修改out_reward数据
 	 * 调用存储过程统一处理，无参数
 	 */

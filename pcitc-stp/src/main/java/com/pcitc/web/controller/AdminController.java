@@ -70,6 +70,7 @@ public class AdminController extends BaseController {
 	private static final String DONE_TASK_COUNT = "http://pcitc-zuul/system-proxy/task-provider/done-task-count";
 	// 待办任务数
 	private static final String PENDING_TASK_COUNT = "http://pcitc-zuul/system-proxy/task-provider/pending-task-count";
+
 	// 专利数量（研究院）
 	private static final String PATENT_COUNT = "http://pcitc-zuul/system-proxy/out-patent-provider/patent-count";
 	// 科技奖励数量（研究院）
@@ -98,6 +99,9 @@ public class AdminController extends BaseController {
 	// 项目管理系统通知公告
 	private static final String PROJECT_NOTICE = "http://pcitc-zuul/system-proxy/out-notice/type/page";
 	private static final String PROJECT_NOTICE_DETAILS = "http://pcitc-zuul/system-proxy/out-notice/type/notice/";
+
+	// 获取项目管理系统的待办任务
+	private static final String XMGL_PENDING = "http://pcitc-zuul/system-proxy/out-wait-work/xmgl/page";
 
 	private Integer TIME_OUT = 1 * 60 * 60;
 
@@ -698,7 +702,7 @@ public class AdminController extends BaseController {
 		// oa系统的服务器地址
 		request.setAttribute("outOAIp", "10.1.4.10");
 
-		// 获取其他系统的待办任务
+		// 获取其他系统的通知公告
 		LayuiTableParam noticePara = new LayuiTableParam();
 		noticePara.setLimit(10);
 		HttpEntity<LayuiTableParam> noticeEntity = new HttpEntity<LayuiTableParam>(noticePara, this.httpHeaders);
@@ -778,9 +782,12 @@ public class AdminController extends BaseController {
 		return jsonObj.toString();
 	}
 
+	/**
+	 * 待办任务数量，包括科技管理平台和其他系统
+	 */
 	@RequestMapping(value = "/admin/pending-task-count", method = RequestMethod.POST)
 	@ResponseBody
-	public synchronized Object getPendingTaskCount(HttpServletRequest request) {
+	public Object getPendingTaskCount(HttpServletRequest request) {
 		System.out.println("1====/admin/pending-task-count" + sysUserInfo.getUserId());
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("userId", sysUserInfo.getUserId());
@@ -791,9 +798,20 @@ public class AdminController extends BaseController {
 
 		Long doneTaskCount = retJson.get("pendingTaskCount") != null ? Long.parseLong(retJson.get("pendingTaskCount").toString()) : 0l;
 
+		// 获取其他系统的待办任务数量
+		// 获取当前登录人信息, 统一身份名作为用户id
+		LayuiTableParam param = new LayuiTableParam();
+		param.getParam().put("userId", sysUserInfo.getUserName());
+		param.setLimit(100);
+		param.setPage(1);
+		HttpEntity<LayuiTableParam> entity1 = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity1 = this.restTemplate.exchange(XMGL_PENDING, HttpMethod.POST, entity1, LayuiTableData.class);
+		LayuiTableData retJson1 = responseEntity1.getBody();
+		int otherCount = retJson1.getCount();
+		
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("pendingTaskCount", doneTaskCount);
-
+		jsonObj.put("pendingTaskCount", doneTaskCount+otherCount);
+		
 		return jsonObj.toString();
 	}
 
@@ -1239,5 +1257,5 @@ public class AdminController extends BaseController {
 		request.setAttribute("outNotice", outNotice);
 		return "/stp/out/notice-details";
 	}
-	
+
 }
