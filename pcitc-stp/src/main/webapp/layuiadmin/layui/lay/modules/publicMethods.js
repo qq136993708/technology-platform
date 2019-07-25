@@ -246,6 +246,19 @@ layui.define(['jquery','form','table','laydate'],
                     content:  temUrl
                 });
             },
+            openBaseWin76:function(title,temUrl) {
+                layer.open({
+                    title:title,
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin : true,
+                    area : [ '70%', '60%' ],
+                    content:  temUrl
+                });
+            },
             /**
              * 生成一个表单
              * @param {String} name 表单的名称
