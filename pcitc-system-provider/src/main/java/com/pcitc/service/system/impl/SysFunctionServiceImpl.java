@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -469,4 +470,20 @@ public class SysFunctionServiceImpl implements SysFunctionService{
     public List<SysFunction> selectByExample(SysFunctionExample example) {
         return functionDao.selectByExample(example);
     }
+
+	@Override
+	public SysFunction getFunctionByUrl(String url) 
+	{
+		if(StringUtils.isBlank(url)) {
+			return null;
+		}
+		SysFunctionExample example = new SysFunctionExample();
+		SysFunctionExample.Criteria c = example.createCriteria();
+		c.andUrlEqualTo(url);
+		List<SysFunction> funcs = functionMapper.selectByExample(example);
+		if(funcs != null && funcs.size() >0) {
+			return funcs.get(0);
+		}
+		return null;
+	}
 }

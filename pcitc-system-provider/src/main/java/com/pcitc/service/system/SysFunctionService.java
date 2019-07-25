@@ -135,5 +135,10 @@ public interface SysFunctionService {
 	String createWeight(SysFunction function) throws Exception;
 
     List<SysFunction> selectByExample(SysFunctionExample example);
-
+    /**
+     * 
+     * @param url
+     * @return
+     */
+    public SysFunction getFunctionByUrl(String url);
 }

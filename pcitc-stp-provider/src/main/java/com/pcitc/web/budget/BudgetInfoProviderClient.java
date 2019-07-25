@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.service.budget.BudgetAssetTotalService;
@@ -29,6 +33,7 @@ import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.budget.BudgetStockTotalService;
 import com.pcitc.service.budget.BudgetTechSplitService;
+import com.pcitc.service.feign.SystemRemoteClient;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -54,6 +59,9 @@ public class BudgetInfoProviderClient
 	private BudgetB2cSplitService budgetB2cSplitService;
 	@Autowired
 	private BudgetTechSplitService budgetTechSplitService;
+	
+	@Resource
+	private SystemRemoteClient systemRemoteClient;
 	
 	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度预算表信息列表（不分页）。")
 	@RequestMapping(value = "/stp-provider/budget/budget-info-list", method = RequestMethod.POST)
@@ -244,6 +252,14 @@ public class BudgetInfoProviderClient
 					|| BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode().equals(info.getAuditStatus())) 
 			{
 				return new Result(false,"已发起审批不可重复发起！");
+			}
+			//获取functionId(如果从非菜单跳转到页面，则需要手动获取functionId)
+			if(StringUtils.isBlank(workflowVo.getFunctionId()) || "undefined".equals(workflowVo.getFunctionId())) 
+			{
+				
+				String url = BudgetInfoEnum.getByCode(info.getBudgetType()).getMainUrl();
+				SysFunction func = systemRemoteClient.getFunctionByUrl(url);
+				workflowVo.setFunctionId(func.getId());
 			}
 			boolean status = budgetInfoService.startWorkFlow(info,workflowVo);
 	    	if(status) 
