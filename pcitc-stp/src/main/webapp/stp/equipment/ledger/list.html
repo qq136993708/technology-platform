@@ -13,10 +13,11 @@
 </head>
 <body>
 <input  name="str"     id="str"      value="${str}"    type="hidden">
+ <input name="g0gsjc" id="g0gsjc" type="hidden" value="${g0gsjc}">
 <div class="searchBox">
       <label class="dateInput">
             <span>月份</span>
-            <input type="text" name="month"  title="月份" value="${month}"  readonly="readonly" id="month">
+            <input type="text" name="month"  title="月份" placeholder="请输入月份" value="${month}"  id="month">
             <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
         </label>
         
@@ -34,7 +35,7 @@
 	   </#if>         
     <label class="dateInput">
         <span>资产描述</span>
-        <input type="text" name="g0txt50"  title="资产描述" autocomplete="off" class="form-control" id="g0txt50">
+        <input type="text" name="g0txt50"  title="资产描述" placeholder="请输入资产描述" autocomplete="off" class="form-control" id="g0txt50">
     </label>
                             
     <!--按钮组-->
@@ -176,7 +177,7 @@ var name=$('#name').val();
             resetEvent: function() { //点击重置按钮
             	$('#g0anln1').val("");
             	$('#g0gsjc').val("");
-            	//$('#month').val("");
+            	$('#month').val("");
             	$('#g0txt50').val("");
             	$('#leadUnitCode').val("");
             }
@@ -228,7 +229,10 @@ var name=$('#name').val();
         }else{
             month=month.replace("-","");
         }
-        
+        var g0gsjcyy = $("#leadUnitCode").val();
+        if(g0gsjcyy!=undefined&&g0gsjcyy!=""){
+     	    $("#g0gsjc").val(g0gsjcyy);
+        }
     	//渲染
         table.render({
             elem: '#processdef-table',
