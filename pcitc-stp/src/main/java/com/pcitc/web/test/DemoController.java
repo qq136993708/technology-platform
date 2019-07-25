@@ -51,22 +51,22 @@ public class DemoController {
 
 		try {
 			String temS = "";
-			String TEST_URL = "http://10.1.19.218/ProjectService.asmx";
+			String TEST_URL = "http://10.1.19.131:9001/DataService/BasicQuery/Sql";
 			System.out.println("=====开始访问===" + TEST_URL);
 			// 创建一个请求客户端
 			RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(TEST_URL);
 			client.get();
 
 			Map<String, String> headerMap = new HashMap<String, String>();
-			//headerMap.put("Authorization", "Basic AwardsClientTest:wangcong382.slyt");
+			headerMap.put("Authorization", "Basic AwardsClientTest:wangcong382.slyt");
 			
 			// 设置全局默认请求头，每次请求都会带上这些请求头
-			//RestfulHttpClient.setDefaultHeaders(headerMap);
+			RestfulHttpClient.setDefaultHeaders(headerMap);
 			// 添加多个参数请求头
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "GetList");
+			paramMap.put("sqlName", "SelectAllJDSQ");
 			JsonObject jo = new JsonObject();
 
 			System.out.println(jo.toString());
