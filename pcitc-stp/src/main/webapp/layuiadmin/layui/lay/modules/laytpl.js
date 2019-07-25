@@ -322,7 +322,9 @@ layui.define(['jquery'],function (e) {
 	
 	o.contractStatus_equipment = function(d){
         var stateData;
-        if(d==1){
+        if(d==10){
+        	 stateData="<span></span>"
+        }else if(d==1){
 			stateData="<span class='fontStateColor  btn-green'></span>"
         }else{
         	 stateData="<span class='fontStateColor btn-blue'></span>"

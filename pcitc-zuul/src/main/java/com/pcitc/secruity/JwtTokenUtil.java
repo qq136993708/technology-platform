@@ -130,6 +130,7 @@ public class JwtTokenUtil implements Serializable {
 
 	String generateToken(Map<String, Object> claims) {
 		String token = Jwts.builder().setClaims(claims).setExpiration(generateExpirationDate()).signWith(SignatureAlgorithm.HS512, secret).compact();
+		System.out.println("token------"+token);
 		return token;
 	}
 

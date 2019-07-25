@@ -72,7 +72,6 @@ public class AuthServiceImpl implements AuthService {
 		reJson.put("userPassword", password);
 		
 		JSONObject json = systemRemoteClient.selectUserDetail(reJson.toString());
-		System.out.println("2-----------zuul--login---"+json);
 		List<SysUser> userList = JSONArray.parseArray(json.getJSONArray("list").toString(), SysUser.class);
 		
 		if (userList == null || userList.size() != 1) {

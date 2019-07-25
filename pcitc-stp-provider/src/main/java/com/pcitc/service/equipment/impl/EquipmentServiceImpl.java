@@ -286,6 +286,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 					{
 						ProjectMoney projectMoney=new ProjectMoney();
 						String arrYear[]=yearStr.split(",");
+						String id = UUID.randomUUID().toString().replaceAll("-", "");
+						projectMoney.setId(id);
 						projectMoney.setProjectId(record.getId());
 						projectMoney.setYear(arrYear[0]);
 						projectMoney.setFyMoney(Integer.valueOf(arrYear[1]));
@@ -351,7 +353,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String professionalDepartCode=getTableParam(param,"professionalDepartCode","");
 
 		String contractNum=getTableParam(param,"contractNum","");
-		String leadUnit=getTableParam(param,"leadUnitCode","");
+		String leadUnit=getTableParam(param,"leadname","");
 		String parentUnitPathNames = getTableParam(param, "parentUnitPathNames", "");
 		Map map=new HashMap();
 		map.put("belongDepartmentName", belongDepartmentName);
