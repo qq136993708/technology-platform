@@ -148,10 +148,13 @@
 </div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+
+<script type="text/javascript" src="/plugins/echarts/echarts4.js"></script>
+
+<!--<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>-->
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<!--<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>-->
+<!--<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>-->
 <script type="text/javascript" src="/stp/hana/common/stp_common_force.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 <script type="text/html" id="showDetail">
@@ -338,8 +341,8 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
 
 
         var colorFive = ["#8fc31f"];
-        // load_single_forces("/expertController/picIndexImg?hyly="+hyly, "one", "专家画像", "", "", "", 10);
         five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
+        // load_single_forces("/expertController/picIndexImg?hyly="+hyly, "one", "专家画像", "", "", "", 10);
 
         // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
         //     if (d.seriesDataList == undefined) {
@@ -813,7 +816,6 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
         $(".layui-table-header table thead th input").remove();
     });
 </script>
-<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
 <script>
     function relationPic() {
         //var one = "/expertController/picIndex?id=5&type=force&expertId="+expertId;

@@ -1,13 +1,6 @@
 package com.pcitc.service.out.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
@@ -57,6 +50,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 
     @Autowired
     private OutProjectErpMapper outProjectErpMapper;
+
+    @Autowired
+    private OutRewardMapper outRewardMapper;
 
     private final static Logger logger = LoggerFactory.getLogger(OutProjectServiceImpl.class);
 
