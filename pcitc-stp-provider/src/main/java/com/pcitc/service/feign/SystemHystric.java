@@ -12,6 +12,8 @@ import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.stp.system.SysMeeting;
 import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysFunction;
+
 import org.springframework.stereotype.Component;
 
 import com.pcitc.base.system.SysPost;
@@ -101,5 +103,11 @@ public class SystemHystric implements SystemRemoteClient {
     public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) throws Exception {
         System.out.println("执行断路器。。。。。。。。");
         throw new RuntimeException("调用失败.");    }
+
+	@Override
+	public SysFunction getFunctionByUrl(String url) {
+		 System.out.println("执行断路器。。。。。。。。");
+	     throw new RuntimeException("调用失败.");
+	}
 
 }

@@ -248,4 +248,18 @@ public class SysFunctionProviderClient {
 		} 
 		return code;
 	}
+	/**
+	 * 生成排序号
+	 * @param function
+	 * @return
+	 */
+	@RequestMapping(value = "/function-provider/get-by-url", method = RequestMethod.POST)
+	public SysFunction getFunctionByUrl(@RequestBody String url){
+		SysFunction func = null;
+		try {
+			func = functionService.getFunctionByUrl(url);
+		} catch (Exception e) {
+		} 
+		return func;
+	}
 }

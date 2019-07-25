@@ -323,7 +323,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	    	flowJson.put("auditDetailsPath", workflowVo.getAuditDetailsPath());
 	    	flowJson.put("auditAgreeMethod", workflowVo.getAuditAgreeMethod());
 	    	flowJson.put("auditRejectMethod", workflowVo.getAuditRejectMethod());
-	    	
+	    	System.out.println(flowJson.toJSONString());
 	    	// 远程调用
 	    	System.out.println("=====远程调用开始  time:"+System.currentTimeMillis());
 	    	String rs = workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
