@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -3107,9 +3108,13 @@ public class OneLevelMainController extends BaseController {
 	public void downLoadPlantRunningListInfo(HttpServletResponse res, @PathVariable("year") String year) throws IOException {
 
 		URL path = this.getClass().getResource("/");
-		File f = new File(path.getPath() + "static/ten_dragon/ten_dragon_report_20121120.doc");
-
-		FileUtil.fileDownload(f, res);
+		List<String> files = Arrays.asList(new File(path.getPath() + "static/ten_dragon").list());
+		List<String> filenames = files.stream().filter(a -> a.contains(year)).collect(Collectors.toList());
+		if(filenames != null && filenames.size() >0) 
+		{
+			File f = new File(filenames.get(0));
+			FileUtil.fileDownload(f, res);
+		}
 	}
 
 	/** ==============领导页面--科研投入============================ */

@@ -13,6 +13,7 @@
 </head>
 <body>
 <input  name="str"     id="str"      value="${str}"    type="hidden">
+ <input name="g0gsjc" id="g0gsjc" type="hidden" value="${g0gsjc}">
 <div class="searchBox">
       <label class="dateInput">
             <span>月份</span>
@@ -228,7 +229,10 @@ var name=$('#name').val();
         }else{
             month=month.replace("-","");
         }
-        
+        var g0gsjcyy = $("#leadUnitCode").val();
+        if(g0gsjcyy!=undefined&&g0gsjcyy!=""){
+     	    $("#g0gsjc").val(g0gsjcyy);
+        }
     	//渲染
         table.render({
             elem: '#processdef-table',

@@ -73,7 +73,9 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 		map.put("g0cald", month);
 		map.put("g0gsdm", g0gsdm);
 		map.put("g0gsjc", g0gsjc);
-		map.put("g0gsjc", leadUnitCode);
+		if(!leadUnitCode.equals("")) {
+			map.put("g0gsjc", leadUnitCode);
+		}
 		List<SreEquipmentLedger> list=sreEquipmentLedgerMapper.getListMap(map);
 		
 		
