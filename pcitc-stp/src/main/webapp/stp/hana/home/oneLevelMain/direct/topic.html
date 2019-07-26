@@ -23,6 +23,18 @@
 .searchBox {
 	background: none;
 }
+
+.layui-row-main td:nth-child(2) .layui-table-cell {
+	color: red;
+}
+
+.layui-row-main td:nth-child(4) .layui-table-cell {
+	color: green;
+}
+.layui-row-main td:nth-child(6) .layui-table-cell {
+	color: orange;
+}
+
 </style>
 </head>
 <body>
@@ -39,7 +51,7 @@
 				<div class="searchBox">
 					<label class="dateInput">
 						<span>年份</span>
-						<input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
+						<input type="text" name="year" readonly="readonly" style="cursor:pointer" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
 						<i class="layui-icon layui-icon-date" style="margin-left: -35px"></i>
 
 					</label>

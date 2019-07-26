@@ -23,6 +23,19 @@
 .searchBox {
 	background: none;
 }
+
+.layui-card-body td:nth-child(2) .layui-table-cell {
+	color: red;
+}
+
+.layui-card-body td:nth-child(3) .layui-table-cell {
+	color: green;
+}
+.layui-card-body td:nth-child(6) .layui-table-cell {
+	color: orange;
+}
+
+
 </style>
 </head>
 <body>
@@ -37,7 +50,7 @@
 				<div class="searchBox">
 					<label class="dateInput">
 						<span>年份</span>
-						<input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
+						<input type="text"  readonly="readonly" style="cursor:pointer"  name="month" name="year" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
 						<i class="layui-icon layui-icon-date" style="margin-left: -35px"></i>
 					</label>
 					<div class="btnGroup" style="margin-left: 10px">
@@ -51,8 +64,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院课题合同（任务书）签定率
+							<span class="layui-time"></span>年直属研究院课题合同（任务书）签定率
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -85,8 +97,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院课题合同（任务书）数量占比
+							<span class="layui-time"></span>年直属研究院课题合同（任务书）数量占比
 						</div>
 						<div class="layui-card-body btn-function">
 							<div class="processdef_table">
@@ -100,8 +111,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年课题合同（任务书）签订率
+							<span class="layui-time"></span>年课题合同（任务书）签订率
 						</div>
 						<div class="layui-row-main">
 
@@ -132,8 +142,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院课题合同（任务书）数量占比
+							<span class="layui-time"></span>年直属研究院课题合同（任务书）数量占比
 						</div>
 						<div class="layui-card-body btn-function">
 							<div id="processdef_tableN">
