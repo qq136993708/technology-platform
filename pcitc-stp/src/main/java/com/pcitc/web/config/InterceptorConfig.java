@@ -21,9 +21,6 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 	@Autowired
 	RequestLogInterceptor logInterceptor;
 	
-	@Autowired
-	CsrCheckInterceptor csrCheckInterceptor;
-	
 	// 文件上传路径
 	@Value("${uploaderPathTemp}")
 	private String uploaderPathTemp;
