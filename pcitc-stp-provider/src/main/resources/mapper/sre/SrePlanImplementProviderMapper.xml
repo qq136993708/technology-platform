@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.equipment.SrePlanImplementProviderMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SrePlanImplement">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="researchInstitute" jdbcType="VARCHAR" property="researchinstitute" />
+    <result column="publication_title" jdbcType="VARCHAR" property="publicationTitle" />
+    <result column="publication_type" jdbcType="VARCHAR" property="publicationType" />
+    <result column="publisher" jdbcType="VARCHAR" property="publisher" />
+    <result column="publication_text" jdbcType="VARCHAR" property="publicationText" />
+    <result column="publication_month" jdbcType="TIMESTAMP" property="publicationMonth" />
+    <result column="publication_state" jdbcType="VARCHAR" property="publicationState" />
+    <result column="son_id" jdbcType="VARCHAR" property="sonId" />
+    <result column="level_id" jdbcType="VARCHAR" property="levelId" />
+    <result column="creation_time" jdbcType="TIMESTAMP" property="creationTime" />
+    <result column="level_name" jdbcType="VARCHAR" property="levelName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, researchInstitute, publication_title, publication_type, publisher, publication_text, 
+    publication_month, publication_state, son_id, level_id, creation_time, level_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sre_planning_management
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sre_planning_management
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SrePlanImplement">
+    insert into sre_planning_management (id, researchInstitute, publication_title, 
+      publication_type, publisher, publication_text, 
+      publication_month, publication_state, son_id, 
+      level_id, creation_time, level_name
+      )
+    values (#{id,jdbcType=VARCHAR}, #{researchinstitute,jdbcType=VARCHAR}, #{publicationTitle,jdbcType=VARCHAR}, 
+      #{publicationType,jdbcType=VARCHAR}, #{publisher,jdbcType=VARCHAR}, #{publicationText,jdbcType=VARCHAR}, 
+      #{publicationMonth,jdbcType=TIMESTAMP}, #{publicationState,jdbcType=VARCHAR}, #{sonId,jdbcType=VARCHAR}, 
+      #{levelId,jdbcType=VARCHAR}, #{creationTime,jdbcType=TIMESTAMP}, #{levelName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SrePlanImplement">
+    insert into sre_planning_management
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="researchinstitute != null">
+        researchInstitute,
+      </if>
+      <if test="publicationTitle != null">
+        publication_title,
+      </if>
+      <if test="publicationType != null">
+        publication_type,
+      </if>
+      <if test="publisher != null">
+        publisher,
+      </if>
+      <if test="publicationText != null">
+        publication_text,
+      </if>
+      <if test="publicationMonth != null">
+        publication_month,
+      </if>
+      <if test="publicationState != null">
+        publication_state,
+      </if>
+      <if test="sonId != null">
+        son_id,
+      </if>
+      <if test="levelId != null">
+        level_id,
+      </if>
+      <if test="creationTime != null">
+        creation_time,
+      </if>
+      <if test="levelName != null">
+        level_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="researchinstitute != null">
+        #{researchinstitute,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationTitle != null">
+        #{publicationTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationType != null">
+        #{publicationType,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null">
+        #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationText != null">
+        #{publicationText,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationMonth != null">
+        #{publicationMonth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publicationState != null">
+        #{publicationState,jdbcType=VARCHAR},
+      </if>
+      <if test="sonId != null">
+        #{sonId,jdbcType=VARCHAR},
+      </if>
+      <if test="levelId != null">
+        #{levelId,jdbcType=VARCHAR},
+      </if>
+      <if test="creationTime != null">
+        #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="levelName != null">
+        #{levelName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SrePlanImplement">
+    update sre_planning_management
+    <set>
+      <if test="researchinstitute != null">
+        researchInstitute = #{researchinstitute,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationTitle != null">
+        publication_title = #{publicationTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationType != null">
+        publication_type = #{publicationType,jdbcType=VARCHAR},
+      </if>
+      <if test="publisher != null">
+        publisher = #{publisher,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationText != null">
+        publication_text = #{publicationText,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationMonth != null">
+        publication_month = #{publicationMonth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publicationState != null">
+        publication_state = #{publicationState,jdbcType=VARCHAR},
+      </if>
+      <if test="sonId != null">
+        son_id = #{sonId,jdbcType=VARCHAR},
+      </if>
+      <if test="levelId != null">
+        level_id = #{levelId,jdbcType=VARCHAR},
+      </if>
+      <if test="creationTime != null">
+        creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="levelName != null">
+        level_name = #{levelName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SrePlanImplement">
+    update sre_planning_management
+    set researchInstitute = #{researchinstitute,jdbcType=VARCHAR},
+      publication_title = #{publicationTitle,jdbcType=VARCHAR},
+      publication_type = #{publicationType,jdbcType=VARCHAR},
+      publisher = #{publisher,jdbcType=VARCHAR},
+      publication_text = #{publicationText,jdbcType=VARCHAR},
+      publication_month = #{publicationMonth,jdbcType=TIMESTAMP},
+      publication_state = #{publicationState,jdbcType=VARCHAR},
+      son_id = #{sonId,jdbcType=VARCHAR},
+      level_id = #{levelId,jdbcType=VARCHAR},
+      creation_time = #{creationTime,jdbcType=TIMESTAMP},
+      level_name = #{levelName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_planning_management  <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  publication_month   desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	   	 <if test="sonId != null and sonId !='' ">      AND son_id =  #{parentUnitPathIds}</if>
+	   	 <if test="researchInstitute != null and researchInstitute !='' ">      AND researchInstitute =  #{parentUnitPathNames}</if>
+	   	 <if test="publicationType != null and publicationType !='' ">      AND son_id =  #{publicationType}</if>
+	   	  <if test="publisher != null and publisher  !='' ">     AND publisher like CONCAT('%',#{publisher},'%')</if>
+	   	 <if test="publicationTitle != null and publicationTitle  !='' ">     AND publication_title like CONCAT('%',#{publicationTitle},'%')</if>
+	   	 <if test="publicationMonth != null and publicationMonth  !='' ">     AND publication_month like CONCAT('%',#{publicationMonth},'%')</if>
+	 </trim>
+	</sql>
+</mapper>
