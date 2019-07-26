@@ -31,8 +31,8 @@ import java.util.*;
  * @author:Administrator
  * @date:2018/11/5
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = SystemProviderApplication.class)// 指定spring-boot的启动类
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringBootTest(classes = SystemProviderApplication.class)// 指定spring-boot的启动类
 public class ZjkBaseInfoServiceTest {
 
     @Autowired
