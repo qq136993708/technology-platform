@@ -284,6 +284,8 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
     var links_Array = [];
     var categories_Array = [];
     var legend_Array = [];
+    var echartsobj = echarts.init(document.getElementById(id));
+    echartsobj.showLoading();
     $.ajax({
         type: "get",
         url: url,
@@ -293,15 +295,12 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         success: function (data, status) {
                 document.getElementById(id).style.display = "block";
-                var echartsobj = echarts.init(document.getElementById(id));
             option_graph.title.text = title;
             option_graph.title.subtext = subtext;
 
                 // echartsobj.setOption(option_graph);
-                echartsobj.showLoading();
 
                 if (data.success == true || data.success == 'true') {
-                    echartsobj.hideLoading();
                     console.log("data");
                     console.log(data);
                     var nodes = data.data.nodes;
@@ -312,8 +311,8 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
                     echartsobj.setOption(
                         {
                             title: {
-                                text: '专家画像',
-                                subtext: '',
+                                // text: '专家画像',
+                                // subtext: '',
                                 top: 'bottom',
                                 left: 'right'
                             },
@@ -324,9 +323,10 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
                             }],
                             animationDuration: 1500,
                             animationEasingUpdate: 'quinticInOut',
+                            draggable:true,
                             series : [
                                 {
-                                    name: '专家画像',
+                                    // name: '专家画像',
                                     type: 'graph',
                                     // type: 'graphGL',
                                     layout: 'none',
@@ -335,6 +335,8 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
                                     categories: categories,
                                     roam: true,
                                     focusNodeAdjacency: true,
+                                    invisible: false,
+                                    draggable: true,
                                     itemStyle: {
                                         normal: {
                                             borderColor: '#fff',
@@ -367,6 +369,7 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
                     if (callback) {
                         callback(data);
                     }
+                    echartsobj.hideLoading();
                 }
         },
         error: function () {
@@ -380,6 +383,8 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
     });
 
 }
+
+
 
 /**
  * 支持回调函数的bar
