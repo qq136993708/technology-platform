@@ -1838,7 +1838,7 @@
 				</if>
 			</if>
 			<if test="leaderFlag == null or leaderFlag == ''">
-				and out_project_info.nd = '1900'
+				and out_project_info.nd = '1910'
 			</if>
 	</select>
 	
@@ -1869,7 +1869,7 @@
 				</if>
 			</if>
 			<if test="leaderFlag == null or leaderFlag == ''">
-				and out_project_info.nd = '1900'
+				and out_project_info.nd = '1910'
 			</if>
 	</select>
 	
@@ -1936,7 +1936,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 				
 			GROUP BY xmid) tableA
@@ -1968,7 +1968,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 		) as tableA
 	</select>
@@ -1999,7 +1999,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			group by xmid
 		) as tableA
@@ -2033,7 +2033,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			group by xmid
 		) as tableA
@@ -2077,7 +2077,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			group by xmid
 		) as tableA
@@ -2127,7 +2127,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			group by xmid
 		) as tableA
@@ -2161,7 +2161,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			GROUP BY xmid
 		) as tableA
@@ -2198,7 +2198,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			group by xmid
 		) as tableA
@@ -2235,7 +2235,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			group by xmid
 		) as tableA
@@ -2269,7 +2269,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			GROUP BY xmid
 		) as tableA
@@ -2306,7 +2306,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			group by xmid
 		) as tableA
@@ -2350,7 +2350,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_plan.nd = '1900'
+					and out_project_plan.nd = '1910'
 				</if>
 			group by xmid
 		) as tableA left join (
@@ -2376,7 +2376,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			group by xmid
 		) as tableB on (tableA.xmid = tableB.xmid)
@@ -2419,7 +2419,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			group by xmid
 		) as tableA
@@ -2455,7 +2455,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 			group by xmid
 		) as tableA
@@ -2487,7 +2487,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 		    group by xmid
 		) as tableA 
@@ -2519,7 +2519,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 		    group by xmid
 		) as tableA 
@@ -2551,7 +2551,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 		    group by xmid
 		) as tableA 
@@ -2583,7 +2583,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 		    group by xmid
 		) as tableA 
@@ -2615,7 +2615,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 		    group by xmid
 		) as tableA 
@@ -2646,7 +2646,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 		    group by xmid
 		) as tableA 
@@ -2677,7 +2677,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 		    group by xmid
 		) as tableA
@@ -2710,7 +2710,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 		    group by xmid
 		) as tableA
@@ -2745,7 +2745,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 		    group by xmid
 		) as tableA
@@ -2788,7 +2788,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 		    group by xmid
 		) as tableA
@@ -2825,7 +2825,7 @@
 												</if>
 											</if>
 											<if test="leaderFlag == null or leaderFlag == ''">
-												and out_project_info.nd = '1900'
+												and out_project_info.nd = '1910'
 											</if>
 		    						)*100,4) zslRate,
 			round(sum(case when nd = '${nd}' then 1 else 0 end)/(select count(DISTINCT xmid) 
@@ -2851,7 +2851,7 @@
 												</if>
 											</if>
 											<if test="leaderFlag == null or leaderFlag == ''">
-												and out_project_info.nd = '1900'
+												and out_project_info.nd = '1910'
 											</if>
 		    						)*100,4) xkRate,
 			round(sum(case when nd != '${nd}' then 1 else 0 end)/(select count(DISTINCT xmid) 
@@ -2877,7 +2877,7 @@
 												</if>
 											</if>
 											<if test="leaderFlag == null or leaderFlag == ''">
-												and out_project_info.nd = '1900'
+												and out_project_info.nd = '1910'
 											</if>
 		    						)*100,4) xjRate,
 	    	SUBSTR(define2 FROM 6) define2
@@ -2903,7 +2903,7 @@
 				  </if>
 			  </if>
 			  <if test="leaderFlag == null or leaderFlag == ''">
-				  and out_project_info.nd = '1900'
+				  and out_project_info.nd = '1910'
 			  </if>
 	    group by define2
 	</select>
@@ -3050,7 +3050,7 @@
 												</if>
 											</if>
 											<if test="leaderFlag == null or leaderFlag == ''">
-												and out_project_info.nd = '1900'
+												and out_project_info.nd = '1910'
 											</if>
 											<!-- 数据控制 -->
 										)*100, 2) as zslRate,
@@ -3081,7 +3081,7 @@
 						</if>
 					</if>
 					<if test="leaderFlag == null or leaderFlag == ''">
-						and out_project_info.nd = '1900'
+						and out_project_info.nd = '1910'
 					</if>
 				  <!-- 数据控制 -->
 				  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
@@ -3130,7 +3130,7 @@
 					</if>
 				</if>
 				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
+					and out_project_info.nd = '1910'
 				</if>
 				<!-- 数据控制 -->
 			group by xmid) AS tableA 
@@ -3481,7 +3481,7 @@
 				</if>
 			</if>
 			<if test="leaderFlag == null or leaderFlag == ''">
-				and out_project_info.nd = '1900'
+				and out_project_info.nd = '1910'
 			</if>
 			<!-- 数据控制 -->
 			
@@ -3671,7 +3671,7 @@
 				</if>
 			</if>
 			<if test="leaderFlag == null or leaderFlag == ''">
-				and out_project_info.nd = '1900'
+				and out_project_info.nd = '1910'
 			</if>
 			<!-- 数据控制 -->
 			
