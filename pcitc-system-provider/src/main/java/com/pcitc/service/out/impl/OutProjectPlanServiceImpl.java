@@ -514,12 +514,20 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		if (param.getParam().get("xmmc")!=null&&!StringUtils.isBlank(param.getParam().get("xmmc")+"")) {
 			hashmap.put("xmmc", param.getParam().get("xmmc"));
 		}
-		System.out.println("11>>>>>>>>>查询分页结果"+param.getParam().get("startDate"));
-		System.out.println("11>>>>>>>>>查询分页结果"+param.getParam().get("endDate"));
+		
+		if (param.getParam().get("zylbbm")!=null&&!StringUtils.isBlank(param.getParam().get("zylbbm")+"")) {
+			hashmap.put("zylbbm", param.getParam().get("zylbbm"));
+		}
+		
+		if (param.getParam().get("zycbm")!=null&&!StringUtils.isBlank(param.getParam().get("zycbm")+"")) {
+			hashmap.put("zycbm", param.getParam().get("zycbm"));
+		}
+		
+		if (param.getParam().get("leaderFlag")!=null&&!StringUtils.isBlank(param.getParam().get("leaderFlag")+"")) {
+			hashmap.put("leaderFlag", String.valueOf(param.getParam().get("leaderFlag")));
+		}
 		List list = outProjectPlanMapper.selectProjectCycleByCondition(hashmap);
-		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
 		PageInfo<HashMap> pageInfo = new PageInfo<HashMap>(list);
-		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
 
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
