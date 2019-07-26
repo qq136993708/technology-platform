@@ -4,6 +4,10 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 public class ChartForceDataNode {
 
+
+    @JSONField(ordinal = 0)
+    private String id;
+
     @JSONField(ordinal = 1)
     private int category;
 
@@ -15,6 +19,13 @@ public class ChartForceDataNode {
 
     @JSONField(ordinal = 4)
     private String label;
+
+    public ChartForceDataNode(String id, String name, Object value, String label) {
+        this.value = value;
+        this.name = name;
+        this.category = category;
+        this.label = label;
+    }
 
     public ChartForceDataNode(int category, String name, Object value, String label) {
         this.value = value;
@@ -54,5 +65,13 @@ public class ChartForceDataNode {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

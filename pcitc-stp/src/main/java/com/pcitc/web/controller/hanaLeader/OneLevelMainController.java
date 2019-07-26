@@ -115,7 +115,6 @@ public class OneLevelMainController extends BaseController {
 
 	private static final String project_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/project/all-info/list";
 
-	
 	private static final String country_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/country-project/list";
 
 	// 数量--成果
@@ -123,12 +122,6 @@ public class OneLevelMainController extends BaseController {
 	// 数量--知识
 	private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
 
-	private static final String getInvestment = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/money-hana-type";
-	private static final String getInvestmentAll = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
-	
-	
-	
-	
 	/**
 	 * 获取本年的预算金额，其中费用性的预算金额通过专业处权限进行控制。
 	 * 资本性的预算金额，只有综合计划处等处能看

@@ -21,9 +21,6 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 	@Autowired
 	RequestLogInterceptor logInterceptor;
 	
-	@Autowired
-	CsrCheckInterceptor csrCheckInterceptor;
-	
 	// 文件上传路径
 	@Value("${uploaderPathTemp}")
 	private String uploaderPathTemp;
@@ -33,7 +30,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 		// 添加拦截器(拦截器中只有preHandle返回true时才继续执行下一个拦截器或者controller，否则直接返回)
 		registry.addInterceptor(logInterceptor).addPathPatterns("/**");
 		registry.addInterceptor(tokenInterceptor).addPathPatterns("/**");
-		registry.addInterceptor(csrCheckInterceptor).addPathPatterns("/**");
+		//registry.addInterceptor(csrCheckInterceptor).addPathPatterns("/**");
 		super.addInterceptors(registry);
 	}
 	

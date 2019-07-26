@@ -5,6 +5,9 @@ import com.alibaba.fastjson.annotation.JSONField;
 public class ChartForceDataLink {
 
 
+    @JSONField(ordinal = 0)
+    private String id;
+
     @JSONField(ordinal = 1)
     private String source;
 
@@ -16,6 +19,13 @@ public class ChartForceDataLink {
 
     @JSONField(ordinal = 4)
     private String name;
+
+    public ChartForceDataLink(String id,String source, String target, String name) {
+        this.id = id;
+        this.source = source;
+        this.target = target;
+        this.name = name;
+    }
 
     public ChartForceDataLink(String source, String target, int weight, String name) {
         this.source = source;
@@ -56,4 +66,11 @@ public class ChartForceDataLink {
         this.name = name;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

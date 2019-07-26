@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
+import com.pcitc.base.system.*;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +17,6 @@ import com.pcitc.base.expert.ZjkExtractConfig;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.stp.system.SysMeeting;
 import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -83,9 +83,21 @@ public interface SystemRemoteClient {
     @RequestMapping(value = "/out-provider/project-list-expert", method = RequestMethod.POST)
     public LayuiTableData getOutProjectListPageExpert(@RequestBody LayuiTableParam param) throws Exception;
     //自定义查询项目信息
-    @RequestMapping(value = "/out-provider/selectByExample", method = RequestMethod.POST)
-    public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) throws Exception;
+//    @RequestMapping(value = "/out-provider/selectByExample", method = RequestMethod.POST)
+//    public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) throws Exception;
+
+
     //根据菜单URL查询菜单信息
     @RequestMapping(value = "/function-provider/get-by-url", method = RequestMethod.POST)
-	public SysFunction getFunctionByUrl(@RequestBody String url);
+    public SysFunction getFunctionByUrl(@RequestBody String url);
+    @RequestMapping(value = "/out-provider/selectByExample", method = RequestMethod.POST)
+    public List<OutProjectInfo> selectByExample(@RequestBody OutProjectInfoExample example) throws Exception;
+    //自定义查询index课题信息
+    @RequestMapping(value = "/indexoutprojectinfo-provider/indexoutprojectinfo/selectByExample", method = RequestMethod.POST)
+    public List<IndexOutProjectInfo> selectByExampleKt(@RequestBody List<String> strings);
+    //自定义查询index专利信息
+    @RequestMapping(value = "/indexoutpatent-provider/indexoutpatent/selectByExample", method = RequestMethod.POST)
+    public List<IndexOutPatent> selectByExampleZl(@RequestBody List<String> strings);
+
+
 }

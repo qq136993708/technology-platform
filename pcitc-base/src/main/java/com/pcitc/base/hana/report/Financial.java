@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 public class Financial implements Serializable{
 	
-	 private static final long serialVersionUID = 1L;
+	
      private String g0BK;
      private String g0GSDM;
      private String g0GSJC;
@@ -153,9 +153,7 @@ public class Financial implements Serializable{
 	public void setG0POST1(String g0post1) {
 		g0POST1 = g0post1;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	
      
      
      

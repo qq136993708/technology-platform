@@ -161,6 +161,7 @@ public class ExpertController extends BaseController {
         //机构总数
         ZjkChoice zjkChoice = new ZjkChoice();
         zjkChoice.setStatus("2");//2选中数量
+        zjkChoice.setUserId("xm");
         ResponseEntity<JSONObject> responseEntityJG = this.restTemplate.exchange(LISTBAK, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
 
         JSONObject retJsonJG = responseEntityJG.getBody();
@@ -417,6 +418,7 @@ public class ExpertController extends BaseController {
         //评标机构
         ZjkChoice zjkChoice = new ZjkChoice();
         zjkChoice.setStatus("2");
+        zjkChoice.setUserId("xm");
         zjkChoice.setZjId(expertId);
         ResponseEntity<JSONObject> expert = this.restTemplate.exchange(LISTBAK, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
         JSONObject retJson = expert.getBody();

@@ -182,7 +182,15 @@
 				</exclusion>
 			</exclusions> -->
 		</dependency>
-		
+        <!-- echarts -->
+        <!-- https://mvnrepository.com/artifact/com.github.abel533/ECharts -->
+        <!--<dependency>-->
+            <!--<groupId>com.github.abel533</groupId>-->
+            <!--<artifactId>ECharts</artifactId>-->
+            <!--<version>3.0.0.6</version>-->
+        <!--</dependency>-->
+
+
         <!-- 事务lcn相关 -->
 		<!-- <dependency>
 			<groupId>com.codingapi</groupId>
