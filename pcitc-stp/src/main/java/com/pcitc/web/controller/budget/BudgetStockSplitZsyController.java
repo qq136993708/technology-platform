@@ -415,39 +415,6 @@ public class BudgetStockSplitZsyController extends BaseController {
 			JSONArray titles = JSON.parseArray(JSON.toJSONString(rs.getBody()));
 			//生成模板
 			this.processExcelTitle(sheet, param, titles);
-			//从第三行开始数据
-			int c_index = 3;
-			for(java.util.Iterator<?> iter = tableData.getData().iterator();iter.hasNext();) 
-			{
-				JSONObject json = JSON.parseObject(JSON.toJSONString(iter.next()));
-				//序号，专业处，预算合计，【勘探院，工程院，....】
-				Integer no = json.getIntValue("no");
-			
-				Integer total_xq = json.getInteger("total_xq");
-				Integer total_jz = json.getInteger("total_jz");
-				//Integer total = json.getInteger("total");
-				String organName = json.getString("organName");
-				
-				Row row = sheet.getRow(c_index++);
-				if(row == null) {row = sheet.createRow(c_index);}
-				row.createCell(0).setCellValue(no);
-				row.createCell(1).setCellValue(organName);
-				row.createCell(2).setCellValue(total_xq);
-				
-				for(int i=0;i<titles.size();i++) 
-				{
-					JSONObject t = JSON.parseObject(titles.getString(i));
-					String key = t.keySet().iterator().next();
-					row.createCell(i+3).setCellValue(json.getInteger(key+"_xq"));
-					
-					//预算项结转数
-					Double val_jz = sheet.getRow(21).getCell(i+3).getNumericCellValue();
-					sheet.getRow(21).getCell(i+3).setCellValue(val_jz+json.getInteger(key+"_jz"));
-				}
-				//结转总数
-				Double val_jz = sheet.getRow(21).getCell(2).getNumericCellValue();
-				sheet.getRow(21).getCell(2).setCellValue(val_jz+total_jz);
-			}
 			
 			//指定第三行，第一列单元格为模板
 			Row templateRow = sheet.getRow(2);
@@ -463,26 +430,71 @@ public class BudgetStockSplitZsyController extends BaseController {
 			CellStyle tLeftStyle =workbook.createCellStyle();
 			tLeftStyle.cloneStyleFrom(tCenterStyle);
 			tLeftStyle.setAlignment(HorizontalAlignment.LEFT);
-			//汇总求和数据
-			for(java.util.Iterator<Row> iter = sheet.iterator();iter.hasNext();) {
-				for(java.util.Iterator<Cell> citer = iter.next().iterator();citer.hasNext();) {
-					Cell cell = citer.next();
-					//计算新签求和
-					if(cell.getRowIndex()>=3 && cell.getRowIndex()<=19 && cell.getColumnIndex()>=2) {
-						Double val = cell.getNumericCellValue();
-						//列汇总，第23行为汇总行
-						Double total = sheet.getRow(20).getCell(cell.getColumnIndex()).getNumericCellValue();
-						sheet.getRow(20).getCell(cell.getColumnIndex()).setCellValue(total+val);
-					}
-					//第22行数据为21 和 20行的求和
-					if(cell.getRowIndex()>=20 && cell.getRowIndex()<22 && cell.getColumnIndex()>=2) {
-						Double val = cell.getNumericCellValue();
-						//列汇总，第23行为汇总行
-						Double total = sheet.getRow(22).getCell(cell.getColumnIndex()).getNumericCellValue();
-						sheet.getRow(22).getCell(cell.getColumnIndex()).setCellValue(total+val);
-					}
+			
+			//从第三行开始数据
+			int c_index = 3;
+			Integer dataRowNum = tableData.getData().size();
+			Integer no = 1;
+			
+			Row xqRow = sheet.createRow(dataRowNum+3);
+			Row jzRow = sheet.createRow(dataRowNum+4);
+			Row totalRow = sheet.createRow(dataRowNum+5);
+			for(java.util.Iterator<?> iter = tableData.getData().iterator();iter.hasNext();) 
+			{
+				JSONObject json = JSON.parseObject(JSON.toJSONString(iter.next()));
+				//序号，专业处，预算合计，【勘探院，工程院，....】
+			
+				Integer total_xq = json.getInteger("total_xq");
+				//Integer total_jz = json.getInteger("total_jz");
+				//Integer total = json.getInteger("total");
+				String organName = json.getString("organName");
+				
+				Row row = sheet.getRow(c_index++);
+				if(row == null) {row = sheet.createRow(c_index);}
+				row.createCell(0).setCellValue(no++);
+				row.createCell(1).setCellValue(organName);
+				row.createCell(2).setCellValue(total_xq);
+				
+				for(int i=0;i<titles.size();i++) 
+				{
+					JSONObject t = JSON.parseObject(titles.getString(i));
+					String key = t.keySet().iterator().next();
+					row.createCell(i+3).setCellValue(json.getInteger(key+"_xq"));
+					
+					//新签汇总
+					if(xqRow.getCell(i+3) == null) {xqRow.createCell(i+3);}
+					Double val_xq = xqRow.getCell(i+3).getNumericCellValue()+json.getInteger(key+"_xq");
+					xqRow.getCell(i+3).setCellValue(val_xq);
+					//结转汇总
+					if(jzRow.getCell(i+3) == null) {jzRow.createCell(i+3);}
+					Double val_jz = jzRow.getCell(i+3).getNumericCellValue()+json.getInteger(key+"_jz");
+					jzRow.getCell(i+3).setCellValue(val_jz);
+					//总数
+					if(totalRow.getCell(i+3) == null) {totalRow.createCell(i+3);}
+					Double val_total = totalRow.getCell(i+3).getNumericCellValue()+val_jz+val_xq;
+					totalRow.getCell(i+3).setCellValue(val_total);
 				}
 			}
+			//计算结转，新签，总数
+			for(int i=0;i<titles.size();i++)
+			{
+				if(xqRow.getCell(i+2) == null) {xqRow.createCell(i+2);}
+				if(jzRow.getCell(i+2) == null) {jzRow.createCell(i+2);}
+				if(totalRow.getCell(2) == null) {totalRow.createCell(2);}
+				xqRow.getCell(2).setCellValue(xqRow.getCell(2).getNumericCellValue()+xqRow.getCell(i+3).getNumericCellValue());
+				jzRow.getCell(2).setCellValue(jzRow.getCell(2).getNumericCellValue()+jzRow.getCell(i+3).getNumericCellValue());
+				
+				totalRow.getCell(2).setCellValue(xqRow.getCell(2).getNumericCellValue()+jzRow.getCell(2).getNumericCellValue());
+			}
+			//
+			xqRow.createCell(0).setCellValue(dataRowNum+1);
+			xqRow.createCell(1).setCellValue("新签费用合计");
+			
+			jzRow.createCell(0).setCellValue(dataRowNum+2);
+			jzRow.createCell(1).setCellValue("结转费用合计");
+			
+			totalRow.createCell(0).setCellValue(dataRowNum+3);
+			totalRow.createCell(1).setCellValue("费用合计");
 			
 			//设置格式
 			for(java.util.Iterator<Row> iter = sheet.iterator();iter.hasNext();) {
