@@ -7,6 +7,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.hana.report.BrandConstructionPay;
 import com.pcitc.base.hana.report.DayCashFlow;
+import com.pcitc.base.hana.report.Financial;
 import com.pcitc.base.hana.report.InvisibleCapitalDevelop;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee01;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee02;
@@ -117,11 +118,13 @@ public interface IDecisionFinancialService
 	  
 	  
 	  public LayuiTableData getYfftjData(LayuiTableParam param)throws Exception;
+	  public List<Financial> getYfftjDataList(Map map)throws Exception;
 	  public LayuiTableData getYfftjDetailData(LayuiTableParam param)throws Exception;
 	  
 	  
 	  
 	  public LayuiTableData getJsgztjData(LayuiTableParam param)throws Exception;
+	  public List<Financial> getJsgztjDataList(Map map)throws Exception;
 	  public LayuiTableData getJsgztjDetailData(LayuiTableParam param)throws Exception;
 	  
 	  
