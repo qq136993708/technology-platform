@@ -260,6 +260,9 @@
                     $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData=res.data[index-1];
                 });
+                if(count<=0){
+                    parent.$("#achivement").addClass("search-numberG");
+                }
                 parent.$("#achivement").html(count);
                 layer.close(index);
             }

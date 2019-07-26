@@ -559,6 +559,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     background: url("/layuiadmin/layui/images/search-active.png") no-repeat;}
 .layui-q>.layui-tab-title .search-number{background: #ed4e5a;position: absolute;color: white;
     top: 5px;height: 18px;padding: 0 5px;line-height: 18px;border-radius: 12px;right:6px;opacity: .6;font-size: 12px;}
+.layui-q>.layui-tab-title .search-numberG{background: #999;}
 .layui-q .layui-this:after{border: none !important;}
 .layui-q>.layui-tab-title .search-text{position: relative;bottom: -41px;color: #999999;
     font-size: 14px;}
