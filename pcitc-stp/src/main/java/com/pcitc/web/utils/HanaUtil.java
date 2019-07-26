@@ -4068,7 +4068,7 @@ public class HanaUtil {
 				Integer gyhsl = (Integer) f03.getGyhsl();
 				Integer gysysl = (Integer) f03.getGysysl();
 				Integer qtsl = (Integer) f03.getQtsl();
-				if (name.equals("thisYearSl")) {
+				if (name.equals("gyhsl")) {
 
 					if (gyhsl != null) {
 						dataList.add(gyhsl);
