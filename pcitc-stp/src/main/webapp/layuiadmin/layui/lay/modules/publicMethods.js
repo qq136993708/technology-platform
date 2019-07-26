@@ -191,34 +191,6 @@ layui.define(['jquery','form','table','laydate'],
              * @param temUrl
              * @returns
              */
-            openBaseWinEight:function(title,temUrl) {
-               layer.open({
-                   title:title,
-                   skin: 'layui-layer-lan',
-                   shadeClose: true,
-                   type: 2,
-                   fixed: false,
-                   //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                   maxmin: false,
-                   //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                   area: ['800px', '500px'],
-                   content:  temUrl
-               });
-            },
-            openBaseWinSix:function(title,temUrl) {
-                layer.open({
-                    title:title,
-                    skin: 'layui-layer-lan',
-                    shadeClose: true,
-                    type: 2,
-                    fixed: false,
-                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                    maxmin: false,
-                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    area: ['600px', '400px'],
-                    content:  temUrl
-                });
-            },
             openBaseWinFull:function(title,temUrl) {
                 layer.open({
                     title:title,
@@ -256,6 +228,32 @@ layui.define(['jquery','form','table','laydate'],
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                     maxmin : true,
                     area : [ '70%', '60%' ],
+                    content:  temUrl
+                });
+            },
+            openBaseWin67:function(title,temUrl) {
+                layer.open({
+                    title:title,
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin : true,
+                    area : [ '60%', '70%' ],
+                    content:  temUrl
+                });
+            },
+            openBaseWin56:function(title,temUrl) {
+                layer.open({
+                    title:title,
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin : true,
+                    area : [ '50%', '60%' ],
                     content:  temUrl
                 });
             },
