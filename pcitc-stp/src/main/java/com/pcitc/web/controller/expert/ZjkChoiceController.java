@@ -102,7 +102,6 @@ public class ZjkChoiceController extends BaseController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "专家-人员选择", actionName = "查询列表getList")
     public Object getList(@RequestBody ZjkChoice zjkChoice) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
@@ -114,7 +113,6 @@ public class ZjkChoiceController extends BaseController {
 
     @RequestMapping(value = "/listParam", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "专家-人员选择", actionName = "查询列表getListParam")
     public Object getListParam(@RequestParam String id) {
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
@@ -134,7 +132,6 @@ public class ZjkChoiceController extends BaseController {
      */
     @RequestMapping(value = "/getTableData", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "专家-人员选择", actionName = "分页查询getTableData")
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
@@ -204,7 +201,6 @@ public class ZjkChoiceController extends BaseController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
-    @OperationFilter(modelName = "专家-人员选择", actionName = "跳转编辑页面pageEdit")
     public String pageEdit(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
@@ -212,7 +208,6 @@ public class ZjkChoiceController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/view")
-    @OperationFilter(modelName = "专家-人员选择", actionName = "跳转编辑页面pageEdit")
     public String pageView(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
@@ -225,13 +220,11 @@ public class ZjkChoiceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
-    @OperationFilter(modelName = "专家-人员选择", actionName = "跳转列表页toListPage")
     public String toListPage() {
         return "stp/expert/zjkChoice_list";
     }
 
     @RequestMapping(value = "/toListPagePj", method = {RequestMethod.GET})
-    @OperationFilter(modelName = "专家-人员选择", actionName = "跳转列表页toListPagePj")
     public String toListPagePj() {
         return "stp/expert/zjkChoice_list_pj";
     }
@@ -243,7 +236,6 @@ public class ZjkChoiceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/getZjkChoiceInfo")
-    @OperationFilter(modelName = "专家-人员选择", actionName = "根据ID查询对象信息getzjkChoiceInfo")
     @ResponseBody
     public Object getzjkChoiceInfo(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -255,14 +247,12 @@ public class ZjkChoiceController extends BaseController {
 
     @RequestMapping(value = "/tree-data")
     @ResponseBody
-    @OperationFilter(modelName = "专家-人员选择", actionName = "树形查询getZjkChoiceTreeData()")
     public Object getZjkChoiceTreeData() throws Exception {
         TreeNode node = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), TreeNode.class).getBody();
         return node;
     }
 
     @RequestMapping(value = "/tree-datas")
-    @OperationFilter(modelName = "专家-人员选择", actionName = "树形查询getZjkChoiceTreeData()")
     @ResponseBody
     public String getZjkChoiceTreeDatas(HttpServletRequest request) throws Exception {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

@@ -167,7 +167,6 @@ public class ZjkPatentController extends BaseController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/zjkPatent/edit")
-    @OperationFilter(modelName = "专家-专利信息", actionName = "跳转编辑页面pageEdit")
     public String pageEdit(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
@@ -181,7 +180,6 @@ public class ZjkPatentController extends BaseController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/zjkPatent/view/{dataId}")
-    @OperationFilter(modelName = "专家-专利信息", actionName = "跳转详情页面pageView")
     public String pageView(@PathVariable("dataId") String dataId, Model model) {
         model.addAttribute("id", dataId);
         model.addAttribute("opt", "");
@@ -195,7 +193,6 @@ public class ZjkPatentController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/zjkPatent/toListPage", method = {RequestMethod.GET})
-    @OperationFilter(modelName = "专家-专利信息", actionName = "跳转列表页toListPage")
     public String toListPage() {
         request.setAttribute("expertId",request.getParameter("expertId"));
         return "stp/expert/zjkPatent_list";
@@ -219,7 +216,6 @@ public class ZjkPatentController extends BaseController {
 
     @RequestMapping(value = "/zjkPatent/tree-data")
     @ResponseBody
-    @OperationFilter(modelName = "专家-专利信息", actionName = "树形查询getZjkPatentTreeData()")
     public Object getZjkPatentTreeData() throws Exception {
         TreeNode node = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), TreeNode.class).getBody();
         return node;

@@ -21,7 +21,6 @@ public class ClassUtil {
     public static void main(String[] args) {
         Set<Class<?>> classes = scanPackage("pers.yang.elastichelper.model");
         for (Class<?> clazz : classes) {
-            System.out.println(clazz + " :");
             Field[] fields = clazz.getDeclaredFields();
             for (Field field : fields) {
                 System.out.println(field.getName());
