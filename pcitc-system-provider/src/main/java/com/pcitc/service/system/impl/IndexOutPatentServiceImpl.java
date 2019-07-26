@@ -108,8 +108,11 @@ public class IndexOutPatentServiceImpl implements IndexOutPatentService {
     }
 
     @Override
-    public List<IndexOutPatent> selectByExample(IndexOutPatentExample example) {
-        return indexOutPatentMapper.selectByExample(example);
+    public List<IndexOutPatent> selectByExample(List<String> strings)
+    {
+        IndexOutPatentExample indexOutPatentExample = new IndexOutPatentExample();
+        indexOutPatentExample.createCriteria().andDataIdIn(strings);
+        return indexOutPatentMapper.selectByExample(indexOutPatentExample);
     }
 
     @Override

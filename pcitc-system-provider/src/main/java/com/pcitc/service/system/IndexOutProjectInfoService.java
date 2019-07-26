@@ -109,10 +109,10 @@ public interface IndexOutProjectInfoService {
     /**
      * 根据example条件查询
      *
-     * @param example
+     * @param strings
      * @return
      */
-    List<IndexOutProjectInfo> selectByExample(IndexOutProjectInfoExample example);
+    List<IndexOutProjectInfo> selectByExample(List<String> strings);
 
     /**
      * 根据主键查询
@@ -191,6 +191,11 @@ public interface IndexOutProjectInfoService {
 
     void selectPatentToIndexProjectInfo();
 
+    /**
+     * 查询专利关联人员-项目树
+     * @param param
+     * @return
+     */
     LayuiTableData findIndexOutProjectInfoByPageTree(LayuiTableParam param);
     LayuiTableData findIndexOutProjectInfoByPageTreeIndex(LayuiTableParam param);
 

@@ -124,8 +124,10 @@ public class IndexOutProjectInfoServiceImpl implements IndexOutProjectInfoServic
     }
 
     @Override
-    public List<IndexOutProjectInfo> selectByExample(IndexOutProjectInfoExample example) {
-        return indexOutProjectInfoMapper.selectByExample(example);
+    public List<IndexOutProjectInfo> selectByExample(List<String> strings) {
+        IndexOutProjectInfoExample indexOutProjectInfoExample = new IndexOutProjectInfoExample();
+        indexOutProjectInfoExample.createCriteria().andDataIdIn(strings);
+        return indexOutProjectInfoMapper.selectByExample(indexOutProjectInfoExample);
     }
 
     @Override
