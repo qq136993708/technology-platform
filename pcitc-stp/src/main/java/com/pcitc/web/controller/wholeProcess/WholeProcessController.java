@@ -20,6 +20,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.HanaUtil;
 
 /**
@@ -45,6 +46,7 @@ public class WholeProcessController extends BaseController {
 	 */
 	@RequestMapping(value = "/whole-process/science/data/list")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public Object getScienceWholeProcessData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SCIENCE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
