@@ -152,15 +152,34 @@ public class ProjectCostController extends BaseController {
 			
 			
 			
-			    String[] headers = { "院所", "累计-计划总投资",    "累计-支出额",      "累计-承诺",    "累计-预付余额",     "累计-投资完成额", "累计-项目资金计划结余","累计-资金使用%",          "本年-投资计划",         "本年-累计支出"   , "本年-承诺",     "本年-预付款",   "本年-投资完成额",   "本年-资金计划结余",   "本年-资金使用%"};
-			    String[] cols =    {"g0GSJC","k0ZTYSJE", "k0LJGLFPHJECB","k0LJSJCNJE","k0LJSJDJJE",   "k0LJSJJE",   "k0LJYSJY",     "k0LJZJSYBL",         "k0BNYSJHJE",       "k0BNGLFPHJECB","k0BNSJCNJE","k0BNSJDJJE","k0BNSJJE",     "k0BNYSJY",     "k0BNZJSYBL"};
+			    String[] headers = {  
+			    		               "院所", 
+			    		               "累计-计划总投资",    
+			    		               "累计-累计投资完成额",      
+			    		               "累计-资金使用%",
+			    		               
+			    		               "本年-本年投资计划 ",         
+			    		               "本年-本年投资完成额"   , 
+			    		               "本年-资金使用%"     
+			    		               };
+			    String[] cols =    {
+			    		                "g0GSJC",
+			    		                "k0ZTYSJE", 
+			    		                "k0LJSJJE",
+			    		                "k0LJZJSYBL",
+			    		                
+			    		                "k0BNYSJHJE",   
+			    		                "k0BNSJJE",   
+			    		                "k0BNZJSYBL" 
+			    		                };
 			   
 		        // 文件名默认设置为当前时间：年月日时分秒
-		        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+		        String fileName = "投资全成本分析表_"+month+"_"+DateFormatUtils.format(new Date(), "ddhhmmss");
 		        // 设置response头信息
 		        response.reset();
+		        response.setCharacterEncoding("UTF-8");
 		        response.setContentType("application/vnd.ms-excel");
-		        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+		        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
 		        try {
 			        OutputStream os = response.getOutputStream();
 			        PoiExcelExportUitl<ScientificInvestment>  pee = new PoiExcelExportUitl<ScientificInvestment>(fileName, headers, cols, list,os);
@@ -271,11 +290,12 @@ public class ProjectCostController extends BaseController {
 		    String[] cols =    {"g0GSJC","g0XMBK",  "g0XMLXMS","g0PROJCODE", "g0PROJTXT", "k0ZTYSJE", "k0LJGLFPHJECB",   "k0LJSJCNJE",   "k0LJSJDJJE", "k0LJSJJE",     "k0LJYSJY",      "k0LJZJSYBL",   "k0BNYSJHJE",   "k0BNGLFPHJECB" ,     "k0BNSJCNJE",     "k0BNSJDJJE",     "k0BNSJJE",     "k0BNYSJY"};
 		   
 	        // 文件名默认设置为当前时间：年月日时分秒
-	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	        String fileName = DateFormatUtils.format(new Date(), "ddhhmmss");
 	        // 设置response头信息
 	        response.reset();
+	        response.setCharacterEncoding("UTF-8");
 	        response.setContentType("application/vnd.ms-excel");
-	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+	        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
 	        try {
 		        OutputStream os = response.getOutputStream();
 		        PoiExcelExportUitl<ProjectCost>  pee = new PoiExcelExportUitl<ProjectCost>(fileName, headers, cols, list,os);
@@ -387,11 +407,12 @@ public class ProjectCostController extends BaseController {
 			    String[] cols =    {"g0GSJC","k0ZTYSJE", "k0LJGLFPHJECB","k0LJSJCNJE","k0LJSJDJJE",   "k0LJSJJE",   "k0LJYSJY",     "k0LJZJSYBL",         "k0BNYSJHJE",       "k0BNGLFPHJECB","k0BNSJCNJE","k0BNSJDJJE","k0BNSJJE",     "k0BNYSJY",     "k0BNZJSYBL"};
 			   
 	 	        // 文件名默认设置为当前时间：年月日时分秒
-	 	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	 	        String fileName = "经费全成本统计表_"+month+"_"+DateFormatUtils.format(new Date(), "ddhhmmss");
 	 	        // 设置response头信息
-	 	        response.reset();
-	 	        response.setContentType("application/vnd.ms-excel");
-	 	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+	 	       response.reset();
+		        response.setCharacterEncoding("UTF-8");
+		        response.setContentType("application/vnd.ms-excel");
+		        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
 	 	        try {
 	 		        OutputStream os = response.getOutputStream();
 	 		        PoiExcelExportUitl<ProjectCost>  pee = new PoiExcelExportUitl<ProjectCost>(fileName, headers, cols, list,os);
@@ -501,11 +522,12 @@ public class ProjectCostController extends BaseController {
 				    String[] cols =    {"g0GSJC","g0XMBK",  "g0XMLXMS","g0PROJCODE", "g0PROJTXT", "k0ZTYSJE", "k0LJGLFPHJECB",   "k0LJSJCNJE",   "k0LJSJDJJE", "k0LJSJJE",     "k0LJYSJY",      "k0LJZJSYBL",   "k0BNYSJHJE",   "k0BNGLFPHJECB" ,     "k0BNSJCNJE",     "k0BNSJDJJE",     "k0BNSJJE",     "k0BNYSJY"};
 				   
 			        // 文件名默认设置为当前时间：年月日时分秒
-			        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+			        String fileName = DateFormatUtils.format(new Date(), "ddhhmmss");
 			        // 设置response头信息
 			        response.reset();
+			        response.setCharacterEncoding("UTF-8");
 			        response.setContentType("application/vnd.ms-excel");
-			        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+			        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
 			        try {
 				        OutputStream os = response.getOutputStream();
 				        PoiExcelExportUitl<ProjectCost>  pee = new PoiExcelExportUitl<ProjectCost>(fileName, headers, cols, list,os);
@@ -617,11 +639,12 @@ public class ProjectCostController extends BaseController {
 			   
 			   
 	 	        // 文件名默认设置为当前时间：年月日时分秒
-	 	        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+	 	        String fileName = "横向课题统计表_"+month+"_"+DateFormatUtils.format(new Date(), "ddhhmmss");
 	 	        // 设置response头信息
 	 	        response.reset();
-	 	        response.setContentType("application/vnd.ms-excel");
-	 	        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+		        response.setCharacterEncoding("UTF-8");
+		        response.setContentType("application/vnd.ms-excel");
+		        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
 	 	        try {
 	 		        OutputStream os = response.getOutputStream();
 	 		        PoiExcelExportUitl<ProjectCost>  pee = new PoiExcelExportUitl<ProjectCost>(fileName, headers, cols, list,os);
@@ -730,11 +753,12 @@ public class ProjectCostController extends BaseController {
 					    String[] cols =    {"g0GSJC","g0XMBK",  "g0XMLXMS","g0PROJCODE", "g0PROJTXT", "k0LJGLFPHJESR", "k0ZTYSJE",     "k0LJGLFPHJECB",       "k0LJSJCNJE",          "k0LJSJDJJE"       ,  "k0LJSJJE",     "k0LJYSJY",       "k0LJZJSYBL"};
 					   
 				        // 文件名默认设置为当前时间：年月日时分秒
-				        String fileName = DateFormatUtils.format(new Date(), "yyyyMMddhhmmss");
+				        String fileName = DateFormatUtils.format(new Date(), "ddhhmmss");
 				        // 设置response头信息
 				        response.reset();
+				        response.setCharacterEncoding("UTF-8");
 				        response.setContentType("application/vnd.ms-excel");
-				        response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xls");
+				        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
 				        try {
 					        OutputStream os = response.getOutputStream();
 					        PoiExcelExportUitl<ProjectCost>  pee = new PoiExcelExportUitl<ProjectCost>(fileName, headers, cols, list,os);

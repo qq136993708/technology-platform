@@ -707,13 +707,28 @@ public class DecisionFinancailProviderClient {
 	
 	
 	
-
+	
+	
+	
 	@ApiOperation(value = "研发费统计统计表", notes = "研发费统计统计表")
 	@RequestMapping(value = "/yfftj", method = RequestMethod.POST)
 	public LayuiTableData yfftj(@RequestBody LayuiTableParam param)throws Exception
 	{
 		return decisionFinancialService.getYfftjData(param);
 	}
+	
+	
+	@ApiOperation(value = "导出-研发费统计统计表", notes = "导出-研发费统计统计表")
+	@RequestMapping(value = "/yfftj_list", method = RequestMethod.POST)
+	public JSONArray yfftj_list(@RequestBody Map map )throws Exception
+	{
+		
+		System.out.println("导出-研发费统计统计表 paramsJson=" + JSONObject.toJSONString(map));
+		List list= decisionFinancialService.getYfftjDataList(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	
 	
 	
 	
@@ -734,6 +749,20 @@ public class DecisionFinancailProviderClient {
 	public LayuiTableData jsgztj(@RequestBody LayuiTableParam param)throws Exception
 	{
 		return decisionFinancialService.getJsgztjData(param);
+	}
+	
+	
+	
+	
+	@ApiOperation(value = "技术改造统计表", notes = "技术改造统计表")
+	@RequestMapping(value = "/jsgztj_list", method = RequestMethod.POST)
+	public JSONArray jsgztj_list(@RequestBody Map map )throws Exception
+	{
+		
+		System.out.println("导出-技术改造统计表 paramsJson=" + JSONObject.toJSONString(map));
+		List list= decisionFinancialService.getJsgztjDataList(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
 	}
 	
 	

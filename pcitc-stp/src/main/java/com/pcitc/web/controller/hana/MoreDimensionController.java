@@ -33,6 +33,7 @@ import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.Award;
+import com.pcitc.base.hana.report.HanaConstant;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.system.SysUser;
@@ -496,9 +497,9 @@ public class MoreDimensionController extends BaseController
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define1");
 					barLine.setxAxisDataList(xAxisDataList);
 					List<String> legendDataList = new ArrayList<String>();
-					legendDataList.add("A.工业化");
-					legendDataList.add("B.工业试验");
-					legendDataList.add("C.其他");
+					legendDataList.add("今年数量");
+					legendDataList.add("去年数量");
+					legendDataList.add("前年数量");
 					barLine.setxAxisDataList(xAxisDataList);
 					barLine.setLegendDataList(legendDataList);
 					// X轴数据
