@@ -577,6 +577,16 @@ public class DecisionFinancialServiceImpl implements IDecisionFinancialService {
 		  	    return data;
 		  	}
 			
+			
+			
+			
+			
+			public List<Financial> getYfftjDataList(Map map)throws Exception
+			{
+				List<Financial> list = scientificBaseBuildFeeMapper.getYfftjData(map);
+				
+				return list;
+			}
 			public LayuiTableData getYfftjDetailData(LayuiTableParam param)throws Exception
 		  	{
 				 //每页显示条数
@@ -639,6 +649,11 @@ public class DecisionFinancialServiceImpl implements IDecisionFinancialService {
 		  		data.setCount(1000);
 		  	    return data;
 		  	}
+			  public List<Financial> getJsgztjDataList(Map map)throws Exception
+			  {
+				  List<Financial> list = scientificBaseBuildFeeMapper.getJsgztjData(map);
+				  return list;
+			  }
 			
 			public LayuiTableData getJsgztjDetailData(LayuiTableParam param)throws Exception
 		  	{

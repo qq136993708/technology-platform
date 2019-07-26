@@ -6,11 +6,39 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
      <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
     <link rel="stylesheet" href="/common/css/echart-common.css">
+    
+
+    
     <style>
         html{background-color: #F0F2F5;}
         .layui-fluid{padding: 0;}
         .main-chart,.layui-row-main{padding: 10px;}
+        .btnMyBgImg:hover {
+	background-size: inherit;
+	background-position: 2px;
+}
+
+.searchBox {
+	background: none;
+}
+
+.layui-row-main .layui-table-cell {
+	cursor: pointer;
+}
+
+.layui-row-main td:nth-child(2) .layui-table-cell {
+	color: red;
+}
+
+.layui-row-main td:nth-child(4) .layui-table-cell {
+	color: #1890ff;
+}
+
+.layui-row-main td:nth-child(6) .layui-table-cell {
+	color: #1890ff;
+}
     </style>
 </head>
 <body >
@@ -18,7 +46,7 @@
     <div class="">
 
         <div class="fluid-top">
-            <div class="searchBox">
+            <div class="searchBox" style="float:left">
                 <!--查询条件-->
                  <label class="dateInput">
                     <span>月份</span>
@@ -26,14 +54,15 @@
                     <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
                     </label>
                    <div class="layui-input-inline"  style="margin-left:10px">
-                       <select id="companyCode" name="companyCode" class="form-control"></select>
+                       <select id="companyCode" name="companyCode" class="form-control" style="width:150px;"></select>
                     </div>
                 <!--按钮组-->
                 <div class="btnGroup">
                     <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
                 </div>
-                <span class="unitBox">单位：万元</span>
-            </div>
+            </div> 
+            <div style="float: right"><span class="unitBox">单位：万元</span></div>
+            
         </div>
         <div class="layui-row" style="margin-bottom: 15px;">
             <div class="layui-col-sm12">
@@ -88,8 +117,7 @@
         <div class="layui-row">
             <div class="layui-col-sm12">
                 <div class="layui-card">
-                    <div class="layui-card-header">
-                        现金流量表
+                    <div class="layui-card-header">现金流量表
                     </div>
                     <div class="layui-row-main">
                         <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
@@ -172,6 +200,7 @@ function renderTable()
 	        ,treeId:'id'//树形id字段名称
 	        ,treeUpId:'pId'//树形父id字段名称
 	        ,treeShowName:'name'//以树形式显示的字段
+	        ,height:400
 	        ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
 	        ,isFilter:false
 	        ,iconOpen:false//是否显示图标【默认显示】
