@@ -48,6 +48,7 @@ public class WholeProcessController extends BaseController {
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public Object getScienceWholeProcessData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(SCIENCE_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
