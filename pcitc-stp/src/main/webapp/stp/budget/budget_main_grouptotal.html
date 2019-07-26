@@ -335,7 +335,7 @@
                 		return;
                 	} 
                		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
-   					publicMethods.ajaxAsyncPost("/budget/select-grouptotal-plandata", {"budget_info_id":curent_budget_info.dataId}, function (data) {
+   					publicMethods.ajaxAsyncPost("/budget/select-grouptotal-plandata", {param: {"functionId":param.id,"budget_info_id":curent_budget_info.dataId}}, function (data) {
    						layer.msg('加载成功!',{time: 500});
    	                    //console.log(curent_tabel_data);
    						$.each(data,function(index,dt){

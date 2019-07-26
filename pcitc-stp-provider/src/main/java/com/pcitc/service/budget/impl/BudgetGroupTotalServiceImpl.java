@@ -271,7 +271,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	}
 
 	@Override
-	public Map<String, List<OutProjectInfo>> selectCompareProjectInfoData(Set<String> codes, String nd) {
+	public Map<String, List<OutProjectInfo>> selectCompareProjectInfoData(LayuiTableParam param,Set<String> codes, String nd) {
 		if(codes == null || codes.size() == 0) {
 			return new HashMap<String,List<OutProjectInfo>>();
 		}
@@ -279,16 +279,21 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		for (String code : codes) {
 			sb.append(code + ",");
 		}
-
-		LayuiTableParam layuiParam = new LayuiTableParam();
 		Map<String, Object> p = new HashMap<String, Object>();
 		p.put("ysnd", nd);
 		p.put("define9", sb.toString().substring(0, sb.length() - 1));
-		layuiParam.setLimit(1000);
-		layuiParam.setPage(1);
-		layuiParam.setParam(p);
+		param.setLimit(1000);
+		param.setPage(1);
+		param.setParam(p);
+		//加入条件
+		
+		//param.put("zycbmList", zycbmList);
+		
+		
 
-		LayuiTableData dt = systemRemoteClient.selectCommonProjectByCond(layuiParam);
+		LayuiTableData dt = systemRemoteClient.selectCommonProjectByCond(param);
+		System.out.println("LayuiTableData:"+JSON.toJSONString(dt));
+		
 		Map<String, List<OutProjectInfo>> rs = new HashMap<String,List<OutProjectInfo>>();
 		for (java.util.Iterator<?> iter = dt.getData().iterator(); iter.hasNext();) {
 			String planStr = JSON.toJSON(iter.next()).toString();

@@ -119,7 +119,7 @@ public interface BudgetGroupTotalService extends BudgetPublicService
 	 * @param nd
 	 * @return
 	 */
-	public Map<String,List<OutProjectInfo>> selectCompareProjectInfoData(Set<String> codes,String nd);
+	public Map<String,List<OutProjectInfo>> selectCompareProjectInfoData(LayuiTableParam param,Set<String> codes,String nd);
 	/**
 	 * 发起工作流
 	 * @param delegate

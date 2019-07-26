@@ -51,6 +51,7 @@ import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.common.OperationFilter;
 @Controller
 public class BudgetGroupTotalController extends BaseController {
 
@@ -387,10 +388,12 @@ public class BudgetGroupTotalController extends BaseController {
 	}
 	@RequestMapping(value = "/budget/select-grouptotal-plandata", method = RequestMethod.POST)
 	@ResponseBody
-	public Object selectGrouptotalPlandata(@RequestParam(value = "budget_info_id", required = true) String budget_info_id,
+	@OperationFilter(dataFlag = "true")
+	public Object selectGrouptotalPlandata(@ModelAttribute("param")LayuiTableParam param,
 			HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		ResponseEntity<?> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_PLANDATA + budget_info_id, HttpMethod.POST,  new HttpEntity<Object>(this.httpHeaders), Object.class);
+		String budget_info_id = param.getParam().get("budget_info_id").toString();
+		ResponseEntity<?> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_PLANDATA + budget_info_id, HttpMethod.POST,  new HttpEntity<LayuiTableParam>(param,this.httpHeaders), Object.class);
 		return JSON.toJSON(rs.getBody());
 	}
 	
