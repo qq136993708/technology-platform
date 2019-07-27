@@ -5,6 +5,7 @@ package com.pcitc.service.system;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
@@ -169,6 +170,11 @@ public interface UnitService
 	//根据UnitPath检索机构信息
 	public SysUnit getUnitByUnitPath(String unitPath);
 	public String getUnitZTreeListByName(String name);
-	
+	/**
+	 * 
+	 * @param ids
+	 * @return
+	 */
+	public List<SysUnit> selectUnitByIds(Set<String> ids);
 	
 }

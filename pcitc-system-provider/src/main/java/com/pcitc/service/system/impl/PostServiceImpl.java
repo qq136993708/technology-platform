@@ -322,4 +322,15 @@ public class PostServiceImpl implements PostService
 		
 		return sysUserMapper.selectByExample(ue);
 	}
+
+	@Override
+	public List<SysPost> findSysPostByIds(Set<String> ids) 
+	{
+		SysPostExample example = new SysPostExample();
+		SysPostExample.Criteria c = example.createCriteria();
+		
+		c.andPostDelflagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andPostIdIn(new ArrayList<String>(ids));
+		return postMapper.selectByExample(example);
+	}
 }
