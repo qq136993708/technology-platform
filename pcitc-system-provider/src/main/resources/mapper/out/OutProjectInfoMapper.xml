@@ -3150,8 +3150,8 @@
 			</if>
 			<if test="define1 != null">
 				and (
-				<foreach collection="define1" item="define1" index="index" separator=" or ">
-					out_project_info.define1 like '%${define1}%'
+				<foreach collection="define1" item="item" index="index" separator=" or ">
+					out_project_info.define1 like '%${item}%'
 				</foreach>
 				)
 			</if>
