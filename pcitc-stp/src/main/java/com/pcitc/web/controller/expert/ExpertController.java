@@ -366,6 +366,7 @@ public class ExpertController extends BaseController {
         request.setAttribute("zjkBaseInfo", zjkBaseInfo);
         request.setAttribute("hylyName", zjkBaseInfo.getExpertProfessionalFieldName());
         request.setAttribute("hyly", zjkBaseInfo.getExpertProfessionalField());
+        request.setAttribute("display", request.getParameter("display"));
         //成果
 //        ZjkAchievement zjkChengguo = new ZjkAchievement();
 //        zjkChengguo.setExpertId(expertId);
