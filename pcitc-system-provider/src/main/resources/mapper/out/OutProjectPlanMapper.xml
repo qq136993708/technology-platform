@@ -1511,11 +1511,9 @@
 	
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照月份分组 -->
 	<select id="getPlanCompleteRateByPlanTypeForHanaMonth" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select CONCAT('${nd}',sys_dictionary.num_value) as yearMonth,round(ifnull(tableD.hanaMoney, '0'), 2) as hanaMoney,
-			   round(ifnull(tableD.zsjje, '0'), 2) as zsjje
+		select CONCAT('${nd}',sys_dictionary.num_value) as yearMonth,round(ifnull(tableB.hanaMoney, '0'), 2) as hanaMoney,
+			   round(ifnull(tableC.ysje, '0'), 2) as zsjje
 		from sys_dictionary left join (
-			select IFNULL(tableB.hanaMoney,0) hanaMoney, IFNULL(tableB.yearMonth,0) yearMonth, IFNULL(sum(tableC.ysje),0) as zsjje  
-			from  (
 					select sum(ysje) as ysje,left(define16, 6) as projectMount
 					from out_project_info
 					where 
@@ -1523,7 +1521,8 @@
 						<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 			  			<include refid="dataFilterConditionInfo" />
 					GROUP BY left(define16, 6)
-			) tableC left join (
+			) tableC on (tableC.projectMount = CONCAT('${nd}',sys_dictionary.num_value))
+			left join (
 					select round(sum(K0DMBTR)/10000,2) as hanaMoney, left(G0AUGDT, 6) as yearMonth
 					from expenses_pay_hana
 					where 
@@ -1532,11 +1531,11 @@
 					and STRCMP(left(G0AUGDT, 6), '${endMonth}') &lt; 1
 					GROUP BY left(G0AUGDT, 6)
 					ORDER BY left(G0AUGDT, 6)
-				) as tableB on (tableC.projectMount = tableB.yearMonth)
-			GROUP BY tableC.projectMount) as tableD on (sys_dictionary.num_value = SUBSTR(tableD.yearMonth FROM 5))
+				) as tableB on (CONCAT('${nd}',sys_dictionary.num_value) = tableB.yearMonth)
 		where 
 		sys_dictionary.parent_code = 'ROOT_FZJCZX_YD'
 		ORDER BY isdelete
+		
 	</select>
 	
 	<!-- 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组 -->
