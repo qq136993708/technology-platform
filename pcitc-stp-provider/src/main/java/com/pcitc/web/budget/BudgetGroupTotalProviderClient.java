@@ -214,8 +214,11 @@ public class BudgetGroupTotalProviderClient
 						}
 					}
 					for(OutProjectInfo plan:projects) {
-						xmjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
-						zxjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+						if("重点项目".equals(plan.getProjectProperty())){
+							zxjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+						}else {
+							xmjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+						}
 					}
 					map.put("plans", projects);
 					map.put("xmjfJz", xmjfJz.intValue());
@@ -356,7 +359,7 @@ public class BudgetGroupTotalProviderClient
 					}
 				}
 				Map<String,List<OutProjectInfo>> projectMap = budgetGroupTotalService.selectCompareProjectInfoData(param,codes,groupTotal.getNd());
-				System.out.println(JSON.toJSONString(projectMap));
+				//System.out.println(JSON.toJSONString(projectMap));
 				List<Map<String,Object>> groupMaps = new ArrayList<Map<String,Object>>();
 				for(BudgetGroupTotal total:compnays) {
 					Map<String,Object> mp = MyBeanUtils.transBean2Map(total);
@@ -366,8 +369,11 @@ public class BudgetGroupTotalProviderClient
 					Double zxjfJz = 0d;
 					if(projects != null) {
 						for(OutProjectInfo project:projects) {
-							xmjfJz += new Double(project.getYsje()==null?"0":project.getYsje());
-							zxjfJz += new Double(project.getYsje()==null?"0":project.getYsje());
+							if("重点项目".equals(project.getProjectProperty())){
+								zxjfJz += new Double(project.getYsje()==null?"0":project.getYsje());
+							}else {
+								xmjfJz += new Double(project.getYsje()==null?"0":project.getYsje());
+							}
 						}
 					}
 					mp.put("xmjfJz", xmjfJz);
