@@ -219,7 +219,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 }else {
                     $(this).removeClass("layui-layer-icon");
                     $("#enlargeP").removeClass("enlarge");
-                    $("#enlargeP .main-chart").css("height","250px");
+                    $("#enlargeP .main-chart").css("height","300px");
                     var colorFive = ["#8fc31f"];
                     five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
                     // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
@@ -271,7 +271,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     where: where,
                     limit: 15,
                     id: 'zjkChoiceTableId',
-                    height: 250,
+                    height: 300,
                     page: {
                         count: 500, //数据总数，从服务端得到
                         groups: 5,
