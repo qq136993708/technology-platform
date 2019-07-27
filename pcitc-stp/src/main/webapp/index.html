@@ -343,6 +343,7 @@
 						//初始化websocket
 						var websocket = null;
 						if ('WebSocket' in window) {
+							var protocolStr = document.location.protocol;
 							var wsFlag = "ws:";
 							if(protocolStr.indexOf("https")>-1) {
 								wsFlag = "wss:"
