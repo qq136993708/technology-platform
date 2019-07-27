@@ -201,7 +201,7 @@
 	<script>
 		var functionTreeNodes;
 		var unitTreeNodes;
-		var configPostIds = new Array();//要配置的功能
+		var configPostIds = new Array();//要配置的岗位id集合
 		var configSelectPostId; //点击选中的岗位（不是checkbox，是点击树节点）
 		var configProCode;//要配置的数据项目
 		// 配置时，监理单位临时选中中值
@@ -724,17 +724,21 @@
 
 		$('#unitKeyWord').bind('keypress', function(event) {//监听sim卡回车事件
 			if (event.keyCode == "13") {
-				var root = unitTree.getNodesByParam("level", "0");
-				if (!isBlank(root)) {
-					for (index in root) {
-						//删除所有节点(岗位)
-						delAllPostsNodes(root[index]);
-					}
-				}
-				configPostIds.splice(0, configPostIds.length);
-				filterSearch($('#unitKeyWord').val(), unitTree);
+				iniPostSeleted();
 			}
 		});
+		
+		function iniPostSeleted(){
+			var root = unitTree.getNodesByParam("level", "0");
+			if (!isBlank(root)) {
+				for (index in root) {
+					//删除所有节点(岗位)
+					delAllPostsNodes(root[index]);
+				}
+			}
+			configPostIds.splice(0, configPostIds.length);
+			filterSearch($('#unitKeyWord').val(), unitTree);
+		}
 
 		$('#functionKeyWord').bind('keypress', function(event) {//监听sim卡回车事件
 			if (event.keyCode == "13") {
@@ -1104,6 +1108,10 @@
 				url : '/userProperty/function/config/post/save',
 				success : function(data) {
 					layer.msg("操作成功");
+					configPostIds = new Array();
+					var treeObj = $.fn.zTree.getZTreeObj("unitTree");
+					treeObj.checkAllNodes(false);
+					treeObj.cancelSelectedNode();
 				},
 				error : function(e) {
 					layer.msg("出错了！");
@@ -1218,6 +1226,10 @@
 				url : '/userProperty/function/config/post/save',
 				success : function(data) {
 					layer.msg("操作成功");
+					configPostIds = new Array();
+					var treeObj = $.fn.zTree.getZTreeObj("unitTree");
+					treeObj.checkAllNodes(false);
+					treeObj.cancelSelectedNode();
 				},
 				error : function(e) {
 					layer.msg("出错了！");
@@ -1330,6 +1342,10 @@
 				url : '/userProperty/function/config/post/save',
 				success : function(data) {
 					layer.msg("操作成功");
+					configPostIds = new Array();
+					var treeObj = $.fn.zTree.getZTreeObj("unitTree");
+					treeObj.checkAllNodes(false);
+					treeObj.cancelSelectedNode();
 				},
 				error : function(e) {
 					layer.msg("出错了！");
@@ -1442,6 +1458,10 @@
 				url : '/userProperty/function/config/post/save',
 				success : function(data) {
 					layer.msg("操作成功");
+					configPostIds = new Array();
+					var treeObj = $.fn.zTree.getZTreeObj("unitTree");
+					treeObj.checkAllNodes(false);
+					treeObj.cancelSelectedNode();
 				},
 				error : function(e) {
 					layer.msg("出错了！");
@@ -1552,6 +1572,10 @@
 				url : '/userProperty/function/config/post/save',
 				success : function(data) {
 					layer.msg("操作成功");
+					configPostIds = new Array();
+					var treeObj = $.fn.zTree.getZTreeObj("unitTree");
+					treeObj.checkAllNodes(false);
+					treeObj.cancelSelectedNode();
 				},
 				error : function(e) {
 					layer.msg("出错了！");
