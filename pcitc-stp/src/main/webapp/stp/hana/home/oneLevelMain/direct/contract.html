@@ -270,7 +270,7 @@
 			$("#contract_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#contract_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-			var chart1_url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + $('#year').val() + "&v_date=" + v_date;
+			var chart1_url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + $('#year').val() + "&v_date=" + v_date+"&define3=研究院";
 			var color = [ "#43c5ff", "#ffa70f" ];
 			var echart1 = load_single_bar_down(chart1_url, "contract_chart1", "", "", yAxis, color);
 			echart1.on('click', function(params) {
@@ -283,7 +283,7 @@
 			});
 
 			// 直属研究院课题合同（任务书）签定率  ,  饼状圈
-			var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + $('#year').val() + "&v_date=" + v_date;
+			var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + $('#year').val() + "&v_date=" + v_date+"&define3=研究院";
 			var echart2 = loadCicle(url, "contract_chart1_02_02");
 			echart2.on('click', function(params) {
 				var xName = params.name;
@@ -292,7 +292,7 @@
 
 			});
 
-			var chart4_url = "/direct/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + $('#year').val() + "&v_date=" + v_date;
+			var chart4_url = "/direct/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + $('#year').val() + "&v_date=" + v_date+"&define3=研究院";
 			var colorTr = [ "#9DD783", "#4FAAEC", "#f9c16d" ];
 			var echart4 = load_mutl_bar_down_r(chart4_url, "contract_chart4", "", "", yAxis, 1, 25, colorTr);
 			echart4.on('click', function(params) {
