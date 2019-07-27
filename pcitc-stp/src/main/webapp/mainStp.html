@@ -559,7 +559,6 @@
 					laydate = layui.laydate;
 					publicMethods = layui.publicMethods;
 					/*新开页面*/
-
 					var stype = "ROOT_XTGL_XWLX_GCSY|ROOT_XTGL_XWLX_SHYW|ROOT_XTGL_XWLX_GCDT|ROOT_XTGL_XWLX_YJYDT";
 					var formIds = "";
 					var list = [];
@@ -665,6 +664,18 @@
 							}
 						}
 					});
+                    $(".arrange table tbody tr").click(function () {
+                        layer.open({
+                            title : '工作安排-详情',
+                            skin : 'layui-layer-lan',
+                            shadeClose : false,
+                            type : 2,
+                            fixed : false,
+                            maxmin : true,
+                            area : [ '80%', '90%' ],
+                            content : '/taskView.html'
+                        });
+                    });
 					var trLength = $(".accept .layui-table-body table tbody tr").length;
 					if (arrangeC == 0 && trLength != 0) {
 						$(".arrange .layui-table-body .layui-none").css("height", (trLength * 32.8) + "px");
@@ -1065,7 +1076,7 @@
 						type : 2,
 						fixed : false,
 						maxmin : true,
-						area : [ '70%', '100%' ],
+						area : [ '70%', '90%' ],
 						content : '/plan/addPlanPage'
 					});
 				}
