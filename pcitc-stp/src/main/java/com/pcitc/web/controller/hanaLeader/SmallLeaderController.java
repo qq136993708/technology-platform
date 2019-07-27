@@ -124,6 +124,7 @@ public class SmallLeaderController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
+		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		// 数据控制属性
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
@@ -133,7 +134,7 @@ public class SmallLeaderController extends BaseController {
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
 
 		paramsMap.put("nd", nd);
-
+		paramsMap.put("typeFlag", typeFlag);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -169,13 +170,49 @@ public class SmallLeaderController extends BaseController {
 				}
 				if (type.equals("2")) {
 
+					BudgetMysql newBM = new BudgetMysql();
+					for (int i = 0; i < list.size(); i++) {
+						BudgetMysql bm = list.get(i);
+
+						newBM.setDefine2("合计");
+						Double zysje = newBM.getZysje() == null ? 0d : Double.valueOf(newBM.getZysje().toString());
+						Double temYS = bm.getZysje() == null ? 0d : Double.valueOf(bm.getZysje().toString());
+						newBM.setZysje(zysje + temYS);
+						
+						Double zsjje = newBM.getZsjje() == null ? 0d : Double.valueOf(newBM.getZsjje().toString());
+						Double temJE = bm.getZsjje() == null ? 0d : Double.valueOf(bm.getZsjje().toString());
+						newBM.setZsjje(zsjje + temJE);
+						
+						Double wqhtzje = newBM.getWqhtzje() == null ? 0d : Double.valueOf(newBM.getWqhtzje().toString());
+						Double temWXD = bm.getWqhtzje() == null ? 0d : Double.valueOf(bm.getWqhtzje().toString());
+						newBM.setWqhtzje(wqhtzje + temWXD);
+						
+						Double hanaMoney = newBM.getHanaMoney() == null ? 0d : Double.valueOf(newBM.getHanaMoney().toString());
+						Double temHana = bm.getHanaMoney() == null ? 0d : Double.valueOf(bm.getHanaMoney().toString());
+						newBM.setHanaMoney(hanaMoney + temHana);
+
+						Double wbkzje = newBM.getWbkzje() == null ? 0d : Double.valueOf(newBM.getWbkzje().toString());
+						Double temWBK = bm.getWbkzje() == null ? 0d : Double.valueOf(bm.getWbkzje().toString());
+						newBM.setWbkzje(wbkzje + temWBK);
+					}
+					list.add(0, newBM);
+					
+					for (int i = 0; i < list.size(); i++) {
+						BudgetMysql bm = list.get(i);
+						bm.setZysje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getZysje()))));
+						bm.setZsjje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getZsjje()))));
+						bm.setWqhtzje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getWqhtzje()))));
+						bm.setHanaMoney(String.format("%.2f", Double.valueOf(String.valueOf(bm.getHanaMoney()))));
+						bm.setWbkzje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getWbkzje()))));
+					}
 					pageResult.setData(list);
 					pageResult.setCode(0);
 					pageResult.setCount(Long.valueOf(list.size()));
 					pageResult.setLimit(1000);
 					pageResult.setPage(1l);
 				}
-
+				
+				
 			}
 
 		} else {
