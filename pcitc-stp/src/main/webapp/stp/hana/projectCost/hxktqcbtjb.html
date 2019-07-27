@@ -35,10 +35,10 @@
                       <th lay-data="{align:'center'}" colspan="4">本年</th>
                   </tr>
                   <tr>
-                      <th lay-data="{field:'k0LJGLFPHJESR',  width:'11%',align:'right'}">累计收入</th>
-                      <th lay-data="{field:'k0ZTYSJE',       width:'11%',align:'right'}">计划总投资</th>
-                       <th lay-data="{field:'k0LJSJJE',       width:'11%',align:'right'}">累计投资完成额 </th> 
-                        <th lay-data="{field:'k0LJZJSYBL',     width:'11%',align:'right',templet:presentTpl}">资金使用% </th> 
+                      <th lay-data="{field:'k0LJGLFPHJESR',  width:'11%',align:'right'}">收入</th>
+                      <th lay-data="{field:'k0ZTYSJE',       width:'11%',align:'right'}">预算支出</th>
+                       <th lay-data="{field:'k0LJSJJE',       width:'11%',align:'right'}">实际支出 </th> 
+                        <th lay-data="{field:'k0LJZJSYBL',     width:'11%',align:'right',templet:presentTpl}">预算完成%</th> 
                         
                        
                      <!--  <th lay-data="{field:'k0LJGLFPHJECB',  width:'7%',align:'right'}">下达投资额  </th> 
@@ -48,9 +48,9 @@
                      
 
                       <th lay-data="{field:'k0BNGLFPHJESR', width:'11%',align:'right'}">本年收入 </th>
-                      <th lay-data="{field:'k0BNYSJHJE',    width:'11%',align:'right'}">本年投资计划</th>
-                       <th lay-data="{field:'k0BNSJJE',      width:'13%',align:'right'}">本年投资完成额 </th> 
-                        <th lay-data="{field:'k0BNZJSYBL',    width:'13%',align:'right',templet:presentTp2}">资金使用% </th> 
+                      <th lay-data="{field:'k0BNYSJHJE',    width:'11%',align:'right'}">预算支出</th>
+                       <th lay-data="{field:'k0BNSJJE',      width:'13%',align:'right'}">实际支出 </th> 
+                        <th lay-data="{field:'k0BNZJSYBL',    width:'13%',align:'right',templet:presentTp2}">预算完成%</th> 
                        
                      <!--  <th lay-data="{field:'k0BNGLFPHJECB', width:'7%',align:'right'}">本年累计支出</th> 
                       <th lay-data="{field:'k0BNSJCNJE',    width:'7%',align:'right'}">承诺 </th>
@@ -184,6 +184,8 @@ function myTable()
 	 var companyCode=$("#companyCode").val();
 	 var v_date=(new Date()).getTime();
 	 var url= '/hxktqcbtjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	 if (companyCode != null && companyCode != '') 
+	 {
 	    table.init('myTable', {
 			  url: url
 			  , height: commonDislodgeTable()-100
@@ -192,7 +194,13 @@ function myTable()
 			  
 			});
 	    
-	    
+	} else
+	{
+		layer.alert('请联系管理员配置该菜单数据权限', {
+			icon : 4,
+			skin : 'layer-ext-moon'
+		});
+	}
 	 
 }
 
@@ -200,17 +208,21 @@ function myTable()
     
 function exput_excel()
 {
-	var companyCode=$('#companyCode').val();
-	var month=$('#month').val();
-	 month=month.replace("-","");
-	window.open("/hxktqcbtjb_data_out_excel?month="+month+"&companyCode="+companyCode);
+	    var companyCode=$('#companyCode').val();
+	    var month=$('#month').val();
+	    month=month.replace("-","");
+		if (companyCode != null && companyCode != '') 
+		{
+			window.open("/hxktqcbtjb_data_out_excel?month="+month+"&companyCode="+companyCode);
+		} else
+		{
+			layer.alert('请联系管理员配置该菜单数据权限', {
+				icon : 4,
+				skin : 'layer-ext-moon'
+			});
+		}
+	
 } 
-
-    
-   
-   
-
 </script>
-
 </body>
 </html>

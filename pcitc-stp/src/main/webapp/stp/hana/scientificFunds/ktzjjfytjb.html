@@ -181,17 +181,29 @@ function myTable()
 	 var month=$("#month").val();
 	 month=month.replace("-","");
 	 var companyCode=$("#companyCode").val();
-	 // alert(companyCode);
-	 var v_date=(new Date()).getTime();
-	 var url= '/ktzjjfytjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode+"&functionId="+functionId;
-     table.init('myTable', {
-		  url: url,
-		  height:commonDislodgeTable()-100
-		  ,where: {} ,
-		  done: function (res, curr, count) {
-			  layer.closeAll();
-		  }
-	 });
+	 
+	    if(companyCode!=null && companyCode!='')
+	    {
+	    	
+			 // alert(companyCode);
+			 var v_date=(new Date()).getTime();
+			 var url= '/ktzjjfytjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode+"&functionId="+functionId;
+		     table.init('myTable', {
+				  url: url,
+				  height:commonDislodgeTable()-100
+				  ,where: {} ,
+				  done: function (res, curr, count) {
+					  layer.closeAll();
+				  }
+			 });
+     
+	    }else
+  	    {
+  		layer.alert('请联系管理员配置该菜单数据权限', {
+  		  icon: 4,
+  		  skin: 'layer-ext-moon' 
+  		});
+  	   }
 	   
 }
    
@@ -203,7 +215,19 @@ function exput_excel()
 	var companyCode=$('#companyCode').val();
 	var month=$('#month').val();
 	 month=month.replace("-","");
-	window.open("/ktzjjfytjb_data_exput_excel?month="+month+"&companyCode="+companyCode); 
+	 
+	    if (companyCode != null && companyCode != '') 
+		{
+		   window.open("/ktzjjfytjb_data_exput_excel?month="+month+"&companyCode="+companyCode); 
+		} else
+		{
+			layer.alert('请联系管理员配置该菜单数据权限', {
+				icon : 4,
+				skin : 'layer-ext-moon'
+			});
+		}
+	 
+	
 } 
 
 

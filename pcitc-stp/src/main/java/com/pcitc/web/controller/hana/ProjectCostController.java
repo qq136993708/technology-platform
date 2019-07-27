@@ -652,8 +652,31 @@ public class ProjectCostController extends BaseController {
 	 			
 	 		}
 	 		
-	 		   String[] headers = { "院所", "累计-收入",         "累计-计划总投资","累计-下达投资额",      "累计-承诺",    "累计-预付余额",     "累计-投资完成额", "累计-项目资金计划结余","累计-资金使用%",          "本年-收入",         "本年-投资计划" , "本年-累计支出",   "本年-承诺",     "本年-预付款",   "本年-投资完成额",   "本年-资金计划结余",   "本年-资金使用%"};
-			    String[] cols =   {"g0GSJC","k0LJGLFPHJESR", "k0ZTYSJE",   "k0LJGLFPHJECB","k0LJSJCNJE","k0LJSJDJJE",    "k0LJSJJE",    "k0LJYSJY",       "k0LJZJSYBL",          "k0BNGLFPHJESR",  "k0BNYSJHJE", "k0BNGLFPHJECB","k0BNSJCNJE","k0BNSJDJJE",  "k0BNSJJE",     "k0BNYSJY",     "k0BNZJSYBL"};
+	 		   String[] headers = { 
+	 				                    "院所", 
+	 				                    "累计-收入",         
+	 				                    "累计-预算支出",
+	 				                    "累计-实际支出",      
+	 				                    "累计-预算完成%",  
+	 				                    
+	 				                    "本年-收入",         
+	 				                    "本年-预算支出" , 
+	 				                    "本年-实际支出",   
+	 				                    "本年-预算完成%"
+	 				               };
+			    String[] cols =   {    
+			    		             "g0GSJC",
+			    		             "k0LJGLFPHJESR", 
+			    		             "k0ZTYSJE",   
+			    		             "k0LJSJJE",
+			    		             "k0LJZJSYBL",
+			    		             
+			    		             "k0BNGLFPHJESR",    
+			    		             "k0BNYSJHJE",    
+			    		             "k0BNSJJE",       
+			    		             "k0BNZJSYBL"
+			    		             
+			    		             };
 			   
 			   
 	 	        // 文件名默认设置为当前时间：年月日时分秒
