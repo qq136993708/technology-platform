@@ -40,7 +40,10 @@ layui.extend({
     
     text = text || '新标签页';
     var protocolStr = document.location.protocol; 
-    var domain = protocolStr+"://"+location.host;
+    console.log("protocol = " + protocolStr);
+    
+    
+    var domain = "https://"+location.host;
     if(parent.$("#LAY_app .layui-layout-admin").hasClass("layui-leader")){
        $("#LAY_app_body .layadmin-tabsbody-item").remove();
         $(APP_BODY).append([
