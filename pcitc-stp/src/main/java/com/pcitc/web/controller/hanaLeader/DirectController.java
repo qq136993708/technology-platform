@@ -638,6 +638,9 @@ public class DirectController extends BaseController {
 		return "stp/hana/home/oneLevelMain/direct/contract";
 	}
 
+	/**
+	 * 合同签订率
+	 */
 	@RequestMapping(value = "/direct/contract_01")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
@@ -648,7 +651,7 @@ public class DirectController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
-		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String define3 = CommonUtil.getParameter(request, "define3 ", "");
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 
