@@ -91,7 +91,6 @@ public class SysFileKindController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
-	@OperationFilter(modelName = "", actionName = "查询列表getList")
 	public Object getList(@RequestBody SysFileKind sysFileKind) {
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<SysFileKind>(sysFileKind, this.httpHeaders), JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
@@ -101,7 +100,6 @@ public class SysFileKindController extends BaseController {
 
 	@RequestMapping(value = "/listParam", method = RequestMethod.POST)
 	@ResponseBody
-	@OperationFilter(modelName = "", actionName = "查询列表getListParam")
 	public Object getListParam(@RequestParam String id) {
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
@@ -121,7 +119,6 @@ public class SysFileKindController extends BaseController {
 	 */
 	@RequestMapping(value = "/getTableData", method = RequestMethod.POST)
 	@ResponseBody
-	@OperationFilter(modelName = "", actionName = "分页查询getTableData")
 	public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
 
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);

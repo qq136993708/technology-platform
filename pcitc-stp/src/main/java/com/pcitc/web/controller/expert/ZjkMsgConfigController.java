@@ -169,7 +169,6 @@ public class ZjkMsgConfigController extends BaseController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
-    @OperationFilter(modelName = "专家回复消息配置表", actionName = "跳转编辑页面pageEdit")
     public String pageEdit(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
@@ -177,7 +176,6 @@ public class ZjkMsgConfigController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/zjkMsg_bat")
-    @OperationFilter(modelName = "专家回复消息配置表", actionName = "跳转批量设置页面zjkMsg_bat")
     public String zjkMsg_bat(String ids, Model model, String opt) {
         model.addAttribute("ids", ids);
         return "stp/expert/zjkMsg_bat";
@@ -189,7 +187,6 @@ public class ZjkMsgConfigController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
-    @OperationFilter(modelName = "专家回复消息配置表", actionName = "跳转列表页toListPage")
     public String toListPage() {
         return "stp/expert/zjkMsgConfig_list";
     }

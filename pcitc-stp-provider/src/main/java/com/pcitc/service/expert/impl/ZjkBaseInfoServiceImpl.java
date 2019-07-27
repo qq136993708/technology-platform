@@ -688,7 +688,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             //人员信息;基本信息;专利 课题  评审
             String expertName = expert.getExpertName() + "(" + expertType + ")";
             double x = 200;
-            double y = 300;//x,y不能相同
+            double y = 80;//x,y不能相同 300
             double d = 360/8;//不变
             double r = 400;
             String dataId = expert.getDataId();
@@ -742,15 +742,15 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 //                if (map_choice.get(value) != null) {
 //                    links.add(new ChartGraphDataLink(name, psName, link_index+++"", name));
 //                }
-//                //企业组装
-//                String fzdw = map_obj.get("fzdw");
-//                if (fzdw != null && !"".equals(fzdw)) {
-//                    map_dw.put(fzdw, name);
-//                }
-//                String define8 = map_obj.get("define8");
-//                if (define8 != null && !"".equals(define8)) {
-//                    map_dw.put(define8, name);
-//                }
+                //企业组装
+                String fzdw = map_obj.get("fzdw");
+                if (fzdw != null && !"".equals(fzdw)) {
+                    map_dw.put(fzdw, name);
+                }
+                String define8 = map_obj.get("define8");
+                if (define8 != null && !"".equals(define8)) {
+                    map_dw.put(define8, name);
+                }
             }
 
             //相关专利
@@ -783,11 +783,12 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 String[] array_fmr = list_patent.get(i).get("fmr").split(";");
 
                 double m_d = getD(j);
+                m_d =zl_d;
                 double m_x = getX(zl_x,zl_y,m_d*i,zl_r);
                 double m_y = getY(zl_x,zl_y,m_d*i,zl_r);
                 double m_r = getR(j);
                 double m_s_sym = getSYMSon(j);
-                nodes.add(new ChartGraphDataNode(zl_index, name, "",source, itemStyle,m_x,m_y,zl_s_sym+""));
+                nodes.add(new ChartGraphDataNode(zl_index, name, "",source, itemStyle,m_x,m_y,zl_s_sym+10+""));
                 links.add(new ChartGraphDataLink(source+"", zl_index+"", link_index+++"", name));
 
                 for (int k = 0, array_fmr_l = array_fmr.length; k < array_fmr_l; k++) {
@@ -845,6 +846,8 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             double js_r = getR(count_js);
             double js_s_sym = getSYMSon(count_js);
             String js_p_sym_p = getSYMP(js_s_sym);
+
+
 
             nodes.add(new ChartGraphDataNode(js_index, techName, techValue, js_index+"",itemStyle,js_x,js_y,js_p_sym_p));
             links.add(new ChartGraphDataLink(js_index+"", "0", link_index+++"", techName));
@@ -995,6 +998,31 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         return object;
     }
 
+//    public static Map<String,Object> setGraphNode(double x,double y,double d,double r,int category,int link_target,Object link_id,String showName,String showValue,Object itemStyle){
+    public static Map<String,Object> setGraphNode(double x,double y,double d,double r,int category,Object id,String showName,String showValue,Object itemStyle){
+        Map<String,Object> map = new HashMap<>();
+//        (int category, String name, Object value, String id,Object label,double x,double y,String symbolSize)
+//        nodes.add(new ChartGraphDataNode(cg_index, cgName, cgValue, cg_index+"",itemStyle,cgx,cgy,cg_p_sym_p));
+//        links.add(new ChartGraphDataLink(cg_index+"", "0", link_index+++"", cgName));
+//        int zl_index = 2;
+//        double zl_x = getX(x,y,d*zl_index,r);
+//        double zl_y = getY(x,y,d*zl_index,r);
+//        double zl_d = getD(count_patent);
+//        double zl_r = getR(count_patent);
+//        double zl_s_sym = getSYMSon(count_patent);
+//        String zl_p_sym_p = getSYMP(zl_s_sym);
+
+//        map.put("category",category);
+//        map.put("name",showName);
+//        map.put("value",showValue);
+//        map.put("id",id);
+//        map.put("label",itemStyle);
+//        map.put("x",getX(x,y,d*category,r));
+//        map.put("y",getY(x,y,d*category,r));
+//        map.put("symbolSize",getSYMP(getSYMSon(count_patent)));
+        return map;
+    }
+
     //获取子项Sysm
     private static double getSYMSon(int length){
         return (length/10==0||length/10<5)?10:(length/10<10?10:(length/10));
@@ -1012,12 +1040,14 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
      * @return
      */
     private static double getX(double x,double y,double du,double r){
+//        double x1 = x + r * Math.cos(du * 3.14 / 180);
         double x1 = x + r * Math.cos(du * 3.14 / 180)+new Random().nextInt(100) + 1;
         return x1;
 
     }
     //获取Y
     private static double getY(double x,double y,double du,double r){
+//        double y1 = y + r * Math.sin(du * 3.14 / 180);
         double y1 = y + r * Math.sin(du * 3.14 / 180)+new Random().nextInt(100) + 1;
         return y1;
     }
@@ -1290,6 +1320,41 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     @Autowired
     private ZjkComplaintMapper zjkComplaintMapper;
 
+    public LayuiTableData findZjkBaseInfoByPageCountJob() {
+        ZjkExpertExample example = new ZjkExpertExample();
+        ZjkExpertExample.Criteria c = example.createCriteria();
+//        c.andStatusEqualTo("0");
+//        c.andDelFlagEqualTo("0");
+//        c.andSysFlagEqualTo("0");
+        LayuiTableData data = new LayuiTableData();
+
+        //查询专家数量
+        List<ZjkExpert> experts = selectByExample(example);
+        LayuiTableParam param = new LayuiTableParam();
+        Map<String, Object> map = new HashMap<>();
+        for (int i = 0, j = experts.size(); i < j; i++) {
+            ZjkExpert expert = experts.get(i);
+            String eName = expert.getExpertName();
+            map.put("name", eName);
+            param.setParam(map);
+            int count = systemRemoteClient.selectOutPatentList(param).getCount();
+            expert.setPatentCount(count + "");
+            LayuiTableData outAppraisalListPage = null;
+            try {
+                outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
+                expert.setAchievementCount(outAppraisalListPage.getCount() + "");
+                expert.setProjectCount(systemRemoteClient.getOutProjectListPageExpert(param).getCount() + "");
+                expert.setBak7(systemRemoteClient.getOutRewardListPage(param).getCount() + "");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            updateByPrimaryKey(expert);
+        }
+
+        data.setData(experts);
+        return data;
+    }
+
     @Override
     public LayuiTableData findZjkBaseInfoByPageCount(LayuiTableParam param) {
         ZjkExpertExample example = new ZjkExpertExample();
@@ -1408,26 +1473,26 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 //        List<ZjkComplaint> zjkComplaints = zjkComplaintMapper.selectByExample(zjkComplaintExample);
 //        Map<String, Long> complaint_count = zjkComplaints.stream().collect(Collectors.groupingBy(ZjkComplaint::getZjkId, Collectors.counting()));
 
-        for (int i = 0, j = experts.size(); i < j; i++) {
-            String eName = experts.get(i).getExpertName();
-
-            Map<String, Object> map = new HashMap<>();
-
-            map.put("name", eName);
-            param.setParam(map);
-            int count = systemRemoteClient.selectOutPatentList(param).getCount();
-            experts.get(i).setPatentCount(count + "");
-            LayuiTableData outAppraisalListPage = null;
-            try {
-                outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
-                experts.get(i).setAchievementCount(outAppraisalListPage.getCount() + "");
-
-                experts.get(i).setProjectCount(systemRemoteClient.getOutProjectListPageExpert(param).getCount() + "");
-                experts.get(i).setBak7(systemRemoteClient.getOutRewardListPage(param).getCount() + "");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+//        for (int i = 0, j = experts.size(); i < j; i++) {
+//            String eName = experts.get(i).getExpertName();
+//
+//            Map<String, Object> map = new HashMap<>();
+//
+//            map.put("name", eName);
+//            param.setParam(map);
+//            int count = systemRemoteClient.selectOutPatentList(param).getCount();
+//            experts.get(i).setPatentCount(count + "");
+//            LayuiTableData outAppraisalListPage = null;
+//            try {
+//                outAppraisalListPage = systemRemoteClient.getOutAppraisalListPage(param);
+//                experts.get(i).setAchievementCount(outAppraisalListPage.getCount() + "");
+//
+//                experts.get(i).setProjectCount(systemRemoteClient.getOutProjectListPageExpert(param).getCount() + "");
+//                experts.get(i).setBak7(systemRemoteClient.getOutRewardListPage(param).getCount() + "");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         data.setData(experts);
         return data;

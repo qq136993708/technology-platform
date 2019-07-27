@@ -202,7 +202,6 @@ public class ZjkMsgController extends BaseController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
-    @OperationFilter(modelName = "专家-回复管理", actionName = "跳转编辑页面pageEdit")
     public String pageEdit(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
@@ -215,7 +214,6 @@ public class ZjkMsgController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
-    @OperationFilter(modelName = "专家-回复管理", actionName = "跳转列表页toListPage")
     public String toListPage() {
         return "stp/expert/zjkMsg_list";
     }
