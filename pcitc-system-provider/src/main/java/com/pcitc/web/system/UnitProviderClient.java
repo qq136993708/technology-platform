@@ -1,12 +1,10 @@
 package com.pcitc.web.system;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +25,9 @@ import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.DataTableInfoVo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.service.system.UnitService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value="机构接口",tags= {"机构相关操作服务接口"})
 @RestController
@@ -374,6 +375,12 @@ public class UnitProviderClient
 	public List<TreeNode> getUnitPostTree(@RequestBody HashMap<String, Object> map) {
 		
 		List<TreeNode> list = unitService.getUnitPostTree(map);
+		return list;
+	}
+	@ApiOperation(value="检索机构",notes="根据ID检索机构")
+	@RequestMapping(value = "/unit-provider/units/get-units-byids", method = RequestMethod.POST)
+	public Object selectSysUnitByIds(@RequestBody Set<String> unitIds) {
+		List<SysUnit> list = unitService.selectUnitByIds(unitIds);
 		return list;
 	}
 }

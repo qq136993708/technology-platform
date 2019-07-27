@@ -1,7 +1,12 @@
 package com.pcitc.web.controller.system;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +32,8 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.system.SysPost;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DataTableInfoVo;
 import com.pcitc.base.util.IdUtil;
@@ -61,8 +68,10 @@ public class UserController extends BaseController {
 	private static final String USER_DELUSERS = "http://pcitc-zuul/system-proxy/user-provider/user/delete-users";
 	// 组织机构查询（回写）
 	private static final String UNIT_LIST = "http://pcitc-zuul/system-proxy/unit-provider/unit-list";
+	private static final String UNIT_BY_IDS = "http://pcitc-zuul/system-proxy/unit-provider/units/get-units-byids";
 	// 岗位信息查询（回写）
-	private static final String GET_POST_LIST = "http://pcitc-zuul/system-proxy/post-provider/post/list-data";
+	//private static final String GET_POST_LIST = "http://pcitc-zuul/system-proxy/post-provider/post/list-data";
+	private static final String POST_BY_IDS = "http://pcitc-zuul/system-proxy/post-provider/post/get-posts-byids";
 
 	@RequestMapping(value = "/user/delete/{userId}")
 	@ResponseBody
@@ -150,8 +159,52 @@ public class UserController extends BaseController {
 		writebackField = "isDomain"; // 回写字段
 		pageCommon.getDictionaryWriteback(this.restTemplate, this.httpHeaders, dataObject, parentCode, writebackField);
 
-		// 机构
-		writebackField = "userUnit"; // 回写字段
+		JSONArray array = JSON.parseArray(dataObject.get("data").toString());
+		//机构,岗位
+		Set<String> unitids = new HashSet<String>();
+		Set<String> postids = new HashSet<String>();
+		for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
+		{
+			Map<?,?> map = (Map<?,?>)iter.next();
+			String uids = (String)map.get("userUnit");
+			String pids = (String)map.get("userPost");
+			if(!StringUtils.isBlank(uids)) {
+				unitids.addAll(Arrays.asList(uids.split(",")));
+			}
+			if(!StringUtils.isBlank(pids)) {
+				postids.addAll(Arrays.asList(pids.split(",")));
+			}
+		}
+		List<Map<String,Object>> units = this.restTemplate.exchange(UNIT_BY_IDS, HttpMethod.POST, new HttpEntity<Set<String>>(unitids, this.httpHeaders), List.class).getBody();
+		List<Map<String,Object>> posts = this.restTemplate.exchange(POST_BY_IDS, HttpMethod.POST, new HttpEntity<Set<String>>(postids, this.httpHeaders), List.class).getBody();
+		
+		for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
+		{
+			Map<String,Object> map = (Map<String,Object>)iter.next();
+			map.put("userUnitDisp", "");
+			map.put("userPostDisp", "");
+			String uids = (String)map.get("userUnit");
+			String pids = (String)map.get("userPost");
+			if(!StringUtils.isBlank(uids)) {
+				List<Map<String,Object>> us = units.stream().filter(a -> Arrays.asList(uids.split(",")).contains(a.get("unitId"))).collect(Collectors.toList());
+				for(Map<String,Object> u:us) 
+				{
+					map.put("userUnitDisp", (StringUtils.isBlank(map.get("userUnitDisp")+"")?"":map.get("userUnitDisp")+",")+u.get("unitName"));
+				}
+				
+			}
+			if(!StringUtils.isBlank(pids)) {
+				List<Map<String,Object>> ps = posts.stream().filter(a -> Arrays.asList(pids.split(",")).contains(a.get("postId"))).collect(Collectors.toList());
+				for(Map<String,Object> p:ps) 
+				{
+					map.put("userPostDisp", (StringUtils.isBlank(map.get("userPostDisp")+"")?"":map.get("userPostDisp")+",")+p.get("postName"));
+				}
+			}
+		}
+		dataObject.put("data", array);
+		
+		return dataObject;
+		/*writebackField = "userUnit"; // 回写字段
 		DataTableInfoVo tableInfo = new DataTableInfoVo();
 		tableInfo.setiDisplayLength(1000);
 		String resultUnit = this.restTemplate.exchange(UNIT_LIST, HttpMethod.POST, new HttpEntity<DataTableInfoVo>(tableInfo, this.httpHeaders), String.class).getBody();
@@ -179,9 +232,9 @@ public class UserController extends BaseController {
 				wirtebackValue = wirtebackValue.substring(0, wirtebackValue.length() - 1);
 			}
 			jsonObject.put(writebackField + "Disp", wirtebackValue);
-		}
+		}*/
 		// 岗位
-		List<?> rs = this.restTemplate.exchange(GET_POST_LIST, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), List.class).getBody();
+		/*List<?> rs = this.restTemplate.exchange(GET_POST_LIST, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), List.class).getBody();
 		com.alibaba.fastjson.JSONArray retPostArray = (com.alibaba.fastjson.JSONArray) JSON.parse(JSONObject.toJSON(rs).toString());
 		writebackField = "userPost"; // 回写字段
 		for (int i = 0; i < dataArray.size(); i++) {
@@ -206,7 +259,8 @@ public class UserController extends BaseController {
 			}
 			jsonObject.put(writebackField + "Disp", wirtebackValue);
 		}
-		return dataObject.toString();
+		System.out.println(dataObject.toString());
+		return dataObject.toString();*/
 	}
 
 	/**

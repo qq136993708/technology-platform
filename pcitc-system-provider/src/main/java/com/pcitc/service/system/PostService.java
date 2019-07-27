@@ -108,5 +108,11 @@ public interface PostService
 	 * @return
 	 */
 	Map<String,Set<String>> getFunctionButtonRel(String postId);
+	/**
+	 * 
+	 * @param ids
+	 * @return
+	 */
+	List<SysPost> findSysPostByIds(Set<String> ids);
 	
 }

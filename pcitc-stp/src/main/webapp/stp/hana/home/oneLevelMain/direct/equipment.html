@@ -195,7 +195,7 @@
 	<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 	<script type="text/javascript">
-		var companyCode = $('#companyCode').val();
+		var companyCode ="";
 		
 		var layer;
 		var table;
@@ -206,9 +206,6 @@
 		}).use([ 'index', 'layer', 'jquery', 'form', 'laydate', 'table', 'laypage' ], function() {
 			layer = layui.layer;
 			$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate;
-			if (companyCode == null || companyCode == '') {
-				layer.alert("请配置直属院数据权限");
-			}
 
 			form.render(null, 'component-form-group');
 			laydate.render({
@@ -226,9 +223,8 @@
 			var monthValM = $("#month").val().substring(5);
 			$(".layui-time").html(monthValY + "年" + monthValM + "月");
 			$(".layui-time1").html(monthValY);
-
-			renderTable2();
-			myTable();
+			companyCode = $('#companyCode').val();
+			search_Event();
 		});
 
 		function PrefixInteger(num, length) {
@@ -353,14 +349,7 @@
 
 		}
 
-		//初始化图形
-		initEchart();
-		//查询
-		function search_Event() {
-			initEchart();
-			myTable();
-			renderTable2();
-		}
+		
 
 		// 科研课题数量占比
 		function renderTable2() {
@@ -470,6 +459,26 @@
 				window.open("/instituteIndex?url=" + url);
 			});
 
+		}
+		
+		
+		//查询
+		function search_Event()
+		{
+			console.log(companyCode);
+			if(companyCode!=null && companyCode!='')
+	   	    {
+				initEchart();
+				myTable();
+				renderTable2();
+	   	    }else
+	     	 {
+	   	  		layer.alert('请联系管理员配置该菜单数据权限', {
+	   	  		  icon: 4,
+	   	  		  skin: 'layer-ext-moon' 
+	   	  		});
+	   	  	 }
+			
 		}
 	</script>
 

@@ -343,7 +343,12 @@
 						//初始化websocket
 						var websocket = null;
 						if ('WebSocket' in window) {
-							websocket = new WebSocket("ws://" + document.location.host + "/messageIndex/${userId?default(0)}");
+							var protocolStr = document.location.protocol;
+							var wsFlag = "ws:";
+							if(protocolStr.indexOf("https")>-1) {
+								wsFlag = "wss:"
+							}
+							websocket = new WebSocket(wsFlag+"//" + document.location.host + "/messageIndex/${userId?default(0)}");
 							websocket.onerror = function() {
 							};
 							websocket.onopen = function(event) {
@@ -366,7 +371,12 @@
 						//初始化websocket
 						var websocket = null;
 						if ('WebSocket' in window) {
-							websocket = new WebSocket("ws://" + document.location.host + "/taskIndex/${userId?default(0)}");
+							var protocolStr = document.location.protocol;
+							var wsFlag = "ws:";
+							if(protocolStr.indexOf("https")>-1) {
+								wsFlag = "wss:"
+							}
+							websocket = new WebSocket(wsFlag+"//" + document.location.host + "/taskIndex/${userId?default(0)}");
 							websocket.onerror = function() {
 							};
 							websocket.onopen = function(event) {
