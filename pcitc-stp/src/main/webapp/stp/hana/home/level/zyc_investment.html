@@ -34,7 +34,7 @@
 }
 
 .layui-row-main td:nth-child(6) .layui-table-cell {
-	color: #1890ff;
+	color: orange;
 
 
 </style>
@@ -77,8 +77,8 @@
 								<thead>
 									<th lay-data="{field:'yearMonth', width:'25%',align:'center'}">月份</th>
 									<th lay-data="{field:'zysje',     width:'25%',align:'right',style:'color: #f67d06'}">预算金额(万元)</th>
-									<th lay-data="{field:'zsjje',     width:'25%',align:'right'}">已签合同总金额(万元)</th>
-									<th lay-data="{field:'hanaMoney', width:'25%',align:'right'}">已拨款总金额(万元)</th>
+									<th lay-data="{field:'zsjje',     width:'25%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.zsjje) }}</div>'}">已签合同总金额(万元)</th>
+									<th lay-data="{field:'hanaMoney', width:'25%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.hanaMoney) }}</div>'}">已拨款总金额(万元)</th>
 								</thead>
 							</table>
 						</div>
@@ -115,10 +115,10 @@
 									<tr>
 										<th lay-data="{field:'define2',   width:'16%',align:'center'}">研究院</th>
 										<th lay-data="{field:'zysje',     width:'16%',align:'right'}">预算金额(万元)</th>
-										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">已签合同总金额(万元)</th>
-										<th lay-data="{field:'wqhtzje',     width:'17%',align:'right'}">未签合同总金额(万元)</th>
-										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">已拨款总金额(万元)</th>
-										<th lay-data="{field:'wbkzje', width:'17%',align:'right'}">未拨款总金额(万元)</th>
+										<th lay-data="{field:'zsjje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.zsjje) }}</div>'}">已签合同总金额(万元)</th>
+										<th lay-data="{field:'wqhtzje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.wqhtzje) }}</div>'}">未签合同总金额(万元)</th>
+										<th lay-data="{field:'hanaMoney', width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.hanaMoney) }}</div>'}">已拨款总金额(万元)</th>
+										<th lay-data="{field:'wbkzje', width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.wbkzje) }}</div>'}">未拨款总金额(万元)</th>
 									</tr>
 								</thead>
 							</table>
