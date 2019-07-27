@@ -260,7 +260,7 @@
 				var xName = params.name;
 				var legentName = params.seriesName;
 				
-				parent.layui.index.openTabsPage("/one_level_main/common_table_new?define12=直属研究院&define11=股份公司&qdbz=" + xName + "订&nd=" + nd + "&ysnd=" + nd, "合同签订率详情");
+				parent.layui.index.openTabsPage("/one_level_main/common_table_new?define11=股份公司&qdbz=" + xName + "订&nd=" + nd + "&ysnd=" + nd, "合同签订率详情");
 
 			});
 
@@ -288,10 +288,10 @@
 			});
 
 		}
-        //直属研究院合同任务书签定率
+        //合同任务书签定率
 		function nzsyjyhtrwsqdl(qdbz) {
 			
-			parent.layui.index.openTabsPage("/one_level_main/common_table_new?define12=直属研究院&define11=股份公司&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+			parent.layui.index.openTabsPage("/one_level_main/common_table_new?define11=股份公司&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 		}
         //直属研究院合同任务书签订情况
 		function nzsyjyhtrwsqdqk(qdbz) {
@@ -307,7 +307,7 @@
 			renderTable2();
 		}
 
-		// 直属研究院课题合同（任务书）数量占比
+		// 课题合同（任务书）数量占比
 		function renderTable() {
 			var month = $("#year").val();
 			var ptable = treeGridCom.render({
@@ -367,9 +367,9 @@
 							}
 					
 							if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
-								parent.layui.index.openTabsPage("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+								parent.layui.index.openTabsPage("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 							} else {
-								parent.layui.index.openTabsPage("/one_level_main/common_table_new?zycbmFlag=" + xName + "&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+								parent.layui.index.openTabsPage("/one_level_main/common_table_new?zycbmFlag=" + xName + "&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 							}
 					    }
 
