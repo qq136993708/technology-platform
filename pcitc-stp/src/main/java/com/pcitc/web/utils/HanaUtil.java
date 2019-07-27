@@ -2968,15 +2968,15 @@ public class HanaUtil {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zysje")) {
-			chartBarLineSeries.setName("预算金额");
+			chartBarLineSeries.setName("可新签预算");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("zsjje")) {
-			chartBarLineSeries.setName("合同金额");
+			chartBarLineSeries.setName("已签订金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("hanaMoney")) {
-			chartBarLineSeries.setName("拨款金额");
+			chartBarLineSeries.setName("已拨款金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("wqhtzje")) {
