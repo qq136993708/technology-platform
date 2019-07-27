@@ -1,6 +1,7 @@
 package com.pcitc.service.equipment.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -211,8 +212,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("isLinkedProject", isLinkedProject);
         map.put("parentUnitPathNames", parentUnitPathNames);
-
-		
 		List<SreEquipment> list = sreEquipmentMapper.getList(map);
 		PageInfo<SreEquipment> pageInfo = new PageInfo<SreEquipment>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());

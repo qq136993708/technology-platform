@@ -150,8 +150,8 @@
             });
 	        var $ = layui.$, active = {
         		sumEvent: function () { 
-            		var url = '/budget/budget_detail_total_unit?nd='+cu_date;
-                    publicMethods.openBaseWinFull('预算汇总',url);
+        			var url = '/budget/budget_detail_total_unit?nd='+cu_date;
+                    publicMethods.openBaseWin76(cu_date+'年度预算汇总（单位：万元）',url);
                 }
 	        }
         });

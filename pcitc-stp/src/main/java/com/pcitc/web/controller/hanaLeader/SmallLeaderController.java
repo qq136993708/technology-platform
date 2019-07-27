@@ -315,42 +315,6 @@ public class SmallLeaderController extends BaseController {
 				System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
-				// 单独计算预算金额
-				if (!zycbm.equals("")) {
-					BudgetItemSearchVo vo = new BudgetItemSearchVo();
-					vo.setNd(nd);
-					// 预算中，科技部外的部门特殊处理
-					if (zycbm.contains("30130011")) {
-						zycbm = zycbm + ",30130011";
-					}
-					if (zycbm.contains("30130016")) {
-						zycbm = zycbm + ",30130016";
-					}
-					if (zycbm.contains("30130009")) {
-						zycbm = zycbm + ",30130009";
-					}
-					Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
-					List<String> list_1 = new ArrayList<>(set);
-					vo.getUnitIds().addAll(list_1);
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY"); // 查询直属研究院的预算
-					HttpEntity<BudgetItemSearchVo> entity1 = new HttpEntity<BudgetItemSearchVo>(vo, httpHeaders);
-					ResponseEntity<BudgetItemSearchVo> responseEntity1 = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity1, BudgetItemSearchVo.class);
-					int statusCode1 = responseEntity1.getStatusCodeValue();
-					if (statusCode1 == 200) {
-						BudgetItemSearchVo bis = responseEntity1.getBody();
-						double investMoney = 0d;
-						for (int i = 0; i < list_1.size(); i++) {
-							investMoney = investMoney + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY");
-						}
-
-						for (int k = 0; k < list.size(); k++) {
-							BudgetMysql bm = list.get(k);
-							bm.setZysje(investMoney);
-						}
-						System.out.println("investMoneyinvestMoney=============" + investMoney);
-					}
-				}
-
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "yearMonth");
