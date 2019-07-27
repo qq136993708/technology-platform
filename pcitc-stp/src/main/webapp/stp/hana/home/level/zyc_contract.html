@@ -260,7 +260,7 @@
 				var xName = params.name;
 				var legentName = params.seriesName;
 				
-				parent.layui.index.openTabsPage("/one_level_main/common_table_new?define11=股份公司&qdbz=" + xName + "订&nd=" + nd + "&ysnd=" + nd, "合同签订率详情");
+				parent.layui.index.openTabsPage("/one_level_main/common_table_new?qdbz=" + xName + "订&nd=" + nd + "&ysnd=" + nd, "合同签订率详情");
 
 			});
 
@@ -291,7 +291,7 @@
         //合同任务书签定率
 		function nzsyjyhtrwsqdl(qdbz) {
 			
-			parent.layui.index.openTabsPage("/one_level_main/common_table_new?define11=股份公司&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+			parent.layui.index.openTabsPage("/one_level_main/common_table_new?qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 		}
         //直属研究院合同任务书签订情况
 		function nzsyjyhtrwsqdqk(qdbz) {
@@ -367,9 +367,9 @@
 							}
 					
 							if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
-								parent.layui.index.openTabsPage("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+								parent.layui.index.openTabsPage("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 							} else {
-								parent.layui.index.openTabsPage("/one_level_main/common_table_new?zycbmFlag=" + xName + "&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+								parent.layui.index.openTabsPage("/one_level_main/common_table_new?zycbmFlag=" + xName + "&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 							}
 					    }
 
