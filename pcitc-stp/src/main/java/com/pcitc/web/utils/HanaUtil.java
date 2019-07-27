@@ -3091,9 +3091,7 @@ public class HanaUtil {
 
 					if (zysje != null) {
 						String str = HanaUtil.DecimalFormatObject(zysje);
-						dataList.add(str);// String.format("%.2f",
-											// Double.valueOf(String.valueOf(zysje)))
-
+						dataList.add(str);
 					} else {
 						dataList.add(0);
 					}
@@ -3105,7 +3103,6 @@ public class HanaUtil {
 					if (zsjje != null) {
 						String str = HanaUtil.DecimalFormatObject(zsjje);
 						dataList.add(str);
-
 					} else {
 						dataList.add(0);
 					}
@@ -3113,14 +3110,12 @@ public class HanaUtil {
 				}
 				if (name.equals("hanaMoney")) {
 
-					if (hanaMoney != null) {
+					if (hanaMoney != null && !hanaMoney.toString().equals("0")) {
 						String str = HanaUtil.DecimalFormatObject(hanaMoney);
 						dataList.add(str);
-
 					} else {
-						dataList.add(0);
+						dataList.add("-");
 					}
-
 				}
 
 			}

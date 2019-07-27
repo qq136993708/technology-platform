@@ -23,6 +23,20 @@
 .searchBox {
 	background: none;
 }
+
+
+.layui-row-main td:nth-child(2) .layui-table-cell {
+	color: red;
+}
+
+.layui-row-main td:nth-child(4) .layui-table-cell {
+	color: green;
+}
+
+.layui-row-main td:nth-child(6) .layui-table-cell {
+	color: orange;
+
+
 </style>
 </head>
 <body>
@@ -34,7 +48,7 @@
 				<div class="searchBox">
 					<label class="dateInput">
 						<span>年份</span>
-						<input type="text" readonly="readonly" name="nd" placeholder="请选择年份" title="年份" value="${nd}" autocomplete="off" class="form-control" id="nd">
+						<input type="text" readonly="readonly" style="cursor:pointer"  name="nd" placeholder="请选择年份" title="年份" value="${nd}" autocomplete="off" class="form-control" id="nd">
 						<i class="layui-icon layui-icon-date" style="margin-left: -35px"></i>
 					</label>
 				</div>
@@ -62,9 +76,9 @@
 							<table id="myTable2" class="layui-table" lay-filter="myTable2">
 								<thead>
 									<th lay-data="{field:'yearMonth', width:'25%',align:'center'}">月份</th>
-									<th lay-data="{field:'zysje',     width:'25%',align:'right',style:'color:red'}">预算金额(万元)</th>
-									<th lay-data="{field:'zsjje',     width:'25%',align:'right'}">已签合同总金额(万元)</th>
-									<th lay-data="{field:'hanaMoney', width:'25%',align:'right'}">已拨款总金额(万元)</th>
+									<th lay-data="{field:'zysje',     width:'25%',align:'right',style:'color: #f67d06'}">预算金额(万元)</th>
+									<th lay-data="{field:'zsjje',     width:'25%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.zsjje) }}</div>'}">已签合同总金额(万元)</th>
+									<th lay-data="{field:'hanaMoney', width:'25%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.hanaMoney) }}</div>'}">已拨款总金额(万元)</th>
 								</thead>
 							</table>
 						</div>
@@ -101,10 +115,10 @@
 									<tr>
 										<th lay-data="{field:'define2',   width:'16%',align:'center'}">研究院</th>
 										<th lay-data="{field:'zysje',     width:'16%',align:'right'}">预算金额(万元)</th>
-										<th lay-data="{field:'zsjje',     width:'17%',align:'right'}">已签合同总金额(万元)</th>
-										<th lay-data="{field:'wqhtzje',     width:'17%',align:'right'}">未签合同总金额(万元)</th>
-										<th lay-data="{field:'hanaMoney', width:'17%',align:'right'}">已拨款总金额(万元)</th>
-										<th lay-data="{field:'wbkzje', width:'17%',align:'right'}">未拨款总金额(万元)</th>
+										<th lay-data="{field:'zsjje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.zsjje) }}</div>'}">已签合同总金额(万元)</th>
+										<th lay-data="{field:'wqhtzje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.wqhtzje) }}</div>'}">未签合同总金额(万元)</th>
+										<th lay-data="{field:'hanaMoney', width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.hanaMoney) }}</div>'}">已拨款总金额(万元)</th>
+										<th lay-data="{field:'wbkzje', width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.wbkzje) }}</div>'}">未拨款总金额(万元)</th>
 									</tr>
 								</thead>
 							</table>

@@ -23,6 +23,16 @@
 .searchBox {
 	background: none;
 }
+.layui-row-main td:nth-child(2) .layui-table-cell {
+	color: red;
+}
+
+.layui-row-main td:nth-child(4) .layui-table-cell {
+	color: green;
+}
+.layui-row-main td:nth-child(6) .layui-table-cell {
+	color: orange;
+}
 </style>
 </head>
 <body>
@@ -40,7 +50,7 @@
 				<div class="searchBox" style="margin-right: 6px;">
 					<label class="dateInput">
 						<span>月份</span>
-						<input type="text" name="month" placeholder="请选择年份" title="年份" value="${month}" autocomplete="off" class="form-control" id="month">
+						<input type="text" readonly="readonly" style="cursor:pointer" name="month" placeholder="请选择年份" title="年份" value="${month}" autocomplete="off" class="form-control" id="month">
 						<i class="layui-icon layui-icon-date" style="margin-left: -35px"></i>
 					</label>
 				</div>

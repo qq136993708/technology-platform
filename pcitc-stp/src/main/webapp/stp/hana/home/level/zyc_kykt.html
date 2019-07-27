@@ -48,7 +48,7 @@
 				<div class="searchBox">
 					<label class="dateInput">
 						<span>年份</span>
-						<input type="text" name="year" readonly="readonly" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
+						<input type="text" name="year"  style="cursor:pointer"  readonly="readonly" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
 						<i class="layui-icon layui-icon-date" style="margin-left: -35px"></i>
 
 					</label>
@@ -57,7 +57,38 @@
 					</div>
 				</div>
 			</div>
-
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>年科研课题数量技术分布
+						</div>
+						<div class="layui-card-body btn-function">
+							<div class="text-total">
+								<span>
+									总计:
+									<span class="text-total-blue" id="topic_chart7_01" onclick="nkyktsljsfb('')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									新开课题:
+									<span class="text-total-blue" id="topic_chart7_02" onclick="nkyktsljsfb('新开课题')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									结转课题:
+									<span class="text-total-blue" id="topic_chart7_03" onclick="nkyktsljsfb('结转课题')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+							</div>
+							<div class="main-chart" id="topic_chart7" style="height: 280px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="layui-row layui-col-space15">
 				<div class="layui-col-md6">
 					<div class="layui-card">
@@ -117,38 +148,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="layui-row layui-col-space15">
-				<div class="layui-col-md12">
-					<div class="layui-card">
-						<div class="layui-card-header">
-							<span class="layui-time"></span>年科研课题数量技术分布
-						</div>
-						<div class="layui-card-body btn-function">
-							<div class="text-total">
-								<span>
-									总计:
-									<span class="text-total-blue" id="topic_chart7_01" onclick="nkyktsljsfb('')" style="cursor: pointer">
-										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-									</span>
-								</span>
-								<span>
-									新开课题:
-									<span class="text-total-blue" id="topic_chart7_02" onclick="nkyktsljsfb('新开课题')" style="cursor: pointer">
-										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-									</span>
-								</span>
-								<span>
-									结转课题:
-									<span class="text-total-blue" id="topic_chart7_03" onclick="nkyktsljsfb('结转课题')" style="cursor: pointer">
-										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-									</span>
-								</span>
-							</div>
-							<div class="main-chart" id="topic_chart7" style="height: 280px; width: 100%;"></div>
-						</div>
-					</div>
-				</div>
-			</div>
+
 
 			<div class="layui-row layui-col-space15">
 				<div class="layui-col-md12">
