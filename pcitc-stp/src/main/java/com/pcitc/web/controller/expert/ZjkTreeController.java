@@ -134,7 +134,6 @@ public class ZjkTreeController extends BaseController {
      */
     @RequestMapping(value = "/getTableData", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "专家库-树", actionName = "分页查询getTableData")
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
@@ -176,7 +175,6 @@ public class ZjkTreeController extends BaseController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
-    @OperationFilter(modelName = "专家库-树", actionName = "跳转编辑页面pageEdit")
     public String pageEdit(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
@@ -190,7 +188,6 @@ public class ZjkTreeController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
-    @OperationFilter(modelName = "专家库-树", actionName = "跳转列表页toListPage")
     public String toListPage() {
         return "stp/expert/zjkTree_list";
     }

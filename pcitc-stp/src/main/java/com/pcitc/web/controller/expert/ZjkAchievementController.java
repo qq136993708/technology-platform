@@ -195,7 +195,6 @@ public class ZjkAchievementController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/zjkAchievement/toListPage", method = {RequestMethod.GET})
-    @OperationFilter(modelName = "专家-成果信息", actionName = "跳转列表页toListPage")
     public String toListPage()
     {
         request.setAttribute("expertId",request.getParameter("expertId"));
@@ -209,7 +208,6 @@ public class ZjkAchievementController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/zjkAchievement/getZjkAchievementInfo")
-    @OperationFilter(modelName = "专家-成果信息", actionName = "根据ID查询对象信息getzjkAchievementInfo")
     @ResponseBody
     public Object getzjkAchievementInfo(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -220,14 +218,12 @@ public class ZjkAchievementController extends BaseController {
 
     @RequestMapping(value = "/zjkAchievement/tree-data")
     @ResponseBody
-    @OperationFilter(modelName = "专家-成果信息", actionName = "树形查询getZjkAchievementTreeData()")
     public Object getZjkAchievementTreeData() throws Exception {
         TreeNode node = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), TreeNode.class).getBody();
         return node;
     }
 
     @RequestMapping(value = "/zjkAchievement/tree-datas")
-    @OperationFilter(modelName = "专家-成果信息", actionName = "树形查询getZjkAchievementTreeData()")
     @ResponseBody
     public String getZjkAchievementTreeDatas(HttpServletRequest request) throws Exception {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

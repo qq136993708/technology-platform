@@ -85,7 +85,7 @@
                         <li lay-id="33">成果信息<span class="red" id="cgCountShow">0</span></li>
                         <li lay-id="44">专利信息<span class="red" id="zlCountShow">0</span></li>
                         <li lay-id="44">奖励信息<span class="red" id="cgRewardShow">0</span></li>
-                        <li lay-id="44" onclick="showExpertDetail('${zjkBaseInfo.dataId}')">专家详情</li>
+                        <li lay-id="44" style="display: none" id="zjkDetail" onclick="showExpertDetail('${zjkBaseInfo.dataId}')">专家详情</li>
                     </ul>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
@@ -140,7 +140,7 @@
                     <a class="layui-layer-ico layui-layer-max" href="javascript:;"></a>
                 </div>
                 <div class="layui-row-main">
-                    <div class="main-chart" id="five" style="height:100%;width: 100%;"></div>
+                    <div class="main-chart" id="five" style="height:300px;width: 100%; overflow:auto"></div>
                 </div>
             </div>
         </div>
@@ -162,6 +162,12 @@
 </script>
 
 <script>
+//显示隐藏
+var display = "${display}";
+if (display!="1"){
+    $("#zjkDetail").css("display","inline");
+}
+
 //专家详情
 function showExpertDetail(expertId){
     openFullWin("查看", "/zjkBaseInfo/view/" + expertId);
@@ -213,7 +219,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 }else {
                     $(this).removeClass("layui-layer-icon");
                     $("#enlargeP").removeClass("enlarge");
-                    $("#enlargeP .main-chart").css("height","250px");
+                    $("#enlargeP .main-chart").css("height","300px");
                     var colorFive = ["#8fc31f"];
                     five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
                     // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
@@ -265,7 +271,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     where: where,
                     limit: 15,
                     id: 'zjkChoiceTableId',
-                    height: 250,
+                    height: 300,
                     page: {
                         count: 500, //数据总数，从服务端得到
                         groups: 5,

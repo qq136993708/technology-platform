@@ -131,7 +131,6 @@
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
@@ -180,8 +179,8 @@ layui.config({
     laydate.render({
     	 elem: '#month',type: 'month'
     });
-  
-    renderTable();
+    init_companyCode(functionId);
+    search_Event();
 });
 
 
@@ -229,7 +228,7 @@ function renderTable()
 
 
  
- init_companyCode(functionId);
+ 
 function initEchart()
 {
 	
@@ -248,28 +247,31 @@ function initEchart()
     	name="直属研究院";
     }
     
-    
     $(".layui-time").html(monthValY+"年"+monthValM+"月"+name);
-	
 	
 	var url_cash_flow_01="/financial-decision/cash-flow-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
 	load_single_line(url_cash_flow_01,"cash-flow-01","","");
 	
-/* 	var url_cash_flow_03_13="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=13&companyCode="+companyCode;
-	loadPie(url_cash_flow_03_13,"cash_flow_03_13","","");
-	var url_cash_flow_03_27="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=27&companyCode="+companyCode;
-	loadPie(url_cash_flow_03_27,"cash_flow_03_27","","");
-	var url_cash_flow_03_46="/financial-decision/cash-flow-03?month="+month+"&v_date="+v_date+"&type=46&companyCode="+companyCode;
-	loadPie(url_cash_flow_03_46,"cash_flow_03_46","",""); */
 }
 
-//初始化图形
-initEchart();
 //查询
 function search_Event()
 {
-	initEchart();
-	renderTable();
+	
+	var companyCode=$("#companyCode").val();
+	 //alert(companyCode);
+	 if (companyCode != null && companyCode != '') 
+	 {
+		    initEchart();
+			renderTable();
+	} else
+	{
+		layer.alert('请联系管理员配置该菜单数据权限', {
+			icon : 4,
+			skin : 'layer-ext-moon'
+		});
+	}
+	
 }
 
 </script>

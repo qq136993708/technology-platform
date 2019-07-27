@@ -173,7 +173,6 @@ public class ZjkEvaluateController extends BaseController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
-    @OperationFilter(modelName = "专家库-专家评价", actionName = "跳转编辑页面pageEdit")
     public String pageEdit(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
@@ -181,7 +180,6 @@ public class ZjkEvaluateController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/editts")
-    @OperationFilter(modelName = "专家-投诉管理", actionName = "跳转编辑页面pageEditts")
     public String pageEditts(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
@@ -200,7 +198,6 @@ public class ZjkEvaluateController extends BaseController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/view/{dataId}")
-    @OperationFilter(modelName = "专家库-专家评价", actionName = "跳转详情页面pageView")
     public String pageView(@PathVariable("dataId") String dataId, Model model) {
         model.addAttribute("id", dataId);
         model.addAttribute("opt", "");
@@ -214,7 +211,6 @@ public class ZjkEvaluateController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
-    @OperationFilter(modelName = "专家库-专家评价", actionName = "跳转列表页toListPage")
     public String toListPage() {
         return "stp/expert/zjkEvaluate_list";
     }

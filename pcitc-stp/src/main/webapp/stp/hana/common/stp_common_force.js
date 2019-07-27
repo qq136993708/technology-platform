@@ -233,6 +233,13 @@ var option_graph = {
         top: 'bottom',
         left: 'right'
     },
+    grid : {
+        top : "20%",
+        left : '0%',
+        right : '5%',
+        bottom : '10%',
+        containLabel : true
+    },
     tooltip: {},
     legend: [{
         // selectedMode: 'single',
@@ -319,7 +326,8 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
                             tooltip: {},
                             legend: [{
                                 // selectedMode: 'single',
-                                data: legendDataList
+                                data: legendDataList,
+
                             }],
                             animationDuration: 1500,
                             animationEasingUpdate: 'quinticInOut',
@@ -327,6 +335,7 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
                             series : [
                                 {
                                     // name: '专家画像',
+                                    top : "25%",
                                     type: 'graph',
                                     // type: 'graphGL',
                                     layout: 'none',

@@ -330,9 +330,6 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         ex.createCriteria().andXmidIn(xmids);
         List<OutProjectInfo> outProjectInfos = systemRemoteClient.selectByExample(ex);
 
-
-
-
         if (outProjectInfos!=null&&outProjectInfos.size()>0){
 //            List<OutProjectInfo> unique = outProjectInfos.stream().collect(
 //                    Collectors.collectingAndThen(

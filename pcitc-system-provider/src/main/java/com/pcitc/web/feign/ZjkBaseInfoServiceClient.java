@@ -40,5 +40,8 @@ public interface ZjkBaseInfoServiceClient {
     @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page-count")
     public LayuiTableData selectZjkBaseInfoByPageCount(@RequestBody LayuiTableParam param);
 
+    //专家信息统计
+    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page-count-job")
+    public LayuiTableData selectZjkBaseInfoByPageCountJob();
 }
 

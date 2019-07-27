@@ -192,35 +192,54 @@ function search_Event()
 
 function myTable()
 {
-	 var month=$("#month").val();
-	 var companyCode=$("#companyCode").val();
-	 month=month.replace("-","");
-	 var v_date=(new Date()).getTime();
-	 var url= '/nhzctjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	    table.init('myTable', {
-			  url: url
-			  ,height: commonDislodgeTable()-100
-			  ,where: {} ,
-			  done: function (res, curr, count) {layer.closeAll('loading');}
-			  
+	
+	    var month = $("#month").val();
+		var companyCode = $("#companyCode").val();
+		month = month.replace("-", "");
+		var v_date = (new Date()).getTime();
+		if (companyCode != null && companyCode != '') 
+		{
+
+			var url = '/nhzctjb_data?month=' + month + "&v_date=" + v_date+ "&companyCode=" + companyCode;
+			table.init('myTable', {
+				url : url,
+				height : commonDislodgeTable() - 100,
+				where : {},
+				done : function(res, curr, count) {
+					layer.closeAll('loading');
+				}
+
 			});
-	 
-}
 
+		} else {
+			layer.alert('请联系管理员配置该菜单数据权限', {
+				icon : 4,
+				skin : 'layer-ext-moon'
+			});
+		}
 
+	}
 
-
-function exput_excel()
-{
-	var companyCode=$('#companyCode').val();
-	var month=$('#month').val();
-	month=month.replace("-","");
-	window.open("/nhzctjb_data_exput_excel?month="+month+"&companyCode="+companyCode);
-} 
-   
-   
-   
-
+	function exput_excel() {
+		var companyCode = $('#companyCode').val();
+		var month = $('#month').val();
+		month = month.replace("-", "");
+		
+		 if (companyCode != null && companyCode != '') 
+			{
+			 window.open("/nhzctjb_data_exput_excel?month=" + month+ "&companyCode=" + companyCode);
+			} else
+			{
+				layer.alert('请联系管理员配置该菜单数据权限', {
+					icon : 4,
+					skin : 'layer-ext-moon'
+				});
+			}
+		 
+		 
+		 
+		
+	}
 </script>
 
 </body>
