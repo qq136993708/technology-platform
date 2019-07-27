@@ -273,7 +273,7 @@ public class ScientificFundsContrller extends BaseController {
 	   		}
 
 	   		
-	   		    String[] headers = { "院所",   "本年-总计",      "本年-直接费用",  "本年-间接费用", "本年-直间接%", "同年-总计",      "同年-直接费用",     "同年-间接费用", "同年-直间接%", "同比-总计",   "同比-直接费用",     "同比-间接费用", "同比-直间接%"};
+	   		    String[] headers = { "院所",   "本年-总计",      "本年-直接费用",  "本年-间接费用", "本年-直间接比", "同年-总计",      "同年-直接费用",     "同年-间接费用", "同年-直间接比", "同比-总计",   "同比-直接费用",     "同比-间接费用", "同比-直间接比"};
 	   		    String[] cols =    {"g0GSJC","k0BNGLFPHJECB","k0BNKYFPQCB","k0BNJJCB",  "k0BNBL",    "k0SNLJJJCB",   "k0SNKYFPQCB",   "k0SNJJCB",   "k0SNBL",   "k0TBZJ",   "k0TBZJ2",        "k0TBJJ",   "k0TBBL"};
 	   		   
 	   	        // 文件名默认设置为当前时间：年月日时分秒
