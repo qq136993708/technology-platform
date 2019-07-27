@@ -22,7 +22,7 @@
 					<!--查询条件-->
 					<label class="dateInput">
 						<span>日期</span>
-						<input type="text" name="day"   value="${day}"  id="day">
+						<input type="text" name="day"  readonly="readonly" style="cursor:pointer"  value="${day}"  id="day">
 						<i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
 					</label>
 					<div class="layui-input-inline"  style="margin-left:10px">
@@ -68,7 +68,6 @@
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
@@ -91,11 +90,11 @@ var table;
         laydate.render({
             elem: '#day',format: 'yyyy年MM月dd日'
         });
-        
-        renderTable();
+        init_companyCode(functionId);
+        search_Event();
     });
 
-    init_companyCode(functionId);
+    
     function init()
     {
     	
@@ -140,10 +139,6 @@ var table;
 
 
     }
-
-
-    init();
-
 
 
 
@@ -210,8 +205,22 @@ var table;
 
 function search_Event()
 {
-    init();
-    renderTable();
+	 var companyCode=$("#companyCode").val();
+	 //alert(companyCode);
+	 if (companyCode != null && companyCode != '') 
+	 {
+		     init();
+		     renderTable();
+	    
+	} else
+	{
+		layer.alert('请联系管理员配置该菜单数据权限', {
+			icon : 4,
+			skin : 'layer-ext-moon'
+		});
+	}
+	 
+   
 }
 
 

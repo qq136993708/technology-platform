@@ -39,7 +39,11 @@ layui.extend({
     });
     
     text = text || '新标签页';
-    var domain = "http://"+location.host;
+    var protocolStr = document.location.protocol; 
+    console.log("protocol = " + protocolStr);
+    
+    
+    var domain = "https://"+location.host;
     if(parent.$("#LAY_app .layui-layout-admin").hasClass("layui-leader")){
        $("#LAY_app_body .layadmin-tabsbody-item").remove();
         $(APP_BODY).append([

@@ -19,7 +19,7 @@
     <!--查询条件-->
         <label class="dateInput">
             <span>月份</span>
-            <input type="text" name="month"  title="月份" value="${month}"  id="month">
+            <input type="text" name="month" readonly="readonly" style="cursor:pointer"  title="月份" value="${month}"  id="month">
             <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
         </label>
        <div class="layui-input-inline"  style="margin-left:10px">
@@ -153,7 +153,19 @@ function exput_excel()
 	var companyCode=$('#companyCode').val();
 	var month=$('#month').val();
 	month=month.replace("-","");
-	window.open("/tzxmwcqktjb_exput_excel?month="+month+"&companyCode="+companyCode);
+	
+	if (companyCode != null && companyCode != '') 
+	{
+		window.open("/tzxmwcqktjb_exput_excel?month="+month+"&companyCode="+companyCode);
+	} else
+	{
+		layer.alert('请联系管理员配置该菜单数据权限', {
+			icon : 4,
+			skin : 'layer-ext-moon'
+		});
+	}
+	
+	
 } 
     
 
@@ -163,44 +175,54 @@ function exput_excel()
     {
     	var month=$('#month').val();
     	month=month.replace("-","");
-      //渲染
-      table.render({
-        elem: '#processdef-table',
-        url: '/tzxmwcqktjb_data',
-        method:"POST",
-        where: {param: {"month":month, "companyCode":$("#companyCode").val()}},
-        id: 'processdef-table',
-        height:commonDislodgeTable()-100,
-        limit: 15,
-        cols: [[
-            {field:'g0GSJC',            title:'院所',             style:'cursor: pointer;',align: 'left', width: '9%',templet:function(d){return '<span onclick="view(\''+d.g0GSJC+'\')" style="color:#1890ff">'+d.g0GSJC+'</span>'},sort : true},
-            {field:'k0ZTYSJE',          title:'计划总投资',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0ZTYSJE) }}</div>'},
-            {field:'k0LJGLFPHJECB',     title:'累计支出额',          style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0LJGLFPHJECB) }}</div>'},
-            {field:'k0LJSJDJJE',        title:'预付余额',           style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0LJSJDJJE) }}</div>'},
-            {field:'k0LJSJZC',          title:'投资完成额',          style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0LJSJZC) }}</div>'},
-            {field:'k0LJYSJY',          title:'资金计划结余',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0LJYSJY) }}</div>'},
-            {field:'k0BNYSJHJE',        title:'本年投资计划',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNYSJHJE) }}</div>'},
-            {field:'k0BNGLFPHJECB',     title:'本年累计支出',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNGLFPHJECB) }}</div>'},
-            {field:'k0BNSJDJJE',        title:'本年预付款',          style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNSJDJJE) }}</div>'},
-            {field:'k0BNSJZC',          title:'投资完成额',          style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNSJZC) }}</div>'},
-            {field:'k0BNYSJY',          title:'资金计划结余',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNYSJY) }}</div>'}
-            
-            
-        ]],
-        done: function (res, curr, count) {
-            // 点击行联动选择框--单选
-            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-            	var index=parseInt($(this).index()+1);
-                $('tr').removeClass('layui-table-click');
-                $(this).addClass('layui-table-click');
-                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                selectRowData=res.data[index-1];
-            });
-            
-            
-        }
-      });
+    	var companyCode=  $("#companyCode").val();
+   	    if(companyCode!=null && companyCode!='')
+   	    {
+			      //渲染
+			      table.render({
+			        elem: '#processdef-table',
+			        url: '/tzxmwcqktjb_data',
+			        method:"POST",
+			        where: {param: {"month":month, "companyCode":$("#companyCode").val()}},
+			        id: 'processdef-table',
+			        height:commonDislodgeTable()-100,
+			        limit: 15,
+			        cols: [[
+			            {field:'g0GSJC',            title:'院所',             style:'cursor: pointer;',align: 'left', width: '9%',templet:function(d){return '<span onclick="view(\''+d.g0GSJC+'\')" style="color:#1890ff">'+d.g0GSJC+'</span>'},sort : true},
+			            {field:'k0ZTYSJE',          title:'计划总投资',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0ZTYSJE) }}</div>'},
+			            {field:'k0LJGLFPHJECB',     title:'累计支出额',          style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0LJGLFPHJECB) }}</div>'},
+			            {field:'k0LJSJDJJE',        title:'预付余额',           style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0LJSJDJJE) }}</div>'},
+			            {field:'k0LJSJZC',          title:'投资完成额',          style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0LJSJZC) }}</div>'},
+			            {field:'k0LJYSJY',          title:'资金计划结余',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0LJYSJY) }}</div>'},
+			            {field:'k0BNYSJHJE',        title:'本年投资计划',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNYSJHJE) }}</div>'},
+			            {field:'k0BNGLFPHJECB',     title:'本年累计支出',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNGLFPHJECB) }}</div>'},
+			            {field:'k0BNSJDJJE',        title:'本年预付款',          style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNSJDJJE) }}</div>'},
+			            {field:'k0BNSJZC',          title:'投资完成额',          style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNSJZC) }}</div>'},
+			            {field:'k0BNYSJY',          title:'资金计划结余',         style:'cursor: pointer;',align: 'right', width: '9%',templet:'<div>{{ layui.laytpl.display_number(d.k0BNYSJY) }}</div>'}
+			            
+			        ]],
+			        done: function (res, curr, count) {
+			            // 点击行联动选择框--单选
+			            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+			            	var index=parseInt($(this).index()+1);
+			                $('tr').removeClass('layui-table-click');
+			                $(this).addClass('layui-table-click');
+			                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+			                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+			                selectRowData=res.data[index-1];
+			            });
+			            
+			            
+			        }
+			      });
+      
+   	 }else
+  	 {
+  		layer.alert('请联系管理员配置该菜单数据权限', {
+  		  icon: 4,
+  		  skin: 'layer-ext-moon' 
+  		});
+  	 }
       
       
 }

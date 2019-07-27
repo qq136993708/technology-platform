@@ -3067,15 +3067,15 @@ public class HanaUtil {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zysje")) {
-			chartBarLineSeries.setName("预算金额");
+			chartBarLineSeries.setName("可新签预算");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
 		if (name.equals("zsjje")) {
-			chartBarLineSeries.setName("合同金额");
+			chartBarLineSeries.setName("当月签订金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
 		if (name.equals("hanaMoney")) {
-			chartBarLineSeries.setName("拨款金额");
+			chartBarLineSeries.setName("当月拨款金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
 
@@ -3091,9 +3091,7 @@ public class HanaUtil {
 
 					if (zysje != null) {
 						String str = HanaUtil.DecimalFormatObject(zysje);
-						dataList.add(str);// String.format("%.2f",
-											// Double.valueOf(String.valueOf(zysje)))
-
+						dataList.add(str);
 					} else {
 						dataList.add(0);
 					}
@@ -3105,7 +3103,6 @@ public class HanaUtil {
 					if (zsjje != null) {
 						String str = HanaUtil.DecimalFormatObject(zsjje);
 						dataList.add(str);
-
 					} else {
 						dataList.add(0);
 					}
@@ -3113,14 +3110,12 @@ public class HanaUtil {
 				}
 				if (name.equals("hanaMoney")) {
 
-					if (hanaMoney != null) {
+					if (hanaMoney != null && !hanaMoney.toString().equals("0")) {
 						String str = HanaUtil.DecimalFormatObject(hanaMoney);
 						dataList.add(str);
-
 					} else {
-						dataList.add(0);
+						dataList.add("-");
 					}
-
 				}
 
 			}

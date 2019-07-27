@@ -2929,6 +2929,148 @@
 	
 	<!-- 分页显示项目数据数据,统计的第三级展示 -->
 	<select id="selectCommonProjectByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		
+		select '' as define1,'' as define9,
+			   '' as define2,
+			   '' as type_flag,
+			   '' as xmmc,'' as ysnd,
+			   '' as jf,sum(out_project_info.ysje) as ysje,
+			   sum(out_project_info.yszbxje) as yszbxje,sum(out_project_info.ysfyxje) as ysfyxje,
+			   '' as project_property,'' as fzdw,'' as zylb,'' as xmlbbm,
+			   '' as define10,
+			   '' as define11,
+			   '' as define12,
+		       '合计' as nd,'' as define8,'' as hth,'' as zycmc
+		from out_project_info
+		where
+			 out_project_info.project_type != '1'
+			 and define3 = '项目管理系统'
+			<if test="nd != null and nd != ''">
+				and find_in_set(out_project_info.nd, '${nd}')
+			</if>
+			<if test="ysnd != null and ysnd != ''">
+				and out_project_info.ysnd = #{ysnd}
+			</if>
+			<if test="hth != null and hth != ''">
+				and out_project_info.hth like '%${hth}%'
+			</if>
+			<if test="xmmc != null and xmmc != ''">
+				and out_project_info.xmmc like '%${xmmc}%'
+			</if>
+			<if test="define1 != null">
+				and (
+				<foreach collection="define1" item="define11" index="index" separator=" or ">
+					out_project_info.define1 like '%${define11}%'
+				</foreach>
+				)
+			</if>
+			<if test="define9 != null">
+				and (
+				<foreach collection="define9" item="define91" index="index" separator=" or ">
+					out_project_info.define9 like '%${define91}%'
+				</foreach>
+				)
+			</if>
+			<if test="define10 != null">
+				and (
+				<foreach collection="define10" item="define101" index="index" separator=" or ">
+					out_project_info.define10 like '%${define101}%'
+				</foreach>
+				)
+			</if>
+			<if test="define11 != null">
+				and (
+				<foreach collection="define11" item="define111" index="index" separator=" or ">
+					out_project_info.define11 like '%${define111}%'
+				</foreach>
+				)
+			</if>
+			
+			<!-- define12, 财务相关的牵头单位，所以查询define13 -->
+			<if test="fzdwflag != null and fzdwflag == '牵头单位'">
+				<if test="define12 != null">
+					and (
+					<foreach collection="define12" item="define121" index="index" separator=" or ">
+						out_project_info.define13 like '%${define121}%'
+					</foreach>
+					)
+				</if>
+				<if test="define2 != null">
+					and (
+					<foreach collection="define2" item="define21" index="index" separator=" or ">
+						out_project_info.fzdwunitcw like '%${define21}%'
+					</foreach>
+					)
+				</if>
+				<if test="unitName != null">
+					and out_project_info.fzdw like '%${unitName}%'
+				</if>
+			</if>
+			
+			<!-- define12, 财务相关的参与单位，所以查询type_flag -->
+			<if test="fzdwflag == null or fzdwflag == '' or fzdwflag == '参与单位'">
+				<if test="define12 != null">
+					and (
+					<foreach collection="define12" item="define121" index="index" separator=" or ">
+						out_project_info.type_flag like '%${define121}%'
+					</foreach>
+					)
+				</if>
+				<if test="define2 != null">
+					and (
+					<foreach collection="define2" item="define21" index="index" separator=" or ">
+						out_project_info.define2 like '%${define21}%'
+					</foreach>
+					)
+				</if>
+				<if test="unitName != null">
+					and out_project_info.define8 like '%${unitName}%'
+				</if>
+			</if>
+			<if test="define5 != null">
+				and (
+				<foreach collection="define5" item="define51" index="index" separator=" or ">
+					out_project_info.define5 like '%${define51}%'
+				</foreach>
+				)
+			</if>
+			<if test="project_property != null">
+				and (
+				<foreach collection="project_property" item="project_property1" index="index" separator=" or ">
+					out_project_info.project_property like '%${project_property1}%'
+				</foreach>
+				)
+			</if>
+			<if test="zylb != null">
+				and (
+				<foreach collection="zylb" item="zylb1" index="index" separator=" or ">
+					out_project_info.zylb like '%${zylb1}%'
+				</foreach>
+				)
+			</if>
+			<if test="type_flag != null">
+				and (
+				<foreach collection="type_flag" item="type_flag1" index="index" separator=" or ">
+					out_project_info.type_flag like '%${type_flag1}%'
+				</foreach>
+				)
+			</if>
+			
+			<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			<include refid="dataFilterCondition" />
+			
+			<!-- 部门-处室-专业类别, 加Flag和数据控制的字段区分出来-->
+			<if test="gsbmbmFlag != null and gsbmbmFlag != ''">
+				and find_in_set(out_project_info.gsbmbm, '${gsbmbmFlag}')
+			</if>
+			<if test="zycbmFlag != null and zycbmFlag != ''">
+				and find_in_set(out_project_info.zycbm, '${zycbmFlag}')
+			</if>
+			<if test="zylbbmFlag != null and zylbbmFlag != ''">
+				and find_in_set(out_project_info.zylbbm, '${zylbbmFlag}')
+			</if>
+			
+			union all
 		select out_project_info.define1,out_project_info.define9,
 			   substr(out_project_info.define2 FROM 6) as define2,
 			   substr(out_project_info.type_flag FROM 4) as type_flag,
