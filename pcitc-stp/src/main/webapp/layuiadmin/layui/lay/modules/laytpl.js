@@ -177,6 +177,17 @@ layui.define(['jquery'],function (e) {
     };
     
     
+    o.zero_gang = function(value)
+    {
+    	
+    	var resutlt_str="<span>"+value+"</span>"
+    	if(value=='0' || value=='0.0' || value=='0.00' || value==0)
+		{
+    		resutlt_str="<span style='color:#000000'>-</span>"
+		}
+        return resutlt_str;
+    };
+    
     o.arrange_man = function(d){
     	alert(d);
         var stateData;
