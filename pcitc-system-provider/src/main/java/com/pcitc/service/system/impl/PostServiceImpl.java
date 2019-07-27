@@ -197,8 +197,11 @@ public class PostServiceImpl implements PostService
 		SysPostFunctionExample.Criteria c = example.createCriteria();
 		c.andPostIdEqualTo(postId);
 		//删除关系
-		postFunctionMapper.deleteByExample(example);
-		Integer rs = postFunctionMapper.insertBatch(functions);
+		Integer rs = 0;
+		rs += postFunctionMapper.deleteByExample(example);
+		if(functions != null && functions.size() > 0) {
+			rs += postFunctionMapper.insertBatch(functions);
+		}
 		/*for(SysPostFunction spf:functions)
 		{
 			spf.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -321,5 +324,16 @@ public class PostServiceImpl implements PostService
 		uc.andUserIdIn(userIds);
 		
 		return sysUserMapper.selectByExample(ue);
+	}
+
+	@Override
+	public List<SysPost> findSysPostByIds(Set<String> ids) 
+	{
+		SysPostExample example = new SysPostExample();
+		SysPostExample.Criteria c = example.createCriteria();
+		
+		c.andPostDelflagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andPostIdIn(new ArrayList<String>(ids));
+		return postMapper.selectByExample(example);
 	}
 }

@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -502,6 +503,16 @@ public class UnitServiceImpl implements UnitService {
 			nodes.add(node);
 		}
 		return JSONArray.toJSONString(nodes);
+	}
+
+	@Override
+	public List<SysUnit> selectUnitByIds(Set<String> ids) 
+	{
+		SysUnitExample example = new SysUnitExample();
+		Criteria cri = example.createCriteria();
+		cri.andUnitDelflagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		cri.andUnitIdIn(new ArrayList<String>(ids));
+		return unitMapper.selectByExample(example);
 	}
 
 }

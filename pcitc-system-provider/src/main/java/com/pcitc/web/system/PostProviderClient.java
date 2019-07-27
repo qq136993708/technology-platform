@@ -1,12 +1,10 @@
 package com.pcitc.web.system;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,9 @@ import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.service.system.PostService;
 import com.pcitc.service.system.SysFunctionService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value = "岗位接口", tags = { "岗位相关操作服务接口" })
 @RestController
@@ -212,5 +213,12 @@ public class PostProviderClient {
 	        System.out.println("newRelationCount=========="+newRelationCount);
 		}
 		return 1;
+	}
+	@ApiOperation(value = "检索岗位", notes = "根据ID列表检索岗位")
+	@RequestMapping(value = "/post-provider/post/get-posts-byids", method = RequestMethod.POST)
+	public Object selectSysPostByIds(@RequestBody Set<String> ids) {
+		List<SysPost> posts = postService.findSysPostByIds(ids);
+		
+		return posts;
 	}
 }
