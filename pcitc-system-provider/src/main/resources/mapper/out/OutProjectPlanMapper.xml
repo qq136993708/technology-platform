@@ -1481,36 +1481,32 @@
 	
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照研究院来分组 -->
 	<select id="getPlanCompleteRateByPlanTypeForHana" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select round(sum(K0DMBTR)/10000,2) as hanaMoney,tableB.*,
-		       round((zsjje - sum(K0DMBTR)/10000),2) as wbkzje
-		from (
-			select SUBSTR(out_project_info.define2 FROM 6) as define2,out_project_info.define2 as define3,round(sum(ysje),4) as zsjje,
-			        case when SUBSTR(out_project_info.define2 FROM 6) = '勘探院' then '0033550000'  
-			             when SUBSTR(out_project_info.define2 FROM 6) = '工程院' then '0035800000' 
-			             when SUBSTR(out_project_info.define2 FROM 6) = '物探院' then '0033550006' 
-			             when SUBSTR(out_project_info.define2 FROM 6) = '石科院' then '0033600000' 
-			             when SUBSTR(out_project_info.define2 FROM 6) = '大连院' then '0033700000,0034880000' 
-			             when SUBSTR(out_project_info.define2 FROM 6) = '北化院' then '0033650000' 
-			             when SUBSTR(out_project_info.define2 FROM 6) = '上海院' then '0033750000' 
-			             when SUBSTR(out_project_info.define2 FROM 6) = '安工院' then '0033800000' else '' end as hanaCode
-			from out_project_info
-			WHERE
-				out_project_info.ysnd= '${nd}' 
-				and out_project_info.PROJECT_TYPE != '1' and out_project_info.type_flag like '%直属研究院%'
-				and define3='项目管理系统'
-				
-				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
-  				
-  				<include refid="dataFilterConditionInfo" />
-  				
-				group by out_project_info.define2
-			)  as tableB left join expenses_pay_hana on (
-				find_in_set(expenses_pay_hana.G0LIFNR,tableB.hanaCode)  
-				and STRCMP(left(G0AUGDT, 6), '${startMonth}') &gt; -1
-				and STRCMP(left(G0AUGDT, 6), '${endMonth}') &lt; 1
-			)
-		GROUP BY tableB.hanaCode
-		ORDER BY tableB.define3
+		
+		select round(sum(K0DMBTR)/10000,2) as hanaMoney,ifnull(tableB.zsjje, 0) as zsjje,sys_dictionary.name as define2,
+			   round((ifnull(tableB.zsjje, 0) - sum(K0DMBTR)/10000),2) as wbkzje
+		from sys_dictionary left join expenses_pay_hana on (
+										find_in_set(expenses_pay_hana.G0LIFNR,sys_dictionary.num_value)  
+										and STRCMP(left(G0AUGDT, 6), '${startMonth}') &gt; -1
+										and STRCMP(left(G0AUGDT, 6), '${endMonth}') &lt; 1
+									)
+							left join (
+								select SUBSTR(out_project_info.define2 FROM 6) as define2,out_project_info.define2 as define3,round(sum(ysje),4) as zsjje
+								        
+								from out_project_info
+								WHERE
+									out_project_info.ysnd= '${nd}' and out_project_info.nd = '${nd}'
+									and out_project_info.PROJECT_TYPE != '1' and out_project_info.type_flag like '%直属研究院%'
+									and define3='项目管理系统'
+									
+									<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+									<include refid="dataFilterConditionInfo" />
+									
+									group by out_project_info.define2
+								)  as tableB on (sys_dictionary.name = tableB.define2)
+		where 
+			sys_dictionary.parent_code = 'ROOT_FZJCZX_YSBK'
+		GROUP BY sys_dictionary.name
+		ORDER BY isdelete
 	</select>
 	
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照月份分组 -->
@@ -1520,13 +1516,13 @@
 		from sys_dictionary left join (
 			select IFNULL(tableB.hanaMoney,0) hanaMoney, IFNULL(tableB.yearMonth,0) yearMonth, IFNULL(sum(tableC.ysje),0) as zsjje  
 			from  (
-					select xmid,sum(ysje) as ysje,left(define16, 6) as projectMount
+					select sum(ysje) as ysje,left(define16, 6) as projectMount
 					from out_project_info
 					where 
 						left(define16, 4) = '${nd}' and define3='项目管理系统' and project_type != 1 and type_flag like '%研究院%' and ysnd = '${nd}'
 						<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 			  			<include refid="dataFilterConditionInfo" />
-					GROUP BY xmid
+					GROUP BY left(define16, 6)
 			) tableC left join (
 					select round(sum(K0DMBTR)/10000,2) as hanaMoney, left(G0AUGDT, 6) as yearMonth
 					from expenses_pay_hana
@@ -1826,7 +1822,7 @@
 		select 
 			   '' as DEFINE1,'' as DEFINE2,'' as DEFINE3,'' as define8,
 			   '' as DEFINE9,'' as DEFINE10,'' as DEFINE11,'' as DEFINE12,'' as XMMC,'' as YSND,
-			   sum(JF) as JF ,sum(tableA.YSJE) as YSJE, sum(tableA.YSZBXJE) as YSZBXJE,sum(tableA.YSFYXJE) as YSFYXJE,
+			   '' as JF ,round(sum(tableA.YSJE), 2) as YSJE, round(sum(tableA.YSZBXJE), 2) as YSZBXJE,round(sum(tableA.YSFYXJE), 2) as YSFYXJE,
 			   '' as projectProperty,'' as projectScope,'' as FZDW,'' as ZYLB,
 			   '合计' as ND,'' as HTH,'' as ZYCMC,'' as  qdbz
 		from (
