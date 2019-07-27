@@ -1518,12 +1518,12 @@
 		select CONCAT('${nd}',sys_dictionary.num_value) as yearMonth,round(ifnull(tableD.hanaMoney, '0'), 2) as hanaMoney,
 			   round(ifnull(tableD.zsjje, '0'), 2) as zsjje
 		from sys_dictionary left join (
-			select IFNULL(tableB.hanaMoney,0) hanaMoney, IFNULL(tableB.yearMonth,0) yearMonth, IFNULL(sum(tableC.jf),0) as zsjje  
+			select IFNULL(tableB.hanaMoney,0) hanaMoney, IFNULL(tableB.yearMonth,0) yearMonth, IFNULL(sum(tableC.ysje),0) as zsjje  
 			from  (
-					select xmid,jf,left(define16, 6) as projectMount
+					select xmid,sum(ysje) as ysje,left(define16, 6) as projectMount
 					from out_project_info
 					where 
-						left(define16, 4) = '${nd}'
+						left(define16, 4) = '${nd}' and define3='项目管理系统' and project_type != 1 and type_flag like '%研究院%' and ysnd = '${nd}'
 						<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 			  			<include refid="dataFilterConditionInfo" />
 					GROUP BY xmid
