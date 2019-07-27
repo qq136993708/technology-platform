@@ -126,46 +126,54 @@ layui.config({
     {
     	var month=$('#month').val();
     	month=month.replace("-","");
-    	
-      //渲染
-      table.render({
-        elem: '#processdef-table',
-        url: '/tzxmzcqkb_data',
-        method:"POST",
-        height:commonDislodgeTable()-100,
-        where: {param: {
-        	      "month":month,
-        	      "companyCode":$("#companyCode").val()
-        	      
-        	
-               }},
-        
-        id: 'processdef-table',
-        cols: [[
-            {field:'g0GSJC',            title:'院所',        style:'cursor: pointer;',align: 'left', width: '15%',templet:function(d){return '<span onclick="view(\''+d.g0GSJC+'\')" style="color:#1890ff">'+d.g0GSJC+'</span>'}},
-            {field:'k0NCGZYZLJJE',          title:'累计购置价值',        style:'cursor: pointer;',align: 'left', width: '15%'},
-            {field:'k0NCGZYZLJGZJE',     title:'固定资产',        style:'cursor: pointer;',align: 'left', width: '15%'},
-            {field:'k0NCGZYZLJZJJE',        title:'在建工程',        style:'cursor: pointer;',align: 'left', width: '15%'},
-            {field:'k0NCGZYZBNJE',              title:'本年购置价值',     style:'cursor: pointer;',align: 'left', width: '15%'},
-            {field:'k0NCGZYZBNGZJE',          title:'固定资产',     style:'cursor: pointer;',align: 'left', width: '15%'},
-            {field:'k0NCGZYZBNZJJE',        title:'在建工程',     style:'cursor: pointer;',align: 'left', width: '10%'}
-            
-            
-        ]],
-        done: function (res, curr, count) {
-            // 点击行联动选择框--单选
-            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-            	var index=parseInt($(this).index()+1);
-                $('tr').removeClass('layui-table-click');
-                $(this).addClass('layui-table-click');
-                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                selectRowData=res.data[index-1];
-            });
-            
-        }
-      });
-      
+    	 var companyCode=  $("#companyCode").val();
+   	    if(companyCode!=null && companyCode!='')
+   	    {
+		      //渲染
+		      table.render({
+		        elem: '#processdef-table',
+		        url: '/tzxmzcqkb_data',
+		        method:"POST",
+		        height:commonDislodgeTable()-100,
+		        where: {param: {
+		        	      "month":month,
+		        	      "companyCode":$("#companyCode").val()
+		        	      
+		        	
+		               }},
+		        
+		        id: 'processdef-table',
+		        cols: [[
+		            {field:'g0GSJC',            title:'院所',        style:'cursor: pointer;',align: 'left', width: '15%',templet:function(d){return '<span onclick="view(\''+d.g0GSJC+'\')" style="color:#1890ff">'+d.g0GSJC+'</span>'}},
+		            {field:'k0NCGZYZLJJE',          title:'累计购置价值',        style:'cursor: pointer;',align: 'left', width: '15%'},
+		            {field:'k0NCGZYZLJGZJE',     title:'固定资产',        style:'cursor: pointer;',align: 'left', width: '15%'},
+		            {field:'k0NCGZYZLJZJJE',        title:'在建工程',        style:'cursor: pointer;',align: 'left', width: '15%'},
+		            {field:'k0NCGZYZBNJE',              title:'本年购置价值',     style:'cursor: pointer;',align: 'left', width: '15%'},
+		            {field:'k0NCGZYZBNGZJE',          title:'固定资产',     style:'cursor: pointer;',align: 'left', width: '15%'},
+		            {field:'k0NCGZYZBNZJJE',        title:'在建工程',     style:'cursor: pointer;',align: 'left', width: '10%'}
+		            
+		            
+		        ]],
+		        done: function (res, curr, count) {
+		            // 点击行联动选择框--单选
+		            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+		            	var index=parseInt($(this).index()+1);
+		                $('tr').removeClass('layui-table-click');
+		                $(this).addClass('layui-table-click');
+		                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+		                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+		                selectRowData=res.data[index-1];
+		            });
+		            
+		        }
+		      });
+   	 }else
+  	 {
+  		layer.alert('请联系管理员配置该菜单数据权限', {
+  		  icon: 4,
+  		  skin: 'layer-ext-moon' 
+  		});
+  	 }
       
       
 }
@@ -174,10 +182,19 @@ layui.config({
     function exput_excel()
     {
     	var companyCode=$('#companyCode').val();
-    	
     	var month=$('#month').val();
     	month=month.replace("-","");
-    	window.open("/tzxmzcqkb_exput_excel?month="+month+"&companyCode="+companyCode);
+    	if (companyCode != null && companyCode != '') 
+ 		{
+    		 window.open("/tzxmzcqkb_exput_excel?month="+month+"&companyCode="+companyCode);
+ 		} else
+ 		{
+ 			layer.alert('请联系管理员配置该菜单数据权限', {
+ 				icon : 4,
+ 				skin : 'layer-ext-moon'
+ 			});
+ 		}
+    	
     } 
         
    
