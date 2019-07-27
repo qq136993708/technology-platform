@@ -279,20 +279,15 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		for (String code : codes) {
 			sb.append(code + ",");
 		}
-		Map<String, Object> p = new HashMap<String, Object>();
-		p.put("ysnd", nd);
-		p.put("define9", sb.toString().substring(0, sb.length() - 1));
+		param.getParam().put("ysnd", nd);
+		param.getParam().put("define9", sb.toString().substring(0, sb.length() - 1));
 		param.setLimit(1000);
 		param.setPage(1);
-		param.setParam(p);
-		//加入条件
-		
-		//param.put("zycbmList", zycbmList);
 		
 		
-
+		//System.out.println("LayuiTableParam::::::"+JSON.toJSONString(param));
 		LayuiTableData dt = systemRemoteClient.selectCommonProjectByCond(param);
-		System.out.println("LayuiTableData:"+JSON.toJSONString(dt));
+		//System.out.println("LayuiTableData:::::"+JSON.toJSONString(dt));
 		
 		Map<String, List<OutProjectInfo>> rs = new HashMap<String,List<OutProjectInfo>>();
 		for (java.util.Iterator<?> iter = dt.getData().iterator(); iter.hasNext();) {

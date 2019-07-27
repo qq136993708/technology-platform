@@ -172,8 +172,8 @@ public class BudgetGroupTotalProviderClient
 			List<BudgetGroupTotal> items = totals.stream().filter(a -> a.getLevel()==0).collect(Collectors.toList());
 			List<BudgetGroupTotal> compnays = totals.stream().filter(a -> a.getLevel()>0).collect(Collectors.toList());
 			
-			System.out.println("items："+JSON.toJSONString(items));
-			System.out.println("compnays："+JSON.toJSONString(compnays));
+			//System.out.println("items："+JSON.toJSONString(items));
+			//System.out.println("compnays："+JSON.toJSONString(compnays));
 			
 			Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
 			Set<String> codes = new HashSet<String>();
@@ -190,10 +190,10 @@ public class BudgetGroupTotalProviderClient
 					}
 				}
 			}
-			System.out.println("itemMap："+JSON.toJSONString(itemMap));
-			
+			//System.out.println("itemMap："+JSON.toJSONString(itemMap));
+			//System.out.println("param："+JSON.toJSONString(param));
 			Map<String,List<OutProjectInfo>> projectMap = budgetGroupTotalService.selectCompareProjectInfoData(param,codes,info.getNd());
-			System.out.println("projectMap："+JSON.toJSONString(projectMap));
+			//System.out.println("projectMap："+JSON.toJSONString(projectMap));
 			for(java.util.Iterator<BudgetGroupTotal> iter = items.iterator();iter.hasNext();) {
 				//Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
 				//String dataId = map.get("dataId").toString();
@@ -227,7 +227,7 @@ public class BudgetGroupTotalProviderClient
 				}
 				rsdata.add(map);
 			}
-			System.out.println("rsdata："+JSON.toJSONString(rsdata));
+			//System.out.println("rsdata："+JSON.toJSONString(rsdata));
 		} 
 		catch (Exception e) 
 		{
@@ -668,19 +668,19 @@ public class BudgetGroupTotalProviderClient
 	}
 	@ApiOperation(value="集团公司预算-获取计划参考数据",notes="检索集团公司年度计划金额")
 	@RequestMapping(value = "/stp-provider/budget/select-grouptotal-compare-project", method = RequestMethod.POST)
-	public Object selectBudgetGroupItemCompareProject(@RequestBody Map<String,Object> params) 
+	public Object selectBudgetGroupItemCompareProject(@RequestBody LayuiTableParam param) 
 	{
-		String nd = params.get("nd").toString();
-		String code = params.get("code").toString();
+		String nd = param.getParam().get("nd").toString();
+		String code = param.getParam().get("code").toString();
 		List<OutProjectInfo> plans = new ArrayList<OutProjectInfo>();
 		try 
 		{
 			Set<String> codes = new HashSet<String>(Arrays.asList(new String [] {code}));
-			//Map<String,List<OutProjectInfo>> planMap = budgetGroupTotalService.selectCompareProjectInfoData(codes,nd);
-			//List<OutProjectInfo> rs = planMap.get(code);
-			/*if(rs != null && rs.size() >0 ) {
+			Map<String,List<OutProjectInfo>> planMap = budgetGroupTotalService.selectCompareProjectInfoData(param,codes,nd);
+			List<OutProjectInfo> rs = planMap.get(code);
+			if(rs != null && rs.size() >0 ) {
 				plans.addAll(rs);
-			}*/
+			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

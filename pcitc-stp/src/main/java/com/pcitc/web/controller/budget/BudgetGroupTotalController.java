@@ -216,9 +216,10 @@ public class BudgetGroupTotalController extends BaseController {
 	}
 	@RequestMapping(value = "/budget/get-grouptotal-item/{dataId}", method = RequestMethod.POST)
 	@ResponseBody
-	public Object selectBudgetGroupTotalItem(@PathVariable("dataId") String dataId,HttpServletRequest request) throws IOException 
+	public Object selectBudgetGroupTotalItem(@ModelAttribute("param")LayuiTableParam param,@PathVariable("dataId") String dataId,HttpServletRequest request) throws IOException 
 	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_GET_ITEM+dataId, HttpMethod.POST, new HttpEntity<Object>(dataId, this.httpHeaders), Object.class);
+		param.getParam().put("leaderFlag", "2");
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_GET_ITEM+dataId, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
@@ -372,15 +373,12 @@ public class BudgetGroupTotalController extends BaseController {
 	
 	@RequestMapping(value = "/budget/select-grouptotal-compare-project", method = RequestMethod.POST)
 	@ResponseBody
-	public Object selectBudgetGroupTotalCompareProject(@RequestParam(value="nd",required = false)String nd,@RequestParam(value="code",required = false)String code,HttpServletRequest request) throws IOException 
+	public Object selectBudgetGroupTotalCompareProject(@ModelAttribute("param")LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
-		System.out.println("plan............"+nd+"------"+code);
-		if(nd == null || code == null) {
+		if(param.getParam().get("nd") == null || param.getParam().get("code") == null) {
 			return JSON.toJSON(new ArrayList<Object>());
 		}
-		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("nd", nd);
-		param.put("code", code);
+		param.getParam().put("leaderFlag", "2");
 		//System.out.println(JSON.toJSONString(info));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPARE_PROJECT, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
 		//System.out.println(JSON.toJSONString(infors.getBody()));
@@ -393,6 +391,7 @@ public class BudgetGroupTotalController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		String budget_info_id = param.getParam().get("budget_info_id").toString();
+		param.getParam().put("leaderFlag", "2");//
 		ResponseEntity<?> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_PLANDATA + budget_info_id, HttpMethod.POST,  new HttpEntity<LayuiTableParam>(param,this.httpHeaders), Object.class);
 		return JSON.toJSON(rs.getBody());
 	}
