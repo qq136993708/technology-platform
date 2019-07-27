@@ -3023,22 +3023,22 @@
 			</if>
 			<if test="project_property != null">
 				and (
-				<foreach collection="project_property" item="project_property" index="index" separator=" or ">
-					out_project_info.project_property like '%${project_property}%'
+				<foreach collection="project_property" item="item" index="index" separator=" or ">
+					out_project_info.project_property like '%${item}%'
 				</foreach>
 				)
 			</if>
 			<if test="zylb != null">
 				and (
-				<foreach collection="zylb" item="zylb" index="index" separator=" or ">
-					out_project_info.zylb like '%${zylb}%'
+				<foreach collection="zylb" item="item" index="index" separator=" or ">
+					out_project_info.zylb like '%${item}%'
 				</foreach>
 				)
 			</if>
 			<if test="type_flag != null">
 				and (
-				<foreach collection="type_flag" item="type_flag" index="index" separator=" or ">
-					out_project_info.type_flag like '%${type_flag}%'
+				<foreach collection="type_flag" item="item" index="index" separator=" or ">
+					out_project_info.type_flag like '%${item}%'
 				</foreach>
 				)
 			</if>
@@ -3129,25 +3129,14 @@
 	</select>
 	
 	
-	<!-- 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息 -->
-	<select id="selectProjectInfoWithAllInfoByCond" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		select out_project_info.define1,out_project_info.define9,
-			   substr(out_project_info.define2 FROM 6) as define2,
-			   substr(out_project_info.type_flag FROM 4) as type_flag,
-			   out_project_info.xmmc,out_project_info.ysnd,
-			   out_project_info.jf,sum(out_project_info.ysje) as ysje,
-			   sum(out_project_info.yszbxje) as yszbxje,sum(out_project_info.ysfyxje) as ysfyxje,
-			   out_project_info.project_property,out_project_info.fzdw,out_project_info.zylb,out_project_info.xmlbbm,
-			   substr(out_project_info.define10 from 4) as define10,
-			   substr(out_project_info.define11 from 2) as define11,
-			   substr(out_project_info.define12 from 4) as define12,
-		       out_project_info.nd,GROUP_CONCAT(out_project_info.define8) as define8,out_project_info.hth,out_project_info.zycmc,
-		       out_appraisal.jdh,out_appraisal.cgmc,out_appraisal.jdjg
-		from out_project_info left join out_appraisal on (out_project_info.hth = out_appraisal.hth)
-		where
-			 out_project_info.project_type != '1'
-			 and out_project_info.define3 = '项目管理系统'
-			<if test="nd != null and nd != ''">
+	
+	
+	
+	
+	<!-- 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息      供用SQL -->
+	
+	<sql id="selectProjectInfoWithAllInfoByCond_sql">
+	     <if test="nd != null and nd != ''">
 				and find_in_set(out_project_info.nd, '${nd}')
 			</if>
 			<if test="ysnd != null and ysnd != ''">
@@ -3168,22 +3157,22 @@
 			</if>
 			<if test="define9 != null">
 				and (
-				<foreach collection="define9" item="define9" index="index" separator=" or ">
-					out_project_info.define9 like '%${define9}%'
+				<foreach collection="define9" item="item" index="index" separator=" or ">
+					out_project_info.define9 like '%${item}%'
 				</foreach>
 				)
 			</if>
 			<if test="define10 != null">
 				and (
-				<foreach collection="define10" item="define10" index="index" separator=" or ">
-					out_project_info.define10 like '%${define10}%'
+				<foreach collection="define10" item="item" index="index" separator=" or ">
+					out_project_info.define10 like '%${item}%'
 				</foreach>
 				)
 			</if>
 			<if test="define11 != null">
 				and (
-				<foreach collection="define11" item="define11" index="index" separator=" or ">
-					out_project_info.define11 like '%${define11}%'
+				<foreach collection="define11" item="item" index="index" separator=" or ">
+					out_project_info.define11 like '%${item}%'
 				</foreach>
 				)
 			</if>
@@ -3192,15 +3181,15 @@
 			<if test="fzdwflag != null and fzdwflag == '牵头单位'">
 				<if test="define12 != null">
 					and (
-					<foreach collection="define12" item="define12" index="index" separator=" or ">
-						out_project_info.define13 like '%${define12}%'
+					<foreach collection="define12" item="item" index="index" separator=" or ">
+						out_project_info.define13 like '%${item}%'
 					</foreach>
 					)
 				</if>
 				<if test="define2 != null">
 					and (
-					<foreach collection="define2" item="define2" index="index" separator=" or ">
-						out_project_info.fzdwunitcw like '%${define2}%'
+					<foreach collection="define2" item="item" index="index" separator=" or ">
+						out_project_info.fzdwunitcw like '%${item}%'
 					</foreach>
 					)
 				</if>
@@ -3213,15 +3202,15 @@
 			<if test="fzdwflag == null or fzdwflag == '' or fzdwflag == '参与单位'">
 				<if test="define12 != null">
 					and (
-					<foreach collection="define12" item="define12" index="index" separator=" or ">
-						out_project_info.type_flag like '%${define12}%'
+					<foreach collection="define12" item="item" index="index" separator=" or ">
+						out_project_info.type_flag like '%${item}%'
 					</foreach>
 					)
 				</if>
 				<if test="define2 != null">
 					and (
-					<foreach collection="define2" item="define2" index="index" separator=" or ">
-						out_project_info.define2 like '%${define2}%'
+					<foreach collection="define2" item="item" index="index" separator=" or ">
+						out_project_info.define2 like '%${item}%'
 					</foreach>
 					)
 				</if>
@@ -3233,29 +3222,29 @@
 			
 			<if test="define5 != null">
 				and (
-				<foreach collection="define5" item="define5" index="index" separator=" or ">
-					out_project_info.define5 like '%${define5}%'
+				<foreach collection="define5" item="item" index="index" separator=" or ">
+					out_project_info.define5 like '%${item}%'
 				</foreach>
 				)
 			</if>
 			<if test="project_property != null">
 				and (
-				<foreach collection="project_property" item="project_property" index="index" separator=" or ">
-					out_project_info.project_property like '%${project_property}%'
+				<foreach collection="project_property" item="item" index="index" separator=" or ">
+					out_project_info.project_property like '%${item}%'
 				</foreach>
 				)
 			</if>
 			<if test="zylb != null">
 				and (
-				<foreach collection="zylb" item="zylb" index="index" separator=" or ">
-					out_project_info.zylb like '%${zylb}%'
+				<foreach collection="zylb" item="item" index="index" separator=" or ">
+					out_project_info.zylb like '%${item}%'
 				</foreach>
 				)
 			</if>
 			<if test="type_flag != null">
 				and (
-				<foreach collection="type_flag" item="type_flag" index="index" separator=" or ">
-					out_project_info.type_flag like '%${type_flag}%'
+				<foreach collection="type_flag" item="item" index="index" separator=" or ">
+					out_project_info.type_flag like '%${item}%'
 				</foreach>
 				)
 			</if>
@@ -3273,9 +3262,10 @@
 			<if test="zylbbmFlag != null and zylbbmFlag != ''">
 				and find_in_set(out_project_info.zylbbm, '${zylbbmFlag}')
 			</if>
-			
-			
-			<if test="groupFlag != null">
+	</sql>
+	<!-- 供用SQL 分组 -->
+	<sql id="selectProjectInfoWithAllInfoByCond_group_sql">
+	    <if test="groupFlag != null">
 				<if test="groupFlag != ''">
 					GROUP BY ${groupFlag}
 				</if>
@@ -3297,6 +3287,75 @@
 			<if test="orderKey == null">
 				order by out_project_info.hth desc, out_project_info.define10
 			</if>
+	</sql>
+	
+	
+	<!-- 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息 -->
+	<select id="selectProjectInfoWithAllInfoByCond" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	
+		select 
+		       '' as define1,
+		       '' as define9,
+			   '' as define2,
+			   '' as type_flag,
+			   '' as xmmc,
+			   '' as ysnd,
+			   sum(jf) as jf,
+			   sum(out_project_info.ysje) as ysje,
+			   sum(out_project_info.yszbxje) as yszbxje,
+			   sum(out_project_info.ysfyxje) as ysfyxje,
+			   '' as project_property,
+			   '' as fzdw,'' as zylb,
+			   '' as xmlbbm,
+			   '' as define10,
+			   '' as define11,
+			   '' as define12,
+		       '合计' as nd,
+		       '' as define8,
+		       '' as hth,
+		       '' as zycmc,
+		       '' as jdh,
+		       '' as cgmc,
+		       '' as jdjg
+		from out_project_info left join out_appraisal on (out_project_info.hth = out_appraisal.hth)
+		where
+			 out_project_info.project_type != '1'
+			 and out_project_info.define3 = '项目管理系统'
+			 <!-- 引用SQL -->
+			<include refid="selectProjectInfoWithAllInfoByCond_sql" /> 
+        union all
+        SELECT * FROM(	
+		select out_project_info.define1,
+		       out_project_info.define9,
+			   substr(out_project_info.define2 FROM 6) as define2,
+			   substr(out_project_info.type_flag FROM 4) as type_flag,
+			   out_project_info.xmmc,
+			   out_project_info.ysnd,
+			   out_project_info.jf,
+			   sum(out_project_info.ysje) as ysje,
+			   sum(out_project_info.yszbxje) as yszbxje,
+			   sum(out_project_info.ysfyxje) as ysfyxje,
+			   out_project_info.project_property,
+			   out_project_info.fzdw,
+			   out_project_info.zylb,
+			   out_project_info.xmlbbm,
+			   substr(out_project_info.define10 from 4) as define10,
+			   substr(out_project_info.define11 from 2) as define11,
+			   substr(out_project_info.define12 from 4) as define12,
+		       out_project_info.nd,
+		       GROUP_CONCAT(out_project_info.define8) as define8,
+		       out_project_info.hth,
+		       out_project_info.zycmc,
+		       out_appraisal.jdh,
+		       out_appraisal.cgmc,
+		       out_appraisal.jdjg
+		from out_project_info left join out_appraisal on (out_project_info.hth = out_appraisal.hth)
+		where
+			 out_project_info.project_type != '1'
+			 and out_project_info.define3 = '项目管理系统'
+			<include refid="selectProjectInfoWithAllInfoByCond_sql"/>
+			<include refid="selectProjectInfoWithAllInfoByCond_group_sql"/>
+		) t2		
 	</select>
 	
 	
