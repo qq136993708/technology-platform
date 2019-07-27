@@ -415,6 +415,7 @@ public class UserServiceImpl implements UserService {
 		}
 		example.or(suc);
 		example.or(suc2);
+		example.setOrderByClause("user_name");
 		return this.findByExample(param, example);
 	}
 
