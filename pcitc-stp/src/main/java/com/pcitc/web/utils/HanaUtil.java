@@ -1246,6 +1246,8 @@ public class HanaUtil {
 
 					node02.setId("" + i + "_" + j);
 					resut.add(node02);
+					
+					node02.setExtend04(name);
 
 					extend01_count = extend01_count + jhqds;
 					extend02_count = extend02_count + sjqds;
