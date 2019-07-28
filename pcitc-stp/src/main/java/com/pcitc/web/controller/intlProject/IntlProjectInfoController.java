@@ -141,6 +141,11 @@ public class IntlProjectInfoController extends BaseController {
 	}
 	@RequestMapping(value = "/project/info-count", method = RequestMethod.POST)
 	public Object getProjectInfoCount(@RequestParam(value = "nd", required = false) String nd,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//权限需求20190728 仅允许级别为2的用户查看
+		if(!new Integer(2).equals(this.getUserProfile().getUserLevel())) 
+		{
+			return JSON.toJSON("0");
+		}
 		if(StringUtils.isBlank(nd)) 
 		{
 			nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);

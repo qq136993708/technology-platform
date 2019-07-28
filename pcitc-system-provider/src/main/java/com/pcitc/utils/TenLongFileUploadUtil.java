@@ -23,6 +23,8 @@ public class TenLongFileUploadUtil
 	 * 上传文件，生成更新sql
 	 * 总结 F01
 	 *	纪要 F02
+	 * 相关页面 tenLongProjectReport.html ten_dragon.html
+	 * 
 	 *[{"no":192,"file":"stpfile/tendragon/192-丁二烯-20131227终稿.doc","nd":"2013","type":"会议纪要"},
 	 *{"no":192,"file":"stpfile/tendragon/192-10万吨年丁烯氧化脱氢制丁二烯成套技术开发汇报材料.docx","nd":"2013","type":"工作总结"}]
 	 */
