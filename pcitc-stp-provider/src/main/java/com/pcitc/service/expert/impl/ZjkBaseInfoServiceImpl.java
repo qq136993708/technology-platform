@@ -720,6 +720,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
             List<Map<String, String>> list_kt = (List<Map<String, String>>) outProjectListPageExpert.getData();
             List<String> xmids = new ArrayList<>();
+            Map<String, String>  map_kt_gl =  new HashMap<>();//xmid,xm-source 保存课题关联信息
             //定义牵头单位,负责单位---企业
             Map<String, String> map_dw = new HashMap<>();
             for (int i = 0, j = list_kt.size(); i < j; i++) {
@@ -727,6 +728,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 String name = map_obj.get("xmmc");
                 String value = map_obj.get("xmid");
                 String source = (p_index * 1000 + i) + "";
+//                String source = (p_index * 1000 + i) + "";
                 xmids.add(map_obj.get("dataId"));
 
 //                nodes.add(new ChartGraphDataNode(1, name, value, source,itemStyle,getX(cgx,cgy,cg_d*i,cgr),getY(cgx,cgy,cg_d*i,cgr),cg_s_sym+""));
@@ -747,6 +749,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 if (define8 != null && !"".equals(define8)) {
                     map_dw.put(define8, source);
                 }
+                map_kt_gl.put(value,source);
             }
 
             //相关专利
@@ -769,6 +772,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             List<String> zlids = new ArrayList<>();
 
             List<Map<String, String>> list_patent = (List<Map<String, String>>) dataPatent.getData();
+            //定义map<dataId,source>
+            Map<String, String> map_zl_gl = new HashMap<>();
+            //获取 map<typeCode,dataId>
+            //遍历 判断 link
             for (int i = 0, j = count_patent; i < j; i++) {
                 int l = 2;
                 String name = list_patent.get(i).get("fmmc");
@@ -786,6 +793,14 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 double m_s_sym = getSYMSon(j);
                 nodes.add(new ChartGraphDataNode(zl_index, name, "", source, itemStyle, m_x, m_y, zl_s_sym + 10 + ""));
                 links.add(new ChartGraphDataLink(source + "", zl_index + "", link_index++ + "", name));
+
+//                if(i==0){
+//                    nodes.add(new ChartGraphDataNode(zl_index, "测试333", "", 900000+"", itemStyle, m_x, m_y, zl_s_sym + 10 + ""));
+//                }
+
+
+                map_zl_gl.put(value,source);
+
 
                 for (int k = 0, array_fmr_l = array_fmr.length; k < array_fmr_l; k++) {
                     String array_fmr_name = array_fmr[k];
@@ -819,9 +834,9 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             List<IndexOutPatent> indexOutPatents = systemRemoteClient.selectByExampleZl(zlids);
             //-------------------合并技术
             Map<String, String> map_index_kt = indexOutProjectInfos.stream().collect(Collectors.toMap(IndexOutProjectInfo::getTypeCode, IndexOutProjectInfo::getTypeName, (e1, e2) -> e1));
-            Map<String, String> map_index_kt_gl = indexOutProjectInfos.stream().collect(Collectors.toMap(IndexOutProjectInfo::getTypeCode, IndexOutProjectInfo::getXmmc, (e1, e2) -> e1));
+            Map<String, String> map_index_kt_gl = indexOutProjectInfos.stream().collect(Collectors.toMap(IndexOutProjectInfo::getTypeCode, IndexOutProjectInfo::getXmid, (e1, e2) -> e1));
             Map<String, String> map_index_zl = indexOutPatents.stream().collect(Collectors.toMap(IndexOutPatent::getTypeCode, IndexOutPatent::getTypeName, (e1, e2) -> e1));
-            Map<String, String> map_index_zl_gl = indexOutPatents.stream().collect(Collectors.toMap(IndexOutPatent::getTypeCode, IndexOutPatent::getFmmc, (e1, e2) -> e1));
+            Map<String, String> map_index_zl_gl = indexOutPatents.stream().collect(Collectors.toMap(IndexOutPatent::getTypeCode, IndexOutPatent::getDataId, (e1, e2) -> e1));
 
             List<Map<String, String>> map_index_hb = new ArrayList<>();
             map_index_hb.add(map_index_kt);
@@ -858,15 +873,16 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 links.add(new ChartGraphDataLink(source + "", js_index + "", link_index++ + "", typeName));
                 index_map++;
                 //技术关联课题
-//                String gl_kt_name = map_index_kt_gl.get(typeCode);
-//                if (gl_kt_name != null && !"".equals(gl_kt_name)) {
-//                    links.add(new ChartGraphDataLink(gl_kt_name, typeName, link_index+++"", gl_kt_name));
-//                }
+                String xmid = map_index_kt_gl.get(typeCode);
+                if (xmid != null && !"".equals(xmid)) {
+                    links.add(new ChartGraphDataLink(source, map_kt_gl.get(xmid), link_index+++"", ""));
+                }
 //                //技术关联专利
-//                String gl_zl_name = map_index_zl_gl.get(typeCode);
-//                if (gl_zl_name != null && !"".equals(gl_zl_name)) {
-//                    links.add(new ChartGraphDataLink(gl_zl_name, typeName, link_index+++"", gl_zl_name));
-//                }
+                String zl_data_id = map_index_zl_gl.get(typeCode);
+                if (zl_data_id != null && !"".equals(zl_data_id)) {
+                    links.add(new ChartGraphDataLink(source, map_zl_gl.get(zl_data_id), link_index+++"", ""));
+                }
+//                links.add(new ChartGraphDataLink(source, "900000", link_index+++"", "测试技术"));
             }
 
             //相关企业
@@ -901,26 +917,11 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
                 String qy_son_id = (qy_index * 1000 + qy_index_map) + "";
 
-//                nodes.add(new ChartGraphDataNode(zl_index, name, "", source, itemStyle, m_x, m_y, zl_s_sym + 10 + ""));
-//                links.add(new ChartGraphDataLink(source + "", zl_index + "", link_index++ + "", name));
-
 //                (double x,double y,int count,double r,int category,Object id,String showName,String showValue,Object itemStyle,String symbolSize){
-
-//                nodes.add(setGraphNodeObj(qy_x, qy_y, map_dw.size(), qy_r, qy_index, qy_son_id, map_key, "-", itemStyle, ""));
-//                links.add(setGraphLinkObj(qy_index, qy_index + "", qy_son_id + "", map_key));
-
-//                nodes.add(new ChartGraphDataNode(zl_index, name, "",source, itemStyle,m_x,m_y,zl_s_sym+10+""));
-//                links.add(new ChartGraphDataLink(source+"", zl_index+"", link_index+++"", name));
-
-//                nodes.add(new ChartGraphDataNode(4, map_key, companyValue, map_key,itemStyle));
-//                links.add(new ChartGraphDataLink(map_key, companyName, link_index+++"", map_key));
+                nodes.add(setGraphNodeObj(qy_x, qy_y, map_dw.size(), getR(map_dw.size()), qy_index, qy_son_id, map_key, "", itemStyle, "",qy_index_map));
+                links.add(setGraphLinkObj(qy_son_id, qy_index + "", link_index++ + "", map_key));
                 //企业子项关联课题
-
-//                nodes.add(setGraphNodeObj(m_x,m_y,map_dw.size(),m_r,qy_index,link_index++,map_key,"",itemStyle,""));
-//                links.add(setGraphLinkObj(qy_index,map_val+"",qy_son_id+"",map_key));
-
-//                nodes.add(new ChartGraphDataNode(4, map_key, companyValue, map_key,itemStyle));
-//                links.add(new ChartGraphDataLink(map_key, map_val, link_index+++"", map_key));
+                links.add(setGraphLinkObj(qy_son_id,map_val+"",qy_son_id+"",map_key));
 
             }
 
@@ -939,8 +940,18 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
             nodes.add(new ChartGraphDataNode(ps_index, psName, psValue, ps_index + "", itemStyle, ps_x, ps_y, ps_p_sym_p));
             links.add(new ChartGraphDataLink(ps_index + "", "0", link_index++ + "", psName));
-
             categories.add(new ChartForceCategories(psName));
+
+
+//            zjkChoices 项目id,项目名称
+            for (int i = 0,j = count_ps; i < j; i++) {
+                //map_kt_gl:xmid,source
+                String xmid = zjkChoices.get(i).getXmId();
+                String target = map_kt_gl.get(xmid);
+                if (target!=null&&!"".equals(target)){
+                    links.add(new ChartGraphDataLink(ps_index + "", target, link_index++ + "", ""));
+                }
+            }
 
             //成果
             int count_appraisal = outAppraisalListPage.getCount();
@@ -1059,10 +1070,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
      * @param itemStyle 样式
      * @return
      */
-    public ChartGraphDataNode setGraphNodeObj(double x, double y, int count, double r, int category, Object id, String showName, String showValue, Object itemStyle, String symbolSize) {
+    public ChartGraphDataNode setGraphNodeObj(double x, double y, int count, double r, int category, Object id, String showName, String showValue, Object itemStyle, String symbolSize,int index) {
         Map<String, Object> map = new HashMap<>();
         double d = getD(count);
-        return new ChartGraphDataNode(category, showName, showValue, id+"", itemStyle, getX(x, y, d * category, r), getY(x, y, d * category, r), "".equals(symbolSize) ? getSYMP(getSYMSon(count)) : symbolSize);
+        return new ChartGraphDataNode(category, showName, showValue, id+"", itemStyle, getX(x, y, d * index, r), getY(x, y, d * index, r), "".equals(symbolSize) ? (getSYMSon(count))+"" : symbolSize);
     }
 
     public ChartGraphDataLink setGraphLinkObj(Object category, String target, String id, String name) {
@@ -1109,7 +1120,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
      * @return
      */
     private static double getX(double x, double y, double du, double r) {
-//        double x1 = x + r * Math.cos(du * 3.14 / 180);
         double x1 = x + r * Math.cos(du * 3.14 / 180) + new Random().nextInt(100) + 1;
         return x1;
 
@@ -1117,15 +1127,14 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
     //获取Y
     private static double getY(double x, double y, double du, double r) {
-//        double y1 = y + r * Math.sin(du * 3.14 / 180);
-        double y1 = y + r * Math.sin(du * 3.14 / 180) + new Random().nextInt(100) + 1;
+        double y1 = y + r * Math.sin(du * 3.14 / 180);
+        y1 = y1<0?y1-new Random().nextInt(100) + 1:y1+new Random().nextInt(100) + 1;
         return y1;
     }
     private static double getXPj(double x, double y, double du, double r) {
         double x1 = x + r * Math.cos(du * 3.14 / 180);
 //        double x1 = x + r * Math.cos(du * 3.14 / 180) + new Random().nextInt(100) + 1;
         return x1;
-
     }
 
     //获取Y
