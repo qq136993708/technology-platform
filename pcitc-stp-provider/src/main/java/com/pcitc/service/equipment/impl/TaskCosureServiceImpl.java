@@ -71,7 +71,7 @@ public  class TaskCosureServiceImpl implements TaskCosureService {
 		map.put("firstApplyUser", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("contractNum", topicConten);
-		map.put("leadUnitName", leadUnitCode);
+		map.put("leadUnitCode", leadUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 //		if(!applyDepartCode.equals(""))
 //		{
