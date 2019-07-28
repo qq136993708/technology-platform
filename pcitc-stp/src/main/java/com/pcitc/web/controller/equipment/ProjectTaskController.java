@@ -191,7 +191,7 @@ public class ProjectTaskController extends BaseController {
 		request.setAttribute("fieldList", fieldList);
 
         //获取八大院数据字典
-        List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+        List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
         request.setAttribute("leaddicList", leaddicList);
         //判断是否是科技部人员
         String unitPathIds = sysUserInfo.getUnitPath();
@@ -247,16 +247,16 @@ public class ProjectTaskController extends BaseController {
 		request.setAttribute("fieldList", fieldList);
 
         //获取八大院数据字典
-        List<SysDictionary>  leaddicListYs= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
-        request.setAttribute("leaddicListYs", leaddicListYs);
+        List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
+        request.setAttribute("leaddicList", leaddicList);
         //判断是否是科技部人员
         String unitPathIds = sysUserInfo.getUnitPath();
         boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
         request.setAttribute("isKJBPerson", isKJBPerson);
 		
 		
-		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
-		request.setAttribute("leaddicList", leaddicList);
+		/*List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
+		request.setAttribute("leaddicList", leaddicList);*/
 		//流程状态
 		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("auditStatusList", auditStatusList);
@@ -364,8 +364,8 @@ public class ProjectTaskController extends BaseController {
 		List<SysDictionary> fieldList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZBGL_ZYLY", restTemplate, httpHeaders);
 		request.setAttribute("fieldList", fieldList);
 		//获取八大院数据字典
-		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
-		request.setAttribute("leaddicList", leaddicList);
+        List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
+        request.setAttribute("leaddicList", leaddicList);
         //判断是否是科技部人员
 		String unitPathIds = sysUserInfo.getUnitPath();
         boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);

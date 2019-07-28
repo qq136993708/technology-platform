@@ -24,7 +24,7 @@ public interface SreEquipmentMapper {
     List getEquipmentListByIds(List list);
 
 	List getForApplicationList(Map map);
-    
-    
-    
+
+
+    List<SreEquipment> getMoneyYear(Map map);
 }

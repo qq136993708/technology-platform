@@ -16,7 +16,6 @@
 <div class="searchBox">
     <form action=""  name="form1" id="form1" action="" method="POST">
         <input type="hidden" name="departCode" id="departCode" value="${departCode}">
-        <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
         <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
     </form>
     <!--查询条件-->
@@ -26,10 +25,10 @@
     </label>
     <label class="dateInput" style="margin-left:10px;" id="bodyId">
         <span>研究院</span>
-        <select name="parentUnitPathNames" id="parentUnitPathNames"  class="form-control"  >
+        <select name="parentUnitPathIds" id="parentUnitPathIds"  class="form-control"  >
             <option value="" >--请选择--</option>
             <#list leaddicList as vo>
-            <option value="${vo.numValue}"  >${vo.name}</option>
+            <option value="${vo.numValue}"  >${vo.remark}</option>
         </#list>
         </select>
     </label>
@@ -135,7 +134,7 @@
                 $('#purchaseName').val("");
                 $('#createDate').val("");
                 $('#proposerName').val("");
-                $('#parentUnitPathNames').val("");
+                $('#parentUnitPathIds').val("");
 
             },
             detailEvent: function(){  //点击详情按钮

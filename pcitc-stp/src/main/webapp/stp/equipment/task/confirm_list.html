@@ -21,7 +21,6 @@
 <input  name="functionId"     id="functionId"      type="hidden">
 <input  name="userIds"        id="userIds"         type="hidden">
 <input  name="taskId"         id="taskId"          type="hidden" >
-<input  name="leadUnitCode"   id="leadUnitCode"    value="${leadUnitCode}"        type="hidden" >
 <input  name="applyUnitCode"  id="applyUnitCode"    value="${applyUnitCode}"        type="hidden" >
 <input  name="parentUnitPathIds"  id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
 <input  name="joinUnitCodes"  id="joinUnitCodes"           type="hidden" >
@@ -84,10 +83,10 @@
       </label>
       <label class="dateInput" style="margin-left:10px;" id="bodyId">
           <span>研究院</span>
-          <select name="leadUnitName" id="leadUnitName"  class="form-control"  >
+          <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
             <option value="" >--请选择--</option>
             <#list leaddicList as vo>
-                <option value="${vo.numValue}"  >${vo.name}</option>
+                <option value="${vo.numValue}"  >${vo.remark}</option>
             </#list>
           </select>
       </label>
@@ -242,7 +241,7 @@ var name=$('#name').val();
             	$('#belongDepartmentCode').val("");
             	$('#professionalDepartCode').val("");
             	$('#professionalFieldCode').val("");
-                $('#leadUnitName').val("");
+                $('#leadUnitCode').val("");
                 $('#contractNum').val("");
 
             },
@@ -336,7 +335,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"auditStatus":$("#auditStatus").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"leadUnitCode":$("#leadUnitCode").val(),"leadUnitName":$("#leadUnitName").val(),"contractNum":$("#contractNum").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"auditStatus":$("#auditStatus").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"leadUnitCode":$("#leadUnitCode").val(),"contractNum":$("#contractNum").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -366,7 +365,7 @@ var name=$('#name').val();
                 {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '10%',sort : true},
                 {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '10%',sort : true},
                 {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '10%',sort : true},
-                {field : 'leadUnitName',           title : '牵头单位',     style : 'cursor: pointer;', align: 'left', width : '20%',sort : true},
+                {field : 'leadUnitName',           title : '研究院',     style : 'cursor: pointer;', align: 'left', width : '20%',sort : true},
                 {field : 'applyUnitName',          title : '申报部门',  style : 'cursor: pointer;', align: 'left', width : '10%',sort : true},
                 {field : 'createUnitName',         title : '填写部门', style : 'cursor: pointer;', align: 'left', width : '10%',sort : true},
                 {field : 'createDate',             title : '任务书填写时间',   style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%',sort : true},

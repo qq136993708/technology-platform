@@ -22,7 +22,6 @@
         <input  name="userIds"        id="userIds"         type="hidden">
         <input  name="id"         id="id"          type="hidden" >
         <input  name="departCode"         id="departCode"  value="${departCode}"        type="hidden" >
-        <input  name="parentUnitPathIds"   id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
         <input  name="state"  id="state" value="${state}" type="hidden">
         <input  name="stage"  id="stage" value="${stage}" type="hidden">
         <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
@@ -35,10 +34,10 @@
     </label>
     <label class="dateInput" style="margin-left:10px;" id="bodyId">
         <span>研究院</span>
-        <select name="parentUnitPathNames" id="parentUnitPathNames"  class="form-control"  >
+        <select name="parentUnitPathIds" id="parentUnitPathIds"  class="form-control"  >
             <option value="" >--请选择--</option>
             <#list leaddicList as vo>
-            <option value="${vo.numValue}"  >${vo.name}</option>
+            <option value="${vo.numValue}"  >${vo.remark}</option>
         </#list>
         </select>
     </label>
@@ -195,7 +194,7 @@
             resetEvent: function() { //点击重置按钮
 
                 $('#purchaseName').val("");
-                $('#parentUnitPathNames').val("");
+                $('#parentUnitPathIds').val("");
             },
             upQianEvent: function(){ //上传采购合同
                 if (typeof(selectRowData) == "undefined")
@@ -320,7 +319,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {/*"state":"20",*/"stage":"2","parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val(),"purchaseName":$("#purchaseName").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
+            where: {param: {/*"state":"20",*/"stage":"2","parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val(),"purchaseName":$("#purchaseName").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
