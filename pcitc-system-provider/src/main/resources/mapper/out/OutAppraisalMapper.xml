@@ -887,6 +887,7 @@
 			   group_concat(distinct xmmc) as xmmc,
 			   group_concat(distinct jdjg) as jdjg,
 			   group_concat(distinct hth) as hth,
+			   group_concat(distinct zy) as zy,
 			   group_concat(distinct substr(define1 from 4)) as define1,
 			   group_concat(distinct substr(define3 from 2)) as define3
 		from out_appraisal
