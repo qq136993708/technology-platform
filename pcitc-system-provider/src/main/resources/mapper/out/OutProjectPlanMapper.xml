@@ -1634,7 +1634,7 @@
 	
 	<!-- 共用查询SQL-->
 	<sql id="selectCondition">
-	     <if test="nd != null and nd != ''">
+	     	<if test="nd != null and nd != ''">
 				and find_in_set(tableA.nd, '${nd}')
 			</if>
 			<if test="ysnd != null and ysnd != ''">
@@ -1849,6 +1849,18 @@
 			WHERE
 				   out_project_plan.PROJECT_TYPE != '1'
 				   and out_project_plan.define4 = '项目管理系统'
+				   <if test="nd != null and nd != ''">
+						and find_in_set(out_project_plan.nd, '${nd}')
+				   </if>
+				   <if test="ysnd != null and ysnd != ''">
+						and out_project_plan.ysnd = #{ysnd}
+				   </if>
+				   <if test="hth != null and hth != ''">
+						and out_project_plan.hth like '%${hth}%'
+				   </if>
+				   <if test="xmmc != null and xmmc != ''">
+						and out_project_plan.xmmc like '%${xmmc}%'
+				   </if>
 				) as tableA
 		WHERE 
 			1 = 1
