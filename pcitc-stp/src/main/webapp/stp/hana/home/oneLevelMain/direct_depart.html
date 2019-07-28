@@ -349,7 +349,7 @@
 		layui.use([ 'jquery', 'table', 'carousel', 'layer', 'laydate', 'element' ], function() {
 			var $ = layui.jquery, table = layui.table, carousel = layui.carousel, laydate = layui.laydate, layer = layui.layer;
 			element = layui.element;
-
+			var intlProjectCount = 0;
 			//科研课题
 			$(".layui-top .layui-col-md15").eq(0).click(function() {
 				window.open("/instituteIndex?url=" + "/direct/topic?userLevel=1", "_target");
@@ -379,7 +379,11 @@
 
 			$(".layui-top .layui-col-md15").eq(6).click(function() {
 				//parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main?userLevel=1", "国际合作");
-				parent.layui.index.openTabsPage("/project/info_list_manager?userLevel=1", "国际合作");
+				if(intlProjectCount > 0)
+				{
+					parent.layui.index.openTabsPage("/project/info_list_manager?userLevel=1", "国际合作");
+				}
+				
 			});
 
 			var md4Height = $(".layui-col-md4").height() - 2;
@@ -555,6 +559,7 @@
 				error : function(XMLHttpRequest, status) {
 				},
 				success : function(data) {
+					intlProjectCount = data;
 					$("#intlProjectCount").html(data + "<small>(个)</small>");
 				}
 			});

@@ -24,6 +24,7 @@ import com.pcitc.base.common.WorkFlowStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.enums.FlowStatusEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -42,6 +43,8 @@ public class IntlProjectInfoController extends BaseController {
 	
 	private static final String PROJECT_INFO_CODE = "http://pcitc-zuul/stp-proxy/stp-provider/project/project-info-code";
 	private static final String PROJECT_INFO_COUNT = "http://pcitc-zuul/stp-proxy/stp-provider/project/info-count";
+	
+	private static final String USER_GET_URL = "http://pcitc-zuul/system-proxy/user-provider/user/get-user/";
 	
 	@RequestMapping(value = "/project/info-list", method = RequestMethod.POST)
 	public Object getTableData(@ModelAttribute("param") LayuiTableParam param) throws IOException {
@@ -141,11 +144,19 @@ public class IntlProjectInfoController extends BaseController {
 	}
 	@RequestMapping(value = "/project/info-count", method = RequestMethod.POST)
 	public Object getProjectInfoCount(@RequestParam(value = "nd", required = false) String nd,HttpServletRequest request, HttpServletResponse response) throws Exception {
-		if(StringUtils.isBlank(nd)) 
+		//权限需求20190728 仅允许级别为2的用户查看,或者国际合作处的人能看
+		SysUser user =this.restTemplate.exchange(USER_GET_URL + this.sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+		if(new Integer(2).equals(this.getUserProfile().getUserLevel()) || user.getUserUnit().contains("ddca550d9cf7440a96f149c78956b93d")) 
 		{
-			nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
+			if(StringUtils.isBlank(nd)) 
+			{
+				nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
+			}
+			Integer prject = this.restTemplate.exchange(PROJECT_INFO_COUNT, HttpMethod.POST, new HttpEntity<String>(nd,this.httpHeaders), Integer.class).getBody();
+			return JSON.toJSON(prject);
+			
+		}else {
+			return JSON.toJSON("0");
 		}
-		Integer prject = this.restTemplate.exchange(PROJECT_INFO_COUNT, HttpMethod.POST, new HttpEntity<String>(nd,this.httpHeaders), Integer.class).getBody();
-		return JSON.toJSON(prject);
 	}
 }
