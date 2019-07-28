@@ -14,10 +14,10 @@
 <body>
 <div class="formBox">
     <form id="planlmplement" name="planlmplement" lay-filter="sysNews-form" class="form-horizontal layui-form">
-        <input type="hidden" name="parentUnitPathNames" id="parentUnitPathNames" value="${parentUnitPathNames}">
-		<input type="hidden" name="unitPathIds" id="unitPathIds" value="${unitPathIds}">
-		<input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
-		<input type="hidden" name="applyDepartName" id="applyDepartName" value="${applyDepartName}">
+        <input type="hidden" name="parentUnitPathNames" id="parentUnitPathNames" value="${srePlanImplement.researchInstitute}">
+		<input type="hidden" name="unitPathIds" id="unitPathIds" value="${srePlanImplement.levelId}">
+		<input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${srePlanImplement.sonId}">
+		<input type="hidden" name="applyDepartName" id="applyDepartName" value="${srePlanImplement.levelName}">
         <div class="box-body">
             <input type="hidden" name="dataId" id="dataId"/>
             <div class="layui-row">
@@ -25,8 +25,8 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">规划标题<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="publicationTitle" id="publicationTitle" value=""
-                                   lay-verify="required" autocomplete="off" type="text">
+                            <input class="layui-input" name="publicationTitle" id="publicationTitle" value="${srePlanImplement.publicationTitle}"
+                                   lay-verify="required"  autocomplete="off" type="text" >
                         </div>
                     </div>
                 </div>
@@ -34,14 +34,14 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">规划类型<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <select name="publicationType"  id="publicationType"  class="layui-form-label" >
+                            <select name="publicationType"  id="publicationType"  class="layui-form-label" value="${srePlanImplement.publicationType}">
 					             <option value="" >--请选择--</option>
-							     <option value="1">研究院中长期规划</option>
-							     <option value="2">研究室中长期规划</option>
-							     <option value="3">课题中长期规划</option>
-							     <option value="4">研究院滚动计划</option>
-							     <option value="5">研究室滚动计划</option>
-							     <option value="6">课题滚动计划</option>
+							     <option value="1" <c:if test="${srePlanImplement.publicationType=='1'}">研究院中长期规划</c:if>></option>
+							     <option value="2" <c:if test="${srePlanImplement.publicationType=='2'}">研究室中长期规划</c:if>></option>
+							     <option value="3" <c:if test="${srePlanImplement.publicationType=='3'}">课题中长期规划</c:if>></option>
+							     <option value="4" <c:if test="${srePlanImplement.publicationType=='4'}">研究院滚动计划</c:if>></option>
+							     <option value="5" <c:if test="${srePlanImplement.publicationType=='5'}">研究室滚动计划</c:if>></option>
+							     <option value="6" <c:if test="${srePlanImplement.publicationType=='6'}">课题滚动计划</c:if>></option>
 							 </select>
                         </div>
                     </div>
@@ -52,8 +52,8 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">发布人<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="publisher" id="publisher" value="${UserDisp}"
-                                   lay-verify="required" autocomplete="off" type="text">
+                            <input class="layui-input" name="publisher" id="publisher" value="${srePlanImplement.publisher}"
+                                   lay-verify="required" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -61,9 +61,9 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否发布<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <select name="publicationState"  id="publicationState"  class="layui-form-label" >
-							     <option value="1">是</option>
-							     <option value="0">否</option>
+                            <select name="publicationState"  id="publicationState"  class="layui-form-label" value="${srePlanImplement.publicationState}">
+							     <option value="1" <c:if test="${srePlanImplement.publicationState=='1'}">select</c:if>>是</option>
+							     <option value="0" <c:if test="${srePlanImplement.publicationState=='0'}">select</c:if>>否</option>
 							 </select>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">发布时间<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" class="layui-input" id="publicDate" name="publicDate" >
+                            <input type="text" class="layui-input" id="publicDate" name="publicDate"  pattern='yyyy-MM-dd'>
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">内容<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <textarea name="content" id="content" class="ckeditor" value=""></textarea>
+                            <textarea name="content" id="content" class="ckeditor">${srePlanImplement.publicationText}</textarea>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,6 @@
             form.render(null, 'sysNews-form');
             laydate.render({
                 elem: '#publicDate'
-                , value: new Date()//必须遵循format参数设定的格式
                 , position: 'fixed'
             });
             $("#closeBtn").click(function () {

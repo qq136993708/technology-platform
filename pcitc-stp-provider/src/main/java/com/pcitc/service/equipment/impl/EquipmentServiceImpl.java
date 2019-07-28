@@ -381,7 +381,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("parentUnitPathIds", parentUnitPathIds);
 
 		map.put("contractNum", contractNum);
-		map.put("leadUnitName", leadUnit);
+		map.put("leadUnitCode", leadUnit);
 
 
 		
@@ -1418,7 +1418,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("contractNum", topicConten);
-		map.put("leadUnitName", leadUnitCode);
+		map.put("leadUnitCode", leadUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 //		if(!applyDepartCode.equals(""))
 //		{

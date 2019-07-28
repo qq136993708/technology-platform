@@ -74,6 +74,27 @@ public class PlanningManagementServiceImpl implements PlanImplementService {
 	}
 
 
+	@Override
+	public Integer setPlanImplement(SrePlanImplement srePlanImplement) {
+		// TODO Auto-generated method stub
+		return srePlanningManagementMapper.insert(srePlanImplement);
+	}
+
+
+	@Override
+	public SrePlanImplement selectPlanImplement(String id) {
+		// TODO Auto-generated method stub
+		return srePlanningManagementMapper.selectByPrimaryKey(id);
+	}
+
+
+	@Override
+	public int deleteSrePlanImplement(String id) {
+		// TODO Auto-generated method stub
+		return srePlanningManagementMapper.deleteByPrimaryKey(id);
+	}
+
+
 
 	
 	
