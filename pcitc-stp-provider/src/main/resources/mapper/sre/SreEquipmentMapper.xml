@@ -478,6 +478,10 @@
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
          <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
+  <!--获取每年的装备总金额-->
+  <select id="getMoneyYear" resultMap="BaseResultMap" parameterType="Map" >
+      select  left (t.create_date,4)  as year,sum( t.all_price) as  allMoney  from sre_equipment  t GROUP BY `year`   ORDER BY `year` asc
+  </select>
      
      
 </mapper>

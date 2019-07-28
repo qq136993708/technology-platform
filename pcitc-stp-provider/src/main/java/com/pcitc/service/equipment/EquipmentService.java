@@ -201,7 +201,7 @@ public interface EquipmentService {
 	public List<ProjectMoney> getList(Map map)throws Exception;
 	
 	public int deleteProjectMoneyBy(String projectId)throws Exception;
-	
-	
 
+
+    LayuiTableData getMoneyYear(LayuiTableParam param) throws Exception;
 }

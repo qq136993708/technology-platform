@@ -38,7 +38,7 @@
 	         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
 	             <option value="" >--请选择--</option>
 	             <#list dictonary as vo> 
-			          <option value="${vo.numValue}"  >${vo.name}</option>
+			           <option value="${vo.numValue}"  >${vo.remark}</option>
 			      </#list>
 			 </select>
 	     </label>
@@ -397,7 +397,7 @@ var name=$('#name').val();
             url: '/sre-procurementprogram/list',
             method:"POST",
 		//查询条件            
-            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"applyDepartCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"parentUnitPathNames":$("#leadUnitCode").val()}},
+            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"applyDepartCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"parentUnitPathIds":$("#leadUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

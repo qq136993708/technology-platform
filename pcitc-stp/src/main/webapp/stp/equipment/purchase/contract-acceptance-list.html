@@ -16,7 +16,6 @@
 <div class="searchBox">
     <form action=""  name="form1" id="form1" action="" method="POST">
         <input type="hidden" name="departCode" id="departCode" value="${departCode}">
-        <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
         <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
     </form>
     <!--查询条件-->
@@ -26,10 +25,10 @@
     </label>
     <label class="dateInput" style="margin-left:10px;" id="bodyId">
         <span>研究院</span>
-        <select name="parentUnitPathNames" id="parentUnitPathNames"  class="form-control"  >
+        <select name="parentUnitPathIds" id="parentUnitPathIds"  class="form-control"  >
             <option value="" >--请选择--</option>
             <#list leaddicList as vo>
-            <option value="${vo.numValue}"  >${vo.name}</option>
+            <option value="${vo.numValue}"  >${vo.remark}</option>
         </#list>
         </select>
     </label>
@@ -136,7 +135,7 @@
             },
             resetEvent: function() { //点击重置按钮
                 $('#purchaseName').val("");
-                $('#parentUnitPathNames').val("");
+                $('#parentUnitPathIds').val("");
             },
             upQianEvent: function(){ //上传验收报告单
                 if (typeof(selectRowData) == "undefined")
@@ -219,7 +218,7 @@
             elem: '#processdef-table',
             url: '/sre_purchase/list',
             method:"POST",
-            where: {param: {"purchaseName":$("#purchaseName").val(),"departCode":$("#departCode").val(),"stage":"4","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
+            where: {param: {"purchaseName":$("#purchaseName").val(),"departCode":$("#departCode").val(),"stage":"4","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),

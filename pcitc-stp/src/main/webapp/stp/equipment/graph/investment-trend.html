@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="">
+
+
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>
+                        投资趋势分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="investment_smal_chart" style="height: 430px; width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>
+                        投资趋势分析
+                    </div>
+                    <div class="layui-row-main">
+                        <table id="myTable" class="layui-table" lay-filter="myTable">
+                            <thead>
+                            <th lay-data="{field:'year', width:'25%',align:'center'}">年份</th>
+                            <th lay-data="{field:'allMoney', width:'25%',align:'right'}">总金额(万元)</th>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+    <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+    <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+    <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+    <script type="text/javascript" src="/stp/hana/common/hana_common.js"></script>
+    <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+    <script type="text/javascript">
+
+        /*layui.use(['table', 'layer'], function () {
+            var layer = layui.layer, table = layui.table;*/
+
+        var yAxis3 = [ {
+            type : 'value',
+            name : '金额（万元）',
+            min : 0,
+            max : 'dataMax',
+            position : 'left',
+            axisLabel : {
+                formatter : '{value}'
+            }
+        } ];
+
+        /*var chart2_url = "/small_leader/investment_data_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&type=1";
+        var colorLine = [ "#75C9C0", "#5181E6", "#9799ec" ]
+        load_mony_line_down(chart2_url, "investment_smal_chart2", "", "", yAxis3, colorLine);
+*/
+        var twoUrl = "/expertController/picIndex?id=7&type=bar";
+        var coloTwo = ["#ff491d"];
+        load_single_line(twoUrl, "investment_smal_chart","","",yAxis3);
+        /*load_single_bar(twoUrl, "investment_smal_chart","","",yAxis3);*/
+
+        function initEchart() {
+            alert("chaxun ")
+            var chart1_url = "/graph/investment_data?&type=data";
+            table.init('myTable', {
+                url : chart1_url,
+                height : "299px",
+                where : {}
+
+            });
+
+
+
+
+            /*var dom = document.getElementById("investment_smal_chart");
+            var investment_smal_chart = echarts.init(dom);
+            var app = {};
+            option = null;
+            option = {
+                xAxis: {
+                    type: 'category',
+                    name :'年',
+
+                },
+                yAxis: {
+                    type: 'value',
+                    name : '金额（万元）',
+                    axisLabel : {
+                        formatter : '{value}'
+                    }
+                },
+                series: [{
+                    /!*data: [50, 1922],*!/
+                    type: 'line'
+                }]
+            };
+
+            if (option && typeof option === "object") {
+                investment_smal_chart.setOption(option, true);
+
+                alert("初始化图形")
+                var twoUrl = "/graph/investment_data?&type=line";
+                // var twoUrl = "/expertController/picIndex?id=7&xxx=" + expertId + "&type=bar";
+                var coloTwo = ["#1d36ff"];
+                load_single_line(twoUrl, "investment_smal_chart", "投资趋势分析", "");
+            }*/
+        }
+
+        //初始化图形
+        initEchart();
+        /*//查询
+        function search_Event() {
+            alert("chaxun ")
+            initEchart();
+            /!*myTable();*!/
+            myTable2();
+        }*/
+        /*function myTable2(){
+            alert("初始化图形")
+            var twoUrl = "/graph/investment_data?&type=line";
+            // var twoUrl = "/expertController/picIndex?id=7&xxx=" + expertId + "&type=bar";
+            var coloTwo = ["#1d36ff"];
+            load_single_line(twoUrl, "investment_smal_chart", "投资趋势分析", "");
+            search_Event()
+        }*/
+
+        /*function myTable2() {
+            var chart1_url = "/graph/investment_data?&type=date";
+            table.init('myTable2', {
+                url : chart1_url,
+                height : "430px",
+                where : {}
+
+            });
+
+        }*/
+    </script>
+</body>
+</html>
