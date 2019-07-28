@@ -42,9 +42,9 @@ public class TenLongFileUploadUtil
 					continue;
 				}
 				//上传文件
-				OSSUtil.uploadFileWithFilePath(f, ossPath+f.getName());
-				java.io.InputStream in = OSSUtil.getOssFileIS(ossPath+f.getName());
-				FileUtil.copyInputStreamToFile(in,new File(downLocalPath+nd+"\\"+f.getName()));
+				//OSSUtil.uploadFileWithFilePath(f, ossPath+f.getName());
+				//java.io.InputStream in = OSSUtil.getOssFileIS(ossPath+f.getName());
+				//FileUtil.copyInputStreamToFile(in,new File(downLocalPath+nd+"\\"+f.getName()));
 				
 				//生成下载文件数据
 				JSONObject json = new JSONObject();
@@ -64,6 +64,6 @@ public class TenLongFileUploadUtil
 		for(String nd:nds) {
 			uploadFileAndCreateSql(nd);
 		}*/
-		//uploadFileAndCreateSql("2012");
+		uploadFileAndCreateSql("2018");
 	}
 }
