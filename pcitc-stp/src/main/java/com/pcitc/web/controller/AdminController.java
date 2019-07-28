@@ -947,7 +947,8 @@ public class AdminController extends BaseController {
 	 */
 	@RequestMapping(value = "/admin/appraisal-count", method = RequestMethod.POST)
 	@ResponseBody
-	public synchronized Object getAppraisalCount(HttpServletRequest request) {
+	@OperationFilter(dataFlag = "true")
+	public Object getAppraisalCount(HttpServletRequest request) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 		Date date = new Date();
@@ -966,6 +967,11 @@ public class AdminController extends BaseController {
 			map.put("define1", request.getParameter("define1"));
 		}
 
+		String  cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		System.out.println("1====cgjszy" + cgjszy);
+		
+		map.put("cgjszy", cgjszy);
+				
 		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
 
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(APPRAISAL_COUNT, HttpMethod.POST, entity, JSONObject.class);
