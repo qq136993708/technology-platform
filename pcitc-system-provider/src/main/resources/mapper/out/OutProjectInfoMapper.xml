@@ -2787,7 +2787,7 @@
 			   GROUP_CONCAT(DISTINCT tableD.fzdw separator '<![CDATA[<br>]]>') as xzdw,
 			   GROUP_CONCAT(DISTINCT tableE.fzdw separator '<![CDATA[<br>]]>') as zydw
 		from (
-		select xmid,nd,xmmc,`status`,define6,jdap,hth
+		select xmid,nd,xmmc,`status`,define6,jdap,hth,define14
 				from out_project_info
 				WHERE
 					 project_property = '十条龙项目'
