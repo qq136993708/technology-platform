@@ -39,6 +39,7 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
@@ -83,6 +84,7 @@ public class HomeAchievementController extends BaseController {
 	// 三级表格
 	@RequestMapping(method = RequestMethod.POST, value = "/home_achievement/getAwardTable")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getAwardLevel3TAble(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
@@ -102,17 +104,21 @@ public class HomeAchievementController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_achievement/getAwardTypeList")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getAwardTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
-
-		System.out.println(">>>>>>>>>>>>>getAwardTypeList参数 nd :" + nd + " type=" + type);
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -206,17 +212,23 @@ public class HomeAchievementController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_achievement/get_unit_result_count")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String get_unit_result_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
 
 		System.out.println(">>>>>>>>>>>>>get_unit_result_count参数 nd :" + nd + " type=" + type);
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -275,15 +287,16 @@ public class HomeAchievementController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_achievement/get_institution_result_count")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String get_institution_result_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-
-		System.out.println(">>>>>>>>>>>>>get_institution_result_count参数 nd :" + nd);
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		paramsMap.put("cgjszy", cgjszy);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -326,15 +339,21 @@ public class HomeAchievementController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_achievement/getAwardUnitTypeList")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getAwardUnitTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
 		String type = CommonUtil.getParameter(request, "type", "");
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
 
 		System.out.println(">>>>>>>>>>>>>getAwardUnitTypeList参数 nd :" + nd + " type=" + type);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {

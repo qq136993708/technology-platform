@@ -721,6 +721,14 @@ public class EquipmentProviderClient
 		logger.info("==================page SreSreProjectTask==========================="+paramsJson);
 		return equipmentService.getSreProjectTaskByErpnumPage(paramsJson);
 	}
+
+    @ApiOperation(value = "获取装备每年的总价格", notes = "获取装备每年的总价格")
+    @RequestMapping(value = "/sre-provider/equipment/get_money_year", method = RequestMethod.POST)
+    public LayuiTableData getMoneyYear(@RequestBody LayuiTableParam param)throws Exception
+    {
+        LayuiTableData rageResult=equipmentService.getMoneyYear(param);
+        return rageResult;
+    }
 	
 
 }

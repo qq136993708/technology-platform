@@ -36,6 +36,7 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
@@ -87,6 +88,7 @@ public class HomeAchievementLDController extends BaseController {
 	// 三级表格
 	@RequestMapping(method = RequestMethod.POST, value = "/home_achievement_ld/getAwardTable")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getAwardLevel3TAble(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
@@ -106,6 +108,7 @@ public class HomeAchievementLDController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_achievement_ld/getAwardTypeList")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getAwardTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 
@@ -115,6 +118,11 @@ public class HomeAchievementLDController extends BaseController {
 		System.out.println(">>>>>>>>>>>>>getAwardTypeList参数 nd :" + nd + " type=" + type);
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -175,12 +183,17 @@ public class HomeAchievementLDController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_achievement_ld/getAwardCircle")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getAwardCircle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		PageResult pageResult = new PageResult();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -210,6 +223,7 @@ public class HomeAchievementLDController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_achievement_ld/get_unit_result_count")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String get_unit_result_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 
@@ -219,6 +233,10 @@ public class HomeAchievementLDController extends BaseController {
 		System.out.println(">>>>>>>>>>>>>get_unit_result_count参数 nd :" + nd + " type=" + type);
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -279,6 +297,7 @@ public class HomeAchievementLDController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_achievement_ld/get_institution_result_count")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String get_institution_result_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 
@@ -287,6 +306,10 @@ public class HomeAchievementLDController extends BaseController {
 		System.out.println(">>>>>>>>>>>>>get_institution_result_count参数 nd :" + nd);
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		paramsMap.put("nd", nd);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -330,6 +353,7 @@ public class HomeAchievementLDController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/home_achievement_ld/getAwardUnitTypeList")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getAwardUnitTypeList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
@@ -338,6 +362,10 @@ public class HomeAchievementLDController extends BaseController {
 
 		System.out.println(">>>>>>>>>>>>>getAwardUnitTypeList参数 nd :" + nd + " type=" + type);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		paramsMap.put("nd", nd);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);

@@ -35,8 +35,8 @@ public class StatisticalQueryController extends BaseController {
         String applyDepartName = map.get("applyDepartName");// 申报部门
         String applyDepartCode = map.get("applyDepartCode");// 申报部门
 
-        //获取数据字典八大院的院所名称
-        List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+        //获取八大院数据字典
+        List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
         request.setAttribute("leaddicList", leaddicList);
         //判断当前登录人是否为科技部人员
         String unitPathIds = sysUserInfo.getUnitPath();

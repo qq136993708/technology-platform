@@ -41,6 +41,7 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.HanaUtil;
 
 /**
@@ -51,40 +52,30 @@ import com.pcitc.web.utils.HanaUtil;
  */
 @Controller
 @RequestMapping(value = "/more-dimension")
-public class MoreDimensionController extends BaseController
-{
+public class MoreDimensionController extends BaseController {
 
-	//private static final String patent_trend_analysis_01 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/country-type";
-	//private static final String patent_trend_analysis_02 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/patent-type";
+	// private static final String patent_trend_analysis_01 =
+	// "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/country-type";
+	// private static final String patent_trend_analysis_02 =
+	// "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/patent-type";
 	private static final String patent_trend_analysis_institute = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/institute";
 	private static final String zlsbqkmxfxb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-detail/page";
-	
-	//辅助决策中心》多维分析》知识产权》知识产权分析
-	//专利授权数量年趋势分析
+
+	// 辅助决策中心》多维分析》知识产权》知识产权分析
+	// 专利授权数量年趋势分析
 	private static final String patent_trend_analysis_01 = "http://pcitc-zuul/system-proxy/out-decision-provider/patent/home-baroad/three-year";
 	private static final String patent_trend_analysis_02 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/patent-type";
 	private static final String patent_trend_analysis_03 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/patent-type";
-	
-	
-	
-	
+
 	private static final String achievements_trend_analysis_01 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/institution/zy/three-year";
 	private static final String achievements_trend_analysis_02 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/institution/cg/info";
-	
-	
-	
-	
+
 	private static final String reward_analysis_01 = "http://pcitc-zuul/system-proxy/out-reward-provider/sbjz/five-year/count";
 	private static final String reward_analysis_02 = "http://pcitc-zuul/system-proxy/out-reward-provider/yjy/type/count";
-	
-	
-	
-	
 
 	// 课题研发支出多维分析表
 	@RequestMapping(method = RequestMethod.GET, value = "/ktyfzcdwfxb")
-	public String ktyfzcdwfxb(HttpServletRequest request) throws Exception
-	{
+	public String ktyfzcdwfxb(HttpServletRequest request) throws Exception {
 		String month = HanaUtil.getCurrent_YearMoth();
 		request.setAttribute("month", month);
 		return "stp/hana/moreDimension/ktyfzcdwfxb";
@@ -92,8 +83,7 @@ public class MoreDimensionController extends BaseController
 
 	// 专利申报情况明细分析表
 	@RequestMapping(method = RequestMethod.GET, value = "/zlsbqkmxfxb")
-	public String zlsbqkmxfxb(HttpServletRequest request) throws Exception
-	{
+	public String zlsbqkmxfxb(HttpServletRequest request) throws Exception {
 		String month = HanaUtil.getCurrent_YearMoth();
 		request.setAttribute("month", month);
 		return "stp/hana/moreDimension/zlsbqkmxfxb";
@@ -102,15 +92,13 @@ public class MoreDimensionController extends BaseController
 	// 三级表格
 	@RequestMapping(method = RequestMethod.POST, value = "/zlsbqkmxfxb_data")
 	@ResponseBody
-	public String zlsbqkmxfxb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
-	{
+	public String zlsbqkmxfxb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(zlsbqkmxfxb_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200)
-		{
+		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
@@ -120,8 +108,7 @@ public class MoreDimensionController extends BaseController
 
 	// 专利申请授权情况明细分析表
 	@RequestMapping(method = RequestMethod.GET, value = "/zlsqsqqkmxfxb")
-	public String zlsqsqqkmxfxb(HttpServletRequest request) throws Exception
-	{
+	public String zlsqsqqkmxfxb(HttpServletRequest request) throws Exception {
 		String month = HanaUtil.getCurrent_YearMoth();
 		request.setAttribute("month", month);
 		return "stp/hana/moreDimension/zlsqsqqkmxfxb";
@@ -129,23 +116,18 @@ public class MoreDimensionController extends BaseController
 
 	// 成果鉴定明细分析表
 	@RequestMapping(method = RequestMethod.GET, value = "/cgjdmxfxb")
-	public String cgjdmxfxb(HttpServletRequest request) throws Exception
-	{
+	public String cgjdmxfxb(HttpServletRequest request) throws Exception {
 		String month = HanaUtil.getCurrent_YearMoth();
 		request.setAttribute("month", month);
-		 String year= HanaUtil.getCurrentYear();
-         request.setAttribute("year", year);
-         
-         
+		String year = HanaUtil.getCurrentYear();
+		request.setAttribute("year", year);
+
 		return "stp/hana/moreDimension/cgjdmxfxb";
 	}
-	
-	
 
 	// 科技奖励情况明细分析表
 	@RequestMapping(method = RequestMethod.GET, value = "/kjjlqkmxfxb")
-	public String kjjlqkmxfxb(HttpServletRequest request) throws Exception
-	{
+	public String kjjlqkmxfxb(HttpServletRequest request) throws Exception {
 		String month = HanaUtil.getCurrent_YearMoth();
 		request.setAttribute("month", month);
 		return "stp/hana/moreDimension/kjjlqkmxfxb";
@@ -158,22 +140,20 @@ public class MoreDimensionController extends BaseController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/knowledge/patent-trend-analysis")
-	public String loopContractExecutionAwards(HttpServletRequest request) throws Exception
-	{
+	public String loopContractExecutionAwards(HttpServletRequest request) throws Exception {
 
 		List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrentYear(), 3);
 		request.setAttribute("yearList", yearList);
-		
+
 		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
-		
+
 		return "stp/hana/moreDimension/knowledge/patent-trend-analysis";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/patent_trend_analysis_01")
 	@ResponseBody
-	public String patent_trend_analysis_01(HttpServletRequest request, HttpServletResponse response) throws Exception
-	{
+	public String patent_trend_analysis_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -182,55 +162,53 @@ public class MoreDimensionController extends BaseController
 		paramsMap.put("nd", nd);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!nd.equals(""))
-		{
+		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(patent_trend_analysis_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200)
-			{
+			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
-				
-				//List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "showName");
-				//barLine.setxAxisDataList(xAxisDataList);
+
+				// List<String> xAxisDataList =
+				// HanaUtil.getduplicatexAxisByList(list, "showName");
+				// barLine.setxAxisDataList(xAxisDataList);
 				List<String> xAxisDataList = new ArrayList<String>();
 				xAxisDataList.add("专利总数");
 				xAxisDataList.add("国内专利");
 				xAxisDataList.add("国际专利");
-				//计算总数
+				// 计算总数
 				Knowledge know = new Knowledge();
-				know.setJnCount(list.get(0).getJnCount()+list.get(1).getJnCount());
-				know.setQnCount(list.get(0).getQnCount()+list.get(1).getQnCount());
-				know.setQiannCount(list.get(0).getQiannCount()+list.get(1).getQiannCount());
-				list.add(0,know);
+				know.setJnCount(list.get(0).getJnCount() + list.get(1).getJnCount());
+				know.setQnCount(list.get(0).getQnCount() + list.get(1).getQnCount());
+				know.setQiannCount(list.get(0).getQiannCount() + list.get(1).getQiannCount());
+				list.add(0, know);
 				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis jSONArray-> " + jSONArray.toJSONString(list));
-				
+
 				List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrentYear(), 3);
 				List<String> legendDataList = yearList;
-				
+
 				barLine.setxAxisDataList(xAxisDataList);
 				barLine.setLegendDataList(legendDataList);
-				
+
 				// X轴数据
 				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-				for (int i = 0; i < yearList.size(); i++)
-				{
+				for (int i = 0; i < yearList.size(); i++) {
 					String str = yearList.get(i);
 					List<Object> dt = new ArrayList<Object>();
-					if("2018".equals(str)) {
+					if ("2018".equals(str)) {
 						dt.add(list.get(0).getJnCount());
 						dt.add(list.get(1).getJnCount());
 						dt.add(list.get(2).getJnCount());
-					}else if("2017".equals(str)) {
+					} else if ("2017".equals(str)) {
 						dt.add(list.get(0).getQnCount());
 						dt.add(list.get(1).getQnCount());
 						dt.add(list.get(2).getQnCount());
-					}else if("2016".equals(str)) {
+					} else if ("2016".equals(str)) {
 						dt.add(list.get(0).getQiannCount());
 						dt.add(list.get(1).getQiannCount());
 						dt.add(list.get(2).getQiannCount());
-					}else {
+					} else {
 						System.out.println("not found.....");
 					}
 					ChartBarLineSeries s1 = new ChartBarLineSeries();
@@ -244,9 +222,7 @@ public class MoreDimensionController extends BaseController
 				result.setSuccess(true);
 				result.setData(barLine);
 			}
-		}
-		else
-		{
+		} else {
 			result.setSuccess(false);
 			result.setMessage("参数为空");
 		}
@@ -254,26 +230,22 @@ public class MoreDimensionController extends BaseController
 		System.out.println(">>>>>>>>>>>>>>patent_trend_analysis 结果" + resultObj.toString());
 		return resultObj.toString();
 	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/patent_trend_analysis_02")
 	@ResponseBody
-	public String patent_trend_analysis_02(HttpServletRequest request, HttpServletResponse response) throws Exception
-	{
+	public String patent_trend_analysis_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		JSONArray data = null;
-		String c_2017="[{},{}]";
-		
-		
-		
-		
+		String c_2017 = "[{},{}]";
+
 		return getTableDataNotPagin(data);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/patent_trend_analysis_03")
 	@ResponseBody
-	public String patent_trend_analysis_03(HttpServletRequest request, HttpServletResponse response) throws Exception
-	{
+	public String patent_trend_analysis_03(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
@@ -281,20 +253,17 @@ public class MoreDimensionController extends BaseController
 		paramsMap.put("nd", nd);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!nd.equals(""))
-		{
+		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(patent_trend_analysis_03, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200)
-			{
+			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis_03 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
 				List<String> legendDataList = new ArrayList<String>();
-				for (int i = 0; i < list.size(); i++)
-				{
+				for (int i = 0; i < list.size(); i++) {
 					Knowledge f2 = list.get(i);
 					String name = f2.getTypeName();
 					Integer value = f2.getSl();
@@ -308,9 +277,7 @@ public class MoreDimensionController extends BaseController
 				result.setData(pie);
 			}
 
-		}
-		else
-		{
+		} else {
 			result.setSuccess(false);
 			result.setMessage("参数为空");
 		}
@@ -321,8 +288,7 @@ public class MoreDimensionController extends BaseController
 
 	@RequestMapping(method = RequestMethod.GET, value = "/patent_trend_analysis_institute")
 	@ResponseBody
-	public String patent_trend_analysis_institute(HttpServletRequest request, HttpServletResponse response) throws Exception
-	{
+	public String patent_trend_analysis_institute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
@@ -330,20 +296,17 @@ public class MoreDimensionController extends BaseController
 		paramsMap.put("nd", nd);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!nd.equals(""))
-		{
+		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(patent_trend_analysis_institute, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200)
-			{
+			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis_institute jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
 				List<String> legendDataList = new ArrayList<String>();
-				for (int i = 0; i < list.size(); i++)
-				{
+				for (int i = 0; i < list.size(); i++) {
 					Knowledge f2 = list.get(i);
 					String name = f2.getUnitName();
 					Integer value = f2.getSl();
@@ -356,9 +319,7 @@ public class MoreDimensionController extends BaseController
 				result.setData(pie);
 			}
 
-		}
-		else
-		{
+		} else {
 			result.setSuccess(false);
 			result.setMessage("参数为空");
 		}
@@ -374,40 +335,42 @@ public class MoreDimensionController extends BaseController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/achievements/trend-analysis")
-	public String loopContractExecutionAchievements(HttpServletRequest request) throws Exception
-	{
+	public String loopContractExecutionAchievements(HttpServletRequest request) throws Exception {
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
-		
+
 		return "stp/hana/moreDimension/achievement/achievements-trend-analysis";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/achievements_trend_analysis_01")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String achievements_trend_analysis_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
-		
+
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
-		
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!nd.equals(""))
-		{
+		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievements_trend_analysis_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200) 
-			{
-				
+			if (statusCode == 200) {
+
 				JSONArray jSONArray = responseEntity.getBody();
-			    System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_01 jSONArray-> " + jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_01 jSONArray-> " + jSONArray.toString());
 				List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-				if(type.equals("1"))
-				{
+				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "zy");
 					barLine.setxAxisDataList(xAxisDataList);
@@ -430,8 +393,7 @@ public class MoreDimensionController extends BaseController
 					result.setSuccess(true);
 					result.setData(barLine);
 				}
-				if(type.equals("2"))
-				{
+				if (type.equals("2")) {
 					ChartPieResultData pie = new ChartPieResultData();
 					List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
 					List<String> legendDataList = new ArrayList<String>();
@@ -439,13 +401,11 @@ public class MoreDimensionController extends BaseController
 						AchievementsAnalysis f2 = list.get(i);
 						String projectName = f2.getZy();
 						Integer value = f2.getZls();
-						int count=0;
-						if(value==null)
-						{
-							count=0;
-						}else
-						{
-							count=value.intValue();
+						int count = 0;
+						if (value == null) {
+							count = 0;
+						} else {
+							count = value.intValue();
 						}
 						legendDataList.add(projectName);
 						dataList.add(new ChartPieDataValue(count, projectName));
@@ -456,43 +416,43 @@ public class MoreDimensionController extends BaseController
 					result.setData(pie);
 				}
 			}
-			
-		} else
-		{
+
+		} else {
 			result.setSuccess(false);
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_01 type= "+type+" : " + resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_01 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
-	
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/achievements_trend_analysis_02")
 	@ResponseBody
-	public String achievements_trend_analysis_02(HttpServletRequest request, HttpServletResponse response) throws Exception 
-	{
-		
+	@OperationFilter(dataFlag = "true")
+	public String achievements_trend_analysis_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
+		String  cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!nd.equals(""))
-		{
+		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievements_trend_analysis_02, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200) 
-			{
-				
+			if (statusCode == 200) {
+
 				JSONArray jSONArray = responseEntity.getBody();
-			    System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_02 jSONArray-> " + jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_02 jSONArray-> " + jSONArray.toString());
 				List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-				if(type.equals("1"))
-				{
+				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define1");
 					barLine.setxAxisDataList(xAxisDataList);
@@ -514,13 +474,11 @@ public class MoreDimensionController extends BaseController
 					result.setSuccess(true);
 					result.setData(barLine);
 				}
-				if(type.equals("2"))
-				{
+				if (type.equals("2")) {
 					ChartPieResultData pie = new ChartPieResultData();
 					List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
 					List<String> legendDataList = new ArrayList<String>();
-					for (int i = 0; i < list.size(); i++) 
-					{
+					for (int i = 0; i < list.size(); i++) {
 						AchievementsAnalysis f2 = list.get(i);
 						String projectName = f2.getDefine1();
 						Integer value = f2.getSl();
@@ -533,17 +491,15 @@ public class MoreDimensionController extends BaseController
 					result.setData(pie);
 				}
 			}
-			
-		} else
-		{
+
+		} else {
 			result.setSuccess(false);
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_02 type= "+type+" : " + resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_02 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
-	
 
 	/**
 	 * 多维分析-成果鉴定涉及项目分析
@@ -552,8 +508,7 @@ public class MoreDimensionController extends BaseController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/achievements/project-analysis")
-	public String achievementsproject(HttpServletRequest request) throws Exception
-	{
+	public String achievementsproject(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
@@ -569,8 +524,7 @@ public class MoreDimensionController extends BaseController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/achievements/patent-analysis")
-	public String achievementpatent(HttpServletRequest request) throws Exception
-	{
+	public String achievementpatent(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
@@ -586,8 +540,7 @@ public class MoreDimensionController extends BaseController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/science/trend-analysis")
-	public String science(HttpServletRequest request) throws Exception
-	{
+	public String science(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
@@ -595,54 +548,46 @@ public class MoreDimensionController extends BaseController
 		request.setAttribute("year", year);
 		return "stp/hana/moreDimension/science/science-trend-analysis";
 	}
-	
-	
-	
-	
-	
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/reward_analysis_01")
 	@ResponseBody
 	public String reward_analysis_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
-		
+
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
-		
+
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!nd.equals(""))
-		{
+		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(reward_analysis_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200) 
-			{
-				
+			if (statusCode == 200) {
+
 				JSONArray jSONArray = responseEntity.getBody();
-			    System.out.println(">>>>>>>>>>>>>>reward_analysis_01 jSONArray-> " + jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>reward_analysis_01 jSONArray-> " + jSONArray.toString());
 				List<Award> list = JSONObject.parseArray(jSONArray.toJSONString(), Award.class);
-				if(type.equals("1"))
-				{
+				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "sbjz");
 					barLine.setxAxisDataList(xAxisDataList);
-					
+
 					String year = HanaUtil.getCurrentYear();
 					List<String> legendDataList = new ArrayList<String>();
-					
-					legendDataList.add((Integer.valueOf(year)-4)+"");
-					legendDataList.add((Integer.valueOf(year)-3)+"");
-					legendDataList.add((Integer.valueOf(year)-2)+"");
-					legendDataList.add((Integer.valueOf(year)-1)+"");
-					legendDataList.add(Integer.valueOf(year)+"");
+
+					legendDataList.add((Integer.valueOf(year) - 4) + "");
+					legendDataList.add((Integer.valueOf(year) - 3) + "");
+					legendDataList.add((Integer.valueOf(year) - 2) + "");
+					legendDataList.add((Integer.valueOf(year) - 1) + "");
+					legendDataList.add(Integer.valueOf(year) + "");
 					barLine.setxAxisDataList(xAxisDataList);
 					barLine.setLegendDataList(legendDataList);
 					// X轴数据
 					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-					
+
 					ChartBarLineSeries s1 = HanaUtil.getAward_trend_analysis_01(list, "fiveYearSl");
 					ChartBarLineSeries s2 = HanaUtil.getAward_trend_analysis_01(list, "fourYearSl");
 					ChartBarLineSeries s3 = HanaUtil.getAward_trend_analysis_01(list, "treeYearSl");
@@ -657,8 +602,7 @@ public class MoreDimensionController extends BaseController
 					result.setSuccess(true);
 					result.setData(barLine);
 				}
-				if(type.equals("2"))
-				{
+				if (type.equals("2")) {
 					ChartPieResultData pie = new ChartPieResultData();
 					List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
 					List<String> legendDataList = new ArrayList<String>();
@@ -666,14 +610,10 @@ public class MoreDimensionController extends BaseController
 						Award f2 = list.get(i);
 						String projectName = f2.getSbjz();
 						Integer value = f2.getZls();
-						/*int count=0;
-						if(value==null)
-						{
-							count=0;
-						}else
-						{
-							count=value.intValue();
-						}*/
+						/*
+						 * int count=0; if(value==null) { count=0; }else {
+						 * count=value.intValue(); }
+						 */
 						legendDataList.add(projectName);
 						dataList.add(new ChartPieDataValue(value, projectName));
 					}
@@ -682,9 +622,8 @@ public class MoreDimensionController extends BaseController
 					result.setSuccess(true);
 					result.setData(pie);
 				}
-				
-				if(type.equals("3"))
-				{
+
+				if (type.equals("3")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "sbjz");
 					barLine.setxAxisDataList(xAxisDataList);
@@ -715,26 +654,25 @@ public class MoreDimensionController extends BaseController
 					result.setSuccess(true);
 					result.setData(barLine);
 				}
-				
-				if(type.equals("4"))
-				{
+
+				if (type.equals("4")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "sbjz");
 					barLine.setxAxisDataList(xAxisDataList);
-					
+
 					String year = HanaUtil.getCurrentYear();
 					List<String> legendDataList = new ArrayList<String>();
-					
-					legendDataList.add((Integer.valueOf(year)-4)+"");
-					legendDataList.add((Integer.valueOf(year)-3)+"");
-					legendDataList.add((Integer.valueOf(year)-2)+"");
-					legendDataList.add((Integer.valueOf(year)-1)+"");
-					legendDataList.add(Integer.valueOf(year)+"");
+
+					legendDataList.add((Integer.valueOf(year) - 4) + "");
+					legendDataList.add((Integer.valueOf(year) - 3) + "");
+					legendDataList.add((Integer.valueOf(year) - 2) + "");
+					legendDataList.add((Integer.valueOf(year) - 1) + "");
+					legendDataList.add(Integer.valueOf(year) + "");
 					barLine.setxAxisDataList(xAxisDataList);
 					barLine.setLegendDataList(legendDataList);
 					// X轴数据
 					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-					
+
 					ChartBarLineSeries s1 = HanaUtil.getAward_trend_analysis_01(list, "fiveYearSl");
 					ChartBarLineSeries s2 = HanaUtil.getAward_trend_analysis_01(list, "fourYearSl");
 					ChartBarLineSeries s3 = HanaUtil.getAward_trend_analysis_01(list, "treeYearSl");
@@ -749,53 +687,47 @@ public class MoreDimensionController extends BaseController
 					result.setSuccess(true);
 					result.setData(barLine);
 				}
-				
-				
+
 			}
-			
-		} else
-		{
+
+		} else {
 			result.setSuccess(false);
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>reward_analysis_01 type= "+type+" : " + resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>reward_analysis_01 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
-	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/reward_analysis_02")
 	@ResponseBody
 	public String reward_analysis_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
-		
+
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
-		
+
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!nd.equals(""))
-		{
+		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(reward_analysis_02, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200) 
-			{
-				
+			if (statusCode == 200) {
+
 				JSONArray jSONArray = responseEntity.getBody();
-			    System.out.println(">>>>>>>>>>>>>>reward_analysis_02 jSONArray-> " + jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>reward_analysis_02 jSONArray-> " + jSONArray.toString());
 				List<Award> list = JSONObject.parseArray(jSONArray.toJSONString(), Award.class);
-				if(type.equals("1"))
-				{
+				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
 					barLine.setxAxisDataList(xAxisDataList);
-					
+
 					String year = HanaUtil.getCurrentYear();
 					List<String> legendDataList = new ArrayList<String>();
-					
+
 					legendDataList.add("科技进步奖");
 					legendDataList.add("技术发明奖");
 					legendDataList.add("前瞻性基础性研究科学奖");
@@ -803,7 +735,7 @@ public class MoreDimensionController extends BaseController
 					barLine.setLegendDataList(legendDataList);
 					// X轴数据
 					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-					
+
 					ChartBarLineSeries s1 = HanaUtil.getAward_trend_analysis_02(list, "kjjbjSl");
 					ChartBarLineSeries s2 = HanaUtil.getAward_trend_analysis_02(list, "jsfmjSl");
 					ChartBarLineSeries s3 = HanaUtil.getAward_trend_analysis_02(list, "yjkxSl");
@@ -814,8 +746,7 @@ public class MoreDimensionController extends BaseController
 					result.setSuccess(true);
 					result.setData(barLine);
 				}
-				if(type.equals("2"))
-				{
+				if (type.equals("2")) {
 					ChartPieResultData pie = new ChartPieResultData();
 					List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
 					List<String> legendDataList = new ArrayList<String>();
@@ -823,7 +754,7 @@ public class MoreDimensionController extends BaseController
 						Award f2 = list.get(i);
 						String projectName = f2.getDefine2();
 						Integer value = f2.getZls();
-						
+
 						legendDataList.add(projectName);
 						dataList.add(new ChartPieDataValue(value, projectName));
 					}
@@ -833,21 +764,15 @@ public class MoreDimensionController extends BaseController
 					result.setData(pie);
 				}
 			}
-			
-		} else
-		{
+
+		} else {
 			result.setSuccess(false);
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>reward_analysis_02 type= "+type+" : " + resultObj.toString());
+		System.out.println(">>>>>>>>>>>>>>reward_analysis_02 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
-	
-	
-	
-	
-	
 
 	/**
 	 * 科技奖励涉及项目分析
@@ -856,8 +781,7 @@ public class MoreDimensionController extends BaseController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/science/project-analysis")
-	public String scienceproject(HttpServletRequest request) throws Exception
-	{
+	public String scienceproject(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
@@ -873,8 +797,7 @@ public class MoreDimensionController extends BaseController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/science/patent-analysis")
-	public String sciencepatent(HttpServletRequest request) throws Exception
-	{
+	public String sciencepatent(HttpServletRequest request) throws Exception {
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
@@ -884,8 +807,7 @@ public class MoreDimensionController extends BaseController
 	}
 
 	// 获取二维表格数据（不分页）
-	private String getTableDataNotPagin(JSONArray data)
-	{
+	private String getTableDataNotPagin(JSONArray data) {
 		PageResult pageResult = new PageResult();
 
 		pageResult.setData(data);

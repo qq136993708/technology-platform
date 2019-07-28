@@ -635,6 +635,17 @@
 			)
 		</foreach>
 	</insert>
+	
+	
+	<!-- 按照技术权限，控制成果的查询 -->
+	<sql id="appraisalCondition">
+	   <if test="cgjszy != null and cgjszy != ''">
+			and find_in_set(out_appraisal.zy, '${cgjszy}')
+		</if>
+		<if test="cgjszy == null or cgjszy == ''">
+			and out_appraisal.zy like 'xxxxxxxx'
+		</if>
+	</sql>
 
 	<!-- cgid是鉴定系统中的项目id，jdh是真正的鉴定结果数量 -->
 	<select id="getOutAppraisalCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
@@ -642,6 +653,8 @@
 		from out_appraisal
 		where 
 			define3 not like '%外部单位%'
+			<!-- 按照技术权限，控制成果的查询 -->
+			<include refid="appraisalCondition" /> 
 			<if test="nd != null and nd != ''">
 				and nd = #{nd,jdbcType=VARCHAR} 
 			</if>
@@ -661,6 +674,9 @@
 								from out_appraisal
 								where
 									define3 not like '%外部单位%'
+									<!-- 按照技术权限，控制成果的查询 -->
+									<include refid="appraisalCondition" />
+									
 									<if test="_parameter != null">
 										and nd = #{nd,jdbcType=VARCHAR}
 									</if>
@@ -689,6 +705,9 @@
 				from out_appraisal
 				where 
 				define3 not like '%外部单位%'
+				<!-- 按照技术权限，控制成果的查询 -->
+				<include refid="appraisalCondition" />
+				
 				<if test="_parameter != null">
 					and nd = #{nd,jdbcType=VARCHAR}
 				</if>
@@ -722,6 +741,9 @@
 										from out_appraisal
 										where 
 										define3 not like '%外部单位%'
+										<!-- 按照技术权限，控制成果的查询 -->
+										<include refid="appraisalCondition" />
+										
 										<if test="_parameter != null">
 											and nd = #{nd,jdbcType=VARCHAR}
 										</if>
@@ -754,6 +776,8 @@
 				from out_appraisal
 				where 
 					nd='${nd}' and define3 like '%研究院%'
+					<!-- 按照技术权限，控制成果的查询 -->
+					<include refid="appraisalCondition" />
 			  	GROUP BY jdh,define1,cglx
 			) as tableA
 			group by define1
@@ -772,6 +796,9 @@
 				from out_appraisal
 				where 
 					nd='${nd}' and define3 not like '%外部单位%'
+					<!-- 按照技术权限，控制成果的查询 -->
+					<include refid="appraisalCondition" />
+					
 					<if test="define1 != null and define1 != ''">
 						and define1 is not null
 					</if>
@@ -797,6 +824,9 @@
 				from out_appraisal
 				where 
 					define3 not like '%外部单位%'
+					<!-- 按照技术权限，控制成果的查询 -->
+					<include refid="appraisalCondition" />
+					
 					<if test="define3 != null and define3 != ''">
 						and define3 like '%${define3}%'
 					</if>
@@ -820,6 +850,9 @@
 			<if test="define3 != null and define3 != ''">
 				and define3 like '%${define3}%'
 			</if>
+			<!-- 按照技术权限，控制成果的查询 -->
+			<include refid="appraisalCondition" />
+			
 		group by zy
 		order by zy
 	</select>
@@ -836,6 +869,8 @@
 						<if test="define3 != null and define3 != ''">
 							and define3 like '%${define3}%'
 						</if>
+						<!-- 按照技术权限，控制成果的查询 -->
+						<include refid="appraisalCondition" />
 					group by define3
 		) as tableA on (sys_dictionary.name = tableA.define3)
 		where 
@@ -852,6 +887,7 @@
 			   group_concat(distinct xmmc) as xmmc,
 			   group_concat(distinct jdjg) as jdjg,
 			   group_concat(distinct hth) as hth,
+			   group_concat(distinct zy) as zy,
 			   group_concat(distinct substr(define1 from 4)) as define1,
 			   group_concat(distinct substr(define3 from 2)) as define3
 		from out_appraisal
@@ -911,6 +947,9 @@
 				</foreach>
 				) 
 			</if>
+			
+			<!-- 按照技术权限，控制成果的查询 -->
+			<include refid="appraisalCondition" />
 			
 			<if test="groupFlag != null">
 				<if test="groupFlag != ''">

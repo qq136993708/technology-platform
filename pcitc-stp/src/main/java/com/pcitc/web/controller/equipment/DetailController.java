@@ -100,14 +100,15 @@ public class DetailController extends BaseController {
 		String unitPathId = sysUserInfo.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 	    request.setAttribute("isKJBPerson", isKJBPerson);
-	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+	    List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
+				httpHeaders);
 	    String str ="1";
 	    if(isKJBPerson == true) {
 	    	//获取研究院
-			request.setAttribute("dictonary", dictonary);
+			request.setAttribute("dictonary", dicList);
 			request.setAttribute("str", "1");
 	    }else {
-	    	request.setAttribute("dictonary", dictonary);
+	    	request.setAttribute("dictonary", dicList);
 	    	request.setAttribute("str", "0");
 	    }
 		request.setAttribute("unitPathIds", unitPathIds);
