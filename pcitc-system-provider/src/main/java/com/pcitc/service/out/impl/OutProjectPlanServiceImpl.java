@@ -71,7 +71,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		System.out.println("===========新插入条数----------------" + insertData.size());
 		// 批量插入数据
 		if (insertData.size() > 0) {
-			// outProjectPlanMapper.insertOutProjectPlanBatch(insertData);
+			outProjectPlanMapper.insertOutProjectPlanBatch(insertData);
 		}
 
 	}
@@ -130,7 +130,6 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 					newOPI.setGsbmmc(opp.getGsbmmc());
 				}
 
-				newOPI.setDefine19("flag");
 				newOPI.setUpdateDate(new Date());
 				return outProjectPlanMapper.updateByPrimaryKey(newOPI);
 			} else {

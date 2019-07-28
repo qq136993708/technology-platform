@@ -192,6 +192,28 @@
 							<table id="jlxkflTable" class="layui-hide" lay-filter="jlxkflTableEvent"></table>
 						</div>
 					</div>
+					
+					<div class="treeTableBox" style="display: none; margin-top: 6px; margin-left: 50%; margin-right: 0;" name="configDiv" id="cgjszy">
+						<div class="tableToolBox">
+							成果技术专业配置项
+							<span>
+								<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add1 btnMyBgImg thirdBtn" data-type="saveCgjszyEvent">保存</button>
+							</span>
+							连接符
+							<span>
+								<select id="connectorCgjszy" name="connectorCgjszy">
+									<option value=",">,</option>
+									<option value="|">|</option>
+									<option value="*">*</option>
+									<option value="-">-</option>
+									<option value="&">&</option>
+								</select>
+							</span>
+						</div>
+						<div id="cgjszyContaints">
+							<table id="cgjszyTable" class="layui-hide" lay-filter="cgjszyTableEvent"></table>
+						</div>
+					</div>
 
 
 				</div>
@@ -285,6 +307,9 @@
 							}
 							if (configProCode == 'jlxkfl') {
 								iniJlxkfl();
+							}
+							if (configProCode == 'cgjszy') {
+								iniCgjszy();
 							}
 						}
 					},
@@ -405,6 +430,9 @@
 							}
 							if (configProCode == 'jlxkfl') {
 								iniJlxkfl();
+							}
+							if (configProCode == 'cgjszy') {
+								iniCgjszy();
 							}
 						})
 					}
@@ -614,6 +642,9 @@
 				}
 				if (configProCode == 'jlxkfl') {
 					iniJlxkfl();
+				}
+				if (configProCode == 'cgjszy') {
+					iniCgjszy();
 				}
 			}
 
@@ -1568,6 +1599,121 @@
 					"proCode" : configProCode,
 					"postConfigValue" : JSON.stringify(configValue),
 					"connector" : $("#connectorJlxkfl").val(),
+				},
+				url : '/userProperty/function/config/post/save',
+				success : function(data) {
+					layer.msg("操作成功");
+					configPostIds = new Array();
+					var treeObj = $.fn.zTree.getZTreeObj("unitTree");
+					treeObj.checkAllNodes(false);
+					treeObj.cancelSelectedNode();
+				},
+				error : function(e) {
+					layer.msg("出错了！");
+				}
+			});
+		}
+	</script>
+	
+	
+	<!-- 配置成果技术专业cgjszy 一个配置项一个js-->
+	<script type="text/javascript">
+		var cgjszyTable;
+		layui.use([ 'jquery', 'table' ], function() {
+
+			cgjszyTable = layui.table, $ = layui.jquery;
+			// 触发不同的按钮事件
+			var active = {
+				saveCgjszyEvent : function() {
+					saveCgjszyConfigEvent();
+				}
+			};
+
+			//区别按钮属性
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+		});
+
+		//渲染
+		function renderCgjszyTable() {
+			cgjszyTable.render({
+				elem : '#cgjszyTable',
+				url : '/functionProperty/dictionary/data/control/list',
+				method : "POST",
+				id : 'cgjszyTable',
+				where : {
+					"proCode" : configProCode,
+					"postId" : configSelectPostId,
+					"functionId" : $('#funcId').val(),
+					"keyWord" : 'ROOT_FZJCZX_CGLX',
+				},
+				height : commonDislodgeTable() / 2 - 45,
+				cols : [ [ {
+					type : 'checkbox',
+					event : 'changeEvents'
+				}, {
+					title : '序号',
+					type : 'numbers',
+					width : 45
+				}, {
+					field : 'selfName',
+					title : '名称',
+					width : '30%',
+					style : 'cursor: pointer;'
+				}, {
+					field : 'num_value',
+					title : '编码',
+					style : 'cursor: pointer;'
+				} ] ],
+				done : function(res, curr, count) {
+					for (var i = 0; i < res.data.length; i++) {
+						if (typeof (res.data[i].is_available) != "undefined" && (res.data[i].is_available) == 1) {
+							res.data[i]["LAY_CHECKED"] = 'true';
+							//找到对应数据改变勾选样式，呈现出选中效果
+							var index = res.data[i]['LAY_TABLE_INDEX'];
+							$('#cgjszyContaints .layui-table tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+							$('#cgjszyContaints .layui-table tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+						}
+					}
+				},
+			});
+		}
+
+		function iniCgjszy() {
+			renderCgjszyTable();
+		}
+
+		// 保存功能、配置项、岗位三者与 配置内容的关联（研究院）
+		function saveCgjszyConfigEvent() {
+			if (isBlank($('#funcId').val())) {
+				layer.msg('请点击选择功能菜单');
+				return false;
+			}
+			if (isBlank(configProCode)) {
+				layer.msg('请点击选择配置项');
+				return false;
+			}
+			if (isBlank(configPostIds)) {
+				layer.msg('请点击选择岗位(复选框)');
+				return false;
+			}
+
+			var cgjszyData = table.checkStatus('cgjszyTable').data;
+			var configValue = new Array();//要配置的功能
+			for (var i = 0; i < cgjszyData.length; i++) {
+				configValue.push(cgjszyData[i].num_value);
+			}
+			$.ajax({
+				type : 'post',
+				dataType : 'text',
+				data : {
+					"postId" : JSON.stringify(configPostIds),
+					"functionId" : $('#funcId').val(),
+					"proCode" : configProCode,
+					"postConfigValue" : JSON.stringify(configValue),
+					"connector" : $("#connectorCgjszy").val(),
 				},
 				url : '/userProperty/function/config/post/save',
 				success : function(data) {
