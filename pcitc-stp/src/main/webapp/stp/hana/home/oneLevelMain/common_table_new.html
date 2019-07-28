@@ -118,7 +118,7 @@
           </div>
           
           
-          <div class="layui-inline" id="yjy_div">
+         <!--  <div class="layui-inline" id="yjy_div">
             <label class="layui-form-label">研究院：</label>
             <div class="layui-input-inline">
                <select name="yjy" id="yjy"    >
@@ -128,7 +128,7 @@
 				      </#list>
               </select>
             </div>
-          </div>
+          </div> -->
            <!-- 三级级联 end -->
            
            
@@ -211,9 +211,6 @@
                 <i class="layui-icon  layuiadmin-button-btn">重置</i>
             </button>
           </div>
-          
-          
-          
           
           
         </div>
@@ -324,17 +321,6 @@
 					   console.log("监听处室:"+data);
 			   });
 			   
-			   
-			   //监听签订标示
-			  /*  form.on('select(select_qdbz)', function(data){
-				       console.log("监听签订标示:"+data);
-					   var value=data.value;
-					   qdbz_change(value);
-					   form.render();
-			   }); */
-			   
-			   
-			   
 			
 				//初始化经费来源
 				var define11=$("#define11").val();
@@ -350,35 +336,7 @@
 				
 		});
 		
-		//初始化
-		/* qdbz_change($("#qdbz").val());
 		
-		function qdbz_change(value)
-		{
-			
-			if(value=='未签订')
-			{
-				$("#define11").val("");
-				$("#define12").val("");
-				$("#define2").val("");
-				
-				$('#define11_div').hide();
-				$('#define12_div').hide();
-				$('#define2_div').hide();
-				$('#yjy_div').show();
-				
-			}else
-			{
-				
-				$('#define11_div').show();
-				$('#define12_div').show();
-				$('#define2_div').show();
-				$('#yjy_div').hide();
-				$("#yjy").val("");
-				
-			}
-			
-		} */
 		
 			function renderTable() 
 			{
@@ -393,7 +351,7 @@
 			    var zylb=$("#zylb option:selected").text();
 			    var qdbz=$("#qdbz option:selected").text();
 			    var ktlx=$("#ktlx").val();
-			    var yjy=$("#yjy").val();
+			    //var yjy=$("#yjy").val();
 			    //
 			    var groupFlag=$("#groupFlag").val();
 		        var gsbmbmFlag=$("#gsbmbmFlag").val();
@@ -412,10 +370,10 @@
 			    if(groupFlag=='--请选择--') {groupFlag=''}
 			    if(qdbz=='--请选择--')      {qdbz=''}
 			    if(ktlx=='结转课题')         {isCarry='1'}
-			    if(yjy!='')
+			    /* if(yjy!='')
 			    {
 			    	define2=yjy;
-			    }
+			    } */
 			    var v_date=(new Date()).getTime();
 			    table.render({
 				elem : '#processdef-table',
