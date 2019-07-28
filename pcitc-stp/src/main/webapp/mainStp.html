@@ -155,10 +155,9 @@
                     <span class="layui-box-icon bg-7"></span>
                     <div class="layui-box-content">
                         <span class="layui-box-text">国际合作</span>
-                        <span class="layui-box-number">
-                                65
-                                <small>(个)</small>
-                            </span>
+                        <span class="layui-box-number" id="intlProjectCount">
+                                0<small>(个)</small>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -515,7 +514,27 @@
 					}
 				});
 				 */
-
+				//国际合作项目数量
+				function setIntlProjectCount(nd) {
+					$.ajax({
+						type : 'POST',
+						url : "/project/info-count",
+						dataType : 'json',
+						headers : {
+							'Content-Type' : 'application/json'
+						},
+						data : {
+							"nd" : nd
+						},
+						timeout : 20000,
+						error : function(XMLHttpRequest, status) {
+						},
+						success : function(data) {
+							intlProjectCount = data;
+							$("#intlProjectCount").html(data + "<small>(个)</small>");
+						}
+					});
+				}
 				function sendPost(url, type, callback) {
 					/* $.ajax({
 					      type:type,
@@ -744,7 +763,7 @@
 						patentCount(nd);//专利
 						appraisalCount(nd);//成果
 						setContcator_id(nd, v_date);//合同签订率
-
+						setIntlProjectCount(nd);
 					}
 
 				}
