@@ -42,8 +42,6 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 	 */
 	public LayuiTableData getAppraisalInfoByCond(LayuiTableParam param) {
 		
-		System.out.println("0>>>>>>>>>查询分页结果" + param.getOrderKey());
-		System.out.println("0>>>>>>>>>查询分页结果" + param.getOrderType());
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(param.getPage(), param.getLimit());
 		
@@ -115,12 +113,6 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 		if(param.getParam().get("nd") !=null && !StringUtils.isBlank(param.getParam().get("nd")+"")){
 			hashmap.put("nd", param.getParam().get("nd"));
 		}
-		System.out.println("1234>>>>>>>>>ysnd" + param.getParam().get("ysnd"));
-		System.out.println("1234>>>>>>>>>zycmc" + param.getParam().get("zycmc"));
-		System.out.println("1234>>>>>>>>>zylb" + param.getParam().get("zylb"));
-		System.out.println("1234>>>>>>>>>type_flag" + param.getParam().get("type_flag"));
-		System.out.println("1234>>>>>>>>>define1" + param.getParam().get("define1"));
-		System.out.println("1234>>>>>>>>>define2" + param.getParam().get("define2"));
 		
 		if(param.getParam().get("ysnd") !=null && !StringUtils.isBlank(param.getParam().get("ysnd")+"")){
 			hashmap.put("ysnd", param.getParam().get("ysnd"));
@@ -130,10 +122,15 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 			hashmap.put("groupFlag", param.getParam().get("groupFlag"));
 		}
 		
+		// 数据控制，成果技术分类
+		if(param.getParam().get("cgjszy") !=null && !StringUtils.isBlank(param.getParam().get("cgjszy")+"")){
+			hashmap.put("cgjszy", param.getParam().get("cgjszy"));
+		}
+		System.out.println("cgjszy======"+param.getParam().get("cgjszy"));
+		System.out.println("cgjszy======"+hashmap.get("cgjszy"));
+		
 		List<OutAppraisal> list = outAppraisalMapper.getAppraisalInfoByCond(hashmap);
-		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
 		PageInfo<OutAppraisal> pageInfo = new PageInfo<OutAppraisal>(list);
-		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
 
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());

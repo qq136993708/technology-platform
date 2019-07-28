@@ -123,8 +123,7 @@ public class OneLevelMainController extends BaseController {
 	private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
 
 	/**
-	 * 获取本年的预算金额，其中费用性的预算金额通过专业处权限进行控制。
-	 * 资本性的预算金额，只有综合计划处等处能看
+	 * 获取本年的预算金额，其中费用性的预算金额通过专业处权限进行控制。 资本性的预算金额，只有综合计划处等处能看
 	 * 专项和机动的预算金额，只有综合计划处等处能看
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_first_page_count")
@@ -140,7 +139,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -150,7 +149,7 @@ public class OneLevelMainController extends BaseController {
 
 				JSONObject jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
-				
+
 				String projectMoney = String.valueOf(jSONArray.getString("projectMoney"));
 				String budgetFyxMoney = String.valueOf(jSONArray.getString("budgetFyxMoney"));
 				String budgetZbxMoney = String.valueOf(jSONArray.getString("budgetZbxMoney"));
@@ -191,7 +190,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -240,7 +239,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_table_dic, HttpMethod.POST, entity, JSONArray.class);
@@ -314,7 +313,7 @@ public class OneLevelMainController extends BaseController {
 		String define3 = CommonUtil.getParameter(request, "define3", "");// 单位类别
 		String define1 = CommonUtil.getParameter(request, "define1", "");// 研究院
 		String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
-		
+
 		request.setAttribute("nd", nd);
 		request.setAttribute("cglx", cglx);
 		request.setAttribute("zy", zy);
@@ -325,7 +324,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_table_dic, HttpMethod.POST, entity, JSONArray.class);
@@ -367,11 +366,7 @@ public class OneLevelMainController extends BaseController {
 		}
 		return "stp/hana/home/oneLevelMain/achievement_table";
 	}
-	
-	
-	
 
-	
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/achievement_table_new")
 	public String achievement_table_new(HttpServletRequest request) throws Exception {
 
@@ -382,7 +377,7 @@ public class OneLevelMainController extends BaseController {
 		String define1 = CommonUtil.getParameter(request, "define1", "");// 研究院
 		String define11 = CommonUtil.getParameter(request, "define11", "");
 		String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
-		
+
 		request.setAttribute("define11", define11);
 		request.setAttribute("nd", nd);
 		request.setAttribute("cglx", cglx);
@@ -394,31 +389,30 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
-		//技术分类
-		List<SysDictionary>  jsflList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
+
+		// 技术分类
+		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
 		request.setAttribute("jsflList", jsflList);
-		//三级级联：经费来源(公司类型财务)->单位类别->研究院
-		List<SysDictionary>  jflyList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
+		// 三级级联：经费来源(公司类型财务)->单位类别->研究院
+		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
 		request.setAttribute("jflyList", jflyList);
-		//成果分组类型
-		List<SysDictionary>  fzlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGFZLX", restTemplate, httpHeaders);
+		// 成果分组类型
+		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGFZLX", restTemplate, httpHeaders);
 		request.setAttribute("fzlxList", fzlxList);
-		
-		//成果类型
-		List<SysDictionary>  cglxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGLB", restTemplate, httpHeaders);
+
+		// 成果类型
+		List<SysDictionary> cglxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGLB", restTemplate, httpHeaders);
 		request.setAttribute("cglxList", cglxList);
-		//成果专业
-		List<SysDictionary> zyList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGLX", restTemplate, httpHeaders);
+		// 成果专业
+		List<SysDictionary> zyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGLX", restTemplate, httpHeaders);
 		request.setAttribute("zyList", zyList);
-		
+
 		return "stp/hana/home/oneLevelMain/achievement_table_new";
 	}
-	
-	
 
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/achievement_table_data")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String achievement_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
@@ -431,7 +425,8 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		//System.out.println(">>>>>>>>>>>>>achievement_table_data:" + result.toString());
+		// System.out.println(">>>>>>>>>>>>>achievement_table_data:" +
+		// result.toString());
 		return result.toString();
 	}
 
@@ -480,7 +475,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -553,7 +548,6 @@ public class OneLevelMainController extends BaseController {
 		}
 		return "stp/hana/home/oneLevelMain/country_table";
 	}
-	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/country_table_new")
 	public String country_table_new(HttpServletRequest request) throws Exception {
@@ -564,20 +558,20 @@ public class OneLevelMainController extends BaseController {
 		String ysnd = CommonUtil.getParameter(request, "ysnd", "");// 项目名
 		String xmmc = CommonUtil.getParameter(request, "xmmc", "");// 项目名
 		String ktlx = CommonUtil.getParameter(request, "ktlx", "");// 合同号
-		
+
 		request.setAttribute("define1", define1);
 		request.setAttribute("define2", define2);
 		request.setAttribute("ktlx", ktlx);
 		request.setAttribute("nd", nd);
 		request.setAttribute("ysnd", ysnd);
 		request.setAttribute("xmmc", xmmc);
-		//费用类别
-		List<SysDictionary>  fylbList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
+		// 费用类别
+		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
 		request.setAttribute("fylbList", fylbList);
-		//研究院
-		List<SysDictionary>  define2List= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+		// 研究院
+		List<SysDictionary> define2List = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
 		request.setAttribute("define2List", define2List);
-			
+
 		return "stp/hana/home/oneLevelMain/country_table_new";
 	}
 
@@ -724,15 +718,10 @@ public class OneLevelMainController extends BaseController {
 			ktlxList.add("结转课题");
 			request.setAttribute("ktlxList", ktlxList);
 		}
-		
+
 		return "stp/hana/home/oneLevelMain/count_table";
 	}
-	
-	
-	
-	
-	
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/count_table_new")
 	public String count_table_new(HttpServletRequest request) throws Exception {
 
@@ -772,158 +761,135 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("groupFlag", groupFlag);
 		String projectId = CommonUtil.getParameter(request, "projectId", "");
 		request.setAttribute("projectId", projectId);
-		
-		
-		
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-				
+
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			request.setAttribute("leaderFlag", "1");
 		}
-		
-		//费用类别
-		List<SysDictionary>  fylbList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
+
+		// 费用类别
+		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
 		request.setAttribute("fylbList", fylbList);
-		//课题类型
-		List<SysDictionary>  ktlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
+		// 课题类型
+		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
 		request.setAttribute("ktlxList", ktlxList);
-		//技术分类
-		List<SysDictionary>  jsflList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
+		// 技术分类
+		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
 		request.setAttribute("jsflList", jsflList);
-		//三级级联：经费来源(公司类型财务)->单位类别->研究院
-		List<SysDictionary>  jflyList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
+		// 三级级联：经费来源(公司类型财务)->单位类别->研究院
+		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
 		request.setAttribute("jflyList", jflyList);
-		//科技部二级级联： 专业处->专业类别
-		List<SysDictionary>  zycList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
+		// 科技部二级级联： 专业处->专业类别
+		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
 		request.setAttribute("zycList", zycList);
-		//负责单位
-		List<SysDictionary>  fzdwList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
+		// 负责单位
+		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
 		request.setAttribute("fzdwList", fzdwList);
-		//分组类型
-		List<SysDictionary>  fzlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
+		// 分组类型
+		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
 		request.setAttribute("fzlxList", fzlxList);
-		
-		//部门
-		List<SysDictionary>  gsbmbmList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+
+		// 部门
+		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 		request.setAttribute("gsbmbmList", gsbmbmList);
-		
-		//倒推部门-各个处室(汉字)->倒推部门
-		String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");//部门
-		String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");//处室    
-		String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");//专业类别
-		if(gsbmbmFlag.equals("") && !zycbmFlag.equals(""))
-		{
-			gsbmbmFlag=getGsbmbmFlagByzycbmFlag(gsbmbmFlag,zycbmFlag);
+
+		// 倒推部门-各个处室(汉字)->倒推部门
+		String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");// 部门
+		String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");// 处室
+		String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");// 专业类别
+		if (gsbmbmFlag.equals("") && !zycbmFlag.equals("")) {
+			gsbmbmFlag = getGsbmbmFlagByzycbmFlag(gsbmbmFlag, zycbmFlag);
 		}
-		
+
 		request.setAttribute("zycbmFlag", zycbmFlag);
 		request.setAttribute("gsbmbmFlag", gsbmbmFlag);
 		request.setAttribute("zylbbmFlag", zylbbmFlag);
-		//(汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2    
-		
+		// (汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2
+
 		return "stp/hana/home/oneLevelMain/count_table_new";
 	}
 
-	
-	//总部机关下的部--反查
-	private String getGsbmbmFlagByzycbmFlag(String gsbmbmFlag,String zycbmFlag)
-	{
-		if(gsbmbmFlag.equals(""))
-		{
-			 //科技部下的
-			 List<SysDictionary>  kjbList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
-		     if(kjbList!=null && kjbList.size()>0)
-			 {
-				for(int i=0;i<kjbList.size();i++)
-				{
-					SysDictionary sysDictionary=kjbList.get(i);
-					String name=sysDictionary.getName();
-					String parentId=sysDictionary.getParentId();
-					if(zycbmFlag.equals(name))
-					{
-						//得到父类
-						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag+" parentId="+parentId);
-						SysDictionary sys_Dictionary=EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
-						gsbmbmFlag =sys_Dictionary.getName();
+	// 总部机关下的部--反查
+	private String getGsbmbmFlagByzycbmFlag(String gsbmbmFlag, String zycbmFlag) {
+		if (gsbmbmFlag.equals("")) {
+			// 科技部下的
+			List<SysDictionary> kjbList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
+			if (kjbList != null && kjbList.size() > 0) {
+				for (int i = 0; i < kjbList.size(); i++) {
+					SysDictionary sysDictionary = kjbList.get(i);
+					String name = sysDictionary.getName();
+					String parentId = sysDictionary.getParentId();
+					if (zycbmFlag.equals(name)) {
+						// 得到父类
+						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
+						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
+						gsbmbmFlag = sys_Dictionary.getName();
 					}
 				}
-			 }
+			}
 		}
-		
-		if(gsbmbmFlag.equals(""))
-		{
-		 //炼油部下的
-		 List<SysDictionary>  lianyouList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_LYB", restTemplate, httpHeaders);
-		 if(lianyouList!=null && lianyouList.size()>0)
-		 {
-			for(int i=0;i<lianyouList.size();i++)
-			{
-				SysDictionary sysDictionary=lianyouList.get(i);
-				String name=sysDictionary.getName();
-				String parentId=sysDictionary.getParentId();
-				if(zycbmFlag.equals(name))
-				{
-					//得到父类
-					System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag+" parentId="+parentId);
-					SysDictionary sys_Dictionary=EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
-					gsbmbmFlag =sys_Dictionary.getName();
+
+		if (gsbmbmFlag.equals("")) {
+			// 炼油部下的
+			List<SysDictionary> lianyouList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_LYB", restTemplate, httpHeaders);
+			if (lianyouList != null && lianyouList.size() > 0) {
+				for (int i = 0; i < lianyouList.size(); i++) {
+					SysDictionary sysDictionary = lianyouList.get(i);
+					String name = sysDictionary.getName();
+					String parentId = sysDictionary.getParentId();
+					if (zycbmFlag.equals(name)) {
+						// 得到父类
+						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
+						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
+						gsbmbmFlag = sys_Dictionary.getName();
+					}
 				}
 			}
-		 }
 		}
-		 
-		if(gsbmbmFlag.equals(""))
-		{
-		 //物装部下的
-		 List<SysDictionary>  wzList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_WZB", restTemplate, httpHeaders);
-		 if(wzList!=null && wzList.size()>0)
-		 {
-			for(int i=0;i<wzList.size();i++)
-			{
-				SysDictionary sysDictionary=wzList.get(i);
-				String name=sysDictionary.getName();
-				String parentId=sysDictionary.getParentId();
-				if(zycbmFlag.equals(name))
-				{
-					//得到父类
-					System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag+" parentId="+parentId);
-					SysDictionary sys_Dictionary=EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
-					gsbmbmFlag =sys_Dictionary.getName();
+
+		if (gsbmbmFlag.equals("")) {
+			// 物装部下的
+			List<SysDictionary> wzList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_WZB", restTemplate, httpHeaders);
+			if (wzList != null && wzList.size() > 0) {
+				for (int i = 0; i < wzList.size(); i++) {
+					SysDictionary sysDictionary = wzList.get(i);
+					String name = sysDictionary.getName();
+					String parentId = sysDictionary.getParentId();
+					if (zycbmFlag.equals(name)) {
+						// 得到父类
+						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
+						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
+						gsbmbmFlag = sys_Dictionary.getName();
+					}
 				}
 			}
-		 }
 		}
-		
-		if(gsbmbmFlag.equals(""))
-		{
-		 //化工部下的
-		 List<SysDictionary>  hzList= EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_HGB", restTemplate, httpHeaders);
-		 if(hzList!=null && hzList.size()>0)
-		 {
-			for(int i=0;i<hzList.size();i++)
-			{
-				SysDictionary sysDictionary=hzList.get(i);
-				String name=sysDictionary.getName();
-				String parentId=sysDictionary.getParentId();
-				if(zycbmFlag.equals(name))
-				{
-					//得到父类
-					System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag+" parentId="+parentId);
-					SysDictionary sys_Dictionary=EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
-					gsbmbmFlag =sys_Dictionary.getName();
+
+		if (gsbmbmFlag.equals("")) {
+			// 化工部下的
+			List<SysDictionary> hzList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_HGB", restTemplate, httpHeaders);
+			if (hzList != null && hzList.size() > 0) {
+				for (int i = 0; i < hzList.size(); i++) {
+					SysDictionary sysDictionary = hzList.get(i);
+					String name = sysDictionary.getName();
+					String parentId = sysDictionary.getParentId();
+					if (zycbmFlag.equals(name)) {
+						// 得到父类
+						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
+						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
+						gsbmbmFlag = sys_Dictionary.getName();
+					}
 				}
 			}
-		 }
 		}
-		 return gsbmbmFlag;
-		 
+		return gsbmbmFlag;
+
 	}
-	
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/common_table_new")
 	public String common_table_new(HttpServletRequest request) throws Exception {
 
@@ -964,78 +930,61 @@ public class OneLevelMainController extends BaseController {
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
-		
+
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			request.setAttribute("leaderFlag", "1");
 		}
-		
-		
-		
-		//费用类别
-		List<SysDictionary>  fylbList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
-		request.setAttribute("fylbList", fylbList);
-		//课题类型
-		List<SysDictionary>  ktlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
-		request.setAttribute("ktlxList", ktlxList);
-		//三级级联：经费来源(公司类型财务)->单位类别->研究院
-		List<SysDictionary>  jflyList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
-		request.setAttribute("jflyList", jflyList);
-		//科技部二级级联： 专业处->专业类别
-		List<SysDictionary>  zycList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
-		request.setAttribute("zycList", zycList);
-		//负责单位
-		List<SysDictionary>  fzdwList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
-		request.setAttribute("fzdwList", fzdwList);
-		//签订标示
-		List<SysDictionary>  qdbsList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_QDBS", restTemplate, httpHeaders);
-		request.setAttribute("qdbsList", qdbsList);
-		//分组类型
-		List<SysDictionary>  fzlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
-		request.setAttribute("fzlxList", fzlxList);
-				
-		
-		
-		//部门
-		List<SysDictionary>  gsbmbmList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
-		request.setAttribute("gsbmbmList", gsbmbmList);
-		
-		
-		
-		
-		
-		//倒推部门-各个处室(汉字)->倒推部门
-				String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");//部门
-				String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");//处室    
-				String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");//专业类别
-				if(gsbmbmFlag.equals("") && !zycbmFlag.equals(""))
-				{
-					gsbmbmFlag=getGsbmbmFlagByzycbmFlag(gsbmbmFlag,zycbmFlag);
-				}
-				
-				request.setAttribute("zycbmFlag", zycbmFlag);
-				request.setAttribute("gsbmbmFlag", gsbmbmFlag);
-				request.setAttribute("zylbbmFlag", zylbbmFlag);
-				//(汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2    
-				
-				
-				
-				
-		  
 
-		//直属研究院
-		List<SysDictionary>  yjyList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+		// 费用类别
+		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
+		request.setAttribute("fylbList", fylbList);
+		// 课题类型
+		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
+		request.setAttribute("ktlxList", ktlxList);
+		// 三级级联：经费来源(公司类型财务)->单位类别->研究院
+		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
+		request.setAttribute("jflyList", jflyList);
+		// 科技部二级级联： 专业处->专业类别
+		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
+		request.setAttribute("zycList", zycList);
+		// 负责单位
+		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
+		request.setAttribute("fzdwList", fzdwList);
+		// 签订标示
+		List<SysDictionary> qdbsList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_QDBS", restTemplate, httpHeaders);
+		request.setAttribute("qdbsList", qdbsList);
+		// 分组类型
+		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
+		request.setAttribute("fzlxList", fzlxList);
+
+		// 部门
+		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+		request.setAttribute("gsbmbmList", gsbmbmList);
+
+		// 倒推部门-各个处室(汉字)->倒推部门
+		String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");// 部门
+		String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");// 处室
+		String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");// 专业类别
+		if (gsbmbmFlag.equals("") && !zycbmFlag.equals("")) {
+			gsbmbmFlag = getGsbmbmFlagByzycbmFlag(gsbmbmFlag, zycbmFlag);
+		}
+
+		request.setAttribute("zycbmFlag", zycbmFlag);
+		request.setAttribute("gsbmbmFlag", gsbmbmFlag);
+		request.setAttribute("zylbbmFlag", zylbbmFlag);
+		// (汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2
+
+		// 直属研究院
+		List<SysDictionary> yjyList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
 		request.setAttribute("yjyList", yjyList);
-				
-		
+
 		return "stp/hana/home/oneLevelMain/common_table_new";
 	}
-	
-	
-	
-	//项目分析
+
+	// 项目分析
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/project_fx_table")
 	public String project_fx_table(HttpServletRequest request) throws Exception {
 
@@ -1075,147 +1024,120 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("groupFlag", groupFlag);
 		String projectId = CommonUtil.getParameter(request, "projectId", "");
 		request.setAttribute("projectId", projectId);
-		
-		
-		
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-				
+
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			request.setAttribute("leaderFlag", "1");
 		}
-		
-		//费用类别
-		List<SysDictionary>  fylbList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
+
+		// 费用类别
+		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
 		request.setAttribute("fylbList", fylbList);
-		//课题类型
-		List<SysDictionary>  ktlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
+		// 课题类型
+		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
 		request.setAttribute("ktlxList", ktlxList);
-		//技术分类
-		List<SysDictionary>  jsflList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
+		// 技术分类
+		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
 		request.setAttribute("jsflList", jsflList);
-		//三级级联：经费来源(公司类型财务)->单位类别->研究院
-		List<SysDictionary>  jflyList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
+		// 三级级联：经费来源(公司类型财务)->单位类别->研究院
+		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
 		request.setAttribute("jflyList", jflyList);
-		//科技部二级级联： 专业处->专业类别
-		List<SysDictionary>  zycList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
+		// 科技部二级级联： 专业处->专业类别
+		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
 		request.setAttribute("zycList", zycList);
-		//负责单位
-		List<SysDictionary>  fzdwList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
+		// 负责单位
+		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
 		request.setAttribute("fzdwList", fzdwList);
-		//分组类型
-		List<SysDictionary>  fzlxList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
+		// 分组类型
+		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
 		request.setAttribute("fzlxList", fzlxList);
-		
-		//部门
-		List<SysDictionary>  gsbmbmList= CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+
+		// 部门
+		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 		request.setAttribute("gsbmbmList", gsbmbmList);
-		
-		//倒推部门-各个处室(汉字)->倒推部门
-		String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");//部门
-		String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");//处室    
-		String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");//专业类别
-		if(gsbmbmFlag.equals("") && !zycbmFlag.equals(""))
-		{
-			gsbmbmFlag=getGsbmbmFlagByzycbmFlag(gsbmbmFlag,zycbmFlag);
+
+		// 倒推部门-各个处室(汉字)->倒推部门
+		String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");// 部门
+		String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");// 处室
+		String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");// 专业类别
+		if (gsbmbmFlag.equals("") && !zycbmFlag.equals("")) {
+			gsbmbmFlag = getGsbmbmFlagByzycbmFlag(gsbmbmFlag, zycbmFlag);
 		}
-		
+
 		request.setAttribute("zycbmFlag", zycbmFlag);
 		request.setAttribute("gsbmbmFlag", gsbmbmFlag);
 		request.setAttribute("zylbbmFlag", zylbbmFlag);
-		//(汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2    
-		
+		// (汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2
+
 		return "stp/hana/home/oneLevelMain/project_fx_table";
 	}
 
-	
-	
-	
 	// 三级表格
-		@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/project_fx_table_data")
-		@ResponseBody
-		@OperationFilter(dataFlag = "true")
-		public String project_fx_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-			System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
-			// 领导标识
-			param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
-			
-			//封装：code->nameValue
-			Object gsbmbmFlag_code=param.getParam().get("gsbmbmFlag");
-			Object zycbmFlag_code= param.getParam().get("zycbmFlag");
-			Object zylbbmFlag_code=param.getParam().get("zylbbmFlag");
-			
-			System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
-			// 领导标识
-			param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
-			String gsbmbmFlag="";
-			if(gsbmbmFlag_code!=null)
-			{
-				
-				String gsbmbmFlagCode=(String)gsbmbmFlag_code;
-				if(!gsbmbmFlagCode.equals(""))
-				{
-					SysDictionary sysDictionary=EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
-					if(sysDictionary!=null)
-					{
-						param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
-						gsbmbmFlag=sysDictionary.getNumValue();
-					}
-				}
-				
-			}
-			if(zycbmFlag_code!=null)
-			{
-				String zycbmFlagCode=(String)zycbmFlag_code;
-				if(!zycbmFlagCode.equals(""))
-				{
-					SysDictionary sysDictionary=EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
-					if(sysDictionary!=null)
-					{
-						param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
-					}
-				}
-				
-			}
-			if(zylbbmFlag_code!=null)
-			{
-				String zylbbmFlagCode=(String)zylbbmFlag_code;
-				if(!zylbbmFlagCode.equals(""))
-				{
-					SysDictionary sysDictionary=EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
-					if(sysDictionary!=null)
-					{
-						param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
-					}
-				}
-				
-			}
-			
+	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/project_fx_table_data")
+	@ResponseBody
+	@OperationFilter(dataFlag = "true")
+	public String project_fx_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
+		// 领导标识
+		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 
-			LayuiTableData layuiTableData = new LayuiTableData();
-			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_data, HttpMethod.POST, entity, LayuiTableData.class);
-			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200) {
-				layuiTableData = responseEntity.getBody();
+		// 封装：code->nameValue
+		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
+		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
+		Object zylbbmFlag_code = param.getParam().get("zylbbmFlag");
+
+		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
+		// 领导标识
+		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+		String gsbmbmFlag = "";
+		if (gsbmbmFlag_code != null) {
+
+			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
+			if (!gsbmbmFlagCode.equals("")) {
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
+				if (sysDictionary != null) {
+					param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
+					gsbmbmFlag = sysDictionary.getNumValue();
+				}
 			}
-			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-			System.out.println(">>>>>>>>>>>>>project_fx_table_data:" + result.toString());
-			return result.toString();
+
 		}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		if (zycbmFlag_code != null) {
+			String zycbmFlagCode = (String) zycbmFlag_code;
+			if (!zycbmFlagCode.equals("")) {
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
+				if (sysDictionary != null) {
+					param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
+				}
+			}
+
+		}
+		if (zylbbmFlag_code != null) {
+			String zylbbmFlagCode = (String) zylbbmFlag_code;
+			if (!zylbbmFlagCode.equals("")) {
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
+				if (sysDictionary != null) {
+					param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
+				}
+			}
+
+		}
+
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_data, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		System.out.println(">>>>>>>>>>>>>project_fx_table_data:" + result.toString());
+		return result.toString();
+	}
 
 	// 三级表格
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/count_table_data")
@@ -1225,58 +1147,48 @@ public class OneLevelMainController extends BaseController {
 		System.out.println(">>>>>>>>>>>count_table_data三级表格参数：" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
-		
-		//封装：code->nameValue
-		Object gsbmbmFlag_code=param.getParam().get("gsbmbmFlag");
-		Object zycbmFlag_code= param.getParam().get("zycbmFlag");
-		Object zylbbmFlag_code=param.getParam().get("zylbbmFlag");
-		
+
+		// 封装：code->nameValue
+		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
+		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
+		Object zylbbmFlag_code = param.getParam().get("zylbbmFlag");
+
 		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
-		String gsbmbmFlag="";
-		if(gsbmbmFlag_code!=null)
-		{
-			
-			String gsbmbmFlagCode=(String)gsbmbmFlag_code;
-			if(!gsbmbmFlagCode.equals(""))
-			{
-				SysDictionary sysDictionary=EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
-				if(sysDictionary!=null)
-				{
+		String gsbmbmFlag = "";
+		if (gsbmbmFlag_code != null) {
+
+			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
+			if (!gsbmbmFlagCode.equals("")) {
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
+				if (sysDictionary != null) {
 					param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
-					gsbmbmFlag=sysDictionary.getNumValue();
+					gsbmbmFlag = sysDictionary.getNumValue();
 				}
 			}
-			
+
 		}
-		if(zycbmFlag_code!=null)
-		{
-			String zycbmFlagCode=(String)zycbmFlag_code;
-			if(!zycbmFlagCode.equals(""))
-			{
-				SysDictionary sysDictionary=EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
-				if(sysDictionary!=null)
-				{
+		if (zycbmFlag_code != null) {
+			String zycbmFlagCode = (String) zycbmFlag_code;
+			if (!zycbmFlagCode.equals("")) {
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
+				if (sysDictionary != null) {
 					param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
 				}
 			}
-			
+
 		}
-		if(zylbbmFlag_code!=null)
-		{
-			String zylbbmFlagCode=(String)zylbbmFlag_code;
-			if(!zylbbmFlagCode.equals(""))
-			{
-				SysDictionary sysDictionary=EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
-				if(sysDictionary!=null)
-				{
+		if (zylbbmFlag_code != null) {
+			String zylbbmFlagCode = (String) zylbbmFlag_code;
+			if (!zylbbmFlagCode.equals("")) {
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
+				if (sysDictionary != null) {
 					param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
 				}
 			}
-			
+
 		}
-		
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -1305,10 +1217,10 @@ public class OneLevelMainController extends BaseController {
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
-		
+
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		HttpEntity<String> entity = new HttpEntity<String>(JSONObject.toJSONString(paramsMap), httpHeaders);
 
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_search_con, HttpMethod.POST, entity, JSONArray.class);
@@ -1512,57 +1424,48 @@ public class OneLevelMainController extends BaseController {
 		System.out.println(">>>>>>>>>>>>common_table_data>param:" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
-		
-		//封装：code->nameValue
-			Object gsbmbmFlag_code=param.getParam().get("gsbmbmFlag");
-			Object zycbmFlag_code= param.getParam().get("zycbmFlag");
-			Object zylbbmFlag_code=param.getParam().get("zylbbmFlag");
-			
-			System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
-			
-			String gsbmbmFlag="";
-			if(gsbmbmFlag_code!=null)
-			{
-				
-				String gsbmbmFlagCode=(String)gsbmbmFlag_code;
-				if(!gsbmbmFlagCode.equals(""))
-				{
-					SysDictionary sysDictionary=EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
-					if(sysDictionary!=null)
-					{
-						param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
-						gsbmbmFlag=sysDictionary.getNumValue();
-					}
+
+		// 封装：code->nameValue
+		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
+		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
+		Object zylbbmFlag_code = param.getParam().get("zylbbmFlag");
+
+		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
+
+		String gsbmbmFlag = "";
+		if (gsbmbmFlag_code != null) {
+
+			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
+			if (!gsbmbmFlagCode.equals("")) {
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
+				if (sysDictionary != null) {
+					param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
+					gsbmbmFlag = sysDictionary.getNumValue();
 				}
-				
 			}
-			if(zycbmFlag_code!=null)
-			{
-				String zycbmFlagCode=(String)zycbmFlag_code;
-				if(!zycbmFlagCode.equals(""))
-				{
-					SysDictionary sysDictionary=EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
-					if(sysDictionary!=null)
-					{
-						param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
-					}
+
+		}
+		if (zycbmFlag_code != null) {
+			String zycbmFlagCode = (String) zycbmFlag_code;
+			if (!zycbmFlagCode.equals("")) {
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
+				if (sysDictionary != null) {
+					param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
 				}
-				
 			}
-			if(zylbbmFlag_code!=null)
-			{
-				String zylbbmFlagCode=(String)zylbbmFlag_code;
-				if(!zylbbmFlagCode.equals(""))
-				{
-					SysDictionary sysDictionary=EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
-					if(sysDictionary!=null)
-					{
-						param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
-					}
+
+		}
+		if (zylbbmFlag_code != null) {
+			String zylbbmFlagCode = (String) zylbbmFlag_code;
+			if (!zylbbmFlagCode.equals("")) {
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
+				if (sysDictionary != null) {
+					param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
 				}
-				
 			}
-				
+
+		}
+
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(common_table, HttpMethod.POST, entity, LayuiTableData.class);
@@ -1602,7 +1505,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("type", type);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-					
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1657,7 +1560,7 @@ public class OneLevelMainController extends BaseController {
 
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-					
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1717,7 +1620,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("type", type);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-					
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1780,7 +1683,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("type", type);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1834,7 +1737,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("type", type);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-					
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1913,10 +1816,10 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		ChartPieResultData pie = new ChartPieResultData();
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-		
+
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -1968,7 +1871,7 @@ public class OneLevelMainController extends BaseController {
 	}
 
 	/**
-	 *全口径新开课题合同（任务书）签订率--费用性、资本性
+	 * 全口径新开课题合同（任务书）签订率--费用性、资本性
 	 */
 	@RequestMapping(value = "/one_level_main/contract_01_01")
 	@ResponseBody
@@ -1989,7 +1892,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-					
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -2098,7 +2001,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-					
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
@@ -2154,7 +2057,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-					
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -2221,7 +2124,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -2306,7 +2209,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -2388,10 +2291,12 @@ public class OneLevelMainController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("nd", nd);
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+		paramsMap.put("nd", nd);
+
 		String type = CommonUtil.getParameter(request, "type", "");
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_01, HttpMethod.POST, entity, JSONArray.class);
@@ -2430,11 +2335,13 @@ public class OneLevelMainController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String  cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
 		paramsMap.put("nd", nd);
 		String type = CommonUtil.getParameter(request, "type", "");
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -2483,16 +2390,19 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/achievement_03")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String achievement_03(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String  cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
 		paramsMap.put("nd", nd);
 		paramsMap.put("define1", "");
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_03, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -2596,7 +2506,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -2646,7 +2556,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -2772,7 +2682,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(equipment_04, HttpMethod.POST, entity, JSONObject.class);
@@ -2816,7 +2726,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("type", type);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -2868,7 +2778,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
@@ -2930,7 +2840,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-					
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -2998,7 +2908,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-					
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -3033,7 +2943,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -3072,7 +2982,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -3103,8 +3013,7 @@ public class OneLevelMainController extends BaseController {
 		URL path = this.getClass().getResource("/");
 		List<String> files = Arrays.asList(new File(path.getPath() + "static/ten_dragon").list());
 		List<String> filenames = files.stream().filter(a -> a.contains(year)).collect(Collectors.toList());
-		if(filenames != null && filenames.size() >0) 
-		{
+		if (filenames != null && filenames.size() > 0) {
 			File f = new File(filenames.get(0));
 			FileUtil.fileDownload(f, res);
 		}
@@ -3144,7 +3053,7 @@ public class OneLevelMainController extends BaseController {
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		
+
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -3156,7 +3065,7 @@ public class OneLevelMainController extends BaseController {
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>investment_01 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
-				
+
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "budgetItemName");
 				barLine.setxAxisDataList(xAxisDataList);
 				List<String> legendDataList = new ArrayList<String>();
@@ -3200,7 +3109,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -3247,7 +3156,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -3286,14 +3195,13 @@ public class OneLevelMainController extends BaseController {
 				} else {
 					zbxRate_str = String.format("%.2f", Double.parseDouble(zbxRate.toString()));
 				}
-				
+
 				Object zRate_str = "0";
 				if (zRate == null || zRate.toString().equals("0") || zRate.toString().equals("")) {
 					zRate_str = "0";
 				} else {
 					zRate_str = String.format("%.2f", Double.parseDouble(zRate.toString()));
 				}
-
 
 				budgetMysql.setFyxRate(fyxRate_str);
 				budgetMysql.setJeRate(jeRate_str);
@@ -3335,7 +3243,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
 		paramsMap.put("zsyjy", zsyjy);
-		
+
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -3356,7 +3264,7 @@ public class OneLevelMainController extends BaseController {
 				legendDataList.add("预算执行率");
 				barLine.setxAxisDataList(xAxisDataList);
 				barLine.setLegendDataList(legendDataList);
-				
+
 				// X轴数据
 				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 				ChartBarLineSeries s1 = HanaUtil.getinvestmentBarLineSeries2(list, "zysje");
@@ -3380,7 +3288,6 @@ public class OneLevelMainController extends BaseController {
 		return resultObj.toString();
 	}
 
-	
 	/**
 	 * 新开课题科研预算统计
 	 */
@@ -3406,10 +3313,10 @@ public class OneLevelMainController extends BaseController {
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		
+
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -3474,7 +3381,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
 		paramsMap.put("zsyjy", zsyjy);
-		
+
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));

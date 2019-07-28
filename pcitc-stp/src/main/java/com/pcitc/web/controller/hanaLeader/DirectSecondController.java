@@ -27,22 +27,21 @@ import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
-public class DirectSecondController  extends BaseController
-{
-	//报表1，3，4使用同一组数据
+public class DirectSecondController extends BaseController {
+	// 报表1，3，4使用同一组数据
 	private static final String direct_second_data_01 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/institution/cg/info";
-	//报表2
+	// 报表2
 	private static final String direct_second_data_02 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/cglx/cg/info";
-	//报表5
+	// 报表5
 	private static final String direct_second_data_05 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/zy/cg/info";
-	
-	
 
 	/**
-	 *    领导二级页面，直属研究院成果数量
+	 * 领导二级页面，直属研究院成果数量
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -50,44 +49,48 @@ public class DirectSecondController  extends BaseController
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct_second/direct_second_data_01")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getDirectSecendData01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3  = CommonUtil.getParameter(request, "define3", "" );
+		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String define3 = CommonUtil.getParameter(request, "define3", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
-		
+
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) 
-		{
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-		
-			
+
 			ChartSingleLineResultData csr = new ChartSingleLineResultData();
-			//X轴数据
-			List<Object> seriesDataList=new ArrayList<Object>();
-			for(AchievementsAnalysis dt:list) {
+			// X轴数据
+			List<Object> seriesDataList = new ArrayList<Object>();
+			for (AchievementsAnalysis dt : list) {
 				seriesDataList.add(dt.getSl());
 			}
 			csr.setSeriesDataList(seriesDataList);
-			//标题
-		    List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define1");
-     		csr.setxAxisDataList(xAxisDataList);
-			
-     		result.setSuccess(true);
+			// 标题
+			List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define1");
+			csr.setxAxisDataList(xAxisDataList);
+
+			result.setSuccess(true);
 			result.setData(csr);
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		return resultObj.toString();
 	}
+
 	/**
 	 * 年成果鉴定数量按单位分析
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -95,44 +98,50 @@ public class DirectSecondController  extends BaseController
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct_second/direct_second_data_02")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getDirectSecendData02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3  = CommonUtil.getParameter(request, "define3", "" );
+		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String define3 = CommonUtil.getParameter(request, "define3", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
-		
+
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) 
-		{
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-		
-			
+
 			ChartSingleLineResultData csr = new ChartSingleLineResultData();
-			//X轴数据
-			List<Object> seriesDataList=new ArrayList<Object>();
-			for(AchievementsAnalysis dt:list) {
+			// X轴数据
+			List<Object> seriesDataList = new ArrayList<Object>();
+			for (AchievementsAnalysis dt : list) {
 				seriesDataList.add(dt.getSl());
 			}
 			csr.setSeriesDataList(seriesDataList);
-			//成果类型
-		    List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"cglx");
-     		csr.setxAxisDataList(xAxisDataList);
-			
-     		result.setSuccess(true);
+			// 成果类型
+			List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "cglx");
+			csr.setxAxisDataList(xAxisDataList);
+
+			result.setSuccess(true);
 			result.setData(csr);
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		return resultObj.toString();
 	}
+
 	/**
 	 * 工业化成果数量占比
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -143,40 +152,41 @@ public class DirectSecondController  extends BaseController
 	public String getDirectSecendData03(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3  = CommonUtil.getParameter(request, "define3", "" );
+		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String define3 = CommonUtil.getParameter(request, "define3", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
-		
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) 
-		{
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-		
+
 			ChartPieResultData pie = new ChartPieResultData();
-			List<String>  legendDataList = HanaUtil.getduplicatexAxisByList(list,"define1");
+			List<String> legendDataList = HanaUtil.getduplicatexAxisByList(list, "define1");
 			pie.setLegendDataList(legendDataList);
-			
-			List<ChartPieDataValue> dataList=new ArrayList<ChartPieDataValue>();
-			for(AchievementsAnalysis analysis:list) {
-				ChartPieDataValue val = new ChartPieDataValue(analysis.getGyhsl(),analysis.getDefine1());
+
+			List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+			for (AchievementsAnalysis analysis : list) {
+				ChartPieDataValue val = new ChartPieDataValue(analysis.getGyhsl(), analysis.getDefine1());
 				dataList.add(val);
 			}
-			pie.setDataList(dataList);		
-			
-     		result.setSuccess(true);
+			pie.setDataList(dataList);
+
+			result.setSuccess(true);
 			result.setData(pie);
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		return resultObj.toString();
 	}
+
 	/**
-	 *  工业试验成果数量占比
+	 * 工业试验成果数量占比
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -187,41 +197,41 @@ public class DirectSecondController  extends BaseController
 	public String getDirectSecendData04(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3  = CommonUtil.getParameter(request, "define3", "" );
+		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String define3 = CommonUtil.getParameter(request, "define3", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
-		
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) 
-		{
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-		
-			
+
 			ChartPieResultData pie = new ChartPieResultData();
-			List<String>  legendDataList = HanaUtil.getduplicatexAxisByList(list,"define1");
+			List<String> legendDataList = HanaUtil.getduplicatexAxisByList(list, "define1");
 			pie.setLegendDataList(legendDataList);
-			
-			List<ChartPieDataValue> dataList=new ArrayList<ChartPieDataValue>();
-			for(AchievementsAnalysis analysis:list) {
-				ChartPieDataValue val = new ChartPieDataValue(analysis.getGysysl(),analysis.getDefine1());
+
+			List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+			for (AchievementsAnalysis analysis : list) {
+				ChartPieDataValue val = new ChartPieDataValue(analysis.getGysysl(), analysis.getDefine1());
 				dataList.add(val);
 			}
-			pie.setDataList(dataList);		
-			
-     		result.setSuccess(true);
+			pie.setDataList(dataList);
+
+			result.setSuccess(true);
 			result.setData(pie);
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		return resultObj.toString();
 	}
+
 	/**
-	 *    领导二级页面，直属研究院成果数量
+	 * 领导二级页面，直属研究院成果数量
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -229,37 +239,39 @@ public class DirectSecondController  extends BaseController
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct_second/direct_second_data_05")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getDirectSecendData05(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3  = CommonUtil.getParameter(request, "define3", "" );
+		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String define3 = CommonUtil.getParameter(request, "define3", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
-		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());	// 领导标识
-		
+
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_05, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) 
-		{
+		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-		
-			
+
 			ChartSingleLineResultData csr = new ChartSingleLineResultData();
-			
-			List<Object> seriesDataList=new ArrayList<Object>();
-			List<String>  xAxisDataList = new ArrayList<String>();
-			for(AchievementsAnalysis dt:list) {
+
+			List<Object> seriesDataList = new ArrayList<Object>();
+			List<String> xAxisDataList = new ArrayList<String>();
+			for (AchievementsAnalysis dt : list) {
 				seriesDataList.add(dt.getSl());
 				xAxisDataList.add(dt.getZy());
 			}
 			csr.setSeriesDataList(seriesDataList);
-     		csr.setxAxisDataList(xAxisDataList);
-			
-     		result.setSuccess(true);
+			csr.setxAxisDataList(xAxisDataList);
+
+			result.setSuccess(true);
 			result.setData(csr);
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
