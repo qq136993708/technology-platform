@@ -282,7 +282,7 @@
 
 
 
-			<div class="layui-col-md6">
+			<!-- <div class="layui-col-md6">
 				<div class="layui-card">
 					<div class="layui-card-header">${nd}年直属研究院承担国家课题情况</div>
 					<div class="layui-card-body btn-function">
@@ -328,7 +328,7 @@
 				</div>
 			</div>
 
-		</div>
+		</div> -->
 	</div>
 
 
@@ -343,6 +343,7 @@
 	<script>
 		var companyCode = $("#companyCode").val();
 		var nd = $("#nd").val();
+		
 
 		//alert(companyCode);
 		var element;
@@ -570,6 +571,7 @@
 
 			//alert(companyCode);
 			var month = $('#month').val();
+			
 			var v_date = (new Date()).getTime();
 			if (nd != null && nd != '') {
 				getCommonCount(nd);//科研装备、合同签订
@@ -695,13 +697,12 @@
 
 				});
 
-				var chart7_url = "/direct/knowledge_04?type=1&nd=" + nd + "&v_date=" + v_date;
+				/* var chart7_url = "/direct/knowledge_04?type=1&nd=" + nd + "&v_date=" + v_date;
 				var colorNew = [ "#70b1ab", "#87d359" ];
 				var data7 = load_mutl_bar_down(chart7_url, "direct_knowledge_chart1", "", "", yAxis, 20, colorNew);
 				data7.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					//window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 				});
 
 				var url_8 = "/direct/knowledge_04?type=2&nd=" + nd + "&v_date=" + v_date;
@@ -709,7 +710,6 @@
 				echart8.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					//window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 				});
 
 				var url_9 = "/direct/knowledge_04?type=3&nd=" + nd + "&v_date=" + v_date;
@@ -717,11 +717,10 @@
 				echart9.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
-					//window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
-				});
+				}); */
 
 				//直属研究院承担国家课题情况
-				var chart7_url = "/direct/contry_01?type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
+				/* var chart7_url = "/direct/contry_01?type=1&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 				var colorNew = [ "#70b1ab", "#87d359" ];
 				var data7 = load_mutl_bar_down(chart7_url, "direct_kt_chart1", "", "", yAxis, 20, colorNew);
 				data7.on('click', function(params) {
@@ -733,28 +732,27 @@
 					}
 					var url = encodeURIComponent("/one_level_main/country_table_new?define2=" + xName + "&nd=" + temNd + "&ysnd=" + nd + "&ktlx=" + legentName);
 					window.open("/instituteIndex?url=" + url);
-				});
+				}); */
 
 				//直属研究院承担国家课题情况-->新开课题
-				var url_8 = "/direct/contry_01?type=3&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
+				/* var url_8 = "/direct/contry_01?type=3&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 				var echart8 = loadPie_02(url_8, "direct_kt_chart2", "", "");
 				echart8.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
 					var url = encodeURIComponent("/one_level_main/country_table_new?define2=" + xName + "&nd=" + nd + "&ysnd=" + nd + "&ktlx=新开课题");
 					window.open("/instituteIndex?url=" + url);
-				});
+				}); */
 
 				//直属研究院承担国家课题情况->结转课题
-				var url_9 = "/direct/contry_01?type=2&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
+				/* var url_9 = "/direct/contry_01?type=2&nd=" + nd + "&v_date=" + v_date + "&xmlbbm=fkyzb";
 				var echart9 = loadPie_02(url_9, "direct_kt_chart3", "", "");
 				echart9.on('click', function(params) {
 					var xName = params.name;
 					var legentName = params.seriesName;
 					var url = encodeURIComponent("/one_level_main/country_table_new?define2=" + xName + "&ysnd=" + nd + "&ktlx=结转课题");
 					window.open("/instituteIndex?url=" + url);
-				});
-
+				});*/
 			}
 		}
 
