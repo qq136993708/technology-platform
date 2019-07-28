@@ -39,7 +39,8 @@ public class TenLongFileUploadUtil
 				if(".DS_Store".equals(f.getName())) {
 					continue;
 				}
-				String path = OSSUtil.uploadFileWithFilePath(f, ossPath+f.getName());
+				//上传文件
+				OSSUtil.uploadFileWithFilePath(f, ossPath+f.getName());
 				java.io.InputStream in = OSSUtil.getOssFileIS(ossPath+f.getName());
 				FileUtil.copyInputStreamToFile(in,new File(downLocalPath+nd+"\\"+f.getName()));
 				
