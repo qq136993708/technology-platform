@@ -55,17 +55,15 @@ public class TenLongFileUploadUtil
 				array.add(json);
 			}
 			String val = JSON.toJSONString(array);
-			System.out.println("UPDATE out_project_info set define14 = '"+val+"' where hth like '%"+dname+"%';");
+			System.out.println("UPDATE out_project_info set define14 = '"+val+"' where nd='"+nd+"' and hth like '%"+dname+"%';");
 		}
 	}
 	public static void main(String[] args) throws Exception 
 	{
-		/*String [] nds = {"2015","2016","2017","2018"};
+		/*String [] nds = {"2012","2013","2014","2015","2016","2017","2018"};
 		for(String nd:nds) {
 			uploadFileAndCreateSql(nd);
 		}*/
-		
-		uploadFileAndCreateSql("2015");
+		//uploadFileAndCreateSql("2012");
 	}
-
 }

@@ -31,19 +31,21 @@ public class CxfStandardClient {
     public static void main1() {
         try {
             // 接口地址
-            String address = "http://127.0.0.1/soap/user?wsdl";
+            //String address = "http://127.0.0.1/soap/user?wsdl";
+        	//-autoNameResolution
+            String address = "http://10.1.19.218/ProjectService.asmx?WSDL";
             // 代理工厂
             JaxWsProxyFactoryBean jaxWsProxyFactoryBean = new JaxWsProxyFactoryBean();
             // 设置代理地址
             jaxWsProxyFactoryBean.setAddress(address);
             // 设置接口类型
-            jaxWsProxyFactoryBean.setServiceClass(UserService.class);
+            jaxWsProxyFactoryBean.setServiceClass(WsService.class);
             // 创建一个代理接口实现
-            UserService us = (UserService) jaxWsProxyFactoryBean.create();
+            WsService us = (WsService) jaxWsProxyFactoryBean.create();
             // 数据准备
-            String userId = "maple";
+            String nd = "2019";
             // 调用代理接口的方法调用并返回结果
-            SysUser result = us.selectUserByUserId(userId);
+            String result = us.GetItem(nd);
             System.out.println("返回结果:" + result);
         } catch (Exception e) {
             e.printStackTrace();
