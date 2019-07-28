@@ -335,7 +335,7 @@
 			var ptable = treeGridCom.render({
 				id : 'processdef_table',
 				elem : '#processdef_table',
-				url : '/direct/contract_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + month,
+				url : '/direct/contract_02?functionId=984b64b13cf54222bf57bd840759fabe&define3=研究院&nd=' + month,
 				cellMinWidth : 200,
 				idField : 'id',//必須字段
 				treeId : 'id',//树形id字段名称
@@ -386,12 +386,13 @@
                             if (xName == '油田处') {
 								xName = '科技部';
 							}
+                            alert(selectRowData.extend04);
 					
 							if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
-								var url = encodeURIComponent("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+								var url = encodeURIComponent("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&define1="+selectRowData.extend04+"&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 								window.open("/instituteIndex?url=" + url);
 							} else {
-								var url = encodeURIComponent("/one_level_main/common_table_new?zycbmFlag=" + xName + "&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+								var url = encodeURIComponent("/one_level_main/common_table_new?zycbmFlag=" + xName + "&define1="+selectRowData.extend04+"&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 								window.open("/instituteIndex?url=" + url);
 							}
 							
