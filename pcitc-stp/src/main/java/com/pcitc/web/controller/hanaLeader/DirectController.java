@@ -450,6 +450,9 @@ public class DirectController extends BaseController {
 		return resultObj.toString();
 	}
 
+	/**
+	 * 直属研究院承担国家课题情况
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct/contry_01")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
