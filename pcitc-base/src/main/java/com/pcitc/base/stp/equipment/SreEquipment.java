@@ -65,11 +65,27 @@ public class SreEquipment {
     private String purchaseStatus;
     
     private String forStatus;
-    
-    
-    
-    
-    
+
+
+    private String  year;
+
+    private String  allMoney;
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getAllMoney() {
+        return allMoney;
+    }
+
+    public void setAllMoney(String allMoney) {
+        this.allMoney = allMoney;
+    }
 
     public String getForStatus() {
 		return forStatus;
