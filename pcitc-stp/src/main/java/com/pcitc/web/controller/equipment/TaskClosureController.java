@@ -73,7 +73,7 @@ public class TaskClosureController extends BaseController {
 		String unitPathId = sysUserInfo.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 	    request.setAttribute("isKJBPerson", isKJBPerson);
-	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
 	    String str ="1";
 	    if(isKJBPerson == true) {
 	    	//获取研究院
@@ -182,7 +182,7 @@ public class TaskClosureController extends BaseController {
 		String unitPathId = sysUserInfo.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 	    request.setAttribute("isKJBPerson", isKJBPerson);
-	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
 	    String str ="1";
 	    if(isKJBPerson == true) {
 	    	//获取研究院

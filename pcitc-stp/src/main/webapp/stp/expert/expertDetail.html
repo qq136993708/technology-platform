@@ -85,7 +85,7 @@
                         <li lay-id="33">成果信息<span class="red" id="cgCountShow">0</span></li>
                         <li lay-id="44">专利信息<span class="red" id="zlCountShow">0</span></li>
                         <li lay-id="44">奖励信息<span class="red" id="cgRewardShow">0</span></li>
-                        <li lay-id="44" onclick="showExpertDetail('${zjkBaseInfo.dataId}')">专家详情</li>
+                        <li lay-id="44" style="display: none" id="zjkDetail" onclick="showExpertDetail('${zjkBaseInfo.dataId}')">专家详情</li>
                     </ul>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
@@ -140,7 +140,7 @@
                     <a class="layui-layer-ico layui-layer-max" href="javascript:;"></a>
                 </div>
                 <div class="layui-row-main">
-                    <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
+                    <div class="main-chart" id="five" style="height:300px;width: 100%; overflow:auto"></div>
                 </div>
             </div>
         </div>
@@ -148,10 +148,13 @@
 </div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+
+<script type="text/javascript" src="/plugins/echarts/echarts4.js"></script>
+
+<!--<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>-->
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<!--<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>-->
+<!--<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>-->
 <script type="text/javascript" src="/stp/hana/common/stp_common_force.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 <script type="text/html" id="showDetail">
@@ -159,6 +162,12 @@
 </script>
 
 <script>
+//显示隐藏
+var display = "${display}";
+if (display!="1"){
+    $("#zjkDetail").css("display","inline");
+}
+
 //专家详情
 function showExpertDetail(expertId){
     openFullWin("查看", "/zjkBaseInfo/view/" + expertId);
@@ -200,6 +209,8 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     $("#enlargeP .main-chart").css("height",$(document).height()+"px");
                     var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
                     var colorFive = ["#8fc31f"];
+                    five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
+
                     // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
                     //     if (d.seriesDataList == undefined) {
                     //         $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
@@ -208,9 +219,9 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 }else {
                     $(this).removeClass("layui-layer-icon");
                     $("#enlargeP").removeClass("enlarge");
-                    $("#enlargeP .main-chart").css("height","250px");
-                    var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
+                    $("#enlargeP .main-chart").css("height","300px");
                     var colorFive = ["#8fc31f"];
+                    five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
                     // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
                     //     if (d.seriesDataList == undefined) {
                     //         $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
@@ -260,7 +271,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     where: where,
                     limit: 15,
                     id: 'zjkChoiceTableId',
-                    height: 250,
+                    height: 300,
                     page: {
                         count: 500, //数据总数，从服务端得到
                         groups: 5,
@@ -336,8 +347,8 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
 
 
         var colorFive = ["#8fc31f"];
+        five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
         // load_single_forces("/expertController/picIndexImg?hyly="+hyly, "one", "专家画像", "", "", "", 10);
-        // five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
 
         // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
         //     if (d.seriesDataList == undefined) {
@@ -811,7 +822,6 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
         $(".layui-table-header table thead th input").remove();
     });
 </script>
-<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
 <script>
     function relationPic() {
         //var one = "/expertController/picIndex?id=5&type=force&expertId="+expertId;

@@ -147,7 +147,7 @@
         var layTableId = "dataTable";
         //检索年度金额完成情况
         window.selectItemProjectMoney = function(nd,displayCode,callback){
-        	publicMethods.ajaxPost('/budget/select-grouptotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
+        	publicMethods.ajaxPost('/budget/select-grouptotal-compare-project',{param:{"nd":nd,"code":displayCode}}, function (data, status) {
    			  var ysje = 0;
    			  $.each(data,function(index,d){
    				 ysje += parseInt(d.ysje); 

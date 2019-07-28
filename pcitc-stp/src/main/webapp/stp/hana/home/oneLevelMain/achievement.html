@@ -36,7 +36,7 @@
 				<div class="searchBox">
 					<label class="dateInput">
 						<span>年份</span>
-						<input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}" autocomplete="off" class="form-control" id="nd">
+						<input type="text" name="nd" readonly="readonly" style="cursor:pointer" placeholder="请选择年份" title="年份" value="${nd}" autocomplete="off" class="form-control" id="nd">
 					</label>
 					<div class="btnGroup">
 						<button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details">详情</button>
@@ -189,7 +189,7 @@
 			});
 
 			$("#knowledge_table").click(function() {
-				var url = encodeURIComponent("/one_level_main/achievement_table?nd=" + nd);
+				var url = encodeURIComponent("/one_level_main/achievement_table_new?nd=" + nd);
 				window.open("/instituteIndex?url=" + url);
 			});
 

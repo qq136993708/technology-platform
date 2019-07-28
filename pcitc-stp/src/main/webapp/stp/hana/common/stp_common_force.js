@@ -226,14 +226,73 @@ function load_single_force(url, id, title, subtext, yAxis, callback) {
     return echartsobj;
 }
 
+var option_graph = {
+    title: {
+        text: 'Les Miserables',
+        subtext: 'Default layout',
+        top: 'bottom',
+        left: 'right'
+    },
+    grid : {
+        top : "20%",
+        left : '0%',
+        right : '5%',
+        bottom : '10%',
+        containLabel : true
+    },
+    tooltip: {},
+    legend: [{
+        // selectedMode: 'single',
+        data: []
+    }],
+    animationDuration: 1500,
+    animationEasingUpdate: 'quinticInOut',
+    series : [
+        {
+            name: 'Les Miserables',
+            // type: 'graphGL',
+            type: 'graph',
+            layout: 'none',
+            data: [],
+            links: [],
+            categories: [],
+            roam: true,
+            focusNodeAdjacency: true,
+            itemStyle: {
+                normal: {
+                    borderColor: '#fff',
+                    borderWidth: 1,
+                    shadowBlur: 10,
+                    shadowColor: 'rgba(0, 0, 0, 0.3)'
+                }
+            },
+            label: {
+                position: 'right',
+                formatter: '{b}'
+            },
+            lineStyle: {
+                color: 'source',
+                curveness: 0.3
+            },
+            emphasis: {
+                lineStyle: {
+                    width: 10
+                }
+            }
+        }
+    ]
+};
 function force_img(url, id, title, subtext, yAxis, callback, len) {
-    force_img_render(url, "", option_force_single, callback, len, id, title, subtext);
+    console.log("version:"+echarts.version);
+    force_img_render(url, "", option_graph, callback, len, id, title, subtext);
 }
 function force_img_render(url, echartsobj, options, callback, len, id, title, subtext) {
     var nodes_Array = [];
     var links_Array = [];
     var categories_Array = [];
     var legend_Array = [];
+    var echartsobj = echarts.init(document.getElementById(id));
+    echartsobj.showLoading();
     $.ajax({
         type: "get",
         url: url,
@@ -243,15 +302,12 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         success: function (data, status) {
                 document.getElementById(id).style.display = "block";
-                var echartsobj = echarts.init(document.getElementById(id));
-                option_force_single.title.text = title;
-                option_force_single.title.subtext = subtext;
+            option_graph.title.text = title;
+            option_graph.title.subtext = subtext;
 
-                echartsobj.setOption(option_force_single);
-                echartsobj.showLoading();
+                // echartsobj.setOption(option_graph);
 
                 if (data.success == true || data.success == 'true') {
-                    echartsobj.hideLoading();
                     console.log("data");
                     console.log(data);
                     var nodes = data.data.nodes;
@@ -259,60 +315,70 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
                     var categories = data.data.categories;
                     var legendDataList = data.data.legendDataList;
                     //加载数据图表
-                    echartsobj.setOption({
-                        legend: {
-                            x: 'left',
-                            data: legend_Array
-                        },
-                        series: [
-                            {
-                                type: 'force',
-                                name: "人物关系",
-                                ribbonType: false,
-                                categories: categories,
-                                itemStyle: {
-                                    normal: {
-                                        label: {
-                                            show: true,
-                                            textStyle: {
-                                                color: '#333'
-                                            }
-                                        },
-                                        nodeStyle: {
-                                            brushType: 'both',
-                                            borderColor: 'rgba(255,215,0,0.4)',
-                                            borderWidth: 1
-                                        },
-                                        linkStyle: {
-                                            type: 'curve'
+                    echartsobj.setOption(
+                        {
+                            title: {
+                                // text: '专家画像',
+                                // subtext: '',
+                                top: 'bottom',
+                                left: 'right'
+                            },
+                            tooltip: {},
+                            legend: [{
+                                // selectedMode: 'single',
+                                data: legendDataList,
+
+                            }],
+                            animationDuration: 1500,
+                            animationEasingUpdate: 'quinticInOut',
+                            draggable:true,
+                            series : [
+                                {
+                                    // name: '专家画像',
+                                    top : "25%",
+                                    type: 'graph',
+                                    // type: 'graphGL',
+                                    layout: 'none',
+                                    data: nodes,
+                                    links: links,
+                                    categories: categories,
+                                    roam: true,
+                                    focusNodeAdjacency: true,
+                                    invisible: false,
+                                    draggable: true,
+                                    itemStyle: {
+                                        normal: {
+                                            borderColor: '#fff',
+                                            borderWidth: 1,
+                                            shadowBlur: 10,
+                                            shadowColor: 'rgba(0, 0, 0, 0.3)'
                                         }
                                     },
+                                    label: {
+                                        position: 'right',
+                                        formatter: '{b}'
+                                    },
+                                    lineStyle: {
+                                        color: 'source',
+                                        curveness: 0.3
+                                    },
                                     emphasis: {
-                                        label: {
-                                            show: false
-                                            // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
-                                        },
-                                        nodeStyle: {
-                                            //r: 30
-                                        },
-                                        linkStyle: {}
+                                        lineStyle: {
+                                            width: 10
+                                        }
                                     }
-                                },
-                                useWorker: false,
-                                minRadius: 25,
-                                maxRadius: 75,
-                                gravity: 2.8,
-                                scaling: 2,
-                                roam: 'move',
-                                nodes: nodes,
-                                links: links
-                            }
-                        ]
-                    });
-                    echartsobj.resize();
+                                }
+                            ]
+                        });
+                    try {
+                        echartsobj.resize();
+                    }catch (e) {
+                        console.log(e);
+                    }
                     if (callback) {
                         callback(data);
                     }
+                    echartsobj.hideLoading();
                 }
         },
         error: function () {
@@ -326,6 +392,8 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
     });
 
 }
+
+
 
 /**
  * 支持回调函数的bar

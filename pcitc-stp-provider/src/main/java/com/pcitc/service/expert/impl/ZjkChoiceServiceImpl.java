@@ -317,6 +317,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         if (!StrUtil.isObjectEmpty(projectId)) {
             c.andXmIdEqualTo(projectId.toString());
         }
+        c.andUserIdEqualTo("xm");
         example.setOrderByClause("create_date desc");
 
         LayuiTableData data = this.findByExample(param, example);
@@ -329,20 +330,17 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         ex.createCriteria().andXmidIn(xmids);
         List<OutProjectInfo> outProjectInfos = systemRemoteClient.selectByExample(ex);
 
-
-
-
         if (outProjectInfos!=null&&outProjectInfos.size()>0){
-            List<OutProjectInfo> unique = outProjectInfos.stream().collect(
-                    Collectors.collectingAndThen(
-                            Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(OutProjectInfo::getXmid))), ArrayList::new)
-            );
-            for (int i = 0; i < unique.size(); i++) {
-                if (unique.get(i).getFzdw()==null||"".equals(unique.get(i).getFzdw())){
-                    unique.get(i).setFzdw("无");
+//            List<OutProjectInfo> unique = outProjectInfos.stream().collect(
+//                    Collectors.collectingAndThen(
+//                            Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(OutProjectInfo::getXmid))), ArrayList::new)
+//            );
+            for (int i = 0; i < outProjectInfos.size(); i++) {
+                if (outProjectInfos.get(i).getFzdw()==null||"".equals(outProjectInfos.get(i).getFzdw())){
+                    outProjectInfos.get(i).setFzdw("无");
                 }
             }
-            Map<String,String> map = unique.stream().collect(Collectors.toMap(OutProjectInfo::getXmid,OutProjectInfo::getFzdw,(e1,e2)->e1));
+            Map<String,String> map = outProjectInfos.stream().collect(Collectors.toMap(OutProjectInfo::getXmid,OutProjectInfo::getFzdw,(e1,e2)->e1));
             for (int i = 0, j = zjkChoices.size(); i < j; i++) {
                 zjkChoices.get(i).setBak6(map.get(zjkChoices.get(i).getXmId()));
             }

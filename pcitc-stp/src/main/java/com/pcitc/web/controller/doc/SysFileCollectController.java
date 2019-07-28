@@ -105,7 +105,6 @@ public class SysFileCollectController extends BaseController {
 	 */
 	@RequestMapping(value = "/sysfilecollect/list", method = RequestMethod.POST)
 	@ResponseBody
-	@OperationFilter(modelName = "文件收藏", actionName = "查询列表getList")
 	public Object getList(@RequestBody SysFileCollect sysFileCollect) {
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<SysFileCollect>(sysFileCollect, this.httpHeaders), JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
@@ -115,7 +114,6 @@ public class SysFileCollectController extends BaseController {
 
 	@RequestMapping(value = "/sysfilecollect/listParam", method = RequestMethod.POST)
 	@ResponseBody
-	@OperationFilter(modelName = "文件收藏", actionName = "查询列表getListParam")
 	public Object getListParam(@RequestParam String id) {
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
@@ -136,7 +134,6 @@ public class SysFileCollectController extends BaseController {
 	 */
 	@RequestMapping(value = "/sysfilecollect/getTableData", method = RequestMethod.POST)
 	@ResponseBody
-	@OperationFilter(modelName = "文件收藏", actionName = "分页查询getTableData")
 	public Object getTableData(@RequestBody List<Object> aoData, HttpServletRequest request) {
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		// 传递参数
@@ -191,7 +188,6 @@ public class SysFileCollectController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/sysfilecollect/edit")
-	@OperationFilter(modelName = "文件收藏", actionName = "跳转编辑页面pageEdit")
 	public String pageEdit(String id, Model model, String opt) {
 		model.addAttribute("id", id);
 		model.addAttribute("opt", opt);
@@ -204,7 +200,6 @@ public class SysFileCollectController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/sysfilecollect/toListPage" }, method = { RequestMethod.GET })
-	@OperationFilter(modelName = "文件收藏", actionName = "跳转列表页toListPage")
 	public String toListPage() {
 		return "pplus/doc/sysFileCollect_list";
 	}

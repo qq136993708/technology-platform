@@ -275,15 +275,6 @@ public class ProjectTaskController extends BaseController {
 		    request.setAttribute("isKJBPerson", isKJBPerson);
 		    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
 		    String str ="1";
-		    if(isKJBPerson == true) {
-		    	//获取研究院
-				request.setAttribute("dictonary", dictonary);
-				request.setAttribute("str", "1");
-		    }else {
-		    	request.setAttribute("dictonary", dictonary);
-		    	request.setAttribute("str", "0");
-		    }
-
 			//归属部门
 			List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 			request.setAttribute("departmentList", departmentList);
@@ -297,6 +288,14 @@ public class ProjectTaskController extends BaseController {
 			
 			List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
 			request.setAttribute("leaddicList", leaddicList);
+			 if(isKJBPerson == true) {
+			    	//获取研究院
+					request.setAttribute("dictonary", leaddicList);
+					request.setAttribute("str", "1");
+			    }else {
+			    	request.setAttribute("dictonary", leaddicList);
+			    	request.setAttribute("str", "0");
+			    }
 			return "/stp/equipment/task/join_list_kjb";
 		}		
 	
@@ -941,6 +940,10 @@ public class ProjectTaskController extends BaseController {
 		Result resultsDate = new Result();
 		sreProjectTask.setContractNum(contractNum);
 		String str=EquipmentUtils.updateSreProjectTask(sreProjectTask,restTemplate,httpHeaders);
+		
+		SreProject sreProject=	EquipmentUtils.getSreProject(sreProjectTask.getTopicId(), restTemplate, httpHeaders);
+		sreProject.setContractNum(contractNum);
+		EquipmentUtils.updateSreProject(sreProject, restTemplate, httpHeaders);
 		if (!str.equals(""))
 		{
 			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());

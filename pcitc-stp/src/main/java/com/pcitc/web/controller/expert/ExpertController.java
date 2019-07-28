@@ -133,7 +133,6 @@ public class ExpertController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/expertIndex", method = RequestMethod.GET)
-    @OperationFilter(modelName = "专家-首页跳转", actionName = "首页跳转pageExpertIndex")
     public String pageExpertIndex() {
         //人员总数
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -161,6 +160,7 @@ public class ExpertController extends BaseController {
         //机构总数
         ZjkChoice zjkChoice = new ZjkChoice();
         zjkChoice.setStatus("2");//2选中数量
+        zjkChoice.setUserId("xm");
         ResponseEntity<JSONObject> responseEntityJG = this.restTemplate.exchange(LISTBAK, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
 
         JSONObject retJsonJG = responseEntityJG.getBody();
@@ -189,7 +189,6 @@ public class ExpertController extends BaseController {
 
     @RequestMapping(value = "/picIndexImg", method = RequestMethod.GET)
     @ResponseBody
-    @OperationFilter(modelName = "首页图形展示", actionName = "首页图形展示indexPicTwo")
     public Object indexPicImg() {
         ZjkExpert expert = new ZjkExpert();
         String hyly = request.getParameter("hyly");
@@ -205,7 +204,6 @@ public class ExpertController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/expertIndexNewImg", method = RequestMethod.GET)
-    @OperationFilter(modelName = "专家-首页跳转", actionName = "首页跳转pageExpertIndex")
     public String expertIndexNewImg() {
         //根据条件查询
         //调用
@@ -234,7 +232,6 @@ public class ExpertController extends BaseController {
     }
 
     @RequestMapping(value = "/expertIndexNew", method = RequestMethod.GET)
-    @OperationFilter(modelName = "专家-首页跳转", actionName = "首页跳转pageExpertIndex")
     public String pageExpertIndexNew() {
         //获取专家列表10条
 //        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -268,7 +265,6 @@ public class ExpertController extends BaseController {
     private static final String UNIT_LIST_ZTREE_DATA = "http://pcitc-zuul/system-proxy/unit-provider/unit/ztree-unit-list";
 
     @RequestMapping(value = "/expertIndexData", method = RequestMethod.POST)
-    @OperationFilter(modelName = "专家-查询专家", actionName = "查询专家")
     @ResponseBody
     public Object expertIndexData() {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -284,7 +280,6 @@ public class ExpertController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/queryExpert", method = RequestMethod.GET)
-    @OperationFilter(modelName = "专家-查询跳转", actionName = "查询跳转queryExpert")
     public String queryExpert() {
 
         request.setAttribute("hyly", request.getParameter("hyly"));
@@ -321,7 +316,6 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/bakTableData", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "备选查询", actionName = "查询列表bakTableData")
     public Object bakTableData(@ModelAttribute("param") LayuiTableParam param) {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTBAKTABLE, HttpMethod.POST, entity, LayuiTableData.class);
@@ -337,7 +331,6 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/queryIndex", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "首页-查询", actionName = "查询列表queryIndex")
     public Object queryIndex(@ModelAttribute("param") LayuiTableParam param) {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGEINDEX, HttpMethod.POST, entity, LayuiTableData.class);
@@ -352,7 +345,6 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/queryOutPatentList", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "专利查询", actionName = "查询列表queryOutPatentList")
     public Object queryOutPatentList(@ModelAttribute("param") LayuiTableParam param) {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LIST_OUT_PATENT, HttpMethod.POST, entity, LayuiTableData.class);
@@ -374,6 +366,7 @@ public class ExpertController extends BaseController {
         request.setAttribute("zjkBaseInfo", zjkBaseInfo);
         request.setAttribute("hylyName", zjkBaseInfo.getExpertProfessionalFieldName());
         request.setAttribute("hyly", zjkBaseInfo.getExpertProfessionalField());
+        request.setAttribute("display", request.getParameter("display"));
         //成果
 //        ZjkAchievement zjkChengguo = new ZjkAchievement();
 //        zjkChengguo.setExpertId(expertId);
@@ -417,6 +410,7 @@ public class ExpertController extends BaseController {
         //评标机构
         ZjkChoice zjkChoice = new ZjkChoice();
         zjkChoice.setStatus("2");
+        zjkChoice.setUserId("xm");
         zjkChoice.setZjId(expertId);
         ResponseEntity<JSONObject> expert = this.restTemplate.exchange(LISTBAK, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
         JSONObject retJson = expert.getBody();
@@ -515,7 +509,6 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/queryCgList", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "成果查询", actionName = "查询列表queryCgList")
     public Object queryCgList(@ModelAttribute("param") LayuiTableParam param) {
         param.setLimit(10000);
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -532,7 +525,6 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/queryZlList", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "专利查询", actionName = "查询列表queryZlList")
     public Object queryZlList(@ModelAttribute("param") LayuiTableParam param) {
         param.setLimit(10000);
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -549,7 +541,6 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/saveBak")
     @ResponseBody
-    @OperationFilter(modelName = "专家-人员选择", actionName = "保存saveRecord")
     public int saveChoice(ZjkChoice record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (record.getId() == null || "".equals(record.getId())) {
@@ -580,7 +571,6 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/addCompare")
     @ResponseBody
-    @OperationFilter(modelName = "专家-人员选择", actionName = "保存saveRecord")
     public int addCompare(ZjkChoice record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (record.getId() == null || "".equals(record.getId())) {
@@ -676,7 +666,6 @@ public class ExpertController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/selectBakList", method = RequestMethod.GET)
-    @OperationFilter(modelName = "专家-备选人员查询", actionName = "备选查询列表selectBakList")
     public String selectBakList() {
         String status = request.getParameter("status");
         String addUserId = request.getParameter("addUserId");

@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.hana;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,17 +10,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -27,11 +27,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ChartBarLineResultData;
 import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.ChartSingleLineResultData;
+import com.pcitc.base.common.ExcelException;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.hana.report.CompanyCode;
 import com.pcitc.base.hana.report.DayCashFlow;
+import com.pcitc.base.hana.report.Financial;
+import com.pcitc.base.hana.report.ScientificFunds;
 import com.pcitc.base.hana.report.TotalCostProjectPay01;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
@@ -39,6 +41,7 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
+import com.pcitc.web.utils.PoiExcelExportUitl;
 
 //财务
 @Controller
@@ -49,9 +52,11 @@ public class FinanceController extends BaseController {
 	private static final String xjrllfx_data = "http://pcitc-zuul/hana-proxy/hana/decision/financial/xjrllfx";
     //研发费统计
 	private static final String yfftj_data =        "http://pcitc-zuul/hana-proxy/hana/decision/financial/yfftj";
+	private static final String yfftj_data_excel =        "http://pcitc-zuul/hana-proxy/hana/decision/financial/yfftj_list";
 	private static final String yfftj_detail_data = "http://pcitc-zuul/hana-proxy/hana/decision/financial/yfftj_detail";
 	//技术改造统计
 	private static final String jsgztj_data =        "http://pcitc-zuul/hana-proxy/hana/decision/financial/jsgztj";
+	private static final String jsgztj_data_excel =        "http://pcitc-zuul/hana-proxy/hana/decision/financial/jsgztj_list";
 	private static final String jsgztj_detail_data = "http://pcitc-zuul/hana-proxy/hana/decision/financial/jsgztj_detail";
 		
 	
@@ -463,6 +468,140 @@ public class FinanceController extends BaseController {
 		}
 		
 		
+		
+		
+		//研发费用统计表
+	    @RequestMapping(method = RequestMethod.GET, value = "/yfftj_data_exput_excel")
+	   	@ResponseBody
+	   	public String yfftj_data_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("month", month);
+	   		System.out.println(">yfftj_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month);
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(yfftj_data_excel, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<Financial> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), Financial.class);
+	   		}
+	   		
+	   		    String[] headers = { "板块",   
+	   		    		             "上年研发支出(万元)",   
+	   		    		             "本年研发支出(万元)"  
+	   		    		             };
+	   		    String[] cols =    {
+	   		    		              "g0BK", 
+	   		    		              "k0SNYE",
+	   		    		              "k0BNYE"
+	   		    		              };
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = "研发费用统计表_"+month+"_"+DateFormatUtils.format(new Date(), "ddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setCharacterEncoding("UTF-8");
+		        response.setContentType("application/vnd.ms-excel");
+		        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<Financial>  pee = new PoiExcelExportUitl<Financial>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
+	    
+		
+	    
+	    
+	    
+	    
+	    
+		//技改支出统计表
+	    @RequestMapping(method = RequestMethod.GET, value = "/jsgztj_data_exput_excel")
+	   	@ResponseBody
+	   	public String jsgztj_data_exput_excel(HttpServletRequest request, HttpServletResponse response) throws Exception
+	   	{
+	   		
+	   		
+	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+	   		paramMap.put("month", month);
+	   		System.out.println(">jsgztj_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month);
+	   		
+	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(jsgztj_data_excel, HttpMethod.POST, httpEntity, JSONArray.class);
+	   		int statusCode = responseEntity.getStatusCodeValue();
+	   		List<Financial> list =new ArrayList();
+	   		JSONArray jSONArray=null;
+	   		if (statusCode == 200)
+	   		{
+	   			jSONArray = responseEntity.getBody();
+	   			list = JSONObject.parseArray(jSONArray.toJSONString(), Financial.class);
+	   		}
+	   		
+	   		    String[] headers = { "板块",   
+	   		    		             "年度计划(万元)",   
+	   		    		             "实际完成(万元)"  
+	   		    		             };
+	   		    String[] cols =    {
+	   		    		              "g0BK", 
+	   		    		              "k0NDJHTZ",
+	   		    		              "k0NDJE"
+	   		    		              };
+	   		   
+	   	        // 文件名默认设置为当前时间：年月日时分秒
+	   	        String fileName = "技改支出统计表_"+month+"_"+DateFormatUtils.format(new Date(), "ddhhmmss");
+	   	        // 设置response头信息
+	   	        response.reset();
+	   	        response.setCharacterEncoding("UTF-8");
+		        response.setContentType("application/vnd.ms-excel");
+		        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
+	   	        try {
+	   		        OutputStream os = response.getOutputStream();
+	   		        PoiExcelExportUitl<Financial>  pee = new PoiExcelExportUitl<Financial>(fileName, headers, cols, list,os);
+	   		        pee.exportExcel();
+	   	            
+	   	        } catch (Exception e)
+	   	        {
+	   	            e.printStackTrace();
+	   	            // 如果是ExcelException,则直接抛出
+	   	            if (e instanceof ExcelException) 
+	   	            {
+	   	                throw (ExcelException) e;
+	   	            } else 
+	   	            {
+	   	                // 否则将其他异常包装成ExcelException再抛出
+	   	                throw new ExcelException("导出excel失败");
+	   	            }
+	   	        }
+	   		   return null;
+	   	}
+	    
+	    
+	    
 		
 		@RequestMapping(method = RequestMethod.GET, value = "/finance/yfftj_detail")
 		  public String yfftj_detail(HttpServletRequest request) throws Exception

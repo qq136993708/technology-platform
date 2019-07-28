@@ -4,8 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
     <style>
         html{background-color: #F0F2F5;}
         .layui-fluid{padding: 0 8px;}
@@ -19,29 +22,17 @@
         <div class="fluid-top">
             <div class="searchBox">
                 <!--查询条件-->
-                <label class="dateInput">
+                <label class="dateInput" >
                     <span>年份</span>
-                    <input type="text" name="year"  title="月份" value="${year}"  id="year">
+                    <input type="text" name="year"   style="cursor:pointer"  readonly="readonly" title="月份" value="${year}"  id="year">
                     <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
                 </label>
-               <!--  <form class="layui-form" style="    display: inline;padding-left: 10px;">
-                    <div class="layui-input-inline">
-                        <#list projectCodeList as vo>
-                            <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
-                        </#list>
-                    </div>
-                </form> -->
-                <!--按钮组-->
-                <!-- <div class="btnGroup">
-                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
-                </div> -->
-                <span class="unitBox">单位：万元</span>
             </div>
         </div>
         <div class="layui-row layui-col-space15">
             <div class="layui-col-sm8">
              <div class="layui-card">
-                    <div class="layui-card-header">
+                    <div class="layui-card-header"  style="font-weight:bold">
                         <span class="layui-time"></span>近三年专业类别成果鉴定结论数量分布
                     </div>
                     <div class="layui-card-body btn-function">
@@ -52,7 +43,7 @@
             </div>
             <div class="layui-col-sm4">
                 <div class="layui-card">
-                    <div class="layui-card-header">
+                    <div class="layui-card-header" style="font-weight:bold">
                         <span class="layui-time"></span>近三年专业类别成果鉴定结论数量论占比分
                     </div>
                     <div class="layui-row-main">
@@ -66,7 +57,7 @@
         <div class="layui-row layui-col-space15">
             <div class="layui-col-sm8">
                 <div class="layui-card">
-                    <div class="layui-card-header">
+                    <div class="layui-card-header" style="font-weight:bold">
                         <span class="layui-time"></span>成果鉴定结论数量按研究院分布情况分析
                     </div>
                     <div class="layui-row-main">
@@ -76,7 +67,7 @@
             </div>
             <div class="layui-col-sm4">
                 <div class="layui-card">
-                    <div class="layui-card-header">
+                    <div class="layui-card-header" style="font-weight:bold">
                         <span class="layui-time"></span>成果鉴定结论数量按研究院占比分析
                     </div>
                     <div class="layui-row-main">
@@ -154,8 +145,21 @@ function init()
     	echart1.on('click', function (params) {
     		var xName=params.name;
     		var legentName=params.seriesName;
-    		var url=encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+year+"&ysnd="+year+"&ktlx="+legentName);
-            window.open("/instituteIndex?url="+url);
+			var nd=$('#year').val();
+    		if(legentName=='今年数量')
+   			{
+   			
+   			}
+    		if(legentName=='去年数量')
+   			{
+    			nd=parseInt(nd)-1;
+   			}
+    		if(legentName=='前年数量')
+   			{
+    			nd=parseInt(nd)-2;
+   			}
+    		//alert(nd);
+    		parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?zy=" + xName + "&nd=" +nd + "&groupFlag=jdh,sqjddw", "科技成果详情");
         });
     	
     	var url_8="/more-dimension/achievements_trend_analysis_01?type=2&nd="+year+"&v_date="+v_date;
@@ -163,7 +167,7 @@ function init()
     	echart8.on('click', function (params) {
     		var xName=params.name;
     		var legentName=params.seriesName;
-    		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+    		parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?zy=" + xName + "&nd=" + $('#year').val() + "&groupFlag=jdh,sqjddw", "科技成果详情");
         });
     	
     	
@@ -174,8 +178,7 @@ function init()
     	echart1.on('click', function (params) {
     		var xName=params.name;
     		var legentName=params.seriesName;
-    		var url=encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+year+"&ysnd="+year+"&ktlx="+legentName);
-            window.open("/instituteIndex?url="+url);
+    		parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define1=" + xName + "&nd=" + $('#year').val() + "&define3=直属研究院&define11=股份公司&groupFlag=jdh,sqjddw", "科技成果详情");
         });
     	
     	var url_8="/more-dimension/achievements_trend_analysis_02?type=2&nd="+year+"&v_date="+v_date;
@@ -183,7 +186,7 @@ function init()
     	echart8.on('click', function (params) {
     		var xName=params.name;
     		var legentName=params.seriesName;
-    		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+    		parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define1=" + xName + "&nd=" + $('#year').val() + "&define3=直属研究院&define11=股份公司&groupFlag=jdh,sqjddw", "科技成果详情");
         });
     	
     	

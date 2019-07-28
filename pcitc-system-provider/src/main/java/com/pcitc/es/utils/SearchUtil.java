@@ -186,7 +186,6 @@ public class SearchUtil {
             e.printStackTrace();
         }
         for (K key : map.keySet()) {
-            // System.out.println(key + "：" + map.get(key));
             String field = (String) key;
             // ES中通过client API获得到的结果map,所有的value都是String类型
             // （虽然是Object,但具体的子类类型仍未String,算作ES java client API的一个bug）

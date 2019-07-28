@@ -1210,6 +1210,51 @@
 		</foreach>
 	</insert>
 	
+	<!-- 查询条件的过滤 专业处、专利 -->
+    <sql id="dataFilterConditionPlan" >
+	   <if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+		  <if test="zycbmList != null">
+			  and (
+			  <foreach collection="zycbmList" item="itemVO" index="index" separator=" or ">
+				  (out_project_plan.zycbm = '${itemVO.zycbm}'
+				  <if test="itemVO.zylbbm != null">
+					  and find_in_set(out_project_plan.zylbbm, '${itemVO.zylbbm}')
+				  </if>)
+			  </foreach>
+			  )
+		  </if>
+		  <if test="zycbmList == null">
+			  and out_project_plan.nd = '1900'
+		  </if>
+	  </if>
+	  <if test="leaderFlag == null or leaderFlag == ''">
+		  and out_project_plan.nd = '1910'
+	  </if>
+  </sql>
+  
+  <!-- 查询条件的过滤 专业处、专利 -->
+  <sql id="dataFilterConditionInfo" >
+	 <if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+		<if test="zycbmList != null">
+			and (
+			<foreach collection="zycbmList" item="itemVO" index="index" separator=" or ">
+				(out_project_info.zycbm = '${itemVO.zycbm}'
+				<if test="itemVO.zylbbm != null">
+					and find_in_set(out_project_info.zylbbm, '${itemVO.zylbbm}')
+				</if>)
+			</foreach>
+			)
+		</if>
+		<if test="zycbmList == null">
+			and out_project_info.nd = '1900'
+		</if>
+	</if>
+	<if test="leaderFlag == null or leaderFlag == ''">
+		and out_project_info.nd = '1910'
+	</if>
+  </sql>
+  
+	
 	<!-- 直属研究院二级页面（领导），项目计划完成的比率，按照项目类型、资本性费用性来分组 -->
 	<select id="getPlanCompleteRateByOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select tableB.define1,
@@ -1226,18 +1271,8 @@
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
-				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
-				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(out_project_plan.zycbm, '${zycbm}')
-					</if>
-					<if test="zycbm == null or zycbm == ''">
-						and out_project_plan.nd = '1900'
-					</if>
-				</if>
-				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_plan.nd = '1900'
-				</if>
+				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<include refid="dataFilterConditionPlan" />
 				
 				group by out_project_plan.xmid
 		) as tableB 
@@ -1262,20 +1297,8 @@
 					and out_project_info.nd= '${nd}'
 				</if>
 				
-				<!-- 数据控制 -->
-				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
-				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(out_project_info.zycbm, '${zycbm}')
-					</if>
-					<if test="zycbm == null or zycbm == ''">
-						and out_project_info.nd = '1900'
-					</if>
-				</if>
-				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
-				</if>
-				<!-- 数据控制 -->
+				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			    <include refid="dataFilterConditionInfo" />
 				and out_project_info.PROJECT_TYPE != '1'
 				and define3='项目管理系统' and define2 not like '%休斯顿%' and define2 not like '%中东%' 
 				group by out_project_info.define10) as tableA ON (out_tem_money_decompose.unit_code = tableA.zycbm)
@@ -1286,15 +1309,19 @@
 			<!-- 数据控制 -->
 			<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
 			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-				<if test="zycbm != null and zycbm != ''">
-					and find_in_set(out_tem_money_decompose.unit_code, '${zycbm}')
+				<if test="zycbmList != null">
+					and (
+					<foreach collection="zycbmList" item="itemVO" index="index" separator=" or ">
+						out_tem_money_decompose.unit_code = '${itemVO.zycbm}'
+					</foreach>
+					)
 				</if>
-				<if test="zycbm == null or zycbm == ''">
-					and out_tem_money_decompose.unit_code = 'xxxxxxxx'
+				<if test="zycbmList == null">
+					and out_tem_money_decompose.unit_code = '1900'
 				</if>
 			</if>
 			<if test="leaderFlag == null or leaderFlag == ''">
-				and out_tem_money_decompose.unit_code = 'xxxxxxxx'
+				and out_tem_money_decompose.unit_code = '1910'
 			</if>
 			order by xh+0
 	</select>
@@ -1315,18 +1342,8 @@
 				<if test="xkFlag != null and xkFlag != ''">
 					and out_project_info.nd= '${nd}'
 				</if>
-				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
-				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(out_project_info.zycbm, '${zycbm}')
-					</if>
-					<if test="zycbm == null or zycbm == ''">
-						and out_project_info.nd = '1900'
-					</if>
-				</if>
-				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_info.nd = '1900'
-				</if>
+				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			    <include refid="dataFilterConditionInfo" />
 				and out_project_info.PROJECT_TYPE != '1'
 				and define3='项目管理系统' and define2 not like '%休斯顿%' and define2 not like '%中东%' 
 				group by out_project_info.define10) as tableA ON (sys_dictionary.num_value like concat('%',tableA.zycbm,'%'))
@@ -1375,18 +1392,8 @@
 					and out_project_plan.xmlbbm != 'KYZB'
 				</if>
 				
-				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
-				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(out_project_plan.zycbm, '${zycbm}')
-					</if>
-					<if test="zycbm == null or zycbm == ''">
-						and out_project_plan.nd = '1900'
-					</if>
-				</if>
-				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_plan.nd = '1900'
-				</if>
+				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			    <include refid="dataFilterConditionPlan" />
 			group by out_project_plan.XMID
 		) as tableB
 	</select>
@@ -1418,18 +1425,8 @@
 																 and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
-				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
-				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(out_project_plan.zycbm, '${zycbm}')
-					</if>
-					<if test="zycbm == null or zycbm == ''">
-						and out_project_plan.nd = '1900'
-					</if>
-				</if>
-				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_plan.nd = '1900'
-				</if>
+				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			    <include refid="dataFilterConditionPlan" />
 				
 				and out_project_plan.DEFINE3 like '%直属研究院%'
 				and out_project_plan.PROJECT_TYPE != '1'
@@ -1448,21 +1445,8 @@
 		from out_project_info
 		WHERE
 			out_project_info.ysnd= '${nd}' and out_project_info.xmlbbm !='KYZB'
-			<!-- 2领导能看所有的， 1领导能看到自己管理的部分-->
-			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-				<if test="zycbm != null and zycbm != ''">
-					and find_in_set(out_project_info.zycbm, '${zycbm}')
-				</if>
-				<if test="zsyjy != null and zsyjy != ''">
-					and find_in_set(SUBSTR(out_project_info.define2 FROM 6), '${zsyjy}')
-				</if>
-				<if test="zycbm == null or zycbm == ''">
-					and out_project_info.nd = '1900'
-				</if>
-			</if>
-			<if test="leaderFlag == null or leaderFlag == ''">
-				and out_project_info.nd = '1900'
-			</if>
+			<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			<include refid="dataFilterConditionInfo" />
 			and out_project_info.PROJECT_TYPE != '1' and out_project_info.type_flag like '%直属研究院%'
 			and define3='项目管理系统'
 			group by out_project_info.define2
@@ -1476,22 +1460,16 @@
 			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as htqdl
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
-																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
+			from out_project_plan left join out_project_info on (
+																 out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
+																 and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}'
+																 <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+		  														 <include refid="dataFilterConditionInfo" />
+			  													)
 			WHERE
 				out_project_plan.ND= '${nd}' 
-				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
-				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(out_project_plan.zycbm, '${zycbm}')
-					</if>
-					<if test="zycbm == null or zycbm == ''">
-						and out_project_plan.nd = '1900'
-					</if>
-				</if>
-				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_plan.nd = '1900'
-				</if>
+				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			    <include refid="dataFilterConditionPlan" />
 				
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.define4 = '项目管理系统'
@@ -1503,47 +1481,48 @@
 	
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照研究院来分组 -->
 	<select id="getPlanCompleteRateByPlanTypeForHana" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select round(sum(K0DMBTR)/10000,2) as hanaMoney,tableB.*,
-		       round((zysje - zsjje),2) as wqhtzje,round((zsjje - sum(K0DMBTR)/10000),2) as wbkzje
-		from expenses_pay_hana,(
-			select define2,define3,zsjje, round((out_tem_money_total.zbx_money+out_tem_money_total.fyx_money), 4) as zysje,
-							round((out_tem_money_total.zbx_money+out_tem_money_total.fyx_money)-zsjje,4) as wxdje,
-							round(zsjje/(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money)*100,4) as jeRate,
-			        case when define2 = '勘探院' then '0033550000'  
-			             when define2 = '工程院' then '0035800000' 
-			             when define2 = '物探院' then '0033550006' 
-			             when define2 = '石科院' then '0033600000' 
-			             when define2 = '大连院' then '0033700000,0034880000' 
-			             when define2 = '北化院' then '0033650000' 
-			             when define2 = '上海院' then '0033750000' 
-			             when define2 = '安工院' then '0033800000' else '' end as hanaCode
-					from (
-						select 
-									 SUBSTR(out_project_info.define2 FROM 6) as define2, out_project_info.define2 as define3,
-									 round(sum(ysje),4) as zsjje
-						from out_project_info
-						WHERE
-							out_project_info.ysnd= '${nd}' 
-							and out_project_info.PROJECT_TYPE != '1' and out_project_info.type_flag like '%直属研究院%'
-							and define3='项目管理系统'
-							group by out_project_info.define2) as tableA LEFT JOIN out_tem_money_total ON (tableA.define2 = out_tem_money_total.show_ali and out_tem_money_total.nd = '${nd}')
-			) tableB 
-		WHERE 
-		find_in_set(expenses_pay_hana.G0LIFNR,tableB.hanaCode)  
-		and STRCMP(left(G0AUGDT, 6), '${startMonth}') &gt; -1
-		and STRCMP(left(G0AUGDT, 6), '${endMonth}') &lt; 1
-		GROUP BY tableB.hanaCode
-		ORDER BY tableB.define3
+		
+		select round(sum(K0DMBTR)/10000,2) as hanaMoney,ifnull(tableB.zsjje, 0) as zsjje,sys_dictionary.name as define2,
+			   round((ifnull(tableB.zsjje, 0) - sum(K0DMBTR)/10000),2) as wbkzje
+		from sys_dictionary left join expenses_pay_hana on (
+										find_in_set(expenses_pay_hana.G0LIFNR,sys_dictionary.num_value)  
+										and STRCMP(left(G0AUGDT, 6), '${startMonth}') &gt; -1
+										and STRCMP(left(G0AUGDT, 6), '${endMonth}') &lt; 1
+									)
+							left join (
+								select SUBSTR(out_project_info.define2 FROM 6) as define2,out_project_info.define2 as define3,round(sum(ysje),4) as zsjje
+								        
+								from out_project_info
+								WHERE
+									out_project_info.ysnd= '${nd}' and out_project_info.nd = '${nd}'
+									and out_project_info.PROJECT_TYPE != '1' and out_project_info.type_flag like '%直属研究院%'
+									and define3='项目管理系统'
+									
+									<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+									<include refid="dataFilterConditionInfo" />
+									
+									group by out_project_info.define2
+								)  as tableB on (sys_dictionary.name = tableB.define2)
+		where 
+			sys_dictionary.parent_code = 'ROOT_FZJCZX_YSBK'
+		GROUP BY sys_dictionary.name
+		ORDER BY isdelete
 	</select>
 	
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照月份分组 -->
 	<select id="getPlanCompleteRateByPlanTypeForHanaMonth" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select CONCAT('${nd}',sys_dictionary.num_value) as yearMonth,round(ifnull(tableD.hanaMoney, '0'), 2) as hanaMoney,
-			   round(ifnull(tableD.zysje, '0'), 2) as zysje,  round(ifnull(tableD.zsjje, '0'), 2) as zsjje
+		select CONCAT('${nd}',sys_dictionary.num_value) as yearMonth,round(ifnull(tableB.hanaMoney, '0'), 2) as hanaMoney,
+			   round(ifnull(tableC.ysje, '0'), 2) as zsjje
 		from sys_dictionary left join (
-			select tableB.*,IFNULL(sum(tableC.jf),0) as zsjje  from (
-				select tableA.*,(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money) as zysje 
-				from (
+					select sum(ysje) as ysje,left(define16, 6) as projectMount
+					from out_project_info
+					where 
+						left(define16, 4) = '${nd}' and define3='项目管理系统' and project_type != 1 and type_flag like '%研究院%' and ysnd = '${nd}'
+						<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			  			<include refid="dataFilterConditionInfo" />
+					GROUP BY left(define16, 6)
+			) tableC on (tableC.projectMount = CONCAT('${nd}',sys_dictionary.num_value))
+			left join (
 					select round(sum(K0DMBTR)/10000,2) as hanaMoney, left(G0AUGDT, 6) as yearMonth
 					from expenses_pay_hana
 					where 
@@ -1552,18 +1531,11 @@
 					and STRCMP(left(G0AUGDT, 6), '${endMonth}') &lt; 1
 					GROUP BY left(G0AUGDT, 6)
 					ORDER BY left(G0AUGDT, 6)
-				) tableA LEFT JOIN out_tem_money_total ON (left(yearMonth, 4) = out_tem_money_total.nd AND out_tem_money_total.budget_code = 'GFFZSY')
-				) as tableB left join (
-					select xmid,jf,left(define16, 6) as projectMount
-					from out_project_info
-					where 
-						left(define16, 4) = '${nd}'
-					GROUP BY xmid
-			) tableC on (tableC.projectMount = tableB.yearMonth)
-			GROUP BY tableB.yearMonth) as tableD on (sys_dictionary.num_value = SUBSTR(tableD.yearMonth FROM 5))
+				) as tableB on (CONCAT('${nd}',sys_dictionary.num_value) = tableB.yearMonth)
 		where 
 		sys_dictionary.parent_code = 'ROOT_FZJCZX_YD'
 		ORDER BY isdelete
+		
 	</select>
 	
 	<!-- 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组 -->
@@ -1590,18 +1562,8 @@
 																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
-				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
-				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(out_project_plan.zycbm, '${zycbm}')
-					</if>
-					<if test="zycbm == null or zycbm == ''">
-						and out_project_plan.nd = '1900'
-					</if>
-				</if>
-				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_plan.nd = '1900'
-				</if>
+				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			    <include refid="dataFilterConditionPlan" />
 				
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.define4 = '项目管理系统'
@@ -1623,18 +1585,8 @@
 		where 
 			  ysnd= '${nd}' and project_type != '1' and 
 			  out_project_info.define3 = '项目管理系统'
-		    <!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
-			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-				<if test="zycbm != null and zycbm != ''">
-					and find_in_set(out_project_info.zycbm, '${zycbm}')
-				</if>
-				<if test="zycbm == null or zycbm == ''">
-					and out_project_info.nd = '1900'
-				</if>
-			</if>
-			<if test="leaderFlag == null or leaderFlag == ''">
-				and out_project_info.nd = '1900'
-			</if>
+		      <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			  <include refid="dataFilterConditionInfo" />
 		group by type_flag
 	</select>
 	
@@ -1666,18 +1618,8 @@
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.ND= '${nd}'  and out_project_info.define3 = '项目管理系统')
 			WHERE
 				out_project_plan.ND = '${nd}' 
-				<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
-				<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-					<if test="zycbm != null and zycbm != ''">
-						and find_in_set(out_project_plan.zycbm, '${zycbm}')
-					</if>
-					<if test="zycbm == null or zycbm == ''">
-						and out_project_plan.nd = '1900'
-					</if>
-				</if>
-				<if test="leaderFlag == null or leaderFlag == ''">
-					and out_project_plan.nd = '1900'
-				</if>
+				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<include refid="dataFilterConditionPlan" />
 				
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.define4 = '项目管理系统'
@@ -1687,15 +1629,201 @@
 		order by tableB.DEFINE3
 	</select>
 	
+	
+	
+	
+	<!-- 共用查询SQL-->
+	<sql id="selectCondition">
+	     <if test="nd != null and nd != ''">
+				and find_in_set(tableA.nd, '${nd}')
+			</if>
+			<if test="ysnd != null and ysnd != ''">
+				and tableA.ysnd = #{ysnd}
+			</if>
+			<if test="hth != null and hth != ''">
+				and tableA.hth like '%${hth}%'
+			</if>
+			<if test="xmmc != null and xmmc != ''">
+				and tableA.xmmc like '%${xmmc}%'
+			</if>
+			<if test="ktlx != null and ktlx == '新开课题' and nd != null and nd != ''">
+				and tableA.ysnd = #{nd} and tableA.nd = #{nd} 
+			</if>
+			<if test="ktlx != null and ktlx == '结转课题' and ysnd != null and ysnd != ''">
+				and tableA.ysnd = #{ysnd} and tableA.nd &lt; #{ysnd} 
+			</if>
+			<if test="qdbz != null and qdbz == '已签订'">
+				and tableA.qdbz is not null
+			</if>
+			<if test="qdbz != null and qdbz == '未签订'">
+				and tableA.qdbz is null
+			</if>
+			<if test="define1 != null">
+				and (
+				<foreach collection="define1" item="item" index="index" separator=" or ">
+					tableA.define1 like '%${item}%'
+				</foreach>
+				)
+			</if>
+			
+			<!-- define12, 财务相关的牵头单位，所以查询define13 -->
+			<if test="fzdwflag != null and fzdwflag == '牵头单位'">
+				<if test="define12 != null">
+					and (
+					<foreach collection="define12" item="item" index="index" separator=" or ">
+						tableA.define13 like '%${item}%'
+					</foreach>
+					)
+				</if>
+				<if test="define2 != null">
+					and (
+					<foreach collection="define2" item="item" index="index" separator=" or ">
+						tableA.fzdwunitcw like '%${item}%'
+					</foreach>
+					)
+				</if>
+				<if test="unitName != null">
+					and tableA.fzdw like '%${unitName}%'
+				</if>
+			</if>
+			
+			<!-- define12, 财务相关的参与单位，所以查询define3 -->
+			<if test="fzdwflag == null or fzdwflag == '' or fzdwflag == '参与单位'">
+				<if test="define12 != null">
+					and (
+					<foreach collection="define12" item="item" index="index" separator=" or ">
+						tableA.DEFINE3 like '%${item}%'
+					</foreach>
+					)
+				</if>
+				<if test="define2 != null">
+					and (
+					<foreach collection="define2" item="item" index="index" separator=" or ">
+						tableA.define2 like '%${item}%'
+					</foreach>
+					)
+				</if>
+				<if test="unitName != null">
+					and tableA.define8 like '%${unitName}%'
+				</if>
+			</if>
+			
+			<if test="define10 != null">
+				and (
+				<foreach collection="define10" item="item" index="index" separator=" or ">
+					tableA.define10 like '%${item}%'
+				</foreach>
+				)
+			</if>
+			<if test="define9 != null">
+				and (
+				<foreach collection="define9" item="item" index="index" separator=" or ">
+					tableA.define9 like '%${item}%'
+				</foreach>
+				)
+			</if>
+			<if test="define11 != null">
+				and (
+				<foreach collection="define11" item="item" index="index" separator=" or ">
+					tableA.define11 like '%${item}%'
+				</foreach>
+				)
+			</if>
+			
+			<if test="project_property != null">
+				and (
+				<foreach collection="project_property" item="project_property1" index="index" separator=" or ">
+					tableA.project_property like '%${project_property1}%'
+				</foreach>
+				)
+			</if>
+			<if test="projectScope != null">
+				and tableA.project_scope like '%${projectScope}%'
+			</if>
+			<if test="zylb != null">
+				and (
+				<foreach collection="zylb" item="zylb1" index="index" separator=" or ">
+					tableA.zylb like '%${zylb1}%'
+				</foreach>
+				)
+			</if>
+			<if test="type_flag != null">
+				and (
+				<foreach collection="type_flag" item="type_flag1" index="index" separator=" or ">
+					tableA.DEFINE3 like '%${type_flag1}%'
+				</foreach>
+				)
+			</if>
+			
+			<!-- 数据控制 -->
+			<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
+			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+				<if test="zycbmList != null">
+					and (
+					<foreach collection="zycbmList" item="itemVO1" index="index" separator=" or ">
+						(tableA.zycbm = '${itemVO1.zycbm}'
+						<if test="itemVO1.zylbbm != null">
+							and find_in_set(tableA.zylbbm, '${itemVO1.zylbbm}')
+						</if>)
+					</foreach>
+					)
+				</if>
+				<if test="zycbmList == null">
+					and tableA.nd = '1900'
+				</if>
+			</if>
+			<if test="leaderFlag == null or leaderFlag == ''">
+				and tableA.nd = '1910'
+			</if>
+			<!-- 数据控制 -->
+			
+			<!-- 部门-处室-专业类别, 加Flag和数据控制的字段区分出来-->
+			<if test="gsbmbmFlag != null and gsbmbmFlag != ''">
+				and find_in_set(tableA.gsbmbm, '${gsbmbmFlag}')
+			</if>
+			<if test="zycbmFlag != null and zycbmFlag != ''">
+				and find_in_set(tableA.zycbm, '${zycbmFlag}')
+			</if>
+			<if test="zylbbmFlag != null and zylbbmFlag != ''">
+				and find_in_set(tableA.zylbbm, '${zylbbmFlag}')
+			</if>
+	</sql>
+	
+	<!-- 共用查询SQL   分组排序-->
+	<sql id="selectCondition_group">
+	      <if test="groupFlag != null">
+				<if test="groupFlag != ''">
+					GROUP BY ${groupFlag}
+				</if>
+				<if test="groupFlag == ''">
+					GROUP BY XMID
+				</if>
+			</if>
+			<if test="groupFlag == null">
+				GROUP BY XMID
+			</if>
+			<if test="orderKey != null">
+				<if test="orderType != ''">
+					order by ${orderKey} ${orderType}
+				</if>
+				<if test="orderType == ''">
+					order by tableA.hth desc, tableA.define10
+				</if>
+			</if>
+			<if test="orderKey == null">
+				order by tableA.hth desc, tableA.define10
+			</if>
+	</sql>
+	
+	
 	<!-- 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用 -->
 	<select id="selectProjectPlanByCond" resultType="com.pcitc.base.stp.out.OutProjectPlan" parameterType="java.util.HashMap">
-		select tableA.DEFINE1,tableA.DEFINE2,tableA.DEFINE3,GROUP_CONCAT(tableA.DEFINE8) as define8,
-			   tableA.DEFINE9,tableA.DEFINE10,tableA.DEFINE11,tableA.DEFINE12,tableA.XMMC,tableA.YSND,
-			   tableA.JF,sum(tableA.YSJE) as YSJE,
-			   sum(tableA.YSZBXJE) as YSZBXJE,sum(tableA.YSFYXJE) as YSFYXJE,
-			   tableA.PROJECT_PROPERTY as projectProperty,tableA.PROJECT_SCOPE as projectScope,tableA.FZDW,tableA.ZYLB,
-			   tableA.ND,tableA.HTH,tableA.ZYCMC,
-			   case when tableA.qdbz is null then '未签订' else '已签订' end as qdbz
+		select 
+			   '' as DEFINE1,'' as DEFINE2,'' as DEFINE3,'' as define8,
+			   '' as DEFINE9,'' as DEFINE10,'' as DEFINE11,'' as DEFINE12,'' as XMMC,'' as YSND,
+			   '' as JF ,round(sum(tableA.YSJE), 2) as YSJE, round(sum(tableA.YSZBXJE), 2) as YSZBXJE,round(sum(tableA.YSFYXJE), 2) as YSFYXJE,
+			   '' as projectProperty,'' as projectScope,'' as FZDW,'' as ZYLB,
+			   '合计' as ND,'' as HTH,'' as ZYCMC,'' as  qdbz
 		from (
 			select out_project_plan.DEFINE1,out_project_plan.DEFINE9,
 				   SUBSTR(out_project_plan.DEFINE2 FROM 6) as DEFINE2,
@@ -1724,175 +1852,51 @@
 				) as tableA
 		WHERE 
 			1 = 1
-			<if test="nd != null and nd != ''">
-				and find_in_set(tableA.nd, '${nd}')
-			</if>
-			<if test="ysnd != null and ysnd != ''">
-				and tableA.ysnd = #{ysnd}
-			</if>
-			<if test="hth != null and hth != ''">
-				and tableA.hth like '%${hth}%'
-			</if>
-			<if test="xmmc != null and xmmc != ''">
-				and tableA.xmmc like '%${xmmc}%'
-			</if>
-			<if test="ktlx != null and ktlx == '新开课题' and nd != null and nd != ''">
-				and tableA.ysnd = #{nd} and tableA.nd = #{nd} 
-			</if>
-			<if test="ktlx != null and ktlx == '结转课题' and ysnd != null and ysnd != ''">
-				and tableA.ysnd = #{ysnd} and tableA.nd &lt; #{ysnd} 
-			</if>
-			<if test="qdbz != null and qdbz == '已签订'">
-				and tableA.qdbz is not null
-			</if>
-			<if test="qdbz != null and qdbz == '未签订'">
-				and tableA.qdbz is null
-			</if>
-			<if test="define1 != null">
-				and (
-				<foreach collection="define1" item="define1" index="index" separator=" or ">
-					tableA.define1 like '%${define1}%'
-				</foreach>
-				)
-			</if>
+			<!-- 引用SQL -->
+			<include refid="selectCondition"/>
 			
-			<!-- define12, 财务相关的牵头单位，所以查询define13 -->
-			<if test="fzdwflag != null and fzdwflag == '牵头单位'">
-				<if test="define12 != null">
-					and (
-					<foreach collection="define12" item="define12" index="index" separator=" or ">
-						tableA.define13 like '%${define12}%'
-					</foreach>
-					)
-				</if>
-				<if test="define2 != null">
-					and (
-					<foreach collection="define2" item="define2" index="index" separator=" or ">
-						tableA.fzdwunitcw like '%${define2}%'
-					</foreach>
-					)
-				</if>
-				<if test="unitName != null">
-					and tableA.fzdw like '%${unitName}%'
-				</if>
-			</if>
-			
-			<!-- define12, 财务相关的参与单位，所以查询define3 -->
-			<if test="fzdwflag == null or fzdwflag == '' or fzdwflag == '参与单位'">
-				<if test="define12 != null">
-					and (
-					<foreach collection="define12" item="define12" index="index" separator=" or ">
-						tableA.DEFINE3 like '%${define12}%'
-					</foreach>
-					)
-				</if>
-				<if test="define2 != null">
-					and (
-					<foreach collection="define2" item="define2" index="index" separator=" or ">
-						tableA.define2 like '%${define2}%'
-					</foreach>
-					)
-				</if>
-				<if test="unitName != null">
-					and tableA.define8 like '%${unitName}%'
-				</if>
-			</if>
-			
-			<if test="define10 != null">
-				and (
-				<foreach collection="define10" item="define10" index="index" separator=" or ">
-					tableA.define10 like '%${define10}%'
-				</foreach>
-				)
-			</if>
-			<if test="define9 != null">
-				and (
-				<foreach collection="define9" item="define9" index="index" separator=" or ">
-					tableA.define9 like '%${define9}%'
-				</foreach>
-				)
-			</if>
-			<if test="define11 != null">
-				and (
-				<foreach collection="define11" item="define11" index="index" separator=" or ">
-					tableA.define11 like '%${define11}%'
-				</foreach>
-				)
-			</if>
-			
-			<if test="project_property != null">
-				and (
-				<foreach collection="project_property" item="project_property" index="index" separator=" or ">
-					tableA.project_property like '%${project_property}%'
-				</foreach>
-				)
-			</if>
-			<if test="projectScope != null">
-				and tableA.project_scope like '%${projectScope}%'
-			</if>
-			<if test="zylb != null">
-				and (
-				<foreach collection="zylb" item="zylb" index="index" separator=" or ">
-					tableA.zylb like '%${zylb}%'
-				</foreach>
-				)
-			</if>
-			<if test="type_flag != null">
-				and (
-				<foreach collection="type_flag" item="type_flag" index="index" separator=" or ">
-					tableA.DEFINE3 like '%${type_flag}%'
-				</foreach>
-				)
-			</if>
-			
-			<!-- 数据控制 -->
-			<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
-			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
-				<if test="zycbm != null and zycbm != ''">
-					and find_in_set(tableA.zycbm, '${zycbm}')
-				</if>
-				<if test="zycbm == null or zycbm == ''">
-					and tableA.nd = '1900'
-				</if>
-			</if>
-			<if test="leaderFlag == null or leaderFlag == ''">
-				and tableA.nd = '1900'
-			</if>
-			<!-- 数据控制 -->
-			
-			<!-- 部门-处室-专业类别, 加Flag和数据控制的字段区分出来-->
-			<if test="gsbmbmFlag != null and gsbmbmFlag != ''">
-				and find_in_set(tableA.gsbmbm, '${gsbmbmFlag}')
-			</if>
-			<if test="zycbmFlag != null and zycbmFlag != ''">
-				and find_in_set(tableA.zycbm, '${zycbmFlag}')
-			</if>
-			<if test="zylbbmFlag != null and zylbbmFlag != ''">
-				and find_in_set(tableA.zylbbm, '${zylbbmFlag}')
-			</if>
-			
-			<if test="groupFlag != null">
-				<if test="groupFlag != ''">
-					GROUP BY ${groupFlag}
-				</if>
-				<if test="groupFlag == ''">
-					GROUP BY XMID
-				</if>
-			</if>
-			<if test="groupFlag == null">
-				GROUP BY XMID
-			</if>
-			<if test="orderKey != null">
-				<if test="orderType != ''">
-					order by ${orderKey} ${orderType}
-				</if>
-				<if test="orderType == ''">
-					order by tableA.hth desc, tableA.define10
-				</if>
-			</if>
-			<if test="orderKey == null">
-				order by tableA.hth desc, tableA.define10
-			</if>
+		union all
+		
+		select * from (
+						select tableA.DEFINE1,tableA.DEFINE2,tableA.DEFINE3,GROUP_CONCAT(tableA.DEFINE8) as define8,
+							   tableA.DEFINE9,tableA.DEFINE10,tableA.DEFINE11,tableA.DEFINE12,tableA.XMMC,tableA.YSND,
+							   tableA.JF,sum(tableA.YSJE) as YSJE,
+							   sum(tableA.YSZBXJE) as YSZBXJE,sum(tableA.YSFYXJE) as YSFYXJE,
+							   tableA.PROJECT_PROPERTY as projectProperty,tableA.PROJECT_SCOPE as projectScope,tableA.FZDW,tableA.ZYLB,
+							   tableA.ND,tableA.HTH,tableA.ZYCMC,
+							   case when tableA.qdbz is null then '未签订' else '已签订' end as qdbz
+						from (
+							select out_project_plan.DEFINE1,out_project_plan.DEFINE9,
+								   SUBSTR(out_project_plan.DEFINE2 FROM 6) as DEFINE2,
+								   SUBSTR(out_project_plan.DEFINE3 FROM 4) as DEFINE3,
+								   SUBSTR(out_project_plan.DEFINE10 FROM 4) as DEFINE10,
+								   SUBSTR(out_project_plan.DEFINE11 FROM 2) as DEFINE11,
+								   SUBSTR(out_project_plan.DEFINE12 FROM 4) as DEFINE12,
+								   SUBSTR(out_project_plan.DEFINE13 FROM 2) as DEFINE13,
+								   SUBSTR(out_project_plan.FZDWUNITCW FROM 6) as FZDWUNITCW,
+								   SUBSTR(out_project_plan.FZDWUNIT FROM 4) as FZDWUNIT,
+								   out_project_plan.zycbm,out_project_plan.zylbbm,out_project_plan.gsbmbm,
+								   out_project_plan.XMID,out_project_plan.XMMC,out_project_plan.YSND,
+								   out_project_plan.JF,out_project_plan.YSJE,
+								   out_project_plan.YSZBXJE,out_project_plan.YSFYXJE,
+								   out_project_plan.PROJECT_PROPERTY,out_project_plan.PROJECT_SCOPE,out_project_plan.FZDW,out_project_plan.ZYLB,
+							       out_project_plan.ND,out_project_plan.DEFINE8,out_project_plan.HTH,
+							       out_project_plan.ZYCMC,out_project_info.xmid as qdbz
+							from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid 
+																				 and out_project_plan.YSND= out_project_info.YSND 
+																				 and out_project_plan.define8 = out_project_info.define8
+																				 and out_project_info.PROJECT_TYPE != '1'
+																				 and out_project_info.define3 = '项目管理系统')	              
+							WHERE
+								   out_project_plan.PROJECT_TYPE != '1'
+								   and out_project_plan.define4 = '项目管理系统'
+								) as tableA
+						WHERE 
+							1 = 1
+							<!-- 引用SQL -->
+							<include refid="selectCondition"/>
+							<include refid="selectCondition_group"/>
+			) as tableB
 			
 	</select>
 	
@@ -1927,6 +1931,8 @@
 					   <if test="endDate != null and endDate != ''.toString() ">
 					   	   and STRCMP(out_project_plan.KSSJ, '${endDate}') &lt;= 0
 					   </if>
+					   <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+					   <include refid="dataFilterConditionPlan" />
 				group by out_project_plan.XMID
 				<if test="orderKey != null">
 					<if test="orderType != ''">

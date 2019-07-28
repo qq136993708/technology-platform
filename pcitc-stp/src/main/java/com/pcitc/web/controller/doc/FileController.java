@@ -104,7 +104,6 @@ public class FileController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>country_table_data:" + result.toString());
 		return result.toString();
 	}
 	

@@ -10,9 +10,12 @@ import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 
 
@@ -65,8 +68,19 @@ public class PoiExcelExportUitl<T> {
         
         
         HSSFCellStyle cellstyl_center = hssfworkbook.createCellStyle();
-        cellstyl_center.setAlignment(HorizontalAlignment.CENTER); ;//右
+        cellstyl_center.setAlignment(HorizontalAlignment.LEFT); ;
         cellstyl_center.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
+        
+        // 背景色
+        cellstyl_center.setFillForegroundColor(IndexedColors.DARK_RED.getIndex());
+        cellstyl_center.setFillPattern(FillPatternType.SOLID_FOREGROUND); 
+
+        // 设置边框
+        cellstyl_center.setBorderBottom(BorderStyle.THIN);
+        cellstyl_center.setBorderLeft(BorderStyle.THIN);
+        cellstyl_center.setBorderRight(BorderStyle.THIN);
+        cellstyl_center.setBorderTop(BorderStyle.THIN);  
+        
         
         
         for (int i = 0; i <= (list.size() / 65535); i++)

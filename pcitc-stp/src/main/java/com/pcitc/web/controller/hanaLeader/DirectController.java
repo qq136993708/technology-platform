@@ -206,7 +206,7 @@ public class DirectController extends BaseController {
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String define3 = CommonUtil.getParameter(request, "define3", "研究院");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -259,7 +259,7 @@ public class DirectController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
-		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String define3 = CommonUtil.getParameter(request, "define3", "研究院");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -317,7 +317,7 @@ public class DirectController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_ALL);
 		String type = CommonUtil.getParameter(request, "type", "1");
-		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String define3 = CommonUtil.getParameter(request, "define3", "研究院");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -378,7 +378,7 @@ public class DirectController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_ALL);
 		String type = CommonUtil.getParameter(request, "type", "1");
-		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String define3 = CommonUtil.getParameter(request, "define3", "研究院");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -638,6 +638,9 @@ public class DirectController extends BaseController {
 		return "stp/hana/home/oneLevelMain/direct/contract";
 	}
 
+	/**
+	 * 合同签订率
+	 */
 	@RequestMapping(value = "/direct/contract_01")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
@@ -648,7 +651,7 @@ public class DirectController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
-		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String define3 = CommonUtil.getParameter(request, "define3", "");
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 
@@ -737,7 +740,7 @@ public class DirectController extends BaseController {
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String define3 = CommonUtil.getParameter(request, "define3", "研究院");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -781,7 +784,7 @@ public class DirectController extends BaseController {
 		PageResult pageResult = new PageResult();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String define3 = CommonUtil.getParameter(request, "define3", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -871,7 +874,7 @@ public class DirectController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
-		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String define3 = CommonUtil.getParameter(request, "define3", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
@@ -952,7 +955,7 @@ public class DirectController extends BaseController {
 		Result result = new Result();
 		String type = CommonUtil.getParameter(request, "type", "");
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String define3 = CommonUtil.getParameter(request, "define3", "研究院");
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 
@@ -1540,7 +1543,7 @@ public class DirectController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
-		String define3 = CommonUtil.getParameter(request, "define3 ", "研究院");
+		String define3 = CommonUtil.getParameter(request, "define3", "研究院");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);

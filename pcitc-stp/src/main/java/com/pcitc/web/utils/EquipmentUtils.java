@@ -743,10 +743,10 @@ public class EquipmentUtils {
 			
 		}
 		//如果没有配置数据权限，则默认所有
-	    if(arrayList.size()<=0)
+	   /* if(arrayList.size()<=0)
 	    {
 	    	result=sysDictionaryList;
-	    }
+	    }*/
 	    return result;
 	}
 	

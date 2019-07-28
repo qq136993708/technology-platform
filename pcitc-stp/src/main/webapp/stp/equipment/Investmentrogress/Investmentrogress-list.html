@@ -49,7 +49,7 @@
 	         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
 	             <option value="" >--请选择--</option>
 	             <#list dictonary as vo> 
-			          <option value="${vo.numValue}"  >${vo.name}</option>
+			          <option value="${vo.numValue}"  >${vo.remark}</option>
 			      </#list>
 			 </select>
 	     </label>
@@ -329,7 +329,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"leadUnitCode":$("#leadUnitCode").val(),"name":$("#name").val(),"contractNum":$("#contractNum").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"leadname":$("#leadUnitCode").val(),"name":$("#name").val(),"contractNum":$("#contractNum").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

@@ -6,8 +6,6 @@
 <meta
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport">
-<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css">
     
     
       <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
@@ -28,18 +26,14 @@
 		<div class="">
 			<div class="fluid-top">
 				<div class="searchBox">
-                   <div style="text-align:left">
+                   <div >
 						<label class="dateInput">
 							<span>年份</span>
-							<input type="text" name="nd"  title="月份" value="${nd}"  id="nd">
+							<input type="text" name="nd"   style="cursor:pointer"  readonly="readonly" title="月份" value="${nd}"  id="nd">
 							<i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
 						</label>
                    </div>
 
-					<div class="layui-input-inline">
-				 </div>
-					<!--按钮组-->
-					<span class="unitBox">单位：万元</span>
 				</div>
 			</div>
 			<div class="layui-row layui-col-space15">

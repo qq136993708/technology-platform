@@ -17,7 +17,7 @@
     <!--查询条件-->
          <label class="dateInput">
             <span>月份</span>
-            <input type="text" name="month"  title="月份" value="${month}"  id="month">
+            <input type="text" name="month"  readonly="readonly" style="cursor:pointer" title="月份" value="${month}"  id="month">
             <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
         </label>
        <div class="layui-input-inline"  style="margin-left:10px">
@@ -33,6 +33,7 @@
 
 
 <div class="tableBox">
+<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
 <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>项目资金流向分析</h3>
    <!--  <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"> -->
     <table id="myTable" class="layui-table" lay-filter="myTable" >
@@ -196,25 +197,53 @@ layui.config({
     
        
        
-    function renderTable()
-    {
-    	 var month=$("#month").val();
-    	 var companyCode=$("#companyCode").val();
-    	 month=month.replace("-","");
-    	 var v_date=(new Date()).getTime();
-    	 //alert(companyCode);
-    	 var url= '/xmzjlxfx_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
-    	 table.init('myTable', {
-    			  url: url
-    			  ,height: commonDislodgeTable()-100
-    			  ,where: {} ,
-    			  done: function (res, curr, count) {layer.closeAll('loading');}
-    			  
-    			});
-    	 
-    	 
-    }
+   
+	function renderTable() {
+		var month = $("#month").val();
+		var companyCode = $("#companyCode").val();
+		month = month.replace("-", "");
+		var v_date = (new Date()).getTime();
+		var companyCode = $("#companyCode").val();
+		if (companyCode != null && companyCode != '') 
+		{
+			var url = '/xmzjlxfx_data?month=' + month + "&v_date=" + v_date+ "&companyCode=" + companyCode;
+			table.init('myTable', {
+				url : url,
+				height : commonDislodgeTable() - 100,
+				where : {},
+				done : function(res, curr, count) {
+					layer.closeAll('loading');
+				}
 
+			});
+
+		} else
+		{
+			layer.alert('请联系管理员配置该菜单数据权限', {
+				icon : 4,
+				skin : 'layer-ext-moon'
+			});
+		}
+
+	}
+
+	function exput_excel() 
+	{
+		var companyCode = $('#companyCode').val();
+		var month = $('#month').val();
+		month = month.replace("-", "");
+		if (companyCode != null && companyCode != '') 
+		{
+			window.open("/xmzjlxfx_data_exput_excel?month=" + month+ "&companyCode=" + companyCode);
+		} else
+		{
+			layer.alert('请联系管理员配置该菜单数据权限', {
+				icon : 4,
+				skin : 'layer-ext-moon'
+			});
+		}
+		
+	}
 </script>
 
 </body>

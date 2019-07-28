@@ -23,6 +23,28 @@
 .searchBox {
 	background: none;
 }
+
+.layui-row-main td:nth-child(2) .layui-table-cell {
+	color: red;
+}
+
+.layui-row-main td:nth-child(3) .layui-table-cell {
+	color: green;
+}
+
+
+
+
+
+.layui-row-main2 td:nth-child(3) .layui-table-cell {
+	color: red;
+}
+
+.layui-row-main2 td:nth-child(4) .layui-table-cell {
+	color: green;
+}
+
+
 </style>
 </head>
 <body>
@@ -36,7 +58,7 @@
 				<div class="searchBox">
 					<label class="dateInput">
 						<span>年份</span>
-						<input type="text" name="nd" placeholder="请选择年份" title="年份" value="${nd}" autocomplete="off" class="form-control" id="nd">
+						<input type="text" name="nd" readonly="readonly" style="cursor:pointer"  placeholder="请选择年份" title="年份" value="${nd}" autocomplete="off" class="form-control" id="nd">
 					</label>
 					<div class="btnGroup">
 						<button id="table_detail_id" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details">详情</button>
@@ -48,8 +70,7 @@
 					<div class="layui-col-md5">
 						<div class="layui-card">
 							<div class="layui-card-header">
-								<span class="layui-time"></span>
-								年全口径新开课题合同（任务书）签订率
+								<span class="layui-time"></span>年全口径新开课题合同（任务书）签订率
 							</div>
 							<div class="layui-row-main">
 								<div class="text-total">
@@ -79,8 +100,7 @@
 					<div class="layui-col-md5" style="padding-left: 15px;">
 						<div class="layui-card">
 							<div class="layui-card-header">
-								<span class="layui-time"></span>
-								年全口径新开课题合同（任务书）签订率
+								<span class="layui-time"></span>年全口径新开课题合同（任务书）签订率
 							</div>
 							<div class="layui-row-main">
 								<div class="main-chart" id="direct_contract_01_01" style="height: 270px; width: 100%;"></div>
@@ -91,8 +111,7 @@
 				<div class="layui-col-md4">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年全口径新开课题合同（任务书）签订率清单
+							<span class="layui-time"></span>年全口径新开课题合同（任务书）签订率清单
 						</div>
 						<div class="layui-row-main" style="height: 270px;">
 							<table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
@@ -107,8 +126,7 @@
 				<div class="layui-col-md8">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年新开课题合同（任务书）签订率
+							<span class="layui-time"></span>年新开课题合同（任务书）签订率
 						</div>
 						<div class="layui-row-main">
 
@@ -119,11 +137,10 @@
 				<div class="layui-col-md4">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年新开课题合同（任务书）签订率清单
+							<span class="layui-time"></span>年新开课题合同（任务书）签订率清单
 							<div class="layui-tool"></div>
 						</div>
-						<div class="layui-row-main" id="processdef_table_div">
+						<div class="layui-row-main2" id="processdef_table_div">
 							<table id="processdef_table" class="layui-hide" lay-filter="processdef_table"></table>
 						</div>
 					</div>
@@ -134,8 +151,7 @@
 				<div class="layui-col-md12">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>
-							年直属研究院新开课题合同（任务书）签订率
+							<span class="layui-time"></span>年直属研究院新开课题合同（任务书）签订率
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">

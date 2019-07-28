@@ -35,7 +35,7 @@
 				<div class="searchBox">
 					<label class="dateInput">
 						<span>年份</span>
-						<input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
+						<input type="text" name="year"  style="cursor:pointer"  readonly="readonly" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
 						<i class="layui-icon layui-icon-date" style="margin-left: -35px"></i>
 					</label>
 					<div class="btnGroup" style="margin-left: 10px">
@@ -48,7 +48,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院合同（任务书）签定率
+							<span class="layui-time"></span>年合同（任务书）签订率
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -81,7 +81,7 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院合同（任务书）数量占比
+							<span class="layui-time"></span>年专业处合同（任务书）签订率
 						</div>
 						<div class="layui-card-body btn-function">
 							<div class="processdef_table">
@@ -101,13 +101,13 @@
 
 							<div class="text-total">
 								<span>
-									计划签同数:
+									计划签订数:
 									<span class="text-total-blue" id="contract_chart4_01" onclick="nzsyjyhtrwsqdqk('')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
 								</span>
 								<span>
-									实际签同数:
+									实际签订数:
 									<span class="text-total-blue" id="contract_chart4_02" onclick="nzsyjyhtrwsqdqk('已签订')" style="cursor: pointer">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
@@ -260,11 +260,11 @@
 				var xName = params.name;
 				var legentName = params.seriesName;
 				
-				parent.layui.index.openTabsPage("/one_level_main/common_table_new?define12=直属研究院&define11=股份公司&qdbz=" + xName + "订&nd=" + nd + "&ysnd=" + nd, "合同签订率详情");
+				parent.layui.index.openTabsPage("/one_level_main/common_table_new?qdbz=" + xName + "订&nd=" + nd + "&ysnd=" + nd, "合同签订率详情");
 
 			});
 
-			// 直属研究院课题合同（任务书）签定率  ,  饼状圈
+			// 课题合同（任务书）签定率  ,  饼状圈
 			var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + $('#year').val() + "&v_date=" + v_date;
 			var echart2 = loadCicle(url, "contract_chart1_02_02");
 			echart2.on('click', function(params) {
@@ -288,10 +288,10 @@
 			});
 
 		}
-        //直属研究院合同任务书签定率
+        //合同任务书签定率
 		function nzsyjyhtrwsqdl(qdbz) {
 			
-			parent.layui.index.openTabsPage("/one_level_main/common_table_new?define12=直属研究院&define11=股份公司&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+			parent.layui.index.openTabsPage("/one_level_main/common_table_new?qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 		}
         //直属研究院合同任务书签订情况
 		function nzsyjyhtrwsqdqk(qdbz) {
@@ -307,7 +307,7 @@
 			renderTable2();
 		}
 
-		// 直属研究院课题合同（任务书）数量占比
+		// 课题合同（任务书）数量占比
 		function renderTable() {
 			var month = $("#year").val();
 			var ptable = treeGridCom.render({
@@ -367,9 +367,9 @@
 							}
 					
 							if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
-								parent.layui.index.openTabsPage("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+								parent.layui.index.openTabsPage("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 							} else {
-								parent.layui.index.openTabsPage("/one_level_main/common_table_new?zycbmFlag=" + xName + "&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+								parent.layui.index.openTabsPage("/one_level_main/common_table_new?zycbmFlag=" + xName + "&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 							}
 					    }
 
@@ -387,13 +387,13 @@
 			});
 		}
 
-		//集团重大项目
+		//直属研究院合同（任务书）签订情况
 		function renderTable2() {
 
 			var nd = $('#year').val();
 			var tableOne = table.render({
 				elem : '#processdef_table_02',
-				url : '/direct/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&type=2",
+				url : '/direct/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&type=2&define3=研究院",
 				method : "GET",
 				height : 299,
 				where : {

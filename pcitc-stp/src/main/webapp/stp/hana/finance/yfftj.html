@@ -15,7 +15,7 @@
     <!--查询条件-->
         <label class="dateInput">
             <span>月份</span>
-            <input type="text" name="month"  title="月份" value="${month}"  id="month">
+            <input type="text" name="month" readonly="readonly" style="cursor:pointer"  title="月份" value="${month}"  id="month">
             <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
         </label>
         
@@ -27,6 +27,7 @@
 </div>
 
 <div class="tableBox" style="clear:both">
+<div class="btnGroup" style="float:right;margin-right:20px"><button  onclick="exput_excel()" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" >导出EXCEL</<button></div>
 <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>研发费用统计表</h3>
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
 </div>
@@ -182,6 +183,16 @@ layui.config({
     function PrefixInteger(num, length) {
     	  return (num/Math.pow(10,length)).toFixed(length).substr(2);
     	}
+    
+    
+    
+    function exput_excel()
+    {
+    	var month=$('#month').val();
+    	month=month.replace("-","");
+    	window.open("/yfftj_data_exput_excel?month="+month);
+    }
+    
 
 </script>
 

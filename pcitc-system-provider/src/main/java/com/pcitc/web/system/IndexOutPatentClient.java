@@ -7,6 +7,8 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.system.IndexOutPatent;
 import com.pcitc.base.system.IndexOutPatentExample;
+import com.pcitc.base.system.IndexOutProjectInfo;
+import com.pcitc.base.system.IndexOutProjectInfoExample;
 import com.pcitc.service.system.IndexOutPatentService;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
@@ -138,5 +140,11 @@ public class IndexOutPatentClient {
             logger.error("[保存信息失败：]", e);
         }
         return 500;
+    }
+
+
+    @RequestMapping(value = "/indexoutpatent-provider/indexoutpatent/selectByExample", method = RequestMethod.POST)
+    public List<IndexOutPatent> selectByExample(@RequestBody List<String> strings) {
+        return indexOutPatentService.selectByExample(strings);
     }
 }

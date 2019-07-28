@@ -15,10 +15,10 @@
     <!--查询条件-->
          <label class="dateInput">
             <span>月份</span>
-            <input type="text" name="month"  title="月份" value="${month}"  id="month">
+            <input type="text" name="month" readonly="readonly" style="cursor:pointer"  title="月份" value="${month}"  id="month">
             <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
         </label>
-       <div class="layui-input-inline"  style="margin-left:10px">
+        <div class="layui-input-inline"  style="margin-left:10px">
            <select id="companyCode" name="companyCode" class="form-control"></select>
         </div>
        
@@ -36,26 +36,26 @@
       <table id="myTable" class="layui-table" lay-filter="myTable" >
                  <thead>
                   <tr>
-                      <th lay-data="{field:'g0GSJC', width:'8%',templet:viewv}" rowspan="2" >院所</th>
-                      <th lay-data="{align:'center'}" colspan="3">累计</th>
-                      <th lay-data="{align:'center'}" colspan="3">本年</th>
+                       <th lay-data="{field:'g0GSJC', width:'8%',templet:viewv}" rowspan="2" >院所</th>
+                       <th lay-data="{align:'center'}" colspan="3">累计</th>
+                       <th lay-data="{align:'center'}" colspan="3">本年</th>
                   </tr>
                   <tr>
-                      <th lay-data="{field:'k0ZTYSJE',       width:'15%',align:'right'}">计划总投资</th>
-                       <th lay-data="{field:'k0LJSJJE',       width:'15%',align:'right'}">累计投资完成额</th> 
-                       <th lay-data="{field:'k0LJZJSYBL',     width:'15%',align:'right',templet:presentTpl}">资金使用% </th>
-                     <!--  <th lay-data="{field:'k0LJGLFPHJECB',  width:'7%',align:'right'}">累计下达投资额 </th> 
+                        <th lay-data="{field:'k0ZTYSJE',       width:'15%',align:'right'}">计划总投资</th>
+                        <th lay-data="{field:'k0LJSJJE',       width:'15%',align:'right'}">累计投资完成额</th> 
+                        <th lay-data="{field:'k0LJZJSYBL',     width:'15%',align:'right',templet:presentTpl}">资金使用% </th>
+                      <!--  <th lay-data="{field:'k0LJGLFPHJECB',  width:'7%',align:'right'}">累计下达投资额 </th> 
                       <th lay-data="{field:'k0LJSJCNJE',     width:'7%',align:'right'}">承诺</th>
                       <th lay-data="{field:'k0LJSJDJJE',     width:'7%',align:'right'}">预付余额</th>
                       <th lay-data="{field:'k0LJYSJY',       width:'7%',align:'right'}">项目资金计划结余 </th> 
                         -->
                       
 
-                      <th lay-data="{field:'k0BNYSJHJE',     width:'15%',align:'right'}">本年投资计划 </th>
-                        <th lay-data="{field:'k0BNSJJE',       width:'15%',align:'right'}">本年投资完成额</th> 
-                        <th lay-data="{field:'k0BNZJSYBL',     width:'15%',align:'right',templet:presentTp2}">资金使用% </th> 
+                       <th lay-data="{field:'k0BNYSJHJE',     width:'15%',align:'right'}">本年投资计划 </th>
+                       <th lay-data="{field:'k0BNSJJE',       width:'15%',align:'right'}">本年投资完成额</th> 
+                       <th lay-data="{field:'k0BNZJSYBL',     width:'15%',align:'right',templet:presentTp2}">资金使用% </th> 
                         
-                     <!--  <th lay-data="{field:'k0BNGLFPHJECB',  width:'7%',align:'right'}">本年累计支出</th>
+                      <!--  <th lay-data="{field:'k0BNGLFPHJECB',  width:'7%',align:'right'}">本年累计支出</th>
                       <th lay-data="{field:'k0BNSJCNJE',     width:'7%',align:'right'}">承诺</th> 
                       <th lay-data="{field:'k0BNSJDJJE',     width:'7%',align:'right'}">本年预付款 </th>
                     
@@ -202,16 +202,23 @@ layui.config({
     	 var companyCode=$("#companyCode").val();
     	 month=month.replace("-","");
     	 var v_date=(new Date()).getTime();
-    	 var url= '/kytztjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
-    	 table.init('myTable', {
+    	 if (companyCode != null && companyCode != '') 
+ 		 {
+    	   var url= '/kytztjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
+    	   table.init('myTable', {
     			  url: url,
     			  height: commonDislodgeTable()-100
     			  ,where: {} ,
     			  done: function (res, curr, count) {layer.closeAll('loading');}
-    			  
     			});
     	 
-    	 
+ 		} else
+		{
+			layer.alert('请联系管理员配置该菜单数据权限', {
+				icon : 4,
+				skin : 'layer-ext-moon'
+			});
+		}
     	 
     }
     
@@ -223,7 +230,21 @@ layui.config({
     	var companyCode=$('#companyCode').val();
     	var month=$('#month').val();
     	month=month.replace("-","");
-    	window.open("/kytztjb_data_exput_excel?month="+month+"&companyCode="+companyCode);
+    	
+    	if (companyCode != null && companyCode != '') 
+		{
+    		window.open("/kytztjb_data_exput_excel?month="+month+"&companyCode="+companyCode);
+		} else
+		{
+			layer.alert('请联系管理员配置该菜单数据权限', {
+				icon : 4,
+				skin : 'layer-ext-moon'
+			});
+		}
+		
+    	
+    	
+    	
     } 
    
 

@@ -32,7 +32,9 @@ public class ProjectPlanJob implements Job, Serializable {
 		
 		// 先获取已经插入到数据库的原项目计划数据oldList，和新接口获取的数据进行比较。如果不存在就插入
 		// 由于数据库数据不大，所以可以采用这个方式
-		List<OutProjectPlan> temList = outProjectPlanService.getProjectPlanList(null);
+		// List<OutProjectPlan> temList = outProjectPlanService.getProjectPlanList(null);
+		
+		List<OutProjectPlan> temList = new ArrayList<OutProjectPlan>();
 
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目计划数据 ---开始=============");
 		String sqlName = "SelectAllProjectFromPlanData";
@@ -152,7 +154,7 @@ public class ProjectPlanJob implements Job, Serializable {
 							opi.setProjectType("0");
 						}
 						
-						if (hth != null) {
+						/*if (hth != null) {
 							if (hth.indexOf("P") == 0 || hth.indexOf("JP") == 0 || hth.indexOf("LP") == 0) {
 								if (Integer.parseInt(nd) > 2018) {
 									opi.setDefine10("101勘探开发处");
@@ -189,7 +191,7 @@ public class ProjectPlanJob implements Job, Serializable {
 							} else if (hth.indexOf("Z") == 0 || hth.indexOf("JZ") == 0 || hth.indexOf("LZ") == 0) {
 								opi.setDefine10("112工程部");
 							} 
-						}
+						}*/
 						
 						if (xmlbbm != null && xmlbbm.equals("KYZB")) {
 							opi.setDefine1("资本性");

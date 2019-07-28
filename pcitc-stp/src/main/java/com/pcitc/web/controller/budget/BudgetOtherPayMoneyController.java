@@ -33,6 +33,8 @@ public class BudgetOtherPayMoneyController extends BaseController
 	private static final String BUDGET_OTHERPAYMONEY_UPD = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-otherpaymoney-upd";
 	private static final String BUDGET_OTHERPAYMONEY_SAVEORUPD = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-otherpaymoney-saveorupd";
 	private static final String BUDGET_OTHERPAYMONEY_DEL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-otherpaymoney-del/";
+	private static final String BUDGET_OTHERPAYMONEY_ORGAN_DIC = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-otherpaymoney-organ-dic/";
+	private static final String BUDGET_OTHERPAYMONEY_SPLIT_DIC = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-otherpaymoney-split-dic/";
 
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_otherpaymoney_main")
@@ -101,6 +103,20 @@ public class BudgetOtherPayMoneyController extends BaseController
 	public Object saveOrupdBudgetOtherPayMoney(@ModelAttribute("bean") BudgetOtherPayMoney bean,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_OTHERPAYMONEY_SAVEORUPD, HttpMethod.POST, new HttpEntity<BudgetOtherPayMoney>(bean, this.httpHeaders), Object.class);
+		return JSON.toJSON(responseEntity.getBody());
+	}
+	@RequestMapping(value = "/budget/budget-otherpaymoney-organ-dic", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getBudgetOtherPayMoneyOrganDic(@RequestParam(value = "nd", required = true) String nd,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_OTHERPAYMONEY_ORGAN_DIC+nd, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Object.class);
+		return JSON.toJSON(responseEntity.getBody());
+	}
+	@RequestMapping(value = "/budget/budget-otherpaymoney-split-dic", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getBudgetOtherPayMoneySplicDic(@RequestParam(value = "nd", required = true) String nd,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_OTHERPAYMONEY_SPLIT_DIC+nd, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Object.class);
 		return JSON.toJSON(responseEntity.getBody());
 	}
 }

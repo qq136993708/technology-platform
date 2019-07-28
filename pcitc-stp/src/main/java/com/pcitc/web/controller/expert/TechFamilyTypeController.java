@@ -99,7 +99,6 @@ public class TechFamilyTypeController extends BaseController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "技术族-分类", actionName = "查询列表getList")
     public Object getList(@RequestBody TechFamilyType techFamilyType) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<TechFamilyType>(techFamilyType, this.httpHeaders), JSONObject.class);
@@ -111,7 +110,6 @@ public class TechFamilyTypeController extends BaseController {
 
     @RequestMapping(value = "/listParam", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "技术族-分类", actionName = "查询列表getListParam")
     public Object getListParam(@RequestParam String id) {
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
@@ -131,7 +129,6 @@ public class TechFamilyTypeController extends BaseController {
      */
     @RequestMapping(value = "/getTableData", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "技术族-分类", actionName = "分页查询getTableData")
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
@@ -172,7 +169,6 @@ public class TechFamilyTypeController extends BaseController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
-    @OperationFilter(modelName = "技术族-分类", actionName = "跳转编辑页面pageEdit")
     public String pageEdit(String id, Model model, String opt,String parentId) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
@@ -187,7 +183,6 @@ public class TechFamilyTypeController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
-    @OperationFilter(modelName = "技术族-分类", actionName = "跳转列表页toListPage")
     public String toListPage() {
         return "stp/expert/techFamilyType_list";
     }
@@ -199,7 +194,6 @@ public class TechFamilyTypeController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/getTechFamilyTypeInfo")
-    @OperationFilter(modelName = "技术族-分类", actionName = "根据ID查询对象信息gettechFamilyTypeInfo")
     @ResponseBody
     public Object gettechFamilyTypeInfo(HttpServletRequest request) {
         String id = request.getParameter("id");
@@ -211,14 +205,12 @@ public class TechFamilyTypeController extends BaseController {
 
     @RequestMapping(value = "/tree-data")
     @ResponseBody
-    @OperationFilter(modelName = "技术族-分类", actionName = "树形查询getTechFamilyTypeTreeData()")
     public Object getTechFamilyTypeTreeData() throws Exception {
         TreeNode node = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), TreeNode.class).getBody();
         return node;
     }
 
     @RequestMapping(value = "/tree-datas")
-    @OperationFilter(modelName = "技术族-分类", actionName = "树形查询getTechFamilyTypeTreeData()")
     @ResponseBody
     public String getTechFamilyTypeTreeDatas(HttpServletRequest request) throws Exception {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);

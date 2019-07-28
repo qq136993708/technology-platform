@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pcitc.web.utils.InputCheckUtil;
 
-@Component
+//@Component
 public class CsrCheckInterceptor implements HandlerInterceptor 
 {
 	static String [] protocols = {"http","https"};
@@ -31,6 +31,8 @@ public class CsrCheckInterceptor implements HandlerInterceptor
 				for(String uri:exceptionsURI) {
 					exceptionsURL.add(r+uri);
 					exceptionsURL.add(r+":8080"+uri);
+					exceptionsURL.add(r+":8443"+uri);
+					exceptionsURL.add(r+":443"+uri);
 				}
 			}
 		}

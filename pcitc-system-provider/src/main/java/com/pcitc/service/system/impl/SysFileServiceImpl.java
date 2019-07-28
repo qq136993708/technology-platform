@@ -482,6 +482,10 @@ public class SysFileServiceImpl implements SysFileService {
         Map<String,String> id_parent = sysFunctions.stream().collect(Collectors.toMap(SysFunction::getId,SysFunction::getParentId,(e1,e2)->e1));
 
         List<String> createUsers = sysFiles.stream().map(e->e.getCreateUserId()).collect(Collectors.toList());
+        if(createUsers==null||createUsers.size()==0){
+            createUsers = new ArrayList<>();
+            createUsers.add("");
+        }
         SysUserExample ex = new SysUserExample();
         ex.createCriteria().andUserIdIn(createUsers);
         List<SysUser> sysUsers = sysUserMapper.selectByExample(ex);

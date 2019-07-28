@@ -1,12 +1,17 @@
 package com.pcitc.service.out.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -20,8 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -218,18 +221,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 			hashmap.put("ysnd", param.getParam().get("ysnd"));
 		}
 
-		// 新开课题结转课题标志
-		if (param.getParam().get("ktlx") != null && !StringUtils.isBlank(param.getParam().get("ktlx") + "")) {
-			hashmap.put("ktlx", param.getParam().get("ktlx"));
-		}
-
-		if (param.getParam().get("zylbbm") != null && !StringUtils.isBlank(param.getParam().get("zylbbm") + "")) {
-			hashmap.put("zylbbm", param.getParam().get("zylbbm"));
-		}
-
-		if (param.getParam().get("zycbm") != null && !StringUtils.isBlank(param.getParam().get("zycbm") + "")) {
-			hashmap.put("zycbm", param.getParam().get("zycbm"));
-		}
+		// 数据控制
+		this.getDataFilterCondition(hashmap, param.getParam().get("zycbm"), param.getParam().get("zylbbm"));
 
 		// 部门-处室--专业类别, 加Flag和数据控制的字段区分出来
 		if (param.getParam().get("gsbmbmFlag") != null && !StringUtils.isBlank(param.getParam().get("gsbmbmFlag") + "")) {
@@ -258,13 +251,46 @@ public class OutProjectServiceImpl implements OutProjectService {
 		List<OutProjectInfo> list = outProjectInfoMapper.selectCommonProjectByCond(hashmap);
 		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
 		PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
-		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
 
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 		return data;
+	}
+
+	/**
+	 * 查询条件过滤处理，专业处、专业
+	 * 
+	 * @return
+	 */
+	public HashMap getDataFilterCondition(HashMap hashmap, Object zycbmPara, Object zylbbmPara) {
+		if (zycbmPara != null && zycbmPara != null && !StringUtils.isBlank(zycbmPara + "")) {
+			Set<String> set = new HashSet<>(Arrays.asList(zycbmPara.toString().split(",")));
+			// 去重的list
+			List<String> distList = new ArrayList<>(set);
+
+			List<HashMap<String, String>> zycbmList = new ArrayList<HashMap<String, String>>();
+			for (int i = 0; i < distList.size(); i++) {
+				HashMap<String, String> zycbmMap = new HashMap<String, String>();
+				zycbmMap.put("zycbm", distList.get(i));
+				if (zylbbmPara != null && !StringUtils.isBlank(zylbbmPara + "") && zylbbmPara.toString().contains(distList.get(i))) {
+					Set<String> zylbbmSet = new HashSet<>(Arrays.asList(zylbbmPara.toString().split(",")));
+					String zylbbm = "";
+					for (String str : zylbbmSet) {
+						if (str.contains(distList.get(i))) {
+							zylbbm = zylbbm + "," + str;
+						}
+					}
+					if (!zylbbm.equals("")) {
+						zycbmMap.put("zylbbm", zylbbm);
+					}
+				}
+				zycbmList.add(zycbmMap);
+			}
+			hashmap.put("zycbmList", zycbmList);
+		}
+		return hashmap;
 	}
 
 	/**
@@ -421,18 +447,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 			hashmap.put("ysnd", param.getParam().get("ysnd"));
 		}
 
-		// 新开课题结转课题标志
-		if (param.getParam().get("ktlx") != null && !StringUtils.isBlank(param.getParam().get("ktlx") + "")) {
-			hashmap.put("ktlx", param.getParam().get("ktlx"));
-		}
-
-		if (param.getParam().get("zylbbm") != null && !StringUtils.isBlank(param.getParam().get("zylbbm") + "")) {
-			hashmap.put("zylbbm", param.getParam().get("zylbbm"));
-		}
-
-		if (param.getParam().get("zycbm") != null && !StringUtils.isBlank(param.getParam().get("zycbm") + "")) {
-			hashmap.put("zycbm", param.getParam().get("zycbm"));
-		}
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(hashmap, param.getParam().get("zycbm"), param.getParam().get("zylbbm"));
 
 		// 部门-处室--专业类别, 加Flag和数据控制的字段区分出来
 		if (param.getParam().get("gsbmbmFlag") != null && !StringUtils.isBlank(param.getParam().get("gsbmbmFlag") + "")) {
@@ -480,9 +496,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 			rewardMap.put("hth", sb.toString());
 			List rewardList = outRewardMapper.getRewardInfoForHth(rewardMap);
 			for (int i = 0; i < pageInfo.getList().size(); i++) {
-				HashMap<String, String> proMap = (HashMap<String, String>)pageInfo.getList().get(i);
-				for (int j =0; j < rewardList.size(); j++) {
-					HashMap<String, String> temMap = (HashMap<String, String>)rewardList.get(j);
+				HashMap<String, String> proMap = (HashMap<String, String>) pageInfo.getList().get(i);
+				for (int j = 0; j < rewardList.size(); j++) {
+					HashMap<String, String> temMap = (HashMap<String, String>) rewardList.get(j);
 					if (temMap.get("hth") != null && temMap.get("hth").equals(proMap.get("hth"))) {
 						proMap.put("psdj", temMap.get("psdj"));
 						proMap.put("xkfl", temMap.get("xkfl"));
@@ -546,11 +562,6 @@ public class OutProjectServiceImpl implements OutProjectService {
 		if (param.getParam().get("nd") != null && !StringUtils.isBlank(param.getParam().get("nd") + "")) {
 			hashmap.put("nd", param.getParam().get("nd"));
 		}
-		System.out.println("1234>>>>>>>>>ysnd" + param.getParam().get("ysnd"));
-		System.out.println("1234>>>>>>>>>zycmc" + param.getParam().get("define10"));
-		System.out.println("1234>>>>>>>>>zylb" + param.getParam().get("zylb"));
-		System.out.println("1234>>>>>>>>>type_flag" + param.getParam().get("type_flag"));
-		System.out.println("1234>>>>>>>>>define1" + param.getParam().get("define1"));
 		System.out.println("1234>>>>>>>>>define2" + param.getParam().get("define2"));
 
 		if (param.getParam().get("ysnd") != null && !StringUtils.isBlank(param.getParam().get("ysnd") + "")) {
@@ -578,6 +589,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * 研究院首页计算装备和科研合同总数
 	 */
 	public HashMap<String, String> getOutProjectInfoCountWithKYZB(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getOutProjectInfoCountWithKYZB(map);
 	}
 
@@ -987,6 +1000,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 *            领导首页-直属研究院，8个研究院国家项目情况
 	 */
 	public List getCountryProjectByYJY(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getCountryProjectByYJY(map);
 	}
 
@@ -995,8 +1011,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 */
 	public HashMap<String, String> getOutProjectInfoCount(HashMap<String, String> map) {
 
-		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(map));
-		System.out.println(">>>>>>>>>>>>getOutProjectInfoCount参数:" + jsonObject.toString());
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 
 		return outProjectInfoMapper.getOutProjectInfoCount(map);
 	}
@@ -1005,6 +1021,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * 首页计算项目总金额, 包含结转和新开
 	 */
 	public HashMap<String, String> getOutProjectInfoMoney(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getOutProjectInfoMoney(map);
 	}
 
@@ -1012,6 +1030,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * 领导页，总的预算金额（费用性），按专业处
 	 */
 	public HashMap<String, String> getProjectBudgetFyxMoney(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getProjectBudgetFyxMoney(map);
 	}
 
@@ -1019,6 +1039,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * 领导首页，计算资本性预算金额。预算资本性金额没办法进行权限控制
 	 */
 	public HashMap<String, String> getBudgetZBXMoney(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getBudgetZBXMoney(map);
 	}
 
@@ -1042,6 +1064,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 首页查询各单位的新开、续建、完结情况
 	 */
 	public List getProjectTypeInfoByUnit(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getProjectTypeInfoByUnit(map);
 	}
 
@@ -1050,6 +1074,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 首页、领导首页，查询新开的国家项目、重点项目、重大项目、其他项目、总计的统计
 	 */
 	public HashMap<String, String> getProjectTotalInfoByNew(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getProjectTotalInfoByNew(map);
 	}
 
@@ -1058,6 +1084,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 首页查询新开的国家项目、重点项目、重大项目、其他项目和去年的对比
 	 */
 	public HashMap<String, String> getProjectTotalCountYearAndLastYear(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getProjectTotalCountYearAndLastYear(map);
 	}
 
@@ -1066,6 +1094,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 科研二级页面，按照项目类型查询新建、续建项目数量、总数量
 	 */
 	public List getProjectCountByProjectType(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getProjectCountByProjectType(map);
 	}
 
@@ -1074,6 +1104,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 科研二级页面，按照项目类型查询新建、续建项目数量、总数量
 	 */
 	public List getZBProjectCountByProjectType(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getZBProjectCountByProjectType(map);
 	}
 
@@ -1082,6 +1114,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 科研二级页面，预算分析，新开项目、续建项目对应的费用性金额、资本性金额统计
 	 */
 	public List getProjectMoneyByProjectType(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getProjectMoneyByProjectType(map);
 	}
 
@@ -1090,6 +1124,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 科研二级页面，直属院、盈科等单位的费用性金额、资本性金额统计
 	 */
 	public List getProjectMoneyByUnit(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getProjectMoneyByUnit(map);
 	}
 
@@ -1098,6 +1134,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 科研二级页面，8大院的各个新开、续建情况
 	 */
 	public List getProjectTypeCountByUnit(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectTypeCountByUnit(map);
 	}
 
@@ -1106,6 +1145,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 科研二级页面，8大院的各个新开、续建情况--装备
 	 */
 	public List getZBProjectTypeCountByUnit(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getZBProjectTypeCountByUnit(map);
 	}
 
@@ -1114,6 +1156,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 科研二级页面，8大院的各个新开、续建情况--树结构
 	 */
 	public List getProjectTypeCountForTree(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectTypeCountForTree(map);
 	}
 
@@ -1122,6 +1167,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 科研二级页面，项目类型（国家项目、重点项目、重大项目、其他项目）的各个新开、续建情况--树结构
 	 */
 	public List getProjectCountByTypeForTree(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectCountByTypeForTree(map);
 	}
 
@@ -1130,6 +1178,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 科研二级页面，8大院的各个新开、续建情况--装备树结构
 	 */
 	public List getZBProjectTypeCountForTree(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getZBProjectTypeCountForTree(map);
 	}
 
@@ -1138,6 +1189,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 科研二级页面，项目类型（国家项目、重点项目、重大项目、其他项目）的各个新开、续建情况--装备树结构
 	 */
 	public List getZBProjectCountByTypeForTree(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getZBProjectCountByTypeForTree(map);
 	}
 
@@ -1150,6 +1204,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 *            科研二级页面，研究院的各项目的费用性金额、资本性金额、国家项目新开数量、国家项目结转数量等统计
 	 */
 	public List getProjectMoneyByYJY(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectMoneyByYJY(map);
 	}
 
@@ -1158,6 +1215,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 科研二级页面，树形结构，费用性金额、资本性金额和新开、续建情况
 	 */
 	public List getProjectMoneyForTree(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectMoneyForTree(map);
 	}
 
@@ -1166,6 +1226,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 科研二级页面，树形结构，费用性金额、资本性金额和各研究院情况
 	 */
 	public List getProjectMoneyByIniAndTypeForTree(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectMoneyByIniAndTypeForTree(map);
 	}
 
@@ -1174,6 +1237,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 首页查询9个单位的新开、续建、完结情况-装备
 	 */
 	public List getZBProjectTypeInfoByUnit(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getZBProjectTypeInfoByUnit(map);
 	}
 
@@ -1182,6 +1248,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 领导页的各类型项目的数量
 	 */
 	public List getProjectTypeCountForLD(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectTypeCountForLD(map);
 	}
 
@@ -1190,6 +1259,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 领导二级页面，科研项目数量按单位分析--树结构
 	 */
 	public List getProjectTypeCountForTreeLD(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectTypeCountForTreeLD(map);
 	}
 
@@ -1198,6 +1270,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 领导二级页面，直属研究院、分子公司等9个单位，各单位的新开、续建、完结情况
 	 */
 	public List getProjectTypeInfoByUnitLD(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectTypeInfoByUnitLD(map);
 	}
 
@@ -1206,6 +1281,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 领导二级页面，各个处室的新开、续建、完结情况
 	 */
 	public List getProjectCountByProjectTypeLD(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectCountByProjectTypeLD(map);
 	}
 
@@ -1214,6 +1292,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 领导二级页面，8个院新开、续建情况,每一行是一个院
 	 */
 	public List getProjectTypeCountByUnitLD(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectTypeCountByUnitLD(map);
 	}
 
@@ -1270,6 +1351,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * 领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况
 	 */
 	public List getProjectNewOldInfoByType(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectNewOldInfoByType(map);
 	}
 
@@ -1277,6 +1361,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * 领导二级页面，各类型技术的新开、结转情况
 	 */
 	public List getProjectInfoByTecTypeWithOldNew(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getProjectInfoByTecTypeWithOldNew(map);
 	}
 
@@ -1284,6 +1371,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * 领导首页-十条龙，十条龙项目的类型分布
 	 */
 	public List getDragonProjectInfoByType(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getDragonProjectInfoByType(map);
 	}
 
@@ -1291,6 +1381,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * 领导首页-十条龙，十条龙项目的出入龙情况
 	 */
 	public List getDragonProjectInfoWithOutIn(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getDragonProjectInfoWithOutIn(map);
 	}
 
@@ -1298,6 +1391,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * 领导首页-十条龙，8个研究院的龙项目/重大专项项目分布
 	 */
 	public List getDragonProjectInfoByInstitute(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+
 		return outProjectInfoMapper.getDragonProjectInfoByInstitute(map);
 	}
 
@@ -1353,6 +1449,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 首页计算十条龙及重大专项项目的总数量
 	 */
 	public HashMap<String, String> getOutProjectDragonInfoCount(HashMap<String, String> map) {
+
 		return outProjectInfoMapper.getOutProjectDragonInfoCount(map);
 	}
 
@@ -1468,7 +1565,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 	@Override
 	public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) {
-		return outProjectInfoMapper.selectByExample(example);
+		List<OutProjectInfo> outProjectInfos = outProjectInfoMapper.selectByExample(example);
+		List<OutProjectInfo> unique = outProjectInfos.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(OutProjectInfo::getXmid))), ArrayList::new));
+		return unique;
 	}
 
 	@Override

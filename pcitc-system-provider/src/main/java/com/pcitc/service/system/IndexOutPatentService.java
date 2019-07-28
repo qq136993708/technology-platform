@@ -108,10 +108,10 @@ public interface IndexOutPatentService {
     /**
      * 根据example条件查询
      *
-     * @param example
+     * @param strings
      * @return
      */
-    List<IndexOutPatent> selectByExample(IndexOutPatentExample example);
+    List<IndexOutPatent> selectByExample(List<String> strings);
 
     /**
      * 根据主键查询

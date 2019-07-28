@@ -43,6 +43,8 @@ public class SmallLeaderController extends BaseController {
 
 	private static final String getInvestmentAll = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
 
+	private static final String getZBX = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/money-hana-type";
+
 	/**
 	 * 专业处--研究院预算（原科研投入功能）
 	 */
@@ -66,9 +68,7 @@ public class SmallLeaderController extends BaseController {
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd(nd);
-
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		// 数据控制属性
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		System.out.println("getInvestmentAll=================" + zycbm);
@@ -78,20 +78,29 @@ public class SmallLeaderController extends BaseController {
 			// 无权限;
 			return resultObj.toString();
 		}
-		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
-		List<String> list_1 = new ArrayList<>(set);
-		vo.getUnitIds().addAll(list_1);
-		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY"); // 查询直属研究院的预算
-		HttpEntity<BudgetItemSearchVo> entity = new HttpEntity<BudgetItemSearchVo>(vo, httpHeaders);
-		ResponseEntity<BudgetItemSearchVo> responseEntity = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity, BudgetItemSearchVo.class);
+
+		// 数据控制属性
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+		paramsMap.put("nd", nd);
+
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getInvestment02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
-			Map<String, String> map = new HashMap<String, String>();
-			BudgetItemSearchVo bis = responseEntity.getBody();
+			JSONArray jSONArray = responseEntity.getBody();
+			System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
+			List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 			double investMoney = 0d;
-			for (int i = 0; i < list_1.size(); i++) {
-				investMoney = investMoney + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY");
+			for (int i = 0; i < list.size(); i++) {
+				BudgetMysql bm = list.get(i);
+				investMoney = bm.getZysje() == null?0d:Double.valueOf(bm.getZysje().toString());
+				break;
 			}
+			Map<String, String> map = new HashMap<String, String>();
 			map.put("investMoney", String.valueOf(investMoney));
 			result.setSuccess(true);
 			result.setData(map);
@@ -103,7 +112,7 @@ public class SmallLeaderController extends BaseController {
 	}
 
 	/**
-	 * 专业处--研究院预算
+	 * 专业处--研究院预算-直属研究院合同签订情况
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/small_leader/investment_data")
 	@ResponseBody
@@ -115,6 +124,7 @@ public class SmallLeaderController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
+		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		// 数据控制属性
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
@@ -124,7 +134,7 @@ public class SmallLeaderController extends BaseController {
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
 
 		paramsMap.put("nd", nd);
-
+		paramsMap.put("typeFlag", typeFlag);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -136,86 +146,15 @@ public class SmallLeaderController extends BaseController {
 				System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
-				// 单独计算预算金额
-				if (!zycbm.equals("")) {
-					BudgetItemSearchVo vo = new BudgetItemSearchVo();
-					vo.setNd(nd);
-					Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
-					List<String> list_1 = new ArrayList<>(set);
-					vo.getUnitIds().addAll(list_1);
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_KTY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_GCY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_WTY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_SKY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_DLY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_BHY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_SHY");
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_AGY");
-					HttpEntity<BudgetItemSearchVo> entity1 = new HttpEntity<BudgetItemSearchVo>(vo, httpHeaders);
-					ResponseEntity<BudgetItemSearchVo> responseEntity1 = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity1, BudgetItemSearchVo.class);
-					int statusCode1 = responseEntity1.getStatusCodeValue();
-					if (statusCode1 == 200) {
-						BudgetItemSearchVo bis = responseEntity1.getBody();
-						double investMoney1 = 0d;
-						double investMoney2 = 0d;
-						double investMoney3 = 0d;
-						double investMoney4 = 0d;
-						double investMoney5 = 0d;
-						double investMoney6 = 0d;
-						double investMoney7 = 0d;
-						double investMoney8 = 0d;
-						for (int i = 0; i < list_1.size(); i++) {
-							investMoney1 = investMoney1 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_KTY");
-							investMoney2 = investMoney2 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_GCY");
-							investMoney3 = investMoney3 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_WTY");
-							investMoney4 = investMoney4 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_SKY");
-							investMoney5 = investMoney5 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_DLY");
-							investMoney6 = investMoney6 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_BHY");
-							investMoney7 = investMoney7 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_SHY");
-							investMoney8 = investMoney8 + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY_AGY");
-						}
-						System.out.println("===111============" + investMoney1 + "====" + investMoney2);
-						for (int k = 0; k < list.size(); k++) {
-							BudgetMysql bm = list.get(k);
-							if (bm.getDefine2() != null && bm.getDefine2().equals("勘探院")) {
-								bm.setZysje(investMoney1);
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("工程院")) {
-								bm.setZysje(investMoney2);
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("物探院")) {
-								bm.setZysje(investMoney3);
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("石科院")) {
-								bm.setZysje(investMoney4);
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("大连院")) {
-								bm.setZysje(investMoney5);
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("北化院")) {
-								bm.setZysje(investMoney6);
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("上海院")) {
-								bm.setZysje(investMoney7);
-							}
-							if (bm.getDefine2() != null && bm.getDefine2().equals("安工院")) {
-								bm.setZysje(investMoney8);
-							}
-						}
-					}
-				}
-
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
 					barLine.setxAxisDataList(xAxisDataList);
 
 					List<String> legendDataList = new ArrayList<String>();
-					legendDataList.add("预算金额");
-					legendDataList.add("合同金额");
-					// legendDataList.add("未签合同金额");
-					legendDataList.add("拨款金额");
-					// legendDataList.add("未拨款金额");
+					legendDataList.add("可新签预算");
+					legendDataList.add("已签订金额");
+					legendDataList.add("已拨款金额");
 					barLine.setLegendDataList(legendDataList);
 					// X轴数据
 					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
@@ -223,28 +162,57 @@ public class SmallLeaderController extends BaseController {
 					seriesList.add(s1);
 					ChartBarLineSeries s2 = HanaUtil.getInvestmentBarLineSeries(list, "zsjje");
 					seriesList.add(s2);
-					// ChartBarLineSeries s21 =
-					// HanaUtil.getInvestmentBarLineSeries(list, "wqhtzje");
-					// seriesList.add(s21);
-
 					ChartBarLineSeries s3 = HanaUtil.getInvestmentBarLineSeries(list, "hanaMoney");
 					seriesList.add(s3);
-					// ChartBarLineSeries s4 =
-					// HanaUtil.getInvestmentBarLineSeries(list, "wbkzje");
-					// seriesList.add(s4);
 					barLine.setSeriesList(seriesList);
 					result.setSuccess(true);
 					result.setData(barLine);
 				}
 				if (type.equals("2")) {
 
+					BudgetMysql newBM = new BudgetMysql();
+					for (int i = 0; i < list.size(); i++) {
+						BudgetMysql bm = list.get(i);
+
+						newBM.setDefine2("合计");
+						Double zysje = newBM.getZysje() == null ? 0d : Double.valueOf(newBM.getZysje().toString());
+						Double temYS = bm.getZysje() == null ? 0d : Double.valueOf(bm.getZysje().toString());
+						newBM.setZysje(zysje + temYS);
+						
+						Double zsjje = newBM.getZsjje() == null ? 0d : Double.valueOf(newBM.getZsjje().toString());
+						Double temJE = bm.getZsjje() == null ? 0d : Double.valueOf(bm.getZsjje().toString());
+						newBM.setZsjje(zsjje + temJE);
+						
+						Double wqhtzje = newBM.getWqhtzje() == null ? 0d : Double.valueOf(newBM.getWqhtzje().toString());
+						Double temWXD = bm.getWqhtzje() == null ? 0d : Double.valueOf(bm.getWqhtzje().toString());
+						newBM.setWqhtzje(wqhtzje + temWXD);
+						
+						Double hanaMoney = newBM.getHanaMoney() == null ? 0d : Double.valueOf(newBM.getHanaMoney().toString());
+						Double temHana = bm.getHanaMoney() == null ? 0d : Double.valueOf(bm.getHanaMoney().toString());
+						newBM.setHanaMoney(hanaMoney + temHana);
+
+						Double wbkzje = newBM.getWbkzje() == null ? 0d : Double.valueOf(newBM.getWbkzje().toString());
+						Double temWBK = bm.getWbkzje() == null ? 0d : Double.valueOf(bm.getWbkzje().toString());
+						newBM.setWbkzje(wbkzje + temWBK);
+					}
+					list.add(0, newBM);
+					
+					for (int i = 0; i < list.size(); i++) {
+						BudgetMysql bm = list.get(i);
+						bm.setZysje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getZysje()))));
+						bm.setZsjje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getZsjje()))));
+						bm.setWqhtzje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getWqhtzje()))));
+						bm.setHanaMoney(String.format("%.2f", Double.valueOf(String.valueOf(bm.getHanaMoney()))));
+						bm.setWbkzje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getWbkzje()))));
+					}
 					pageResult.setData(list);
 					pageResult.setCode(0);
 					pageResult.setCount(Long.valueOf(list.size()));
 					pageResult.setLimit(1000);
 					pageResult.setPage(1l);
 				}
-
+				
+				
 			}
 
 		} else {
@@ -264,7 +232,10 @@ public class SmallLeaderController extends BaseController {
 		return resault;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/small_leader/investment_data_02")
+	/**
+	 * 直属研究院月度合同签订情况
+	 */
+	@RequestMapping(value = "/small_leader/investment_data_02")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String investment_data_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -296,41 +267,15 @@ public class SmallLeaderController extends BaseController {
 				System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
-				// 单独计算预算金额
-				if (!zycbm.equals("")) {
-					BudgetItemSearchVo vo = new BudgetItemSearchVo();
-					vo.setNd(nd);
-					Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
-					List<String> list_1 = new ArrayList<>(set);
-					vo.getUnitIds().addAll(list_1);
-					vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY"); // 查询直属研究院的预算
-					HttpEntity<BudgetItemSearchVo> entity1 = new HttpEntity<BudgetItemSearchVo>(vo, httpHeaders);
-					ResponseEntity<BudgetItemSearchVo> responseEntity1 = restTemplate.exchange(getInvestmentAll, HttpMethod.POST, entity1, BudgetItemSearchVo.class);
-					int statusCode1 = responseEntity1.getStatusCodeValue();
-					if (statusCode1 == 200) {
-						BudgetItemSearchVo bis = responseEntity1.getBody();
-						double investMoney = 0d;
-						for (int i = 0; i < list_1.size(); i++) {
-							investMoney = investMoney + bis.getBudgetTotal(nd, list_1.get(i), "ROOT_ZGSHJT_GFGS_ZSYJY");
-						}
-
-						for (int k = 0; k < list.size(); k++) {
-							BudgetMysql bm = list.get(k);
-							bm.setZysje(investMoney);
-						}
-						System.out.println("investMoneyinvestMoney=============" + investMoney);
-					}
-				}
-
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "yearMonth");
 					barLine.setxAxisDataList(xAxisDataList);
 
 					List<String> legendDataList = new ArrayList<String>();
-					legendDataList.add("预算金额");
-					legendDataList.add("合同金额");
-					legendDataList.add("拨款金额");
+					legendDataList.add("可新签预算");
+					legendDataList.add("当月签订金额");
+					legendDataList.add("当月拨款金额");
 					barLine.setLegendDataList(legendDataList);
 
 					// X轴数据
@@ -348,7 +293,23 @@ public class SmallLeaderController extends BaseController {
 					result.setData(barLine);
 				}
 				if (type.equals("2")) {
+					BudgetMysql newBM = new BudgetMysql();
+					for (int i = 0; i < list.size(); i++) {
+						BudgetMysql bm = list.get(i);
 
+						newBM.setYearMonth("合计");
+						newBM.setZysje(bm.getZysje());
+						Double zsjje = newBM.getZsjje() == null ? 0d : Double.valueOf(newBM.getZsjje().toString());
+						Double temJE = bm.getZsjje() == null ? 0d : Double.valueOf(bm.getZsjje().toString());
+						newBM.setZsjje(zsjje + temJE);
+
+						Double hanaMoney = newBM.getHanaMoney() == null ? 0d : Double.valueOf(newBM.getHanaMoney().toString());
+						Double temHana = bm.getHanaMoney() == null ? 0d : Double.valueOf(bm.getHanaMoney().toString());
+						newBM.setHanaMoney(hanaMoney + temHana);
+
+						bm.setZysje("-");
+					}
+					list.add(0, newBM);
 					pageResult.setData(list);
 					pageResult.setCode(0);
 					pageResult.setCount(Long.valueOf(list.size()));

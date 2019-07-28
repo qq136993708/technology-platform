@@ -159,7 +159,7 @@
             laydate = layui.laydate;
         var publicMethods = layui.publicMethods;
         table = layui.table;
-
+        var lodingMsg = layer.msg('数据加载中....');
         function loadtable() {
             var where = {
                 "expertName": $("#expertName").val(),
@@ -179,6 +179,7 @@
                 limit: 30,
                 id: 'zjkBaseInfoTableId',
                 height: commonDislodgeTable(),
+                loading:false,
                 page: {
                     count: 500, //数据总数，从服务端得到
                     groups: 5,
@@ -273,6 +274,7 @@
                 ]],
 
                 done: function (res, curr, count) {
+                    layer.close(lodingMsg);
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
                         $(this).parent().find('tr').removeClass('layui-table-click');
