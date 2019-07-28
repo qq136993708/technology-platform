@@ -498,7 +498,7 @@
 					style : 'cursor: pointer;',
 					align : 'left',
 					width : '350',
-					templet:function(d){return '<span   onclick="view_pro(\''+d.xmmc+'\',\''+d.projectProperty+'\',\''+d.hth+'\',\''+d.xmlbbm+'\')" style="color: #1890ff">'+d.xmmc+'</span>'},
+					templet:function(d){return '<span   onclick="view_pro(\''+d.xmmc+'\',\''+d.projectProperty+'\',\''+d.hth+'\',\''+d.xmid+'\')" style="color: #1890ff">'+d.xmmc+'</span>'},
 					sort : true
 				}, {
 					field : 'jf',
@@ -625,45 +625,32 @@
 
 		}
 			
-			function view_pro(xmmc,projectProperty,hth,xmlbbm) 
+			function view_pro(xmmc,projectProperty,hth,xmid) 
 			{
+				
 				if(hth==null || hth=='' || hth == "undefined")
 				{
 					layer.msg("未签合同");
 				}else
 				{
-					var temUrl="";
-					if(xmlbbm=='KYZB')
-					{
-						temUrl="/whole-process/equipment-science/ini?xmmc="+xmmc;//装备项目
-					}else
-					{
-						if(projectProperty=='重大专项')
-						{
-							temUrl="/whole-process/major-science/ini?xmmc="+xmmc;
-						}
-						if(projectProperty=='重点项目')
-						{
-							temUrl="/whole-process/science/ini?xmmc="+xmmc;
-						}
-					}
-					if(temUrl!='')
-					{
-						
-						//alert(projectProperty);
-						
-						 layer.open({
-					         title: projectProperty+"->"+xmmc+'->详情',
-					         skin: 'layui-layer-lan',
-					         shadeClose: true,
-					         type: 2,
-					         fixed: false,
-					         maxmin: true,
-					         area: ['70%', '90%'],
-					         content:  temUrl
-					     });
-					}
-					
+					layer.open({
+		                title:'项目进展详情',
+		                skin: 'layui-layer-lan',
+		                shadeClose: false,
+		                type: 2,
+		                id:"cycle",
+		                fixed: false,
+		                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+		                maxmin: true,
+		                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+		                area: ['70%', '90%'],
+		                content: "/whole-process/science/details?xmid="+xmid,
+		                success: function (layero, index) {
+		                   // var iframe = window['layui-layer-iframe' + index];
+		                   // var iframeH=$(layero).find("iframe");
+		                    //$(iframeH).contents().find(".cycle-img").css("height",$(iframe).height()+"px");
+		                }
+		            });
 				}
 				
 				
