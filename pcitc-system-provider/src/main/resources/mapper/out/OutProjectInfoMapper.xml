@@ -3092,7 +3092,8 @@
 		   '' as define2,
 		   '' as type_flag,
 		   '' as xmmc,'' as ysnd,
-		   sum(jf) as jf,round(sum(out_project_info.YSJE), 2) as YSJE, round(sum(out_project_info.YSZBXJE), 2) as YSZBXJE,round(sum(out_project_info.YSFYXJE), 2) as YSFYXJE,
+		   '' as jf,
+		   round(sum(out_project_info.YSJE), 2) as YSJE, round(sum(out_project_info.YSZBXJE), 2) as YSZBXJE,round(sum(out_project_info.YSFYXJE), 2) as YSFYXJE,
 		   '' as project_property,'' as fzdw,'' as zylb,'' as xmlbbm,
 		   '' as define10,
 		   '' as define11,
@@ -3294,7 +3295,7 @@
 	</sql>
 	
 	
-	<!-- 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息 -->
+	<!-- 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息 IFNULL(ROUND(sum(IFNULL(jf,0)) ,2),0) as jf, -->
 	<select id="selectProjectInfoWithAllInfoByCond" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 	
 		select 
@@ -3305,7 +3306,7 @@
 			   '' as type_flag,
 			   '' as xmmc,
 			   '' as ysnd,
-			   IFNULL(ROUND(sum(IFNULL(jf,0)) ,2),0) as jf,
+			   '' as jf,
 			   IFNULL(ROUND(sum(IFNULL(out_project_info.ysje,0)),2),0) as ysje,
 			   IFNULL(ROUND(sum(IFNULL(out_project_info.yszbxje,0)),2),0) as yszbxje,
 			   IFNULL(ROUND(sum(IFNULL(out_project_info.ysfyxje,0)),2),0) as ysfyxje,
