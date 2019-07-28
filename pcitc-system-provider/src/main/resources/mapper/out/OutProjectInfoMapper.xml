@@ -3322,7 +3322,9 @@
 		       '' as jdh,
 		       '' as cgmc,
 		       '' as jdjg
-		from out_project_info left join out_appraisal on (out_project_info.hth = out_appraisal.hth)
+		      
+		       from out_project_info  
+		<!-- from out_project_info left join out_appraisal on (out_project_info.hth = out_appraisal.hth) -->
 		where
 			 out_project_info.project_type != '1'
 			 and out_project_info.define3 = '项目管理系统'
