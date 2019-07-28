@@ -30,8 +30,6 @@ public class CxfStandardClient {
     public static void main1() {
         try {
             // 接口地址
-            //String address = "http://127.0.0.1/soap/user?wsdl";
-        	//-autoNameResolution
             String address = "http://10.1.19.218/ProjectService.asmx?WSDL";
             // 代理工厂
             JaxWsProxyFactoryBean jaxWsProxyFactoryBean = new JaxWsProxyFactoryBean();
