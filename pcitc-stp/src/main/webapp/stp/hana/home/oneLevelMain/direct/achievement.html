@@ -206,7 +206,7 @@
 			$("#chart_title_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#chart_title_05").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-			var chart1_url = "/direct_second/direct_second_data_01?define3=直属研究院&nd=" + nd + "&v_date=" + v_date;
+			var chart1_url = "/direct_second/direct_second_data_01?functionId=984b64b13cf54222bf57bd840759fabe&define3=直属研究院&nd=" + nd + "&v_date=" + v_date;
 			var echart1 = load_single_bar(chart1_url, "chart1", "", "", yAxis, [ "#87d359" ], 70, "", function(data) {
 				var total_count = 0;
 				$.each(data.data.seriesDataList, function(index, dt) {
@@ -222,7 +222,7 @@
 
 			});
 
-			var chart4_url = "/direct_second/direct_second_data_02?define3=直属研究院&type=1&nd=" + $('#nd').val() + "&v_date=" + v_date;
+			var chart4_url = "/direct_second/direct_second_data_02?functionId=984b64b13cf54222bf57bd840759fabe&define3=直属研究院&type=1&nd=" + $('#nd').val() + "&v_date=" + v_date;
 			var echart4 = load_single_bar(chart4_url, "chart4", "", "", yAxis, [ "#ff9f7f" ], 70, "", function(data) {
 				var total_count = 0;
 				$.each(data.data.seriesDataList, function(index, dt) {
@@ -238,7 +238,7 @@
 				window.open("/instituteIndex?url=" + url);
 			});
 			//直属研究院成果类型-工业化分布统计
-			var chart5_url = "/direct_second/direct_second_data_03?define3=直属研究院&type=2&nd=" + $('#nd').val() + "&v_date=" + v_date;
+			var chart5_url = "/direct_second/direct_second_data_03?functionId=984b64b13cf54222bf57bd840759fabe&define3=直属研究院&type=2&nd=" + $('#nd').val() + "&v_date=" + v_date;
 			var echart5 = loadPie_02(chart5_url, "chart5", "", "", function(data) {
 				var total_count = 0;
 				$.each(data.data.dataList, function(index, dt) {
@@ -253,7 +253,7 @@
 
 			});
 
-			var chart6_url = "/direct_second/direct_second_data_04?define3=直属研究院&nd=" + $('#nd').val() + "&v_date=" + v_date;
+			var chart6_url = "/direct_second/direct_second_data_04?functionId=984b64b13cf54222bf57bd840759fabe&define3=直属研究院&nd=" + $('#nd').val() + "&v_date=" + v_date;
 			var echart6 = loadPie_02(chart6_url, "chart6", "", "", function(data) {
 				var total_count = 0;
 				$.each(data.data.dataList, function(index, dt) {
@@ -269,7 +269,7 @@
 
 			});
 
-			var chart7_url = "/direct_second/direct_second_data_05?define3=直属研究院&nd=" + $('#nd').val() + "&v_date=" + v_date;
+			var chart7_url = "/direct_second/direct_second_data_05?functionId=984b64b13cf54222bf57bd840759fabe&define3=直属研究院&nd=" + $('#nd').val() + "&v_date=" + v_date;
 			var echart7 = load_single_bar(chart7_url, "chart7", "", "", yAxis, [ "#9799ec" ], 70, "", function(data) {
 				var total_count = 0;
 				$.each(data.data.seriesDataList, function(index, dt) {
