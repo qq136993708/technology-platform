@@ -631,7 +631,10 @@
 					});
 
 					$("#report_intl_project_main").on("click", function() {
-
+						if(intlProjectCount > 0)
+						{
+							parent.layui.index.openTabsPage("/project/info_list_manager?userLevel=1", "国际合作");
+						}
 						//parent.layui.index.openTabsPage("/small_leader/intl_cooperation?userLevel=0", "国际合作");
 						//parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
 					});
