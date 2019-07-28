@@ -1599,8 +1599,8 @@ public class SysFileServiceImpl implements SysFileService {
 		OutputStream out = null;
 		InputStream in = null;
 		try {
-			String name = path.substring(path.lastIndexOf("/"));
-
+			String name = path.substring(path.lastIndexOf("/")+1);
+			
 			res.setHeader("content-type", "application/octet-stream");
 			res.setContentType("application/octet-stream");
 			res.setHeader("Content-Disposition", "attachment;filename="+URLEncoder.encode(name, "UTF-8"));
