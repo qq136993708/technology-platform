@@ -52,6 +52,17 @@
     	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
     	table = layui.table;
     	var publicMethods=layui.publicMethods;
+    	laydate.render({elem: '#reportYear',type: 'year'});
+    	
+    	publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(['ROOT_ZGSHJT_GFGS_ZSYJY'])}, function (data) {
+			$.each(data,function(key,val){
+				$.each(val,function(i,dt){
+					if(key == 'ROOT_ZGSHJT_GFGS_ZSYJY'){
+						$("#"+key).append('<option value="'+dt.code+'">'+dt.name+'</option>');
+					}
+				});
+			});
+	   	});
     	function renderTable(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		param = JSON.parse(window.localStorage.getItem("param"));
@@ -108,6 +119,7 @@
 							});
 						});
 				   	});
+					
 					//建设单位
 					console.log(dicVal);
 	                $.each(res.data,function(i,dt){
@@ -151,7 +163,9 @@
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
-                renderTable({param: {"applyName":$("#applyName").val()},sorts:{"plant_money":"desc"}});
+                renderTable({param: {"applyName":$("#applyName").val(),
+                	"reportYear":$("#reportYear").val(),
+                	"unitId":$("#ROOT_ZGSHJT_GFGS_ZSYJY").val()},sorts:{"plant_money":"desc"}});
             },resetEvent: function() { 
             	//点击重置按钮
                 $("#applyName").val("");
@@ -246,6 +260,12 @@
     <label class="dateInput">
         <span>申报项目</span>
         <input type="text" name="applyName" id="applyName" placeholder="请输入申报项目名称" autocomplete="off" class="form-control">
+        <span>申报年度</span>
+        <input type="text" name="reportYear" id="reportYear" placeholder="" readonly="readonly" autocomplete="off" class="form-control">
+         <span>所属研究院</span>
+        <select name="unitId" id="ROOT_ZGSHJT_GFGS_ZSYJY" lay-verify="required"  lay-filter="unitId">
+          	<option value="">请选择</option>
+       	</select>
     </label>
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
