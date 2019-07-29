@@ -3144,7 +3144,7 @@ public class OneLevelMainController extends BaseController {
 		PageResult pageResult = new PageResult();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		String type = CommonUtil.getParameter(request, "type", "重点专项");
+		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
