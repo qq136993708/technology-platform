@@ -62,6 +62,7 @@ layui.extend({
             //如果未在选项卡中匹配到，则追加选项卡
 
             if(!matchTo){
+                var lodingMsg = layer.msg('页面加载中....');
                 $(APP_BODY).append([
                     '<div class="layadmin-tabsbody-item layui-show">'
                     ,'<iframe src="'+ domain+url +'" id="'+code+'"  data-code="'+id+'" data-functionbuttons="'+functionbuttons+'" frameborder="0" class="layadmin-iframe"></iframe>'
@@ -85,6 +86,10 @@ layui.extend({
                 param = JSON.stringify(param)
                 console.log(parent.$(".layui-body .layui-show .layadmin-iframe"))
                 window.localStorage.setItem("param",param);
+                parent.$(".layui-body .layui-show .layadmin-iframe").on("load",function(){
+                    layer.close(lodingMsg);
+                    //加载完成，需要执行的代码
+                });
             }else {
                 $(APP_BODY+" div").eq(tabsPage.index+1).addClass("layui-show").html([
                     '<iframe src="'+domain+ url +'" id="'+code+'"  data-code="'+id+'" data-functionbuttons="'+functionbuttons+'" frameborder="0" class="layadmin-iframe"></iframe>'
