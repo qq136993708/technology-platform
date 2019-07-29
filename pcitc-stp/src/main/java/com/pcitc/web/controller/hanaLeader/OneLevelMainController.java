@@ -1207,8 +1207,13 @@ public class OneLevelMainController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/ten_dragon_table")
 	public String ten_dragon_table(HttpServletRequest request) throws Exception {
-		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()), DateUtil.FMT_YYYY));
-
+		//String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()), DateUtil.FMT_YYYY));
+		String nd = request.getParameter("nd");
+		System.out.println("----------------nd0---------"+nd +"----- xmfl---- "+request.getParameter("xmfl"));
+		if(nd == null) {
+			nd = DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()), DateUtil.FMT_YYYY);
+		}
+		System.out.println("----------------nd0---------"+nd +"----- xmfl---- "+request.getParameter("xmfl"));
 		request.setAttribute("nd", nd);
 		request.setAttribute("xmfl", CommonUtil.getParameter(request, "xmfl", ""));// 项目分類：(公共领域，油气勘探.....)
 		request.setAttribute("xmzt", CommonUtil.getParameter(request, "xmzt", ""));// 项目状态：（入龙、出龙、退龙...）
@@ -1271,7 +1276,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("xmmc", param.getParam().get("xmmc"));
 
 		paramsMap.put("define2", param.getParam().get("yjyItem") == "" ? null : param.getParam().get("yjyItem"));// 研究院
-		paramsMap.put("xmlbmc", param.getParam().get("xmflItem") == "" ? null : param.getParam().get("xmflItem"));// 项目分类
+		//paramsMap.put("xmlbmc", param.getParam().get("xmflItem") == "" ? null : param.getParam().get("xmflItem"));// 项目分类
 		paramsMap.put("type_flag", param.getParam().get("yjdwItem") == "" ? null : param.getParam().get("yjdwItem"));// 一级单位（9个机构）
 		paramsMap.put("status", param.getParam().get("xmztItem") == "" ? null : param.getParam().get("xmztItem"));// 项目状态
 
