@@ -129,8 +129,49 @@
 									</a>
 								</dd>
 								</#list>
-							</dl></li> </#if>
-
+							</dl></li>
+						</#if>
+						<li class="layui-nav-item"><a lay-href="/operationalManual.html" lay-text="操作手册"  title="操作手册">
+							<span>操作手册</span>
+							<span class="arrow"></span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+							<dl class="layui-nav-child" id="operational">
+								<dd lay-class="a">
+									<a href="#a">如何登录</a>
+								</dd>
+								<dd lay-class="b">
+									<a href="#b">个人工作台简介</a>
+								</dd>
+								<dd lay-class="b1">
+									<a href="#b1">查看专业处预算</a>
+								</dd>
+								<dd lay-class="c">
+									<a href="#c">查看新开及结转课题</a>
+								</dd>
+								<dd lay-class="b2">
+									<a href="#b2">查看合同签订情况</a>
+								</dd>
+								<dd lay-class="b3">
+									<a href="#b3">查看研究院预算</a>
+								</dd>
+								<dd lay-class="b4">
+									<a href="#b4">查看成果鉴定情况</a>
+								</dd>
+								<dd lay-class="d">
+									<a href="#d">科研项目的查询</a>
+								</dd>
+								<dd lay-class="e">
+									<a href="#e">技术族</a>
+								</dd>
+								<dd lay-class="f">
+									<a href="#f">安排工作任务</a>
+								</dd>
+								<dd  lay-class="g">
+									<a href="#g">联系项目组</a>
+								</dd>
+							</dl>
+						</li>
 					</ul>
 
 					<#if upList?exists> <#list upList as p>
@@ -187,6 +228,47 @@
 						<li class="layui-nav-item"><a lay-href="${s.url}" lay-text="${s.name}" data-id="${s.id}" data-code="${s.code}" data-functionbuttons="${s.functionButtons}">
 								<span>${s.name}</span>
 							</a></li> </#if> </#list>
+						<li class="layui-nav-item"><a lay-href="/operationalManual.html" lay-text="操作手册"  title="操作手册">
+							<span>操作手册</span>
+							<span class="arrow"></span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+							<dl class="layui-nav-child" id="operational1">
+								<dd lay-class="a">
+									<a href="#a">如何登录</a>
+								</dd>
+								<dd lay-class="b">
+									<a href="#b">个人工作台简介</a>
+								</dd>
+								<dd lay-class="b1">
+									<a href="#b1">查看专业处预算</a>
+								</dd>
+								<dd lay-class="c">
+									<a href="#c">查看新开及结转课题</a>
+								</dd>
+								<dd lay-class="b2">
+									<a href="#b2">查看合同签订情况</a>
+								</dd>
+								<dd lay-class="b3">
+									<a href="#b3">查看研究院预算</a>
+								</dd>
+								<dd lay-class="b4">
+									<a href="#b4">查看成果鉴定情况</a>
+								</dd>
+								<dd lay-class="d">
+									<a href="#d">科研项目的查询</a>
+								</dd>
+								<dd lay-class="e">
+									<a href="#e">技术族</a>
+								</dd>
+								<dd lay-class="f">
+									<a href="#f">安排工作任务</a>
+								</dd>
+								<dd  lay-class="g">
+									<a href="#g">联系项目组</a>
+								</dd>
+							</dl>
+						</li>
 					</ul>
 					</#list> </#if>
 				</div>
