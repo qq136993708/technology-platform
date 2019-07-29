@@ -104,7 +104,12 @@
 		     	// 触发不同的按钮事件
 		        var $ = layui.$, active = {
 		            searchEvent: function() { //点击查询按钮
-		            	renderTable({param: {"infoName":$("#infoName").val()}});
+		            	renderTable({
+		            		param: {
+		            			"infoName":$("#infoName").val(),
+		            			"projectCode":$("#projectCode").val()
+		            		}
+		            	});
 		            	//table.reload("infoTable",{where:{param: {"infoName":$("#infoName").val()}}});
 		            },resetEvent: function() { 
 		            	//点击重置按钮
@@ -201,7 +206,9 @@
 <div class="searchBox">
     <label class="dateInput">
         <span>项目名称</span>
-        <input type="text" name="infoName" id="infoName" placeholder="请输入立项项目名称"  autocomplete="off" class="form-control">
+        	<input type="text" name="infoName" id="infoName" placeholder="请输入立项项目名称"  autocomplete="off" class="form-control">
+        <span>立项编码</span>
+        	<input type="text" name="projectCode" id="projectCode" placeholder="请输入立项编码"  autocomplete="off" class="form-control">
     </label>
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
