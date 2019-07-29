@@ -2547,7 +2547,7 @@
 	
 	<!-- 领导首页，计算资本性预算金额。预算资本性金额没办法进行权限控制  -->
 	<select id="getBudgetZBXMoney" resultType="java.util.Map" parameterType="java.util.HashMap">
-		SELECT sum(zbx_money) as budgetZbxMoney
+		SELECT sum(zbx_money) as budgetZbxMoney, sum(zbx_money+fyx_money) as zysje
 		FROM out_tem_money_total
 		WHERE 
 			nd = '${nd}' AND money_level = 1

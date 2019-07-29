@@ -1,12 +1,17 @@
 package com.pcitc.web.out;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -23,14 +28,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.service.feign.hana.OutProjectRemoteClient;
+import com.pcitc.service.feign.stp.BudgetClient;
+import com.pcitc.service.out.OutProjectPlanService;
 import com.pcitc.service.out.OutProjectService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 @Api(value = "OUTPROJECT-API", description = "项目数据，从项目管理系统中获取")
 @RestController
@@ -38,6 +43,12 @@ public class OutProjectInfoClient {
 
 	@Autowired
 	private OutProjectService outProjectService;
+
+	@Autowired
+	private OutProjectPlanService outProjectPlanService;
+	
+	@Autowired
+	private BudgetClient budgetClient;
 
 	@Autowired
 	private OutProjectRemoteClient outProjectRemoteClient;
@@ -57,7 +68,7 @@ public class OutProjectInfoClient {
 		logger.info("==================page selectCommonProjectByCond===========================" + JSONObject.toJSONString(param));
 		return outProjectService.selectCommonProjectByCond(param);
 	}
-	
+
 	@ApiOperation(value = "科研项目分析，包含项目基本信息，同时包含成果、奖励等信息", notes = "分页显示")
 	@RequestMapping(value = "/out-project-provider/project/all-info/list", method = RequestMethod.POST)
 	public LayuiTableData selectProjectInfoWithAllInfoByCond(@RequestBody LayuiTableParam param) throws Exception {
@@ -160,45 +171,55 @@ public class OutProjectInfoClient {
 	public JSONObject getProjectMoney(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
 		String zycbm = map.get("zycbm");
-		if (map.get("leaderFlag") != null && (map.get("leaderFlag").toString().equals("2"))) {
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd(map.get("nd"));
+		
+		boolean leaderFlag = false;
+		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
 			// 大领导特殊，能看所有
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016,ZX,JD";
-			map.put("zycbm", zycbm);
-		} else {
-			// 机动、专项的费用，只能由拥有计划处（30130054）等特殊处室的人能看到
-			if (map != null && zycbm != null && (map.get("zycbm").toString().indexOf("30130054") > -1)) {
-				map.put("zycbm", map.get("zycbm").toString() + ",ZX,JD");
-			}
+			leaderFlag = true;
 		}
-		System.out.println("1------------------"+map.get("zycbm").toString());
-		System.out.println("2------------------"+map.get("leaderFlag").toString());
+
+		// 预算中，科技部外的部门特殊处理
+		if (zycbm.contains("30130011")) {
+			zycbm = zycbm + ",30130011";
+		}
+		if (zycbm.contains("30130016")) {
+			zycbm = zycbm + ",30130016";
+		}
+		if (zycbm.contains("30130009")) {
+			zycbm = zycbm + ",30130009";
+		}
+		map.put("zycbm", zycbm);
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoMoney(map);
 		
-		HashMap<String, String> temBudFyxMap = outProjectService.getProjectBudgetFyxMoney(map);
+		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
+		List<String> list_1 = new ArrayList<>(set);
+		vo.getUnitIds().addAll(list_1);
+		vo = budgetClient.selectBudgetInfoList(vo);
+		// 费用性预算金额
+		List<Map<String, Object>> budMoneyList = vo.getBudgetByAllUnit();
+		Double zysje = vo.getBudgetTotal();
 		
-		HashMap<String, String> temBudZbxMap = null;
-		// 资本性费用，只能由拥有大领导、计划处（30130054）等特殊处室的人能看到
-		if ((map.get("leaderFlag") != null && (map.get("leaderFlag").toString().equals("2"))) || (map != null && map.get("zycbm") != null && (map.get("zycbm").toString().indexOf("30130054") > -1))) {
-			temBudZbxMap = outProjectService.getBudgetZBXMoney(map);
-		}
 		if (temMap != null) {
 			retJson.put("projectMoney", temMap.get("projectMoney"));
 		} else {
 			retJson.put("projectMoney", 0);
 		}
-		// 预算金额（费用性）
-		if (temBudFyxMap != null) {
-			retJson.put("budgetFyxMoney", temBudFyxMap.get("budgetFyxMoney"));
-		} else {
-			retJson.put("budgetFyxMoney", 0);
-		}
 
-		// 预算金额（资本性），没办法按照专业处进行权限控制
-		if (temBudZbxMap != null) {
-			retJson.put("budgetZbxMoney", temBudZbxMap.get("budgetZbxMoney"));
+		if (leaderFlag) {
+			HashMap<String, String> temBudZbxMap = outProjectService.getBudgetZBXMoney(map);
+			// 预算金额（费用性）
+			if (temBudZbxMap != null) {
+				retJson.put("zysje", temBudZbxMap.get("zysje"));
+			} else {
+				retJson.put("zysje", 0);
+			}
 		} else {
-			retJson.put("budgetZbxMoney", 0);
+			retJson.put("zysje", zysje);
 		}
+		
 		return retJson;
 	}
 
@@ -964,7 +985,8 @@ public class OutProjectInfoClient {
 	@ApiOperation(value = "领导首页-十条龙，十条龙项目的类型分布 ", notes = "参数年度")
 	@RequestMapping(value = "/out-project-provider/dragon/type/project-info")
 	public JSONArray getDragonProjectInfoByType(@RequestBody HashMap<String, String> map) throws Exception {
-		//logger.info("==================page getDragonProjectInfoByType===========================" + map);
+		// logger.info("==================page getDragonProjectInfoByType==========================="
+		// + map);
 
 		List temList = outProjectService.getDragonProjectInfoByType(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -986,21 +1008,22 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/dragon/institute/project-info")
 	public JSONArray getDragonProjectInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getDragonProjectInfoByInstitute===========================" + map);
-		
+
 		List temList = outProjectService.getDragonProjectInfoByInstitute(map);
 		HashMap<String, String> map1 = new HashMap<String, String>();
 		// outProjectRemoteClient.getLastCountryProject(map1);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
-		//根据研究院排序
-		String [] unitNames = new String[]{"勘探院","物探院","工程院","石科院","大连院","北化院","上海院","安工院"};
+		// 根据研究院排序
+		String[] unitNames = new String[] { "勘探院", "物探院", "工程院", "石科院", "大连院", "北化院", "上海院", "安工院" };
 		List<String> ulist = Arrays.asList(unitNames);
-		java.util.Collections.sort(json, new Comparator<Object>(){
+		java.util.Collections.sort(json, new Comparator<Object>() {
 			@Override
 			public int compare(Object o1, Object o2) {
 				String d1 = JSONObject.parseObject(o1.toString()).get("define2").toString();
 				String d2 = JSONObject.parseObject(o2.toString()).get("define2").toString();
-				return ulist.indexOf(d1)-ulist.indexOf(d2);
-			}});
+				return ulist.indexOf(d1) - ulist.indexOf(d2);
+			}
+		});
 		return json;
 	}
 
