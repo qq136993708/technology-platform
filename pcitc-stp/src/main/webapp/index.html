@@ -64,10 +64,10 @@
 					<!-- <li class="layui-nav-item layui-nav-itemnew notify">
 						<a id="numberNotify" lay-href="/task/pending/list/ini" lay-text="通知" title="通知"></a>
 					</li> -->
-					<li class="layui-nav-item layui-nav-itemnew " title="二维码"><span class="QRCode"></span>
+					<!--<li class="layui-nav-item layui-nav-itemnew " title="二维码"><span class="QRCode"></span>
 						<div class="QRCode-content layui-hide">
 							<img src="/layuiadmin/layui/images/weixin.png" />
-						</div></li>
+						</div></li>-->
 					<li class="layui-nav-item"><a href="javascript:;" style="color: #fff;" class="layui-nav-item-a">
 							${userInfo.userDisp!}
 							<span class="layui-nav-more"></span>
@@ -228,7 +228,7 @@
 						<li class="layui-nav-item"><a lay-href="${s.url}" lay-text="${s.name}" data-id="${s.id}" data-code="${s.code}" data-functionbuttons="${s.functionButtons}">
 								<span>${s.name}</span>
 							</a></li> </#if> </#list>
-						<li class="layui-nav-item"><a lay-href="/operationalManual.html" lay-text="操作手册"  title="操作手册">
+						<li class="layui-nav-item operational1"><a lay-href="/operationalManual.html" lay-text="操作手册"  title="操作手册">
 							<span>操作手册</span>
 							<span class="arrow"></span>
 							<i class="fa fa-angle-left pull-right"></i>
@@ -421,6 +421,12 @@
 							$(this).parent().addClass("layui-this");
 						}
 					});
+					$("#navd8e0e0c1e18f4c4d940fd83c94e215ae li").click(function () {
+                        $("#navd8e0e0c1e18f4c4d940fd83c94e215ae li").removeClass("layui-this");
+                        $("#navd8e0e0c1e18f4c4d940fd83c94e215ae li").removeClass("layui-nav-itemed");
+                        $(this).addClass("layui-this");
+                        $(this).addClass("layui-nav-itemed");
+                    });
 					function initMessageSocket() {
 						//初始化websocket
 						var websocket = null;
