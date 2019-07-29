@@ -24,12 +24,22 @@
  			var publicMethods=layui.publicMethods;
  			var form = layui.form;
  			var table = layui.table;
+ 			laydate.render({elem: '#reportYear',type: 'year'});
+ 			var dicVal = {};
+ 	    	publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(['ROOT_ZGSHJT_GFGS_ZSYJY'])}, function (data) {
+ 				$.each(data,function(key,val){
+ 					$.each(val,function(i,dt){
+ 						dicVal[dt.code] = dt.name;
+ 						$("#"+key).append('<option value="'+dt.code+'">'+dt.name+'</option>');
+ 					});
+ 				});
+ 		   	});
 	    	table.render({
 	            elem: '#notjoin_apply_table',
 	            url: '/project/notjoin-plant-apply-list',
 	            limit: 15,
 	            method:"POST",
-	            where: {param:{"plantId":$("#plantId").val(),"applyName":$("#applyName").val()}},
+	            where: {param:{"plantId":$("#plantId").val(),"applyTitle":$("#applyTitle").val()}},
 	        	id: 'notjoin_apply_table',
 	        	height: 200,
 	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
@@ -37,16 +47,23 @@
 	            	 {type:'checkbox',event: 'changeEvents'}
 	             	 ,{title:'序号', type:'numbers',width : 55}
 	                 ,{field:'applyName',   title:'项目名称',	width: '35%',  style:'cursor: pointer;',align:"left"}
-	                 ,{field:'applyCode',title:'项目编码',	width: '13%',  style:'cursor: pointer;',align:"left",align:"left"}
-	                 ,{field:'startDate',title:'开始日期',	width: '13%',  style:'cursor: pointer;',align:"center"}
-	                 ,{field:'endDate',   title:'完工日期',	width: '13%',  style:'cursor: pointer;',align:"center"}
+	                 ,{field:'unitId',   title:'所属研究院', width: '15%',  style:'cursor: pointer;',align:"center"}
+	                 ,{field:'reportYear',title:'申报年度', 	width: '10%',  style:'cursor: pointer;',align:"center"}
+	                 ,{field:'startDate',title:'开始日期',	width: '10%',  style:'cursor: pointer;',align:"center"}
+	                 ,{field:'endDate',   title:'完工日期',	width: '10%',  style:'cursor: pointer;',align:"center"}
 	                 ,{field:'plantMoney',   title:'总投资(万元)',  style:'cursor: pointer;',align:"right"}
 	            	/*  {type:'checkbox',event: 'changeEvents',width: '10%'}
 	            	,{title:'序号', type:'numbers', width: '10%'}
 	                ,{field:'applyTitle',   title:'标题',	width: '30%',  style:'cursor: pointer;'}
 	                ,{field:'applyName',   title:'申报名称',    width: '25%',  style:'cursor: pointer;'}
 	                ,{field:'applyCode',title:'项目编码',	width: '25%',   style:'cursor: pointer;'} */
-	            ]]
+	            ]],
+	        	done: function (res, curr, count) {
+	        		$.each(res.data,function(i,dt){
+	        			$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(dicVal[res.data[i].unitId]);
+	        		});
+	        	}
+	        	
 	        });
 	    	//多行点击事件
 	        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
@@ -59,8 +76,17 @@
 	             e.stopPropagation();
 	         });
 	    	var $ = layui.$, active = {
-	    		searchEvent: function() { 
-                    table.reload("notjoin_apply_table",{where:{param:{"plantId":$("#plantId").val(),"applyTitle":$("#applyTitle").val()}}});
+	    		searchEvent: function() {
+                    table.reload("notjoin_apply_table",{
+                    	where:{
+                    		param:{
+                    			"plantId":$("#plantId").val(),
+                    			"reportYear":$("#reportYear").val(),
+                    			"applyTitle":$("#applyTitle").val(),
+                    			"unitId":$("#ROOT_ZGSHJT_GFGS_ZSYJY").val()
+                    		}
+                    	}
+                    });
                 },
                 addEvent:function(){
                 	var check = table.checkStatus('notjoin_apply_table');
@@ -99,6 +125,16 @@
         	<span>申报名称</span>
         	<input type="text" name="applyTitle" id="applyTitle" placeholder="请输入申报名称" autocomplete="off" class="form-control">
     	</label>
+    	<label class="dateInput">
+        <span>申报年度</span>
+	        <input type="text" name="reportYear" id="reportYear" placeholder="" readonly="readonly" autocomplete="off" class="form-control">
+	    </label>
+	    <label class="dateInput">
+	        <span>所属研究院</span>
+	        <select name="unitId" id="ROOT_ZGSHJT_GFGS_ZSYJY" lay-verify="required"  lay-filter="unitId" class="form-control form-control1">
+	            <option value="">请选择</option>
+	        </select>
+	    </label>
     	<div class="btnGroup">
         	<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
         	<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>

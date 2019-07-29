@@ -66,16 +66,25 @@ public class CxfStandardClient {
         Object[] result = null;
         try {
             // invoke("方法名",参数1,参数2,参数3....);
-        	result = client.invoke("GetList", "2018");
-        	System.out.println("返回数据:" +result[0].toString());
-            result = client.invoke("GetItem", "D4511C813EFCE35F7B55B70545F63B23");
-            System.out.println("返回数据:" +result[0].toString());
-            result = client.invoke("GetListByYear", "2018");
-            System.out.println("返回数据:" +result[0].toString());
-            
-            System.out.println(System.currentTimeMillis()-s);
+        	result = client.invoke("GetList","");
+        	//System.out.println("返回数据:" +result[0].toString());
+        	for(Object obj:result) {
+        		System.out.println(obj.toString());
+        		System.out.println(JSON.parseArray(obj.toString()).size());
+        	}
+            result = client.invoke("GetItem", "F8DFE8969EC704A6DDDD432176230001");
+            //System.out.println("返回数据:" +result[0].toString());
+            for(Object obj:result) {
+        		System.out.println(obj.toString());
+        	}
+            result = client.invoke("GetListByYear", "2019");
+            //System.out.println("返回数据:" +result[0].toString());
+            for(Object obj:result) {
+            	System.out.println(obj.toString());
+        		System.out.println(JSON.parseArray(obj.toString()).size());
+        	}
         } catch (java.lang.Exception e) {
-        	System.out.println("返回数据:Exception");
+        	//System.out.println("返回数据:Exception");
             e.printStackTrace();
         }
     }
