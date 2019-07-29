@@ -731,9 +731,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 //                String source = (p_index * 1000 + i) + "";
                 xmids.add(map_obj.get("dataId"));
 
-//                nodes.add(new ChartGraphDataNode(1, name, value, source,itemStyle,getX(cgx,cgy,cg_d*i,cgr),getY(cgx,cgy,cg_d*i,cgr),cg_s_sym+""));
-//                links.add(new ChartGraphDataLink(source, "6", link_index+++"", name));
-
                 nodes.add(new ChartGraphDataNode(p_index, name, "", source, itemStyle, getX(p_x, p_y, p_d * i, p_r), getY(p_x, p_y, p_d * i, p_r), p_s_sym + ""));
                 links.add(new ChartGraphDataLink(source + "", p_index + "", link_index++ + "", name));
                 //课题关联评审过的项目
@@ -793,14 +790,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 double m_s_sym = getSYMSon(j);
                 nodes.add(new ChartGraphDataNode(zl_index, name, "", source, itemStyle, m_x, m_y, zl_s_sym + 10 + ""));
                 links.add(new ChartGraphDataLink(source + "", zl_index + "", link_index++ + "", name));
-
 //                if(i==0){
 //                    nodes.add(new ChartGraphDataNode(zl_index, "测试333", "", 900000+"", itemStyle, m_x, m_y, zl_s_sym + 10 + ""));
 //                }
-
-
                 map_zl_gl.put(value,source);
-
 
                 for (int k = 0, array_fmr_l = array_fmr.length; k < array_fmr_l; k++) {
                     String array_fmr_name = array_fmr[k];
@@ -922,7 +915,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 links.add(setGraphLinkObj(qy_son_id, qy_index + "", link_index++ + "", map_key));
                 //企业子项关联课题
                 links.add(setGraphLinkObj(qy_son_id,map_val+"",qy_son_id+"",map_key));
-
             }
 
             //评审项目
@@ -941,7 +933,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             nodes.add(new ChartGraphDataNode(ps_index, psName, psValue, ps_index + "", itemStyle, ps_x, ps_y, ps_p_sym_p));
             links.add(new ChartGraphDataLink(ps_index + "", "0", link_index++ + "", psName));
             categories.add(new ChartForceCategories(psName));
-
 
 //            zjkChoices 项目id,项目名称
             for (int i = 0,j = count_ps; i < j; i++) {

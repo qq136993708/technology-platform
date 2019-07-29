@@ -113,7 +113,9 @@
                         "typeName": $("input[name=typeName]").val(),
                         "workOrderStatus": workOrderStatus,
                         "keyword":$("#keyword").val(),
+                        "keywords":$("#keyword").val(),
                         "iscount":"1"
+                        ,"searchIndexFlag":"1"
                     }
             };
             publicMethods.tableRenderH('tfmTypeTableId', 'tfmTypeTableId',0, '/tfmType/getTableData', false, cols, where, true, function (res, curr, count) {

@@ -27,6 +27,8 @@
             border-radius: 12px;
             font-size: 12px;}
         .layui-table-page{text-align: left;}
+        .main-chart>div{overflow: scroll !important;}
+        .btnMyBgImg{padding: 1px 10px;}
         @media (min-width: 1673px){
             .layui-tab-title li{padding: 0 24px;}}
     </style>
@@ -53,8 +55,8 @@
                 <div class="layui-col-md9">
                     <p>${zjkBaseInfo.expertName}</p>
                     <span class="layui-zc">职称：${zjkBaseInfo.expertProfessinal}</span>
-                    <span class="layui-pone">专家类型：${zjkBaseInfo.bak3}</span>
-                    <span class="layui-e" id="industryId">${zjkBaseInfo.industryId}</span>
+                    <span class="layui-pone">专家类型：</span>
+                    <span class="layui-e" id="industryId">行业领域：</span>
                     <span class="layui-z">专业领域：${zjkBaseInfo.expertProfessionalField}</span>
                     <span class="layui-a">所在单位：${zjkBaseInfo.companyName}</span>
                     <div class="search">
@@ -140,6 +142,14 @@
                     <a class="layui-layer-ico layui-layer-max" href="javascript:;"></a>
                 </div>
                 <div class="layui-row-main">
+                    <div class="main-show" >
+                        <div class="layui-form-item">
+                            <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-this" onclick="echart_layout('none')">普通布局</button>
+                            <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="echart_layout('circular')">环形布局</button><!--
+                                <input type="radio" lay-filter="radioEvent" name="sex" value="0" title="普通布局" onclick="echart_layout('none')">普通布局
+                                <input type="radio" lay-filter="radioEvent" name="sex" value="1" title="环形布局" checked onclick="echart_layout('circular')">环形布局-->
+                        </div>
+                    </div>
                     <div class="main-chart" id="five" style="height:300px;width: 100%; overflow:auto"></div>
                 </div>
             </div>
@@ -175,7 +185,7 @@ function showExpertDetail(expertId){
 //获取行业领域---行业领域：
 ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
     $.each(data, function (i, dt) {
-        if($("#industryId").html()==data[i].code){
+        if("${zjkBaseInfo.industryId}"==data[i].code){
             $("#industryId").html("行业领域："+data[i].name);
         }
         // $("#industryId").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
@@ -183,6 +193,8 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
 });
 </script>
 <script>
+    var echartsobj_five={};
+    var echartsobj_five_option={};
     var expertId = '${zjkBaseInfo.dataId}';
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element', "publicMethods"],
         function () {
@@ -207,9 +219,10 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     $(this).addClass("layui-layer-icon");
                     $("#enlargeP").addClass("enlarge");
                     $("#enlargeP .main-chart").css("height",$(document).height()+"px");
-                    var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
-                    var colorFive = ["#8fc31f"];
-                    five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
+                    echartsobj_five.resize();
+                    // var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
+                    // var colorFive = ["#8fc31f"];
+                    // five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
 
                     // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
                     //     if (d.seriesDataList == undefined) {
@@ -220,8 +233,9 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     $(this).removeClass("layui-layer-icon");
                     $("#enlargeP").removeClass("enlarge");
                     $("#enlargeP .main-chart").css("height","300px");
-                    var colorFive = ["#8fc31f"];
-                    five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
+                    echartsobj_five.resize();
+                    // var colorFive = ["#8fc31f"];
+                    // five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
                     // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
                     //     if (d.seriesDataList == undefined) {
                     //         $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
@@ -271,7 +285,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     where: where,
                     limit: 15,
                     id: 'zjkChoiceTableId',
-                    height: 300,
+                    height: 334,
                     page: {
                         count: 500, //数据总数，从服务端得到
                         groups: 5,
@@ -347,6 +361,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
 
 
         var colorFive = ["#8fc31f"];
+
         five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
         // load_single_forces("/expertController/picIndexImg?hyly="+hyly, "one", "专家画像", "", "", "", 10);
 
@@ -355,12 +370,17 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
         //         $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
         //     }
         // });
-
-
     }
 
     initEchart();
+    function echart_layout(type) {
 
+        console.log("----echartsobj_five---------");
+
+        option_graph.series[0].layout = type;
+        echartsobj_five.setOption(option_graph);
+        echartsobj_five.resize();
+    }
 </script>
 <script>
     /* var zjkBaseInfo = "${zjkBaseInfo}";*/

@@ -69,7 +69,7 @@
                 elem: '#zjkZhuanliTableId',
                 url: '/expertController/queryOutPatentList',
                 method: "POST",
-                where: {param: {"keyword":"${keyword}"}},
+                where: {param: {"keyword":"${keyword}","searchIndexFlag":"1","keywords":"${keyword}"}},
                 limit: 15,
                 id: 'zjkZhuanliTableId',
                 page: {

@@ -922,6 +922,11 @@ public class SysFileController extends BaseController {
     @RequestMapping(value = "/sysfile/getTableDataEsIndex", method = RequestMethod.POST)
     @ResponseBody
     public Object getTableDataEsIndex(@ModelAttribute("param") LayuiTableParam param) throws IOException {
+        LayuiTableData data = new LayuiTableData();
+        if (StrUtil.isNullLayuiTableParam(param)){
+            data.setCount(0);
+            return JSONObject.toJSONString(data);
+        }else {
         DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
         dataTableInfoVo.setiDisplayLength(param.getLimit());
         dataTableInfoVo.setiDisplayStart((param.getPage() - 1) * param.getLimit());
@@ -938,7 +943,6 @@ public class SysFileController extends BaseController {
         String result = responseEntity.getBody();
         JSONObject retJson = JSONObject.parseObject(result);
         // DataTableParameter data = new DataTableParameter();
-        LayuiTableData data = new LayuiTableData();
         if (retJson != null) {
             int totalCount = retJson.get("totalCount") != null ? Integer.parseInt(retJson.get("totalCount").toString()) : 0;
             List<SysFile> SysFileList = JSONObject.parseArray(retJson.getJSONArray("list").toJSONString(), SysFile.class);
@@ -946,6 +950,7 @@ public class SysFileController extends BaseController {
             data.setCount(totalCount);
         }
         return data;
+        }
     }
 
     //

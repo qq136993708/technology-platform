@@ -10,6 +10,7 @@ import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.ReverseSqlResult;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
 import org.springframework.http.HttpEntity;
@@ -114,16 +115,16 @@ public class ExpertController extends BaseController {
         return "stp/expert/eee";
     }
 
-    @RequestMapping(value = "/queryAllExpert",method = RequestMethod.GET)
+    @RequestMapping(value = "/queryAllExpert", method = RequestMethod.GET)
     @ResponseBody
-    public String queryAllExpert(){
+    public String queryAllExpert() {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ZjkExpert expert = new ZjkExpert();
         expert.setiSortCol("expert_name");
         expert.setsSortDir_0("asc");
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(queryAllExpert, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
-        List<Map<String,Object>> list = (List<Map<String,Object>>) retJson.get("expert");
+        List<Map<String, Object>> list = (List<Map<String, Object>>) retJson.get("expert");
         return JSON.toJSONString(list);
     }
 
@@ -154,8 +155,6 @@ public class ExpertController extends BaseController {
         request.setAttribute("zlCount", listZl.size());//专利总数
 
         request.setAttribute("cgzlCount", listCg.size() + listZl.size());
-
-
 
         //机构总数
         ZjkChoice zjkChoice = new ZjkChoice();
@@ -192,7 +191,7 @@ public class ExpertController extends BaseController {
     public Object indexPicImg() {
         ZjkExpert expert = new ZjkExpert();
         String hyly = request.getParameter("hyly");
-        if (hyly!= null&&!"".equals(hyly)){
+        if (hyly != null && !"".equals(hyly)) {
             expert.setExpertProfessionalField(hyly);
         }
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM_IMG, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
@@ -201,6 +200,7 @@ public class ExpertController extends BaseController {
 
     /**
      * 专家画像
+     *
      * @return
      */
     @RequestMapping(value = "/expertIndexNewImg", method = RequestMethod.GET)
@@ -339,17 +339,23 @@ public class ExpertController extends BaseController {
     }
 
     /**
-     *
      * @param param
      * @return
      */
     @RequestMapping(value = "/queryOutPatentList", method = RequestMethod.POST)
     @ResponseBody
     public Object queryOutPatentList(@ModelAttribute("param") LayuiTableParam param) {
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LIST_OUT_PATENT, HttpMethod.POST, entity, LayuiTableData.class);
-        LayuiTableData data = responseEntity.getBody();
-        return JSON.toJSON(data).toString();
+
+        LayuiTableData data = new LayuiTableData();
+        if (StrUtil.isNullLayuiTableParam(param)) {
+            data.setCount(0);
+            return JSONObject.toJSONString(data);
+        } else {
+            HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+            ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LIST_OUT_PATENT, HttpMethod.POST, entity, LayuiTableData.class);
+            data = responseEntity.getBody();
+            return JSON.toJSON(data).toString();
+        }
     }
 
     /**
@@ -431,6 +437,7 @@ public class ExpertController extends BaseController {
 
     /**
      * 专家详情-领导页
+     *
      * @return
      */
     @RequestMapping(value = "/expertDetailLeader", method = RequestMethod.GET)
@@ -807,12 +814,13 @@ public class ExpertController extends BaseController {
 
     /**
      * 成果列表-统计展示
+     *
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/zjkAchievementListCount")
     public String zjkAchievementListCount() throws Exception {
-        request.setAttribute("expertName",request.getParameter("expertName"));
+        request.setAttribute("expertName", request.getParameter("expertName"));
         return "/stp/expert/zjkAchievementList_count";
     }
 
@@ -840,17 +848,17 @@ public class ExpertController extends BaseController {
         //获取项目ID
         LayuiTableParam param = new LayuiTableParam();
         param.setLimit(100000000);
-        param.getParam().put("status","2");
+        param.getParam().put("status", "2");
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
         List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
         List<String> list = new ArrayList<>();
-        for (int i = 0,j=data.getData().size(); i < j; i++) {
+        for (int i = 0, j = data.getData().size(); i < j; i++) {
             Map m = (Map) data.getData().get(i);
-            list.add(m.get("xmId")+"");
+            list.add(m.get("xmId") + "");
         }
-        request.setAttribute("xmid",org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
+        request.setAttribute("xmid", org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
         return "/stp/expert/zjkOutProjectListPublic";
     }
 
@@ -865,17 +873,17 @@ public class ExpertController extends BaseController {
         //获取项目ID
         LayuiTableParam param = new LayuiTableParam();
         param.setLimit(100000000);
-        param.getParam().put("status","2");
+        param.getParam().put("status", "2");
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
         List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
         List<String> list = new ArrayList<>();
-        for (int i = 0,j=data.getData().size(); i < j; i++) {
+        for (int i = 0, j = data.getData().size(); i < j; i++) {
             Map m = (Map) data.getData().get(i);
-            list.add(m.get("xmId")+"");
+            list.add(m.get("xmId") + "");
         }
-        request.setAttribute("xmid",org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
+        request.setAttribute("xmid", org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
         return "/stp/expert/zjkAchievementListPublic";
     }
 
@@ -890,22 +898,23 @@ public class ExpertController extends BaseController {
         //获取项目ID
         LayuiTableParam param = new LayuiTableParam();
         param.setLimit(100000000);
-        param.getParam().put("status","2");
+        param.getParam().put("status", "2");
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
         List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
         List<String> list = new ArrayList<>();
-        for (int i = 0,j=data.getData().size(); i < j; i++) {
+        for (int i = 0, j = data.getData().size(); i < j; i++) {
             Map m = (Map) data.getData().get(i);
-            list.add(m.get("xmId")+"");
+            list.add(m.get("xmId") + "");
         }
-        request.setAttribute("xmid",org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
+        request.setAttribute("xmid", org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
         return "/stp/expert/zjkPatentListPublic";
     }
 
     /**
      * 获取专家统计-专利信息
+     *
      * @return
      * @throws Exception
      */
@@ -914,12 +923,13 @@ public class ExpertController extends BaseController {
         String id = request.getParameter("expertId");
         ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
         ZjkExpert news = responseEntity.getBody();
-        request.setAttribute("expertName",news.getExpertName());
+        request.setAttribute("expertName", news.getExpertName());
         return "/stp/expert/zjkPatentListPublic_count";
     }
 
     /**
      * 获取专家统计-课题
+     *
      * @return
      * @throws Exception
      */
@@ -928,13 +938,13 @@ public class ExpertController extends BaseController {
         String id = request.getParameter("expertId");
         ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
         ZjkExpert news = responseEntity.getBody();
-        request.setAttribute("expertName",news.getExpertName());
+        request.setAttribute("expertName", news.getExpertName());
         return "/stp/expert/zjkOutProjectListPublicCount";
     }
 
-
     /**
      * 获取专家统计-奖励
+     *
      * @return
      * @throws Exception
      */
@@ -943,14 +953,14 @@ public class ExpertController extends BaseController {
         String id = request.getParameter("expertId");
         ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
         ZjkExpert news = responseEntity.getBody();
-        request.setAttribute("expertName",news.getExpertName());
+        request.setAttribute("expertName", news.getExpertName());
         return "/stp/expert/zjkOutRewardListPublicCount";
     }
 
     @RequestMapping(value = "/zjkOutProjectList_tfc")
     public String zjkOutProjectList_tfc() throws Exception {
-        request.setAttribute("typeName",request.getParameter("typeName"));
-        request.setAttribute("pYear",request.getParameter("pYear"));
+        request.setAttribute("typeName", request.getParameter("typeName"));
+        request.setAttribute("pYear", request.getParameter("pYear"));
         return "/stp/expert/zjkOutProjectList_tfc";
     }
 
@@ -987,7 +997,7 @@ public class ExpertController extends BaseController {
         String projectName = request.getParameter("projectName");
         try {
             projectName = java.net.URLDecoder.decode(projectName, "UTF-8");
-            System.out.println("projectNameprojectNameprojectNameprojectNameprojectNameprojectNameproject"+projectName);
+            System.out.println("projectNameprojectNameprojectNameprojectNameprojectNameprojectNameproject" + projectName);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -995,14 +1005,14 @@ public class ExpertController extends BaseController {
         request.setAttribute("projectName", projectName);
         request.setAttribute("unitCode", request.getParameter("unitCode"));
         request.setAttribute("flag", request.getParameter("flag"));
-        request.setAttribute("bak6", UUID.randomUUID().toString().replace("-",""));
+        request.setAttribute("bak6", UUID.randomUUID().toString().replace("-", ""));
         SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT + request.getParameter("unitId"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysUnit.class).getBody();
         String strFlag = request.getParameter("flag");
-        if("xm".equals(strFlag)){
+        if ("xm".equals(strFlag)) {
             return "stp/expert/expert_choice";
-        }else if ("zl".equals(strFlag)){
+        } else if ("zl".equals(strFlag)) {
             return "stp/expert/expert_choice_patent";
-        }else {
+        } else {
             return "stp/expert/expert_choice_achiement";
         }
     }
@@ -1024,12 +1034,13 @@ public class ExpertController extends BaseController {
     @RequestMapping(method = RequestMethod.GET, value = "/expertDetailIndex")
     public String expertDetailIndex() {
         ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + request.getParameter("dataId"), HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
-        request.setAttribute("expert",responseEntity.getBody());
+        request.setAttribute("expert", responseEntity.getBody());
         return "chart/detail";
     }
 
     /**
      * 科研人才页面跳转
+     *
      * @return
      */
     @RequestMapping(value = "/personnel", method = RequestMethod.GET)
@@ -1039,6 +1050,7 @@ public class ExpertController extends BaseController {
 
     /**
      * 新闻跳转
+     *
      * @return
      */
     @RequestMapping(value = "/leader_speech", method = RequestMethod.GET)
