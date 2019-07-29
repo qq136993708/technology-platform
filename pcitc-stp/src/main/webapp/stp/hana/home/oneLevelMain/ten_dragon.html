@@ -247,7 +247,8 @@
 			echart1.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				window.open("/instituteIndex?url=/one_level_main/ten_dragon_table?xmfl=" + encodeURIComponent(xName) + "&nd=" + nd);
+				var url = encodeURIComponent("/one_level_main/ten_dragon_table?xmfl=" + encodeURIComponent(xName) + "&nd=" + nd);
+				window.open("/instituteIndex?url=" + url);
 				
 			});
 
@@ -264,7 +265,9 @@
 			echart2.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				window.open("/instituteIndex?url=/one_level_main/ten_dragon_table?xmzt=" + encodeURIComponent(xName) + "&nd=" + nd);
+				//window.open("/instituteIndex?url=/one_level_main/ten_dragon_table?xmzt=" + encodeURIComponent(xName) + "&nd=" + nd);
+				var url = encodeURIComponent("/one_level_main/ten_dragon_table?xmzt=" +xName+ "&nd=" + nd);
+				window.open("/instituteIndex?url=" + url);
 			});
 
 			var chart7_url = "/one_level_main/dragon_03?nd=" + nd + "&v_date=" + v_date + "&companyCode=" + companyCode;
@@ -287,7 +290,9 @@
 			echart7.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				window.open("/instituteIndex?url=/one_level_main/ten_dragon_table?yjy=" + encodeURIComponent(xName) + "&nd=" + nd);
+				//window.open("/instituteIndex?url=/one_level_main/ten_dragon_table?yjy=" + encodeURIComponent(xName) + "&nd=" + nd);
+				var url = encodeURIComponent("/one_level_main/ten_dragon_table?yjy=" + encodeURIComponent(xName) + "&nd=" + nd);
+				window.open("/instituteIndex?url=" + url);
 			});
 
 		}

@@ -9,15 +9,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -48,7 +47,6 @@ import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ProjectForMysql;
-import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysNewsVo;
 import com.pcitc.base.system.SysUser;
@@ -1219,7 +1217,9 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("xmzt", CommonUtil.getParameter(request, "xmzt", ""));// 项目状态：（入龙、出龙、退龙...）
 		request.setAttribute("yjy", CommonUtil.getParameter(request, "yjy", ""));// 研究院：8大院等细分结构
 		request.setAttribute("yjdw", CommonUtil.getParameter(request, "yjdw", ""));// 一級單位：直属研究院、分子公司、集团等9种类型
-
+		
+		
+		
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 
@@ -1250,7 +1250,9 @@ public class OneLevelMainController extends BaseController {
 				} else if (showCode.equals("xmlbmc")) {
 					xmflList.add(showName);
 				} else if (showCode.equals("status")) {
-					xmztList.add(showName);
+					if(!StringUtils.isBlank(showName)) {
+						xmztList.add(showName.trim());
+					}
 				} else {
 					System.out.println("other param:" + showCode + ":" + showName);
 				}
@@ -1259,6 +1261,7 @@ public class OneLevelMainController extends BaseController {
 			request.setAttribute("yjdwList", yjdwList);
 			request.setAttribute("xmflList", xmflList);
 			request.setAttribute("xmztList", xmztList);
+			System.out.println(JSON.toJSONString(xmztList));
 		}
 		return "stp/hana/home/oneLevelMain/ten_dragon_table";
 	}
@@ -1276,7 +1279,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("xmmc", param.getParam().get("xmmc"));
 
 		paramsMap.put("define2", param.getParam().get("yjyItem") == "" ? null : param.getParam().get("yjyItem"));// 研究院
-		//paramsMap.put("xmlbmc", param.getParam().get("xmflItem") == "" ? null : param.getParam().get("xmflItem"));// 项目分类
+		paramsMap.put("xmlbmc", param.getParam().get("xmflItem") == "" ? null : param.getParam().get("xmflItem"));// 项目分类
 		paramsMap.put("type_flag", param.getParam().get("yjdwItem") == "" ? null : param.getParam().get("yjdwItem"));// 一级单位（9个机构）
 		paramsMap.put("status", param.getParam().get("xmztItem") == "" ? null : param.getParam().get("xmztItem"));// 项目状态
 
