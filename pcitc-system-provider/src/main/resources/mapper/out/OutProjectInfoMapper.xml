@@ -2791,7 +2791,7 @@
 				from out_project_info
 				WHERE
 					 project_property = '十条龙项目'
-					 and project_type != '1'
+					 and project_type != '2'
 					<if test="nd != null">
 						and out_project_info.nd = #{nd}
 					</if>
@@ -2835,7 +2835,7 @@
 										left join out_project_info as tableD on (tableA.hth = tableD.hth and tableD.define6 = '3协作单位')
 										left join out_project_info as tableE on (tableA.hth = tableE.hth and tableE.define6 = '4组员单位')
 			GROUP BY tableA.hth
-			ORDER BY hth
+			ORDER BY xmid,hth
 	</select>
 	
   	

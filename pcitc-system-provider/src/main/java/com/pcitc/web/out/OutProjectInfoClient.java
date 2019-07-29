@@ -1,10 +1,8 @@
 package com.pcitc.web.out;
 
-import com.pcitc.base.stp.out.OutProjectInfoExample;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +25,12 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.service.feign.hana.OutProjectRemoteClient;
 import com.pcitc.service.out.OutProjectService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value = "OUTPROJECT-API", description = "项目数据，从项目管理系统中获取")
 @RestController
@@ -962,10 +964,9 @@ public class OutProjectInfoClient {
 	@ApiOperation(value = "领导首页-十条龙，十条龙项目的类型分布 ", notes = "参数年度")
 	@RequestMapping(value = "/out-project-provider/dragon/type/project-info")
 	public JSONArray getDragonProjectInfoByType(@RequestBody HashMap<String, String> map) throws Exception {
-		logger.info("==================page getDragonProjectInfoByType===========================" + map);
+		//logger.info("==================page getDragonProjectInfoByType===========================" + map);
 
 		List temList = outProjectService.getDragonProjectInfoByType(map);
-
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
@@ -985,11 +986,21 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/dragon/institute/project-info")
 	public JSONArray getDragonProjectInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getDragonProjectInfoByInstitute===========================" + map);
-
+		
 		List temList = outProjectService.getDragonProjectInfoByInstitute(map);
 		HashMap<String, String> map1 = new HashMap<String, String>();
 		// outProjectRemoteClient.getLastCountryProject(map1);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		//根据研究院排序
+		String [] unitNames = new String[]{"勘探院","物探院","工程院","石科院","大连院","北化院","上海院","安工院"};
+		List<String> ulist = Arrays.asList(unitNames);
+		java.util.Collections.sort(json, new Comparator<Object>(){
+			@Override
+			public int compare(Object o1, Object o2) {
+				String d1 = JSONObject.parseObject(o1.toString()).get("define2").toString();
+				String d2 = JSONObject.parseObject(o2.toString()).get("define2").toString();
+				return ulist.indexOf(d1)-ulist.indexOf(d2);
+			}});
 		return json;
 	}
 

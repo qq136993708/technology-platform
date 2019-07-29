@@ -19,7 +19,7 @@ public class CsrCheckInterceptor implements HandlerInterceptor
 {
 	static String [] protocols = {"http","https"};
 	static String [] hosts = {"stmp.sinopec.com","localhost","127.0.0.1","10.238.[\\d]{1,3}.[\\d]{1,3}","10.246.[\\d]{1,3}.[\\d]{1,3}"};
-	static String [] exceptionsURI = {"/login"};
+	static String [] exceptionsURI = {"/login","/stpHome"};
 	static Set<String> securityReferes = new HashSet<String>();
 	static Set<String> exceptionsURL = new HashSet<String>();
 	static 

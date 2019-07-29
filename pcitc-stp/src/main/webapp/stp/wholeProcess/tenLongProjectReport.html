@@ -51,8 +51,8 @@
 		layui.use([ 'jquery', 'table', 'laydate', 'form', 'laypage', 'laytpl','publicMethods' ], function() {
 			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, form = layui.form,publicMethods=layui.publicMethods;
 			
-			window.downloadFile = function(index){
-				window.open(encodeURI("/out/report_download?fileName="+files[index],"UTF-8"));
+			window.downloadFile = function(filename){
+				window.open(encodeURI("/out/report_download?fileName="+filename,"UTF-8"));
 			}
 			console.log("starting ......");
 			function renderTable() {
@@ -127,8 +127,7 @@
 							var file_text = "";
 							if(d.define14 != null){
 								$.each(JSON.parse(d.define14),function(index,dt){
-									files[index] = dt.file
-									file_text += '&nbsp;&nbsp;<a href="javascript:downloadFile('+index+');"><span style="color:#1890ff">'+dt.type+'</span></a>';
+									file_text += '&nbsp;&nbsp;<a href="javascript:downloadFile(\''+dt.file+'\');"><span style="color:#1890ff">'+dt.type+'</span></a>';
 								});
 							}
 	                        return file_text;

@@ -9,15 +9,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -48,7 +47,6 @@ import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ProjectForMysql;
-import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysNewsVo;
 import com.pcitc.base.system.SysUser;
@@ -1207,14 +1205,21 @@ public class OneLevelMainController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/ten_dragon_table")
 	public String ten_dragon_table(HttpServletRequest request) throws Exception {
-		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()), DateUtil.FMT_YYYY));
-
+		//String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()), DateUtil.FMT_YYYY));
+		String nd = request.getParameter("nd");
+		System.out.println("----------------nd0---------"+nd +"----- xmfl---- "+request.getParameter("xmfl"));
+		if(nd == null) {
+			nd = DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()), DateUtil.FMT_YYYY);
+		}
+		System.out.println("----------------nd0---------"+nd +"----- xmfl---- "+request.getParameter("xmfl"));
 		request.setAttribute("nd", nd);
 		request.setAttribute("xmfl", CommonUtil.getParameter(request, "xmfl", ""));// 项目分類：(公共领域，油气勘探.....)
 		request.setAttribute("xmzt", CommonUtil.getParameter(request, "xmzt", ""));// 项目状态：（入龙、出龙、退龙...）
 		request.setAttribute("yjy", CommonUtil.getParameter(request, "yjy", ""));// 研究院：8大院等细分结构
 		request.setAttribute("yjdw", CommonUtil.getParameter(request, "yjdw", ""));// 一級單位：直属研究院、分子公司、集团等9种类型
-
+		
+		
+		
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 
@@ -1245,7 +1250,9 @@ public class OneLevelMainController extends BaseController {
 				} else if (showCode.equals("xmlbmc")) {
 					xmflList.add(showName);
 				} else if (showCode.equals("status")) {
-					xmztList.add(showName);
+					if(!StringUtils.isBlank(showName)) {
+						xmztList.add(showName.trim());
+					}
 				} else {
 					System.out.println("other param:" + showCode + ":" + showName);
 				}
@@ -1254,6 +1261,7 @@ public class OneLevelMainController extends BaseController {
 			request.setAttribute("yjdwList", yjdwList);
 			request.setAttribute("xmflList", xmflList);
 			request.setAttribute("xmztList", xmztList);
+			System.out.println(JSON.toJSONString(xmztList));
 		}
 		return "stp/hana/home/oneLevelMain/ten_dragon_table";
 	}
@@ -3144,7 +3152,7 @@ public class OneLevelMainController extends BaseController {
 		PageResult pageResult = new PageResult();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		String type = CommonUtil.getParameter(request, "type", "重点专项");
+		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
