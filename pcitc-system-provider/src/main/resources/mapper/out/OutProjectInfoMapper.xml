@@ -2791,7 +2791,7 @@
 				from out_project_info
 				WHERE
 					 project_property = '十条龙项目'
-					 and project_type != '1'
+					 and project_type != '2'
 					<if test="nd != null">
 						and out_project_info.nd = #{nd}
 					</if>
