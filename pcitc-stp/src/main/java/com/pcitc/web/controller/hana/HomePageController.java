@@ -32,11 +32,13 @@ import com.pcitc.base.hana.report.H1AMKYSY100104;
 import com.pcitc.base.hana.report.H1AMKYSY100109;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.ProjectCode;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
@@ -989,5 +991,14 @@ public class HomePageController extends BaseController {
 		System.out.println(">>>>>>>>>>>>>getZhuanziTableList:" + result.toString());
 		return result.toString();
 	}
+	
+	@RequestMapping(value = "/out_sys")
+	public String out_sys(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		// oa系统的服务器地址
+		request.setAttribute("outOAIp", "10.1.4.10");
+		return "/out_sys";
+	}
+	
 
 }
