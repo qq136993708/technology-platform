@@ -1217,7 +1217,9 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("xmzt", CommonUtil.getParameter(request, "xmzt", ""));// 项目状态：（入龙、出龙、退龙...）
 		request.setAttribute("yjy", CommonUtil.getParameter(request, "yjy", ""));// 研究院：8大院等细分结构
 		request.setAttribute("yjdw", CommonUtil.getParameter(request, "yjdw", ""));// 一級單位：直属研究院、分子公司、集团等9种类型
-
+		
+		
+		
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 
@@ -1277,7 +1279,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("xmmc", param.getParam().get("xmmc"));
 
 		paramsMap.put("define2", param.getParam().get("yjyItem") == "" ? null : param.getParam().get("yjyItem"));// 研究院
-		//paramsMap.put("xmlbmc", param.getParam().get("xmflItem") == "" ? null : param.getParam().get("xmflItem"));// 项目分类
+		paramsMap.put("xmlbmc", param.getParam().get("xmflItem") == "" ? null : param.getParam().get("xmflItem"));// 项目分类
 		paramsMap.put("type_flag", param.getParam().get("yjdwItem") == "" ? null : param.getParam().get("yjdwItem"));// 一级单位（9个机构）
 		paramsMap.put("status", param.getParam().get("xmztItem") == "" ? null : param.getParam().get("xmztItem"));// 项目状态
 
