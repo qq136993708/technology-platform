@@ -178,7 +178,7 @@ public class AdminController extends BaseController {
 
 						if (funList != null) {
 							for (SysFunction sysfun : funList) {
-								if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台")) {
+								if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
 									upList.add(sysfun);
 								}
 
