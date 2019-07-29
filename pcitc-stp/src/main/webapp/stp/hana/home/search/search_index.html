@@ -166,6 +166,7 @@
                 "fileCount":$("#fileCount").val(),
                 "month":$("#month").val(),
                 "companyCode":$("#companyCode").val()
+                ,"searchIndexFlag":"1"
             }};
 
 
@@ -176,7 +177,7 @@
         //渲染
         table.render({
             elem: '#processdef-table',
-            url: '/fullSearch/getTableSearch?month='+monthParam+"&companyCode="+companyCodeParam+"&fileCount="+fileCount,
+            url: '/fullSearch/getTableSearch?month='+monthParam+"&companyCode="+companyCodeParam+"&fileCount="+fileCount+"&searchIndexFlag=1",
             method:"POST",
             where:where,
             limit: 15,

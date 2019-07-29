@@ -7,6 +7,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.TfmType;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.web.utils.UserProfileAware;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -127,10 +128,16 @@ public class TfmTypeController extends BaseController {
     @RequestMapping(value = "/getTableData", method = RequestMethod.POST)
     @ResponseBody
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
-        LayuiTableData data = responseEntity.getBody();
-        return JSON.toJSON(data).toString();
+
+        LayuiTableData layuiTableData = new LayuiTableData();
+        if (StrUtil.isNullLayuiTableParam(param)) {
+            layuiTableData.setCount(0);
+            return JSONObject.toJSONString(layuiTableData);
+        } else {
+            HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+            ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
+            return JSON.toJSON(responseEntity.getBody()).toString();
+        }
     }
 
     /**

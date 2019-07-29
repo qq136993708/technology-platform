@@ -72,7 +72,7 @@
                 elem: '#zjkBaseInfoTableId',
                 url: '/zjkBaseInfo/getTableDataCount',
                 method: "POST",
-                where: {param: {"keyword":"${keyword}"}},
+                where: {param: {"keyword":"${keyword}","searchIndexFlag":"1","keywords":"${keyword}"}},
                 limit: 15,
                 id: 'zjkBaseInfoTableId',
                 page: {
@@ -126,7 +126,7 @@
         // });
 
         function showDetail(data_id){
-            var temUrl = "/expertController/expertDetailLeader?expertId=" + data_id;
+            var temUrl = "/expertController/expertDetail?display=1&expertId=" + data_id;
             window.open(temUrl);
             // layer.open({
             //     title: '详情',

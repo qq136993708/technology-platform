@@ -7,6 +7,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkExpert;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.utils.UserProfileAware;
 import com.pcitc.base.common.TreeNode;
@@ -158,11 +159,16 @@ public class ZjkBaseInfoController extends BaseController {
 	@RequestMapping(value = "/getTableDataCount", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getTableDataCount(@ModelAttribute("param") LayuiTableParam param) {
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGECount, HttpMethod.POST, entity, LayuiTableData.class);
-		LayuiTableData data = responseEntity.getBody();
-		System.out.println(JSON.toJSON(data).toString());
-		return JSON.toJSON(data).toString();
+        LayuiTableData layuiTableData = new LayuiTableData();
+        if (StrUtil.isNullLayuiTableParam(param)) {
+            layuiTableData.setCount(0);
+            return JSONObject.toJSONString(layuiTableData);
+        } else {
+            HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+            ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGECount, HttpMethod.POST, entity, LayuiTableData.class);
+            layuiTableData = responseEntity.getBody();
+            return JSON.toJSON(layuiTableData).toString();
+        }
 	}
 
 	/**

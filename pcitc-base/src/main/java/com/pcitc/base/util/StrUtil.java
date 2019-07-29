@@ -1,5 +1,7 @@
 package com.pcitc.base.util;
 
+import com.pcitc.base.common.LayuiTableParam;
+
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -1430,5 +1432,16 @@ public class StrUtil {
             dest = m.replaceAll("");
         }
         return dest;
+    }
+
+    /**
+     * 有值返回false,空返回true
+     * @param param
+     * @return
+     */
+    public static boolean isNullLayuiTableParam(LayuiTableParam param){
+        Object o = param.getParam().get("keywords");
+        Object searchIndexFlag = param.getParam().get("searchIndexFlag");
+        return (o==null||"".equals(o))&&"1".equals(searchIndexFlag)?true:false;
     }
 }

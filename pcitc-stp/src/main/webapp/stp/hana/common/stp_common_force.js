@@ -226,38 +226,37 @@ function load_single_force(url, id, title, subtext, yAxis, callback) {
     return echartsobj;
 }
 
-var option_graph = {
+var option_graph =  {
     title: {
-        text: 'Les Miserables',
-        subtext: 'Default layout',
+        // text: '专家画像',
+        // subtext: '',
         top: 'bottom',
         left: 'right'
     },
-    grid : {
-        top : "20%",
-        left : '0%',
-        right : '5%',
-        bottom : '10%',
-        containLabel : true
+    tooltip: {
+        trigger: 'item',
+        formatter: '{b}'
     },
-    tooltip: {},
     legend: [{
         // selectedMode: 'single',
         data: []
     }],
     animationDuration: 1500,
     animationEasingUpdate: 'quinticInOut',
-    series : [
+    draggable: true,
+    series: [
         {
-            name: 'Les Miserables',
-            // type: 'graphGL',
+            // name: '专家画像',
+            top: "25%",
             type: 'graph',
-            layout: 'none',
+            layout: 'circular',
             data: [],
             links: [],
             categories: [],
             roam: true,
             focusNodeAdjacency: true,
+            invisible: false,
+            draggable: true,
             itemStyle: {
                 normal: {
                     borderColor: '#fff',
@@ -282,17 +281,19 @@ var option_graph = {
         }
     ]
 };
+var echartsobj_five;
 function force_img(url, id, title, subtext, yAxis, callback, len) {
-    console.log("version:"+echarts.version);
+    console.log("version:" + echarts.version);
     force_img_render(url, "", option_graph, callback, len, id, title, subtext);
 }
+
 function force_img_render(url, echartsobj, options, callback, len, id, title, subtext) {
     var nodes_Array = [];
     var links_Array = [];
     var categories_Array = [];
     var legend_Array = [];
-    var echartsobj = echarts.init(document.getElementById(id));
-    echartsobj.showLoading();
+    echartsobj_five = echarts.init(document.getElementById(id));
+    echartsobj_five.showLoading();
     $.ajax({
         type: "get",
         url: url,
@@ -301,85 +302,39 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
         cache: false,
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         success: function (data, status) {
-                document.getElementById(id).style.display = "block";
-            option_graph.title.text = title;
-            option_graph.title.subtext = subtext;
+            document.getElementById(id).style.display = "block";
+            // option_graph.title.text = title;
+            // option_graph.title.subtext = subtext;
 
-                // echartsobj.setOption(option_graph);
+            // echartsobj.setOption(option_graph);
 
-                if (data.success == true || data.success == 'true') {
-                    console.log("data");
-                    console.log(data);
-                    var nodes = data.data.nodes;
-                    var links = data.data.links;
-                    var categories = data.data.categories;
-                    var legendDataList = data.data.legendDataList;
-                    //加载数据图表
-                    echartsobj.setOption(
-                        {
-                            title: {
-                                // text: '专家画像',
-                                // subtext: '',
-                                top: 'bottom',
-                                left: 'right'
-                            },
-                            tooltip: {},
-                            legend: [{
-                                // selectedMode: 'single',
-                                data: legendDataList,
+            if (data.success == true || data.success == 'true') {
+                console.log("data");
+                console.log(data);
+                var nodes = data.data.nodes;
+                var links = data.data.links;
+                var categories = data.data.categories;
+                var legendDataList = data.data.legendDataList;
+                //加载数据图表
+                option_graph.series[0].links = links;
+                option_graph.series[0].data = nodes;
+                option_graph.series[0].categories = categories;
 
-                            }],
-                            animationDuration: 1500,
-                            animationEasingUpdate: 'quinticInOut',
-                            draggable:true,
-                            series : [
-                                {
-                                    // name: '专家画像',
-                                    top : "25%",
-                                    type: 'graph',
-                                    // type: 'graphGL',
-                                    layout: 'none',
-                                    data: nodes,
-                                    links: links,
-                                    categories: categories,
-                                    roam: true,
-                                    focusNodeAdjacency: true,
-                                    invisible: false,
-                                    draggable: true,
-                                    itemStyle: {
-                                        normal: {
-                                            borderColor: '#fff',
-                                            borderWidth: 1,
-                                            shadowBlur: 10,
-                                            shadowColor: 'rgba(0, 0, 0, 0.3)'
-                                        }
-                                    },
-                                    label: {
-                                        position: 'right',
-                                        formatter: '{b}'
-                                    },
-                                    lineStyle: {
-                                        color: 'source',
-                                        curveness: 0.3
-                                    },
-                                    emphasis: {
-                                        lineStyle: {
-                                            width: 10
-                                        }
-                                    }
-                                }
-                            ]
-                        });
-                    try {
-                        echartsobj.resize();
-                    }catch (e) {
-                        console.log(e);
-                    }
-                    if (callback) {
-                        callback(data);
-                    }
-                    echartsobj.hideLoading();
+                var legend = {data:legendDataList};
+                option_graph.legend= legend;
+                echartsobj_five.setOption(option_graph);
+                try {
+                    console.log("-echartsobj_five-");
+                    console.log(echartsobj_five);
+                    // echartsobj.resize();
+                } catch (e) {
+                    console.log(e);
                 }
+                if (callback) {
+                    callback(data);
+                }
+                echartsobj_five.hideLoading();
+            }
         },
         error: function () {
             layer.msg('图表加载失败');
@@ -392,7 +347,6 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
     });
 
 }
-
 
 
 /**
