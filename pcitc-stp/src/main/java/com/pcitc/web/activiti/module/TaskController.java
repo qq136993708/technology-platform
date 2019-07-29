@@ -247,6 +247,15 @@ public class TaskController extends BaseController {
 		int otherCount = retJson1.getCount();
 
 		retJson.setCount(retJson.getCount() + otherCount);
+		List currData = retJson.getData();
+		List otherData = retJson1.getData();
+		for (int i =0; i < otherData.size(); i++) {
+			HashMap<String, Object> temMap = (HashMap<String, Object>) otherData.get(i);
+			temMap.put("createDate", temMap.get("waitTime"));
+			temMap.put("processInstanceName", temMap.get("title"));
+		}
+		currData.addAll(otherData);
+		retJson.setData(currData);
 
 		return JSON.toJSON(retJson).toString();
 	}

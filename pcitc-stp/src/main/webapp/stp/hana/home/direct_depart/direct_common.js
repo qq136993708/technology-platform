@@ -1028,7 +1028,7 @@ function getDataValueTotalAndRadix(data, strName) {
 				var name_count = 0;
 				for (var j = 0; j < arr.length; j++) {
 					name_count = name_count + parseFloat(arr[j]);
-					
+
 					// 小数点设置两位
 					seriesList[i].data[j] = parseFloat(arr[j]).toFixed(2);
 				}

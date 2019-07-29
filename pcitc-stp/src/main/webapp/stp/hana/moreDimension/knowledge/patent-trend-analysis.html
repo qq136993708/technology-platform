@@ -153,12 +153,12 @@
 				}
 			}];
             var color = ["#E06959", "#FBCD48","#75c9c0"];
-			var chart1_url = "/more-dimension/patent_trend_analysis_01?nd=" + nd + "&v_date=" + v_date ;
+			var chart1_url = "/more-dimension/patent_trend_analysis_01?nd=" + $('#nd').val() + "&v_date=" + v_date ;
 			var echart1 = load_mult_bar(chart1_url, "chart1", "", "",color, function(data){
 				console.log(data);
 			});
 
-			var chart2_url = "/more-dimension/patent_trend_analysis_03?nd=" + nd + "&v_date=" + v_date ;
+			var chart2_url = "/more-dimension/patent_trend_analysis_03?nd=" + $('#nd').val() + "&v_date=" + v_date ;
 			var echart2 = loadPie(chart2_url, "main3", "", '');
 			echart2.on('click', function(params)
 			{
@@ -168,7 +168,7 @@
 
 			});
 
-			var chart4_url = "/more-dimension/patent_trend_analysis_institute?nd=" + nd + "&v_date=" + v_date ;
+			var chart4_url = "/more-dimension/patent_trend_analysis_institute?nd=" + $('#nd').val() + "&v_date=" + v_date ;
 			var echart4 = loadPie(chart4_url, "main4", "", '');
 			echart4.on('click', function(params)
 			{
@@ -203,7 +203,7 @@
 			
 			
 			
-			var chart1_url="/direct/getKnowledgeBar_01?type=1&nd="+nd+"&v_date="+v_date;
+			var chart1_url="/direct/getKnowledgeBar_01?type=1&nd="+$('#nd').val()+"&v_date="+v_date;
 			var echart1=load_mutl_bar_down(chart1_url,"knowldege_chart1","","",yAxis,35,color);
 			echart1.on('click', function (params) {
 				var xName=params.name;
