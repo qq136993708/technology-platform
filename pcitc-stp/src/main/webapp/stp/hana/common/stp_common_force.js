@@ -315,13 +315,18 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
                 var links = data.data.links;
                 var categories = data.data.categories;
                 var legendDataList = data.data.legendDataList;
+                echartslegenddata = legendDataList;
+
+
                 //加载数据图表
                 option_graph.series[0].links = links;
                 option_graph.series[0].data = nodes;
                 option_graph.series[0].categories = categories;
-
                 var legend = {data:legendDataList};
                 option_graph.legend= legend;
+
+                option_graph.legend.selected = echart_selected(legendDataList,2);
+
                 echartsobj_five.setOption(option_graph);
                 try {
                     console.log("-echartsobj_five-");
