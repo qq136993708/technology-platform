@@ -1593,7 +1593,7 @@
 	<!-- 领导首页-预算投入 资本性预算分组,资本性不按照专业处权限控制 -->
 	<select id="getOutTemMoneyTotalInfo" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select
-			 unit_name,show_ali,zbx_money
+			 unit_name,show_ali,zbx_money,fyx_money, (zbx_money+fyx_money) as zysje, show_ali as budgetItemName
 		from out_tem_money_total
 		where 
 			  nd= '${nd}' and (money_level = 1 or money_level = 2) and show_ali != '股份公司'
