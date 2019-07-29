@@ -11,6 +11,7 @@ import com.pcitc.base.search.ZjkSearchLog;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.system.SearchLog;
 import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.web.utils.EquipmentUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -190,6 +191,10 @@ public class SearchFullController extends BaseController {
 
         JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
         LayuiTableData layuiTableData = new LayuiTableData();
+        if (StrUtil.isNullLayuiTableParam(param)) {
+            layuiTableData.setCount(0);
+            return JSONObject.toJSONString(layuiTableData);
+        } else {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getTableSearchEquipment, HttpMethod.POST, entity, LayuiTableData.class);
         int statusCode = responseEntity.getStatusCodeValue();
@@ -198,6 +203,7 @@ public class SearchFullController extends BaseController {
         }
         JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
         return result.toString();
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableSearch")
@@ -211,12 +217,16 @@ public class SearchFullController extends BaseController {
         param.getParam().put("companyCode", companyCode);
         param.getParam().put("fileCount", request.getParameter("fileCount"));
 
-        System.out.println("param.getParam().get(\"\") = " + param.getParam().get("fileCount"));
         LayuiTableData layuiTableData = new LayuiTableData();
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(search, HttpMethod.POST, entity, LayuiTableData.class);
-        layuiTableData = responseEntity.getBody();
-        return JSONObject.toJSONString(layuiTableData);
+        if (StrUtil.isNullLayuiTableParam(param)){
+            layuiTableData.setCount(0);
+            return JSONObject.toJSONString(layuiTableData);
+        }else {
+            HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+            ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(search, HttpMethod.POST, entity, LayuiTableData.class);
+            layuiTableData = responseEntity.getBody();
+            return JSONObject.toJSONString(layuiTableData);
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataReport")
@@ -258,16 +268,22 @@ public class SearchFullController extends BaseController {
     @ResponseBody
     public String getTableDataAchivement(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-        JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
         LayuiTableData layuiTableData = new LayuiTableData();
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getAwardTable, HttpMethod.POST, entity, LayuiTableData.class);
-        int statusCode = responseEntity.getStatusCodeValue();
-        if (statusCode == 200) {
-            layuiTableData = responseEntity.getBody();
+
+        if (StrUtil.isNullLayuiTableParam(param)){
+            layuiTableData.setCount(0);
+            return JSONObject.toJSONString(layuiTableData);
+        }else {
+//            JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
+            HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+            ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getAwardTable, HttpMethod.POST, entity, LayuiTableData.class);
+            int statusCode = responseEntity.getStatusCodeValue();
+            if (statusCode == 200) {
+                layuiTableData = responseEntity.getBody();
+            }
+            JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+            return result.toString();
         }
-        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-        return result.toString();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/fullSearch/getTableDataOutReward")
@@ -276,14 +292,20 @@ public class SearchFullController extends BaseController {
 
         JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
         LayuiTableData layuiTableData = new LayuiTableData();
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getOutRewardTable, HttpMethod.POST, entity, LayuiTableData.class);
-        int statusCode = responseEntity.getStatusCodeValue();
-        if (statusCode == 200) {
-            layuiTableData = responseEntity.getBody();
+
+        if (StrUtil.isNullLayuiTableParam(param)){
+            layuiTableData.setCount(0);
+            return JSONObject.toJSONString(layuiTableData);
+        }else {
+            HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+            ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getOutRewardTable, HttpMethod.POST, entity, LayuiTableData.class);
+            int statusCode = responseEntity.getStatusCodeValue();
+            if (statusCode == 200) {
+                layuiTableData = responseEntity.getBody();
+            }
+            JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+            return result.toString();
         }
-        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-        return result.toString();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/query_achievement")
@@ -324,11 +346,18 @@ public class SearchFullController extends BaseController {
     public String getTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
         LayuiTableData layuiTableData = new LayuiTableData();
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(common_table, HttpMethod.POST, entity, LayuiTableData.class);
-        layuiTableData = responseEntity.getBody();
-        return JSONObject.toJSONString(layuiTableData);
+        if (StrUtil.isNullLayuiTableParam(param)){
+            layuiTableData.setCount(0);
+            return JSONObject.toJSONString(layuiTableData);
+        }else {
+            HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+            ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(common_table, HttpMethod.POST, entity, LayuiTableData.class);
+            layuiTableData = responseEntity.getBody();
+            return JSONObject.toJSONString(layuiTableData);
+        }
+
     }
+
 
     @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/query_scientific")
     public String query_scientific(HttpServletRequest request) throws Exception {

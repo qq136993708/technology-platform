@@ -64,7 +64,7 @@
                 url: '/sysfile/getTableDataEsIndex',
                 // url: '/sysfile/getTableDataEs',
                 method: "POST",
-                where: {param: {"bak4": "${keyword}"}},
+                where: {param: {"bak4": "${keyword}","searchIndexFlag":"1","keywords":"${keyword}"}},
                 limit: 15,
                 id: 'sysFileId',
 
@@ -89,12 +89,13 @@
                             d.filePath="javascript:void(0);";
                         }
                         var fileFrom = (typeof d.bak1=="undefined"||typeof d.version =="undefined")?"未定义":(d.bak1+"->"+d.version);
+                        var updatePersonName = (typeof d.updatePersonName =="undefined"||d.updatePersonName=="袁霞光")?"系统":(d.updatePersonName);
                 return '<div class="layui-div layui-div-n">' +
                     '        <a href="'+d.filePath+'" target="_self">'+d.fileName+'</a>' +
                     '        <div class="c-row c-gap-top-small">' +
                     '            <div class="c-span18 c-span-last">' +
                     '                <p><span>文件来源:'+fileFrom+'</span></p>' +
-                    '                <p><span>文件所有者:'+d.updatePersonName+""+""+'</span></p>' +
+                    '                <p><span>文件所有者:'+updatePersonName+""+""+'</span></p>' +
                     '            </div>' +
                     '        </div>' +
                     '    </div>'
