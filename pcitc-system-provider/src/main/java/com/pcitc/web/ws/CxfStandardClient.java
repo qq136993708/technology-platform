@@ -56,6 +56,7 @@ public class CxfStandardClient {
      * 2：动态调用
      */
     public static void main2() {
+    	Long s = System.currentTimeMillis();
         // 创建动态客户端
         JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
         dcf.setAllowElementReferences(true);
@@ -66,12 +67,13 @@ public class CxfStandardClient {
         try {
             // invoke("方法名",参数1,参数2,参数3....);
         	result = client.invoke("GetList", "2018");
-        	System.out.println("返回数据:" +JSON.toJSONString(result));
+        	System.out.println("返回数据:" +result[0].toString());
             result = client.invoke("GetItem", "D4511C813EFCE35F7B55B70545F63B23");
-            System.out.println("返回数据:" +JSON.toJSONString(result));
+            System.out.println("返回数据:" +result[0].toString());
             result = client.invoke("GetListByYear", "2018");
-            System.out.println("返回数据:" +JSON.toJSONString(result));
+            System.out.println("返回数据:" +result[0].toString());
             
+            System.out.println(System.currentTimeMillis()-s);
         } catch (java.lang.Exception e) {
         	System.out.println("返回数据:Exception");
             e.printStackTrace();
