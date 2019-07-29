@@ -53,6 +53,16 @@
     	table = layui.table;
     	var publicMethods=layui.publicMethods;
     	laydate.render({elem: '#reportYear',type: 'year'});
+    	
+    	publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(['ROOT_ZGSHJT_GFGS_ZSYJY'])}, function (data) {
+			$.each(data,function(key,val){
+				$.each(val,function(i,dt){
+					if(key == 'ROOT_ZGSHJT_GFGS_ZSYJY'){
+						$("#"+key).append('<option value="'+dt.code+'">'+dt.name+'</option>');
+					}
+				});
+			});
+	   	});
     	function renderTable(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		param = JSON.parse(window.localStorage.getItem("param"));
@@ -106,9 +116,6 @@
 						$.each(data,function(key,val){
 							$.each(val,function(i,dt){
 								dicVal[dt.code] = dt.name;
-								if(key == 'ROOT_ZGSHJT_GFGS_ZSYJY'){
-									$("#"+key).append('<option value="'+dt.code+'">'+dt.name+'</option>');
-								}
 							});
 						});
 				   	});
@@ -156,7 +163,9 @@
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
-                renderTable({param: {"applyName":$("#applyName").val(),"reportYear":$("#reportYear").val()},sorts:{"plant_money":"desc"}});
+                renderTable({param: {"applyName":$("#applyName").val(),
+                	"reportYear":$("#reportYear").val(),
+                	"unitId":$("#ROOT_ZGSHJT_GFGS_ZSYJY").val()},sorts:{"plant_money":"desc"}});
             },resetEvent: function() { 
             	//点击重置按钮
                 $("#applyName").val("");
