@@ -156,7 +156,8 @@ line-height: 60px;font-size: 22px;}
 /*.main-one .main-left>div:hover{border: 1px solid #ccd7df;box-shadow: 0 0 10px #0155dc;box-sizing: border-box;}*/
 .main-left .main-agency{margin-bottom: 12px;}
 .main-left .main-left-p{font-size: 16px; color: white;border-bottom: 1px solid #5296d6;margin: 17px 14px 0px 12px;
-    padding-bottom: 4px;}
+    padding-bottom: 4px;position: relative;}
+.main-left .main-left-p .layui-btn-sm{height: 25px;line-height: 25px;position: absolute;border-radius: 3px 3px 0 0;right: 15px;}
 .main-left .main-left-p span{border-radius: 8px;position: relative;left: -1px;top: -8px;font-size: 12px;
     background-color: #f82b3d;padding: 0 4px;color: white;}
 .state_1 a{color: #ffffff;}
