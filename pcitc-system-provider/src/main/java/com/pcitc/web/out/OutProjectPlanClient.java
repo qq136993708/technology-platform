@@ -574,8 +574,10 @@ public class OutProjectPlanClient {
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
 		vo.setNd(map.get("nd"));
 		String zycbm = map.get("zycbm");
+		boolean zbxFlag = false;
 		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
 			// 大领导特殊，能看所有的费用性预算
+			zbxFlag = true;
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016,ZX,JD";
 		}
 		if (zycbm == null) {
@@ -603,15 +605,14 @@ public class OutProjectPlanClient {
 
 		// 资本性预算，只能由拥有计划处（30130054）等特殊处室的人能看到.X轴显示无合同的（基金、马永生工作室）
 		List zbxMoneyList = null;
-		boolean zbxFlag = false;
+
 		List<Map<String, Object>> retList = new ArrayList<Map<String, Object>>();
-		if ((zycbm != null && (zycbm.indexOf("30130054") > -1)) || (map.get("leaderFlag") != null && (map.get("leaderFlag").toString().equals("2")))) {
-			zbxFlag = true;
+		if (zbxFlag) {
 			zbxMoneyList = outProjectPlanService.getOutTemMoneyTotalInfo(map);
 		}
 		for (int i = 0; i < budMoneyList.size(); i++) {
 			Map<String, Object> bm = budMoneyList.get(i);
-			System.out.println("budMoneyList========" + bm.get("budgetItemName") + "====" + bm.get("total"));
+			System.out.println(zbxFlag+"=====budMoneyList========" + bm.get("budgetItemName") + "====" + bm.get("total"));
 			for (int k = 0; k < actMoneyList.size(); k++) {
 				Map<String, Object> actMoney = (Map<String, Object>) actMoneyList.get(k);
 				if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("研究院") && actMoney.get("type_flag") != null && actMoney.get("type_flag").toString().contains("研究院")) {
@@ -629,7 +630,6 @@ public class OutProjectPlanClient {
 				if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("集团单位") && actMoney.get("type_flag") != null && (actMoney.get("type_flag").toString().contains("集团单位") || actMoney.get("type_flag").toString().contains("集团单位"))) {
 					// 费用性预算金额、费用性实际投入金额、投入比率、 资本性实际投入、总实际投入
 					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
-					bm.put("budgetItemName", "集团单位");
 					break;
 				}
 
@@ -668,14 +668,9 @@ public class OutProjectPlanClient {
 					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
 					break;
 				}
-
 			}
-		}
-
-		// 如果有看资本性预算的权限的话
-		if (zbxFlag) {
-			for (int i = 0; i < budMoneyList.size(); i++) {
-				Map<String, Object> bm = budMoneyList.get(i);
+			
+			if (zbxFlag) {
 				for (int k = 0; k < zbxMoneyList.size(); k++) {
 					Map<String, Object> zbxMoney = (Map<String, Object>) zbxMoneyList.get(k);
 					if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("研究院") && zbxMoney.get("show_ali") != null && zbxMoney.get("show_ali").toString().contains("研究院")) {
@@ -690,13 +685,12 @@ public class OutProjectPlanClient {
 						break;
 					}
 
-					if (bm.get("budgetItemName") != null && (bm.get("budgetItemName").toString().contains("集团单位") || bm.get("budgetItemName").toString().contains("集团单位")) && zbxMoney.get("show_ali") != null
-							&& (zbxMoney.get("show_ali").toString().contains("集团单位") || zbxMoney.get("show_ali").toString().contains("股份付集团"))) {
+					if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("集团单位") && zbxMoney.get("show_ali") != null && zbxMoney.get("show_ali").toString().contains("集团单位")) {
 						// 资本性预算金额、总预算金额、资本性投入比率、总费用投入比
 						bm = this.getMoneyProperty2(bm, zbxMoney, zbxFlag);
 						break;
 					}
-
+					
 					if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("外部单位") && zbxMoney.get("show_ali") != null && zbxMoney.get("show_ali").toString().contains("外部单位")) {
 						// 资本性预算金额、总预算金额、资本性投入比率、总费用投入比
 						bm = this.getMoneyProperty2(bm, zbxMoney, zbxFlag);
@@ -734,7 +728,10 @@ public class OutProjectPlanClient {
 					}
 				}
 			}
-		} else {
+		}
+
+		// 如果有看资本性预算的权限的话
+		if (!zbxFlag) {
 			for (int i = 0; i < budMoneyList.size(); i++) {
 				Map<String, Object> bm = budMoneyList.get(i);
 				// 资本性预算金额、资本性投入比率、总预算金额、总费用投入比
@@ -749,42 +746,8 @@ public class OutProjectPlanClient {
 					bm.put("zRate", Double.parseDouble(bm.get("zsjje").toString()) * 100 / Double.parseDouble(bm.get("zysje").toString()));
 				}
 			}
-		}
-
-		if (!zbxFlag) {
-			// 没有权限，只能看到研究院、分子公司等常用的几个
-			for (int i = 0; i < budMoneyList.size(); i++) {
-				Map<String, Object> temMap = (Map<String, Object>) budMoneyList.get(i);
-				if (temMap.get("budgetItemName") != null && temMap.get("budgetItemName").toString().contains("研究院")) {
-					retList.add(temMap);
-				}
-				if (temMap.get("budgetItemName") != null && temMap.get("budgetItemName").toString().contains("分子公司")) {
-					retList.add(temMap);
-				}
-				if (temMap.get("budgetItemName") != null && temMap.get("budgetItemName").toString().contains("集团单位")) {
-					retList.add(temMap);
-				}
-				if (temMap.get("budgetItemName") != null && temMap.get("budgetItemName").toString().contains("外部单位")) {
-					retList.add(temMap);
-				}
-				if (temMap.get("budgetItemName") != null && temMap.get("budgetItemName").toString().contains("盈科")) {
-					retList.add(temMap);
-				}
-				if (temMap.get("budgetItemName") != null && temMap.get("budgetItemName").toString().contains("休斯顿")) {
-					retList.add(temMap);
-				}
-				if (temMap.get("budgetItemName") != null && temMap.get("budgetItemName").toString().contains("中东")) {
-					retList.add(temMap);
-				}
-				if (temMap.get("budgetItemName") != null && temMap.get("budgetItemName").toString().contains("集团公司")) {
-					retList.add(temMap);
-				}
-				if (temMap.get("budgetItemName") != null && temMap.get("budgetItemName").toString().contains("资产公司")) {
-					retList.add(temMap);
-				}
-			}
-		}
-
+		} 
+		
 		for (int k = 0; k < actMoneyList.size(); k++) {
 			Map<String, Object> actMoney = (Map<String, Object>) actMoneyList.get(k);
 			// 资产单位，特殊
@@ -803,12 +766,16 @@ public class OutProjectPlanClient {
 				bm.put("zsjje", Double.parseDouble(bm.get("fyxsjje").toString()) + Double.parseDouble(bm.get("zbxsjje").toString()));
 				bm.put("zRate", 0);
 
-				retList.add(bm);
+				if (budMoneyList.size() > 3) {
+					budMoneyList.add(3, bm);
+				} else {
+					budMoneyList.add(bm);
+				}
+				
 				break;
 			}
 		}
-
-		JSONArray json = JSONArray.parseArray(JSON.toJSONString(retList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(budMoneyList));
 		return json;
 	}
 
