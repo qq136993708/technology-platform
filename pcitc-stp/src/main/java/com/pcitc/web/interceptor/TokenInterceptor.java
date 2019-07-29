@@ -149,7 +149,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				PrintWriter out = response.getWriter();
 				out.println("<html>");
 				out.println("<script>");
-				out.println("window.open ('" + request.getContextPath() + "/login','_top')");
+				out.println("window.open ('" + request.getContextPath() + "/stpHome','_top')");
 				out.println("</script>");
 				out.println("</html>");
 				out.close();
