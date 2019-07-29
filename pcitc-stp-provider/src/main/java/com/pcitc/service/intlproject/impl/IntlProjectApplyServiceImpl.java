@@ -196,9 +196,17 @@ public class IntlProjectApplyServiceImpl implements IntlProjectApplyService {
 		IntlProjectApplyExample example = new IntlProjectApplyExample();
 		IntlProjectApplyExample.Criteria criteria = example.createCriteria();
 		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		if(param.getParam().get("applyName") !=null && !StringUtils.isBlank(param.getParam().get("applyName").toString())) 
+		if(!StringUtils.isBlank((String)param.getParam().get("applyName"))) 
 		{
 			criteria.andApplyNameLike("%"+param.getParam().get("applyName")+"%");
+		}
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear"))) 
+		{
+			criteria.andReportYearEqualTo(param.getParam().get("reportYear").toString());
+		}
+		if(!StringUtils.isBlank((String)param.getParam().get("unitId"))) 
+		{
+			criteria.andUnitIdEqualTo(param.getParam().get("unitId").toString());
 		}
 		if(param.getOrderClause() != null) {
 			example.setOrderByClause(param.getOrderClause());
