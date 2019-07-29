@@ -45,6 +45,7 @@
 	  border: 1px solid #ccc;
 	  padding-top:0px;
 	}
+    .form-control1{height: 27px !important;line-height: 27px !important;}
 	</style>
 	<script type="text/javascript">
 	var table,selectRowData,renderfunc,param;
@@ -260,12 +261,16 @@
     <label class="dateInput">
         <span>申报项目</span>
         <input type="text" name="applyName" id="applyName" placeholder="请输入申报项目名称" autocomplete="off" class="form-control">
+    </label>
+    <label class="dateInput">
         <span>申报年度</span>
         <input type="text" name="reportYear" id="reportYear" placeholder="" readonly="readonly" autocomplete="off" class="form-control">
-         <span>所属研究院</span>
-        <select name="unitId" id="ROOT_ZGSHJT_GFGS_ZSYJY" lay-verify="required"  lay-filter="unitId">
-          	<option value="">请选择</option>
-       	</select>
+    </label>
+    <label class="dateInput">
+        <span>所属研究院</span>
+        <select name="unitId" id="ROOT_ZGSHJT_GFGS_ZSYJY" lay-verify="required"  lay-filter="unitId" class="form-control form-control1">
+            <option value="">请选择</option>
+        </select>
     </label>
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
