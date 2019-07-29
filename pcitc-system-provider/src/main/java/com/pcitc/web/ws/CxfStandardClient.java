@@ -6,8 +6,7 @@ import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 
-import com.pcitc.base.system.SysUser;
-import com.pcitc.service.system.UserService;
+import com.alibaba.fastjson.JSON;
 /**
  * @ClassName:CxfClient
  * @Description:webservice客户端：
@@ -21,8 +20,8 @@ public class CxfStandardClient {
 
 
     public static void main(String[] args) {
+    	//CxfStandardClient.main1();
     	CxfStandardClient.main2();
-    	//CxfStandardClient.main2();
     }
 
     /**
@@ -31,19 +30,22 @@ public class CxfStandardClient {
     public static void main1() {
         try {
             // 接口地址
-            String address = "http://127.0.0.1/soap/user?wsdl";
+            String address = "http://10.1.19.218/ProjectService.asmx?WSDL";
             // 代理工厂
             JaxWsProxyFactoryBean jaxWsProxyFactoryBean = new JaxWsProxyFactoryBean();
             // 设置代理地址
             jaxWsProxyFactoryBean.setAddress(address);
             // 设置接口类型
-            jaxWsProxyFactoryBean.setServiceClass(UserService.class);
+            jaxWsProxyFactoryBean.setServiceClass(WsService.class);
             // 创建一个代理接口实现
-            UserService us = (UserService) jaxWsProxyFactoryBean.create();
+            WsService us = (WsService) jaxWsProxyFactoryBean.create();
             // 数据准备
-            String userId = "maple";
+            String nd = "2019";
             // 调用代理接口的方法调用并返回结果
-            SysUser result = us.selectUserByUserId(userId);
+            String rs = us.GetList(nd);
+            System.out.println(rs);
+            
+            String result = us.GetItem(nd);
             System.out.println("返回结果:" + result);
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,14 +59,19 @@ public class CxfStandardClient {
         // 创建动态客户端
         JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
         dcf.setAllowElementReferences(true);
-        Client client = dcf.createClient("http://10.1.19.218/StdService.asmx?wsdl");
+        Client client = dcf.createClient("http://10.1.19.218/ProjectService.asmx?WSDL");
         // 需要密码的情况需要加上用户名和密码
         // client.getOutInterceptors().add(new ClientLoginInterceptor(USER_NAME, PASS_WORD));
         Object[] result = null;
         try {
             // invoke("方法名",参数1,参数2,参数3....);
-        	result = client.invoke("GetStdNew", "StdServiceSoap");
-            System.out.println("返回数据:" + result[0]);
+        	result = client.invoke("GetList", "2018");
+        	System.out.println("返回数据:" +JSON.toJSONString(result));
+            result = client.invoke("GetItem", "D4511C813EFCE35F7B55B70545F63B23");
+            System.out.println("返回数据:" +JSON.toJSONString(result));
+            result = client.invoke("GetListByYear", "2018");
+            System.out.println("返回数据:" +JSON.toJSONString(result));
+            
         } catch (java.lang.Exception e) {
         	System.out.println("返回数据:Exception");
             e.printStackTrace();

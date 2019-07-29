@@ -499,7 +499,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 				HashMap<String, String> proMap = (HashMap<String, String>) pageInfo.getList().get(i);
 				for (int j = 0; j < rewardList.size(); j++) {
 					HashMap<String, String> temMap = (HashMap<String, String>) rewardList.get(j);
-					if (temMap.get("hth") != null && temMap.get("hth").equals(proMap.get("hth"))) {
+					if(temMap.get("hth") != null && temMap.get("hth").equals(proMap.get("hth"))  && !proMap.get("nd").equals("合计")  ) 
+					{
 						proMap.put("psdj", temMap.get("psdj"));
 						proMap.put("xkfl", temMap.get("xkfl"));
 						break;

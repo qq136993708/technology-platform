@@ -149,12 +149,15 @@ public class DirectSecondController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct_second/direct_second_data_03")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getDirectSecendData03(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String define3 = CommonUtil.getParameter(request, "define3", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
@@ -194,12 +197,15 @@ public class DirectSecondController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct_second/direct_second_data_04")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getDirectSecendData04(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String define3 = CommonUtil.getParameter(request, "define3", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		paramsMap.put("cgjszy", cgjszy);
 		paramsMap.put("nd", nd);
 		paramsMap.put("define3", define3);
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
