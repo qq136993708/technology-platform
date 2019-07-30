@@ -21,7 +21,6 @@ import com.pcitc.base.stp.IntlProject.IntlProjectContract;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfoExample;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.common.SortByFinal;
 import com.pcitc.mapper.IntlProject.IntlProjectAcceptMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.service.intlproject.IntlProjectAcceptService;
@@ -91,8 +90,9 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 		{
 			criteria.andProjectIdIn(new ArrayList<String>(pIds));
 		}
-		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC,FIELD(unit_id,"+SortByFinal.getYjyCodeStr()+")");
-		
+		if(ordersb.length()>0) {
+			example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		}
 		return this.findByExample(param, example);
 	}
 
@@ -150,7 +150,9 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 		{
 			criteria.andProjectIdIn(new ArrayList<String>(pIds));
 		}
-		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		if(ordersb.length() >0) {
+			example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		}
 		return findProjectByExample(param,example);
 	}
 	
