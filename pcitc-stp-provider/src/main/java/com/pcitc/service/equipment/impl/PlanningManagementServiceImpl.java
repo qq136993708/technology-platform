@@ -56,8 +56,13 @@ public class PlanningManagementServiceImpl implements PlanImplementService {
 			String publicationTitle=getTableParam(param,"publicationTitle","");//规划标题
 			String publisher=getTableParam(param,"publisher","");//发布人
 			String publicationMonth=getTableParam(param,"publicationMonth","");//发布时间
+			String leadUnitCode=getTableParam(param,"leadUnitCode","");//研究院
 			Map map=new HashMap();
-			map.put("parentUnitPathIds", parentUnitPathIds);
+			if(leadUnitCode.equals("")) {
+				map.put("levelId", parentUnitPathIds);
+			}else {
+				map.put("levelId", leadUnitCode);
+			}
 			map.put("parentUnitPathNames", parentUnitPathNames);
 			map.put("publicationType", publicationType);
 			map.put("publicationTitle", publicationTitle);

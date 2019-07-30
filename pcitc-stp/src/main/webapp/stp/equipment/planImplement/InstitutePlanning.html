@@ -22,6 +22,7 @@
  <input type="hidden" name="applicationState" id="applicationState" value="${applicationState}">
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+ <input  name="str"     id="str"      value="${str}"    type="hidden">
     <!--查询条件-->
     <label class="dateInput">
         <span>规划标题</span>
@@ -39,7 +40,7 @@
 			     <option value="6">课题滚动计划</option>
 			 </select>
 	 </label>
-	 <#if test="${str==0}">
+	     <#if test="${str==0}">
 	     <label class="dateInput">
 	         <span>研究院</span>
 	         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
@@ -69,12 +70,6 @@
 <div class="tableBox">
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
-        <div  class="tableBtns">
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="editEvent" id="editEvent">编辑</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >查看</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
-        </div>
     </div>
     <table id="planningmanagement-table" class="layui-hide" lay-filter="processdef-table"></table>
     
@@ -180,6 +175,7 @@ var name=$('#name').val();
             	$('#publicationType').val("");
             	$('#publisher').val("");
             	$('#publicationTitle').val("");
+            	$('#leadUnitCode').val("");
             },
             addEvent: function(){ //点击新增按钮
                 layer.open({
@@ -270,7 +266,7 @@ var name=$('#name').val();
         });
       
         //监听表格双击事件
-        table.on('rowDouble(processdef-table)', function(obj){
+        table.on('row(processdef-table)', function(obj){
         	 window.location.href='/sre-planImplement/planImplementView/'+obj.data.id;
         });
         
@@ -295,7 +291,7 @@ var name=$('#name').val();
            elem: '#planningmanagement-table',
            url: '/sre-planImplement/list',
            method:"POST",
-           where: {param: {"unitPathIds":$("#unitPathIds").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"publicationTitle":$("#publicationTitle").val(),"publisher":$("#publisher").val(),"publicationType":$("#publicationType").val(),"publicationMonth":$("#publicationMonth").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
+           where: {param: {"leadUnitCode":$("#leadUnitCode").val(),"unitPathIds":$("#unitPathIds").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"publicationTitle":$("#publicationTitle").val(),"publisher":$("#publisher").val(),"publicationType":$("#publicationType").val(),"publicationMonth":$("#publicationMonth").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
            limit: 15,
            id: 'planningmanagement-table',
            height: commonDislodgeTable(),
