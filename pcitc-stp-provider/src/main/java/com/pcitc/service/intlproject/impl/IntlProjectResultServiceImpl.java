@@ -53,12 +53,14 @@ public class IntlProjectResultServiceImpl implements IntlProjectResultService {
 		}
 		LayuiTableData projects = intlProjectInfoService.selectProjectInfoByPage(p);
 		Set<String> pIds = new HashSet<String>();
+		pIds.add("xxxx");
 		for(int i=projects.getData().size()-1;i>=0;i--) 
 		{
 			Map<String,Object> map = MyBeanUtils.java2Map(projects.getData().get(i));
 			ordersb.append((ordersb.length()>0?",":"")+"'"+map.get("projectId")+"'");
 			pIds.add(map.get("projectId").toString());
 		}
+		
 		
 		
 		IntlProjectResultExample example = new IntlProjectResultExample();
