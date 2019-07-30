@@ -50,7 +50,7 @@ public class PlanServiceImpl implements PlanService {
         JSONObject obj = new JSONObject();
         obj.put("dataId",dataId);
         String s = selectListPlan(obj);
-        if (StrUtil.isNullEmpty(vo.getParentId())){
+        if (StrUtil.isNullEmpty(vo.getParentId())&&StrUtil.isNullEmpty(vo.getBl())){
             vo.setBl(s);
         }
         return vo;
