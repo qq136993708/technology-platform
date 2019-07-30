@@ -258,7 +258,15 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/dragon/project-count", method = RequestMethod.POST)
 	public JSONObject getProjectCountForDragon(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
+		String zycbm = map.get("zycbm");
+		System.out.println("dragon======================"+zycbm);
+		System.out.println("leaderFlag======================"+map.get("leaderFlag"));
+		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
+			// 大领导特殊，能看所有
+			map.put("leaderFlag", "2");
+		}
 		HashMap<String, String> temMap = outProjectService.getOutProjectDragonInfoCount(map);
+		
 		if (temMap != null) {
 			retJson.put("zsl", temMap.get("zsl") == null ? 0 : temMap.get("zsl"));
 			retJson.put("zdzxsl", temMap.get("zdzxsl") == null ? 0 : temMap.get("zdzxsl"));
