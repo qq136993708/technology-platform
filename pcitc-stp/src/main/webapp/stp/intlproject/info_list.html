@@ -15,6 +15,17 @@
 		layui.use(['jquery','form','laydate','table', 'layer', 'element','publicMethods'], function(){
 	    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
 	            form = layui.form,publicMethods=layui.publicMethods,table = layui.table,selectRowData;
+	    		
+	    		var dicVal = {};
+	    		laydate.render({elem: '#reportYear',type: 'year'});
+		    	publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(['ROOT_ZGSHJT_GFGS_ZSYJY'])}, function (data) {
+					$.each(data,function(key,val){
+						$.each(val,function(i,dt){
+							dicVal[dt.code] = dt.name;
+							$("#ROOT_ZGSHJT_GFGS_ZSYJY").append('<option value="'+dt.code+'">'+dt.name+'</option>');
+						});
+					});
+			   	});
 	    		function renderTable(where){
 	    			var lodingMsg = layer.msg('数据加载中....');
 	    			param = JSON.parse(window.localStorage.getItem("param"));
@@ -39,16 +50,15 @@
 			            	,{title:'序号', type:'numbers' ,width : 55}
 			            	,{field:'flowCurrentStatus',  title:'审批状态',width : 80,style:'cursor: pointer;',align:"left"}
 			                ,{field:'projectName',   title:'立项名称', style:'cursor: pointer;'}
-			                ,{field:'projectCode',title:'立项编码',	width: '14%',   style:'cursor: pointer;'}
-			                ,{field:'applyId',title:'申报项目名称',	width: '14%',   style:'cursor: pointer;'}
-			                ,{field:'moneyRmb',title:'总投资(万元)',	width: '10%',   style:'cursor: pointer;',align:"right"}
+			                /* ,{field:'projectCode',title:'立项编码',	width: '14%',   style:'cursor: pointer;'} */
+			                ,{field:'applyId',title:'申报项目名称',   style:'cursor: pointer;'}
+			                ,{field:'reportYear',   title:'申报年度', width: '5%',  style:'cursor: pointer;',align:"center"}
+			            	,{field:'unitId',   title:'所属研究院', width: '8%',  style:'cursor: pointer;',align:"center"}
+			                ,{field:'moneyRmb',title:'总投资(万元)',	width: '8%',   style:'cursor: pointer;',align:"right"}
 			                ,{field:'flowAgreementReview',title:'协议审查',width : '8%',style:'cursor: pointer;',align:"left"}
 			                ,{field:'flowTechnologyReview',title:'专业技术审查',width : '8%',style:'cursor: pointer;',align:"left"}
 			                ,{field:'flowKnowledgeReview',title:'知识产权审查',width : '8%',style:'cursor: pointer;',align:"left"}
 			                ,{field:'flowComprehensiveReview',title:'综合审查',width : '8%',style:'cursor: pointer;',align:"left"}
-			                
-			                
-			            
 			            ]],
 			            done: function (res, curr, count) {
 			            	layer.close(lodingMsg);
@@ -81,10 +91,11 @@
 				            	$("tr[data-index='"+i+"'] td[data-field='flowKnowledgeReview'] div").html(res.data[i].flowKnowledgeReviewStatus==0?"待审查":"已通过&nbsp;&nbsp;"+(res.data[i].flowKnowledgeReview==null?"":res.data[i].flowKnowledgeReview));
 				            	$("tr[data-index='"+i+"'] td[data-field='flowComprehensiveReview'] div").html(res.data[i].flowComprehensiveReviewStatus==0?"待审查":"已通过&nbsp;&nbsp;"+(res.data[i].flowComprehensiveReview==null?"":res.data[i].flowComprehensiveReview));
 				        
-				            	publicMethods.ajaxPost('/project/get-apply', {"applyId":res.data[i].applyId}, function (data, status) {
+				            	publicMethods.ajaxAsyncPost('/project/get-apply', {"applyId":res.data[i].applyId}, function (data, status) {
 				            		$("tr[data-index='"+i+"'] td[data-field='applyId'] div").html(data.applyName);
 				            		$("tr[data-index='"+i+"'] td[data-field='moneyRmb'] div").html(data.moneyRmb);
-				            		
+				            		$("tr[data-index='"+i+"'] td[data-field='reportYear'] div").html(data.reportYear);
+				            		$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(dicVal[data.unitId]);
 					            });
 				            });
 			            }
@@ -107,13 +118,16 @@
 		            	renderTable({
 		            		param: {
 		            			"infoName":$("#infoName").val(),
-		            			"projectCode":$("#projectCode").val()
+		            			"reportYear":$("#reportYear").val(),
+                				"unitId":$("#ROOT_ZGSHJT_GFGS_ZSYJY").val()
 		            		}
 		            	});
 		            	//table.reload("infoTable",{where:{param: {"infoName":$("#infoName").val()}}});
 		            },resetEvent: function() { 
 		            	//点击重置按钮
 		                $("#infoName").val("");
+		                $("#reportYear").val("");
+		                $("#ROOT_ZGSHJT_GFGS_ZSYJY").val("");
 		                renderTable({param: {"infoName":$("#infoName").val()}});
 		            },addEvent: function(){ 
 		            	//点击新增按钮
@@ -205,10 +219,18 @@
 <body>
 <div class="searchBox">
     <label class="dateInput">
-        <span>项目名称</span>
+        	<span>项目名称</span>
         	<input type="text" name="infoName" id="infoName" placeholder="请输入立项项目名称"  autocomplete="off" class="form-control">
-        <span>立项编码</span>
-        	<input type="text" name="projectCode" id="projectCode" placeholder="请输入立项编码"  autocomplete="off" class="form-control">
+    </label>
+    <label class="dateInput">
+        <span>申报年度</span>
+        <input type="text" name="reportYear" id="reportYear" placeholder="" readonly="readonly" autocomplete="off" class="form-control">
+    </label>
+    <label class="dateInput">
+        <span>所属研究院</span>
+        <select name="unitId" id="ROOT_ZGSHJT_GFGS_ZSYJY" lay-verify="required"  lay-filter="unitId" class="form-control form-control1">
+            <option value="">请选择</option>
+        </select>
     </label>
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>

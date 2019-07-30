@@ -1,7 +1,11 @@
 package com.pcitc.service.intlproject.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,7 @@ import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.service.feign.WorkflowRemoteClient;
+import com.pcitc.service.intlproject.IntlProjectApplyService;
 import com.pcitc.service.intlproject.IntlProjectInfoService;
 @Service("projectInfoService")
 public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
@@ -32,6 +37,9 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 	
 	@Autowired
 	private WorkflowRemoteClient workflowRemoteClient;
+	
+	@Autowired
+	private IntlProjectApplyService intlProjectApplyService;
 	
 	@Override
 	public IntlProjectInfo findById(String projectId) 
@@ -110,20 +118,42 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 
 	@Override
 	public LayuiTableData selectProjectInfoByPage(LayuiTableParam param) {
+		
+		
+		StringBuffer ordersb = new StringBuffer();
+		LayuiTableParam p = new LayuiTableParam();
+		p.setLimit(1000);
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")))
+		{
+			p.getParam().put("reportYear", param.getParam().get("reportYear"));
+		}
+		if(!StringUtils.isBlank((String)param.getParam().get("unitId"))) 
+		{
+			p.getParam().put("unitId", param.getParam().get("unitId"));
+		}
+		LayuiTableData applys = intlProjectApplyService.selectProjectApplyByPage(p);
+		Set<String> applyIds = new HashSet<String>();
+		for(int i=applys.getData().size()-1;i>=0;i--) 
+		{
+			Map<String,Object> map = MyBeanUtils.java2Map(applys.getData().get(i));
+			ordersb.append((ordersb.length()>0?",":"")+"'"+map.get("applyId")+"'");
+			applyIds.add(map.get("applyId").toString());
+		}
+		
+		
+		
 		IntlProjectInfoExample example = new IntlProjectInfoExample();
 		IntlProjectInfoExample.Criteria criteria = example.createCriteria();
 		if(param.getParam().get("infoName")!=null && !StringUtils.isBlank(param.getParam().get("infoName").toString())) 
 		{
 			criteria.andProjectNameLike("%"+param.getParam().get("infoName")+"%");
 		}
-		if(!StringUtils.isBlank((String)param.getParam().get("projectCode")))
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")) || !StringUtils.isBlank((String)param.getParam().get("unitId")))
 		{
-			criteria.andProjectCodeLike("%"+param.getParam().get("projectCode")+"%");
+			criteria.andApplyIdIn(new ArrayList<String>(applyIds));
 		}
-		
 		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		example.setOrderByClause("create_time desc");
-		
+		example.setOrderByClause("FIELD(apply_Id,"+ordersb.toString()+") DESC");
 		return findByExample(param,example);
 	}
 	
