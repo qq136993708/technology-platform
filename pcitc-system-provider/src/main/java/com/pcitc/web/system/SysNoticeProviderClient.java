@@ -1,9 +1,7 @@
 package com.pcitc.web.system;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,12 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysNoticeVo;
 import com.pcitc.service.system.SysNoticeService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value = "SysNotice-API",description = "通知公告相关的接口")
 @RestController
@@ -55,6 +56,16 @@ public class SysNoticeProviderClient {
 		}
 		return (tem == null) ? "" : tem.toString();
 	}
+	
+	
+
+	@ApiOperation(value = "查询公告列表", notes = "传入json格式的公告实体属性")
+	@RequestMapping(value = "/sysNotice-provider/sysNotice_top_list", method = RequestMethod.POST)
+	public JSONArray getList(@RequestBody Map map)throws Exception
+	{
+		return sysNoticeService.getTopList(map);
+	}
+	
 	
 	/**
 	 * 新增或修改公告

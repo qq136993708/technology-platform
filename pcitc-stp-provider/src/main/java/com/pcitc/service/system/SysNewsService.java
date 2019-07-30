@@ -186,4 +186,6 @@ public interface SysNewsService {
     public List<SysNewsVo> selectNewsMain(SysNewsVo news) throws Exception;
 
     List<SysNews> getNewsIndexType(SysNews sysNews);
+    
+    public  List<SysNews> getTopNEWlIST();
 }

@@ -44,4 +44,8 @@ public interface SysNoticeMapper {
      * @return
      */
     List<SysNotice> selectPubNoticeList(Map<String, Object> mapParams);
+    
+    
+    List getList(Map map);
+    int getCount(Map map);
 }

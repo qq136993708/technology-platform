@@ -59,14 +59,17 @@ html {
 					<div class="layui-row-pic">
 						<div class="layui-carousel" id="test-carousel-img">
 							<div carousel-item="">
-								<div>
-									<img src="/layuiadmin/layui/images/pic.png" />
-									<p><a></a></p><!--新闻标题-->
-								</div>
-								<div>
+								<#list sysNewsList as vo> 
+									<div>
+										<img src="/sysfile/getFilesLayuiByFormIdReturnBase64Image/${vo.bak6}" />
+										<p><a></a></p><!--新闻标题-->
+									</div>
+								 </#list>
+								<!-- <div>
+								<img src="/layuiadmin/layui/images/pic.png" />
 									<img src="/layuiadmin/layui/images/pic1.jpg" />
 									<p><a></a></p>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
