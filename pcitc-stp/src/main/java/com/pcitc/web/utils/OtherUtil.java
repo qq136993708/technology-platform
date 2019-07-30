@@ -39,6 +39,8 @@ public class OtherUtil {
 		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("isTopRoll", isTopRoll);
 		paramMap.put("isPublished", isPublished);
+		paramMap.put("isVariable", "1");
+		
 		System.out.println(">getSysNoticeTopList>>>>>>>>>>>>>>>>>>>>参数      isTopRoll = "+isTopRoll);
 		
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,httpHeaders);
