@@ -8,7 +8,6 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.system.*;
-import com.pcitc.base.system.SysNewsExample;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.util.TreeNodeUtil;
@@ -288,6 +287,12 @@ public class SysNewsServiceImpl implements SysNewsService {
             list.addAll(news);
         }
         return list;
+    }
+    
+    
+    public  List<SysNews> getTopNEWlIST()
+    {
+    	return sysNewsMapper.getTopNEWlIST();
     }
 
 }

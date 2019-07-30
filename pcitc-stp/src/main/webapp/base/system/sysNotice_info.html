@@ -53,6 +53,18 @@
 						</div>
 					</div>
 				</div>
+				
+				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label class="layui-form-label">是否首页滚动</label>
+						<div class="layui-input-block">
+							<input type="radio" lay-filter="isTopRollEvent" name="isTopRoll" value="1" title="是" checked>
+							<input type="radio" lay-filter="isTopRollEvent" name="isTopRoll" value="0" title="否">
+						</div>
+					</div>
+				</div>
+				
+				
 				<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 					<div class="layui-form-item">
 						<label class="layui-form-label">接收者<span class="must-fill">*</span></label>
@@ -132,6 +144,7 @@
                     }); */
                     myEditor.setData(data.noticeContent);
                     $("input[name=isVariable][value='" + data.isVariable + "']").prop("checked", "checked");
+                    $("input[name=isTopRoll][value='" + data.isTopRoll + "']").prop("checked", "checked");
                     form.render();
                 },
                 error : function(e) {
@@ -158,6 +171,16 @@
             // form.render('radio', 'radioEvent');
             isVariable=data.value;
         });
+        
+        var isTopRoll;
+        // 单选监听
+        form.on('radio(isTopRollEvent)', function (data) {
+            // form.render('radio', 'radioEvent');
+            isTopRoll=data.value;
+        });
+        
+        
+        
 
         /* 监听提交 */
         form.on('submit(component-form-save)', function(data){
@@ -165,6 +188,7 @@
             formData.noticeReceiver = formData.unitValue;
             formData.noticeReceivernames = $("#unitShow").val();
             if(isVariable) formData.isVariable=isVariable;
+            if(isTopRoll) formData.isTopRoll=isTopRoll;
             delete formData.unitValue;
             delete formData.unitCode;
             delete formData.unitType;

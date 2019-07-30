@@ -960,4 +960,11 @@
     from sys_news where sys_flag='ROOT_UNIVERSAL_WEHTHER_YES' and stype='ROOT_XTGL_XWLX_YJYDT'
       order by public_date desc limit 0,20
   </select>
+  
+  
+  
+   <select id="getTopNEWlIST" resultMap="BaseResultMap">
+   SELECT * FROM sys_news t WHERE t.stype='ROOT_XTGL_XWLX_XWTP' AND t.sys_flag ='ROOT_UNIVERSAL_WEHTHER_YES' ORDER BY t.`create_date` DESC LIMIT 3
+   </select>
+   
 </mapper>

@@ -1,8 +1,11 @@
 package com.pcitc.web.controller.system;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,13 +30,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.hana.report.ScientificInvestment;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysNews;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.web.common.BaseController;
@@ -88,7 +94,9 @@ public class SysNewsController extends BaseController {
 
 	private static final String getNewsIndexType = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/getNewsIndexType";
 	
-	private static final String  DICTIONARY= "http://pcitc-zuul/system-proxy/dictionary-provider/getDictionaryByCode/";
+	private static final String  DICTIONARY=   "http://pcitc-zuul/system-proxy/dictionary-provider/getDictionaryByCode/";
+	
+	
 
 	@RequestMapping(value = "/sysNews/getNewsIndexType", method = RequestMethod.POST)
 	@ResponseBody
@@ -108,6 +116,12 @@ public class SysNewsController extends BaseController {
 		// }
 		return list;
 	}
+	
+	
+
+	
+	
+	
 
 	/**
 	 * 系统新闻表-查询列表
@@ -188,9 +202,26 @@ public class SysNewsController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/sysNews/edit")
 	@OperationFilter(modelName = "系统新闻表", actionName = "跳转编辑页面pageEdit")
-	public String pageEdit(String id, Model model, String opt) {
+	public String pageEdit(String id, Model model, String opt)throws Exception {
 		model.addAttribute("id", id);
 		model.addAttribute("opt", opt);
+		
+		
+		if( id!=null && !id.equals(""))
+		{
+			ResponseEntity<SysNews> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysNews.class);
+			SysNews sysNews = responseEntity.getBody();
+			model.addAttribute("sysNews", sysNews);
+			model.addAttribute("bak6", sysNews.getBak6());
+		}else
+		{
+			model.addAttribute("bak6", UUID.randomUUID().toString());
+		}
+		
+		List<SysDictionary>  lbList= CommonUtil.getDictionaryByParentCode("ROOT_XTGL_XWLX", restTemplate, httpHeaders);
+		request.setAttribute("lbList", lbList);
+		
+		
 		return "stp/system/sysNews_edit";
 	}
 

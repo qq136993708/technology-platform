@@ -3,18 +3,25 @@ package com.pcitc.web.controller.system;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.ExcelException;
 import com.pcitc.base.common.InforVo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.hana.report.ScientificInvestment;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysNoticeVo;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DataTableInfoVo;
 import com.pcitc.base.util.DateTableUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.DataTableParameter;
+import com.pcitc.web.utils.HanaUtil;
+import com.pcitc.web.utils.PoiExcelExportUitl;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -30,8 +37,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("sysNotice")
@@ -50,6 +61,9 @@ public class SysNoticeController extends BaseController {
 	private static final String COUNT_NOTICE = "http://pcitc-zuul/system-proxy/sysNotice-provider/getSysNoticeCount";
 
 	private static final String MY_NOTICE = "http://pcitc-zuul/system-proxy/sysNotice-provider/getMyNoticeList";
+	
+	
+	
 	/**
 	 * 跳转到公告列表页
 	 */
@@ -88,6 +102,16 @@ public class SysNoticeController extends BaseController {
 		model.addAttribute("currentUser", sysUserInfo);
 		return "/base/system/sysNotice_info";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * 获取列表数据
