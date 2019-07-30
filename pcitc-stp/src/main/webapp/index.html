@@ -175,7 +175,7 @@
 					</ul>
 
 					<#if upList?exists> <#list upList as p>
-					<ul class="layui-nav layui-nav-tree layui-hide" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
+					<ul class="layui-nav layui-nav-tree layui-hide"  lay-text="${p.name}" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
 						<li class="layadmin-flexible">
 							<div></div>
 						</li> <#assign openFlag="0"> <#list funList as s> <#if s.parentId == p.id && s.url=='#'> <#if openFlag=="0">
@@ -409,6 +409,9 @@
 							window.open("http://10.1.19.130/zshkjjl/");
 							return false;
 						}
+                        if ($("#" + id).text() == "辅助决策") {
+                            $("#nav" + id+" li").eq(1).removeClass("layui-nav-itemed")
+                        }
 						$(".layui-nav-tree").addClass("layui-hide");
 						$("#nav" + id).removeClass("layui-hide");
 

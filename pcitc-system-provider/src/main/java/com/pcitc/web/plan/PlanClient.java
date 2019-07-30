@@ -1,5 +1,6 @@
 package com.pcitc.web.plan;
 
+import com.pcitc.base.common.TreeNode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -410,4 +411,17 @@ public class PlanClient {
 			return retJson;
 		}
 	}
+
+
+    @RequestMapping(value = "/planClient-provider/tree-data", method = RequestMethod.POST)
+    public JSONObject selectTreeData(@RequestBody JSONObject jsonObject) {
+        JSONObject retJson = new JSONObject();
+        try {
+            List<TreeNode> list = planBaseService.selectTreeData(jsonObject);
+            retJson.put("list", list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retJson;
+    }
 }

@@ -278,9 +278,15 @@ public class ZjkBaseInfoClient {
 				if(z.getUserDesc() != null) {
 					z.setUserDesc(z.getUserDesc().replaceAll("<p>", ""));
 				}
-				if(z.getExpertProfessionalFieldName() == null) {
-					z.setExpertProfessionalFieldName("院士");
-				}
+//				if(z.getExpertProfessionalFieldName() == null) {
+//					z.setExpertProfessionalFieldName("院士");
+//				}
+				if ("ZJK_ZJLX_ZGKXYYS".equals(z.getBak3())){
+                    z.setExpertProfessionalFieldName("中国科学院院士");
+                }
+                if ("ZJK_ZJLX_ZGGCYYS".equals(z.getBak3())){
+                    z.setExpertProfessionalFieldName("中国工程院院士");
+                }
 			}
 			
 			return JSON.toJSONString(list);

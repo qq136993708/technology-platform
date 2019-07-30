@@ -24,7 +24,9 @@ public class TreeNodeUtil {
 	 */
     public final static List<TreeNode> getfatherNode(List<TreeNode> treeDataList, String parentId) throws Exception {
     	List<TreeNode> newTreeDataList = new ArrayList<TreeNode>();
-            for (TreeNode jsonTreeData : treeDataList) {
+        for (TreeNode jsonTreeData : treeDataList) {
+            System.out.println(jsonTreeData);
+            System.out.println(jsonTreeData.getId()+"---"+parentId);
                 if(jsonTreeData.getId().equals(parentId)) {
                     //获取父节点下的子节点
                     jsonTreeData.setNodes(getChildrenNode(jsonTreeData.getId(),treeDataList));

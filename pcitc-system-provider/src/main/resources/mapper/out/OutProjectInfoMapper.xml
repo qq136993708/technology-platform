@@ -1933,14 +1933,15 @@
         	sum(case when project_property = '重大专项' then 1 else 0 end) as zdzxsl, 
 			sum(case when project_property = '十条龙项目' then 1 else 0 end) as stlsl
 		from (
-			select DISTINCT xmmc,project_property
+			select DISTINCT left(hth,8) ,project_property
 			from out_project_info
-			where (project_type = '0' or project_type = '1') and nd='${nd}'
-				<if test="define2 != null and define2 != ''">
-					and define2 is not null and type_flag like '%直属研究院%'
+			where (project_type = '0' or project_type = '2') and ysnd='${nd}' and project_property != '国家项目'
+				<if test="typeFlag != null and typeFlag != ''">
+					and type_flag like '%${typeFlag}%'
 				</if>
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				<include refid="dataFilterCondition" />
+				group by left(hth,8), project_property
 		) as tableA
 	</select>
 
@@ -2734,13 +2735,15 @@
 	
 	<!--  领导首页-十条龙，十条龙项目的类型分布 -->
 	<select id="getDragonProjectInfoByType" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select xmlbmc,count(DISTINCT xmmc) as sl
+		select xmlbmc,count(DISTINCT xmid) as sl
 		from out_project_info
 		WHERE
-			project_property = '十条龙项目'  and nd='${nd}' and project_type != '2'
+			project_property = '十条龙项目'  and ysnd='${nd}' and project_type != '1'
 			<if test="type_flag != null">
 				and out_project_info.type_flag like '%${type_flag}%'
 			</if>
+			<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			<include refid="dataFilterCondition" />
 		group by xmlbmc
 	</select>
 	
@@ -2754,13 +2757,16 @@
 			 sum(case when ysnd='${nd}' and `status` = '申请出龙' then 1 else 0 end) sqcl,
 			 sum(case when ysnd='${nd}' and `status` = '在研项目' then 1 else 0 end) zyxm
 		from (
-			select distinct xmmc,ysnd,`status`
+			select xmid,ysnd,`status`
 			from out_project_info
 			WHERE
-				project_property = '十条龙项目' and project_type != '2'
+				project_property = '十条龙项目' and project_type != '1'
 				<if test="type_flag != null">
 					and out_project_info.type_flag like '%${type_flag}%'
 				</if>
+				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			    <include refid="dataFilterCondition" />
+		   group by xmid,`status`,ysnd
 		) as tableA
 		
 	</select>
@@ -2768,15 +2774,18 @@
 	<!--  领导首页-十条龙，8个研究院的龙项目/重大专项项目分布 -->
 	<select id="getDragonProjectInfoByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select SUBSTR(define2 FROM 6) as define2,
-			 sum(case when project_property = '十条龙项目' then 1 else 0 end) stlxm,
-			 sum(case when project_property = '重大专项' then 1 else 0 end) zdzx
+			 sum(case when project_property = '十条龙项目' then xmCount else 0 end) stlxm,
+			 sum(case when project_property = '重大专项' then xmCount else 0 end) zdzx
 		FROM 
-			(select distinct xmmc,ysnd,project_property,define2
+			(select ysnd,project_property,define2,count(distinct left(hth,8)) xmCount
 			 from out_project_info
 			 WHERE
-				 ysnd = '${nd}' and type_flag like '%研究院' and project_type != '2'
+				 ysnd = '${nd}' and type_flag like '%研究院' and project_property != '国家项目' and project_type != '1'
+				 <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			     <include refid="dataFilterCondition" />
+			     group by define2,project_property
 	    	) as tableA
-		GROUP BY tableA.define2
+	    	group by tableA.define2
 	</select>
 	
 	<!--  领导首页-十条龙，十条龙项目的详情 -->
@@ -2791,7 +2800,9 @@
 				from out_project_info
 				WHERE
 					 project_property = '十条龙项目'
-					 and project_type != '2'
+					 and project_type != '1'
+					<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+					<include refid="dataFilterCondition" />
 					<if test="nd != null">
 						and out_project_info.nd = #{nd}
 					</if>
