@@ -2741,6 +2741,8 @@
 			<if test="type_flag != null">
 				and out_project_info.type_flag like '%${type_flag}%'
 			</if>
+			<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			<include refid="dataFilterCondition" />
 		group by xmlbmc
 	</select>
 	
@@ -2761,6 +2763,8 @@
 				<if test="type_flag != null">
 					and out_project_info.type_flag like '%${type_flag}%'
 				</if>
+				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			    <include refid="dataFilterCondition" />
 		) as tableA
 		
 	</select>
@@ -2774,7 +2778,9 @@
 			(select distinct xmmc,ysnd,project_property,define2
 			 from out_project_info
 			 WHERE
-				 ysnd = '${nd}' and type_flag like '%研究院' and project_type != '2'
+				 ysnd = '${nd}' and type_flag like '%研究院' and project_type != '1'
+				 <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			     <include refid="dataFilterCondition" />
 	    	) as tableA
 		GROUP BY tableA.define2
 	</select>

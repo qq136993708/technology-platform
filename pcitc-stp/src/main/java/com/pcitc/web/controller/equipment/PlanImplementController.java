@@ -41,6 +41,7 @@ public class PlanImplementController extends BaseController {
 	private static final String ADD_URL = "http://pcitc-zuul/stp-proxy/sre-provider/planImplement/add";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/planImplement/get/";
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/planImplement/delete/";
+	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/planImplement/updata";
 	
 	
 	/**
@@ -90,6 +91,7 @@ public class PlanImplementController extends BaseController {
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);//子id
 		request.setAttribute("parentUnitPathNames", parentUnitPathNames);//研究院
 		request.setAttribute("applyDepartName", applyDepartName);//当前部门
+	    request.setAttribute("isKJBPerson", isKJBPerson);
 		return "/stp/equipment/planImplement/planImplement-list";
 	}
 	
@@ -141,7 +143,8 @@ public class PlanImplementController extends BaseController {
 		mplement.setPublicationType(publicationType);//发布类型
 		mplement.setPublisher(publisher);//发布人
 		mplement.setPublicationText(content);//发布内容
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		publicDate = publicDate +" 00:00:00";
 		mplement.setPublicationMonth(formatter.parse(publicDate));//发布时间
 		mplement.setPublicationState(publicationState);//发布状态
 		mplement.setSonId(unitPathIds);//子ID
@@ -155,7 +158,7 @@ public class PlanImplementController extends BaseController {
 		if (Integer.valueOf(status) > 0) {
 			resultsDate = "1";
 		} else {
-			resultsDate = "上报失败失败，请联系系统管理员！";
+			resultsDate = "新增失败，请联系系统管理员！";
 		}
 		JSONObject jObject=new JSONObject();
 		jObject.put("resultsDate", resultsDate);
@@ -176,13 +179,65 @@ public class PlanImplementController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/sre-planImplement/get/{id}", method = RequestMethod.GET)
-	public String get(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String getPlanImplement(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ResponseEntity<SrePlanImplement> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePlanImplement.class);
 		int statusCode = responseEntity.getStatusCodeValue();
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
 		logger.info("============远程返回  statusCode " + statusCode);
 		SrePlanImplement srePlanImplement =  responseEntity.getBody();
 		request.setAttribute("srePlanImplement", srePlanImplement);
+		String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(srePlanImplement.getPublicationMonth());
+		request.setAttribute("dateStr", dateStr);
+		request.setAttribute("researchInstitute", srePlanImplement.getResearchinstitute());
 		return "/stp/equipment/planImplement/planImplement-edit";
+	}
+	
+	/**
+	 * 保存————修改
+	 * 
+	 * 
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(method = RequestMethod.POST, value = "/sre-planImplement/update")
+	public String updateSrePlanImplement(String id,String publicationTitle,String content,String publicationType,
+					String publicDate,String publicationState,String publisher,String unitPathIds,
+					String parentUnitPathIds,String parentUnitPathNames,String applyDepartName,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String resultsDate = "";
+		ResponseEntity<SrePlanImplement> se = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePlanImplement.class);
+		SrePlanImplement mplement = se.getBody();
+		ResponseEntity<String> respo = null;
+		mplement.setResearchinstitute(parentUnitPathNames);//研究院
+		mplement.setPublicationTitle(publicationTitle);//规划标题
+		mplement.setPublicationType(publicationType);//发布类型
+		mplement.setPublisher(publisher);//发布人
+		mplement.setPublicationText(content);//发布内容
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		mplement.setPublicationMonth(formatter.parse(publicDate));//发布时间
+		mplement.setPublicationState(publicationState);//发布状态
+		mplement.setSonId(unitPathIds);//子ID
+		mplement.setLevelId(parentUnitPathIds);//父ID
+		mplement.setCreationTime(new Date());//创建时间
+		mplement.setLevelName(applyDepartName);//部门名称
+		respo = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SrePlanImplement>(mplement, this.httpHeaders), String.class);
+		int statusCode = respo.getStatusCodeValue();
+		String status = respo.getBody();
+		logger.info("============远程返回  statusCode " + statusCode + "  status=" + status);
+		if (Integer.valueOf(status) > 0) {
+			resultsDate = "1";
+		} else {
+			resultsDate = "修改失败，请联系系统管理员！";
+		}
+		JSONObject jObject=new JSONObject();
+		jObject.put("resultsDate", resultsDate);
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println(jObject.toString());
+		out.flush();
+		out.close();
+		return null;
 	}
 	
 	/**
@@ -212,5 +267,114 @@ public class PlanImplementController extends BaseController {
 		out.flush();
 		out.close();
 		return null;
+	}
+	
+	/**
+	 *  规划详情页
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/sre-planImplement/view/{id}", method = RequestMethod.GET)
+	public String viewPlanImplement(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ResponseEntity<SrePlanImplement> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePlanImplement.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		String strtype = "";
+		String strState = "";
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		logger.info("============远程返回  statusCode " + statusCode);
+		SrePlanImplement srePlanImplement =  responseEntity.getBody();
+		request.setAttribute("srePlanImplement", srePlanImplement);
+		String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(srePlanImplement.getPublicationMonth());
+		request.setAttribute("dateStr", dateStr);
+		request.setAttribute("researchInstitute", srePlanImplement.getResearchinstitute());
+		if(srePlanImplement.getPublicationType().equals("1")){
+			strtype="研究院中长期规划";
+		}else if(srePlanImplement.getPublicationType().equals("2")) {
+			strtype="研究室中长期规划";
+		}else if(srePlanImplement.getPublicationType().equals("3")) {
+			strtype="课题中长期规划";
+		}else if(srePlanImplement.getPublicationType().equals("4")) {
+			strtype="研究院滚动计划";
+		}else if(srePlanImplement.getPublicationType().equals("5")) {
+			strtype="研究室滚动计划";
+		}else if(srePlanImplement.getPublicationType().equals("6")) {
+			strtype="课题滚动计划";
+		}
+		request.setAttribute("strtype", strtype);
+		if(srePlanImplement.getPublicationState().equals("1")){
+			strState="是";
+		}else {
+			strState="否";
+		}
+		request.setAttribute("strState", strState);
+		return "/stp/equipment/planImplement/planImplement-view";
+	}
+	
+	
+	/**
+	 *  规划查看信息页
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/sre-planImplement/planImplementView/{id}", method = RequestMethod.GET)
+	public String getPlanImplementView(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ResponseEntity<SrePlanImplement> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SrePlanImplement.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		logger.info("============远程返回  statusCode " + statusCode);
+		SrePlanImplement srePlanImplement =  responseEntity.getBody();
+		request.setAttribute("srePlanImplement", srePlanImplement);
+		String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(srePlanImplement.getPublicationMonth());
+		request.setAttribute("dateStr", dateStr);
+		request.setAttribute("researchInstitute", srePlanImplement.getResearchinstitute());
+		return "/stp/equipment/planImplement/planImplement-planImplementView";
+	}
+	
+	
+	/**
+	 * 研究院规划查询
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/sre-planImplement/InstitutePlanning")
+	public String planImplementlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
+		String unitPathId = sysUserInfo.getUnitPath();
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+	    request.setAttribute("isKJBPerson", isKJBPerson);
+	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
+		request.setAttribute("unitPathIds", unitPathIds);//父id
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);//子id
+		request.setAttribute("parentUnitPathNames", parentUnitPathNames);//研究院
+		request.setAttribute("applyDepartName", applyDepartName);//当前部门
+	    request.setAttribute("isKJBPerson", isKJBPerson);
+	    List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
+				httpHeaders);
+	    String str ="1";
+	    if(isKJBPerson == true) {
+	    	//获取研究院
+			request.setAttribute("dictonary", dicList);
+			request.setAttribute("str", "1");
+	    }else {
+	    	request.setAttribute("dictonary", dicList);
+	    	request.setAttribute("str", "0");
+	    }
+		return "/stp/equipment/planImplement/InstitutePlanning";
 	}
 }		

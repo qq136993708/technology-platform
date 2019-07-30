@@ -18,6 +18,9 @@ public interface PlanImplementService {
 	//删除规划发布信息
 	int deleteSrePlanImplement(String id);
 	
+	//执行修改方法
+	Integer setupdataSrePlanImplement(SrePlanImplement srePlanImplement);
+	
 	
 	
 	

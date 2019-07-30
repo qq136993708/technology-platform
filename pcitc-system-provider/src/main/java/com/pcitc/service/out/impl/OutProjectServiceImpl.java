@@ -499,8 +499,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 				HashMap<String, String> proMap = (HashMap<String, String>) pageInfo.getList().get(i);
 				for (int j = 0; j < rewardList.size(); j++) {
 					HashMap<String, String> temMap = (HashMap<String, String>) rewardList.get(j);
-					if(temMap.get("hth") != null && temMap.get("hth").equals(proMap.get("hth"))  && !proMap.get("nd").equals("合计")  ) 
-					{
+					if (temMap.get("hth") != null && temMap.get("hth").equals(proMap.get("hth")) && !proMap.get("nd").equals("合计")) {
 						proMap.put("psdj", temMap.get("psdj"));
 						proMap.put("xkfl", temMap.get("xkfl"));
 						break;
@@ -1450,7 +1449,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @return 首页计算十条龙及重大专项项目的总数量
 	 */
 	public HashMap<String, String> getOutProjectDragonInfoCount(HashMap<String, String> map) {
-
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getOutProjectDragonInfoCount(map);
 	}
 

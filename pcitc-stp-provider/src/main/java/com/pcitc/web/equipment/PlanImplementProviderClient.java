@@ -63,4 +63,12 @@ public class PlanImplementProviderClient {
 		logger.info("=============================deleteSrePlanImplement=================");
 		return planImplementService.deleteSrePlanImplement(id);
 	}
+	
+	@ApiOperation(value = "增加规划发布修改", notes = "增加规划发布修改")
+	@RequestMapping(value = "/sre-provider/planImplement/updata", method = RequestMethod.POST)
+	public String updataSrePlanImplement(@RequestBody SrePlanImplement srePlanImplement) throws Exception{
+		logger.info("====================add planImplement....========================");
+		Integer count= planImplementService.setupdataSrePlanImplement(srePlanImplement);
+		return count.toString();
+	}
 }
