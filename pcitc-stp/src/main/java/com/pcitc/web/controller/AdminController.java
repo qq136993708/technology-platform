@@ -676,6 +676,7 @@ public class AdminController extends BaseController {
 		Map<String, Object> map = param.getParam();
 		map.put("workOrderAllotUserId", sysUserInfo.getUserId());
 		map.put("workOrderStatus", "1");
+		map.put("isSchedule", "0"); //只显示未定时的
 		param.setParam(map);
 		param.setLimit(10); // 首页不能过多显示
 		HttpEntity<LayuiTableParam> entityMy = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
