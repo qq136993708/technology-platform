@@ -995,7 +995,12 @@ public class OutProjectInfoClient {
 	public JSONArray getDragonProjectInfoByType(@RequestBody HashMap<String, String> map) throws Exception {
 		// logger.info("==================page getDragonProjectInfoByType==========================="
 		// + map);
-
+		String zycbm = map.get("zycbm");
+		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
+			// 大领导特殊，能看所有
+			map.put("leaderFlag", "2");
+		}
+		
 		List temList = outProjectService.getDragonProjectInfoByType(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -1005,7 +1010,11 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/dragon/out-in/project-info")
 	public JSONArray getDragonProjectInfoWithOutIn(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getDragonProjectInfoWithOutIn===========================" + map);
-
+		String zycbm = map.get("zycbm");
+		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
+			// 大领导特殊，能看所有
+			map.put("leaderFlag", "2");
+		}
 		List temList = outProjectService.getDragonProjectInfoWithOutIn(map);
 
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -1016,7 +1025,11 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/dragon/institute/project-info")
 	public JSONArray getDragonProjectInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getDragonProjectInfoByInstitute===========================" + map);
-
+		String zycbm = map.get("zycbm");
+		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
+			// 大领导特殊，能看所有
+			map.put("leaderFlag", "2");
+		}
 		List temList = outProjectService.getDragonProjectInfoByInstitute(map);
 		HashMap<String, String> map1 = new HashMap<String, String>();
 		// outProjectRemoteClient.getLastCountryProject(map1);
@@ -1039,6 +1052,11 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/dragon/details")
 	public JSONArray getDragonProjectDetails(@RequestBody HashMap<String, Object> map) throws Exception {
 		logger.info("==================page getDragonProjectDetails===========================" + map);
+		Object zycbm = map.get("zycbm");
+		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.toString().contains("30130054"))) {
+			// 大领导特殊，能看所有
+			map.put("leaderFlag", "2");
+		}
 		List temList = outProjectService.getDragonProjectDetails(map);
 
 		// 特殊处理，显示序号问题。相同的十条龙项目合并序号
