@@ -35,7 +35,7 @@ public class OutStandardDataProviderClient
 	
 	@ApiOperation(value="标准化管理-检索标准化",notes="根据标准化ID检索标准化!")
 	@RequestMapping(value = "/stp-provider/out/out-standarddata-get/{dataId}", method = RequestMethod.POST)
-	public Object selectOutStandardDataById(@PathVariable("dataId") String dataId) 
+	public Object selectOutStandardDataByDataId(@PathVariable("dataId") String dataId) 
 	{
 		OutStandardData organ = null;
 		try 
@@ -48,6 +48,22 @@ public class OutStandardDataProviderClient
 		}
 		return organ;
 	}
+	@ApiOperation(value="标准化管理-检索标准化",notes="根据标准化ID检索标准化!")
+	@RequestMapping(value = "/stp-provider/out/out-standarddata-getbyId/{id}", method = RequestMethod.POST)
+	public Object selectOutStandardDataById(@PathVariable("id") String id) 
+	{
+		OutStandardData organ = null;
+		try 
+		{
+			organ = outStandardDataService.selectOutStandardDataById(id);
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return organ;
+	}
+	
 	
 	@ApiOperation(value="标准化管理-标准化列表",notes="获取标准化列表。")
 	@RequestMapping(value = "/stp-provider/out/out-standarddata-list", method = RequestMethod.POST)
