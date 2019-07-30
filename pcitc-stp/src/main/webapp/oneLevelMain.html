@@ -595,7 +595,7 @@ html {
 		function setdragon_count() {
 			$.ajax({
 				type : 'GET',
-				url : "/one_level_main/dragon_count?nd=" + nd,
+				url : "/one_level_main/dragon_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd,
 				dataType : 'json',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -784,6 +784,20 @@ html {
 				}
 			}
 			return parseInt(xkCount);
+		}
+		
+		function addPlan() { //新增工作安排
+			//parent.layui.index.openTabsPage("/plan/addPlanPageMain", "任务计划-新增");
+			layer.open({
+				title : '工作安排-新增',
+				skin : 'layui-layer-lan',
+				shadeClose : false,
+				type : 2,
+				fixed : false,
+				maxmin : true,
+				area : [ '70%', '90%' ],
+				content : '/plan/addPlanPage'
+			});
 		}
 	</script>
 </body>

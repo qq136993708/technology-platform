@@ -2939,6 +2939,7 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/dragon_count")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String dragon_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String resault = "";
@@ -2946,6 +2947,8 @@ public class OneLevelMainController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		paramsMap.put("zycbm", zycbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 
