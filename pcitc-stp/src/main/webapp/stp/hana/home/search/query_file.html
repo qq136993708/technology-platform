@@ -89,7 +89,9 @@
                             d.filePath="javascript:void(0);";
                         }
                         var fileFrom = (typeof d.bak1=="undefined"||typeof d.version =="undefined")?"未定义":(d.bak1+"->"+d.version);
-                        var updatePersonName = (typeof d.updatePersonName =="undefined"||d.updatePersonName=="袁霞光")?"系统":(d.updatePersonName);
+                        var updatePersonName = (typeof d.updatePersonName =="undefined")?"系统":(d.updatePersonName);
+                        var createTime = d.createDateTime;
+                        updatePersonName = createTime<"2019-08-01"?"系统":updatePersonName;
                 return '<div class="layui-div layui-div-n">' +
                     '        <a href="'+d.filePath+'" target="_self">'+d.fileName+'</a>' +
                     '        <div class="c-row c-gap-top-small">' +
