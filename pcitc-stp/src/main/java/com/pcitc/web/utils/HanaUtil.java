@@ -3728,7 +3728,6 @@ public class HanaUtil {
 				
 				if (name.equals("fyxsjje")) {
 					if (fyxsjje != null && !fyxsjje.equals("null") && !fyxsjje.equals("")) {
-						System.out.println(fyxsjje+"===fyxsjje=="+String.format("%.4f", Double.valueOf(fyxsjje) / 10000));
 						dataList.add(String.format("%.4f", Double.valueOf(fyxsjje) / 10000));
 
 					} else {

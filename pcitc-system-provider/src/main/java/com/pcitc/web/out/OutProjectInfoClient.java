@@ -171,6 +171,9 @@ public class OutProjectInfoClient {
 	public JSONObject getProjectMoney(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
 		String zycbm = map.get("zycbm");
+		String zylbbm = map.get("zylbbm");
+		String username = map.get("username");
+		
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
 		vo.setNd(map.get("nd"));
 		
@@ -180,7 +183,7 @@ public class OutProjectInfoClient {
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016,ZX,JD";
 			leaderFlag = true;
 		}
-
+		
 		// 预算中，科技部外的部门特殊处理
 		if (zycbm.contains("30130011")) {
 			zycbm = zycbm + ",30130011";
@@ -191,25 +194,28 @@ public class OutProjectInfoClient {
 		if (zycbm.contains("30130009")) {
 			zycbm = zycbm + ",30130009";
 		}
+		
 		map.put("zycbm", zycbm);
-		HashMap<String, String> temMap = outProjectService.getOutProjectInfoMoney(map);
 		
 		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 		List<String> list_1 = new ArrayList<>(set);
 		vo.getUnitIds().addAll(list_1);
 		vo = budgetClient.selectBudgetInfoList(vo);
 		// 费用性预算金额
-		List<Map<String, Object>> budMoneyList = vo.getBudgetByAllUnit();
 		Double zysje = vo.getBudgetTotal();
 		
+		if (username != null && username.equals("wanglj")) {
+			System.out.println("2username========" + username);
+			map.put("zycbm", zycbm + ",30130054");
+		}
+		HashMap<String, String> temMap = outProjectService.getOutProjectInfoMoney(map);
 		if (temMap != null) {
 			retJson.put("projectMoney", temMap.get("projectMoney"));
 		} else {
 			retJson.put("projectMoney", 0);
 		}
-
+		HashMap<String, String> temBudZbxMap = outProjectService.getBudgetZBXMoney(map);
 		if (leaderFlag) {
-			HashMap<String, String> temBudZbxMap = outProjectService.getBudgetZBXMoney(map);
 			// 预算金额（费用性）
 			if (temBudZbxMap != null) {
 				retJson.put("zysje", temBudZbxMap.get("zysje"));
@@ -217,7 +223,14 @@ public class OutProjectInfoClient {
 				retJson.put("zysje", 0);
 			}
 		} else {
-			retJson.put("zysje", zysje);
+			// 科研装备特殊，有这个专业类别的可看资本性
+			if (username != null && username.equals("wanglj")) {
+				Object temMoney = temBudZbxMap.get("budgetZbxMoney");
+				retJson.put("zysje", zysje.doubleValue()+Double.valueOf(temMoney.toString()));
+			} else {
+				retJson.put("zysje", zysje);
+			}
+			
 		}
 		
 		return retJson;

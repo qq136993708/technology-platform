@@ -1625,7 +1625,10 @@
 			</foreach>
 			)
 		</if>
-		<if test="zycbmList == null">
+		<if test="zycbmList == null and zylbbm !=null">
+			and find_in_set(out_project_info.zylbbm, '${zylbbm}')
+		</if>
+		<if test="zycbmList == null and zylbbm ==null">
 			and out_project_info.nd = '1900'
 		</if>
 	</if>
@@ -1854,7 +1857,7 @@
 	<!-- 首页计算项目总金额, 包含结转和新开 -->
 	<select id="getOutProjectInfoMoney" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 
-        	round(sum(out_project_info.ysje),4) as projectMoney
+        	round(sum(out_project_info.ysje),4) as projectMoney,round(sum(case when xmlbbm = 'KYZB' then out_project_info.yszbxje else 0 end),4) as projectZbxMoney
 		from out_project_info
 		where 
 			out_project_info.ysnd = '${nd}' and project_type != '1' and out_project_info.define3 = '项目管理系统'
