@@ -639,11 +639,16 @@
 	
 	<!-- 按照技术权限，控制成果的查询 -->
 	<sql id="appraisalCondition">
-	   <if test="cgjszy != null and cgjszy != ''">
-			and find_in_set(out_appraisal.zy, '${cgjszy}')
+		<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
+			<if test="cgjszy != null and cgjszy != ''">
+				and find_in_set(out_appraisal.zy, '${cgjszy}')
+			</if>
+			<if test="cgjszy == null or cgjszy == ''">
+				and out_appraisal.zy like 'xxxxxxxx'
+			</if>
 		</if>
-		<if test="cgjszy == null or cgjszy == ''">
-			and out_appraisal.zy like 'xxxxxxxx'
+		<if test="leaderFlag == null or leaderFlag == ''">
+			and out_appraisal.zy like 'xxxxxxxxq'
 		</if>
 	</sql>
 

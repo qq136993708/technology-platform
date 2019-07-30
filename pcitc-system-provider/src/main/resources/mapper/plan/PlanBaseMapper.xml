@@ -2042,7 +2042,7 @@
 			 *
 		from plan_base as tableA, plan_base as tableB
 		where
-			tableA.DEL_FLAG = '0' and tableA.isSchedule = '0' and tableA.is_parent is null 
-			and tableA.data_id = tableB.parent_id AND tableA.CREATE_USER='${createUserId}'
+			tableA.DEL_FLAG = '0' and tableA.is_schedule = '0' and tableA.parent_id is null 
+			and tableA.data_id = tableB.parent_id AND tableA.CREATE_USER='${createUser}'
 	</select>
 </mapper>
