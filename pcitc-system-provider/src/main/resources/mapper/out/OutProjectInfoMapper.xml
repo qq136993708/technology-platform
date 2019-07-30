@@ -3465,7 +3465,7 @@
 		</if>
 		
 		group by ysnd,xmid
-		order by nd desc,hth
+		order by ysnd desc,hth
 	</select>
 	
 	
