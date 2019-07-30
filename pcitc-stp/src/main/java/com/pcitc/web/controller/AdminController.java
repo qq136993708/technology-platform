@@ -988,6 +988,8 @@ public class AdminController extends BaseController {
 		if (request.getParameter("define1") != null && !request.getParameter("define1").equals("")) {
 			map.put("define1", request.getParameter("define1"));
 		}
+		
+		map.put("leaderFlag", String.valueOf(sysUserInfo.getUserLevel()));
 
 		String  cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
 		System.out.println("1====cgjszy" + cgjszy);
