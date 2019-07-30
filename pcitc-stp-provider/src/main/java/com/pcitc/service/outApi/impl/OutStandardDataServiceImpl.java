@@ -192,6 +192,18 @@ public class OutStandardDataServiceImpl implements OutStandardDataService
 		System.out.println("0000:"+count);
 		return count.intValue();
 	}
+	@Override
+	public OutStandardData selectOutStandardDataById(String id) {
+		OutStandardDataExample example = new OutStandardDataExample();
+		OutStandardDataExample.Criteria c = example.createCriteria();
+		c.andIdEqualTo(id);
+		
+		 List<OutStandardData> ds = mapper.selectByExample(example);
+		 if(ds != null && ds.size() >0) {
+			 return ds.get(0);
+		 }
+		 return null;
+	}
 	
 	
 }

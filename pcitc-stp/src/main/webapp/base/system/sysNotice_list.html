@@ -61,14 +61,14 @@
             cols: [[
             	{type:'checkbox', event: 'changeEvents'},
                 {title:'序号', type:'numbers' ,width : 55},
-                {field:'noticeTitle', title:'公告标题', event: 'setActive',style:'cursor: pointer;'},
+                {field:'noticeTitle', title:'公告标题', event: 'setActive',style:'cursor: pointer;',templet:function(d){return '<span onclick="view_project(\''+d.noticeId+'\')" style="color:#1890ff">'+d.noticeTitle+'</span>'}},
                 {field:'noticeCreater', title:'创建者', event: 'setActive',style:'cursor: pointer;'},
                 {field:'noticeCreatetime', title:'创建时间', event: 'setActive',style:'cursor: pointer;'},
                 {field:'noticePublishtime', title:'发布时间' ,event: 'setActive',style:'cursor: pointer;'},
                 {field:'isPublished', title:'是否发布' ,event: 'setActive',style:'cursor: pointer;'
                 	,templet: function(d){
 	                	if(d.isPublished == 1){
-	                		return "是";
+	                		return "<span style='color:green'>是<span>";
 	                	} else {
 	                		return "否";
 	                	}
@@ -77,7 +77,16 @@
                 {field:'isVariable', title:'是否可用' ,event: 'setActive',style:'cursor: pointer;'
                 	,templet: function(d){
 	                	if(d.isVariable == 1){
-	                		return "是";
+	                		return "<span style='color:green'>是<span>";
+	                	} else {
+	                		return "否";
+	                	}
+                	}
+                },
+                {field:'isTopRoll', title:'是否首页滚动' ,event: 'setActive',style:'cursor: pointer;'
+                	,templet: function(d){
+	                	if(d.isTopRoll == 1){
+	                		return "<span style='color:green'>是<span>";
 	                	} else {
 	                		return "否";
 	                	}
@@ -261,6 +270,25 @@
             console.log('Not support websocket');
 		}
     });
+	
+	
+	
+	function view_project(noticeId) 
+	{
+		
+		 var temUrl='/sysNotice/readNotice?id='+noticeId
+		 layer.open({
+	        title:'详情',
+	        skin: 'layui-layer-lan',
+	        shadeClose: true,
+	        type: 2,
+	        fixed: false,
+	        maxmin: false,
+	        area: ['70%', '90%'],
+	        content:  temUrl
+	    });
+	}
+	
 	</script>
 </body>
 </html>

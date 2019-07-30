@@ -133,6 +133,7 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 		}
 		LayuiTableData applys = intlProjectApplyService.selectProjectApplyByPage(p);
 		Set<String> applyIds = new HashSet<String>();
+		applyIds.add("xxx");
 		for(int i=applys.getData().size()-1;i>=0;i--) 
 		{
 			Map<String,Object> map = MyBeanUtils.java2Map(applys.getData().get(i));
@@ -153,7 +154,10 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 			criteria.andApplyIdIn(new ArrayList<String>(applyIds));
 		}
 		criteria.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		example.setOrderByClause("FIELD(apply_Id,"+ordersb.toString()+") DESC");
+		
+		if(ordersb.length()>0) {
+			example.setOrderByClause("FIELD(apply_id,"+ordersb.toString()+") DESC");
+		}
 		return findByExample(param,example);
 	}
 	

@@ -16,6 +16,7 @@
     <form id="sysNews-form" name="sysNews-form" lay-filter="sysNews-form" class="form-horizontal layui-form">
         <input type="hidden" name="groupId">
         <input type="hidden" name="bak1" value="1">
+        <input type="hidden" name="id" id="id" value="" >
         <div class="box-body">
             <input type="hidden" name="dataId" id="dataId"/>
             <div class="layui-row">
@@ -74,10 +75,15 @@
                             <label class="layui-form-label">新闻类型<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <select name="stype" id="stype" lay-filter="stype">
+                                         <option value="" >--请选择--</option>
+							             <#list lbList as vo> 
+									          <option value="${vo.code}"  <#if sysNews.stype=vo.code>selected="selected"</#if> >${vo.name}</option>
+									      </#list>
                                 </select>
                             </div>
                         </div>
                     </div>
+                
 
                     <div class="form-bottom">
                         <div class="form-bottom-btns">
@@ -87,6 +93,19 @@
                     </div>
                 </div>
             </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
 
             <div class="layui-row">
                 <div class="layui-form-item layui-form-text">
@@ -98,6 +117,35 @@
                     </div>
                 </div>
             </div>
+            
+            
+            
+            <div class="layui-row" id="pic_id" >
+                <div class="layui-form-item layui-form-text">
+                    <div class="layui-form-item">
+                    
+                        <label class="layui-form-label">新闻图片</label>
+                        <div class="layui-input-block">
+                        
+                              <div class="tableBox">
+		                    <span class="file-span">新闻图片</span>
+		                    <div class="tableToolBox" style="border: 0;">
+		                        <div class="layui-form-item">
+		                            <input type="hidden" name="bak6" id="bak6" value="">
+		                            <div id="file_upload_img">
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top:100px;height:50px"> </div>
+            
+            
         </div>
     </form>
 </div>
@@ -107,15 +155,29 @@
             $("#sysFlag").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
         });
     });
-    ajaxPost('/dictionary/list/ROOT_XTGL_XWLX', null, function (data, status) {
+    /* ajaxPost('/dictionary/list/ROOT_XTGL_XWLX', null, function (data, status) {
         $.each(data, function (i, dt) {
             $("#stype").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
         });
-    });
+    }); */
     var id = "${id?default(0)}";
-    if (id != "0") {
+    if (id != "0") 
+    {
         $("#id").val(id);
     }
+    
+    
+   
+    
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var file_opt_flag = param.id;
+
+    var file_opt_flag2= param.id;
+    var file_ids2 = "bak6";
+    var file_edit_detail2 = "edit";
+    
+    
+    
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
         function () {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
@@ -124,6 +186,9 @@
                 myEditor = editor;
             });
             form.render(null, 'sysNews-form');
+            $("#bak6").val("${bak6}");
+            
+            
             laydate.render({
                 elem: '#publicDate'
                 , value: new Date()//必须遵循format参数设定的格式
@@ -151,6 +216,15 @@
                     layedit.sync(editIndex);
                 }
             }); */
+            
+            
+            form.on('select(stype)', function(data){
+    			  //alert(data.value);
+    			   var code=data.value;
+    			   initpic(code);
+    		   });
+            
+            $("#file_upload_img").load('/common/public/uploadlayuiload2.html');
 
             /* 监听指定开关 */
             form.on('switch(component-form-switchTest)', function (
@@ -170,6 +244,18 @@
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
                 data.field.content = myEditor.getData();
+                
+                var stype=  $("#stype").val();
+                var bakvv=  $("#bak6").val();
+                /* if(stype=='ROOT_XTGL_XWLX_XWTP')//新闻图片
+                {
+                	if(bakvv==null || bakvv=='')
+               		{
+                		 layer.alert("请上传新闻图片");
+                		 return false;
+               		}
+                } */
+                
                 ajaxPost("/sysNews/saveSysNews", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     // parent.layui.table.reload('sysNewsTableId', {where: {param: {}}});
@@ -184,6 +270,25 @@
                 parent.layer.close(index);
             })
         });
+    
+    
+    function initpic(code)
+    {
+    	
+    	   console.log("新闻图片:"+code);
+    	   if(code=='ROOT_XTGL_XWLX_XWTP')//新闻图片
+		   {
+			   $("#pic_id").show();
+			   $("#file_upload_img").show();
+		   }else
+		   {
+			   $("#pic_id").hide();
+			   $("#bak6").val("");
+			   $("#file_upload_img").hide();
+		   }
+    }
+    var code=$("#stype").val();
+    initpic(code);
 </script>
 </body>
 </html>

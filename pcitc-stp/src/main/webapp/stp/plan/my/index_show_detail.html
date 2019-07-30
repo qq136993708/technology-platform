@@ -83,14 +83,17 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-md2">
-                <div class="chart"></div>
-            </div>
+            <!--<div class="layui-col-md2">-->
+                <!--<div class="chart"></div>-->
+            <!--</div>-->
         </div>
     </div>
 
     <div class="task-view-cont">
-        <p>当前处理人</p>
+        <p>当前处理情况</p>
+        <div id = "sonlist">
+
+        </div>
     </div>
 </div>
 
@@ -154,10 +157,31 @@
             type: 'get',
             // dataType: 'json',
             async: false,
-            url: '/plan/tree-datas?dataId=1735a7e7572f4a3f82e8dc8943d45d0d'+"&pid=yyy",
-            // url: '/plan/tree-datas?dataId=' + dataId+"&pid=yyy",
+            // url: '/plan/tree-datas-list?dataId=8e222d5e6408404694e8dd20b15f186b',
+            // url: '/plan/tree-datas?dataId=8e222d5e6408404694e8dd20b15f186b',
+            url: '/plan/tree-datas?dataId=' + dataId+"&pid=yyy",
             success: function (data) {
+                data = eval(data);
                 console.log("tree");
+                console.log(data.length);
+                var html = "";
+                for (let i = 0; i < data.length; i++) {
+                    var obj = data[i];
+                    console.log(obj);
+                    var d = obj.name.split("|");
+                    html = html+"       <div class=\"item\">\n" +
+                        "                <div class=\"layui-col-sm5\">\n" +
+                        "                    <span>事项内容:</span>\n" +
+                        "                    <span>"+d[0]+"</span>\n" +
+                        "                </div>\n" +
+                        "                <div class=\"layui-col-sm7\">\n" +
+                        "                    <span>当前处理人:</span>\n" +
+                        "                    <span>"+d[1]+d[2]+"</span>\n" +
+                        "                </div>\n" +
+                        "            </div>";
+
+                }
+                $("#sonlist").html(html);
                 console.log(data);
             }
         });

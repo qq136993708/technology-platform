@@ -58,6 +58,7 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		}
 		LayuiTableData projects = intlProjectInfoService.selectProjectInfoByPage(p);
 		Set<String> pIds = new HashSet<String>();
+		pIds.add("xxx");
 		for(int i=projects.getData().size()-1;i>=0;i--) 
 		{
 			Map<String,Object> map = MyBeanUtils.java2Map(projects.getData().get(i));
@@ -91,7 +92,9 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		
 		//未过期 
 		//c.andEndDateGreaterThan(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
-		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		if(ordersb.length()>0) {
+			example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		}
 		return this.findByExample(param, example);
 	}
 	@Override
@@ -110,6 +113,7 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		}
 		LayuiTableData projects = intlProjectInfoService.selectProjectInfoByPage(p);
 		Set<String> pIds = new HashSet<String>();
+		pIds.add("xxx");
 		for(int i=projects.getData().size()-1;i>=0;i--) 
 		{
 			Map<String,Object> map = MyBeanUtils.java2Map(projects.getData().get(i));
@@ -142,7 +146,9 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		{
 			c.andProjectIdIn(new ArrayList<String>(pIds));
 		}
-		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		if(ordersb.length()>0) {
+			example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		}
 		return this.findByExample(param, example);
 	}
 	

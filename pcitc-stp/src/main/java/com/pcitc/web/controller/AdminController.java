@@ -39,6 +39,8 @@ import com.pcitc.base.stp.out.OutNotice;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysModule;
+import com.pcitc.base.system.SysNews;
+import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserShowConfig;
 import com.pcitc.base.util.CommonUtil;
@@ -50,6 +52,7 @@ import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.test.OAAPIRestFul;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
+import com.pcitc.web.utils.OtherUtil;
 import com.sinopec.siam.agent.common.SSOPrincipal;
 import com.sinopec.siam.agent.sp.config.SysConfig;
 
@@ -239,8 +242,13 @@ public class AdminController extends BaseController {
 			request.setAttribute("companyCode", companyCode);
 			String month = HanaUtil.getCurrentYearMoth();
 			request.setAttribute("month", month);
+			List<SysNews> sysNewsList=OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
+			request.setAttribute("sysNewsList", sysNewsList);
 			return "/oneLevelMain";
 		} else {
+			
+			List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+			request.setAttribute("list", list);
 			return "/index";
 		}
 	}
@@ -375,6 +383,9 @@ public class AdminController extends BaseController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		request.setAttribute("userId", rsUser.getUserId());
+		
+		List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+		request.setAttribute("list", list);
 		return "/index";
 	}
 
@@ -490,8 +501,12 @@ public class AdminController extends BaseController {
 				request.setAttribute("companyCode", companyCode);
 				String month = HanaUtil.getCurrentYearMoth();
 				request.setAttribute("month", month);
+				List<SysNews> sysNewsList=OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
+				request.setAttribute("sysNewsList", sysNewsList);
 				return "/oneLevelMain";// leaderIndex
 			} else {
+				List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+				request.setAttribute("list", list);
 				return "/index";
 			}
 		} else {
@@ -557,9 +572,12 @@ public class AdminController extends BaseController {
 				request.setAttribute("companyCode", companyCode);
 				String month = HanaUtil.getCurrentYearMoth();
 				request.setAttribute("month", month);
+				List<SysNews> sysNewsList=OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
+				request.setAttribute("sysNewsList", sysNewsList);
 				return "/oneLevelMain";// leaderIndex
 			} else {
-
+				List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+				request.setAttribute("list", list);
 				return "/index";
 			}
 		}
@@ -677,6 +695,7 @@ public class AdminController extends BaseController {
 		map.put("workOrderAllotUserId", sysUserInfo.getUserId());
 		map.put("workOrderStatus", "1");
 		map.put("isSchedule", "0"); //只显示未定时的
+		map.put("isChildren", "1");
 		param.setParam(map);
 		param.setLimit(10); // 首页不能过多显示
 		HttpEntity<LayuiTableParam> entityMy = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);

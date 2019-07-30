@@ -33,6 +33,20 @@ public class SysNotice extends DataTableInfo {
 	private Integer isVariable;
 
 	private Integer userNoticeStatus;
+	
+	private String isTopRoll;
+	
+	
+	
+	
+
+	public String getIsTopRoll() {
+		return isTopRoll;
+	}
+
+	public void setIsTopRoll(String isTopRoll) {
+		this.isTopRoll = isTopRoll;
+	}
 
 	public String getNoticeId() {
 		return noticeId;

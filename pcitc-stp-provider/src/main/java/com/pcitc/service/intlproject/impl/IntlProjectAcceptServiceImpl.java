@@ -90,8 +90,9 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 		{
 			criteria.andProjectIdIn(new ArrayList<String>(pIds));
 		}
-		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
-		
+		if(ordersb.length()>0) {
+			example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		}
 		return this.findByExample(param, example);
 	}
 
@@ -149,7 +150,9 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 		{
 			criteria.andProjectIdIn(new ArrayList<String>(pIds));
 		}
-		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		if(ordersb.length() >0) {
+			example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		}
 		return findProjectByExample(param,example);
 	}
 	

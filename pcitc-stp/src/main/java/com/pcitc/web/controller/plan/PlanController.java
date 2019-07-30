@@ -75,6 +75,8 @@ public class PlanController extends BaseController {
 
 	private static final String TREE_DATA = "http://pcitc-zuul/system-proxy/planClient-provider/tree-data";
 
+	private static final String TREE_DATA_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/tree-data-list";
+
 
 
     /**
@@ -814,13 +816,24 @@ public class PlanController extends BaseController {
 	}
 
 
+    @RequestMapping(value = "/plan/tree-datas-list")
+    @ResponseBody
+    public String getZjkMsgConfigTreeDatasList(HttpServletRequest request) throws Exception {
+        JSONObject o = new JSONObject();
+        o.put("dataId",request.getParameter("dataId"));
+        o.put("pid",request.getParameter("pid"));
+        List list = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<JSONObject>(o,this.httpHeaders), List.class).getBody();
+        return JSONUtils.toJSONString(list);
+    }
+
     @RequestMapping(value = "/plan/tree-datas")
     @ResponseBody
     public String getZjkMsgConfigTreeDatas(HttpServletRequest request) throws Exception {
         JSONObject o = new JSONObject();
         o.put("dataId",request.getParameter("dataId"));
         o.put("pid",request.getParameter("pid"));
-        JSONObject object = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<JSONObject>(o,this.httpHeaders), JSONObject.class).getBody();
-        return JSONUtils.toJSONString(object.get("list"));
+        String object = this.restTemplate.exchange(TREE_DATA_LIST, HttpMethod.POST, new HttpEntity<JSONObject>(o,this.httpHeaders), String.class).getBody();
+        return object;
+//        return JSONUtils.toJSONString(object.get("list"));
     }
 }
