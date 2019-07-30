@@ -116,18 +116,19 @@
 <script>
     layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods','element'], function () {
         var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods,element=layui.element;
+        var param = JSON.parse(window.localStorage.getItem("param"));
         //国家级
         function renderTable(id,url,where) {
             var lodingMsg = layer.msg('数据加载中....');
             //渲染
             table.render({
-                elem : '#'+id,
-                url : url,
-                method : "get",
-                where : where,
-                limit : 10,
-                id : id,
-                height : commonDislodgeTable()-200,
+            	elem: '#'+id,
+ 	            url: url,
+ 	            limit : param.selfRownum,
+ 	            method:"POST",
+ 	            where: where,
+ 	        	id: id,
+ 	            height: commonDislodgeTable(),
                 page : {
                     groups : 5,
                     limits : [ 10, 15, 30, 45, 60 ],
@@ -157,18 +158,19 @@
             });
             $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
         }
-        renderTable("exploration",'/layuiadmin/json/json1.json',{param:{"bak1":"国家级研发机构"}});
-        renderTable("refine",'/layuiadmin/json/json2.json',{param:{"bak1":"国家级研发机构"}});
-        renderTable("chemical",'/layuiadmin/json/json3.json',{param:{"bak1":"国家级研发机构"}});
-        renderTable("technology",'/layuiadmin/json/json4.json',{param:{"bak1":"国家级研发机构"}});
+       
+        renderTable("exploration","/laboratoryBase/getTableData",{param:{"bak1":"勘探开发"}});
+        renderTable("refine",'/laboratoryBase/getTableData',{param:{"bak1":"石油炼制"}});
+        renderTable("chemical",'/laboratoryBase/getTableData',{param:{"bak1":"石油化工"}});
+        renderTable("technology",'/laboratoryBase/getTableData',{param:{"bak1":"公共技术"}});
         publicMethods.ajaxAsyncPost("/laboratoryBase/listByBak1",{"bak1":"国家级研发机构"}, function (data) {
             var number=data.length;
             $.each(data,function(i,d){
                 var html ='<div>'+
-                    '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+d.dataId+'" target="_blank">'+
+                    /* '<a href="/instituteIndex?url=/laboratoryBase/laboratoryBaseDetails/'+d.dataId+'" target="_blank">'+ */
                     '<span class="layui-lab-span">'+d.orgName+'</span>'+
                     '<span class="layui-text-span">依托单位：'+d.dependentUnit+'</span>'+
-                    '</a>'+
+                    /* '</a>'+ */
                     '</div>';
                 $("#countryUnit").append(html);
                 if(i==(number-1)){
