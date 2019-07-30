@@ -430,4 +430,15 @@ public class PlanClient {
         }
         return list;
     }
+
+    @RequestMapping(value = "/planClient-provider/selectListPlan", method = RequestMethod.POST)
+    public String selectListPlan(@RequestBody JSONObject jsonObject) {
+        String list = "";
+        try {
+            list = planBaseService.selectListPlan(jsonObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

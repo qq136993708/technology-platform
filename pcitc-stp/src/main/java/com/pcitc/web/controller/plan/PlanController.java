@@ -75,7 +75,10 @@ public class PlanController extends BaseController {
 
 	private static final String TREE_DATA = "http://pcitc-zuul/system-proxy/planClient-provider/tree-data";
 
+
 	private static final String TREE_DATA_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/tree-data-list";
+
+	private static final String selectListPlan = "http://pcitc-zuul/system-proxy/planClient-provider/selectListPlan";
 
 
 
