@@ -23,6 +23,7 @@ import com.pcitc.base.stp.IntlProject.IntlProjectApplyPlantExample;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.common.SortByFinal;
 import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.mapper.IntlProject.IntlProjectApplyMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectApplyPlantMapper;
@@ -169,7 +170,9 @@ public class IntlProjectApplyServiceImpl implements IntlProjectApplyService {
 			criteria.andUnitIdEqualTo(param.getParam().get("unitId").toString());
 		}
 		criteria.andApplyIdNotIn(applyIds);
-		example.setOrderByClause("report_year desc,unit_id asc");
+		System.out.println(SortByFinal.getYjyCodeStrDesc());
+		example.setOrderByClause("report_year desc,FIELD(unit_id,"+SortByFinal.getYjyCodeStrDesc()+")");
+		
 		return findByExample(param, example);
 	}
 
@@ -220,6 +223,8 @@ public class IntlProjectApplyServiceImpl implements IntlProjectApplyService {
 			example.setOrderByClause(param.getOrderClause());
 		}
 		example.setOrderByClause("report_year desc,unit_id asc");
+		//System.out.println(SortByFinal.getYjyCodeStr());
+		//example.setOrderByClause("report_year desc,FIELD(unit_id,"+SortByFinal.getYjyCodeStr()+")");
 		return findByExample(param,example);
 	}
 	@Override

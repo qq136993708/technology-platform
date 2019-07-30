@@ -12,6 +12,8 @@ public interface OutStandardDataService
 	
 	public OutStandardData selectOutStandardData(String dataId);
 	
+	public OutStandardData selectOutStandardDataById(String id);
+	
 	public Result saveOutStandardData(OutStandardData bean) throws Exception;
 
 	public Result updateOutStandardData(OutStandardData bean) throws Exception;

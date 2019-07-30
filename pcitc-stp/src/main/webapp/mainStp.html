@@ -668,6 +668,13 @@
 						//parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
 					});
 
+					$("#out_standarddata_main").on("click", function() {
+						if(outStandardDataCount > 0)
+						{
+							parent.layui.index.openTabsPage("/out/out_standarddata_main?userLevel=1", "标准化");
+						}
+					});
+
 					$("#equipment").on("click", function() {
 						parent.layui.index.openTabsPage("/home_device_02/zyc/equipment?userLevel=0", "新开装备课题");
 					});
