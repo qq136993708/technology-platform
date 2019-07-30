@@ -13,12 +13,10 @@ import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseExample;
 import com.pcitc.base.system.StandardBase;
 import com.pcitc.base.system.SysFile;
-import com.pcitc.base.util.ExcelReadUtil;
-import com.pcitc.base.util.IdUtil;
-import com.pcitc.base.util.Point;
-import com.pcitc.base.util.TreeNodeUtil;
+import com.pcitc.base.util.*;
 import com.pcitc.mapper.plan.PlanBaseMapper;
 import com.pcitc.service.plan.PlanBaseService;
+import com.pcitc.service.plan.PlanService;
 import com.pcitc.service.system.StandardBaseService;
 import com.pcitc.service.system.SysFileService;
 import com.pcitc.utils.OSSUtil;
@@ -230,10 +228,26 @@ public class PlanBaseServiceImpl implements PlanBaseService {
         return orderNodes;
     }
 
+    @Autowired
+    private PlanService planService;
+
     public List<PlanBase> selectSonPlanBasesByCreateUserId(JSONObject jsonObject) {
         Map<String, Object> map = new HashMap<>();
         map.put("createUserId", jsonObject.get("createUserId"));
-        return planBaseMapper.selectSonPlanBasesByCreateUserId(map);
+        List<PlanBase> planBases = planBaseMapper.selectSonPlanBasesByCreateUserId(map);
+
+        for (int i = 0; i < planBases.size(); i++) {
+            PlanBase vo = planBases.get(i);
+            if (StrUtil.isNullEmpty(vo.getParentId())&&StrUtil.isNullEmpty(vo.getBl())){
+                com.alibaba.fastjson.JSONObject obj = new com.alibaba.fastjson.JSONObject();
+                obj.put("dataId",vo.getDataId());
+                String s = planService.selectListPlan(obj);
+                vo.setBl(s);
+            }
+            }
+
+        return planBases;
+
     }
 
     @Autowired
@@ -335,9 +349,9 @@ public class PlanBaseServiceImpl implements PlanBaseService {
             return jsonObject;
         }
     }
-    
+
     /**
-     * 统计首页中上周、本周的工作任务情况 
+     * 统计首页中上周、本周的工作任务情况
      */
     public HashMap<String, String> getWorkOrderInfoForStat(HashMap<String, String> map) {
     	return planBaseMapper.getWorkOrderInfoForStat(map);

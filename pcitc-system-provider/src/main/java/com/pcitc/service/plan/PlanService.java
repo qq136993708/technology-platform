@@ -56,9 +56,11 @@ public interface PlanService {
     public String selectTreeData(JSONObject jsonObject) throws Exception;
 
     public List selectTreeDataList(JSONObject jsonObject);
-    
     /**
      * 领导页的任务督办
      */
     public LayuiTableData getWorkOrderForLeader(LayuiTableParam param);
+
+    public String selectListPlan(JSONObject jsonObject);
+
 }

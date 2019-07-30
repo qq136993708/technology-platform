@@ -47,6 +47,12 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public PlanBase findBotWorkOrderById(String dataId) {
         PlanBase vo = planBaseMapper.selectByPrimaryKey(dataId);
+        JSONObject obj = new JSONObject();
+        obj.put("dataId",dataId);
+        String s = selectListPlan(obj);
+        if (StrUtil.isNullEmpty(vo.getParentId())&&StrUtil.isNullEmpty(vo.getBl())){
+            vo.setBl(s);
+        }
         return vo;
     }
 
@@ -518,8 +524,8 @@ public class PlanServiceImpl implements PlanService {
         return records.stream().filter(e -> parentId.equals(e.getDataId())).collect(Collectors.toList());
     }
 
-    public List<PlanBase> selectListPlan(JSONObject jsonObject){
-        String dataId = jsonObject.get("dataid").toString();
+    public String selectListPlan(JSONObject jsonObject){
+        String dataId = jsonObject.get("dataId").toString();
         PlanBase planBase = planBaseMapper.selectByPrimaryKey(dataId);
         String workOrderCode = planBase.getWorkOrderCode();
         //查询所有子节点
@@ -527,27 +533,29 @@ public class PlanServiceImpl implements PlanService {
         PlanBaseExample.Criteria criteria = e.createCriteria();
         criteria.andWorkOrderCodeEqualTo(workOrderCode);
         criteria.andParentIdNotEqualTo("");
+        e.setOrderByClause("create_date desc");
         List<PlanBase> planBases = planBaseMapper.selectByExample(e);
+        return planBases.get(0).getBl();
         //
 
-
-        List<TreeNode> nodes = new ArrayList<TreeNode>();
-
-        //父节点分组
-
-        for (PlanBase record : planBases) {
-            TreeNode node = new TreeNode();
-            node.setId(record.getDataId());
-            node.setParentId(record.getParentId());
-            node.setName((StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl())+"-"+record.getAnnouncements());//完成比例-权重
-            nodes.add(node);
-        }
-        List<TreeNode> list = new ArrayList<>();
-        List<TreeNode> orderNodes = getChildrenNode(planBase.getDataId(), nodes, list);
-
-        //计算比例
-        //返回
-        return null;
+//
+//        List<TreeNode> nodes = new ArrayList<TreeNode>();
+//
+//        //父节点分组
+//
+//        for (PlanBase record : planBases) {
+//            TreeNode node = new TreeNode();
+//            node.setId(record.getDataId());
+//            node.setParentId(record.getParentId());
+//            node.setName((StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl())+"-"+record.getAnnouncements());//完成比例-权重
+//            nodes.add(node);
+//        }
+//        List<TreeNode> list = new ArrayList<>();
+//        List<TreeNode> orderNodes = getChildrenNode(planBase.getDataId(), nodes, list);
+//
+//        //计算比例
+//        //返回
+//        return null;
     }
 
     public String selectTreeData(JSONObject jsonObject){
