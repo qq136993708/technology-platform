@@ -31,12 +31,12 @@
 	         <span>规划类型</span>
 	         <select name="publicationType"  id="publicationType"  class="form-control"  style = "width:140px;" >
 	             <option value="" >--请选择--</option>
-			     <option value="研究院中长期规划">研究院中长期规划</option>
-			     <option value="研究室中长期规划">研究室中长期规划</option>
-			     <option value="课题中长期规划">课题中长期规划</option>
-			     <option value="研究院滚动计划">研究院滚动计划</option>
-			     <option value="研究室滚动计划">研究室滚动计划</option>
-			     <option value="课题滚动计划">课题滚动计划</option>
+			     <option value="1">研究院中长期规划</option>
+			     <option value="2">研究室中长期规划</option>
+			     <option value="3">课题中长期规划</option>
+			     <option value="4">研究院滚动计划</option>
+			     <option value="5">研究室滚动计划</option>
+			     <option value="6">课题滚动计划</option>
 			 </select>
 	 </label>
 	 <label class="dateInput">
@@ -131,6 +131,7 @@
             return '';
         }
     }
+    
 </script>
 <!--表格数据操作js-->
 
@@ -142,12 +143,13 @@ $('#functionId').val(functionId);
 var publicMethods;
 var name=$('#name').val();
     layui.use(['jquery','table','laypage','layer','laytpl','laydate',"publicMethods"], function(){
-           table = layui.table,
-            $ = layui.jquery,
-            layer = layui.layer,
-            laydate = layui.laydate,
-            laypage = layui.laypage;
-           publicMethods=layui.publicMethods;
+    	  table = layui.table,
+          $ = layui.jquery,
+          layer = layui.layer,
+          laydate = layui.laydate,
+          form = layui.form,
+          laypage = layui.laypage;
+          publicMethods=layui.publicMethods;
 	     //加载表格      
 	     renderTable();
 	     
@@ -217,6 +219,27 @@ var name=$('#name').val();
 		         			});
 	           	}
              
+           },
+           detailEvent: function(){  //点击查看按钮
+           	if (typeof(selectRowData) == "undefined") {
+           		layer.msg('请点击选择一行数据');
+           	} else {
+           		 var id=selectRowData.id;
+           		 var temUrl="/sre-planImplement/view/"+id;
+           		 layer.open({
+                        title:'规划发布-查看',
+                        skin: 'layui-layer-lan',
+                        shadeClose: true,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                         area: ['70%', '90%'],
+                        content:  temUrl
+                    });
+           	}
+           
            }
             
         };
@@ -238,8 +261,7 @@ var name=$('#name').val();
       
         //监听表格双击事件
         table.on('rowDouble(processdef-table)', function(obj){
-        	var temUrl = '/sre-forapplication/get/'+obj.data.applicationId;
-        	openFullWin("详情",temUrl);
+        	 window.location.href='/sre-planImplement/planImplementView/'+obj.data.id;
         });
         
         
@@ -251,28 +273,7 @@ var name=$('#name').val();
             active[type] ? active[type].call(this) : '';
         });
 
-         
-        
-        
     });
-    
-    function view(applicationId) 
-    {
-    	var temUrl="/sre-forapplication/get/"+applicationId;
-		 layer.open({
-            title:'详情',
-            skin: 'layui-layer-lan',
-            shadeClose: true,
-            type: 2,
-            fixed: false,
-            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-            maxmin: true,
-            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-             area: ['70%', '90%'],
-            content:  temUrl
-        });
-    }
-    
     
     
     
@@ -298,8 +299,9 @@ var name=$('#name').val();
            },
            cols: [[
            	   {type : 'checkbox', event : 'changeEvents', width : 55},
+               {title : '序号', type :'numbers', width : 55},
+           	   {field : 'publicationTitle',     title : '规划标题', sort : true,style : 'cursor: pointer;', align : 'center', width : '35%',templet:function(d){return '<span onclick="view_publicationTitle(\''+d.id+'\')" style="color:#1890ff">'+d.publicationTitle+'</span>'}},
            	   {field : 'researchinstitute',     title : '研究院', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
-           	   {field : 'publicationTitle',     title : '规划标题', sort : true,style : 'cursor: pointer;', align : 'center', width : '35%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.publicationTitle+'</span>'}},
            	   {field : 'publicationType', title : '规划类型', sort : true,style : 'cursor: pointer;', align : 'center', width : '15%' ,templet : '#puype'},
            	   {field : 'publisher', title : '发布人',sort : true, style : 'cursor: pointer;', align : 'left', width : '10%'},
            	   {field : 'publicationState', title : '发布状态', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%',templet : '#state'},
@@ -314,24 +316,12 @@ var name=$('#name').val();
                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                    selectRowData=res.data[index-1];
-                  
+                   var auditStatus=selectRowData.auditStatus;
+                   //alert(auditStatus);
                });
-               //项目分类，项目性质
-               var dicMap = ['ROOT_ZBGL_ZBFL'];
-               var dicVal = {};
-				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
-					$.each(data,function(key,val){
-						$.each(val,function(i,dt){
-							dicVal[dt.code] = dt.name;
-						});
-					});
-			   	}); 
-				$.each(res.data,function(i,dt){
-					$("tr[data-index='"+i+"'] td[data-field='nationality'] div").html(dicVal[res.data[i].nationality]); 
-			   	});
            }
        });
-       $(".layui-table-header table thead th input").remove();
+       $(".layui-table-header table thead th input").remove()
     }
     
     
@@ -376,90 +366,6 @@ var name=$('#name').val();
         
       });
     } 
-    
-    function dealFlow(id)
-    {
-        var json = {functionId:functionId};
-    	 $.ajax({
-             type : 'POST',
-             url : "/workflow/start/audit-type",
-             contentType: "application/json;charset=UTF-8",
-             data : JSON.stringify(json),
-             //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
-             success : function(data)
-             {console.log(data)
-          	   if (data.code == 'role')
-          	   {
-              		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-              		// roleCodes，参数名必须一致，方便公共弹出页面调用
-              		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
-              		  var temUrl="/task/deal/users/ini";
-                      layer.open({
-                          title:'选择审批人',
-                          skin: 'layui-layer-lan',
-                          shadeClose: true,
-                          type: 2,
-                          fixed: false,
-                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                          maxmin: true,
-                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: [ '100%', '100%' ],
-                          content:  temUrl
-                      });
-              	} else if (data.code == 'unit' || data.code == 'post') 
-              	{
-              		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-              		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
-    	          		if (data.code == 'unit') 
-    	          		{
-    	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
-    	          		} else 
-    	          		{
-    	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
-    	          		}
-              		
-              		   var temUrl="/task/deal/user/unit/ini";
-                       layer.open({
-                          title:'选择审批人',
-                          skin: 'layui-layer-lan',
-                          shadeClose: true,
-                          type: 2,
-                          fixed: false,
-                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                          maxmin: true,
-                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: [ '100%', '100%' ],
-                          content:  temUrl
-                      });
-              	} else if (data.code == 'int') 
-              	{
-              		layer.msg('启动参数不足');
-              	} else if (data.code == 'con') 
-              	{
-              		layer.msg('请给此功能菜单配置流程');
-              	} else if (data.code == 'exist') 
-              	{
-              		layer.msg('工作流部署异常，请联系管理员');
-              	} else 
-              	{
-              		// 直接处理此任务
-              		handleTask('');
-              	}
-             },
-             error : function(msg) {//请求失败处理函数  
-            }
-         });
-    }
-
-    //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
-   function handleTask(userIds)
-   {
-       $('#userIds').val(userIds);
-       var v_date=(new Date()).getTime();
-       var url="/sre-forapplication/forapplication_workflow?v_date="+v_date;
-       var backurl="/sre-forapplication/to-list?v_date="+v_date;
-       ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-   }
    
    function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
    {
