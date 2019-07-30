@@ -19,15 +19,18 @@
 </head>
 <body>
 <div class="top">
-    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-this" onclick="index_page('/plan/my/goEditPlanDetailIndex_cl?dataId=${dataId}')">处理</button>
-    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_xf?dataId=${dataId}')">下发</button>
-    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_zf?dataId=${dataId}')">转发</button>
+    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-this" onclick="index_page('/plan/my/goEditPlanDetailIndex_cl?dataId=${dataId}')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;处理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_xf?dataId=${dataId}')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_zf?dataId=${dataId}')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
     <script>
         function index_page(url) {
             window.location.href=url;
         }
     </script>
 </div>
+
 	<div class="form_tableAdd_container">
 		<form id="workOrderForm" action="" lay-filter="functiongroup-form" class="form-horizontal layui-form">
 			<div class="formBox">
