@@ -630,13 +630,17 @@ public class OutProjectPlanClient {
 						} else {
 							ysMoney.put("zRate", Double.parseDouble(ysMoney.get("zsjje").toString()) * 100 / Double.parseDouble(ysMoney.get("zysje").toString()));
 						}
+						
+						System.out.println(ysMoney.get("show_ali")+"====ysMoney.get()-----------"+ysMoney.get("zsjje"));
 						break;
 					}
 				}
 			}
 			
 			for (int k = 0; k < ysMoneyList.size(); k++) {
+				
 				Map<String, Object> ysMoney = (Map<String, Object>) ysMoneyList.get(k);
+				System.out.println("ysMoney.get()-----------"+ysMoney.get("zsjje"));
 				ysMoney.put("fyxysje", ysMoney.get("fyxysje") == null ? "0" : ysMoney.get("fyxysje"));
 				ysMoney.put("fyxsjje", ysMoney.get("fyxsjje") == null ? "0" : ysMoney.get("fyxsjje"));
 				ysMoney.put("fyxRate", ysMoney.get("fyxRate") == null ? "0" : ysMoney.get("fyxRate"));
@@ -774,12 +778,14 @@ public class OutProjectPlanClient {
 			ysMoney.put("zbxRate", ysMoney.get("zbxRate") == null ? "0" : ysMoney.get("zbxRate"));
 			
 			ysMoney.put("zysje", Double.valueOf(ysMoney.get("fyxysje").toString())+Double.valueOf(ysMoney.get("zbxysje").toString()));
-			ysMoney.put("zsjje", Double.valueOf(ysMoney.get("zbxsjje").toString())+Double.valueOf(ysMoney.get("zbxsjje").toString()));
+			ysMoney.put("zsjje", Double.valueOf(ysMoney.get("fyxsjje").toString())+Double.valueOf(ysMoney.get("zbxsjje").toString()));
 			if (ysMoney.get("zysje").toString().equals("0")) {
 				ysMoney.put("zRate", 0);
 			} else {
 				ysMoney.put("zRate", Double.parseDouble(ysMoney.get("zsjje").toString()) * 100 / Double.parseDouble(ysMoney.get("zysje").toString()));
 			}
+			
+			System.out.println("zsjje========" + ysMoney.get("zsjje"));
 		}
 		
 		retList = budMoneyList;

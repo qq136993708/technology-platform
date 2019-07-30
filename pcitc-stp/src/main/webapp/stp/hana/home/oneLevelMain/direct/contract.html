@@ -31,11 +31,10 @@
 .layui-card-body td:nth-child(3) .layui-table-cell {
 	color: green;
 }
+
 .layui-card-body td:nth-child(6) .layui-table-cell {
 	color: orange;
 }
-
-
 </style>
 </head>
 <body>
@@ -50,7 +49,7 @@
 				<div class="searchBox">
 					<label class="dateInput">
 						<span>年份</span>
-						<input type="text"  readonly="readonly" style="cursor:pointer"  name="month" name="year" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
+						<input type="text" readonly="readonly" style="cursor: pointer" name="month" name="year" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
 						<i class="layui-icon layui-icon-date" style="margin-left: -35px"></i>
 					</label>
 					<div class="btnGroup" style="margin-left: 10px">
@@ -64,7 +63,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院课题合同（任务书）签定率
+							<span class="layui-time"></span>
+							年直属研究院课题合同（任务书）签定率
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -97,7 +97,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院课题合同（任务书）数量占比
+							<span class="layui-time"></span>
+							年直属研究院课题合同（任务书）数量占比
 						</div>
 						<div class="layui-card-body btn-function">
 							<div class="processdef_table">
@@ -111,7 +112,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年课题合同（任务书）签订率
+							<span class="layui-time"></span>
+							年课题合同（任务书）签订率
 						</div>
 						<div class="layui-row-main">
 
@@ -142,7 +144,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院课题合同（任务书）数量占比
+							<span class="layui-time"></span>
+							年直属研究院课题合同（任务书）数量占比
 						</div>
 						<div class="layui-card-body btn-function">
 							<div id="processdef_tableN">
@@ -270,7 +273,7 @@
 			$("#contract_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#contract_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
-			var chart1_url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + $('#year').val() + "&v_date=" + v_date+"&define3=研究院";
+			var chart1_url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + $('#year').val() + "&v_date=" + v_date + "&define3=研究院";
 			var color = [ "#43c5ff", "#ffa70f" ];
 			var echart1 = load_single_bar_down(chart1_url, "contract_chart1", "", "", yAxis, color);
 			echart1.on('click', function(params) {
@@ -283,7 +286,7 @@
 			});
 
 			// 直属研究院课题合同（任务书）签定率  ,  饼状圈
-			var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + $('#year').val() + "&v_date=" + v_date+"&define3=研究院";
+			var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + $('#year').val() + "&v_date=" + v_date + "&define3=研究院";
 			var echart2 = loadCicle(url, "contract_chart1_02_02");
 			echart2.on('click', function(params) {
 				var xName = params.name;
@@ -292,7 +295,7 @@
 
 			});
 
-			var chart4_url = "/direct/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + $('#year').val() + "&v_date=" + v_date+"&define3=研究院";
+			var chart4_url = "/direct/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + $('#year').val() + "&v_date=" + v_date + "&define3=研究院";
 			var colorTr = [ "#9DD783", "#4FAAEC", "#f9c16d" ];
 			var echart4 = load_mutl_bar_down_r(chart4_url, "contract_chart4", "", "", yAxis, 1, 25, colorTr);
 			echart4.on('click', function(params) {
@@ -381,22 +384,21 @@
 						var index = parseInt($(this).index() + 1);
 						var selectRowData = res.data[index - 1];
 						if ($(this).find(".layui-icon").length <= 0) {
-							
+
 							var xName = selectRowData.name;
-                            if (xName == '油田处') {
+							if (xName == '油田处') {
 								xName = '科技部';
 							}
-                            alert(selectRowData.extend04);
-					
+							alert(selectRowData.extend04);
+
 							if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
-								var url = encodeURIComponent("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&define1="+selectRowData.extend04+"&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+								var url = encodeURIComponent("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&define1=" + selectRowData.extend04 + "&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 								window.open("/instituteIndex?url=" + url);
 							} else {
-								var url = encodeURIComponent("/one_level_main/common_table_new?zycbmFlag=" + xName + "&define1="+selectRowData.extend04+"&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+								var url = encodeURIComponent("/one_level_main/common_table_new?zycbmFlag=" + xName + "&define1=" + selectRowData.extend04 + "&define12=直属研究院&define11=股份公司&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 								window.open("/instituteIndex?url=" + url);
 							}
-							
-							
+
 						}
 
 					});
@@ -488,7 +490,9 @@
 				dataType : "json",
 				timeout : 11000,
 				cache : false,
-				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				headers : {
+					'Content-Type' : 'application/json'
+				},
 				success : function(data, status) {
 					if (data.success == true || data.success == 'true') {
 						echartsobj.hideLoading();
