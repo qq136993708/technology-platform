@@ -48,9 +48,20 @@
 	</style>
 	<script type="text/javascript">
 	var table,selectRowData,renderfunc;
-    layui.use(['jquery','table','laypage',"publicMethods"], function(){
-    	var $ = layui.jquery, element = layui.element, layer = layui.layer,publicMethods=layui.publicMethods;
+    layui.use(['jquery','table','laypage','laydate',"publicMethods"], function(){
+    	var $ = layui.jquery, element = layui.element, layer = layui.layer,publicMethods=layui.publicMethods, laydate = layui.laydate;
     	table = layui.table;
+    	
+    	var dicVal = {};
+		laydate.render({elem: '#reportYear',type: 'year'});
+    	publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(['ROOT_ZGSHJT_GFGS_ZSYJY'])}, function (data) {
+			$.each(data,function(key,val){
+				$.each(val,function(i,dt){
+					dicVal[dt.code] = dt.name;
+					$("#ROOT_ZGSHJT_GFGS_ZSYJY").append('<option value="'+dt.code+'">'+dt.name+'</option>');
+				});
+			});
+	   	});
     	window.renderTable = function(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		var param = JSON.parse(window.localStorage.getItem("param"));
@@ -74,7 +85,8 @@
 	            	 {type:'checkbox'}
 	            	,{title:'序号', type:'numbers' ,width : 55}
 	                ,{field:'projectName',   title:'项目名称',    width: '25%',  style:'cursor: pointer;',align:"left"}
-	                ,{field:'projectCode',title:'项目编码',	width: '15%',   style:'cursor: pointer;'}
+	                ,{field:'reportYear',   title:'申报年度', width: '8%',  style:'cursor: pointer;',align:"center"}
+	            	,{field:'unitId',   title:'所属研究院', width: '10%',  style:'cursor: pointer;',align:"center"}
 	                ,{field:'startDate',title:'开始日期',	width: '10%',   style:'cursor: pointer;'}
 	                ,{field:'endDate',title:'完工日期',	width: '10%',   style:'cursor: pointer;'}
 	                ,{field:'moneyRmb',   title:'计划投资(万元)',   width: '15%',  style:'cursor: pointer;',align:"right"}
@@ -96,6 +108,8 @@
 		            	publicMethods.ajaxAsyncPost('/project/get-apply', {"applyId":res.data[i].applyId}, function (data, status) {
 		            		//$("tr[data-index='"+i+"'] td[data-field='applyId'] div").html(data.applyName);
 		            		$("tr[data-index='"+i+"'] td[data-field='moneyRmb'] div").html(data.moneyRmb);
+		            		$("tr[data-index='"+i+"'] td[data-field='reportYear'] div").html(data.reportYear);
+		            		$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(dicVal[data.unitId]);
 		            		
 			            });
 		            });
@@ -116,10 +130,19 @@
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
-                renderTable({param: {"projectName":$("#projectName").val()}});
+                //renderTable({param: {"projectName":$("#projectName").val()}});
+                renderTable({
+            		param: {
+            			"projectName":$("#projectName").val(),
+            			"reportYear":$("#reportYear").val(),
+        				"unitId":$("#ROOT_ZGSHJT_GFGS_ZSYJY").val()
+            		}
+            	});
             },resetEvent: function() { 
             	//点击重置按钮
                 $("#projectName").val("");
+                $("#reportYear").val("");
+                $("#ROOT_ZGSHJT_GFGS_ZSYJY").val("");
                 renderTable({param: {"projectName":$("#projectName").val()}});
             },detailEvent:function(){
             	if(!selectRowData){
@@ -157,6 +180,16 @@
     <label class="dateInput">
         <span>项目名称</span>
         <input type="text" name="projectName" id="projectName" placeholder="请输入项目名称"  autocomplete="off" class="form-control">
+    </label>
+    <label class="dateInput">
+        <span>申报年度</span>
+        <input type="text" name="reportYear" id="reportYear" placeholder="" readonly="readonly" autocomplete="off" class="form-control">
+    </label>
+    <label class="dateInput">
+        <span>所属研究院</span>
+        <select name="unitId" id="ROOT_ZGSHJT_GFGS_ZSYJY" lay-verify="required"  lay-filter="unitId" class="form-control form-control1">
+            <option value="">请选择</option>
+        </select>
     </label>
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>

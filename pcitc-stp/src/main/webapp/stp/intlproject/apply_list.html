@@ -170,6 +170,8 @@
             },resetEvent: function() { 
             	//点击重置按钮
                 $("#applyName").val("");
+                $("#reportYear").val("");
+                $("#ROOT_ZGSHJT_GFGS_ZSYJY").val("");
                 renderTable({param: {"applyName":$("#applyName").val()},sorts:{"plant_money":"desc"}});
             },addEvent: function(){ 
             	//点击新增按钮

@@ -162,14 +162,13 @@
                 </div>
             </div>
             <div class="layui-col-md15">
-                <div class="layui-main-box">
+                <div class="layui-main-box" id="out_standarddata_main">
                     <span class="layui-box-icon bg-8"></span>
                     <div class="layui-box-content">
                         <span class="layui-box-text">标准化</span>
-                        <span class="layui-box-number">
-                                --
-                                <small>(个)</small>
-                            </span>
+                        <span class="layui-box-number" id="outStandardDataCount">
+                                0<small>(个)</small>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -250,7 +249,7 @@
 								</thead>
 								<tbody>
 									<#list taskList as taskList > <#if taskList?exists>
-									<tr>
+                                    <tr onclick="showTaskInfoDetail('${taskList.dataId}');">
 										<td style="text-align: center;">${taskList_index+1}</td>
 										<td style="text-align: center;">${taskList.workOrderAllotUserName}</td>
 										<td><div class="layui-table-cell-td1">${taskList.createDate}</div></td>
@@ -289,13 +288,22 @@
 										</tr>
 									</thead>
 									<tbody>
+
+
+                                    <!--<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>-->
+                                    <!--<link rel="stylesheet" href="/common/js/layer-v3.1.1/theme/default/layer.css">-->
+                                    <!--<script src="/common/js/layer-v3.1.1/layer.js"></script>-->
+
+
 										<#list taskListMy as taskList > <#if taskList?exists>
-										<tr>
+										<tr onclick="showTaskInfo('${taskList.dataId}');">
 											<td style="text-align: center;">${taskList_index+1}</td>
 											<td style="text-align: center;">${taskList.createUserName}</td>
 											<td><div class="layui-table-cell-td1">${taskList.createDate}</div></td>
 											<td><div class="layui-table-cell-td">${taskList.workOrderName}</div></td>
-											<td><span class="span-st ">已完成</span> <span class="span-st span-jx">进行中</span></td>
+											<td align="center">
+                                                <!--<span class="span-st ">已完成</span> -->
+                                                <span class="span-st span-jx">进行中</span></td>
 										</tr>
 										</#if> <#else>
 										<tr>
@@ -479,7 +487,8 @@
 				var lastWeekHaved = "0"; // 上周处理的工作总数
 				var thisWeekTotal = "0"; // 本周安排出去的工作总数
 				var thisWeekHaved = "0"; // 本周安排出去已经完成的工作
-
+				var intlProjectCount = 0;
+				var outStandardDataCount = 0;
 				/* $.post(url,"",function(data){
 				alert(data);
 				},"jsonp");
@@ -534,6 +543,26 @@
 							$("#intlProjectCount").html(data + "<small>(个)</small>");
 						}
 					});
+				}
+				function setOutStandardDataCount(nd) {
+						$.ajax({
+							type : 'POST',
+							url : "/out/out-standarddata-count",
+							dataType : 'json',
+							headers : {
+								'Content-Type' : 'application/json'
+							},
+							data : {
+								"nd" : nd
+							},
+							timeout : 20000,
+							error : function(XMLHttpRequest, status) {
+							},
+							success : function(data) {
+								outStandardDataCount = data;
+								$("#outStandardDataCount").html(data + "<small>(个)</small>");
+							}
+						});
 				}
 				function sendPost(url, type, callback) {
 					/* $.ajax({
@@ -739,6 +768,35 @@
 					$("#circleTwo").click(function() {
 						$("#listPlanPage")[0].click();
 					});
+
+					//start
+                    function showTaskInfo(dataId) {
+                        // layer.open({
+                        //     title : "任务处理",
+                        //     skin : 'layui-layer-lan',
+                        //     shadeClose : false,
+                        //     type : 2,
+                        //     fixed : false,
+                        //     maxmin : true,
+                        //     area : [ '80%', '90%' ],
+                        //     content : '/plan/my/goEditPlanDetailIndex_cl?dataId=' + dataId
+                        // });
+                    }
+                    window.showTaskInfo = showTaskInfo;
+                    function showTaskInfoDetail(dataId) {
+                        // layer.open({
+                        //     title : "任务处理",
+                        //     skin : 'layui-layer-lan',
+                        //     shadeClose : false,
+                        //     type : 2,
+                        //     fixed : false,
+                        //     maxmin : true,
+                        //     area : [ '80%', '90%' ],
+                        //     content : '/plan/my/index_show_detail?dataId=' + dataId
+                        // });
+                    }
+                    window.showTaskInfoDetail = showTaskInfoDetail;
+                    //end
 				});
 				function circle(id, value, number) {
 					$("#" + id).circleProgress({
@@ -767,6 +825,7 @@
 						appraisalCount(nd);//成果
 						setContcator_id(nd, v_date);//合同签订率
 						setIntlProjectCount(nd);
+						setOutStandardDataCount(nd);
 					}
 
 				}

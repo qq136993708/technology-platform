@@ -1615,7 +1615,12 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     public List<ZjkExpert> selectYsList() {
         ZjkExpertExample example = new ZjkExpertExample();
         ZjkExpertExample.Criteria c = example.createCriteria();
-        c.andBak3EqualTo("ZJK_ZJLX_YS");
+        List<String> list = new ArrayList<>();
+        list.add("ZJK_ZJLX_ZGKXYYS");
+        list.add("ZJK_ZJLX_ZGGCYYS");
+        c.andBak3In(list);
+
+//        c.andBak3In("ZJK_ZJLX_YS");
         c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode().toString());
         String[] sorts = new String[]{"陈俊武", "徐承恩", "李大东", "顾心怿", "汪燮卿", "毛炳权", "关兴亚", "袁晴棠", "何鸣元", "杨启业", "胡永康", "曹湘洪", "蒋士成", "舒兴田", "王基铭", "康玉柱", "马永生", "曹耀峰", "李阳", "金之钧", "戴厚良", "谢在库"};
 
