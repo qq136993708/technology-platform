@@ -490,6 +490,38 @@ public class PlanServiceImpl implements PlanService {
         return records.stream().filter(e -> parentId.equals(e.getDataId())).collect(Collectors.toList());
     }
 
+    public List<PlanBase> selectListPlan(JSONObject jsonObject){
+        String dataId = jsonObject.get("dataid").toString();
+        PlanBase planBase = planBaseMapper.selectByPrimaryKey(dataId);
+        String workOrderCode = planBase.getWorkOrderCode();
+        //查询所有子节点
+        PlanBaseExample e = new PlanBaseExample();
+        PlanBaseExample.Criteria criteria = e.createCriteria();
+        criteria.andWorkOrderCodeEqualTo(workOrderCode);
+        criteria.andParentIdNotEqualTo("");
+        List<PlanBase> planBases = planBaseMapper.selectByExample(e);
+        //
+
+
+        List<TreeNode> nodes = new ArrayList<TreeNode>();
+
+        //父节点分组
+
+        for (PlanBase record : planBases) {
+            TreeNode node = new TreeNode();
+            node.setId(record.getDataId());
+            node.setParentId(record.getParentId());
+            node.setName((StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl())+"-"+record.getAnnouncements());//完成比例-权重
+            nodes.add(node);
+        }
+        List<TreeNode> list = new ArrayList<>();
+        List<TreeNode> orderNodes = getChildrenNode(planBase.getDataId(), nodes, list);
+
+        //计算比例
+        //返回
+        return null;
+    }
+
     public String selectTreeData(JSONObject jsonObject){
         List<TreeNode> orderNodes = null;
         try {
@@ -501,7 +533,8 @@ public class PlanServiceImpl implements PlanService {
                 TreeNode node = new TreeNode();
                 node.setId(record.getDataId());
                 node.setParentId(record.getParentId());
-                node.setName(record.getWorkOrderAllotUserName() + "(" + (StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl()) + "%)");
+//                node.setName(record.getWorkOrderAllotUserName() + "(" + (StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl()) + "%)");
+                node.setName(record.getWorkOrderName()+"|"+record.getWorkOrderAllotUserName() + "|(" + (StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl()) + "%)"+"|"+record.getAnnouncements());
                 nodes.add(node);
             }
             //构建树形结构(从根节点开始的树形结构)
@@ -535,7 +568,7 @@ public class PlanServiceImpl implements PlanService {
                 TreeNode node = new TreeNode();
                 node.setId(record.getDataId());
                 node.setParentId(record.getParentId());
-                node.setName(record.getWorkOrderAllotUserName() + "(" + (StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl()) + "%)");
+//                node.setName(record.getWorkOrderAllotUserName() + "(" + (StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl()) + "%)");
                 nodes.add(node);
             }
             //构建树形结构(从根节点开始的树形结构)
@@ -544,14 +577,7 @@ public class PlanServiceImpl implements PlanService {
             PlanBase planBase = planBaseMapper.selectByExample(e).get(0);
             List<TreeNode> list = new ArrayList<>();
             //查找最大节点
-
             orderNodes = getChildrenNode(planBase.getParentId(), nodes,list);
-            TreeNode node = new TreeNode();
-            node.setId(planBase.getDataId());
-            node.setParentId(planBase.getParentId());
-            node.setName(planBase.getWorkOrderAllotUserName() + "(" + (StrUtil.isNullEmpty(planBase.getBl()) ? "0" : planBase.getBl()) + "%)");
-            orderNodes.add(node);
-            System.out.println("返回树尺寸:" + orderNodes.size());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -565,13 +591,25 @@ public class PlanServiceImpl implements PlanService {
             }
             if (jsonTreeData.getId().equals(parentId)) {
                 //获取父节点下的子节点
-                jsonTreeData.setNodes(getChildrenNode( jsonTreeData.getParentId(),treeDataList,newTreeDataList));
+                jsonTreeData.setNodes(getChildrenNodeList(jsonTreeData.getParentId(),treeDataList));
                 newTreeDataList.add(jsonTreeData);
             }
         }
         return newTreeDataList;
     }
-
+    public static List<TreeNode> getChildrenNodeList(String parentId, List<TreeNode> treeDataList) {
+        List<TreeNode> newTreeDataList = new ArrayList<TreeNode>();
+        for (TreeNode jsonTreeData : treeDataList) {
+            if (jsonTreeData.getParentId() == null || "".equals(jsonTreeData.getParentId())) {
+                continue;
+            }
+            //这是一个子节点
+            if (jsonTreeData.getParentId().equals(parentId)) {
+                newTreeDataList.add(jsonTreeData);
+            }
+        }
+        return newTreeDataList;
+    }
     public static List<TreeNode> getChildrenNode(String parentId, List<TreeNode> treeDataList,List<TreeNode> newTreeDataList) {
 //        List<TreeNode> newTreeDataList = new ArrayList<TreeNode>();
         for (TreeNode jsonTreeData : treeDataList) {
@@ -601,7 +639,7 @@ public class PlanServiceImpl implements PlanService {
         TreeNode node1 = new TreeNode();
         node1.setId("id1");
         node1.setParentId("pid");
-        node1.setName("节点1");
+        node1.setName("父节点");
         nodes.add(node1);
 
         TreeNode node2 = new TreeNode();
@@ -622,9 +660,15 @@ public class PlanServiceImpl implements PlanService {
         node3.setName("节点3");
         nodes.add(node3);
 
+        TreeNode node4 = new TreeNode();
+        node4.setId("id33");
+        node4.setParentId("id2");
+        node4.setName("节点4");
+        nodes.add(node4);
+
         List<TreeNode> list = new ArrayList<>();
         //子节点不包含当前节点
-        List<TreeNode> pid = getChildrenNode("id1", nodes,list);
+        List<TreeNode> pid = getChildrenNode("pid", nodes,list);
         for (int i = 0; i < pid.size(); i++) {
             System.out.println(pid.get(i).getId());
         }
