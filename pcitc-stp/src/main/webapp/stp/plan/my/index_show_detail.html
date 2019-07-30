@@ -154,10 +154,13 @@
             type: 'get',
             // dataType: 'json',
             async: false,
-            url: '/plan/tree-datas?dataId=1735a7e7572f4a3f82e8dc8943d45d0d'+"&pid=yyy",
+            // url: '/plan/tree-datas-list?dataId=8e222d5e6408404694e8dd20b15f186b',
+            url: '/plan/tree-datas?dataId=8e222d5e6408404694e8dd20b15f186b',
             // url: '/plan/tree-datas?dataId=' + dataId+"&pid=yyy",
             success: function (data) {
+                data = eval(data);
                 console.log("tree");
+                console.log(data.length);
                 console.log(data);
             }
         });

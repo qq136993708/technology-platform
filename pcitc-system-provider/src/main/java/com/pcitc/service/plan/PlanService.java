@@ -53,5 +53,7 @@ public interface PlanService {
 
 	int submitMyBotWorkOrder(String id);
 
-    public List<TreeNode> selectTreeData(JSONObject jsonObject) throws Exception;
+    public String selectTreeData(JSONObject jsonObject) throws Exception;
+
+    public List selectTreeDataList(JSONObject jsonObject);
 }
