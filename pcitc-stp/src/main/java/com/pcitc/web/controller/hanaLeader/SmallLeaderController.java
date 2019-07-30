@@ -298,11 +298,11 @@ public class SmallLeaderController extends BaseController {
 						newBM.setZysje(bm.getZysje());
 						Double zsjje = newBM.getZsjje() == null ? 0d : Double.valueOf(newBM.getZsjje().toString());
 						Double temJE = bm.getZsjje() == null ? 0d : Double.valueOf(bm.getZsjje().toString());
-						newBM.setZsjje(zsjje + temJE);
+						newBM.setZsjje((double) Math.round((zsjje + temJE) * 100) / 100);
 
 						Double hanaMoney = newBM.getHanaMoney() == null ? 0d : Double.valueOf(newBM.getHanaMoney().toString());
 						Double temHana = bm.getHanaMoney() == null ? 0d : Double.valueOf(bm.getHanaMoney().toString());
-						newBM.setHanaMoney(hanaMoney + temHana);
+						newBM.setHanaMoney((double) Math.round((hanaMoney + temHana) * 100) / 100);
 
 						bm.setZysje("-");
 					}

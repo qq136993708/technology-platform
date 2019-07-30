@@ -67,4 +67,9 @@ public interface PlanBaseMapper {
      * 统计首页中上周、本周的工作任务情况 
      */
     HashMap<String, String> getWorkOrderInfoForStat(HashMap<String, String> map);
+    
+    /**
+     * 领导页的任务督办
+     */
+    public List getWorkOrderForLeader(Map<String, Object> map);
 }

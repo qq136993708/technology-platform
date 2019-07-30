@@ -1,10 +1,8 @@
 package com.pcitc.web.plan;
 
-import com.pcitc.base.common.TreeNode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -283,6 +281,20 @@ public class PlanClient {
             data = planBaseService.queryBotWorkOrderMatterList(param);
         } catch (Exception e) {
             logger.error("[任务管理-查询计划任务列表失败：]", e);
+        }
+        return data;
+    }
+    
+    /**
+     * 领导页的任务督办列表
+     */
+    @ApiOperation(value = "领导页的任务督办列表")
+    @RequestMapping(value = "/planClient-provider/leader/work/list", method = RequestMethod.POST)
+    public LayuiTableData getWorkOrderForLeader(@RequestBody LayuiTableParam param) {
+        LayuiTableData data = null;
+        try {
+            data = planBaseService.getWorkOrderForLeader(param);
+        } catch (Exception e) {
         }
         return data;
     }
