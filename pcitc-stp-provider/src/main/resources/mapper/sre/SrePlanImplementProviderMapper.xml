@@ -190,7 +190,7 @@
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	   	 <if test="sonId != null and sonId !='' ">      AND son_id =  #{parentUnitPathIds}</if>
 	   	 <if test="researchInstitute != null and researchInstitute !='' ">      AND researchInstitute =  #{parentUnitPathNames}</if>
-	   	 <if test="publicationType != null and publicationType !='' ">      AND son_id =  #{publicationType}</if>
+	   	 <if test="publicationType != null and publicationType !='' ">      AND publication_type =  #{publicationType}</if>
 	   	  <if test="publisher != null and publisher  !='' ">     AND publisher like CONCAT('%',#{publisher},'%')</if>
 	   	 <if test="publicationTitle != null and publicationTitle  !='' ">     AND publication_title like CONCAT('%',#{publicationTitle},'%')</if>
 	   	 <if test="publicationMonth != null and publicationMonth  !='' ">     AND publication_month like CONCAT('%',#{publicationMonth},'%')</if>

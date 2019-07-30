@@ -95,6 +95,13 @@ public class PlanningManagementServiceImpl implements PlanImplementService {
 	}
 
 
+	@Override
+	public Integer setupdataSrePlanImplement(SrePlanImplement srePlanImplement) {
+		// TODO Auto-generated method stub
+		return srePlanningManagementMapper.updateByPrimaryKey(srePlanImplement);
+	}
+
+
 
 	
 	
