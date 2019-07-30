@@ -2,8 +2,10 @@ package com.pcitc.service.intlproject.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import com.pcitc.base.stp.IntlProject.IntlProjectRemarkExample;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectRemarkMapper;
+import com.pcitc.service.intlproject.IntlProjectInfoService;
 import com.pcitc.service.intlproject.IntlProjectRemarkService;
 
 @Service("intlProjectRemarkService")
@@ -30,6 +33,8 @@ public class IntlProjectRemarkServiceImpl implements IntlProjectRemarkService {
 	
 	//@Autowired
 	//private IntlProjectApplyMapper intlProjectApplyMapper;
+	@Autowired
+	private IntlProjectInfoService intlProjectInfoService;
 	
 	@Autowired
 	private IntlProjectInfoMapper intlProjectInfoMapper;
@@ -37,6 +42,27 @@ public class IntlProjectRemarkServiceImpl implements IntlProjectRemarkService {
 	@Override
 	public LayuiTableData selectProjectRemarkByPage(LayuiTableParam param) 
 	{
+		
+		StringBuffer ordersb = new StringBuffer();
+		LayuiTableParam p = new LayuiTableParam();
+		p.setLimit(1000);
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")))
+		{
+			p.getParam().put("reportYear", param.getParam().get("reportYear"));
+		}
+		if(!StringUtils.isBlank((String)param.getParam().get("unitId"))) 
+		{
+			p.getParam().put("unitId", param.getParam().get("unitId"));
+		}
+		LayuiTableData projects = intlProjectInfoService.selectProjectInfoByPage(p);
+		Set<String> pIds = new HashSet<String>();
+		for(int i=projects.getData().size()-1;i>=0;i--) 
+		{
+			Map<String,Object> map = MyBeanUtils.java2Map(projects.getData().get(i));
+			ordersb.append((ordersb.length()>0?",":"")+"'"+map.get("projectId")+"'");
+			pIds.add(map.get("projectId").toString());
+		}
+		
 		IntlProjectRemarkExample example = new IntlProjectRemarkExample();
 		IntlProjectRemarkExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -44,8 +70,12 @@ public class IntlProjectRemarkServiceImpl implements IntlProjectRemarkService {
 		{
 			c.andRemarkTitleLike("%"+param.getParam().get("remarkTitle")+"%");
 		}
-		
-		example.setOrderByClause("create_time desc");
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")) || !StringUtils.isBlank((String)param.getParam().get("unitId")))
+		{
+			c.andProjectIdIn(new ArrayList<String>(pIds));
+		}
+		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+	
 		
 		LayuiTableData data =  this.findByExample(param, example);
 		//数据处理，分组转换
