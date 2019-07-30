@@ -237,7 +237,7 @@
 			var userDisp = "";
 			for (var j = 0; j < selectData.length; j++) {
 				userDisp = userDisp + ((j == 0) ? "" : ",") + selectData[j].userDisp;
-				userId = selectData[j].userId + "," + userId;
+				userId = userId + ((j == 0) ? "" : ",") + selectData[j].userId;
 			}
 			$('#workOrderAllotUserId').val(userId);
 			$('#workOrderAllotUserName').val(userDisp);

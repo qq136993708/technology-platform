@@ -274,6 +274,11 @@
 						// 关闭等待刷新
 						layer.close(lodingMsg);
 						$("#other").html(count);
+						// 点击行联动选择框--单选
+						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+							var index = parseInt($(this).index() + 1);
+							window.open(res.data[index - 1].url,res.data[index - 1].type,"fullscreen=1")
+						});
 					}
 				});
 				$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选

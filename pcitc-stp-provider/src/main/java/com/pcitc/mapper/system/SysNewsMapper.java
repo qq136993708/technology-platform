@@ -39,5 +39,11 @@ public interface SysNewsMapper {
     List<SysNews> findSysNewsList(SysNews record);
 
     List<SysNewsVo> selectNewsMain(SysNewsVo news);
+    
+    
+    List<SysNews> getTopNEWlIST();
+    
+    
+    
 
 }

@@ -393,6 +393,11 @@ public class PlanServiceImpl implements PlanService {
         if (parentId != null && "1".equals(parentId)) {
             c.andParentIdIsNull();
         }
+        
+        String isChildren = (String) param.getParam().get("isChildren");
+        if (isChildren != null && "1".equals(isChildren)) {
+            c.andParentIdIsNotNull();
+        }
 
         // 创建人为当前人或被指派给当前人
         String createUser = (String) param.getParam().get("createUser");

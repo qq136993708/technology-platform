@@ -59,14 +59,17 @@ html {
 					<div class="layui-row-pic">
 						<div class="layui-carousel" id="test-carousel-img">
 							<div carousel-item="">
-								<div>
-									<img src="/layuiadmin/layui/images/pic.png" />
-									<p><a></a></p><!--新闻标题-->
-								</div>
-								<div>
+								<#list sysNewsList as vo> 
+									<div>
+										<img src="/sysfile/getFilesLayuiByFormIdReturnBase64Image/${vo.bak6}" />
+										<p><a></a></p><!--新闻标题-->
+									</div>
+								 </#list>
+								<!-- <div>
+								<img src="/layuiadmin/layui/images/pic.png" />
 									<img src="/layuiadmin/layui/images/pic1.jpg" />
 									<p><a></a></p>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
@@ -616,7 +619,8 @@ html {
 			var v_date = (new Date()).getTime();
 			$.ajax({
 				type : 'GET',
-				url : "/one_level_main/investment_first_page_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date,
+				//url : "/one_level_main/investment_first_page_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date,
+				url : "/one_level_main/investment_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
 				dataType : 'json',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -627,11 +631,18 @@ html {
 					$("#moneyCurrent").html("<span style='font-size:14px;'>--亿</span>");
 				},
 				success : function(data) {
-					var projectMoney = data.data.projectMoney;
-					var zysje = data.data.zysje;
-					var tt1 = parseFloat(projectMoney) / 10000;
-					var tt2 = parseFloat(zysje) / 10000;
-
+					var projectMoney = data.data;
+					var tt1 = 0;
+					var tt2 = 0;
+					for (var i = 0; i < projectMoney.length; i++) {
+						var zysje = projectMoney[i].zysje;
+						var fyxsjje = projectMoney[i].fyxsjje;
+						var zbxsjje = projectMoney[i].zbxsjje;
+						tt1 = tt1 + parseFloat(fyxsjje) + parseFloat(zbxsjje);
+						tt2 = tt2 + parseFloat(zysje);
+					}
+					var tt1 = parseFloat(tt1)/ 10000;
+					var tt2 = parseFloat(tt2) / 10000;
 					$("#moneyTotal").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
 					$("#moneyCurrent").html(tt1.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
 				}

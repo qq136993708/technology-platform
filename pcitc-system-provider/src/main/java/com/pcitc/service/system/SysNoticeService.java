@@ -1,7 +1,9 @@
 package com.pcitc.service.system;
 
 import java.util.List;
+import java.util.Map;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
@@ -85,4 +87,6 @@ public interface SysNoticeService {
 	 * @return
 	 */
 	LayuiTableData findNoticList(LayuiTableParam param);
+	
+	public JSONArray getTopList(Map map)throws Exception;
 }
