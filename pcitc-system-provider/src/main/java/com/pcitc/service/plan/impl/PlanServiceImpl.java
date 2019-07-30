@@ -548,8 +548,9 @@ public class PlanServiceImpl implements PlanService {
             PlanBase planBase = planBaseMapper.selectByExample(e).get(0);
             List<TreeNode> list = new ArrayList<>();
             //查找最大节点
-
-            orderNodes = getChildrenNode(planBase.getParentId(), nodes,list);
+            System.out.println("dataId:"+dataId);
+            System.out.println("dataId:"+nodes.size());
+            orderNodes = getChildrenNode(dataId, nodes,list);
 //            TreeNode node = new TreeNode();
 //            node.setId(planBase.getDataId());
 //            node.setParentId(planBase.getParentId());
@@ -562,6 +563,7 @@ public class PlanServiceImpl implements PlanService {
         }
         return JSONObject.toJSONString(orderNodes);
     }
+
     public List selectTreeDataList(JSONObject jsonObject){
         List<TreeNode> orderNodes = null;
         try {
@@ -622,6 +624,7 @@ public class PlanServiceImpl implements PlanService {
                 continue;
             }
             //这是一个子节点
+            System.out.println(jsonTreeData.getId()+"---"+jsonTreeData.getParentId());
             if (jsonTreeData.getParentId().equals(parentId)) {
                 //递归获取子节点下的子节点
 //                jsonTreeData.setNodes(getChildrenNode(jsonTreeData.getId(), treeDataList,newTreeDataList));
@@ -677,8 +680,9 @@ public class PlanServiceImpl implements PlanService {
         for (int i = 0; i < pid.size(); i++) {
             System.out.println(pid.get(i).getId());
         }
+
         System.out.println(list.size());
-        System.out.println(JSONObject.toJSONString(pid));
+
 
 //        List<TreeNode> fff = null;
 //        try {
