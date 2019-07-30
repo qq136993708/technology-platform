@@ -1190,7 +1190,7 @@
 								//alert(list[i].url);
 								if (i < 4) {
 									if (list[i].waitTime != null) {// 其他系统
-										$("#wait_work_id_list").append("<li onclick=\"wait_work('" + id + "')\" style='cursor:pointer'><span class='date'>" + tt + "</span> <span class='content'>" + processInstanceName + "</span></li>");
+										$("#wait_work_id_list").append("<li style='cursor:pointer'><a href='"+list[i].url+"' target='_blank'> <span class='date'>" + tt + "</span> <span class='content'>" + processInstanceName + "</span></a></li>");
 									} else {
 										$("#wait_work_id_list").append("<li onclick=\"wait_work('" + id + "')\" style='cursor:pointer'><span class='date'>" + tt + "</span> <span class='content'>" + processInstanceName + "</span></li>");
 									}
