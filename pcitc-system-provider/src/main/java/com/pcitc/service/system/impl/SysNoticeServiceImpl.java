@@ -170,7 +170,15 @@ public class SysNoticeServiceImpl implements SysNoticeService {
 			sysUserNotice.setUserNoticeStatus(0);
 			userNoticeList.add(sysUserNotice);
 		}
-		sysUserNoticeMapper.insertBatch(userNoticeList);
+		if(userNoticeList!=null && userNoticeList.size()>0)
+		{
+			for(int i=0;i<userNoticeList.size();i++)
+			{
+				SysUserNotice sysUserNotice=userNoticeList.get(i);
+				sysUserNoticeMapper.insert(sysUserNotice);
+			}
+		}
+		//sysUserNoticeMapper.insertBatch(userNoticeList);
 		return sysNotice;
 	}
 	

@@ -422,8 +422,10 @@
     
      <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="noticeTitle != null and noticeTitle  !='' ">       AND t.notice_title like CONCAT('%',#{noticeTitle},'%')</if>
-	     <if test="isTopRoll != null       and isTopRoll !=''  ">     AND t.is_top_roll = #{isTopRoll}</if>
+	     <if test="noticeTitle != null       and noticeTitle  !='' ">   AND t.notice_title like CONCAT('%',#{noticeTitle},'%')</if>
+	     <if test="isTopRoll != null         and isTopRoll !=''  ">     AND t.is_top_roll = #{isTopRoll}</if>
+	     <if test="isVariable != null        and isVariable !=''  ">    AND t.is_variable = #{isVariable}</if>
+	     <if test="isPublished != null       and isPublished !=''  ">   AND t.is_published = #{isPublished}</if>
 	 </trim>
 	</sql>
 	

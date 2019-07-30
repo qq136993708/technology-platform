@@ -279,7 +279,7 @@
 			<!-- 页面标签 -->
 			<div class="dowebok news">
 			<#list list as t>
-				<a lay-href="javascript:;" lay-text="通知公告">
+				<a lay-href="javascript:void(0)" onclick="view_project('${t.noticeId}')" lay-text="通知公告">
 					<span>通知:</span>
 					${t.noticeTitle}
 				</a>
@@ -690,6 +690,26 @@
 						getNotReadTaskList();
 					});
 				});
+		
+		
+		
+		function view_project(noticeId) 
+		{
+			
+			 var temUrl='/sysNotice/readNotice?id='+noticeId
+			 layer.open({
+		        title:'详情',
+		        skin: 'layui-layer-lan',
+		        shadeClose: true,
+		        type: 2,
+		        fixed: false,
+		        maxmin: false,
+		        area: ['50%', '60%'],
+		        content:  temUrl
+		    });
+		}
+		
+		
 	</script>
 </body>
 </html>
