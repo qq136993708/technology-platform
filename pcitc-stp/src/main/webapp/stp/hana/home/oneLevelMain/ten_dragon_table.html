@@ -305,11 +305,11 @@
 				id : 'processdef-table',
 				height : commonDislodgeTable(),
 				cols : [ [ {
-					type : 'numbers',
+					field : 'realIndex',
 					title : '序号',
 					style : 'cursor: pointer;',
 					align : 'center',
-					width : '55'
+					width : '45'
 				}, {
 					field : 'xmid',
 					title : '项目名称',
@@ -376,16 +376,18 @@
 				} ] ],
 				done : function(res, curr, count) {
 					layer.close(index);
+					merge(res);
 				}
 			});
 		}
+		
 		function merge(res) {
 
 			var data = res.data;
 			var mergeIndex = 0;//定位需要添加合并属性的行数
 			var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
-			var columsName = [ 'showIndex', 'xmmc', 'zzdw', 'status' ];//需要合并的列名称
-			var columsIndex = [ 0, 1, 2, 5 ];//需要合并的列索引值
+			var columsName = [ 'realIndex', 'xmid' ];//需要合并的列名称
+			var columsIndex = [ 0, 1];//需要合并的列索引值
 
 			for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
 				var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行

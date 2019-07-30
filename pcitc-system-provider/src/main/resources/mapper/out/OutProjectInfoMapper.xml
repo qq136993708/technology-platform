@@ -2804,7 +2804,7 @@
 					<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 					<include refid="dataFilterCondition" />
 					<if test="nd != null">
-						and out_project_info.nd = #{nd}
+						and out_project_info.ysnd = #{nd}
 					</if>
 					<if test="ysnd != null">
 						and out_project_info.ysnd = #{ysnd}

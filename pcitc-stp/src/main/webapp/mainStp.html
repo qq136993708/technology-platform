@@ -1128,9 +1128,14 @@
 								var tt = layui.laytpl.toDateString(createTime);
 								var processInstanceId = list[i].processInstanceId;
 								var id = list[i].id;
-								//alert(processInstanceId);
+								//alert(list[i].url);
 								if (i < 4) {
-									$("#wait_work_id_list").append("<li onclick=\"wait_work('" + id + "')\" style='cursor:pointer'><span class='date'>" + tt + "</span> <span class='content'>" + processInstanceName + "</span></li>");
+									if (list[i].waitTime != null) {// 其他系统
+										$("#wait_work_id_list").append("<li onclick=\"wait_work('" + id + "')\" style='cursor:pointer'><span class='date'>" + tt + "</span> <span class='content'>" + processInstanceName + "</span></li>");
+									} else {
+										$("#wait_work_id_list").append("<li onclick=\"wait_work('" + id + "')\" style='cursor:pointer'><span class='date'>" + tt + "</span> <span class='content'>" + processInstanceName + "</span></li>");
+									}
+									
 								}
 
 							}
