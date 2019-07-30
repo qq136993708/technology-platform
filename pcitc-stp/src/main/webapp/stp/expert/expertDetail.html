@@ -266,7 +266,6 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
             loadtableExpertChoice();
             function loadtableExpertChoice() {
                 var where = {param: {"status":"2","zjId": '${zjkBaseInfo.dataId}'}};
-                console.log(where);
                 table.render({
                     elem: '#zjkChoiceTableId',
                     url: '/zjkChoice/getListChoice',
@@ -390,7 +389,6 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 gb: $("#gb").val()
             }
         };
-        console.log("---------where--------------");
         var cols = [
             {type: 'checkbox', event: 'changeEvents', width: 55},
             {title: '序号', type: 'numbers', width: 55},
@@ -842,8 +840,6 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
     /*  loadImg();
      function loadImg() {
              var imgBase = photoContent(expertId);
-             console.log("图片");
-             console.log(imgBase);
              if(imgBase!=""&&imaBase!="data:image/png;base64,PHNjcmlwdD4NCiBtb2RhbHMuaW5mbygnPz8/Pz8hJyk7DQo8L3NjcmlwdD4NCg=="){
                  $("#"+expertId).attr("src", imgBase);
              }
@@ -916,5 +912,4 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
     }
 </script>
 </body>
-
 </html>

@@ -1,7 +1,9 @@
 package com.pcitc.service.plan;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseDetail;
 
@@ -50,5 +52,6 @@ public interface PlanService {
 	int saveMyBotWorkOrderMatterBatch(PlanBase planBase);
 
 	int submitMyBotWorkOrder(String id);
-	
+
+    public List<TreeNode> selectTreeData(JSONObject jsonObject) throws Exception;
 }

@@ -10,8 +10,11 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.druid.support.json.JSONUtils;
+import com.pcitc.web.common.OperationFilter;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -70,7 +73,11 @@ public class PlanController extends BaseController {
 	// 提交
 	private static final String SUBMIT_MY_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/submitMyBotWorkOrder/";
 
-	/**
+	private static final String TREE_DATA = "http://pcitc-zuul/system-proxy/planClient-provider/tree-data";
+
+
+
+    /**
 	 * 用户选择:页面跳转
 	 *
 	 * @param request
@@ -653,6 +660,44 @@ public class PlanController extends BaseController {
 	}
 
 	/**
+	 * 首页处理任务
+	 */
+	@RequestMapping(value = "/plan/my/index_show_detail")
+	public String index_show_detail(HttpServletRequest request) {
+		request.setAttribute("dataId", request.getParameter("dataId"));
+		return "stp/plan/my/index_show_detail";
+	}
+
+	@RequestMapping(value = "/plan/my/goEditPlanDetailIndex_cl")
+	public String goMyEditBotWorkOrderIndexCl(HttpServletRequest request) {
+		request.setAttribute("dataId", request.getParameter("dataId"));
+		return "stp/plan/my/index_do_plan_cl";
+	}
+	//转发
+    @RequestMapping(value = "/plan/my/goEditPlanDetailIndex_zf")
+    public String goMyEditBotWorkOrderIndexZf(HttpServletRequest request) {
+        request.setAttribute("dataId", request.getParameter("dataId"));
+        request.setAttribute("userName", sysUserInfo.getUserDisp());
+        request.setAttribute("unitName", sysUserInfo.getUnitName());
+
+        String dataId = request.getParameter("dataId");
+        ResponseEntity<PlanBase> responseEntity = this.restTemplate.exchange(VIEW_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), PlanBase.class);
+        PlanBase planBase = responseEntity.getBody();
+        request.setAttribute("planBase", planBase);
+        return "stp/plan/my/index_do_plan_zf";
+    }
+    //下发
+    @RequestMapping(value = "/plan/my/goEditPlanDetailIndex_xf")
+    public String goMyEditBotWorkOrderIndexXf(HttpServletRequest request) {
+        Object dataId = request.getParameter("dataId");
+        String flag = "add";
+        request.setAttribute("flag", flag);
+        request.setAttribute("dataId", dataId);
+        request.setAttribute("userName", sysUserInfo.getUserDisp());
+        request.setAttribute("unitName", sysUserInfo.getUnitName());
+        return "stp/plan/my/index_do_plan_xf";
+    }
+	/**
 	 * 跳转至查看我的工单管理页面
 	 */
 	@RequestMapping(value = "/plan/my/viewPlanDetail")
@@ -767,4 +812,15 @@ public class PlanController extends BaseController {
 	public void setBasePath(String basePath) {
 		this.basePath = basePath;
 	}
+
+
+    @RequestMapping(value = "/plan/tree-datas")
+    @ResponseBody
+    public String getZjkMsgConfigTreeDatas(HttpServletRequest request) throws Exception {
+        JSONObject o = new JSONObject();
+        o.put("dataId",request.getParameter("dataId"));
+        o.put("pid",request.getParameter("pid"));
+        JSONObject object = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<JSONObject>(o,this.httpHeaders), JSONObject.class).getBody();
+        return JSONUtils.toJSONString(object.get("list"));
+    }
 }

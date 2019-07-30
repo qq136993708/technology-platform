@@ -1,5 +1,6 @@
 package com.pcitc.service.plan.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,12 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.expert.ZjkMsgConfig;
+import com.pcitc.base.expert.ZjkMsgConfigExample;
+import com.pcitc.base.util.StrUtil;
+import com.pcitc.base.util.TreeNodeUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -478,5 +485,34 @@ public class PlanServiceImpl implements PlanService {
 		}
 		return result;
 	}
-	
+
+    public List<TreeNode> selectTreeData(JSONObject jsonObject) throws Exception {
+        List<TreeNode> nodes = new ArrayList<TreeNode>();
+        String dataId = (String) jsonObject.get("dataId");
+        PlanBaseExample example = new PlanBaseExample();
+        //example.getOredCriteria().add(example.createCriteria().andStatusNotEqualTo(DataOperationStatusEnum.DEL_OK.getStatusCode().toString()));
+        List<PlanBase> records = planBaseMapper.selectByExample(example);
+        for (PlanBase record : records) {
+            TreeNode node = new TreeNode();
+            node.setId(record.getDataId());
+            node.setParentId(record.getParentId());
+            node.setName(record.getWorkOrderAllotUserName()+"("+record.getBl()+"%)");
+            nodes.add(node);
+        }
+        //构建树形结构(从根节点开始的树形结构)
+        PlanBaseExample e = new PlanBaseExample();
+        e.createCriteria().andDataIdEqualTo(dataId);
+        String strParentId = planBaseMapper.selectByExample(e).get(0).getDataId();
+        List<TreeNode> orderNodes = new ArrayList<>();
+        for (TreeNode node : nodes) {
+            System.out.println(node.getId()+"--"+node.get_parentId());
+        }
+        if (!StrUtil.isNullEmpty(jsonObject.get("pid"))) {
+            orderNodes = TreeNodeUtil.getfatherNode(nodes, strParentId);
+        }else{
+            orderNodes = TreeNodeUtil.getChildrenNode(strParentId, nodes);
+        }
+        return orderNodes;
+    }
+
 }
