@@ -257,10 +257,12 @@
 										<td align="right"><#if taskList.bl==''>
 											<div class="layui-progress">
 												<div class="layui-progress-bar" lay-percent="0%"></div>
-											</div>0% </#if> <#if taskList.bl!=''>
+											</div>0% </#if>
+                                        <#if taskList.bl!=''>
 											<div class="layui-progress">
 												<div class="layui-progress-bar" lay-percent="${taskList.bl}%"></div>
-											</div> ${taskList.bl}% </#if>
+											</div> ${taskList.bl}%
+                                       </#if>
 										</td>
 									</tr>
 									</#if> <#else>
