@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .layui-progress{width: 46px;}
+        ul li{float: left;}
+        ul li.task-item{position: absolute;top: 100%;width: 170px;
+            background: url("/layuiadmin/layui/images/qian.png") no-repeat 48px 26px;}
+        ul li.task-item ul{position: absolute;top:0;left: 174px;}
+        ul li.task-item ul li:nth-child(1){ background: url("/layuiadmin/layui/images/qian.png") no-repeat 48px 26px;width: 170px;}
+        ul li.task-item ul li:nth-child(2){background: url("/layuiadmin/layui/images/xieshang.png") no-repeat center top;
+            left: 50px;top: -80px;width: 97px;height: 87px;position: absolute;}
+        ul li.task-item ul li:nth-child(2)>div{ position: relative;top: -82px;left: 76px;}
+        ul li.task-item ul li:nth-child(3){background: url("/layuiadmin/layui/images/xiexia.png") no-repeat center top;
+            left: 50px;top: 70px;width: 87px;height: 87px;position: absolute;}
+        ul li.task-item ul li:nth-child(3)>div{ position: relative;top: 90px;left: 76px;}
+        ul li.task-item ul li:nth-child(4){background: url("/layuiadmin/layui/images/shang.png") no-repeat 23px bottom;top: -200px;height: 200px;position: absolute;}
+        ul li.task-item ul li:nth-child(5){background: url("/layuiadmin/layui/images/xia.png") no-repeat 23px top;top: 80px;height: 200px;position: absolute;}
+        ul li.task-item ul li:nth-child(5)>div{position: relative;top: 120px;}
+        ul li img{width: 46px;height: 46px;margin: 6px 0;}
+        ul li span{display: block;font-size: 12px;text-indent:10px;}
+    </style>
+</head>
+<body>
+<div class="task-view">
+    <div class="task-view-cont">
+        <p>基本信息</p>
+        <div class="layui-row">
+            <div class="layui-col-md10">
+                <div class="item">
+                    <div class="layui-col-sm5">
+                        <span>标题:</span>
+                        <span></span>
+                    </div>
+                    <div class="layui-col-sm7">
+                        <span>创建单位:</span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="layui-col-sm5">
+                        <span>类型:</span>
+                        <span class="red"></span>
+                    </div>
+                    <div class="layui-col-sm7">
+                        <span>当前处理人:</span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="layui-col-sm5">
+                        <span>完成比例:</span>
+                        <span></span>
+                    </div>
+                    <div class="layui-col-sm7">
+                        <span>转发:</span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="layui-col-sm5">
+                        <span>权重:</span>
+                        <span></span>
+                    </div>
+                    <div class="layui-col-sm7">
+                        <span>查看附件:</span>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="layui-col-md12">
+                        <span>任务描述:</span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md2">
+                <div class="chart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="task-view-cont" style="height: 412px;">
+        <p>当前处理人</p>
+        <ul>
+            <li class="task-item">
+                <div>
+                    <img src="/layuiadmin/layui/images/danren.png" alt="">
+                    <span>张三</span>
+                </div>
+                <ul>
+                    <li>
+                        <div>
+                            <div class="layui-progress">
+                                <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                            </div>
+                            <img src="/layuiadmin/layui/images/danren.png" alt="">
+                            <span>张三</span>
+                        </div>
+                        <ul>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/danren.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <div>
+                                            <div class="layui-progress">
+                                                <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                            </div>
+                                            <img src="/layuiadmin/layui/images/danren.png" alt="">
+                                            <span>张三</span>
+                                        </div>
+                                        <ul>
+                                            <li style="background: none;">
+                                                <div>
+                                                    <div class="layui-progress">
+                                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                                    </div>
+                                                    <img src="/layuiadmin/layui/images/danren.png" alt="">
+                                                    <span>张三</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <div>
+                                            <div class="layui-progress">
+                                                <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                            </div>
+                                            <img src="/layuiadmin/layui/images/danren.png" alt="">
+                                            <span>张三</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div>
+                                            <div class="layui-progress">
+                                                <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                            </div>
+                                            <img src="/layuiadmin/layui/images/danren.png" alt="">
+                                            <span>张三</span>
+                                        </div>
+                                    </li> <li>
+                                    <div>
+                                        <div class="layui-progress">
+                                            <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                        </div>
+                                        <img src="/layuiadmin/layui/images/danren.png" alt="">
+                                        <span>张三</span>
+                                    </div>
+                                </li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div style="background: url('/layuiadmin/layui/images/qian.png') no-repeat 48px 26px;width: 170px">
+                            <div class="layui-progress">
+                                <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                            </div>
+                            <img src="/layuiadmin/layui/images/danren.png" alt="">
+                            <span>张三</span>
+                        </div>
+                        <ul style="top: -80px;left: 240px"><!--170+70-->
+                            <li>
+                                <div >
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/danren.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                                <ul>
+                                    <li style="background: none;">
+                                        <div>
+                                            <div class="layui-progress">
+                                                <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                            </div>
+                                            <img src="/layuiadmin/layui/images/danrenw.png" alt="">
+                                            <span>张三</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/danrenw.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/danrenw.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/danrenw.png" alt="">
+                                    <span>张三</span>
+                                </div>
+
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <div style="background: url('/layuiadmin/layui/images/qian.png') no-repeat 48px 26px;width: 170px">
+                            <div class="layui-progress">
+                                <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                            </div>
+                            <img src="/layuiadmin/layui/images/danrenw.png" alt="">
+                            <span>张三</span>
+                        </div>
+                        <ul style="top: 87px;left: 240px;"><!--170+70-->
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/danren.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                                <ul>
+                                    <li style="background: none;">
+                                        <div>
+                                            <div class="layui-progress">
+                                                <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                            </div>
+                                            <img src="/layuiadmin/layui/images/danren.png" alt="">
+                                            <span>张三</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/shuangren.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/shuangren.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/shuangren.png" alt="">
+                                    <span>张三</span>
+                                </div>
+
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <div style="    background: url(/layuiadmin/layui/images/qian.png) no-repeat 48px 26px;width: 170px;">
+                            <div class="layui-progress">
+                                <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                            </div>
+                            <img src="/layuiadmin/layui/images/shuangren.png" alt="">
+                            <span>张三</span>
+                        </div>
+                        <ul style="top: -3px;left: 170px;">
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/shuangrenw.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                                <ul>
+                                    <li style="background: none;">
+                                        <div>
+                                            <div class="layui-progress">
+                                                <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                            </div>
+                                            <img src="/layuiadmin/layui/images/shuangrenw.png" alt="">
+                                            <span>张三</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/shuangrenw.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/shuangrenw.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/shuangrenw.png" alt="">
+                                    <span>张三</span>
+                                </div>
+
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <div style="    background: url(/layuiadmin/layui/images/qian.png) no-repeat 48px 26px;width: 170px;">
+                            <div class="layui-progress">
+                                <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                            </div>
+                            <img src="/layuiadmin/layui/images/shuangren.png" alt="">
+                            <span>张三</span>
+                        </div>
+                        <ul style="top: 120px;left: 174px;"><!--170+70-->
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/shuangren.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                                <ul>
+                                    <li style="background: none;">
+                                        <div>
+                                            <div class="layui-progress">
+                                                <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                            </div>
+                                            <img src="/layuiadmin/layui/images/shuangren.png" alt="">
+                                            <span>张三</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/shuangren.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/shuangrenw.png" alt="">
+                                    <span>张三</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <div class="layui-progress">
+                                        <div class="layui-progress-bar" lay-percent="50%" style="width: 50%;"></div>
+                                    </div>
+                                    <img src="/layuiadmin/layui/images/danren.png" alt="">
+                                    <span>张三</span>
+                                </div>
+
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    layui.use(['jquery', 'form', 'laydate', 'table', 'laypage','laytpl','publicMethods'], function () {
+        var table = layui.table, util = layui.laytpl, form = layui.form, laydate = layui.laydate, $ = layui.jquery,
+            laytpl = layui.laytpl, publicMethods = layui.publicMethods;
+
+    });
+
+</script>
+
+</body>
+</html>
