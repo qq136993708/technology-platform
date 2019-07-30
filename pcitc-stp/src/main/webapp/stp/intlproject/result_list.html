@@ -52,8 +52,8 @@
         base: '/layuiadmin/lib/extend/'
     }).extend({
         treeGridCom:'treeGridCom'
-    }).use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element','publicMethods','treeGridCom'], function(){
-    	var $ = layui.jquery, element = layui.element, layer = layui.layer,publicMethods=layui.publicMethods,treeGridCom = layui.treeGridCom;
+    }).use([ 'jquery', 'form', 'laydate', 'table', 'laydate','layer', 'element','publicMethods','treeGridCom'], function(){
+    	var $ = layui.jquery,  laydate = layui.laydate,element = layui.element, layer = layui.layer,publicMethods=layui.publicMethods,treeGridCom = layui.treeGridCom;
     	table = layui.table;
     	//加载岗位类型字典
 		publicMethods.ajaxPost("/dictionary/list/GJXMGL_CGLX", null, function (data) {
@@ -62,6 +62,16 @@
 				resultTypeMap[data[i].code] = data[i].name;
 	    	});
 	    });
+		var dicVal = {};
+		laydate.render({elem: '#reportYear',type: 'year'});
+    	publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(['ROOT_ZGSHJT_GFGS_ZSYJY'])}, function (data) {
+			$.each(data,function(key,val){
+				$.each(val,function(i,dt){
+					dicVal[dt.code] = dt.name;
+					$("#ROOT_ZGSHJT_GFGS_ZSYJY").append('<option value="'+dt.code+'">'+dt.name+'</option>');
+				});
+			});
+	   	});
     	window.renderTable = function(where){
     		var lodingMsg = layer.msg('数据加载中....');
     		var param = JSON.parse(window.localStorage.getItem("param"));
@@ -94,9 +104,9 @@
 	            	 {type:'checkbox'}
 	            	,{title:'序号', type:'numbers' ,width : 55}
 	            	,{field:'projectId',   title:'项目名称',    width: '30%',  style:'cursor: pointer;'}
-	                ,{field:'resultTitle',   title:'成果名称',	 style:'cursor: pointer;'}
-	                //,{field:'resultContent',   title:'主要内容',	width: '20%',  style:'cursor: pointer;'}	                
-	                //,{field:'resultCode',title:'项目编码',	width: '10%',   style:'cursor: pointer;'}
+	            	,{field:'reportYear',   title:'申报年度', width: '8%',  style:'cursor: pointer;',align:"center"}
+	            	,{field:'unitId',   title:'所属研究院', width: '8%',  style:'cursor: pointer;',align:"center"}
+	            	,{field:'resultTitle',   title:'成果名称',	 style:'cursor: pointer;'}
 	                ,{field:'resultType',   title:'成果类型',	width: '10%',  style:'cursor: pointer;'}
 	                //,{field:'resultAuthor',title:'负责人',	width: '10%', style:'cursor: pointer;'}
 	                //,{field:'authorPhone',title:'负责人联系电话',	style:'cursor: pointer;'}	                
@@ -115,9 +125,15 @@
 	                }); 
 		            //显示字典数据
 		            $.each(res.data,function(i,dt){
-		            	var ns = resultTypeMap[res.data[i].resultType];
-		            	$("tr[data-index='"+i+"'] td[data-field='resultType'] div").html(ns);
-		            }); 
+		            	$("tr[data-index='"+i+"'] td[data-field='resultType'] div").html(resultTypeMap[res.data[i].resultType]);
+		            	publicMethods.ajaxAsyncPost('/project/get-project', {"projectId":res.data[i].pId}, function (data, status) {
+		            		publicMethods.ajaxAsyncPost('/project/get-apply', {"applyId":data.applyId}, function (dt, status) {
+		            			//$("tr[data-index='"+i+"'] td[data-field='projectId'] div").html(dt.applyName);
+			            		$("tr[data-index='"+i+"'] td[data-field='reportYear'] div").html(dt.reportYear);
+			            		$("tr[data-index='"+i+"'] td[data-field='unitId'] div").html(dicVal[dt.unitId]);
+		            		});
+			            });
+			        });
 	            },
 	            onDblClickRow:function(index, o){
 	            	console.log(index);
@@ -140,10 +156,19 @@
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
-                renderTable({param: {"resultName":$("#resultName").val()}});
+                //renderTable({param: {"resultName":$("#resultName").val()}});
+                renderTable({
+            		param: {
+            			"remarkTitle":$("#remarkTitle").val(),
+            			"reportYear":$("#reportYear").val(),
+        				"unitId":$("#ROOT_ZGSHJT_GFGS_ZSYJY").val()
+            		}
+            	});
             },resetEvent: function() { 
             	//点击重置按钮
                 $("#resultName").val("");
+                $("#reportYear").val("");
+                $("#ROOT_ZGSHJT_GFGS_ZSYJY").val("");
                 renderTable({param: {"resultName":$("#resultName").val()}});
             },addEvent: function(){ 
             	//点击新增按钮
@@ -212,6 +237,16 @@
     <label class="dateInput">
         <span>成果名称</span>
         <input type="text" name="resultName" id="resultName" placeholder="请输入成果名称" autocomplete="off" class="form-control">
+    </label>
+    <label class="dateInput">
+        <span>申报年度</span>
+        <input type="text" name="reportYear" id="reportYear" placeholder="" readonly="readonly" autocomplete="off" class="form-control">
+    </label>
+    <label class="dateInput">
+        <span>所属研究院</span>
+        <select name="unitId" id="ROOT_ZGSHJT_GFGS_ZSYJY" lay-verify="required"  lay-filter="unitId" class="form-control form-control1">
+            <option value="">请选择</option>
+        </select>
     </label>
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>

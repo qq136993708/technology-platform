@@ -27,7 +27,6 @@ import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.mapper.IntlProject.IntlProjectContractMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
-import com.pcitc.service.intlproject.IntlProjectApplyService;
 import com.pcitc.service.intlproject.IntlProjectContractService;
 import com.pcitc.service.intlproject.IntlProjectInfoService;
 
@@ -39,9 +38,6 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 	
 	@Autowired
 	private IntlProjectInfoMapper intlProjectInfoMapper;
-	
-	@Autowired
-	private IntlProjectApplyService intlProjectApplyService;
 	
 	@Autowired
 	private IntlProjectInfoService intlProjectInfoService;
@@ -95,7 +91,7 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		
 		//未过期 
 		//c.andEndDateGreaterThan(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
-		example.setOrderByClause("FIELD(project_Id,"+ordersb.toString()+") DESC");
+		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
 		return this.findByExample(param, example);
 	}
 	@Override
@@ -146,7 +142,7 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		{
 			c.andProjectIdIn(new ArrayList<String>(pIds));
 		}
-		example.setOrderByClause("FIELD(project_Id,"+ordersb.toString()+") DESC");
+		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
 		return this.findByExample(param, example);
 	}
 	

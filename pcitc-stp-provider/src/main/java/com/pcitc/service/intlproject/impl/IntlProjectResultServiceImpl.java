@@ -2,8 +2,10 @@ package com.pcitc.service.intlproject.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import com.pcitc.base.stp.IntlProject.IntlProjectResultExample;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectResultMapper;
+import com.pcitc.service.intlproject.IntlProjectInfoService;
 import com.pcitc.service.intlproject.IntlProjectResultService;
 
 @Service("intlProjectResultService")
@@ -28,13 +31,36 @@ public class IntlProjectResultServiceImpl implements IntlProjectResultService {
 	@Autowired
 	private IntlProjectResultMapper intlProjectResultMapper;
 	
-	
+	@Autowired
+	private IntlProjectInfoService intlProjectInfoService;
 	
 	@Autowired
 	private IntlProjectInfoMapper intlProjectInfoMapper;
 	
 	@Override
-	public LayuiTableData selectProjectReultByPage(LayuiTableParam param) {
+	public LayuiTableData selectProjectReultByPage(LayuiTableParam param) 
+	{
+		StringBuffer ordersb = new StringBuffer();
+		LayuiTableParam p = new LayuiTableParam();
+		p.setLimit(1000);
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")))
+		{
+			p.getParam().put("reportYear", param.getParam().get("reportYear"));
+		}
+		if(!StringUtils.isBlank((String)param.getParam().get("unitId"))) 
+		{
+			p.getParam().put("unitId", param.getParam().get("unitId"));
+		}
+		LayuiTableData projects = intlProjectInfoService.selectProjectInfoByPage(p);
+		Set<String> pIds = new HashSet<String>();
+		for(int i=projects.getData().size()-1;i>=0;i--) 
+		{
+			Map<String,Object> map = MyBeanUtils.java2Map(projects.getData().get(i));
+			ordersb.append((ordersb.length()>0?",":"")+"'"+map.get("projectId")+"'");
+			pIds.add(map.get("projectId").toString());
+		}
+		System.out.println("++++++++++++++++++++"+ordersb.toString());
+		
 		IntlProjectResultExample example = new IntlProjectResultExample();
 		IntlProjectResultExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -42,7 +68,12 @@ public class IntlProjectResultServiceImpl implements IntlProjectResultService {
 		{
 			c.andResultTitleLike("%"+param.getParam().get("resultName")+"%");
 		}
-		example.setOrderByClause("create_time desc");
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")) || !StringUtils.isBlank((String)param.getParam().get("unitId")))
+		{
+			c.andProjectIdIn(new ArrayList<String>(pIds));
+			System.out.println("++++++++++++++++++++"+ordersb.toString());
+		}
+		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
 		LayuiTableData data =  this.findByExample(param, example);
 		
 		//数据处理，分组转换
@@ -61,13 +92,6 @@ public class IntlProjectResultServiceImpl implements IntlProjectResultService {
 				titleMap.put("id", map.get("projectId").toString());
 				titleMap.put("pId", "1001");
 				
-				
-				/*,{field:'resultTitle',   title:'名称',	width: '12%',  style:'cursor: pointer;'}
-                ,{field:'resultContent',   title:'主要内容',	width: '20%',  style:'cursor: pointer;'}	                
-                ,{field:'resultCode',title:'项目编码',	width: '10%',   style:'cursor: pointer;'}
-                ,{field:'resultType',   title:'成果类型',	width: '10%',  style:'cursor: pointer;'}
-                ,{field:'resultAuthor',title:'负责人',	width: '10%', style:'cursor: pointer;'}
-                ,{field:'authorPhone',title:'负责人联系电话',	style:'cursor: pointer;'}	 */
 				
 				titleMap.put("projectId", "项目成果-"+info.getProjectName()); 
 				titleMap.put("resultTitle", ""); //----
