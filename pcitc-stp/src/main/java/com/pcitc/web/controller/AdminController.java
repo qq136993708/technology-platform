@@ -106,6 +106,8 @@ public class AdminController extends BaseController {
 	// 获取项目管理系统的待办任务
 	private static final String XMGL_PENDING = "http://pcitc-zuul/system-proxy/out-wait-work/xmgl/page";
 
+	private static final String LEADER_WORK = "http://pcitc-zuul/system-proxy/planClient-provider/leader/work/list";
+	
 	private Integer TIME_OUT = 1 * 60 * 60;
 
 	/**
@@ -1265,9 +1267,8 @@ public class AdminController extends BaseController {
 		param.getParam().put("createUser", sysUserInfo.getUserId());
 
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BOT_WORK_ORDER_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LEADER_WORK, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData result = responseEntity.getBody();
-		CommonUtil.addAttachmentField(result, restTemplate, httpHeaders);
 		JSONObject retJson = (JSONObject) JSON.toJSON(result);
 		return retJson;
 	}

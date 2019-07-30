@@ -354,14 +354,8 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public LayuiTableData queryMyBotWorkOrderListByPage(LayuiTableParam param) {
-        // 每页显示条数
-        int pageSize = param.getLimit();
-        // 从第多少条开始
-        int pageStart = (param.getPage() - 1) * pageSize;
-        // 当前是第几页
-        int pageNum = pageStart / pageSize + 1;
         // 1、设置分页信息，包括当前页数和每页显示的总计数
-        PageHelper.startPage(pageNum, pageSize);
+        PageHelper.startPage(param.getPage(), param.getLimit());
         // 设置查询条件
         PlanBaseExample example = new PlanBaseExample();
         PlanBaseExample.Criteria c = example.createCriteria();
@@ -436,6 +430,35 @@ public class PlanServiceImpl implements PlanService {
 
         return data;
     }
+    
+    @Override
+    public LayuiTableData getWorkOrderForLeader(LayuiTableParam param) {
+        // 1、设置分页信息，包括当前页数和每页显示的总计数
+        PageHelper.startPage(param.getPage(), param.getLimit());
+
+        String wbsName = (String) param.getParam().get("wbsName");
+        if (wbsName != null && !"".equals(wbsName)) {
+        }
+        String workOrderName = (String) param.getParam().get("workOrderName");
+        if (workOrderName != null && !"".equals(workOrderName)) {
+        }
+        String workOrderStatus = (String) param.getParam().get("workOrderStatus");
+        if (workOrderStatus != null && !"".equals(workOrderStatus)) {
+        }
+
+        // 创建人为当前人或被指派给当前人
+        String createUser = (String) param.getParam().get("createUser");
+
+        List list = planBaseMapper.getWorkOrderForLeader(param.getParam());
+        PageInfo pageInfo = new PageInfo(list);
+        LayuiTableData data = new LayuiTableData();
+        data.setData(pageInfo.getList());
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
+
+        return data;
+    }
+
 
     @Override
     public LayuiTableData queryMyBotWorkOrderMatterList(LayuiTableParam param) {

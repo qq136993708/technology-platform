@@ -1,13 +1,13 @@
 package com.pcitc.service.plan;
 
+import java.util.List;
+import java.util.Map;
+
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseDetail;
-
-import java.util.List;
 
 public interface PlanService {
 
@@ -56,4 +56,9 @@ public interface PlanService {
     public String selectTreeData(JSONObject jsonObject) throws Exception;
 
     public List selectTreeDataList(JSONObject jsonObject);
+    
+    /**
+     * 领导页的任务督办
+     */
+    public LayuiTableData getWorkOrderForLeader(LayuiTableParam param);
 }
