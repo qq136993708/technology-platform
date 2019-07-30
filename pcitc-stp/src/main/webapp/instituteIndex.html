@@ -95,9 +95,19 @@
 			var $ = layui.jquery,publicMethods=layui.publicMethods;
 			var windowHref=window.location.href.split("=");
 			if(JSON.stringify(windowHref).indexOf("display")>0){
+                var lodingMsg = layer.msg('页面加载中....');
                 document.getElementById("mainIframe").src=url+"&display=1";//windowHref[1];
+                $("#mainIframe").on("load",function(){
+                    layer.close(lodingMsg);
+                    //加载完成，需要执行的代码
+                });
 			}else {
+                var lodingMsg = layer.msg('页面加载中....');
                 document.getElementById("mainIframe").src=url;//windowHref[1];
+                $("#mainIframe").on("load",function(){
+                    layer.close(lodingMsg);
+                    //加载完成，需要执行的代码
+                });
 			}
 			if(JSON.stringify(windowHref).indexOf("personnel")>0){
 			    $("#LAY_app_body").addClass("layui-personnel");
