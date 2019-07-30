@@ -494,11 +494,19 @@ public class PlanServiceImpl implements PlanService {
         String dataId = jsonObject.get("dataid").toString();
         PlanBase planBase = planBaseMapper.selectByPrimaryKey(dataId);
         String workOrderCode = planBase.getWorkOrderCode();
+        //查询所有子节点
         PlanBaseExample e = new PlanBaseExample();
-        e.createCriteria().andWorkOrderCodeEqualTo(workOrderCode);
+        PlanBaseExample.Criteria criteria = e.createCriteria();
+        criteria.andWorkOrderCodeEqualTo(workOrderCode);
+        criteria.andParentIdNotEqualTo("");
         List<PlanBase> planBases = planBaseMapper.selectByExample(e);
+        //
+
 
         List<TreeNode> nodes = new ArrayList<TreeNode>();
+
+        //父节点分组
+
         for (PlanBase record : planBases) {
             TreeNode node = new TreeNode();
             node.setId(record.getDataId());
@@ -507,7 +515,7 @@ public class PlanServiceImpl implements PlanService {
             nodes.add(node);
         }
         List<TreeNode> list = new ArrayList<>();
-        List<TreeNode> orderNodes = getChildrenNode(planBase.getParentId(), nodes, list);
+        List<TreeNode> orderNodes = getChildrenNode(planBase.getDataId(), nodes, list);
 
         //计算比例
         //返回
@@ -631,7 +639,7 @@ public class PlanServiceImpl implements PlanService {
         TreeNode node1 = new TreeNode();
         node1.setId("id1");
         node1.setParentId("pid");
-        node1.setName("节点1");
+        node1.setName("父节点");
         nodes.add(node1);
 
         TreeNode node2 = new TreeNode();
@@ -652,9 +660,15 @@ public class PlanServiceImpl implements PlanService {
         node3.setName("节点3");
         nodes.add(node3);
 
+        TreeNode node4 = new TreeNode();
+        node4.setId("id33");
+        node4.setParentId("id2");
+        node4.setName("节点4");
+        nodes.add(node4);
+
         List<TreeNode> list = new ArrayList<>();
         //子节点不包含当前节点
-        List<TreeNode> pid = getChildrenNode("", nodes,list);
+        List<TreeNode> pid = getChildrenNode("pid", nodes,list);
         for (int i = 0; i < pid.size(); i++) {
             System.out.println(pid.get(i).getId());
         }
