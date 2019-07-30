@@ -59,7 +59,7 @@ public class IntlProjectResultServiceImpl implements IntlProjectResultService {
 			ordersb.append((ordersb.length()>0?",":"")+"'"+map.get("projectId")+"'");
 			pIds.add(map.get("projectId").toString());
 		}
-		System.out.println("++++++++++++++++++++"+ordersb.toString());
+		
 		
 		IntlProjectResultExample example = new IntlProjectResultExample();
 		IntlProjectResultExample.Criteria c = example.createCriteria();
@@ -71,7 +71,6 @@ public class IntlProjectResultServiceImpl implements IntlProjectResultService {
 		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")) || !StringUtils.isBlank((String)param.getParam().get("unitId")))
 		{
 			c.andProjectIdIn(new ArrayList<String>(pIds));
-			System.out.println("++++++++++++++++++++"+ordersb.toString());
 		}
 		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
 		LayuiTableData data =  this.findByExample(param, example);

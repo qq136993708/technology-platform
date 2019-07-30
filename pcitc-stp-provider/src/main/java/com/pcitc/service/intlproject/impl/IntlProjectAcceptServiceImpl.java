@@ -2,9 +2,12 @@ package com.pcitc.service.intlproject.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +21,13 @@ import com.pcitc.base.stp.IntlProject.IntlProjectAcceptExample;
 import com.pcitc.base.stp.IntlProject.IntlProjectContract;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfoExample;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.IntlProject.IntlProjectAcceptMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.service.intlproject.IntlProjectAcceptService;
+import com.pcitc.service.intlproject.IntlProjectApplyService;
 import com.pcitc.service.intlproject.IntlProjectContractService;
+import com.pcitc.service.intlproject.IntlProjectInfoService;
 
 @Service("intlProjectAcceptService")
 public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
@@ -32,14 +38,18 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 	@Autowired
 	private IntlProjectInfoMapper projectInfoMapper;
 
-	//@Autowired
-	//private IntlProjectApplyMapper intlProjectApplyMapper;
+	@Autowired
+	private IntlProjectApplyService intlProjectApplyService;
+	
+	@Autowired
+	private IntlProjectInfoService intlProjectInfoService;
 	
 	@Autowired
 	IntlProjectContractService intlProjectContractService;
 	
 	@Override
 	public LayuiTableData selectProjectAcceptList(LayuiTableParam param) {
+
 		IntlProjectAcceptExample example = new IntlProjectAcceptExample();
 		IntlProjectAcceptExample.Criteria criteria = example.createCriteria();
 		criteria.andStatusEqualTo(new Integer(param.getParam().get("status").toString()));
@@ -57,7 +67,6 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 			}
 			criteria.andProjectIdIn(applyIds);
 		}
-		//param.getParam().put("status", AcceptStatusEnum.STATUS_REFUSE.getCode());
 		return this.findByExample(param, example);
 	}
 
