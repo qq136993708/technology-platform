@@ -203,7 +203,7 @@ public class BudgetSplitManagerProviderClient
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return vo;
 	}
