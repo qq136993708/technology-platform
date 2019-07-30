@@ -1,5 +1,6 @@
 package com.pcitc.base.common;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -7,7 +8,7 @@ import java.util.List;
  * @author masir
  * Bootstrap treeview 树实体
  */
-public class TreeNode {
+public class TreeNode implements Serializable {
 	
 	private String text;
 
