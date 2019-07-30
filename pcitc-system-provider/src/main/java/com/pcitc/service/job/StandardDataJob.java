@@ -36,7 +36,7 @@ public class StandardDataJob implements Job , Serializable
 				JSONArray array = JSON.parseArray(obj.toString());
 				for (java.util.Iterator<?> iter = array.iterator(); iter.hasNext();) {
 					JSONObject json = JSON.parseObject(iter.next().toString());
-					
+					System.out.println("process id .... "+json.getString("Id"));
 					if(outStandard.selectOutStandardDataById(json.getString("Id"))==null) 
 					{
 						OutStandardData bean = new OutStandardData();
@@ -45,6 +45,7 @@ public class StandardDataJob implements Job , Serializable
 						bean.setCriterionchname(json.getString("Criterionchname"));
 						//保存
 						outStandard.saveOutStandardData(bean);
+						
 					}
 				}
 			}
