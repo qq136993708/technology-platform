@@ -1266,6 +1266,7 @@ public class OneLevelMainController extends BaseController {
 	// 十条龙三级表格
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/ten_dragon_table_data")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String ten_dragon_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println(">>>>>>>>>>>>ten_dragon_table_data>param:" + JSONObject.toJSONString(param));
@@ -1279,7 +1280,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("xmlbmc", param.getParam().get("xmflItem") == "" ? null : param.getParam().get("xmflItem"));// 项目分类
 		paramsMap.put("type_flag", param.getParam().get("yjdwItem") == "" ? null : param.getParam().get("yjdwItem"));// 一级单位（9个机构）
 		paramsMap.put("status", param.getParam().get("xmztItem") == "" ? null : param.getParam().get("xmztItem"));// 项目状态
-
+		paramsMap.put("zycbm", param.getParam().get("zycbm") == "" ? null : param.getParam().get("zycbm"));// 项目状态
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 
@@ -2954,10 +2955,12 @@ public class OneLevelMainController extends BaseController {
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("typeFlag", typeFlag);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 

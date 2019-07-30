@@ -704,11 +704,12 @@ html {
 						if (index < 10) {
 							if (dt.waitTime != null) {// 其他系统
 								content += '<li class="state_1"><a target="_blank" href="' + dt.url + '"> ';
+								content += layui.laytpl.toDateString(dt.waitTime);
 							} else {
 								content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/task/pending/deal/' + dt.id + '"> ';
-							}
-							if (dt.createTime != null) {
-								content += layui.laytpl.toDateString(dt.createTime);
+								if (dt.createTime != null) {
+									content += layui.laytpl.toDateString(dt.createTime);
+								}
 							}
 							if (dt.processInstanceName != null) {
 								content += '<p>' + dt.processInstanceName + '</p></a>';

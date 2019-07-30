@@ -1,10 +1,12 @@
 package com.pcitc.service.intlproject.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +20,12 @@ import com.pcitc.base.stp.IntlProject.IntlProjectAcceptExample;
 import com.pcitc.base.stp.IntlProject.IntlProjectContract;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfoExample;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.IntlProject.IntlProjectAcceptMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.service.intlproject.IntlProjectAcceptService;
 import com.pcitc.service.intlproject.IntlProjectContractService;
+import com.pcitc.service.intlproject.IntlProjectInfoService;
 
 @Service("intlProjectAcceptService")
 public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
@@ -33,13 +37,38 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 	private IntlProjectInfoMapper projectInfoMapper;
 
 	//@Autowired
-	//private IntlProjectApplyMapper intlProjectApplyMapper;
+	//private IntlProjectApplyService intlProjectApplyService;
+	
+	@Autowired
+	private IntlProjectInfoService intlProjectInfoService;
 	
 	@Autowired
 	IntlProjectContractService intlProjectContractService;
 	
 	@Override
 	public LayuiTableData selectProjectAcceptList(LayuiTableParam param) {
+
+		StringBuffer ordersb = new StringBuffer();
+		LayuiTableParam p = new LayuiTableParam();
+		p.setLimit(1000);
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")))
+		{
+			p.getParam().put("reportYear", param.getParam().get("reportYear"));
+		}
+		if(!StringUtils.isBlank((String)param.getParam().get("unitId"))) 
+		{
+			p.getParam().put("unitId", param.getParam().get("unitId"));
+		}
+		LayuiTableData projects = intlProjectInfoService.selectProjectInfoByPage(p);
+		Set<String> pIds = new HashSet<String>();
+		pIds.add("xxxx");
+		for(int i=projects.getData().size()-1;i>=0;i--) 
+		{
+			Map<String,Object> map = MyBeanUtils.java2Map(projects.getData().get(i));
+			ordersb.append((ordersb.length()>0?",":"")+"'"+map.get("projectId")+"'");
+			pIds.add(map.get("projectId").toString());
+		}
+		
 		IntlProjectAcceptExample example = new IntlProjectAcceptExample();
 		IntlProjectAcceptExample.Criteria criteria = example.createCriteria();
 		criteria.andStatusEqualTo(new Integer(param.getParam().get("status").toString()));
@@ -57,13 +86,39 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 			}
 			criteria.andProjectIdIn(applyIds);
 		}
-		//param.getParam().put("status", AcceptStatusEnum.STATUS_REFUSE.getCode());
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")) || !StringUtils.isBlank((String)param.getParam().get("unitId")))
+		{
+			criteria.andProjectIdIn(new ArrayList<String>(pIds));
+		}
+		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		
 		return this.findByExample(param, example);
 	}
 
 	@Override
 	public LayuiTableData selectProjectWaitingAcceptList(LayuiTableParam param) 
 	{
+		StringBuffer ordersb = new StringBuffer();
+		LayuiTableParam p = new LayuiTableParam();
+		p.setLimit(1000);
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")))
+		{
+			p.getParam().put("reportYear", param.getParam().get("reportYear"));
+		}
+		if(!StringUtils.isBlank((String)param.getParam().get("unitId"))) 
+		{
+			p.getParam().put("unitId", param.getParam().get("unitId"));
+		}
+		LayuiTableData projects = intlProjectInfoService.selectProjectInfoByPage(p);
+		Set<String> pIds = new HashSet<String>();
+		pIds.add("xxxx");
+		for(int i=projects.getData().size()-1;i>=0;i--) 
+		{
+			Map<String,Object> map = MyBeanUtils.java2Map(projects.getData().get(i));
+			ordersb.append((ordersb.length()>0?",":"")+"'"+map.get("projectId")+"'");
+			pIds.add(map.get("projectId").toString());
+		}
+		
 		//检索待验收项目
 		IntlProjectInfoExample example = new IntlProjectInfoExample();
 		IntlProjectInfoExample.Criteria criteria = example.createCriteria();
@@ -77,31 +132,25 @@ public class IntlProjectAcceptServiceImpl implements IntlProjectAcceptService {
 		for(IntlProjectContract c:contracts) {
 			ids.add(c.getProjectId());
 		}
-		criteria.andProjectIdIn(ids);
-		
-		List<IntlProjectInfo> infos = projectInfoMapper.selectByExample(example);
-		Map<String,IntlProjectInfo> maps = new HashMap<String,IntlProjectInfo>();
-		for(IntlProjectInfo plt:infos) {
-			maps.put(plt.getProjectId(), plt);
-		}
-		
-		//移除已验收过的项目
+		//检索已经验收过的项目
 		IntlProjectAcceptExample aexample = new IntlProjectAcceptExample();
 		List<IntlProjectAccept> acceptlist = intlProjectAcceptMapper.selectByExample(aexample);
+		Set<String> assets = new HashSet<String>();
 		for(IntlProjectAccept accept:acceptlist) {
-			maps.remove(accept.getProjectId());
+			assets.add(accept.getProjectId());
 		}
 		
-		IntlProjectInfoExample ce = new IntlProjectInfoExample();
-		IntlProjectInfoExample.Criteria projectCriteria = ce.createCriteria();
-		if(maps.size()>0) {
-			projectCriteria.andProjectIdIn(new ArrayList<String>(maps.keySet()));
-		}else {
-			LayuiTableData data = new LayuiTableData();
-			data.setData(new ArrayList<Object>());
-			return data;
+		if(assets.size() >0) {
+			criteria.andProjectIdNotIn(new ArrayList<String>(assets));
 		}
-		return findProjectByExample(param,ce);
+		criteria.andProjectIdIn(ids);
+		
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")) || !StringUtils.isBlank((String)param.getParam().get("unitId")))
+		{
+			criteria.andProjectIdIn(new ArrayList<String>(pIds));
+		}
+		example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		return findProjectByExample(param,example);
 	}
 	
 	@Override

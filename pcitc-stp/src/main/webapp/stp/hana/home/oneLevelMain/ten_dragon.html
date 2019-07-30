@@ -76,7 +76,7 @@
 						<div class="layui-card-body btn-function">
 							<div class="text-total">
 								<span>
-									总数:
+									总数(含子课题):
 									<span class="text-total-blue" id="dragon2_01">
 										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 									</span>
@@ -271,18 +271,25 @@
 			});
 
 			var chart7_url = "/one_level_main/dragon_03?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&companyCode=" + companyCode;
-			var color=["#F7D453","#9899EC"];//url,id,title,subtext,yAxis,width,color,callback
+			var color=["#F7D453","#9899EC"];
 			var echart7 = load_mutl_bar_down(chart7_url, "dragon3", "", "", yAxis, 20, color, function(data) {
-				publicMethods.ajaxPost("/one_level_main/dragon_03_total", {
-					"nd" : nd
-				}, function(dt) {
-					var total = 0;
-					var zhongda = parseInt($("#dragon3_03").html());
-					$.each(dt, function(index, d) {
-						total += d.sl;
-					});
-					$("#dragon3_01").html((total + zhongda) + "个");
-					$("#dragon3_02").html(total + "个");
+				$.ajax({
+					type : 'GET',
+					url : "/one_level_main/dragon_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd+"&typeFlag=研究院",
+					dataType : 'json',
+					headers : {
+						'Content-Type' : 'application/json'
+					},
+					timeout : 3000,
+					error : function(XMLHttpRequest, status) {
+
+					},
+					success : function(data) {
+						var zsl = data.data.zsl;
+						$("#dragon3_01").html(data.data.zsl + "个");
+						$("#dragon3_02").html(data.data.stlsl + "个");
+						$("#dragon3_03").html(data.data.zdzxsl + "个");
+					}
 				});
 
 			});
@@ -312,7 +319,7 @@
 			var companyCode = $("#companyCode").val();
 			var tableOne = table.render({
 				elem : '#processdef_table_2',
-				url : '/one_level_main/getStlTable?nd=' + nd + "&companyCode=" + companyCode,
+				url : '/one_level_main/getStlTable?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&companyCode=" + companyCode,
 				method : "GET",
 				where : {
 					param : {

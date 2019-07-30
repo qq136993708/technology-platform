@@ -1441,6 +1441,10 @@ public class OutProjectServiceImpl implements OutProjectService {
 			}
 			map.put("status", status);
 		}
+		System.out.println(map.get("zylbbm")+"==22222==="+map.get("zycbm"));
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+		System.out.println(map.get("zylbbm")+"==22233322==="+map.get("zycbm"));
 		return outProjectInfoMapper.getDragonProjectDetails(map);
 	}
 

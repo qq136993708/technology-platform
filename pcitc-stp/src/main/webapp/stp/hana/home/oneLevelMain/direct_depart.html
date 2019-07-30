@@ -125,8 +125,8 @@
 						<span class="layui-box-icon bg-8"></span>
 						<div class="layui-box-content">
 							<span class="layui-box-text">标准化</span>
-							<span class="layui-box-number">
-								-- <small>(个)</small>
+							<span class="layui-box-number" id="outStandardDataCount">
+								<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
 							</span>
 						</div>
 					</div>
@@ -343,14 +343,14 @@
 	<script>
 		var companyCode = $("#companyCode").val();
 		var nd = $("#nd").val();
-		
+		var intlProjectCount = 0;
+		var outStandardDataCount = 0;
 
 		//alert(companyCode);
 		var element;
 		layui.use([ 'jquery', 'table', 'carousel', 'layer', 'laydate', 'element' ], function() {
 			var $ = layui.jquery, table = layui.table, carousel = layui.carousel, laydate = layui.laydate, layer = layui.layer;
 			element = layui.element;
-			var intlProjectCount = 0;
 			//科研课题
 			$(".layui-top .layui-col-md15").eq(0).click(function() {
 				window.open("/instituteIndex?url=" + "/direct/topic?userLevel=1", "_target");
@@ -377,14 +377,20 @@
 
 				window.open("/instituteIndex?url=" + "/direct/achievement?userLevel=1", "_target");
 			});
-
+			//国际合作
 			$(".layui-top .layui-col-md15").eq(6).click(function() {
 				//parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main?userLevel=1", "国际合作");
 				if(intlProjectCount > 0)
 				{
 					parent.layui.index.openTabsPage("/project/info_list_manager?userLevel=1", "国际合作");
 				}
-				
+			});
+			//标准化
+			$(".layui-top .layui-col-md15").eq(7).click(function() {
+				if(outStandardDataCount > 0)
+				{
+					parent.layui.index.openTabsPage("/out/out_standarddata_main?userLevel=1", "标准化");
+				}
 			});
 
 			var md4Height = $(".layui-col-md4").height() - 2;
@@ -566,7 +572,26 @@
 			});
 
 		}
-
+		function setOutStandardDataCount(nd) {
+			$.ajax({
+				type : 'POST',
+				url : "/out/out-standarddata-count",
+				dataType : 'json',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				data : {
+					"nd" : nd
+				},
+				timeout : 20000,
+				error : function(XMLHttpRequest, status) {
+				},
+				success : function(data) {
+					outStandardDataCount = data;
+					$("#outStandardDataCount").html(data + "<small>(个)</small>");
+				}
+			});
+		}
 		function init() {
 
 			//alert(companyCode);
@@ -580,6 +605,7 @@
 				appraisalCount(nd);//成果
 				setContcator_id(nd, v_date);//合同签订率
 				setIntlProjectCount(nd);
+				setOutStandardDataCount(nd);
 				var yAxis = [ {
 					type : 'value',
 					name : '数量（个）',
