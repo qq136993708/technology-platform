@@ -761,7 +761,10 @@ html {
 						}
 						if (dt.WORK_ORDER_NAME != null) {
 							content += '<p>' + dt.WORK_ORDER_NAME + '</p>';
-							content += '<br><p>' + dt.showUser + '正在处理中...</p></a>';
+							if (typeof (dt.showUser) != "undefined") {
+								content += '<br><p>' + dt.showUser + '正在处理中...</p>';
+							}
+							content += '</a>';
 						}
 						content += '</li>';
 					}
