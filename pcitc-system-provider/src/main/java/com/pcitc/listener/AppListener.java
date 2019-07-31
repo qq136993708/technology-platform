@@ -2,7 +2,6 @@ package com.pcitc.listener;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +30,10 @@ public class AppListener implements ApplicationListener<ContextRefreshedEvent> {
     
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-    	//控制定时任务只在服务器端执行
+    	//当前主机的网络地址
     	Set<String> hostSet = HostUtil.getLocalHostAddressSet();
-    	//可执行的IP地址 10.246.96.85,10.246.96.11,172.16.100.127,172.16.100.144
-    	List<String> acceptList =Arrays.asList(jobRunHosts.split(","));
-    	Set<String> acceptSet = new HashSet<String>(acceptList);
+    	//可执行定时任务的主机 
+    	Set<String> acceptSet = new HashSet<String>(Arrays.asList(jobRunHosts.split(",")));
     	
     	acceptSet.retainAll(hostSet);
     	if(acceptSet.size() > 0)
