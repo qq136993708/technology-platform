@@ -391,8 +391,8 @@ public class OneLevelMainController extends BaseController {
 		// 技术分类
 		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
 		request.setAttribute("jsflList", jsflList);
-		// 三级级联：经费来源(公司类型财务)->单位类别->研究院
-		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
+		// 三级级联：经费来源(公司类型财务)->单位类别->研究院--中国石化集团
+		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT", restTemplate, httpHeaders);
 		request.setAttribute("jflyList", jflyList);
 		// 成果分组类型
 		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGFZLX", restTemplate, httpHeaders);
