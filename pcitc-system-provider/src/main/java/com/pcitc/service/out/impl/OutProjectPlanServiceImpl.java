@@ -94,6 +94,10 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				if (StrUtil.isNotBlank(opp.getJf())) {
 					newOPI.setJf(opp.getJf());
 				}
+				
+				if (StrUtil.isNotBlank(opp.getHth())) {
+					newOPI.setHth(opp.getHth());
+				}
 
 				if (StrUtil.isNotBlank(opp.getYsje())) {
 					newOPI.setYsje(opp.getYsje());
