@@ -209,10 +209,10 @@
                 	layer.msg('请选择一条数据');
                     return false;
                 }
-                if (selectRowData.isPublished == 1) {
+                /* if (selectRowData.isPublished == 1) {
                 	layer.msg('已发布公告不可删除！');
                     return false;
-                }
+                } */
 	            layer.confirm('确认要删除吗？',{icon:3,btn:['确定','取消']},function(index){
 	            	layer.close(index);
             		$.ajax({

@@ -61,15 +61,10 @@ html {
 							<div carousel-item="">
 								<#list sysNewsList as vo> 
 									<div>
-										<img src="/sysfile/getFilesLayuiByFormIdReturnBase64Image/${vo.bak6}" />
-										<p><a></a></p><!--新闻标题-->
+										<img title="${vo.title}"  style="cursor:pointer" onclick="to_sysNews('${vo.dataId}')"  src="/sysfile/getFilesLayuiByFormIdReturnBase64Image/${vo.bak6}" />
+										<p><a target="_blank" href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=${vo.dataId}">${vo.title}</a></p><!--新闻标题-->
 									</div>
 								 </#list>
-								<!-- <div>
-								<img src="/layuiadmin/layui/images/pic.png" />
-									<img src="/layuiadmin/layui/images/pic1.jpg" />
-									<p><a></a></p>
-								</div> -->
 							</div>
 						</div>
 					</div>
@@ -802,6 +797,12 @@ html {
 				content : '/plan/addPlanPage'
 			});
 		}
+		
+		function to_sysNews(id)
+		{
+			window.open("/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + id);
+		}
+		
 	</script>
 </body>
 </html>
