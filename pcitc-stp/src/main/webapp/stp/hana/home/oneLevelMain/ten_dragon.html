@@ -553,12 +553,20 @@
 			}
 		}
 		function export_doc(date_year) {
-			if("2019" == date_year){
+			var fs = [];
+			fs["2012"] = "stpfile/tendragon03/2012年第二次领导小组汇报.doc";
+			fs["2013"] = "stpfile/tendragon03/2013年第二次领导小组汇报.doc";
+			fs["2014"] = "stpfile/tendragon03/2014年第二次领导小组汇报.doc";
+			fs["2015"] = "stpfile/tendragon03/2015年第二次领导小组汇报.doc";
+			fs["2016"] = "stpfile/tendragon03/2016年第二次领导小组汇报.docx";
+			fs["2017"] = "stpfile/tendragon03/2017年第二次领导小组汇报.docx";
+			fs["2018"] = "stpfile/tendragon03/2018年第二次领导小组汇报.docx";
+			if(!fs[date_year]){
 				console.log(".....没有汇报材料材料!");
 			}else{
-				window.open("/one_level_main/report_download/" + date_year);
+				//window.open("/one_level_main/report_download/" + date_year);
+				window.open(encodeURI("/out/report_download?fileName="+fs[date_year],"UTF-8"));
 			}
-			
 		}
 	</script>
 </body>
