@@ -48,9 +48,9 @@ public class PlanServiceImpl implements PlanService {
     public PlanBase findBotWorkOrderById(String dataId) {
         PlanBase vo = planBaseMapper.selectByPrimaryKey(dataId);
         JSONObject obj = new JSONObject();
-        obj.put("dataId",dataId);
+        obj.put("dataId", dataId);
         String s = selectListPlan(obj);
-        if (StrUtil.isNullEmpty(vo.getParentId())&&StrUtil.isNullEmpty(vo.getBl())){
+        if (StrUtil.isNullEmpty(vo.getParentId()) && StrUtil.isNullEmpty(vo.getBl())) {
             vo.setBl(s);
         }
         return vo;
@@ -393,7 +393,7 @@ public class PlanServiceImpl implements PlanService {
         if (parentId != null && "1".equals(parentId)) {
             c.andParentIdIsNull();
         }
-        
+
         String isChildren = (String) param.getParam().get("isChildren");
         if (isChildren != null && "1".equals(isChildren)) {
             c.andParentIdIsNotNull();
@@ -437,7 +437,7 @@ public class PlanServiceImpl implements PlanService {
 
         return data;
     }
-    
+
     @Override
     public LayuiTableData getWorkOrderForLeader(LayuiTableParam param) {
         // 1、设置分页信息，包括当前页数和每页显示的总计数
@@ -465,7 +465,6 @@ public class PlanServiceImpl implements PlanService {
 
         return data;
     }
-
 
     @Override
     public LayuiTableData queryMyBotWorkOrderMatterList(LayuiTableParam param) {
@@ -515,6 +514,10 @@ public class PlanServiceImpl implements PlanService {
         int result = 200;
         try {
             planBaseMapper.submitMyBotWorkOrder(id);
+            //提交后更新状态
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("dataId",id);
+            calPlanBl(jsonObject);
         } catch (Exception e) {
             result = 500;
         }
@@ -525,7 +528,7 @@ public class PlanServiceImpl implements PlanService {
         return records.stream().filter(e -> parentId.equals(e.getDataId())).collect(Collectors.toList());
     }
 
-    public String selectListPlan(JSONObject jsonObject){
+    public String selectListPlan(JSONObject jsonObject) {
         String dataId = jsonObject.get("dataId").toString();
         PlanBase planBase = planBaseMapper.selectByPrimaryKey(dataId);
         String workOrderCode = planBase.getWorkOrderCode();
@@ -559,7 +562,8 @@ public class PlanServiceImpl implements PlanService {
 //        return null;
     }
 
-    public String selectTreeData(JSONObject jsonObject){
+
+    public String selectTreeData(JSONObject jsonObject) {
         List<TreeNode> orderNodes = null;
         try {
             List<TreeNode> nodes = new ArrayList<TreeNode>();
@@ -571,7 +575,7 @@ public class PlanServiceImpl implements PlanService {
                 node.setId(record.getDataId());
                 node.setParentId(record.getParentId());
 //                node.setName(record.getWorkOrderAllotUserName() + "(" + (StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl()) + "%)");
-                node.setName(record.getWorkOrderName()+"|"+record.getWorkOrderAllotUserName() + "|(" + (StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl()) + "%)"+"|"+record.getAnnouncements());
+                node.setName(record.getWorkOrderName() + "|" + record.getWorkOrderAllotUserName() + "|(" + (StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl()) + "%)" + "|" + record.getAnnouncements());
                 nodes.add(node);
             }
             //构建树形结构(从根节点开始的树形结构)
@@ -580,9 +584,9 @@ public class PlanServiceImpl implements PlanService {
             PlanBase planBase = planBaseMapper.selectByExample(e).get(0);
             List<TreeNode> list = new ArrayList<>();
             //查找最大节点
-            System.out.println("dataId:"+dataId);
-            System.out.println("dataId:"+nodes.size());
-            orderNodes = getChildrenNode(dataId, nodes,list);
+            System.out.println("dataId:" + dataId);
+            System.out.println("dataId:" + nodes.size());
+            orderNodes = getChildrenNode(dataId, nodes, list);
 //            TreeNode node = new TreeNode();
 //            node.setId(planBase.getDataId());
 //            node.setParentId(planBase.getParentId());
@@ -596,7 +600,7 @@ public class PlanServiceImpl implements PlanService {
         return JSONObject.toJSONString(orderNodes);
     }
 
-    public List selectTreeDataList(JSONObject jsonObject){
+    public List selectTreeDataList(JSONObject jsonObject) {
         List<TreeNode> orderNodes = null;
         try {
             List<TreeNode> nodes = new ArrayList<TreeNode>();
@@ -616,26 +620,27 @@ public class PlanServiceImpl implements PlanService {
             PlanBase planBase = planBaseMapper.selectByExample(e).get(0);
             List<TreeNode> list = new ArrayList<>();
             //查找最大节点
-            orderNodes = getChildrenNode(planBase.getParentId(), nodes,list);
+            orderNodes = getChildrenNode(planBase.getParentId(), nodes, list);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return orderNodes;
     }
 
-    public static List<TreeNode> getfatherNode(List<TreeNode> treeDataList, String parentId,List<TreeNode> newTreeDataList){
+    public static List<TreeNode> getfatherNode(List<TreeNode> treeDataList, String parentId, List<TreeNode> newTreeDataList) {
         for (TreeNode jsonTreeData : treeDataList) {
             if (jsonTreeData.getParentId() == null || "".equals(jsonTreeData.getParentId())) {
                 break;
             }
             if (jsonTreeData.getId().equals(parentId)) {
                 //获取父节点下的子节点
-                jsonTreeData.setNodes(getChildrenNodeList(jsonTreeData.getParentId(),treeDataList));
+                jsonTreeData.setNodes(getChildrenNodeList(jsonTreeData.getParentId(), treeDataList));
                 newTreeDataList.add(jsonTreeData);
             }
         }
         return newTreeDataList;
     }
+
     public static List<TreeNode> getChildrenNodeList(String parentId, List<TreeNode> treeDataList) {
         List<TreeNode> newTreeDataList = new ArrayList<TreeNode>();
         for (TreeNode jsonTreeData : treeDataList) {
@@ -649,37 +654,108 @@ public class PlanServiceImpl implements PlanService {
         }
         return newTreeDataList;
     }
-    public static List<TreeNode> getChildrenNode(String parentId, List<TreeNode> treeDataList,List<TreeNode> newTreeDataList) {
+
+    public static List<TreeNode> getChildrenNode(String parentId, List<TreeNode> treeDataList, List<TreeNode> newTreeDataList) {
 //        List<TreeNode> newTreeDataList = new ArrayList<TreeNode>();
         for (TreeNode jsonTreeData : treeDataList) {
             if (jsonTreeData.getParentId() == null || "".equals(jsonTreeData.getParentId())) {
                 continue;
             }
             //这是一个子节点
-            System.out.println(jsonTreeData.getId()+"---"+jsonTreeData.getParentId());
             if (jsonTreeData.getParentId().equals(parentId)) {
                 //递归获取子节点下的子节点
 //                jsonTreeData.setNodes(getChildrenNode(jsonTreeData.getId(), treeDataList,newTreeDataList));
-                getChildrenNode(jsonTreeData.getId(), treeDataList,newTreeDataList);
+                getChildrenNode(jsonTreeData.getId(), treeDataList, newTreeDataList);
                 newTreeDataList.add(jsonTreeData);
             }
         }
         return newTreeDataList;
     }
 
-    public static void main(String[] args) {
+    public static List<TreeNode> getChildrenNodeRelation(String parentId, List<TreeNode> treeDataList, List<TreeNode> newTreeDataList) {
+//        List<TreeNode> newTreeDataList = new ArrayList<TreeNode>();
+        for (TreeNode jsonTreeData : treeDataList) {
+            if (jsonTreeData.getParentId() == null || "".equals(jsonTreeData.getParentId())) {
+                continue;
+            }
+            //这是一个子节点
+            if (jsonTreeData.getParentId().equals(parentId)) {
+                //递归获取子节点下的子节点
+                jsonTreeData.setNodes(getChildrenNodeRelation(jsonTreeData.getId(), treeDataList, newTreeDataList));
+//                getChildrenNodeRelation(jsonTreeData.getId(), treeDataList, newTreeDataList);
+                newTreeDataList.add(jsonTreeData);
+            }
+        }
+        return newTreeDataList;
+    }
+
+    public void calPlanBl(JSONObject jsonObject) {
+        try {
+            String dataId = jsonObject.get("dataId").toString();
+            PlanBase planBase = planBaseMapper.selectByPrimaryKey(dataId);
+            String workOrderCode = planBase.getWorkOrderCode();
+            //查询所有节点
+            PlanBaseExample e = new PlanBaseExample();
+            PlanBaseExample.Criteria criteria = e.createCriteria();
+            criteria.andWorkOrderCodeEqualTo(workOrderCode);
+            List<PlanBase> planBases = planBaseMapper.selectByExample(e);
+
+            List<TreeNode> nodes = new ArrayList<TreeNode>();
+
+            //父节点node
+            for (PlanBase record : planBases) {
+                TreeNode node = new TreeNode();
+                node.setId(record.getDataId());
+                node.setParentId(record.getParentId());
+                node.setName((StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl()) + "-" + (StrUtil.isNullEmpty(record.getAnnouncements()) ? "0" : record.getAnnouncements()));//完成比例-权重
+                nodes.add(node);
+            }
+            //计算比例
+            String pids = planBase.getParentId();
+            boolean b = false;
+            while (!b) {
+                List<TreeNode> fatherNodes = TreeNodeUtil.getfatherNode(nodes, pids);
+                for (int i = 0; i < fatherNodes.size(); i++) {
+                    TreeNode treeNode = fatherNodes.get(i);
+                    System.out.println(treeNode.getParentId() + "            " + treeNode.getId() + "            ");
+                    System.out.println("当前节点的子节点,计算子节点的值,赋给父节点,更新父节点");
+                    double bl_parent = 0.00;
+                    for (int j = 0; j < +treeNode.getNodes().size(); j++) {
+                        //取值
+                        String name = treeNode.getNodes().get(j).getName();
+                        String[] array = name.split("-");
+                        bl_parent = bl_parent+ Double.valueOf(array[0])*Double.valueOf(array[1]);
+                    }
+                    //更新
+                    PlanBase pb = planBaseMapper.selectByPrimaryKey(treeNode.getId());
+                    pb.setBl(bl_parent/100+"");
+                    planBaseMapper.updateByPrimaryKey(pb);
+                    pids = treeNode.getParentId();
+                }
+                if (pids == null || "".equals(pids)) {
+                    b = true;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void main(String[] args) throws Exception {
         List<TreeNode> nodes = new ArrayList<TreeNode>();
 
         TreeNode node = new TreeNode();
         node.setId("pid");
         node.setParentId("");
-        node.setName("一级节点");
+        node.setName("父节点");
         nodes.add(node);
 
         TreeNode node1 = new TreeNode();
         node1.setId("id1");
         node1.setParentId("pid");
-        node1.setName("父节点");
+        node1.setName("节点1");
         nodes.add(node1);
 
         TreeNode node2 = new TreeNode();
@@ -691,7 +767,7 @@ public class PlanServiceImpl implements PlanService {
         TreeNode node22 = new TreeNode();
         node22.setId("id22");
         node22.setParentId("id1");
-        node22.setName("节点2");
+        node22.setName("节点22");
         nodes.add(node22);
 
         TreeNode node3 = new TreeNode();
@@ -706,15 +782,52 @@ public class PlanServiceImpl implements PlanService {
         node4.setName("节点4");
         nodes.add(node4);
 
+        //根据当前ID,获取子节点:当前节点父ID,list
+//        List<TreeNode> id1 = TreeNodeUtil.getChildrenNode("id1", nodes);
+        System.out.println("获取子节点参数:当前节点父ID,list");
+//        for (int i = 0; i < id1.size(); i++) {
+//            System.out.println(id1.get(i).getId());
+//        };
+        //根据当前ID,获取父节点:list,当前节点父ID
+        System.out.println("获取父节点参数:list,当前节点父ID,返回参数包含子节点");
+//        List<TreeNode> id2 = TreeNodeUtil.getfatherNode(nodes,"id1");
+//        for (int i = 0; i < id2.size(); i++) {
+//            System.out.println(id2.get(i).getId()+"   ");
+//            for (int j = 0; j < id2.get(i).getNodes().size(); j++) {
+//                System.out.println(id2.get(i).getNodes().get(j).getId());
+//            }
+//        };
         List<TreeNode> list = new ArrayList<>();
-        //子节点不包含当前节点
-        List<TreeNode> pid = getChildrenNode("pid", nodes,list);
-        for (int i = 0; i < pid.size(); i++) {
-            System.out.println(pid.get(i).getId());
+
+        System.out.println("遍历开始");
+        System.out.println("父            子");
+        System.out.println("id2           id3");
+        System.out.println("计            算");
+        //获取当前nodes
+        //获取当前节点父节点
+        String pids = "id2";
+        boolean b = false;
+        //父节点:节点1
+        //节点2:节点3,节点4
+        //节点1:节点2,节点22
+        //循环
+        while (!b) {
+            List<TreeNode> fatherNodes = TreeNodeUtil.getfatherNode(nodes, pids);
+            for (int i = 0; i < fatherNodes.size(); i++) {
+                TreeNode treeNode = fatherNodes.get(i);
+                System.out.println(treeNode.getParentId() + "            " + treeNode.getId() + "            ");
+                System.out.println("当前节点的子节点,计算子节点的值,赋给父节点,更新父节点");
+                for (int j = 0; j < +treeNode.getNodes().size(); j++) {
+                    System.out.println(treeNode.getNodes().get(j).getId());
+                }
+                pids = treeNode.getParentId();
+            }
+            if (pids == null || "".equals(pids)) {
+                b = true;
+                break;
+            }
         }
-
-        System.out.println(list.size());
-
+//        System.out.println(list.size());
 
 //        List<TreeNode> fff = null;
 //        try {

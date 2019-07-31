@@ -790,7 +790,7 @@ public class PlanController extends BaseController {
 	}
 
 	/**
-	 * 下发工单管理
+	 * 提交
 	 *
 	 * @param request
 	 * @return
