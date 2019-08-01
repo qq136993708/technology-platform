@@ -1,5 +1,6 @@
 package com.pcitc.web.controller;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
@@ -11,6 +12,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -25,6 +27,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
+import com.pcitc.base.system.SysCollect;
+import com.pcitc.base.system.SysFunction;
+import com.pcitc.base.system.SysNews;
+import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MD5Util;
@@ -33,6 +39,7 @@ import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.DES3Utils;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
+import com.pcitc.web.utils.OtherUtil;
 import com.pcitc.web.utils.RestfulHttpClient;
 import com.sinopec.siam.agent.sp.config.SysConfig;
 
@@ -46,6 +53,9 @@ public class AdminMobileController extends BaseController {
 	private static final String	LOGIN_URL		= "http://pcitc-zuul/auth/login";
 	private static final String	GET_USER_INFO	= "http://pcitc-zuul/system-proxy/user-provider/user/info";
 
+	private static final String USER_DETAILS_URL = "http://pcitc-zuul/system-proxy/user-provider/user/user-details/";
+	
+	private Integer TIME_OUT = 1 * 60 * 60;
 	/**
 	 * 移动本地测试方法
 	 * 
@@ -311,5 +321,110 @@ public class AdminMobileController extends BaseController {
 			ip = request.getRemoteAddr();
 		}
 		return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
+	}
+	
+	
+	
+	/**
+	 *移动登录界面，测试专用
+	 */
+	@RequestMapping(value = "/mobile/login")
+	public String pcitcToIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("----------====进入login....");
+		Cookie[] cookies = request.getCookies();
+		if (cookies == null || cookies.length == 0) {
+			System.out.println("not find cookies! ");
+
+		} else {
+			for (Cookie c : cookies) {
+				if ("loginErrorCount".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
+					System.out.println("----------====进入login....loginErrorCount======");
+					request.setAttribute("loginErrorCount", c.getValue());
+					break;
+				}
+			}
+		}
+		return "/mobile-login";
+	}
+	
+	@RequestMapping(value = "/mobile/temIndex")
+	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		SysUser userDetails = new SysUser(); // 用户信息，包含此人拥有的菜单权限等。token中放不下这些信息
+		SysUser tokenUser = new SysUser();
+		if (request.getParameter("username") != null && request.getParameter("password") != null) {
+			// 模拟登录时的用户Id密码
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+			MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+			requestBody.add("username", username);
+			requestBody.add("password", MD5Util.MD5Encode(password));
+
+			HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
+
+			ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
+			JSONObject retJson = responseEntity.getBody();
+
+			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+			if (retJson == null || retJson.get("token") == null) {
+				// 登录错误次数
+				Cookie loginCookie = new Cookie("loginErrorCount", "0");
+				loginCookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
+				loginCookie.setPath("/");
+				response.addCookie(loginCookie);
+				response.sendRedirect("/mobile/login");
+
+				return null;
+			}
+
+			Cookie cookie = new Cookie("token", retJson.getString("token"));
+			cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
+			cookie.setPath("/");
+			response.addCookie(cookie);
+
+			String year = HanaUtil.getCurrentYear();
+			request.setAttribute("year", year);
+
+			String unitPathId = sysUserInfo.getUnitPath();
+			boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+			request.setAttribute("isKJBPerson", isKJBPerson);
+
+			return "/mobile/index";
+		} else {
+			if (sysUserInfo == null || sysUserInfo.getUserId() == null) {
+				System.out.println("未登录！");
+				response.sendRedirect("/mobile-login");
+
+				return null;
+			}
+
+			// 用户有哪些菜单权限
+			userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+			
+			// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
+			httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+			MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+			requestBody.add("username", userDetails.getUserName());
+			requestBody.add("password", userDetails.getUserPassword());
+			HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
+
+			ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
+			JSONObject retJson = responseEntity.getBody();
+
+			Cookie cookie = new Cookie("token", retJson.getString("token"));
+			cookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
+			cookie.setPath("/");
+			response.addCookie(cookie);
+
+			String year = HanaUtil.getCurrentYear();
+			request.setAttribute("year", year);
+
+			String unitPathId = sysUserInfo.getUnitPath();
+			boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+			request.setAttribute("isKJBPerson", isKJBPerson);
+
+			return "/mobile/index";
+		}
 	}
 }
