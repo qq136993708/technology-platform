@@ -66,12 +66,15 @@
                 </div>
             </div>
             <div class="layui-col-md3">
-                <div class="chart"></div>
+                <div class="chart">
+                    <div class="chartX" id="chart"><span></span></div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/javascript/circle-progress.min.js"></script>
 <script>
     var param = JSON.parse(window.localStorage.getItem("param"));
     var $;
@@ -112,6 +115,7 @@
                 $("#bak3").html(selectData.bak3);
                 $("#announcements").html(selectData.announcements);
                 $("#remarks").html(selectData.remarks);
+                circle("chart", selectData.bl,  "总体完成情况<br/>"+selectData.bl+"%");
                 $.ajax({
                     url: '/pageCommon/dic/ROOT_RWGL_RWLX',
                     dataType: 'json',
@@ -161,6 +165,20 @@
                 // $("#sonlist").html(html);
             }
         });
+        function circle(id, value, number) {
+            $("#" + id).circleProgress({
+                value : value,
+                size : 180,
+                startAngle : -Math.PI / 2,
+                thickness : '30',
+                fill : {
+                    gradient : [ "#ffffff", "#79dcd5" ]
+                },
+                emptyFill : "rgba(255,255,255,.3)"
+            }).on('circle-animation-progress', function(event, progress, stepValue) {
+                $(this).find('span').html(number);
+            });
+        }
     });
 </script>
 
