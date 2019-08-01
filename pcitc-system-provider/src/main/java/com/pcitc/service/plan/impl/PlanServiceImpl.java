@@ -1,5 +1,6 @@
 package com.pcitc.service.plan.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -704,7 +705,8 @@ public class PlanServiceImpl implements PlanService {
                 TreeNode node = new TreeNode();
                 node.setId(record.getDataId());
                 node.setParentId(record.getParentId());
-                node.setName((StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl()) + "-" + (StrUtil.isNullEmpty(record.getAnnouncements()) ? "0" : record.getAnnouncements()));//完成比例-权重
+                node.setName((StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl()));//完成比例-权重
+//                node.setName((StrUtil.isNullEmpty(record.getBl()) ? "0" : record.getBl()) + "-" + (StrUtil.isNullEmpty(record.getAnnouncements()) ? "0" : record.getAnnouncements()));//完成比例-权重
                 nodes.add(node);
             }
             //计算比例
@@ -715,20 +717,24 @@ public class PlanServiceImpl implements PlanService {
                 for (int i = 0; i < fatherNodes.size(); i++) {
                     TreeNode treeNode = fatherNodes.get(i);
                     double bl_parent = 0.00;
-                    for (int j = 0; j < +treeNode.getNodes().size(); j++) {
+                    int length = treeNode.getNodes().size();
+                    for (int j = 0; j < length; j++) {
                         //取值
                         String name = treeNode.getNodes().get(j).getName();
-                        String[] array = name.split("-");
-                        bl_parent = bl_parent+ Double.valueOf(array[0])*Double.valueOf(array[1]);
+//                        String[] array = name.split("-");
+                        bl_parent = bl_parent+ Double.valueOf(name);
                     }
                     //更新
+                    BigDecimal bigDecimal = new BigDecimal(bl_parent / length).setScale(2, BigDecimal.ROUND_HALF_UP);
+
+                    String bl = bigDecimal.doubleValue()>100?"100":(bigDecimal.doubleValue()+"");
+
                     PlanBase pb = planBaseMapper.selectByPrimaryKey(treeNode.getId());
-                    pb.setBl(bl_parent/100+"");
+                    pb.setBl(bl);
                     planBaseMapper.updateByPrimaryKey(pb);
                     //更新nodelist
                     String name = fatherNodes.get(i).getName();
-                    name = bl_parent/100+"-"+name.split("-")[1];
-                    fatherNodes.get(i).setName(name);
+                    fatherNodes.get(i).setName(bl);
 
                     pids = treeNode.getParentId();
                 }
