@@ -614,7 +614,8 @@ html {
 			var v_date = (new Date()).getTime();
 			$.ajax({
 				type : 'GET',
-				url : "/one_level_main/investment_first_page_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date,
+				//url : "/one_level_main/investment_first_page_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date,
+				url : "/one_level_main/investment_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
 				dataType : 'json',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -625,11 +626,18 @@ html {
 					$("#moneyCurrent").html("<span style='font-size:14px;'>--亿</span>");
 				},
 				success : function(data) {
-					var projectMoney = data.data.projectMoney;
-					var zysje = data.data.zysje;
-					var tt1 = parseFloat(projectMoney) / 10000;
-					var tt2 = parseFloat(zysje) / 10000;
-
+					var projectMoney = data.data;
+					var tt1 = 0;
+					var tt2 = 0;
+					for (var i = 0; i < projectMoney.length; i++) {
+						var zysje = projectMoney[i].zysje;
+						var fyxsjje = projectMoney[i].fyxsjje;
+						var zbxsjje = projectMoney[i].zbxsjje;
+						tt1 = tt1 + parseFloat(fyxsjje) + parseFloat(zbxsjje);
+						tt2 = tt2 + parseFloat(zysje);
+					}
+					var tt1 = parseFloat(tt1)/ 10000;
+					var tt2 = parseFloat(tt2) / 10000;
 					$("#moneyTotal").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
 					$("#moneyCurrent").html(tt1.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
 				}
@@ -702,11 +710,12 @@ html {
 						if (index < 10) {
 							if (dt.waitTime != null) {// 其他系统
 								content += '<li class="state_1"><a target="_blank" href="' + dt.url + '"> ';
+								content += layui.laytpl.toDateString(dt.waitTime);
 							} else {
 								content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/task/pending/deal/' + dt.id + '"> ';
-							}
-							if (dt.createTime != null) {
-								content += layui.laytpl.toDateString(dt.createTime);
+								if (dt.createTime != null) {
+									content += layui.laytpl.toDateString(dt.createTime);
+								}
 							}
 							if (dt.processInstanceName != null) {
 								content += '<p>' + dt.processInstanceName + '</p></a>';
@@ -741,12 +750,16 @@ html {
 				}
 				$.each(data.data, function(index, dt) {
 					if (index < 10) {
-						content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/plan/viewPlanPage/' + dt.dataId + '"> ';
-						if (dt.createDate != null) {
-							content += layui.laytpl.toDateString(dt.createDate);
+						content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/plan/viewPlanPage/' + dt.DATA_ID + '"> ';
+						if (dt.CREATE_DATE != null) {
+							content += layui.laytpl.toDateString(dt.CREATE_DATE);
 						}
-						if (dt.workOrderName != null) {
-							content += '<p>' + dt.workOrderName + '</p></a>';
+						if (dt.WORK_ORDER_NAME != null) {
+							content += '<p>' + dt.WORK_ORDER_NAME + '</p>';
+							if (typeof (dt.showUser) != "undefined") {
+								content += '<br><p>' + dt.showUser + '正在处理中...</p>';
+							}
+							content += '</a>';
 						}
 						content += '</li>';
 					}
