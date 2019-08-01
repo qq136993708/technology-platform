@@ -133,6 +133,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 		try {
 			String accept = request.getHeader("accept");// ajax请求头定义返回类型
 			String clientReqType = request.getHeader("client_req_type");// 自定义
+			
+			String path = request.getRequestURI();
+			
 			if (!StringUtils.isBlank(clientReqType)) {
 				Result rs = new Result(false, null, "登录超时!", "401");
 				PrintWriter out = response.getWriter();
@@ -149,7 +152,12 @@ public class TokenInterceptor implements HandlerInterceptor {
 				PrintWriter out = response.getWriter();
 				out.println("<html>");
 				out.println("<script>");
-				out.println("window.open ('" + request.getContextPath() + "/stpHome','_top')");
+				if (path.contains("/mobile/")) {
+					out.println("window.open ('" + request.getContextPath() + "/stpHome','_top')");
+				} else {
+					out.println("window.open ('" + request.getContextPath() + "/mobile/login','_top')");
+				}
+				
 				out.println("</script>");
 				out.println("</html>");
 				out.close();
