@@ -586,11 +586,10 @@ public class PlanServiceImpl implements PlanService {
             for (int i = 0,j = records.size(); i < j; i++) {
                 PlanBase base = records.get(i);
                 if (!StrUtil.isNullEmpty(base.getBak6())||StrUtil.isNullEmpty(base.getParentId())){
-                    records.get(i).setBak4("下发");
+                    records.get(i).setBak4("分发");
                 }
-                if (!StrUtil.isNullEmpty(base.getBak5())){
-                    records.get(i).setBak4("转发");
-                }
+                String showName = (StrUtil.isNullEmpty(records.get(i).getBak4())?"":("<span color='red'>"+records.get(i).getBak4()+"</span>"))+base.getWorkOrderAllotUserName()+"("+base.getBl()+"%)"+base.getWorkOrderName();
+                records.get(i).setWorkOrderName(showName);
             }
         } catch (Exception e) {
             e.printStackTrace();
