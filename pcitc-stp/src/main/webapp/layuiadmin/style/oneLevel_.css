@@ -174,7 +174,7 @@ line-height: 60px;font-size: 22px;}
 .main-left ul li{padding: 15px 0 13px;color: white;font-size: 12px;
     border-bottom: 1px dashed rgba(255,255,255,.4);margin-right: 6px;}
 .main-left ul li span{margin-right: 6px;}
-.main-left ul li p{margin-top: 4px;}
+.main-left ul li p{margin-top: 4px;height: 18px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
 .layui-level-main .main-midd{ width: 484px;margin-right: 24px;}
 .layui-level-main .main-right{width: 432px;position: relative;}
 .main-right>div,.main-two .main-left>div{cursor: pointer;}

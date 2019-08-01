@@ -66,9 +66,8 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "SelectAllJDSQ");
+			paramMap.put("sqlName", "zl_daiban1");
 			JsonObject jo = new JsonObject();
-
 			System.out.println(jo.toString());
 			paramMap.put("conditions", jo.toString());
 			// 添加多个参数
