@@ -166,25 +166,24 @@
                 data = eval(data);
                 console.log("tree");
                 console.log(data.length);
-                var html = "";
-                for (let i = 0; i < data.length; i++) {
-                    var obj = data[i];
-                    console.log(obj);
-                    var d = obj.name.split("|");
-                    html = html+"       <div class=\"item\">\n" +
-                        "                <div class=\"layui-col-sm5\">\n" +
-                        "                    <span>事项内容:</span>\n" +
-                        "                    <span>"+d[0]+"</span>\n" +
-                        "                </div>\n" +
-                        "                <div class=\"layui-col-sm7\">\n" +
-                        "                    <span>当前处理人:</span>\n" +
-                        "                    <span>"+d[1]+d[2]+"</span>\n" +
-                        "                </div>\n" +
-                        "            </div>";
-
-                }
-                $("#sonlist").html(html);
                 console.log(data);
+                var html = "";
+                // for (let i = 0; i < data.length; i++) {
+                //     var obj = data[i];
+                //     var d = obj.name.split("|");
+                //     html = html+"       <div class=\"item\">\n" +
+                //         "                <div class=\"layui-col-sm5\">\n" +
+                //         "                    <span>事项内容:</span>\n" +
+                //         "                    <span>"+d[0]+"</span>\n" +
+                //         "                </div>\n" +
+                //         "                <div class=\"layui-col-sm7\">\n" +
+                //         "                    <span>当前处理人:</span>\n" +
+                //         "                    <span>"+d[1]+d[2]+"</span>\n" +
+                //         "                </div>\n" +
+                //         "            </div>";
+                //
+                // }
+                // $("#sonlist").html(html);
             }
         });
     });
