@@ -6,6 +6,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseDetail;
 
@@ -62,5 +63,11 @@ public interface PlanService {
     public LayuiTableData getWorkOrderForLeader(LayuiTableParam param);
 
     public String selectListPlan(JSONObject jsonObject);
+
+    /**
+     * 计算值
+     * @param jsonObject
+     */
+    public void calPlanBl(JSONObject jsonObject);
 
 }

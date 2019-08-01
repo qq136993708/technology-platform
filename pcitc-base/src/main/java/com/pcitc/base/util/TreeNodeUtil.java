@@ -48,7 +48,6 @@ public class TreeNodeUtil {
                     continue;
                 }
                 //这是一个子节点
-                System.out.println(jsonTreeData.getParentId()+"--x-"+parentId+"--"+jsonTreeData.getId());
                 if(jsonTreeData.getParentId().equals(parentId)){
                     //递归获取子节点下的子节点
                     jsonTreeData.setNodes(getChildrenNode(jsonTreeData.getId() , treeDataList));

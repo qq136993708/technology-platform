@@ -790,7 +790,7 @@ public class PlanController extends BaseController {
 	}
 
 	/**
-	 * 下发工单管理
+	 * 提交
 	 *
 	 * @param request
 	 * @return
@@ -836,6 +836,7 @@ public class PlanController extends BaseController {
         o.put("dataId",request.getParameter("dataId"));
         o.put("pid",request.getParameter("pid"));
         String object = this.restTemplate.exchange(TREE_DATA_LIST, HttpMethod.POST, new HttpEntity<JSONObject>(o,this.httpHeaders), String.class).getBody();
+        System.out.println(object);
         return object;
 //        return JSONUtils.toJSONString(object.get("list"));
     }
