@@ -219,14 +219,14 @@
         // });
         function circle(id, value, number) {
             $("#" + id).circleProgress({
-                value: value,
+                value: value/100,
                 size: 180,
                 startAngle: -Math.PI / 2,
                 thickness: '30',
+                emptyFill: "#fff",
                 fill: {
                     gradient: ["#79dcd5"]
-                },
-                emptyFill: "rgba(255,255,255,.3)"
+                }
             }).on('circle-animation-progress', function (event, progress, stepValue) {
                 $(this).find('span').html(number);
             });
