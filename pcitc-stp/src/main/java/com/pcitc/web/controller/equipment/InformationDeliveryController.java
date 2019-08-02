@@ -45,7 +45,7 @@ public class InformationDeliveryController extends BaseController {
 	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/informationDelivery/updata";
 	
 	
-	/**s
+	/**
 	 * 信息发布数据获取
 	 * 
 	 * @param requestPAGE_URL
@@ -341,4 +341,43 @@ public class InformationDeliveryController extends BaseController {
 		out.close();
 		return null;
 	}
+	
+	
+	/**
+	 * 	经验心得页列表
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/sre-informationDelivery/informationDelivery-tolist")
+	public String tolist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
+		String unitPathId = sysUserInfo.getUnitPath();
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+	    request.setAttribute("isKJBPerson", isKJBPerson);
+		request.setAttribute("unitPathIds", unitPathIds);//父id
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);//子id
+		request.setAttribute("parentUnitPathNames", parentUnitPathNames);//研究院
+		request.setAttribute("applyDepartName", applyDepartName);//当前部门
+		 List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
+					httpHeaders);
+		    String str ="1";
+		    if(isKJBPerson == true) {
+		    	//获取研究院
+				request.setAttribute("dictonary", dicList);
+				request.setAttribute("str", "1");
+		    }else {
+		    	request.setAttribute("dictonary", dicList);
+		    	request.setAttribute("str", "0");
+		    }
+		return "/stp/equipment/informationDelivery/informationDelivery-tolist";
+	}
+	
 }		

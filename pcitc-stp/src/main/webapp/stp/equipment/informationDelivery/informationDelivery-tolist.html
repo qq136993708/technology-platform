@@ -34,28 +34,70 @@
     </style>
 </head>
 <body style="padding-top:20px; ">
+<input type="hidden" name="parentUnitPathNames" id="parentUnitPathNames" value="${parentUnitPathNames}">
+<input type="hidden" name="unitPathIds" id="unitPathIds" value="${unitPathIds}">
+<input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+<input type="hidden" name="stateid" id="stateid" value="1">
+<input type="hidden" name="applicationState" id="applicationState" value="${applicationState}">
+<input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
+<input  name="str"     id="str"      value="${str}"    type="hidden">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>发布标题</span>
+        <input type="text" name="publicationTitle" id="publicationTitle" placeholder="请输入发布标题" title="发布标题" autocomplete="off" class="form-control" >
+    </label>
+    <label class="dateInput">
+	         <span>发布类型</span>
+	         <select name="publicationType"  id="publicationType"  class="form-control"  style = "width:140px;" >
+	             <option value="" >--请选择--</option>
+			     <option value="1">科研装备能力</option>
+			     <option value="2">专有分析手段</option>
+			     <option value="3">分析方法</option>
+			     <option value="4">设备使用心得</option>
+			     <option value="5">维护保养经验</option>
+			     <option value="6">装备管理办法</option>
+			     <option value="7">故障诊断及排除</option>
+			 </select>
+	 </label>
+	 <#if test="${str==0}">
+	     <label class="dateInput">
+	         <span>研究院</span>
+	         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
+	             <option value="" >--请选择--</option>
+	             <#list dictonary as vo> 
+			          <option value="${vo.numValue}"  >${vo.remark}</option>
+			      </#list>
+			 </select>
+	     </label>
+   </#if>
+	 <label class="dateInput">
+        <span>发布人</span>
+        <input type="text" name="publisher" id="publisher" placeholder="请输入发布人" title="发布人" autocomplete="off" class="form-control" >
+     </label>
+     <label class="dateInput">
+            <span>发布时间</span>
+            <input type="text" name="publicationMonth"  title="时间" placeholder="请输发布入时间"  id="publicationMonth">
+            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+     </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent" id="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent" onclick="myFunction()">重置</button>
+    </div>
+</div>
 <div class="tableBox">
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
-<div class="relevant">
-    <p>搜索热点</p>
-    <div class="relevant-cont hotspot">
-        <!--<div class="item">-->
-            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=可燃气体探测器" target="_top">可燃气体探测器</a>-->
-        <!--</div>-->
-        <!--<div class="item">-->
-            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=加油加氢" target="_top">加油加氢</a>-->
-        <!--</div>-->
-        <!--<div class="item">-->
-            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=井筒工程技术" target="_top">井筒工程技术</a>-->
-        <!--</div>-->
-        <!--<div class="item">-->
-            <!--<a href="/instituteIndex?url=/fullSearch/search?keyword=催化剂" target="_top">催化剂</a>-->
-        <!--</div>-->
-    </div>
-</div>
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+function myFunction(){
+    	$('#publicationMonth').val("");
+    	$('#publicationType').val("");
+    	$('#publisher').val("");
+    	$('#publicationTitle').val("");
+      }
+</script>
 <script>
     var table, selectRowData;
     layui.config({
@@ -65,12 +107,14 @@
             , table = layui.table
             , form = layui.form
             , laydate = layui.laydate;
-
         function renderTable() {
-
             var index = layer.load(1, {
                 shade: [0.1, '#fff']
             });
+            var month = laydate.render({
+ 	           elem: '#publicationMonth'
+          	   ,position: 'fixed'
+ 	       });
             //渲染
             table.render({
                 elem: '#processdef-table',
@@ -79,8 +123,9 @@
                 method: "POST",
                 where: {
                     param: {
-                        "keywords": "${keyword}"
-                        ,"searchIndexFlag":"1"
+                    	"leadUnitCode":$("#leadUnitCode").val(),
+                    	"stateid":$("#stateid").val(),
+                    	"unitPathIds":$("#unitPathIds").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"publicationTitle":$("#publicationTitle").val(),"publisher":$("#publisher").val(),"publicationType":$("#publicationType").val(),"publicationMonth":$("#publicationMonth").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()
                     }
                 },
                 limit: 15,
@@ -94,16 +139,15 @@
                     theme: '#0F9EE0'
                 },
                 cols: [[
-                    {field:'LAY_TABLE_INDEX',title:'年度',
+                    {field:'researchinstitute',title:'年度',
                         templet:  function (d) {
                             return '<div class="layui-div layui-div-n">' +
-                                '        <a href="javascript:void(0);" onclick="showDetail(\''+d.dataId+'\')">'+d.xmmc+'</a>' +
+                                '        <a href="javascript:void(0);" onclick="showDetail(\''+d.id+'\')">'+d.informationTitle+'</a>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
-                                '                <p><span>立项年度:'+d.nd+'</span><br/><span>牵头单位:'+d.fzdw+'</span><br/>' +
-                                '<span>专业领域:'+((typeof d.zyly=="undefined")?"":d.zyly)+'</span><br/>' +
-                                '<span>课题负责人:'+((typeof d.fzrxm=="undefined")?"":d.fzrxm)+'</span><br/>' +
-                                '<span>技术首席:'+((typeof d.jssxxm=="undefined")?"":d.jssxxm)+'</span>' +
+                                '                <p><span>发布类型:'+d.strType+'</span><br/><span>发布人:'+d.informationPublisher+'</span><br/>' +
+                                '<span>发布时间:'+d.strDate+'</span><br/>' +
+                                '<span>发布单位:'+d.researchinstitute+'</span><br/>' +
                                 '</p>' +
                                 '            </div>' +
                                 '        </div>' +
@@ -128,6 +172,7 @@
                     layer.close(index);
                 }
             });
+            
             //监听排序
             table.on('sort(processdef-table)', function (obj) {
                 //服务端排序
@@ -142,52 +187,13 @@
             });
         }
         renderTable();
-
-        function showDetail(data_id){
-            $.ajax({
-                type : 'post',
-                dataType : 'json',
-                async : false,
-                data : {
-                    "dataId" : data_id
-                },
-                url : "/out/getOutProjectShowSearch?data_id=" + data_id+"&functionId=984b64b13cf54222bf57bd840759fabe",
-                success : function(data) {
-                    if(data.fzrxm=="0"){
-                        layer.msg("权限不够,请联系系统管理员");
-                    }else {
-                        var temUrl = "/out/project-detail/" + data_id;
-                        layer.open({
-                            title: '详情',
-                            skin: 'layui-layer-lan',
-                            shadeClose: true,
-                            type: 2,
-                            fixed: false,
-                            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                            maxmin: true,
-                            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                            area: ['90%', '80%'],
-                            content: temUrl
-                        });
-                    }
-                },
-                error : function(e) {
-                    alertError("出错了！", e);
-                }
-            });
-            // var temUrl = "/out/project-detail/" + data_id;
-            // layer.open({
-            //     title: '详情',
-            //     skin: 'layui-layer-lan',
-            //     shadeClose: true,
-            //     type: 2,
-            //     fixed: false,
-            //     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-            //     maxmin: true,
-            //     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-            //     area: ['90%', '80%'],
-            //     content: temUrl
-            // });
+        $("#searchEvent").click(function(){
+       	 	renderTable();
+        });
+       
+        
+        function showDetail(id){
+        	window.location.href='/sre-informationDelivery/informationDelivery/'+id;
         }
         window.showDetail = showDetail;
         // table.on('row(processdef-table)', function (obj) {
@@ -210,7 +216,8 @@
             parent.sonsearch(name);;
         }
         window.toSearchIndex=toSearchIndex;
-        $(".relevant-cont").html(html);
+        
+        
     });
 </script>
 </body>

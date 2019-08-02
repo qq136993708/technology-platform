@@ -1,5 +1,7 @@
 package com.pcitc.service.equipment.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,6 +132,8 @@ public class PlanningManagementServiceImpl implements PlanImplementService {
 			String informationPublisher=getTableParam(param,"publisher","");//发布人
 			String informationMonth=getTableParam(param,"publicationMonth","");//发布时间
 			String leadUnitCode=getTableParam(param,"leadUnitCode","");//研究院
+			String stateid=getTableParam(param,"stateid","");//研究院
+			
 			Map map=new HashMap();
 			if(leadUnitCode.equals("")) {
 				map.put("levelId", parentUnitPathIds);
@@ -141,8 +145,31 @@ public class PlanningManagementServiceImpl implements PlanImplementService {
 			map.put("informationTitle", informationTitle);
 			map.put("informationPublisher", informationPublisher);
 			map.put("informationMonth", informationMonth);
+			List<SreInformationDelivery> srlivery = new ArrayList<SreInformationDelivery>();
 			List<SreInformationDelivery> sreInformationDelivery = sreInformationDeliveryMapper.getList(map);
-			PageInfo<SreInformationDelivery> pageInfo = new PageInfo<SreInformationDelivery>(sreInformationDelivery);
+			if(stateid.equals("1")) {
+			for(SreInformationDelivery sid : sreInformationDelivery) {
+				if(sid.getInformationType().equals("1")){
+					sid.setStrType("科研装备能力");
+				}else if(sid.getInformationType().equals("2")) {
+					sid.setStrType("专有分析手段");
+				}else if(sid.getInformationType().equals("3")) {
+					sid.setStrType("分析方法");
+				}else if(sid.getInformationType().equals("4")) {
+					sid.setStrType("设备使用心得");
+				}else if(sid.getInformationType().equals("5")) {
+					sid.setStrType("维护保养经验");
+				}else if(sid.getInformationType().equals("6")) {
+					sid.setStrType("装备管理办法");
+				}else if(sid.getInformationType().equals("7")) {
+					sid.setStrType("故障诊断及排除");
+				}
+				String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(sid.getInformationMonth());
+				sid.setStrDate(dateStr);
+				srlivery.add(sid);
+			}
+			}
+			PageInfo<SreInformationDelivery> pageInfo = new PageInfo<SreInformationDelivery>(srlivery);
 			System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 			LayuiTableData data = new LayuiTableData();
 			data.setData(pageInfo.getList());

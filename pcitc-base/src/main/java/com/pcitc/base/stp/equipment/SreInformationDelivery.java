@@ -28,8 +28,28 @@ public class SreInformationDelivery {
     private String levelName;
 
     private String numberCompliments;
+    
+    private String strType;
 
-    public String getId() {
+    private String strDate;
+
+    public String getStrType() {
+		return strType;
+	}
+
+	public void setStrType(String strType) {
+		this.strType = strType;
+	}
+
+	public String getStrDate() {
+		return strDate;
+	}
+
+	public void setStrDate(String strDate) {
+		this.strDate = strDate;
+	}
+
+	public String getId() {
         return id;
     }
 
