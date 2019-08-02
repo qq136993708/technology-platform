@@ -3300,11 +3300,11 @@
 					order by ${orderKey} ${orderType}
 				</if>
 				<if test="orderType == ''">
-					order by out_project_info.hth desc, out_project_info.define10
+					order by out_project_info.define10,out_project_info.hth desc, out_project_info.xmid, out_project_info.nd asc, out_project_info.ysnd asc
 				</if>
 			</if>
 			<if test="orderKey == null">
-				order by out_project_info.hth desc, out_project_info.define10
+				order by out_project_info.define10,out_project_info.hth desc, out_project_info.xmid, out_project_info.nd asc, out_project_info.ysnd asc
 			</if>
 	</sql>
 	
