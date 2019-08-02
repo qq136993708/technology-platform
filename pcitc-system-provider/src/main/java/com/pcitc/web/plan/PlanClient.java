@@ -1,5 +1,7 @@
 package com.pcitc.web.plan;
 
+import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.system.SysFunction;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -428,6 +430,17 @@ public class PlanClient {
     @RequestMapping(value = "/planClient-provider/tree-data", method = RequestMethod.POST)
     public List selectTreeData(@RequestBody JSONObject jsonObject) {
         List list = planBaseService.selectTreeDataList(jsonObject);
+        return list;
+    }
+
+    /**
+     * 任务树
+     * @param jsonObject
+     * @return
+     */
+    @RequestMapping(value = "/planClient-provider/plan_tree", method = RequestMethod.POST)
+    public List<TreeNode> selectTreeNodeByLevel(@RequestBody JSONObject jsonObject) {
+        List list = planBaseService.selectTreeNodePlan(jsonObject);
         return list;
     }
 

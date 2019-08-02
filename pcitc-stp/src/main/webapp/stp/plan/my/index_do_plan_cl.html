@@ -28,17 +28,34 @@
 	font-size: 14px;
 	color: #666;
 }
-    .top{text-align: center;margin-top: 10px;}
-    .top button{padding: 1px 10px !important;}
+.tableToolBox{    height: 34px !important;
+	line-height: 34px !important;;
+	background: rgba(150,206,251,.3) !important;;
+	font-size: 14px !important;;
+	color: #1890FF !important;;
+	border-top: 1px solid #2495ff !important;;
+	text-indent: 16px !important;;}
+.top{margin-left:10px;margin-top: 10px;}
+.top button{padding: 1px 10px !important;}
+.top button{background: url("/layuiadmin/layui/images/layui-h.png") no-repeat;width: 144px;height: 28px;margin-left: 0 !important;
+	line-height: 28px;color: #646464;text-align: left;text-indent: 1.5em;}
+.top button:hover{background: url("/layuiadmin/layui/images/layui-h.png") no-repeat;color: #646464;}
+.top .layui-this{background: url("/layuiadmin/layui/images/layui-l.png") no-repeat;color: white;}
+.top .layui-this:hover{background: url("/layuiadmin/layui/images/layui-l.png") no-repeat;color: white;}
+.top button:nth-child(2){margin-left: 18px !important;}
+.layui-input-block{margin-left: 116px !important;}
+.layui-form-item{margin-bottom: 0px !important;}
+.layui-input-block span,.layui-form-label{line-height: 38px !important;font-size: 16px !important;}
+.formBox .layui-row{background-color: #F7F8FC;padding: 10px 0;}
+.formBox .layui-row:nth-child(2n){background-color: #fff;}
+.tableBtns a{padding: 0 10px;}
 </style>
 </head>
 <body>
 <div class="top">
-    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-this" onclick="index_page('/plan/my/goEditPlanDetailIndex_cl?dataId=${dataId}')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;处理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_xf?dataId=${dataId}')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_zf?dataId=${dataId}')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-this" onclick="index_page('/plan/my/goEditPlanDetailIndex_cl?dataId=${dataId}')">任务处理</button>
+    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_xf?dataId=${dataId}')">任务下发</button>
+    <!--<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_zf?dataId=${dataId}')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>-->
     <script>
         function index_page(url) {
             window.location.href=url;
@@ -52,23 +69,31 @@
 				<div class="tableToolBox">
 					<div class="tableBtns">
 						<div class="tableTitle">
-							基本信息
-							<span class="red">（标*号为必填项）</span>
+							任务基本信息
 						</div>
 					</div>
 				</div>
-				<div class="box-body">
+				<div class="">
 					<input type="hidden" id="dataId" name="dataId" value="${dataId}" />
 					<input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId" />
 					<div class="layui-row">
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label class="layui-form-label">
-									工作任务名称
-									<span class="must-fill">*</span>
+									任务名称:
 								</label>
 								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" name="workOrderName" id="workOrderName" type="text" disabled>
+									 <span id="workOrderName"></span>
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+								<label class="layui-form-label">
+									任务发起日期:
+								</label>
+								<div class="layui-input-block">
+									<span id="createDate"></span>
 								</div>
 							</div>
 						</div>
@@ -77,76 +102,26 @@
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label class="layui-form-label">
-									安排人
-									<span class="must-fill">*</span>
+									发起人:
 								</label>
 								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" id="createUserName" name="createUserName" type="text" disabled>
+									<span id="createUserName"></span>
 								</div>
 							</div>
 						</div>
 						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label class="layui-form-label">
-									安排时间
-									<span class="must-fill">*</span>
+									重要程度:
 								</label>
 								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" id="createDate" name="createDate" type="text" disabled>
+									<span id="workOrderType"></span>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="layui-row">
-						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label for="" class="layui-form-label">
-									当前处理人
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" name="workOrderAllotUserName" id="workOrderAllotUserName" readOnly="true" type="text" disabled>
-								</div>
-							</div>
-						</div>
-						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label class="layui-form-label">
-									类型
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" name="workOrderType" id="workOrderType" readOnly="true" type="text" disabled>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="layui-row">
-						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label for="" class="layui-form-label">
-									权重
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" name="announcements" id="announcements" autocomplete="off" type="text" disabled>
-								</div>
-							</div>
-						</div>
-						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label for="" class="layui-form-label">
-									已完成比例(%)
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input" name="bl" id="bl" lay-verify="number" placeholder="已完成比例" autocomplete="off" type="text">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="layui-form-item layui-form-text">
-						<label class="layui-form-label">任务描述</label>
+					<div class="layui-row layui-form-item layui-form-text">
+						<label class="layui-form-label">任务描述:</label>
 						<div class="layui-input-block">
 							<textarea class="layui-textarea" name="remarks" id="remarks" style="min-height: 50px;"></textarea>
 						</div>
@@ -155,17 +130,9 @@
 
 			</div>
 
-
-			<div class="tableBox">
-				<input type="hidden" name="parentId" id="parentId" value="">
-				<span class="file-span">任务附件</span>
-				<div id="file_upload_parent"></div>
-			</div>
-
-
 			<div class="tableBox" id="matterTableDivParent">
 				<div class="tableToolBox">
-					<div class="tableTitle">工作下发列表</div>
+					<div class="tableTitle">任务下发列表</div>
 				</div>
 				<div style="display: block;" class="panel" id="matterTableDiv">
 					<table id="matterTalbe" class="layui-table" lay-filter="tableData">
@@ -175,7 +142,7 @@
 			<div class="tableBox">
 				<div class="tableToolBox">
 					<div class="tableTitle">
-						工作处理列表
+						任务处理列表
 						<span class="red">*</span>
 					</div>
 					<div class="tableBtns">
@@ -193,7 +160,7 @@
 
 			<div class="tableBox" style="margin-bottom: 55px;">
 				<input type="hidden" name="attachId" id="attachId" value="${dataId}">
-				<span class="file-span">处理类附件</span>
+				<span class="file-span">任务处理类附件</span>
 				<div id="file_upload"></div>
 			</div>
 
@@ -261,7 +228,10 @@
 					$("#remarks").val(dataJson.remarks);
 					selectData = data;
 					$("#file_upload_parent").load('/common/public/uploadlayuiload2.html');
-
+                    $("#workOrderName").html(dataJson.workOrderName);
+                    $("#createDate").html(dataJson.createDate);
+                    $("#createUserName").html(dataJson.createUserName);
+                    $("#workOrderType").html(dataJson.workOrderType);
 					// 工作类型的初始化
 					$.ajax({
 						url : '/pageCommon/dic/ROOT_RWGL_RWLX',
@@ -461,7 +431,7 @@
 					width : 45
 				}, {
 					field : 'remarks',
-					title : '处理内容',
+					title : '工作内容',
 					event : 'setActive',
 					style : 'cursor: pointer;',
 					templet : function(d) {
@@ -470,7 +440,7 @@
 					}
 				}, {
 					field : 'workOrderEndDatatime',
-					title : '处理日期',
+					title : '日期',
 					event : 'setActive',
 					style : 'cursor: pointer;',
 					width : 140,
