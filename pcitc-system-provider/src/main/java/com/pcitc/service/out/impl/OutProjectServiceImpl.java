@@ -474,12 +474,15 @@ public class OutProjectServiceImpl implements OutProjectService {
 		JSONObject hashmapstr = JSONObject.parseObject(JSONObject.toJSONString(hashmap));
 		System.out.println(">>>>>>>封装后->参数： " + hashmapstr.toString());
 
-		List list = outProjectInfoMapper.selectProjectInfoWithAllInfoByCond(hashmap);
+		// 先按照合同号分组获取当前页的15个合同号，再用这些合同号去获取对应查询条件下的所有数据
+		List list = outProjectInfoMapper.selectProjectInfoWithAllInfoByCondForGroup(hashmap);
 		PageInfo<HashMap<String, String>> pageInfo = new PageInfo<HashMap<String, String>>(list);
 
 		LayuiTableData data = new LayuiTableData();
 
-		// 查询科研奖励数据，单独查询，联合查询效率太慢
+		List finalList = new ArrayList();
+
+		// 利用合同号查询科研奖励数据，单独查询，联合查询效率太慢
 		StringBuffer sb = new StringBuffer("");
 		for (int i = 0; i < pageInfo.getList().size(); i++) {
 			HashMap<String, String> temMap = pageInfo.getList().get(i);
@@ -506,9 +509,26 @@ public class OutProjectServiceImpl implements OutProjectService {
 					}
 				}
 			}
+
+			// 查询这些合同号在当前查询条件下，对应的所有数据。为了保证同一分页下，都有15（limit）个合同号
+			hashmap.put("hthFlag", sb.toString());
+			finalList = outProjectInfoMapper.selectProjectInfoWithAllInfoByCond(hashmap);
+
+			int realIndex = param.getLimit() * (param.getPage() - 1);
+			String hth = "";
+			for (int i = 0; i < finalList.size(); i++) {
+				HashMap temMap = (HashMap) finalList.get(i);
+				String temHth = temMap.get("hth").toString();
+				if (!temHth.equals(hth)) {
+					realIndex++;
+					hth = temHth;
+				}
+				System.out.println("realIndex==============" + realIndex);
+				temMap.put("realIndex", realIndex);
+			}
 		}
 
-		data.setData(pageInfo.getList());
+		data.setData(finalList);
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 		return data;
@@ -1441,10 +1461,10 @@ public class OutProjectServiceImpl implements OutProjectService {
 			}
 			map.put("status", status);
 		}
-		System.out.println(map.get("zylbbm")+"==22222==="+map.get("zycbm"));
+		System.out.println(map.get("zylbbm") + "==22222===" + map.get("zycbm"));
 		// 数据控制, 专业处、专业
 		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
-		System.out.println(map.get("zylbbm")+"==22233322==="+map.get("zycbm"));
+		System.out.println(map.get("zylbbm") + "==22233322===" + map.get("zycbm"));
 		return outProjectInfoMapper.getDragonProjectDetails(map);
 	}
 
