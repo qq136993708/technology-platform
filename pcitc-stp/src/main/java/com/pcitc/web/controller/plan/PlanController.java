@@ -80,6 +80,9 @@ public class PlanController extends BaseController {
 
 	private static final String selectListPlan = "http://pcitc-zuul/system-proxy/planClient-provider/selectListPlan";
 
+	//任务树
+	private static final String plan_tree = "http://pcitc-zuul/system-proxy//planClient-provider/plan_tree";
+
 
 
     /**
@@ -829,15 +832,20 @@ public class PlanController extends BaseController {
         return JSONUtils.toJSONString(list);
     }
 
+    /**
+     * 首页-任务树形
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/plan/tree-datas")
     @ResponseBody
     public String getZjkMsgConfigTreeDatas(HttpServletRequest request) throws Exception {
         JSONObject o = new JSONObject();
         o.put("dataId",request.getParameter("dataId"));
         o.put("pid",request.getParameter("pid"));
-        String object = this.restTemplate.exchange(TREE_DATA_LIST, HttpMethod.POST, new HttpEntity<JSONObject>(o,this.httpHeaders), String.class).getBody();
-        System.out.println(object);
-        return object;
-//        return JSONUtils.toJSONString(object.get("list"));
+//        String object = this.restTemplate.exchange(TREE_DATA_LIST, HttpMethod.POST, new HttpEntity<JSONObject>(o,this.httpHeaders), String.class).getBody();
+        List object = this.restTemplate.exchange(plan_tree, HttpMethod.POST, new HttpEntity<JSONObject>(o,this.httpHeaders), List.class).getBody();
+        return JSONUtils.toJSONString(object);
     }
 }
