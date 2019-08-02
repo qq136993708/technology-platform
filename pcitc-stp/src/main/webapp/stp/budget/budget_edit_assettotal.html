@@ -173,13 +173,13 @@
    		  	});
         }
         window.createTableData = function(node){
-        	var newRow = {dataId: new Date().valueOf(),displayCode:node.id, displayName: node.name,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
-        	selectItemProjectMoney(parseInt(nd)-1,node.id,function(ysje){
-            	newRow.last_year_end = ysje;
+        	var newRow = {dataId: new Date().valueOf(),displayCode:node.id, displayName: node.name,xmjfJz:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
+        	selectItemProjectMoney(parseInt(nd),node.id,function(ysje){
+            	newRow.xmjfJz = ysje;
     		});
-    		selectItemPlanMoney(nd,node.id,function(ysje){
+    		/* selectItemPlanMoney(nd,node.id,function(ysje){
     			newRow.plan_money = ysje;
-    		});  
+    		}); */  
            	viewObj.tbData.push(newRow);
         }
       	//资产分类编码字典 ROOT_JFYS_JTDWFL
@@ -192,15 +192,15 @@
 			form.val("budget-form",data);
 			parentInfo = data;
 			$.each(data.groups,function(index,dt){
-				selectItemProjectMoney(parseInt(dt.nd)-1,dt.displayCode,function(ysje){
+				/* selectItemProjectMoney(parseInt(dt.nd)-1,dt.displayCode,function(ysje){
 					dt.last_year_end = ysje;
 				});
 				selectItemPlanMoney(dt.nd,dt.displayCode,function(ysje){
 					dt.plan_money = ysje;
-				});
+				}); */
 				viewObj.tbData.push(dt);
 			});
-			//table.reload({data : viewObj.tbData});
+			table.reload({data : viewObj.tbData});
    		});
         //检索公司
       	publicMethods.ajaxPost("/budget/search-asset-company-items",null, function (data) {
@@ -221,7 +221,7 @@
             , totalRow: true
             , cols: [[
                 {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
-                , {field: 'last_year_end', title: '项目结转金额', align: 'right',style: 'cursor: pointer;', width: '25%',totalRow: true}
+                , {field: 'xmjfJz', title: '项目结转金额', align: 'right',style: 'cursor: pointer;', width: '25%',totalRow: true}
                 , {field: 'plan_money', title: '项目新签金额', align: 'right',style: 'cursor: pointer;', width: '25%',totalRow: true}
                 //, {field: 'yjwc', title: '预计完成', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 //, {field: 'xmjf', title: '经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
