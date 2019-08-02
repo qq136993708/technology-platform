@@ -93,14 +93,17 @@
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
                 <thead>
 	                <tr>
-	                	<th lay-data="{type:'checkbox'}"></th>
-	                	<th lay-data="{field:'no',align: 'center', width: 55,totalRowText: '合计'}">序号</th>
-	                    <th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
-	                    <th lay-data="{field:'remark', width: '25%'}">描述</th>
-	                    <!-- <th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">${cnd}年实际完成</th> -->
-	                   	<!-- <th lay-data="{field:'plan_money',align: 'right',totalRow: true}">${nd}年经费计划</th> -->
-	                    <th lay-data="{field:'yjwc', edit:true,align: 'right',totalRow: true}">${cnd}年预计完成</th>
-	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">${nd}年经费预算</th>	                    
+	                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
+	                	<th lay-data="{field:'no',align: 'center', width: 55,totalRowText: '合计'}"  rowspan="2">序号</th>
+	                    <th lay-data="{field:'displayName', width: '20%'}"  rowspan="2">预算部门</th>
+	                    <th lay-data="{field:'remark', width: '25%'}"  rowspan="2">描述</th>
+	                    <th lay-data="{field:'yjwc', edit:true,align: 'right',totalRow: true}"  rowspan="2">${cnd}年预计完成</th>
+	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}" colspan="3">${nd}年经费预算</th>	                    
+	                </tr>
+	                <tr>
+	                	<th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">预算</th>
+	                    <th lay-data="{field:'xmjfJz', edit:true,align: 'right',totalRow: true}">老合同</th>
+	                    <th lay-data="{field:'xmjfXq', edit:true,align: 'right',totalRow: true}">可新签</th>	                    
 	                </tr>
                 </thead>
             </table>
@@ -232,7 +235,7 @@
             	$.each(curent_tabel_data,function(index,dt){
             		if(obj.data.dataId == dt.dataId){
             			curent_tabel_data[index][obj.field] = parseInt(obj.value);
-            			//dt.total = parseInt(dt.xmjf)+parseInt(dt.yjwc);
+            			dt.xmjf = parseInt(dt.xmjfJz)+parseInt(dt.xmjfXq);
             			dt.total = parseInt(dt.xmjf);
             		}
             	});
