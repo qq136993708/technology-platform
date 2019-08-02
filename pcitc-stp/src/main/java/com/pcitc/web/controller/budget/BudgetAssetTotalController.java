@@ -76,6 +76,7 @@ public class BudgetAssetTotalController extends BaseController {
 	private static final String BUDGET_ASSETTOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-assettotal-final-history-list";
 	private static final String BUDGET_ASSETTOTAL_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-assettotal-compare-plan";
 	private static final String BUDGET_ASSETTOTAL_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-assettotal-forward";
+	private static final String BUDGET_ASSETTOTAL_PLANDATA = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-assettotal-plandata/";
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	//private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
@@ -383,6 +384,19 @@ public class BudgetAssetTotalController extends BaseController {
 		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return JSON.toJSON(infors.getBody());
 	}
+	@RequestMapping(value = "/budget/select-assettotal-plandata", method = RequestMethod.POST)
+	@ResponseBody
+	@OperationFilter(dataFlag = "true")
+	public Object selectGrouptotalPlandata(@ModelAttribute("param")LayuiTableParam param,
+			HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		String budget_info_id = param.getParam().get("budget_info_id").toString();
+		param.getParam().put("leaderFlag", "2");//
+		ResponseEntity<?> rs = this.restTemplate.exchange(BUDGET_ASSETTOTAL_PLANDATA + budget_info_id, HttpMethod.POST,  new HttpEntity<LayuiTableParam>(param,this.httpHeaders), Object.class);
+		return JSON.toJSON(rs.getBody());
+	}
+	
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping("/budget/budget_download/assettotal/{dataId}")
 	public void downBudgetAssetTotal(@PathVariable("dataId") String dataId,HttpServletResponse res) throws IOException 

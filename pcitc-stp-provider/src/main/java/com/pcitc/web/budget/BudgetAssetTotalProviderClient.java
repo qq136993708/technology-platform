@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -119,9 +120,9 @@ public class BudgetAssetTotalProviderClient
 		{
 			data = budgetAssetTotalService.selectBudgetAssetTotalPage(param);
 			//获取二级机构的计划数据
-			List<BudgetAssetTotal> totals = budgetAssetTotalService.selectBudgetAssetTotalByInfoId(param.getParam().get("budget_info_id").toString());
+			//List<BudgetAssetTotal> totals = budgetAssetTotalService.selectBudgetAssetTotalByInfoId(param.getParam().get("budget_info_id").toString());
 			//map<dataId,Set<displayCode>>
-			Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
+			/*Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
 			Set<String> codes = new HashSet<String>();
 			for(BudgetAssetTotal total:totals) {
 				if(total.getLevel() > 0) {
@@ -139,10 +140,10 @@ public class BudgetAssetTotalProviderClient
 						}
 					}
 				}
-			}
-			String nd = param.getParam().get("nd").toString();
+			}*/
+			//String nd = param.getParam().get("nd").toString();
 			//处理计划数据
-			Map<String,List<OutProjectPlan>> planMap = budgetAssetTotalService.selectComparePlanData(codes,nd);
+			/*Map<String,List<OutProjectPlan>> planMap = budgetAssetTotalService.selectComparePlanData(codes,nd);
 			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
 				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
 				String dataId = map.get("dataId").toString();
@@ -162,9 +163,9 @@ public class BudgetAssetTotalProviderClient
 				}else {
 					map.put("plan_money", "无");
 				}
-			}
+			}*/
 			//处理结转数据
-			Map<String,List<OutProjectInfo>> projectMap = budgetAssetTotalService.selectCompareProjectInfoData(param,codes,(new Integer(nd)-1)+"");
+			/*Map<String,List<OutProjectInfo>> projectMap = budgetAssetTotalService.selectCompareProjectInfoData(param,codes,(new Integer(nd)-1)+"");
 			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
 				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
 				String dataId = map.get("dataId").toString();
@@ -184,7 +185,7 @@ public class BudgetAssetTotalProviderClient
 				}else {
 					map.put("xmjfJz", "无");
 				}
-			}
+			}*/
 		}
 		catch (Exception e)
 		{
@@ -542,6 +543,78 @@ public class BudgetAssetTotalProviderClient
 		}
 		return plans;
 	}
+	@ApiOperation(value="资产公司预算-预算结转数据",notes="检索资产预算表结转数据")
+	@RequestMapping(value = "/stp-provider/budget/select-assettotal-plandata/{budgetInfoId}", method = RequestMethod.POST)
+	public Object selectLastGroupTotalItemJz(@RequestBody LayuiTableParam param,@PathVariable("budgetInfoId") String budgetInfoId) 
+	{
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
+		try 
+		{
+			BudgetInfo info = budgetInfoService.selectBudgetInfo(budgetInfoId);
+			List<BudgetAssetTotal> totals = budgetAssetTotalService.selectBudgetAssetTotalByInfoId(param.getParam().get("budget_info_id").toString());
+			
+			List<BudgetAssetTotal> items = totals.stream().filter(a -> a.getLevel()==0).collect(Collectors.toList());
+			List<BudgetAssetTotal> compnays = totals.stream().filter(a -> a.getLevel()>0).collect(Collectors.toList());
+			
+			System.out.println("items："+JSON.toJSONString(items));
+			System.out.println("compnays："+JSON.toJSONString(compnays));
+			
+			Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
+			Set<String> codes = new HashSet<String>();
+			for(BudgetAssetTotal compnay:compnays) {
+				if(StringUtils.isNotBlank(compnay.getDisplayCode())) {
+					codes.add(compnay.getDisplayCode());
+				}
+			}
+			for(BudgetAssetTotal item:items) {
+				itemMap.put(item.getDataId(), new HashSet<String>());
+				for(BudgetAssetTotal compnay:compnays) {
+					if(item.getDataId().equals(compnay.getParentDataId())) {
+						itemMap.get(item.getDataId()).add(compnay.getDisplayCode());
+					}
+				}
+			}
+			//System.out.println("itemMap："+JSON.toJSONString(itemMap));
+			//System.out.println("param："+JSON.toJSONString(param));
+			Map<String,List<OutProjectInfo>> projectMap = budgetAssetTotalService.selectCompareProjectInfoData(param,codes,info.getNd());
+			//System.out.println("projectMap："+JSON.toJSONString(projectMap));
+			for(java.util.Iterator<BudgetAssetTotal> iter = items.iterator();iter.hasNext();) {
+				//Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
+				//String dataId = map.get("dataId").toString();
+				Map<String,Object> map = new HashMap<String,Object>();
+				String dataId = iter.next().getDataId();
+				map.put("dataId", dataId);
+				
+				List<OutProjectInfo> projects = new ArrayList<OutProjectInfo>();
+				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
+					Double xmjfJz = 0d;
+					
+					for(String code:itemMap.get(dataId)) 
+					{
+						List<OutProjectInfo> ps = projectMap.get(code);
+						if(ps != null && ps.size()>0) {
+							projects.addAll(ps);
+						}
+					}
+					for(OutProjectInfo plan:projects) {
+						xmjfJz += new Double(StringUtils.isBlank(plan.getYsje())?"0":plan.getYsje());
+					}
+					map.put("plans", projects);
+					map.put("xmjfJz", xmjfJz.intValue());
+				}else {
+					map.put("plans", projects);
+					map.put("xmjfJz", 0);
+				}
+				rsdata.add(map);
+			}
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return rsdata;
+	}
+	
 	@ApiOperation(value="资产公司预算-获取计划参考数据",notes="检索资产公司年度计划金额")
 	@RequestMapping(value = "/stp-provider/budget/select-assettotal-forward", method = RequestMethod.POST)
 	public Object selectBudgetAssetItemCompareProject(@RequestBody LayuiTableParam params) 
