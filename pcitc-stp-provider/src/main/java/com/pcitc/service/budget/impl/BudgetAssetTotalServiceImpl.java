@@ -230,7 +230,10 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 	}
 	@Override
 	public List<OutUnit> selectAssetCompnays() {
-		return systemRemoteClient.selectProjectUnits("ZCGS");
+		
+		List<OutUnit> units = systemRemoteClient.selectProjectUnits("ZCGS");
+		System.out.println(JSON.toJSONString(units));
+		return units;
 	}
 	@Override
 	public Map<String, List<OutProjectPlan>> selectComparePlanData(Set<String> codes, String nd) {
@@ -265,7 +268,7 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 	}
 
 	@Override
-	public Map<String, List<OutProjectInfo>> selectCompareProjectInfoData(Set<String> codes, String nd) {
+	public Map<String, List<OutProjectInfo>> selectCompareProjectInfoData(LayuiTableParam param,Set<String> codes, String nd) {
 		if(codes == null || codes.size() == 0) {
 			return new HashMap<String,List<OutProjectInfo>>();
 		}
@@ -273,15 +276,13 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 		for (String code : codes) {
 			sb.append(code + ",");
 		}
-		LayuiTableParam layuiParam = new LayuiTableParam();
-		Map<String, Object> p = new HashMap<String, Object>();
-		p.put("ysnd", nd);
-		p.put("define9", sb.toString().substring(0, sb.length() - 1));
-		layuiParam.setLimit(1000);
-		layuiParam.setPage(1);
-		layuiParam.setParam(p);
+		param.setLimit(1000);
+		param.setPage(1);
+		param.getParam().put("ysnd", nd);
+		param.getParam().put("define9", sb.toString().substring(0, sb.length() - 1));
+		
 
-		LayuiTableData dt = systemRemoteClient.selectCommonProjectByCond(layuiParam);
+		LayuiTableData dt = systemRemoteClient.selectCommonProjectByCond(param);
 		Map<String, List<OutProjectInfo>> rs = new HashMap<String,List<OutProjectInfo>>();
 		for (java.util.Iterator<?> iter = dt.getData().iterator(); iter.hasNext();) {
 			String planStr = JSON.toJSON(iter.next()).toString();

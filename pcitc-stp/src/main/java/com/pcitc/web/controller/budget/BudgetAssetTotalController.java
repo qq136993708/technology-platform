@@ -74,7 +74,7 @@ public class BudgetAssetTotalController extends BaseController {
 	private static final String BUDGET_ASSETTOTAL_HISTORY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-assettotal-history-items";
 	private static final String BUDGET_ASSETTOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-assettotal-final-history-list";
 	private static final String BUDGET_ASSETTOTAL_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-assettotal-compare-plan";
-	private static final String BUDGET_ASSETTOTAL_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-assettotal-compare-project";
+	private static final String BUDGET_ASSETTOTAL_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-assettotal-forward";
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	//private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
@@ -182,7 +182,7 @@ public class BudgetAssetTotalController extends BaseController {
 	public Object getBudgetAssetItems(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSETTOTAL_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
-		System.out.println(JSON.toJSON(responseEntity.getBody()));
+		//System.out.println(JSON.toJSON(responseEntity.getBody()));
 		return JSON.toJSON(responseEntity.getBody());
 	}
 	@RequestMapping(value = "/budget/budget-assettotal-create", method = RequestMethod.POST)
@@ -368,18 +368,16 @@ public class BudgetAssetTotalController extends BaseController {
 		return JSON.toJSON(infors.getBody());
 	}
 	
-	@RequestMapping(value = "/budget/select-assettotal-compare-project", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/select-assettotal-forward", method = RequestMethod.POST)
 	@ResponseBody
-	public Object selectBudgetAssetTotalCompareProject(@RequestParam(value="nd",required = false)String nd,@RequestParam(value="code",required = false)String code,HttpServletRequest request) throws IOException 
+	public Object selectBudgetAssetTotalCompareProject(@ModelAttribute("param")LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
-		if(nd == null || code == null) {
+		if(param.getParam().get("nd") == null || param.getParam().get("code") == null) {
 			return JSON.toJSON(new ArrayList<Object>());
 		}
-		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("nd", nd);
-		param.put("code", code);
+		param.getParam().put("leaderFlag", "2");
 		//System.out.println(JSON.toJSONString(info));
-		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_ASSETTOTAL_COMPARE_PROJECT, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_ASSETTOTAL_COMPARE_PROJECT, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param,this.httpHeaders), List.class);
 		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return JSON.toJSON(infors.getBody());
 	}

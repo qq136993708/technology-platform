@@ -163,8 +163,8 @@ public class BudgetAssetTotalProviderClient
 					map.put("plan_money", "无");
 				}
 			}
-			//处理项目完成金额
-			Map<String,List<OutProjectInfo>> projectMap = budgetAssetTotalService.selectCompareProjectInfoData(codes,(new Integer(nd)-1)+"");
+			//处理结转数据
+			Map<String,List<OutProjectInfo>> projectMap = budgetAssetTotalService.selectCompareProjectInfoData(param,codes,(new Integer(nd)-1)+"");
 			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
 				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
 				String dataId = map.get("dataId").toString();
@@ -180,9 +180,9 @@ public class BudgetAssetTotalProviderClient
 							}
 						}
 					}
-					map.put("last_year_end", jhjes.intValue());
+					map.put("xmjfJz", jhjes.intValue());
 				}else {
-					map.put("last_year_end", "无");
+					map.put("xmjfJz", "无");
 				}
 			}
 		}
@@ -543,16 +543,16 @@ public class BudgetAssetTotalProviderClient
 		return plans;
 	}
 	@ApiOperation(value="资产公司预算-获取计划参考数据",notes="检索资产公司年度计划金额")
-	@RequestMapping(value = "/stp-provider/budget/select-assettotal-compare-project", method = RequestMethod.POST)
-	public Object selectBudgetAssetItemCompareProject(@RequestBody Map<String,Object> params) 
+	@RequestMapping(value = "/stp-provider/budget/select-assettotal-forward", method = RequestMethod.POST)
+	public Object selectBudgetAssetItemCompareProject(@RequestBody LayuiTableParam params) 
 	{
-		String nd = params.get("nd").toString();
-		String code = params.get("code").toString();
+		String nd = params.getParam().get("nd").toString();
+		String code = params.getParam().get("code").toString();
 		List<OutProjectInfo> plans = new ArrayList<OutProjectInfo>();
 		try 
 		{
 			Set<String> codes = new HashSet<String>(Arrays.asList(new String [] {code}));
-			Map<String,List<OutProjectInfo>> planMap = budgetAssetTotalService.selectCompareProjectInfoData(codes,nd);
+			Map<String,List<OutProjectInfo>> planMap = budgetAssetTotalService.selectCompareProjectInfoData(params,codes,nd);
 			List<OutProjectInfo> rs = planMap.get(code);
 			if(rs != null && rs.size() >0 ) {
 				plans.addAll(rs);

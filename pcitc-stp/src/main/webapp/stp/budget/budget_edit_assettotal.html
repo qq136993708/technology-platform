@@ -65,7 +65,7 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label"></span>结转经费<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label"></span>${nd}年结转经费<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" id="xmjfJz" name="xmjfJz" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
                         </div>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">新签经费<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">${nd}年新签经费<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                          	<input type="text" id="xmjfXq" name="xmjfXq"  placeholder="" lay-verify="required|number" autocomplete="off" class="layui-input">
                         </div>
@@ -157,14 +157,13 @@
     var parentDataId = "${dataId}";
     var nd = "${nd}";
     var parentInfo = null;
-    var company_map = {};
     layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
         var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
         $(".nd").html(parseInt(nd)-1)
         //检索年度金额完成情况
         window.selectItemProjectMoney = function(nd,displayCode,callback){
-        	publicMethods.ajaxPost('/budget/select-assettotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
+        	publicMethods.ajaxPost('/budget/select-assettotal-forward',{param:{"nd":nd,"code":displayCode}}, function (data, status) {
    			  var ysje = 0;
    			  $.each(data,function(index,d){
    				 ysje += parseInt(d.ysje); 
@@ -172,7 +171,7 @@
    			  callback(ysje);
    		  	});
         }
-        //检索年度计划情况
+       /*  //检索年度计划情况
         window.selectItemPlanMoney = function(nd,displayCode,callback){
         	publicMethods.ajaxPost('/budget/select-assettotal-compare-plan',{"nd":nd,"code":displayCode}, function (data, status) {
    			  var ysje = 0;
@@ -181,7 +180,7 @@
    			  });
    			  callback(ysje);
    		  	});
-        }
+        } */
         window.createTableData = function(node){
         	var newRow = {dataId: new Date().valueOf(),displayCode:node.id, displayName: node.name,xmjfJz:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
         	selectItemProjectMoney(parseInt(nd),node.id,function(ysje){
@@ -212,15 +211,7 @@
 			});
 			table.reload({data : viewObj.tbData});
    		});
-        //检索公司
-      	publicMethods.ajaxPost("/budget/search-asset-company-items",null, function (data) {
-        	//$("#company_list").html('<option value="">请选择单位！</option>');
-        	$.each(data,function(index,dt){
-        		company_map[dt.unitCode] = dt.unitName;
-        		//$("#company_list").append('<option value="'+dt.unitCode+'">'+dt.unitName+'</option>');
-        	});
-        	form.render(); 
-   		}); 
+       
         //渲染
         var tableIns = table.render({
             elem: '#dataTable' //表格容器
@@ -242,7 +233,7 @@
             ,done: function (res, curr, count) {
             	 var ysnd = parseInt($("#nd").val());
             	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text(ysnd+"年项目结转金额");
-            	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"年项目新签金额");
+            	// $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"年项目新签金额");
             	 //$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((ysnd-1)+"年预计完成");
             	 //$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(ysnd+"年经费预算");
             }
@@ -279,11 +270,10 @@
         form.on('select(search)', function(data){
             form.render('select', 'search'); //更新 lay-filter="search" 所在容器内的全部 select 状态
             companyCode = data.value;
-            companyName = company_map[data.value];
         });
         //定义事件集合
         var active = {
-            addRow: function(){	//添加一行
+            /* addRow: function(){	//添加一行
                 if(!companyName){
                     layer.msg("请选择单位！", { icon: 5 }); //提示
                     return;
@@ -297,7 +287,7 @@
 				});
                	viewObj.tbData.push(newRow);
                	tableIns.reload({data : viewObj.tbData});
-            },
+            }, */
             removeEmptyTableCache: function(){
             	  var oldData = table.cache[layTableId];
                   for(var i=0, row; i < oldData.length; i++){
@@ -360,20 +350,16 @@
         }
         // 点击保存按钮
         form.on('submit(saveEvent)', function(data){
-            var formData = JSON.stringify(data.field);
+            //var formData = JSON.stringify(data.field);
             //console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
+            data.field.xmjf = data.field.xmjfJz+data.field.xmjfXq;
             var lodingMsg = layer.msg('处理中....');
             //保存预算项目
             publicMethods.ajaxPost('/budget/save-assettotal-item', data.field, function (data, status) {
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");
                 	parentInfo = data.data;
-                	//保存前如果预算项中的名称被改变了，则ID将移除
-                	$.each(viewObj.tbData,function(index,dt){
-                		if(company_map[dt.displayCode] != dt.displayName){
-                			viewObj.tbData[index].displayCode = null;
-                		}
-                	});
+                	
                 	//保存预算项目子项
                 	publicMethods.ajaxPost('/budget/save-assettotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
                 		var index = parent.layer.getFrameIndex(window.name);
