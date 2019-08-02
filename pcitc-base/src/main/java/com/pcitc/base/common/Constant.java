@@ -69,7 +69,7 @@ public class Constant {
     /**
      * 默认文件上传类型
      */
-    public static String default_file_type = "png|jpg|jpep|gif|txt|doc|docx|xls|xlsx|ppt|pptx|pdf|wps|rar|zip|gz|rm|rmvb|mp3|wma|mid|html";
+    public static String default_file_type = "png|jpg|jpeg|gif|txt|doc|docx|xls|xlsx|ppt|pptx|pdf|wps|rar|zip|gz|rm|rmvb|mp3|wma|mid|html";
 
     //生成编码
     public static final String TABLE_ENCODE_CREATE = "http://pcitc-zuul/system-proxy/SystemCodeTool/generate/create";
