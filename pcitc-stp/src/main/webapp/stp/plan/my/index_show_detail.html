@@ -13,16 +13,19 @@
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        #sonlist{min-height: 490px;overflow: scroll;}
+    </style>
 </head>
 <body>
 <div class="task-view layui-row">
-    <div class="task-view-cont layui-col-md3">
+    <div class="task-view-cont layui-col-md4">
         <p>任务进度</p>
         <div id="sonlist">
             <ul id="funTree" class="ztree"></ul>
         </div>
     </div>
-    <div class="task-view-cont layui-col-md9">
+    <div class="task-view-cont layui-col-md8">
         <p>任务基本信息</p>
         <div class="layui-row">
             <div class="layui-col-md9">
@@ -221,7 +224,7 @@
                 startAngle: -Math.PI / 2,
                 thickness: '30',
                 fill: {
-                    gradient: [ "#79dcd5"]
+                    gradient: ["#79dcd5"]
                 },
                 emptyFill: "rgba(255,255,255,.3)"
             }).on('circle-animation-progress', function (event, progress, stepValue) {
