@@ -103,17 +103,17 @@
 						</div>
 					</div>
 					<div class="layui-row">
-						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label for="" class="layui-form-label">
-									权重
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" name="announcements" id="announcements" autocomplete="off" type="text" disabled>
-								</div>
-							</div>
-						</div>
+						<!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
+							<!--<div class="layui-form-item">-->
+								<!--<label for="" class="layui-form-label">-->
+									<!--权重-->
+									<!--<span class="must-fill">*</span>-->
+								<!--</label>-->
+								<!--<div class="layui-input-block">-->
+									<!--<input class="layui-input readOnlyBox" name="announcements" id="announcements" autocomplete="off" type="text" disabled>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</div>-->
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label for="" class="layui-form-label">
@@ -142,6 +142,7 @@
 					<div id="file_upload_parent"></div>
 				</div>
 			</div>
+
 
 			<div class="tableBox item" id="matterFeedBackTalbeDiv">
 				<div class="tableToolBox">
@@ -328,13 +329,15 @@
 					event : 'setActive',
 					style : 'cursor: pointer;',
 					width : 120
-				}, {
-					field : 'announcements',
-					title : '任务总占比(%)',
-					event : 'setActive',
-					style : 'cursor: pointer;',
-					width : 100
-				}, {
+				}
+				// , {
+				// 	field : 'announcements',
+				// 	title : '任务总占比(%)',
+				// 	event : 'setActive',
+				// 	style : 'cursor: pointer;',
+				// 	width : 100
+				// }
+				, {
 					field : 'bl',
 					title : '已完成比例',
 					event : 'setActive',

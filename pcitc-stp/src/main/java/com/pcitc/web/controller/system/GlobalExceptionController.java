@@ -6,18 +6,23 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.ForbiddenException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
+import com.sun.jersey.api.client.UniformInterfaceException;
 
 //@ControllerAdvice
 public class GlobalExceptionController {
@@ -83,14 +88,19 @@ public class GlobalExceptionController {
         Map<String,String> resultMap = new HashMap<String,String>();
         String result ="";
 
-        if ((exception instanceof HttpMessageNotReadableException) || (exception instanceof HttpServerErrorException)) {
+        if ((exception instanceof HttpMessageNotReadableException) || (exception instanceof HttpMessageNotWritableException) || (exception instanceof MissingPathVariableException) || (exception instanceof HttpServerErrorException)) {
             resultMap.put("errorCode", "500");
             resultMap.put("errorMessage", "服务出错了");
             result = JSON.toJSONString(resultMap);
         }
-        if (exception instanceof org.springframework.web.servlet.NoHandlerFoundException) {
+        if (exception instanceof org.springframework.web.servlet.NoHandlerFoundException || exception instanceof NoSuchRequestHandlingMethodException ) {
             resultMap.put("errorCode", "404");
             resultMap.put("errorMessage","页面出错了");
+            result = JSON.toJSONString(resultMap);
+        }
+        if (exception instanceof SecurityException || exception instanceof ForbiddenException || exception instanceof UniformInterfaceException) {
+            resultMap.put("errorCode", "403");
+            resultMap.put("errorMessage","安全访问权限异常");
             result = JSON.toJSONString(resultMap);
         }
         return result;
