@@ -13,11 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.hana.report.ScientificInvestment;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysNoticeExample;
 import com.pcitc.base.system.SysNoticeExample.Criteria;
@@ -167,7 +170,15 @@ public class SysNoticeServiceImpl implements SysNoticeService {
 			sysUserNotice.setUserNoticeStatus(0);
 			userNoticeList.add(sysUserNotice);
 		}
-		sysUserNoticeMapper.insertBatch(userNoticeList);
+		if(userNoticeList!=null && userNoticeList.size()>0)
+		{
+			for(int i=0;i<userNoticeList.size();i++)
+			{
+				SysUserNotice sysUserNotice=userNoticeList.get(i);
+				sysUserNoticeMapper.insert(sysUserNotice);
+			}
+		}
+		//sysUserNoticeMapper.insertBatch(userNoticeList);
 		return sysNotice;
 	}
 	
@@ -249,5 +260,17 @@ public class SysNoticeServiceImpl implements SysNoticeService {
 			example.or(c);
 		}
 		return findByExample(param,example);
+	}
+	
+	
+	
+	
+	
+	
+	public JSONArray getTopList(Map map)throws Exception
+	{
+  		List<SysNotice> list = sysNoticeMapper.getList(map);
+  		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+  		return json;
 	}
 }

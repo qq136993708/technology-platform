@@ -1,15 +1,21 @@
 package com.pcitc.base.common;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author masir
  * Bootstrap treeview 树实体
  */
-public class TreeNode {
-	
-	private String text;
+public class TreeNode implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+
+    private String text;
 
     private List<String> tags;
 
@@ -198,7 +204,7 @@ public class TreeNode {
 
 	public String getParentId() {
 
-        return parentId;
+        return this.parentId;
     }
 
     public String getIcon() {
@@ -337,7 +343,48 @@ public class TreeNode {
 	public void setWbsInnercode(String wbsInnercode) {
 		this.wbsInnercode = wbsInnercode;
 	}
-	
-	
-	
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TreeNode treeNode = (TreeNode) o;
+        return levelCode == treeNode.levelCode &&
+                isLeaf == treeNode.isLeaf &&
+                isParent == treeNode.isParent &&
+                Objects.equals(text, treeNode.text) &&
+                Objects.equals(tags, treeNode.tags) &&
+                Objects.equals(id, treeNode.id) &&
+                Objects.equals(parentId, treeNode.parentId) &&
+                Objects.equals(nodes, treeNode.nodes) &&
+                Objects.equals(icon, treeNode.icon) &&
+                Objects.equals(code, treeNode.code) &&
+                Objects.equals(pId, treeNode.pId) &&
+                Objects.equals(name, treeNode.name) &&
+                Objects.equals(open, treeNode.open) &&
+                Objects.equals(nodeType, treeNode.nodeType) &&
+                Objects.equals(treeUrl, treeNode.treeUrl) &&
+                Objects.equals(nodePath, treeNode.nodePath) &&
+                Objects.equals(parentFlag, treeNode.parentFlag) &&
+                Objects.equals(children, treeNode.children) &&
+                Objects.equals(_parentId, treeNode._parentId) &&
+                Objects.equals(state, treeNode.state) &&
+                Objects.equals(expand, treeNode.expand) &&
+                Objects.equals(innerCode, treeNode.innerCode) &&
+                Objects.equals(planStart, treeNode.planStart) &&
+                Objects.equals(planEnd, treeNode.planEnd) &&
+                Objects.equals(planDuration, treeNode.planDuration) &&
+                Objects.equals(estimatedWeight, treeNode.estimatedWeight) &&
+                Objects.equals(percentageWeight, treeNode.percentageWeight) &&
+                Objects.equals(wbsInnercode, treeNode.wbsInnercode) &&
+                Objects.equals(bak1, treeNode.bak1) &&
+                Objects.equals(bak2, treeNode.bak2) &&
+                Objects.equals(bak3, treeNode.bak3);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(text, tags, id, parentId, levelCode, nodes, icon, isLeaf, isParent, code, pId, name, open, nodeType, treeUrl, nodePath, parentFlag, children, _parentId, state, expand, innerCode, planStart, planEnd, planDuration, estimatedWeight, percentageWeight, wbsInnercode, bak1, bak2, bak3);
+    }
 }

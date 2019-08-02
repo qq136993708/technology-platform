@@ -192,6 +192,7 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
 });
 </script>
 <script>
+    var echartslegenddata;
     var echartsobj_five={};
     var echartsobj_five_option={};
     var expertId = '${zjkBaseInfo.dataId}';
@@ -218,28 +219,16 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                     $(this).addClass("layui-layer-icon");
                     $("#enlargeP").addClass("enlarge");
                     $("#enlargeP .main-chart").css("height",$(document).height()+"px");
+                    option_graph.legend.selected=echart_selected(echartslegenddata,-1);
+                    echartsobj_five.setOption(option_graph);
                     echartsobj_five.resize();
-                    // var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
-                    // var colorFive = ["#8fc31f"];
-                    // five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
-
-                    // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
-                    //     if (d.seriesDataList == undefined) {
-                    //         $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
-                    //     }
-                    // });
                 }else {
                     $(this).removeClass("layui-layer-icon");
                     $("#enlargeP").removeClass("enlarge");
                     $("#enlargeP .main-chart").css("height","300px");
+                    option_graph.legend.selected=echart_selected(echartslegenddata,2);
+                    echartsobj_five.setOption(option_graph);
                     echartsobj_five.resize();
-                    // var colorFive = ["#8fc31f"];
-                    // five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
-                    // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
-                    //     if (d.seriesDataList == undefined) {
-                    //         $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
-                    //     }
-                    // });
                 }
             });
             var record = {};
@@ -276,7 +265,6 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
             loadtableExpertChoice();
             function loadtableExpertChoice() {
                 var where = {param: {"status":"2","zjId": '${zjkBaseInfo.dataId}'}};
-                console.log(where);
                 table.render({
                     elem: '#zjkChoiceTableId',
                     url: '/zjkChoice/getListChoice',
@@ -313,8 +301,6 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
 
                     ]],
                     done: function (res, curr, count) {
-                        console.log("--------loadtableExpertChoice--------");
-                        console.log(res.data);
                         $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                             var index = parseInt($(this).index() + 1);
                             $(this).parent().find('tr').removeClass('layui-table-click');
@@ -329,8 +315,6 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 $(".layui-table-header table thead th input").remove();
             }
         });
-
-
     function initEchart() {
         var yAxis = [
             {
@@ -357,28 +341,29 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
         //     var legentName = params.seriesName;
         //     parent.layui.index.openTabsPage("/home_achievement/award_table?project_property=" + xName, "科技成果明细");
         // });
-
-
-        var colorFive = ["#8fc31f"];
-
         five = force_img("/expertController/picExpertDetail?expertId="+expertId, "five", "专家画像", "", "", "", 10);
-        // load_single_forces("/expertController/picIndexImg?hyly="+hyly, "one", "专家画像", "", "", "", 10);
-
-        // var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80, "", function (d) {
-        //     if (d.seriesDataList == undefined) {
-        //         $("#five").html("<img src='/layuiadmin/layui/images/null-data.png' />");
-        //     }
-        // });
     }
 
     initEchart();
     function echart_layout(type) {
-
-        console.log("----echartsobj_five---------");
-
         option_graph.series[0].layout = type;
         echartsobj_five.setOption(option_graph);
         echartsobj_five.resize();
+    }
+    function echart_selected(legendDataList,index) {
+        var selected_item = {};
+        for(i =0; i < legendDataList.length; i++){
+            var key_name = legendDataList[i];
+            if(i!=index){
+                selected_item[key_name] = true;
+            }else{
+                selected_item[key_name] = false;
+            }
+            if(index==-1){
+                selected_item[key_name] = true;
+            }
+        }
+        return selected_item;
     }
 </script>
 <script>
@@ -403,7 +388,6 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
                 gb: $("#gb").val()
             }
         };
-        console.log("---------where--------------");
         var cols = [
             {type: 'checkbox', event: 'changeEvents', width: 55},
             {title: '序号', type: 'numbers', width: 55},
@@ -855,8 +839,6 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
     /*  loadImg();
      function loadImg() {
              var imgBase = photoContent(expertId);
-             console.log("图片");
-             console.log(imgBase);
              if(imgBase!=""&&imaBase!="data:image/png;base64,PHNjcmlwdD4NCiBtb2RhbHMuaW5mbygnPz8/Pz8hJyk7DQo8L3NjcmlwdD4NCg=="){
                  $("#"+expertId).attr("src", imgBase);
              }
@@ -929,5 +911,4 @@ ajaxPost('/dictionary/list/ZJK_XYLY', null, function (data, status) {
     }
 </script>
 </body>
-
 </html>

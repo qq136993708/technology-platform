@@ -39,6 +39,8 @@ import com.pcitc.base.stp.out.OutNotice;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysModule;
+import com.pcitc.base.system.SysNews;
+import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserShowConfig;
 import com.pcitc.base.util.CommonUtil;
@@ -50,6 +52,7 @@ import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.test.OAAPIRestFul;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
+import com.pcitc.web.utils.OtherUtil;
 import com.sinopec.siam.agent.common.SSOPrincipal;
 import com.sinopec.siam.agent.sp.config.SysConfig;
 
@@ -103,6 +106,8 @@ public class AdminController extends BaseController {
 	// 获取项目管理系统的待办任务
 	private static final String XMGL_PENDING = "http://pcitc-zuul/system-proxy/out-wait-work/xmgl/page";
 
+	private static final String LEADER_WORK = "http://pcitc-zuul/system-proxy/planClient-provider/leader/work/list";
+	
 	private Integer TIME_OUT = 1 * 60 * 60;
 
 	/**
@@ -239,8 +244,13 @@ public class AdminController extends BaseController {
 			request.setAttribute("companyCode", companyCode);
 			String month = HanaUtil.getCurrentYearMoth();
 			request.setAttribute("month", month);
+			List<SysNews> sysNewsList=OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
+			request.setAttribute("sysNewsList", sysNewsList);
 			return "/oneLevelMain";
 		} else {
+			
+			List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+			request.setAttribute("list", list);
 			return "/index";
 		}
 	}
@@ -375,6 +385,9 @@ public class AdminController extends BaseController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		request.setAttribute("userId", rsUser.getUserId());
+		
+		List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+		request.setAttribute("list", list);
 		return "/index";
 	}
 
@@ -490,8 +503,12 @@ public class AdminController extends BaseController {
 				request.setAttribute("companyCode", companyCode);
 				String month = HanaUtil.getCurrentYearMoth();
 				request.setAttribute("month", month);
+				List<SysNews> sysNewsList=OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
+				request.setAttribute("sysNewsList", sysNewsList);
 				return "/oneLevelMain";// leaderIndex
 			} else {
+				List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+				request.setAttribute("list", list);
 				return "/index";
 			}
 		} else {
@@ -557,9 +574,12 @@ public class AdminController extends BaseController {
 				request.setAttribute("companyCode", companyCode);
 				String month = HanaUtil.getCurrentYearMoth();
 				request.setAttribute("month", month);
+				List<SysNews> sysNewsList=OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
+				request.setAttribute("sysNewsList", sysNewsList);
 				return "/oneLevelMain";// leaderIndex
 			} else {
-
+				List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+				request.setAttribute("list", list);
 				return "/index";
 			}
 		}
@@ -676,6 +696,8 @@ public class AdminController extends BaseController {
 		Map<String, Object> map = param.getParam();
 		map.put("workOrderAllotUserId", sysUserInfo.getUserId());
 		map.put("workOrderStatus", "1");
+		map.put("isSchedule", "0"); //只显示未定时的
+		map.put("isChildren", "1");
 		param.setParam(map);
 		param.setLimit(10); // 首页不能过多显示
 		HttpEntity<LayuiTableParam> entityMy = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -966,6 +988,8 @@ public class AdminController extends BaseController {
 		if (request.getParameter("define1") != null && !request.getParameter("define1").equals("")) {
 			map.put("define1", request.getParameter("define1"));
 		}
+		
+		map.put("leaderFlag", String.valueOf(sysUserInfo.getUserLevel()));
 
 		String  cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
 		System.out.println("1====cgjszy" + cgjszy);
@@ -1245,9 +1269,8 @@ public class AdminController extends BaseController {
 		param.getParam().put("createUser", sysUserInfo.getUserId());
 
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BOT_WORK_ORDER_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LEADER_WORK, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData result = responseEntity.getBody();
-		CommonUtil.addAttachmentField(result, restTemplate, httpHeaders);
 		JSONObject retJson = (JSONObject) JSON.toJSON(result);
 		return retJson;
 	}

@@ -132,11 +132,14 @@ public class OneLevelMainController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -283,7 +286,7 @@ public class OneLevelMainController extends BaseController {
 	public String knowledge_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println(">>>>>>>>>>>>knowledge_table_data>param:" + JSONObject.toJSONString(param));
-
+		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST, entity, LayuiTableData.class);
@@ -388,8 +391,8 @@ public class OneLevelMainController extends BaseController {
 		// 技术分类
 		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
 		request.setAttribute("jsflList", jsflList);
-		// 三级级联：经费来源(公司类型财务)->单位类别->研究院
-		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
+		// 三级级联：经费来源(公司类型财务)->单位类别->研究院--中国石化集团
+		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT", restTemplate, httpHeaders);
 		request.setAttribute("jflyList", jflyList);
 		// 成果分组类型
 		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGFZLX", restTemplate, httpHeaders);
@@ -411,7 +414,8 @@ public class OneLevelMainController extends BaseController {
 	public String achievement_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
-
+		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST, entity, LayuiTableData.class);
@@ -1266,6 +1270,7 @@ public class OneLevelMainController extends BaseController {
 	// 十条龙三级表格
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/ten_dragon_table_data")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String ten_dragon_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println(">>>>>>>>>>>>ten_dragon_table_data>param:" + JSONObject.toJSONString(param));
@@ -1279,7 +1284,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("xmlbmc", param.getParam().get("xmflItem") == "" ? null : param.getParam().get("xmflItem"));// 项目分类
 		paramsMap.put("type_flag", param.getParam().get("yjdwItem") == "" ? null : param.getParam().get("yjdwItem"));// 一级单位（9个机构）
 		paramsMap.put("status", param.getParam().get("xmztItem") == "" ? null : param.getParam().get("xmztItem"));// 项目状态
-
+		paramsMap.put("zycbm", param.getParam().get("zycbm") == "" ? null : param.getParam().get("zycbm"));// 项目状态
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 
@@ -2720,6 +2725,7 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/dragon_01")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String dragon_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
@@ -2727,10 +2733,12 @@ public class OneLevelMainController extends BaseController {
 		String type = CommonUtil.getParameter(request, "type", "");
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("nd", nd);
-		paramsMap.put("type", type);
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		paramsMap.put("zycbm", zycbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("nd", nd);
+		paramsMap.put("type", type);
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2771,6 +2779,7 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/dragon_02")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String dragon_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
@@ -2778,11 +2787,13 @@ public class OneLevelMainController extends BaseController {
 
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		// 领导标识
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		paramsMap.put("nd", nd);
 		paramsMap.put("l_nd", l_nd);
 		paramsMap.put("companyCode", companyCode);
-		// 领导标识
-		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2834,6 +2845,7 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/dragon_03")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getProjectByCountBar(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
@@ -2841,10 +2853,12 @@ public class OneLevelMainController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("nd", nd);
-		paramsMap.put("companyCode", companyCode);
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		paramsMap.put("zycbm", zycbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("nd", nd);
+		paramsMap.put("companyCode", companyCode);
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2945,10 +2959,12 @@ public class OneLevelMainController extends BaseController {
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String typeFlag = CommonUtil.getParameter(request, "typeFlag", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("typeFlag", typeFlag);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 
@@ -2977,19 +2993,22 @@ public class OneLevelMainController extends BaseController {
 		return resault;
 	}
 
-	// 十条龙
+	// 十条龙列表查询
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/getStlTable")
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public String getStlTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		PageResult pageResult = new PageResult();
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("nd", nd);
-		paramsMap.put("companyCode", companyCode);
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		paramsMap.put("zycbm", zycbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("nd", nd);
+		paramsMap.put("companyCode", companyCode);
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -3052,6 +3071,7 @@ public class OneLevelMainController extends BaseController {
 		Result result = new Result();
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String type = CommonUtil.getParameter(request, "type", "");
 		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
@@ -3061,9 +3081,11 @@ public class OneLevelMainController extends BaseController {
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-
+		System.out.println("getUserDisp====================="+sysUserInfo.getUserName());
+		System.out.println("getUserDisp====================="+sysUserInfo.getUserDisp());
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -3073,27 +3095,32 @@ public class OneLevelMainController extends BaseController {
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>investment_01 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+				if (type != null && type.equals("1")) {
+					result.setData(list);
+					result.setSuccess(true);
+				} else {
+					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "budgetItemName");
+					barLine.setxAxisDataList(xAxisDataList);
+					List<String> legendDataList = new ArrayList<String>();
+					legendDataList.add("总预算科研投入");
+					legendDataList.add("费用性科研投入");
+					legendDataList.add("资本性科研投入");
+					barLine.setxAxisDataList(xAxisDataList);
+					barLine.setLegendDataList(legendDataList);
 
-				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "budgetItemName");
-				barLine.setxAxisDataList(xAxisDataList);
-				List<String> legendDataList = new ArrayList<String>();
-				legendDataList.add("总预算科研投入");
-				legendDataList.add("费用性科研投入");
-				legendDataList.add("资本性科研投入");
-				barLine.setxAxisDataList(xAxisDataList);
-				barLine.setLegendDataList(legendDataList);
-
-				// X轴数据
-				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-				ChartBarLineSeries s1 = HanaUtil.getinvestmentChartBarLineSeries(list, "zysje");
-				ChartBarLineSeries s2 = HanaUtil.getinvestmentChartBarLineSeries(list, "fyxsjje");
-				ChartBarLineSeries s3 = HanaUtil.getinvestmentChartBarLineSeries(list, "zbxsjje");
-				seriesList.add(s1);
-				seriesList.add(s2);
-				seriesList.add(s3);
-				barLine.setSeriesList(seriesList);
-				result.setSuccess(true);
-				result.setData(barLine);
+					// X轴数据
+					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+					ChartBarLineSeries s1 = HanaUtil.getinvestmentChartBarLineSeries(list, "zysje");
+					ChartBarLineSeries s2 = HanaUtil.getinvestmentChartBarLineSeries(list, "fyxsjje");
+					ChartBarLineSeries s3 = HanaUtil.getinvestmentChartBarLineSeries(list, "zbxsjje");
+					seriesList.add(s1);
+					seriesList.add(s2);
+					seriesList.add(s3);
+					barLine.setSeriesList(seriesList);
+					result.setSuccess(true);
+					result.setData(barLine);
+				}
+				
 			}
 
 		} else {
@@ -3164,6 +3191,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -3254,6 +3282,7 @@ public class OneLevelMainController extends BaseController {
 
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
@@ -3324,7 +3353,7 @@ public class OneLevelMainController extends BaseController {
 
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-
+		paramsMap.put("username", sysUserInfo.getUserName());
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {

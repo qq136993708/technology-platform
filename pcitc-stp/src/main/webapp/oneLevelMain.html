@@ -59,14 +59,12 @@ html {
 					<div class="layui-row-pic">
 						<div class="layui-carousel" id="test-carousel-img">
 							<div carousel-item="">
-								<div>
-									<img src="/layuiadmin/layui/images/pic.png" />
-									<p></p>
-								</div>
-								<div>
-									<img src="/layuiadmin/layui/images/pic1.jpg" />
-									<p></p>
-								</div>
+								<#list sysNewsList as vo> 
+									<div>
+										<img title="${vo.title}"  style="cursor:pointer" onclick="to_sysNews('${vo.dataId}')"  src="/sysfile/getFilesLayuiByFormIdReturnBase64Image/${vo.bak6}" />
+										<p><a target="_blank" href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=${vo.dataId}">${vo.title}</a></p><!--新闻标题-->
+									</div>
+								 </#list>
 							</div>
 						</div>
 					</div>
@@ -86,7 +84,7 @@ html {
 						<div class="laboratory-color"></div>
 						<div class="laboratory-front">
 							<div class="laboratory-cont">
-								<p class="title">技术族</p>
+								<p class="title">重点研发机构</p>
 								<p class="number" id="textBottomTwo"></p>
 							</div>
 						</div>
@@ -123,8 +121,8 @@ html {
 						<div class="investment-cont">
 							<div class="investment-front">
 								<div class="investment-cont">
-									<p class="title">科研装备</p>
-									<p class="number" id="equipment_id"></p>
+									<p class="title">技术族</p>
+									<!--<p class="number" id="equipment_id"></p>-->
 								</div>
 							</div>
 							<div class="investment-back">
@@ -283,7 +281,8 @@ html {
 					});
 					//科研投入
 					$(".investment").on("click", function() {
-						window.open("/instituteIndex?url=" + "/one_level_main/equipment", "_target");
+                        window.open("/instituteIndex?url=/standardBaseExpert/tfcAnalysis", "_target");
+						/*window.open("/instituteIndex?url=" + "/one_level_main/equipment", "_target");*/
 					});
 					//十条龙-项目
 					$(".project").on("click", function() {
@@ -303,8 +302,7 @@ html {
 					});
 					//重点实验室
 					$(".laboratory").on("click", function() {
-                        window.open("/instituteIndex?url=/standardBaseExpert/tfcAnalysis", "_target");
-						/*window.open("/instituteIndex?url=/laboratoryBase/laboratoryBaseMain", "_target");*/
+						window.open("/instituteIndex?url=/laboratoryBase/laboratoryBaseMain", "_target");
 					});
 					//装备
 					$(".equipment").on("click", function() {
@@ -616,7 +614,8 @@ html {
 			var v_date = (new Date()).getTime();
 			$.ajax({
 				type : 'GET',
-				url : "/one_level_main/investment_first_page_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date,
+				//url : "/one_level_main/investment_first_page_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date,
+				url : "/one_level_main/investment_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
 				dataType : 'json',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -627,11 +626,18 @@ html {
 					$("#moneyCurrent").html("<span style='font-size:14px;'>--亿</span>");
 				},
 				success : function(data) {
-					var projectMoney = data.data.projectMoney;
-					var zysje = data.data.zysje;
-					var tt1 = parseFloat(projectMoney) / 10000;
-					var tt2 = parseFloat(zysje) / 10000;
-
+					var projectMoney = data.data;
+					var tt1 = 0;
+					var tt2 = 0;
+					for (var i = 0; i < projectMoney.length; i++) {
+						var zysje = projectMoney[i].zysje;
+						var fyxsjje = projectMoney[i].fyxsjje;
+						var zbxsjje = projectMoney[i].zbxsjje;
+						tt1 = tt1 + parseFloat(fyxsjje) + parseFloat(zbxsjje);
+						tt2 = tt2 + parseFloat(zysje);
+					}
+					var tt1 = parseFloat(tt1)/ 10000;
+					var tt2 = parseFloat(tt2) / 10000;
 					$("#moneyTotal").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
 					$("#moneyCurrent").html(tt1.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
 				}
@@ -704,11 +710,12 @@ html {
 						if (index < 10) {
 							if (dt.waitTime != null) {// 其他系统
 								content += '<li class="state_1"><a target="_blank" href="' + dt.url + '"> ';
+								content += layui.laytpl.toDateString(dt.waitTime);
 							} else {
 								content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/task/pending/deal/' + dt.id + '"> ';
-							}
-							if (dt.createTime != null) {
-								content += layui.laytpl.toDateString(dt.createTime);
+								if (dt.createTime != null) {
+									content += layui.laytpl.toDateString(dt.createTime);
+								}
 							}
 							if (dt.processInstanceName != null) {
 								content += '<p>' + dt.processInstanceName + '</p></a>';
@@ -743,12 +750,16 @@ html {
 				}
 				$.each(data.data, function(index, dt) {
 					if (index < 10) {
-						content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/plan/viewPlanPage/' + dt.dataId + '"> ';
-						if (dt.createDate != null) {
-							content += layui.laytpl.toDateString(dt.createDate);
+						content += '<li class="state_1"><a target="_blank" href="instituteIndex?url=/plan/viewPlanPage/' + dt.DATA_ID + '"> ';
+						if (dt.CREATE_DATE != null) {
+							content += layui.laytpl.toDateString(dt.CREATE_DATE);
 						}
-						if (dt.workOrderName != null) {
-							content += '<p>' + dt.workOrderName + '</p></a>';
+						if (dt.WORK_ORDER_NAME != null) {
+							content += '<p>' + dt.WORK_ORDER_NAME + '</p>';
+							if (typeof (dt.showUser) != "undefined") {
+								content += '<br><p>' + dt.showUser + '正在处理中...</p>';
+							}
+							content += '</a>';
 						}
 						content += '</li>';
 					}
@@ -799,6 +810,12 @@ html {
 				content : '/plan/addPlanPage'
 			});
 		}
+		
+		function to_sysNews(id)
+		{
+			window.open("/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + id);
+		}
+		
 	</script>
 </body>
 </html>

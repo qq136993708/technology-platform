@@ -23,9 +23,18 @@
 .searchBox {
 	background: none;
 }
-#processdef_tableN table tbody tr{cursor: pointer;}
- table tbody tr td:nth-child(3){color: #1890ff ;}
- table tbody tr td:nth-child(2){color: red;}
+
+#processdef_tableN table tbody tr {
+	cursor: pointer;
+}
+
+table tbody tr td:nth-child(3) {
+	color: #1890ff;
+}
+
+table tbody tr td:nth-child(2) {
+	color: red;
+}
 </style>
 </head>
 <body>
@@ -35,7 +44,7 @@
 				<div class="searchBox">
 					<label class="dateInput">
 						<span>年份</span>
-						<input type="text" name="year"  style="cursor:pointer"  readonly="readonly" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
+						<input type="text" name="year" style="cursor: pointer" readonly="readonly" placeholder="请选择年份" title="年份" value="${year}" autocomplete="off" class="form-control" id="year">
 						<i class="layui-icon layui-icon-date" style="margin-left: -35px"></i>
 					</label>
 					<div class="btnGroup" style="margin-left: 10px">
@@ -48,7 +57,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年合同（任务书）签订率
+							<span class="layui-time"></span>
+							年合同（任务书）签订率
 						</div>
 						<div class="layui-row-main">
 							<div class="text-total">
@@ -81,7 +91,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年专业处合同（任务书）签订率
+							<span class="layui-time"></span>
+							年专业处合同（任务书）签订率
 						</div>
 						<div class="layui-card-body btn-function">
 							<div class="processdef_table">
@@ -95,7 +106,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院合同（任务书）签订情况
+							<span class="layui-time"></span>
+							年直属研究院合同（任务书）签订情况
 						</div>
 						<div class="layui-row-main">
 
@@ -126,7 +138,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院合同（任务书）签订情况
+							<span class="layui-time"></span>
+							年直属研究院合同（任务书）签订情况
 						</div>
 						<div class="layui-card-body btn-function">
 							<div id="processdef_tableN">
@@ -259,7 +272,7 @@
 			echart1.on('click', function(params) {
 				var xName = params.name;
 				var legentName = params.seriesName;
-				
+
 				parent.layui.index.openTabsPage("/one_level_main/common_table_new?qdbz=" + xName + "订&nd=" + nd + "&ysnd=" + nd, "合同签订率详情");
 
 			});
@@ -288,12 +301,12 @@
 			});
 
 		}
-        //合同任务书签定率
+		//合同任务书签定率
 		function nzsyjyhtrwsqdl(qdbz) {
-			
+
 			parent.layui.index.openTabsPage("/one_level_main/common_table_new?qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 		}
-        //直属研究院合同任务书签订情况
+		//直属研究院合同任务书签订情况
 		function nzsyjyhtrwsqdqk(qdbz) {
 			parent.layui.index.openTabsPage("/one_level_main/common_table_new?define12=直属研究院&define11=股份公司&qdbz=" + qdbz + "&nd=" + $('#year').val() + "&groupFlag=xmid,define8", "合同签订率详情");
 		}
@@ -356,22 +369,22 @@
 				isPage : false,
 				done : function(res, curr, count) {
 					$('.processdef_table .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function(e) {
-                        var index = parseInt($(this).index() + 1);
-                        var selectRowData = res.data[index - 1];
-					    if($(this).find(".layui-icon").length<=0){
-                            //var url = encodeURIComponent("/one_level_main/common_table?define2=" + selectRowData.define2 + "&nd=" + nd + "&ysnd=" + nd + "&groupFlag=xmid,define8");
-                            //window.open("/instituteIndex?url=" + url);
-                            var xName = selectRowData.name;
-                            if (xName == '油田处') {
+						var index = parseInt($(this).index() + 1);
+						var selectRowData = res.data[index - 1];
+						if ($(this).find(".layui-icon").length <= 0) {
+							//var url = encodeURIComponent("/one_level_main/common_table?define2=" + selectRowData.define2 + "&nd=" + nd + "&ysnd=" + nd + "&groupFlag=xmid,define8");
+							//window.open("/instituteIndex?url=" + url);
+							var xName = selectRowData.name;
+							if (xName == '油田处') {
 								xName = '科技部';
 							}
-                            
+
 							if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
-								parent.layui.index.openTabsPage("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&define1="+selectRowData.extend04+"&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+								parent.layui.index.openTabsPage("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&define1=" + selectRowData.extend04 + "&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 							} else {
-								parent.layui.index.openTabsPage("/one_level_main/common_table_new?zycbmFlag=" + xName + "&define1="+selectRowData.extend04+"&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
+								parent.layui.index.openTabsPage("/one_level_main/common_table_new?zycbmFlag=" + xName + "&define1=" + selectRowData.extend04 + "&qdbz=已签订&ysnd=" + $('#year').val() + "&nd=" + $('#year').val() + "&groupFlag=xmid", "合同签订率详情");
 							}
-					    }
+						}
 
 					});
 				},
@@ -445,7 +458,6 @@
 						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 						selectRowData = res.data[index - 1];
 
-						
 						parent.layui.index.openTabsPage("/one_level_main/common_table_new?define2=" + selectRowData.define2 + "&define12=直属研究院&define11=股份公司&nd=" + nd + "&ysnd=" + nd + "&groupFlag=xmid,define8", "合同签订率详情");
 					});
 				}
@@ -462,7 +474,9 @@
 				dataType : "json",
 				timeout : 11000,
 				cache : false,
-				contentType : "application/x-www-form-urlencoded; charset=utf-8",
+				headers : {
+					'Content-Type' : 'application/json'
+				},
 				success : function(data, status) {
 					if (data.success == true || data.success == 'true') {
 						echartsobj.hideLoading();

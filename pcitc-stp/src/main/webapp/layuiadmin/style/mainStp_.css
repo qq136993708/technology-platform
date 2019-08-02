@@ -243,6 +243,7 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .stay-doz-i{text-align: right;padding-right: 20px;position: relative;}
 .work-summary{background: url("/layuiadmin/layui/images/stay-work.png") no-repeat;
     background-size: cover; height: 177px;border: 1px solid #dddddd;margin-right: 10px;}
+.work-summary>div{cursor: pointer}
 .work-collect{background: url("/layuiadmin/layui/images/stay-collect.png") no-repeat;
     background-size: cover; height: 177px;border: 1px solid #dddddd;}
 .work-collect ul{margin: 0 10px;}
@@ -256,7 +257,10 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .stay-do-m:hover .stay-doz-i{ -webkit-transform:translateY(-80px);transform:translateY(-80px);}
 .stay-do-m:hover .stay-doz-n{ -webkit-transform:translate(168px,64px);transform:translate(168px,64px);}
 .stay-do-m>div{position: absolute;top: 40px;left: 14px;display: none;}
-.stay-do-m>div ul li{height: 24px;line-height: 24px;color: #fff;font-size: 12px;}
+.stay-do-m>div ul li{height: 24px;line-height: 24px;color: #fff;font-size: 12px;width: 96%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;}
 .stay-do-m>div a{color: white;font-size: 12px;}
 .work-summary-left{margin-left: 14px;border-right: 1px dashed rgba(255,255,255,.7);width: 46% !important;position: relative;}
 .work-summary-right{margin-right: 14px;width: 46% !important;position: relative;}

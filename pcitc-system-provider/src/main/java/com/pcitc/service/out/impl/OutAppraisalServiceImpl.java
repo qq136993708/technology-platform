@@ -126,6 +126,11 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 		if(param.getParam().get("cgjszy") !=null && !StringUtils.isBlank(param.getParam().get("cgjszy")+"")){
 			hashmap.put("cgjszy", param.getParam().get("cgjszy"));
 		}
+		
+		// 数据控制
+		if(param.getParam().get("leaderFlag") !=null && !StringUtils.isBlank(param.getParam().get("leaderFlag")+"")){
+			hashmap.put("leaderFlag", param.getParam().get("leaderFlag"));
+		}
 		System.out.println("cgjszy======"+param.getParam().get("cgjszy"));
 		System.out.println("cgjszy======"+hashmap.get("cgjszy"));
 		

@@ -2,7 +2,10 @@ package com.pcitc.service.intlproject.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,7 @@ import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.mapper.IntlProject.IntlProjectContractMapper;
 import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.service.intlproject.IntlProjectContractService;
+import com.pcitc.service.intlproject.IntlProjectInfoService;
 
 @Service("intlProjectContractService")
 public class IntlProjectContractServiceImpl implements IntlProjectContractService {
@@ -35,10 +39,34 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 	@Autowired
 	private IntlProjectInfoMapper intlProjectInfoMapper;
 	
+	@Autowired
+	private IntlProjectInfoService intlProjectInfoService;
 	
 	@Override
 	public LayuiTableData selectProjectContractList(LayuiTableParam param) 
 	{
+		StringBuffer ordersb = new StringBuffer();
+		LayuiTableParam p = new LayuiTableParam();
+		p.setLimit(1000);
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")))
+		{
+			p.getParam().put("reportYear", param.getParam().get("reportYear"));
+		}
+		if(!StringUtils.isBlank((String)param.getParam().get("unitId"))) 
+		{
+			p.getParam().put("unitId", param.getParam().get("unitId"));
+		}
+		LayuiTableData projects = intlProjectInfoService.selectProjectInfoByPage(p);
+		Set<String> pIds = new HashSet<String>();
+		pIds.add("xxx");
+		for(int i=projects.getData().size()-1;i>=0;i--) 
+		{
+			Map<String,Object> map = MyBeanUtils.java2Map(projects.getData().get(i));
+			ordersb.append((ordersb.length()>0?",":"")+"'"+map.get("projectId")+"'");
+			pIds.add(map.get("projectId").toString());
+		}
+		
+		
 		IntlProjectContractExample example = new IntlProjectContractExample();
 		IntlProjectContractExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -57,13 +85,43 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 			infoIds.add("xxxx");
 			c.andProjectIdIn(infoIds); 
 		}
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")) || !StringUtils.isBlank((String)param.getParam().get("unitId")))
+		{
+			c.andProjectIdIn(new ArrayList<String>(pIds));
+		}
+		
 		//未过期 
 		//c.andEndDateGreaterThan(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
-		example.setOrderByClause("create_time desc");
+		if(ordersb.length()>0) {
+			example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		}
 		return this.findByExample(param, example);
 	}
 	@Override
 	public LayuiTableData selectEndProjectContractList(LayuiTableParam param) {
+
+		StringBuffer ordersb = new StringBuffer();
+		LayuiTableParam p = new LayuiTableParam();
+		p.setLimit(1000);
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")))
+		{
+			p.getParam().put("reportYear", param.getParam().get("reportYear"));
+		}
+		if(!StringUtils.isBlank((String)param.getParam().get("unitId"))) 
+		{
+			p.getParam().put("unitId", param.getParam().get("unitId"));
+		}
+		LayuiTableData projects = intlProjectInfoService.selectProjectInfoByPage(p);
+		Set<String> pIds = new HashSet<String>();
+		pIds.add("xxx");
+		for(int i=projects.getData().size()-1;i>=0;i--) 
+		{
+			Map<String,Object> map = MyBeanUtils.java2Map(projects.getData().get(i));
+			ordersb.append((ordersb.length()>0?",":"")+"'"+map.get("projectId")+"'");
+			pIds.add(map.get("projectId").toString());
+		}
+		
+		
 		IntlProjectContractExample example = new IntlProjectContractExample();
 		IntlProjectContractExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -84,7 +142,13 @@ public class IntlProjectContractServiceImpl implements IntlProjectContractServic
 		}
 		//已过期
 		//c.andEndDateLessThan(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
-		example.setOrderByClause("create_time desc");
+		if(!StringUtils.isBlank((String)param.getParam().get("reportYear")) || !StringUtils.isBlank((String)param.getParam().get("unitId")))
+		{
+			c.andProjectIdIn(new ArrayList<String>(pIds));
+		}
+		if(ordersb.length()>0) {
+			example.setOrderByClause("FIELD(project_id,"+ordersb.toString()+") DESC");
+		}
 		return this.findByExample(param, example);
 	}
 	

@@ -74,19 +74,21 @@
 						</a>
 						<div class="layui-hide information">
 							<dl class="layui-nav-child-dl">
+								<!--
 								<dd>
 									<a id="toUserInfo" href="javascript:void(0)">基本资料</a>
 								</dd>
 								<dd>
 									<a id="toUpdPass" href="javascript:void(0)">修改密码</a>
 								</dd>
-								<!-- 
+								 
 								<dd>
 									<a id="changeIndex" href="javascript:void(0)">切换</a>
-								</dd> -->
+								</dd>
 								<dd>
 									<a id="selfConfig" href="javascript:void(0)">个人设置</a>
 								</dd>
+								 -->
 								<dd>
 									<a id="logout" href="javascript:void(0)">退出登录</a>
 								</dd>
@@ -276,22 +278,13 @@
 
 			<!-- 页面标签 -->
 			<div class="dowebok news">
-				<a lay-href="javascript:;" lay-text="通知公告">
+			<#list list as t>
+				<a lay-href="javascript:void(0)" onclick="view_project('${t.noticeId}')" lay-text="通知公告">
 					<span>通知:</span>
-					国家主席习近平发表二零一九年新年贺词。
+					${t.noticeTitle}
 				</a>
-				<a href="javascript:;">
-					<span>通知:</span>
-					马永生会见国外公司客人。
-				</a>
-				<a href="javascript:;">
-					<span>通知:</span>
-					扬子石化乙烯产量创历史新记录。
-				</a>
-				<a href="javascript:;">
-					<span>通知:</span>
-					马永生会见国外公司客人。
-				</a>
+			</#list>	
+			
 			</div>
 			<div class="layadmin-pagetabs" id="LAY_app_tabs">
 				<div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
@@ -511,7 +504,7 @@
 								async : false,
 								url : '/logout',
 								success : function(data) {
-									window.location.href = "/login";
+									window.location.href = "https://ids.sinopec.com/ss/SSO/GLO/Redirect";
 								},
 								error : function(e) {
 									console.log(e);
@@ -697,6 +690,26 @@
 						getNotReadTaskList();
 					});
 				});
+		
+		
+		
+		function view_project(noticeId) 
+		{
+			
+			 var temUrl='/sysNotice/readNotice?id='+noticeId
+			 layer.open({
+		        title:'详情',
+		        skin: 'layui-layer-lan',
+		        shadeClose: true,
+		        type: 2,
+		        fixed: false,
+		        maxmin: false,
+		        area: ['50%', '60%'],
+		        content:  temUrl
+		    });
+		}
+		
+		
 	</script>
 </body>
 </html>

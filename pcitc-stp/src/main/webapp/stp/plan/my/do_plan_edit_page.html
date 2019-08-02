@@ -338,6 +338,9 @@
 					btn : [ '确定', '取消' ]
 				}, function(index) {
 					var jsonData = data.field;
+					// if(jsonData.bl==100){
+                        jsonData.workOrderStatus='2';
+                    // }
 					jsonData.matterList = sthTrArr;
 					
 					$.ajax({

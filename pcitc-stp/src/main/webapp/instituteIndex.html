@@ -53,9 +53,9 @@
 						</a>
 						<div class="layui-hide information">
 							<dl class="layui-nav-child-dl">
-								<dd>
+								<!-- <dd>
 									<a id="toUserInfo" href="javascript:void(0)">基本资料</a>
-								</dd>
+								</dd> -->
 								<dd>
 									<a id="logout" href="javascript:void(0)">退出登录</a>
 								</dd>
@@ -203,7 +203,7 @@
 						async : false,
 						url : '/logout',
 						success : function(data) {
-							window.location.href = "/login";
+							window.location.href = "https://ids.sinopec.com/ss/SSO/GLO/Redirect";
 						},
 						error : function(e) {
 							console.log(e);

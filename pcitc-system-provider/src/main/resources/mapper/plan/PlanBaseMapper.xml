@@ -2035,4 +2035,15 @@
 		where
 			DEL_FLAG = '0'
 	</select>
+	
+	<!--  领导页的任务督办 -->
+	<select id="getWorkOrderForLeader" resultType="java.util.Map" parameterType="java.util.Map">
+		select 
+			 tableA.*,tableB.work_order_allot_user_name as showUser
+		from plan_base as tableA, plan_base as tableB
+		where
+			tableA.DEL_FLAG = '0' and tableA.is_schedule = '0' and tableA.parent_id is null 
+			and tableA.data_id = tableB.parent_id AND tableA.CREATE_USER='${createUser}'
+			group by tableA.data_id
+	</select>
 </mapper>

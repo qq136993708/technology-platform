@@ -7,6 +7,8 @@ import com.pcitc.base.system.SysNews;
 import com.pcitc.base.system.SysNewsExample;
 import com.pcitc.base.system.SysNewsVo;
 import com.pcitc.service.system.SysNewsService;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>服务接口</p>
@@ -166,4 +169,20 @@ public class SysNewsClient {
         }
         return null;
     }
+    
+
+	@ApiOperation(value = "查询图片新闻列表", notes = "查询图片新闻列表")
+	@RequestMapping(value = "/sysnews-provider/list", method = RequestMethod.POST)
+	public JSONArray getList(@RequestBody Map map)throws Exception
+	{
+		/*String stype=(String)map.get("stype");
+		String sysFlag=(String)map.get("sysFlag");
+		SysNews sysNews = new SysNews();
+		sysNews.setStype(stype);
+		sysNews.setSysFlag(sysFlag);*/
+		List<SysNews> list = sysNewsService.getTopNEWlIST();
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+  		return json;
+	}
+	
 }

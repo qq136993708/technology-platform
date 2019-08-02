@@ -7,6 +7,9 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.util.IdUtil;
 /**
  * @ClassName:CxfClient
  * @Description:webservice客户端：
@@ -56,7 +59,6 @@ public class CxfStandardClient {
      * 2：动态调用
      */
     public static void main2() {
-    	Long s = System.currentTimeMillis();
         // 创建动态客户端
         JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
         dcf.setAllowElementReferences(true);
@@ -69,10 +71,14 @@ public class CxfStandardClient {
         	result = client.invoke("GetList","");
         	//System.out.println("返回数据:" +result[0].toString());
         	for(Object obj:result) {
-        		System.out.println(obj.toString());
-        		System.out.println(JSON.parseArray(obj.toString()).size());
+        		JSONArray array = JSON.parseArray(obj.toString());
+        		for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
+        		{
+        			JSONObject json = JSON.parseObject(iter.next().toString());
+        			System.out.println("INSERT INTO out_standard_data(data_id,id,criterionchname) values('"+IdUtil.createIdByTime()+"','"+json.getString("Id")+"','"+json.getString("Criterionchname")+"');");
+        		}
         	}
-            result = client.invoke("GetItem", "F8DFE8969EC704A6DDDD432176230001");
+           result = client.invoke("GetItem", "F8DFE8969EC704A6DDDD432176230001");
             //System.out.println("返回数据:" +result[0].toString());
             for(Object obj:result) {
         		System.out.println(obj.toString());

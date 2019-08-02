@@ -273,15 +273,12 @@ public class SmallLeaderController extends BaseController {
 					barLine.setxAxisDataList(xAxisDataList);
 
 					List<String> legendDataList = new ArrayList<String>();
-					legendDataList.add("可新签预算");
 					legendDataList.add("当月签订金额");
 					legendDataList.add("当月拨款金额");
 					barLine.setLegendDataList(legendDataList);
 
 					// X轴数据
 					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-					ChartBarLineSeries s1 = HanaUtil.getInvestmentBarLineSeries02(list, "zysje");
-					seriesList.add(s1);
 
 					ChartBarLineSeries s12 = HanaUtil.getInvestmentBarLineSeries02(list, "zsjje");
 					seriesList.add(s12);
@@ -301,11 +298,11 @@ public class SmallLeaderController extends BaseController {
 						newBM.setZysje(bm.getZysje());
 						Double zsjje = newBM.getZsjje() == null ? 0d : Double.valueOf(newBM.getZsjje().toString());
 						Double temJE = bm.getZsjje() == null ? 0d : Double.valueOf(bm.getZsjje().toString());
-						newBM.setZsjje(zsjje + temJE);
+						newBM.setZsjje((double) Math.round((zsjje + temJE) * 100) / 100);
 
 						Double hanaMoney = newBM.getHanaMoney() == null ? 0d : Double.valueOf(newBM.getHanaMoney().toString());
 						Double temHana = bm.getHanaMoney() == null ? 0d : Double.valueOf(bm.getHanaMoney().toString());
-						newBM.setHanaMoney(hanaMoney + temHana);
+						newBM.setHanaMoney((double) Math.round((hanaMoney + temHana) * 100) / 100);
 
 						bm.setZysje("-");
 					}

@@ -14,6 +14,7 @@
     <result column="notice_publishtime" jdbcType="VARCHAR" property="noticePublishtime" />
     <result column="is_published" jdbcType="INTEGER" property="isPublished" />
     <result column="is_variable" jdbcType="INTEGER" property="isVariable" />
+    <result column="is_top_roll" jdbcType="VARCHAR" property="isTopRoll" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,7 +77,7 @@
   <sql id="Base_Column_List">
     notice_id, notice_title, notice_summary, notice_content, notice_creater, notice_createtime, 
     notice_receiver, notice_receiverNames, notice_publisher, notice_publishtime, is_published, 
-    is_variable
+    is_variable,is_top_roll
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.system.SysNoticeExample" resultMap="BaseResultMap">
     select
@@ -109,16 +110,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  
+   
   <insert id="insert" parameterType="com.pcitc.base.system.SysNotice">
     insert into sys_notice (notice_id, notice_title, notice_summary, 
       notice_content, notice_creater, notice_createtime, 
       notice_receiver, notice_receiverNames, notice_publisher, 
-      notice_publishtime, is_published, is_variable
+      notice_publishtime, is_published, is_variable,is_top_roll
       )
     values (#{noticeId,jdbcType=VARCHAR}, #{noticeTitle,jdbcType=VARCHAR}, #{noticeSummary,jdbcType=VARCHAR}, 
       #{noticeContent,jdbcType=VARCHAR}, #{noticeCreater,jdbcType=VARCHAR}, #{noticeCreatetime,jdbcType=VARCHAR}, 
       #{noticeReceiver,jdbcType=VARCHAR}, #{noticeReceivernames,jdbcType=VARCHAR}, #{noticePublisher,jdbcType=VARCHAR}, 
-      #{noticePublishtime,jdbcType=VARCHAR}, #{isPublished,jdbcType=INTEGER}, #{isVariable,jdbcType=INTEGER}
+      #{noticePublishtime,jdbcType=VARCHAR}, #{isPublished,jdbcType=INTEGER}, #{isVariable,jdbcType=INTEGER},
+      #{isTopRoll,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.system.SysNotice">
@@ -160,6 +164,11 @@
       <if test="isVariable != null">
         is_variable,
       </if>
+      <if test="isTopRoll != null">
+        is_top_roll,
+      </if>
+      
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="noticeId != null">
@@ -198,6 +207,10 @@
       <if test="isVariable != null">
         #{isVariable,jdbcType=INTEGER},
       </if>
+      <if test="isTopRoll != null">
+        #{isTopRoll,jdbcType=VARCHAR},
+      </if>
+      
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.pcitc.base.system.SysNoticeExample" resultType="java.lang.Long">
@@ -245,16 +258,24 @@
       <if test="record.isVariable != null">
         is_variable = #{record.isVariable,jdbcType=INTEGER},
       </if>
+      <if test="record.isTopRoll != null">
+        is_top_roll = #{record.isTopRoll,jdbcType=VARCHAR},
+      </if>
+      
+       
+       
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
   <update id="updateByExample" parameterType="map">
     update sys_notice
     set notice_id = #{record.noticeId,jdbcType=VARCHAR},
       notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
-      notice_summary = #{record.noticeSummary,jdbcType=VARCHAR},
+      notice_summary = #{record.isTopRoll,jdbcType=VARCHAR},
+      is_top_roll = #{record.noticeSummary,jdbcType=VARCHAR},
       notice_content = #{record.noticeContent,jdbcType=VARCHAR},
       notice_creater = #{record.noticeCreater,jdbcType=VARCHAR},
       notice_createtime = #{record.noticeCreatetime,jdbcType=VARCHAR},
@@ -304,6 +325,13 @@
       <if test="isVariable != null">
         is_variable = #{isVariable,jdbcType=INTEGER},
       </if>
+      <if test="isTopRoll != null">
+        is_top_roll = #{isTopRoll,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
     </set>
     where notice_id = #{noticeId,jdbcType=VARCHAR}
   </update>
@@ -311,6 +339,7 @@
     update sys_notice
     set notice_title = #{noticeTitle,jdbcType=VARCHAR},
       notice_summary = #{noticeSummary,jdbcType=VARCHAR},
+      is_top_roll = #{isTopRoll,jdbcType=VARCHAR},
       notice_content = #{noticeContent,jdbcType=VARCHAR},
       notice_creater = #{noticeCreater,jdbcType=VARCHAR},
       notice_createtime = #{noticeCreatetime,jdbcType=VARCHAR},
@@ -343,6 +372,7 @@
     <result column="is_published" jdbcType="INTEGER" property="isPublished" />
     <result column="is_variable" jdbcType="INTEGER" property="isVariable" />
     <result column="user_notice_status" jdbcType="INTEGER" property="userNoticeStatus" />
+     <result column="is_top_roll" jdbcType="VARCHAR" property="isTopRoll" />
   </resultMap>
   <select id="selectPubNoticeList" parameterType="java.util.HashMap" resultMap="PublishedNoticeMap">
     SELECT 
@@ -378,4 +408,54 @@
        	</otherwise> 
    	</choose>    
   </select> 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+     <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="noticeTitle != null       and noticeTitle  !='' ">   AND t.notice_title like CONCAT('%',#{noticeTitle},'%')</if>
+	     <if test="isTopRoll != null         and isTopRoll !=''  ">     AND t.is_top_roll = #{isTopRoll}</if>
+	     <if test="isVariable != null        and isVariable !=''  ">    AND t.is_variable = #{isVariable}</if>
+	     <if test="isPublished != null       and isPublished !=''  ">   AND t.is_published = #{isPublished}</if>
+	 </trim>
+	</sql>
+	
+	 
+    
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sys_notice t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  notice_createtime desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM sys_notice t <include refid="selectCondition"/>
+   </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </mapper>

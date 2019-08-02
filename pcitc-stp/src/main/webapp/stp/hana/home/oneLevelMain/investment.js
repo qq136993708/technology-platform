@@ -80,7 +80,9 @@ function barLineAjax_investment(url, echartsobj, options, width, callback) {
 		dataType : "json",
 		timeout : 11000,
 		cache : false,
-		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		headers : {
+			'Content-Type' : 'application/json'
+		},
 		success : function(data, status) {
 			if (data.success == true || data.success == 'true') {
 				echartsobj.hideLoading();
@@ -276,7 +278,9 @@ function get_mony_line_option_ajax_dt_investment(url, echartsobj, options) {
 		dataType : "json",
 		timeout : 20000,
 		cache : false,
-		contentType : "application/x-www-form-urlencoded; charset=utf-8",
+		headers : {
+			'Content-Type' : 'application/json'
+		},
 		success : function(data, status) {
 			if (data.success == true || data.success == 'true') {
 				echartsobj.hideLoading();
