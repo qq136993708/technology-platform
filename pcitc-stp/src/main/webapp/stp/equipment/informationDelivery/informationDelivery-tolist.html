@@ -19,7 +19,6 @@
         .layui-table-body{margin-top: 0;}
         .layui-table-page{margin-bottom: 40px;}
         .tableBox,.searchBox{padding-left:18px;margin: 0 auto;}
-        .tableBox{width: 55%;float: left;}
         .searchBox{height: 50px;border-bottom: 1px solid #dfdfdf;margin: 0 20px 10px 28px;padding-left: 0;
             padding-top: 30px;}
         .relevant{width: 34%;float: right;margin-right: 20px;}
@@ -31,6 +30,11 @@
         .relevant p{margin-top: 0}
         .layui-table-none{padding: 0;}
         .layui-table,.layui-table-cell{width: 100% !important;}
+        .layui-div-n img{position: relative;right: 24px;width: 20px;top: 0px;}
+        .layui-div-n>span{    background-color: #de111a;border-radius: 5px;height: 14px;line-height: 14px;
+            font-size: 12px;color: white;padding: 0 5px;position: relative;top: -10px;font-family: Arial;
+            text-align: center;right: 32px;}
+        .layui-table-grid-down{display: none;}
     </style>
 </head>
 <body style="padding-top:20px; ">
@@ -143,6 +147,7 @@ function myFunction(){
                         templet:  function (d) {
                             return '<div class="layui-div layui-div-n">' +
                                 '        <a href="javascript:void(0);" onclick="showDetail(\''+d.id+'\')">'+d.informationTitle+'</a>' +
+                                '       <img onclick="showDetail(\''+d.id+'\')"  src="/layuiadmin/layui/images/dianzan.png"><span>2</span>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
                                 '                <p><span>发布类型:'+d.strType+'</span><br/><span>发布人:'+d.informationPublisher+'</span><br/>' +
