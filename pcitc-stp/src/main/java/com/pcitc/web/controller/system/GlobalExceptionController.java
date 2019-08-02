@@ -22,7 +22,6 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
-import com.sun.jersey.api.client.UniformInterfaceException;
 
 //@ControllerAdvice
 public class GlobalExceptionController {
@@ -98,7 +97,7 @@ public class GlobalExceptionController {
             resultMap.put("errorMessage","页面出错了");
             result = JSON.toJSONString(resultMap);
         }
-        if (exception instanceof SecurityException || exception instanceof ForbiddenException || exception instanceof UniformInterfaceException) {
+        if (exception instanceof SecurityException || exception instanceof ForbiddenException) {
             resultMap.put("errorCode", "403");
             resultMap.put("errorMessage","安全访问权限异常");
             result = JSON.toJSONString(resultMap);
