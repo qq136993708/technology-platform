@@ -19,6 +19,8 @@
     <result column="total" jdbcType="DOUBLE" property="total" />
     <result column="yjwc" jdbcType="DOUBLE" property="yjwc" />
     <result column="xmjf" jdbcType="DOUBLE" property="xmjf" />
+    <result column="xmjf_jz" jdbcType="DOUBLE" property="xmjfJz" />
+    <result column="xmjf_xq" jdbcType="DOUBLE" property="xmjfXq" />
     <result column="item_type" jdbcType="INTEGER" property="itemType" />
     <result column="company_code" jdbcType="VARCHAR" property="companyCode" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -86,15 +88,15 @@
   </sql>
   <sql id="Base_Column_List">
     data_id, parent_data_id, nd, data_version, create_time, update_time, creater_name, 
-    creater_id, no, display_name, simple_name, display_code, simple_code, level, total, 
-    yjwc, xmjf, item_type, company_code, remark, budget_info_id, del_flag, append_files
+    creater_id, `no`, display_name, simple_name, display_code, simple_code, `level`, 
+    total, yjwc, xmjf, xmjf_jz, xmjf_xq, item_type, company_code, remark, budget_info_id, 
+    del_flag, append_files
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetAssetTotalExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
-    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from out_tem_money_asset_total
     <if test="_parameter != null">
@@ -102,6 +104,14 @@
     </if>
     <if test="orderByClause != null">
       order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -123,20 +133,22 @@
   <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetAssetTotal">
     insert into out_tem_money_asset_total (data_id, parent_data_id, nd, 
       data_version, create_time, update_time, 
-      creater_name, creater_id, no, 
+      creater_name, creater_id, `no`, 
       display_name, simple_name, display_code, 
-      simple_code, level, total, 
-      yjwc, xmjf, item_type, 
-      company_code, remark, budget_info_id, 
-      del_flag, append_files)
+      simple_code, `level`, total, 
+      yjwc, xmjf, xmjf_jz, xmjf_xq, 
+      item_type, company_code, remark, 
+      budget_info_id, del_flag, append_files
+      )
     values (#{dataId,jdbcType=VARCHAR}, #{parentDataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
       #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
       #{createrName,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
       #{displayName,jdbcType=VARCHAR}, #{simpleName,jdbcType=VARCHAR}, #{displayCode,jdbcType=VARCHAR}, 
       #{simpleCode,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{total,jdbcType=DOUBLE}, 
-      #{yjwc,jdbcType=DOUBLE}, #{xmjf,jdbcType=DOUBLE}, #{itemType,jdbcType=INTEGER}, 
-      #{companyCode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{budgetInfoId,jdbcType=VARCHAR}, 
-      #{delFlag,jdbcType=INTEGER}, #{appendFiles,jdbcType=VARCHAR})
+      #{yjwc,jdbcType=DOUBLE}, #{xmjf,jdbcType=DOUBLE}, #{xmjfJz,jdbcType=DOUBLE}, #{xmjfXq,jdbcType=DOUBLE}, 
+      #{itemType,jdbcType=INTEGER}, #{companyCode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{budgetInfoId,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, #{appendFiles,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetAssetTotal">
     insert into out_tem_money_asset_total
@@ -166,7 +178,7 @@
         creater_id,
       </if>
       <if test="no != null">
-        no,
+        `no`,
       </if>
       <if test="displayName != null">
         display_name,
@@ -181,7 +193,7 @@
         simple_code,
       </if>
       <if test="level != null">
-        level,
+        `level`,
       </if>
       <if test="total != null">
         total,
@@ -191,6 +203,12 @@
       </if>
       <if test="xmjf != null">
         xmjf,
+      </if>
+      <if test="xmjfJz != null">
+        xmjf_jz,
+      </if>
+      <if test="xmjfXq != null">
+        xmjf_xq,
       </if>
       <if test="itemType != null">
         item_type,
@@ -263,6 +281,12 @@
       <if test="xmjf != null">
         #{xmjf,jdbcType=DOUBLE},
       </if>
+      <if test="xmjfJz != null">
+        #{xmjfJz,jdbcType=DOUBLE},
+      </if>
+      <if test="xmjfXq != null">
+        #{xmjfXq,jdbcType=DOUBLE},
+      </if>
       <if test="itemType != null">
         #{itemType,jdbcType=INTEGER},
       </if>
@@ -317,7 +341,7 @@
         creater_id = #{record.createrId,jdbcType=VARCHAR},
       </if>
       <if test="record.no != null">
-        no = #{record.no,jdbcType=INTEGER},
+        `no` = #{record.no,jdbcType=INTEGER},
       </if>
       <if test="record.displayName != null">
         display_name = #{record.displayName,jdbcType=VARCHAR},
@@ -332,7 +356,7 @@
         simple_code = #{record.simpleCode,jdbcType=VARCHAR},
       </if>
       <if test="record.level != null">
-        level = #{record.level,jdbcType=INTEGER},
+        `level` = #{record.level,jdbcType=INTEGER},
       </if>
       <if test="record.total != null">
         total = #{record.total,jdbcType=DOUBLE},
@@ -342,6 +366,12 @@
       </if>
       <if test="record.xmjf != null">
         xmjf = #{record.xmjf,jdbcType=DOUBLE},
+      </if>
+      <if test="record.xmjfJz != null">
+        xmjf_jz = #{record.xmjfJz,jdbcType=DOUBLE},
+      </if>
+      <if test="record.xmjfXq != null">
+        xmjf_xq = #{record.xmjfXq,jdbcType=DOUBLE},
       </if>
       <if test="record.itemType != null">
         item_type = #{record.itemType,jdbcType=INTEGER},
@@ -376,15 +406,17 @@
       update_time = #{record.updateTime,jdbcType=VARCHAR},
       creater_name = #{record.createrName,jdbcType=VARCHAR},
       creater_id = #{record.createrId,jdbcType=VARCHAR},
-      no = #{record.no,jdbcType=INTEGER},
+      `no` = #{record.no,jdbcType=INTEGER},
       display_name = #{record.displayName,jdbcType=VARCHAR},
       simple_name = #{record.simpleName,jdbcType=VARCHAR},
       display_code = #{record.displayCode,jdbcType=VARCHAR},
       simple_code = #{record.simpleCode,jdbcType=VARCHAR},
-      level = #{record.level,jdbcType=INTEGER},
+      `level` = #{record.level,jdbcType=INTEGER},
       total = #{record.total,jdbcType=DOUBLE},
       yjwc = #{record.yjwc,jdbcType=DOUBLE},
       xmjf = #{record.xmjf,jdbcType=DOUBLE},
+      xmjf_jz = #{record.xmjfJz,jdbcType=DOUBLE},
+      xmjf_xq = #{record.xmjfXq,jdbcType=DOUBLE},
       item_type = #{record.itemType,jdbcType=INTEGER},
       company_code = #{record.companyCode,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -420,7 +452,7 @@
         creater_id = #{createrId,jdbcType=VARCHAR},
       </if>
       <if test="no != null">
-        no = #{no,jdbcType=INTEGER},
+        `no` = #{no,jdbcType=INTEGER},
       </if>
       <if test="displayName != null">
         display_name = #{displayName,jdbcType=VARCHAR},
@@ -435,7 +467,7 @@
         simple_code = #{simpleCode,jdbcType=VARCHAR},
       </if>
       <if test="level != null">
-        level = #{level,jdbcType=INTEGER},
+        `level` = #{level,jdbcType=INTEGER},
       </if>
       <if test="total != null">
         total = #{total,jdbcType=DOUBLE},
@@ -445,6 +477,12 @@
       </if>
       <if test="xmjf != null">
         xmjf = #{xmjf,jdbcType=DOUBLE},
+      </if>
+      <if test="xmjfJz != null">
+        xmjf_jz = #{xmjfJz,jdbcType=DOUBLE},
+      </if>
+      <if test="xmjfXq != null">
+        xmjf_xq = #{xmjfXq,jdbcType=DOUBLE},
       </if>
       <if test="itemType != null">
         item_type = #{itemType,jdbcType=INTEGER},
@@ -476,15 +514,17 @@
       update_time = #{updateTime,jdbcType=VARCHAR},
       creater_name = #{createrName,jdbcType=VARCHAR},
       creater_id = #{createrId,jdbcType=VARCHAR},
-      no = #{no,jdbcType=INTEGER},
+      `no` = #{no,jdbcType=INTEGER},
       display_name = #{displayName,jdbcType=VARCHAR},
       simple_name = #{simpleName,jdbcType=VARCHAR},
       display_code = #{displayCode,jdbcType=VARCHAR},
       simple_code = #{simpleCode,jdbcType=VARCHAR},
-      level = #{level,jdbcType=INTEGER},
+      `level` = #{level,jdbcType=INTEGER},
       total = #{total,jdbcType=DOUBLE},
       yjwc = #{yjwc,jdbcType=DOUBLE},
       xmjf = #{xmjf,jdbcType=DOUBLE},
+      xmjf_jz = #{xmjfJz,jdbcType=DOUBLE},
+      xmjf_xq = #{xmjfXq,jdbcType=DOUBLE},
       item_type = #{itemType,jdbcType=INTEGER},
       company_code = #{companyCode,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
