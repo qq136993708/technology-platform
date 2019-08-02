@@ -1,505 +1,512 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
-<script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
-<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
-<script type="text/javascript" src="/layuiadmin/modules/selectTree.js?v=9"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
-<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
-<style>
-/* .layui-table-body{overflow:-webkit-paged-x !important; }*/
-.layui-form-selectup dl {
-	top: 20px !important;
-	height: 180px;
-}
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+	<script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+	<script type="text/javascript" src="/layuiadmin/modules/selectTree.js?v=9"></script>
+	<script src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+	<style>
+		/* .layui-table-body{overflow:-webkit-paged-x !important; }*/
+		.layui-form-selectup dl {
+			top: 20px !important;
+			height: 180px;
+		}
 
-.layui-table-cell {
-	overflow: visible !important;
-}
+		.layui-table-cell {
+			overflow: visible !important;
+		}
 
-.form_tableAdd_container .tableBox input {
-	margin-top: 5px;
-}
+		.form_tableAdd_container .tableBox input {
+			margin-top: 5px;
+		}
 
-.layui-table-body {
-	overflow-y: auto;
-}
+		.layui-table-body {
+			overflow-y: auto;
+		}
 
-.layui-table-none {
-	padding: 0 !important;
-}
-.top{text-align: center;margin-top: 10px;}
-.top button{padding: 1px 10px !important;}
-</style>
+		.layui-table-none {
+			padding: 0 !important;
+		}
+		.tableToolBox{    height: 34px !important;
+			line-height: 34px !important;;
+			background: rgba(150,206,251,.3) !important;;
+			font-size: 14px !important;;
+			color: #1890FF !important;;
+			border-top: 1px solid #2495ff !important;;
+			text-indent: 16px !important;;}
+		.top{margin-left:10px;margin-top: 10px;}
+		.top button{padding: 1px 10px !important;}
+		.top button{background: url("/layuiadmin/layui/images/layui-h.png") no-repeat;width: 144px;height: 28px;margin-left: 0 !important;
+			line-height: 28px;color: #646464;text-align: left;text-indent: 1.5em;}
+		.top button:hover{background: url("/layuiadmin/layui/images/layui-h.png") no-repeat;color: #646464;}
+		.top .layui-this{background: url("/layuiadmin/layui/images/layui-l.png") no-repeat;color: white;}
+		.top .layui-this:hover{background: url("/layuiadmin/layui/images/layui-l.png") no-repeat;color: white;}
+		.top button:nth-child(2){margin-left: 18px !important;}
+		.layui-input-block{margin-left: 116px !important;}
+		.layui-form-item{margin-bottom: 0px !important;}
+		.layui-input-block span,.layui-form-label{line-height: 38px !important;font-size: 16px !important;}
+		.formBox .layui-row{background-color: #F7F8FC;padding: 10px 0;}
+		.formBox .layui-row:nth-child(2n){background-color: #fff;}
+		.tableBtns a{padding: 0 10px;}
+	</style>
 </head>
 <body>
-
 <div class="top">
-    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-this" onclick="index_page('/plan/my/goEditPlanDetailIndex_cl?dataId=${dataId}')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;处理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_xf?dataId=${dataId}')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_zf?dataId=${dataId}')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-    <script>
+	<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg " onclick="index_page('/plan/my/goEditPlanDetailIndex_cl?dataId=${dataId}')">任务处理</button>
+	<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-this" onclick="index_page('/plan/my/goEditPlanDetailIndex_xf?dataId=${dataId}')">任务下发</button>
+	<!--<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_zf?dataId=${dataId}')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>-->
+	<script>
         function index_page(url) {
             window.location.href=url;
         }
-    </script>
+	</script>
 </div>
 
 
-	<div class="form_tableAdd_container">
-		<form id="workOrderForm" action="" lay-filter="functiongroup-form" class="form-horizontal layui-form">
-			<div class="formBox">
-				<div class="tableToolBox">
-					<div class="tableBtns">
-						<div class="tableTitle">
-							基本信息
-							<span class="red">（标*号为必填项）</span>
-						</div>
-					</div>
-				</div>
-				<div class="box-body">
-					<input type="hidden" id="dataId" name="dataId" value="${dataId}" /> 
-					<input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId"/>
-                	<input type="hidden" id="bak2" name="bak2"/>
-                	<input type="hidden" id="bak6" name="bak6"/>
-					<div class="layui-row">
-						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label class="layui-form-label">
-									工作任务名称
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" name="workOrderName" id="workOrderName" type="text" disabled>
-								</div>
-							</div>
-						</div>
-						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label class="layui-form-label">任务编码</label>
-								<div class="layui-input-block">
-									<input type="text" class="layui-input readOnlyBox" id="dataCode" name="dataCode" disabled>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="layui-row">
-						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label class="layui-form-label">
-									安排人
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" id="workOrderAllotUserName" name="workOrderAllotUserName" type="text" disabled>
-								</div>
-							</div>
-						</div>
-						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label class="layui-form-label">
-									安排时间
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" id="createDate" name="createDate" lay-verify="required" type="text" disabled>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="layui-row">
-						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label for="" class="layui-form-label">
-									下发人员
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input" name="bak4" id="bak4" placeholder="请选择下发人员" readOnly="true" autocomplete="off" type="text">
-								</div>
-							</div>
-						</div>
-						<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label class="layui-form-label">
-									类型
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" name="workOrderType" id="workOrderType" readOnly="true" type="text" disabled>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="layui-form-item layui-form-text">
-						<label class="layui-form-label">任务描述</label>
-						<div class="layui-input-block">
-							<textarea placeholder="请输入任务描述" class="layui-textarea" name="remarks" id="remarks" style="min-height: 50px;"></textarea>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="tableBox">
-				<div class="tableToolBox">
+<div class="form_tableAdd_container">
+	<form id="workOrderForm" action="" lay-filter="functiongroup-form" class="form-horizontal layui-form">
+		<div class="formBox">
+			<div class="tableToolBox">
+				<div class="tableBtns">
 					<div class="tableTitle">
-						工作安排列表
-						<span class="red">（请输入至少一项）</span>
-					</div>
-					<div class="tableBtns">
-						<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addMatter" id="addMatter">新建 </a>
-						<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteMatter" id="deleteMatter">删除 </a>
-						<span class="pullBtn active"></span>
-					</div>
-				</div>
-				<div style="display: block;" class="panel" id="matterTableDiv">
-					<table id="matterTalbe" class="layui-table" lay-filter="tableData">
-					</table>
-				</div>
-			</div>
-			<div class="tableBox">
-				<span class="file-span">处理类附件</span>
-				<div class="tableToolBox" style="border: 0;">
-					<div class="layui-form-item" style="margin-bottom: 55px;">
-						<input type="hidden" name="attachId" id="attachId" value="${dataId}">
-						<div id="file_upload"></div>
+						任务基本信息
 					</div>
 				</div>
 			</div>
-			<div class="form-bottom">
-				<div class="form-bottom-btns">
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save" lay-submit="" lay-filter="save">保存</button>
-					<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+			<div class="">
+				<input type="hidden" id="dataId" name="dataId" value="${dataId}" />
+				<input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId"/>
+				<input type="hidden" id="bak2" name="bak2"/>
+				<input type="hidden" id="bak6" name="bak6"/>
+				<div class="layui-row">
+					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label class="layui-form-label">
+								任务名称:
+							</label>
+							<div class="layui-input-block">
+								<span id="workOrderName"></span>
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label class="layui-form-label">任务发起时间:</label>
+							<div class="layui-input-block">
+								<span id="createDate"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-row">
+					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label class="layui-form-label">
+								发起人:
+							</label>
+							<div class="layui-input-block">
+								<span id="workOrderAllotUserName"></span>
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label class="layui-form-label">
+								重要程度:
+							</label>
+							<div class="layui-input-block">
+								<span id="workOrderType"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-row">
+					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label">
+								下发人员:
+								<span class="must-fill">*</span>
+							</label>
+							<div class="layui-input-block"  style="margin-left: 125px !important;">
+								<input class="layui-input" name="bak4" id="bak4" placeholder="请选择下发人员" readOnly="true" autocomplete="off" type="text">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label">任务描述:</label>
+					<div class="layui-input-block">
+						<textarea placeholder="请输入任务描述" class="layui-textarea" name="remarks" id="remarks" style="min-height: 50px;"></textarea>
+					</div>
 				</div>
 			</div>
-		</form>
-	</div>
+		</div>
+		<div class="tableBox">
+			<div class="tableToolBox">
+				<div class="tableTitle">
+					工作安排列表
+					<span class="red">（请输入至少一项）</span>
+				</div>
+				<div class="tableBtns">
+					<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addMatter" id="addMatter">新建 </a>
+					<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteMatter" id="deleteMatter">删除 </a>
+					<span class="pullBtn active"></span>
+				</div>
+			</div>
+			<div style="display: block;" class="panel" id="matterTableDiv">
+				<table id="matterTalbe" class="layui-table" lay-filter="tableData">
+				</table>
+			</div>
+		</div>
+		<div class="tableBox">
+			<span class="file-span">处理类附件</span>
+			<div class="tableToolBox" style="border: 0;">
+				<div class="layui-form-item" style="margin-bottom: 55px;">
+					<input type="hidden" name="attachId" id="attachId" value="${dataId}">
+					<div id="file_upload"></div>
+				</div>
+			</div>
+		</div>
+		<div class="form-bottom">
+			<div class="form-bottom-btns">
+				<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save" lay-submit="" lay-filter="save">保存</button>
+				<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save" lay-submit="" lay-filter="save">确认下发</button>
+				<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+			</div>
+		</div>
+	</form>
+</div>
 
-	<script>
-		var param = JSON.parse(window.localStorage.getItem("param"));
-		var file_opt_flag = param.id;
-		var i = 1;
-		var file_ids = "dataId";
-		var file_edit_detail = "edit";
-		var selectData = "";
-		var $;
-		var publicMethods;
-		layui.config({
-			base : '/layuiadmin/lib/extend/' //静态资源所在路径
-		}).extend({
-			enhanceform : 'enhanceform'
-		}).use([ 'form', 'laydate', 'table', 'jquery', 'layer', 'element', 'enhanceform', 'publicMethods' ], function() {
-			$ = layui.jquery;
-			var admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, table = layui.table, form = layui.form, enhanceForm = layui.enhanceform;
-			var enhance = new enhanceForm({
-				elem : '#workOrderForm' //表单选择器
-			});
-			publicMethods = layui.publicMethods, form.render(null, 'component-form-group');
+<script>
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var file_opt_flag = param.id;
+    var i = 1;
+    var file_ids = "dataId";
+    var file_edit_detail = "edit";
+    var selectData = "";
+    var $;
+    var publicMethods;
+    layui.config({
+        base : '/layuiadmin/lib/extend/' //静态资源所在路径
+    }).extend({
+        enhanceform : 'enhanceform'
+    }).use([ 'form', 'laydate', 'table', 'jquery', 'layer', 'element', 'enhanceform', 'publicMethods' ], function() {
+        $ = layui.jquery;
+        var admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, table = layui.table, form = layui.form, enhanceForm = layui.enhanceform;
+        var enhance = new enhanceForm({
+            elem : '#workOrderForm' //表单选择器
+        });
+        publicMethods = layui.publicMethods, form.render(null, 'component-form-group');
 
-			$(document).on("click", ".layui-select-title", function() {
-				if ($(this).next().css("display") == "none") {
-					$(".layui-table-body").css("overflow-y", "auto")
-				} else {
-					$(".layui-table-body").css("overflow-y", "scroll")
-				}
-			});
+        $(document).on("click", ".layui-select-title", function() {
+            if ($(this).next().css("display") == "none") {
+                $(".layui-table-body").css("overflow-y", "auto")
+            } else {
+                $(".layui-table-body").css("overflow-y", "scroll")
+            }
+        });
 
-		    //人员选择回调
-		    function setWelder(selectData) {
-		        selectData = eval(selectData);
-		        var userId = "";
-		        var userDisp = "";
-		        for (var j = 0; j <selectData.length; j++) {
-		            userDisp = userDisp+((j==0)?"":",")+selectData[j].userDisp;
-		            userId = selectData[j].userId+","+userId;
-		        }
-		        $('#bak6').val(userId);
-		        $('#bak4').val(userDisp);
-		    }
-		    
-		    window.setWelder = setWelder;
-		    var dataStatus = 2;
-		    
-			//显示文件上传部分
-			$("#file_upload").load('/common/public/uploadlayuiload.html');
+        //人员选择回调
+        function setWelder(selectData) {
+            selectData = eval(selectData);
+            var userId = "";
+            var userDisp = "";
+            for (var j = 0; j <selectData.length; j++) {
+                userDisp = userDisp+((j==0)?"":",")+selectData[j].userDisp;
+                userId = selectData[j].userId+","+userId;
+            }
+            $('#bak6').val(userId);
+            $('#bak4').val(userDisp);
+        }
 
-			/* 监听保存 */
-			form.on('submit(save)', function(data) {
-				var sthTrArr = [];
-				var matterLength = $("#matterTableDiv  .layui-table-main table tbody tr");
-				if(!$(matterLength).find("td").attr("data-off")==1){
-					$(matterLength).each(function() {
-						var sthTrObj = {};
-						sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
-						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-						sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
-						sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
-						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
-						sthTrArr.push(sthTrObj);
-					});
-				}
-				if (sthTrArr.length < 1) {
-					layer.msg('请至少输入一项工作安排');
-					return false;
-				}
-				
-				var jsonData = data.field;
-				jsonData.matterList = sthTrArr;
-				$.ajax({
-					type : 'post',
-					dataType : 'json',
-					data : {
-						'param' : JSON.stringify(jsonData)
-					},
-					url : '/plan/xf/submitBotWorkOrder?workOrderStatus=' + dataStatus,
-					success : function(data) {
-						if (data == 200) {
-							var index = parent.layer.getFrameIndex(window.name);
-							parent.layer.close(index);
-							parent.layer.msg("提交成功");
-							parent.layui.table.reload('tableList', {});
-						}
-					},
-					error : function(e) {
-						modals.info("出错了");
-						console.log(e);
-					}
-				});
-				return false;
-			});
+        window.setWelder = setWelder;
+        var dataStatus = 2;
 
-			$('#bak4').click(function() {
-				layer.open({
-					title : "选择下发人员",
-					skin : 'layui-layer-lan',
-					shadeClose : false,
-					type : 2,
-					fixed : false,
-					maxmin : true,
-					area : [ '90%', '90%' ],
-					content : '/plan/pageSelectUser'
-				});
-			});
+        //显示文件上传部分
+        $("#file_upload").load('/common/public/uploadlayuiload.html');
 
-			//关闭事件
-			$("#closeBtn").click(function() {
-				var index = parent.layer.getFrameIndex(window.name);
-				parent.layer.close(index);
-			});
+        /* 监听保存 */
+        form.on('submit(save)', function(data) {
+            var sthTrArr = [];
+            var matterLength = $("#matterTableDiv  .layui-table-main table tbody tr");
+            if(!$(matterLength).find("td").attr("data-off")==1){
+                $(matterLength).each(function() {
+                    var sthTrObj = {};
+                    sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+                    sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
+                    sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
+                    sthTrArr.push(sthTrObj);
+                });
+            }
+            if (sthTrArr.length < 1) {
+                layer.msg('请至少输入一项工作安排');
+                return false;
+            }
 
-			//添加修改取值
-			var dataId = '${dataId}';
-			$.ajax({
-				type : 'post',
-				dataType : 'json',
-				async : false,
-				url : '/plan/viewBotWorkOrder?dataId=' + dataId,
-				success : function(data) {
-					dataJson = JSON.parse(JSON.stringify(data));
-					enhance.filling(dataJson);
-					$("#remarks").val(dataJson.remarks);
+            var jsonData = data.field;
+            jsonData.matterList = sthTrArr;
+            $.ajax({
+                type : 'post',
+                dataType : 'json',
+                data : {
+                    'param' : JSON.stringify(jsonData)
+                },
+                url : '/plan/xf/submitBotWorkOrder?workOrderStatus=' + dataStatus,
+                success : function(data) {
+                    if (data == 200) {
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.layer.msg("提交成功");
+                        parent.layui.table.reload('tableList', {});
+                    }
+                },
+                error : function(e) {
+                    modals.info("出错了");
+                    console.log(e);
+                }
+            });
+            return false;
+        });
 
-					// 工作类型的初始化
-					$.ajax({
-						url : '/pageCommon/dic/ROOT_RWGL_RWLX',
-						dataType : 'json',
-						type : 'post',
-						success : function(data) {
-							$.each(data, function(index, item) {
-								$('#workOrderType').append(item.name);
-							})
-							form.render();
-						}
-					});
+        $('#bak4').click(function() {
+            layer.open({
+                title : "选择下发人员",
+                skin : 'layui-layer-lan',
+                shadeClose : false,
+                type : 2,
+                fixed : false,
+                maxmin : true,
+                area : [ '90%', '90%' ],
+                content : '/plan/pageSelectUser'
+            });
+        });
 
-				},
-				error : function(e) {
-				}
-			});
+        //关闭事件
+        $("#closeBtn").click(function() {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
 
-			// 定义工作安排列表表头
-			table.render({
-				elem : '#matterTalbe',
-				url : '/plan/queryBotWorkOrderMatterList',
-				limit : 15,
-				method : "POST",
-				where : {
-					param : {
-						"workOrderId" : dataId
-					}
-				},
-				cols : [ [ {
-					type : 'checkbox',
-					event : 'changeEvents',
-					width : 45
-				}, {
-					title : '序号',
-					type : 'numbers',
-					width : 45
-				}, {
-					field : 'dataId',
-					title : '主键',
-					event : 'setActive',
-					style : 'cursor: pointer;',
-					edit : true
-				}, {
-					field : 'workOrderName',
-					title : '工作事项内容',
-					event : 'setActive',
-					style : 'cursor: pointer;',
-					edit : true
-				}, {
-					field : 'workOrderAllotUserName',
-					title : '工作处理人',
-					event : 'setActive',
-					style : 'cursor: pointer;',
-					width : '10%',
-					templet : function(d) {
+        //添加修改取值
+        var dataId = '${dataId}';
+        $.ajax({
+            type : 'post',
+            dataType : 'json',
+            async : false,
+            url : '/plan/viewBotWorkOrder?dataId=' + dataId,
+            success : function(data) {
+                dataJson = JSON.parse(JSON.stringify(data));
+                enhance.filling(dataJson);
+                $("#remarks").val(dataJson.remarks);
+				$("#workOrderName").html(dataJson.workOrderName);
+                $("#createDate").html(dataJson.createDate);
+                $("#workOrderAllotUserName").html(dataJson.workOrderAllotUserName);
+                $("#workOrderType").html(dataJson.workOrderType);
+                // 工作类型的初始化
+                /*$.ajax({
+                    url : '/pageCommon/dic/ROOT_RWGL_RWLX',
+                    dataType : 'json',
+                    type : 'post',
+                    success : function(data) {
+                        $.each(data, function(index, item) {
+                            $('#workOrderType').append(item.name);
+                        })
+                        form.render();
+                    }
+                });*/
 
-						var certTypeStr;
-						var columnValue = $("#bak4").val();
-						var columnValueId = $("#bak6").val();
-						if (columnValue.length > 0) {
-							var columnValueArr = columnValue.split(",");
-							var columnValueIdArr = columnValueId.split(",");
-							certTypeStr = "<select>";
-							$.each(columnValueArr, function(index, val) {
-								if (d.workOrderAllotUserName == val) {
-									certTypeStr += "<option value='"+columnValueIdArr[index]+"' selected>" + columnValueArr[index] + "</option>";
-								} else {
-									certTypeStr += "<option value='"+columnValueIdArr[index]+"'>" + columnValueArr[index] + "</option>";
-								}
-							});
-						} else {
-							certTypeStr = "<select>";
-						}
-						certTypeStr += "</select>";
-						return certTypeStr
-					}
-				}, {
-					field : 'announcements',
-					title : '权重(%)',
-					event : 'setActive',
-					style : 'cursor: pointer;',
-					width : '10%',
-					edit : true
-				} ] ],
-				done : function(res, curr, count) {
-					$(".layui-table").css("width", "100%");
-					$("[data-field='dataId']").hide();
-					$("[data-field='workOrderAllotUserId']").hide();
-				}
+            },
+            error : function(e) {
+            }
+        });
 
-			});
-			//动态添加事项
-			$('#addMatter').click(function() {
-				if ($("#bak4").val() == "") {
-					layer.msg("请选择下发人员");
-					return;
-				}
-				var trParam = {
-					"id" : "matterTableDiv",
-					"number" : 6,
-					"specialElement" : [ {
-						hide : true,
-						"column" : 2,
-						"element" : "input"
-					}, {
-						"column" : 4,
-						"element" : "select",
-						"value" : $("#bak4").val(),
-						"valueId" : $("#bak6").val()
-					}, {
-						hide : true,
-						"column" : 6,
-						"element" : "input"
-					} ]
-				};
-				publicMethods.addTableTr(trParam);
-				calTableQz();
-			});
+        // 定义工作安排列表表头
+        table.render({
+            elem : '#matterTalbe',
+            url : '/plan/queryBotWorkOrderMatterList',
+            limit : 15,
+            method : "POST",
+			id:"announcements",
+            where : {
+                param : {
+                    "workOrderId" : dataId
+                }
+            },
+            cols : [ [ {
+                type : 'checkbox',
+                event : 'changeEvents',
+                width : 45
+            }, {
+                title : '序号',
+                type : 'numbers',
+                width : 45
+            }, {
+                field : 'dataId',
+                title : '主键',
+                event : 'setActive',
+                style : 'cursor: pointer;',
+                edit : true
+            }, {
+                field : 'workOrderName',
+                title : '工作事项内容',
+                event : 'setActive',
+                style : 'cursor: pointer;',
+                edit : true
+            }, {
+                field : 'workOrderAllotUserName',
+                title : '工作处理人',
+                event : 'setActive',
+                style : 'cursor: pointer;',
+                width : '10%',
+                templet : function(d) {
 
-			//监听行工具事件
-			table.on('tool(tableData)', function(obj) {
-				var data = obj.data;
-			});
+                    var certTypeStr;
+                    var columnValue = $("#bak4").val();
+                    var columnValueId = $("#bak6").val();
+                    if (columnValue.length > 0) {
+                        var columnValueArr = columnValue.split(",");
+                        var columnValueIdArr = columnValueId.split(",");
+                        certTypeStr = "<select>";
+                        $.each(columnValueArr, function(index, val) {
+                            if (d.workOrderAllotUserName == val) {
+                                certTypeStr += "<option value='"+columnValueIdArr[index]+"' selected>" + columnValueArr[index] + "</option>";
+                            } else {
+                                certTypeStr += "<option value='"+columnValueIdArr[index]+"'>" + columnValueArr[index] + "</option>";
+                            }
+                        });
+                    } else {
+                        certTypeStr = "<select>";
+                    }
+                    certTypeStr += "</select>";
+                    return certTypeStr
+                }
+            }, {
+                field : 'announcements',
+                title : '权重(%)',
+                event : 'setActive',
+                style : 'cursor: pointer;',
+                width : '10%',
+                edit : true
+            } ] ],
+            done : function(res, curr, count) {
+                $(".layui-table").css("width", "100%");
+                $("[data-field='dataId']").hide();
+                $("[data-field='announcements']").hide();
+                $("[data-field='workOrderAllotUserId']").hide();
+            }
 
-			function calTableQz() {
-				var sthTrArr = [];
-				var sthTrArrAll = [];
-				var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
-				var qzTrue = 0;
-				$(matterLength).each(function() {
-					var sthTrObj = {};
-					if ($(this).find("td").eq(3).find("input").length > 0) {
-						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-						sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
-						console.log(sthTrObj);
-					} else {
-						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-						sthTrObj.announcements = $(this).find("td").eq(5).text();
-					}
-					sthTrArrAll.push(sthTrObj)
-					if (sthTrObj.workOrderName == "") {
-						sthTrArr.push(sthTrObj)
-					} else {
-						qzTrue = qzTrue + (sthTrObj.announcements == "" ? 0 : sthTrObj.announcements) * 1;
-					}
-				});
-				var qz = ((100 - qzTrue) / (sthTrArr.length == 0 ? 1 : sthTrArr.length)).toFixed(2);
-				console.log("qz:" + qz);
-				$(matterLength).each(function() {
-					var sthTrObj = {};
-					console.log("qz:" + $(this).find("td").eq(3).find("input").length);
-					if ($(this).find("td").eq(3).find("input").length > 0) {
-						sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-						console.log("sthTrObj.workOrderName:" + sthTrObj.workOrderName);
-						if (sthTrObj.workOrderName == "") {
-							$(this).find("td").eq(5).find("input").val(qz + "");
-						}
-					} else {
-						sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-						if (sthTrObj.workOrderName == "") {
-							$(this).find("td").eq(5).text(qz);
-						}
-					}
-				});
-			}
+        });
+        //动态添加事项
+        $('#addMatter').click(function() {
+            if ($("#bak4").val() == "") {
+                layer.msg("请选择下发人员");
+                return;
+            }
+            var trParam = {
+                "id" : "matterTableDiv",
+                "number" : 6,
+                "specialElement" : [ {
+                    hide : true,
+                    "column" : 2,
+                    "element" : "input"
+                }, {
+                    "column" : 4,
+                    "element" : "select",
+                    "value" : $("#bak4").val(),
+                    "valueId" : $("#bak6").val()
+                }, {
+                    hide : true,
+                    "column" : 5,
+                    "element" : "input"
+                } ]
+            };
+            publicMethods.addTableTr(trParam);
+            calTableQz();
+        });
 
-			//动态移除事项
-			$("#deleteMatter").click(function() {
-				var index = $("#matterTableDiv table tbody tr.layui-table-click").index();
-				if (index >= 0) {
-					$("#matterTableDiv table tbody tr").eq(index).remove();
-					if ($("#matterTableDiv table tbody tr").length <= 0) {
-						$(".layui-none").show();
-					}
-				} else {
-					layer.msg('请选择行号!');
-				}
-				form.render();
-			});
-			$(".layui-table-header table thead th input").remove();
-			// 展开-折叠
-			$(document).ready(function() {
-				$('.pullBtn').on('click', function() {
-					$(this).parent().parent().parent().find('.panel').slideToggle("normal");
-					$(this).toggleClass("active");
-					return false;
-				})
-			})
-		});
-	</script>
+        //监听行工具事件
+        table.on('tool(tableData)', function(obj) {
+            var data = obj.data;
+        });
+
+        function calTableQz() {
+            var sthTrArr = [];
+            var sthTrArrAll = [];
+            var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
+            var qzTrue = 0;
+            $(matterLength).each(function() {
+                var sthTrObj = {};
+                if ($(this).find("td").eq(3).find("input").length > 0) {
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+                    sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
+                    console.log(sthTrObj);
+                } else {
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).text();
+                    sthTrObj.announcements = $(this).find("td").eq(5).text();
+                }
+                sthTrArrAll.push(sthTrObj)
+                if (sthTrObj.workOrderName == "") {
+                    sthTrArr.push(sthTrObj)
+                } else {
+                    qzTrue = qzTrue + (sthTrObj.announcements == "" ? 0 : sthTrObj.announcements) * 1;
+                }
+            });
+            var qz = ((100 - qzTrue) / (sthTrArr.length == 0 ? 1 : sthTrArr.length)).toFixed(2);
+            console.log("qz:" + qz);
+            $(matterLength).each(function() {
+                var sthTrObj = {};
+                console.log("qz:" + $(this).find("td").eq(3).find("input").length);
+                if ($(this).find("td").eq(3).find("input").length > 0) {
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+                    console.log("sthTrObj.workOrderName:" + sthTrObj.workOrderName);
+                    if (sthTrObj.workOrderName == "") {
+                        $(this).find("td").eq(5).find("input").val(qz + "");
+                    }
+                } else {
+                    sthTrObj.workOrderName = $(this).find("td").eq(3).text();
+                    if (sthTrObj.workOrderName == "") {
+                        $(this).find("td").eq(5).text(qz);
+                    }
+                }
+            });
+        }
+
+        //动态移除事项
+        $("#deleteMatter").click(function() {
+            var index = $("#matterTableDiv table tbody tr.layui-table-click").index();
+            if (index >= 0) {
+                $("#matterTableDiv table tbody tr").eq(index).remove();
+                if ($("#matterTableDiv table tbody tr").length <= 0) {
+                    $(".layui-none").show();
+                }
+            } else {
+                layer.msg('请选择行号!');
+            }
+            form.render();
+        });
+        $(".layui-table-header table thead th input").remove();
+        // 展开-折叠
+        $(document).ready(function() {
+            $('.pullBtn').on('click', function() {
+                $(this).parent().parent().parent().find('.panel').slideToggle("normal");
+                $(this).toggleClass("active");
+                return false;
+            })
+        })
+    });
+</script>
 </body>
 </html>
 

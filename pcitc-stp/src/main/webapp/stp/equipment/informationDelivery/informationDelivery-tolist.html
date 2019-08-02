@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+
+    <style>
+        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+        .layui-table-header{display: none;}
+        .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
+        .layui-table-body{margin-top: 20px;}
+        .layui-table-cell{height: auto;margin-bottom: 10px;}
+        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+            font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
+        .layui-table-body{margin-top: 0;}
+        .layui-table-page{margin-bottom: 40px;}
+        .tableBox,.searchBox{padding-left:18px;margin: 0 auto;}
+        .tableBox{width: 55%;float: left;}
+        .searchBox{height: 50px;border-bottom: 1px solid #dfdfdf;margin: 0 20px 10px 28px;padding-left: 0;
+            padding-top: 30px;}
+        .relevant{width: 34%;float: right;margin-right: 20px;}
+        .hotspot>.item{width: 100%;text-align: left;padding: 0;padding-top: 10px;}
+        .hotspot>.item a{font-size: 14px;color: #1890ff;line-height: 26px;}
+        .hotspot>.item a:hover{text-decoration:underline;}
+        .form-control{height: 28px !important;line-height: 28px !important;}
+        .c-nameC{height: 0px;}
+        .relevant p{margin-top: 0}
+        .layui-table-none{padding: 0;}
+        .layui-table,.layui-table-cell{width: 100% !important;}
+    </style>
+</head>
+<body style="padding-top:20px; ">
+<input type="hidden" name="parentUnitPathNames" id="parentUnitPathNames" value="${parentUnitPathNames}">
+<input type="hidden" name="unitPathIds" id="unitPathIds" value="${unitPathIds}">
+<input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+<input type="hidden" name="stateid" id="stateid" value="1">
+<input type="hidden" name="applicationState" id="applicationState" value="${applicationState}">
+<input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
+<input  name="str"     id="str"      value="${str}"    type="hidden">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>发布标题</span>
+        <input type="text" name="publicationTitle" id="publicationTitle" placeholder="请输入发布标题" title="发布标题" autocomplete="off" class="form-control" >
+    </label>
+    <label class="dateInput">
+	         <span>发布类型</span>
+	         <select name="publicationType"  id="publicationType"  class="form-control"  style = "width:140px;" >
+	             <option value="" >--请选择--</option>
+			     <option value="1">科研装备能力</option>
+			     <option value="2">专有分析手段</option>
+			     <option value="3">分析方法</option>
+			     <option value="4">设备使用心得</option>
+			     <option value="5">维护保养经验</option>
+			     <option value="6">装备管理办法</option>
+			     <option value="7">故障诊断及排除</option>
+			 </select>
+	 </label>
+	 <#if test="${str==0}">
+	     <label class="dateInput">
+	         <span>研究院</span>
+	         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
+	             <option value="" >--请选择--</option>
+	             <#list dictonary as vo> 
+			          <option value="${vo.numValue}"  >${vo.remark}</option>
+			      </#list>
+			 </select>
+	     </label>
+   </#if>
+	 <label class="dateInput">
+        <span>发布人</span>
+        <input type="text" name="publisher" id="publisher" placeholder="请输入发布人" title="发布人" autocomplete="off" class="form-control" >
+     </label>
+     <label class="dateInput">
+            <span>发布时间</span>
+            <input type="text" name="publicationMonth"  title="时间" placeholder="请输发布入时间"  id="publicationMonth">
+            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+     </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent" id="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent" onclick="myFunction()">重置</button>
+    </div>
+</div>
+<div class="tableBox">
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
+</div>
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+function myFunction(){
+    	$('#publicationMonth').val("");
+    	$('#publicationType').val("");
+    	$('#publisher').val("");
+    	$('#publicationTitle').val("");
+      }
+</script>
+<script>
+    var table, selectRowData;
+    layui.config({
+        base: '/layuiadmin/lib/extend/'
+    }).use(['jquery', 'form', 'laydate', 'table', 'laypage'], function () {
+        $ = layui.jquery
+            , table = layui.table
+            , form = layui.form
+            , laydate = layui.laydate;
+        function renderTable() {
+            var index = layer.load(1, {
+                shade: [0.1, '#fff']
+            });
+            var month = laydate.render({
+ 	           elem: '#publicationMonth'
+          	   ,position: 'fixed'
+ 	       });
+            //渲染
+            table.render({
+                elem: '#processdef-table',
+                // url: '/one_level_main/common_table_data',
+                url: '/sre-informationDelivery/list',
+                method: "POST",
+                where: {
+                    param: {
+                    	"leadUnitCode":$("#leadUnitCode").val(),
+                    	"stateid":$("#stateid").val(),
+                    	"unitPathIds":$("#unitPathIds").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"publicationTitle":$("#publicationTitle").val(),"publisher":$("#publisher").val(),"publicationType":$("#publicationType").val(),"publicationMonth":$("#publicationMonth").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()
+                    }
+                },
+                limit: 15,
+                id: 'processdef-table',
+                page: {
+                    groups: 5,
+                    limits: [15, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+                    {field:'researchinstitute',title:'年度',
+                        templet:  function (d) {
+                            return '<div class="layui-div layui-div-n">' +
+                                '        <a href="javascript:void(0);" onclick="showDetail(\''+d.id+'\')">'+d.informationTitle+'</a>' +
+                                '        <div class="c-row c-gap-top-small">' +
+                                '            <div class="c-span18 c-span-last">' +
+                                '                <p><span>发布类型:'+d.strType+'</span><br/><span>发布人:'+d.informationPublisher+'</span><br/>' +
+                                '<span>发布时间:'+d.strDate+'</span><br/>' +
+                                '<span>发布单位:'+d.researchinstitute+'</span><br/>' +
+                                '</p>' +
+                                '            </div>' +
+                                '        </div>' +
+                                '    </div>'
+                        }},
+                ]],
+                done: function (res, curr, count) {
+                    if(count<=0){
+                        parent.$("#keyan").addClass("search-numberG");
+                    }
+                    parent.$("#keyan").html(count);
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                    parent.$("#keyan").html(count);
+                    layer.close(index);
+                }
+            });
+            
+            //监听排序
+            table.on('sort(processdef-table)', function (obj) {
+                //服务端排序
+                table.reload('processdef-table', {
+                    initSort: obj,
+                    page: {curr: 1}, //重新从第一页开始
+                    where: { //重新请求服务端
+                        orderKey: obj.field, //排序字段
+                        orderType: obj.type //排序方式
+                    }
+                });
+            });
+        }
+        renderTable();
+        $("#searchEvent").click(function(){
+       	 	renderTable();
+        });
+       
+        
+        function showDetail(id){
+        	window.location.href='/sre-informationDelivery/informationDelivery/'+id;
+        }
+        window.showDetail = showDetail;
+        // table.on('row(processdef-table)', function (obj) {
+        //     var temUrl = "/out/project-detail/" + obj.data.dataId;
+        //     layer.open({
+        //         title: '详情',
+        //         skin: 'layui-layer-lan',
+        //         shadeClose: true,
+        //         type: 2,
+        //         fixed: false,
+        //         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+        //         maxmin: true,
+        //         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+        //         area: ['90%', '80%'],
+        //         content: temUrl
+        //     });
+        // });
+
+        function toSearchIndex(name){
+            parent.sonsearch(name);;
+        }
+        window.toSearchIndex=toSearchIndex;
+        
+        
+    });
+</script>
+</body>
+</html>
