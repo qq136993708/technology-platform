@@ -508,13 +508,14 @@
 					field : 'announcements',
 					title : '权重(%)',
 					event : 'setActive',
-					style : 'cursor: pointer;',
+					style : 'display:none;',
 					width : 90,
 					edit : true
 				}
 
 				] ],
 				done : function(res, curr, count) {
+                    $("[data-field='announcements']").css('display','none');
 					$("[data-field='dataId']").hide();
 					$("[data-field='workOrderAllotUserId']").hide();
 				}
@@ -538,9 +539,10 @@
 						"element" : "select",
 						"value" : $("#workOrderAllotUserName").val(),
 						"valueId" : $("#workOrderAllotUserId").val()
-					}, {
+					}
+					, {
 						hide : true,
-						"column" : 6,
+						"column" : 5,
 						"element" : "input"
 					} ]
 				};

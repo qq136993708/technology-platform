@@ -781,7 +781,7 @@
 					//start
                     function showTaskInfo(dataId) {
                         layer.open({
-                            title : "任务处理",
+                            title : "任务",
                             skin : 'layui-layer-lan',
                             shadeClose : false,
                             type : 2,
@@ -794,13 +794,13 @@
                     window.showTaskInfo = showTaskInfo;
                     function showTaskInfoDetail(dataId) {
                         layer.open({
-                            title : "任务处理",
+                            title : "任务",
                             skin : 'layui-layer-lan',
                             shadeClose : false,
                             type : 2,
                             fixed : false,
                             maxmin : true,
-                            area : [ '80%', '60%' ],
+                            area : [ '80%', '90%' ],
                             content : '/plan/my/index_show_detail?dataId=' + dataId
                         });
                     }
