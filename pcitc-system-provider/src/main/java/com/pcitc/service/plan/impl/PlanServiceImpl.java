@@ -583,18 +583,55 @@ public class PlanServiceImpl implements PlanService {
             criteria.andWorkOrderCodeEqualTo(workOrderCode);
             records = planBaseMapper.selectByExample(e);
 
-            for (int i = 0,j = records.size(); i < j; i++) {
+            for (int i = 0, j = records.size(); i < j; i++) {
                 PlanBase base = records.get(i);
-                if (!StrUtil.isNullEmpty(base.getBak6())||StrUtil.isNullEmpty(base.getParentId())){
+                if (!StrUtil.isNullEmpty(base.getBak6()) || StrUtil.isNullEmpty(base.getParentId())) {
                     records.get(i).setBak4("分发");
                 }
-                String showName = (StrUtil.isNullEmpty(records.get(i).getBak4())?"":("<span color='red'>"+records.get(i).getBak4()+"</span>"))+base.getWorkOrderAllotUserName()+"("+base.getBl()+"%)"+base.getWorkOrderName();
+                String showName = (StrUtil.isNullEmpty(records.get(i).getBak4()) ? "" : ("<span color='red'>" + records.get(i).getBak4() + "</span>")) + base.getWorkOrderAllotUserName() + "(" + base.getBl() + "%)" + base.getWorkOrderName();
                 records.get(i).setWorkOrderName(showName);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return JSONObject.toJSONString(records);
+    }
+    public List<TreeNode> selectTreeNodePlan(JSONObject jsonObject) {
+        List<TreeNode> list = new ArrayList<>();
+        List<PlanBase> records = null;
+        try {
+            String dataId = jsonObject.get("dataId").toString();
+            PlanBase planBase = planBaseMapper.selectByPrimaryKey(dataId);
+            String workOrderCode = planBase.getWorkOrderCode();
+            //查询所有节点
+            PlanBaseExample e = new PlanBaseExample();
+            PlanBaseExample.Criteria criteria = e.createCriteria();
+            criteria.andWorkOrderCodeEqualTo(workOrderCode);
+            records = planBaseMapper.selectByExample(e);
+
+            for (int i = 0,j = records.size(); i < j; i++) {
+                PlanBase base = records.get(i);
+                if (!StrUtil.isNullEmpty(base.getBak6())||StrUtil.isNullEmpty(base.getParentId())){
+                    records.get(i).setBak4("分发");
+                }
+                String showName = (StrUtil.isNullEmpty(records.get(i).getBak4())?"":(records.get(i).getBak4()))+base.getWorkOrderAllotUserName()+"("+base.getBl()+"%)"+base.getWorkOrderName();
+//                String showName = (StrUtil.isNullEmpty(records.get(i).getBak4())?"":("<span color='red'>"+records.get(i).getBak4()+"</span>"))+base.getWorkOrderAllotUserName()+"("+base.getBl()+"%)"+base.getWorkOrderName();
+                records.get(i).setWorkOrderName(showName);
+            }
+
+            for (int i = 0; i < records.size(); i++) {
+                TreeNode node = new TreeNode();
+                PlanBase base = records.get(i);
+                node.setId(base.getDataId());
+                node.setpId(base.getParentId());
+                node.setOpen("true");
+                node.setName(base.getWorkOrderName());
+                list.add(node);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     public List selectTreeDataList(JSONObject jsonObject) {

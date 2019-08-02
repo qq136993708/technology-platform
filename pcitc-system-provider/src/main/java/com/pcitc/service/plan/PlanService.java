@@ -70,4 +70,11 @@ public interface PlanService {
      */
     public void calPlanBl(JSONObject jsonObject);
 
+    /**
+     * 计划树形列表
+     * @param jsonObject
+     * @return
+     */
+    public List<TreeNode> selectTreeNodePlan(JSONObject jsonObject);
+
 }
