@@ -486,15 +486,15 @@
 					width : '100',
 					sort : true
 				}, {
-					field : 'fzdw',
-					title : '牵头单位',
+					field : 'define8',
+					title : '承担单位',
 					style : 'cursor: pointer;',
 					align : 'left',
 					width : '150',
 					sort : true
 				}, {
-					field : 'define8',
-					title : '参与单位',
+					field : 'fzdw',
+					title : '牵头单位',
 					style : 'cursor: pointer;',
 					align : 'left',
 					width : '150',
@@ -601,8 +601,10 @@
 					for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
 						var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
 						var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
-						var hth = trArr.eq(mergeIndex).find("td").eq("hth");						
-						if (data[i][columsName[k]] === data[i - 1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
+						
+						var hth = trArr.eq(mergeIndex).find("td").eq("hth");
+						
+						if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) ) { //后一行的值与前一行的值做比较，相同就需要合并
 							mark += 1;
 							tdPreArr.each(function() {//相同列的第一列增加rowspan属性
 								$(this).attr("rowspan", mark);
