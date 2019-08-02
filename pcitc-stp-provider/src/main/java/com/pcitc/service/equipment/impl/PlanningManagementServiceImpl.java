@@ -168,8 +168,15 @@ public class PlanningManagementServiceImpl implements PlanImplementService {
 				sid.setStrDate(dateStr);
 				srlivery.add(sid);
 			}
-			}
 			PageInfo<SreInformationDelivery> pageInfo = new PageInfo<SreInformationDelivery>(srlivery);
+			System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+			LayuiTableData data = new LayuiTableData();
+			data.setData(pageInfo.getList());
+			Long total = pageInfo.getTotal();
+			data.setCount(total.intValue());
+			return data;
+			}
+			PageInfo<SreInformationDelivery> pageInfo = new PageInfo<SreInformationDelivery>(sreInformationDelivery);
 			System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 			LayuiTableData data = new LayuiTableData();
 			data.setData(pageInfo.getList());
