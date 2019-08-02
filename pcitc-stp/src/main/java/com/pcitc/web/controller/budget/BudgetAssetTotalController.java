@@ -49,6 +49,7 @@ import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.common.OperationFilter;
 /**
  * 资产预算总表
  * @author fb
@@ -370,13 +371,14 @@ public class BudgetAssetTotalController extends BaseController {
 	
 	@RequestMapping(value = "/budget/select-assettotal-forward", method = RequestMethod.POST)
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public Object selectBudgetAssetTotalCompareProject(@ModelAttribute("param")LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
 		if(param.getParam().get("nd") == null || param.getParam().get("code") == null) {
 			return JSON.toJSON(new ArrayList<Object>());
 		}
 		param.getParam().put("leaderFlag", "2");
-		//System.out.println(JSON.toJSONString(info));
+		//System.out.println(JSON.toJSONString(param));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_ASSETTOTAL_COMPARE_PROJECT, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param,this.httpHeaders), List.class);
 		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return JSON.toJSON(infors.getBody());

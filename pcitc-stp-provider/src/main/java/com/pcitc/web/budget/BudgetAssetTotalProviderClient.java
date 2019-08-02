@@ -548,6 +548,8 @@ public class BudgetAssetTotalProviderClient
 	{
 		String nd = params.getParam().get("nd").toString();
 		String code = params.getParam().get("code").toString();
+		System.out.println(JSON.toJSONString(params));
+		
 		List<OutProjectInfo> plans = new ArrayList<OutProjectInfo>();
 		try 
 		{
