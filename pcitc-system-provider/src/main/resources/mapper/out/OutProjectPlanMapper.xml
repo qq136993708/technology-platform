@@ -1807,11 +1807,11 @@
 					order by ${orderKey} ${orderType}
 				</if>
 				<if test="orderType == ''">
-					order by tableA.hth desc, tableA.define10
+					order by tableA.define10, tableA.hth desc, tableA.xmid, tableA.nd, tableA.ysnd
 				</if>
 			</if>
 			<if test="orderKey == null">
-				order by tableA.hth desc, tableA.define10
+				order by tableA.define10, tableA.hth desc, tableA.xmid, tableA.nd, tableA.ysnd
 			</if>
 	</sql>
 	
