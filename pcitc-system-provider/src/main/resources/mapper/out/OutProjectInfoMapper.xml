@@ -3289,11 +3289,11 @@
 					GROUP BY ${groupFlag}
 				</if>
 				<if test="groupFlag == ''">
-					GROUP BY xmid
+					GROUP BY out_project_info.hth, out_project_info.xmid, out_project_info.nd, out_project_info.ysnd
 				</if>
 			</if>
 			<if test="groupFlag == null">
-				GROUP BY xmid
+				GROUP BY out_project_info.hth, out_project_info.xmid, out_project_info.nd, out_project_info.ysnd
 			</if>
 			<if test="orderKey != null">
 				<if test="orderType != ''">

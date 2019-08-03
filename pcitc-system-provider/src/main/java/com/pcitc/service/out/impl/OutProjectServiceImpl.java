@@ -514,7 +514,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 			hashmap.put("hthFlag", sb.toString());
 			finalList = outProjectInfoMapper.selectProjectInfoWithAllInfoByCond(hashmap);
 
-			int realIndex = param.getLimit() * (param.getPage() - 1);
+			int realIndex = param.getLimit() * (param.getPage() - 1) + 1;
 			String hth = "";
 			for (int i = 0; i < finalList.size(); i++) {
 				HashMap temMap = (HashMap) finalList.get(i);
