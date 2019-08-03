@@ -1,8 +1,5 @@
 package com.pcitc.web.out;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -32,10 +29,14 @@ import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
+import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 import com.pcitc.service.feign.hana.OutProjectRemoteClient;
 import com.pcitc.service.feign.stp.BudgetClient;
 import com.pcitc.service.out.OutProjectPlanService;
 import com.pcitc.service.out.OutProjectService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value = "OUTPROJECT-API", description = "项目数据，从项目管理系统中获取")
 @RestController
@@ -1138,4 +1139,80 @@ public class OutProjectInfoClient {
 	public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) throws Exception {
 		return outProjectService.selectByExample(example);
 	}
+	
+	
+	
+	
+	
+	
+	
+	/**===============================================十条龙维护===================================================*/
+	
+
+	
+	
+	
+	@ApiOperation(value = "分页显示项目数据", notes = "分页显示项目数据")
+	@RequestMapping(value = "/out-project-provider/ten_dragons/page", method = RequestMethod.POST)
+	public LayuiTableData page(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page ten_dragons page===========================" + JSONObject.toJSONString(param));
+		return outProjectService.getTenDragonsOutProjectPage(param);
+	}
+	
+	
+	
+	@RequestMapping(value = "/out-project-provider/ten_dragons/add", method = RequestMethod.POST)
+	public Integer insertOutProjectInfo(@RequestBody OutProjectInfo outProjectInfo) throws Exception{
+		logger.info("====================add ten_dragons....========================");
+		Integer count= outProjectService.insertOutProjectInfo(outProjectInfo);
+		return count;
+	}
+	
+	
+	@RequestMapping(value = "/out-project-provider/ten_dragons/addWithBLOB", method = RequestMethod.POST)
+	public Integer insertOutProjectInfoWithBLOBs(@RequestBody OutProjectInfoWithBLOBs record) throws Exception{
+		logger.info("====================add ten_dragons...addWithBLOB.========================");
+		Integer count= outProjectService.insertOutProjectInfoWithBLOBs(record);
+		return count;
+	}
+	
+	
+	@RequestMapping(value = "/out-project-provider/ten_dragons/update", method = RequestMethod.POST)
+	public Integer updateOutProjectInfo(@RequestBody OutProjectInfo outProjectInfo) throws Exception{
+		logger.info("==================update ten_dragons update===========================");
+		return outProjectService.updateOutProject_Info(outProjectInfo);
+	}
+	
+	
+	
+	@RequestMapping(value = "/out-project-provider/ten_dragons/updateWithBLOB", method = RequestMethod.POST)
+	public Integer updateOutProjectInfoWithBLOBs(@RequestBody OutProjectInfoWithBLOBs record) throws Exception{
+		logger.info("==================update ten_dragons updateWithBLOB===========================");
+		return outProjectService.updateOutProjectInfoWithBLOBs(record) ;
+	}
+	
+	
+	
+	@RequestMapping(value = "/out-project-provider/ten_dragons/delete/{id}", method = RequestMethod.POST)
+	public int deleteOutProjectInfo(@PathVariable("id") String id)throws Exception{
+		logger.info("=============================delete ten_dragons=================");
+		return outProjectService.deleteOutProjectInfo(id);
+	}
+	
+	
+	@RequestMapping(value = "/out-project-provider/ten_dragons/get/{id}", method = RequestMethod.GET)
+	public OutProjectInfo selectOutProjectInfo(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get ten_dragons id "+id+"===========");
+		return outProjectService.selectOutProjectInfo(id);
+	}
+	
+	
+	
+	@RequestMapping(value = "/out-project-provider/ten_dragons/getWithBLOB/{id}", method = RequestMethod.GET)
+	public OutProjectInfo selectOutProjectInfoWithBLOB(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get ten_dragons  WithBLOB id "+id+"===========");
+		return outProjectService.selectOutProjectInfoWithBLOBs(id);
+	}
+	
+	
 }

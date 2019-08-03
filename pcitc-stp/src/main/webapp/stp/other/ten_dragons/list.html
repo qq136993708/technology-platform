@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+
+<body>
+ 
+<div class="searchBox">
+    <!--查询条件-->
+    
+    <label class="dateInput">
+        <span>立项年度</span>
+        <input type="text" name="nd" placeholder="请输入立项年度" title="立项年度" autocomplete="off" class="form-control" id="nd">
+    </label>
+    
+    <label class="dateInput">
+        <span>项目名称</span>
+        <input type="text" name="xmmc" placeholder="请输入项目名称" title="项目名称" autocomplete="off" class="form-control" id="xmmc">
+    </label>
+    
+    <label class="dateInput">
+        <span>合同号</span>
+        <input type="text" name="hth" placeholder="请输入合同号" title="合同号" autocomplete="off" class="form-control" id="hth">
+    </label>
+    
+    
+    
+    <label class="dateInput">
+	         <span>专业处</span>
+	         <select name="zycmc" id="zycmc"  class="form-control"  >
+	             <option value="" >--请选择--</option>
+	             <#list zycmcList as vo> 
+			          <option value="${vo.name}"  >${vo.name}</option>
+			      </#list>
+			 </select>
+	  </label>
+    
+    <label class="dateInput">
+	         <span>单位类型</span>
+	         <select name="define6" id="define6"  class="form-control"  >
+	             <option value="" >--请选择--</option>
+	             <#list define6List as vo> 
+			          <option value="${vo.numValue}"  >${vo.name}</option>
+			      </#list>
+			 </select>
+	     </label>
+    
+    
+    
+     <label class="dateInput">
+	         <span>项目状态</span>
+	         <select name="status" id="status"  class="form-control"  >
+	             <option value="" >--请选择--</option>
+	             <#list statusList as vo> 
+			          <option value="${vo.name}"  >${vo.name}</option>
+			      </#list>
+			 </select>
+	     </label>
+	     
+	     
+    
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+    </div>
+</div>
+
+
+<div class="tableBox">
+	<div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+         <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent">编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">详情</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
+        </div>
+    </div>
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
+</div>
+ 
+
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script id="view_projectType"  type="text/html"> {{view_projectType(d.projectType)}} </script>
+<script id="view_status"       type="text/html"> {{view_status(d.status)}} </script>
+<script id="view_define6"       type="text/html"> {{view_define6(d.define6)}} </script>
+
+<script type="text/javascript">
+
+
+
+function view_define6(define6) 
+{
+    if(define6.indexOf("1") != -1) 
+    {
+        return '<span style="color: #000000">组长单位</span>';
+    }else if(define6.indexOf("2") != -1) 
+    {
+        return "<span style='color: #000000' >副组长单位</span>";
+    }else if(define6.indexOf("3") != -1) 
+    {
+        return "<span style='color: #000000'>协作单位</span>";
+    }else  if(define6.indexOf("4") != -1) 
+    {
+        return "<span style='color: #000000 '>组员单位</span>";
+    }else 
+    {
+        return "<span style='color: #000000'>-</span>";
+    }
+}
+
+
+
+function view_status(status) 
+{
+    if (status=='入龙') //0独立项目，1项目组，2课题（隶属于某个项目组）
+    {
+        return '<span style="color:orange">'+status+'</span>';
+    }else if(status=='在研项目')
+    {
+        return "<span style='color:green' >"+status+"</span>";
+    }else if(status=='申请延期')
+    {
+        return "<span style='color: #8B4513'>"+status+"</span>";
+    }else  if(status=='申请休眠')
+    {
+        return "<span style='color: #696969 '>"+status+"</span>";
+    }else  if(status=='申请出龙')
+    {
+        return "<span style='color: #800000'>"+status+"</span>";
+    }else  if(status=='申请退龙')
+    {
+        return "<span style='color: #808000'>"+status+"</span>";
+    }
+}
+
+
+function view_projectType(projectType) 
+{
+    if (projectType=='0') //0独立项目，1项目组，2课题（隶属于某个项目组）
+    {
+        return '<span style="color:orange">独立项目</span>';
+    }else if(projectType=='1')
+    {
+        return "<span style='color:green' >项目组</span>";
+    }else if(projectType=='2')
+    {
+        return "<span>项目组子课题</span>";
+    }else 
+    {
+        return "<span>-</span>";
+    }
+}
+
+function view_pro(xmmc,projectProperty,id) 
+{
+	
+	layer.open({
+        title:'项目详情',
+        skin: 'layui-layer-lan',
+        shadeClose: false,
+        type: 2,
+        id:"cycle",
+        fixed: false,
+        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+        maxmin: true,
+        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+        area: ['70%', '90%'],
+        content: "/ten_dragons/get/"+id,
+        success: function (layero, index) {
+        }
+    });
+	
+	
+}
+
+
+
+
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+    
+    
+    function view(id) 
+    {
+    	 var temUrl="/ten_dragons/get/" + id;
+		 layer.open({
+            title:'详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: false,
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
+    }
+</script>
+
+<script>
+var table,selectRowData;
+    layui.use(['jquery','table','laypage','layer','laytpl'], function(){
+           table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            laypage = layui.laypage;
+	     //加载表格      
+	     renderTable();
+	     
+	     
+	     //移除表头的复选框,去掉全选
+	     $(".layui-table-header table thead th input").remove();  
+         // 触发不同的按钮事件
+         var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+            	renderTable();
+               
+            },
+            addEvent: function(){ //点击新增按钮
+                layer.open({
+                    title:'十条龙-新增',
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                   area: ['70%', '90%'],
+                    content:  '/ten_dragons/add'
+                });
+            }
+            ,editEvent: function(){  //点击编辑按钮
+            	
+            	if (typeof(selectRowData) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var dataId=selectRowData.dataId;
+           		     var url="/ten_dragons/add?dataId="+dataId;
+           		     
+           		  layer.open({
+                      title:'十条龙-修改',
+                      skin: 'layui-layer-lan',
+                      shadeClose: true,
+                      type: 2,
+                      fixed: false,
+                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                      maxmin: true,
+                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                      area: ['70%', '90%'],
+                      content:  url
+                  });
+            	}
+               
+            },deleteEvent: function(){  //点击删除按钮
+                 console.log('点击了删除按钮')
+                 if (typeof(selectRowData) == "undefined") 
+                 {
+            		layer.msg('请点击选择一行数据');
+            	 } else 
+            	 {
+            		  var dataId=selectRowData.dataId;
+           		      var url="/ten_dragons/delete/"+dataId;
+	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
+	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
+	         			}, function(){
+	         			 
+	         			});
+            	}
+            
+              
+            },
+            detailEvent: function(){  //点击详情按钮
+            	if (typeof(selectRowData) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var dataId=selectRowData.dataId;
+            		 var temUrl="/ten_dragons/get/" + dataId;
+            		 layer.open({
+                         title:'详情',
+                         skin: 'layui-layer-lan',
+                         shadeClose: true,
+                         type: 2,
+                         fixed: false,
+                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                         maxmin: true,
+                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['70%', '90%'],
+                         content:  temUrl
+                     });
+            	}
+            
+            }
+            
+        };
+
+      //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+      //监听表格双击事件
+        table.on('rowDouble(processdef-table)', function(obj){
+        	var temUrl = '/ten_dragons/get/'+obj.data.dataId;
+        	//openFullWin("详情",temUrl);
+   		 layer.open({
+                title:'详情',
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: false,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                 area: ['70%', '90%'],
+                content:  temUrl
+            });
+   		 
+        });
+        
+        
+    });
+    
+    
+    
+    
+    function renderTable()
+    { 
+    	
+       table.render({
+           elem: '#processdef-table',
+           url: '/ten_dragons/list_date',
+           method:"POST",
+           where: {param: {"zycmc":$("#zycmc").val(),"define6":$("#define6").val(),"status":$("#status").val(),"xmmc":$("#xmmc").val(),"nd":$("#nd").val(),"hth":$("#hth").val(),"define3":"十条龙项目"}},
+           limit: 15,
+           id: 'processdef-table',
+           height: commonDislodgeTable(),
+           page: {
+               groups: 5,
+               limits: [15,30,45,60],
+               layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+               first: '首页', //不显示首页
+               last: '尾页', //不显示尾页
+               theme: '#0F9EE0'
+           },
+           cols: [[
+        	   
+        	   {
+					title : '序号',
+					type : 'numbers',
+					width : '45'
+				}, {
+					field : 'nd',
+					title : '立项年度',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '80',
+					sort : true
+				}, {
+					field : 'ysnd',
+					title : '预算年度',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '80',
+					sort : true
+				}, {
+					field : 'hth',
+					title : '合同号',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '150',
+					sort : true
+				}, {
+					field : 'zycmc',
+					title : '专业处',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '80',
+					sort : true
+				}, {
+					field : 'xmmc',
+					title : '项目名称',
+					templet:function(d){return '<span   onclick="view_pro(\''+d.xmmc+'\',\''+d.projectProperty+'\',\''+d.dataId+'\')" style="color: #1890ff">'+d.xmmc+'</span>'},
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '350',
+					sort : true
+				},{
+					field : 'projectType',
+					title : '项目级别',
+					style : 'cursor: pointer;',
+					templet : '#view_projectType',
+					align : 'left',
+					width : '130',
+					sort : true
+				}, {
+					field : 'status',
+					title : '项目状态',
+					style : 'cursor: pointer;',
+					align : 'center',
+					templet : '#view_status',
+					width : '100',
+					sort : true
+				}
+				
+				, {
+					field : 'fzdw',
+					title : '单位',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '200',
+					sort : true
+				}, {
+					field : 'define6',
+					title : '单位类型',
+					templet : '#view_define6',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '150',
+					sort : true
+				}, {
+					field : 'xmlbmc',
+					title : '项目类别',
+					style : 'cursor: pointer;',
+					align : 'left',
+					width : '130',
+					sort : true
+				}, {
+					field : 'projectProperty',
+					title : '项目类型',
+					style : 'cursor: pointer;',
+					align : 'center',
+					width : '100',
+					sort : true
+				}, {
+					field : 'createDate',
+					title : '创建时间',
+					style : 'cursor: pointer;',
+					templet : '#dateTpl',
+					align : 'center',
+					width : '150',
+					sort : true
+				}
+           ]],
+           done: function (res, curr, count) {
+               // 点击行联动选择框--单选
+               $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+               	var index=parseInt($(this).index()+1);
+                   $('tr').removeClass('layui-table-click');
+                   $(this).addClass('layui-table-click');
+                   $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                   selectRowData=res.data[index-1];
+               });
+           }
+       });
+    }
+    
+    
+    /*formName：form表单名称，
+    type：post、get,delete,put 
+    backurl:操作成功后返回地址
+    successMsg：成功提示
+    failMsg：失败提示 */
+    function ajaxDeleteOpt(url,type,successMsg,failMsg)
+    {
+    	 $.ajax({
+      	     type:type,
+      	     url: url,
+      	     dataType:"json",
+      	     async: false, 
+      	     cache: false,
+      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+             success:function(data,status)
+             {    
+        	  
+    	          if(data.success==true ||data.success=='true')
+    	          {
+    	        	  layer.alert(
+    	        			  successMsg, 
+    	                      {icon: 1,closeBtn: 0 },
+    	                      function () 
+    	                      {
+    	                    	   renderTable();
+    	                    	   layer.closeAll();
+    	                      });
+    	       	   
+    	          } else
+    	          {
+    	        	 layer.alert("操作失败");
+    	          }
+    	     
+    		   },
+    		   error:function()
+    		   {
+    		    	layer.alert("网络访问错误");
+    		   }
+        
+      });
+    } 
+    
+    
+
+</script>
+
+</body>
+</html>
