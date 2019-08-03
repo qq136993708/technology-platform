@@ -240,43 +240,65 @@ public class PlanServiceImpl implements PlanService {
         try {
             // this.savePlanBaseBatchZf(list);
             int leng = list.size();
+            String parentId = list.get(0).getParentId();
             PlanBaseExample planBaseExample = new PlanBaseExample();
-            planBaseExample.createCriteria().andParentIdEqualTo(list.get(0).getParentId());
+            planBaseExample.createCriteria().andParentIdEqualTo(parentId);
             List<PlanBase> planBases = planBaseMapper.selectByExample(planBaseExample);
 
-            for (int i = 0; i < planBases.size(); i++) {
-                String strDataId = planBases.get(i).getDataId();
-                List<PlanBase> listIn = list.stream().filter(a -> a.getDataId().equals(strDataId)).collect(Collectors.toList());
-                if (listIn != null && listIn.size() > 0) {
-                    // 包含 更新
-                    PlanBase planBase = planBases.get(i);
-                    int index = list.indexOf(listIn.get(0));
-                    planBase.setParentId(listIn.get(0).getParentId());
-                    planBase.setWorkOrderStatus(listIn.get(0).getWorkOrderStatus());
-                    planBase.setDelFlag(listIn.get(0).getDelFlag());
-                    planBase.setBl(listIn.get(0).getBl());
-                    planBase.setWorkOrderType(listIn.get(0).getWorkOrderType());
-                    planBase.setRedactUnitName(listIn.get(0).getRedactUnitName());
-                    planBase.setAnnouncements(listIn.get(0).getAnnouncements());
-
-                    planBase.setWorkOrderAllotUserId(listIn.get(0).getWorkOrderAllotUserId());
-                    planBase.setWorkOrderAllotUserName(listIn.get(0).getWorkOrderAllotUserName());
-
-                    planBase.setIsSchedule(listIn.get(0).getIsSchedule());
-                    planBase.setScheduleDate(listIn.get(0).getScheduleDate());
-                    planBase.setScheduleType(listIn.get(0).getScheduleType());
-
-                    planBaseMapper.updateByPrimaryKey(planBase);
-                    list.remove(index);
-                } else {
-                    // 删除
-                    planBaseMapper.deleteByPrimaryKey(strDataId);
-                }
+            if (planBases==null||planBases.size()==0){
+                planBaseExample = new PlanBaseExample();
+                planBaseExample.createCriteria().andDataIdEqualTo(parentId);
+                planBases = planBaseMapper.selectByExample(planBaseExample);
             }
+
+            PlanBaseExample e = new PlanBaseExample();
+            e.createCriteria().andParentIdEqualTo(parentId);
+            planBaseMapper.deleteByExample(e);
+//
+//            for (int i = 0; i < planBases.size(); i++) {
+//                String strDataId = planBases.get(i).getDataId();
+//                List<PlanBase> listIn = list.stream().filter(a -> a.getDataId().equals(strDataId)).collect(Collectors.toList());
+//                if (listIn != null && listIn.size() > 0) {
+//                    // 包含 更新
+//                    PlanBase planBase = planBases.get(i);
+//                    int index = list.indexOf(listIn.get(0));
+//                    planBase.setParentId(listIn.get(0).getParentId());
+//                    planBase.setWorkOrderStatus(listIn.get(0).getWorkOrderStatus());
+//                    planBase.setDelFlag(listIn.get(0).getDelFlag());
+//                    planBase.setBl(listIn.get(0).getBl());
+//                    planBase.setWorkOrderType(listIn.get(0).getWorkOrderType());
+//                    planBase.setRedactUnitName(listIn.get(0).getRedactUnitName());
+//                    planBase.setAnnouncements(listIn.get(0).getAnnouncements());
+//
+//                    planBase.setWorkOrderAllotUserId(listIn.get(0).getWorkOrderAllotUserId());
+//                    planBase.setWorkOrderAllotUserName(listIn.get(0).getWorkOrderAllotUserName());
+//
+//                    planBase.setIsSchedule(listIn.get(0).getIsSchedule());
+//                    planBase.setScheduleDate(listIn.get(0).getScheduleDate());
+//                    planBase.setScheduleType(listIn.get(0).getScheduleType());
+//                    planBase.setBak7(listIn.get(0).getBak7());
+//
+//                    planBaseMapper.updateByPrimaryKey(planBase);
+//                    list.remove(index);
+//                } else {
+//                    // 删除
+//                    planBaseMapper.deleteByPrimaryKey(strDataId);
+//                }
+//            }
+
+
+
+
             for (int i = 0; i < list.size(); i++) {
                 // SysUser sysUser =
                 // userService.selectUserByUserId(list.get(i).getWorkOrderAllotUserId());
                 // list.get(i).setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
+                //删除-插入
+                PlanBase base = list.get(i);
+//                planBaseMapper.deleteByPrimaryKey(base.getDataId());
+                base.setWorkOrderCode(planBases.get(0).getWorkOrderCode());
+                base.setDataCode(planBases.get(0).getDataCode());
+                base.setWorkOrderType(planBases.get(0).getWorkOrderType());
                 planBaseMapper.insert(list.get(i));
             }
 
@@ -290,6 +312,7 @@ public class PlanServiceImpl implements PlanService {
             // planBaseMapper.insert(list.get(i));
             // }
         } catch (Exception e) {
+            e.printStackTrace();
             result = 500;
         }
         return result;
@@ -433,6 +456,10 @@ public class PlanServiceImpl implements PlanService {
             c.andIsScheduleEqualTo(isSchedule);
         }
 
+        if (!StrUtil.isNullEmpty(param.getParam().get("bak7"))){
+            c.andBak7EqualTo(param.getParam().get("bak7").toString());
+        }
+
         // 2、执行查询
         example.setOrderByClause("create_date desc");
         List<PlanBase> list = planBaseMapper.selectByExample(example);
@@ -526,7 +553,22 @@ public class PlanServiceImpl implements PlanService {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("dataId",id);
             calPlanBl(jsonObject);
+            //判断是否父节点,如果父节点&&100,更新状态为完成
+            //查询当前对象
+            PlanBase base = planBaseMapper.selectByPrimaryKey(id);
+            //查询父对象
+            PlanBaseExample planBaseExample = new PlanBaseExample();
+            planBaseExample.createCriteria().andDataIdEqualTo(base.getParentId());
+            List<PlanBase> planBases = planBaseMapper.selectByExample(planBaseExample);
+            //判断
+            if (planBases!=null&&planBases.size()>0&&StrUtil.isNullEmpty(planBases.get(0).getParentId())&&Double.valueOf(planBases.get(0).getBl())==100){
+                //更新父对象
+                PlanBase pb = planBases.get(0);
+                pb.setWorkOrderStatus("2");
+                planBaseMapper.updateByPrimaryKey(pb);
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             result = 500;
         }
         return result;
@@ -611,17 +653,16 @@ public class PlanServiceImpl implements PlanService {
 
             for (int i = 0,j = records.size(); i < j; i++) {
                 PlanBase base = records.get(i);
+                //父节点设为空
                 if (StrUtil.isNullEmpty(base.getParentId())){
                     records.get(i).setBak4("");
                 }else {
-
+                    if (!StrUtil.isNullEmpty(base.getBak6())||StrUtil.isNullEmpty(base.getParentId())){
+                        records.get(i).setBak4("(分发)");
+                    }
+                    String showName = base.getWorkOrderAllotUserName()+"正在处理子任务:"+base.getWorkOrderName()+",目前已完成"+(StrUtil.isNullEmpty(base.getBl())?"0":base.getBl());
+                    records.get(i).setWorkOrderName(showName);
                 }
-                if (!StrUtil.isNullEmpty(base.getBak6())||StrUtil.isNullEmpty(base.getParentId())){
-                    records.get(i).setBak4("(分发)");
-                }
-                String showName = (StrUtil.isNullEmpty(records.get(i).getBak4())?"":(records.get(i).getBak4()))+base.getWorkOrderAllotUserName()+"("+(StrUtil.isNullEmpty(base.getBl())?"0":base.getBl())+"%)"+base.getWorkOrderName();
-//                String showName = (StrUtil.isNullEmpty(records.get(i).getBak4())?"":("<span color='red'>"+records.get(i).getBak4()+"</span>"))+base.getWorkOrderAllotUserName()+"("+base.getBl()+"%)"+base.getWorkOrderName();
-                records.get(i).setWorkOrderName(showName);
             }
 
             for (int i = 0; i < records.size(); i++) {

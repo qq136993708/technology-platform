@@ -236,7 +236,8 @@ public class PlanBaseServiceImpl implements PlanBaseService {
         map.put("createUserId", jsonObject.get("createUserId"));
         List<PlanBase> planBases = planBaseMapper.selectSonPlanBasesByCreateUserId(map);
 
-        for (int i = 0; i < planBases.size(); i++) {
+        int j  = planBases.size();
+        for (int i = 0; i < j; i++) {
             PlanBase vo = planBases.get(i);
             if (StrUtil.isNullEmpty(vo.getParentId())&&StrUtil.isNullEmpty(vo.getBl())){
                 com.alibaba.fastjson.JSONObject obj = new com.alibaba.fastjson.JSONObject();
