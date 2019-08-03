@@ -3388,7 +3388,29 @@
 	<!-- 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息, 强制获取hth -->
 	<select id="selectProjectInfoWithAllInfoByCondForGroup" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select
-		       out_project_info.hth
+		       out_project_info.hth as id, '0' as parent_id,
+		       xmid,
+		       out_project_info.define1,
+		       out_project_info.define9,
+			   substr(out_project_info.define2 FROM 6) as define2,
+			   substr(out_project_info.type_flag FROM 4) as type_flag,
+			   GROUP_CONCAT(DISTINCT out_project_info.xmmc) as xmmc,
+			   GROUP_CONCAT(DISTINCT out_project_info.ysnd) as ysnd,
+			   IFNULL(out_project_info.jf,0) as jf,
+			   IFNULL(sum(out_project_info.ysje),0) as ysje,
+			   IFNULL(sum(out_project_info.yszbxje),0) as yszbxje,
+			   IFNULL(sum(out_project_info.ysfyxje),0) as ysfyxje,
+			   GROUP_CONCAT(DISTINCT out_project_info.project_property) as project_property,
+			   GROUP_CONCAT(DISTINCT out_project_info.fzdw) as fzdw,
+			   GROUP_CONCAT(DISTINCT out_project_info.zylb) as zylb,
+			   out_project_info.xmlbbm,
+			   substr(out_project_info.define10 from 4) as define10,
+			   substr(out_project_info.define11 from 2) as define11,
+			   '' as define12,
+			   GROUP_CONCAT(DISTINCT out_project_info.nd) as nd,
+		       GROUP_CONCAT(DISTINCT out_project_info.define8) as define8,
+		       out_project_info.hth,
+		       out_project_info.zycmc
 		from out_project_info
 		where
 			 out_project_info.project_type != '1'
