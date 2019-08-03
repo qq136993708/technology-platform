@@ -412,8 +412,10 @@
 					theme : '#0F9EE0'
 				},
 				cols : [ [ {
+					field : 'realIndex',
 					title : '序号',
-					type : 'numbers',
+					style : 'cursor: pointer;',
+					align : 'center',
 					width : '45'
 				}, {
 					field : 'hth',
@@ -592,8 +594,8 @@
 				var data = res.data;
 				var mergeIndex = 0;//定位需要添加合并属性的行数
 				var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
-				var columsName = [ 'hth', 'nd', 'ysnd', 'zycmc', 'xmmc' ];//需要合并的列名称
-				var columsIndex = [ 1, 2, 3, 4, 5 ];//需要合并的列索引值
+				var columsName = [ 'realIndex', 'hth', 'nd', 'ysnd', 'zycmc', 'xmmc', 'jf' ];//需要合并的列名称
+				var columsIndex = [ 0, 1, 2, 3, 4, 5, 6];//需要合并的列索引值
 				
 				// hth 合同号
 				for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
@@ -604,7 +606,7 @@
 						
 						var hth = trArr.eq(mergeIndex).find("td").eq("hth");
 						
-						if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) ) { //后一行的值与前一行的值做比较，相同就需要合并
+						if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['hth'] === data[i - 1]['hth'])) { //后一行的值与前一行的值做比较，相同就需要合并
 							mark += 1;
 							tdPreArr.each(function() {//相同列的第一列增加rowspan属性
 								$(this).attr("rowspan", mark);
