@@ -33,6 +33,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
+import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 import com.pcitc.base.stp.out.TfcHotEs;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyEs;
@@ -1722,4 +1723,110 @@ public class OutProjectServiceImpl implements OutProjectService {
 		}
 		return object;
 	}
+	
+	
+	
+	public OutProjectInfoWithBLOBs selectOutProjectInfoWithBLOBs(String dataId) throws Exception
+	{
+		return outProjectInfoMapper.selectByPrimaryKey(dataId);
+	}
+
+	public OutProjectInfo selectOutProjectInfo(String id) throws Exception
+	{
+		return outProjectInfoMapper.selectByPrimaryKey(id);
+	}
+
+	public Integer updateOutProject_Info(OutProjectInfo record)throws Exception
+	{
+		return outProjectInfoMapper.updateByPrimaryKey(record);
+	}
+	public Integer updateOutProjectInfoWithBLOBs(OutProjectInfoWithBLOBs record)throws Exception
+	{
+		return outProjectInfoMapper.updateByPrimaryKeySelective(record);
+	}
+	 
+
+	public int deleteOutProjectInfo(String id)throws Exception
+	{
+		return outProjectInfoMapper.deleteByPrimaryKey(id);
+	}
+
+	public Integer insertOutProjectInfo(OutProjectInfo record)throws Exception
+	{
+		return outProjectInfoMapper.insertOutProjectInfo(record);
+	}
+	
+	
+	public Integer insertOutProjectInfoWithBLOBs(OutProjectInfoWithBLOBs record)throws Exception
+	{
+		return outProjectInfoMapper.insert(record);
+	}
+	
+	
+	public LayuiTableData getTenDragonsOutProjectPage(LayuiTableParam param)
+	{
+		
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>getTenDragonsOutProjectPage 入口参数: "+parmamss.toJSONString());
+		
+		
+		int pageSize = param.getLimit();
+		// 当前是第几页
+		int pageNum = param.getPage();
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		
+		String xmmc=getTableParam(param,"xmmc","");
+		String nd=getTableParam(param,"nd","");
+		String ysnd=getTableParam(param,"ysnd","");
+		String define3=getTableParam(param,"define3","");
+		String status=getTableParam(param,"status","");
+		String zycmc=getTableParam(param,"zycmc","");
+		String xmlbmc=getTableParam(param,"xmlbmc","");
+		String fzdw=getTableParam(param,"fzdw","");
+		String define6=getTableParam(param,"define6","");
+		
+		Map map=new HashMap();
+		map.put("xmmc", xmmc);
+		map.put("nd", nd);
+		map.put("ysnd", ysnd);
+		map.put("define3", define3);
+		map.put("status", status);
+		map.put("zycmc", zycmc);
+		map.put("xmlbmc", xmlbmc);
+		map.put("fzdw", fzdw);
+		map.put("define6", define6);
+
+		JSONObject str = JSONObject.parseObject(JSONObject.toJSONString(map));
+		System.out.println(">>>>>>>>>getTenDragonsOutProjectPage 封装后参数: "+str.toJSONString());
+		
+		
+		List<OutProjectInfo> list = outProjectInfoMapper.getTenDragonsList(map);
+		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
+		PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
+		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+		
+	}
+	
+	
+	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
+	{
+		String resault="";
+		Object object=param.getParam().get(paramName);
+		if(object!=null)
+		{
+			resault=(String)object;
+		}
+		return resault;
+	}
+	
+	
+	
+	
 }

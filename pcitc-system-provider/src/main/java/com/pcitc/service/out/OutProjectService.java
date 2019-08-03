@@ -7,9 +7,12 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreProjectSetup;
+import com.pcitc.base.stp.equipment.SreTechMeeting;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
+import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 
 public interface OutProjectService {
 
@@ -60,6 +63,11 @@ public interface OutProjectService {
 	 * @return
 	 */
 	public LayuiTableData getOutProjectPage(LayuiTableParam param);
+	
+	
+	public LayuiTableData getTenDragonsOutProjectPage(LayuiTableParam param);
+	
+	
 	
 	/**
 	 * 批量删除erp关系
@@ -379,4 +387,27 @@ public interface OutProjectService {
      * 领导首页，计算资本性预算金额。预算资本性金额没办法进行权限控制
      */
     public HashMap<String, String> getBudgetZBXMoney(HashMap<String, String> map);
+    
+    
+    
+    
+    
+    
+    public Integer updateOutProject_Info(OutProjectInfo record)throws Exception;
+    
+    public Integer updateOutProjectInfoWithBLOBs(OutProjectInfoWithBLOBs record)throws Exception;
+    
+    
+    public OutProjectInfo selectOutProjectInfo(String id) throws Exception;
+    
+    
+    
+	public int deleteOutProjectInfo(String id)throws Exception;
+	public Integer insertOutProjectInfo(OutProjectInfo record)throws Exception;
+	
+	public Integer insertOutProjectInfoWithBLOBs(OutProjectInfoWithBLOBs record)throws Exception;
+	
+
+	 public OutProjectInfoWithBLOBs selectOutProjectInfoWithBLOBs(String dataId) throws Exception;
+	
 }

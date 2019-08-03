@@ -18,6 +18,11 @@ public interface OutProjectInfoMapper {
     int deleteByPrimaryKey(String dataId);
 
     int insert(OutProjectInfoWithBLOBs record);
+    int insertOutProjectInfo(OutProjectInfo record);
+    
+    
+    
+    
 
     int insertSelective(OutProjectInfoWithBLOBs record);
 
@@ -324,5 +329,10 @@ public interface OutProjectInfoMapper {
 	 * 获取十条龙详情的查询维度（条件）
 	 */
 	public List getDragonProjectInfoSelectCondition(HashMap<String, String> map);
+	
+	
+	List getTenDragonsList(Map map);
+	int getTenDragonsCount(Map map);
+	    
 
 }
