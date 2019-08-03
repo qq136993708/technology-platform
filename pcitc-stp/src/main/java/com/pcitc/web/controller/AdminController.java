@@ -13,7 +13,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pcitc.base.plan.PlanBase;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -56,7 +55,6 @@ import com.pcitc.web.utils.HanaUtil;
 import com.pcitc.web.utils.OtherUtil;
 import com.sinopec.siam.agent.common.SSOPrincipal;
 import com.sinopec.siam.agent.sp.config.SysConfig;
-import sun.text.bidi.BidiBase;
 
 /**
  * @author zhf 系统登录成功后的首页
