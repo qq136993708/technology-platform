@@ -571,8 +571,8 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 				mapcount.put("parentId", "0");*/
 				
 				Integer count=techOrgCountMapper.getStatisticsCount(map);
-				System.out.println(">>>>>>>>>任务书查询分页结果 "+count);
-				
+				System.out.println("1>>>>>>>>>任务书查询分页结果 "+count);
+				System.out.println("2>>>>>>>>>任务书查询分页结果 "+JSON.toJSONString(list));
 				LayuiTableData data = new LayuiTableData();
 				data.setData(list);
 				data.setCount(count);
