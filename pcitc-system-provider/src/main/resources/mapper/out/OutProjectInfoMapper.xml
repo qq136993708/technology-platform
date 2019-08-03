@@ -3112,7 +3112,7 @@
 		   '' as define10,
 		   '' as define11,
 		   '' as define12,
-	       '合计' as nd,'' as define8,'' as hth,'' as zycmc
+	       '' as nd,'' as define8,'' as hth,'' as zycmc
 	from out_project_info
 	where
 		 out_project_info.project_type != '1'
@@ -3330,7 +3330,7 @@
 			   '' as define10,
 			   '' as define11,
 			   '' as define12,
-		       '合计' as nd,
+		       '' as nd,
 		       '' as define8,
 		       '' as hth,
 		       '' as zycmc,
@@ -3367,7 +3367,7 @@
 			   substr(out_project_info.define11 from 2) as define11,
 			   substr(out_project_info.define12 from 4) as define12,
 		       out_project_info.nd,
-		       GROUP_CONCAT(out_project_info.define8) as define8,
+		       GROUP_CONCAT(DISTINCT out_project_info.define8) as define8,
 		       out_project_info.hth,
 		       out_project_info.zycmc,
 		       out_appraisal.jdh,

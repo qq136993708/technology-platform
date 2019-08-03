@@ -514,7 +514,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 			hashmap.put("hthFlag", sb.toString());
 			finalList = outProjectInfoMapper.selectProjectInfoWithAllInfoByCond(hashmap);
 
-			int realIndex = param.getLimit() * (param.getPage() - 1) + 1;
+			int realIndex = param.getLimit() * (param.getPage() - 1);
 			String hth = "";
 			for (int i = 0; i < finalList.size(); i++) {
 				HashMap temMap = (HashMap) finalList.get(i);
@@ -523,8 +523,12 @@ public class OutProjectServiceImpl implements OutProjectService {
 					realIndex++;
 					hth = temHth;
 				}
-				System.out.println("realIndex==============" + realIndex);
-				temMap.put("realIndex", realIndex);
+				if (i == 0) {
+					temMap.put("realIndex", "合计");
+				} else {
+					temMap.put("realIndex", realIndex);
+				}
+				
 			}
 		}
 
