@@ -611,10 +611,15 @@ public class PlanServiceImpl implements PlanService {
 
             for (int i = 0,j = records.size(); i < j; i++) {
                 PlanBase base = records.get(i);
-                if (!StrUtil.isNullEmpty(base.getBak6())||StrUtil.isNullEmpty(base.getParentId())){
-                    records.get(i).setBak4("分发");
+                if (StrUtil.isNullEmpty(base.getParentId())){
+                    records.get(i).setBak4("");
+                }else {
+
                 }
-                String showName = (StrUtil.isNullEmpty(records.get(i).getBak4())?"":(records.get(i).getBak4()))+base.getWorkOrderAllotUserName()+"("+base.getBl()+"%)"+base.getWorkOrderName();
+                if (!StrUtil.isNullEmpty(base.getBak6())||StrUtil.isNullEmpty(base.getParentId())){
+                    records.get(i).setBak4("(分发)");
+                }
+                String showName = (StrUtil.isNullEmpty(records.get(i).getBak4())?"":(records.get(i).getBak4()))+base.getWorkOrderAllotUserName()+"("+(StrUtil.isNullEmpty(base.getBl())?"0":base.getBl())+"%)"+base.getWorkOrderName();
 //                String showName = (StrUtil.isNullEmpty(records.get(i).getBak4())?"":("<span color='red'>"+records.get(i).getBak4()+"</span>"))+base.getWorkOrderAllotUserName()+"("+base.getBl()+"%)"+base.getWorkOrderName();
                 records.get(i).setWorkOrderName(showName);
             }
@@ -623,7 +628,8 @@ public class PlanServiceImpl implements PlanService {
                 TreeNode node = new TreeNode();
                 PlanBase base = records.get(i);
                 node.setId(base.getDataId());
-                node.setpId(base.getParentId());
+                node.setpId(StrUtil.isNullEmpty(base.getParentId())?"":base.getParentId());
+                node.set_parentId(StrUtil.isNullEmpty(base.getParentId())?"":base.getParentId());
                 node.setOpen("true");
                 node.setName(base.getWorkOrderName());
                 list.add(node);

@@ -243,7 +243,7 @@
                     $("#workOrderName").html(dataJson.workOrderName);
                     $("#createDate").html(dataJson.createDate);
                     $("#createUserName").html(dataJson.createUserName);
-                    $("#workOrderType").html(dataJson.workOrderType);
+                    // $("#workOrderType").html(dataJson.workOrderType);
 					// 工作类型的初始化
 					$.ajax({
 						url : '/pageCommon/dic/ROOT_RWGL_RWLX',
@@ -251,8 +251,9 @@
 						type : 'post',
 						success : function(data) {
 							$.each(data, function(index, item) {
+							    console.log(dataJson.workOrderType+"---"+item.code);
 								if (dataJson.workOrderType == item.code) {
-									$("#workOrderType").val(item.name);
+									$("#workOrderType").html(item.name);
 								}
 							})
 							form.render();
@@ -281,6 +282,9 @@
 					return false;
 				}
 				var jsonData = data.field;
+				if (jsonData.bl>100){
+                    jsonData.bl = 100;
+                }
 				jsonData.matterList = sthTrArr;
 
 				$.ajax({
@@ -291,7 +295,7 @@
 					},
 					url : '/plan/saveMyBotWorkOrderMatterFeedBack',
 					success : function(data) {
-						dataStatus = 2;
+						// dataStatus = 2;
 						var index = parent.layer.getFrameIndex(window.name);
 						parent.layer.close(index);
 						parent.layer.msg("保存成功");
@@ -335,7 +339,10 @@
 					btn : [ '确定', '取消' ]
 				}, function(index) {
 					var jsonData = data.field;
-					jsonData.matterList = sthTrArr;
+                    if (jsonData.bl>100){
+                        jsonData.bl = 100;
+                    }
+                    jsonData.matterList = sthTrArr;
 					
 					$.ajax({
 						type : 'post',
@@ -397,13 +404,15 @@
 					event : 'setActive',
 					style : 'cursor: pointer;',
 					width : 120
-				}, {
-					field : 'announcements',
-					title : '任务总占比(%)',
-					event : 'setActive',
-					style : 'cursor: pointer;',
-					width : 100
-				}, {
+				},
+                 //    {
+				// 	field : 'announcements',
+				// 	title : '任务总占比(%)',
+				// 	event : 'setActive',
+				// 	style : 'cursor: pointer;',
+				// 	width : 100
+				// },
+                    {
 					field : 'bl',
 					title : '已完成比例',
 					event : 'setActive',
