@@ -251,9 +251,15 @@
 									<#list taskList as taskList > <#if taskList?exists>
                                     <tr onclick="showTaskInfoDetail('${taskList.dataId}');">
 										<td style="text-align: center;">${taskList_index+1}</td>
-										<td style="text-align: center;">${taskList.workOrderAllotUserName}</td>
+										<td style="text-align: left;">${taskList.workOrderAllotUserName}</td>
 										<td><div class="layui-table-cell-td1">${taskList.createDate}</div></td>
-										<td><div class="layui-table-cell-td">${taskList.workOrderName}</div></td>
+										<td><div class="layui-table-cell-td">
+                                            <#if taskList.workOrderName?length gt 20>
+                                            ${taskList.workOrderName?substring(0,20)}...
+                                            <#else]${taskList.workOrderName!}
+                                        </#if>
+
+                                        </div></td>
 										<td align="right"><#if taskList.bl==''>
 											<div class="layui-progress">
 												<div class="layui-progress-bar" lay-percent="0%"></div>
@@ -300,7 +306,7 @@
 										<#list taskListMy as taskList > <#if taskList?exists>
 										<tr onclick="showTaskInfo('${taskList.dataId}');">
 											<td style="text-align: center;">${taskList_index+1}</td>
-											<td style="text-align: center;">${taskList.createUserName}</td>
+											<td style="text-align: left;">${taskList.createUserName}</td>
 											<td><div class="layui-table-cell-td1">${taskList.createDate}</div></td>
 											<td><div class="layui-table-cell-td">${taskList.workOrderName}</div></td>
 											<td align="center">

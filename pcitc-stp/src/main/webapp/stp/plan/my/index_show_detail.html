@@ -246,6 +246,7 @@
                 async: false,
                 success: function (data) {
                     zNodes = data;
+                    console.log(zNodes);
                     for (let i = 0; i < zNodes.length; i++) {
                         zNodes[i].open = true;
                     }

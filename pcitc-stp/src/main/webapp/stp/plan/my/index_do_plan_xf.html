@@ -180,7 +180,7 @@
 		<div class="form-bottom">
 			<div class="form-bottom-btns">
 				<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save" lay-submit="" lay-filter="save">保存</button>
-				<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save" lay-submit="" lay-filter="save">确认下发</button>
+				<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue btn_save" lay-submit="" lay-filter="savexf">确认下发</button>
 				<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
 			</div>
 		</div>
@@ -230,13 +230,12 @@
         }
 
         window.setWelder = setWelder;
-        var dataStatus = 2;
+        var dataStatus = 1;
 
         //显示文件上传部分
         $("#file_upload").load('/common/public/uploadlayuiload.html');
 
-        /* 监听保存 */
-        form.on('submit(save)', function(data) {
+        function savedata(data,bak7_param){
             var sthTrArr = [];
             var matterLength = $("#matterTableDiv  .layui-table-main table tbody tr");
             if(!$(matterLength).find("td").attr("data-off")==1){
@@ -246,10 +245,13 @@
                     sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
                     sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
                     sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
-                    sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
+                    // sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
                     sthTrArr.push(sthTrObj);
                 });
             }
+            console.log("下发列表");
+            console.log(matterLength);
+            console.log(sthTrArr);
             if (sthTrArr.length < 1) {
                 layer.msg('请至少输入一项工作安排');
                 return false;
@@ -263,7 +265,7 @@
                 data : {
                     'param' : JSON.stringify(jsonData)
                 },
-                url : '/plan/xf/submitBotWorkOrder?workOrderStatus=' + dataStatus,
+                url : '/plan/xf/submitBotWorkOrder?workOrderStatus=' + dataStatus+"&bak7="+bak7_param,
                 success : function(data) {
                     if (data == 200) {
                         var index = parent.layer.getFrameIndex(window.name);
@@ -278,6 +280,15 @@
                 }
             });
             return false;
+        }
+        /* 监听保存 */
+        form.on('submit(save)', function(data) {
+            console.log("保存");
+            return savedata(data,1);
+        });
+        form.on('submit(savexf)', function(data) {
+            console.log("下发");
+            return savedata(data,0);
         });
 
         $('#bak4').click(function() {
@@ -313,19 +324,21 @@
 				$("#workOrderName").html(dataJson.workOrderName);
                 $("#createDate").html(dataJson.createDate);
                 $("#workOrderAllotUserName").html(dataJson.workOrderAllotUserName);
-                $("#workOrderType").html(dataJson.workOrderType);
+                // $("#workOrderType").html(dataJson.workOrderType);
                 // 工作类型的初始化
-                /*$.ajax({
+                $.ajax({
                     url : '/pageCommon/dic/ROOT_RWGL_RWLX',
                     dataType : 'json',
                     type : 'post',
                     success : function(data) {
                         $.each(data, function(index, item) {
-                            $('#workOrderType').append(item.name);
+                            if (dataJson.workOrderType == item.code) {
+                                $("#workOrderType").html(item.name);
+                            }
                         })
                         form.render();
                     }
-                });*/
+                });
 
             },
             error : function(e) {
@@ -392,15 +405,20 @@
                     certTypeStr += "</select>";
                     return certTypeStr
                 }
-            }, {
-                field : 'announcements',
-                title : '权重(%)',
-                event : 'setActive',
-                style : 'cursor: pointer;',
-                width : '10%',
-                edit : true
-            } ] ],
+            }
+            // , {
+            //     field : 'announcements',
+            //     title : '权重(%)',
+            //     event : 'setActive',
+            //     style : 'cursor: pointer;',
+            //     width : '10%',
+            //     edit : true
+            // }
+            ] ],
             done : function(res, curr, count) {
+                console.log("任务下发");
+                console.log(res.data);
+                //已经下发,不允许
                 $(".layui-table").css("width", "100%");
                 $("[data-field='dataId']").hide();
                 $("[data-field='announcements']").hide();
@@ -416,7 +434,7 @@
             }
             var trParam = {
                 "id" : "matterTableDiv",
-                "number" : 6,
+                "number" : 5,
                 "specialElement" : [ {
                     hide : true,
                     "column" : 2,
@@ -426,14 +444,16 @@
                     "element" : "select",
                     "value" : $("#bak4").val(),
                     "valueId" : $("#bak6").val()
-                }, {
-                    hide : true,
-                    "column" : 5,
-                    "element" : "input"
-                } ]
+                }
+                // , {
+                //     hide : true,
+                //     "column" : 5,
+                //     "element" : "input"
+                // }
+                ]
             };
             publicMethods.addTableTr(trParam);
-            calTableQz();
+            // calTableQz();
         });
 
         //监听行工具事件
@@ -464,7 +484,6 @@
                 }
             });
             var qz = ((100 - qzTrue) / (sthTrArr.length == 0 ? 1 : sthTrArr.length)).toFixed(2);
-            console.log("qz:" + qz);
             $(matterLength).each(function() {
                 var sthTrObj = {};
                 console.log("qz:" + $(this).find("td").eq(3).find("input").length);
