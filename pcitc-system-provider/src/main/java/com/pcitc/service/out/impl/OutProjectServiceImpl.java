@@ -523,8 +523,12 @@ public class OutProjectServiceImpl implements OutProjectService {
 					realIndex++;
 					hth = temHth;
 				}
-				System.out.println("realIndex==============" + realIndex);
-				temMap.put("realIndex", realIndex);
+				if (i == 0) {
+					temMap.put("realIndex", "合计");
+				} else {
+					temMap.put("realIndex", realIndex);
+				}
+				
 			}
 		}
 
