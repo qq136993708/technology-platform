@@ -102,16 +102,16 @@ function view_define6(define6)
 {
     if(define6.indexOf("1") != -1) 
     {
-        return '<span style="color: #000000">组长单位</span>';
+        return '<span style="color: orange">组长单位</span>';
     }else if(define6.indexOf("2") != -1) 
     {
-        return "<span style='color: #000000' >副组长单位</span>";
+        return "<span style='color: green' >副组长单位</span>";
     }else if(define6.indexOf("3") != -1) 
     {
         return "<span style='color: #000000'>协作单位</span>";
     }else  if(define6.indexOf("4") != -1) 
     {
-        return "<span style='color: #000000 '>组员单位</span>";
+        return "<span >组员单位</span>";
     }else 
     {
         return "<span style='color: #000000'>-</span>";
@@ -119,12 +119,11 @@ function view_define6(define6)
 }
 
 
-
 function view_status(status) 
 {
     if (status=='入龙') //0独立项目，1项目组，2课题（隶属于某个项目组）
     {
-        return '<span style="color:orange">'+status+'</span>';
+        return '<span style="color: orange">'+status+'</span>';
     }else if(status=='在研项目')
     {
         return "<span style='color:green' >"+status+"</span>";
@@ -151,10 +150,10 @@ function view_projectType(projectType)
         return '<span style="color:orange">独立项目</span>';
     }else if(projectType=='1')
     {
-        return "<span style='color:green' >项目组</span>";
+        return "<span style='color: #800000' >项目组</span>";
     }else if(projectType=='2')
     {
-        return "<span>项目组子课题</span>";
+        return "<span>项目组->子课题</span>";
     }else 
     {
         return "<span>-</span>";
@@ -464,7 +463,7 @@ var table,selectRowData;
 					field : 'xmlbmc',
 					title : '项目类别',
 					style : 'cursor: pointer;',
-					align : 'left',
+					align : 'center',
 					width : '130',
 					sort : true
 				}, {
