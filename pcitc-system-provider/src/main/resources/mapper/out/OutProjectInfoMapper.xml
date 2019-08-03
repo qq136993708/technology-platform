@@ -3388,7 +3388,29 @@
 	<!-- 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息, 强制获取hth -->
 	<select id="selectProjectInfoWithAllInfoByCondForGroup" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select
-		       out_project_info.hth
+		       out_project_info.hth as id, '0' as parent_id,
+		       xmid,
+		       out_project_info.define1,
+		       out_project_info.define9,
+			   substr(out_project_info.define2 FROM 6) as define2,
+			   substr(out_project_info.type_flag FROM 4) as type_flag,
+			   GROUP_CONCAT(DISTINCT out_project_info.xmmc) as xmmc,
+			   GROUP_CONCAT(DISTINCT out_project_info.ysnd) as ysnd,
+			   IFNULL(out_project_info.jf,0) as jf,
+			   IFNULL(sum(out_project_info.ysje),0) as ysje,
+			   IFNULL(sum(out_project_info.yszbxje),0) as yszbxje,
+			   IFNULL(sum(out_project_info.ysfyxje),0) as ysfyxje,
+			   GROUP_CONCAT(DISTINCT out_project_info.project_property) as project_property,
+			   GROUP_CONCAT(DISTINCT out_project_info.fzdw) as fzdw,
+			   GROUP_CONCAT(DISTINCT out_project_info.zylb) as zylb,
+			   out_project_info.xmlbbm,
+			   substr(out_project_info.define10 from 4) as define10,
+			   substr(out_project_info.define11 from 2) as define11,
+			   '' as define12,
+			   GROUP_CONCAT(DISTINCT out_project_info.nd) as nd,
+		       GROUP_CONCAT(DISTINCT out_project_info.define8) as define8,
+		       out_project_info.hth,
+		       out_project_info.zycmc
 		from out_project_info
 		where
 			 out_project_info.project_type != '1'
@@ -3485,6 +3507,135 @@
 		group by ysnd,xmid
 		order by ysnd desc,hth
 	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<insert id="insertOutProjectInfo" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
+    insert into out_project_info (
+    
+      data_id, nd, xmid, 
+      hth, xmmc, xmjb, ysnd, 
+      yshf, ysxd, yszbxje, 
+      ysfyxje, ysje, jf, 
+      fwdxbm, fwdx, zylbbm, 
+      zylb, fzdwbm, fzdw, 
+      jtfzdwbm, jtfzdw, fzryx, 
+      fzrdh, fzrxm, lxrdh, 
+      lxryx, lxrxm, jssxxm, 
+      jssj, kssj, yjsj, zyly, 
+      zysx, sjid, create_date, 
+      create_person, status, update_date, 
+      project_id, parent_project_id, project_type, 
+      erp_project_code, erp_project_name, project_scope, 
+      project_level, project_property, project_abc, 
+      project_source, yjsjks, yjsjjs, 
+      xmlbbm, xmlbmc, gsbmmc, 
+      gsbmbm, zycmc, zycbm, 
+      fzdwunitcw, fzdwunit, type_flag, 
+      define1, define2, define3, 
+      define4, define5, define6, 
+      define7, define8, define9, 
+      define10, define11, define12, 
+      define13, define14, define15, 
+      define16, define17, define18, 
+      define19
+      )
+    values 
+      (
+      #{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, 
+      #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{ysnd,jdbcType=VARCHAR}, 
+      #{yshf,jdbcType=VARCHAR}, #{ysxd,jdbcType=VARCHAR}, #{yszbxje,jdbcType=VARCHAR}, 
+      #{ysfyxje,jdbcType=VARCHAR}, #{ysje,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR}, 
+      #{fwdxbm,jdbcType=VARCHAR}, #{fwdx,jdbcType=VARCHAR}, #{zylbbm,jdbcType=VARCHAR}, 
+      #{zylb,jdbcType=VARCHAR}, #{fzdwbm,jdbcType=VARCHAR}, #{fzdw,jdbcType=VARCHAR}, 
+      #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, #{fzryx,jdbcType=VARCHAR}, 
+      #{fzrdh,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, #{lxrdh,jdbcType=VARCHAR}, 
+      #{lxryx,jdbcType=VARCHAR}, #{lxrxm,jdbcType=VARCHAR}, #{jssxxm,jdbcType=VARCHAR}, 
+      #{jssj,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, 
+      #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createPerson,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{projectId,jdbcType=VARCHAR}, #{parentProjectId,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
+      #{erpProjectCode,jdbcType=VARCHAR}, #{erpProjectName,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, 
+      #{projectLevel,jdbcType=VARCHAR}, #{projectProperty,jdbcType=VARCHAR}, #{projectAbc,jdbcType=VARCHAR}, 
+      #{projectSource,jdbcType=VARCHAR}, #{yjsjks,jdbcType=VARCHAR}, #{yjsjjs,jdbcType=VARCHAR}, 
+      #{xmlbbm,jdbcType=VARCHAR}, #{xmlbmc,jdbcType=VARCHAR}, #{gsbmmc,jdbcType=VARCHAR}, 
+      #{gsbmbm,jdbcType=VARCHAR}, #{zycmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, 
+      #{fzdwunitcw,jdbcType=VARCHAR}, #{fzdwunit,jdbcType=VARCHAR}, #{typeFlag,jdbcType=VARCHAR}, 
+      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
+      #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, #{define6,jdbcType=VARCHAR}, 
+      #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, #{define9,jdbcType=VARCHAR}, 
+      #{define10,jdbcType=VARCHAR}, #{define11,jdbcType=VARCHAR}, #{define12,jdbcType=VARCHAR}, 
+      #{define13,jdbcType=VARCHAR}, #{define14,jdbcType=VARCHAR}, #{define15,jdbcType=VARCHAR}, 
+      #{define16,jdbcType=VARCHAR}, #{define17,jdbcType=VARCHAR}, #{define18,jdbcType=VARCHAR}, 
+      #{define19,jdbcType=VARCHAR}
+      )
+  </insert>
+	
+	
+	
+	
+	
+	
+	 <sql id="selectTenDragonsCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="xmmc != null and xmmc  !='' ">       AND t.xmmc like CONCAT('%',#{xmmc},'%')</if>
+	     <if test="nd != null       and nd !=''  ">     AND t.nd = #{nd}</if>
+	     <if test="ysnd != null     and ysnd !=''  ">   AND t.ysnd = #{ysnd}</if>
+	     <if test="define3 != null  and define3 !='' "> AND t.define3 = #{define3}</if>
+	     <if test="fzdw != null     and fzdw !=''  ">            AND t.fzdw = #{fzdw}</if>
+	     <if test="define6 != null  and define6 !=''  ">         AND t.define6 = #{define6}</if>
+	     <if test="status != null       and status !=''  ">      AND t.status = #{status}</if>
+	     <if test="zycmc != null        and zycmc !=''  ">       AND t.zycmc = #{zycmc}</if>
+	     <if test="xmlbmc != null       and xmlbmc !=''  ">      AND t.xmlbmc = #{xmlbmc}</if>
+	     <if test="sqlStr != null       and sqlStr !='' ">       AND  ${sqlStr}</if>
+	 </trim>
+	</sql>
+	
+	 
+    
+   <select id="getTenDragonsList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from out_project_info t <include refid="selectTenDragonsCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getTenDragonsCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM out_project_info t <include refid="selectTenDragonsCondition"/>
+    </select>
+  
+  
+  
+	
+	
 	
 	
 </mapper>

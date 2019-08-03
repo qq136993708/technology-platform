@@ -159,8 +159,22 @@ public class OutProjectInfo {
     private String define18;
 
     private String define19;
+    
+    private String attachmentId;
+    
+    
+    
+    
 
-    public String getLeaderFlag() {
+    public String getAttachmentId() {
+		return attachmentId;
+	}
+
+	public void setAttachmentId(String attachmentId) {
+		this.attachmentId = attachmentId;
+	}
+
+	public String getLeaderFlag() {
         return leaderFlag;
     }
 
