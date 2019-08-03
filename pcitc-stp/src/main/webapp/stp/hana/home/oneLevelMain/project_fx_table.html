@@ -584,29 +584,29 @@
 						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 						selectRowData = res.data[index - 1];
 					});
-					
+
 					merge(res);
 				}
 			});
-			
+
 			function merge(res) {
 
 				var data = res.data;
 				var mergeIndex = 0;//定位需要添加合并属性的行数
 				var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
-				var columsName = [ 'realIndex', 'hth', 'nd', 'ysnd', 'zycmc', 'xmmc', 'jf', 'fzdw', 'define11', 'define1' ];//需要合并的列名称
-				var columsIndex = [ 0, 1, 2, 3, 4, 5, 6, 11, 12, 13];//需要合并的列索引值
-				
+				var columsName = [ 'realIndex', 'hth', 'nd', 'ysnd', 'zycmc', 'xmmc', 'jf', 'fzdw', 'define11', 'define1', 'project_property', 'zylb', 'jdh', 'cgmc', 'jdjg', 'psdj', 'xkfl' ];//需要合并的列名称
+				var columsIndex = [ 0, 1, 2, 3, 4, 5, 6, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21 ];//需要合并的列索引值
+
 				// hth 合同号
 				for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
 					var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
 					for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
 						var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
 						var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
-						
+
 						var hth = trArr.eq(mergeIndex).find("td").eq("hth");
-						
-						if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['hth'] === data[i - 1]['hth'])) { //后一行的值与前一行的值做比较，相同就需要合并
+
+						if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['xmid'] === data[i - 1]['xmid'])) { //后一行的值与前一行的值做比较，相同就需要合并
 							mark += 1;
 							tdPreArr.each(function() {//相同列的第一列增加rowspan属性
 								$(this).attr("rowspan", mark);
