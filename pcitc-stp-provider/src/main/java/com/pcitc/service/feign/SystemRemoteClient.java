@@ -110,6 +110,6 @@ public interface SystemRemoteClient {
 	public List<OutProjectInfo> selectProjectInfoByNd(@RequestBody OutProjectInfo example);
     
     //根据年度预算单位、处部门汇总结转金额
-    @RequestMapping(value = "/out-provider/select-project-bynd", method = RequestMethod.POST)
+    @RequestMapping(value = "/out-provider/select-project-jz", method = RequestMethod.POST)
 	public List<OutProjectInfo> selectProjectInfoJz(@RequestBody OutProjectInfo example);
 }
