@@ -400,6 +400,12 @@ public interface OutProjectService {
      * @return
      */
     public List<OutProjectInfo> selectProjectUnit(OutProjectInfo example);
+    /**
+     * 
+     * @param example
+     * @return
+     */
+    public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo example);
 
     
     

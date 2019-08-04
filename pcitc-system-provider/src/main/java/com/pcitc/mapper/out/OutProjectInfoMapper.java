@@ -339,7 +339,10 @@ public interface OutProjectInfoMapper {
 	 * 获取负责单位列表（按集团、资产、股份）
 	 */
 	public List<OutProjectInfo> selectProjectUnitByCond(OutProjectInfo opi);
-
+	/**
+	 * 获取结转项目列表
+	 */
+	public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo opi);
 	
 	
 	List getTenDragonsList(Map map);

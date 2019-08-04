@@ -131,4 +131,10 @@ public class SystemHystric implements SystemRemoteClient {
 		throw new RuntimeException("调用失败.");
 	}
 
+	@Override
+	public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo example) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -3531,30 +3531,19 @@
 		GROUP BY
 				fzdwbm
 	</select>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<!-- 查询项目结转记录 -->	
+	<select id="selectProjectInfoByNd" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
+			SELECT * FROM out_project_info WHERE define3 = '项目管理系统'
+		<if test="ysnd != null">
+			and out_project_info.ysnd = #{ysnd,jdbcType=VARCHAR}
+		</if>
+		<if test="nd != null">
+			and out_project_info.nd < #{nd,jdbcType=VARCHAR}
+		</if>
+		<if test="define11 != null">
+			and out_project_info.define11 = #{define11,jdbcType=VARCHAR}
+		</if>
+	</select>	
 	
 	
 	
