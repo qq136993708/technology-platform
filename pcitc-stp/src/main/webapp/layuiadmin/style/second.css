@@ -570,7 +570,7 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .task-view .task-view-cont .item span.red{color: #FF7775;}
 .task-view .task-view-cont .chart{background-color: #F7F8FC;height: 200px;margin-left: 6px;padding: 10px 0;
     box-sizing: border-box;}
-.chartX{width: 180px;margin: 0px auto;position: relative;text-align: center;}
+.chartX{width: 140px;margin: 0px auto;position: relative;text-align: center;}
 .chartX span{position: absolute;top: 42%;left: 28%;}
 .task-view-icon{padding:20px 16px;}
 .task-view-icon>p>span{padding:0 20px 0 26px;}

@@ -30,16 +30,17 @@
         <div class="layui-row">
             <div class="layui-col-md9">
                 <div class="item">
-                    <div class="layui-col-sm5">
+                    <div class="layui-col-sm12">
                         <span>任务名称:</span>
                         <span id="workOrderName"></span>
                     </div>
-                    <div class="layui-col-sm7">
+
+                </div>
+                <div class="item">
+                    <div class="layui-col-sm5">
                         <span>重要程度:</span>
                         <span id="workOrderType" class="red"></span>
                     </div>
-                </div>
-                <div class="item">
                     <div class="layui-col-sm5">
                         <span>任务负责人:</span>
                         <span id="workOrderAllotUserName"></span>
@@ -221,9 +222,9 @@
         function circle(id, value, number) {
             $("#" + id).circleProgress({
                 value: value/100,
-                size: 180,
+                size: 140,
                 startAngle: -Math.PI / 2,
-                thickness: '30',
+                thickness: '20',
                 emptyFill: "#fff",
                 fill: {
                     gradient: ["#79dcd5"]
