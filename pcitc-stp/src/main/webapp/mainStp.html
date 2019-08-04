@@ -242,7 +242,7 @@
 									<tr>
 										<th style="width: 25px; text-align: center;"></th>
 										<th style="width: 120px; text-align: center;">当前处理人</th>
-										<th style="text-align: center;">发起时间</th>
+										<th style="text-align: center;" >发起日期</th>
 										<th style="text-align: center;">工作内容</th>
 										<th style="width: 200px; text-align: center;">完成进度(%)</th>
 									</tr>
@@ -251,8 +251,8 @@
 									<#list taskList as taskList > <#if taskList?exists>
                                     <tr onclick="showTaskInfoDetail('${taskList.dataId}');">
 										<td style="text-align: center;">${taskList_index+1}</td>
-										<td style="text-align: left;">${taskList.workOrderAllotUserName}</td>
-										<td><div class="layui-table-cell-td1">${taskList.createDate}</div></td>
+										<td style="text-align: left;"  nowrap="">${taskList.workOrderAllotUserName}</td>
+										<td><div class="layui-table-cell-td1">${taskList.createDate?date('yyyy-MM-dd')}</div></td>
 										<td><div class="layui-table-cell-td">
                                             <#if taskList.workOrderName?length gt 20>
                                             ${taskList.workOrderName?substring(0,20)}...
@@ -290,7 +290,7 @@
 										<tr>
 											<th style="width: 25px;"></th>
 											<th style="width: 80px;">工作发起人</th>
-											<th style="text-align: center;">发起时间</th>
+											<th style="text-align: center;">发起日期</th>
 											<th style="text-align: center;">工作内容</th>
 											<th style="width: 125px; text-align: center;">工作进展</th>
 										</tr>
@@ -307,7 +307,7 @@
 										<tr onclick="showTaskInfo('${taskList.dataId}');">
 											<td style="text-align: center;">${taskList_index+1}</td>
 											<td style="text-align: left;">${taskList.createUserName}</td>
-											<td><div class="layui-table-cell-td1">${taskList.createDate}</div></td>
+											<td><div class="layui-table-cell-td1">${taskList.createDate?date('yyyy-MM-dd')}</div></td>
 											<td><div class="layui-table-cell-td">${taskList.workOrderName}</div></td>
 											<td align="center">
                                                 <!--<span class="span-st ">已完成</span> -->
