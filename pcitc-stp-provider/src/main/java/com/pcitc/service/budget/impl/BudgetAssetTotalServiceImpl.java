@@ -297,7 +297,8 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 		for (java.util.Iterator<?> iter = dt.getData().iterator(); iter.hasNext();) {
 			String planStr = JSON.toJSON(iter.next()).toString();
 			OutProjectInfo plan = JSON.toJavaObject(JSON.parseObject(planStr), OutProjectInfo.class);
-			if(StringUtils.isBlank(plan.getNd())) {continue;}
+			//过滤统计行数据
+			if(StringUtils.isBlank(plan.getNd()) || StringUtils.isBlank(plan.getYsnd())) {continue;}
 			
 			if(!rs.containsKey(plan.getDefine9())) {
 				rs.put(plan.getDefine9(), new ArrayList<OutProjectInfo>());
