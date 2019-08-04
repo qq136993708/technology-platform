@@ -2021,6 +2021,13 @@ public class OutProjectServiceImpl implements OutProjectService {
 		}
 		return object;
 	}
+
+
+	@Override
+	public List<OutProjectInfo> selectProjectUnit(OutProjectInfo example) {
+		return outProjectInfoMapper.selectProjectUnitByCond(example);
+	}
+
 	
 	
 	

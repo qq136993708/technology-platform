@@ -373,13 +373,14 @@ public class BudgetGroupTotalController extends BaseController {
 	
 	@RequestMapping(value = "/budget/select-grouptotal-forward", method = RequestMethod.POST)
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public Object selectBudgetGroupTotalCompareProject(@ModelAttribute("param")LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
 		if(param.getParam().get("nd") == null || param.getParam().get("code") == null) {
 			return JSON.toJSON(new ArrayList<Object>());
 		}
 		param.getParam().put("leaderFlag", "2");
-		//System.out.println(JSON.toJSONString(info));
+		//System.out.println(JSON.toJSONString(param));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_FORWARD, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
 		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return JSON.toJSON(infors.getBody());

@@ -3507,6 +3507,30 @@
 		group by ysnd,xmid
 		order by ysnd desc,hth
 	</select>
+	<select id="selectProjectUnitByCond" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
+			SELECT
+				data_id,
+				nd,
+				xmid,
+				hth,
+				xmmc,
+				fzdwbm,
+				fzdw,
+				define8,
+				define9
+			FROM
+				out_project_info
+			WHERE
+				define3 = '项目管理系统'
+		<if test="nd != null">
+			and out_project_info.nd = #{nd,jdbcType=VARCHAR}
+		</if>
+		<if test="define11 != null">
+			and out_project_info.define11 = #{define11,jdbcType=VARCHAR}
+		</if>
+		GROUP BY
+				fzdwbm
+	</select>
 	
 	
 	

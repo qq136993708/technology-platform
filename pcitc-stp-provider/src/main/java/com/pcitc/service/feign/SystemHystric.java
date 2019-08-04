@@ -1,6 +1,7 @@
 package com.pcitc.service.feign;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -118,6 +119,16 @@ public class SystemHystric implements SystemRemoteClient {
 	public SysFunction getFunctionByUrl(String url) {
 		 System.out.println("执行断路器。。。。。。。。");
 	     throw new RuntimeException("调用失败.");
+	}
+
+	@Override
+	public List<OutProjectInfo> selectProjectUnit(OutProjectInfo example) {
+		throw new RuntimeException("调用失败.");
+	}
+
+	@Override
+	public List<OutUnit> selectProjectUnitsByCodes(Set<String> unitIds) {
+		throw new RuntimeException("调用失败.");
 	}
 
 }

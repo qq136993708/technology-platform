@@ -1147,6 +1147,13 @@ public class OutProjectInfoClient {
 		return outProjectService.selectByExample(example);
 	}
 	
+
+	@ApiOperation(value = "检索项目单位", notes = "根据条件检索负责单位")
+	@RequestMapping(value = "/out-provider/select-project-unit", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectProjectUnit(@RequestBody OutProjectInfo example) {
+		return outProjectService.selectProjectUnit(example);
+	}
+
 	
 	
 	
