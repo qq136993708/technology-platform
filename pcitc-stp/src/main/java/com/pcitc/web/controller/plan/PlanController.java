@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.pcitc.base.system.SysMessage;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.socket.notice.MessageIndexSocket;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -332,6 +335,9 @@ public class PlanController extends BaseController {
 		return result;
 	}
 
+    @Autowired
+    private MessageIndexSocket msgSocket;
+
 	/**
 	 * 下发时的保存方法
 	 */
@@ -373,6 +379,7 @@ public class PlanController extends BaseController {
 				planBase.setDataId("".equals(detail.get("dataId"))||detail.get("dataId")==null ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
 				planBase.setWorkOrderStatus("1");
 				planBase.setDelFlag("0");
+                planBase.setBak8(StrUtil.objectToString(detail.get("bak8")));
 				planBase.setWorkOrderType(wjbvo.getWorkOrderType());
 				planBase.setRedactUnitName(wjbvo.getRedactUnitName());
 				planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
@@ -388,6 +395,16 @@ public class PlanController extends BaseController {
 				planBase.setCreateUserName(wjbvo.getWorkOrderAllotUserName());
 				planBase.setStatus(wjbvo.getStatus());
 				baseList.add(planBase);
+//                try {
+////                    SysMessage msg = new SysMessage();
+////                    msg.setUserId(planBase.getWorkOrderAllotUserId());
+////                    msg.setDataId(UUID.randomUUID().toString());
+////                    msg.setMessageContent("您收到一条任务下发信息,请查收");
+////                    msg.setIsRead("0");
+////                    msgSocket.sendToWeb(msg);
+////                } catch (Exception e) {
+////                    e.printStackTrace();
+////                }
 			}
 		}
 

@@ -810,7 +810,7 @@ public class PlanServiceImpl implements PlanService {
                     //更新
                     BigDecimal bigDecimal = new BigDecimal(bl_parent / length).setScale(2, BigDecimal.ROUND_HALF_UP);
 
-                    String bl = bigDecimal.doubleValue()>100?"100":(bigDecimal.doubleValue()+"");
+                    String bl = bigDecimal.intValue()>100?"100":(bigDecimal.intValue()+"");
 
                     PlanBase pb = planBaseMapper.selectByPrimaryKey(treeNode.getId());
                     pb.setBl(bl);
