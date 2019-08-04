@@ -380,6 +380,7 @@ public class PlanController extends BaseController {
 				planBase.setWorkOrderStatus("1");
 				planBase.setDelFlag("0");
                 planBase.setBak8(StrUtil.objectToString(detail.get("bak8")));
+                planBase.setRemarks(StrUtil.objectToString(detail.get("bak8")));
 				planBase.setWorkOrderType(wjbvo.getWorkOrderType());
 				planBase.setRedactUnitName(wjbvo.getRedactUnitName());
 				planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
