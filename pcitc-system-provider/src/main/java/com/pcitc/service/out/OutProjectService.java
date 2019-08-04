@@ -379,4 +379,11 @@ public interface OutProjectService {
      * 领导首页，计算资本性预算金额。预算资本性金额没办法进行权限控制
      */
     public HashMap<String, String> getBudgetZBXMoney(HashMap<String, String> map);
+    
+    /**
+     * 
+     * @param example
+     * @return
+     */
+    public List<OutProjectInfo> selectProjectUnit(OutProjectInfo example);
 }

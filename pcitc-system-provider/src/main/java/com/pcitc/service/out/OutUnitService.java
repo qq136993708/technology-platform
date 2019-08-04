@@ -1,6 +1,7 @@
 package com.pcitc.service.out;
 
 import java.util.List;
+import java.util.Set;
 
 import com.pcitc.base.stp.out.OutUnit;
 
@@ -28,5 +29,10 @@ public interface OutUnitService {
 	 * @return
 	 */
 	public List<OutUnit> selectByDefine3(String define3);
-	
+	/**
+	 * 
+	 * @param ids
+	 * @return
+	 */
+	public List<OutUnit> selectByCodes(Set<String> codes);
 }

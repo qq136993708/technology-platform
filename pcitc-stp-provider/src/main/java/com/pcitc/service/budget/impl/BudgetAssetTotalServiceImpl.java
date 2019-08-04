@@ -231,8 +231,15 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 	@Override
 	public List<OutUnit> selectAssetCompnays() {
 		
-		List<OutUnit> units = systemRemoteClient.selectProjectUnits("ZCGS");
-		System.out.println(JSON.toJSONString(units));
+		OutProjectInfo example = new OutProjectInfo();
+		example.setDefine11("C资产公司");
+		List<OutProjectInfo> result = systemRemoteClient.selectProjectUnit(example);
+		Set<String> unitIds = new HashSet<String>();
+		for(OutProjectInfo r:result) {
+			unitIds.add(r.getFzdwbm());
+		}
+		//List<OutUnit> units = systemRemoteClient.selectProjectUnits("ZCGS");
+		List<OutUnit> units = systemRemoteClient.selectProjectUnitsByCodes(unitIds);
 		return units;
 	}
 	@Override
