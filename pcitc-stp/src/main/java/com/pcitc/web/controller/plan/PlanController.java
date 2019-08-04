@@ -340,17 +340,23 @@ public class PlanController extends BaseController {
 	public int submitBotWorkOrderXF(HttpServletRequest request) {
 		// 下发时，原任务单据直接修改状态为已完成，新生成n条任务单
 		String param = request.getParameter("param");
+		String bak7 = request.getParameter("bak7");
 		JSONObject jsStr = (JSONObject) JSON.parseObject(param);
 		jsStr.put("visaApplyCode", null);
 		String dataId = jsStr.getString("dataId");
 		ResponseEntity<PlanBase> resultEntity = this.restTemplate.exchange(VIEW_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), PlanBase.class);
 		PlanBase wjbvo = resultEntity.getBody();
-		wjbvo = (PlanBase) JSONObject.toJavaObject(jsStr, PlanBase.class);
+        PlanBase base_page = (PlanBase) JSONObject.toJavaObject(jsStr, PlanBase.class);
 		wjbvo.setUpdateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 		wjbvo.setUpdateUser(sysUserInfo.getUserId());
 		wjbvo.setUpdateUserName(sysUserInfo.getUserDisp());
 		wjbvo.setDelFlag("0");
+//		wjbvo.setBak7(bak7);
 		wjbvo.setWorkOrderStatus(request.getParameter("workOrderStatus"));
+		wjbvo.setRemarks(base_page.getRemarks());
+		wjbvo.setBak4(base_page.getBak4());
+		wjbvo.setBak6(base_page.getBak6());
+
 		HttpEntity<PlanBase> entity = new HttpEntity<PlanBase>(wjbvo, this.httpHeaders);
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(EDIT_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
 		int result = responseEntity.getBody();
@@ -364,7 +370,7 @@ public class PlanController extends BaseController {
 				PlanBase planBase = JSONObject.toJavaObject((JSON) JSON.toJSON(detail), PlanBase.class);
 				planBase.setParentId(wjbvo.getDataId());
 				System.out.println("dataId = " + "".equals(detail.get("dataId")));
-				planBase.setDataId("".equals(detail.get("dataId")) ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
+				planBase.setDataId("".equals(detail.get("dataId"))||detail.get("dataId")==null ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
 				planBase.setWorkOrderStatus("1");
 				planBase.setDelFlag("0");
 				planBase.setWorkOrderType(wjbvo.getWorkOrderType());
@@ -372,6 +378,8 @@ public class PlanController extends BaseController {
 				planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 				planBase.setBl(StrUtil.objectToString(detail.get("bl")));
 				planBase.setAnnouncements(StrUtil.objectToString(detail.get("announcements")));
+
+				planBase.setBak7(bak7);
 
 				// 记录父节点的相关信息，方便显示
 				planBase.setDataCode(wjbvo.getDataCode());

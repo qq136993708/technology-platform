@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pcitc.base.common.DataEntity;
+import com.pcitc.base.util.StrUtil;
 
 /**
  * plan_base
@@ -847,7 +848,8 @@ public class PlanBase extends DataEntity implements Serializable {
     }
 
     public String getIsSchedule() {
-        return isSchedule;
+
+        return StrUtil.null2Zero(isSchedule);
     }
 
     public void setIsSchedule(String isSchedule) {
@@ -863,7 +865,7 @@ public class PlanBase extends DataEntity implements Serializable {
     }
 
     public String getBak7() {
-        return bak7;
+        return StrUtil.null2Zero(bak7);
     }
 
     public void setBak7(String bak7) {

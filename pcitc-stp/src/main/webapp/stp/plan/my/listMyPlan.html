@@ -50,8 +50,8 @@
 				<!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="doEvent">处理</button>-->
 				<!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">下发</button>-->
 				<!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="zfEvent">转发</button>-->
-				<!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">任务追踪</button>-->
-				<!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button> -->
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">任务追踪</button>
+				 <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>-->
 			</div>
 			<div class="whiteLine"></div>
 		</div>
@@ -87,6 +87,7 @@
 							"endTime" : $("#endTime").val(),
 							"workOrderStatus" : workOrderStatus,
 							"isSchedule" : 0,
+							"bak7" : 0,
 							"isChildren" : "1"
 						}
 					},
@@ -368,8 +369,8 @@
 				}
 			};
 			//监听行双击事件
-			table.on('row(tableData)', function(obj) {
-			// table.on('rowDouble(tableData)', function(obj) {
+			// table.on('row(tableData)', function(obj) {
+			table.on('rowDouble(tableData)', function(obj) {
 				var id = obj.data.dataId;
 
                 layer.open({

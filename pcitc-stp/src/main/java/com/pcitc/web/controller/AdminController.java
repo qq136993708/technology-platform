@@ -690,7 +690,15 @@ public class AdminController extends BaseController {
 		HttpEntity<JSONObject> entity = new HttpEntity<JSONObject>(jsonObject, this.httpHeaders);
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(selectSonPlanBasesByCreateUserId, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject result = responseEntity.getBody();
-		request.setAttribute("taskList", result.get("list"));
+		List<Map<String,Object>> planBases = (List<Map<String,Object>>) result.get("list");
+        for (int i = 0,j = planBases.size(); i < j; i++) {
+            Map<String,Object> base = planBases.get(i);
+            String[] workOrderName =base.get("workOrderAllotUserName").toString().split(",");
+            if (workOrderName.length>1){
+                planBases.get(i).put("workOrderAllotUserName",workOrderName[0]+"等"+workOrderName.length+"人正在处理");
+            }
+        }
+		request.setAttribute("taskList", planBases);
 
 		param = new LayuiTableParam();
 		Map<String, Object> map = param.getParam();
@@ -698,6 +706,7 @@ public class AdminController extends BaseController {
 		map.put("workOrderStatus", "1");
 		map.put("isSchedule", "0"); //只显示未定时的
 		map.put("isChildren", "1");
+		map.put("bak7", "0");
 		param.setParam(map);
 		param.setLimit(10); // 首页不能过多显示
 		HttpEntity<LayuiTableParam> entityMy = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);

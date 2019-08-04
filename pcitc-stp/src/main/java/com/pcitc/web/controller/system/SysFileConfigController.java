@@ -51,7 +51,6 @@ public class SysFileConfigController extends BaseController {
 	@RequestMapping(value = "/sysfileconfig/getFileConfig", method = RequestMethod.POST)
 	@ResponseBody
 	public String getFileConfig(@RequestParam(value = "filedflag") String filedflag) throws Exception {
-		System.out.println("filedflag = " + filedflag);
 
 		MultiValueMap<String, Object> form = new LinkedMultiValueMap<String, Object>();
 		form.add("filedflag", filedflag);

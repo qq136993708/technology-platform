@@ -86,9 +86,6 @@ public class MobileController extends BaseController {
 	}
 	
 	
-	
-	
-	
 
 	/**
 	 * ================================================科研支出 end
@@ -127,6 +124,7 @@ public class MobileController extends BaseController {
 
 		return "/mobile/cgzl";
 	}
+	
 	@RequestMapping(value = "/mobile/zhfxChart")
 	public String zhfxChart(HttpServletRequest request, HttpServletResponse response) throws Exception {
 

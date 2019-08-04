@@ -215,12 +215,18 @@
 
 	<script>
 		var table, selectRowData, laydate;
+		var treeGridCom;
 		var xmmc = $('#xmmc').val();
 		var form;
-		layui.use([ 'jquery', 'form', 'laydate', 'table', 'laypage' ], function() {
+		layui.config({
+			base : '/layuiadmin/lib/extend/'
+		}).extend({
+			treeGridCom : 'treeGridCom'
+		}).use([ 'jquery', 'form', 'laydate', 'table', 'laypage', 'treeGridCom' ], function() {
 			$ = layui.jquery;
 			table = layui.table;
 			laydate = layui.laydate;
+			treeGridCom = layui.treeGridCom;
 			form = layui.form;
 			form.render();
 			laydate.render({
@@ -366,12 +372,22 @@
 			}
 
 			var v_date = (new Date()).getTime();
-
-			//渲染
-			table.render({
+			table = treeGridCom.render({
+				id : 'processdef-table',
 				elem : '#processdef-table',
-				url : '/one_level_main/project_fx_table_data?v_date=' + v_date,
-				method : "POST",
+				url : '/one_level_main/project_fx_table_tree_data?v_date=' + v_date,
+				cellMinWidth : 200,
+				idField : 'id',//必須字段
+				treeId : 'id',//树形id字段名称
+				treeUpId : 'parent_id',//树形父id字段名称
+				treeShowName : 'hth',//以树形式显示的字段
+				height : commonDislodgeTable()+100,
+				heightRemove : [ ".dHead", 10 ],//不计算的高度,表格设定的是固定高度，此项不生效
+				isFilter : false,
+				iconOpen : false,//是否显示图标【默认显示】
+				isOpenDefault : false,//节点默认是展开还是折叠【默认展开】
+				loading : true,
+				limit : 15,
 				where : {
 					param : {
 						"functionId" : '984b64b13cf54222bf57bd840759fabe', //数据控制标示
@@ -397,16 +413,13 @@
 						"gsbmbmFlag" : gsbmbmFlag,
 						"zycbmFlag" : zycbmFlag,
 						"zylbbmFlag" : zylbbmFlag
-
 					}
 				},
-				limit : 15,
-				id : 'processdef-table',
-				height : commonDislodgeTable() - 150,
+				method : 'POST',
 				page : {
 					groups : 5,
 					limits : [ 15, 30, 45, 60 ],
-					layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+					layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ],
 					first : '首页', //不显示首页
 					last : '尾页', //不显示尾页
 					theme : '#0F9EE0'
@@ -422,7 +435,7 @@
 					title : '合同号',
 					style : 'cursor: pointer;',
 					align : 'center',
-					width : '80',
+					width : '110',
 					sort : true
 				}, {
 					field : 'nd',
@@ -571,91 +584,18 @@
 					align : 'left',
 					width : '130',
 					sort : true
-				}
-
-				] ],
-				done : function(res, curr, count) {
-					// 点击行联动选择框--单选
-					$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
-						var index = parseInt($(this).index() + 1);
-						$('tr').removeClass('layui-table-click');
-						$(this).addClass('layui-table-click');
-						$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-						selectRowData = res.data[index - 1];
-					});
-
+				} ] ],
+				isPage : true,
+				parseData : function(res) {
 					merge(res);
+					return res;
+				},
+				onClickRow : function(index, o) {
+					console.log(index, o, "单击！");
+				},
+				onDblClickRow : function(index, o) {
+					console.log(index, o, "双击");
 				}
-			});
-
-			function merge(res) {
-
-				var data = res.data;
-				var mergeIndex = 0;//定位需要添加合并属性的行数
-				var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
-				var columsName = [ 'realIndex', 'hth', 'nd', 'ysnd', 'zycmc', 'xmmc', 'jf', 'fzdw', 'define11', 'define1', 'project_property', 'zylb', 'jdh', 'cgmc', 'jdjg', 'psdj', 'xkfl' ];//需要合并的列名称
-				var columsIndex = [ 0, 1, 2, 3, 4, 5, 6, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21 ];//需要合并的列索引值
-
-				// hth 合同号
-				for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
-					var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
-					for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
-						var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
-						var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
-
-						var hth = trArr.eq(mergeIndex).find("td").eq("hth");
-						// 序号列特殊
-						if (columsName[k] == 'realIndex') {
-							if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['hth'] === data[i - 1]['hth'])) { //后一行的值与前一行的值做比较，相同就需要合并
-								mark += 1;
-								tdPreArr.each(function() {//相同列的第一列增加rowspan属性
-									$(this).attr("rowspan", mark);
-								});
-								tdCurArr.each(function() {//当前行隐藏
-									$(this).css("display", "none");
-								});
-							} else {
-								mergeIndex = i;
-								mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
-							}
-						} else {
-							if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['xmid'] === data[i - 1]['xmid'])) { //后一行的值与前一行的值做比较，相同就需要合并
-								mark += 1;
-								tdPreArr.each(function() {//相同列的第一列增加rowspan属性
-									$(this).attr("rowspan", mark);
-								});
-								tdCurArr.each(function() {//当前行隐藏
-									$(this).css("display", "none");
-								});
-							} else {
-								mergeIndex = i;
-								mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
-							}
-						}
-						
-					}
-					mergeIndex = 0;
-					mark = 1;
-				}
-			}
-
-			//监听排序
-			table.on('sort(processdef-table)', function(obj) {
-				console.log(this, obj.field, obj.type)
-				//return;
-				//服务端排序
-				table.reload('processdef-table', {
-					initSort : obj,
-					page : {
-						curr : 1
-					}, //重新从第一页开始
-					where : { //重新请求服务端
-						orderKey : obj.field, //排序字段
-						orderType : obj.type
-					//排序方式
-					}
-				});
 			});
 
 		}
@@ -792,6 +732,58 @@
 				return '<span style="color:green">' + jf + '</span>';
 			} else {
 				return "<span></span>";
+			}
+		}
+		
+		function merge(res) {
+
+			var data = res.data;
+			var mergeIndex = 0;//定位需要添加合并属性的行数
+			var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+			var columsName = [ 'realIndex', 'hth', 'nd', 'ysnd', 'zycmc', 'xmmc', 'jf', 'fzdw', 'define11', 'define1', 'project_property', 'zylb', 'jdh', 'cgmc', 'jdjg', 'psdj', 'xkfl' ];//需要合并的列名称
+			var columsIndex = [ 0, 1, 2, 3, 4, 5, 6, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21 ];//需要合并的列索引值
+
+			// hth 合同号
+			for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
+				var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
+				for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
+					var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
+					var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
+
+					var hth = trArr.eq(mergeIndex).find("td").eq("hth");
+					// 序号列特殊
+					if (columsName[k] == 'realIndex') {
+						if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['hth'] === data[i - 1]['hth'])) { //后一行的值与前一行的值做比较，相同就需要合并
+							mark += 1;
+							tdPreArr.each(function() {//相同列的第一列增加rowspan属性
+								$(this).attr("rowspan", mark);
+							});
+							tdCurArr.each(function() {//当前行隐藏
+								$(this).css("display", "none");
+							});
+						} else {
+							mergeIndex = i;
+							mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+						}
+					} else {
+						if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['xmid'] === data[i - 1]['xmid'])) { //后一行的值与前一行的值做比较，相同就需要合并
+							mark += 1;
+							tdPreArr.each(function() {//相同列的第一列增加rowspan属性
+								$(this).attr("rowspan", mark);
+							});
+							tdCurArr.each(function() {//当前行隐藏
+								$(this).css("display", "none");
+							});
+							//console.info(data[i]['xmid']+"-------6666====="+tdPreArr+"============="+tdCurArr);
+						} else {
+							mergeIndex = i;
+							mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+						}
+					}
+
+				}
+				mergeIndex = 0;
+				mark = 1;
 			}
 		}
 	</script>

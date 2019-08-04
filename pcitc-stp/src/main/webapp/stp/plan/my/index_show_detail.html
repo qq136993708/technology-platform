@@ -13,38 +13,19 @@
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
-
     <style>
-        ul li {
-            float: left;
-        }
-
-        ul li.task-item {
-            position: relative;
-        }
-
-        ul li img {
-            width: 46px;
-            height: 46px;
-            margin: 6px 0;
-        }
-
-        ul li span {
-            display: block;
-            font-size: 12px;
-            text-indent: 10px;
-        }
+        #sonlist{min-height: 490px;overflow: scroll;}
     </style>
 </head>
 <body>
 <div class="task-view layui-row">
-    <div class="task-view-cont layui-col-md3">
+    <div class="task-view-cont layui-col-md4">
         <p>任务进度</p>
         <div id="sonlist">
             <ul id="funTree" class="ztree"></ul>
         </div>
     </div>
-    <div class="task-view-cont layui-col-md9">
+    <div class="task-view-cont layui-col-md8">
         <p>任务基本信息</p>
         <div class="layui-row">
             <div class="layui-col-md9">
@@ -79,7 +60,7 @@
         </div>
     </div>
     <div>
-        <table id="matterFeedBackTalbe" class="layui-table" lay-filter="tableData"/>
+        <table id="matterFeedBackTalbe" class="layui-table" lay-filter="tableData"></table>
     </div>
 </div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
@@ -125,7 +106,7 @@
                     $("#bak3").html(selectData.bak3);
                     $("#announcements").html(selectData.announcements);
                     $("#remarks").html(selectData.remarks);
-                    circle("chart", selectData.bl, "总体完成情况<br/>" + selectData.bl + "%");
+                    circle("chart", selectData.bl,  selectData.bl + "%<br/>总体完成情况");
                     $.ajax({
                         url: '/pageCommon/dic/ROOT_RWGL_RWLX',
                         dataType: 'json',
@@ -238,14 +219,14 @@
         // });
         function circle(id, value, number) {
             $("#" + id).circleProgress({
-                value: value,
+                value: value/100,
                 size: 180,
                 startAngle: -Math.PI / 2,
                 thickness: '30',
+                emptyFill: "#fff",
                 fill: {
-                    gradient: ["#ffffff", "#79dcd5"]
-                },
-                emptyFill: "rgba(255,255,255,.3)"
+                    gradient: ["#79dcd5"]
+                }
             }).on('circle-animation-progress', function (event, progress, stepValue) {
                 $(this).find('span').html(number);
             });
@@ -265,6 +246,7 @@
                 async: false,
                 success: function (data) {
                     zNodes = data;
+                    console.log(zNodes);
                     for (let i = 0; i < zNodes.length; i++) {
                         zNodes[i].open = true;
                     }
