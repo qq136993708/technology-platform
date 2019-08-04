@@ -171,24 +171,11 @@
    			  callback(ysje);
    		  	});
         }
-       /*  //检索年度计划情况
-        window.selectItemPlanMoney = function(nd,displayCode,callback){
-        	publicMethods.ajaxPost('/budget/select-assettotal-compare-plan',{"nd":nd,"code":displayCode}, function (data, status) {
-   			  var ysje = 0;
-   			  $.each(data,function(index,d){
-   				 ysje += parseInt(d.ysje); 
-   			  });
-   			  callback(ysje);
-   		  	});
-        } */
         window.createTableData = function(node){
         	var newRow = {dataId: new Date().valueOf(),displayCode:node.id, displayName: node.name,xmjfJz:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
         	selectItemProjectMoney(parseInt(nd),node.id,function(ysje){
             	newRow.xmjfJz = ysje;
     		});
-    		/* selectItemPlanMoney(nd,node.id,function(ysje){
-    			newRow.plan_money = ysje;
-    		}); */  
            	viewObj.tbData.push(newRow);
         }
       	//资产分类编码字典 ROOT_JFYS_JTDWFL
@@ -201,12 +188,6 @@
 			form.val("budget-form",data);
 			parentInfo = data;
 			$.each(data.groups,function(index,dt){
-				/* selectItemProjectMoney(parseInt(dt.nd)-1,dt.displayCode,function(ysje){
-					dt.last_year_end = ysje;
-				});
-				selectItemPlanMoney(dt.nd,dt.displayCode,function(ysje){
-					dt.plan_money = ysje;
-				}); */
 				viewObj.tbData.push(dt);
 			});
 			table.reload({data : viewObj.tbData});

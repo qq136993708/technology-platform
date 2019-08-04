@@ -556,8 +556,8 @@ public class BudgetAssetTotalProviderClient
 			List<BudgetAssetTotal> items = totals.stream().filter(a -> a.getLevel()==0).collect(Collectors.toList());
 			List<BudgetAssetTotal> compnays = totals.stream().filter(a -> a.getLevel()>0).collect(Collectors.toList());
 			
-			System.out.println("items："+JSON.toJSONString(items));
-			System.out.println("compnays："+JSON.toJSONString(compnays));
+			//System.out.println("items："+JSON.toJSONString(items));
+			//System.out.println("compnays："+JSON.toJSONString(compnays));
 			
 			Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
 			Set<String> codes = new HashSet<String>();
@@ -607,6 +607,7 @@ public class BudgetAssetTotalProviderClient
 				}
 				rsdata.add(map);
 			}
+			//System.out.println("rsdata:"+JSON.toJSONString(rsdata));
 		} 
 		catch (Exception e) 
 		{

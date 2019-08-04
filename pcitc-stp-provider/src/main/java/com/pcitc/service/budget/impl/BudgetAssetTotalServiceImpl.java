@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -285,21 +286,29 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 		}
 		param.setLimit(1000);
 		param.setPage(1);
+		param.getParam().remove("nd");//删除nd参数
 		param.getParam().put("ysnd", nd);
 		param.getParam().put("define9", sb.toString().substring(0, sb.length() - 1));
-		
+		//System.out.println("param:"+JSON.toJSONString(param));
 
 		LayuiTableData dt = systemRemoteClient.selectCommonProjectByCond(param);
+		//System.out.println("data:"+JSON.toJSONString(dt));
 		Map<String, List<OutProjectInfo>> rs = new HashMap<String,List<OutProjectInfo>>();
 		for (java.util.Iterator<?> iter = dt.getData().iterator(); iter.hasNext();) {
 			String planStr = JSON.toJSON(iter.next()).toString();
 			OutProjectInfo plan = JSON.toJavaObject(JSON.parseObject(planStr), OutProjectInfo.class);
-
+			if(StringUtils.isBlank(plan.getNd())) {continue;}
+			
 			if(!rs.containsKey(plan.getDefine9())) {
 				rs.put(plan.getDefine9(), new ArrayList<OutProjectInfo>());
 			}
-			rs.get(plan.getDefine9()).add(plan);
+			//年度小于预算年度才属于结转，年度等于预算年度的是新签
+			if(Integer.valueOf(plan.getNd())<Integer.valueOf(plan.getYsnd())) 
+			{
+				rs.get(plan.getDefine9()).add(plan);
+			}
 		}
+		//System.out.println("rs:"+JSON.toJSONString(rs));
 		return rs;
 	}
 
