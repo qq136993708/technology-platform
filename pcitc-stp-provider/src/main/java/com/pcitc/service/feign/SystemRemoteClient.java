@@ -105,4 +105,11 @@ public interface SystemRemoteClient {
 
     @RequestMapping(value = "/out-unit-provider/project-unit/list-by-unitcodes", method = RequestMethod.POST)
 	public List<OutUnit> selectProjectUnitsByCodes(@RequestBody Set<String> unitIds);
+    //根据年度检索结转项目列表
+    @RequestMapping(value = "/out-provider/select-project-bynd", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectProjectInfoByNd(@RequestBody OutProjectInfo example);
+    
+    //根据年度预算单位、处部门汇总结转金额
+    @RequestMapping(value = "/out-provider/select-project-bynd", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectProjectInfoJz(@RequestBody OutProjectInfo example);
 }

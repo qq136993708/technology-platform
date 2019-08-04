@@ -1153,8 +1153,16 @@ public class OutProjectInfoClient {
 	public List<OutProjectInfo> selectProjectUnit(@RequestBody OutProjectInfo example) {
 		return outProjectService.selectProjectUnit(example);
 	}
-
-	
+	@ApiOperation(value = "检索结转项目", notes = "根据年度检索结转项目列表")
+	@RequestMapping(value = "/out-provider/select-project-bynd", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectProjectInfoByNd(@RequestBody OutProjectInfo example) {
+		return outProjectService.selectProjectInfoByNd(example);
+	}
+	@ApiOperation(value = "检索结转金额", notes = "根据年度预算单位、处部门汇总结转金额")
+	@RequestMapping(value = "/out-provider/select-project-bynd", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectProjectInfoJz(@RequestBody OutProjectInfo example) {
+		return outProjectService.selectProjectInfoJz(example);
+	}
 	
 	
 	
