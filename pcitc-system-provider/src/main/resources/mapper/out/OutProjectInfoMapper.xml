@@ -3533,12 +3533,16 @@
 	</select>
 	<!-- 查询项目结转记录 -->	
 	<select id="selectProjectInfoByNd" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
-			SELECT * FROM out_project_info WHERE define3 = '项目管理系统'
+			SELECT 
+				data_id,nd,ysnd,xmid,hth,xmmc,ysnd,fzdw,fzdwbm,zycbm,zycmc,jf,ysje,fzdwunit,type_flag,
+				define1,define2,define3,define4,define5,define6,define7,define8,define9,define10,define11,define12,define13 
+			FROM out_project_info 
+			WHERE define3 = '项目管理系统'
 		<if test="ysnd != null">
 			and out_project_info.ysnd = #{ysnd,jdbcType=VARCHAR}
 		</if>
 		<if test="nd != null">
-			and out_project_info.nd < #{nd,jdbcType=VARCHAR}
+			and out_project_info.nd &lt; #{nd,jdbcType=VARCHAR}
 		</if>
 		<if test="define11 != null">
 			and out_project_info.define11 = #{define11,jdbcType=VARCHAR}
