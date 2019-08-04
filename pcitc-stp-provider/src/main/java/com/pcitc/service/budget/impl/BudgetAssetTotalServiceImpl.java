@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -230,7 +231,17 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 	}
 	@Override
 	public List<OutUnit> selectAssetCompnays() {
-		return systemRemoteClient.selectProjectUnits("ZCGS");
+		
+		OutProjectInfo example = new OutProjectInfo();
+		example.setDefine11("C资产公司");
+		List<OutProjectInfo> result = systemRemoteClient.selectProjectUnit(example);
+		Set<String> unitIds = new HashSet<String>();
+		for(OutProjectInfo r:result) {
+			unitIds.add(r.getFzdwbm());
+		}
+		//List<OutUnit> units = systemRemoteClient.selectProjectUnits("ZCGS");
+		List<OutUnit> units = systemRemoteClient.selectProjectUnitsByCodes(unitIds);
+		return units;
 	}
 	@Override
 	public Map<String, List<OutProjectPlan>> selectComparePlanData(Set<String> codes, String nd) {
@@ -265,7 +276,7 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 	}
 
 	@Override
-	public Map<String, List<OutProjectInfo>> selectCompareProjectInfoData(Set<String> codes, String nd) {
+	public Map<String, List<OutProjectInfo>> selectCompareProjectInfoData(LayuiTableParam param,Set<String> codes, String nd) {
 		if(codes == null || codes.size() == 0) {
 			return new HashMap<String,List<OutProjectInfo>>();
 		}
@@ -273,25 +284,32 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 		for (String code : codes) {
 			sb.append(code + ",");
 		}
-		LayuiTableParam layuiParam = new LayuiTableParam();
-		Map<String, Object> p = new HashMap<String, Object>();
-		p.put("ysnd", nd);
-		p.put("define9", sb.toString().substring(0, sb.length() - 1));
-		layuiParam.setLimit(1000);
-		layuiParam.setPage(1);
-		layuiParam.setParam(p);
+		param.setLimit(1000);
+		param.setPage(1);
+		param.getParam().remove("nd");//删除nd参数
+		param.getParam().put("ysnd", nd);
+		param.getParam().put("define9", sb.toString().substring(0, sb.length() - 1));
+		//System.out.println("param:"+JSON.toJSONString(param));
 
-		LayuiTableData dt = systemRemoteClient.selectCommonProjectByCond(layuiParam);
+		LayuiTableData dt = systemRemoteClient.selectCommonProjectByCond(param);
+		//System.out.println("data:"+JSON.toJSONString(dt));
 		Map<String, List<OutProjectInfo>> rs = new HashMap<String,List<OutProjectInfo>>();
 		for (java.util.Iterator<?> iter = dt.getData().iterator(); iter.hasNext();) {
 			String planStr = JSON.toJSON(iter.next()).toString();
 			OutProjectInfo plan = JSON.toJavaObject(JSON.parseObject(planStr), OutProjectInfo.class);
-
+			//过滤统计行数据
+			if(StringUtils.isBlank(plan.getNd()) || StringUtils.isBlank(plan.getYsnd())) {continue;}
+			
 			if(!rs.containsKey(plan.getDefine9())) {
 				rs.put(plan.getDefine9(), new ArrayList<OutProjectInfo>());
 			}
-			rs.get(plan.getDefine9()).add(plan);
+			//年度小于预算年度才属于结转，年度等于预算年度的是新签
+			if(Integer.valueOf(plan.getNd())<Integer.valueOf(plan.getYsnd())) 
+			{
+				rs.get(plan.getDefine9()).add(plan);
+			}
 		}
+		//System.out.println("rs:"+JSON.toJSONString(rs));
 		return rs;
 	}
 

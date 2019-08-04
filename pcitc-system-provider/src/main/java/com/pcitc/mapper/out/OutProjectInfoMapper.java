@@ -334,10 +334,25 @@ public interface OutProjectInfoMapper {
 	 * 获取十条龙详情的查询维度（条件）
 	 */
 	public List getDragonProjectInfoSelectCondition(HashMap<String, String> map);
+
+	/**
+	 * 获取负责单位列表（按集团、资产、股份）
+	 */
+	public List<OutProjectInfo> selectProjectUnitByCond(OutProjectInfo opi);
+	/**
+	 * 获取结转项目列表明细
+	 */
+	public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo opi);
+	/**
+	 * 获取结转项目按处部门、预算单位分组
+	 */
+	public List<OutProjectInfo> selectProjectInfoJz(OutProjectInfo opi);
+	
 	
 	
 	List getTenDragonsList(Map map);
 	int getTenDragonsCount(Map map);
 	    
+
 
 }

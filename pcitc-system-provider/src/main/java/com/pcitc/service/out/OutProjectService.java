@@ -393,6 +393,25 @@ public interface OutProjectService {
      */
     public HashMap<String, String> getBudgetZBXMoney(HashMap<String, String> map);
     
+
+    /**
+     * 
+     * @param example
+     * @return
+     */
+    public List<OutProjectInfo> selectProjectUnit(OutProjectInfo example);
+    /**
+     * 
+     * @param example
+     * @return
+     */
+    public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo example);
+    /**
+     * 
+     * @param example
+     * @return
+     */
+    public List<OutProjectInfo> selectProjectInfoJz(OutProjectInfo example);
     
     
     
@@ -415,4 +434,5 @@ public interface OutProjectService {
 
 	 public OutProjectInfoWithBLOBs selectOutProjectInfoWithBLOBs(String dataId) throws Exception;
 	
+
 }

@@ -28,6 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler
 	    @Override
 	    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
 	    	logger.error("错误.....................");
+	    	ex.printStackTrace();
 	        return new ResponseEntity<Object>(new Result(false,"ERROR","请求过程发生异常，请联系管理员!","500"),status);
 	    }
 	 
