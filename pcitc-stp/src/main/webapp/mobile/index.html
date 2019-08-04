@@ -12,82 +12,118 @@
 	<div class="main-card banner">
 	    <div class="layui-carousel" id="test1" lay-filter="test1">
 			<div carousel-item="">
-				<div><img src="images/bg_main1.png" class="m_banner"></div>
-				<div><img src="images/bg_main2.png" class="m_banner"></div>
-				<div><img src="images/bg_main1.png" class="m_banner"></div>
+				<div class="item">
+					<p>科研项目综合分析</p>
+					<span class="line"></span>
+					<span>Comprehensive Analysis Of Scientific Research Projects</span>
+				</div>
+				<div class="item">
+					<p>科研项目综合分析</p>
+					<span class="line"></span>
+					<span>Comprehensive Analysis Of Scientific Research Projects</span>
+				</div>
 			</div>
 		</div> 
     </div>
 </header>
 <main class="main">
+	<div class="main-card quota">
+		<p><span></span>年度指标 / Target<img src="/mobile/images/mobile-group.png"/></p>
+		<div class="quata-cont">
+			<div class="item">
+				<p>7986 /亿</p>
+				<p>已签金额</p>
+			</div>
+			<div class="item">
+				<p>7986 /亿</p>
+				<p>年度预算</p>
+			</div>
+			<div class="item">
+				<div class="circle">
+					<div id="circle">
+						<span></span>
+					</div>
+				</div>
+				<p>执行比率</p>
+			</div>
+		</div>
+	</div>
     <div class="main-card first-card">
-        <div class="main-card-header">工作台</div>
+		<p><span></span>工作台 / Workbench<img src="/mobile/images/mobile-group.png"/></p>
         <div class="main-card-body card-shadow">
             <ul class="main-card-body-ul">
-                <li class="layui-col-xs3" id="numberNotice_list">
+                <li class="layui-col-xs4" id="numberNotice_list">
                 	<div class="agency-box">
+						<img src="/mobile/images/work-img1.png" alt="">
+						<span class="number">69</span>
                 		<span class="text">待办任务</span>
-                		<span class="agency-icon1 layui-icon-agency_01"></span>
-                		<span class="agency-circle1 layui-icon-circle_01"></span>
                 	</div>
                 </li>
-                <li class="layui-col-xs3" id="doneTaskCount_list">
+                <li class="layui-col-xs4" id="doneTaskCount_list">
                 	<div class="agency-box">
+						<img src="/mobile/images/work-img2.png" alt="">
+						<span class="number">368</span>
                 		<span class="text">已办任务</span>
-                		<span class="agency-icon1 layui-icon-agency_02"></span>
-                		<span class="agency-circle1 layui-icon-circle_02"></span>
                 	</div>
                 </li>
-                <li class="layui-col-xs3" >
+                <!--<li class="layui-col-xs3" >
                     <div class="agency-box" id="audit_msg_list">
                 		<span class="text">审批消息</span>
                 		<span class="agency-icon1 layui-icon-agency_03"></span>
                 		<span class="agency-circle1 layui-icon-circle_03"></span>
                 	</div>
-                </li>
-                <li class="layui-col-xs3" >
+                </li>-->
+                <li class="layui-col-xs4" >
                     <div class="agency-box">
+						<img src="/mobile/images/work-img3.png" alt="">
+						<span class="number">89</span>
                 		<span class="text">工作安排</span>
-                		<span class="agency-icon1 layui-icon-agency_04"></span>
-                		<span class="agency-circle1 layui-icon-circle_04"></span>
                 	</div>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="main-card" id="isKJBPerson_id" >
-        <div class="main-card-header">数据分析</div>
+    <div class="main-card main-card-b" id="isKJBPerson_id" >
+		<p><span></span>业务分析 / Analysis<img src="/mobile/images/mobile-group.png"/></p>
         <div class="main-card-body">
-       		<div class="dec-center">
-       			<div class="dec-center-left1" id="kyzc">
-       				<span>科研支出  </span>
-       				<span class="icon-decision icon-decision_01"></span>
-       			</div>
-       			<div class="dec-center-right1" id="kytr">
-       				<span>科研投入</span>
-       				<span class="icon-decision icon-decision_02"></span>
-       			</div>
-       		</div>
-       		<div class="dec-center">
-       			<div class="dec-center-left2" id="xjll">
-       				<span>现金流量</span>
-       				<span class="icon-decision icon-decision_03"></span>
-       			</div>
-       			<div class="dec-center-right2" id="kyht">
-       				<span>科研合同 </span>
-       				<span class="icon-decision icon-decision_04"></span>
-       			</div>
-       		</div>
-       		<div class="dec-center">
-       			<div class="dec-center-left3" id="cgzl">
-	       			<span>成果专利</span>
-	       				<span class="icon-decision icon-decision_05"></span>
-	       			</div>
-       			<div class="dec-center-right3" id="kyzb">
-       				<span>科研装备 </span>
-       				<span class="icon-decision icon-decision_06"></span>
-       			</div>
-       		</div>
+			<div class="dec-center-left1" id="kyzc">
+				<span></span>
+				<span>科研预算</span>
+				<span class="icon-decision icon-decision_01">31,50亿</span>
+			</div>
+			<div class="dec-center-right3">
+				<span></span>
+				<span>科研项目</span>
+				<span class="icon-decision icon-decision_06">512个</span>
+			</div>
+			<div class="dec-center-right2" id="kyht">
+				<span></span>
+				<span>科研合同 </span>
+				<span class="icon-decision icon-decision_04">512个</span>
+				<span>合同签订率</span>
+			</div>
+			<div class="dec-center-right3">
+				<span></span>
+				<span>科研人才</span>
+				<span class="icon-decision icon-decision_06">549位</span>
+			</div>
+			<div class="dec-center-right3">
+				<span></span>
+				<span>科研拨款</span>
+				<span class="icon-decision icon-decision_06">1112,00亿</span>
+				<span>直属研究院</span>
+			</div>
+			<div class="dec-center-left2" id="xjll">
+				<span></span>
+				<span>现金流量</span>
+				<span class="icon-decision icon-decision_03">1112,00亿</span>
+				<span>直属研究院</span>
+			</div>
+			<div class="dec-center-right3">
+				<span></span>
+				<span>成果鉴定</span>
+				<span class="icon-decision icon-decision_06">549位</span>
+			</div>
         </div>
     </div>
 </main>
@@ -103,15 +139,16 @@
 
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/layuiadmin/javascript/circle-progress.min.js"></script>
 <script>
-var layer;
+	var layer;
     (function(doc, win) {
         var docEl = doc.documentElement,
             resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
             recalc = function() {
                 var clientWidth = docEl.clientWidth;
                 if (!clientWidth) return;
-                docEl.style.fontSize =  (clientWidth / 10.8) + 'px';
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
             };
         if (!doc.addEventListener) return;
         win.addEventListener(resizeEvt, recalc, false);
@@ -143,6 +180,18 @@ var layer;
 				area: ['9rem', '10rem'],
 				content: projectDecisionHtml
 			})
+        });
+        $("#circle").circleProgress({
+            value : 20/100,
+            size : 50,
+            startAngle : -Math.PI / 2,
+            thickness : '5',
+            fill : {
+                gradient : [ "#ffffff", "#e99a54" ]
+            },
+            emptyFill : "#F0EEF6"
+        }).on('circle-animation-progress', function(event, progress, stepValue) {
+            $(this).find('span').html(20/100+"%");
         });
     });
     
@@ -351,11 +400,11 @@ var layer;
 		form = layui.form;
 		//常规轮播
 		carousel.render({
-			width:'calc(100% - 1.154‬rem)',
-			height:'4.81rem',
+            width:'calc(100% - 1.154‬rem)',
+			height:'.76rem',
 			elem: '#test1',
 			arrow: 'hover',
-			autoplay:true,
+			autoplay:false,
 			indicator:'outside'
 		});
 	});
