@@ -2020,7 +2020,7 @@
         <include refid="Base_Column_List"/>
         from plan_base p 
         where DEL_FLAG='0' and WORK_ORDER_STATUS='1' and PARENT_ID IS NULL AND CREATE_USER='${createUserId}'
-        ORDER BY CREATE_DATE
+        ORDER BY CREATE_DATE desc
         limit 10
     </select>
     
