@@ -236,7 +236,19 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	}
 	@Override
 	public List<OutUnit> selectGroupCompnays() {
-		return systemRemoteClient.selectProjectUnits("JTZS");
+		//return systemRemoteClient.selectProjectUnits("JTZS");
+		
+		OutProjectInfo example = new OutProjectInfo();
+		example.setDefine11("B集团公司");
+		List<OutProjectInfo> result = systemRemoteClient.selectProjectUnit(example);
+		Set<String> unitIds = new HashSet<String>();
+		for(OutProjectInfo r:result) {
+			unitIds.add(r.getFzdwbm());
+		}
+		//List<OutUnit> units = systemRemoteClient.selectProjectUnits("ZCGS");
+		List<OutUnit> units = systemRemoteClient.selectProjectUnitsByCodes(unitIds);
+		return units;
+		
 	}
 	@Override
 	public Map<String, List<OutProjectPlan>> selectComparePlanData(Set<String> codes, String nd) {
