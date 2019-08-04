@@ -406,7 +406,12 @@ public interface OutProjectService {
      * @return
      */
     public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo example);
-
+    /**
+     * 
+     * @param example
+     * @return
+     */
+    public List<OutProjectInfo> selectProjectInfoJz(OutProjectInfo example);
     
     
     

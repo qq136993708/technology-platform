@@ -2032,7 +2032,10 @@ public class OutProjectServiceImpl implements OutProjectService {
 	public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo example) {
 		return outProjectInfoMapper.selectProjectInfoByNd(example);
 	}
-	
+	@Override
+	public List<OutProjectInfo> selectProjectInfoJz(OutProjectInfo example) {
+		return outProjectInfoMapper.selectProjectInfoJz(example);
+	}
 	
 	public OutProjectInfoWithBLOBs selectOutProjectInfoWithBLOBs(String dataId) throws Exception
 	{
@@ -2133,6 +2136,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 		}
 		return resault;
 	}
+
+	
 
 	
 	
