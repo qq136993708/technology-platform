@@ -52,6 +52,7 @@
                 <button class="layui-btn btn-decision active" data-type="createEvent">编制预算</button>
             </div>
             <div class="tool-right">
+            	<button class="layui-btn layui-btn-sm btn-decision active" data-type="resetJzEvent">统计老合同预算</button>
                 <button class="layui-btn layui-btn-sm btn-decision" data-type="historyCompare">往年预算参考</button>
                 <button class="layui-btn layui-btn-sm btn-decision" data-type="historyView">历年参考数据</button>
             </div>
@@ -343,6 +344,28 @@
                         , area: ['70%', '90%']
                         , content: '/budget/budget_create_split?nd='+cu_date+'&budgetType=${budgetType}'
                     });
+                },
+                resetJzEvent:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择预算版本", {title : '提示'});
+                		return;
+                	} 
+               		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
+   					publicMethods.ajaxAsyncPost("/budget/budget-stock-split-jz", {page:1,limit:1000,param: {"functionId":param.id,"nd":curent_budget_info.nd}}, function (data) {
+   						layer.close(lodingMsg);
+   					 	$.each(curent_tabel_data,function(index,dt){
+   					 		$.each(table_titles,function(i,t){
+   					 			curent_tabel_data[index][t+"_jz"] = data[dt.organCode][t+"_jz"];
+   					 			curent_tabel_data[index][t+"_total"] = curent_tabel_data[index][t+"_jz"]+curent_tabel_data[index][t+"_xq"];
+   					 		})
+   					 	});
+   					 	reloadTable('dataTable',curent_tabel_data);
+	                	renderfunc();
+
+	                	initEmptyData(curent_budget_info);
+	                	calculationSurplusMoney();
+	                	initDateView();
+   	                });
                 },
                 saveEvent:function(){
                 	if($("#data_version").val()==""){

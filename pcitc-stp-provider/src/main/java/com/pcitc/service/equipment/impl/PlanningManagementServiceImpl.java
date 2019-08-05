@@ -113,7 +113,7 @@ public class PlanningManagementServiceImpl implements PlanImplementService {
 	}
 
 	
-	/*-----------------------------信息发布---------------------*/
+	/*-----------------------------信息发布---------------------------------------------------------------------*/
 	
 	@Override
 	public LayuiTableData getInformationDeliveryPage(LayuiTableParam param)throws Exception {
