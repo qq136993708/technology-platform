@@ -355,6 +355,7 @@
                     parent.layer.close(index);
                     parent.layer.msg("保存成功");
                     parent.selectRowData = "";
+                    parent.$("#mainIframe").attr("src","/mainStp");
                     parent.layui.table.reload('tableList', {});
                 },
                 error: function (e) {
@@ -415,6 +416,7 @@
                         parent.layer.close(index);
                         parent.layer.msg("提交成功");
                         parent.selectRowData = "";
+                        parent.$("#mainIframe").attr("src","/mainStp");
                         parent.layui.table.reload('tableList', {});
                     },
                     error: function (e) {

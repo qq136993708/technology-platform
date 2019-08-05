@@ -279,6 +279,7 @@
                         var index = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(index);
                         parent.layer.msg("提交成功");
+                        parent.$("#mainIframe").attr("src","/mainStp");
                         parent.layui.table.reload('tableList', {});
                     }
                 },
