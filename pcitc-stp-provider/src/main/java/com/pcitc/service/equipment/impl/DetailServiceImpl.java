@@ -413,4 +413,9 @@ public class DetailServiceImpl implements DetailService {
 		data.setCount(total.intValue());
 		return data;
 	}
+
+	@Override
+	public SreDetail selectById(String id) {
+		return detailMapper.selectByPrimaryKey(id);
+	}
 }

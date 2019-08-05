@@ -976,10 +976,18 @@ public class ExpertController extends BaseController {
     }
 
     @RequestMapping(value = "/outProjectList", method = RequestMethod.POST)
+    @OperationFilter(dataFlag = "true")
     @ResponseBody
     public Object outProjectList(@ModelAttribute("param") LayuiTableParam param) {
 
         System.out.println("====expertController");
+        // 数据控制属性
+//        String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+//        String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+//        param.getParam().put("zycbm", zycbm);
+//        param.getParam().put("zylbbm", zylbbm);
+        param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+        param.getParam().put("username", sysUserInfo.getUserName());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_LIST_PAGE, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData retJson = responseEntity.getBody();

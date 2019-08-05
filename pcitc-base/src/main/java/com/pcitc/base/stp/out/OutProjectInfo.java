@@ -2,6 +2,8 @@ package com.pcitc.base.stp.out;
 
 import java.beans.Transient;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class OutProjectInfo {
     private String dataId;
@@ -161,12 +163,85 @@ public class OutProjectInfo {
     private String define19;
     
     private String attachmentId;
+
+    @Transient
+    public List<HashMap<String, String>> getZycbmList() {
+        return zycbmList;
+    }
+
+    public void setZycbmList(List<HashMap<String, String>> zycbmList) {
+        this.zycbmList = zycbmList;
+    }
+
+    private List<HashMap<String, String>> zycbmList;
+
     
+    private String fzdwStr;
     
+    private String statisticsType;
+    
+    private String lay_is_open;
+     
+     private String lay_icon_open;
+     
+     private String lay_icon;
+     
+     
+     
+     private String createDateStr;
+     
     
     
 
-    public String getAttachmentId() {
+    public String getStatisticsType() {
+		return statisticsType;
+	}
+
+	public void setStatisticsType(String statisticsType) {
+		this.statisticsType = statisticsType;
+	}
+
+	public String getLay_is_open() {
+		return lay_is_open;
+	}
+
+	public void setLay_is_open(String lay_is_open) {
+		this.lay_is_open = lay_is_open;
+	}
+
+	public String getLay_icon_open() {
+		return lay_icon_open;
+	}
+
+	public void setLay_icon_open(String lay_icon_open) {
+		this.lay_icon_open = lay_icon_open;
+	}
+
+	public String getLay_icon() {
+		return lay_icon;
+	}
+
+	public void setLay_icon(String lay_icon) {
+		this.lay_icon = lay_icon;
+	}
+
+	public String getCreateDateStr() {
+		return createDateStr;
+	}
+
+	public void setCreateDateStr(String createDateStr) {
+		this.createDateStr = createDateStr;
+	}
+
+	public String getFzdwStr() {
+		return fzdwStr;
+	}
+
+	public void setFzdwStr(String fzdwStr) {
+		this.fzdwStr = fzdwStr;
+	}
+
+	public String getAttachmentId() {
 		return attachmentId;
 	}
 
