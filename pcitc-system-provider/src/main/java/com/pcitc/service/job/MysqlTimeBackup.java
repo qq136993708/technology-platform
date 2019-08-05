@@ -2,21 +2,14 @@ package com.pcitc.service.job;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
-import com.pcitc.base.stp.out.OutNotice;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.utils.DataServiceUtil;
 import com.pcitc.utils.OSSUtil;
 
 /**
@@ -29,7 +22,7 @@ public class MysqlTimeBackup implements Job, Serializable {
 
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "---mysql定时备份到oss");
 
-		String backupFilePath = "/usr/local/mysql/pcitc_stp-" + DateUtil.dateToStr(new Date(), DateUtil.FMT_DD) + ".zip";
+		String backupFilePath = "/usr/local/mysql/pcitc_stp1-" + DateUtil.dateToStr(new Date(), DateUtil.FMT_DD) + ".zip";
 		System.out.println("==========" + backupFilePath + "---定时任务---开始=============");
 
 		File mysqlFile = new File(backupFilePath);
