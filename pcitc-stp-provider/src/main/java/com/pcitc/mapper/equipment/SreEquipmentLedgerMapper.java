@@ -1,5 +1,6 @@
 package com.pcitc.mapper.equipment;
 
+import com.pcitc.base.stp.equipment.SreDetail;
 import com.pcitc.base.stp.equipment.SreEquipmentLedger;
 import com.pcitc.base.stp.equipment.SrePurchaseOrder;
 

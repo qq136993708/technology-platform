@@ -41,6 +41,7 @@ public interface DetailService {
 
 
 	public LayuiTableData getDetailLIVRW(LayuiTableParam param);
-	
-	
+
+
+	SreDetail selectById(String id);
 }
