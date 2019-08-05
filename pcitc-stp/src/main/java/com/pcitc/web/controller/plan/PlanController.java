@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.pcitc.base.system.SysMessage;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.socket.notice.MessageIndexSocket;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -79,6 +82,9 @@ public class PlanController extends BaseController {
 	private static final String TREE_DATA_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/tree-data-list";
 
 	private static final String selectListPlan = "http://pcitc-zuul/system-proxy/planClient-provider/selectListPlan";
+
+	//任务树
+	private static final String plan_tree = "http://pcitc-zuul/system-proxy//planClient-provider/plan_tree";
 
 
 
@@ -329,6 +335,9 @@ public class PlanController extends BaseController {
 		return result;
 	}
 
+    @Autowired
+    private MessageIndexSocket msgSocket;
+
 	/**
 	 * 下发时的保存方法
 	 */
@@ -337,17 +346,23 @@ public class PlanController extends BaseController {
 	public int submitBotWorkOrderXF(HttpServletRequest request) {
 		// 下发时，原任务单据直接修改状态为已完成，新生成n条任务单
 		String param = request.getParameter("param");
+		String bak7 = request.getParameter("bak7");
 		JSONObject jsStr = (JSONObject) JSON.parseObject(param);
 		jsStr.put("visaApplyCode", null);
 		String dataId = jsStr.getString("dataId");
 		ResponseEntity<PlanBase> resultEntity = this.restTemplate.exchange(VIEW_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), PlanBase.class);
 		PlanBase wjbvo = resultEntity.getBody();
-		wjbvo = (PlanBase) JSONObject.toJavaObject(jsStr, PlanBase.class);
+        PlanBase base_page = (PlanBase) JSONObject.toJavaObject(jsStr, PlanBase.class);
 		wjbvo.setUpdateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 		wjbvo.setUpdateUser(sysUserInfo.getUserId());
 		wjbvo.setUpdateUserName(sysUserInfo.getUserDisp());
 		wjbvo.setDelFlag("0");
+//		wjbvo.setBak7(bak7);
 		wjbvo.setWorkOrderStatus(request.getParameter("workOrderStatus"));
+		wjbvo.setRemarks(base_page.getRemarks());
+		wjbvo.setBak4(base_page.getBak4());
+		wjbvo.setBak6(base_page.getBak6());
+
 		HttpEntity<PlanBase> entity = new HttpEntity<PlanBase>(wjbvo, this.httpHeaders);
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(EDIT_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
 		int result = responseEntity.getBody();
@@ -360,15 +375,18 @@ public class PlanController extends BaseController {
 				JSONObject detail = array.getJSONObject(i);
 				PlanBase planBase = JSONObject.toJavaObject((JSON) JSON.toJSON(detail), PlanBase.class);
 				planBase.setParentId(wjbvo.getDataId());
-				System.out.println("dataId = " + "".equals(detail.get("dataId")));
-				planBase.setDataId("".equals(detail.get("dataId")) ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
+				planBase.setDataId("".equals(detail.get("dataId"))||detail.get("dataId")==null ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
 				planBase.setWorkOrderStatus("1");
 				planBase.setDelFlag("0");
+                planBase.setBak8(StrUtil.objectToString(detail.get("bak8")));
+                planBase.setRemarks(StrUtil.objectToString(detail.get("bak8")));
 				planBase.setWorkOrderType(wjbvo.getWorkOrderType());
 				planBase.setRedactUnitName(wjbvo.getRedactUnitName());
 				planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 				planBase.setBl(StrUtil.objectToString(detail.get("bl")));
 				planBase.setAnnouncements(StrUtil.objectToString(detail.get("announcements")));
+
+				planBase.setBak7(bak7);
 
 				// 记录父节点的相关信息，方便显示
 				planBase.setDataCode(wjbvo.getDataCode());
@@ -377,6 +395,16 @@ public class PlanController extends BaseController {
 				planBase.setCreateUserName(wjbvo.getWorkOrderAllotUserName());
 				planBase.setStatus(wjbvo.getStatus());
 				baseList.add(planBase);
+//                try {
+////                    SysMessage msg = new SysMessage();
+////                    msg.setUserId(planBase.getWorkOrderAllotUserId());
+////                    msg.setDataId(UUID.randomUUID().toString());
+////                    msg.setMessageContent("您收到一条任务下发信息,请查收");
+////                    msg.setIsRead("0");
+////                    msgSocket.sendToWeb(msg);
+////                } catch (Exception e) {
+////                    e.printStackTrace();
+////                }
 			}
 		}
 
@@ -790,7 +818,7 @@ public class PlanController extends BaseController {
 	}
 
 	/**
-	 * 下发工单管理
+	 * 提交
 	 *
 	 * @param request
 	 * @return
@@ -829,14 +857,20 @@ public class PlanController extends BaseController {
         return JSONUtils.toJSONString(list);
     }
 
+    /**
+     * 首页-任务树形
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/plan/tree-datas")
     @ResponseBody
     public String getZjkMsgConfigTreeDatas(HttpServletRequest request) throws Exception {
         JSONObject o = new JSONObject();
         o.put("dataId",request.getParameter("dataId"));
         o.put("pid",request.getParameter("pid"));
-        String object = this.restTemplate.exchange(TREE_DATA_LIST, HttpMethod.POST, new HttpEntity<JSONObject>(o,this.httpHeaders), String.class).getBody();
-        return object;
-//        return JSONUtils.toJSONString(object.get("list"));
+//        String object = this.restTemplate.exchange(TREE_DATA_LIST, HttpMethod.POST, new HttpEntity<JSONObject>(o,this.httpHeaders), String.class).getBody();
+        List object = this.restTemplate.exchange(plan_tree, HttpMethod.POST, new HttpEntity<JSONObject>(o,this.httpHeaders), List.class).getBody();
+        return JSONUtils.toJSONString(object);
     }
 }

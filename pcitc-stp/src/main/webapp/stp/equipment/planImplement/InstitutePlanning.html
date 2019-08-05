@@ -266,7 +266,7 @@ var name=$('#name').val();
         });
       
         //监听表格双击事件
-        table.on('row(processdef-table)', function(obj){
+        table.on('rowDouble(processdef-table)', function(obj){
         	 window.location.href='/sre-planImplement/planImplementView/'+obj.data.id;
         });
         
@@ -281,7 +281,10 @@ var name=$('#name').val();
 
     });
     
-    
+    function view_publicationTitle(id) 
+    {
+    	window.location.href='/sre-planImplement/planImplementView/'+id;
+    }
     
     function renderTable()
     { 

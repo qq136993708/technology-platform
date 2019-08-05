@@ -145,35 +145,26 @@
    layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
         var $ = layui.jquery,form = layui.form,table = layui.table,laydate = layui.laydate,layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
-        //检索年度金额完成情况
+        //检索年度结转
         window.selectItemProjectMoney = function(nd,displayCode,callback){
-        	publicMethods.ajaxPost('/budget/select-grouptotal-compare-project',{param:{"nd":nd,"code":displayCode}}, function (data, status) {
-   			  var ysje = 0;
+        	publicMethods.ajaxPost('/budget/select-grouptotal-forward',{param:{"nd":nd,"code":displayCode}}, function (data, status) {
+   			  var xmjfJz = 0;
+   			  var zxjfJz = 0;
    			  $.each(data,function(index,d){
-   				 ysje += parseInt(d.ysje); 
+   				xmjfJz += parseInt(d.xmjfJz);
+   				zxjfJz += parseInt(d.zxjfJz);
    			  });
-   			  callback(ysje);
+   			  callback(xmjfJz,zxjfJz);
    		  	});
         }
-        //检索年度计划情况
-        window.selectItemPlanMoney = function(nd,displayCode,callback){
-        	publicMethods.ajaxPost('/budget/select-grouptotal-compare-plan',{"nd":nd,"code":displayCode}, function (data, status) {
-   			  var ysje = 0;
-   			  $.each(data,function(index,d){
-   				 ysje += parseInt(d.ysje); 
-   			  });
-   			  callback(ysje);
-   		  	});
-        }
+       
         //添加一行
         window.createTableData = function(node){
-        	var newRow = {dataId: new Date().valueOf(),displayCode:node.id, displayName: node.name,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
-          	selectItemProjectMoney(parseInt(nd)-1,node.id,function(ysje){
-            	newRow.last_year_end = ysje;
+        	var newRow = {dataId: new Date().valueOf(),displayCode:node.id, displayName: node.name,xmjfJz:0,zxjfJz: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
+          	selectItemProjectMoney(parseInt(nd),node.id,function(xmjfJz,zxjfJz){
+            	newRow.xmjfJz = xmjfJz;
+            	newRow.zxjfJz = zxjfJz;
     		});
-    		selectItemPlanMoney(nd,node.id,function(ysje){
-    			newRow.plan_money = ysje;
-    		});  
            	viewObj.tbData.push(newRow);
         }
         //渲染

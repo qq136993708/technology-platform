@@ -77,6 +77,13 @@ public class OutProjectInfoClient {
 		logger.info("==================page selectProjectInfoWithAllInfoByCond===========================" + JSONObject.toJSONString(param));
 		return outProjectService.selectProjectInfoWithAllInfoByCond(param);
 	}
+	
+	@ApiOperation(value = "科研项目分析，包含项目基本信息，同时包含成果、奖励等信息", notes = "分页显示")
+	@RequestMapping(value = "/out-project-provider/project/all-info/tree/list", method = RequestMethod.POST)
+	public LayuiTableData selectProjectInfoWithAllInfoByCondTree(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page selectProjectInfoWithAllInfoByCondTree===========================" + JSONObject.toJSONString(param));
+		return outProjectService.selectProjectInfoWithAllInfoByCondTree(param);
+	}
 
 	@ApiOperation(value = "分页显示项目数据数据,国拨课题统计的第三级展示", notes = "分页显示")
 	@RequestMapping(value = "/out-project-provider/country-project/list", method = RequestMethod.POST)
@@ -1141,7 +1148,22 @@ public class OutProjectInfoClient {
 		return outProjectService.selectByExample(example);
 	}
 	
-	
+
+	@ApiOperation(value = "检索项目单位", notes = "根据条件检索负责单位")
+	@RequestMapping(value = "/out-provider/select-project-unit", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectProjectUnit(@RequestBody OutProjectInfo example) {
+		return outProjectService.selectProjectUnit(example);
+	}
+	@ApiOperation(value = "检索结转项目", notes = "根据年度检索结转项目列表")
+	@RequestMapping(value = "/out-provider/select-project-bynd", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectProjectInfoByNd(@RequestBody OutProjectInfo example) {
+		return outProjectService.selectProjectInfoByNd(example);
+	}
+	@ApiOperation(value = "检索结转金额", notes = "根据年度预算单位、处部门汇总结转金额")
+	@RequestMapping(value = "/out-provider/select-project-jz", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectProjectInfoJz(@RequestBody OutProjectInfo example) {
+		return outProjectService.selectProjectInfoJz(example);
+	}
 	
 	
 	

@@ -414,6 +414,9 @@ public interface OutProjectService {
     public List<OutProjectInfo> selectProjectInfoJz(OutProjectInfo example);
     
     
+
+    
+    
     
     
     
@@ -438,6 +441,4 @@ public interface OutProjectService {
 	 public int deleteOutProjectInfoByXmid(String xmid)throws Exception;
 	 
 	 
-	
-
 }

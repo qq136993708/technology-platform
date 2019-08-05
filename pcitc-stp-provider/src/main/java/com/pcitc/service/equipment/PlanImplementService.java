@@ -2,6 +2,7 @@ package com.pcitc.service.equipment;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreInformationDelivery;
 import com.pcitc.base.stp.equipment.SrePlanImplement;
 
 public interface PlanImplementService {
@@ -20,6 +21,23 @@ public interface PlanImplementService {
 	
 	//执行修改方法
 	Integer setupdataSrePlanImplement(SrePlanImplement srePlanImplement);
+
+	/*-------------------------------信息发布-----------------------*/
+	
+	//信息发布
+	LayuiTableData getInformationDeliveryPage(LayuiTableParam param) throws Exception;
+	
+	//删除信息发布
+	int deleteInformationDelivery(String id);
+	
+	//获取信息发布数据
+	SreInformationDelivery selectInformationDelivery(String id);
+	
+	//新增信息发布数据
+	Integer insertInformationDelivery(SreInformationDelivery sreInformationDelivery);
+
+	//修改信息发布数据
+	Integer updataInformationDelivery(SreInformationDelivery sreInformationDelivery);
 	
 	
 	

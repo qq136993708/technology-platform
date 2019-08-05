@@ -343,6 +343,7 @@ public interface OutProjectInfoMapper {
 	 * 获取结转项目列表明细
 	 */
 	public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo opi);
+
 	/**
 	 * 获取结转项目按处部门、预算单位分组
 	 */
@@ -354,6 +355,8 @@ public interface OutProjectInfoMapper {
 	int getTenDragonsCount(Map map);
 	
 	 int deleteOutProjectInfoByXmid(String xmid);
+
+	    
 
 
 }
