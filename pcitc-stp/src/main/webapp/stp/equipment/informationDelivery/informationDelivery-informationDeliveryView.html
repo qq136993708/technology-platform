@@ -16,15 +16,23 @@
         .video{width: 800px;height: 400px;margin: 0 auto;}
         .layui-speech-d span{padding: 20px 0 16px;}
         .layui-leader-list, .layui-leader-details {width: 76%;margin: 10px auto;}
+        .layui-div-n img{right: 24px;width: 20px;top: 0px;}
+        .layui-div-n span{background-color: #de111a;border-radius: 10px;height: 14px;line-height: 14px;
+            font-size: 12px;color: white;padding: 0 5px;top: -10px;font-family: Arial;
+            text-align: center;right: 50px;}
     </style>
 </head>
 <body>
+ <input type="hidden" name="informationid" id="informationid" value="${srePlanImplement.id}">
 <div class="layui-leader-speech layui-leader-details">
     <div class="layui-row">
         <div class="layui-col-md12 layui-speech-d">
             <!--文本-->
-            <div class="details">
-                <h4>${srePlanImplement.informationTitle}</h4>
+            <div class="details layui-div-n">
+                <h4>${srePlanImplement.informationTitle}
+                <img onclick="sendGood()"  src="/layuiadmin/layui/images/dianzan.png">
+                <span id="good">${srePlanImplement.numberCompliments}</span>
+                </h4>
                 <h5 class="title-time">(${dateStr})</h5>
                 ${srePlanImplement.informationText}
             </div>
@@ -32,5 +40,28 @@
     </div>
 </div>
 <script type="text/javascript" src="/plugins/ckplayer/ckplayer/ckplayer.js"></script>
+<script>
+layui.use("layer",function(){
+	var layer = layui.layer
+})
+</script>
+<script>
+	var good = document.getElementById("good").textContent;
+	function sendGood(){
+		    $.ajax({
+	            type : "POST",
+	            url: "/sre-informationDelivery/informationDeliveryUpforapplication",
+	            data: {"informationid": $("#informationid").val()}, 
+	            traditional : true,
+	            async : true,   
+	            dataType:"json",
+	            success : function(data){
+	            		layer.alert("点赞成功!");
+	            		 document.getElementById("good").innerText = data.result;
+	            }
+	        });    
+	    }
+	    
+</script>
 </body>
 </html>

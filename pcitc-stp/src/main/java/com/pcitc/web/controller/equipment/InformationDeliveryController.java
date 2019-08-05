@@ -380,4 +380,38 @@ public class InformationDeliveryController extends BaseController {
 		return "/stp/equipment/informationDelivery/informationDelivery-tolist";
 	}
 	
+	
+	/**
+	 * 执行点赞数量修改
+	 */
+	@ResponseBody
+	@RequestMapping(value ="/sre-informationDelivery/informationDeliveryUpforapplication", method = RequestMethod.POST)
+	public String informationDeliveryUpforapplication(String informationid, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String resultsDate = "";
+		ResponseEntity<String> respo = null;
+		ResponseEntity<SreInformationDelivery> responseEntity = this.restTemplate.exchange(GET_URL + informationid, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreInformationDelivery.class);
+		SreInformationDelivery informationDelivery =  responseEntity.getBody();
+		int NumberCompliments = Integer.valueOf(informationDelivery.getNumberCompliments());
+		NumberCompliments++;
+		informationDelivery.setNumberCompliments(String.valueOf((NumberCompliments)));
+		respo = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreInformationDelivery>(informationDelivery, this.httpHeaders), String.class);
+		int statusCode = respo.getStatusCodeValue();
+		String status = respo.getBody();
+		responseEntity = this.restTemplate.exchange(GET_URL + informationid, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreInformationDelivery.class);
+		informationDelivery =  responseEntity.getBody();
+		if (Integer.valueOf(status) > 0) {
+			resultsDate = "1";
+		} else {
+			resultsDate = "新增失败，请联系系统管理员！";
+		}
+		JSONObject jObject=new JSONObject();
+		jObject.put("resultsDate", resultsDate);
+		jObject.put("result", informationDelivery.getNumberCompliments());
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println(jObject.toString());
+		out.flush();
+		out.close();
+		return null;
+	}
 }		
