@@ -2029,8 +2029,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	}
 
 	@Override
-	public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo example) {
-		return outProjectInfoMapper.selectProjectInfoByNd(example);
+	public List<OutProjectInfo> selectProjectInfoJzItems(OutProjectInfo example) {
+		return outProjectInfoMapper.selectProjectInfoJzItems(example);
 	}
 	@Override
 	public List<OutProjectInfo> selectProjectInfoJz(OutProjectInfo example) {
