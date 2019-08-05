@@ -478,13 +478,13 @@ public class BudgetAssetTotalProviderClient
 		return plans;
 	}
 	@ApiOperation(value="资产公司预算-预算结转数据",notes="检索资产预算表结转数据")
-	@RequestMapping(value = "/stp-provider/budget/select-assettotal-plandata/{budgetInfoId}", method = RequestMethod.POST)
-	public Object selectLastGroupTotalItemJz(@RequestBody LayuiTableParam param,@PathVariable("budgetInfoId") String budgetInfoId) 
+	@RequestMapping(value = "/stp-provider/budget/budget-asset-total-jz", method = RequestMethod.POST)
+	public Object selectLastGroupTotalItemJz(@RequestBody LayuiTableParam param) 
 	{
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try 
 		{
-			BudgetInfo info = budgetInfoService.selectBudgetInfo(budgetInfoId);
+			String nd = param.getParam().get("nd").toString();
 			List<BudgetAssetTotal> totals = budgetAssetTotalService.selectBudgetAssetTotalByInfoId(param.getParam().get("budget_info_id").toString());
 			
 			List<BudgetAssetTotal> items = totals.stream().filter(a -> a.getLevel()==0).collect(Collectors.toList());
@@ -512,7 +512,7 @@ public class BudgetAssetTotalProviderClient
 			//System.out.println("param："+JSON.toJSONString(param));
 			//Map<String,List<OutProjectInfo>> projectMap = budgetAssetTotalService.selectCompareProjectInfoData(param,codes,info.getNd());
 			 
-			List<OutProjectInfo> infos = budgetInfoService.selectProjectInfoJzItems(info.getNd(), BudgetForwardTypeEnum.TYPE_ASSET);
+			List<OutProjectInfo> infos = budgetInfoService.selectProjectInfoJzItems(nd, BudgetForwardTypeEnum.TYPE_ASSET);
 			
 			//System.out.println("projectMap："+JSON.toJSONString(infos));
 			for(java.util.Iterator<BudgetAssetTotal> iter = items.iterator();iter.hasNext();) {
