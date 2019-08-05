@@ -30,12 +30,21 @@ public class GraphController extends BaseController {
 
     //获取每一年的装备总金额
     private static final String GET_MONEY_YEAR= "http://pcitc-zuul/stp-proxy/sre-provider/equipment/get_money_year";
+
+    /**
+     * 跳转到"投资趋势分析"页面
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/graph/to-investment-trend")
     public String toInvestmentTrend(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String nd = HanaUtil.getCurrentYear();
-        request.setAttribute("nd", nd);
-        String userLevel = CommonUtil.getParameter(request, "userLevel", "");
-        request.setAttribute("userLevel", userLevel);
+        //判断当前登录人是否为科技部人员
+        String unitPathIds = sysUserInfo.getUnitPath();
+        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+        request.setAttribute("isKJBPerson", isKJBPerson);
+
         return "stp/equipment/graph/investment-trend";
     }
 
