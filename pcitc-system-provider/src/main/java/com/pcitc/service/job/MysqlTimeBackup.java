@@ -22,7 +22,7 @@ public class MysqlTimeBackup implements Job, Serializable {
 
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "---mysql定时备份到oss");
 
-		String backupFilePath = "/usr/local/mysql/pcitc_stp1-" + DateUtil.dateToStr(new Date(), DateUtil.FMT_DD) + ".zip";
+		String backupFilePath = "/usr/local/backup/mysql/pcitc_stp1-" + DateUtil.dateToStr(new Date(), DateUtil.FMT_DD) + ".zip";
 		System.out.println("==========" + backupFilePath + "---定时任务---开始=============");
 
 		File mysqlFile = new File(backupFilePath);
