@@ -3396,7 +3396,7 @@
 			   substr(out_project_info.type_flag FROM 4) as type_flag,
 			   GROUP_CONCAT(DISTINCT out_project_info.xmmc) as xmmc,
 			   GROUP_CONCAT(DISTINCT out_project_info.ysnd) as ysnd,
-			   GROUP_CONCAT(DISTINCT out_project_info.jf) as jf,
+			   GROUP_CONCAT(DISTINCT out_project_info.jf separator ';  ') as jf,
 			   IFNULL(sum(out_project_info.ysje),0) as ysje,
 			   IFNULL(sum(out_project_info.yszbxje),0) as yszbxje,
 			   IFNULL(sum(out_project_info.ysfyxje),0) as ysfyxje,
