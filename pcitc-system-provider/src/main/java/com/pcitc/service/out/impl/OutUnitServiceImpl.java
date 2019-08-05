@@ -3,6 +3,7 @@ package com.pcitc.service.out.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,6 +97,14 @@ public class OutUnitServiceImpl implements OutUnitService {
 		OutUnitExample.Criteria c = example.createCriteria();
 		c.andDefine3EqualTo(define3);
 		
+		return outUnitMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<OutUnit> selectByCodes(Set<String> codes) {
+		OutUnitExample example = new OutUnitExample();
+		OutUnitExample.Criteria c = example.createCriteria();
+		c.andUnitCodeIn(new ArrayList<String>(codes));
 		return outUnitMapper.selectByExample(example);
 	}
 }

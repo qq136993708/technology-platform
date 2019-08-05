@@ -39,17 +39,6 @@
 			     <option value="6">课题滚动计划</option>
 			 </select>
 	 </label>
-	 <#if test="${str==0}">
-	     <label class="dateInput">
-	         <span>研究院</span>
-	         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
-	             <option value="" >--请选择--</option>
-	             <#list dictonary as vo> 
-			          <option value="${vo.numValue}"  >${vo.remark}</option>
-			      </#list>
-			 </select>
-	     </label>
-   </#if>
 	 <label class="dateInput">
         <span>发布人</span>
         <input type="text" name="publisher" id="publisher" placeholder="请输入发布人" title="发布人" autocomplete="off" class="form-control" >
@@ -285,7 +274,10 @@ var name=$('#name').val();
 
     });
     
-    
+    function view_publicationTitle(id) 
+    {
+    	window.location.href='/sre-planImplement/planImplementView/'+id;
+    }
     
     function renderTable()
     { 

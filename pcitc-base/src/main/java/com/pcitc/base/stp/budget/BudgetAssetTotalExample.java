@@ -10,6 +10,10 @@ public class BudgetAssetTotalExample {
 
     protected List<Criteria> oredCriteria;
 
+    private Integer limit;
+
+    private Long offset;
+
     public BudgetAssetTotalExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
@@ -61,6 +65,22 @@ public class BudgetAssetTotalExample {
         oredCriteria.clear();
         orderByClause = null;
         distinct = false;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setOffset(Long offset) {
+        this.offset = offset;
+    }
+
+    public Long getOffset() {
+        return offset;
     }
 
     protected abstract static class GeneratedCriteria {
@@ -665,62 +685,62 @@ public class BudgetAssetTotalExample {
         }
 
         public Criteria andNoIsNull() {
-            addCriterion("no is null");
+            addCriterion("`no` is null");
             return (Criteria) this;
         }
 
         public Criteria andNoIsNotNull() {
-            addCriterion("no is not null");
+            addCriterion("`no` is not null");
             return (Criteria) this;
         }
 
         public Criteria andNoEqualTo(Integer value) {
-            addCriterion("no =", value, "no");
+            addCriterion("`no` =", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoNotEqualTo(Integer value) {
-            addCriterion("no <>", value, "no");
+            addCriterion("`no` <>", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoGreaterThan(Integer value) {
-            addCriterion("no >", value, "no");
+            addCriterion("`no` >", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoGreaterThanOrEqualTo(Integer value) {
-            addCriterion("no >=", value, "no");
+            addCriterion("`no` >=", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoLessThan(Integer value) {
-            addCriterion("no <", value, "no");
+            addCriterion("`no` <", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoLessThanOrEqualTo(Integer value) {
-            addCriterion("no <=", value, "no");
+            addCriterion("`no` <=", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoIn(List<Integer> values) {
-            addCriterion("no in", values, "no");
+            addCriterion("`no` in", values, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoNotIn(List<Integer> values) {
-            addCriterion("no not in", values, "no");
+            addCriterion("`no` not in", values, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoBetween(Integer value1, Integer value2) {
-            addCriterion("no between", value1, value2, "no");
+            addCriterion("`no` between", value1, value2, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoNotBetween(Integer value1, Integer value2) {
-            addCriterion("no not between", value1, value2, "no");
+            addCriterion("`no` not between", value1, value2, "no");
             return (Criteria) this;
         }
 
@@ -1005,62 +1025,62 @@ public class BudgetAssetTotalExample {
         }
 
         public Criteria andLevelIsNull() {
-            addCriterion("level is null");
+            addCriterion("`level` is null");
             return (Criteria) this;
         }
 
         public Criteria andLevelIsNotNull() {
-            addCriterion("level is not null");
+            addCriterion("`level` is not null");
             return (Criteria) this;
         }
 
         public Criteria andLevelEqualTo(Integer value) {
-            addCriterion("level =", value, "level");
+            addCriterion("`level` =", value, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelNotEqualTo(Integer value) {
-            addCriterion("level <>", value, "level");
+            addCriterion("`level` <>", value, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelGreaterThan(Integer value) {
-            addCriterion("level >", value, "level");
+            addCriterion("`level` >", value, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelGreaterThanOrEqualTo(Integer value) {
-            addCriterion("level >=", value, "level");
+            addCriterion("`level` >=", value, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelLessThan(Integer value) {
-            addCriterion("level <", value, "level");
+            addCriterion("`level` <", value, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelLessThanOrEqualTo(Integer value) {
-            addCriterion("level <=", value, "level");
+            addCriterion("`level` <=", value, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelIn(List<Integer> values) {
-            addCriterion("level in", values, "level");
+            addCriterion("`level` in", values, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelNotIn(List<Integer> values) {
-            addCriterion("level not in", values, "level");
+            addCriterion("`level` not in", values, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelBetween(Integer value1, Integer value2) {
-            addCriterion("level between", value1, value2, "level");
+            addCriterion("`level` between", value1, value2, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelNotBetween(Integer value1, Integer value2) {
-            addCriterion("level not between", value1, value2, "level");
+            addCriterion("`level` not between", value1, value2, "level");
             return (Criteria) this;
         }
 
@@ -1241,6 +1261,126 @@ public class BudgetAssetTotalExample {
 
         public Criteria andXmjfNotBetween(Double value1, Double value2) {
             addCriterion("xmjf not between", value1, value2, "xmjf");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzIsNull() {
+            addCriterion("xmjf_jz is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzIsNotNull() {
+            addCriterion("xmjf_jz is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzEqualTo(Double value) {
+            addCriterion("xmjf_jz =", value, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzNotEqualTo(Double value) {
+            addCriterion("xmjf_jz <>", value, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzGreaterThan(Double value) {
+            addCriterion("xmjf_jz >", value, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzGreaterThanOrEqualTo(Double value) {
+            addCriterion("xmjf_jz >=", value, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzLessThan(Double value) {
+            addCriterion("xmjf_jz <", value, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzLessThanOrEqualTo(Double value) {
+            addCriterion("xmjf_jz <=", value, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzIn(List<Double> values) {
+            addCriterion("xmjf_jz in", values, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzNotIn(List<Double> values) {
+            addCriterion("xmjf_jz not in", values, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzBetween(Double value1, Double value2) {
+            addCriterion("xmjf_jz between", value1, value2, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfJzNotBetween(Double value1, Double value2) {
+            addCriterion("xmjf_jz not between", value1, value2, "xmjfJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqIsNull() {
+            addCriterion("xmjf_xq is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqIsNotNull() {
+            addCriterion("xmjf_xq is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqEqualTo(Double value) {
+            addCriterion("xmjf_xq =", value, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqNotEqualTo(Double value) {
+            addCriterion("xmjf_xq <>", value, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqGreaterThan(Double value) {
+            addCriterion("xmjf_xq >", value, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqGreaterThanOrEqualTo(Double value) {
+            addCriterion("xmjf_xq >=", value, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqLessThan(Double value) {
+            addCriterion("xmjf_xq <", value, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqLessThanOrEqualTo(Double value) {
+            addCriterion("xmjf_xq <=", value, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqIn(List<Double> values) {
+            addCriterion("xmjf_xq in", values, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqNotIn(List<Double> values) {
+            addCriterion("xmjf_xq not in", values, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqBetween(Double value1, Double value2) {
+            addCriterion("xmjf_xq between", value1, value2, "xmjfXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfXqNotBetween(Double value1, Double value2) {
+            addCriterion("xmjf_xq not between", value1, value2, "xmjfXq");
             return (Criteria) this;
         }
 
@@ -1645,6 +1785,8 @@ public class BudgetAssetTotalExample {
         }
     }
 
+    /**
+     */
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {

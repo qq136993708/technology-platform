@@ -74,7 +74,7 @@ public class BudgetGroupTotalController extends BaseController {
 	private static final String BUDGET_GROUPTOTAL_HISTORY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-grouptotal-history-items";
 	private static final String BUDGET_GROUPTOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-grouptotal-final-history-list";
 	private static final String BUDGET_GROUPTOTAL_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-grouptotal-compare-plan";
-	private static final String BUDGET_GROUPTOTAL_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-grouptotal-compare-project";
+	private static final String BUDGET_GROUPTOTAL_FORWARD = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-grouptotal-forward";
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	private static final String BUDGET_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budgetinfo-activity/";
@@ -371,16 +371,17 @@ public class BudgetGroupTotalController extends BaseController {
 		return JSON.toJSON(infors.getBody());
 	}
 	
-	@RequestMapping(value = "/budget/select-grouptotal-compare-project", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/select-grouptotal-forward", method = RequestMethod.POST)
 	@ResponseBody
+	@OperationFilter(dataFlag = "true")
 	public Object selectBudgetGroupTotalCompareProject(@ModelAttribute("param")LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
 		if(param.getParam().get("nd") == null || param.getParam().get("code") == null) {
 			return JSON.toJSON(new ArrayList<Object>());
 		}
 		param.getParam().put("leaderFlag", "2");
-		//System.out.println(JSON.toJSONString(info));
-		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPARE_PROJECT, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
+		//System.out.println(JSON.toJSONString(param));
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_FORWARD, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
 		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return JSON.toJSON(infors.getBody());
 	}

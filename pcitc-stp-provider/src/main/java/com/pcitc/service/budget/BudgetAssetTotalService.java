@@ -118,7 +118,7 @@ public interface BudgetAssetTotalService extends BudgetPublicService
 	 * @param nd
 	 * @return
 	 */
-	public Map<String,List<OutProjectInfo>> selectCompareProjectInfoData(Set<String> codes,String nd);
+	public Map<String,List<OutProjectInfo>> selectCompareProjectInfoData(LayuiTableParam param,Set<String> codes,String nd);
 	/**
 	 * 最终预算
 	 * @param info

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SreForApplication;
+import com.pcitc.base.stp.equipment.SreInformationDelivery;
 import com.pcitc.base.stp.equipment.SrePlanImplement;
 import com.pcitc.service.equipment.PlanImplementService;
 
@@ -69,6 +70,51 @@ public class PlanImplementProviderClient {
 	public String updataSrePlanImplement(@RequestBody SrePlanImplement srePlanImplement) throws Exception{
 		logger.info("====================add planImplement....========================");
 		Integer count= planImplementService.setupdataSrePlanImplement(srePlanImplement);
+		return count.toString();
+	}
+	
+	/*------------------------------------------信息发布---------------------------------------------------------*/
+	
+	/**信息发布
+	 * @param paramsJson
+	 * @return
+	 * @throws Exception
+	 */
+	@ApiOperation(value = "信息发布分页", notes = "信息发布分页")
+	@RequestMapping(value = "/sre-provider/informationDelivery/page")
+	public LayuiTableData getInformationDeliveryPage(@RequestBody LayuiTableParam param)throws Exception
+	{
+		logger.info("==================page getInformationDeliveryPage==========================="+param);
+		
+		return planImplementService.getInformationDeliveryPage(param);
+	}
+	@ApiOperation(value = "删除信息发布", notes = "删除信息发布")
+	@RequestMapping(value = "/sre-provider/informationDelivery/delete/{id}", method = RequestMethod.POST)
+	public int deleteInformationDelivery(@PathVariable("id") String id)throws Exception{
+		logger.info("=============================deleteInformationDelivery=================");
+		return planImplementService.deleteInformationDelivery(id);
+	}
+	
+	@ApiOperation(value = "获取信息发布数据", notes = "获取信息发布数据")
+	@RequestMapping(value = "/sre-provider/informationDelivery/get/{id}", method = RequestMethod.GET)
+	public SreInformationDelivery selectInformationDelivery(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get selectInformationDelivery id "+id+"===========");
+		return planImplementService.selectInformationDelivery(id);
+	}
+	
+	@ApiOperation(value = "信息发布数据修改", notes = "信息发布数据修改")
+	@RequestMapping(value = "/sre-provider/informationDelivery/updata", method = RequestMethod.POST)
+	public String updataInformationDelivery(@RequestBody SreInformationDelivery sreInformationDelivery) throws Exception{
+		logger.info("====================add planImplement....========================");
+		Integer count= planImplementService.updataInformationDelivery(sreInformationDelivery);
+		return count.toString();
+	}
+	
+	@ApiOperation(value = "增加信息发布数据", notes = "增加信息发布数据")
+	@RequestMapping(value = "/sre-provider/informationDelivery/add", method = RequestMethod.POST)
+	public String insertInformationDelivery(@RequestBody SreInformationDelivery sreInformationDelivery) throws Exception{
+		logger.info("====================add planImplement....========================");
+		Integer count= planImplementService.insertInformationDelivery(sreInformationDelivery);
 		return count.toString();
 	}
 }

@@ -1,6 +1,7 @@
 package com.pcitc.service.feign;
 
 import java.util.List;
+import java.util.Set;
 
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
@@ -98,6 +99,17 @@ public interface SystemRemoteClient {
     //自定义查询index专利信息
     @RequestMapping(value = "/indexoutpatent-provider/indexoutpatent/selectByExample", method = RequestMethod.POST)
     public List<IndexOutPatent> selectByExampleZl(@RequestBody List<String> strings);
+    //检索项目负责单位信息
+    @RequestMapping(value = "/out-provider/select-project-unit", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectProjectUnit(@RequestBody OutProjectInfo example);
 
-
+    @RequestMapping(value = "/out-unit-provider/project-unit/list-by-unitcodes", method = RequestMethod.POST)
+	public List<OutUnit> selectProjectUnitsByCodes(@RequestBody Set<String> unitIds);
+    //根据年度检索结转项目列表
+    @RequestMapping(value = "/out-provider/select-project-bynd", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectProjectInfoByNd(@RequestBody OutProjectInfo example);
+    
+    //根据年度预算单位、处部门汇总结转金额
+    @RequestMapping(value = "/out-provider/select-project-jz", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectProjectInfoJz(@RequestBody OutProjectInfo example);
 }

@@ -215,9 +215,9 @@ public class BudgetGroupTotalProviderClient
 					}
 					for(OutProjectInfo plan:projects) {
 						if("重点项目".equals(plan.getProjectProperty())){
-							zxjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+							zxjfJz += new Double(StringUtils.isBlank(plan.getYsje())?"0":plan.getYsje());
 						}else {
-							xmjfJz += new Double(plan.getYsje()==null?"0":plan.getYsje());
+							xmjfJz += new Double(StringUtils.isBlank(plan.getYsje())?"0":plan.getYsje());
 						}
 					}
 					map.put("plans", projects);
@@ -672,25 +672,42 @@ public class BudgetGroupTotalProviderClient
 		}
 		return plans;
 	}
-	@ApiOperation(value="集团公司预算-获取计划参考数据",notes="检索集团公司年度计划金额")
-	@RequestMapping(value = "/stp-provider/budget/select-grouptotal-compare-project", method = RequestMethod.POST)
+	@ApiOperation(value="集团公司预算-获取结转数据",notes="检索集团公司年度结转金额")
+	@RequestMapping(value = "/stp-provider/budget/select-grouptotal-forward", method = RequestMethod.POST)
 	public Object selectBudgetGroupItemCompareProject(@RequestBody LayuiTableParam param) 
 	{
 		String nd = param.getParam().get("nd").toString();
 		String code = param.getParam().get("code").toString();
-		List<OutProjectInfo> plans = new ArrayList<OutProjectInfo>();
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try 
 		{
 			Set<String> codes = new HashSet<String>(Arrays.asList(new String [] {code}));
 			Map<String,List<OutProjectInfo>> planMap = budgetGroupTotalService.selectCompareProjectInfoData(param,codes,nd);
 			List<OutProjectInfo> rs = planMap.get(code);
 			if(rs != null && rs.size() >0 ) {
-				plans.addAll(rs);
+				for(OutProjectInfo info:rs) 
+				{
+					Map<String,Object> mp = MyBeanUtils.transBean2Map(info);
+					
+					Double xmjfJz = 0d;
+					Double zxjfJz = 0d;
+					
+					if("重点项目".equals(info.getProjectProperty())){
+						zxjfJz += new Double(info.getYsje()==null?"0":info.getYsje());
+					}else {
+						xmjfJz += new Double(info.getYsje()==null?"0":info.getYsje());
+					}
+					
+					mp.put("xmjfJz", xmjfJz);
+					mp.put("zxjfJz", zxjfJz);
+					
+					rsdata.add(mp);
+				}
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		return plans;
+		return rsdata;
 	}
 	@ApiOperation(value="集团公司预算-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
 	@RequestMapping(value = "/stp-provider/budget/get-final-grouptotal", method = RequestMethod.POST)
