@@ -41,7 +41,7 @@ public class BudgetInfoController extends BaseController
 	private static final String BUDGET_RELEASE_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-release-list";
 	private static final String BUDGET_INFO_RELEASE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-release";
 	private static final String BUDGET_MODIFY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-modify-list";
-	private static final String BUDGET_JZ_JTGS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-jz-jtgs";
+	private static final String BUDGET_STOCK_SPLIT_JZ = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stock-split-jz";
 	
 	
 	
@@ -261,11 +261,11 @@ public class BudgetInfoController extends BaseController
 		return rs;
 		
 	}
-	@RequestMapping(value = "/budget/budget-jz-jtgs", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-stock-split-jz", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetJzJtgs(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_JZ_JTGS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_STOCK_SPLIT_JZ, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
 		Object rs = JSON.toJSON(responseEntity.getBody());
 		return rs;
 	}

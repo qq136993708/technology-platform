@@ -6,9 +6,11 @@ import java.util.Set;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.BudgetForwardTypeEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetMoneyDecompose;
 import com.pcitc.base.stp.budget.BudgetSplitData;
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.workflow.WorkflowVo;
 
@@ -179,4 +181,10 @@ public interface BudgetInfoService
 	 * @return
 	 */
 	public List<BudgetSplitData> copySplitDataByBudgetInfo(BudgetInfo oldInfo,BudgetInfo newInfo) throws Exception;
+	/**
+	 * 
+	 * @param example
+	 * @return
+	 */
+	List<OutProjectInfo> selectProjectInfoJz(String nd,BudgetForwardTypeEnum type);
 }
