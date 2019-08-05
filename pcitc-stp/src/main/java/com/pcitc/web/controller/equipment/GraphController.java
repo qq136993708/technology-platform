@@ -60,35 +60,10 @@ public class GraphController extends BaseController {
         LayuiTableData entityBody = responseEntity.getBody();
 
         if (type.equals("line")) {
-                /*ArrayList<Object> list1 = new ArrayList<>();
-                list1.add();*/
                 result.setData(entityBody.getData());
                 result.setSuccess(true);
-                    /*ArrayList<Object> list = new ArrayList<>();
-                    ChartBarLineResultData barLine = new ChartBarLineResultData();
-                    List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "yearMonth");
-                    barLine.setxAxisDataList(xAxisDataList);
 
-                    List<String> legendDataList = new ArrayList<String>();
-                    legendDataList.add("预算金额");
-                    legendDataList.add("合同金额");
-                    legendDataList.add("拨款金额");
-                    barLine.setLegendDataList(legendDataList);
-
-                    // X轴数据
-                    List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-                    ChartBarLineSeries s1 = HanaUtil.getInvestmentBarLineSeries02(list1, "zysje");
-                    seriesList.add(s1);
-
-                    ChartBarLineSeries s12 = HanaUtil.getInvestmentBarLineSeries02(list2, "zsjje");
-                    seriesList.add(s12);
-
-                    ChartBarLineSeries s2 = HanaUtil.getInvestmentBarLineSeries02(list2, "hanaMoney");
-                    seriesList.add(s2);
-                    barLine.setSeriesList(seriesList);
-                    result.setSuccess(true);
-                    result.setData(barLine);*/
-            }else if (type.equals("date")) {
+            }else if (type.equals("data")) {
 
                     pageResult.setData(entityBody.getData());
                     pageResult.setCode(0);
