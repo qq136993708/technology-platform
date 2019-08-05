@@ -25,6 +25,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetForwardTypeEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetAssetTotal;
@@ -119,73 +120,6 @@ public class BudgetAssetTotalProviderClient
 		try
 		{
 			data = budgetAssetTotalService.selectBudgetAssetTotalPage(param);
-			//获取二级机构的计划数据
-			//List<BudgetAssetTotal> totals = budgetAssetTotalService.selectBudgetAssetTotalByInfoId(param.getParam().get("budget_info_id").toString());
-			//map<dataId,Set<displayCode>>
-			/*Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
-			Set<String> codes = new HashSet<String>();
-			for(BudgetAssetTotal total:totals) {
-				if(total.getLevel() > 0) {
-					if(StringUtils.isNotBlank(total.getDisplayCode())) {
-						codes.add(total.getDisplayCode());
-					}
-				}else {
-					//一级item下包含的二级item列表
-					itemMap.put(total.getDataId(), new HashSet<String>());
-					for(BudgetAssetTotal t:totals) {
-						if(t.getParentDataId() != null && t.getParentDataId().equals(total.getDataId())) {
-							if(StringUtils.isNotBlank(t.getDisplayCode())) {
-								itemMap.get(total.getDataId()).add(t.getDisplayCode());
-							}
-						}
-					}
-				}
-			}*/
-			//String nd = param.getParam().get("nd").toString();
-			//处理计划数据
-			/*Map<String,List<OutProjectPlan>> planMap = budgetAssetTotalService.selectComparePlanData(codes,nd);
-			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
-				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
-				String dataId = map.get("dataId").toString();
-				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
-					Double ysjes = 0d;
-					Set<String> codeset = itemMap.get(dataId);
-					for(String code:codeset) 
-					{
-						List<OutProjectPlan> plans = planMap.get(code);
-						if(plans != null && plans.size()>0) {
-							for(OutProjectPlan plan:plans) {
-								ysjes += new Double(plan.getYsje()==null?"0":plan.getYsje());
-							}
-						}
-					}
-					map.put("plan_money", ysjes.intValue());
-				}else {
-					map.put("plan_money", "无");
-				}
-			}*/
-			//处理结转数据
-			/*Map<String,List<OutProjectInfo>> projectMap = budgetAssetTotalService.selectCompareProjectInfoData(param,codes,(new Integer(nd)-1)+"");
-			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
-				Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
-				String dataId = map.get("dataId").toString();
-				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
-					Double jhjes = 0d;
-					Set<String> codeset = itemMap.get(dataId);
-					for(String code:codeset) 
-					{
-						List<OutProjectInfo> plans = projectMap.get(code);
-						if(plans != null && plans.size()>0) {
-							for(OutProjectInfo plan:plans) {
-								jhjes += new Double(plan.getYsje()==null?"0":plan.getYsje());
-							}
-						}
-					}
-					map.put("xmjfJz", jhjes.intValue());
-				}else {
-					map.put("xmjfJz", "无");
-				}
-			}*/
 		}
 		catch (Exception e)
 		{
@@ -544,13 +478,13 @@ public class BudgetAssetTotalProviderClient
 		return plans;
 	}
 	@ApiOperation(value="资产公司预算-预算结转数据",notes="检索资产预算表结转数据")
-	@RequestMapping(value = "/stp-provider/budget/select-assettotal-plandata/{budgetInfoId}", method = RequestMethod.POST)
-	public Object selectLastGroupTotalItemJz(@RequestBody LayuiTableParam param,@PathVariable("budgetInfoId") String budgetInfoId) 
+	@RequestMapping(value = "/stp-provider/budget/budget-asset-total-jz", method = RequestMethod.POST)
+	public Object selectLastGroupTotalItemJz(@RequestBody LayuiTableParam param) 
 	{
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try 
 		{
-			BudgetInfo info = budgetInfoService.selectBudgetInfo(budgetInfoId);
+			String nd = param.getParam().get("nd").toString();
 			List<BudgetAssetTotal> totals = budgetAssetTotalService.selectBudgetAssetTotalByInfoId(param.getParam().get("budget_info_id").toString());
 			
 			List<BudgetAssetTotal> items = totals.stream().filter(a -> a.getLevel()==0).collect(Collectors.toList());
@@ -576,11 +510,13 @@ public class BudgetAssetTotalProviderClient
 			}
 			//System.out.println("itemMap："+JSON.toJSONString(itemMap));
 			//System.out.println("param："+JSON.toJSONString(param));
-			Map<String,List<OutProjectInfo>> projectMap = budgetAssetTotalService.selectCompareProjectInfoData(param,codes,info.getNd());
-			//System.out.println("projectMap："+JSON.toJSONString(projectMap));
+			//Map<String,List<OutProjectInfo>> projectMap = budgetAssetTotalService.selectCompareProjectInfoData(param,codes,info.getNd());
+			 
+			List<OutProjectInfo> infos = budgetInfoService.selectProjectInfoJzItems(nd, BudgetForwardTypeEnum.TYPE_ASSET);
+			
+			//System.out.println("projectMap："+JSON.toJSONString(infos));
 			for(java.util.Iterator<BudgetAssetTotal> iter = items.iterator();iter.hasNext();) {
-				//Map<String,Object> map = MyBeanUtils.java2Map(iter.next());
-				//String dataId = map.get("dataId").toString();
+				
 				Map<String,Object> map = new HashMap<String,Object>();
 				String dataId = iter.next().getDataId();
 				map.put("dataId", dataId);
@@ -589,13 +525,7 @@ public class BudgetAssetTotalProviderClient
 				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
 					Double xmjfJz = 0d;
 					
-					for(String code:itemMap.get(dataId)) 
-					{
-						List<OutProjectInfo> ps = projectMap.get(code);
-						if(ps != null && ps.size()>0) {
-							projects.addAll(ps);
-						}
-					}
+					projects = infos.stream().filter(a -> itemMap.get(dataId).contains(a.getFzdwbm())).collect(Collectors.toList());
 					for(OutProjectInfo plan:projects) {
 						xmjfJz += new Double(StringUtils.isBlank(plan.getYsje())?"0":plan.getYsje());
 					}
@@ -607,7 +537,6 @@ public class BudgetAssetTotalProviderClient
 				}
 				rsdata.add(map);
 			}
-			//System.out.println("rsdata:"+JSON.toJSONString(rsdata));
 		} 
 		catch (Exception e) 
 		{
@@ -627,11 +556,11 @@ public class BudgetAssetTotalProviderClient
 		try 
 		{
 			Set<String> codes = new HashSet<String>(Arrays.asList(new String [] {code}));
-			Map<String,List<OutProjectInfo>> planMap = budgetAssetTotalService.selectCompareProjectInfoData(params,codes,nd);
-			List<OutProjectInfo> rs = planMap.get(code);
-			if(rs != null && rs.size() >0 ) {
-				plans.addAll(rs);
-			}
+			//Map<String,List<OutProjectInfo>> planMap = budgetAssetTotalService.selectCompareProjectInfoData(params,codes,nd);
+			//List<OutProjectInfo> rs = planMap.get(code);
+			List<OutProjectInfo> infos = budgetInfoService.selectProjectInfoJzItems(nd, BudgetForwardTypeEnum.TYPE_ASSET);
+			plans = infos.stream().filter(a -> codes.contains(a.getFzdwbm())).collect(Collectors.toList());
+			
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

@@ -614,7 +614,7 @@
 
 						var hth = trArr.eq(mergeIndex).find("td").eq("hth");
 						// 序号列特殊
-						if (columsName[k] == 'realIndex') {
+						if (columsName[k] == 'realIndex' || columsName[k] == 'hth') {
 							if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['hth'] === data[i - 1]['hth'])) { //后一行的值与前一行的值做比较，相同就需要合并
 								mark += 1;
 								tdPreArr.each(function() {//相同列的第一列增加rowspan属性

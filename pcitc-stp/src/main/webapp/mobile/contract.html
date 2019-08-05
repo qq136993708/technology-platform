@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+    <style>
+        .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;
+            height: auto;
+            overflow: hidden;
+            padding-bottom: .1rem;
+            background-size: 100%;
+            padding-top: .1rem;}
+    </style>
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>科研合同</h4>
+        <div id="test-laydate-normElem" placeholder="yyyy" class="laydate-c"></div>
+    </div>
+</header>
+<main class="main contract">
+    <div class="layui-row">
+        <div class="layui-tab-content">
+            <div class="layui-col-xs4">
+                <span>689亿</span>
+                <span>预算</span>
+                <span></span>
+            </div>
+            <div class="layui-col-xs4">
+                <span>389亿</span>
+                <span>已签约</span>
+                <span></span>
+            </div>
+            <div class="layui-col-xs4">
+                <span>79%</span>
+                <span>签约率</span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <div id="chart"></div>
+    <div class="layui-tab">
+        <div style="padding-top: .18rem">
+            <ul class="layui-tab-title">
+                <li class="layui-this">专业处</li>
+                <li>研究院</li>
+                <li>其他</li>
+            </ul>
+        </div>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <ul>
+                    <li>
+                        <p>
+                            <span>计划 1580 个</span>
+                            <span>已签 1580 个</span>
+                            <span>直属单位名称</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span>计划 1580 个</span>
+                            <span>已签 1580 个</span>
+                            <span>直属单位名称</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span>计划 1580 个</span>
+                            <span>已签 1580 个</span>
+                            <span>直属单位名称</span>
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            <span>计划 1580 个</span>
+                            <span>已签 1580 个</span>
+                            <span>直属单位名称</span>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="layui-tab-item">
+                <ul></ul>
+            </div>
+            <div class="layui-tab-item">
+                <ul></ul>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        laydate.render({
+            elem: '#test-laydate-normElem'
+            ,type: 'year'
+            ,value:"2019"
+        });
+    });
+</script>
+</body>
+</html>

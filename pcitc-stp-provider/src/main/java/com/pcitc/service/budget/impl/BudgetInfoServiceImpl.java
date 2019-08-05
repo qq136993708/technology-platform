@@ -868,7 +868,6 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	@Override
 	public List<OutProjectInfo> selectProjectInfoJz(String nd, BudgetForwardTypeEnum type) {
 		//organCode: "KTKFC"
-		
 		/*gsbbmc	zycmc		define10		type_flag	define2			jf		ysje
 		科技部		化工处		106化工处			B00集团公司	B0000集团公司		1200	410
 		科技部		材料处		107材料处			B00集团公司	B0000集团公司		3900	480
@@ -880,7 +879,6 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		科技部		三剂处		110三剂处			A01直属研究院	A0104石科院		1001	0
 		科技部		三剂处		110三剂处			A01直属研究院	A0106北化院		1001	0
 		科技部		三剂处		110三剂处			A02分子公司	A0201分子公司-油田	2530	409
-
 		 */
 		OutProjectInfo example = new OutProjectInfo();
 		example.setNd(nd);
@@ -888,5 +886,16 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		example.setDefine11(type.getName());
 		
 		return systemRemoteClient.selectProjectInfoJz(example);
+	}
+
+	@Override
+	public List<OutProjectInfo> selectProjectInfoJzItems(String nd, BudgetForwardTypeEnum type) {
+		
+		OutProjectInfo example = new OutProjectInfo();
+		example.setNd(nd);
+		example.setYsnd(nd);
+		example.setDefine11(type.getName());
+		
+		return systemRemoteClient.selectProjectInfoJzItems(example);
 	}
 }

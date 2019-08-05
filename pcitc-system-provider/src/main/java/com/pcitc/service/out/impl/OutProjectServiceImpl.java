@@ -15,6 +15,10 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.pcitc.base.expert.ZjkChoice;
+import com.pcitc.base.expert.ZjkChoiceExample;
+import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -1829,32 +1833,85 @@ public class OutProjectServiceImpl implements OutProjectService {
 		if (param.getParam().get("nd") != null && !StringUtils.isBlank(param.getParam().get("nd") + "")) {
 			opi.setNd((String) param.getParam().get("nd"));
 		}
-		if (param.getParam().get("leaderFlag") != null && !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
-			opi.setLeaderFlag((String) param.getParam().get("leaderFlag"));
-		}
+//		if (param.getParam().get("leaderFlag") != null && !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
+//			opi.setLeaderFlag(String.valueOf(param.getParam().get("leaderFlag")));
+//		}
 		// 项目ID
 		if (param.getParam().get("xmid") != null && !StringUtils.isBlank(param.getParam().get("xmid") + "")) {
 			opi.setXmid((String) param.getParam().get("xmid"));
 		}
 
-		// 负责人
-		Object name = param.getParam().get("name");
-		if (!StrUtil.isNull(name)) {
-			opi.setFzrxm(name.toString());
-			opi.setJssxxm(name.toString());
-		}
+		//数据控制
+        if (!StrUtil.isNullEmpty(param.getParam().get("dataFilter"))) {
+		    opi.setDefine19("1");
+            if (!StrUtil.isNullEmpty(param.getParam().get("zylbbm"))) {
+                opi.setZylbbm(param.getParam().get("zylbbm").toString());
+            }
+            if (!StrUtil.isNullEmpty(param.getParam().get("zycbm"))) {
+                opi.setZycbm(param.getParam().get("zycbm").toString());
+            }
+            if (!StrUtil.isNullEmpty(param.getParam().get("leaderFlag"))) {
+                opi.setLeaderFlag(param.getParam().get("leaderFlag").toString());
+            }
 
-		List<OutProjectInfo> list = outProjectInfoMapper.selectProjectByCondExpert(opi);
-		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
-		PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
-		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
+            HashMap hashMap = new HashMap();
+            hashMap = this.getDataFilterCondition(hashMap, param.getParam().get("zycbm"), param.getParam().get("zylbbm"));
 
-		LayuiTableData data = new LayuiTableData();
-		data.setData(pageInfo.getList());
-		Long total = pageInfo.getTotal();
-		data.setCount(total.intValue());
-		return data;
-	}
+            if (hashMap.size() > 0) {
+                opi.setZycbmList((List<HashMap<String, String>>) hashMap.get("zycbmList"));
+            }
+        }
+
+            // 负责人
+            Object name = param.getParam().get("name");
+            if (!StrUtil.isNull(name)) {
+                opi.setFzrxm(name.toString());
+                opi.setJssxxm(name.toString());
+            }
+
+            List<OutProjectInfo> list = outProjectInfoMapper.selectProjectByCondExpert(opi);
+
+            List<String> ids = list.stream().map(e->e.getXmid()).collect(Collectors.toList());
+            ids = ids==null||ids.size()==0?new ArrayList<>():ids;
+            ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+            zjkChoiceExample.createCriteria().andXmIdIn(ids);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("list",ids);
+            List<Map<String,Object>> objectMap = (List<Map<String, Object>>) zjkBaseInfoServiceClient.selectByExample(jsonObject).get("list");
+            List<ZjkChoice> zjkChoices = new ArrayList<>();
+            for (int i = 0; i < objectMap.size(); i++) {
+                ZjkChoice choice = new ZjkChoice();
+                MyBeanUtils.transMap2Bean((Map<String, Object>) objectMap.get(i),choice);
+                zjkChoices.add(choice);
+            }
+
+            Map<String,Object> map = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId,ZjkChoice::getZjId,(entity1,entity2) -> entity1));
+
+
+
+
+
+
+            System.out.println("1>>>>>>>>>查询分页结果" + list.size());
+            PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
+            System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
+            for (int i = 0,j = pageInfo.getList().size(); i < j; i++) {
+                if (map.get(list.get(i).getXmid())!=null){
+                    pageInfo.getList().get(i).setDefine19("1");
+                }
+            }
+
+            LayuiTableData data = new LayuiTableData();
+            data.setData(pageInfo.getList());
+            Long total = pageInfo.getTotal();
+            data.setCount(total.intValue());
+            return data;
+        }
+
+
+
+	@Autowired
+    private ZjkBaseInfoServiceClient zjkBaseInfoServiceClient;
 
 	@Override
 	public int updateProjectInfoByKey(OutProjectInfo info) {
@@ -2029,8 +2086,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 	}
 
 	@Override
-	public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo example) {
-		return outProjectInfoMapper.selectProjectInfoByNd(example);
+	public List<OutProjectInfo> selectProjectInfoJzItems(OutProjectInfo example) {
+		return outProjectInfoMapper.selectProjectInfoJzItems(example);
 	}
 	@Override
 	public List<OutProjectInfo> selectProjectInfoJz(OutProjectInfo example) {
