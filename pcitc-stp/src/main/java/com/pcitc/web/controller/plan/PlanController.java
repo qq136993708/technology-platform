@@ -375,7 +375,6 @@ public class PlanController extends BaseController {
 				JSONObject detail = array.getJSONObject(i);
 				PlanBase planBase = JSONObject.toJavaObject((JSON) JSON.toJSON(detail), PlanBase.class);
 				planBase.setParentId(wjbvo.getDataId());
-				System.out.println("dataId = " + "".equals(detail.get("dataId")));
 				planBase.setDataId("".equals(detail.get("dataId"))||detail.get("dataId")==null ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
 				planBase.setWorkOrderStatus("1");
 				planBase.setDelFlag("0");
