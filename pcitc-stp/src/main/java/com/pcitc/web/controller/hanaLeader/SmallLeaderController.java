@@ -199,11 +199,36 @@ public class SmallLeaderController extends BaseController {
 					
 					for (int i = 0; i < list.size(); i++) {
 						BudgetMysql bm = list.get(i);
-						bm.setZysje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getZysje()))));
-						bm.setZsjje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getZsjje()))));
-						bm.setWqhtzje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getWqhtzje()))));
-						bm.setHanaMoney(String.format("%.2f", Double.valueOf(String.valueOf(bm.getHanaMoney()))));
-						bm.setWbkzje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getWbkzje()))));
+						if (bm.getZysje() == null || bm.getZysje().toString().equals("null") || bm.getZysje().toString().equals("")) {
+							bm.setZysje(String.format("%.2f", 0d));
+						} else {
+							bm.setZysje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getZysje()))));
+						}
+						
+						if (bm.getZsjje() == null || bm.getZsjje().toString().equals("null") || bm.getZsjje().toString().equals("")) {
+							bm.setZsjje(String.format("%.2f", 0d));
+						} else {
+							bm.setZsjje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getZsjje()))));
+						}
+						
+						if (bm.getWqhtzje() == null || bm.getWqhtzje().toString().equals("null") || bm.getWqhtzje().toString().equals("")) {
+							bm.setWqhtzje(String.format("%.2f", 0d));
+						} else {
+							bm.setWqhtzje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getWqhtzje()))));
+						}
+						
+						if (bm.getHanaMoney() == null || bm.getHanaMoney().toString().equals("null") || bm.getHanaMoney().toString().equals("")) {
+							bm.setHanaMoney(String.format("%.2f", 0d));
+						} else {
+							bm.setHanaMoney(String.format("%.2f", Double.valueOf(String.valueOf(bm.getHanaMoney()))));
+						}
+						
+						if (bm.getWbkzje() == null || bm.getWbkzje().toString().equals("null") || bm.getWbkzje().toString().equals("")) {
+							bm.setWbkzje(String.format("%.2f", 0d));
+						} else {
+							bm.setWbkzje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getWbkzje()))));
+						}
+						
 					}
 					pageResult.setData(list);
 					pageResult.setCode(0);
