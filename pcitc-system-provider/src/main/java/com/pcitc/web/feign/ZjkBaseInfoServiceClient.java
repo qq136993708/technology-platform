@@ -1,7 +1,9 @@
 package com.pcitc.web.feign;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.expert.ZjkChoiceExample;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,5 +45,11 @@ public interface ZjkBaseInfoServiceClient {
     //专家信息统计
     @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page-count-job")
     public LayuiTableData selectZjkBaseInfoByPageCountJob();
+
+    //查询被选中专家数据
+    @RequestMapping(value = "/zjkchoice-provider/zjkchoice/selectByExample", method = RequestMethod.POST)
+    public JSONObject selectByExample(@RequestBody JSONObject jsonObject);
+
+
 }
 

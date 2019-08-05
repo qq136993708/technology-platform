@@ -602,7 +602,9 @@ public class OutProjectPlanClient {
 				Map<String, Object> ysMoney = (Map<String, Object>) ysMoneyList.get(k);
 				for (int j = 0; j < actMoneyList.size(); j++) {
 					Map<String, Object> actMoney = (Map<String, Object>) actMoneyList.get(j);
-					if (ysMoney.get("show_ali") != null && actMoney.get("type_flag") != null && ysMoney.get("show_ali").toString().equals(actMoney.get("type_flag").toString())) {
+					if(actMoney!=null)
+					{
+					  if (ysMoney.get("show_ali") != null && actMoney.get("type_flag") != null && ysMoney.get("show_ali").toString().equals(actMoney.get("type_flag").toString())) {
 						ysMoney.put("budgetItemName", ysMoney.get("show_ali"));
 
 						// 费用性实际、费用性预算、费用性比率
@@ -634,6 +636,7 @@ public class OutProjectPlanClient {
 
 						System.out.println(ysMoney.get("show_ali") + "====ysMoney.get()-----------" + ysMoney.get("zsjje"));
 						break;
+					}
 					}
 				}
 			}

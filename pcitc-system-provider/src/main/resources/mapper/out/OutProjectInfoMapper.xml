@@ -1833,6 +1833,10 @@
         <if test="xmid != null">
             and find_in_set(out_project_info.xmid,'${xmid}')
         </if>
+        <if test="define19 == '1'.toString()">
+            <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+            <include refid="dataFilterCondition" />
+        </if>
         group by xmid
         order by  nd desc,define10
     </select>
@@ -3396,7 +3400,7 @@
 			   substr(out_project_info.type_flag FROM 4) as type_flag,
 			   GROUP_CONCAT(DISTINCT out_project_info.xmmc) as xmmc,
 			   GROUP_CONCAT(DISTINCT out_project_info.ysnd) as ysnd,
-			   IFNULL(out_project_info.jf,0) as jf,
+			   GROUP_CONCAT(DISTINCT out_project_info.jf) as jf,
 			   IFNULL(sum(out_project_info.ysje),0) as ysje,
 			   IFNULL(sum(out_project_info.yszbxje),0) as yszbxje,
 			   IFNULL(sum(out_project_info.ysfyxje),0) as ysfyxje,
