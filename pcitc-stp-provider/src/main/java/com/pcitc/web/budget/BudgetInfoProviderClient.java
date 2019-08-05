@@ -1,8 +1,11 @@
 package com.pcitc.web.budget;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -17,13 +20,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
+import com.pcitc.base.common.enums.BudgetOrganEnum;
+import com.pcitc.base.common.enums.BudgetOrganNdEnum;
+import com.pcitc.base.common.enums.BudgetStockEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -381,5 +389,71 @@ public class BudgetInfoProviderClient
 			e.printStackTrace();
 		}
 		return data;
+	}
+	
+	@ApiOperation(value="预算管理-按处部门获取结转预算",notes="股份公司结转")
+	@RequestMapping(value = "/stp-provider/budget/budget-jz-jtgs", method = RequestMethod.POST)
+	public Object selectBudgetJzList(@RequestBody LayuiTableParam param) 
+	{
+		Map<String,Map<String,Object>> rsdata = new HashMap<String,Map<String,Object>>();
+		try
+		{
+			String nd = (String)param.getParam().get("nd");
+			OutProjectInfo example = new OutProjectInfo();
+			example.setNd(nd);
+			example.setYsnd(nd);
+			example.setDefine11("A股份公司");
+			
+			List<OutProjectInfo> rs= systemRemoteClient.selectProjectInfoJz(example);
+			System.out.println(JSON.toJSONString(rs));
+			List<BudgetOrganEnum> organs = BudgetOrganNdEnum.getByNd(nd).getOrgans();
+			List<BudgetStockEnum> stocks = Arrays.asList(BudgetStockEnum.values());
+			
+			for(BudgetOrganEnum org:organs) 
+			{
+				Map<String,Object> map = new HashMap<String,Object>();
+				for(BudgetStockEnum stock:stocks) 
+				{
+					List<OutProjectInfo> infos = new ArrayList<OutProjectInfo>();
+					String [] pcodes = stock.getProjectCode().split(",");
+					for(String pcode:pcodes) 
+					{
+						List<OutProjectInfo> list = rs.stream()
+								.filter(a -> a.getDefine10().startsWith(org.getProjectCode()))
+								.filter(a -> a.getDefine2().startsWith(pcode))
+								.collect(Collectors.toList());
+						if(list != null && list.size()>0) {
+							infos.addAll(list);
+						}
+					}
+					Double ysje = 0d;
+					for(OutProjectInfo info:infos) {
+						ysje += StringUtils.isBlank(info.getYsje())?0d:new Double(info.getYsje());
+					}
+					map.put(stock.getCode()+"_jz", ysje);
+				}
+				rsdata.put(org.getCode(),map);
+			}
+			//organCode: "KTKFC"
+			
+			/*gsbbmc	zycmc		define10		type_flag	define2			jf		ysje
+			科技部		化工处		106化工处			B00集团公司	B0000集团公司		1200	410
+			科技部		材料处		107材料处			B00集团公司	B0000集团公司		3900	480
+			科技部		油田处		102油田处			B00集团公司	B0000集团公司		26350	6500
+			科技部		综合计划处		101综合计划处		B00集团公司	B0000集团公司		8060	2680
+			科技部		装备与储运处	108装备与储运处	B00集团公司	B0000集团公司		3440	1290
+			
+			科技部		三剂处		110三剂处			A01直属研究院	A0103工程院		1001	0
+			科技部		三剂处		110三剂处			A01直属研究院	A0104石科院		1001	0
+			科技部		三剂处		110三剂处			A01直属研究院	A0106北化院		1001	0
+			科技部		三剂处		110三剂处			A02分子公司	A0201分子公司-油田	2530	409
+
+			 */
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rsdata;
 	}
 }
