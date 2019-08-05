@@ -3664,7 +3664,11 @@
       SELECT count(*) FROM out_project_info t <include refid="selectTenDragonsCondition"/>
     </select>
   
-  
+   
+  <delete id="deleteOutProjectInfoByXmid" parameterType="java.lang.String" >
+    delete from out_project_info
+    where xmid = #{xmid,jdbcType=VARCHAR}
+  </delete>
   
 	
 	
