@@ -132,7 +132,7 @@ public class SystemHystric implements SystemRemoteClient {
 	}
 
 	@Override
-	public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo example) {
+	public List<OutProjectInfo> selectProjectInfoJzItems(OutProjectInfo example) {
 		throw new RuntimeException("调用失败.");
 	}
 

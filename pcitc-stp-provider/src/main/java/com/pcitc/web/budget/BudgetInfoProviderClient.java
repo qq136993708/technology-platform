@@ -30,6 +30,7 @@ import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetOrganEnum;
 import com.pcitc.base.common.enums.BudgetOrganNdEnum;
 import com.pcitc.base.common.enums.BudgetStockEnum;
+import com.pcitc.base.common.enums.BudgetStockNdEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.system.SysFunction;
@@ -437,7 +438,42 @@ public class BudgetInfoProviderClient
 		}
 		return rsdata;
 	}
-	
-	
-	
+	@ApiOperation(value="预算管理-总结转数",notes="股份公司结转")
+	@RequestMapping(value = "/stp-provider/budget/budget-stock-total-jz", method = RequestMethod.POST)
+	public Object selectBudgetStockTotalJz(@RequestBody LayuiTableParam param) 
+	{
+		Map<String,Object> map = new HashMap<String,Object>();
+		try
+		{
+			String nd = (String)param.getParam().get("nd");
+			List<OutProjectInfo> rs= budgetInfoService.selectProjectInfoJz(nd, BudgetForwardTypeEnum.TYPE_STOCK);
+			
+			//按年度获取预算项目
+			List<BudgetStockEnum> stocks = BudgetStockNdEnum.getStockTotalTypes(nd).getSplits();
+			for(BudgetStockEnum stock:stocks) 
+			{
+				List<OutProjectInfo> infos = new ArrayList<OutProjectInfo>();
+				String [] pcodes = stock.getProjectCode().split(",");
+				for(String pcode:pcodes) 
+				{
+					List<OutProjectInfo> list = rs.stream()
+							.filter(a -> a.getDefine2().startsWith(pcode))
+							.collect(Collectors.toList());
+					if(list != null && list.size()>0) {
+						infos.addAll(list);
+					}
+				}
+				Double ysje = 0d;
+				for(OutProjectInfo info:infos) {
+					ysje += StringUtils.isBlank(info.getYsje())?0d:new Double(info.getYsje());
+				}
+				map.put(stock.getCode(), ysje);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return map;
+	}
 }
