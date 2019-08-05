@@ -90,7 +90,7 @@
             line-height: 38px !important;
             font-size: 16px !important;
         }
-
+        .layui-form-label{text-align: left !important;text-indent: .5em;}
         .formBox .layui-row {
             background-color: #F7F8FC;
             padding: 10px 0;
@@ -107,8 +107,8 @@
 </head>
 <body>
 <div class="top">
-    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-this" onclick="index_page('/plan/my/goEditPlanDetailIndex_cl?dataId=${dataId}')">任务处理</button>
-    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_xf?dataId=${dataId}')">任务下发</button>
+    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-this" onclick="index_page('/plan/my/goEditPlanDetailIndex_cl?dataId=${dataId}','1')">任务处理</button>
+    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_xf?dataId=${dataId}','2')">任务下发</button>
     <!--<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg" onclick="index_page('/plan/my/goEditPlanDetailIndex_zf?dataId=${dataId}')">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转发&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>-->
     <script>
 
@@ -141,7 +141,7 @@
                     </div>
                     <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">
+                            <label class="layui-form-label" style="width: 110px !important;">
                                 任务发起日期:
                             </label>
                             <div class="layui-input-block">
@@ -154,7 +154,7 @@
                     <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
                             <label class="layui-form-label">
-                                发起人:
+                                发&nbsp;起&nbsp;&nbsp;人:
                             </label>
                             <div class="layui-input-block">
                                 <span id="createUserName"></span>
@@ -164,7 +164,7 @@
                     <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
                             <label class="layui-form-label">
-                                重要程度:
+                                重&nbsp;&nbsp;要&nbsp;&nbsp;程&nbsp;&nbsp;度:
                             </label>
                             <div class="layui-input-block">
                                 <span id="workOrderType"></span>
@@ -471,19 +471,25 @@
                 title: '工作事项内容',
                 event: 'setActive',
                 style: 'cursor: pointer;',
-            }, {
+            }
+                , {
+                    field : 'bak8',
+                    title : '描述',
+                    style : 'cursor: pointer;',
+                }, {
                 field: 'workOrderAllotUserName',
                 title: '当前处理人',
                 event: 'setActive',
                 style: 'cursor: pointer;',
                 width: 120
-            }, {
-                field: 'jsId',
-                title: '实际处理人',
-                event: 'setActive',
-                style: 'cursor: pointer;',
-                width: 120
             },
+            //     {
+            //     field: 'jsId',
+            //     title: '实际处理人',
+            //     event: 'setActive',
+            //     style: 'cursor: pointer;',
+            //     width: 120
+            // },
                 //    {
                 // 	field : 'announcements',
                 // 	title : '任务总占比(%)',
@@ -514,8 +520,8 @@
             }
         });
 
-        function index_page(url) {
-            if (xf_flag>0&&bak7==0){
+        function index_page(url,flag) {
+            if (xf_flag>0&&bak7==0&&flag==2){
                 layer.msg("任务不能重复下发");
             } else {
                 window.location.href = url;

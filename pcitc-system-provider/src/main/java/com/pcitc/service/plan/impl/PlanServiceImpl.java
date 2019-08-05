@@ -660,7 +660,7 @@ public class PlanServiceImpl implements PlanService {
                     if (!StrUtil.isNullEmpty(base.getBak6())||StrUtil.isNullEmpty(base.getParentId())){
                         records.get(i).setBak4("(分发)");
                     }
-                    String showName = base.getWorkOrderAllotUserName()+"正在处理子任务:"+base.getWorkOrderName()+",目前已完成"+(StrUtil.isNullEmpty(base.getBl())?"0":base.getBl());
+                    String showName = base.getWorkOrderAllotUserName()+"正在处理子任务:"+base.getWorkOrderName()+",目前已完成"+(StrUtil.isNullEmpty(base.getBl())?"0":base.getBl())+"%";
                     records.get(i).setWorkOrderName(showName);
                 }
             }
@@ -810,7 +810,7 @@ public class PlanServiceImpl implements PlanService {
                     //更新
                     BigDecimal bigDecimal = new BigDecimal(bl_parent / length).setScale(2, BigDecimal.ROUND_HALF_UP);
 
-                    String bl = bigDecimal.doubleValue()>100?"100":(bigDecimal.doubleValue()+"");
+                    String bl = bigDecimal.intValue()>100?"100":(bigDecimal.intValue()+"");
 
                     PlanBase pb = planBaseMapper.selectByPrimaryKey(treeNode.getId());
                     pb.setBl(bl);

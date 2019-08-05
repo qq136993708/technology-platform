@@ -35,6 +35,8 @@
 		.layui-table-none {
 			padding: 0 !important;
 		}
+
+		.layui-form-label{text-align: left !important;text-indent: .5em;}
 		.tableToolBox{    height: 34px !important;
 			line-height: 34px !important;;
 			background: rgba(150,206,251,.3) !important;;
@@ -56,6 +58,7 @@
 		.formBox .layui-row{background-color: #F7F8FC;padding: 10px 0;}
 		.formBox .layui-row:nth-child(2n){background-color: #fff;}
 		.tableBtns a{padding: 0 10px;}
+		.must-fill{right: 18px !important;}
 	</style>
 </head>
 <body>
@@ -99,7 +102,7 @@
 					</div>
 					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
-							<label class="layui-form-label">任务发起时间:</label>
+							<label class="layui-form-label" style="width: 110px !important;">任务发起时间:</label>
 							<div class="layui-input-block">
 								<span id="createDate"></span>
 							</div>
@@ -110,7 +113,7 @@
 					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
 							<label class="layui-form-label">
-								发起人:
+								发&nbsp;起&nbsp;&nbsp;人:
 							</label>
 							<div class="layui-input-block">
 								<span id="workOrderAllotUserName"></span>
@@ -120,7 +123,7 @@
 					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
 							<label class="layui-form-label">
-								重要程度:
+								重&nbsp;&nbsp;要&nbsp;&nbsp;程&nbsp;&nbsp;度:
 							</label>
 							<div class="layui-input-block">
 								<span id="workOrderType"></span>
@@ -133,8 +136,7 @@
 					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">
-								下发人员:
-								<span class="must-fill">*</span>
+								下发人员<span class="must-fill">*</span>&nbsp;&nbsp;&nbsp;:
 							</label>
 							<div class="layui-input-block"  style="margin-left: 125px !important;">
 								<input class="layui-input" name="bak4" id="bak4" placeholder="请选择下发人员" readOnly="true" autocomplete="off" type="text">
@@ -241,11 +243,19 @@
             if(!$(matterLength).find("td").attr("data-off")==1){
                 $(matterLength).each(function() {
                     var sthTrObj = {};
-                    sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
-                    sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
-                    sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
-                    // sthTrObj.announcements = $(this).find("td").eq(5).find("input").val();
+                    if($(this).find("td").eq(2).find("input").length>0){
+                        sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
+                        sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
+                        sthTrObj.bak8 = $(this).find("td").eq(4).find("input").val();
+                        sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+                        sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
+                    }else {
+                        sthTrObj.dataId = $(this).find("td").eq(2).text();
+                        sthTrObj.workOrderName = $(this).find("td").eq(3).text();
+                        sthTrObj.bak8 = $(this).find("td").eq(4).text();
+                        sthTrObj.workOrderAllotUserName = $(this).find(" dl dd.layui-this").html();
+                        sthTrObj.workOrderAllotUserId = $(this).find(" dl dd.layui-this").attr("lay-value");
+                    }
                     sthTrArr.push(sthTrObj);
                 });
             }
@@ -378,6 +388,12 @@
                 style : 'cursor: pointer;',
                 edit : true
             }, {
+                field : 'bak8',
+                title : '描述',
+                event : 'setActive',
+                style : 'cursor: pointer;',
+                edit : true
+            }, {
                 field : 'workOrderAllotUserName',
                 title : '工作处理人',
                 event : 'setActive',
@@ -434,16 +450,19 @@
             }
             var trParam = {
                 "id" : "matterTableDiv",
-                "number" : 5,
+                "number" : 6,
                 "specialElement" : [ {
                     hide : true,
                     "column" : 2,
                     "element" : "input"
                 }, {
-                    "column" : 4,
+                    "column" : 5,
                     "element" : "select",
                     "value" : $("#bak4").val(),
                     "valueId" : $("#bak6").val()
+                }, {
+                    "column" : 4,
+                    "element" : "input"
                 }
                 // , {
                 //     hide : true,
