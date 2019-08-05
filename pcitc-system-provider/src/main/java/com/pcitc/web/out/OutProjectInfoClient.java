@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1155,9 +1154,9 @@ public class OutProjectInfoClient {
 		return outProjectService.selectProjectUnit(example);
 	}
 	@ApiOperation(value = "检索结转项目", notes = "根据年度检索结转项目列表")
-	@RequestMapping(value = "/out-provider/select-project-bynd", method = RequestMethod.POST)
-	public List<OutProjectInfo> selectProjectInfoByNd(@RequestBody OutProjectInfo example) {
-		return outProjectService.selectProjectInfoByNd(example);
+	@RequestMapping(value = "/out-provider/select-project-jz-items", method = RequestMethod.POST)
+	public List<OutProjectInfo> selectProjectInfoJzItems(@RequestBody OutProjectInfo example) {
+		return outProjectService.selectProjectInfoJzItems(example);
 	}
 	@ApiOperation(value = "检索结转金额", notes = "根据年度预算单位、处部门汇总结转金额")
 	@RequestMapping(value = "/out-provider/select-project-jz", method = RequestMethod.POST)
@@ -1186,8 +1185,9 @@ public class OutProjectInfoClient {
 	
 	@RequestMapping(value = "/out-project-provider/ten_dragons/add", method = RequestMethod.POST)
 	public Integer insertOutProjectInfo(@RequestBody OutProjectInfo outProjectInfo) throws Exception{
-		
-		return outProjectService.insertOutProjectInfo(outProjectInfo);
+		logger.info("====================add ten_dragons....========================");
+		Integer count= outProjectService.insertOutProjectInfo(outProjectInfo);
+		return count;
 	}
 	
 	

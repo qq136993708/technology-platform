@@ -15,7 +15,6 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -37,7 +36,6 @@ import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 import com.pcitc.base.stp.out.TfcHotEs;
-import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyEs;
 import com.pcitc.base.util.StrUtil;
@@ -2030,29 +2028,14 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return outProjectInfoMapper.selectProjectUnitByCond(example);
 	}
 
-
-
-
 	@Override
-	public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo example) {
-		return outProjectInfoMapper.selectProjectInfoByNd(example);
+	public List<OutProjectInfo> selectProjectInfoJzItems(OutProjectInfo example) {
+		return outProjectInfoMapper.selectProjectInfoJzItems(example);
 	}
 	@Override
 	public List<OutProjectInfo> selectProjectInfoJz(OutProjectInfo example) {
 		return outProjectInfoMapper.selectProjectInfoJz(example);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public OutProjectInfoWithBLOBs selectOutProjectInfoWithBLOBs(String dataId) throws Exception
 	{
@@ -2063,15 +2046,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	{
 		return outProjectInfoMapper.selectByPrimaryKey(id);
 	}
-	
-	
-	//修改龙项目
+
 	public Integer updateOutProject_Info(OutProjectInfo record)throws Exception
 	{
-		String xmid=record.getXmid();
-		outProjectInfoMapper.deleteOutProjectInfoByXmid(xmid); 
-		
-		
 		return outProjectInfoMapper.updateByPrimaryKey(record);
 	}
 	public Integer updateOutProjectInfoWithBLOBs(OutProjectInfoWithBLOBs record)throws Exception
@@ -2084,39 +2061,10 @@ public class OutProjectServiceImpl implements OutProjectService {
 	{
 		return outProjectInfoMapper.deleteByPrimaryKey(id);
 	}
-	 public int deleteOutProjectInfoByXmid(String xmid)throws Exception
-	 {
-		 return outProjectInfoMapper.deleteOutProjectInfoByXmid(xmid);
-	 }
-	 
-    //保存龙项目
-	public Integer insertOutProjectInfo(OutProjectInfo outProjectInfo)throws Exception
+
+	public Integer insertOutProjectInfo(OutProjectInfo record)throws Exception
 	{
-		
-		String fzdwStr= outProjectInfo.getFzdwStr();
-		logger.info("====================  add ten_dragons ========================fzdwStr: "+fzdwStr);
-		String xmId=outProjectInfo.getXmid();
-		String arr[]=fzdwStr.split("\\|");
-		Integer count=0;
-		if(arr!=null && arr.length>0)
-		{
-			for(int i=0;i<arr.length;i++)
-			{
-				String lineStr=arr[i];
-				String array[]=lineStr.split("#");
-				String fzdw=array[0];
-				String define6=array[1];
-				
-				OutProjectInfo projectInfo=new OutProjectInfo();
-				BeanUtils.copyProperties(projectInfo, outProjectInfo);
-				String dataId = UUID.randomUUID().toString().replaceAll("-", "");
-				projectInfo.setDataId(dataId);
-				projectInfo.setFzdw(fzdw);
-				projectInfo.setDefine6(define6);
-				count= outProjectInfoMapper.insertOutProjectInfo(projectInfo);
-			}
-		}
-		return count;
+		return outProjectInfoMapper.insertOutProjectInfo(record);
 	}
 	
 	
@@ -2165,20 +2113,6 @@ public class OutProjectServiceImpl implements OutProjectService {
 		
 		
 		List<OutProjectInfo> list = outProjectInfoMapper.getTenDragonsList(map);
-		for(int i=0;i<list.size();i++)
-		{
-			OutProjectInfo outProjectInfo=(OutProjectInfo)list.get(i);
-			outProjectInfo.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
-			outProjectInfo.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
-			outProjectInfo.setLay_is_open("true");
-			String parentId=outProjectInfo.getParentProjectId();
-			if(parentId==null)
-			{
-				outProjectInfo.setParentProjectId("0");
-			}
-			
-		}
-		
 		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
 		PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
 		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());

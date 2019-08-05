@@ -405,16 +405,13 @@ public interface OutProjectService {
      * @param example
      * @return
      */
-    public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo example);
+    public List<OutProjectInfo> selectProjectInfoJzItems(OutProjectInfo example);
     /**
      * 
      * @param example
      * @return
      */
     public List<OutProjectInfo> selectProjectInfoJz(OutProjectInfo example);
-    
-    
-
     
     
     
@@ -436,9 +433,6 @@ public interface OutProjectService {
 	
 
 	 public OutProjectInfoWithBLOBs selectOutProjectInfoWithBLOBs(String dataId) throws Exception;
-	 
-	 
-	 public int deleteOutProjectInfoByXmid(String xmid)throws Exception;
-	 
-	 
+	
+
 }
