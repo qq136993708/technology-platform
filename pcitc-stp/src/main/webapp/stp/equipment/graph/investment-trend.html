@@ -12,6 +12,11 @@
 
 </head>
 <body>
+<!--<div id="bodyId" <#if isKJBPerson == false || isKJBPerson=='false'>style="display:none"</#if>>-->
+<div class="searchBox" >
+    <input type="text" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
+
+</div>
 <div class="layui-fluid">
     <div class="">
 
@@ -60,13 +65,21 @@
     <script type="text/javascript" src="/stp/hana/common/hana_common.js"></script>
     <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
     <script type="text/javascript">
-
+        var isKJBPerson=$('#isKJBPerson').val();
         var table ;
         layui.use(['table', 'layer'], function () {
             var layer = layui.layer;
              table = layui.table;
+            if(isKJBPerson==true || isKJBPerson=='true')
+            {
+                //初始化图形
+                initEchart();
+                //加载数据
+                myTable();
+            }else{
+                layer.alert('请以科技部的身份操作');
+            }
 
-            myTable();
         })
 
     function initEchart() {
@@ -98,8 +111,6 @@
 
         });
     }
-        //初始化图形
-        initEchart();
 
     </script>
 </body>

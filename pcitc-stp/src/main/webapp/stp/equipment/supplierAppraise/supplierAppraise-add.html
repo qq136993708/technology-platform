@@ -39,6 +39,8 @@
             <input name="id" id="id" value="${sreSupplierAppraise.id}" type="hidden">
             <input name="sreDetailId" id="sreDetailId" value="${sreDetail.id}" type="hidden">
             <input id="supplierAppraise" value="${sreSupplierAppraise.supplierAppraise}" type="hidden">
+            <input id="flag" value="${flag}" type="hidden">
+
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
@@ -102,10 +104,10 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">供应商评价</label>
                 <div class="layui-input-block">
-                    <input type="radio" lay-filter="radioEvent" name="supplierAppraise" value="1" title="优" checked>
-                    <input type="radio" lay-filter="radioEvent" name="supplierAppraise" value="2" title="良">
-                    <input type="radio" lay-filter="radioEvent" name="supplierAppraise" value="3" title="中">
-                    <input type="radio" lay-filter="radioEvent" name="supplierAppraise" value="4" title="差">
+                    <input type="radio"   name="supplierAppraise" value="1" title="优"/>
+                    <input type="radio"   name="supplierAppraise" value="2" title="良"/>
+                    <input type="radio"   name="supplierAppraise" value="3" title="中"/>
+                    <input type="radio"   name="supplierAppraise" value="4" title="差"/>
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
@@ -133,7 +135,7 @@
                 <div class="form-bottom">
                     <div class="form-bottom-btns">
                         <button type="button" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
-                                lay-submit="" lay-filter="sub">保存
+                                lay-submit="" lay-filter="sub" id="sub">保存
                         </button>
                         <button type="button"
                                 class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
@@ -145,6 +147,14 @@
         </form>
     </div>
 </div>
+<script type="text/javascript">
+    $(function(){
+        var flag = $("#flag").val();
+        if(flag=="1"){
+            document.getElementById("sub").style.display = "none";
+        }
+    })
+</script>
 <script>
     var publicMethods;
     var form;
@@ -171,14 +181,9 @@
 
 
         $(function(){
+
             var supplierAppraise = $("#supplierAppraise").val()
-            $('input:radio:first').prop('checked', 'true');
-            /*var supplierAppraiseDefault = $('input[name^="supplierAppraise"]').val()
-            if (supplierAppraiseDefault==supplierAppraise) {
-                alert(1234)
-            }
-            alert($("input[name='supplierAppraise']").val())
-            $("input[name=supplierAppraise][value='"+supplierAppraise+"']").prop("checked","true");*/
+            $("input[name=supplierAppraise][value='"+supplierAppraise+"']").prop("checked", "true");
         })
 
 
@@ -199,7 +204,7 @@
 
         //添加到form.render()之后
         $("#file_div").load('/common/public/uploadlayuiload.html');
-
+        form.render();
         /* 监听提交 */
         form.on('submit(sub)', function (data) {
             var url="/sre-supplierAppraise/save";
