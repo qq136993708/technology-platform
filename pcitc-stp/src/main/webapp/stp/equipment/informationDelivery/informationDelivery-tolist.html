@@ -12,7 +12,7 @@
         .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
         .layui-table-header{display: none;}
         .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
-        .layui-table-body{margin-top: 20px;}
+        .layui-table-body{margin-top: 15px;}
         .layui-table-cell{height: auto;margin-bottom: 10px;}
         p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
             font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
@@ -31,13 +31,14 @@
         .layui-table-none{padding: 0;}
         .layui-table,.layui-table-cell{width: 100% !important;}
         .layui-div-n img{position: relative;right: 24px;width: 20px;top: 0px;}
-        .layui-div-n>span{    background-color: #de111a;border-radius: 5px;height: 14px;line-height: 14px;
+        .layui-div-n>span{    background-color: #de111a;border-radius: 10px;height: 14px;line-height: 14px;
             font-size: 12px;color: white;padding: 0 5px;position: relative;top: -10px;font-family: Arial;
-            text-align: center;right: 32px;}
+            text-align: center;right: 50px;}
         .layui-table-grid-down{display: none;}
     </style>
 </head>
-<body style="padding-top:20px; ">
+<body style="padding-top:20px;">
+<div class="searchBox">
 <input type="hidden" name="parentUnitPathNames" id="parentUnitPathNames" value="${parentUnitPathNames}">
 <input type="hidden" name="unitPathIds" id="unitPathIds" value="${unitPathIds}">
 <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
@@ -147,7 +148,7 @@ function myFunction(){
                         templet:  function (d) {
                             return '<div class="layui-div layui-div-n">' +
                                 '        <a href="javascript:void(0);" onclick="showDetail(\''+d.id+'\')">'+d.informationTitle+'</a>' +
-                                '       <img onclick="showDetail(\''+d.id+'\')"  src="/layuiadmin/layui/images/dianzan.png"><span>2</span>' +
+                                '       <img onclick="sendGood(\''+d.id+'\')"  src="/layuiadmin/layui/images/dianzan.png"><span id="'+ d.id +'">'+d.numberCompliments+'</span>' +
                                 '        <div class="c-row c-gap-top-small">' +
                                 '            <div class="c-span18 c-span-last">' +
                                 '                <p><span>发布类型:'+d.strType+'</span><br/><span>发布人:'+d.informationPublisher+'</span><br/>' +
@@ -196,7 +197,23 @@ function myFunction(){
        	 	renderTable();
         });
        
-        
+    	function sendGood(id){
+    		var good = $("span[id="+id+"]").text()
+    		    $.ajax({
+    	            type : "POST",
+    	            url: "/sre-informationDelivery/informationDeliveryUpforapplication",
+    	            data: {"informationid": id}, 
+    	            traditional : true,
+    	            async : true,   
+    	            dataType:"json",
+    	            success : function(data){
+    	            	layer.alert("点赞成功!");
+    	            	$("span[id="+id+"]").text(data.result);
+    	            }
+    	        });    
+    	    }
+    	window.sendGood = sendGood;
+    	
         function showDetail(id){
         	window.location.href='/sre-informationDelivery/informationDelivery/'+id;
         }
