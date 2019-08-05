@@ -1833,6 +1833,10 @@
         <if test="xmid != null">
             and find_in_set(out_project_info.xmid,'${xmid}')
         </if>
+        <if test="define19 == '1'.toString()">
+            <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+            <include refid="dataFilterCondition" />
+        </if>
         group by xmid
         order by  nd desc,define10
     </select>

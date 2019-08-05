@@ -2,6 +2,8 @@ package com.pcitc.base.stp.out;
 
 import java.beans.Transient;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class OutProjectInfo {
     private String dataId;
@@ -161,6 +163,18 @@ public class OutProjectInfo {
     private String define19;
     
     private String attachmentId;
+
+    @Transient
+    public List<HashMap<String, String>> getZycbmList() {
+        return zycbmList;
+    }
+
+    public void setZycbmList(List<HashMap<String, String>> zycbmList) {
+        this.zycbmList = zycbmList;
+    }
+
+    private List<HashMap<String, String>> zycbmList;
+
     
     
     
