@@ -596,11 +596,10 @@
 				} ] ],
 				isPage : true,
 				parseData : function(res) {
-					merge(res);
 					return res;
 				},
 				done:function(res){
-
+					merge(res);
 				},
 				onClickRow : function(index, o) {
 					console.log(index, o, "单击！");
@@ -764,8 +763,8 @@
 
 					var hth = trArr.eq(mergeIndex).find("td").eq("hth");
 					// 序号列特殊
-					if (columsName[k] == 'realIndex') {
-						if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['hth'] === data[i - 1]['hth'])) { //后一行的值与前一行的值做比较，相同就需要合并
+					if (columsName[k] == 'realIndex' || columsName[k] == 'hth') {
+						if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['hth'] === data[i - 1]['hth']) && (data[i]['parent_id'] === data[i - 1]['parent_id'])) { //后一行的值与前一行的值做比较，相同就需要合并
 							mark += 1;
 							tdPreArr.each(function() {//相同列的第一列增加rowspan属性
 								$(this).attr("rowspan", mark);
@@ -778,7 +777,7 @@
 							mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
 						}
 					} else {
-						if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['xmid'] === data[i - 1]['xmid'])) { //后一行的值与前一行的值做比较，相同就需要合并
+						if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['xmid'] === data[i - 1]['xmid']) && (data[i]['parent_id'] === data[i - 1]['parent_id'])) { //后一行的值与前一行的值做比较，相同就需要合并
 							mark += 1;
 							tdPreArr.each(function() {//相同列的第一列增加rowspan属性
 								$(this).attr("rowspan", mark);
