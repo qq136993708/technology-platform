@@ -199,4 +199,12 @@ public class ForApplicationProviderClient
 			LayuiTableData rageResult=detailService.getDetailLIVRW(param);
 			return rageResult;
 		}
+
+	@ApiOperation(value = "根据ID查询数据", notes = "根据台账ID查询数据")
+	@RequestMapping(value = "/sre-provider/detail/getById/{id}", method = RequestMethod.GET)
+	public SreDetail getById(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get equipmentDetailId id "+id+"===========");
+		SreDetail  sre =  detailService.selectById(id);
+		return sre;
+	}
 }
