@@ -1,8 +1,11 @@
 package com.pcitc.web.budget;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -22,8 +25,13 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetExceptionResultEnum;
+import com.pcitc.base.common.enums.BudgetForwardTypeEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
+import com.pcitc.base.common.enums.BudgetOrganEnum;
+import com.pcitc.base.common.enums.BudgetOrganNdEnum;
+import com.pcitc.base.common.enums.BudgetStockEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -382,4 +390,54 @@ public class BudgetInfoProviderClient
 		}
 		return data;
 	}
+	
+	@ApiOperation(value="预算管理-按处部门获取结转预算",notes="股份公司结转")
+	@RequestMapping(value = "/stp-provider/budget/budget-stock-split-jz", method = RequestMethod.POST)
+	public Object selectBudgetStockSplitJz(@RequestBody LayuiTableParam param) 
+	{
+		Map<String,Map<String,Object>> rsdata = new HashMap<String,Map<String,Object>>();
+		try
+		{
+			String nd = (String)param.getParam().get("nd");
+			List<OutProjectInfo> rs= budgetInfoService.selectProjectInfoJz(nd, BudgetForwardTypeEnum.TYPE_STOCK);
+			
+			
+			List<BudgetOrganEnum> organs = BudgetOrganNdEnum.getByNd(nd).getOrgans();
+			List<BudgetStockEnum> stocks = Arrays.asList(BudgetStockEnum.values());
+			
+			for(BudgetOrganEnum org:organs) 
+			{
+				Map<String,Object> map = new HashMap<String,Object>();
+				for(BudgetStockEnum stock:stocks) 
+				{
+					List<OutProjectInfo> infos = new ArrayList<OutProjectInfo>();
+					String [] pcodes = stock.getProjectCode().split(",");
+					for(String pcode:pcodes) 
+					{
+						List<OutProjectInfo> list = rs.stream()
+								.filter(a -> a.getDefine10().startsWith(org.getProjectCode()))
+								.filter(a -> a.getDefine2().startsWith(pcode))
+								.collect(Collectors.toList());
+						if(list != null && list.size()>0) {
+							infos.addAll(list);
+						}
+					}
+					Double ysje = 0d;
+					for(OutProjectInfo info:infos) {
+						ysje += StringUtils.isBlank(info.getYsje())?0d:new Double(info.getYsje());
+					}
+					map.put(stock.getCode()+"_jz", ysje);
+				}
+				rsdata.put(org.getCode(),map);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rsdata;
+	}
+	
+	
+	
 }

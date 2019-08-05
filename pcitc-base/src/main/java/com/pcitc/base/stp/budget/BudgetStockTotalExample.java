@@ -10,6 +10,10 @@ public class BudgetStockTotalExample {
 
     protected List<Criteria> oredCriteria;
 
+    private Integer limit;
+
+    private Long offset;
+
     public BudgetStockTotalExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
@@ -61,6 +65,22 @@ public class BudgetStockTotalExample {
         oredCriteria.clear();
         orderByClause = null;
         distinct = false;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setOffset(Long offset) {
+        this.offset = offset;
+    }
+
+    public Long getOffset() {
+        return offset;
     }
 
     protected abstract static class GeneratedCriteria {
@@ -665,62 +685,62 @@ public class BudgetStockTotalExample {
         }
 
         public Criteria andNoIsNull() {
-            addCriterion("no is null");
+            addCriterion("`no` is null");
             return (Criteria) this;
         }
 
         public Criteria andNoIsNotNull() {
-            addCriterion("no is not null");
+            addCriterion("`no` is not null");
             return (Criteria) this;
         }
 
         public Criteria andNoEqualTo(Integer value) {
-            addCriterion("no =", value, "no");
+            addCriterion("`no` =", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoNotEqualTo(Integer value) {
-            addCriterion("no <>", value, "no");
+            addCriterion("`no` <>", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoGreaterThan(Integer value) {
-            addCriterion("no >", value, "no");
+            addCriterion("`no` >", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoGreaterThanOrEqualTo(Integer value) {
-            addCriterion("no >=", value, "no");
+            addCriterion("`no` >=", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoLessThan(Integer value) {
-            addCriterion("no <", value, "no");
+            addCriterion("`no` <", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoLessThanOrEqualTo(Integer value) {
-            addCriterion("no <=", value, "no");
+            addCriterion("`no` <=", value, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoIn(List<Integer> values) {
-            addCriterion("no in", values, "no");
+            addCriterion("`no` in", values, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoNotIn(List<Integer> values) {
-            addCriterion("no not in", values, "no");
+            addCriterion("`no` not in", values, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoBetween(Integer value1, Integer value2) {
-            addCriterion("no between", value1, value2, "no");
+            addCriterion("`no` between", value1, value2, "no");
             return (Criteria) this;
         }
 
         public Criteria andNoNotBetween(Integer value1, Integer value2) {
-            addCriterion("no not between", value1, value2, "no");
+            addCriterion("`no` not between", value1, value2, "no");
             return (Criteria) this;
         }
 
@@ -1005,62 +1025,62 @@ public class BudgetStockTotalExample {
         }
 
         public Criteria andLevelIsNull() {
-            addCriterion("level is null");
+            addCriterion("`level` is null");
             return (Criteria) this;
         }
 
         public Criteria andLevelIsNotNull() {
-            addCriterion("level is not null");
+            addCriterion("`level` is not null");
             return (Criteria) this;
         }
 
         public Criteria andLevelEqualTo(Integer value) {
-            addCriterion("level =", value, "level");
+            addCriterion("`level` =", value, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelNotEqualTo(Integer value) {
-            addCriterion("level <>", value, "level");
+            addCriterion("`level` <>", value, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelGreaterThan(Integer value) {
-            addCriterion("level >", value, "level");
+            addCriterion("`level` >", value, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelGreaterThanOrEqualTo(Integer value) {
-            addCriterion("level >=", value, "level");
+            addCriterion("`level` >=", value, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelLessThan(Integer value) {
-            addCriterion("level <", value, "level");
+            addCriterion("`level` <", value, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelLessThanOrEqualTo(Integer value) {
-            addCriterion("level <=", value, "level");
+            addCriterion("`level` <=", value, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelIn(List<Integer> values) {
-            addCriterion("level in", values, "level");
+            addCriterion("`level` in", values, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelNotIn(List<Integer> values) {
-            addCriterion("level not in", values, "level");
+            addCriterion("`level` not in", values, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelBetween(Integer value1, Integer value2) {
-            addCriterion("level between", value1, value2, "level");
+            addCriterion("`level` between", value1, value2, "level");
             return (Criteria) this;
         }
 
         public Criteria andLevelNotBetween(Integer value1, Integer value2) {
-            addCriterion("level not between", value1, value2, "level");
+            addCriterion("`level` not between", value1, value2, "level");
             return (Criteria) this;
         }
 
@@ -1124,6 +1144,126 @@ public class BudgetStockTotalExample {
             return (Criteria) this;
         }
 
+        public Criteria andXmjfZbxJzIsNull() {
+            addCriterion("xmjf_zbx_jz is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxJzIsNotNull() {
+            addCriterion("xmjf_zbx_jz is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxJzEqualTo(Double value) {
+            addCriterion("xmjf_zbx_jz =", value, "xmjfZbxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxJzNotEqualTo(Double value) {
+            addCriterion("xmjf_zbx_jz <>", value, "xmjfZbxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxJzGreaterThan(Double value) {
+            addCriterion("xmjf_zbx_jz >", value, "xmjfZbxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxJzGreaterThanOrEqualTo(Double value) {
+            addCriterion("xmjf_zbx_jz >=", value, "xmjfZbxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxJzLessThan(Double value) {
+            addCriterion("xmjf_zbx_jz <", value, "xmjfZbxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxJzLessThanOrEqualTo(Double value) {
+            addCriterion("xmjf_zbx_jz <=", value, "xmjfZbxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxJzIn(List<Double> values) {
+            addCriterion("xmjf_zbx_jz in", values, "xmjfZbxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxJzNotIn(List<Double> values) {
+            addCriterion("xmjf_zbx_jz not in", values, "xmjfZbxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxJzBetween(Double value1, Double value2) {
+            addCriterion("xmjf_zbx_jz between", value1, value2, "xmjfZbxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxJzNotBetween(Double value1, Double value2) {
+            addCriterion("xmjf_zbx_jz not between", value1, value2, "xmjfZbxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxXqIsNull() {
+            addCriterion("xmjf_zbx_xq is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxXqIsNotNull() {
+            addCriterion("xmjf_zbx_xq is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxXqEqualTo(Double value) {
+            addCriterion("xmjf_zbx_xq =", value, "xmjfZbxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxXqNotEqualTo(Double value) {
+            addCriterion("xmjf_zbx_xq <>", value, "xmjfZbxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxXqGreaterThan(Double value) {
+            addCriterion("xmjf_zbx_xq >", value, "xmjfZbxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxXqGreaterThanOrEqualTo(Double value) {
+            addCriterion("xmjf_zbx_xq >=", value, "xmjfZbxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxXqLessThan(Double value) {
+            addCriterion("xmjf_zbx_xq <", value, "xmjfZbxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxXqLessThanOrEqualTo(Double value) {
+            addCriterion("xmjf_zbx_xq <=", value, "xmjfZbxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxXqIn(List<Double> values) {
+            addCriterion("xmjf_zbx_xq in", values, "xmjfZbxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxXqNotIn(List<Double> values) {
+            addCriterion("xmjf_zbx_xq not in", values, "xmjfZbxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxXqBetween(Double value1, Double value2) {
+            addCriterion("xmjf_zbx_xq between", value1, value2, "xmjfZbxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfZbxXqNotBetween(Double value1, Double value2) {
+            addCriterion("xmjf_zbx_xq not between", value1, value2, "xmjfZbxXq");
+            return (Criteria) this;
+        }
+
         public Criteria andXmjfFyxIsNull() {
             addCriterion("xmjf_fyx is null");
             return (Criteria) this;
@@ -1181,6 +1321,126 @@ public class BudgetStockTotalExample {
 
         public Criteria andXmjfFyxNotBetween(Double value1, Double value2) {
             addCriterion("xmjf_fyx not between", value1, value2, "xmjfFyx");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxJzIsNull() {
+            addCriterion("xmjf_fyx_jz is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxJzIsNotNull() {
+            addCriterion("xmjf_fyx_jz is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxJzEqualTo(Double value) {
+            addCriterion("xmjf_fyx_jz =", value, "xmjfFyxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxJzNotEqualTo(Double value) {
+            addCriterion("xmjf_fyx_jz <>", value, "xmjfFyxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxJzGreaterThan(Double value) {
+            addCriterion("xmjf_fyx_jz >", value, "xmjfFyxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxJzGreaterThanOrEqualTo(Double value) {
+            addCriterion("xmjf_fyx_jz >=", value, "xmjfFyxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxJzLessThan(Double value) {
+            addCriterion("xmjf_fyx_jz <", value, "xmjfFyxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxJzLessThanOrEqualTo(Double value) {
+            addCriterion("xmjf_fyx_jz <=", value, "xmjfFyxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxJzIn(List<Double> values) {
+            addCriterion("xmjf_fyx_jz in", values, "xmjfFyxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxJzNotIn(List<Double> values) {
+            addCriterion("xmjf_fyx_jz not in", values, "xmjfFyxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxJzBetween(Double value1, Double value2) {
+            addCriterion("xmjf_fyx_jz between", value1, value2, "xmjfFyxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxJzNotBetween(Double value1, Double value2) {
+            addCriterion("xmjf_fyx_jz not between", value1, value2, "xmjfFyxJz");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxXqIsNull() {
+            addCriterion("xmjf_fyx_xq is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxXqIsNotNull() {
+            addCriterion("xmjf_fyx_xq is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxXqEqualTo(Double value) {
+            addCriterion("xmjf_fyx_xq =", value, "xmjfFyxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxXqNotEqualTo(Double value) {
+            addCriterion("xmjf_fyx_xq <>", value, "xmjfFyxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxXqGreaterThan(Double value) {
+            addCriterion("xmjf_fyx_xq >", value, "xmjfFyxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxXqGreaterThanOrEqualTo(Double value) {
+            addCriterion("xmjf_fyx_xq >=", value, "xmjfFyxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxXqLessThan(Double value) {
+            addCriterion("xmjf_fyx_xq <", value, "xmjfFyxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxXqLessThanOrEqualTo(Double value) {
+            addCriterion("xmjf_fyx_xq <=", value, "xmjfFyxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxXqIn(List<Double> values) {
+            addCriterion("xmjf_fyx_xq in", values, "xmjfFyxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxXqNotIn(List<Double> values) {
+            addCriterion("xmjf_fyx_xq not in", values, "xmjfFyxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxXqBetween(Double value1, Double value2) {
+            addCriterion("xmjf_fyx_xq between", value1, value2, "xmjfFyxXq");
+            return (Criteria) this;
+        }
+
+        public Criteria andXmjfFyxXqNotBetween(Double value1, Double value2) {
+            addCriterion("xmjf_fyx_xq not between", value1, value2, "xmjfFyxXq");
             return (Criteria) this;
         }
 
@@ -1825,6 +2085,8 @@ public class BudgetStockTotalExample {
         }
     }
 
+    /**
+     */
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {

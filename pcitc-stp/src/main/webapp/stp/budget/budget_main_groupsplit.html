@@ -192,6 +192,7 @@
             		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
             		publicMethods.ajaxAsyncPost("/budget/budget-groupsplit-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	layer.close(lodingMsg);
+	                	console.log(data);
             			curent_tabel_data = data.data;
 	                	reloadTable('dataTable',data.data);
 	                	renderfunc();

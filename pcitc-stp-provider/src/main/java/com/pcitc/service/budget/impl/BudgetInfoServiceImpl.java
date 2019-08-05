@@ -25,6 +25,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetForwardTypeEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.common.enums.BudgetOrganEnum;
 import com.pcitc.base.common.enums.BudgetOrganNdEnum;
@@ -39,6 +40,7 @@ import com.pcitc.base.stp.budget.BudgetMoneyTotal;
 import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.stp.budget.BudgetSplitDataExample;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.DateUtils;
@@ -863,6 +865,28 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		return newdatas;
 	}
 
-	
-	
+	@Override
+	public List<OutProjectInfo> selectProjectInfoJz(String nd, BudgetForwardTypeEnum type) {
+		//organCode: "KTKFC"
+		
+		/*gsbbmc	zycmc		define10		type_flag	define2			jf		ysje
+		科技部		化工处		106化工处			B00集团公司	B0000集团公司		1200	410
+		科技部		材料处		107材料处			B00集团公司	B0000集团公司		3900	480
+		科技部		油田处		102油田处			B00集团公司	B0000集团公司		26350	6500
+		科技部		综合计划处		101综合计划处		B00集团公司	B0000集团公司		8060	2680
+		科技部		装备与储运处	108装备与储运处	B00集团公司	B0000集团公司		3440	1290
+		
+		科技部		三剂处		110三剂处			A01直属研究院	A0103工程院		1001	0
+		科技部		三剂处		110三剂处			A01直属研究院	A0104石科院		1001	0
+		科技部		三剂处		110三剂处			A01直属研究院	A0106北化院		1001	0
+		科技部		三剂处		110三剂处			A02分子公司	A0201分子公司-油田	2530	409
+
+		 */
+		OutProjectInfo example = new OutProjectInfo();
+		example.setNd(nd);
+		example.setYsnd(nd);
+		example.setDefine11(type.getName());
+		
+		return systemRemoteClient.selectProjectInfoJz(example);
+	}
 }
