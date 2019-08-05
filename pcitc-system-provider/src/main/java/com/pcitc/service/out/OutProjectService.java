@@ -409,5 +409,10 @@ public interface OutProjectService {
 	
 
 	 public OutProjectInfoWithBLOBs selectOutProjectInfoWithBLOBs(String dataId) throws Exception;
+	 
+	 
+	 public int deleteOutProjectInfoByXmid(String xmid)throws Exception;
+	 
+	 
 	
 }

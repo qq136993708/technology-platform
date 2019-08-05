@@ -333,6 +333,8 @@ public interface OutProjectInfoMapper {
 	
 	List getTenDragonsList(Map map);
 	int getTenDragonsCount(Map map);
-	    
+	
+	 int deleteOutProjectInfoByXmid(String xmid);
+	
 
 }

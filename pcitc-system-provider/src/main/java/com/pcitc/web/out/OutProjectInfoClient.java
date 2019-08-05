@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1163,9 +1164,8 @@ public class OutProjectInfoClient {
 	
 	@RequestMapping(value = "/out-project-provider/ten_dragons/add", method = RequestMethod.POST)
 	public Integer insertOutProjectInfo(@RequestBody OutProjectInfo outProjectInfo) throws Exception{
-		logger.info("====================add ten_dragons....========================");
-		Integer count= outProjectService.insertOutProjectInfo(outProjectInfo);
-		return count;
+		
+		return outProjectService.insertOutProjectInfo(outProjectInfo);
 	}
 	
 	

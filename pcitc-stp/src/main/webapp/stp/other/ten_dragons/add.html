@@ -19,8 +19,6 @@
 </head>
 <body>
 <div class="layer-box">
-    <!--<input type="hidden" name="meetingDoc" id="meetingDoc" value="${meetingDoc}">-->
-    <!--<form id="planForm" class="layui-form" action="" lay-filter="component-form-group layui-container"></form>-->
     <div class="formBox">
         <div class="tableToolBox">
             <div class="tableBtns">
@@ -29,56 +27,104 @@
             </div>
         </div>
         <div class="box-body">
-            <form class="layui-form" name="form1" id="form1" action="" method="POST"
-                  lay-filter="component-form-group layui-container">
-                <input type="hidden" name="meetingId" id="meetingId" value="${sreTechMeeting.meetingId}">
-                <input type="hidden" name="meetingDoc" id="meetingDoc" value="${meetingDoc}">
+            <form class="layui-form" name="form1"        id="form1"  action="" method="POST" lay-filter="component-form-group layui-container">
+                <input type="hidden" name="dataId"       id="dataId"           value="${outProjectInfo.dataId}">
+                <input type="hidden" name="define18"     id="define18"         value="${define18}">
+                <input type="hidden" name="zycmc"        id="zycmc"            value="${outProjectInfo.zycmc}">
+                <input type="hidden" name="fzdwStr"       id="fzdwStr"           value="${fzdwStr}">
+                
+                
+                
+                
+                
+                
+                 <div class="layui-row">
+	                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+	                    <div class="layui-form-item">
+	                        <label for="" class="layui-form-label">立项年度<span class="must-fill">*</span></label>
+	                        <div class="layui-input-block">
+	                            <input class="layui-input " name="nd" placeholder="yyyy"  style="cursor:pointer"  id="nd"    readonly="readonly" 
+	                                   value="${nd}"    lay-verify="required" autocomplete="off" type="text">
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+	                    <div class="layui-form-item">
+	                        <label for="" class="layui-form-label">预算年度<span class="must-fill">*</span></label>
+	                        <div class="layui-input-block">
+	                            <input class="layui-input " name="ysnd" id="ysnd" placeholder="yyyy"   style="cursor:pointer"  readonly="readonly"
+	                                   value="${outProjectInfo.ysnd}"  lay-verify="required" autocomplete="off" type="text">
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            
+                <div class="layui-form-item">
+                    <label class="layui-form-label">项目名称<span class="must-fill">*</span></label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" id="xmmc" name="xmmc" lay-verify="required"
+                               value="${outProjectInfo.xmmc}" type="text">
+                    </div>
+                </div>
+	            
+	            
+	             <div class="layui-row">
+	                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+	                    <div class="layui-form-item">
+	                        <label for="" class="layui-form-label">专业处<span class="must-fill">*</span></label>
+	                        <div class="layui-input-block">
+	                           <select name="zycbm" id="zycbm"    style="width:200px" >
+                                      <option value="" >--请选择--</option>
+						              <#list zycmcList as vo> 
+								          <option value="${vo.numValue}" <#if vo.numValue == outProjectInfo.zycbm> selected="selected"  </#if>>${vo.name}</option>
+								      </#list>
+                              </select>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+	                    <div class="layui-form-item">
+	                       <label class="layui-form-label">合同号</label>
+			                      <div class="layui-input-block">
+			                        <input class="layui-input" id="hth" name="hth" 
+			                               value="${outProjectInfo.hth}" type="text">
+			                    </div>
+	                        
+	                    </div>
+	                </div>
+	              </div>
+	              
+	              
+	              
+	              
+	              <div class="layui-form-item">
+                <label class="layui-form-label">单位</label>
+                <div class="layui-input-block">
+                    <div class="tableBox" id="fzdw_str">
+                        <div class="tableToolBox">
+                            <div class="tableBtns">
+                                <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                                   id="gysAddEvent">添加</a>
+                            </div>
+                        </div>
+                        <table class="layui-table">
+                            <thead>
+	                            <tr>
+	                                <td width="40%">单位名称</td>
+	                                <td width="40%">单位类别</td>
+	                                <td width="20%" align="center">删除</td>
+	                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
 
-                <div class="layui-form-item">
-                    <label class="layui-form-label">会议主题<span class="must-fill">*</span></label>
-                    <div class="layui-input-block">
-                        <input class="layui-input" id="title" name="title" lay-verify="required"
-                               value="${sreTechMeeting.title}" type="text">
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">会议时间<span class="must-fill">*</span></label>
-                    <div class="layui-input-block">
-                        <input class="layui-input" name="meetingDate" id="meetingDate" readonly="readonly"
-                               value="${(sreTechMeeting.meetingDate?string('yyyy-MM-dd HH:mm:ss'))!}"
-                               lay-verify="datetime"
-                               lay-verify="required" autocomplete="off" type="text">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">会议地点<span class="must-fill">*</span></label>
-                    <div class="layui-input-block">
-                        <input class="layui-input" id="meetingPlace" name="meetingPlace" lay-verify="required"
-                               value="${sreTechMeeting.meetingPlace}" type="text">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">主持人</label>
-                    <div class="layui-input-block">
-                        <input class="layui-input" id="meetingEmcee" name="meetingEmcee"
-                               value="${sreTechMeeting.meetingEmcee}" type="text">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">参会人员</label>
-                    <div class="layui-input-block">
-                        <input class="layui-input" id="joinUsers" name="joinUsers" value="${sreTechMeeting.joinUsers}"
-                               type="text">
-                    </div>
-                </div>
-
-                <div class="layui-form-item">
-                    <label class="layui-form-label">会议内容<span class="must-fill">*</span></label>
-                    <div class="layui-input-block">
-                    <textarea placeholder="请输入会议内容" name="meetingContent" id="meetingContent" lay-verify="required"
-                              class="layui-textarea">${sreTechMeeting.meetingContent}</textarea>
-                    </div>
-                </div>
+            </div>
+            
+            
+	              
+	            
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">附件</label>
@@ -87,7 +133,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">备注</label>
                     <div class="layui-input-block">
-                        <textarea name="remark" id="remark" class="layui-textarea">${sreTechMeeting.remark}</textarea>
+                        <textarea name="define19" id="define19" class="layui-textarea">${outProjectInfo.define19}</textarea>
                     </div>
                 </div>
 
@@ -113,24 +159,27 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript">
     var v_date = (new Date()).getTime();
-    var meetingId = "${meetingId?default('')}";
-    var file_ids = "meetingDoc";
+    var dataId =$("#dataId").val();
+    var nd = "${nd?default('')}";
+    var file_ids = "define18";
     //detail:详情，edit：编辑
     file_edit_detail = "edit";
     //统管理-附件管理-附件配置：页面标识
-    file_opt_flag = "8e538fffc6834548ad8850fc391f903f";
+    file_opt_flag = "9ac8125f912e4d79be71d27b1abdc26b";
 
-
+    
+    var admin;
+    var form;
     layui.config({
         base: 'layuicommon/module/modules/' //静态资源所在路径
     }).extend({
         index: 'layui/tableDemo' //主入口模块
     }).use(['form', 'laydate', 'table', 'layer'], function () {
-        var admin = layui.admin
+    	admin = layui.admin
             , element = layui.element
             , layer = layui.layer
-            , laydate = layui.laydate
-            , form = layui.form;
+            , laydate = layui.laydate;
+            form = layui.form;
         form.render(null, 'component-form-group');
         laydate.render({
             elem: '#LAY-component-form-group-date'
@@ -138,18 +187,22 @@
 
         //日期时间选择器
         laydate.render({
-            elem: '#meetingDate'
-            , type: 'datetime'
+            elem: '#nd',min:nd , type: 'year'
         });
+        
+        laydate.render({
+            elem: '#ysnd',min:nd , type: 'year'
+        });
+        
 
         //添加到form.render()之后
         $("#file_div").load('/common/public/uploadlayuiload.html');
 
         /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
         form.verify({
-            meetingPlace: function (value) {
+        	xmmc: function (value) {
                 if (value.length < 5) {
-                    return '地点至少得5个字符啊';
+                    return '至少得5个字符啊';
                 }
             }
         });
@@ -159,6 +212,33 @@
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
         })
+        
+        
+        
+          //意向供应商事件
+        $("#gysAddEvent").click(function () {
+            var n = $("#fzdw_str table tbody tr").length + 1;
+            var tr = "<tr>"+
+                         "<td><input class='layui-input' type='text' id='fzdw"+n+"' name='fzdw"+n+"' style='width:90%' /></td>"+
+                         "<td>" +
+                            "<select name='define6' id='define6"+n+"' style='width:95%;display:block'>"+
+	                            "<option value='' >--请选择--</option>"+
+			                    "<option value='1'>组长单位</option>"+
+			                    "<option value='2'>副组长单位</option>"+
+			                    "<option value='3'>协作单位</option>"+
+			                    "<option value='4'>组员单位</option>"+
+		                    "</select>"+
+                         "</td>" +
+                         "<td align='center'><a href='javascript:;' class='dele'>删除</a></td>"+
+                      "</tr>";
+            addTr("fzdw_str", tr);
+            dele();
+           // formVerify();
+        })
+        
+        
+        
+        
 
         /* 监听提交 */
         form.on('submit(sub)', function (data) {
@@ -166,8 +246,29 @@
             /*parent.layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })*/
-            var url = '/sre-meeting/save?v_date=' + v_date + "&meetingId=" + meetingId;
-            var backurl = "/sre-meeting/to-list?v_date=" + v_date;
+            
+            
+            var zycmc=$("#zycbm").find("option:selected").text();
+            var zycbm=$("#zycbm").val();
+            if(zycbm==null || zycbm=='')
+            {
+            	  layer.alert("请选择专业处");
+            	  return false;
+            }else
+            {
+            	$("#zycmc").val(zycmc);
+            }
+            var fzdwStr = getData("fzdw_str", 2);
+            if(fzdwStr==null || fzdwStr=='')
+           	{
+            	 layer.alert("请选择单位");
+           	     return false;
+           	}
+            $("#fzdwStr").val(fzdwStr);
+            console.log("zycmc :"+zycmc);
+            console.log("fzdwStr单位 :"+fzdwStr);
+            var url = '/ten_dragons/save?v_date=' + v_date + "&dataId=" + dataId;
+            var backurl = "/ten_dragons/list?v_date=" + v_date;
             ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
             return false;
         });
@@ -209,6 +310,99 @@
         });
     }
 
+    
+    
+    
+    /*删除行*/
+    function dele() {
+        $(".dele").click(function () {
+            if ($(this).parents(".layui-row").attr("id") == "fzdw_str") {
+                $(this).parents("tr").remove();
+                $("#fzdw_str table tbody tr").each(function (i, val) {
+                    $(val).find("td:first").text(i + 1)
+                });
+                return;
+            }
+            $(this).parents("tr").remove();
+        });
+    }
+    
+    function formVerify() {
+        form.verify({
+            validateNumber: function (value, item) {
+                if (value <= 0 || value > 2000) {
+                    return '请填写正确的值';
+                }
+            },
+            specialCharacters: function (value, item) {
+
+                if (value.indexOf("#") >= 0 || value.indexOf("|") >= 0) {
+                    return "不能填写#与|两个字符。";
+                }
+            }
+        });
+    }
+    
+    
+    /*添加行*/
+    function addTr(id, tr) {
+        $("#" + id + " table tbody").append(tr);
+    }
+    
+    
+    
+    
+    /*获取值*/
+    function getData(id, number) {
+        /*获取值*/
+        var columnTrL = $("#" + id + " table tbody tr").length;
+        var columnSC = '';
+        $("#" + id + " table tbody tr").each(function (i) {
+            var columnS = '';
+            for (var k = 0; k < number; k++) {
+                var tdElement = $("#" + id + " table tbody tr:eq(" + i + ") td").eq(k);
+                if ($(tdElement).find("input").length > 0) 
+                {
+                    if ($(tdElement).find("input").val() == '') 
+                    {
+                        columnS += " " + "#";
+                    } else 
+                    {
+                        columnS += $(tdElement).find("input").val() + "#";
+                    }
+                }else  if ($(tdElement).find("select").length > 0) 
+                {
+                    if ($(tdElement).find("select").val() == '') 
+                    {
+                        columnS += " " + "#";
+                    } else 
+                    {
+                        columnS += $(tdElement).find("select").val() + "#";
+                    }
+                }
+                	
+                	
+                else if ($(tdElement).find("textarea").length > 0) 
+                {
+                    if ($(tdElement).find("textarea").val() == '')
+                    {
+                        columnS += " " + "#";
+                    } else {
+                        columnS += $(tdElement).find("textarea").val() + "#";
+                    }
+                } else 
+                {
+                    columnS += $(tdElement).html() + "#";
+                }
+            }
+            columnSC += columnS.substring(0, columnS.length - 1) + "|"
+        });
+        columnSC = columnSC.substring(0, columnSC.length - 1);
+        return columnSC;
+    }
+    
+    
+    
     function clearNoNum(obj) {
         obj.value = obj.value.replace(/[^\d.]/g, "");  //清除“数字”和“.”以外的字符
         obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
