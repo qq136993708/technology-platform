@@ -26,6 +26,7 @@
 .layui-laydate-hint {
 	display: none;
 }
+.layui-form-item{height: 40px;overflow: hidden;}
 </style>
 </head>
 <body>
@@ -184,23 +185,22 @@
 							</select>
 						</div>
 					</div>
-
-					<div class="layui-inline">
-						<button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
-							<i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
-						</button>
-					</div>
-
-
-					<div class="layui-inline">
-						<button class="layui-btn layuiadmin-btn-list" data-type="resetEvent">
-							<i class="layui-icon  layuiadmin-button-btn">重置</i>
-						</button>
-					</div>
-
-
+				<button  class="layui-btn layuiadmin-btn-list" id="Open" style="position: absolute;top: 4px;right: 14px; height: 27px;width: 40px;padding: 0;text-align: center;display: block;}">展开</button>
 				</div>
+			<div class="layui-inline" style="margin-left: 48px;">
+				<button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
+					<i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
+				</button>
 			</div>
+
+
+			<div class="layui-inline">
+				<button class="layui-btn layuiadmin-btn-list" data-type="resetEvent">
+					<i class="layui-icon  layuiadmin-button-btn">重置</i>
+				</button>
+			</div>
+			</div>
+
 			<div class="layui-card-body">
 				<table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 			</div>
@@ -247,7 +247,16 @@
 
 			//移除表头的复选框,去掉全选
 			$(".layui-table-header table thead th input").remove();
+			$("#Open").click(function () {
+			    if($(this).html()=="收起"){
+                    $(this).html("展开");
+                    $(".layui-form-item").css("height","40px");
+				}else {
+                    $(this).html("收起");
+                    $(".layui-form-item").css("height","auto");
 
+				}
+            });
 			// 触发不同的按钮事件
 			var $ = layui.$, active = {
 				searchEvent : function() { //点击查询按钮
@@ -589,6 +598,9 @@
 				parseData : function(res) {
 					merge(res);
 					return res;
+				},
+				done:function(res){
+
 				},
 				onClickRow : function(index, o) {
 					console.log(index, o, "单击！");

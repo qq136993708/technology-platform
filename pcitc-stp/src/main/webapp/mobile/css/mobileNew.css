@@ -101,7 +101,7 @@ iframe{width: 100%;height: auto;border: 0;overflow: hidden;}
 .agency-box .number{   font-family: "Impact"; position: absolute;top: 0;left: 66%;font-size: .16rem;width: auto;background: #F3705A;height: .16rem;
 	line-height: .16rem;padding: 2% 4%;border-radius: 6rem;color: #fff;text-align: center;}
 .main-card-body-ul li:nth-child(2) .number{background: #499AED;}
-.main-card-body-ul li:nth-child(2) .number{background: #48BA97;}
+.main-card-body-ul li:nth-child(3) .number{background: #48BA97;}
 .agency-box .text{
 	font-size: .14rem;
 	color: #426570;
