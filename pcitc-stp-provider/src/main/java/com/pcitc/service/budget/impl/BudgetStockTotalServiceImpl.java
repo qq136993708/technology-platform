@@ -283,7 +283,17 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 	}
 	@Override
 	public List<OutUnit> selectStockCompnays() {
-		return systemRemoteClient.selectProjectUnits("ZCGS");
+		//return systemRemoteClient.selectProjectUnits("ZCGS");
+		OutProjectInfo example = new OutProjectInfo();
+		example.setDefine11("A股份公司");
+		List<OutProjectInfo> result = systemRemoteClient.selectProjectUnit(example);
+		Set<String> unitIds = new HashSet<String>();
+		for(OutProjectInfo r:result) {
+			unitIds.add(r.getFzdwbm());
+		}
+		//List<OutUnit> units = systemRemoteClient.selectProjectUnits("ZCGS");
+		List<OutUnit> units = systemRemoteClient.selectProjectUnitsByCodes(unitIds);
+		return units;
 	}
 	@Override
 	public Map<String, List<OutProjectPlan>> selectComparePlanData(Set<String> codes, String nd) {
