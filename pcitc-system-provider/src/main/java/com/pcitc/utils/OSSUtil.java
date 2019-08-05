@@ -38,7 +38,7 @@ public class OSSUtil {
 		System.out.println("1===="+path);
 		// deleteOssFile("test/tem/"+uuidFileName+".txt");
 
-		InputStream tem = getOssFileIS("test/tem/"+uuidFileName+".jpg");
+		/*InputStream tem = getOssFileIS("test/tem/"+uuidFileName+".jpg");
 		System.out.println("2===="+tem);
 
 		String twoPath = uploadFileByInputStream(tem, "test/tem/ttt/", "11111.jpg");
@@ -47,7 +47,7 @@ public class OSSUtil {
 		String twoPath1 = uploadFileByInputStream(tem1, "test/tem/ttt/", "11111.jpg");
 
 		InputStream tem4 = getOssFileIS(path.split(OSSPATH+"/"+BUCKET+"/")[1]);
-		System.out.println("4===="+tem4);
+		System.out.println("4===="+tem4);*/
 	}
 
 	/**
