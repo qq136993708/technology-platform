@@ -127,6 +127,7 @@ public class ZjkChoiceClient {
     public Object selectZjkChoiceByPage(@RequestBody LayuiTableParam param) {
         return zjkChoiceService.findZjkChoiceByPage(param);
     }
+
     /**
      * 分页查询
      *
@@ -218,4 +219,18 @@ public class ZjkChoiceClient {
         return zjkChoiceService.getUserChoiceTableData(param);
     }
 
+
+    @RequestMapping(value = "/zjkchoice-provider/zjkchoice/selectByExample", method = RequestMethod.POST)
+    public JSONObject selectByExample(@RequestBody JSONObject jsonObject) {
+        JSONObject object = new JSONObject();
+        List<String> ids = (List<String>) jsonObject.get("list");
+        if(ids==null||ids.size()==0){
+            ids.add("");
+        }
+        ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+        zjkChoiceExample.createCriteria().andXmIdIn(ids);
+        List<ZjkChoice> zjkChoices = zjkChoiceService.selectByExample(zjkChoiceExample);
+        object.put("list", zjkChoices == null || zjkChoices.size() == 0 ? new ArrayList<>() : zjkChoices);
+        return object;
+    }
 }
