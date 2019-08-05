@@ -114,6 +114,8 @@ public class OneLevelMainController extends BaseController {
 	private static final String project_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/project/all-info/list";
 	private static final String project_table_tree_data = "http://pcitc-zuul/system-proxy/out-project-provider/project/all-info/tree/list";
 
+	private static final String project_table_tree_data_expert = "http://pcitc-zuul/system-proxy/out-project-provider/project/all-info/tree/list_expert";
+
 	private static final String country_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/country-project/list";
 
 	// 数量--成果
@@ -814,7 +816,7 @@ public class OneLevelMainController extends BaseController {
 	}
 
 	// 总部机关下的部--反查
-	private String getGsbmbmFlagByzycbmFlag(String gsbmbmFlag, String zycbmFlag) {
+	public String getGsbmbmFlagByzycbmFlag(String gsbmbmFlag, String zycbmFlag) {
 		if (gsbmbmFlag.equals("")) {
 			// 科技部下的
 			List<SysDictionary> kjbList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
@@ -1234,6 +1236,67 @@ public class OneLevelMainController extends BaseController {
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		System.out.println(">>>>>>>>>>>>>project_fx_table_data:" + result.toString());
+		return result.toString();
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/project_fx_table_data_expert")
+	@ResponseBody
+	@OperationFilter(dataFlag = "true")
+	public String project_fx_table_data_expert(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+		System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
+		// 领导标识
+		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+
+		// 封装：code->nameValue
+		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
+		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
+		Object zylbbmFlag_code = param.getParam().get("zylbbmFlag");
+
+		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
+		// 领导标识
+		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+		String gsbmbmFlag = "";
+		if (gsbmbmFlag_code != null) {
+
+			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
+			if (!gsbmbmFlagCode.equals("")) {
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
+				if (sysDictionary != null) {
+					param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
+					gsbmbmFlag = sysDictionary.getNumValue();
+				}
+			}
+
+		}
+		if (zycbmFlag_code != null) {
+			String zycbmFlagCode = (String) zycbmFlag_code;
+			if (!zycbmFlagCode.equals("")) {
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
+				if (sysDictionary != null) {
+					param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
+				}
+			}
+
+		}
+		if (zylbbmFlag_code != null) {
+			String zylbbmFlagCode = (String) zylbbmFlag_code;
+			if (!zylbbmFlagCode.equals("")) {
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
+				if (sysDictionary != null) {
+					param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
+				}
+			}
+
+		}
+
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_tree_data_expert, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		return result.toString();
 	}
 	
