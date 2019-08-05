@@ -84,6 +84,8 @@ public class BudgetAssetSplitController extends BaseController {
 	//private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-assetsplit-activity/";
 	private static final String BUDGET_INFO_EDIT_CHECK = "http://pcitc-zuul/stp-proxy/stp-provider/budget/check-budgetinfo-edit/";
 	private static final String BUDGET_FINAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-budget";
+	private static final String BUDGET_ASSET_SPLIT_JZ = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-asset-split-jz";
+	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_assetsplit")
 	public Object toBudgetGroupPage(HttpServletRequest request) throws IOException 
@@ -400,7 +402,14 @@ public class BudgetAssetSplitController extends BaseController {
 	    //下载文件
 		this.fileDownload(new File(newFilePath), res);
 	}
-	
+	@RequestMapping(value = "/budget/budget-asset-split-jz", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getBudgetAssetSplitJz(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSET_SPLIT_JZ, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
+		Object rs = JSON.toJSON(responseEntity.getBody());
+		return rs;
+	}
 	
 	
 	private XSSFWorkbook workbook;
