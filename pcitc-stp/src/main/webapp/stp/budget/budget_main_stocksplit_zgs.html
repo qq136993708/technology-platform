@@ -351,7 +351,7 @@
                 		return;
                 	} 
                		var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
-   					publicMethods.ajaxAsyncPost("/budget/budget-jz-jtgs", {page:1,limit:1000,param: {"functionId":param.id,"nd":curent_budget_info.nd}}, function (data) {
+   					publicMethods.ajaxAsyncPost("/budget/budget-stock-split-jz", {page:1,limit:1000,param: {"functionId":param.id,"nd":curent_budget_info.nd}}, function (data) {
    						layer.close(lodingMsg);
    					 	$.each(curent_tabel_data,function(index,dt){
    					 		$.each(table_titles,function(i,t){
