@@ -63,6 +63,11 @@ public interface OutProjectInfoMapper {
 	public List<OutProjectInfo> selectProjectInfoWithAllInfoByCond(HashMap<String, Object> map);
 	
 	/**
+     * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息, 强制获取hth
+     */
+	public List<OutProjectInfo> selectProjectInfoWithAllInfoByCondForGroup(HashMap<String, Object> map);
+	
+	/**
      * 分页显示项目数据数据,国拨项目统计的第三级展示
      */
 	public List<OutProjectInfo> selectCountryProjectByCond(HashMap<String, Object> map);
@@ -329,6 +334,20 @@ public interface OutProjectInfoMapper {
 	 * 获取十条龙详情的查询维度（条件）
 	 */
 	public List getDragonProjectInfoSelectCondition(HashMap<String, String> map);
+
+	/**
+	 * 获取负责单位列表（按集团、资产、股份）
+	 */
+	public List<OutProjectInfo> selectProjectUnitByCond(OutProjectInfo opi);
+	/**
+	 * 获取结转项目列表明细
+	 */
+	public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo opi);
+	/**
+	 * 获取结转项目按处部门、预算单位分组
+	 */
+	public List<OutProjectInfo> selectProjectInfoJz(OutProjectInfo opi);
+	
 	
 	
 	List getTenDragonsList(Map map);
@@ -336,5 +355,6 @@ public interface OutProjectInfoMapper {
 	
 	 int deleteOutProjectInfoByXmid(String xmid);
 	
+
 
 }

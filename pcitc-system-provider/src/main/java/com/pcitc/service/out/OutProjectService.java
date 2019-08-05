@@ -27,6 +27,11 @@ public interface OutProjectService {
 	public LayuiTableData selectProjectInfoWithAllInfoByCond(LayuiTableParam param);
 	
 	/**
+     * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息
+     */
+	public LayuiTableData selectProjectInfoWithAllInfoByCondTree(LayuiTableParam param);
+	
+	/**
 	 * 批量插入项目
 	 * @param list
 	 * @param nd
@@ -388,6 +393,25 @@ public interface OutProjectService {
      */
     public HashMap<String, String> getBudgetZBXMoney(HashMap<String, String> map);
     
+
+    /**
+     * 
+     * @param example
+     * @return
+     */
+    public List<OutProjectInfo> selectProjectUnit(OutProjectInfo example);
+    /**
+     * 
+     * @param example
+     * @return
+     */
+    public List<OutProjectInfo> selectProjectInfoByNd(OutProjectInfo example);
+    /**
+     * 
+     * @param example
+     * @return
+     */
+    public List<OutProjectInfo> selectProjectInfoJz(OutProjectInfo example);
     
     
     
@@ -415,4 +439,5 @@ public interface OutProjectService {
 	 
 	 
 	
+
 }
