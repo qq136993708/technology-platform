@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.equipment.SreSupplierAppraiseMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreSupplierAppraise">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="equipment_detail_id" jdbcType="VARCHAR" property="equipmentDetailId" />
+    <result column="applications_situation" jdbcType="VARCHAR" property="applicationsSituation" />
+    <result column="maintenance_situation" jdbcType="VARCHAR" property="maintenanceSituation" />
+    <result column="supplier_appraise" jdbcType="VARCHAR" property="supplierAppraise" />
+    <result column="equipment_overall_appraise" jdbcType="VARCHAR" property="equipmentOverallAppraise" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, equipment_detail_id, applications_situation, maintenance_situation, supplier_appraise, 
+    equipment_overall_appraise, create_date, update_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sre_supplier_appraise
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sre_supplier_appraise
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreSupplierAppraise">
+    insert into sre_supplier_appraise (id, equipment_detail_id, applications_situation, 
+      maintenance_situation, supplier_appraise, 
+      equipment_overall_appraise, create_date, 
+      update_date)
+    values (#{id,jdbcType=VARCHAR}, #{equipmentDetailId,jdbcType=VARCHAR}, #{applicationsSituation,jdbcType=VARCHAR}, 
+      #{maintenanceSituation,jdbcType=VARCHAR}, #{supplierAppraise,jdbcType=VARCHAR}, 
+      #{equipmentOverallAppraise,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreSupplierAppraise">
+    insert into sre_supplier_appraise
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="equipmentDetailId != null">
+        equipment_detail_id,
+      </if>
+      <if test="applicationsSituation != null">
+        applications_situation,
+      </if>
+      <if test="maintenanceSituation != null">
+        maintenance_situation,
+      </if>
+      <if test="supplierAppraise != null">
+        supplier_appraise,
+      </if>
+      <if test="equipmentOverallAppraise != null">
+        equipment_overall_appraise,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentDetailId != null">
+        #{equipmentDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationsSituation != null">
+        #{applicationsSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceSituation != null">
+        #{maintenanceSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAppraise != null">
+        #{supplierAppraise,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentOverallAppraise != null">
+        #{equipmentOverallAppraise,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreSupplierAppraise">
+    update sre_supplier_appraise
+    <set>
+      <if test="equipmentDetailId != null">
+        equipment_detail_id = #{equipmentDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationsSituation != null">
+        applications_situation = #{applicationsSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceSituation != null">
+        maintenance_situation = #{maintenanceSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAppraise != null">
+        supplier_appraise = #{supplierAppraise,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentOverallAppraise != null">
+        equipment_overall_appraise = #{equipmentOverallAppraise,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreSupplierAppraise">
+    update sre_supplier_appraise
+    set equipment_detail_id = #{equipmentDetailId,jdbcType=VARCHAR},
+      applications_situation = #{applicationsSituation,jdbcType=VARCHAR},
+      maintenance_situation = #{maintenanceSituation,jdbcType=VARCHAR},
+      supplier_appraise = #{supplierAppraise,jdbcType=VARCHAR},
+      equipment_overall_appraise = #{equipmentOverallAppraise,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="selectSreSupplierDetailId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sre_supplier_appraise
+    where equipment_detail_id = #{equipmentDetailId,jdbcType=VARCHAR}
+  </select>
+</mapper>
