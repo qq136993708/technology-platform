@@ -63,6 +63,11 @@ public interface OutProjectInfoMapper {
 	public List<OutProjectInfo> selectProjectInfoWithAllInfoByCond(HashMap<String, Object> map);
 	
 	/**
+     * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息
+     */
+	public List<OutProjectInfo> selectProjectInfoWithAllInfoByCondYear(HashMap<String, Object> map);
+	
+	/**
      * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息, 强制获取hth
      */
 	public List<OutProjectInfo> selectProjectInfoWithAllInfoByCondForGroup(HashMap<String, Object> map);
