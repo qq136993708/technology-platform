@@ -944,6 +944,8 @@ public class ExpertController extends BaseController {
         LayuiTableParam param = new LayuiTableParam();
         param.setLimit(100000000);
         param.getParam().put("status", "2");
+        param.getParam().put("userId", "xm");
+        param.getParam().put("addUserId", sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
@@ -952,6 +954,9 @@ public class ExpertController extends BaseController {
         for (int i = 0, j = data.getData().size(); i < j; i++) {
             Map m = (Map) data.getData().get(i);
             list.add(m.get("xmId") + "");
+        }
+        if (list==null||list.size()==0){
+            list.add("-");
         }
         request.setAttribute("xmid", org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
         return "/stp/expert/zjkOutProjectListPublic";
@@ -969,14 +974,18 @@ public class ExpertController extends BaseController {
         LayuiTableParam param = new LayuiTableParam();
         param.setLimit(100000000);
         param.getParam().put("status", "2");
+        param.getParam().put("userId", "cg");
+        param.getParam().put("addUserId", sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
-        List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
         List<String> list = new ArrayList<>();
         for (int i = 0, j = data.getData().size(); i < j; i++) {
             Map m = (Map) data.getData().get(i);
             list.add(m.get("xmId") + "");
+        }
+        if (list==null||list.size()==0){
+            list.add("-");
         }
         request.setAttribute("xmid", org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
         return "/stp/expert/zjkAchievementListPublic";
@@ -994,6 +1003,8 @@ public class ExpertController extends BaseController {
         LayuiTableParam param = new LayuiTableParam();
         param.setLimit(100000000);
         param.getParam().put("status", "2");
+        param.getParam().put("userId", "zl");
+        param.getParam().put("addUserId", sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
@@ -1002,6 +1013,9 @@ public class ExpertController extends BaseController {
         for (int i = 0, j = data.getData().size(); i < j; i++) {
             Map m = (Map) data.getData().get(i);
             list.add(m.get("xmId") + "");
+        }
+        if (list==null||list.size()==0){
+            list.add("-");
         }
         request.setAttribute("xmid", org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
         return "/stp/expert/zjkPatentListPublic";
