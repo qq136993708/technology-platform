@@ -46,8 +46,8 @@ layui.define(['jquery','form','table','laydate'],
                     success: function (data, status) {
                         result = data;
                         if (data && data.code && data.code == '401') {
-                        	layer.alert("登录超时，请重新登录！", {title : '提示'},function(){
-                        		 window.open("/login","_top");
+                        	layer.alert(data.message, {title : '提示'},function(){
+                        		 window.open(data.data,"_top");
                                  return false;
                         	});
                         }
@@ -85,8 +85,8 @@ layui.define(['jquery','form','table','laydate'],
                     },
                     success: function (data, status) {
                     	if (data && data.code && data.code == '401') {
-                    		layer.alert("登录超时，请重新登录！", {title : '提示'},function(){
-                       		 	window.open("/login","_top");
+                    		layer.alert(data.message, {title : '提示'},function(){
+                       		 	window.open(data.data,"_top");
                                 return false;
                     		});
                         }

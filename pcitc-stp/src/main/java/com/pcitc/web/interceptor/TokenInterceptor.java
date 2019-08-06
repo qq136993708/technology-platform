@@ -153,16 +153,23 @@ public class TokenInterceptor implements HandlerInterceptor {
 		try {
 			String accept = request.getHeader("accept");// ajax请求头定义返回类型
 			String clientReqType = request.getHeader("client_req_type");// 自定义
-			
+			//当前主机的网络地址
+			Set<String> hostSet = HostUtil.getLocalHostAddressSet();
+			// 遍历ip，如果有服务器ip的跳stpHome，否则跳/login
+	    	boolean reqFlag = false;
+	    	for (String str : hostSet) {  
+	    	      if (str.equals("10.246.94.84") || str.equals("10.246.94.76") || str.equals("172.16.100.127") || str.equals("172.16.100.8")) {
+	    	    	  reqFlag = true;
+	    	      }
+	    	}
 			String path = request.getRequestURI();
-			
 			if (!StringUtils.isBlank(clientReqType)) {
-				Result rs = new Result(false, null, "登录超时!", "401");
+				Result rs = new Result(false, reqFlag?"/stpHome":"/login", "登录超时!", "401");
 				PrintWriter out = response.getWriter();
 				out.println(JSON.toJSON(rs));
 				out.close();
 			} else if (!StringUtils.isBlank(accept) && accept.contains("application/json")) {
-				Result rs = new Result(false, null, "登录超时!", "401");
+				Result rs = new Result(false, reqFlag?"/stpHome":"/login", "登录超时!", "401");
 				PrintWriter out = response.getWriter();
 				out.println(JSON.toJSON(rs));
 				out.close();
@@ -172,15 +179,6 @@ public class TokenInterceptor implements HandlerInterceptor {
 				PrintWriter out = response.getWriter();
 				out.println("<html>");
 				out.println("<script>");
-				//当前主机的网络地址
-				Set<String> hostSet = HostUtil.getLocalHostAddressSet();
-				// 遍历ip，如果有服务器ip的跳stpHome，否则跳/login
-		    	boolean reqFlag = false;
-		    	for (String str : hostSet) {  
-		    	      if (str.equals("10.246.94.84") || str.equals("10.246.94.76") || str.equals("172.16.100.127") || str.equals("172.16.100.8")) {
-		    	    	  reqFlag = true;
-		    	      }
-		    	}
 				if (!path.contains("/mobile/")) {
 			    	if (reqFlag) {
 			    		out.println("window.open ('" + request.getContextPath() + "/stpHome','_top')");
