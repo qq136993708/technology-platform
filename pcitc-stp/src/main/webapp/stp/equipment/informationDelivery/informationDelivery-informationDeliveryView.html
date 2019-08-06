@@ -56,7 +56,6 @@ layui.use("layer",function(){
 	            async : true,   
 	            dataType:"json",
 	            success : function(data){
-	            		layer.alert("点赞成功!");
 	            		 document.getElementById("good").innerText = data.result;
 	            }
 	        });    
