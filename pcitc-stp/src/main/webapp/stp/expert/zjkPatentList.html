@@ -64,6 +64,7 @@
                 where: {
                     param: {
                         "fmmc": $('#fmmc').val(),
+                        "zjps": "1",
                         "fmh": $('#fmh').val()
                     }
                 },
@@ -91,6 +92,13 @@
                     {
                         field: "fmmc",
                         title: "发明名称", event: 'setActive', style: 'cursor: pointer;', width: '30%'
+                        ,templet:function (d) {
+                            if(d.define4=="1"){
+                                return '<span style="color:red">' + d.fmmc + '</span>'
+                            }else {
+                                return d.fmmc;
+                            }
+                        }
                     },
                     {
                         field: "shenqr",

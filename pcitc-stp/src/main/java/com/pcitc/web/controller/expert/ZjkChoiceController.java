@@ -161,6 +161,7 @@ public class ZjkChoiceController extends BaseController {
     @RequestMapping(value = "/getTableDatachoice", method = RequestMethod.POST)
     @ResponseBody
     public Object getTableDatachoice(@ModelAttribute("param") LayuiTableParam param) {
+        param.getParam().put("addUserId",sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();

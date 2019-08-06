@@ -6,13 +6,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysFile;
+import com.pcitc.base.system.SysReqLogs;
 import com.pcitc.web.config.FeignMultipartSupportConfig;
 
 import feign.Response;
@@ -41,5 +44,7 @@ public interface SysFileFeignClient {
     @RequestMapping(value = "/sysfile-provider/sysfile/get-sysfile/{sysFileId}")
     public SysFile selectSysFileByMenuId(@PathVariable(value = "sysFileId", required = true) String sysFileId) throws Exception;
 
+    @RequestMapping(value = "/sys-provider/processlogs/process-logs-save", method = RequestMethod.POST)
+	public Result saveSysReqLogs(@RequestBody SysReqLogs bean);
    
 }

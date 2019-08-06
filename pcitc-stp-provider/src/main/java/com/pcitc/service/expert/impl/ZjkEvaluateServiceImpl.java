@@ -175,6 +175,11 @@ public class ZjkEvaluateServiceImpl implements ZjkEvaluateService {
             c.andXmStepsLike("%" + xmSteps + "%");
 
         }
+        Object createUserId = param.getParam().get("createUserId");
+        if (!StrUtil.isObjectEmpty(createUserId)) {
+            c.andCreateUserEqualTo(createUserId.toString());
+
+        }
 //        c.andStatusEqualTo("1");
 //        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
 //        {
