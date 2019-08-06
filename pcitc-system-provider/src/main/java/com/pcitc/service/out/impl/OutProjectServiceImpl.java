@@ -15,7 +15,10 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.beanutils.BeanUtils;
+import com.pcitc.base.expert.ZjkChoice;
+import com.pcitc.base.expert.ZjkChoiceExample;
+import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -32,8 +35,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.expert.ZjkChoice;
-import com.pcitc.base.expert.ZjkChoiceExample;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
@@ -41,7 +42,6 @@ import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 import com.pcitc.base.stp.out.TfcHotEs;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyEs;
-import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.es.builder.BooleanCondtionBuilder;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
@@ -56,7 +56,6 @@ import com.pcitc.service.doc.impl.AccessorServiceImpl;
 import com.pcitc.service.out.OutProjectService;
 import com.pcitc.utils.StringUtils;
 import com.pcitc.web.feign.TechFamilyProviderClient;
-import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
 
 @Service("outProjectService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -817,6 +816,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		data.setCount(total.intValue());
 		return data;
 	}
+
 
 	/**
 	 * 分页显示项目数据数据,国拨项目统计的第三级展示
@@ -1885,7 +1885,6 @@ public class OutProjectServiceImpl implements OutProjectService {
                 MyBeanUtils.transMap2Bean((Map<String, Object>) objectMap.get(i),choice);
                 zjkChoices.add(choice);
             }
-
             Map<String,Object> map = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId,ZjkChoice::getZjId,(entity1,entity2) -> entity1));
 
 
@@ -1908,7 +1907,6 @@ public class OutProjectServiceImpl implements OutProjectService {
             data.setCount(total.intValue());
             return data;
         }
-
 
 
 	@Autowired
@@ -2100,7 +2098,44 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return outProjectInfoMapper.selectByPrimaryKey(dataId);
 	}
 
-	public OutProjectInfo selectOutProjectInfo(String id) throws Exception
+    @Override
+    public LayuiTableData selectProjectInfoWithAllInfoByCondTreeExpert(LayuiTableParam param) {
+
+	    LayuiTableData data = this.selectProjectInfoWithAllInfoByCondTree(param);
+	    List<Map<String,Object>> maps = (List<Map<String, Object>>) data.getData();
+	    int j = maps.size();
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < j; i++) {
+            ids.add(maps.get(i).get("xmid").toString());
+        }
+        if(ids==null||ids.size()==0){
+            ids.add("");
+        }
+        ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+        zjkChoiceExample.createCriteria().andXmIdIn(ids);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("list",ids);
+        List<Map<String,Object>> objectMap = (List<Map<String, Object>>) zjkBaseInfoServiceClient.selectByExample(jsonObject).get("list");
+        List<ZjkChoice> zjkChoices = new ArrayList<>();
+        for (int i = 0; i < objectMap.size(); i++) {
+            ZjkChoice choice = new ZjkChoice();
+            MyBeanUtils.transMap2Bean((Map<String, Object>) objectMap.get(i),choice);
+            zjkChoices.add(choice);
+        }
+        Map<String,Object> map = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId,ZjkChoice::getZjId,(entity1,entity2) -> entity1));
+
+
+        for (int i = 0; i < j; i++) {
+            if (!StrUtil.isNullEmpty(map.get(maps.get(i).get("xmid")))){
+                maps.get(i).put("flag","1");
+            }
+        }
+        data.setData(maps);
+	    return data;
+    }
+
+    public OutProjectInfo selectOutProjectInfo(String id) throws Exception
 	{
 		return outProjectInfoMapper.selectByPrimaryKey(id);
 	}
@@ -2119,37 +2154,10 @@ public class OutProjectServiceImpl implements OutProjectService {
 	{
 		return outProjectInfoMapper.deleteByPrimaryKey(id);
 	}
-     
-	
-	
-	
-	//保存龙项目
-	public Integer insertOutProjectInfo(OutProjectInfo outProjectInfo)throws Exception
+
+	public Integer insertOutProjectInfo(OutProjectInfo record)throws Exception
 	{
-		String fzdwStr= outProjectInfo.getFzdwStr();
-		logger.info("====================  add ten_dragons ========================fzdwStr: "+fzdwStr);
-		String xmId=outProjectInfo.getXmid();
-		String arr[]=fzdwStr.split("\\|");
-		Integer count=0;
-		if(arr!=null && arr.length>0)
-		{
-			for(int i=0;i<arr.length;i++)
-			{
-				String lineStr=arr[i];
-				String array[]=lineStr.split("#");
-				String fzdw=array[0];
-				String define6=array[1];
-				
-				OutProjectInfo projectInfo=new OutProjectInfo();
-				BeanUtils.copyProperties(projectInfo, outProjectInfo);
-				String dataId = UUID.randomUUID().toString().replaceAll("-", "");
-				projectInfo.setDataId(dataId);
-				projectInfo.setFzdw(fzdw);
-				projectInfo.setDefine6(define6);
-				count= outProjectInfoMapper.insertOutProjectInfo(projectInfo);
-			}
-		}
-		return count;
+		return outProjectInfoMapper.insertOutProjectInfo(record);
 	}
 	
 	
