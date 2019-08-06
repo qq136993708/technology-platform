@@ -3312,6 +3312,32 @@
 			</if>
 	</sql>
 	
+	<!-- 供用SQL 分组 -->
+	<sql id="selectProjectInfoWithAllInfoByCond_group_year_sql">
+	    <if test="groupFlag != null">
+				<if test="groupFlag != ''">
+					GROUP BY ${groupFlag}
+				</if>
+				<if test="groupFlag == ''">
+					GROUP BY out_project_info.hth, out_project_info.xmid, out_project_info.define8
+				</if>
+			</if>
+			<if test="groupFlag == null">
+				GROUP BY out_project_info.hth, out_project_info.xmid, out_project_info.define8
+			</if>
+			<if test="orderKey != null">
+				<if test="orderType != ''">
+					order by ${orderKey} ${orderType}
+				</if>
+				<if test="orderType == ''">
+					order by out_project_info.define10,out_project_info.hth desc, out_project_info.nd asc, out_project_info.xmid, out_project_info.ysnd asc, out_project_info.define8
+				</if>
+			</if>
+			<if test="orderKey == null">
+				order by out_project_info.define10,out_project_info.hth desc, out_project_info.nd asc, out_project_info.xmid, out_project_info.ysnd asc, out_project_info.define8
+			</if>
+	</sql>
+	
 	
 	<!-- 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息 IFNULL(ROUND(sum(IFNULL(jf,0)) ,2),0) as jf, -->
 	<select id="selectProjectInfoWithAllInfoByCond" resultType="java.util.HashMap" parameterType="java.util.HashMap">
@@ -3389,11 +3415,105 @@
 		) t2		
 	</select>
 	
+	<!-- 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息 IFNULL(ROUND(sum(IFNULL(jf,0)) ,2),0) as jf, -->
+	<select id="selectProjectInfoWithAllInfoByCondYear" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	
+		select 
+		       '' as xmid,
+		       '' as define1,
+		       '' as define9,
+			   '' as define2,
+			   '' as type_flag,
+			   '' as xmmc,
+			   '' as ysnd,
+			   '' as jf,
+			   IFNULL(ROUND(sum(IFNULL(out_project_info.ysje,0)),2),0) as ysje,
+			   IFNULL(ROUND(sum(IFNULL(out_project_info.yszbxje,0)),2),0) as yszbxje,
+			   IFNULL(ROUND(sum(IFNULL(out_project_info.ysfyxje,0)),2),0) as ysfyxje,
+			   
+			   sum(case when ysnd = '${nd}' then ysje else 0 end) as ysjeYear,
+			   sum(case when ysnd = '${nd}' then yszbxje else 0 end) as yszbxjeYear,
+			   sum(case when ysnd = '${nd}' then ysfyxje else 0 end) as ysfyxjeYear,
+			   sum(case when ysnd = '${nd}'+1 then yszbxje else 0 end) as yszbxjeNextYear,
+			   sum(case when ysnd = '${nd}'+1 then ysfyxje else 0 end) as ysfyxjeNextYear,
+			   sum(case when ysnd = '${nd}'+2 then yszbxje else 0 end) as yszbxjeAfterNextYear,
+			   sum(case when ysnd = '${nd}'+2 then ysfyxje else 0 end) as ysfyxjeAfterNextYear,
+			   
+			   '' as project_property,
+			   '' as fzdw,'' as zylb, '' as fwdx,
+			   '' as xmlbbm,
+			   '' as define10,
+			   '' as define11,
+			   '' as define12,
+		       '' as nd,
+		       '' as define8,
+		       '' as hth,
+		       '' as zycmc,
+		       '' as jdh,
+		       '' as cgmc,
+		       '' as jdjg
+		      
+		       from out_project_info  
+		<!-- from out_project_info left join out_appraisal on (out_project_info.hth = out_appraisal.hth) -->
+		where
+			 out_project_info.project_type != '1'
+			 and out_project_info.define3 = '项目管理系统'
+		<!-- 引用SQL -->
+		<include refid="selectProjectInfoWithAllInfoByCond_sql" /> 
+        union all
+        SELECT * FROM(	
+		select
+		       xmid,
+		       out_project_info.define1,
+		       out_project_info.define9,
+			   substr(out_project_info.define2 FROM 6) as define2,
+			   substr(out_project_info.type_flag FROM 4) as type_flag,
+			   out_project_info.xmmc,
+			   out_project_info.ysnd,
+			   IFNULL(out_project_info.jf,0) as jf,
+			   IFNULL(sum(out_project_info.ysje),0) as ysje,
+			   IFNULL(sum(out_project_info.yszbxje),0) as yszbxje,
+			   IFNULL(sum(out_project_info.ysfyxje),0) as ysfyxje,
+			   
+			   sum(case when ysnd = '${nd}' then ysje else 0 end) as ysjeYear,
+			   sum(case when ysnd = '${nd}' then yszbxje else 0 end) as yszbxjeYear,
+			   sum(case when ysnd = '${nd}' then ysfyxje else 0 end) as ysfyxjeYear,
+			   sum(case when ysnd = '${nd}'+1 then yszbxje else 0 end) as yszbxjeNextYear,
+			   sum(case when ysnd = '${nd}'+1 then ysfyxje else 0 end) as ysfyxjeNextYear,
+			   sum(case when ysnd = '${nd}'+2 then yszbxje else 0 end) as yszbxjeAfterNextYear,
+			   sum(case when ysnd = '${nd}'+2 then ysfyxje else 0 end) as ysfyxjeAfterNextYear,
+			   
+			   out_project_info.project_property,
+			   out_project_info.fzdw,
+			   out_project_info.zylb, out_project_info.fwdx,
+			   out_project_info.xmlbbm,
+			   substr(out_project_info.define10 from 4) as define10,
+			   substr(out_project_info.define11 from 2) as define11,
+			   substr(out_project_info.define12 from 4) as define12,
+		       out_project_info.nd,
+		       GROUP_CONCAT(DISTINCT out_project_info.define8) as define8,
+		       out_project_info.hth,
+		       out_project_info.zycmc,
+		       out_appraisal.jdh,
+		       out_appraisal.cgmc,
+		       out_appraisal.jdjg
+		from out_project_info left join out_appraisal on (out_project_info.hth = out_appraisal.hth)
+		where
+			 out_project_info.project_type != '1'
+			 and out_project_info.define3 = '项目管理系统'
+			<include refid="selectProjectInfoWithAllInfoByCond_sql"/>
+			<if test="hthFlag != null and hthFlag != ''">
+				and find_in_set(out_project_info.hth, '${hthFlag}')
+			</if>
+			<include refid="selectProjectInfoWithAllInfoByCond_group_year_sql"/>
+		) t2		
+	</select>
+	
 	<!-- 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息, 强制获取hth -->
 	<select id="selectProjectInfoWithAllInfoByCondForGroup" resultType="java.util.HashMap" parameterType="java.util.HashMap">
 		select
 		       out_project_info.hth as id, '0' as parent_id,
-		       xmid,
+		       out_project_info.xmid,
 		       out_project_info.define1,
 		       out_project_info.define9,
 			   substr(out_project_info.define2 FROM 6) as define2,
@@ -3414,8 +3534,8 @@
 			   GROUP_CONCAT(DISTINCT out_project_info.nd) as nd,
 		       GROUP_CONCAT(DISTINCT out_project_info.define8) as define8,
 		       out_project_info.hth,
-		       out_project_info.zycmc
-		from out_project_info
+		       out_project_info.zycmc, tableA.xmmc as sjxmmc
+		from out_project_info left join out_project_info as tableA on (out_project_info.sjid = tableA.xmid) 
 		where
 			 out_project_info.project_type != '1'
 			 and out_project_info.define3 = '项目管理系统'
