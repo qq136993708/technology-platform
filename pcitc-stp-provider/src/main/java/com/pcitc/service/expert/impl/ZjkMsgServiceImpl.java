@@ -22,9 +22,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>接口实现类</p>
@@ -35,6 +34,7 @@ import java.util.Map;
 @Service("zjkMsgService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class ZjkMsgServiceImpl implements ZjkMsgService {
+
 
     @Autowired
     private ZjkMsgMapper zjkMsgMapper;
@@ -165,24 +165,14 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
         if (!StrUtil.isObjectEmpty(xmName)) {
             c.andXmNameLike("%" + xmName + "%");
         }
-
         Object xmSteps = param.getParam().get("xmSteps");
         if (!StrUtil.isObjectEmpty(xmSteps)) {
-//            c.andXmStepsLike("%" + xmSteps + "%");
             c.andXmStepsEqualTo(xmSteps.toString());
         }
         Object createUserId = param.getParam().get("createUserId");
         if (!StrUtil.isNullEmpty(createUserId)){
             c.andCreateUserEqualTo(createUserId.toString());
         }
-//        c.andStatusEqualTo("1");
-//        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
-//        {
-        //   c.andIdLike("'%"+param.getParam().get("fileKind")+"%'");
-//            ZjkMsgExample.Criteria criteria2 = example.or();
-//            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
-//            example.or(criteria2);
-        //       }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
 
@@ -235,5 +225,65 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
         List<TreeNode> orderNodes = TreeNodeUtil.getChildrenNode(strParentId, nodes);
 
         return orderNodes;
+    }
+
+    @Override
+    public LayuiTableData selectMsgTree(LayuiTableParam param) {
+        int pageSize = param.getLimit();
+        int pageStart = (param.getPage() - 1) * pageSize;
+        int pageNum = pageStart / pageSize + 1;
+        Map<String, String> map = new HashMap<>();
+        map.put("createUser",param.getParam().get("createUserId").toString());
+        Object xmName = param.getParam().get("xmName");
+        if (!StrUtil.isObjectEmpty(xmName)) {
+            map.put("xmName",xmName.toString());
+        }
+        Object xmSteps = param.getParam().get("xmSteps");
+        if (!StrUtil.isObjectEmpty(xmSteps)) {
+            map.put("xmSteps",xmSteps.toString());
+        }
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<ZjkMsg> list = zjkMsgMapper.selectMsgTree(map);
+        PageInfo<ZjkMsg> pageInfo = new PageInfo<ZjkMsg>(list);
+
+        List<ZjkMsg> list_return = new ArrayList<>();
+        //分组
+        Map<String, List<ZjkMsg>> collect = list.stream().collect(Collectors.groupingBy(ZjkMsg::getXmId));
+        //设置父子关系
+        for(Map.Entry<String,List<ZjkMsg>> m:collect.entrySet()){
+            ZjkMsg zjkMsg = new ZjkMsg();
+            String pid = UUID.randomUUID().toString();
+            zjkMsg.setDataId(pid);
+            List<ZjkMsg> list_son = m.getValue();
+            for (int j = 0; j < list_son.size(); j++) {
+                //设置父节点值
+                ZjkMsg zjk_son = list_son.get(j);
+                if (j==0){
+                    zjkMsg.setXmId(zjk_son.getXmId());
+                    zjkMsg.setProjectName(zjk_son.getProjectName());
+                    zjkMsg.setFormCode(zjk_son.getFormCode());
+                    zjkMsg.setCreateUserDisp(zjk_son.getCreateUserDisp());
+                    zjkMsg.setModifyUserDisp(zjk_son.getModifyUserDisp());
+                    zjkMsg.setUpdateUser(zjk_son.getUpdateUser());
+                }
+                //清空子节点值
+                zjk_son.setParentId(pid);
+//                zjk_son.setXmId("");
+                zjk_son.setProjectName(zjk_son.getZjkName());
+//                zjk_son.setFormCode("");
+//                zjk_son.setCreateUserDisp("");
+//                zjk_son.setModifyUserDisp("");
+//                zjk_son.setUpdateUser("");
+                list_return.add(zjk_son);
+            }
+            list_return.add(zjkMsg);
+        }
+        pageInfo.setList(list_return);
+        LayuiTableData data = new LayuiTableData();
+        data.setData(pageInfo.getList());
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
+        return data;
     }
 }

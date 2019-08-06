@@ -32,6 +32,22 @@
         <result column="is_complete" jdbcType="VARCHAR" property="isComplete"/>
         <result column="complete_type" jdbcType="VARCHAR" property="completeType"/>
     </resultMap>
+    <!--tree list-->
+    <select id="selectMsgTree" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT z.data_id,
+        z.zjk_id,z.zjk_name,z.xm_id,z.project_name,p.fzdw as form_code,p.nd as create_user_disp,p.ysnd as modify_user_disp,p.hth as update_user
+        from zjk_msg z,out_project_info p
+        where z.xm_id=p.xmid
+        and z.create_user='${createUser}'
+        <if test="xmName != null">
+            and z.project_name like '%${xmName}%'
+        </if>
+        <if test="xmSteps != null">
+            and z.xm_steps ='${xmSteps}'
+        </if>
+        GROUP BY p.xmid,z.zjk_id
+        order by z.is_complete, p.hth
+    </select>
     <sql id="Example_Where_Clause">
         <where>
             <foreach collection="oredCriteria" item="criteria" separator="or">

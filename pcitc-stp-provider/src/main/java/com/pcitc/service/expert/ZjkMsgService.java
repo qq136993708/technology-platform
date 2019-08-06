@@ -10,6 +10,7 @@ import com.pcitc.base.expert.ZjkMsgExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>接口类</p>
@@ -181,4 +182,11 @@ public interface ZjkMsgService {
      * @return
      */
     List<TreeNode> selectObjectByTree();
+
+    /**
+     * 列表树
+     * @param map
+     * @return
+     */
+    public LayuiTableData selectMsgTree(LayuiTableParam param);
 }

@@ -37,4 +37,7 @@ public interface ZjkMsgMapper {
 
     List<ZjkMsg> findZjkMsgList(ZjkMsg record);
 
+    List<ZjkMsg> selectMsgTree(Map<String,String> map);
+
+
 }
