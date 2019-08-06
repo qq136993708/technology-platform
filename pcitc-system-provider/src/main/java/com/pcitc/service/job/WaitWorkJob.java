@@ -73,7 +73,7 @@ public class WaitWorkJob implements Job, Serializable {
 				}
 				
 				if (insertList != null && insertList.size() > 1) {
-					outWaitWorkService.deleteOutWaitWorkByType("2");
+					outWaitWorkService.deleteOutWaitWorkByType("项目管理系统");
 					System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "开始插入=========");
 					outWaitWorkService.insertOutWaitWorkBatch(insertList);
 				}
