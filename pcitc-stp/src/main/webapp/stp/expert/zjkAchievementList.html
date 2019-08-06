@@ -64,6 +64,7 @@
                 where: {
                     param: {
                         "cgmc": $('#cgmc').val(),
+                        "zjps": "1",
                         // "nd":"desc"
                         // "fmh": $('#fmh').val()
                     }
@@ -92,6 +93,13 @@
                         {
                             field: "cgmc",
                             title: "成果名称", event: 'setActive', style: 'cursor: pointer;'
+                            ,templet:function (d) {
+                                if(d.define6=="1"){
+                                    return '<span style="color:red">' + d.cgmc + '</span>'
+                                }else {
+                                    return d.cgmc;
+                                }
+                            }
                         },
                         {
                             field: "sqjddw",
