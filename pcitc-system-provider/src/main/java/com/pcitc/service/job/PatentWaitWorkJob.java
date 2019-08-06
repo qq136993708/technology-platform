@@ -1,7 +1,9 @@
 package com.pcitc.service.job;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -37,6 +39,7 @@ public class PatentWaitWorkJob implements Job, Serializable {
 			if (str != null) {
 				// 先删除所有类型为3的代办
 				outWaitWorkService.deleteOutWaitWorkByType("3");
+				List<OutWaitWork> insertList = new ArrayList<OutWaitWork>();
 				JSONArray jSONArray = JSONArray.parseArray(str);
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
@@ -49,14 +52,19 @@ public class PatentWaitWorkJob implements Job, Serializable {
 
 					OutWaitWork outWaitWork = new OutWaitWork();
 					outWaitWork.setTitle(ZLMC);
-					outWaitWork.setType("3");
+					outWaitWork.setType("专利管理系统");
 					outWaitWork.setUserName("");
 					outWaitWork.setUserId(Email);
 					outWaitWork.setUrl(DataServiceUtil.HOME_PAGE);
 					outWaitWork.setCreateTime(new Date());
 					outWaitWork.setNotes(DWMC + "--" + HDMC + "--" + ZLID);
-					// 运程代办--》保存到本地数据库
-					outWaitWorkService.insertOutWaitWork(outWaitWork);
+					insertList.add(outWaitWork);
+				}
+				
+				if (insertList != null && insertList.size() > 1) {
+					outWaitWorkService.deleteOutWaitWorkByType("专利管理系统");
+					System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "开始插入=========");
+					outWaitWorkService.insertOutWaitWorkBatch(insertList);
 				}
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--专利管理待办任务接口 --保存到本地数据库-结束=========");
 			}

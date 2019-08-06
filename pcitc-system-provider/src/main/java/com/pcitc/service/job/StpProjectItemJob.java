@@ -106,16 +106,13 @@ public class StpProjectItemJob implements Job, Serializable {
 					// 修改当前年度的计划预算费用，没有的查询后插入
 					outProjectPlanService.insertOutProjectPlanForYS(planData);
 					
-					// 数据插入后，修改统计用的属性分类（没有使用存储过程或者函数来弄）
-					outProjectPlanService.updateProjectPropertyInfo();
-					
 				}
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
 				// 统一调用存储过程，把数据中部分属性集中处理
 			}
 			
 			
-			/*// 远程获取第二年数据 -----
+			// 远程获取第二年数据 -----
 			str = DataServiceUtil.getProjectData(sqlName, String.valueOf(Integer.parseInt(ndCon)+1));
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success第二年====="+String.valueOf(Integer.parseInt(ndCon)+1));
 			if (str != null) {
@@ -127,27 +124,52 @@ public class StpProjectItemJob implements Job, Serializable {
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
 					culTotal++;
-					String ktid = object.getString("ktid");
-					String nd = object.getString("nd");
-					String jfhj = object.getString("jfhj");
-
+					String ktid = object.getString("XMID");
+					String ysnd = object.getString("ND");
+					String nd = object.getString("LXND"); //立项年度
+					String ysje = object.getString("HJ_RMB");
+					String zbje = object.getString("ZBBK_RMB");
+					String fyje = object.getString("FYBK_RMB");
+					String cddw = object.getString("DWMC");
+					String dwbm = object.getString("DWBM");
+					
+					
 					OutProjectInfo opi = new OutProjectInfo();
-					opi.setYsnd(nd);
-					opi.setYsje(jfhj);
+					opi.setYsnd(ysnd);
+					opi.setNd(nd);
+					opi.setYsje(ysje);
+					opi.setYszbxje(zbje);
+					opi.setYsfyxje(fyje);
 					opi.setXmid(ktid);
+					opi.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
+					opi.setDefine8(cddw); //承担单位
+					opi.setDefine9(dwbm);
+					opi.setCreateDate(new Date());
+					opi.setCreatePerson("newItem");
+					opi.setDefine3("项目管理系统");
+					
 					insertData.add(opi);
 					
 					OutProjectPlan opp = new OutProjectPlan();
-					opp.setYsnd(nd);
-					opp.setYsje(jfhj);
+					opp.setYsnd(ysnd);
+					opp.setNd(nd);
+					opp.setYsje(ysje);
+					opp.setYszbxje(zbje);
+					opp.setYsfyxje(fyje);
 					opp.setXmid(ktid);
+					opp.setDefine8(cddw); //承担单位
+					opp.setDefine9(dwbm);
+					opp.setDefine4("项目管理系统");
 					planData.add(opp);
+					
 				}
 				if (insertData != null && insertData.size() > 0) {
+					// 修改当前年度的预算费用。没有的，查询后插入
 					outProjectService.insertProjectItemData(insertData, String.valueOf(Integer.parseInt(ndCon)+1));
 					
 					// 修改当前年度的计划预算费用，没有的查询后插入
 					outProjectPlanService.insertOutProjectPlanForYS(planData);
+					
 				}
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
@@ -166,32 +188,59 @@ public class StpProjectItemJob implements Job, Serializable {
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
 					culTotal++;
-					String ktid = object.getString("ktid");
-					String nd = object.getString("nd");
-					String jfhj = object.getString("jfhj");
-
+					String ktid = object.getString("XMID");
+					String ysnd = object.getString("ND");
+					String nd = object.getString("LXND"); //立项年度
+					String ysje = object.getString("HJ_RMB");
+					String zbje = object.getString("ZBBK_RMB");
+					String fyje = object.getString("FYBK_RMB");
+					String cddw = object.getString("DWMC");
+					String dwbm = object.getString("DWBM");
+					
+					
 					OutProjectInfo opi = new OutProjectInfo();
-					opi.setYsnd(nd);
-					opi.setYsje(jfhj);
+					opi.setYsnd(ysnd);
+					opi.setNd(nd);
+					opi.setYsje(ysje);
+					opi.setYszbxje(zbje);
+					opi.setYsfyxje(fyje);
 					opi.setXmid(ktid);
+					opi.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
+					opi.setDefine8(cddw); //承担单位
+					opi.setDefine9(dwbm);
+					opi.setCreateDate(new Date());
+					opi.setCreatePerson("newItem");
+					opi.setDefine3("项目管理系统");
+					
 					insertData.add(opi);
 					
 					OutProjectPlan opp = new OutProjectPlan();
-					opp.setYsnd(nd);
-					opp.setYsje(jfhj);
+					opp.setYsnd(ysnd);
+					opp.setNd(nd);
+					opp.setYsje(ysje);
+					opp.setYszbxje(zbje);
+					opp.setYsfyxje(fyje);
 					opp.setXmid(ktid);
+					opp.setDefine8(cddw); //承担单位
+					opp.setDefine9(dwbm);
+					opp.setDefine4("项目管理系统");
 					planData.add(opp);
+					
 				}
 				if (insertData != null && insertData.size() > 0) {
+					// 修改当前年度的预算费用。没有的，查询后插入
 					outProjectService.insertProjectItemData(insertData, String.valueOf(Integer.parseInt(ndCon)+2));
 					
 					// 修改当前年度的计划预算费用，没有的查询后插入
 					outProjectPlanService.insertOutProjectPlanForYS(planData);
+					
 				}
-				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
 				// 统一调用存储过程，把数据中部分属性集中处理
-			}*/
+			}
+			
+			// 数据插入后，修改统计用的属性分类（没有使用存储过程或者函数来弄）
+			outProjectPlanService.updateProjectPropertyInfo();
 
 		} catch (Exception e) {
 			e.printStackTrace();
