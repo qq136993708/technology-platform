@@ -15,10 +15,7 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.pcitc.base.expert.ZjkChoice;
-import com.pcitc.base.expert.ZjkChoiceExample;
-import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
+import org.apache.commons.beanutils.BeanUtils;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -35,6 +32,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.expert.ZjkChoice;
+import com.pcitc.base.expert.ZjkChoiceExample;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
@@ -42,6 +41,7 @@ import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 import com.pcitc.base.stp.out.TfcHotEs;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyEs;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.es.builder.BooleanCondtionBuilder;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
@@ -56,6 +56,7 @@ import com.pcitc.service.doc.impl.AccessorServiceImpl;
 import com.pcitc.service.out.OutProjectService;
 import com.pcitc.utils.StringUtils;
 import com.pcitc.web.feign.TechFamilyProviderClient;
+import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
 
 @Service("outProjectService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -2155,9 +2156,32 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return outProjectInfoMapper.deleteByPrimaryKey(id);
 	}
 
-	public Integer insertOutProjectInfo(OutProjectInfo record)throws Exception
+	public Integer insertOutProjectInfo(OutProjectInfo outProjectInfo)throws Exception
 	{
-		return outProjectInfoMapper.insertOutProjectInfo(record);
+		String fzdwStr= outProjectInfo.getFzdwStr();
+		logger.info("====================  add ten_dragons ========================fzdwStr: "+fzdwStr);
+		String xmId=outProjectInfo.getXmid();
+		String arr[]=fzdwStr.split("\\|");
+		Integer count=0;
+		if(arr!=null && arr.length>0)
+		{
+			for(int i=0;i<arr.length;i++)
+			{
+				String lineStr=arr[i];
+				String array[]=lineStr.split("#");
+				String fzdw=array[0];
+				String define6=array[1];
+				
+				OutProjectInfo projectInfo=new OutProjectInfo();
+				BeanUtils.copyProperties(projectInfo, outProjectInfo);
+				String dataId = UUID.randomUUID().toString().replaceAll("-", "");
+				projectInfo.setDataId(dataId);
+				projectInfo.setFzdw(fzdw);
+				projectInfo.setDefine6(define6);
+				count= outProjectInfoMapper.insertOutProjectInfo(projectInfo);
+			}
+		}
+		return count;
 	}
 	
 	
