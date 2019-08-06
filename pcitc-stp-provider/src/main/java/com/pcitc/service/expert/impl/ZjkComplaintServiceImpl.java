@@ -190,6 +190,11 @@ public class ZjkComplaintServiceImpl implements ZjkComplaintService {
             c.andIsCompletLike("%" + isComplet + "%");
 
         }
+        Object createUserId = param.getParam().get("createUserId");
+        if (!StrUtil.isObjectEmpty(createUserId)) {
+            c.andCreateUserEqualTo(createUserId.toString());
+
+        }
 //        c.andStatusEqualTo("1");
 //        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
 //        {
