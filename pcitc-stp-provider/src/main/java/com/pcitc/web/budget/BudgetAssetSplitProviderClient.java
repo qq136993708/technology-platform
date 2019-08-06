@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,16 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetForwardTypeEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
+import com.pcitc.base.common.enums.BudgetOrganEnum;
+import com.pcitc.base.common.enums.BudgetOrganNdEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.stp.budget.vo.BudgetSplitBaseDataVo;
 import com.pcitc.base.stp.budget.vo.SplitItemVo;
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.service.budget.BudgetAssetSplitService;
 import com.pcitc.service.budget.BudgetInfoService;
@@ -43,6 +50,9 @@ public class BudgetAssetSplitProviderClient
 	
 	@Autowired
 	private BudgetAssetSplitService budgetAssetSplitService;
+	
+	//@Autowired
+	//private BudgetAssetTotalService budgetAssetTotalService;
 	
 	@Autowired
 	private BudgetInfoService budgetInfoService;
@@ -274,5 +284,50 @@ public class BudgetAssetSplitProviderClient
 			e.printStackTrace();
 		}
 		return rsmap;
+	}
+	@ApiOperation(value="预算管理-按处部门获取结转预算",notes="资产公司结转")
+	@RequestMapping(value = "/stp-provider/budget/budget-asset-split-jz", method = RequestMethod.POST)
+	public Object selectBudgetStockSplitJz(@RequestBody LayuiTableParam param) 
+	{
+		Map<String,Map<String,Object>> rsdata = new HashMap<String,Map<String,Object>>();
+		try
+		{
+			String nd = (String)param.getParam().get("nd");
+			
+			//String dataId = (String)param.getParam().get("budget_info_id");
+			//List<BudgetAssetTotal> totals = budgetAssetTotalService.selectBudgetAssetTotalByInfoId(dataId);
+			
+			
+			List<OutProjectInfo> infos = budgetInfoService.selectProjectInfoJzItems(nd, BudgetForwardTypeEnum.TYPE_ASSET);
+			//List<OutProjectInfo> infos = budgetInfoService.selectProjectInfoJz(nd, BudgetForwardTypeEnum.TYPE_ASSET);
+			List<SysDictionary> dics = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_ZCDWFL"+nd);
+			List<BudgetOrganEnum> organs = BudgetOrganNdEnum.getByNd(nd).getOrgans();
+			
+			for(BudgetOrganEnum org:organs) 
+			{
+				Map<String,Object> map = new HashMap<String,Object>();
+				for(SysDictionary dic:dics) 
+				{
+					//Set<String> companycodes = new HashSet<String>();
+					//List<BudgetAssetTotal> ts = totals.stream().filter(a -> dic.getCode().equals(a.getSimpleCode())).collect(Collectors.toList());
+					
+					List<OutProjectInfo> list  = infos.stream()
+								.filter(a -> a.getDefine10().startsWith(org.getProjectCode()))
+								.collect(Collectors.toList());
+					
+					Double ysje = 0d;
+					for(OutProjectInfo info:list) {
+						ysje += StringUtils.isBlank(info.getYsje())?0d:new Double(info.getYsje());
+					}
+					map.put(dic.getCode()+"_jz", ysje);
+				}
+				rsdata.put(org.getCode(),map);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rsdata;
 	}
 }

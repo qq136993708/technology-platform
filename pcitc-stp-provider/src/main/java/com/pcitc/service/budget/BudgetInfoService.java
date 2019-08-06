@@ -187,4 +187,10 @@ public interface BudgetInfoService
 	 * @return
 	 */
 	List<OutProjectInfo> selectProjectInfoJz(String nd,BudgetForwardTypeEnum type);
+	/**
+	 * 
+	 * @param example
+	 * @return
+	 */
+	List<OutProjectInfo> selectProjectInfoJzItems(String nd,BudgetForwardTypeEnum type);
 }

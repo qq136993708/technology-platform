@@ -321,4 +321,33 @@ public class DetailController extends BaseController {
 		logger.info("============result" + result);
 		return result.toString();
 	}
+
+    @RequestMapping(value = "/sre-detail/to-statisticsQueryDetail")
+    public String toList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+        String parentUnitPathNames = map.get("unitName");// 申报单位
+        String parentUnitPathIds = map.get("unitCode");// 申报单位
+        String applyDepartName = map.get("applyDepartName");// 申报部门
+        String applyDepartCode = map.get("applyDepartCode");// 申报部门
+        String unitPathIds= map.get("applyDepartCode");
+        String unitPathNames= map.get("applyDepartName");
+        String unitPathId = sysUserInfo.getUnitPath();
+        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+        request.setAttribute("isKJBPerson", isKJBPerson);
+
+        List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
+        String str ="1";
+        if(isKJBPerson == true) {
+            //获取研究院
+            request.setAttribute("dictonary", dicList);
+            request.setAttribute("str", "1");
+        }else {
+            request.setAttribute("dictonary", dicList);
+            request.setAttribute("str", "0");
+        }
+        request.setAttribute("unitPathIds", unitPathIds);
+        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+        return "/stp/equipment/graph/equipmentDetail-list";
+    }
 }

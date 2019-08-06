@@ -55,7 +55,9 @@ public class SupplierAppraiseController extends BaseController {
 
         String specification = CommonUtil.getParameter(request, "specification", "");
         String equipmentDetailId = CommonUtil.getParameter(request, "equipmentDetailId", "");
+        String flag = CommonUtil.getParameter(request, "flag", "");
         request.setAttribute("equipmentDetailId", equipmentDetailId);
+        request.setAttribute("flag", flag);//等于1的时候代表是统计查询
 
         if (StringUtils.isNotBlank(equipmentDetailId)) {
 

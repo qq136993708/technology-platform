@@ -1,8 +1,5 @@
 package com.pcitc.web.controller;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -26,13 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
-import com.pcitc.base.system.SysCollect;
-import com.pcitc.base.system.SysFunction;
-import com.pcitc.base.system.SysNews;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
