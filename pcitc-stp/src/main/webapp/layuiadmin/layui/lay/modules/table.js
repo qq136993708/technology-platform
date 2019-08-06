@@ -242,10 +242,10 @@ layui.define(["laytpl", "laypage", "layer", "form", "util"], function (e) {
             l = t(['<tr class="' + p + '" data-off="1">', '<td data-off="1"><div class="layui-table-none">' + e + "</div></td>", "</tr>"].join(""));
         a[0] && (i.layNone.remove(), a.remove()), e && (l.width(i.elem.width() - 2), i.layMain.find("tbody").html(i.layNone = l), d.cache[i.key] = [])
     }, F.prototype.loginC = function (e) {
-        layer.alert(data.message, {title : '提示'},function(){
+        //layer.alert(data.message, {title : '提示'},function(){
             window.open(data.data,"_top");
             return false;
-        })
+        //})
     }, F.prototype.page = 1, F.prototype.pullData = function (e) {
         var i = this, a = i.config, l = a.request, n = a.response, o = function () {
             "object" == typeof a.initSort && i.sort(a.initSort.field, a.initSort.type)

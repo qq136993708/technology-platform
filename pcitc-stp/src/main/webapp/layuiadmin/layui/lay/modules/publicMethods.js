@@ -46,10 +46,10 @@ layui.define(['jquery','form','table','laydate'],
                     success: function (data, status) {
                         result = data;
                         if (data && data.code && data.code == '401') {
-                        	layer.alert(data.message, {title : '提示'},function(){
+                        	//layer.alert(data.message, {title : '提示'},function(){
                         		 window.open(data.data,"_top");
                                  return false;
-                        	});
+                        	//});
                         }
                         if (data && data.code && data.code == '101') {
                             console.log("操作失败，请刷新重试，具体错误：" + data.message);
@@ -85,10 +85,10 @@ layui.define(['jquery','form','table','laydate'],
                     },
                     success: function (data, status) {
                     	if (data && data.code && data.code == '401') {
-                    		layer.alert(data.message, {title : '提示'},function(){
+                    		//layer.alert(data.message, {title : '提示'},function(){
                        		 	window.open(data.data,"_top");
                                 return false;
-                    		});
+                    		//});
                         }
                         if (data && data.code && data.code == '101') {
                             console.log("操作失败，请刷新重试，具体错误：" + data.message);
