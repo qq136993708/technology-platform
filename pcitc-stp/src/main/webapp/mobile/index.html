@@ -37,13 +37,13 @@
 <main class="main">
 	<div class="main-card quota">
 		<p><span></span>年度指标 / TARGET<img src="/mobile/images/mobile-group.png"/></p>
-		<div class="quata-cont">
+		<div class="quata-cont" id="budget_id">
 			<div class="item">
-				<p id="moneyCurrent">7986 /亿</p>
+				<p id="moneyCurrent">- /亿</p>
 				<p>已签金额</p>
 			</div>
 			<div class="item">
-				<p id="moneyTotal">7986 /亿</p>
+				<p id="moneyTotal">- /亿</p>
 				<p>年度预算</p>
 			</div>
 			<div class="item">
@@ -105,7 +105,7 @@
 				<span class="icon-decision icon-decision_06" id="contract_total">-个</span>
 				<span>今年计划课题数</span>
 			</div>
-			<div class="dec-center-right2" id="kyht">
+			<div class="dec-center-right2" id="contract_id">
 				<span></span>
 				<span>科研合同 </span>
 				<span class="icon-decision icon-decision_04" id="contcator_id">0%</span>
@@ -278,18 +278,25 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     });
     /************左列 end********/
     /**********右列**********/
+    
+    //科研预算
+    $("#budget_id").click(function () {
+    	location.href="/mobile/budget";
+    });
     //科研投入
     $("#kytr").click(function () {
     	location.href="/mobile/kytr";
     });
     //科研合同 
-    $("#kyht").click(function () {
-    	location.href="/mobile/kyht";
+    $("#contract_id").click(function () {
+    	location.href="/mobile/contract";
     });
     //科研装备 
     $("#kyzb").click(function () {
     	location.href="/mobile/kyzb";
     });
+    
+    
     
     
   	//弹框

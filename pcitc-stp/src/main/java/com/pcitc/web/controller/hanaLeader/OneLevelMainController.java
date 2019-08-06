@@ -2493,6 +2493,12 @@ public class OneLevelMainController extends BaseController {
 					pageResult.setLimit(1000);
 					pageResult.setPage(1l);
 				}
+				if (type.equals("mobile"))
+				{
+
+					result.setSuccess(true);
+					result.setData(list);
+				}
 			}
 
 		} else {
@@ -2502,14 +2508,26 @@ public class OneLevelMainController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>>>>contract_03 " + resultObj.toString());
-		} else {
+			System.out.println(">>>>>>>>>>>>>1>>contract_03 " + resultObj.toString());
+		} else if(type.equals("2"))
+		{
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>>>>contract_03 " + resultObj.toString());
+			System.out.println(">>>>>>>>>>>>2>>>contract_03 " + resultObj.toString());
+		}else if(type.equals("mobile"))
+		{
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			resault = resultObj.toString();
+			System.out.println(">>>>>>>>>>>>mobile>>>contract_03 " + resultObj.toString());
 		}
 		return resault;
 	}
+	
+	
+	
+	
+	
+	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/contract_04")
 	@ResponseBody
@@ -3657,6 +3675,7 @@ public class OneLevelMainController extends BaseController {
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		String type = CommonUtil.getParameter(request, "type", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
@@ -3676,31 +3695,39 @@ public class OneLevelMainController extends BaseController {
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200) {
-
+			if (statusCode == 200) 
+			{
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
-				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
-				barLine.setxAxisDataList(xAxisDataList);
-				List<String> legendDataList = new ArrayList<String>();
-				legendDataList.add("预算金额");
-				legendDataList.add("实际科研投入");
-				legendDataList.add("预算执行率");
-				barLine.setxAxisDataList(xAxisDataList);
-				barLine.setLegendDataList(legendDataList);
+                if(type.equals("mobile"))
+                {
+                	result.setSuccess(true);
+    				result.setData(list);
+                }else
+                {
+                	List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
+    				barLine.setxAxisDataList(xAxisDataList);
+    				List<String> legendDataList = new ArrayList<String>();
+    				legendDataList.add("预算金额");
+    				legendDataList.add("实际科研投入");
+    				legendDataList.add("预算执行率");
+    				barLine.setxAxisDataList(xAxisDataList);
+    				barLine.setLegendDataList(legendDataList);
 
-				// X轴数据
-				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-				ChartBarLineSeries s1 = HanaUtil.getinvestmentBarLineSeries2(list, "zysje");
-				ChartBarLineSeries s2 = HanaUtil.getinvestmentBarLineSeries2(list, "zsjje");
-				ChartBarLineSeries ztzwcl = HanaUtil.getinvestmentBarLineSeries2(list, "jeRate");
-				seriesList.add(s1);
-				seriesList.add(s2);
-				seriesList.add(ztzwcl);
-				barLine.setSeriesList(seriesList);
-				result.setSuccess(true);
-				result.setData(barLine);
+    				// X轴数据
+    				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+    				ChartBarLineSeries s1 = HanaUtil.getinvestmentBarLineSeries2(list, "zysje");
+    				ChartBarLineSeries s2 = HanaUtil.getinvestmentBarLineSeries2(list, "zsjje");
+    				ChartBarLineSeries ztzwcl = HanaUtil.getinvestmentBarLineSeries2(list, "jeRate");
+    				seriesList.add(s1);
+    				seriesList.add(s2);
+    				seriesList.add(ztzwcl);
+    				barLine.setSeriesList(seriesList);
+    				result.setSuccess(true);
+    				result.setData(barLine);
+                }
+				
 
 			}
 
@@ -3709,7 +3736,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>investment_02 " + resultObj.toString());
+		System.out.println(">>>>>>>>>type="+type+">>>>>investment_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -3769,7 +3796,13 @@ public class OneLevelMainController extends BaseController {
 					result.setSuccess(true);
 					result.setData(barLine);
 					resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-				} else {
+				} else if (type.equals("mobile")) 
+				{
+					result.setSuccess(true);
+					result.setData(list);
+					resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+				}else 
+				{
 					pageResult.setData(list);
 					pageResult.setCode(0);
 					pageResult.setCount(Long.valueOf(list.size()));
