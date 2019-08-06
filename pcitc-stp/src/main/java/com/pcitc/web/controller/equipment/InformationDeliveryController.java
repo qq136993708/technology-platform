@@ -153,6 +153,7 @@ public class InformationDeliveryController extends BaseController {
 		informationDelivery.setLevelId(parentUnitPathIds);//父ID
 		informationDelivery.setCreationTime(new Date());//创建时间
 		informationDelivery.setLevelName(applyDepartName);//部门名称
+		informationDelivery.setNumberCompliments("0");//点赞数量
 		respo = this.restTemplate.exchange(ADD_URL, HttpMethod.POST, new HttpEntity<SreInformationDelivery>(informationDelivery, this.httpHeaders), String.class);
 		int statusCode = respo.getStatusCodeValue();
 		String status = respo.getBody();
@@ -323,6 +324,7 @@ public class InformationDeliveryController extends BaseController {
 		informationDelivery.setLevelId(parentUnitPathIds);//父ID
 		informationDelivery.setCreationTime(new Date());//创建时间
 		informationDelivery.setLevelName(applyDepartName);//部门名称
+		informationDelivery.setNumberCompliments("0");//点赞数量
 		respo = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreInformationDelivery>(informationDelivery, this.httpHeaders), String.class);
 		int statusCode = respo.getStatusCodeValue();
 		String status = respo.getBody();
@@ -389,10 +391,15 @@ public class InformationDeliveryController extends BaseController {
 	public String informationDeliveryUpforapplication(String informationid, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String resultsDate = "";
 		ResponseEntity<String> respo = null;
+		int NumberCompliments =0;
 		ResponseEntity<SreInformationDelivery> responseEntity = this.restTemplate.exchange(GET_URL + informationid, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreInformationDelivery.class);
 		SreInformationDelivery informationDelivery =  responseEntity.getBody();
-		int NumberCompliments = Integer.valueOf(informationDelivery.getNumberCompliments());
-		NumberCompliments++;
+		if(null==informationDelivery.getNumberCompliments()||informationDelivery.getNumberCompliments().equals("")) {
+			NumberCompliments=1;
+		}else {
+			NumberCompliments = Integer.valueOf(informationDelivery.getNumberCompliments());
+			NumberCompliments++;
+		}
 		informationDelivery.setNumberCompliments(String.valueOf((NumberCompliments)));
 		respo = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreInformationDelivery>(informationDelivery, this.httpHeaders), String.class);
 		int statusCode = respo.getStatusCodeValue();
