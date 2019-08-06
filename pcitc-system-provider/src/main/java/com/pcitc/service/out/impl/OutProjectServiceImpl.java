@@ -817,6 +817,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return data;
 	}
 
+
 	/**
 	 * 分页显示项目数据数据,国拨项目统计的第三级展示
 	 */
@@ -1884,7 +1885,6 @@ public class OutProjectServiceImpl implements OutProjectService {
                 MyBeanUtils.transMap2Bean((Map<String, Object>) objectMap.get(i),choice);
                 zjkChoices.add(choice);
             }
-
             Map<String,Object> map = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId,ZjkChoice::getZjId,(entity1,entity2) -> entity1));
 
 
@@ -1907,7 +1907,6 @@ public class OutProjectServiceImpl implements OutProjectService {
             data.setCount(total.intValue());
             return data;
         }
-
 
 
 	@Autowired
@@ -2099,7 +2098,44 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return outProjectInfoMapper.selectByPrimaryKey(dataId);
 	}
 
-	public OutProjectInfo selectOutProjectInfo(String id) throws Exception
+    @Override
+    public LayuiTableData selectProjectInfoWithAllInfoByCondTreeExpert(LayuiTableParam param) {
+
+	    LayuiTableData data = this.selectProjectInfoWithAllInfoByCondTree(param);
+	    List<Map<String,Object>> maps = (List<Map<String, Object>>) data.getData();
+	    int j = maps.size();
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < j; i++) {
+            ids.add(maps.get(i).get("xmid").toString());
+        }
+        if(ids==null||ids.size()==0){
+            ids.add("");
+        }
+        ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+        zjkChoiceExample.createCriteria().andXmIdIn(ids);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("list",ids);
+        List<Map<String,Object>> objectMap = (List<Map<String, Object>>) zjkBaseInfoServiceClient.selectByExample(jsonObject).get("list");
+        List<ZjkChoice> zjkChoices = new ArrayList<>();
+        for (int i = 0; i < objectMap.size(); i++) {
+            ZjkChoice choice = new ZjkChoice();
+            MyBeanUtils.transMap2Bean((Map<String, Object>) objectMap.get(i),choice);
+            zjkChoices.add(choice);
+        }
+        Map<String,Object> map = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId,ZjkChoice::getZjId,(entity1,entity2) -> entity1));
+
+
+        for (int i = 0; i < j; i++) {
+            if (!StrUtil.isNullEmpty(map.get(maps.get(i).get("xmid")))){
+                maps.get(i).put("flag","1");
+            }
+        }
+        data.setData(maps);
+	    return data;
+    }
+
+    public OutProjectInfo selectOutProjectInfo(String id) throws Exception
 	{
 		return outProjectInfoMapper.selectByPrimaryKey(id);
 	}
