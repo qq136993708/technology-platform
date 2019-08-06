@@ -1,8 +1,5 @@
 package com.pcitc.web.controller;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -26,13 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
-import com.pcitc.base.system.SysCollect;
-import com.pcitc.base.system.SysFunction;
-import com.pcitc.base.system.SysNews;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
@@ -70,9 +62,20 @@ public class AdminMobileController extends BaseController {
 		request.setAttribute("year", year);
 
 		String unitPathId = sysUserInfo.getUnitPath();
-		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
-		request.setAttribute("isKJBPerson", isKJBPerson);
-
+		
+		String unitCode =sysUserInfo.getUnitCode();
+		//科技部综合计划处
+		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitCode, EquipmentUtils.KJB_ZHJHC_NUM);
+		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
+		request.setAttribute("sysUserInfo", sysUserInfo);
+		List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+		request.setAttribute("list", list);
+		String nd=HanaUtil.getCurrentYear();
+		String month=HanaUtil.getCurrentYearMoth();
+		request.setAttribute("nd", nd);
+		request.setAttribute("month", month);
+		
+		
 		return "/mobile/index";
 	}
 
@@ -134,9 +137,17 @@ public class AdminMobileController extends BaseController {
 		SysUser tokenUser = JwtTokenUtil.getUserFromTokenByValue(retJson.get("token").toString());
 
 		String unitPathId = tokenUser.getUnitPath();
-		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
-		request.setAttribute("isKJBPerson", isKJBPerson);
 
+		//科技部综合计划处
+		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
+		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
+		request.setAttribute("sysUserInfo", sysUserInfo);
+		List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+		request.setAttribute("list", list);
+		String nd=HanaUtil.getCurrentYear();
+		String month=HanaUtil.getCurrentYearMoth();
+		request.setAttribute("nd", nd);
+		request.setAttribute("month", month);
 		return "/mobile/index";
 	}
 
@@ -263,9 +274,17 @@ public class AdminMobileController extends BaseController {
 		SysUser tokenUser = JwtTokenUtil.getUserFromTokenByValue(retJson.get("token").toString());
 
 		String unitPathId = tokenUser.getUnitPath();
-		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
-		request.setAttribute("isKJBPerson", isKJBPerson);
 
+		//科技部综合计划处
+		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
+		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
+		request.setAttribute("sysUserInfo", sysUserInfo);
+		List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+		request.setAttribute("list", list);
+		String nd=HanaUtil.getCurrentYear();
+		String month=HanaUtil.getCurrentYearMoth();
+		request.setAttribute("nd", nd);
+		request.setAttribute("month", month);
 		return "/mobile/index";
 	}
 
@@ -387,9 +406,16 @@ public class AdminMobileController extends BaseController {
 			request.setAttribute("year", year);
 
 			String unitPathId = sysUserInfo.getUnitPath();
-			boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
-			request.setAttribute("isKJBPerson", isKJBPerson);
+			boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
+			request.setAttribute("isZHJHCPerson", isZHJHCPerson);
+			request.setAttribute("sysUserInfo", sysUserInfo);
 
+			List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+			request.setAttribute("list", list);
+			String nd=HanaUtil.getCurrentYear();
+			String month=HanaUtil.getCurrentYearMoth();
+			request.setAttribute("nd", nd);
+			request.setAttribute("month", month);
 			return "/mobile/index";
 		} else {
 			if (sysUserInfo == null || sysUserInfo.getUserId() == null) {
@@ -421,9 +447,15 @@ public class AdminMobileController extends BaseController {
 			request.setAttribute("year", year);
 
 			String unitPathId = sysUserInfo.getUnitPath();
-			boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
-			request.setAttribute("isKJBPerson", isKJBPerson);
-
+			boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
+			request.setAttribute("isZHJHCPerson", isZHJHCPerson);
+			request.setAttribute("sysUserInfo", sysUserInfo);
+			List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+			request.setAttribute("list", list);
+			String nd=HanaUtil.getCurrentYear();
+			String month=HanaUtil.getCurrentYearMoth();
+			request.setAttribute("nd", nd);
+			request.setAttribute("month", month);
 			return "/mobile/index";
 		}
 	}

@@ -2,10 +2,12 @@ package com.pcitc.web.interceptor;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Set;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.common.SessionShare;
+import com.pcitc.web.utils.HostUtil;
 
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
@@ -31,7 +35,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
-			// System.out.println("TokenInterceptor--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
+			//System.out.println("TokenInterceptor--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			String path = request.getRequestURI();
 			/*
 			 * if(!doLoginInterceptor(path, basePath) ){//是否进行登陆拦截 return true;
@@ -58,14 +62,14 @@ public class TokenInterceptor implements HandlerInterceptor {
 			SysUser sysUser = null;
 			Cookie[] cookies = request.getCookies();
 			if (cookies == null || cookies.length == 0) {
-				// System.out.println("cookies is null ");
+				//System.out.println("cookies is null ");
 				// login和index为了开发需要，避开统一身份认证
 				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
 					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
 					resultData(request, response);
 					return false;
 				}
-				// System.out.println("特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
+				//System.out.println("特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			} else {
 				// 会话cookie中缺少HttpOnly属性
 				for (Cookie c : cookies) {
@@ -82,7 +86,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 			}
 			if (token != null) {
-				// System.out.println("token is not null:"+token);
+				//System.out.println("token is not null:"+token);
 				httpHeaders.set("Authorization", "Bearer " + token);
 				sysUser = JwtTokenUtil.getUserFromTokenByValue(token);
 				// 验证当前url登录人是否有权限查看（url中不会包含ajax请求的）
@@ -91,6 +95,22 @@ public class TokenInterceptor implements HandlerInterceptor {
 					BaseController baerInfo = (BaseController) m.getBean();
 					baerInfo.setUserProfile(sysUser);
 				}
+				
+				// login和index为了开发需要，避开统一身份认证
+				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
+					HttpSession session = request.getSession();
+					String sessionId = SessionShare.getSessionIdSave().get(sysUser.getUserName());//获取全局类SessionSave保存账户的静态sessionId
+					//System.out.println("原有session--------------:"+sessionId);
+					String currentSessionId = session.getId();//获取当前的sessionId
+					//System.out.println("当前session--------------:"+currentSessionId);
+					
+					//System.out.println("判断--------------:"+currentSessionId.equals(sessionId));
+					if (sessionId != null && !currentSessionId.equals(sessionId)) {//如果两个sessionId不等，则当前账户强制下线，需要重新登录
+						resultData(request, response);
+						return false;
+					} 
+				}
+				
 			} else {
 				// System.out.println("token is null ------特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 				// login和index为了开发需要，避开统一身份认证
@@ -152,10 +172,27 @@ public class TokenInterceptor implements HandlerInterceptor {
 				PrintWriter out = response.getWriter();
 				out.println("<html>");
 				out.println("<script>");
+				//当前主机的网络地址
+				Set<String> hostSet = HostUtil.getLocalHostAddressSet();
+				// 遍历ip，如果有服务器ip的跳stpHome，否则跳/login
+		    	boolean reqFlag = false;
+		    	for (String str : hostSet) {  
+		    	      if (str.equals("10.246.94.84") || str.equals("10.246.94.76") || str.equals("172.16.100.127") || str.equals("172.16.100.8")) {
+		    	    	  reqFlag = true;
+		    	      }
+		    	}
 				if (!path.contains("/mobile/")) {
-					out.println("window.open ('" + request.getContextPath() + "/stpHome','_top')");
+			    	if (reqFlag) {
+			    		out.println("window.open ('" + request.getContextPath() + "/stpHome','_top')");
+			    	} else {
+			    		out.println("window.open ('" + request.getContextPath() + "/login','_top')");
+			    	}
 				} else {
-					out.println("window.open ('" + request.getContextPath() + "/mobile/login','_top')");
+					if (reqFlag) {
+			    		out.println("window.open ('" + request.getContextPath() + "/mobile/index','_top')");
+			    	} else {
+			    		out.println("window.open ('" + request.getContextPath() + "/mobile/login','_top')");
+			    	}
 				}
 				
 				out.println("</script>");

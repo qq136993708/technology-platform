@@ -75,6 +75,8 @@ public class EquipmentUtils {
      
      //科技部代码
      private static final String KJB_UNIONPATH_NUM = "10010685";
+     //科技部综合计划处
+     public static final String KJB_ZHJHC_NUM = "30130054";
      //hana-虚拟通用菜单
      public static final String SYS_FUNCTION_FICTITIOUS = "984b64b13cf54222bf57bd840759fabe";
      
@@ -841,6 +843,35 @@ public class EquipmentUtils {
 							
 							System.out.println("------------------isKJBPerson 是科技部人员-----------------------");
 						}
+					}
+				}
+				
+			}
+		}
+		return flag;
+	}
+	
+	
+	
+	public static boolean isHasUnitCode(String unitCode,String unitCodestr)throws Exception
+	{
+		
+		System.out.println("---------isHasUnitCode--="+unitCode);
+		boolean flag=false;//默认不是
+		if(!unitCode.equals(""))
+		{
+			String array[]=unitCode.split(",");
+			for(int i=0;i<array.length;i++)
+			{
+				String strPath=array[i];
+				if(strPath!=null && !strPath.equals(""))
+				{
+					if(strPath.equals(unitCodestr))
+					{
+						flag=true;
+						System.out.println("------------------ 是该机构人员-----------------------");
+						System.out.println("------------------ 是该机构人员-----------------------");
+						System.out.println("------------------ 是该机构人员-----------------------");
 					}
 				}
 				
