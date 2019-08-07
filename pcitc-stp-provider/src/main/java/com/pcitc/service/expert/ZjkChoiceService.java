@@ -201,4 +201,6 @@ public interface ZjkChoiceService {
     public int updateOrInsertZjkChoiceUpdateBat(JSONObject jsonObject);
 
     public LayuiTableData getListChoice(LayuiTableParam param) throws Exception;
+
+    public JSONObject selectByExampleByXmId(JSONObject jsonObject);
 }

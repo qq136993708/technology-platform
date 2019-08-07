@@ -84,6 +84,13 @@ public class OutProjectInfoClient {
 		return outProjectService.selectProjectInfoWithAllInfoByCondTree(param);
 	}
 	
+	@ApiOperation(value = "科研项目分析，包含项目基本信息，同时包含成果、奖励等信息-专家", notes = "分页显示")
+	@RequestMapping(value = "/out-project-provider/project/all-info/year/list_expert", method = RequestMethod.POST)
+	public LayuiTableData selectProjectInfoWithAllInfoByCondYearExpert(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page selectProjectInfoWithAllInfoByCondYear===========================" + JSONObject.toJSONString(param));
+		return outProjectService.selectProjectInfoWithAllInfoByCondYearExpert(param);
+	}
+
 	@ApiOperation(value = "科研项目分析，包含项目基本信息，同时包含成果、奖励等信息", notes = "分页显示")
 	@RequestMapping(value = "/out-project-provider/project/all-info/year/list", method = RequestMethod.POST)
 	public LayuiTableData selectProjectInfoWithAllInfoByCondYear(@RequestBody LayuiTableParam param) throws Exception {
