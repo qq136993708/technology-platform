@@ -12,7 +12,7 @@
 <input type="hidden" name="nd"            id="nd"              value="${nd}" >
 <input type="hidden" name="month"         id="month"           value="${month}" >
 <input type="hidden" name="isZHJHCPerson" id="isZHJHCPerson"   value="${isZHJHCPerson}" >
-
+<input type="hidden" name="companyCode" id="companyCode" value="${companyCode}">
 
 	<div class="main-card banner">
 	    <div class="layui-carousel" id="test1" lay-filter="test1">
@@ -84,7 +84,6 @@
 				<li class="layui-col-xs3" >
                     <div class="agency-box" id="audit_msg_list">
 						<img src="/mobile/images/work-img4.png" alt="">
-						<span class="number">89</span>
 						<span class="text">研究院概况</span>
                 	</div>
                 </li>
@@ -99,7 +98,7 @@
 				<span>科研预算</span>
 				<span class="icon-decision icon-decision_01" id="kyys">-亿</span>
 			</div> -->
-			<div class="dec-center-right3">
+			<div class="dec-center-right3" id="project_id">
 				<span></span>
 				<span>科研项目</span>
 				<span class="icon-decision icon-decision_06" id="contract_total">-个</span>
@@ -126,7 +125,7 @@
 				<div class="dec-center-left2" id="xjll">
 					<span></span>
 					<span>现金流量</span>
-					<span class="icon-decision icon-decision_03">-亿</span>
+					<span class="icon-decision icon-decision_03" id="all_money_id">-亿</span>
 					<span>直属研究院</span>
 				</div>
 			</#if>
@@ -235,27 +234,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 			})
     	
     }); */
-    //现金流量
-    $("#xjll").click(function () {
-    	//location.href="/mobile/xjll";
-    	var projectDecisionHtml="<ul class='layer-ul'>" +
-				"<li><a href='/mobile/xjll'>现金流量 </a></li>" +
-				"</ul>";
-			layer.open({
-				title: '现金流量',
-				skin: 'layui-layer-lan',
-				shadeClose: true,
-				type: 1,
-				fixed: false,
-				//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-				maxmin: false,
-				//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-				area: ['9rem', '5rem'],
-				content: projectDecisionHtml
-			})
-			
-			
-    });
+   
     //成果专利
     $("#cgzl").click(function () {
     	//location.href="/mobile/cgzl";
@@ -287,13 +266,20 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     $("#kytr").click(function () {
     	location.href="/mobile/kytr";
     });
+    
+   //科研项目
+    $("#project_id").click(function () {
+    	location.href="/mobile/project";
+    });
+    
+    
     //科研合同 
     $("#contract_id").click(function () {
     	location.href="/mobile/contract";
     });
-    //科研装备 
-    $("#kyzb").click(function () {
-    	location.href="/mobile/kyzb";
+    //现金流量
+    $("#xjll").click(function () {
+    	location.href="/mobile/cash";
     });
     
     
@@ -433,6 +419,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
    		    //科研拨款
    		    
    		    //现金流量
+   		    get_Mobile_Month_Cash_Flow()
    		}
     	
     	
@@ -644,6 +631,58 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 
 	 
 	 
+	 function get_Mobile_Month_Cash_Flow()
+	 {
+	    	var month = $('#month').val();
+	    	var companyCode=  $('#companyCode').val();
+	    	console.log("参数：\n companyCode:"+companyCode+"month="+month);
+	    	if(companyCode!=null && companyCode!='')
+	   		{
+	    		$.ajax({
+	        		type : "GET",
+	        		url : "/financial-decision/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
+	        		timeout : 9000,
+	        		dataType : "json",
+	        		cache : false,
+	        		headers : {
+	        			'Content-Type' : 'application/json'
+	        		},
+	        		success : function(data, status) 
+	        		{
+	        			 console.log(data);
+	        			 var all=0;
+	        			 var count="";
+	        			 if(data.length>0)
+	        			 {
+	        				 for(var i=0;i<data.length;i++)
+	            			 {
+	        					var g0GSJC= data[i].g0GSJC;
+	        					var k0BQLJJE=parseFloat(data[i].k0BQLJJE).toFixed(2);//总预算科研投入
+	        					all=all+parseFloat(k0BQLJJE);
+	        					
+	            			 } 
+	        			 }
+	        			 
+	        			 $("#all_money_id").html((all/10000).toFixed(2)+" 亿"); 
+	        		},
+	        		error : function() {
+	        		},
+	        		complete : function(XMLHttpRequest, status) {
+	        		}
+	        	});
+	   		}else
+	  			{
+	  			    alert("请联系管理员配置研究院相关的数据权限");
+	  			}
+	    	
+	    	
+
+	    }
+	 
+	 
+	 
+	 
+	 
 	 
 	 
 	 
@@ -671,8 +710,6 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 
 		}
 		
-	
-	    
 	
     
     //通知详情

@@ -34,8 +34,8 @@
     </resultMap>
     <!--tree list-->
     <select id="selectMsgTree" parameterType="java.util.Map" resultMap="BaseResultMap">
-        SELECT z.data_id,
-        z.zjk_id,z.zjk_name,z.xm_id,z.project_name,p.define8 as form_code,p.nd as create_user_disp,p.ysnd as modify_user_disp,p.hth as update_user
+        SELECT z.data_id,z.is_complete,z.sys_flag,z.update_date,
+        z.zjk_id,z.zjk_name,z.xm_id,z.project_name,p.define8 as form_code,p.nd as create_user_disp,p.ysnd as modify_user_disp,p.hth as update_user,p.data_id as modify_user
         from zjk_msg z,out_project_info p
         where z.xm_id=p.xmid
         and z.create_user='${createUser}'
