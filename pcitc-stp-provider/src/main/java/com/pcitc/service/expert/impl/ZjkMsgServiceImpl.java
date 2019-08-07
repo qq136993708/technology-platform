@@ -254,7 +254,7 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
         for(Map.Entry<String,List<ZjkMsg>> m:collect.entrySet()){
             ZjkMsg zjkMsg = new ZjkMsg();
             String pid = UUID.randomUUID().toString();
-            zjkMsg.setDataId(pid);
+            zjkMsg.setId(pid);
             List<ZjkMsg> list_son = m.getValue();
             for (int j = 0; j < list_son.size(); j++) {
                 //设置父节点值
@@ -266,9 +266,12 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
                     zjkMsg.setCreateUserDisp(zjk_son.getCreateUserDisp());
                     zjkMsg.setModifyUserDisp(zjk_son.getModifyUserDisp());
                     zjkMsg.setUpdateUser(zjk_son.getUpdateUser());
+                    zjkMsg.setDataIndex("1");
+                    zjkMsg.setModifyUser(zjk_son.getModifyUser());
                 }
                 //清空子节点值
                 zjk_son.setParentId(pid);
+                zjk_son.setId(UUID.randomUUID().toString());
 //                zjk_son.setXmId("");
                 zjk_son.setProjectName(zjk_son.getZjkName());
 //                zjk_son.setFormCode("");
