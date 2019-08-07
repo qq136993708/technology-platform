@@ -13,6 +13,8 @@ public class SysReqLogs implements Serializable {
 
     private String host;
 
+    private String serverHost;
+
     private String reqType;
 
     private String className;
@@ -53,6 +55,14 @@ public class SysReqLogs implements Serializable {
 
     public void setHost(String host) {
         this.host = host;
+    }
+
+    public String getServerHost() {
+        return serverHost;
+    }
+
+    public void setServerHost(String serverHost) {
+        this.serverHost = serverHost;
     }
 
     public String getReqType() {
@@ -134,6 +144,7 @@ public class SysReqLogs implements Serializable {
         return (this.getDataId() == null ? other.getDataId() == null : this.getDataId().equals(other.getDataId()))
             && (this.getUri() == null ? other.getUri() == null : this.getUri().equals(other.getUri()))
             && (this.getHost() == null ? other.getHost() == null : this.getHost().equals(other.getHost()))
+            && (this.getServerHost() == null ? other.getServerHost() == null : this.getServerHost().equals(other.getServerHost()))
             && (this.getReqType() == null ? other.getReqType() == null : this.getReqType().equals(other.getReqType()))
             && (this.getClassName() == null ? other.getClassName() == null : this.getClassName().equals(other.getClassName()))
             && (this.getMethodName() == null ? other.getMethodName() == null : this.getMethodName().equals(other.getMethodName()))
@@ -151,6 +162,7 @@ public class SysReqLogs implements Serializable {
         result = prime * result + ((getDataId() == null) ? 0 : getDataId().hashCode());
         result = prime * result + ((getUri() == null) ? 0 : getUri().hashCode());
         result = prime * result + ((getHost() == null) ? 0 : getHost().hashCode());
+        result = prime * result + ((getServerHost() == null) ? 0 : getServerHost().hashCode());
         result = prime * result + ((getReqType() == null) ? 0 : getReqType().hashCode());
         result = prime * result + ((getClassName() == null) ? 0 : getClassName().hashCode());
         result = prime * result + ((getMethodName() == null) ? 0 : getMethodName().hashCode());
@@ -171,6 +183,7 @@ public class SysReqLogs implements Serializable {
         sb.append(", dataId=").append(dataId);
         sb.append(", uri=").append(uri);
         sb.append(", host=").append(host);
+        sb.append(", serverHost=").append(serverHost);
         sb.append(", reqType=").append(reqType);
         sb.append(", className=").append(className);
         sb.append(", methodName=").append(methodName);

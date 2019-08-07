@@ -32,6 +32,7 @@ public class RequestLogInterceptor implements HandlerInterceptor
 	
 	private static Boolean runInServerHost = false;
 	private static String serverHosts = "10.246.94.84,10.246.94.76,172.16.100.127,172.16.100.8";
+	private static String serverHost = HostUtil.getLocalHostIpAddress();
 	
 	private static Set<String> runHost = HostUtil.getLocalHostAddressSet();
 	private static Set<String> serverHostSet = new HashSet<String>(Arrays.asList(serverHosts.split(",")));
@@ -106,6 +107,7 @@ public class RequestLogInterceptor implements HandlerInterceptor
 			bean.setStartTime(preHandleStartTime.toString());
 			bean.setEndTime(afterCompletionStartTime.toString());
 			bean.setReqType(reqType);
+			bean.setServerHost(serverHost);
 			
 			HttpEntity<SysReqLogs> entity = new HttpEntity<SysReqLogs>(bean, httpHeaders);
 			restTemplate.exchange(LOG_CLIENT, HttpMethod.POST, entity, Result.class).getBody();
