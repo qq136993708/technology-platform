@@ -36,7 +36,19 @@ public class HostUtil {
 		}
 		return ips;
 	}
-
+	public static String getLocalHostIpAddress() 
+	{
+		try 
+		{
+			InetAddress address = getLocalHostLANAddress();
+			return address.getHostAddress();
+		} 
+		catch (UnknownHostException e) 
+		{
+			e.printStackTrace();
+		}
+		return "0.0.0.0";
+	}
 	// 正确的IP拿法，即优先拿site-local地址
 	private static InetAddress getLocalHostLANAddress() throws UnknownHostException {
 		try {
