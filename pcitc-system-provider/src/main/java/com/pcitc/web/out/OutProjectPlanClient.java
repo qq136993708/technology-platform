@@ -465,6 +465,7 @@ public class OutProjectPlanClient {
 			}
 		}
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		System.out.println("getPlanCompleteRateByPlanTypeForHanaMonth-----" + JSON.toJSONString(temList));
 		return json;
 	}
 

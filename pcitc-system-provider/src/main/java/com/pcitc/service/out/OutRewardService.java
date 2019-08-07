@@ -31,4 +31,6 @@ public interface OutRewardService {
 	 * 辅助决策中心，科技奖励年度趋势分析, 各个研究院的奖励情况
 	 */
 	public List getRewardInfoByYjy(HashMap<String, String> map);
+
+    public LayuiTableData getOutRewardListPageExpert(LayuiTableParam param);
 }

@@ -15,13 +15,12 @@
 <div class="searchBox">
     <!--查询条件-->
     <label class="dateInput">
-        <span>专利名称</span>
-        <input type="text" id="fmmc" name="fmmc"  placeholder="请输入专利名称" title="专利名称" class="form-control">
-        <input type="hidden" id="xmid" name="xmid" value="${xmid}">
+        <span>项目编号</span>
+        <input type="text" id="xmbh" name="xmbh" placeholder="请输入项目编号" title="项目编号" class="form-control">
     </label>
     <label class="dateInput">
-        <span>专利号</span>
-        <input type="text" id="fmh" name="fmh" placeholder="请输入专利号" title="专利号" class="form-control">
+        <span>项目名称</span>
+        <input type="text" id="xmmc" name="xmmc" placeholder="请输入项目名称" title="项目名称" class="form-control">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -58,58 +57,68 @@
 
             //渲染
             table.render({
-                elem: '#showTable',
-                // url: '/indexOutPatent/getTableData',
-                url: '/expertController/queryOutPatentList',
-                method: "POST",
-                where: {
-                    param: {
-                        "fmmc": $('#fmmc').val(),
-                        "dataId": $('#xmid').val(),
-                        "fmh": $('#fmh').val()
+                elem : '#showTable',
+                url : '/out/reward-list-expert',
+                method : "POST",
+                where : {
+                    param : {
+                        "xmmc": $('#xmmc').val(),
+                        "xmbh" : $('#xmbh').val(),
+                        "dataId": "${xmid}",
+                        "functionCode" : param.code
                     }
                 },
-                limit: param.selfRownum,
-                id: 'showTable',
+
                 height: commonDislodgeTable(),
-                page: {
-                    groups: 5,
-                    limits: [param.selfRownum, 30, 45, 60],
-                    // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-                    first: '首页', //不显示首页
-                    last: '尾页', //不显示尾页
-                    theme: '#0F9EE0'
+                limit : param.selfRownum,
+                id : 'showTable',
+                page : {
+                    groups : 5,
+                    limits : [ param.selfRownum, 15, 30, 45, 60 ],
+                    layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+                    first : '首页', //不显示首页
+                    last : '尾页', //不显示尾页
+                    theme : '#0F9EE0'
                 },
-                cols: [[                {type: 'checkbox', event: 'changeEvents', width: 55},
-                    {title: '序号', type: 'numbers', width: 55},
+                cols : [ [
                     {
-                        field: "sqri",
-                        title: "申请日", event: 'setActive', style: 'cursor: pointer;', width: '8%', templet: function (d) {
-                            return d.sqri.substring(0, 10);
-                        }
+                        type : 'checkbox',
+                        event : 'changeEvents'
                     },
                     {
-                        field: "fmmc",
-                        title: "名称", event: 'setActive', style: 'cursor: pointer;', width: '30%'
+                        title : '序号',
+                        type : 'numbers' ,width : 55
                     },
                     {
-                        field: "shenqr",
-                        title: "申请人", event: 'setActive', style: 'cursor: pointer;', width: '16%'
+                        field : 'nd',
+                        title : '年度',
+                        width : '12%',
+                        style : 'cursor: pointer;'
+                    },  {
+                        field : 'xmmc',
+                        title : '项目名称',
+                        width : '40%',
+                        style : 'cursor: pointer;',
+                    }, {
+                        field : 'xkfl',
+                        title : '专业领域',
+                        width : '15%',
+                        style : 'cursor: pointer;'
                     },
                     {
-                        field: "fmr",
-                        title: "发明人", event: 'setActive', style: 'cursor: pointer;', width: '25%'
-                    },
-                    {
-                        field: "zlh",
-                        title: "专利号", event: 'setActive', style: 'cursor: pointer;'
-                    }
-                ]],
-                done: function (res, curr, count) {
+                        field : 'psdj',
+                        title : '评审等级',
+                        style : 'cursor: pointer;'
+                    } ] ],
+                done : function(res, curr, count) {
                     // 关闭等待刷新
                     layer.close(lodingMsg);
+
+
+                    $("#cgReward").html(count);
+                    $("#cgRewardShow").html(count);
                     // 点击行联动选择框--单选
-                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
                         var index = parseInt($(this).index() + 1);
                         $('tr').removeClass('layui-table-click');
                         $(this).addClass('layui-table-click');
@@ -117,6 +126,7 @@
                         $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                         selectRowData = res.data[index - 1];
                     });
+
                 }
             });
         }
@@ -131,8 +141,8 @@
                 renderTable();
             },
             resetEvent: function () { //点击重置按钮
-                $('#fmmc').val("");
-                $('#fmh').val("");
+                $('#xmmc').val("");
+                $('#xmbh').val("");
                 active.searchEvent();
             },
             handleEvent: function () { //点击关联匹配按钮
