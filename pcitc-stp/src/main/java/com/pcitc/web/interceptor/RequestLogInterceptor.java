@@ -1,6 +1,9 @@
 package com.pcitc.web.interceptor;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,11 +23,27 @@ import com.pcitc.base.system.SysReqLogs;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.HostUtil;
 
 @Component
 public class RequestLogInterceptor implements HandlerInterceptor 
 {
 	private static final String LOG_CLIENT = "http://pcitc-zuul/system-proxy/sys-provider/processlogs/process-logs-save";
+	
+	private static Boolean runInServerHost = false;
+	private static String serverHosts = "10.246.94.84,10.246.94.76,172.16.100.127,172.16.100.8";
+	
+	private static Set<String> runHost = HostUtil.getLocalHostAddressSet();
+	private static Set<String> serverHostSet = new HashSet<String>(Arrays.asList(serverHosts.split(",")));
+	
+	static 
+	{
+		serverHostSet.retainAll(runHost);
+    	if(serverHostSet.size() > 0) 
+    	{
+    		runInServerHost = true;
+    	}
+	}
 	
 	@Autowired
     public HttpHeaders httpHeaders;
@@ -50,6 +69,10 @@ public class RequestLogInterceptor implements HandlerInterceptor
 			throws Exception {
 		try 
 		{
+			if(!runInServerHost) 
+			{
+				return;
+			}
 			request.setAttribute("afterCompletionStartTime", System.currentTimeMillis());
 			//此功能暂时禁用，待未来有需求时放开
 			Long preHandleStartTime = (Long)request.getAttribute("preHandleStartTime");
