@@ -438,4 +438,6 @@ public interface OutProjectService {
 	 public OutProjectInfoWithBLOBs selectOutProjectInfoWithBLOBs(String dataId) throws Exception;
 
     public LayuiTableData selectProjectInfoWithAllInfoByCondTreeExpert(LayuiTableParam param);
+
+    public LayuiTableData selectProjectInfoWithAllInfoByCondYearExpert(LayuiTableParam param);
 }

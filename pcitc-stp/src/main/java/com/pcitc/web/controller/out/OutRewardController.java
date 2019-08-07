@@ -23,6 +23,7 @@ import com.pcitc.web.common.BaseController;
 public class OutRewardController extends BaseController {
 	
 	private static final String REWARD_LIST_PAGE = "http://pcitc-zuul/system-proxy/out-provider/reward-list";
+	private static final String REWARD_LIST_PAGE_EXPERT = "http://pcitc-zuul/system-proxy/out-provider/reward-list-expert";
 	private static final String GET_OUT_REWARD = "http://pcitc-zuul/system-proxy/out-provider/get-reward-list/";
 
 	@RequestMapping(value = "/out/ini-reward-list")
@@ -38,6 +39,19 @@ public class OutRewardController extends BaseController {
 		System.out.println("====/out/reward-list");
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(REWARD_LIST_PAGE, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+
+		return JSON.toJSON(retJson).toString();
+	}
+
+	@RequestMapping(value = "/out/reward-list-expert", method = RequestMethod.POST)
+	@ResponseBody
+	public Object outRewardlListExpert(@ModelAttribute("param") LayuiTableParam param) {
+
+		System.out.println("====/out/reward-list");
+        param.getParam().put("createuserid",sysUserInfo.getUserId());
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(REWARD_LIST_PAGE_EXPERT, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
 
 		return JSON.toJSON(retJson).toString();

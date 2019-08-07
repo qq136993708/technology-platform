@@ -3539,12 +3539,17 @@
 		where
 			 out_project_info.project_type != '1'
 			 and out_project_info.define3 = '项目管理系统'
-			<include refid="selectProjectInfoWithAllInfoByCond_sql"/>
-			GROUP BY out_project_info.hth
-			order by out_project_info.define10,out_project_info.hth desc, out_project_info.nd asc, out_project_info.xmid, out_project_info.ysnd asc, out_project_info.define8
-	</select>
-	
-	<!-- 分页显示项目数据数据,国拨项目统计的第三级展示 -->
+    <!--20190807-添加dataId查询条件-开始-->
+        <if test="dataIds != null">
+            and out_project_info.xmid in(${dataIds})
+        </if>
+    <!--20190807-添加dataId查询条件-结束-->
+         <include refid="selectProjectInfoWithAllInfoByCond_sql"/>
+         GROUP BY out_project_info.hth
+         order by out_project_info.define10,out_project_info.hth desc, out_project_info.nd asc, out_project_info.xmid, out_project_info.ysnd asc, out_project_info.define8
+ </select>
+
+ <!-- 分页显示项目数据数据,国拨项目统计的第三级展示 -->
 	<select id="selectCountryProjectByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
 		select out_project_info.define1,substr(out_project_info.define2 from 6) as define2,
 			   substr(out_project_info.type_flag FROM 4) as type_flag,

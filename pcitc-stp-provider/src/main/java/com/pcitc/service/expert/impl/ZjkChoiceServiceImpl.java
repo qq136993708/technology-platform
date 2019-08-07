@@ -353,6 +353,21 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         return data;
     }
 
+    @Override
+    public JSONObject selectByExampleByXmId(JSONObject jsonObject) {
+
+        JSONObject object = new JSONObject();
+        List<String> ids = (List<String>) jsonObject.get("list");
+        if(ids==null||ids.size()==0){
+            ids.add("");
+        }
+        ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+        zjkChoiceExample.createCriteria().andXmIdIn(ids);
+        List<ZjkChoice> zjkChoices = this.selectByExample(zjkChoiceExample);
+        object.put("list", zjkChoices == null || zjkChoices.size() == 0 ? new ArrayList<>() : zjkChoices);
+        return object;
+    }
+
     /**
      * 根据条件分页搜索
      *
