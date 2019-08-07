@@ -35,6 +35,7 @@ public class JwtTokenUtil implements Serializable {
 	private static final String INSTITUTE_NAME = "instituteNames";
 	private static final String CLAIM_KEY_POSTID = "postId";
 	private static final String CLAIM_KEY_LEVEL = "userLevel";
+	private static final String CLAIM_KEY_POSITION = "userPosition"; // 职务
 	//private static final String CLAIM_KEY_FUNCTIONLIST = "functionList";
 
 	@Value("${jwt.secret}")
@@ -122,6 +123,7 @@ public class JwtTokenUtil implements Serializable {
 		//claims.put(INSTITUTE_NAME, user.getInstituteNames());
 		claims.put(CLAIM_KEY_POSTID, user.getUserPost());
 		claims.put(CLAIM_KEY_LEVEL, user.getUserLevel());
+		claims.put(CLAIM_KEY_POSITION, user.getUserConfig2());
 		// claims.put(CLAIM_KEY_FUNCTIONLIST, user.getFunList());
 		///System.out.println("142==---====generateToken------" + user.getFunList().size());
 		System.out.println("******************"+JSON.toJSON(claims).toString());

@@ -3655,7 +3655,7 @@
 	<!-- 查询项目结转明细记录 -->	
 	<select id="selectProjectInfoJzItems" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
 			SELECT 
-				data_id,nd,ysnd,xmid,hth,xmmc,ysnd,fzdw,fzdwbm,zycbm,zycmc,jf,ysje,fzdwunit,type_flag,gsbmmc,gsbmbm,fzdwunit,fzdwunitcw
+				data_id,nd,ysnd,xmid,hth,xmmc,ysnd,fzdw,fzdwbm,zycbm,zycmc,jf,ysje,fzdwunit,type_flag,gsbmmc,gsbmbm,fzdwunit,fzdwunitcw,ysfyxje,yszbxje,
 				define1,define2,define3,define4,define5,define6,define7,define8,define9,define10,define11,define12,define13 
 			FROM out_project_info 
 			WHERE define3 = '项目管理系统'
@@ -3668,11 +3668,14 @@
 		<if test="define11 != null">
 			and out_project_info.define11 = #{define11,jdbcType=VARCHAR}
 		</if>
+		<if test="define1 != null">
+			and out_project_info.define1 = #{define1,jdbcType=VARCHAR}
+		</if>
 	</select>
 	<!-- 查询项目结转金额 -->	
 	<select id="selectProjectInfoJz" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
 			SELECT 
-				gsbmmc,zycmc,define10,type_flag,define2,sum(jf) jf,sum(ysje) ysje 
+				gsbmmc,zycmc,define10,type_flag,define2,sum(jf) jf,sum(ysje) ysje,sum(ysfyxje) ysfyxje,sum(yszbxje) yszbxje
 			FROM out_project_info 
 			WHERE define3 = '项目管理系统'
 		<if test="ysnd != null">
@@ -3683,6 +3686,9 @@
 		</if>
 		<if test="define11 != null">
 			and out_project_info.define11 = #{define11,jdbcType=VARCHAR}
+		</if>
+		<if test="define1 != null">
+			and out_project_info.define1 = #{define1,jdbcType=VARCHAR}
 		</if>
 		GROUP BY gsbmmc,zycmc,type_flag,define2
 		ORDER BY gsbmmc desc,zycmc;
