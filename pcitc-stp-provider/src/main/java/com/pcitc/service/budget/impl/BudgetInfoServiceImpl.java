@@ -884,6 +884,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		example.setNd(nd);
 		example.setYsnd(nd);
 		example.setDefine11(type.getName());
+		example.setDefine1("费用性");
 		
 		return systemRemoteClient.selectProjectInfoJz(example);
 	}
@@ -895,7 +896,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		example.setNd(nd);
 		example.setYsnd(nd);
 		example.setDefine11(type.getName());
-		
+		example.setDefine1("费用性");
 		return systemRemoteClient.selectProjectInfoJzItems(example);
 	}
 }
