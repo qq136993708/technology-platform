@@ -208,9 +208,9 @@
 							<th lay-data="{field : 'nd',align : 'center',width : '80'}" rowspan="2">立项年度</th>
 							<th lay-data="{field : 'define10',align : 'left',width : '80'}" rowspan="2">专业处</th>
 							<th lay-data="{align:'center'}" colspan="3">总经费（万元）</th>
-							<th lay-data="{align:'center'}" colspan="2">2019年经费（万元）</th>
-							<th lay-data="{align:'center'}" colspan="2">2020年经费（万元）</th>
-							<th lay-data="{align:'center'}" colspan="2">2021年经费（万元）</th>
+							<th lay-data="{align:'center'}" colspan="2" id="showColumn1">2019年经费（万元）</th>
+							<th lay-data="{align:'center'}" colspan="2" id="showColumn2">2020年经费（万元）</th>
+							<th lay-data="{align:'center'}" colspan="2" id="showColumn3">2021年经费（万元）</th>
 							
 							<th lay-data="{field : 'define8',align : 'left',width : '150'}" rowspan="2">承担单位</th>
 							<th lay-data="{field : 'define12',align : 'left',width : '100'}" rowspan="2">单位性质</th>
@@ -432,6 +432,10 @@
 			}
 			var nextYear = parseInt(thisYear) + 1;
 			var afterNextYear = parseInt(nextYear) + 1;
+			
+			$("#showColumn1").html(thisYear+"年经费（万元）");
+			$("#showColumn2").html(nextYear+"年经费（万元）");
+			$("#showColumn3").html(afterNextYear+"年经费（万元）");
 
 			table.init('processdef-table', {
 				url : '/one_level_main/project_fx_table_year_data?v_date=' + v_date,
