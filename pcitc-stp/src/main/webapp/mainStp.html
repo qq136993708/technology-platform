@@ -120,7 +120,7 @@
                 <div class="layui-main-box" id="actualPay">
                     <span class="layui-box-icon bg-3"></span>
                     <div class="layui-box-content">
-                        <span class="layui-box-text">研究院预算</span>
+                        <span class="layui-box-text" id="payShow"></span>
                         <span class="layui-box-number" id="pay_id">
                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
@@ -455,6 +455,12 @@
 
 			<script type="text/javascript">
 				var host = "http://${outOAIp}";
+				var userPosition = "${userPosition}"; //职务
+				if (userPosition == '处长' || userPosition == '副处长') {
+					$("#payShow").html("科研预算");
+				} else {
+					$("#payShow").html("研究院预算");
+				}
 				//办公自动化待办
 				var url = host + "/kjb/_layouts/15/ZBAppPage/oacount.aspx";
 				sendPost(url, "POST", function(data) {
@@ -573,30 +579,6 @@
 						});
 				}
 				function sendPost(url, type, callback) {
-					/* $.ajax({
-					      type:type,
-					      url: "/getOA",
-					      dataType:"json",
-					      data: {url:url},
-					     success:function(data,status)
-					     {    
-					           if(callback)
-					           {
-					           	console.log(url+" 调用 成功,得到数据："+JSON.stringify(data)); 
-					           	callback(data);
-					           }
-						   },
-						   error:function(data)
-						   {
-							  console.log(url+" 远程调用失败  "+JSON.stringify(data));
-						      if(callback)
-					         {
-							    //alert(JSON.stringify(data) );
-					        	//callback(data);
-					         }
-						   }
-					
-					}); */
 				}
 
 				var companyCode = $("#companyCode").val();
@@ -648,7 +630,12 @@
 					});
 
 					$("#actualPay").on("click", function() {
-						parent.layui.index.openTabsPage("/direct/zyc/investment?isdisplay=1", "研究院预算");
+						if (userPosition == '处长' || userPosition == '副处长') {
+							parent.layui.index.openTabsPage("/direct/zyc/investment?isdisplay=1", "科研预算");
+						} else {
+							parent.layui.index.openTabsPage("/direct/zyc/investment?isdisplay=1", "研究院预算");
+						}
+						
 					});
 
 					$("#home_project").on("click", function() {

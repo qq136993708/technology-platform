@@ -1869,6 +1869,9 @@ public class DirectController extends BaseController {
 		request.setAttribute("nd", nd);
 		String userLevel = CommonUtil.getParameter(request, "userLevel", "");
 		request.setAttribute("userLevel", userLevel);
+
+		// 获取登录人员职务
+		request.setAttribute("userPosition", sysUserInfo.getUserConfig2());
 		return "stp/hana/home/level/zyc_investment";
 	}
 

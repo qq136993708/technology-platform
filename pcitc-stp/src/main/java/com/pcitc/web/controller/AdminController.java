@@ -771,6 +771,10 @@ public class AdminController extends BaseController {
 		ResponseEntity<LayuiTableData> noticeRes = this.restTemplate.exchange(PROJECT_NOTICE, HttpMethod.POST, noticeEntity, LayuiTableData.class);
 		LayuiTableData noticeJTD = noticeRes.getBody();
 		request.setAttribute("noticeList", noticeJTD.getData());
+		
+		// 获取登录人员职务
+		request.setAttribute("userPosition", sysUserInfo.getUserConfig2());
+		
 		return "/mainStp";
 	}
 
