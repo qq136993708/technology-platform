@@ -23,15 +23,16 @@
     </div>
 </header>
 <main class="main contract project">
+<input type="hidden" name="nd" id="nd" value="${nd}">
     <div class="layui-row">
         <div class="layui-tab-content">
             <div class="layui-col-xs4">
-                <span>1980个</span>
+                <span id="plan_id">-个</span>
                 <span>已签约</span>
                 <span></span>
             </div>
             <div class="layui-col-xs4">
-                <span>108个</span>
+                <span  id="finished_id">-个</span>
                 <span>未签约</span>
                 <span></span>
             </div>
@@ -322,7 +323,13 @@
         laydate.render({
             elem: '#test-laydate-normElem'
             ,type: 'year'
-            ,value:"2019"
+           	 ,value:$("#nd").val()
+               ,max: $("#nd").val()+1
+               ,done : function(value, date, endDate) 
+               {
+           	    $("#nd").val(date.year);
+   				search_Event();
+   		    }
         });
         $(".more-condition").css("height",document.body.clientHeight/100+"rem");
         $(".more-bg ul li").click(function () {
@@ -347,6 +354,84 @@
             });
         });
     });
+    
+    
+    
+    //总预览
+    function allLook()
+    {
+    	var nd = $('#nd').val();
+    	$.ajax({
+    		type : "POST",
+    		url : "/one_level_main/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
+    		timeout : 9000,
+    		dataType : "json",
+    		cache : false,
+    		headers : {
+    			'Content-Type' : 'application/json'
+    		},
+    		success : function(data, status) {
+    			if (data.success == true || data.success == 'true') 
+    			{
+    				$("#plan_id").html(data.data.zsl + "个");
+
+    				if (typeof (data.data.yqht) == "undefined") 
+    				{
+    					$("#finished_id").html("0个");
+    				} else 
+    				{
+    					$("#finished_id").html(data.data.yqht + "个");
+    				}
+    			}
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+   
+    
+    
+    function queryTabel()
+    {
+    	var qdbz="已签";
+    	var nd = $('#nd').val();
+    	var object={ limit: 15, page: 2,  qdbz:qdbz,nd:nd };
+    	var datajaon=JSON.stringify(object);
+    	console.log("参数：\n"+datajaon);
+    	$.ajax({
+    		type : "POST",
+    		url : "/one_level_main/common_table_data_mobile",
+    		timeout : 9000,
+    		data: datajaon,
+    		contentType : "application/json",//上传内容格式为json结构
+    		cache : false,
+    		
+    		success : function(data, status) 
+    		{
+    			console.log(data.data);
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+   
+    
+    
+
+    function search_Event()
+    {
+    	allLook();
+    	queryTabel();
+    }
+    search_Event();
+    
+    
 </script>
 </body>
 </html>

@@ -1776,10 +1776,12 @@ public class HanaUtil {
 	public static List<ChartCircle2> getChildChartCircleForAward02(List<Award> listAll) {
 		List<Award> newList = new ArrayList<Award>();
 
-		for (int i = 0; i < listAll.size(); i++) {
+		for (int i = 0; i < listAll.size(); i++) 
+		{
 			Award entity = listAll.get(i);
 			Field[] arr = entity.getClass().getDeclaredFields();
-			for (int j = 0; j < arr.length; j++) {
+			for (int j = 0; j < arr.length; j++) 
+			{
 				Field field = arr[j];
 				String str = field.getName();
 
