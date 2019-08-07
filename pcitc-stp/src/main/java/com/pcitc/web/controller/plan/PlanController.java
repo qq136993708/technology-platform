@@ -132,18 +132,12 @@ public class PlanController extends BaseController {
 	 */
 	@RequestMapping(value = "/plan/addPlanPageMain")
 	public String pageAddPlanMain(HttpServletRequest request) {
-		Object dataId = request.getParameter("dataId");
-		String flag = "edit";
-		if (dataId == null || "".equals(dataId)) {
-			dataId = UUID.randomUUID().toString().replace("-", "");
-			flag = "add";
-		}
-		request.setAttribute("flag", flag);
-		request.setAttribute("dataId", dataId);
-		request.setAttribute("userName", sysUserInfo.getUserDisp());
-		request.setAttribute("unitName", sysUserInfo.getUnitName());
-		request.setAttribute("bak6", sysUserInfo.getUserId());
-		request.setAttribute("bak4", sysUserInfo.getUserDisp());
+        request.setAttribute("flag", "add");
+        request.setAttribute("dataId", UUID.randomUUID().toString().replace("-", ""));
+        request.setAttribute("userName", sysUserInfo.getUserDisp());
+        request.setAttribute("unitName", sysUserInfo.getUnitName());
+        request.setAttribute("bak6", sysUserInfo.getUserId());
+        request.setAttribute("bak4", sysUserInfo.getUserDisp());
 		request.setAttribute("closeType", "1");
 		return "stp/plan/addPlanPage";
 	}
@@ -151,7 +145,7 @@ public class PlanController extends BaseController {
 	/**
 	 * 新建任务
 	 */
-	@RequestMapping(value = "/plan/addPlanPage")
+	@RequestMapping(value = "/plan/pageAddPlan")
 	public String pageAddPlan() {
 		request.setAttribute("flag", "add");
 		request.setAttribute("dataId", UUID.randomUUID().toString().replace("-", ""));
