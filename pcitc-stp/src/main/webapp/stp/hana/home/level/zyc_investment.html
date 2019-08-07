@@ -42,7 +42,6 @@
 		<div class="">
 			<div class="fluid-top">
 
-
 				<div class="searchBox">
 					<label class="dateInput">
 						<span>年份</span>
@@ -52,6 +51,74 @@
 				</div>
 			</div>
 
+			<#if userPosition=='处长' || userPosition=='副处长'>
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header" title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额。以股份公司（直属研究院、分子公司、资产单位、集团单位、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
+							<span class="layui-time"></span>
+							科研预算执行率（万元）
+						</div>
+						<div class="layui-row-main">
+							<table id="zycTable" class="layui-table" lay-filter="zycTable">
+								<thead>
+									<tr>
+										<th lay-data="{field:'budgetItemName', width:'13%'}" rowspan="2">企业类型</th>
+										<th lay-data="{align:'center'}" colspan="3">总计</th>
+										<th lay-data="{align:'center'}" colspan="3">费用性</th>
+										<th lay-data="{align:'center'}" colspan="3">资本性</th>
+									</tr>
+									<tr>
+										<th lay-data="{field:'zysje', width:'10%',align:'right'}">年度预算</th>
+										<th lay-data="{field:'zsjje', width:'10%',align:'right'}">实际签订</th>
+										<th lay-data="{field:'zRate', width:'9%',align:'right',templet:function(d){return d.zRate+'%'}}">执行率</th>
+
+										<th lay-data="{field:'fyxysje', width:'10%',align:'right'}">年度预算</th>
+										<th lay-data="{field:'fyxsjje', width:'10%',align:'right'}">实际签订</th>
+										<th lay-data="{field:'fyxRate', width:'9%',align:'right',templet:function(d){return d.fyxRate+'%'}}">执行率</th>
+
+										<th lay-data="{field:'zbxysje', width:'10%',align:'right'}">年度预算</th>
+										<th lay-data="{field:'zbxsjje', width:'10%',align:'right'}">实际签订</th>
+										<th lay-data="{field:'zbxRate', width:'9%',align:'right',templet:function(d){return d.zbxRate+'%'}}">执行率</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-time"></span>
+							专业处新开课题科研预算统计
+						</div>
+						<div class="layui-card-body btn-function">
+
+
+							<div class="text-total">
+								<span>
+									新开课题预算总金额:
+									<span class="text-total-blue" id="investment_chart6_01" onclick="budget_implementation('新开课题预算总金额')" style="cursor: pointer">
+										<img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+								<span>
+									新开课题已签总金额:
+									<span class="text-total-blue" id="investment_chart6_02" onclick="budget_implementation('新开课题已签总金额')" style="cursor: pointer">
+										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+									</span>
+								</span>
+							</div>
+
+							<div class="main-chart" id="investment_chart6" style="height: 280px; width: 100%;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			</#if>
 
 			<div class="layui-row layui-col-space15">
 				<div class="layui-col-md6">
@@ -84,8 +151,6 @@
 							</table>
 						</div>
 					</div>
-
-
 				</div>
 			</div>
 
@@ -129,147 +194,219 @@
 					</div>
 				</div>
 			</div>
-
-
-
-
 		</div>
-		<script src="/common/js/jquery-1.11.3.min.js"></script>
-		<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-		<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
-		<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
-		<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-		<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
-		<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
-		<script type="text/javascript" src="/stp/hana/common/hana_common.js"></script
-		<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
-		<script type="text/javascript">
-			var table;
-			layui.config({
-				base : '/layuiadmin/'
-			}).extend({
-				index : 'lib/index' //主入口模块
-			}).use([ 'index', 'jquery', 'form', 'laydate', 'table', 'laypage' ], function() {
-				$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate
-				form.render(null, 'component-form-group');
-				laydate.render({
-					elem : '#nd',
-					min : '2018-01-01',
-					type : 'year',
-					done : function(value, date, endDate) {
-						$(".layui-time").html(date.year);
-						$("#nd").val(date.year);
-						search_Event();
+	</div>
+	<script src="/common/js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+	<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/hana_common.js"></script>
+	<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+	<script type="text/javascript" src="/stp/hana/home/oneLevelMain/investment.js"></script>
+
+
+	<script type="text/javascript">
+		var table;
+		var userPosition = "${userPosition}"; //职务
+		if (userPosition == '处长' || userPosition == '副处长') {
+			var v_date = (new Date()).getTime();
+			var yAxis3 = [ {
+				type : 'value',
+				name : '亿元',
+				splitLine : {
+					show : false
+				},//去除网格线
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ];
+			// 新开课题科研预算统计
+			var chart6_url = "/one_level_main/investment_03?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + $('#nd').val() + "&v_date=" + v_date + "&type=1&xkFlag=1";
+			var colorNew2 = [ "#FED56B", "#9DD783", "#95c740" ];
+			var echart6 = load_mutl_bar_down(chart6_url, "investment_chart6", "", "", yAxis3, 30, colorNew2);
+			echart6.on('click', function(params) {
+
+			});
+		}
+		layui.config({
+			base : '/layuiadmin/'
+		}).extend({
+			index : 'lib/index' //主入口模块
+		}).use([ 'index', 'jquery', 'form', 'laydate', 'table', 'laypage' ], function() {
+			$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate
+			form.render(null, 'component-form-group');
+			laydate.render({
+				elem : '#nd',
+				min : '2018-01-01',
+				type : 'year',
+				done : function(value, date, endDate) {
+					$(".layui-time").html(date.year);
+					$("#nd").val(date.year);
+					search_Event();
+				}
+			});
+			$(".layui-time").html($("#nd").val());
+
+			//监听行单击事件
+			table.on('row(myTable)', function(obj) {
+				console.log(obj.tr) //得到当前行元素对象
+				console.log(obj.data) //得到当前行数据
+				selectRowData = obj.data;
+				var nd = $("#nd").val();
+			});
+
+			//监听行单击事件
+			table.on('row(myTable2)', function(obj) {
+				selectRowData = obj.data;
+				var nd = $("#nd").val();
+			});
+
+			myTable();
+			myTable2();
+
+			if (userPosition == '处长' || userPosition == '副处长') {
+				//监听行单击事件
+				table.on('row(zycTable)', function(obj) {
+					selectRowData = obj.data;
+					var xName = selectRowData.budgetItemName;
+					var nd = $('#nd').val();
+
+					var qdbz = '已签订';
+					var define11 = "";
+					var define12 = "";
+					if (xName == '资产公司' || xName == '集团公司') {
+						define11 = xName;
+
+					} else {
+						define11 = "股份公司";
 					}
-				});
-				$(".layui-time").html($("#nd").val());
 
-				//监听行单击事件
-				table.on('row(myTable)', function(obj) {
-					console.log(obj.tr) //得到当前行元素对象
-					console.log(obj.data) //得到当前行数据
-					selectRowData = obj.data;
-					var nd = $("#nd").val();
+					define12 = xName;
+					if (xName == '休斯顿') {
+						define12 = '休斯顿研发中心';
+					}
+					if (xName == '中东') {
+						define12 = '中东研发中心';
+					}
+
+					var url = encodeURIComponent("/one_level_main/common_table_new?define12=" + define12 + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8&define11=" + define11);
+					window.open("/instituteIndex?url=" + url);
 				});
 
-				//监听行单击事件
-				table.on('row(myTable2)', function(obj) {
-					selectRowData = obj.data;
-					var nd = $("#nd").val();
-				});
-				myTable();
-				myTable2();
+				zycTable();
+			}
+
+		});
+
+		function zycTable() {
+
+			var nd = $("#nd").val();
+			var v_date = (new Date()).getTime();
+			var url = '/one_level_main/investment_01_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&v_date=" + v_date;
+			table.init('zycTable', {
+				url : url,
+				height : "296px",
+				where : {}
+			});
+
+		}
+
+		function initEchart() {
+
+			var v_date = (new Date()).getTime();
+			var nd = $('#nd').val();
+			var ndstr = nd + "年";
+			var yAxis = [ {
+				type : 'value',
+				name : '数量（个）',
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ];
+
+			var yAxis2 = [ {
+				type : 'value',
+				name : '金额（万元）',
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ];
+
+			var chart1_url = "/small_leader/investment_data?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			var colorOne = [ "#ea886d", "#9799ec", "#5181E6", "#70b1ab", "#87d359" ];
+			var echart1 = load_mutl_bar(chart1_url, "investment_smal_chart1", "", "", yAxis2, 10, colorOne, false);
+			echart1.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
 
 			});
 
-			function initEchart() {
+			//直属研究院科研课题数量分布
+			var yAxis3 = [ {
+				type : 'value',
+				name : '金额（万元）',
+				min : 0,
+				max : 'dataMax',
+				position : 'left',
+				axisLabel : {
+					formatter : '{value}'
+				}
+			} ];
 
-				var v_date = (new Date()).getTime();
-				var nd = $('#nd').val();
-				var ndstr = nd + "年";
-				var yAxis = [ {
-					type : 'value',
-					name : '数量（个）',
-					position : 'left',
-					axisLabel : {
-						formatter : '{value}'
-					}
-				} ];
+			var chart2_url = "/small_leader/investment_data_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&type=1";
+			var colorLine = [ "#ea886d", "#5181E6", "#9799ec" ]
+			var echart2 = load_mony_line_down(chart2_url, "investment_smal_chart2", "", "", yAxis3, colorLine);
+			echart2.on('click', function(params) {
+				var xName = params.name;
+				var legentName = params.seriesName;
 
-				var yAxis2 = [ {
-					type : 'value',
-					name : '金额（万元）',
-					position : 'left',
-					axisLabel : {
-						formatter : '{value}'
-					}
-				} ];
+			});
+		}
 
-				var chart1_url = "/small_leader/investment_data?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
-				var colorOne = [ "#ea886d", "#9799ec", "#5181E6", "#70b1ab", "#87d359" ];
-				var echart1 = load_mutl_bar(chart1_url, "investment_smal_chart1", "", "", yAxis2, 10, colorOne, false);
-				echart1.on('click', function(params) {
-					var xName = params.name;
-					var legentName = params.seriesName;
-
-				});
-
-				//直属研究院科研课题数量分布
-				var yAxis3 = [ {
-					type : 'value',
-					name : '金额（万元）',
-					min : 0,
-					max : 'dataMax',
-					position : 'left',
-					axisLabel : {
-						formatter : '{value}'
-					}
-				} ];
-
-				var chart2_url = "/small_leader/investment_data_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&type=1";
-                var colorLine = [ "#ea886d", "#5181E6", "#9799ec" ]
-				var echart2 = load_mony_line_down(chart2_url, "investment_smal_chart2", "", "", yAxis3, colorLine);
-				echart2.on('click', function(params) {
-					var xName = params.name;
-					var legentName = params.seriesName;
-
-				});
-			}
-
-			//初始化图形
+		//初始化图形
+		initEchart();
+		//查询
+		function search_Event() {
 			initEchart();
-			//查询
-			function search_Event() {
-				initEchart();
-				myTable();
-				myTable2();
+			myTable();
+			myTable2();
+			if (userPosition == '处长' || userPosition == '副处长') {
+				zycTable();
 			}
+		}
 
-			function myTable() {
-				var v_date = (new Date()).getTime();
-				var nd = $('#nd').val();
-				var chart1_url = "/small_leader/investment_data?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
-				table.init('myTable', {
-					url : chart1_url,
-					height : "299px",
-					where : {}
+		function myTable() {
+			var v_date = (new Date()).getTime();
+			var nd = $('#nd').val();
+			var chart1_url = "/small_leader/investment_data?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
+			table.init('myTable', {
+				url : chart1_url,
+				height : "299px",
+				where : {}
 
-				});
+			});
 
-			}
+		}
 
-			function myTable2() {
-				var v_date = (new Date()).getTime();
-				var nd = $('#nd').val();
-				var chart1_url = "/small_leader/investment_data_02?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + nd + "&v_date=" + v_date;
-				table.init('myTable2', {
-					url : chart1_url,
-					height : "299px",
-					where : {}
+		function myTable2() {
+			var v_date = (new Date()).getTime();
+			var nd = $('#nd').val();
+			var chart1_url = "/small_leader/investment_data_02?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + nd + "&v_date=" + v_date;
+			table.init('myTable2', {
+				url : chart1_url,
+				height : "299px",
+				where : {}
 
-				});
+			});
 
-			}
-		</script>
+		}
+	</script>
 </body>
 </html>
