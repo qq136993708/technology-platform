@@ -5,6 +5,7 @@
     <result column="data_id" jdbcType="INTEGER" property="dataId" />
     <result column="uri" jdbcType="VARCHAR" property="uri" />
     <result column="host" jdbcType="VARCHAR" property="host" />
+    <result column="server_host" jdbcType="VARCHAR" property="serverHost" />
     <result column="req_type" jdbcType="VARCHAR" property="reqType" />
     <result column="class_name" jdbcType="VARCHAR" property="className" />
     <result column="method_name" jdbcType="VARCHAR" property="methodName" />
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    data_id, uri, `host`, req_type, class_name, method_name, user_id, log_time, start_time, 
-    end_time, process_time
+    data_id, uri, `host`, server_host, req_type, class_name, method_name, user_id, log_time, 
+    start_time, end_time, process_time
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.system.SysReqLogsExample" resultMap="BaseResultMap">
     select
@@ -106,13 +107,15 @@
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.system.SysReqLogs">
     insert into sys_req_logs (data_id, uri, `host`, 
-      req_type, class_name, method_name, 
-      user_id, log_time, start_time, 
-      end_time, process_time)
+      server_host, req_type, class_name, 
+      method_name, user_id, log_time, 
+      start_time, end_time, process_time
+      )
     values (#{dataId,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR}, #{host,jdbcType=VARCHAR}, 
-      #{reqType,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR}, 
-      #{userId,jdbcType=VARCHAR}, #{logTime,jdbcType=VARCHAR}, #{startTime,jdbcType=VARCHAR}, 
-      #{endTime,jdbcType=VARCHAR}, #{processTime,jdbcType=INTEGER})
+      #{serverHost,jdbcType=VARCHAR}, #{reqType,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
+      #{methodName,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{logTime,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{processTime,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.system.SysReqLogs">
     insert into sys_req_logs
@@ -125,6 +128,9 @@
       </if>
       <if test="host != null">
         `host`,
+      </if>
+      <if test="serverHost != null">
+        server_host,
       </if>
       <if test="reqType != null">
         req_type,
@@ -160,6 +166,9 @@
       </if>
       <if test="host != null">
         #{host,jdbcType=VARCHAR},
+      </if>
+      <if test="serverHost != null">
+        #{serverHost,jdbcType=VARCHAR},
       </if>
       <if test="reqType != null">
         #{reqType,jdbcType=VARCHAR},
@@ -205,6 +214,9 @@
       <if test="record.host != null">
         `host` = #{record.host,jdbcType=VARCHAR},
       </if>
+      <if test="record.serverHost != null">
+        server_host = #{record.serverHost,jdbcType=VARCHAR},
+      </if>
       <if test="record.reqType != null">
         req_type = #{record.reqType,jdbcType=VARCHAR},
       </if>
@@ -239,6 +251,7 @@
     set data_id = #{record.dataId,jdbcType=INTEGER},
       uri = #{record.uri,jdbcType=VARCHAR},
       `host` = #{record.host,jdbcType=VARCHAR},
+      server_host = #{record.serverHost,jdbcType=VARCHAR},
       req_type = #{record.reqType,jdbcType=VARCHAR},
       class_name = #{record.className,jdbcType=VARCHAR},
       method_name = #{record.methodName,jdbcType=VARCHAR},

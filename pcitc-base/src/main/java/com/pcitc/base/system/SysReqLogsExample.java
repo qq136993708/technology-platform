@@ -324,6 +324,76 @@ public class SysReqLogsExample {
             return (Criteria) this;
         }
 
+        public Criteria andServerHostIsNull() {
+            addCriterion("server_host is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostIsNotNull() {
+            addCriterion("server_host is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostEqualTo(String value) {
+            addCriterion("server_host =", value, "serverHost");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostNotEqualTo(String value) {
+            addCriterion("server_host <>", value, "serverHost");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostGreaterThan(String value) {
+            addCriterion("server_host >", value, "serverHost");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostGreaterThanOrEqualTo(String value) {
+            addCriterion("server_host >=", value, "serverHost");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostLessThan(String value) {
+            addCriterion("server_host <", value, "serverHost");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostLessThanOrEqualTo(String value) {
+            addCriterion("server_host <=", value, "serverHost");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostLike(String value) {
+            addCriterion("server_host like", value, "serverHost");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostNotLike(String value) {
+            addCriterion("server_host not like", value, "serverHost");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostIn(List<String> values) {
+            addCriterion("server_host in", values, "serverHost");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostNotIn(List<String> values) {
+            addCriterion("server_host not in", values, "serverHost");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostBetween(String value1, String value2) {
+            addCriterion("server_host between", value1, value2, "serverHost");
+            return (Criteria) this;
+        }
+
+        public Criteria andServerHostNotBetween(String value1, String value2) {
+            addCriterion("server_host not between", value1, value2, "serverHost");
+            return (Criteria) this;
+        }
+
         public Criteria andReqTypeIsNull() {
             addCriterion("req_type is null");
             return (Criteria) this;
