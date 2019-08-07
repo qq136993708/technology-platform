@@ -822,7 +822,14 @@
 					if (month != null && month != '') {
 
 						getCommonCount(nd);//科研装备、合同签订
-						getInvestmentAll(nd);//经费支出
+						
+						
+						if (userPosition == '处长' || userPosition == '副处长') {
+							getInvestmentAll(nd);//科研预算
+						} else {
+							getInvestmentInstitute(nd);//研究院预算
+						}
+						
 						patentCount(nd);//专利
 						appraisalCount(nd);//成果
 						setContcator_id(nd, v_date);//合同签订率
@@ -902,7 +909,7 @@
 				}
 
 				// 研究院预算
-				function getInvestmentAll(nd) {
+				function getInvestmentInstitute(nd) {
 					var v_date = (new Date()).getTime();
 					$.ajax({
 						type : "POST",
@@ -928,11 +935,11 @@
 								}
 								$("#pay_id").html(investMoneystr);
 							} else {
-								$("#pay_id").html("0");
+								$("#pay_id").html("<small>--亿元</small>");
 							}
 						},
 						error : function() {
-							$("#pay_id").html("0");
+							$("#pay_id").html("<small>--亿元</small>");
 						},
 						complete : function(XMLHttpRequest, status) {
 							if (status == 'timeout') {
@@ -941,6 +948,39 @@
 						}
 					});
 
+				}
+				
+				//科研预算
+				function getInvestmentAll(nd) {
+					var v_date = (new Date()).getTime();
+					$.ajax({
+						type : 'GET',
+						//url : "/one_level_main/investment_first_page_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date,
+						url : "/one_level_main/investment_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
+						dataType : 'json',
+						headers : {
+							'Content-Type' : 'application/json'
+						},
+						timeout : 3000, //超时时间设置，单位毫秒
+						error : function(XMLHttpRequest, status) {
+							$("#pay_id").html("<small>--亿元</small>");
+						},
+						success : function(data) {
+							var projectMoney = data.data;
+							var tt2 = 0;
+							for (var i = 0; i < projectMoney.length; i++) {
+								var zysje = projectMoney[i].zysje;
+								tt2 = tt2 + parseFloat(zysje);
+							}
+							var investMoneystr = "";
+							if (tt2 > 9999) {
+								investMoneystr = (parseFloat(tt2) / 10000).toFixed(2) + "<small>亿元</small>";
+							} else {
+								investMoneystr = parseFloat(tt2).toFixed(2) + "<small>万元</small>";
+							}
+							$("#pay_id").html(investMoneystr);
+						}
+					});
 				}
 
 				//专利-知识产权
