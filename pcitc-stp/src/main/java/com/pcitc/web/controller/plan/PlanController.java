@@ -152,20 +152,13 @@ public class PlanController extends BaseController {
 	 * 新建任务
 	 */
 	@RequestMapping(value = "/plan/addPlanPage")
-	public String pageAddPlan(HttpServletRequest request) {
-		Object dataId = request.getParameter("dataId");
-		String flag = "edit";
-		if (dataId == null || "".equals(dataId)) {
-			dataId = UUID.randomUUID().toString().replace("-", "");
-			flag = "add";
-		}
-		request.setAttribute("flag", flag);
-		request.setAttribute("dataId", dataId);
+	public String pageAddPlan() {
+		request.setAttribute("flag", "add");
+		request.setAttribute("dataId", UUID.randomUUID().toString().replace("-", ""));
 		request.setAttribute("userName", sysUserInfo.getUserDisp());
 		request.setAttribute("unitName", sysUserInfo.getUnitName());
 		request.setAttribute("bak6", sysUserInfo.getUserId());
 		request.setAttribute("bak4", sysUserInfo.getUserDisp());
-		// request.setAttribute("closeType", request.getParameter("closeType"));
 
 		request.setAttribute("userInfo", sysUserInfo);
 		return "stp/plan/addPlanPage";
