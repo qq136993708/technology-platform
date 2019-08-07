@@ -159,15 +159,33 @@
     					
     					all=all+parseFloat(ysxkje);
     					finished=finished+parseFloat(xkMoney);
+    					var rate=(xkMoney/ysxkje*100).toFixed(2);
     					
+    					var yq=parseFloat(xkMoney).toFixed(2);
+    					if(yq=='0.00')
+    					{
+    						yq=0;
+    					}
+    					
+    					var wclCount="";
+    					if(rate=='0.00')
+    					{
+    						rate=0;
+    					}
+    					if(parseInt(rate)>100)
+                     	{
+    						 wclCount="<span>完成率<lable style='color:red'>"+rate+"%</lable></span>";
+                     	}else
+                     	{
+                     		wclCount="<span>完成率"+rate+"%</span>";
+                     	}
     					var temp="<li>"+
 				    				"<p>"+
-				                        "<span>预算 "+(ysxkje/10000).toFixed(2)+"亿</span>"+
+				                        "<span>预算 "+parseFloat(ysxkje).toFixed(2)+"万</span>"+
 				                        "<span>"+zycmc+"</span>"+
 				                    "</p>"+
 				                    "<p>"+
-				                        "<span>已签"+(xkMoney/10000).toFixed(2)+"亿</span>"+
-				                        "<span>完成率"+(xkMoney/ysxkje).toFixed(2)+"%</span>"+
+				                        "<span>已签"+yq+"万</span>"+wclCount+
 				                    "</p>"+
 			                       "</li>";
     					count=count+temp;
@@ -224,11 +242,11 @@
     					finished=finished+parseFloat(zsjje);
     					var temp="<li>"+
 				    				"<p>"+
-				                        "<span>预算 "+(zysje/10000).toFixed(2)+"亿</span>"+
+				                        "<span>预算 "+parseFloat(zysje).toFixed(2)+"万</span>"+
 				                        "<span>"+define2+"</span>"+
 				                    "</p>"+
 				                    "<p>"+
-				                        "<span>已签"+(zsjje/10000).toFixed(2)+"亿</span>"+
+				                        "<span>已签"+parseFloat(zsjje).toFixed(2)+"万</span>"+
 				                        "<span>完成率"+(jeRate).toFixed(2)+"%</span>"+
 				                    "</p>"+
 			                       "</li>";
@@ -255,7 +273,6 @@
     	});
 
     }
-    
     
     //
     function set_all_look()
@@ -291,14 +308,26 @@
     					
     					all=all+parseFloat(zysje);
     					finished=finished+parseFloat(overed);
+    					
+    					
+    					var yq=parseFloat(overed).toFixed(2);//已签
+    					if(yq=='0.00')
+    					{
+    						yq=0;
+    					}
+    					var wcl=(overed/zysje*100).toFixed(2);//完成率
+    					if(wcl=='0.00')
+    					{
+    						wcl=0;
+    					}
     					var temp="<li>"+
 				    				"<p>"+
-				                        "<span>预算 "+(zysje/10000).toFixed(2)+"亿</span>"+
+				                        "<span>预算 "+parseFloat(zysje).toFixed(2)+"万</span>"+
 				                        "<span>"+budgetItemName+"</span>"+
 				                    "</p>"+
 				                    "<p>"+
-				                        "<span>已签"+(overed/10000).toFixed(2)+"亿</span>"+
-				                        "<span>完成率"+(overed/zysje).toFixed(2)+"%</span>"+
+				                        "<span>已签"+yq+"万</span>"+
+				                        "<span>完成率"+wcl+"%</span>"+
 				                    "</p>"+
 			                       "</li>";
     					count=count+temp;

@@ -24,45 +24,18 @@
     </div>
 </header>
 <main class="main contract cash">
+<input type="hidden" name="month" id="month" value="${month}">
+<input type="hidden" name="companyCode" id="companyCode" value="${companyCode}">
+
     <div class="layui-row">
         <div class="layui-tab-content">
-            <h4>现金流总计 <span>46 亿</span></h4>
+            <h4>总计 <span id="all_money_id">- 亿</span></h4>
         </div>
     </div>
     <div id="chart"></div>
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-            <ul>
-                <li class="not">
-                    <p>
-                        <span>勘探院</span>
-                        <span>-5782 万元</span>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span>勘探院</span>
-                        <span>5782 万元</span>
-                    </p>
-                </li>
-                <li class="not">
-                    <p>
-                        <span>勘探院</span>
-                        <span>-5782 万元</span>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span>勘探院</span>
-                        <span>5782 万元</span>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span>勘探院</span>
-                        <span>5782 万元</span>
-                    </p>
-                </li>
+            <ul id="list_id">
             </ul>
         </div>
     </div>
@@ -91,6 +64,75 @@
             ,value:"2019"
         });
     });
+    
+    
+    
+    function get_Mobile_Month_Cash_Flow()
+    {
+    	var month = $('#month').val();
+    	var companyCode=  $('#companyCode').val();
+    	console.log("参数：\n companyCode:"+companyCode+"month="+month);
+    	if(companyCode!=null && companyCode!='')
+   		{
+    		$.ajax({
+        		type : "GET",
+        		url : "/financial-decision/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
+        		timeout : 9000,
+        		dataType : "json",
+        		cache : false,
+        		headers : {
+        			'Content-Type' : 'application/json'
+        		},
+        		success : function(data, status) 
+        		{
+        			 console.log(data);
+        			 var all=0;
+        			 var count="";
+        			 if(data.length>0)
+        			 {
+        				 for(var i=0;i<data.length;i++)
+            			 {
+        					var g0GSJC= data[i].g0GSJC;
+        					var k0BQLJJE=parseFloat(data[i].k0BQLJJE).toFixed(2);//总预算科研投入
+        					all=all+parseFloat(k0BQLJJE);
+        					
+        					var classstr="";
+        					if(k0BQLJJE<0)
+        					{
+        						classstr=" class='not' ";
+        					
+        					}
+        					var temp="<li "+classstr+">"+
+    				    				"<p>"+
+    				                        "<span>"+g0GSJC+"</span>"+
+    				                        "<span>"+k0BQLJJE+"万元</span>"+
+    				                    "</p>"+
+    			                       "</li>";
+        					count=count+temp;
+            			 } 
+        			 }
+        			 
+        			 $("#list_id").html(count); 
+        			 $("#all_money_id").html((all/10000).toFixed(2)+" 亿"); 
+        		},
+        		error : function() {
+        		},
+        		complete : function(XMLHttpRequest, status) {
+        		}
+        	});
+   		}else
+  			{
+  			    alert("请联系管理员配置研究院相关的数据权限");
+  			}
+    	
+    	
+
+    }
+    get_Mobile_Month_Cash_Flow();
+    
+    
+    
+    
 </script>
 </body>
 </html>

@@ -48,6 +48,14 @@ public class DecisionServiceImpl implements IDecisionService {
     	return list;
     }
 
+    
+    public List<ScientificCashFlow02> getMobileMonthCashFlow(Map map)throws Exception
+    {
+    	List<ScientificCashFlow02> list = decisionMapper.getMobileMonthCashFlow(map);
+    	return list;
+    }
+    
+    
     //报表名称: 科技资金现金流分析 报表编码: H1AM_KY_ZH_1003_03
     public List<ScientificCashFlow03> getScientificCashFlow03Report(Map map)throws Exception
     {
