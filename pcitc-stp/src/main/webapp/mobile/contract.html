@@ -16,6 +16,7 @@
     </style>
 </head>
 <body>
+<input type="hidden" name="nd" id="nd" value="${nd}">
 <header>
     <div class="m_return child">
         <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
@@ -27,17 +28,17 @@
     <div class="layui-row">
         <div class="layui-tab-content">
             <div class="layui-col-xs4">
-                <span>1980个</span>
+                <span id="plan_id">-个</span>
                 <span>计划签约</span>
                 <span></span>
             </div>
             <div class="layui-col-xs4">
-                <span>389个</span>
+                <span id="finished_id">-个</span>
                 <span>已签约</span>
                 <span></span>
             </div>
             <div class="layui-col-xs4">
-                <span>79%</span>
+                <span id="rate_id">-%</span>
                 <span>签约率</span>
                 <span></span>
             </div>
@@ -54,7 +55,7 @@
         </div>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <ul>
+                <ul id="zyc_id">
                     <li>
                         <p>
                             <span>计划 1580 个</span>
@@ -86,10 +87,12 @@
                 </ul>
             </div>
             <div class="layui-tab-item">
-                <ul></ul>
+                <ul id="researchDepart_id">
+                </ul>
             </div>
             <div class="layui-tab-item">
-                <ul></ul>
+                <ul id="other_id">
+                </ul>
             </div>
         </div>
     </div>
@@ -110,14 +113,132 @@
         win.addEventListener(resizeEvt, recalc, false);
         doc.addEventListener('DOMContentLoaded', recalc, false);
     })(document, window);
+    
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
         laydate.render({
             elem: '#test-laydate-normElem'
             ,type: 'year'
-            ,value:"2019"
+            ,value:$("#nd").val()
+            ,max: $("#nd").val()+1
+            ,done : function(value, date, endDate) 
+            {
+        	    $("#nd").val(date.year);
+				search_Event();
+		    }
         });
+        
+        $(".layui-tab-title li").click(function () {
+           var index= $(this).index();/*获取当前点击的序号*/
+           //alert(index);
+        })
     });
+    
+    
+    
+    
+    //总预览
+    function allLook()
+    {
+    	var nd = $('#nd').val();
+    	$.ajax({
+    		type : "POST",
+    		url : "/one_level_main/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
+    		timeout : 9000,
+    		dataType : "json",
+    		cache : false,
+    		headers : {
+    			'Content-Type' : 'application/json'
+    		},
+    		success : function(data, status) {
+    			if (data.success == true || data.success == 'true') {
+    				$("#plan_id").html(data.data.zsl + "个");
+
+    				if (typeof (data.data.yqht) == "undefined") 
+    				{
+    					$("#finished_id").html("0个");
+    				} else 
+    				{
+    					$("#finished_id").html(data.data.yqht + "个");
+    				}
+    				$("#rate_id").html(data.data.qdl + "%");
+    			}
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+   
+    
+    
+    
+    
+	//研究院
+    function researchDepart()
+    {
+		
+    	var v_date = (new Date()).getTime();
+    	var nd = $('#nd').val();
+    	var url = "/one_level_main/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&type=mobile&nd=" + nd + "&v_date=" + v_date;
+    	$.ajax({
+    		type : "GET",
+    		url : url,
+    		timeout : 9000,
+    		dataType : "json",
+    		cache : false,
+    		headers : {
+    			'Content-Type' : 'application/json'
+    		},
+    		success : function(data, status) 
+    		{
+    			 console.log(data.data);
+    			 var count="";
+    			 if(data.data.length>0)
+    			 {
+    				 for(var i=0;i<data.data.length;i++)
+        			 {
+    					var define2= data.data[i].define2;//研究院
+    					var yqhtzj=data.data[i].yqhtzj;//已签
+    					var wqhtzj=data.data[i].wqhtzj;//未签
+    					var zsl=data.data[i].zsl;//计划
+    					
+    					var temp="<li>"+
+			                        "<p>"+
+			                            "<span>计划"+zsl+"个</span>"+
+			                            "<span>已签"+yqhtzj+"个</span>"+
+			                            "<span>"+define2+"</span>"+
+			                        "</p>"+
+			                       "</li>";
+    					count=count+temp;
+        			 } 
+    			 }
+    			 //alert(count);
+    			 $("#researchDepart_id").html(count); 
+    			 
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+	
+	
+    function search_Event()
+    {
+    	
+    	 allLook();
+    	 researchDepart();
+    }
+    search_Event();
+    
+    
+    
+	
 </script>
 </body>
 </html>

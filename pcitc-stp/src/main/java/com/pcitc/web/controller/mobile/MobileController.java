@@ -11,6 +11,32 @@ import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 public class MobileController extends BaseController {
+	
+	
+	
+	
+	@RequestMapping(value = "/mobile/budget")
+	public String budget(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String nd = HanaUtil.getCurrentYear();
+		request.setAttribute("nd", nd);
+		return "/mobile/budget";
+	}
+	
+	
+	/**
+	 * ================================================科研合同 begin
+	 * =====================================
+	 */
+
+	@RequestMapping(value = "/mobile/contract")
+	public String contract(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String nd = HanaUtil.getCurrentYear();
+		request.setAttribute("nd", nd);
+		return "/mobile/contract";
+	}
+	
 
 	/**
 	 * ================================================科研投入 begin
@@ -29,18 +55,7 @@ public class MobileController extends BaseController {
 	 * =====================================
 	 */
 
-	/**
-	 * ================================================科研合同 begin
-	 * =====================================
-	 */
-
-	@RequestMapping(value = "/mobile/kyht")
-	public String kyht(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		String nd = HanaUtil.getCurrentYear();
-		request.setAttribute("nd", nd);
-		return "/mobile/kyht";
-	}
+	
 
 	/**
 	 * ===============================================科研合同 end

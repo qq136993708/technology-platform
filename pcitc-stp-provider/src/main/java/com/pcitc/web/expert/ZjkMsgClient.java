@@ -121,6 +121,12 @@ public class ZjkMsgClient {
         return zjkMsgService.findZjkMsgByPage(param);
     }
 
+
+    @RequestMapping(value = "/zjkmsg-provider/zjkmsg/getTableDataTrees", method = RequestMethod.POST)
+    public Object getTableDataTrees(@RequestBody LayuiTableParam param) {
+        return zjkMsgService.selectMsgTree(param);
+    }
+
     /**
      * 保存
      *
