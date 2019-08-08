@@ -2131,6 +2131,6 @@
       ${sqlval}
     </update>
     <select id="queryAllExpert" parameterType="map" resultType="map">
-      SELECT expert_name,data_id,bak3 from zjk_expert where sys_flag=0 and del_flag=0 and audit_status=2 group by expert_name ORDER BY CONVERT(expert_name USING gbk) COLLATE gbk_chinese_ci ASC;
+      SELECT * from zjk_expert where sys_flag=0 and del_flag=0 and audit_status=2 group by expert_name ORDER BY CONVERT(expert_name USING gbk) COLLATE gbk_chinese_ci ASC;
     </select>
 </mapper>

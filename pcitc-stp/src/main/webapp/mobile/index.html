@@ -110,7 +110,7 @@
 				<span class="icon-decision icon-decision_04" id="contcator_id">0%</span>
 				<span>合同签订率</span>
 			</div>
-			<div class="dec-center-right3">
+			<div class="dec-center-right3" id="personnel_id">
 				<span></span>
 				<span>科研人才</span>
 				<span class="icon-decision icon-decision_06" id="expert_total">-位</span>
@@ -122,7 +122,7 @@
 					<span class="icon-decision icon-decision_06">-亿</span>
 					<span>直属研究院</span>
 				</div>
-				<div class="dec-center-left2" id="xjll">
+				<div class="dec-center-left2" id="cash">
 					<span></span>
 					<span>现金流量</span>
 					<span class="icon-decision icon-decision_03" id="all_money_id">-亿</span>
@@ -262,26 +262,23 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     $("#budget_id").click(function () {
     	location.href="/mobile/budget";
     });
-    //科研投入
-    $("#kytr").click(function () {
-    	location.href="/mobile/kytr";
+    //人才
+    $("#personnel_id").click(function () {
+    	location.href="/mobile/personnel";
     });
-    
-   //科研项目
+    //科研项目
     $("#project_id").click(function () {
     	location.href="/mobile/project";
     });
-    
     
     //科研合同 
     $("#contract_id").click(function () {
     	location.href="/mobile/contract";
     });
     //现金流量
-    $("#xjll").click(function () {
+    $("#cash").click(function () {
     	location.href="/mobile/cash";
     });
-    
     
     
     
@@ -690,20 +687,19 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 		function set_expert(nd) 
 		{
 			$.ajax({
-				type : 'GET',
-				url : "/expertController/queryAllExpert",
+				type : 'POST',
+				url : "/mobile/getAllExpertTableData",
 				dataType : 'json',
 				headers : {
 					'Content-Type' : 'application/json'
 				},
-				timeout : 3000,
+				timeout : 10000,
 				error : function(XMLHttpRequest, status) {
 					$("#expert_total").html("-位");
 				},
 				success : function(data) {
-					var length = data.length
+					var length = data.count
 					//alert(length);
-					
 					$("#expert_total").html(length + "位");
 				}
 			});

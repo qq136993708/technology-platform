@@ -15,7 +15,6 @@
     <div class="m_return child">
         <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>科技人才</h4>
-        <div id="test-laydate-normElem" placeholder="yyyy" class="laydate-c"></div>
     </div>
     <div class="search">
         <input type="text" value="请输入姓名 单位或专业领域" />
@@ -74,108 +73,16 @@
     <div class="layui-tab">
         <div>
             <ul class="layui-tab-title">
-                <li class="layui-this">院士风采</li>
-                <li>科技人才</li>
+                <li class="layui-this">院士风采<label id="ys_count"></label> </li>
+                <li>科技人才<label id="other_count"></label> </li>
             </ul>
         </div>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <div class="list">
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/1cf7678a240c42299313322d904ca7f0/20190703184736975_file_16bb772690f_39c69bf6.png" alt="">
-                        </div>
-                        <div class="item-cont">
-                            <p><span>欧阳郑</span><span>男</span><span>（中国科学院院士）</span></p>
-                            <p><span>简介</span><span>中国科学院化学研究所结构化学专业中国科学院化学研究所结构化学专业</span></p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/1cf7678a240c42299313322d904ca7f0/20190703184736975_file_16bb772690f_39c69bf6.png" alt="">
-                        </div>
-                        <div class="item-cont">
-                            <p><span>欧阳郑</span><span>男</span><span>（中国科学院院士）</span></p>
-                            <p><span>简介</span><span>中国科学院化学研究所结构化学专业中国科学院化学研究所结构化学专业</span></p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/1cf7678a240c42299313322d904ca7f0/20190703184736975_file_16bb772690f_39c69bf6.png" alt="">
-                        </div>
-                        <div class="item-cont">
-                            <p><span>欧阳郑</span><span>男</span><span>（中国科学院院士）</span></p>
-                            <p><span>简介</span><span>中国科学院化学研究所结构化学专业中国科学院化学研究所结构化学专业</span></p>
-                        </div>
-                    </div>
-                    <div class="item lady">
-                        <div class="item-img">
-                            <img src="http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/1cf7678a240c42299313322d904ca7f0/20190703184736975_file_16bb772690f_39c69bf6.png" alt="">
-                        </div>
-                        <div class="item-cont">
-                            <p><span>欧阳郑</span><span>女</span><span>（中国科学院院士）</span></p>
-                            <p><span>简介</span><span>中国科学院化学研究所结构化学专业中国科学院化学研究所结构化学专业</span></p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/1cf7678a240c42299313322d904ca7f0/20190703184736975_file_16bb772690f_39c69bf6.png" alt="">
-                        </div>
-                        <div class="item-cont">
-                            <p><span>欧阳郑</span><span>男</span><span>（中国科学院院士）</span></p>
-                            <p><span>单位</span><span>中国科学院化学研究所结构化学专业中国科学院化学研究所结构化学专业</span></p>
-                        </div>
-                    </div>
-                </div>
+                <div class="list" id="ys_list_id"></div>
             </div>
             <div class="layui-tab-item">
-                <div class="list">
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/1cf7678a240c42299313322d904ca7f0/20190703184736975_file_16bb772690f_39c69bf6.png" alt="">
-                        </div>
-                        <div class="item-cont">
-                            <p><span>欧阳郑</span><span>男</span><span>（中国科学院院士）</span></p>
-                            <p><span>单位</span><span>中国科学院化学研究所结构化学专业中国科学院化学研究所结构化学专业</span></p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/1cf7678a240c42299313322d904ca7f0/20190703184736975_file_16bb772690f_39c69bf6.png" alt="">
-                        </div>
-                        <div class="item-cont">
-                            <p><span>欧阳郑</span><span>男</span><span>（中国科学院院士）</span></p>
-                            <p><span>单位</span><span>中国科学院化学研究所结构化学专业中国科学院化学研究所结构化学专业</span></p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/1cf7678a240c42299313322d904ca7f0/20190703184736975_file_16bb772690f_39c69bf6.png" alt="">
-                        </div>
-                        <div class="item-cont">
-                            <p><span>欧阳郑</span><span>男</span><span>（中国科学院院士）</span></p>
-                            <p><span>单位</span><span>中国科学院化学研究所结构化学专业中国科学院化学研究所结构化学专业</span></p>
-                        </div>
-                    </div>
-                    <div class="item lady">
-                        <div class="item-img">
-                            <img src="http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/1cf7678a240c42299313322d904ca7f0/20190703184736975_file_16bb772690f_39c69bf6.png" alt="">
-                        </div>
-                        <div class="item-cont">
-                            <p><span>欧阳郑</span><span>女</span><span>（中国科学院院士）</span></p>
-                            <p><span>单位</span><span>中国科学院化学研究所结构化学专业中国科学院化学研究所结构化学专业</span></p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/1cf7678a240c42299313322d904ca7f0/20190703184736975_file_16bb772690f_39c69bf6.png" alt="">
-                        </div>
-                        <div class="item-cont">
-                            <p><span>欧阳郑</span><span>男</span><span>（中国科学院院士）</span></p>
-                            <p><span>单位</span><span>中国科学院化学研究所结构化学专业中国科学院化学研究所结构化学专业</span></p>
-                        </div>
-                    </div>
-                </div>
+                <div class="list" id="all_list_id"></div>
             </div>
         </div>
     </div>
@@ -198,11 +105,6 @@
     })(document, window);
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
-        laydate.render({
-            elem: '#test-laydate-normElem'
-            ,type: 'year'
-            ,value:"2019"
-        });
         $(".more-condition").css("height",document.body.clientHeight/100+"rem");
         $(".more-bg ul li").click(function () {
             $(this).addClass("layui-this")
@@ -218,6 +120,255 @@
             $(".layui-col-xs4 button").eq($(this).index()).removeClass("layui-hide");
         });
     });
+    
+    
+    
+    //院士
+    function queryTabel(url,id,type)
+    {
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : type,
+    		url : url+"?v_date="+v_date,
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			//console.log(JSON.stringify(data));
+    			var count="";
+    			//alert(data.length);
+    			$("#ys_count").html("("+data.length+")"); 	
+    			if(data.length>0)
+   			    {
+   				  for(var i=0;i<data.length;i++)
+       			  {
+   					 var dataId= data[i].dataId;
+   					 var expertName= data[i].expertName;
+   					 var sex= data[i].sex;
+   					 var expertProfessionalFieldName= data[i].expertProfessionalFieldName;
+   					 var userDesc= data[i].userDesc;
+   					 userDesc =getClear(userDesc);
+   					 
+   					 if(sex=='ROOT_UNIVERSAL_XB_N')
+   					 {
+   						sex='男';
+   					 }else
+					 {
+						sex='女';
+				     }
+   					 
+   					 var temp="<div class='item' onclick=\"view('"+dataId+"')\" >"+
+			                        "<div class='item-img'>"+
+			                            "<img dataType='headImg' id='"+dataId+"'  height='110'>"+
+			                        "</div>"+
+			                        "<div class='item-cont'>"+
+			                            "<p><span>"+expertName+"</span><span>"+sex+"</span><span>（"+expertProfessionalFieldName+"）</span></p>"+
+			                            "<p><span>简介</span><span>"+userDesc+"</span></p>"+
+			                        "</div>"+
+			                    "</div>"
+					 count=count+temp;
+       			  }
+   			   }
+    		   $("#"+id).html(count); 	
+    		   //获取图片
+               getFileResultImg();
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+    
+    //所有专家
+    function queryAllExpert(url,id,type)
+    {
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : type,
+    		url : url+"?v_date="+v_date,
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			//console.log(data);
+    			var count="";
+    			$("#other_count").html("("+data.count+")"); 	
+    			if(parseInt(data.data.length)>0)
+   			    {
+    				
+   				  for(var i=0;i<data.data.length;i++)
+       			  {
+   					 var dataId= data.data[i].dataId;
+   					 var expert_name= data.data[i].expertName;
+   					 var sex= data.data[i].sex;
+   					 var expertProfessionalFieldName= data.data[i].expertProfessionalFieldName;
+   					 var userDesc= data.data[i].userDesc;
+   					 var bak3= data.data[i].bak3;
+   					 userDesc =getClear(userDesc);
+   					 if(sex=='ROOT_UNIVERSAL_XB_N')
+   					 {
+   						sex='男';
+   					 }else
+					 {
+						sex='女';
+				     }
+   					 if(expertProfessionalFieldName=="undefined" || typeof(expertProfessionalFieldName) == "undefined")
+					 {
+					  expertProfessionalFieldName="";
+					 }
+   					 var expertProfessionalFieldNameStr="";
+   					 if(expertProfessionalFieldName!='')
+  					 {
+   						expertProfessionalFieldNameStr="<span>（"+expertProfessionalFieldName+"）</span>";
+  					 }
+   	                
+   					 var temp="";
+   					 //if(bak3!='ZJK_ZJLX_ZGKXYYS' && bak3!='ZJK_ZJLX_ZGGCYYS')//中国科学院院士,中国工程院院士
+   					// {
+   						      temp="<div class='item' onclick=\"view('"+dataId+"')\" >"+
+			                        "<div class='item-img'>"+
+			                            "<img dataType='headImg' id='"+dataId+"'  height='110'>"+
+			                        "</div>"+
+			                        "<div class='item-cont'>"+
+			                            "<p><span>"+expert_name+"</span><span>"+sex+"</span>"+expertProfessionalFieldNameStr+
+			                            "</p>"+
+			                            "<p><span>简介</span><span>"+userDesc+"</span></p>"+
+			                        "</div>"+
+			                    "</div>";
+   					// }
+					 count=count+temp;
+       			  }
+   			   }
+    		   $("#"+id).html(count); 	
+    		   //获取图片
+               getFileResultImg();
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+    
+    
+    queryTabel("/mobile/zjk-ys-list","ys_list_id","POST");
+    queryAllExpert("/mobile/getAllExpertTableData","all_list_id","POST");
+    
+    
+    
+    
+    
+    
+    
+    function getFileResultImg() 
+    {
+        //获取通用url
+        var ids = "";
+        $.each($('img[dataType="headImg"]'), function (i, d) {
+            ids=ids+","+$(this).attr("id");
+        });
+        var ret = getFileResult(ids);
+        for (var i = 0; i < ret.list.length; i++) 
+        {
+        	var filePath=ret.list[i].filePath;
+        	if(filePath==null || filePath=='')
+        	{
+        		filePath="/mobile/images/icon-back.png";
+        	}
+        	
+            $("#"+ret.list[i].dataid).attr("src",filePath);
+        }
+        
+       
+    }
+    function photoContent(picId) 
+    {
+        var ret = getFileResult(picId);
+        if (ret != null && ret.list.length > 0) 
+        {
+            picId = ret.list[0].id;
+        }
+        var base64 = "";
+        $.ajax({
+            type: 'get',
+            dataType: 'text',
+            async: false,
+            url: '/sysfile/viewPic/' + picId,
+            success: function (data) {
+                base64 = data;
+            },
+            error: function (e) {
+                alert("出错了");
+            }
+        });
+        return base64;
+    }
+    
+
+    ////加载图片
+    function getFileResult(fileIds) 
+    {
+        var ret = null;
+        ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+            ret = result;
+        });
+        //console.log("加载图片 \n"+JSON.stringify(ret));
+        return ret;
+    }
+    
+    function ajaxFile(url, data, callback) 
+    {
+        var result = null;
+        $.ajax({
+            type: 'post',
+            async: false,
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (data, status) {
+                result = data;
+                if (callback) {
+                    callback.call(this, data, status);
+                }
+            },
+            error: function (err, err1, err2) {
+                console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+            }
+        });
+        return result;
+    }
+    
+
+    function view(id) 
+    {
+    	location.href="/mobile/personnel_details?expertId="+id+"&display=1";
+    }
+    
+    
+    
+    function getClear(str) 
+    {
+    	            
+    	            if (str == null || str == undefined) {
+    	                return '';
+    	            } else {
+    	                var tem = str
+    	                    .replace(/&lt;/g, "<")
+    	                    .replace(/&gt;/g, ">")
+    	                    .replace(/&quot;/g, "\"")
+    	                    .replace(/&apos;/g, "'")
+    	                    .replace(/&amp;/g, "&")
+    	                    .replace(/&nbsp;/g, '').replace(/<\/?.+?\/?>/g, '').replace(/<[^>]+>/g, "") 
+    	            
+    	                return tem;
+    	            }
+    	        }
+    	
 </script>
 </body>
 </html>

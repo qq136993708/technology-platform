@@ -13,24 +13,32 @@
 <body>
 <header>
     <div class="m_return child">
-        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <a href="/mobile/personnel"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>详情</h4>
-        <div id="test-laydate-normElem" placeholder="yyyy" class="laydate-c"></div>
     </div>
 </header>
+<input name="expertName" id="expertName"  value="${zjkBaseInfo.expertName}" type="hidden">
 <main class="main-c">
     <div class="main personnel-details">
         <div class="list">
             <div class="item">
                 <div class="item-img">
-                    <img src="http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com/stp-vpc1-sctepl/files/uploadPath/1cf7678a240c42299313322d904ca7f0/20190703184736975_file_16bb772690f_39c69bf6.png" alt="">
+                    <img dataType="headImg" id="${zjkBaseInfo.dataId}" src="/stp/expert/img/default.png" >
                 </div>
                 <div class="item-cont">
-                    <p><span>欧阳郑</span><span>男</span><span>（中国科学院院士）</span></p>
+                    <p><span>${zjkBaseInfo.expertName}</span>
+                    <span>
+                      <#if zjkBaseInfo.sex=='ROOT_UNIVERSAL_XB_N'>男 </#if>
+                      <#if zjkBaseInfo.sex=='ROOT_UNIVERSAL_XB_V'>女 </#if>
+                    </span>
+                    <#if zjkBaseInfo.expertProfessionalFieldName!=''>
+                       <span>（${zjkBaseInfo.expertProfessionalFieldName}）</span>
+                    </#if>
+                    </p>
                 </div>
-                <div class="item-c">
-                    <p><span>简介</span><span>中国科学院化学研究所结构化学专业中国科学院化学研究所结构化学专业</span></p>
-                </div>
+                 <!-- <div class="item-c">
+                    <p><span>职称：</span><span>${zjkBaseInfo.expertProfessinal}</span></p>
+                </div>  -->
             </div>
         </div>
         <div class="layui-tab">
@@ -44,12 +52,16 @@
             </div>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
+                    ${zjkBaseInfo.userDesc}
                 </div>
                 <div class="layui-tab-item">
+                    ${zjkBaseInfo.bak6}
                 </div>
                 <div class="layui-tab-item">
+                 <table id="showTableKt" class="layui-table" lay-filter="tableDataCg"></table>
                 </div>
                 <div class="layui-tab-item">
+                   <table id="showTable" class="layui-table" lay-filter="tableDataCg"></table>
                 </div>
             </div>
         </div>
@@ -58,7 +70,9 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script>
-    var layer;
+    var  layer;
+    var  table;
+    var $;
     (function(doc, win) {
         var docEl = doc.documentElement,
             resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
@@ -71,13 +85,14 @@
         win.addEventListener(resizeEvt, recalc, false);
         doc.addEventListener('DOMContentLoaded', recalc, false);
     })(document, window);
-    layui.use(['jquery','layer','element','laydate'], function(){
-        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
-        laydate.render({
-            elem: '#test-laydate-normElem'
-            ,type: 'year'
-            ,value:"2019"
-        });
+    
+    
+    layui.use(['jquery','layer','element','laydate', 'table'], function(){
+        $=layui.jquery;
+        layer=layui.layer;
+        table = layui.table;
+        element=layui.element,laydate = layui.laydate;
+        
         $(".more-condition").css("height",document.body.clientHeight/100+"rem");
         $(".more-bg ul li").click(function () {
             $(this).addClass("layui-this")
@@ -92,7 +107,235 @@
             $(".layui-col-xs4 button").addClass('layui-hide')
             $(".layui-col-xs4 button").eq($(this).index()).removeClass("layui-hide");
         });
+        renderTableKt();
+        renderZLTablePatent();
     });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //科研课题start
+    function renderTableKt() 
+    {
+        var param = JSON.parse(window.localStorage.getItem("param"));
+        //渲染
+        table.render({
+            elem: '#showTableKt',
+            url: '/expertController/outProjectList',
+            method: "POST",
+            where: {
+                param: {
+                    "name": $("#expertName").val(),
+                    "leaderFlag": "1",
+                    "functionCode": param.code
+                }
+            },
+            limit: param.selfRownum,
+            id: 'showTableKt',
+            height: 260,
+            page: {
+                groups: 5,
+                limits: [param.selfRownum,  30, 45, 60],
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
+            cols: [[
+            //     {
+            //     type: 'checkbox',
+            //     event: 'changeEvents'
+            // },
+                {
+                title: '序号',
+                type: 'numbers',
+                width:55
+            },
+                {
+                field: 'xmmc',
+                title: '项目名称',
+                width: '18%',
+                style: 'cursor: pointer;'
+            },
+
+                {
+                    field: 'fzdw',
+                    title: '负责单位',
+                    width: '18%',
+                    style: 'cursor: pointer;'
+                },{
+                field: 'zylb',
+                title: '专业类别',
+                width: '18%',
+                style: 'cursor: pointer;'
+            },
+                {
+                    field: 'nd',
+                    title: '立项年度',
+                    style: 'cursor: pointer;'
+                }
+            ]],
+            done: function (res, curr, count) {
+                // 关闭等待刷新
+                //$("#ktCount").html(count);
+                //$("#ktCountShow").html(count);
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    var index = parseInt($(this).index() + 1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData = res.data[index - 1];
+                });
+            }
+        });
+    }
+    
+    
+    //专利start
+    function renderZLTablePatent() 
+    {
+        var param = JSON.parse(window.localStorage.getItem("param"));
+
+        //渲染
+        table.render({
+            elem: '#showTable',
+            url: '/expertController/queryOutPatentList',
+            method: "POST",
+            where: {
+                param: {
+                    "name": $("#expertName").val(),
+                }
+            },
+            limit: param.selfRownum,
+            id: 'showTable',
+            height: 260,
+            page: {
+                groups: 5,
+                limits: [param.selfRownum, 30, 45, 60],
+                // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
+            cols: [[
+                // {type: 'checkbox', event: 'changeEvents'},
+                {title: '序号', type: 'numbers', width: 55},
+                {
+                    field: "fmmc",
+                    title: "名称", event: 'setActive', style: 'cursor: pointer;', width: '15%'
+                },
+                {
+                    field: "wxlx",
+                    title: "类型", event: 'setActive', style: 'cursor: pointer;', width: '15%'
+
+                },
+                // {
+                //     field: "zlh",
+                //     title: "专利号", event: 'setActive', style: 'cursor: pointer;'
+                // }
+                // ,
+                {
+                    field: "qlyq",
+                    title: "专利描述", event: 'setActive', style: 'cursor: pointer;'
+                    , templet: function (d) {
+                        return d.qlyq.substring(0, 20)+"...";
+                    }
+                }
+            ]],
+            done: function (res, curr, count) {
+                // 关闭等待刷新
+               // $("#zlCount").html(count);
+               // $("#zlCountShow").html(count);
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    var index = parseInt($(this).index() + 1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData = res.data[index - 1];
+                });
+            }
+        });
+    }
+
+    
+    
+    
+    
+    
+    
+    function getFileResultImg() {
+        //获取通用url
+        var ids = "";
+        $.each($('img[dataType="headImg"]'), function (i, d) {
+            ids = ids + "," + $(this).attr("id");
+        });
+        var ret = getFileResult(ids);
+        for (let i = 0; i < ret.list.length; i++) {
+            $("#" + ret.list[i].dataid).attr("src", ret.list[i].filePath);
+        }
+    }
+
+    getFileResultImg();
+
+    function photoContent(picId) {
+        var ret = getFileResult(picId);
+        if (ret != null && ret.list.length > 0) {
+            picId = ret.list[0].id;
+        }
+        var base64 = "";
+        $.ajax({
+            type: 'get',
+            dataType: 'text',
+            async: false,
+            url: '/sysfile/viewPic/' + picId,
+            success: function (data) {
+                base64 = data;
+            },
+            error: function (e) {
+                alert("出错了");
+            }
+        });
+        return base64;
+    }
+
+    ////加载图片
+    function getFileResult(fileIds) {
+        var ret = null;
+        ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+            ret = result;
+        });
+        return ret;
+    }
+
+    function ajaxFile(url, data, callback) {
+        var result = null;
+        $.ajax({
+            type: 'post',
+            async: false,
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (data, status) {
+                result = data;
+                if (callback) {
+                    callback.call(this, data, status);
+                }
+            },
+            error: function (err, err1, err2) {
+                console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+            }
+        });
+        return result;
+    }
 </script>
 </body>
 </html>
