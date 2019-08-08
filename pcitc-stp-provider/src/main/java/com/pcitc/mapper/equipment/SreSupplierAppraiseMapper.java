@@ -1,6 +1,10 @@
 package com.pcitc.mapper.equipment;
 
+import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.stp.equipment.SreSupplierAppraise;
+
+import java.util.List;
+import java.util.Map;
 
 public interface SreSupplierAppraiseMapper {
     int deleteByPrimaryKey(String id);
@@ -16,5 +20,9 @@ public interface SreSupplierAppraiseMapper {
     int updateByPrimaryKey(SreSupplierAppraise record);
 
 
+    SreSupplierAppraise selectEquipmentId(String equipmentId);
+
     SreSupplierAppraise selectSreSupplierDetailId(String equipmentDetailId);
+
+    List<SreSupplierAppraise> getList(Map map);
 }

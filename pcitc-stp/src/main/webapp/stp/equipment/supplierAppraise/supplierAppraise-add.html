@@ -39,6 +39,9 @@
             <input name="id" id="id" value="${sreSupplierAppraise.id}" type="hidden">
             <input name="sreDetailId" id="sreDetailId" value="${sreDetail.id}" type="hidden">
             <input id="supplierAppraise" value="${sreSupplierAppraise.supplierAppraise}" type="hidden">
+            <!--<input id="supplierName" name="supplierName" value="${supplierName}" type="hidden">-->
+            <input id="equipmentId" name="equipmentId" value="${sreEquipment.equipmentId}" type="hidden">
+
             <input id="flag" value="${flag}" type="hidden">
 
             <div class="layui-row">
@@ -75,8 +78,8 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">供应商</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="supplierWillStr" readonly="readonly" id="supplierWillStr"
-                                   value="${sreEquipment.supplierWillStr}" lay-verify="required" autocomplete="off" type="text">
+                            <input class="layui-input" name="supplierName" readonly="readonly" id="supplierName"
+                                   value="${supplierName}" lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
@@ -102,32 +105,32 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">供应商评价</label>
+                <label class="layui-form-label">供应商评价<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
-                    <input type="radio"   name="supplierAppraise" value="1" title="优"/>
-                    <input type="radio"   name="supplierAppraise" value="2" title="良"/>
-                    <input type="radio"   name="supplierAppraise" value="3" title="中"/>
-                    <input type="radio"   name="supplierAppraise" value="4" title="差"/>
+                    <input type="radio"   name="supplierAppraise" value="A" title="优"/>
+                    <input type="radio"   name="supplierAppraise" value="B" title="良"/>
+                    <input type="radio"   name="supplierAppraise" value="C" title="中"/>
+                    <input type="radio"   name="supplierAppraise" value="D" title="差"/>
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
                 <label for="" class="layui-form-label">应用情况</label>
                 <div class="layui-input-block">
-                <textarea placeholder="请输入应用情况" name="applicationsSituation" id="applicationsSituation" lay-verify="required"
+                <textarea placeholder="请输入应用情况" name="applicationsSituation" id="applicationsSituation"
                           class="layui-textarea">${sreSupplierAppraise.applicationsSituation}</textarea>
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
                 <label for="" class="layui-form-label">维修情况</label>
                 <div class="layui-input-block">
-                    <textarea placeholder="请输入维修情况" name="maintenanceSituation" id="maintenanceSituation" lay-verify="required"
+                    <textarea placeholder="请输入维修情况" name="maintenanceSituation" id="maintenanceSituation"
                               class="layui-textarea">${sreSupplierAppraise.maintenanceSituation}</textarea>
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
                 <label for="" class="layui-form-label">装备整体评价</label>
                 <div class="layui-input-block">
-                    <textarea placeholder="请输入装备整体评价" name="equipmentOverallAppraise" id="equipmentOverallAppraise" lay-verify="required"
+                    <textarea placeholder="请输入装备整体评价" name="equipmentOverallAppraise" id="equipmentOverallAppraise"
                               class="layui-textarea">${sreSupplierAppraise.equipmentOverallAppraise}</textarea>
                 </div>
             </div>
@@ -207,10 +210,17 @@
         form.render();
         /* 监听提交 */
         form.on('submit(sub)', function (data) {
-            var url="/sre-supplierAppraise/save";
-            var backurl="/sre-detail/to-list";
-            ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
-            return false;
+            var supplierAppraise=$("input[name='supplierAppraise']:checked").val();
+
+            if (supplierAppraise==undefined || supplierAppraise==""){
+                layer.alert("请选择供应商评价")
+            }else{
+                var url="/sre-supplierAppraise/save";
+                var backurl="/sre-detail/to-list";
+                ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+                return false;
+            }
+
         });
     });
 
