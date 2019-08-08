@@ -79,6 +79,16 @@ public class BudgetMysql {
 	private Object wbkzje;
 
 	private Object budgetItemName;
+	
+	private Object ysjzje;
+	
+	public Object getYsjzje() {
+		return ysjzje;
+	}
+
+	public void setYsjzje(Object ysjzje) {
+		this.ysjzje = ysjzje;
+	}
 
 	public Object getBudgetItemName() {
 		return budgetItemName;

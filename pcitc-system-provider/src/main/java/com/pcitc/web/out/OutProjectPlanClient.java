@@ -237,7 +237,7 @@ public class OutProjectPlanClient {
 		String zycbm = map.get("zycbm");
 		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
 			// 大领导特殊，能看所有的费用性预算
-			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016,ZX,JD";
+			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
 		// 预算中，科技部外的部门特殊处理
 		if (zycbm.contains("30130011")) {
@@ -310,7 +310,7 @@ public class OutProjectPlanClient {
 			// 大领导、计划处特殊，能看所有的费用性预算
 			System.out.println("1大领导、计划处特殊，能看所有的费用性预算、专项机动");
 			zbxFlag = true;
-			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016,ZX,JD";
+			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
 		if (zycbm == null) {
 			zycbm = "xxxxxxxx";
@@ -407,7 +407,7 @@ public class OutProjectPlanClient {
 			// 大领导、计划处特殊，能看所有的费用性预算
 			zbxFlag = true;
 			System.out.println("1大领导、计划处特殊，能看所有的费用性预算、专项机动");
-			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016,ZX,JD";
+			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
 		if (zycbm == null) {
 			zycbm = "xxxxxxxx";
@@ -590,7 +590,7 @@ public class OutProjectPlanClient {
 		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
 			// 大领导特殊，能看所有的费用性预算
 			zbxFlag = true;
-			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016,ZX,JD";
+			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 			map.put("zycbm", zycbm);
 
 			actMoneyList = outProjectPlanService.getPlanMoneyCompleteRateByCompanyType(map);
@@ -603,41 +603,40 @@ public class OutProjectPlanClient {
 				Map<String, Object> ysMoney = (Map<String, Object>) ysMoneyList.get(k);
 				for (int j = 0; j < actMoneyList.size(); j++) {
 					Map<String, Object> actMoney = (Map<String, Object>) actMoneyList.get(j);
-					if(actMoney!=null)
-					{
-					  if (ysMoney.get("show_ali") != null && actMoney.get("type_flag") != null && ysMoney.get("show_ali").toString().equals(actMoney.get("type_flag").toString())) {
-						ysMoney.put("budgetItemName", ysMoney.get("show_ali"));
+					if (actMoney != null) {
+						if (ysMoney.get("show_ali") != null && actMoney.get("type_flag") != null && ysMoney.get("show_ali").toString().equals(actMoney.get("type_flag").toString())) {
+							ysMoney.put("budgetItemName", ysMoney.get("show_ali"));
 
-						// 费用性实际、费用性预算、费用性比率
-						ysMoney.put("fyxysje", ysMoney.get("fyx_money") == null ? "0" : ysMoney.get("fyx_money"));
-						ysMoney.put("fyxsjje", actMoney.get("fyxsjje") == null ? "0" : actMoney.get("fyxsjje"));
-						if (ysMoney.get("fyxysje").toString().equals("0")) {
-							ysMoney.put("fyxRate", 0);
-						} else {
-							ysMoney.put("fyxRate", Double.parseDouble(ysMoney.get("fyxsjje").toString()) * 100 / Double.parseDouble(ysMoney.get("fyxysje").toString()));
+							// 费用性实际、费用性预算、费用性比率
+							ysMoney.put("fyxysje", ysMoney.get("fyx_money") == null ? "0" : ysMoney.get("fyx_money"));
+							ysMoney.put("fyxsjje", actMoney.get("fyxsjje") == null ? "0" : actMoney.get("fyxsjje"));
+							if (ysMoney.get("fyxysje").toString().equals("0")) {
+								ysMoney.put("fyxRate", 0);
+							} else {
+								ysMoney.put("fyxRate", Double.parseDouble(ysMoney.get("fyxsjje").toString()) * 100 / Double.parseDouble(ysMoney.get("fyxysje").toString()));
+							}
+
+							// 资本性实际、资本性预算、资本性比率
+							ysMoney.put("zbxysje", ysMoney.get("zbx_money") == null ? "0" : ysMoney.get("zbx_money"));
+							ysMoney.put("zbxsjje", actMoney.get("zbxsjje") == null ? "0" : actMoney.get("zbxsjje"));
+							if (ysMoney.get("zbxysje").toString().equals("0")) {
+								ysMoney.put("zbxRate", 0);
+							} else {
+								ysMoney.put("zbxRate", Double.parseDouble(ysMoney.get("zbxsjje").toString()) * 100 / Double.parseDouble(ysMoney.get("zbxysje").toString()));
+							}
+
+							// 总实际、总预算、预算比率
+							ysMoney.put("zysje", ysMoney.get("zysje") == null ? "0" : ysMoney.get("zysje"));
+							ysMoney.put("zsjje", actMoney.get("zsjje") == null ? "0" : actMoney.get("zsjje"));
+							if (ysMoney.get("zysje").toString().equals("0")) {
+								ysMoney.put("zRate", 0);
+							} else {
+								ysMoney.put("zRate", Double.parseDouble(ysMoney.get("zsjje").toString()) * 100 / Double.parseDouble(ysMoney.get("zysje").toString()));
+							}
+
+							System.out.println(ysMoney.get("show_ali") + "====ysMoney.get()-----------" + ysMoney.get("zsjje"));
+							break;
 						}
-
-						// 资本性实际、资本性预算、资本性比率
-						ysMoney.put("zbxysje", ysMoney.get("zbx_money") == null ? "0" : ysMoney.get("zbx_money"));
-						ysMoney.put("zbxsjje", actMoney.get("zbxsjje") == null ? "0" : actMoney.get("zbxsjje"));
-						if (ysMoney.get("zbxysje").toString().equals("0")) {
-							ysMoney.put("zbxRate", 0);
-						} else {
-							ysMoney.put("zbxRate", Double.parseDouble(ysMoney.get("zbxsjje").toString()) * 100 / Double.parseDouble(ysMoney.get("zbxysje").toString()));
-						}
-
-						// 总实际、总预算、预算比率
-						ysMoney.put("zysje", ysMoney.get("zysje") == null ? "0" : ysMoney.get("zysje"));
-						ysMoney.put("zsjje", actMoney.get("zsjje") == null ? "0" : actMoney.get("zsjje"));
-						if (ysMoney.get("zysje").toString().equals("0")) {
-							ysMoney.put("zRate", 0);
-						} else {
-							ysMoney.put("zRate", Double.parseDouble(ysMoney.get("zsjje").toString()) * 100 / Double.parseDouble(ysMoney.get("zysje").toString()));
-						}
-
-						System.out.println(ysMoney.get("show_ali") + "====ysMoney.get()-----------" + ysMoney.get("zsjje"));
-						break;
-					}
 					}
 				}
 			}
@@ -783,21 +782,21 @@ public class OutProjectPlanClient {
 				}
 			}
 		}
-		
+
 		for (int i = 0; i < budMoneyList.size(); i++) {
 			Map<String, Object> bm = budMoneyList.get(i);
-			
+
 			if (ysMoneyList != null) {
 				for (int k = 0; k < ysMoneyList.size(); k++) {
 					Map<String, Object> ysMoney = (Map<String, Object>) ysMoneyList.get(k);
-					if (bm.get("budgetItemName") != null  && ysMoney.get("budgetItemName") != null && bm.get("budgetItemName").toString().equals(ysMoney.get("budgetItemName").toString())) {
+					if (bm.get("budgetItemName") != null && ysMoney.get("budgetItemName") != null && bm.get("budgetItemName").toString().equals(ysMoney.get("budgetItemName").toString())) {
 						// 资本性预算金额、总预算金额、资本性投入比率、总费用投入比
 						bm = this.getMoneyProperty2(bm, ysMoney, zbxFlag);
 						break;
 					}
 				}
 			}
-			
+
 		}
 
 		for (int k = 0; k < budMoneyList.size(); k++) {
@@ -903,19 +902,43 @@ public class OutProjectPlanClient {
 		logger.info("==================page getPlanMoneyByDepartment===========================" + map);
 		String username = map.get("username");
 		String zycbm = map.get("zycbm");
-		
+
 		if (zycbm != null && zycbm.contains("30130054")) {
 			// 计划处，能看所有的费用性预算
-			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016,ZX,JD";
+			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 			map.put("zycbm", zycbm);
 		}
-		
-		List temList = outProjectPlanService.getPlanMoneyByDepartment(map);
 
+		List temList = outProjectPlanService.getPlanMoneyByDepartment(map);
 		if (temList == null || temList.size() == 0) {
 			temList = outProjectPlanService.getPlanMoneyByDepartmentSpecial(map);
+		} else {
+			Double ysje = 0d;
+			Double ysjzje = 0d;
+			Double ysxkje = 0d;
+			Double sjzje = 0d;
+			Double xkMoney = 0d;
+			Double jzMoney = 0d;
+			for (int i = 0; i < temList.size(); i++) {
+				HashMap temMap = (HashMap) temList.get(i);
+				ysje = ysje + (temMap.get("ysje") == null ? 0d : Double.parseDouble(temMap.get("ysje").toString()));
+				ysjzje = ysjzje + (temMap.get("ysjzje") == null ? 0d : Double.parseDouble(temMap.get("ysjzje").toString()));
+				ysxkje = ysxkje + (temMap.get("ysxkje") == null ? 0d : Double.parseDouble(temMap.get("ysxkje").toString()));
+				sjzje = sjzje + (temMap.get("sjzje") == null ? 0d : Double.parseDouble(temMap.get("sjzje").toString()));
+				xkMoney = xkMoney + (temMap.get("xkMoney") == null ? 0d : Double.parseDouble(temMap.get("xkMoney").toString()));
+				jzMoney = jzMoney + (temMap.get("jzMoney") == null ? 0d : Double.parseDouble(temMap.get("jzMoney").toString()));
+			}
+			HashMap addMap = new HashMap();
+			addMap.put("zycmc", "合计");
+			addMap.put("ysje", ysje);
+			addMap.put("ysjzje", ysjzje);
+			addMap.put("ysxkje", ysxkje);
+			addMap.put("sjzje", sjzje);
+			addMap.put("xkMoney", xkMoney);
+			addMap.put("jzMoney", jzMoney);
+			temList.add(0, addMap);
 		}
-
+		System.out.println("getPlanMoneyByDepartment==========" + JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
