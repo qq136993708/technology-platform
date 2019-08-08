@@ -2,11 +2,14 @@ package com.pcitc.web.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -34,6 +37,7 @@ import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.constant.SysConstant;
 import com.pcitc.base.hana.report.HanaConstant;
 import com.pcitc.base.stp.out.OutNotice;
 import com.pcitc.base.system.SysCollect;
@@ -45,10 +49,12 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserShowConfig;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.HostUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.common.SessionShare;
 import com.pcitc.web.test.OAAPIRestFul;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
@@ -107,7 +113,7 @@ public class AdminController extends BaseController {
 	private static final String XMGL_PENDING = "http://pcitc-zuul/system-proxy/out-wait-work/xmgl/page";
 
 	private static final String LEADER_WORK = "http://pcitc-zuul/system-proxy/planClient-provider/leader/work/list";
-	
+
 	private Integer TIME_OUT = 1 * 60 * 60;
 
 	/**
@@ -237,6 +243,16 @@ public class AdminController extends BaseController {
 		// oa系统的服务器地址
 		request.setAttribute("outOAIp", "10.1.4.10");
 
+		// 登录成功,保存当前用户登录的sessionId, 一个用户只能一处登录
+		String sessionID = request.getRequestedSessionId();
+		String userName = rsUser.getUserName();
+		if (!SessionShare.getSessionIdSave().containsKey(userName)) {
+			SessionShare.getSessionIdSave().put(userName, sessionID);
+		} else if (SessionShare.getSessionIdSave().containsKey(userName) && !sessionID.equals(SessionShare.getSessionIdSave().get(userName))) {
+			SessionShare.getSessionIdSave().remove(userName);
+			SessionShare.getSessionIdSave().put(userName, sessionID);
+		}
+
 		String cFlag = request.getParameter("cFlag");
 		request.setAttribute("userId", rsUser.getUserId());
 		if (rsUser.getUserLevel() != null && (rsUser.getUserLevel() == 1 || rsUser.getUserLevel() == 2) && cFlag == null) {
@@ -244,12 +260,12 @@ public class AdminController extends BaseController {
 			request.setAttribute("companyCode", companyCode);
 			String month = HanaUtil.getCurrentYearMoth();
 			request.setAttribute("month", month);
-			List<SysNews> sysNewsList=OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
+			List<SysNews> sysNewsList = OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
 			request.setAttribute("sysNewsList", sysNewsList);
 			return "/oneLevelMain";
 		} else {
-			
-			List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+
+			List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 			request.setAttribute("list", list);
 			return "/index";
 		}
@@ -385,8 +401,8 @@ public class AdminController extends BaseController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		request.setAttribute("userId", rsUser.getUserId());
-		
-		List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+
+		List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 		request.setAttribute("list", list);
 		return "/index";
 	}
@@ -495,6 +511,16 @@ public class AdminController extends BaseController {
 			loginCookie.setPath("/");
 			response.addCookie(loginCookie);
 			System.out.println("----------====登录成功2index....");
+			
+			// 登录成功,保存当前用户登录的sessionId, 一个用户只能一处登录
+			String sessionID = request.getRequestedSessionId();
+			String userName = userDetails.getUserName();
+			if (!SessionShare.getSessionIdSave().containsKey(userName)) {
+				SessionShare.getSessionIdSave().put(userName, sessionID);
+			} else if (SessionShare.getSessionIdSave().containsKey(userName) && !sessionID.equals(SessionShare.getSessionIdSave().get(userName))) {
+				SessionShare.getSessionIdSave().remove(userName);
+				SessionShare.getSessionIdSave().put(userName, sessionID);
+			}
 
 			request.setAttribute("userId", userDetails.getUserId());
 			String cFlag = request.getParameter("cFlag");
@@ -503,11 +529,11 @@ public class AdminController extends BaseController {
 				request.setAttribute("companyCode", companyCode);
 				String month = HanaUtil.getCurrentYearMoth();
 				request.setAttribute("month", month);
-				List<SysNews> sysNewsList=OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
+				List<SysNews> sysNewsList = OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
 				request.setAttribute("sysNewsList", sysNewsList);
 				return "/oneLevelMain";// leaderIndex
 			} else {
-				List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+				List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 				request.setAttribute("list", list);
 				return "/index";
 			}
@@ -566,6 +592,16 @@ public class AdminController extends BaseController {
 			loginCookie.setMaxAge(0);
 			loginCookie.setPath("/");
 			response.addCookie(loginCookie);
+			
+			// 登录成功,保存当前用户登录的sessionId, 一个用户只能一处登录
+			String sessionID = request.getRequestedSessionId();
+			String userName = userDetails.getUserName();
+			if (!SessionShare.getSessionIdSave().containsKey(userName)) {
+				SessionShare.getSessionIdSave().put(userName, sessionID);
+			} else if (SessionShare.getSessionIdSave().containsKey(userName) && !sessionID.equals(SessionShare.getSessionIdSave().get(userName))) {
+				SessionShare.getSessionIdSave().remove(userName);
+				SessionShare.getSessionIdSave().put(userName, sessionID);
+			}
 
 			String cFlag = request.getParameter("cFlag");
 			request.setAttribute("userId", userDetails.getUserId());
@@ -574,11 +610,11 @@ public class AdminController extends BaseController {
 				request.setAttribute("companyCode", companyCode);
 				String month = HanaUtil.getCurrentYearMoth();
 				request.setAttribute("month", month);
-				List<SysNews> sysNewsList=OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
+				List<SysNews> sysNewsList = OtherUtil.getSysNewsPicList(request, restTemplate, httpHeaders);
 				request.setAttribute("sysNewsList", sysNewsList);
 				return "/oneLevelMain";// leaderIndex
 			} else {
-				List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+				List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 				request.setAttribute("list", list);
 				return "/index";
 			}
@@ -690,21 +726,21 @@ public class AdminController extends BaseController {
 		HttpEntity<JSONObject> entity = new HttpEntity<JSONObject>(jsonObject, this.httpHeaders);
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(selectSonPlanBasesByCreateUserId, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject result = responseEntity.getBody();
-		List<Map<String,Object>> planBases = (List<Map<String,Object>>) result.get("list");
-        for (int i = 0,j = planBases.size(); i < j; i++) {
-            Map<String,Object> base = planBases.get(i);
-            String[] workOrderName =base.get("workOrderAllotUserName").toString().split(",");
-            if (workOrderName.length>1){
-                planBases.get(i).put("workOrderAllotUserName",workOrderName[0]+"等"+workOrderName.length+"人正在处理");
-            }
-        }
+		List<Map<String, Object>> planBases = (List<Map<String, Object>>) result.get("list");
+		for (int i = 0, j = planBases.size(); i < j; i++) {
+			Map<String, Object> base = planBases.get(i);
+			String[] workOrderName = base.get("workOrderAllotUserName").toString().split(",");
+			if (workOrderName.length > 1) {
+				planBases.get(i).put("workOrderAllotUserName", workOrderName[0] + "等" + workOrderName.length + "人正在处理");
+			}
+		}
 		request.setAttribute("taskList", planBases);
 
 		param = new LayuiTableParam();
 		Map<String, Object> map = param.getParam();
 		map.put("workOrderAllotUserId", sysUserInfo.getUserId());
 		map.put("workOrderStatus", "1");
-		map.put("isSchedule", "0"); //只显示未定时的
+		map.put("isSchedule", "0"); // 只显示未定时的
 		map.put("isChildren", "1");
 		map.put("bak7", "0");
 		param.setParam(map);
@@ -740,6 +776,10 @@ public class AdminController extends BaseController {
 		ResponseEntity<LayuiTableData> noticeRes = this.restTemplate.exchange(PROJECT_NOTICE, HttpMethod.POST, noticeEntity, LayuiTableData.class);
 		LayuiTableData noticeJTD = noticeRes.getBody();
 		request.setAttribute("noticeList", noticeJTD.getData());
+		
+		// 获取登录人员职务
+		request.setAttribute("userPosition", sysUserInfo.getUserConfig2());
+		
 		return "/mainStp";
 	}
 
@@ -839,10 +879,10 @@ public class AdminController extends BaseController {
 		ResponseEntity<LayuiTableData> responseEntity1 = this.restTemplate.exchange(XMGL_PENDING, HttpMethod.POST, entity1, LayuiTableData.class);
 		LayuiTableData retJson1 = responseEntity1.getBody();
 		int otherCount = retJson1.getCount();
-		
+
 		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("pendingTaskCount", doneTaskCount+otherCount);
-		
+		jsonObj.put("pendingTaskCount", doneTaskCount + otherCount);
+
 		return jsonObj.toString();
 	}
 
@@ -856,7 +896,14 @@ public class AdminController extends BaseController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
-		return new Result(true, "");
+		//判断是生产环境还是测试环境
+		Set<String> serverHosts = HostUtil.getLocalHostAddressSet();
+		Set<String> stpServerHosts = new HashSet<String>(Arrays.asList(SysConstant.STP_SERVER_HOST.split(",")));
+		serverHosts.retainAll(stpServerHosts);
+		if(serverHosts.size()>0) {
+			return new Result(true, "logout","./SSO/GLO/Redirect");
+		}
+		return new Result(true, "logout","/login");
 	}
 
 	@RequestMapping(value = "/admin/collect")
@@ -997,14 +1044,14 @@ public class AdminController extends BaseController {
 		if (request.getParameter("define1") != null && !request.getParameter("define1").equals("")) {
 			map.put("define1", request.getParameter("define1"));
 		}
-		
+
 		map.put("leaderFlag", String.valueOf(sysUserInfo.getUserLevel()));
 
-		String  cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
 		System.out.println("1====cgjszy" + cgjszy);
-		
+
 		map.put("cgjszy", cgjszy);
-				
+
 		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
 
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(APPRAISAL_COUNT, HttpMethod.POST, entity, JSONObject.class);

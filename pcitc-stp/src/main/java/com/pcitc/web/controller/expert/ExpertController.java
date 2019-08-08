@@ -8,11 +8,14 @@ import com.pcitc.base.expert.*;
 import com.pcitc.base.stp.out.OutPatent;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.ReverseSqlResult;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.controller.hanaLeader.OneLevelMainController;
+import com.pcitc.web.utils.HanaUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -109,6 +112,9 @@ public class ExpertController extends BaseController {
     private static final String LISTBAKTABLE = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page";
     //选择专家
     private static final String select_expert = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/select_expert";
+
+    //人员选择项目信息
+    private static final String expert_selected_project = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/selectByExample";
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test() {
@@ -796,8 +802,99 @@ public class ExpertController extends BaseController {
      * @return
      * @throws Exception
      */
+//    @RequestMapping(value = "/zjkOutProjectList")
+//    public String iniOutProjectList() throws Exception {
+//        return "/stp/expert/zjkOutProjectList";
+//    }
+
     @RequestMapping(value = "/zjkOutProjectList")
     public String iniOutProjectList() throws Exception {
+
+        String nd = CommonUtil.getParameter(request, "nd", "");// 年度
+        String ysnd = CommonUtil.getParameter(request, "ysnd", "");// 预算年磁
+        String xmmc = CommonUtil.getParameter(request, "xmmc", "");// 项目名
+        String hth = CommonUtil.getParameter(request, "hth", "");// 合同号
+        String define1 = CommonUtil.getParameter(request, "define1", "");// 费用类别->资本性、费用性
+        String define2 = CommonUtil.getParameter(request, "define2", "");// 8大院研究院
+        String type_flag = CommonUtil.getParameter(request, "type_flag", "");// 直属研究院、分子公司、集团等9种类型
+        String project_property = CommonUtil.getParameter(request, "project_property", "");// 国家项目、重大专项、重点项目、其他项目
+        String project_scope = CommonUtil.getParameter(request, "project_scope", "");// 新开项目、续建项目、完工项目
+        String zylb = CommonUtil.getParameter(request, "zylb", "");// 装备的各种技术类型
+        String define10 = CommonUtil.getParameter(request, "define10", "");// 各个处室
+        String define5 = CommonUtil.getParameter(request, "define5", "");// 技术分布
+        String ktlx = CommonUtil.getParameter(request, "ktlx", "");
+        String define11 = CommonUtil.getParameter(request, "define11", "");// 费用来源
+        String define12 = CommonUtil.getParameter(request, "define12", "");// 单位类别
+        String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
+        String fzdwflag = CommonUtil.getParameter(request, "fzdwflag", "承担单位");
+        request.setAttribute("fzdwflag", fzdwflag);
+        request.setAttribute("define12", define12);
+        request.setAttribute("define11", define11);
+        request.setAttribute("ktlx", ktlx);
+        request.setAttribute("define5", define5);
+        request.setAttribute("nd", nd);
+        request.setAttribute("ysnd", ysnd);
+        request.setAttribute("define10", define10);
+        request.setAttribute("xmmc", xmmc);
+        request.setAttribute("hth", hth);
+        request.setAttribute("define1", define1);
+        request.setAttribute("define2", define2);
+        request.setAttribute("type_flag", type_flag);
+        request.setAttribute("project_property", project_property);
+        request.setAttribute("project_scope", project_scope);
+        request.setAttribute("zylb", zylb);
+        request.setAttribute("groupFlag", groupFlag);
+        String projectId = CommonUtil.getParameter(request, "projectId", "");
+        request.setAttribute("projectId", projectId);
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("nd", nd);
+        // 领导标识
+        paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+
+        if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+            request.setAttribute("leaderFlag", "1");
+        }
+
+        // 费用类别
+        List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
+        request.setAttribute("fylbList", fylbList);
+        // 课题类型
+        List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
+        request.setAttribute("ktlxList", ktlxList);
+        // 技术分类
+        List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
+        request.setAttribute("jsflList", jsflList);
+        // 三级级联：经费来源(公司类型财务)->单位类别->研究院
+        List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
+        request.setAttribute("jflyList", jflyList);
+        // 科技部二级级联： 专业处->专业类别
+        List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
+        request.setAttribute("zycList", zycList);
+        // 负责单位
+        List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
+        request.setAttribute("fzdwList", fzdwList);
+        // 分组类型
+        List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
+        request.setAttribute("fzlxList", fzlxList);
+
+        // 部门
+        List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+        request.setAttribute("gsbmbmList", gsbmbmList);
+
+        // 倒推部门-各个处室(汉字)->倒推部门
+        String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");// 部门
+        String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");// 处室
+        String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");// 专业类别
+        if (gsbmbmFlag.equals("") && !zycbmFlag.equals("")) {
+            gsbmbmFlag = new OneLevelMainController().getGsbmbmFlagByzycbmFlag(gsbmbmFlag, zycbmFlag);
+        }
+
+        request.setAttribute("zycbmFlag", zycbmFlag);
+        request.setAttribute("gsbmbmFlag", gsbmbmFlag);
+        request.setAttribute("zylbbmFlag", zylbbmFlag);
+        request.setAttribute("nd", HanaUtil.getCurrentYear());
+        // (汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2
         return "/stp/expert/zjkOutProjectList";
     }
 
@@ -849,6 +946,8 @@ public class ExpertController extends BaseController {
         LayuiTableParam param = new LayuiTableParam();
         param.setLimit(100000000);
         param.getParam().put("status", "2");
+        param.getParam().put("userId", "xm");
+        param.getParam().put("addUserId", sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
@@ -858,7 +957,96 @@ public class ExpertController extends BaseController {
             Map m = (Map) data.getData().get(i);
             list.add(m.get("xmId") + "");
         }
+        if (list==null||list.size()==0){
+            list.add("-");
+        }
         request.setAttribute("xmid", org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
+
+        String nd = CommonUtil.getParameter(request, "nd", "");// 年度
+        String ysnd = CommonUtil.getParameter(request, "ysnd", "");// 预算年磁
+        String xmmc = CommonUtil.getParameter(request, "xmmc", "");// 项目名
+        String hth = CommonUtil.getParameter(request, "hth", "");// 合同号
+        String define1 = CommonUtil.getParameter(request, "define1", "");// 费用类别->资本性、费用性
+        String define2 = CommonUtil.getParameter(request, "define2", "");// 8大院研究院
+        String type_flag = CommonUtil.getParameter(request, "type_flag", "");// 直属研究院、分子公司、集团等9种类型
+        String project_property = CommonUtil.getParameter(request, "project_property", "");// 国家项目、重大专项、重点项目、其他项目
+        String project_scope = CommonUtil.getParameter(request, "project_scope", "");// 新开项目、续建项目、完工项目
+        String zylb = CommonUtil.getParameter(request, "zylb", "");// 装备的各种技术类型
+        String define10 = CommonUtil.getParameter(request, "define10", "");// 各个处室
+        String define5 = CommonUtil.getParameter(request, "define5", "");// 技术分布
+        String ktlx = CommonUtil.getParameter(request, "ktlx", "");
+        String define11 = CommonUtil.getParameter(request, "define11", "");// 费用来源
+        String define12 = CommonUtil.getParameter(request, "define12", "");// 单位类别
+        String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
+        String fzdwflag = CommonUtil.getParameter(request, "fzdwflag", "承担单位");
+        request.setAttribute("fzdwflag", fzdwflag);
+        request.setAttribute("define12", define12);
+        request.setAttribute("define11", define11);
+        request.setAttribute("ktlx", ktlx);
+        request.setAttribute("define5", define5);
+        request.setAttribute("nd", nd);
+        request.setAttribute("ysnd", ysnd);
+        request.setAttribute("define10", define10);
+        request.setAttribute("xmmc", xmmc);
+        request.setAttribute("hth", hth);
+        request.setAttribute("define1", define1);
+        request.setAttribute("define2", define2);
+        request.setAttribute("type_flag", type_flag);
+        request.setAttribute("project_property", project_property);
+        request.setAttribute("project_scope", project_scope);
+        request.setAttribute("zylb", zylb);
+        request.setAttribute("groupFlag", groupFlag);
+        String projectId = CommonUtil.getParameter(request, "projectId", "");
+        request.setAttribute("projectId", projectId);
+
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("nd", nd);
+        // 领导标识
+        paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+
+        if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
+            request.setAttribute("leaderFlag", "1");
+        }
+
+        // 费用类别
+        List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
+        request.setAttribute("fylbList", fylbList);
+        // 课题类型
+        List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
+        request.setAttribute("ktlxList", ktlxList);
+        // 技术分类
+        List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
+        request.setAttribute("jsflList", jsflList);
+        // 三级级联：经费来源(公司类型财务)->单位类别->研究院
+        List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
+        request.setAttribute("jflyList", jflyList);
+        // 科技部二级级联： 专业处->专业类别
+        List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
+        request.setAttribute("zycList", zycList);
+        // 负责单位
+        List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
+        request.setAttribute("fzdwList", fzdwList);
+        // 分组类型
+        List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
+        request.setAttribute("fzlxList", fzlxList);
+
+        // 部门
+        List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+        request.setAttribute("gsbmbmList", gsbmbmList);
+
+        // 倒推部门-各个处室(汉字)->倒推部门
+        String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");// 部门
+        String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");// 处室
+        String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");// 专业类别
+        if (gsbmbmFlag.equals("") && !zycbmFlag.equals("")) {
+            gsbmbmFlag = new OneLevelMainController().getGsbmbmFlagByzycbmFlag(gsbmbmFlag, zycbmFlag);
+        }
+
+        request.setAttribute("zycbmFlag", zycbmFlag);
+        request.setAttribute("gsbmbmFlag", gsbmbmFlag);
+        request.setAttribute("zylbbmFlag", zylbbmFlag);
+        request.setAttribute("nd", HanaUtil.getCurrentYear());
+        // (汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2
         return "/stp/expert/zjkOutProjectListPublic";
     }
 
@@ -874,14 +1062,18 @@ public class ExpertController extends BaseController {
         LayuiTableParam param = new LayuiTableParam();
         param.setLimit(100000000);
         param.getParam().put("status", "2");
+        param.getParam().put("userId", "cg");
+        param.getParam().put("addUserId", sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
-        List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
         List<String> list = new ArrayList<>();
         for (int i = 0, j = data.getData().size(); i < j; i++) {
             Map m = (Map) data.getData().get(i);
             list.add(m.get("xmId") + "");
+        }
+        if (list==null||list.size()==0){
+            list.add("-");
         }
         request.setAttribute("xmid", org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
         return "/stp/expert/zjkAchievementListPublic";
@@ -899,6 +1091,8 @@ public class ExpertController extends BaseController {
         LayuiTableParam param = new LayuiTableParam();
         param.setLimit(100000000);
         param.getParam().put("status", "2");
+        param.getParam().put("userId", "zl");
+        param.getParam().put("addUserId", sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
@@ -907,6 +1101,9 @@ public class ExpertController extends BaseController {
         for (int i = 0, j = data.getData().size(); i < j; i++) {
             Map m = (Map) data.getData().get(i);
             list.add(m.get("xmId") + "");
+        }
+        if (list==null||list.size()==0){
+            list.add("-");
         }
         request.setAttribute("xmid", org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
         return "/stp/expert/zjkPatentListPublic";

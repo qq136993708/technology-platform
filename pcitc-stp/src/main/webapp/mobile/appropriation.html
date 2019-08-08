@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+    <style>
+        .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;
+            height: auto;
+            overflow: hidden;
+            padding-bottom: .1rem;
+            background-size: 100%;
+            padding-top: .1rem;}
+    </style>
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>科研拨款</h4>
+        <div id="test-laydate-normElem" placeholder="yyyy" class="laydate-c"></div>
+    </div>
+</header>
+<main class="main contract appropriation">
+    <div class="layui-row">
+        <div class="layui-tab-content">
+            <h4>总计拨款 <span>46 亿</span></h4>
+        </div>
+    </div>
+    <div id="chart"></div>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <ul>
+                <li>
+                    <p>
+                        <span>拨款 <span class="number">3.2 亿</span></span>
+                        <span>4月</span>
+                        <span>研究院</span>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <span>拨款 <span class="number">3.2 亿</span></span>
+                        <span>4月</span>
+                        <span>研究院</span>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <span>拨款 <span class="number">3.2 亿</span></span>
+                        <span>4月</span>
+                        <span>研究院</span>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <span>拨款 <span class="number">3.2 亿</span></span>
+                        <span>4月</span>
+                        <span>研究院</span>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <span>拨款 <span class="number">3.2 亿</span></span>
+                        <span>4月</span>
+                        <span>研究院</span>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        laydate.render({
+            elem: '#test-laydate-normElem'
+            ,type: 'year'
+            ,value:"2019"
+        });
+    });
+</script>
+</body>
+</html>

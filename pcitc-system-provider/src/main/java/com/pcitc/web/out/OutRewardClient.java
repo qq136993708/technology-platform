@@ -38,6 +38,13 @@ public class OutRewardClient {
 		return outRewardService.getOutRewardListPage(param);
 	}
 
+	@ApiOperation(value = "分页显示奖励数据", notes = "分页显示奖励数据")
+	@RequestMapping(value = "/out-provider/reward-list-expert", method = RequestMethod.POST)
+	public LayuiTableData getOutRewardListPageExpert(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page getOutRewardListPage==================" + param);
+		return outRewardService.getOutRewardListPageExpert(param);
+	}
+
 	@ApiOperation(value = "科技成果年份列表", notes = "获取拥有科技成果历史记录的年份")
 	@RequestMapping(value = "/out-provider/reward-year-list", method = RequestMethod.POST)
 	public Object getOutRewardYearList() throws Exception {

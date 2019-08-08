@@ -123,12 +123,12 @@ public class IntlProjectInfoController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//System.out.println("开始审批！！！！ projectId:" + projectId);
 		WorkflowVo vo = new WorkflowVo();
-		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
 		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
 		vo.setAuthenticatedUserName(this.getUserProfile().getUserDisp());
+		vo.setMessageUserIds(this.getUserProfile().getUserId());
 		vo.setBusinessId(projectId);
-		vo.setProcessDefinitionName("项目立项审批");
+		vo.setProcessInstanceName("项目立项审批");
 		
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
 		Result rs = this.restTemplate.exchange(PROJECT_INFO_WORKFLOW_URL + projectId, HttpMethod.POST, entity, Result.class).getBody();

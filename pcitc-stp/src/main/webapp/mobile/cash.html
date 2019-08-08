@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+    <style>
+        .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;
+            height: auto;
+            overflow: hidden;
+            padding-bottom: .1rem;
+            background-size: 100%;
+            padding-top: .1rem;}
+    </style>
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>研究院现金流</h4>
+        <div id="test-laydate-normElem" placeholder="yyyy" class="laydate-c"></div>
+    </div>
+</header>
+<main class="main contract cash">
+<input type="hidden" name="month" id="month" value="${month}">
+<input type="hidden" name="companyCode" id="companyCode" value="${companyCode}">
+
+    <div class="layui-row">
+        <div class="layui-tab-content">
+            <h4>总计 <span id="all_money_id">- 亿</span></h4>
+        </div>
+    </div>
+    <div id="chart"></div>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <ul id="list_id">
+            </ul>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        laydate.render({
+            elem: '#test-laydate-normElem'
+            ,type: 'year'
+            ,value:"2019"
+        });
+    });
+    
+    
+    
+    function get_Mobile_Month_Cash_Flow()
+    {
+    	var month = $('#month').val();
+    	var companyCode=  $('#companyCode').val();
+    	console.log("参数：\n companyCode:"+companyCode+"month="+month);
+    	if(companyCode!=null && companyCode!='')
+   		{
+    		$.ajax({
+        		type : "GET",
+        		url : "/financial-decision/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
+        		timeout : 9000,
+        		dataType : "json",
+        		cache : false,
+        		headers : {
+        			'Content-Type' : 'application/json'
+        		},
+        		success : function(data, status) 
+        		{
+        			 console.log(data);
+        			 var all=0;
+        			 var count="";
+        			 if(data.length>0)
+        			 {
+        				 for(var i=0;i<data.length;i++)
+            			 {
+        					var g0GSJC= data[i].g0GSJC;
+        					var k0BQLJJE=parseFloat(data[i].k0BQLJJE).toFixed(2);//总预算科研投入
+        					all=all+parseFloat(k0BQLJJE);
+        					
+        					var classstr="";
+        					if(k0BQLJJE<0)
+        					{
+        						classstr=" class='not' ";
+        					
+        					}
+        					var temp="<li "+classstr+">"+
+    				    				"<p>"+
+    				                        "<span>"+g0GSJC+"</span>"+
+    				                        "<span>"+k0BQLJJE+"万元</span>"+
+    				                    "</p>"+
+    			                       "</li>";
+        					count=count+temp;
+            			 } 
+        			 }
+        			 
+        			 $("#list_id").html(count); 
+        			 $("#all_money_id").html((all/10000).toFixed(2)+" 亿"); 
+        		},
+        		error : function() {
+        		},
+        		complete : function(XMLHttpRequest, status) {
+        		}
+        	});
+   		}else
+  			{
+  			    alert("请联系管理员配置研究院相关的数据权限");
+  			}
+    	
+    	
+
+    }
+    get_Mobile_Month_Cash_Flow();
+    
+    
+    
+    
+</script>
+</body>
+</html>

@@ -26,7 +26,11 @@
 .layui-laydate-hint {
 	display: none;
 }
-.layui-form-item{height: 40px;overflow: hidden;}
+
+.layui-form-item {
+	height: 40px;
+	overflow: hidden;
+}
 </style>
 </head>
 <body>
@@ -174,31 +178,20 @@
 						</div>
 					</div>
 
+					<button class="layui-btn layuiadmin-btn-list" id="Open" style="position: absolute; top: 4px; right: 14px; height: 27px; width: 40px; padding: 0; text-align: center; display: block;">展开</button>
+				</div>
+				<div class="layui-inline" style="margin-left: 48px;">
+					<button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
+						<i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
+					</button>
+				</div>
 
 
-					<div class="layui-inline">
-						<label class="layui-form-label">分组类型：</label>
-						<div class="layui-input-inline">
-							<select name="groupFlag" id="groupFlag">
-								<option value="">--请选择--</option> <#list fzlxList as vo>
-								<option value="${vo.numValue}"<#if groupFlag==vo.numValue>selected="selected"</#if>>${vo.name}</option> </#list>
-							</select>
-						</div>
-					</div>
-	<button  class="layui-btn layuiadmin-btn-list" id="Open" style="position: absolute;top: 4px;right: 14px; height: 27px;width: 40px;padding: 0;text-align: center;display: block;}">展开</button>
-	</div>
-			<div class="layui-inline" style="margin-left: 48px;">
-				<button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
-					<i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
-				</button>
-			</div>
-
-
-			<div class="layui-inline">
-				<button class="layui-btn layuiadmin-btn-list" data-type="resetEvent">
-					<i class="layui-icon  layuiadmin-button-btn">重置</i>
-				</button>
-			</div>
+				<div class="layui-inline">
+					<button class="layui-btn layuiadmin-btn-list" data-type="resetEvent">
+						<i class="layui-icon  layuiadmin-button-btn">重置</i>
+					</button>
+				</div>
 			</div>
 			<div class="layui-card-body">
 				<table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
@@ -237,16 +230,16 @@
 				}
 			});
 			//加载表格      
-            $("#Open").click(function () {
-                if($(this).html()=="收起"){
-                    $(this).html("展开");
-                    $(".layui-form-item").css("height","40px");
-                }else {
-                    $(this).html("收起");
-                    $(".layui-form-item").css("height","auto");
+			$("#Open").click(function() {
+				if ($(this).html() == "收起") {
+					$(this).html("展开");
+					$(".layui-form-item").css("height", "40px");
+				} else {
+					$(this).html("收起");
+					$(".layui-form-item").css("height", "auto");
 
-                }
-            });
+				}
+			});
 			//移除表头的复选框,去掉全选
 			$(".layui-table-header table thead th input").remove();
 
@@ -641,7 +634,7 @@
 								mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
 							}
 						}
-						
+
 					}
 					mergeIndex = 0;
 					mark = 1;

@@ -25,6 +25,11 @@ public interface IDecisionService
     public List<ScientificCashFlow03> getScientificCashFlow03Report(Map map)throws Exception;
     
     
+    //手机端月报表
+    public List<ScientificCashFlow02> getMobileMonthCashFlow(Map map)throws Exception;
+    
+    
+    
     
     
     

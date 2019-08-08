@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,6 +25,7 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.mapper.IntlProject.IntlProjectInfoMapper;
 import com.pcitc.service.feign.WorkflowRemoteClient;
@@ -223,6 +225,38 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 			return false;
 		}
 	}
+	@Override
+	public boolean startWorkFlow(WorkflowVo workflowVo) {
+		try 
+		{
+			JSONObject flowJson = JSON.parseObject(JSON.toJSONString(workflowVo));
+			// 非必填选项, 会签时需要的属性，会签里所有的人，同意率（double类型）
+	    	flowJson.put("signAuditRate", 1d); 
+	    	// 待办业务详情、最终审批同意、最终审批不同意路径
+			flowJson.put("auditDetailsPath", "/intl_project/info_view?projectId="+workflowVo.getBusinessId());
+	    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-info?projectId="+workflowVo.getBusinessId()+"&workflow_status="+WorkFlowStatusEnum.STATUS_PASS.getCode());
+	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-info?projectId="+workflowVo.getBusinessId()+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
+
+	    	System.out.println(flowJson.toJSONString());
+	    	/*String rs = workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
+	    	if("true".equals(rs)) 
+			{
+	    		IntlProjectInfo plan = projectInfoMapper.selectByPrimaryKey(workflowVo.getBusinessId());
+	    		plan.setFlowStartStatus(WorkFlowStatusEnum.STATUS_RUNNING.getCode());
+	    		plan.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_RUNNING.getCode());
+	    		projectInfoMapper.updateByPrimaryKey(plan);
+	    		
+				return true;
+			}*/
+	    	return false;
+		}catch(Exception e) 
+		{
+			e.printStackTrace();
+			return false;
+		}
+	} 
+	
+	
 
 	@Override
 	public List<IntlProjectInfo> selectAllProjectInfo() 
@@ -253,5 +287,7 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 		
 		Long count = projectInfoMapper.countByExample(example);
 		return count.intValue();
-	} 
+	}
+
+	
 }

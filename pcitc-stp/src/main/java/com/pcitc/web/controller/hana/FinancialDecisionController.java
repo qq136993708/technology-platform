@@ -124,8 +124,8 @@ public class FinancialDecisionController extends BaseController {
 	private static final String GET_SCIENTIFIC_TOPIC_PIE = "http://pcitc-zuul/hana-proxy/hana/decision/financial/scientific_topic_develop_detail_pie";
 	private static final String GET_SCIENTIFIC_TOPIC_DETAIL_BY_CODE = "http://pcitc-zuul/hana-proxy/hana/decision/financial/scientific_topic_develop_detail_by_code";
 
-	
-	
+	// 手机端月报表
+	private static final String GET_Mobile_Month_Cash_Flow = "http://pcitc-zuul/hana-proxy/hana/decision/funds/cash-flow/getMobileMonthCashFlow";
 	
 	
 	
@@ -762,6 +762,35 @@ public class FinancialDecisionController extends BaseController {
 		return result.toString();
 
 	}
+	
+	//手机端月报表
+	@RequestMapping(method = RequestMethod.GET, value = "/get_Mobile_Month_Cash_Flow")
+	@ResponseBody
+	public String GET_Mobile_Month_Cash_Flow(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		PageResult pageResult = new PageResult();
+
+		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String companyCode = CommonUtil.getParameter(request, "companyCode", "1020");
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("month", month);
+		paramsMap.put("companyCode", companyCode);
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		ResponseEntity<List> responseEntity = restTemplate.exchange(GET_Mobile_Month_Cash_Flow, HttpMethod.POST, entity, List.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		JSONArray array=new JSONArray();
+		if (statusCode == 200) 
+		{
+			List list = responseEntity.getBody();
+			array= JSONArray.parseArray(JSON.toJSONString(list));
+			
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>get_Mobile_Month_Cash_Flow result = " + array.toString());
+		}
+		
+		return array.toString();
+
+	}
+	
 
 	/**
 	 * @param request

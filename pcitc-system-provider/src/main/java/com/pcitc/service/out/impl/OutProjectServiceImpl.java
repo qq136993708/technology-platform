@@ -15,10 +15,7 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.pcitc.base.expert.ZjkChoice;
-import com.pcitc.base.expert.ZjkChoiceExample;
-import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
+import org.apache.commons.beanutils.BeanUtils;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -35,6 +32,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.expert.ZjkChoice;
+import com.pcitc.base.expert.ZjkChoiceExample;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
@@ -42,6 +41,7 @@ import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 import com.pcitc.base.stp.out.TfcHotEs;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyEs;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.es.builder.BooleanCondtionBuilder;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
@@ -56,6 +56,7 @@ import com.pcitc.service.doc.impl.AccessorServiceImpl;
 import com.pcitc.service.out.OutProjectService;
 import com.pcitc.utils.StringUtils;
 import com.pcitc.web.feign.TechFamilyProviderClient;
+import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
 
 @Service("outProjectService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -298,7 +299,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		}
 		return hashmap;
 	}
-	
+
 	/**
 	 * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息
 	 */
@@ -534,7 +535,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 				} else {
 					temMap.put("realIndex", realIndex);
 				}
-				
+
 			}
 		}
 
@@ -548,6 +549,285 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息
 	 */
 	public LayuiTableData selectProjectInfoWithAllInfoByCondTree(LayuiTableParam param) {
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+		System.out.println("selectProjectInfoWithAllInfoByCondTree>>>>>>>入口->参数： " + parmamss.toString());
+		// 每页显示条数
+		int pageSize = param.getLimit();
+		// 当前是第几页
+		int pageNum = param.getPage();
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getOrderKey() != null && !StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+			// 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString()
+			// + " " + param.getOrderType());
+			hashmap.put("orderKey", param.getOrderKey());
+			hashmap.put("orderType", param.getOrderType());
+		}
+		if (param.getParam().get("xmmc") != null && !StringUtils.isBlank(param.getParam().get("xmmc") + "")) {
+			hashmap.put("xmmc", param.getParam().get("xmmc"));
+		}
+
+		if (param.getParam().get("fzdwflag") != null && !StringUtils.isBlank(param.getParam().get("fzdwflag") + "")) {
+			hashmap.put("fzdwflag", param.getParam().get("fzdwflag"));
+		}
+
+		if (param.getParam().get("hth") != null && !StringUtils.isBlank(param.getParam().get("hth") + "")) {
+			hashmap.put("hth", param.getParam().get("hth"));
+		}
+		// 资本性、费用性
+		if (param.getParam().get("define1") != null && !StringUtils.isBlank(param.getParam().get("define1") + "")) {
+			List define1 = new ArrayList();
+			String[] temS = param.getParam().get("define1").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define1.add(temS[i]);
+			}
+			hashmap.put("define1", define1);
+		}
+
+		// 各个专业处
+		if (param.getParam().get("define10") != null && !StringUtils.isBlank(param.getParam().get("define10") + "")) {
+			List define10 = new ArrayList();
+			String[] temS = param.getParam().get("define10").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define10.add(temS[i]);
+			}
+			hashmap.put("define10", define10);
+		}
+
+		// 费用来源
+		if (param.getParam().get("define11") != null && !StringUtils.isBlank(param.getParam().get("define11") + "")) {
+			List define11 = new ArrayList();
+			String[] temS = param.getParam().get("define11").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define11.add(temS[i]);
+			}
+			hashmap.put("define11", define11);
+		}
+
+		// 公司性质，和out_unit本质一致，公司本质的属性，和合同没关系
+		if (param.getParam().get("define12") != null && !StringUtils.isBlank(param.getParam().get("define12") + "")) {
+			List define12 = new ArrayList();
+			String[] temS = param.getParam().get("define12").toString().replaceAll("休斯顿研发中心", "休斯顿").replaceAll("中东研发中心", "中东").split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define12.add(temS[i]);
+			}
+			hashmap.put("define12", define12);
+		}
+
+		// 8大院等细分结构
+		if (param.getParam().get("define2") != null && !StringUtils.isBlank(param.getParam().get("define2") + "")) {
+			List define2 = new ArrayList();
+			String[] temS = param.getParam().get("define2").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define2.add(temS[i]);
+			}
+			hashmap.put("define2", define2);
+		}
+
+		// 承担单位的code
+		if (param.getParam().get("define9") != null && !StringUtils.isBlank(param.getParam().get("define9") + "")) {
+			List define9 = new ArrayList();
+			String[] temS = param.getParam().get("define9").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define9.add(temS[i]);
+			}
+			hashmap.put("define9", define9);
+		}
+
+		// 基础研究技术/油气勘探技术等技术
+		if (param.getParam().get("define5") != null && !StringUtils.isBlank(param.getParam().get("define5") + "")) {
+			List define5 = new ArrayList();
+			String[] temS = param.getParam().get("define5").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define5.add(temS[i]);
+			}
+			hashmap.put("define5", define5);
+		}
+
+		// 国家项目、重大专项、重点项目、其他项目
+		if (param.getParam().get("project_property") != null && !StringUtils.isBlank(param.getParam().get("project_property") + "")) {
+			List project_property = new ArrayList();
+			String[] temS = param.getParam().get("project_property").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				project_property.add(temS[i]);
+			}
+			hashmap.put("project_property", project_property);
+		}
+
+		// 一级单位（直属院、分子公司等）
+		if (param.getParam().get("type_flag") != null && !StringUtils.isBlank(param.getParam().get("type_flag") + "")) {
+
+			List type_flag = new ArrayList();
+			String[] temS = param.getParam().get("type_flag").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				type_flag.add(temS[i]);
+			}
+			hashmap.put("type_flag", type_flag);
+		}
+
+		// 装备的各种技术类型
+		if (param.getParam().get("zylb") != null && !StringUtils.isBlank(param.getParam().get("zylb") + "")) {
+			List zylb = new ArrayList();
+			String[] temS = param.getParam().get("zylb").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				zylb.add(temS[i]);
+			}
+			hashmap.put("zylb", zylb);
+		}
+
+		// 各个处室
+		if (param.getParam().get("zycmc") != null && !StringUtils.isBlank(param.getParam().get("zycmc") + "")) {
+			List zycmc = new ArrayList();
+			String[] temS = param.getParam().get("zycmc").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				zycmc.add(temS[i]);
+			}
+			hashmap.put("zycmc", zycmc);
+		}
+
+		if (param.getParam().get("nd") != null && !StringUtils.isBlank(param.getParam().get("nd") + "")) {
+			hashmap.put("nd", param.getParam().get("nd"));
+		}
+
+		if (param.getParam().get("leaderFlag") != null && !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
+			hashmap.put("leaderFlag", String.valueOf(param.getParam().get("leaderFlag")));
+		}
+
+		if (param.getParam().get("ysnd") != null && !StringUtils.isBlank(param.getParam().get("ysnd") + "")) {
+			hashmap.put("ysnd", param.getParam().get("ysnd"));
+		}
+
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(hashmap, param.getParam().get("zycbm"), param.getParam().get("zylbbm"));
+
+		// 部门-处室--专业类别, 加Flag和数据控制的字段区分出来
+		if (param.getParam().get("gsbmbmFlag") != null && !StringUtils.isBlank(param.getParam().get("gsbmbmFlag") + "")) {
+			hashmap.put("gsbmbmFlag", param.getParam().get("gsbmbmFlag"));
+		}
+
+		if (param.getParam().get("zylbbmFlag") != null && !StringUtils.isBlank(param.getParam().get("zylbbmFlag") + "")) {
+			hashmap.put("zylbbmFlag", param.getParam().get("zylbbmFlag"));
+		}
+
+		if (param.getParam().get("zycbmFlag") != null && !StringUtils.isBlank(param.getParam().get("zycbmFlag") + "")) {
+			hashmap.put("zycbmFlag", param.getParam().get("zycbmFlag"));
+		}
+
+		if (param.getParam().get("groupFlag") != null && !StringUtils.isBlank(param.getParam().get("groupFlag") + "")) {
+			hashmap.put("groupFlag", param.getParam().get("groupFlag"));
+		}
+
+		if (param.getParam().get("unitName") != null && !StringUtils.isBlank(param.getParam().get("unitName") + "")) {
+			hashmap.put("unitName", param.getParam().get("unitName"));
+		}
+
+		JSONObject hashmapstr = JSONObject.parseObject(JSONObject.toJSONString(hashmap));
+		System.out.println(">>>>>>>封装后->参数： " + hashmapstr.toString());
+
+		//20190807-添加dataId查询条件-开始
+        if (!StrUtil.isNullEmpty(param.getParam().get("zjps"))&&!StrUtil.isNullEmpty(param.getParam().get("dataIds"))){
+            hashmap.put("dataIds",param.getParam().get("dataIds"));
+        }
+		//20190807-添加dataId查询条件-结束
+
+		// 先按照合同号分组获取当前页的15个合同号，再用这些合同号去获取对应查询条件下的所有数据
+		List list = outProjectInfoMapper.selectProjectInfoWithAllInfoByCondForGroup(hashmap);
+		PageInfo<HashMap<String, String>> pageInfo = new PageInfo<HashMap<String, String>>(list);
+
+		LayuiTableData data = new LayuiTableData();
+
+		List finalList = new ArrayList();
+		List resultList = new ArrayList();
+
+		// 利用合同号查询科研奖励数据，单独查询，联合查询效率太慢
+		StringBuffer sb = new StringBuffer("");
+		for (int i = 0; i < pageInfo.getList().size(); i++) {
+			HashMap<String, String> temMap = pageInfo.getList().get(i);
+			String temHth = temMap.get("hth").toString();
+			if (i == 0) {
+				sb.append(temHth);
+			} else {
+				sb.append(",");
+				sb.append(temHth);
+			}
+		}
+		if (sb != null && sb.length() > 0) {
+			HashMap<String, String> rewardMap = new HashMap<String, String>();
+			rewardMap.put("hth", sb.toString());
+			List rewardList = outRewardMapper.getRewardInfoForHth(rewardMap);
+			for (int i = 0; i < pageInfo.getList().size(); i++) {
+				HashMap<String, String> proMap = (HashMap<String, String>) pageInfo.getList().get(i);
+				for (int j = 0; j < rewardList.size(); j++) {
+					HashMap<String, String> temMap = (HashMap<String, String>) rewardList.get(j);
+					if (temMap.get("hth") != null && temMap.get("hth").equals(proMap.get("hth")) && !proMap.get("nd").equals("合计")) {
+						proMap.put("psdj", temMap.get("psdj"));
+						proMap.put("xkfl", temMap.get("xkfl"));
+						break;
+					}
+				}
+			}
+
+			// 查询这些合同号在当前查询条件下，对应的所有数据。为了保证同一分页下，都有15（limit）个合同号
+			hashmap.put("hthFlag", sb.toString());
+			finalList = outProjectInfoMapper.selectProjectInfoWithAllInfoByCond(hashmap);
+
+			if (finalList != null && finalList.size() > 1) {
+				HashMap finalMap = (HashMap) finalList.get(0);
+				finalMap.put("realIndex", "合计");
+				finalMap.put("parent_id", "0");
+				finalMap.put("id", UUID.randomUUID().toString());
+				finalMap.put("lay_icon_open", "/layuiadmin/layui/images/treegrid1_open.png");
+				finalMap.put("lay_icon", "/layuiadmin/layui/images/treegrid2.png");
+				finalMap.put("lay_is_open", false);
+
+				resultList.add(finalMap);
+			}
+			int realIndex = param.getLimit() * (param.getPage() - 1);
+			String hth = "";
+			for (int i = 0; i < pageInfo.getList().size(); i++) {
+				realIndex++;
+				HashMap temMap = pageInfo.getList().get(i);
+				String temHth = temMap.get("hth").toString();
+				temMap.put("realIndex", String.valueOf(realIndex));
+				temMap.put("lay_icon_open", "/layuiadmin/layui/images/treegrid1_open.png");
+				temMap.put("lay_icon", "/layuiadmin/layui/images/treegrid2.png");
+				temMap.put("lay_is_open", false);
+				resultList.add(temMap);
+
+				List addList = new ArrayList();
+				for (int j = 1; j < finalList.size(); j++) {
+					HashMap finalMap = (HashMap) finalList.get(j);
+					String finalHth = finalMap.get("hth").toString();
+					if (finalHth.equals(temHth)) {
+						finalMap.put("parent_id", temMap.get("id"));
+						finalMap.put("id", UUID.randomUUID().toString());
+						finalMap.put("realIndex", "");
+						finalMap.put("lay_icon_open", "/layuiadmin/layui/images/treegrid1_open.png");
+						finalMap.put("lay_icon", "/layuiadmin/layui/images/treegrid2.png");
+						finalMap.put("lay_is_open", false);
+						addList.add(finalMap);
+					}
+				}
+				// 如果有多个孩子，就显示。就一个孩子，就不显示孩子了
+				if (addList.size() > 1) {
+					resultList.addAll(addList);
+				}
+			}
+		}
+		System.out.println("--------------" + resultList.size());
+		System.out.println("2>>>>>>>>>任务书查询分页结果 " + JSON.toJSONString(resultList));
+		data.setData(resultList);
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+	}
+
+	/**
+	 * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息
+	 */
+	public LayuiTableData selectProjectInfoWithAllInfoByCondYear(LayuiTableParam param) {
 		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
 		System.out.println(">>>>>>>入口->参数： " + parmamss.toString());
 		// 每页显示条数
@@ -732,7 +1012,6 @@ public class OutProjectServiceImpl implements OutProjectService {
 		LayuiTableData data = new LayuiTableData();
 
 		List finalList = new ArrayList();
-		List resultList = new ArrayList();
 
 		// 利用合同号查询科研奖励数据，单独查询，联合查询效率太慢
 		StringBuffer sb = new StringBuffer("");
@@ -744,6 +1023,14 @@ public class OutProjectServiceImpl implements OutProjectService {
 			} else {
 				sb.append(",");
 				sb.append(temHth);
+			}
+
+			// 项目拆分为课题的特殊处理
+			if (temMap.get("sjxmmc") != null) {
+				temMap.put("ktmc", temMap.get("xmmc"));
+				temMap.put("xmmc", temMap.get("sjxmmc"));
+			} else {
+				temMap.put("ktmc", "/");
 			}
 		}
 		if (sb != null && sb.length() > 0) {
@@ -764,54 +1051,49 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 			// 查询这些合同号在当前查询条件下，对应的所有数据。为了保证同一分页下，都有15（limit）个合同号
 			hashmap.put("hthFlag", sb.toString());
-			finalList = outProjectInfoMapper.selectProjectInfoWithAllInfoByCond(hashmap);
+			finalList = outProjectInfoMapper.selectProjectInfoWithAllInfoByCondYear(hashmap);
 
-			if (finalList != null && finalList.size() > 1) {
-				HashMap finalMap = (HashMap) finalList.get(0);
-				finalMap.put("realIndex", "合计");
-				finalMap.put("parent_id", "0");
-				finalMap.put("id", UUID.randomUUID().toString());
-				finalMap.put("lay_icon_open", "/layuiadmin/layui/images/treegrid1_open.png");
-				finalMap.put("lay_icon", "/layuiadmin/layui/images/treegrid2.png");
-				finalMap.put("lay_is_open", false);
-				
-				resultList.add(finalMap);
-			}
 			int realIndex = param.getLimit() * (param.getPage() - 1);
 			String hth = "";
-			for (int i = 0; i < pageInfo.getList().size(); i++) {
-				realIndex++;
-				HashMap temMap = pageInfo.getList().get(i);
+			for (int i = 0; i < finalList.size(); i++) {
+				HashMap temMap = (HashMap) finalList.get(i);
 				String temHth = temMap.get("hth").toString();
-				temMap.put("realIndex", String.valueOf(realIndex));
-				temMap.put("lay_icon_open", "/layuiadmin/layui/images/treegrid1_open.png");
-				temMap.put("lay_icon", "/layuiadmin/layui/images/treegrid2.png");
-				temMap.put("lay_is_open", false);
-				resultList.add(temMap);
-				
-				List addList = new ArrayList();
-				for (int j = 1; j < finalList.size(); j++) {
-					HashMap finalMap = (HashMap) finalList.get(j);
-					String finalHth = finalMap.get("hth").toString();
-					if (finalHth.equals(temHth)) {
-						finalMap.put("parent_id", temMap.get("id"));
-						finalMap.put("id", UUID.randomUUID().toString());
-						finalMap.put("realIndex", "");
-						finalMap.put("lay_icon_open", "/layuiadmin/layui/images/treegrid1_open.png");
-						finalMap.put("lay_icon", "/layuiadmin/layui/images/treegrid2.png");
-						finalMap.put("lay_is_open", false);
-						addList.add(finalMap);
-					}
+				String define8 = temMap.get("define8").toString();
+				String fzdw = temMap.get("fzdw").toString();
+				if (!temHth.equals(hth)) {
+					realIndex++;
+					hth = temHth;
 				}
-				// 如果有多个孩子，就显示。就一个孩子，就不显示孩子了
-				if (addList.size() > 1) {
-					resultList.addAll(addList);
+				// 同一个合同号内排序，承担单位为负责单位的放前面
+				if (!fzdw.equals("") && fzdw.equals(define8)) {
+					temMap.put("orderIndex", "0");
+					temMap.put("define8", "*" + define8);
+				} else {
+					temMap.put("orderIndex", "1");
+				}
+				if (i == 0) {
+					temMap.put("realIndex", "合计");
+				} else {
+					temMap.put("realIndex", realIndex);
+				}
+
+				// 处理上级项目名称问题
+				for (int t = 0; t < pageInfo.getList().size(); t++) {
+					HashMap pageMap = (HashMap) pageInfo.getList().get(t);
+					if (pageMap.get("xmid").toString().equals(temMap.get("xmid").toString())) {
+						// 项目拆分为课题的特殊处理
+						temMap.put("ktmc", pageMap.get("ktmc"));
+						temMap.put("xmmc", pageMap.get("xmmc"));
+					}
+					
 				}
 			}
+
+			// list内部分组排序
+
 		}
-		System.out.println("--------------"+resultList.size());
-		System.out.println("2>>>>>>>>>任务书查询分页结果 "+JSON.toJSONString(resultList));
-		data.setData(resultList);
+
+		data.setData(finalList);
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 		return data;
@@ -1833,85 +2115,78 @@ public class OutProjectServiceImpl implements OutProjectService {
 		if (param.getParam().get("nd") != null && !StringUtils.isBlank(param.getParam().get("nd") + "")) {
 			opi.setNd((String) param.getParam().get("nd"));
 		}
-//		if (param.getParam().get("leaderFlag") != null && !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
-//			opi.setLeaderFlag(String.valueOf(param.getParam().get("leaderFlag")));
-//		}
+		// if (param.getParam().get("leaderFlag") != null &&
+		// !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
+		// opi.setLeaderFlag(String.valueOf(param.getParam().get("leaderFlag")));
+		// }
 		// 项目ID
 		if (param.getParam().get("xmid") != null && !StringUtils.isBlank(param.getParam().get("xmid") + "")) {
 			opi.setXmid((String) param.getParam().get("xmid"));
 		}
 
-		//数据控制
-        if (!StrUtil.isNullEmpty(param.getParam().get("dataFilter"))) {
-		    opi.setDefine19("1");
-            if (!StrUtil.isNullEmpty(param.getParam().get("zylbbm"))) {
-                opi.setZylbbm(param.getParam().get("zylbbm").toString());
-            }
-            if (!StrUtil.isNullEmpty(param.getParam().get("zycbm"))) {
-                opi.setZycbm(param.getParam().get("zycbm").toString());
-            }
-            if (!StrUtil.isNullEmpty(param.getParam().get("leaderFlag"))) {
-                opi.setLeaderFlag(param.getParam().get("leaderFlag").toString());
-            }
+		// 数据控制
+		if (!StrUtil.isNullEmpty(param.getParam().get("dataFilter"))) {
+			opi.setDefine19("1");
+			if (!StrUtil.isNullEmpty(param.getParam().get("zylbbm"))) {
+				opi.setZylbbm(param.getParam().get("zylbbm").toString());
+			}
+			if (!StrUtil.isNullEmpty(param.getParam().get("zycbm"))) {
+				opi.setZycbm(param.getParam().get("zycbm").toString());
+			}
+			if (!StrUtil.isNullEmpty(param.getParam().get("leaderFlag"))) {
+				opi.setLeaderFlag(param.getParam().get("leaderFlag").toString());
+			}
 
-            HashMap hashMap = new HashMap();
-            hashMap = this.getDataFilterCondition(hashMap, param.getParam().get("zycbm"), param.getParam().get("zylbbm"));
+			HashMap hashMap = new HashMap();
+			hashMap = this.getDataFilterCondition(hashMap, param.getParam().get("zycbm"), param.getParam().get("zylbbm"));
 
-            if (hashMap.size() > 0) {
-                opi.setZycbmList((List<HashMap<String, String>>) hashMap.get("zycbmList"));
-            }
-        }
+			if (hashMap.size() > 0) {
+				opi.setZycbmList((List<HashMap<String, String>>) hashMap.get("zycbmList"));
+			}
+		}
 
-            // 负责人
-            Object name = param.getParam().get("name");
-            if (!StrUtil.isNull(name)) {
-                opi.setFzrxm(name.toString());
-                opi.setJssxxm(name.toString());
-            }
+		// 负责人
+		Object name = param.getParam().get("name");
+		if (!StrUtil.isNull(name)) {
+			opi.setFzrxm(name.toString());
+			opi.setJssxxm(name.toString());
+		}
 
-            List<OutProjectInfo> list = outProjectInfoMapper.selectProjectByCondExpert(opi);
+		List<OutProjectInfo> list = outProjectInfoMapper.selectProjectByCondExpert(opi);
 
-            List<String> ids = list.stream().map(e->e.getXmid()).collect(Collectors.toList());
-            ids = ids==null||ids.size()==0?new ArrayList<>():ids;
-            ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
-            zjkChoiceExample.createCriteria().andXmIdIn(ids);
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("list",ids);
-            List<Map<String,Object>> objectMap = (List<Map<String, Object>>) zjkBaseInfoServiceClient.selectByExample(jsonObject).get("list");
-            List<ZjkChoice> zjkChoices = new ArrayList<>();
-            for (int i = 0; i < objectMap.size(); i++) {
-                ZjkChoice choice = new ZjkChoice();
-                MyBeanUtils.transMap2Bean((Map<String, Object>) objectMap.get(i),choice);
-                zjkChoices.add(choice);
-            }
+		List<String> ids = list.stream().map(e -> e.getXmid()).collect(Collectors.toList());
+		ids = ids == null || ids.size() == 0 ? new ArrayList<>() : ids;
+		ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+		zjkChoiceExample.createCriteria().andXmIdIn(ids);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("list", ids);
+		List<Map<String, Object>> objectMap = (List<Map<String, Object>>) zjkBaseInfoServiceClient.selectByExample(jsonObject).get("list");
+		List<ZjkChoice> zjkChoices = new ArrayList<>();
+		for (int i = 0; i < objectMap.size(); i++) {
+			ZjkChoice choice = new ZjkChoice();
+			MyBeanUtils.transMap2Bean((Map<String, Object>) objectMap.get(i), choice);
+			zjkChoices.add(choice);
+		}
+		Map<String, Object> map = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId, ZjkChoice::getZjId, (entity1, entity2) -> entity1));
 
-            Map<String,Object> map = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId,ZjkChoice::getZjId,(entity1,entity2) -> entity1));
+		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
+		PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
+		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
+		for (int i = 0, j = pageInfo.getList().size(); i < j; i++) {
+			if (map.get(list.get(i).getXmid()) != null) {
+				pageInfo.getList().get(i).setDefine19("1");
+			}
+		}
 
-
-
-
-
-
-            System.out.println("1>>>>>>>>>查询分页结果" + list.size());
-            PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
-            System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
-            for (int i = 0,j = pageInfo.getList().size(); i < j; i++) {
-                if (map.get(list.get(i).getXmid())!=null){
-                    pageInfo.getList().get(i).setDefine19("1");
-                }
-            }
-
-            LayuiTableData data = new LayuiTableData();
-            data.setData(pageInfo.getList());
-            Long total = pageInfo.getTotal();
-            data.setCount(total.intValue());
-            return data;
-        }
-
-
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+	}
 
 	@Autowired
-    private ZjkBaseInfoServiceClient zjkBaseInfoServiceClient;
+	private ZjkBaseInfoServiceClient zjkBaseInfoServiceClient;
 
 	@Override
 	public int updateProjectInfoByKey(OutProjectInfo info) {
@@ -2079,7 +2354,6 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return object;
 	}
 
-
 	@Override
 	public List<OutProjectInfo> selectProjectUnit(OutProjectInfo example) {
 		return outProjectInfoMapper.selectProjectUnitByCond(example);
@@ -2089,72 +2363,163 @@ public class OutProjectServiceImpl implements OutProjectService {
 	public List<OutProjectInfo> selectProjectInfoJzItems(OutProjectInfo example) {
 		return outProjectInfoMapper.selectProjectInfoJzItems(example);
 	}
+
 	@Override
 	public List<OutProjectInfo> selectProjectInfoJz(OutProjectInfo example) {
 		return outProjectInfoMapper.selectProjectInfoJz(example);
 	}
-	
-	public OutProjectInfoWithBLOBs selectOutProjectInfoWithBLOBs(String dataId) throws Exception
-	{
+
+	public OutProjectInfoWithBLOBs selectOutProjectInfoWithBLOBs(String dataId) throws Exception {
 		return outProjectInfoMapper.selectByPrimaryKey(dataId);
 	}
 
-	public OutProjectInfo selectOutProjectInfo(String id) throws Exception
-	{
+	@Override
+	public LayuiTableData selectProjectInfoWithAllInfoByCondTreeExpert(LayuiTableParam param) {
+
+		LayuiTableData data = this.selectProjectInfoWithAllInfoByCondTree(param);
+		List<Map<String, Object>> maps = (List<Map<String, Object>>) data.getData();
+		int j = maps.size();
+
+		List<String> ids = new ArrayList<>();
+		for (int i = 0; i < j; i++) {
+			ids.add(maps.get(i).get("xmid").toString());
+		}
+		if (ids == null || ids.size() == 0) {
+			ids.add("");
+		}
+		ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+		zjkChoiceExample.createCriteria().andXmIdIn(ids);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("list", ids);
+		List<Map<String, Object>> objectMap = (List<Map<String, Object>>) zjkBaseInfoServiceClient.selectByExample(jsonObject).get("list");
+		List<ZjkChoice> zjkChoices = new ArrayList<>();
+		for (int i = 0; i < objectMap.size(); i++) {
+			ZjkChoice choice = new ZjkChoice();
+			MyBeanUtils.transMap2Bean((Map<String, Object>) objectMap.get(i), choice);
+			zjkChoices.add(choice);
+		}
+		Map<String, Object> map = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId, ZjkChoice::getZjId, (entity1, entity2) -> entity1));
+
+		for (int i = 0; i < j; i++) {
+			if (!StrUtil.isNullEmpty(map.get(maps.get(i).get("xmid")))) {
+				maps.get(i).put("flag", "1");
+			}
+		}
+		data.setData(maps);
+		return data;
+	}
+
+    @Override
+    public LayuiTableData selectProjectInfoWithAllInfoByCondYearExpert(LayuiTableParam param) {
+
+        LayuiTableData data = this.selectProjectInfoWithAllInfoByCondYear(param);
+        List<Map<String, Object>> maps = (List<Map<String, Object>>) data.getData();
+        int j = maps.size();
+
+        List<String> ids = new ArrayList<>();
+        for (int i = 0; i < j; i++) {
+            ids.add(maps.get(i).get("xmid").toString());
+        }
+        if (ids == null || ids.size() == 0) {
+            ids.add("");
+        }
+        ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+        zjkChoiceExample.createCriteria().andXmIdIn(ids);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("list", ids);
+        List<Map<String, Object>> objectMap = (List<Map<String, Object>>) zjkBaseInfoServiceClient.selectByExample(jsonObject).get("list");
+        List<ZjkChoice> zjkChoices = new ArrayList<>();
+        for (int i = 0; i < objectMap.size(); i++) {
+            ZjkChoice choice = new ZjkChoice();
+            MyBeanUtils.transMap2Bean((Map<String, Object>) objectMap.get(i), choice);
+            zjkChoices.add(choice);
+        }
+        Map<String, Object> map = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId, ZjkChoice::getZjId, (entity1, entity2) -> entity1));
+
+        for (int i = 0; i < j; i++) {
+            if (!StrUtil.isNullEmpty(map.get(maps.get(i).get("xmid")))) {
+                maps.get(i).put("flag", "1");
+            }
+        }
+
+        data.setData(maps);
+        return data;
+
+    }
+
+    public OutProjectInfo selectOutProjectInfo(String id) throws Exception {
 		return outProjectInfoMapper.selectByPrimaryKey(id);
 	}
 
-	public Integer updateOutProject_Info(OutProjectInfo record)throws Exception
-	{
+	public Integer updateOutProject_Info(OutProjectInfo record) throws Exception {
 		return outProjectInfoMapper.updateByPrimaryKey(record);
 	}
-	public Integer updateOutProjectInfoWithBLOBs(OutProjectInfoWithBLOBs record)throws Exception
-	{
+
+	public Integer updateOutProjectInfoWithBLOBs(OutProjectInfoWithBLOBs record) throws Exception {
 		return outProjectInfoMapper.updateByPrimaryKeySelective(record);
 	}
-	 
 
-	public int deleteOutProjectInfo(String id)throws Exception
-	{
+	public int deleteOutProjectInfo(String id) throws Exception {
 		return outProjectInfoMapper.deleteByPrimaryKey(id);
 	}
 
-	public Integer insertOutProjectInfo(OutProjectInfo record)throws Exception
-	{
+	public Integer insertOutProjectInfo(OutProjectInfo record) throws Exception {
 		return outProjectInfoMapper.insertOutProjectInfo(record);
 	}
-	
-	
-	public Integer insertOutProjectInfoWithBLOBs(OutProjectInfoWithBLOBs record)throws Exception
+	/*public Integer insertOutProjectInfo(OutProjectInfo outProjectInfo)throws Exception
 	{
+		String fzdwStr= outProjectInfo.getFzdwStr();
+		logger.info("====================  add ten_dragons ========================fzdwStr: "+fzdwStr);
+		String xmId=outProjectInfo.getXmid();
+		String arr[]=fzdwStr.split("\\|");
+		Integer count=0;
+		if(arr!=null && arr.length>0)
+		{
+			for(int i=0;i<arr.length;i++)
+			{
+				String lineStr=arr[i];
+				String array[]=lineStr.split("#");
+				String fzdw=array[0];
+				String define6=array[1];
+				
+				OutProjectInfo projectInfo=new OutProjectInfo();
+				BeanUtils.copyProperties(projectInfo, outProjectInfo);
+				String dataId = UUID.randomUUID().toString().replaceAll("-", "");
+				projectInfo.setDataId(dataId);
+				projectInfo.setFzdw(fzdw);
+				projectInfo.setDefine6(define6);
+				count= outProjectInfoMapper.insertOutProjectInfo(projectInfo);
+			}
+		}
+		return count;
+	}*/
+
+	public Integer insertOutProjectInfoWithBLOBs(OutProjectInfoWithBLOBs record) throws Exception {
 		return outProjectInfoMapper.insert(record);
 	}
-	
-	
-	public LayuiTableData getTenDragonsOutProjectPage(LayuiTableParam param)
-	{
-		
+
+	public LayuiTableData getTenDragonsOutProjectPage(LayuiTableParam param) {
+
 		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
-		System.out.println(">>>>>>>>>getTenDragonsOutProjectPage 入口参数: "+parmamss.toJSONString());
-		
-		
+		System.out.println(">>>>>>>>>getTenDragonsOutProjectPage 入口参数: " + parmamss.toJSONString());
+
 		int pageSize = param.getLimit();
 		// 当前是第几页
 		int pageNum = param.getPage();
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
-		
-		String xmmc=getTableParam(param,"xmmc","");
-		String nd=getTableParam(param,"nd","");
-		String ysnd=getTableParam(param,"ysnd","");
-		String define3=getTableParam(param,"define3","");
-		String status=getTableParam(param,"status","");
-		String zycmc=getTableParam(param,"zycmc","");
-		String xmlbmc=getTableParam(param,"xmlbmc","");
-		String fzdw=getTableParam(param,"fzdw","");
-		String define6=getTableParam(param,"define6","");
-		
-		Map map=new HashMap();
+
+		String xmmc = getTableParam(param, "xmmc", "");
+		String nd = getTableParam(param, "nd", "");
+		String ysnd = getTableParam(param, "ysnd", "");
+		String define3 = getTableParam(param, "define3", "");
+		String status = getTableParam(param, "status", "");
+		String zycmc = getTableParam(param, "zycmc", "");
+		String xmlbmc = getTableParam(param, "xmlbmc", "");
+		String fzdw = getTableParam(param, "fzdw", "");
+		String define6 = getTableParam(param, "define6", "");
+
+		Map map = new HashMap();
 		map.put("xmmc", xmmc);
 		map.put("nd", nd);
 		map.put("ysnd", ysnd);
@@ -2166,9 +2531,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 		map.put("define6", define6);
 
 		JSONObject str = JSONObject.parseObject(JSONObject.toJSONString(map));
-		System.out.println(">>>>>>>>>getTenDragonsOutProjectPage 封装后参数: "+str.toJSONString());
-		
-		
+		System.out.println(">>>>>>>>>getTenDragonsOutProjectPage 封装后参数: " + str.toJSONString());
+
 		List<OutProjectInfo> list = outProjectInfoMapper.getTenDragonsList(map);
 		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
 		PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
@@ -2179,26 +2543,16 @@ public class OutProjectServiceImpl implements OutProjectService {
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 		return data;
-		
+
 	}
-	
-	
-	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
-	{
-		String resault="";
-		Object object=param.getParam().get(paramName);
-		if(object!=null)
-		{
-			resault=(String)object;
+
+	private String getTableParam(LayuiTableParam param, String paramName, String defaultstr) {
+		String resault = "";
+		Object object = param.getParam().get(paramName);
+		if (object != null) {
+			resault = (String) object;
 		}
 		return resault;
 	}
 
-	
-
-	
-	
-	
-	
-	
 }

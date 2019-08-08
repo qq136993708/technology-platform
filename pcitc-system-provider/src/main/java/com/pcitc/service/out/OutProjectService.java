@@ -7,8 +7,6 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.stp.equipment.SreProjectSetup;
-import com.pcitc.base.stp.equipment.SreTechMeeting;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
@@ -30,6 +28,11 @@ public interface OutProjectService {
      * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息
      */
 	public LayuiTableData selectProjectInfoWithAllInfoByCondTree(LayuiTableParam param);
+	
+	/**
+     * 科研项目分析，包含项目基本信息，同时包含成果、奖励等信息
+     */
+	public LayuiTableData selectProjectInfoWithAllInfoByCondYear(LayuiTableParam param);
 	
 	/**
 	 * 批量插入项目
@@ -433,6 +436,8 @@ public interface OutProjectService {
 	
 
 	 public OutProjectInfoWithBLOBs selectOutProjectInfoWithBLOBs(String dataId) throws Exception;
-	
 
+    public LayuiTableData selectProjectInfoWithAllInfoByCondTreeExpert(LayuiTableParam param);
+
+    public LayuiTableData selectProjectInfoWithAllInfoByCondYearExpert(LayuiTableParam param);
 }

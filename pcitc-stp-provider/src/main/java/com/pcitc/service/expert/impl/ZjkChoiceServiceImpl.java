@@ -212,6 +212,11 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
             c.andAddUserIdEqualTo(adduserId.toString());
         }
 
+        Object userId = param.getParam().get("userId");
+        if (!StrUtil.isObjectEmpty(userId)) {
+            c.andUserIdEqualTo(userId.toString());
+        }
+
         Object projectId = param.getParam().get("projectId");
         if (!StrUtil.isObjectEmpty(projectId)) {
             c.andXmIdEqualTo(projectId.toString());
@@ -346,6 +351,21 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
             }
         }
         return data;
+    }
+
+    @Override
+    public JSONObject selectByExampleByXmId(JSONObject jsonObject) {
+
+        JSONObject object = new JSONObject();
+        List<String> ids = (List<String>) jsonObject.get("list");
+        if(ids==null||ids.size()==0){
+            ids.add("");
+        }
+        ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+        zjkChoiceExample.createCriteria().andXmIdIn(ids);
+        List<ZjkChoice> zjkChoices = this.selectByExample(zjkChoiceExample);
+        object.put("list", zjkChoices == null || zjkChoices.size() == 0 ? new ArrayList<>() : zjkChoices);
+        return object;
     }
 
     /**
@@ -552,6 +572,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         configExample.createCriteria().andProjectStepsEqualTo(projectSteps);
         List<ZjkMsgConfig> zjkMsgConfigs = configService.selectByExample(configExample);
         String type = zjkMsgConfigs.get(0).getMsgType();//消息类型
+        String createuser = zjkChoice.get(0).getCreateUser();
         //TO DO 插入专家通知
         for (int i = 0; i < j; i++) {
             //删除:项目ID,项目阶段ID,人员id
@@ -576,6 +597,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
             msg.setZjkName(zjkChoice.get(i).getBak2());
             msg.setStatus(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
             msg.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_DD));
+            msg.setCreateUser(createuser);
             zjkMsgService.insert(msg);
         }
         //发送消息

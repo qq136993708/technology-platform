@@ -83,6 +83,27 @@ public class OutProjectInfoClient {
 		logger.info("==================page selectProjectInfoWithAllInfoByCondTree===========================" + JSONObject.toJSONString(param));
 		return outProjectService.selectProjectInfoWithAllInfoByCondTree(param);
 	}
+	
+	@ApiOperation(value = "科研项目分析，包含项目基本信息，同时包含成果、奖励等信息-专家", notes = "分页显示")
+	@RequestMapping(value = "/out-project-provider/project/all-info/year/list_expert", method = RequestMethod.POST)
+	public LayuiTableData selectProjectInfoWithAllInfoByCondYearExpert(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page selectProjectInfoWithAllInfoByCondYear===========================" + JSONObject.toJSONString(param));
+		return outProjectService.selectProjectInfoWithAllInfoByCondYearExpert(param);
+	}
+
+	@ApiOperation(value = "科研项目分析，包含项目基本信息，同时包含成果、奖励等信息", notes = "分页显示")
+	@RequestMapping(value = "/out-project-provider/project/all-info/year/list", method = RequestMethod.POST)
+	public LayuiTableData selectProjectInfoWithAllInfoByCondYear(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page selectProjectInfoWithAllInfoByCondYear===========================" + JSONObject.toJSONString(param));
+		return outProjectService.selectProjectInfoWithAllInfoByCondYear(param);
+	}
+
+	@ApiOperation(value = "科研项目分析，包含项目基本信息，同时包含成果、奖励等信息-专家", notes = "分页显示")
+	@RequestMapping(value = "/out-project-provider/project/all-info/tree/list_expert", method = RequestMethod.POST)
+	public LayuiTableData selectProjectInfoWithAllInfoByCondTreeExpert(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page selectProjectInfoWithAllInfoByCondTree===========================" + JSONObject.toJSONString(param));
+		return outProjectService.selectProjectInfoWithAllInfoByCondTreeExpert(param);
+	}
 
 	@ApiOperation(value = "分页显示项目数据数据,国拨课题统计的第三级展示", notes = "分页显示")
 	@RequestMapping(value = "/out-project-provider/country-project/list", method = RequestMethod.POST)

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.system.SysReqLogsMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysReqLogs">
+    <result column="data_id" jdbcType="INTEGER" property="dataId" />
+    <result column="uri" jdbcType="VARCHAR" property="uri" />
+    <result column="host" jdbcType="VARCHAR" property="host" />
+    <result column="server_host" jdbcType="VARCHAR" property="serverHost" />
+    <result column="req_type" jdbcType="VARCHAR" property="reqType" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="method_name" jdbcType="VARCHAR" property="methodName" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="log_time" jdbcType="VARCHAR" property="logTime" />
+    <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+    <result column="process_time" jdbcType="INTEGER" property="processTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    data_id, uri, `host`, server_host, req_type, class_name, method_name, user_id, log_time, 
+    start_time, end_time, process_time
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.system.SysReqLogsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_req_logs
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.system.SysReqLogsExample">
+    delete from sys_req_logs
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.system.SysReqLogs">
+    insert into sys_req_logs (data_id, uri, `host`, 
+      server_host, req_type, class_name, 
+      method_name, user_id, log_time, 
+      start_time, end_time, process_time
+      )
+    values (#{dataId,jdbcType=INTEGER}, #{uri,jdbcType=VARCHAR}, #{host,jdbcType=VARCHAR}, 
+      #{serverHost,jdbcType=VARCHAR}, #{reqType,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, 
+      #{methodName,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{logTime,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{processTime,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysReqLogs">
+    insert into sys_req_logs
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        data_id,
+      </if>
+      <if test="uri != null">
+        uri,
+      </if>
+      <if test="host != null">
+        `host`,
+      </if>
+      <if test="serverHost != null">
+        server_host,
+      </if>
+      <if test="reqType != null">
+        req_type,
+      </if>
+      <if test="className != null">
+        class_name,
+      </if>
+      <if test="methodName != null">
+        method_name,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="logTime != null">
+        log_time,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="processTime != null">
+        process_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=INTEGER},
+      </if>
+      <if test="uri != null">
+        #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="host != null">
+        #{host,jdbcType=VARCHAR},
+      </if>
+      <if test="serverHost != null">
+        #{serverHost,jdbcType=VARCHAR},
+      </if>
+      <if test="reqType != null">
+        #{reqType,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null">
+        #{methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="logTime != null">
+        #{logTime,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="processTime != null">
+        #{processTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.system.SysReqLogsExample" resultType="java.lang.Long">
+    select count(*) from sys_req_logs
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_req_logs
+    <set>
+      <if test="record.dataId != null">
+        data_id = #{record.dataId,jdbcType=INTEGER},
+      </if>
+      <if test="record.uri != null">
+        uri = #{record.uri,jdbcType=VARCHAR},
+      </if>
+      <if test="record.host != null">
+        `host` = #{record.host,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serverHost != null">
+        server_host = #{record.serverHost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reqType != null">
+        req_type = #{record.reqType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.className != null">
+        class_name = #{record.className,jdbcType=VARCHAR},
+      </if>
+      <if test="record.methodName != null">
+        method_name = #{record.methodName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logTime != null">
+        log_time = #{record.logTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processTime != null">
+        process_time = #{record.processTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_req_logs
+    set data_id = #{record.dataId,jdbcType=INTEGER},
+      uri = #{record.uri,jdbcType=VARCHAR},
+      `host` = #{record.host,jdbcType=VARCHAR},
+      server_host = #{record.serverHost,jdbcType=VARCHAR},
+      req_type = #{record.reqType,jdbcType=VARCHAR},
+      class_name = #{record.className,jdbcType=VARCHAR},
+      method_name = #{record.methodName,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      log_time = #{record.logTime,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=VARCHAR},
+      end_time = #{record.endTime,jdbcType=VARCHAR},
+      process_time = #{record.processTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
