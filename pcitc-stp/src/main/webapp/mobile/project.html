@@ -36,12 +36,12 @@
     <div class="layui-row">
         <div class="layui-tab-content">
             <div class="layui-col-xs4">
-                <span id="plan_id">-个</span>
+                <span id="finished_id">-个</span>
                 <span>已签约</span>
                 <span></span>
             </div>
             <div class="layui-col-xs4">
-                <span  id="finished_id">-个</span>
+                <span  id="not_finished_id">-个</span>
                 <span>未签约</span>
                 <span></span>
             </div>
@@ -166,7 +166,7 @@
     
     
     //总预览
-    function allLook()
+    /* function allLook()
     {
     	var nd = $('#nd').val();
     	$.ajax({
@@ -198,7 +198,7 @@
     		}
     	});
 
-    }
+    } */
    
     
     
@@ -216,6 +216,18 @@
     		success : function(data, status) 
     		{
     			console.log(data.data);
+    			
+    			
+    			
+    			if(qdbz=='已签订')
+    			{
+    				$("#finished_id").html(data.count+"个");
+    			}
+    			if(qdbz=='未签订')
+    			{
+    				$("#not_finished_id").html(data.count+"个");
+    			}
+				
     			var count="";
     			if(data.data.length>0)
    			    {
@@ -268,7 +280,7 @@
 
     function search_Event()
     {
-    	allLook();
+    	//allLook();
     	queryTabel("已签订",'qdbz_ed_id');
     	queryTabel("未签订",'qdbz_not_id');
     	queryTabel("",'qdbz_all_id');
