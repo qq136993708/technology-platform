@@ -56,16 +56,16 @@ public class SupplierAppraiseServiceImpl implements SupplierAppraiseService {
 	}
 
 	public LayuiTableData getSreSupplierAppraisePage(LayuiTableParam param)throws Exception
-	{
-		/*List<SreSupplierAppraise> list = new ArrayList<SreSupplierAppraise>();*/
-		//每页显示条数
-		int pageSize = param.getLimit();
-		//从第多少条开始
-		int pageStart = (param.getPage()-1)*pageSize;
-		//当前是第几页
-		int pageNum = pageStart/pageSize + 1;
-		// 1、设置分页信息，包括当前页数和每页显示的总计数
-		PageHelper.startPage(pageNum, pageSize);
+    {
+        /*List<SreSupplierAppraise> list = new ArrayList<SreSupplierAppraise>();*/
+        //每页显示条数
+        int pageSize = param.getLimit();
+        //从第多少条开始
+        int pageStart = (param.getPage()-1)*pageSize;
+        //当前是第几页
+        int pageNum = pageStart/pageSize + 1;
+        // 1、设置分页信息，包括当前页数和每页显示的总计数
+        PageHelper.startPage(pageNum, pageSize);
 
         /*Map map =new HashMap();
 		list = sreSupplierAppraiseMapper.getList(map);*/
@@ -100,6 +100,8 @@ public class SupplierAppraiseServiceImpl implements SupplierAppraiseService {
                 BigDecimal allPrice = sreEquipment.getAllPrice();//装备总金额
                 //3.遍历创建的对象集合,为了过滤采购订单,存在同一个供应商,如果一个采购订单是同一个供应商提供的,只为此供应商几数一次
                 if(list.size()!=0){
+                    int count =0;//用于判断list集合中没有匹配的数据，如果count大于0走新增
+                    int number =0;//用于判断count值是否大于0,如果number大于0代表list集合中存在数据，那么count赋值为0
                     for (SupplierAppraiseResults supplierAppraiseResults : list) {
                         SupplierAppraiseResults appraiseResults = new SupplierAppraiseResults();
                         String supplierNameResults = supplierAppraiseResults.getSupplierName();
@@ -115,39 +117,47 @@ public class SupplierAppraiseServiceImpl implements SupplierAppraiseService {
                             }else if (supplierAppraise.equals("D")){
                                 supplierAppraiseResults.set_D(supplierAppraiseResults.get_D()+1);
                             }
-                        }else{
-                            appraiseResults.setSupplierName(supplierName);
-                            appraiseResults.setPurchaseSum(1);
-                            appraiseResults.setPurchaseMoneySum(allPrice);
-                            if (supplierAppraise.equals("A")){
-                                appraiseResults.set_A(1);
-                                appraiseResults.set_B(0);
-                                appraiseResults.set_C(0);
-                                appraiseResults.set_D(0);
-                            }else if (supplierAppraise.equals("B")){
-                                appraiseResults.set_A(0);
-                                appraiseResults.set_B(1);
-                                appraiseResults.set_C(0);
-                                appraiseResults.set_D(0);
-                            }else if (supplierAppraise.equals("C")){
-                                appraiseResults.set_A(0);
-                                appraiseResults.set_B(0);
-                                appraiseResults.set_C(1);
-                                appraiseResults.set_D(0);
-                            }else if (supplierAppraise.equals("D")){
-                                appraiseResults.set_A(0);
-                                appraiseResults.set_B(0);
-                                appraiseResults.set_C(0);
-                                appraiseResults.set_D(1);
-                            }else if (supplierAppraise.equals("")){
-                                appraiseResults.set_A(0);
-                                appraiseResults.set_B(0);
-                                appraiseResults.set_C(0);
-                                appraiseResults.set_D(0);
+                            number++;
+                        }else {
+                            if(number>0) {
+                                count=0;
+                            }else {
+                                count++;
                             }
-                             list.add(appraiseResults);
-                             break;
                         }
+                    }
+                    if(count>0) {
+                        SupplierAppraiseResults appraiseResults = new SupplierAppraiseResults();
+                        appraiseResults.setSupplierName(supplierName);
+                        appraiseResults.setPurchaseSum(1);
+                        appraiseResults.setPurchaseMoneySum(allPrice);
+                        if (supplierAppraise.equals("A")){
+                            appraiseResults.set_A(1);
+                            appraiseResults.set_B(0);
+                            appraiseResults.set_C(0);
+                            appraiseResults.set_D(0);
+                        }else if (supplierAppraise.equals("B")){
+                            appraiseResults.set_A(0);
+                            appraiseResults.set_B(1);
+                            appraiseResults.set_C(0);
+                            appraiseResults.set_D(0);
+                        }else if (supplierAppraise.equals("C")){
+                            appraiseResults.set_A(0);
+                            appraiseResults.set_B(0);
+                            appraiseResults.set_C(1);
+                            appraiseResults.set_D(0);
+                        }else if (supplierAppraise.equals("D")){
+                            appraiseResults.set_A(0);
+                            appraiseResults.set_B(0);
+                            appraiseResults.set_C(0);
+                            appraiseResults.set_D(1);
+                        }else if (supplierAppraise.equals("")){
+                            appraiseResults.set_A(0);
+                            appraiseResults.set_B(0);
+                            appraiseResults.set_C(0);
+                            appraiseResults.set_D(0);
+                        }
+                        list.add(appraiseResults);
                     }
                 }else{
                     SupplierAppraiseResults appraiseResults = new SupplierAppraiseResults();
@@ -182,26 +192,16 @@ public class SupplierAppraiseServiceImpl implements SupplierAppraiseService {
                     }
                     list.add(appraiseResults);
                 }
-
-                System.out.println("===========================================================================");
             }
         }
 
-
-
-
-
-
-
-
-		PageInfo<SupplierAppraiseResults> pageInfo = new PageInfo<SupplierAppraiseResults>(list);
-		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
-		LayuiTableData data = new LayuiTableData();
-		data.setData(pageInfo.getList());
-		Long total = pageInfo.getTotal();
-		data.setCount(total.intValue());
-		return data;
-	}
-
+        PageInfo<SupplierAppraiseResults> pageInfo = new PageInfo<SupplierAppraiseResults>(list);
+        System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+        LayuiTableData data = new LayuiTableData();
+        data.setData(pageInfo.getList());
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
+        return data;
+    }
 
 }
