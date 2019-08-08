@@ -126,13 +126,13 @@ public class OneLevelMainController extends BaseController {
 	private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
 
 	/**
-	 * 获取本年的预算金额，其中费用性的预算金额通过专业处权限进行控制。 资本性的预算金额，只有综合计划处等处能看 专项和机动的预算金额，只有综合计划处等处能看
+	 * 获取本年的预算金额，其中费用性的预算金额通过专业处权限进行控制。 资本性的预算金额，只有综合计划处等处能看
+	 * 专项和机动的预算金额，只有综合计划处等处能看
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_first_page_count")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
-	public String investment_first_page_count(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public String investment_first_page_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String resault = "";
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
@@ -149,8 +149,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(investment_first_page_count,
-					HttpMethod.POST, entity, JSONObject.class);
+			ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(investment_first_page_count, HttpMethod.POST, entity, JSONObject.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 
@@ -198,8 +197,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(contract_count, HttpMethod.POST, entity,
-					JSONObject.class);
+			ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(contract_count, HttpMethod.POST, entity, JSONObject.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONObject jSONArray = responseEntity.getBody();
@@ -247,8 +245,7 @@ public class OneLevelMainController extends BaseController {
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_table_dic, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_table_dic, HttpMethod.POST, entity, JSONArray.class);
 
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
@@ -291,15 +288,13 @@ public class OneLevelMainController extends BaseController {
 	// 三级表格
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/knowledge_table_data")
 	@ResponseBody
-	public String knowledge_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String knowledge_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println(">>>>>>>>>>>>knowledge_table_data>param:" + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST,
-				entity, LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -335,8 +330,7 @@ public class OneLevelMainController extends BaseController {
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_table_dic, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_table_dic, HttpMethod.POST, entity, JSONArray.class);
 
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
@@ -400,24 +394,20 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 
 		// 技术分类
-		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate,
-				httpHeaders);
+		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
 		request.setAttribute("jsflList", jsflList);
 		// 三级级联：经费来源(公司类型财务)->单位类别->研究院--中国石化集团
 		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT", restTemplate, httpHeaders);
 		request.setAttribute("jflyList", jflyList);
 		// 成果分组类型
-		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGFZLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGFZLX", restTemplate, httpHeaders);
 		request.setAttribute("fzlxList", fzlxList);
 
 		// 成果类型
-		List<SysDictionary> cglxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGLB", restTemplate,
-				httpHeaders);
+		List<SysDictionary> cglxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGLB", restTemplate, httpHeaders);
 		request.setAttribute("cglxList", cglxList);
 		// 成果专业
-		List<SysDictionary> zyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> zyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_CGLX", restTemplate, httpHeaders);
 		request.setAttribute("zyList", zyList);
 
 		return "stp/hana/home/oneLevelMain/achievement_table_new";
@@ -426,16 +416,14 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/achievement_table_data")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
-	public String achievement_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String achievement_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST,
-				entity, LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -495,8 +483,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -583,12 +570,10 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("ysnd", ysnd);
 		request.setAttribute("xmmc", xmmc);
 		// 费用类别
-		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
 		request.setAttribute("fylbList", fylbList);
 		// 研究院
-		List<SysDictionary> define2List = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate,
-				httpHeaders);
+		List<SysDictionary> define2List = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
 		request.setAttribute("define2List", define2List);
 
 		return "stp/hana/home/oneLevelMain/country_table_new";
@@ -597,15 +582,13 @@ public class OneLevelMainController extends BaseController {
 	// 三级表格
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/country_table_data")
 	@ResponseBody
-	public String country_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String country_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println(">>>>>>>>>>>>country_table_data>param:" + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(country_table_data, HttpMethod.POST,
-				entity, LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(country_table_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -668,8 +651,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -794,37 +776,29 @@ public class OneLevelMainController extends BaseController {
 		}
 
 		// 费用类别
-		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
 		request.setAttribute("fylbList", fylbList);
 		// 课题类型
-		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
 		request.setAttribute("ktlxList", ktlxList);
 		// 技术分类
-		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate,
-				httpHeaders);
+		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
 		request.setAttribute("jsflList", jsflList);
 		// 三级级联：经费来源(公司类型财务)->单位类别->研究院
-		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate,
-				httpHeaders);
+		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
 		request.setAttribute("jflyList", jflyList);
 		// 科技部二级级联： 专业处->专业类别
-		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate,
-				httpHeaders);
+		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
 		request.setAttribute("zycList", zycList);
 		// 负责单位
-		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
 		request.setAttribute("fzdwList", fzdwList);
 		// 分组类型
-		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
 		request.setAttribute("fzlxList", fzlxList);
 
 		// 部门
-		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate,
-				httpHeaders);
+		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 		request.setAttribute("gsbmbmList", gsbmbmList);
 
 		// 倒推部门-各个处室(汉字)->倒推部门
@@ -847,8 +821,7 @@ public class OneLevelMainController extends BaseController {
 	public String getGsbmbmFlagByzycbmFlag(String gsbmbmFlag, String zycbmFlag) {
 		if (gsbmbmFlag.equals("")) {
 			// 科技部下的
-			List<SysDictionary> kjbList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_KJB",
-					restTemplate, httpHeaders);
+			List<SysDictionary> kjbList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
 			if (kjbList != null && kjbList.size() > 0) {
 				for (int i = 0; i < kjbList.size(); i++) {
 					SysDictionary sysDictionary = kjbList.get(i);
@@ -857,8 +830,7 @@ public class OneLevelMainController extends BaseController {
 					if (zycbmFlag.equals(name)) {
 						// 得到父类
 						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
-						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate,
-								httpHeaders);
+						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
 						gsbmbmFlag = sys_Dictionary.getName();
 					}
 				}
@@ -867,8 +839,7 @@ public class OneLevelMainController extends BaseController {
 
 		if (gsbmbmFlag.equals("")) {
 			// 炼油部下的
-			List<SysDictionary> lianyouList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_LYB",
-					restTemplate, httpHeaders);
+			List<SysDictionary> lianyouList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_LYB", restTemplate, httpHeaders);
 			if (lianyouList != null && lianyouList.size() > 0) {
 				for (int i = 0; i < lianyouList.size(); i++) {
 					SysDictionary sysDictionary = lianyouList.get(i);
@@ -877,8 +848,7 @@ public class OneLevelMainController extends BaseController {
 					if (zycbmFlag.equals(name)) {
 						// 得到父类
 						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
-						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate,
-								httpHeaders);
+						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
 						gsbmbmFlag = sys_Dictionary.getName();
 					}
 				}
@@ -887,8 +857,7 @@ public class OneLevelMainController extends BaseController {
 
 		if (gsbmbmFlag.equals("")) {
 			// 物装部下的
-			List<SysDictionary> wzList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_WZB",
-					restTemplate, httpHeaders);
+			List<SysDictionary> wzList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_WZB", restTemplate, httpHeaders);
 			if (wzList != null && wzList.size() > 0) {
 				for (int i = 0; i < wzList.size(); i++) {
 					SysDictionary sysDictionary = wzList.get(i);
@@ -897,8 +866,7 @@ public class OneLevelMainController extends BaseController {
 					if (zycbmFlag.equals(name)) {
 						// 得到父类
 						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
-						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate,
-								httpHeaders);
+						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
 						gsbmbmFlag = sys_Dictionary.getName();
 					}
 				}
@@ -907,8 +875,7 @@ public class OneLevelMainController extends BaseController {
 
 		if (gsbmbmFlag.equals("")) {
 			// 化工部下的
-			List<SysDictionary> hzList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_HGB",
-					restTemplate, httpHeaders);
+			List<SysDictionary> hzList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_HGB", restTemplate, httpHeaders);
 			if (hzList != null && hzList.size() > 0) {
 				for (int i = 0; i < hzList.size(); i++) {
 					SysDictionary sysDictionary = hzList.get(i);
@@ -917,8 +884,7 @@ public class OneLevelMainController extends BaseController {
 					if (zycbmFlag.equals(name)) {
 						// 得到父类
 						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
-						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate,
-								httpHeaders);
+						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
 						gsbmbmFlag = sys_Dictionary.getName();
 					}
 				}
@@ -977,37 +943,29 @@ public class OneLevelMainController extends BaseController {
 		}
 
 		// 费用类别
-		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
 		request.setAttribute("fylbList", fylbList);
 		// 课题类型
-		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
 		request.setAttribute("ktlxList", ktlxList);
 		// 三级级联：经费来源(公司类型财务)->单位类别->研究院
-		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate,
-				httpHeaders);
+		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
 		request.setAttribute("jflyList", jflyList);
 		// 科技部二级级联： 专业处->专业类别
-		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate,
-				httpHeaders);
+		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
 		request.setAttribute("zycList", zycList);
 		// 负责单位
-		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
 		request.setAttribute("fzdwList", fzdwList);
 		// 签订标示
-		List<SysDictionary> qdbsList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_QDBS", restTemplate,
-				httpHeaders);
+		List<SysDictionary> qdbsList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_QDBS", restTemplate, httpHeaders);
 		request.setAttribute("qdbsList", qdbsList);
 		// 分组类型
-		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
 		request.setAttribute("fzlxList", fzlxList);
 
 		// 部门
-		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate,
-				httpHeaders);
+		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 		request.setAttribute("gsbmbmList", gsbmbmList);
 
 		// 倒推部门-各个处室(汉字)->倒推部门
@@ -1024,8 +982,7 @@ public class OneLevelMainController extends BaseController {
 		// (汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2
 
 		// 直属研究院
-		List<SysDictionary> yjyList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate,
-				httpHeaders);
+		List<SysDictionary> yjyList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
 		request.setAttribute("yjyList", yjyList);
 
 		return "stp/hana/home/oneLevelMain/common_table_new";
@@ -1084,37 +1041,29 @@ public class OneLevelMainController extends BaseController {
 		}
 
 		// 费用类别
-		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
 		request.setAttribute("fylbList", fylbList);
 		// 课题类型
-		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
 		request.setAttribute("ktlxList", ktlxList);
 		// 技术分类
-		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate,
-				httpHeaders);
+		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
 		request.setAttribute("jsflList", jsflList);
 		// 三级级联：经费来源(公司类型财务)->单位类别->研究院
-		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate,
-				httpHeaders);
+		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
 		request.setAttribute("jflyList", jflyList);
 		// 科技部二级级联： 专业处->专业类别
-		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate,
-				httpHeaders);
+		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
 		request.setAttribute("zycList", zycList);
 		// 负责单位
-		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
 		request.setAttribute("fzdwList", fzdwList);
 		// 分组类型
-		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
 		request.setAttribute("fzlxList", fzlxList);
 
 		// 部门
-		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate,
-				httpHeaders);
+		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 		request.setAttribute("gsbmbmList", gsbmbmList);
 
 		// 倒推部门-各个处室(汉字)->倒推部门
@@ -1186,37 +1135,29 @@ public class OneLevelMainController extends BaseController {
 		}
 
 		// 费用类别
-		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
 		request.setAttribute("fylbList", fylbList);
 		// 课题类型
-		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
 		request.setAttribute("ktlxList", ktlxList);
 		// 技术分类
-		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate,
-				httpHeaders);
+		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
 		request.setAttribute("jsflList", jsflList);
 		// 三级级联：经费来源(公司类型财务)->单位类别->研究院
-		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate,
-				httpHeaders);
+		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
 		request.setAttribute("jflyList", jflyList);
 		// 科技部二级级联： 专业处->专业类别
-		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate,
-				httpHeaders);
+		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
 		request.setAttribute("zycList", zycList);
 		// 负责单位
-		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
 		request.setAttribute("fzdwList", fzdwList);
 		// 分组类型
-		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
 		request.setAttribute("fzlxList", fzlxList);
 
 		// 部门
-		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate,
-				httpHeaders);
+		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 		request.setAttribute("gsbmbmList", gsbmbmList);
 
 		// 倒推部门-各个处室(汉字)->倒推部门
@@ -1288,37 +1229,29 @@ public class OneLevelMainController extends BaseController {
 		}
 
 		// 费用类别
-		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
 		request.setAttribute("fylbList", fylbList);
 		// 课题类型
-		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
 		request.setAttribute("ktlxList", ktlxList);
 		// 技术分类
-		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate,
-				httpHeaders);
+		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
 		request.setAttribute("jsflList", jsflList);
 		// 三级级联：经费来源(公司类型财务)->单位类别->研究院
-		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate,
-				httpHeaders);
+		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
 		request.setAttribute("jflyList", jflyList);
 		// 科技部二级级联： 专业处->专业类别
-		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate,
-				httpHeaders);
+		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
 		request.setAttribute("zycList", zycList);
 		// 负责单位
-		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
 		request.setAttribute("fzdwList", fzdwList);
 		// 分组类型
-		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate,
-				httpHeaders);
+		List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
 		request.setAttribute("fzlxList", fzlxList);
 
 		// 部门
-		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate,
-				httpHeaders);
+		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 		request.setAttribute("gsbmbmList", gsbmbmList);
 
 		// 倒推部门-各个处室(汉字)->倒推部门
@@ -1344,8 +1277,7 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/project_fx_table_data")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
-	public String project_fx_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String project_fx_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
@@ -1363,8 +1295,7 @@ public class OneLevelMainController extends BaseController {
 
 			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
 			if (!gsbmbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
 					gsbmbmFlag = sysDictionary.getNumValue();
@@ -1375,8 +1306,7 @@ public class OneLevelMainController extends BaseController {
 		if (zycbmFlag_code != null) {
 			String zycbmFlagCode = (String) zycbmFlag_code;
 			if (!zycbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
 				}
@@ -1386,8 +1316,7 @@ public class OneLevelMainController extends BaseController {
 		if (zylbbmFlag_code != null) {
 			String zylbbmFlagCode = (String) zylbbmFlag_code;
 			if (!zylbbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
 				}
@@ -1397,8 +1326,7 @@ public class OneLevelMainController extends BaseController {
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_data, HttpMethod.POST,
-				entity, LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -1411,8 +1339,7 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/project_fx_table_data_expert")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
-	public String project_fx_table_data_expert(@ModelAttribute("param") LayuiTableParam param,
-			HttpServletRequest request, HttpServletResponse response) {
+	public String project_fx_table_data_expert(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
@@ -1430,8 +1357,7 @@ public class OneLevelMainController extends BaseController {
 
 			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
 			if (!gsbmbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
 					gsbmbmFlag = sysDictionary.getNumValue();
@@ -1442,8 +1368,7 @@ public class OneLevelMainController extends BaseController {
 		if (zycbmFlag_code != null) {
 			String zycbmFlagCode = (String) zycbmFlag_code;
 			if (!zycbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
 				}
@@ -1453,8 +1378,7 @@ public class OneLevelMainController extends BaseController {
 		if (zylbbmFlag_code != null) {
 			String zylbbmFlagCode = (String) zylbbmFlag_code;
 			if (!zylbbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
 				}
@@ -1464,8 +1388,7 @@ public class OneLevelMainController extends BaseController {
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_tree_data_expert,
-				HttpMethod.POST, entity, LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_tree_data_expert, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -1480,8 +1403,7 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/project_fx_table_tree_data")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
-	public String project_fx_table_data_tree(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String project_fx_table_data_tree(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
@@ -1499,8 +1421,7 @@ public class OneLevelMainController extends BaseController {
 
 			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
 			if (!gsbmbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
 					gsbmbmFlag = sysDictionary.getNumValue();
@@ -1511,8 +1432,7 @@ public class OneLevelMainController extends BaseController {
 		if (zycbmFlag_code != null) {
 			String zycbmFlagCode = (String) zycbmFlag_code;
 			if (!zycbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
 				}
@@ -1522,8 +1442,7 @@ public class OneLevelMainController extends BaseController {
 		if (zylbbmFlag_code != null) {
 			String zylbbmFlagCode = (String) zylbbmFlag_code;
 			if (!zylbbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
 				}
@@ -1533,8 +1452,7 @@ public class OneLevelMainController extends BaseController {
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_tree_data, HttpMethod.POST,
-				entity, LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_tree_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -1550,8 +1468,7 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/project_fx_table_year_data_expert")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
-	public String project_fx_table_data_year_expert(@ModelAttribute("param") LayuiTableParam param,
-			HttpServletRequest request, HttpServletResponse response) {
+	public String project_fx_table_data_year_expert(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>project_fx_table_data_year三级表格参数：" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
@@ -1569,8 +1486,7 @@ public class OneLevelMainController extends BaseController {
 
 			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
 			if (!gsbmbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
 					gsbmbmFlag = sysDictionary.getNumValue();
@@ -1581,8 +1497,7 @@ public class OneLevelMainController extends BaseController {
 		if (zycbmFlag_code != null) {
 			String zycbmFlagCode = (String) zycbmFlag_code;
 			if (!zycbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
 				}
@@ -1592,8 +1507,7 @@ public class OneLevelMainController extends BaseController {
 		if (zylbbmFlag_code != null) {
 			String zylbbmFlagCode = (String) zylbbmFlag_code;
 			if (!zylbbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
 				}
@@ -1603,8 +1517,7 @@ public class OneLevelMainController extends BaseController {
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_year_data_expert,
-				HttpMethod.POST, entity, LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_year_data_expert, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -1620,8 +1533,7 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/project_fx_table_year_data")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
-	public String project_fx_table_data_year(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String project_fx_table_data_year(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>project_fx_table_data_year三级表格参数：" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
@@ -1639,8 +1551,7 @@ public class OneLevelMainController extends BaseController {
 
 			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
 			if (!gsbmbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
 					gsbmbmFlag = sysDictionary.getNumValue();
@@ -1651,8 +1562,7 @@ public class OneLevelMainController extends BaseController {
 		if (zycbmFlag_code != null) {
 			String zycbmFlagCode = (String) zycbmFlag_code;
 			if (!zycbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
 				}
@@ -1662,8 +1572,7 @@ public class OneLevelMainController extends BaseController {
 		if (zylbbmFlag_code != null) {
 			String zylbbmFlagCode = (String) zylbbmFlag_code;
 			if (!zylbbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
 				}
@@ -1673,8 +1582,7 @@ public class OneLevelMainController extends BaseController {
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_year_data, HttpMethod.POST,
-				entity, LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(project_table_year_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -1688,8 +1596,7 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/count_table_data")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
-	public String count_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String count_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>count_table_data三级表格参数：" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
@@ -1707,8 +1614,7 @@ public class OneLevelMainController extends BaseController {
 
 			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
 			if (!gsbmbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
 					gsbmbmFlag = sysDictionary.getNumValue();
@@ -1719,8 +1625,7 @@ public class OneLevelMainController extends BaseController {
 		if (zycbmFlag_code != null) {
 			String zycbmFlagCode = (String) zycbmFlag_code;
 			if (!zycbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
 				}
@@ -1730,8 +1635,7 @@ public class OneLevelMainController extends BaseController {
 		if (zylbbmFlag_code != null) {
 			String zylbbmFlagCode = (String) zylbbmFlag_code;
 			if (!zylbbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
 				}
@@ -1741,8 +1645,7 @@ public class OneLevelMainController extends BaseController {
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(count_table_data, HttpMethod.POST, entity,
-				LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(count_table_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -1758,7 +1661,8 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/ten_dragon_table")
 	public String ten_dragon_table(HttpServletRequest request) throws Exception {
 		// String nd = CommonUtil.getParameter(request, "nd",
-		// DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()), DateUtil.FMT_YYYY));
+		// DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()),
+		// DateUtil.FMT_YYYY));
 		String nd = request.getParameter("nd");
 		System.out.println("----------------nd0---------" + nd + "----- xmfl---- " + request.getParameter("xmfl"));
 		if (nd == null) {
@@ -1779,8 +1683,7 @@ public class OneLevelMainController extends BaseController {
 
 		HttpEntity<String> entity = new HttpEntity<String>(JSONObject.toJSONString(paramsMap), httpHeaders);
 
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_search_con, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_search_con, HttpMethod.POST, entity, JSONArray.class);
 		// System.out.println(JSON.toJSONString(responseEntity.getBody()));
 
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -1822,8 +1725,7 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/ten_dragon_table_data")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
-	public String ten_dragon_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String ten_dragon_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println(">>>>>>>>>>>>ten_dragon_table_data>param:" + JSONObject.toJSONString(param));
 		PageResult pageResult = new PageResult();
@@ -1843,8 +1745,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getStlTable, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getStlTable, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -1910,8 +1811,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -1983,43 +1883,23 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/common_table_data")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
-	public String common_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String common_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		String result = this.setCommonTable(param, request, response);
 		return result;
 	}
 
 	// 三级表格
-	@RequestMapping(method = RequestMethod.POST, value = "/mobile/common_table_data_mobile")
+	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/common_table_data_mobile")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
-	public String common_table_data_mobile(HttpServletRequest request, HttpServletResponse response) {
+	public String common_table_data_mobile(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		LayuiTableParam param = new LayuiTableParam();
+		// LayuiTableParam param=new LayuiTableParam();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String limit = CommonUtil.getParameter(request, "limit", "15");
 		String page = CommonUtil.getParameter(request, "page", "1");
-		String qdbz = CommonUtil.getParameter(request, "qdbz", "");
-		String xmmc = CommonUtil.getParameter(request, "xmmc", "");
-		String hth = CommonUtil.getParameter(request, "hth", "");
-
-		// 数据控制属性
-		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
-		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
-		param.getParam().put("zycbm", zycbm);
-		param.getParam().put("zylbbm", zylbbm);
-		// 领导标识
-		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
-
-		param.setLimit(Integer.valueOf(limit));
-		param.setPage(Integer.valueOf(page));
-		param.getParam().put("nd", nd);
-		param.getParam().put("qdbz", qdbz);
-		param.getParam().put("hth", hth);
-		param.getParam().put("xmmc", xmmc);
 		System.out.println(">>>>>>>>>>>>nd:" + nd + "page=" + page);
-
 		String result = this.setCommonTable(param, request, response);
 		return result;
 	}
@@ -2039,8 +1919,7 @@ public class OneLevelMainController extends BaseController {
 			System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
 			if (!gsbmbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("gsbmbmFlag", sysDictionary.getNumValue());
 					gsbmbmFlag = sysDictionary.getNumValue();
@@ -2051,8 +1930,7 @@ public class OneLevelMainController extends BaseController {
 		if (zycbmFlag_code != null) {
 			String zycbmFlagCode = (String) zycbmFlag_code;
 			if (!zycbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zycbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zycbmFlag", sysDictionary.getNumValue());
 				}
@@ -2062,8 +1940,7 @@ public class OneLevelMainController extends BaseController {
 		if (zylbbmFlag_code != null) {
 			String zylbbmFlagCode = (String) zylbbmFlag_code;
 			if (!zylbbmFlagCode.equals("")) {
-				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate,
-						httpHeaders);
+				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(zylbbmFlagCode, restTemplate, httpHeaders);
 				if (sysDictionary != null) {
 					param.getParam().put("zylbbmFlag", sysDictionary.getNumValue());
 				}
@@ -2073,8 +1950,7 @@ public class OneLevelMainController extends BaseController {
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(common_table, HttpMethod.POST, entity,
-				LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(common_table, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -2115,8 +1991,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_01, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 
@@ -2171,8 +2046,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_02, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_02, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 
@@ -2232,8 +2106,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_pie, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_pie, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 
@@ -2296,8 +2169,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_pie, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_pie, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
@@ -2351,8 +2223,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_02, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_02, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 
@@ -2434,8 +2305,7 @@ public class OneLevelMainController extends BaseController {
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_01, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 
@@ -2508,8 +2378,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_01_01, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_01_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 
@@ -2618,8 +2487,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_02, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -2675,8 +2543,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_03, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_03, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 
@@ -2752,8 +2619,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_04, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_04, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
@@ -2796,10 +2662,8 @@ public class OneLevelMainController extends BaseController {
 					}
 
 					DecimalFormat df = new DecimalFormat("0.00");
-					double fyxsl_rate = new BigDecimal((float) fyxsl_count / zsl_count)
-							.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-					double zbxsl_rate = new BigDecimal((float) zbxsl_count / zsl_count)
-							.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+					double fyxsl_rate = new BigDecimal((float) fyxsl_count / zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+					double zbxsl_rate = new BigDecimal((float) zbxsl_count / zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 
 					map.put("fyxsl_rate", fyxsl_rate * 100 + "%");
 					map.put("zbxsl_rate", zbxsl_rate * 100 + "%");
@@ -2840,8 +2704,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_05, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_05, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -2927,13 +2790,11 @@ public class OneLevelMainController extends BaseController {
 
 		String type = CommonUtil.getParameter(request, "type", "");
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_01, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(),
-					AchievementsAnalysis.class);
+			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
 			System.out.println(">>>>>>>>>>>>>>achievement_01 jSONArray-> " + jSONArray.toString());
 			ChartPieResultData pie = new ChartPieResultData();
 			List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -2973,13 +2834,11 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_02, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(),
-					AchievementsAnalysis.class);
+			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
 			System.out.println(">>>>>>>>>>>>>>achievement_02 jSONArray-> " + jSONArray.toString());
 
 			if (type.equals("1")) {
@@ -3036,13 +2895,11 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_03, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_03, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(),
-					AchievementsAnalysis.class);
+			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
 			System.out.println(">>>>>>>>>>>>>>achievement_03 jSONArray-> " + jSONArray.toString());
 
 			ChartSingleLineResultData csr = new ChartSingleLineResultData();
@@ -3067,8 +2924,7 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/achievement_04")
 	@ResponseBody
-	public String achievement_04(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String achievement_04(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println("achievement_04 param=   " + JSONObject.toJSONString(param));
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
@@ -3076,8 +2932,7 @@ public class OneLevelMainController extends BaseController {
 		param.getParam().put("nd", nd);
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_04, HttpMethod.POST, entity,
-				LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_04, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -3096,8 +2951,7 @@ public class OneLevelMainController extends BaseController {
 
 		Object rs = null;
 		HttpEntity<Object> entity = new HttpEntity<Object>(httpHeaders);
-		ResponseEntity<Object> responseEntity = restTemplate.exchange(achievement_05, HttpMethod.POST, entity,
-				Object.class);
+		ResponseEntity<Object> responseEntity = restTemplate.exchange(achievement_05, HttpMethod.POST, entity, Object.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			rs = responseEntity.getBody();
@@ -3115,8 +2969,7 @@ public class OneLevelMainController extends BaseController {
 		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
-		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS,
-				restTemplate, httpHeaders);
+		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
 		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
@@ -3148,8 +3001,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(equipment_01, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(equipment_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -3199,8 +3051,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(equipment_02, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(equipment_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -3268,8 +3119,7 @@ public class OneLevelMainController extends BaseController {
 		String type = CommonUtil.getParameter(request, "type", "");
 		String month = CommonUtil.getParameter(request, "month", "");
 
-		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS,
-				restTemplate, httpHeaders);
+		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 
 		String companyName = CommonUtil.getParameter(request, "companyName", "");
 		String legentName = CommonUtil.getParameter(request, "legentName", "");
@@ -3277,8 +3127,9 @@ public class OneLevelMainController extends BaseController {
 			companyCode = EquipmentUtils.getCompanyCodeByHanaName(companyName, restTemplate, httpHeaders);
 		}
 		/*
-		 * List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate,
-		 * httpHeaders); if (!companyName.equals("")) { companyCode =
+		 * List<CompanyCode> companyCodeList =
+		 * HanaUtil.getCompanyCode(restTemplate, httpHeaders); if
+		 * (!companyName.equals("")) { companyCode =
 		 * HanaUtil.getCompanyCodeByName(companyCodeList, companyName); }
 		 */
 		request.setAttribute("companyName", companyName);
@@ -3294,14 +3145,12 @@ public class OneLevelMainController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/equipment_03")
 	@ResponseBody
-	public String equipment_03(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
-			HttpServletResponse response) {
+	public String equipment_03(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println("equipment_03 param=   " + JSONObject.toJSONString(param));
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(equipment_03, HttpMethod.POST, entity,
-				LayuiTableData.class);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(equipment_03, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();
@@ -3327,8 +3176,7 @@ public class OneLevelMainController extends BaseController {
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(equipment_04, HttpMethod.POST, entity,
-				JSONObject.class);
+		ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(equipment_04, HttpMethod.POST, entity, JSONObject.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONObject jSONArray = responseEntity.getBody();
@@ -3376,8 +3224,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_01, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 
@@ -3417,8 +3264,7 @@ public class OneLevelMainController extends BaseController {
 	public String dragon_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String l_nd = DateUtil.format(DateUtil.dateAdd(DateUtil.strToDate(nd, DateUtil.FMT_YYYY), -365),
-				DateUtil.FMT_YYYY);
+		String l_nd = DateUtil.format(DateUtil.dateAdd(DateUtil.strToDate(nd, DateUtil.FMT_YYYY), -365), DateUtil.FMT_YYYY);
 
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -3433,8 +3279,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_02, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_02, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -3499,8 +3344,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_03, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_03, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
@@ -3545,8 +3389,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("type_flag", "研究院");
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_01, HttpMethod.POST,
-				new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders), JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_01, HttpMethod.POST, new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders), JSONArray.class);
 		System.out.println(">>>>>>>>>>>>>>dragon_03-01 " + responseEntity.getBody().toString());
 
 		return responseEntity.getBody().toString();
@@ -3569,8 +3412,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getZdstlTable, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getZdstlTable, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -3610,8 +3452,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(dragon_count, HttpMethod.POST, entity,
-					JSONObject.class);
+			ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(dragon_count, HttpMethod.POST, entity, JSONObject.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 
@@ -3653,8 +3494,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getStlTable, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getStlTable, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -3676,8 +3516,7 @@ public class OneLevelMainController extends BaseController {
 
 	// 下载报告
 	@RequestMapping("/one_level_main/report_download/{year}")
-	public void downLoadPlantRunningListInfo(HttpServletResponse res, @PathVariable("year") String year)
-			throws IOException {
+	public void downLoadPlantRunningListInfo(HttpServletResponse res, @PathVariable("year") String year) throws IOException {
 
 		URL path = this.getClass().getResource("/");
 		List<String> files = Arrays.asList(new File(path.getPath() + "static/ten_dragon").list());
@@ -3731,8 +3570,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
@@ -3791,8 +3629,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
@@ -3840,8 +3677,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -3932,8 +3768,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
@@ -3979,7 +3814,7 @@ public class OneLevelMainController extends BaseController {
 	/**
 	 * 新开课题科研预算统计
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_03")
+	@RequestMapping(value = "/one_level_main/investment_03")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String investment_03(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -3992,10 +3827,12 @@ public class OneLevelMainController extends BaseController {
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		String type = CommonUtil.getParameter(request, "type", "");
 		String xkFlag = CommonUtil.getParameter(request, "xkFlag", "");
+		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
 		paramsMap.put("xkFlag", xkFlag);
+		paramsMap.put("xmlbbm", xmlbbm);
 		// 数据控制属性
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
@@ -4008,8 +3845,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_03, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_03, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
@@ -4080,8 +3916,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity,
-					JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 
@@ -4148,8 +3983,7 @@ public class OneLevelMainController extends BaseController {
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(get_news, HttpMethod.POST, entity,
-				JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(get_news, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
@@ -4159,8 +3993,7 @@ public class OneLevelMainController extends BaseController {
 				String str = "";
 				String createtime = sysNews.getCreatetime();
 				if (createtime != null) {
-					str = DateUtil.dateToStr(DateUtil.strToDate(sysNews.getCreatetime(), DateUtil.FMT_DD),
-							DateUtil.FMT_DD);
+					str = DateUtil.dateToStr(DateUtil.strToDate(sysNews.getCreatetime(), DateUtil.FMT_DD), DateUtil.FMT_DD);
 				}
 				sysNews.setCreatetimestr(str);
 			}
