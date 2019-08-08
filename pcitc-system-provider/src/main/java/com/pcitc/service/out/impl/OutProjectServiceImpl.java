@@ -1196,7 +1196,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 	/**
 	 * 批量插入项目预算数据
 	 */
-	public int insertProjectItemData(List<OutProjectInfo> list, String nd) {
+	public int insertProjectItemData(List<OutProjectInfoWithBLOBs> list, String nd) {
 		// 删除年度预算，重新获取
 		// outProjectInfoMapper.deleteProjectItemByNd(nd);
 		// outProjectInfoMapper.insertProjectItemData(list);
@@ -1229,7 +1229,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return 1;
 	}
 
-	public int insertProjectData(List<OutProjectInfo> list, String nd) {
+	public int insertProjectData(List<OutProjectInfoWithBLOBs> list, String nd) {
 		// 存在某个数据，修改这个数据
 		// OutProjectInfoExample example = new OutProjectInfoExample();
 		// example.createCriteria().andNdEqualTo(nd);
@@ -1242,7 +1242,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 		// System.out.println("===========新插入条数----------------"+insertData.size());
 
-		List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+		List<OutProjectInfoWithBLOBs> insertData = new ArrayList<OutProjectInfoWithBLOBs>();
 		for (int i = 0; i < list.size(); i++) {
 			int temInt = this.updateOutProjectInfo(list.get(i));
 			if (temInt == -1) {
@@ -1252,7 +1252,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 		// 批量插入数据
 		if (insertData.size() > 0) {
-			outProjectInfoMapper.insertOutProjectBatch(insertData);
+			outProjectInfoMapper.insertOutProjectWithBLOBsBatch(insertData);
 		}
 
 		return 1;
@@ -1337,19 +1337,18 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return data;
 	}
 
-	public int updateOutProjectInfo(OutProjectInfo opi) {
+	public int updateOutProjectInfo(OutProjectInfoWithBLOBs opi) {
 
 		OutProjectInfoExample example = new OutProjectInfoExample();
-
 		OutProjectInfoExample.Criteria criteria = example.createCriteria();
 
 		criteria.andXmidEqualTo(opi.getXmid());
 		criteria.andDefine3EqualTo("项目管理系统");
 		criteria.andYsndEqualTo(opi.getYsnd());
-		List<OutProjectInfo> returnList = outProjectInfoMapper.selectByExample(example);
+		List<OutProjectInfoWithBLOBs> returnList = outProjectInfoMapper.selectByExampleWithBLOBs(example);
 		if (returnList != null && returnList.size() > 0) {
 			for (int j = 0; j < returnList.size(); j++) {
-				OutProjectInfo newOPI = returnList.get(j);
+				OutProjectInfoWithBLOBs newOPI = returnList.get(j);
 				if (newOPI != null) {
 					if (StrUtil.isNotBlank(opi.getProjectLevel())) {
 						newOPI.setProjectLevel(opi.getProjectLevel());
@@ -1416,7 +1415,16 @@ public class OutProjectServiceImpl implements OutProjectService {
 					if (StrUtil.isNotBlank(opi.getDefine16())) {
 						newOPI.setDefine16(opi.getDefine16());
 					}
-					outProjectInfoMapper.updateByPrimaryKey(newOPI);
+					if (StrUtil.isNotBlank(opi.getLxbj())) {
+						newOPI.setLxbj(opi.getLxbj());
+					}
+					if (StrUtil.isNotBlank(opi.getLxbj())) {
+						newOPI.setLxbj(opi.getLxbj());
+					}
+					if (StrUtil.isNotBlank(opi.getYjmb())) {
+						newOPI.setYjmb(opi.getYjmb());
+					}
+					outProjectInfoMapper.updateByPrimaryKeyWithBLOBs(newOPI);
 				}
 			}
 			return 0;
@@ -1458,7 +1466,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		}
 	}
 
-	public int updateOutProjectInfoForYS(OutProjectInfo opi) {
+	public int updateOutProjectInfoForYS(OutProjectInfoWithBLOBs opi) {
 
 		OutProjectInfoExample example = new OutProjectInfoExample();
 		OutProjectInfoExample.Criteria criteria = example.createCriteria();
@@ -1466,9 +1474,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 		criteria.andYsndEqualTo(opi.getYsnd());
 		criteria.andDefine8EqualTo(opi.getDefine8());
 		criteria.andDefine3EqualTo("项目管理系统");
-		List<OutProjectInfo> returnList = outProjectInfoMapper.selectByExample(example);
+		List<OutProjectInfoWithBLOBs> returnList = outProjectInfoMapper.selectByExampleWithBLOBs(example);
 		if (returnList != null && returnList.size() > 0) {
-			OutProjectInfo newOPI = returnList.get(0);
+			OutProjectInfoWithBLOBs newOPI = returnList.get(0);
 			if (StrUtil.isNotBlank(opi.getProjectLevel())) {
 				newOPI.setProjectLevel(opi.getProjectLevel());
 			}
@@ -1541,16 +1549,22 @@ public class OutProjectServiceImpl implements OutProjectService {
 			if (StrUtil.isNotBlank(opi.getLxrxm())) {
 				newOPI.setLxrxm(opi.getLxrxm());
 			}
+			if (StrUtil.isNotBlank(opi.getLxbj())) {
+				newOPI.setLxbj(opi.getLxbj());
+			}
+			if (StrUtil.isNotBlank(opi.getYjmb())) {
+				newOPI.setYjmb(opi.getYjmb());
+			}
 			System.out.println("update .... ");
-			return outProjectInfoMapper.updateByPrimaryKey(newOPI);
+			return outProjectInfoMapper.updateByPrimaryKeyWithBLOBs(newOPI);
 		} else {
 			// 此项目此预算年度没有预算费用
 			OutProjectInfoExample example1 = new OutProjectInfoExample();
 			OutProjectInfoExample.Criteria criteria1 = example1.createCriteria();
 			criteria1.andXmidEqualTo(opi.getXmid());
-			List<OutProjectInfo> insertList = outProjectInfoMapper.selectByExample(example1);
+			List<OutProjectInfoWithBLOBs> insertList = outProjectInfoMapper.selectByExampleWithBLOBs(example1);
 			if (insertList != null && insertList.size() > 0) {
-				OutProjectInfo insertOPI = insertList.get(0);
+				OutProjectInfoWithBLOBs insertOPI = insertList.get(0);
 				if (insertOPI.getDefine8() == null) {
 					// 原项目主数据，无用删除
 					OutProjectInfoExample example2 = new OutProjectInfoExample();
@@ -1568,10 +1582,10 @@ public class OutProjectServiceImpl implements OutProjectService {
 				insertOPI.setYsfyxje(opi.getYsfyxje());
 				insertOPI.setYszbxje(opi.getYszbxje());
 
-				List<OutProjectInfo> temList = new ArrayList<OutProjectInfo>();
+				List<OutProjectInfoWithBLOBs> temList = new ArrayList<OutProjectInfoWithBLOBs>();
 				temList.add(insertOPI);
 				System.out.println("insert .... ");
-				outProjectInfoMapper.insertOutProjectBatch(temList);
+				outProjectInfoMapper.insertOutProjectWithBLOBsBatch(temList);
 				return 1;
 			}
 			System.out.println("插入异常------插入异常------插入异常---------" + opi.getDefine8() + "--------------------" + opi.getNd() + "-------------------" + opi.getXmid());
