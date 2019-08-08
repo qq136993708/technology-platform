@@ -7,6 +7,7 @@ import com.pcitc.base.common.DataTableParam;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
+import com.pcitc.base.workflow.WorkflowVo;
 
 /**
  * 
@@ -59,6 +60,12 @@ public interface IntlProjectInfoService
 	 * @return
 	 */
 	public boolean startWorkFlow(String businessId,String functionId,String workflowName,String authenticatedUserId,String authenticatedUserName);
+	/**
+	 * 
+	 * @param workflowVo
+	 * @return
+	 */
+	public boolean startWorkFlow(WorkflowVo workflowVo);
 	/**
 	 * 
 	 * @return
