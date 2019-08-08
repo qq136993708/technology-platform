@@ -74,7 +74,8 @@ public class AdminMobileController extends BaseController {
 		String month=HanaUtil.getCurrentYearMoth();
 		request.setAttribute("nd", nd);
 		request.setAttribute("month", month);
-		
+		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
+		request.setAttribute("companyCode", companyCode);
 		
 		return "/mobile/index";
 	}
@@ -148,6 +149,8 @@ public class AdminMobileController extends BaseController {
 		String month=HanaUtil.getCurrentYearMoth();
 		request.setAttribute("nd", nd);
 		request.setAttribute("month", month);
+		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
+		request.setAttribute("companyCode", companyCode);
 		return "/mobile/index";
 	}
 
@@ -285,6 +288,8 @@ public class AdminMobileController extends BaseController {
 		String month=HanaUtil.getCurrentYearMoth();
 		request.setAttribute("nd", nd);
 		request.setAttribute("month", month);
+		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
+		request.setAttribute("companyCode", companyCode);
 		return "/mobile/index";
 	}
 
@@ -416,6 +421,8 @@ public class AdminMobileController extends BaseController {
 			String month=HanaUtil.getCurrentYearMoth();
 			request.setAttribute("nd", nd);
 			request.setAttribute("month", month);
+			String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
+			request.setAttribute("companyCode", companyCode);
 			return "/mobile/index";
 		} else {
 			if (sysUserInfo == null || sysUserInfo.getUserId() == null) {
@@ -456,6 +463,8 @@ public class AdminMobileController extends BaseController {
 			String month=HanaUtil.getCurrentYearMoth();
 			request.setAttribute("nd", nd);
 			request.setAttribute("month", month);
+			String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
+			request.setAttribute("companyCode", companyCode);
 			return "/mobile/index";
 		}
 	}

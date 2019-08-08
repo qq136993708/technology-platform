@@ -2412,7 +2412,7 @@ public class OutProjectServiceImpl implements OutProjectService {
     @Override
     public LayuiTableData selectProjectInfoWithAllInfoByCondYearExpert(LayuiTableParam param) {
 
-        LayuiTableData data = this.selectProjectInfoWithAllInfoByCondTree(param);
+        LayuiTableData data = this.selectProjectInfoWithAllInfoByCondYear(param);
         List<Map<String, Object>> maps = (List<Map<String, Object>>) data.getData();
         int j = maps.size();
 

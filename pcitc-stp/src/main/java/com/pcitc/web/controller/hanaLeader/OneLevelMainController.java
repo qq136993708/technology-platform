@@ -1885,6 +1885,29 @@ public class OneLevelMainController extends BaseController {
 	@OperationFilter(dataFlag = "true")
 	public String common_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
+		String result=this.setCommonTable(param, request, response);
+		return result;
+	}
+	// 三级表格
+	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/common_table_data_mobile")
+	@ResponseBody
+	@OperationFilter(dataFlag = "true")
+	public String common_table_data_mobile(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+		
+		//LayuiTableParam param=new LayuiTableParam();
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String limit = CommonUtil.getParameter(request, "limit", "15");
+		String page = CommonUtil.getParameter(request, "page", "1");
+		System.out.println(">>>>>>>>>>>>nd:" + nd+"page="+page);
+		String result=this.setCommonTable(param, request, response);
+		return result;
+	}
+	
+	
+	
+	private String setCommonTable(LayuiTableParam param,HttpServletRequest request,HttpServletResponse response)
+	{
 		System.out.println(">>>>>>>>>>>>common_table_data>param:" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
@@ -1894,11 +1917,11 @@ public class OneLevelMainController extends BaseController {
 		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
 		Object zylbbmFlag_code = param.getParam().get("zylbbmFlag");
 
-		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
+		
 
 		String gsbmbmFlag = "";
 		if (gsbmbmFlag_code != null) {
-
+			System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
 			if (!gsbmbmFlagCode.equals("")) {
 				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);

@@ -20,6 +20,11 @@ public interface DecisionMapper {
     
     //报表名称: 科技资金现金流分析 报表编码: H1AM_KY_ZH_1003_01
     public List<ScientificCashFlow02> getScientificCashFlow02Report(Map map);
+    //手机端月报表
+    public List<ScientificCashFlow02> getMobileMonthCashFlow(Map map);
+    
+    
+    
     
     //报表名称: 科技资金现金流分析 报表编码: H1AM_KY_ZH_1003_01
     public List<ScientificCashFlow03> getScientificCashFlow03Report(Map map);

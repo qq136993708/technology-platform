@@ -100,6 +100,22 @@
        
 	 </select>
 	 
+	 
+	 <!--  手机端月报表 --> 
+	 <select id="getMobileMonthCashFlow" resultMap="scientificCashFlow02ReportResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0GSJC",
+			 round(sum("K0BQLJJE")/10000,2) AS "K0BQLJJE"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		WHERE ("G0XMBM" = '46') 
+		GROUP BY "G0GSJC" ,"G0GSOR"
+		ORDER BY "G0GSOR" ASC
+        
+      </select>
+	 
 	 <!--  报表名称: 科技资金现金流分析 报表编码: H1AM_KY_ZH_1003_03--> 
      <resultMap id="scientificCashFlow03ReportResultMap" type="com.pcitc.base.hana.report.ScientificCashFlow03" >
        <result column="G0XMBM" property="g0XMBM" jdbcType="VARCHAR" />

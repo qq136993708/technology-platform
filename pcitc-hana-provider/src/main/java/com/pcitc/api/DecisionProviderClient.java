@@ -98,6 +98,30 @@ public class DecisionProviderClient {
 		return list;
 	}
 
+	
+	
+	
+	
+	@ApiOperation(value = "手机端月报表", notes = "报表名称: 手机端月报表 ")
+	@RequestMapping(value = "/funds/cash-flow/getMobileMonthCashFlow", method = RequestMethod.POST)
+	public List getMobileMonthCashFlow(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception {
+		System.out.println(" paramsJson=" + paramsJson);
+		JSONObject jo = JSONObject.parseObject(paramsJson);
+		String month = jo.getString("month");
+		String companyCode = jo.getString("companyCode");
+
+		Map map = new HashMap();
+		map.put("month", month);
+		map.put("companyCode", companyCode);
+		List<ScientificCashFlow02> list = decisionService.getMobileMonthCashFlow(map);
+		return list;
+	}
+	
+	
+	
+	
+	
+	  
 	/**
 	 * 报表名称: 科技资金现金流分析
 	 * 报表编码: H1AM_KY_ZH_1003_03

@@ -37,8 +37,6 @@ public class PatentWaitWorkJob implements Job, Serializable {
 			str = DataServiceUtil.getDataService(DataServiceUtil.GET_URL, sqlName, conditions);
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "--专利管理待办任务接口接口返回 success=====");
 			if (str != null) {
-				// 先删除所有类型为3的代办
-				outWaitWorkService.deleteOutWaitWorkByType("3");
 				List<OutWaitWork> insertList = new ArrayList<OutWaitWork>();
 				JSONArray jSONArray = JSONArray.parseArray(str);
 				for (int i = 0; i < jSONArray.size(); i++) {
@@ -63,7 +61,6 @@ public class PatentWaitWorkJob implements Job, Serializable {
 				
 				if (insertList != null && insertList.size() > 1) {
 					outWaitWorkService.deleteOutWaitWorkByType("专利管理系统");
-					System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "开始插入=========");
 					outWaitWorkService.insertOutWaitWorkBatch(insertList);
 				}
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--专利管理待办任务接口 --保存到本地数据库-结束=========");
