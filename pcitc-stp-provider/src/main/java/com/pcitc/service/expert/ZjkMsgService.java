@@ -189,4 +189,8 @@ public interface ZjkMsgService {
      * @return
      */
     public LayuiTableData selectMsgTree(LayuiTableParam param);
+
+    public LayuiTableData selectMsgTreeCg(LayuiTableParam param);
+
+    public LayuiTableData selectMsgTreeJl(LayuiTableParam param);
 }

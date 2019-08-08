@@ -34,7 +34,7 @@
     </resultMap>
     <!--tree list-->
     <select id="selectMsgTree" parameterType="java.util.Map" resultMap="BaseResultMap">
-        SELECT z.data_id,z.is_complete,z.sys_flag,z.update_date,
+        SELECT z.data_id,z.is_complete,z.sys_flag,z.update_date,z.xm_steps,
         z.zjk_id,z.zjk_name,z.xm_id,z.project_name,p.define8 as form_code,p.nd as create_user_disp,p.ysnd as modify_user_disp,p.hth as update_user,p.data_id as modify_user
         from zjk_msg z,out_project_info p
         where z.xm_id=p.xmid
@@ -47,6 +47,68 @@
         </if>
         GROUP BY p.xmid,z.zjk_id
         order by z.is_complete desc , p.hth
+    </select>
+    <select id="selectMsgTreeCg" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        z.data_id,
+        z.is_complete,
+        z.sys_flag,
+        z.update_date,
+        z.zjk_id,
+        z.xm_steps,
+        z.zjk_name,
+        z.xm_id,
+        z.project_name,
+        p.sqjddw AS form_code,
+        p.sqdjh AS create_user_disp,
+        p.endTime AS modify_user_disp,
+        p.startTime AS update_user,
+        p.data_id AS modify_user
+        FROM
+        zjk_msg z,
+        out_appraisal p
+        WHERE
+        z.xm_id = p.data_id
+        and z.create_user='${createUser}'
+        <if test="xmName != null">
+            and z.project_name like '%${xmName}%'
+        </if>
+        <if test="xmSteps != null">
+            and z.xm_steps ='${xmSteps}'
+        </if>
+        GROUP BY p.data_id,z.zjk_id
+        order by z.is_complete desc
+    </select>
+    <select id="selectMsgTreeJl" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        z.data_id,
+        z.is_complete,
+        z.sys_flag,
+        z.update_date,
+        z.zjk_id,
+        z.zjk_name,
+        z.xm_id,
+        z.xm_steps,
+        z.project_name,
+        p.sbdw AS form_code,
+        p.sbdj AS create_user_disp,
+        p.xkfl AS modify_user_disp,
+        p.psdj AS update_user,
+        p.data_id AS modify_user
+        FROM
+        zjk_msg z,
+        out_reward p
+        WHERE
+        z.xm_id = p.data_id
+        and z.create_user='${createUser}'
+        <if test="xmName != null">
+            and z.project_name like '%${xmName}%'
+        </if>
+        <if test="xmSteps != null">
+            and z.xm_steps ='${xmSteps}'
+        </if>
+        GROUP BY p.xmid,z.zjk_id
+        order by z.is_complete desc
     </select>
     <sql id="Example_Where_Clause">
         <where>
