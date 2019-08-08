@@ -1,7 +1,8 @@
 package com.pcitc.web.controller.equipment;
 
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.*;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,6 +39,8 @@ public class SupplierAppraiseController extends BaseController {
     private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/supplierAppraise/update";
 
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/supplierAppraise/get/";
+
+    private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/supplierAppraise/page/";
 
     private static final String GET_BY_DETAIL_ID = "http://pcitc-zuul/stp-proxy/sre-provider/supplierAppraise/getByDetailId/";
     //根据装备台账ID获取装备台账信息
@@ -68,7 +72,13 @@ public class SupplierAppraiseController extends BaseController {
 
                 SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(equipmentId, restTemplate, httpHeaders);
                 SreProject sreProject = EquipmentUtils.getSreProject(specification, restTemplate, httpHeaders);
+                String supplierName ="";//供应商名称
+                if (StringUtils.isNotBlank(sreEquipment.getSupplierStr())){
+                    supplierName = sreEquipment.getSupplierStr().substring(0, sreEquipment.getSupplierStr().indexOf("#"));
+                }
 
+
+                request.setAttribute("supplierName", supplierName);
                 request.setAttribute("sreEquipment", sreEquipment);
                 request.setAttribute("sreProject", sreProject);
             }
@@ -115,6 +125,8 @@ public class SupplierAppraiseController extends BaseController {
         String applicationsSituation = CommonUtil.getParameter(request, "applicationsSituation", "");//应用情况
         String maintenanceSituation = CommonUtil.getParameter(request, "maintenanceSituation", "");//维修情况
         String equipmentOverallAppraise = CommonUtil.getParameter(request, "equipmentOverallAppraise", "");//装备整体评价
+        String supplierName = CommonUtil.getParameter(request, "supplierName", "");//供应商名称
+        String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");//装备ID
 
         // 判断是新增还是修改
         SreSupplierAppraise sreSupplierAppraise =null;
@@ -137,6 +149,8 @@ public class SupplierAppraiseController extends BaseController {
         sreSupplierAppraise.setMaintenanceSituation(maintenanceSituation);          //维修情况
         sreSupplierAppraise.setEquipmentOverallAppraise(equipmentOverallAppraise);  //装备整体评价
         sreSupplierAppraise.setEquipmentDetailId(sreDetailId);                      //装备台账ID
+        sreSupplierAppraise.setSupplierName(supplierName);                          //供应商名称
+        sreSupplierAppraise.setEquipmentId(equipmentId);                            //装备ID
         // 判断是新增还是修改
         if (id.equals("")) {
             responseEntity = this.restTemplate.exchange(ADD_URL, HttpMethod.POST, new HttpEntity<SreSupplierAppraise>(sreSupplierAppraise, this.httpHeaders), String.class);
@@ -153,5 +167,51 @@ public class SupplierAppraiseController extends BaseController {
         }
 
         return resultsDate;
+    }
+
+    /**
+     * 跳转
+     *供应商评价分析
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/sre-supplierAppraise/to-list")
+    public String toList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        //判断当前登录人是否为科技部人员
+        String unitPathIds = sysUserInfo.getUnitPath();
+        boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
+        request.setAttribute("isKJBPerson", isKJBPerson);
+
+        return "/stp/equipment/supplierAppraise/supplierAppraise-list";
+    }
+
+    /**
+     * 查询列表
+     *
+     * @param param
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/sre-supplierAppraise/list")
+    @ResponseBody
+    public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        if (statusCode == 200) {
+            layuiTableData = responseEntity.getBody();
+        }
+        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+        // 安全设置：归档文件下载
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+
+        return result.toString();
     }
 }

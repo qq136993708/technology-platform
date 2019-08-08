@@ -19,6 +19,18 @@ public class SreSupplierAppraise {
 
     private Date updateDate;
 
+    private String supplierName;
+
+    private String equipmentId;
+
+    private String A;//优
+
+    private String B;//良
+
+    private String C;//中
+
+    private String D;//差
+
     public String getId() {
         return id;
     }
@@ -81,5 +93,53 @@ public class SreSupplierAppraise {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public String getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(String equipmentId) {
+        this.equipmentId = equipmentId;
+    }
+
+    public String getA() {
+        return A;
+    }
+
+    public void setA(String a) {
+        A = a;
+    }
+
+    public String getB() {
+        return B;
+    }
+
+    public void setB(String b) {
+        B = b;
+    }
+
+    public String getC() {
+        return C;
+    }
+
+    public void setC(String c) {
+        C = c;
+    }
+
+    public String getD() {
+        return D;
+    }
+
+    public void setD(String d) {
+        D = d;
     }
 }

@@ -39,6 +39,9 @@
             <input name="id" id="id" value="${sreSupplierAppraise.id}" type="hidden">
             <input name="sreDetailId" id="sreDetailId" value="${sreDetail.id}" type="hidden">
             <input id="supplierAppraise" value="${sreSupplierAppraise.supplierAppraise}" type="hidden">
+            <!--<input id="supplierName" name="supplierName" value="${supplierName}" type="hidden">-->
+            <input id="equipmentId" name="equipmentId" value="${sreEquipment.equipmentId}" type="hidden">
+
             <input id="flag" value="${flag}" type="hidden">
 
             <div class="layui-row">
@@ -75,8 +78,8 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">供应商</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="supplierWillStr" readonly="readonly" id="supplierWillStr"
-                                   value="${sreEquipment.supplierWillStr}" lay-verify="required" autocomplete="off" type="text">
+                            <input class="layui-input" name="supplierName" readonly="readonly" id="supplierName"
+                                   value="${supplierName}" lay-verify="required" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
@@ -104,10 +107,10 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">供应商评价</label>
                 <div class="layui-input-block">
-                    <input type="radio"   name="supplierAppraise" value="1" title="优"/>
-                    <input type="radio"   name="supplierAppraise" value="2" title="良"/>
-                    <input type="radio"   name="supplierAppraise" value="3" title="中"/>
-                    <input type="radio"   name="supplierAppraise" value="4" title="差"/>
+                    <input type="radio"   name="supplierAppraise" value="A" title="优"/>
+                    <input type="radio"   name="supplierAppraise" value="B" title="良"/>
+                    <input type="radio"   name="supplierAppraise" value="C" title="中"/>
+                    <input type="radio"   name="supplierAppraise" value="D" title="差"/>
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
