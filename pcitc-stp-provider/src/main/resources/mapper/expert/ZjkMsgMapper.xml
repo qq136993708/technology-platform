@@ -46,7 +46,7 @@
             and z.xm_steps ='${xmSteps}'
         </if>
         GROUP BY p.xmid,z.zjk_id
-        order by z.is_complete, p.hth
+        order by z.is_complete desc , p.hth
     </select>
     <sql id="Example_Where_Clause">
         <where>
