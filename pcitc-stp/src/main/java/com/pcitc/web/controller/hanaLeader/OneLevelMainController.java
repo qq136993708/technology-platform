@@ -1890,7 +1890,7 @@ public class OneLevelMainController extends BaseController {
 	}
 
 	// 三级表格
-	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/common_table_data_mobile")
+	@RequestMapping(method = RequestMethod.POST, value = "/mobile/common_table_data_mobile")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String common_table_data_mobile( HttpServletRequest request, HttpServletResponse response) {
