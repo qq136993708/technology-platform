@@ -38,7 +38,7 @@ public class DelegateController extends BaseController {
 	// 新增委托
 	private static final String DELEGATE_ADD_URL = "http://pcitc-zuul/system-proxy/task-provider/delegate/add";
 	
-	// 新增委托
+	// 删除委托
 	private static final String DELEGATE_DEL_URL = "http://pcitc-zuul/system-proxy/task-provider/delegates/delete";
 
 	/**

@@ -294,8 +294,7 @@
 						define12 = '中东研发中心';
 					}
 
-					var url = encodeURIComponent("/one_level_main/common_table_new?define12=" + define12 + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8&define11=" + define11);
-					window.open("/instituteIndex?url=" + url);
+					parent.layui.index.openTabsPage("/one_level_main/common_table_new?define12=" + define12 + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8&define11=" + define11, xName+"科研预算");
 				});
 
 				zycTable();
