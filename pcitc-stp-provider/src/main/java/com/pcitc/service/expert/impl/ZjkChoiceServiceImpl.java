@@ -364,7 +364,8 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
         zjkChoiceExample.createCriteria().andXmIdIn(ids);
         List<ZjkChoice> zjkChoices = this.selectByExample(zjkChoiceExample);
-        object.put("list", zjkChoices == null || zjkChoices.size() == 0 ? new ArrayList<>() : zjkChoices);
+        List<ZjkChoice> zjkChoicesEmpty = new ArrayList<>();
+        object.put("list", zjkChoices == null || zjkChoices.size() == 0 ? zjkChoicesEmpty : zjkChoices);
         return object;
     }
 
