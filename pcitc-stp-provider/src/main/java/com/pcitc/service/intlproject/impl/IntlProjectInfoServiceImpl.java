@@ -233,7 +233,7 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 			IntlProjectInfo info = findById(workflowVo.getBusinessId());
 			if(WorkFlowStatusEnum.STATUS_RUNNING.getCode().equals(info.getFlowStartStatus()) || WorkFlowStatusEnum.STATUS_PASS.getCode().equals(info.getFlowStartStatus())) 
 			{
-				//return new Result(false,"已发起审批不可重复发起！");
+				return new Result(false,"已发起审批不可重复发起！");
 			}
 			JSONObject flowJson = JSON.parseObject(JSON.toJSONString(workflowVo));
 			// 非必填选项, 会签时需要的属性，会签里所有的人，同意率（double类型）
@@ -244,7 +244,6 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 	    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-info?projectId="+workflowVo.getBusinessId()+"&workflow_status="+WorkFlowStatusEnum.STATUS_PASS.getCode());
 	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-info?projectId="+workflowVo.getBusinessId()+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
 
-	    	System.out.println(flowJson.toJSONString());
 	    	String rs = workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
 	    	if("true".equals(rs)) 
 			{
