@@ -13,7 +13,6 @@
 </head>
 
 <body>
-
 <div class="searchBox">
     <form action=""  name="form1" id="form1" action="" method="POST">
         <input type="hidden" name="departCode" id="departCode" value="${departCode}">
@@ -31,16 +30,6 @@
 <div class="tableBox">
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
-
-<!--<script type="text/javascript">
-    $(function(){
-        if(isKJBPerson=="true" || isKJBPerson==true){
-            document.getElementById("bodyId").style.display = "inline";
-        }else{
-            document.getElementById("bodyId").style.display = "none";
-        }
-    })
-</script>-->
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -94,8 +83,7 @@
             layer = layui.layer,
             laypage = layui.laypage;
             form = layui.form,
-        //加载表格
-        renderTable();
+
         $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
 
         //监听排序
@@ -118,6 +106,13 @@
             active[type] ? active[type].call(this) : '';
         });
 
+        if(isKJBPerson==true || isKJBPerson=='true')
+        {
+            //加载表格
+            renderTable();
+        }else{
+            layer.alert('请以科技部的身份操作');
+        }
     });
 
     function renderTable()
@@ -143,8 +138,8 @@
                 {type : 'checkbox', event : 'changeEvents', width : 55},
                 {title : '序号',sort : true, type :'numbers', width : 55},
                 {field : 'supplierName',sort : true, title : '供应商名称', style : 'cursor: pointer;', align : 'center',templet : '#stage_temp', width : '25%'},
-                {field : 'purchaseSum',sort : true, title : '采购订单数量', style : 'cursor: pointer;', align : 'center',templet : '#stage_temp', width : '19.4%'},
-                {field : 'purchaseMoneySum',sort : true, title : '采购订单金额(万元)', style : 'cursor: pointer;', align : 'center', width : '20%'},
+                {field : 'purchaseSum',sort : true, title : '采购订单总数', style : 'cursor: pointer;', align : 'center',templet : '#stage_temp', width : '19.4%'},
+                {field : 'purchaseMoneySum',sort : true, title : '采购金额总数(万元)', style : 'cursor: pointer;', align : 'center', width : '20%'},
                 {sort : true,     title : '供应商评价', style : 'cursor: pointer;', align : 'left',width : '25%',templet:function(d){return '<span  style="color:#ff180c">'+'('+d._A+')'+'&nbsp优&nbsp&nbsp&nbsp&nbsp'+'</span>'+'<span  style="color:#0cff1e">'+'('+d._B+')'+'&nbsp良&nbsp&nbsp&nbsp&nbsp'+'</span>'+'<span  style="color:#ffb31c">'+'('+d._C+')'+'&nbsp中&nbsp&nbsp&nbsp&nbsp'+'</span>'+'<span  style="color:#c226ff">'+'('+d._D+')'+'&nbsp差&nbsp&nbsp&nbsp&nbsp'+'</span>'}}
             ]],
             done: function (res, curr, count) {

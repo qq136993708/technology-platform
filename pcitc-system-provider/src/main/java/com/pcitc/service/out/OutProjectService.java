@@ -40,7 +40,7 @@ public interface OutProjectService {
 	 * @param nd
 	 * @return
 	 */
-	public int insertProjectData(List<OutProjectInfo> list, String nd);
+	public int insertProjectData(List<OutProjectInfoWithBLOBs> list, String nd);
 	
 	/**
      * 研究院首页计算装备和科研合同总数 
@@ -58,7 +58,7 @@ public interface OutProjectService {
 	/**
 	 * 批量插入项目预算数据
 	 */
-	public int insertProjectItemData(List<OutProjectInfo> list, String nd);
+	public int insertProjectItemData(List<OutProjectInfoWithBLOBs> list, String nd);
 	
 	/**
 	 * 获取项目数据
@@ -111,7 +111,7 @@ public interface OutProjectService {
 	 * @param opi
 	 * @return
 	 */
-	public int updateOutProjectInfo(OutProjectInfo opi);
+	public int updateOutProjectInfo(OutProjectInfoWithBLOBs opi);
 
 
 	OutProjectInfo getOutProjectShowById(String dataId) throws Exception;

@@ -169,7 +169,7 @@ public class OutProjectInfoClient {
 		String projectAbc = json.getString("projectAbc");
 		String projectSource = json.getString("projectSource");
 		String dataId = json.getString("dataId");
-		OutProjectInfo opi = new OutProjectInfo();
+		OutProjectInfoWithBLOBs opi = new OutProjectInfoWithBLOBs();
 
 		opi.setDataId(dataId);
 		opi.setProjectLevel(projectLevel);
@@ -209,7 +209,7 @@ public class OutProjectInfoClient {
 		boolean leaderFlag = false;
 		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
 			// 大领导特殊，能看所有
-			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016,ZX,JD";
+			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 			leaderFlag = true;
 		}
 		

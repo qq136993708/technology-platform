@@ -362,6 +362,7 @@
 	 	 <if test="configure!= null and configure!='' "> AND t.configure    like CONCAT('%',#{configure},'%')</if>
 	 	 <if test="unitPathIds != null and unitPathIds!='' ">               AND t.unitPathIds   like CONCAT('%',#{unitPathIds},'%')</if>
 	     <if test="parentUnitPathIds!= null and parentUnitPathIds!='' "> AND t.parentUnitPathIds    like CONCAT('%',#{parentUnitPathIds},'%')</if>
+	     <if test="placePeople!= null and placePeople!='' "> AND t.place_people    like CONCAT('%',#{placePeople},'%')</if>
 	 	 <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
 	 </trim>
 	</sql>

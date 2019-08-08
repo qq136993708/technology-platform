@@ -52,7 +52,7 @@ table tbody tr td{cursor: pointer;}
 				</div>
 			</div>
 			<div class="layui-row layui-col-space15">
-				<div class="layui-col-md6">
+				<div class="layui-col-md12">
 					<div class="layui-card">
 						<div class="layui-card-header" title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额。以股份公司（直属研究院、分子公司、资产单位、集团单位、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
 							<span class="layui-time"></span>科研预算统计
@@ -89,7 +89,10 @@ table tbody tr td{cursor: pointer;}
 					</div>
 				</div>
 
-				<div class="layui-col-md6">
+			</div>
+			
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md12">
 					<div class="layui-card">
 						<div class="layui-card-header" title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额。以股份公司（直属研究院、分子公司、资产单位、集团单位、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
 							<span class="layui-time"></span>科研预算执行率（万元）
@@ -122,32 +125,36 @@ table tbody tr td{cursor: pointer;}
 					</div>
 				</div>
 			</div>
-
+			
 			<div class="layui-row layui-col-space15">
 				<div class="layui-col-md12">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>专业处新开课题科研预算统计
+							<span class="layui-time"></span>
+							专业处科研预算
 						</div>
-						<div class="layui-card-body btn-function">
+						<div class="layui-row-main">
+							<table id="zycysTable" class="layui-table" lay-filter="zycysTable">
+								<thead>
+									<tr>
+										<th lay-data="{field:'zycmc', width:'13%'}" rowspan="2">专业处名称</th>
+										<th lay-data="{align:'center'}" colspan="3">预算总计（万元）</th>
+										<th lay-data="{align:'center'}" colspan="2" id = 'xkInfo'></th>
+										<th lay-data="{align:'center'}" colspan="2" id = 'jzInfo'></th>
+									</tr>
+									<tr>
+										<th lay-data="{field:'ysje', width:'13%',align:'right'}"> </th>
+										<th lay-data="{field:'ysxkje', width:'13%',align:'right'}">其中：可新签</th>
+										<th lay-data="{field:'ysjzje', width:'13%',align:'right'}">其中：结转</th>
 
-
-							<div class="text-total">
-								<span>
-									新开课题预算总金额:
-									<span class="text-total-blue" id="investment_chart6_01" onclick="budget_implementation('新开课题预算总金额')" style="cursor: pointer">
-										<img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-									</span>
-								</span>
-								<span>
-									新开课题已签总金额:
-									<span class="text-total-blue" id="investment_chart6_02" onclick="budget_implementation('新开课题已签总金额')" style="cursor: pointer">
-										<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-									</span>
-								</span>
-							</div>
-
-							<div class="main-chart" id="investment_chart6" style="height: 280px; width: 100%;"></div>
+										<th lay-data="{field:'xkMoney', width:'13%',align:'right'}">新签金额</th>
+										<th lay-data="{width:'11%',align:'right',templet : '#xkMoneyRate'}">新签预算完成比例</th>
+										
+										<th lay-data="{field:'jzMoney', width:'13%',align:'right'}">结转金额</th>
+										<th lay-data="{width:'11%',align:'right',templet : '#jzMoneyRate'}">占结转预算比例</th>
+									</tr>
+								</thead>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -198,6 +205,9 @@ table tbody tr td{cursor: pointer;}
 	<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 	<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 	<script type="text/javascript" src="/stp/hana/home/oneLevelMain/investment.js"></script>
+	
+	<script id="xkMoneyRate" type="text/html"> {{moneyRate(d.ysxkje, d.xkMoney)}} </script>
+	<script id="jzMoneyRate" type="text/html"> {{moneyRate(d.ysjzje, d.jzMoney)}} </script>
 	<script type="text/javascript">
 		var tableOne = null, tableTwo = null, selectRowData, nd;
 		layui.config({
@@ -254,8 +264,37 @@ table tbody tr td{cursor: pointer;}
 				window.open("/instituteIndex?url=" + url);
 
 			});
+			
+			table.on('row(zycysTable)', function(obj) {
+				selectRowData = obj.data;
+				var xName = selectRowData.zycmc;
+				var nd = $('#nd').val();
+
+				var qdbz = '已签订';
+				
+				if (xName == '油田处') {
+					xName = '科技部';
+				}
+				if (xName.indexOf('炼油事业部')>-1) {
+					xName = '炼油部';
+				}
+				if (xName.indexOf('化工事业部')>-1) {
+					xName = '化工部';
+				}
+				if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
+					var url = encodeURIComponent("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&ysnd=" + nd + "&qdbz=" + qdbz + "&define1=费用性&groupFlag=xmid,define8");
+					window.open("/instituteIndex?url=" + url);
+				} else if (xName == '专项' || xName == '机动') {
+					
+				} else {
+					var url = encodeURIComponent("/one_level_main/common_table_new?zycbmFlag=" + xName + "&ysnd=" + nd + "&qdbz=" + qdbz + "&define1=费用性&groupFlag=xmid,define8");
+					window.open("/instituteIndex?url=" + url);
+				}
+				
+			});
 
 			myTable();
+			zycysTable();
 			$("#knowledge_table").click(function() {
 				var url = encodeURIComponent("/one_level_main/common_table_new?ysnd=" + nd + "&groupFlag=xmid,define8");
 				window.open("/instituteIndex?url=" + url);
@@ -366,20 +405,6 @@ table tbody tr td{cursor: pointer;}
 
 			});
 
-			// 新开课题科研预算统计
-			var chart6_url = "/one_level_main/investment_03?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&type=1&xkFlag=1";
-			var colorNew2 = [ "#FED56B", "#9DD783", "#95c740" ];
-			var echart6 = load_mutl_bar_down(chart6_url, "investment_chart6", "", "", yAxis3, 30, colorNew2);
-			echart6.on('click', function(params) {
-				var xName = params.name;
-				var legentName = params.seriesName;
-				var qdbz = '';
-				if (legentName == '新开课题已签金额') {
-					qdbz = '已签订';
-				}
-				var url = encodeURIComponent("/one_level_main/common_table_new?qdbz=" + qdbz + "&ysnd=" + nd + "&nd=" + nd  + "&define10=" + xName + "&groupFlag=xmid,define8&zycbmFlag=" + xName);
-				window.open("/instituteIndex?url=" + url);
-			});
 
 			$("#zsyjy_chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 			$("#zsyjy_chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
@@ -408,6 +433,7 @@ table tbody tr td{cursor: pointer;}
 		function search_Event() {
 			initEchart();
 			myTable();
+			zycysTable();
 		}
 
 		function myTable() {
@@ -420,6 +446,21 @@ table tbody tr td{cursor: pointer;}
 				height : "296px",
 				where : {}
 
+			});
+		}
+		
+		// 专业处预算情况
+		function zycysTable() {
+
+			var nd = $("#nd").val();
+			$("#xkInfo").html($("#nd").val()+"年新签情况（万元）");
+			$("#jzInfo").html($("#nd").val()+"年结转情况（万元）");
+			var v_date = (new Date()).getTime();
+			var url = '/one_level_main/investment_03?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&xmlbbm=fkyzb&v_date=" + v_date;
+			table.init('zycysTable', {
+				url : url,
+				height : "296px",
+				where : {}
 			});
 
 		}
@@ -438,15 +479,6 @@ table tbody tr td{cursor: pointer;}
 			var url = encodeURIComponent("/one_level_main/common_table_new?define1=" + define1 + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8");
 			window.open("/instituteIndex?url=" + url);
 		}
-		//新开课题科研预算统计
-		function budget_implementation(labelFlag) {
-			var qdbz = '';
-			if (labelFlag == '新开课题实际总金额') {
-				qdbz = '已签订';
-			}
-			var url = encodeURIComponent("/one_level_main/common_table_new?qdbz=" + qdbz + "&ysnd=" + nd + "&nd=" + nd + "&groupFlag=xmid,define8");
-			window.open("/instituteIndex?url=" + url);
-		}
 
 		function budget_institute_implementation(labelFlag) {
 			var qdbz = '';
@@ -460,6 +492,14 @@ table tbody tr td{cursor: pointer;}
 			var define12 = '直属研究院';
 			var url = encodeURIComponent("/one_level_main/common_table_new?qdbz=" + qdbz + "&define12=" + define12 + "&ysnd=" + nd + "&nd=" + nd + "&groupFlag=xmid,define8&define11=股份公司");
 			window.open("/instituteIndex?url=" + url);
+		}
+		
+		function moneyRate(ysxkje, xkMoney) {
+			if (ysxkje == 0 || xkMoney == 0) {
+				return '<span style="color:red">--</span>';
+			} else {
+				return '<span style="color:red">' + (xkMoney*100 / ysxkje).toFixed(2) + '%</span>';
+			}
 		}
 	</script>
 </body>

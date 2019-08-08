@@ -107,7 +107,7 @@ body {
 			// 获取functionId, 如果需要不同的项目走不同的流程、不同的部门走不同的流程的，把projectId、departmentId也赋值到form表单中
 			$.ajax({
 				type : 'POST',
-				url : "/workflow/start-flow2",//自己业务的保存方法，方法中调用发起流程请求方法
+				url : "/workflow/start-flow2",//自己业务的保存方法，调用后台方法
 				data : JSON.stringify(getFormData('example-form')),
 				contentType : "application/json;charset=UTF-8",
 				error : function(data) {
