@@ -45,6 +45,8 @@ public interface OutProjectInfoMapper {
     int updateByPrimaryKey(OutProjectInfo record);
     
     public void insertOutProjectBatch(List<OutProjectInfo> list);
+    
+    public void insertOutProjectWithBLOBsBatch(List<OutProjectInfoWithBLOBs> list);
 
 	public List<OutProjectInfo> selectProjectByCond(OutProjectInfo opi);
 

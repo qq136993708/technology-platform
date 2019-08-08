@@ -15,6 +15,7 @@ import org.quartz.JobExecutionException;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.config.SpringContextUtil;
@@ -51,7 +52,7 @@ public class StpProjectItemJob implements Job, Serializable {
 			str = DataServiceUtil.getProjectData(sqlName, ndCon);
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success====="+ndCon);
 			if (str != null) {
-				List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+				List<OutProjectInfoWithBLOBs> insertData = new ArrayList<OutProjectInfoWithBLOBs>();
 				List<OutProjectPlan> planData = new ArrayList<OutProjectPlan>();
 				JSONArray jSONArray = JSONArray.parseArray(str);
 				
@@ -69,7 +70,7 @@ public class StpProjectItemJob implements Job, Serializable {
 					String dwbm = object.getString("DWBM");
 					
 					
-					OutProjectInfo opi = new OutProjectInfo();
+					OutProjectInfoWithBLOBs opi = new OutProjectInfoWithBLOBs();
 					opi.setYsnd(ysnd);
 					opi.setNd(nd);
 					opi.setYsje(ysje);
@@ -116,7 +117,7 @@ public class StpProjectItemJob implements Job, Serializable {
 			str = DataServiceUtil.getProjectData(sqlName, String.valueOf(Integer.parseInt(ndCon)+1));
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success第二年====="+String.valueOf(Integer.parseInt(ndCon)+1));
 			if (str != null) {
-				List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+				List<OutProjectInfoWithBLOBs> insertData = new ArrayList<OutProjectInfoWithBLOBs>();
 				List<OutProjectPlan> planData = new ArrayList<OutProjectPlan>();
 				JSONArray jSONArray = JSONArray.parseArray(str);
 				
@@ -134,7 +135,7 @@ public class StpProjectItemJob implements Job, Serializable {
 					String dwbm = object.getString("DWBM");
 					
 					
-					OutProjectInfo opi = new OutProjectInfo();
+					OutProjectInfoWithBLOBs opi = new OutProjectInfoWithBLOBs();
 					opi.setYsnd(ysnd);
 					opi.setNd(nd);
 					opi.setYsje(ysje);
@@ -180,7 +181,7 @@ public class StpProjectItemJob implements Job, Serializable {
 			str = DataServiceUtil.getProjectData(sqlName, String.valueOf(Integer.parseInt(ndCon)+2));
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success第二年====="+String.valueOf(Integer.parseInt(ndCon)+2));
 			if (str != null) {
-				List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+				List<OutProjectInfoWithBLOBs> insertData = new ArrayList<OutProjectInfoWithBLOBs>();
 				List<OutProjectPlan> planData = new ArrayList<OutProjectPlan>();
 				JSONArray jSONArray = JSONArray.parseArray(str);
 				
@@ -198,7 +199,7 @@ public class StpProjectItemJob implements Job, Serializable {
 					String dwbm = object.getString("DWBM");
 					
 					
-					OutProjectInfo opi = new OutProjectInfo();
+					OutProjectInfoWithBLOBs opi = new OutProjectInfoWithBLOBs();
 					opi.setYsnd(ysnd);
 					opi.setNd(nd);
 					opi.setYsje(ysje);
