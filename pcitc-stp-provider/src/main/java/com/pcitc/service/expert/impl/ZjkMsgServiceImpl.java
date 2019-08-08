@@ -255,7 +255,7 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
             ZjkMsg zjkMsg = new ZjkMsg();
             String pid = UUID.randomUUID().toString();
             zjkMsg.setId(pid);
-            List<ZjkMsg> list_son = m.getValue();
+            List<ZjkMsg> list_son = m.getValue().stream().sorted(Comparator.comparing(ZjkMsg::getSysFlag).reversed()).collect(Collectors.toList());
             for (int j = 0; j < list_son.size(); j++) {
                 //设置父节点值
                 ZjkMsg zjk_son = list_son.get(j);
@@ -268,19 +268,20 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
                     zjkMsg.setUpdateUser(zjk_son.getUpdateUser());
                     zjkMsg.setDataIndex("1");
                     zjkMsg.setModifyUser(zjk_son.getModifyUser());
+                    zjkMsg.setIsComplete("");
                 }
                 //清空子节点值
-                zjk_son.setParentId(pid);
-                zjk_son.setId(UUID.randomUUID().toString());
+                list_son.get(j).setParentId(pid);
+                list_son.get(j).setId(UUID.randomUUID().toString());
 //                zjk_son.setXmId("");
-                zjk_son.setProjectName(zjk_son.getZjkName());
+                list_son.get(j).setProjectName(zjk_son.getZjkName());
 //                zjk_son.setFormCode("");
 //                zjk_son.setCreateUserDisp("");
 //                zjk_son.setModifyUserDisp("");
 //                zjk_son.setUpdateUser("");
-                list_return.add(zjk_son);
             }
             list_return.add(zjkMsg);
+            list_return.addAll(list_son);
         }
         pageInfo.setList(list_return);
         LayuiTableData data = new LayuiTableData();
