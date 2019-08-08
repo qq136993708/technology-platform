@@ -19,11 +19,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pcitc.base.common.Result;
+import com.pcitc.base.constant.SysConstant;
 import com.pcitc.base.system.SysReqLogs;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.HostUtil;
 import com.pcitc.web.common.BaseController;
-import com.pcitc.web.utils.HostUtil;
 
 @Component
 public class RequestLogInterceptor implements HandlerInterceptor 
@@ -31,11 +32,10 @@ public class RequestLogInterceptor implements HandlerInterceptor
 	private static final String LOG_CLIENT = "http://pcitc-zuul/system-proxy/sys-provider/processlogs/process-logs-save";
 	
 	private static Boolean runInServerHost = false;
-	private static String serverHosts = "10.246.94.84,10.246.94.76,172.16.100.127,172.16.100.8";
 	private static String serverHost = HostUtil.getLocalHostIpAddress();
 	
 	private static Set<String> runHost = HostUtil.getLocalHostAddressSet();
-	private static Set<String> serverHostSet = new HashSet<String>(Arrays.asList(serverHosts.split(",")));
+	private static Set<String> serverHostSet = new HashSet<String>(Arrays.asList(SysConstant.STP_SERVER_HOST.split(",")));
 	
 	static 
 	{

@@ -2,11 +2,14 @@ package com.pcitc.web.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -34,6 +37,7 @@ import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.constant.SysConstant;
 import com.pcitc.base.hana.report.HanaConstant;
 import com.pcitc.base.stp.out.OutNotice;
 import com.pcitc.base.system.SysCollect;
@@ -45,6 +49,7 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserShowConfig;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.HostUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
@@ -891,7 +896,14 @@ public class AdminController extends BaseController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
-		return new Result(true, "");
+		//判断是生产环境还是测试环境
+		Set<String> serverHosts = HostUtil.getLocalHostAddressSet();
+		Set<String> stpServerHosts = new HashSet<String>(Arrays.asList(SysConstant.STP_SERVER_HOST.split(",")));
+		serverHosts.retainAll(stpServerHosts);
+		if(serverHosts.size()>0) {
+			return new Result(true, "logout","./SSO/GLO/Redirect");
+		}
+		return new Result(true, "logout","/login");
 	}
 
 	@RequestMapping(value = "/admin/collect")

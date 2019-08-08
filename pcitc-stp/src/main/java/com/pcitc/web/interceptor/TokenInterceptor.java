@@ -21,10 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.HostUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.SessionShare;
-import com.pcitc.web.utils.HostUtil;
 
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
