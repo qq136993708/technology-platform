@@ -18,6 +18,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.DataTableParam;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfoExample;
@@ -226,19 +227,24 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 		}
 	}
 	@Override
-	public boolean startWorkFlow(WorkflowVo workflowVo) {
+	public Result startWorkFlow(WorkflowVo workflowVo) {
 		try 
 		{
+			IntlProjectInfo info = findById(workflowVo.getBusinessId());
+			if(WorkFlowStatusEnum.STATUS_RUNNING.getCode().equals(info.getFlowStartStatus()) || WorkFlowStatusEnum.STATUS_PASS.getCode().equals(info.getFlowStartStatus())) 
+			{
+				return new Result(false,"已发起审批不可重复发起！");
+			}
 			JSONObject flowJson = JSON.parseObject(JSON.toJSONString(workflowVo));
 			// 非必填选项, 会签时需要的属性，会签里所有的人，同意率（double类型）
 	    	flowJson.put("signAuditRate", 1d); 
+	    	flowJson.put("businessId", IdUtil.createIdByTime());
 	    	// 待办业务详情、最终审批同意、最终审批不同意路径
 			flowJson.put("auditDetailsPath", "/intl_project/info_view?projectId="+workflowVo.getBusinessId());
 	    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-info?projectId="+workflowVo.getBusinessId()+"&workflow_status="+WorkFlowStatusEnum.STATUS_PASS.getCode());
 	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-info?projectId="+workflowVo.getBusinessId()+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
 
-	    	System.out.println(flowJson.toJSONString());
-	    	/*String rs = workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
+	    	String rs = workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
 	    	if("true".equals(rs)) 
 			{
 	    		IntlProjectInfo plan = projectInfoMapper.selectByPrimaryKey(workflowVo.getBusinessId());
@@ -246,13 +252,14 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 	    		plan.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_RUNNING.getCode());
 	    		projectInfoMapper.updateByPrimaryKey(plan);
 	    		
-				return true;
-			}*/
-	    	return false;
+	    		return new Result(true,"操作成功!");
+			}else {
+				return new Result(false,"操作失败!");
+			}
 		}catch(Exception e) 
 		{
 			e.printStackTrace();
-			return false;
+			return new Result(false,"操作失败!");
 		}
 	} 
 	

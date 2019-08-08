@@ -12,7 +12,6 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.workflow.WorkflowVo;
-import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.service.intlproject.IntlProjectInfoService;
 
 import io.swagger.annotations.Api;
@@ -69,19 +68,10 @@ public class IntlProjectInfoProviderClient
 	@RequestMapping(value = "/stp-provider/project/start-info-activity/{projectId}", method = RequestMethod.POST)
 	public Object startNoticeWorkFlow(@PathVariable("projectId") String projectId,@RequestBody WorkflowVo workflowVo) 
 	{
-		IntlProjectInfo info = intlProjectInfoService.findById(projectId);
-		if(WorkFlowStatusEnum.STATUS_RUNNING.getCode().equals(info.getFlowStartStatus()) || WorkFlowStatusEnum.STATUS_PASS.getCode().equals(info.getFlowStartStatus())) 
-		{
-			return new Result(false,"已发起审批不可重复发起！");
-		}
+		workflowVo.setBusinessId(projectId);
 		//boolean status = intlProjectInfoService.startWorkFlow(workflowVo.getBusinessId(), workflowVo.getFunctionId(), workflowVo.getProcessDefinitionName(), workflowVo.getAuthenticatedUserId(), workflowVo.getAuthenticatedUserName());
-		boolean status = intlProjectInfoService.startWorkFlow(workflowVo);
-		if(status) 
-		{
-			return new Result(true,"操作成功!");
-		}else {
-			return new Result(false,"操作失败!");
-		}
+		Result status = intlProjectInfoService.startWorkFlow(workflowVo);
+		return status;
 	}
 	@ApiOperation(value="审批流程回调通知",notes="审批结果回调通知")
 	@RequestMapping(value = "/stp-provider/project/callback-workflow-info")
