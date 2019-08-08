@@ -3653,7 +3653,7 @@ public class OneLevelMainController extends BaseController {
 	}
 
 	// 科研预算执行率
-	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_01_01")
+	@RequestMapping(value = "/one_level_main/investment_01_01")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String investment_01_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -3684,6 +3684,51 @@ public class OneLevelMainController extends BaseController {
 			// System.out.println(">>>>>>>>>>>>investment_01_01 jSONArray>>> " +
 			// jSONArray.toString());
 			List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+
+			// 添加合计
+			Double zysje = 0d;
+			Double zsjje = 0d;
+			Double fyxysje = 0d;
+			Double fyxsjje = 0d;
+			Double zbxysje = 0d;
+			Double zbxsjje = 0d;
+			for (int i = 0; i < list.size(); i++) {
+				BudgetMysql budgetMysql = list.get(i);
+				zysje = zysje + Double.valueOf(budgetMysql.getZysje().toString());
+				zsjje = zsjje + Double.valueOf(budgetMysql.getZsjje().toString());
+				fyxysje = fyxysje + Double.valueOf(budgetMysql.getFyxysje().toString());
+				fyxsjje = fyxsjje + Double.valueOf(budgetMysql.getFyxsjje().toString());
+				zbxysje = zbxysje + Double.valueOf(budgetMysql.getZbxysje().toString());
+				zbxsjje = zbxsjje + Double.valueOf(budgetMysql.getZbxsjje().toString());
+			}
+			BudgetMysql totalBM = new BudgetMysql();
+			totalBM.setZysje(zysje);
+			totalBM.setZsjje(zsjje);
+			totalBM.setFyxysje(fyxysje);
+			totalBM.setFyxsjje(fyxsjje);
+			totalBM.setZbxysje(zbxysje);
+			totalBM.setZbxsjje(zbxsjje);
+
+			if (fyxysje == 0d || fyxsjje == 0d) {
+				totalBM.setFyxRate("0");
+			} else {
+				totalBM.setFyxRate(String.format("%.2f", fyxsjje * 100 / fyxysje));
+			}
+			
+			if (zbxysje == 0d || zbxsjje == 0d) {
+				totalBM.setZbxRate("0");
+			} else {
+				totalBM.setZbxRate(String.format("%.2f", zbxsjje * 100 / zbxysje));
+			}
+			
+			if (zsjje == 0d || zysje == 0d) {
+				totalBM.setZbxRate("0");
+			} else {
+				totalBM.setzRate(String.format("%.2f", zsjje * 100 / zysje));
+			}
+			
+			totalBM.setBudgetItemName("合计");
+			list.add(0, totalBM);
 
 			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql budgetMysql = list.get(i);
