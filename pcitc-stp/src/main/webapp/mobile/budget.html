@@ -162,10 +162,7 @@
     					var rate=(xkMoney/ysxkje*100).toFixed(2);
     					
     					var yq=parseFloat(xkMoney).toFixed(2);
-    					if(yq=='0.00')
-    					{
-    						yq=0;
-    					}
+    					
     					
     					var wclCount="";
     					if(rate=='0.00')
@@ -181,11 +178,11 @@
                      	}
     					var temp="<li>"+
 				    				"<p>"+
-				                        "<span>预算 "+parseFloat(ysxkje).toFixed(2)+"万</span>"+
+				                        "<span>预算 "+setNumStr(ysxkje)+"</span>"+
 				                        "<span>"+zycmc+"</span>"+
 				                    "</p>"+
 				                    "<p>"+
-				                        "<span>已签"+yq+"万</span>"+wclCount+
+				                        "<span>已签"+setNumStr(yq)+"</span>"+wclCount+
 				                    "</p>"+
 			                       "</li>";
     					count=count+temp;
@@ -242,11 +239,11 @@
     					finished=finished+parseFloat(zsjje);
     					var temp="<li>"+
 				    				"<p>"+
-				                        "<span>预算 "+parseFloat(zysje).toFixed(2)+"万</span>"+
+				                        "<span>预算 "+setNumStr(zysje)+"</span>"+
 				                        "<span>"+define2+"</span>"+
 				                    "</p>"+
 				                    "<p>"+
-				                        "<span>已签"+parseFloat(zsjje).toFixed(2)+"万</span>"+
+				                        "<span>已签"+setNumStr(zsjje)+"</span>"+
 				                        "<span>完成率"+(jeRate).toFixed(2)+"%</span>"+
 				                    "</p>"+
 			                       "</li>";
@@ -273,6 +270,7 @@
     	});
 
     }
+    
     
     //
     function set_all_look()
@@ -320,13 +318,14 @@
     					{
     						wcl=0;
     					}
+    					
     					var temp="<li>"+
 				    				"<p>"+
-				                        "<span>预算 "+parseFloat(zysje).toFixed(2)+"万</span>"+
+				                        "<span>预算 "+setNumStr(zysje)+"</span>"+
 				                        "<span>"+budgetItemName+"</span>"+
 				                    "</p>"+
 				                    "<p>"+
-				                        "<span>已签"+yq+"万</span>"+
+				                        "<span>已签"+setNumStr(yq)+"</span>"+
 				                        "<span>完成率"+wcl+"%</span>"+
 				                    "</p>"+
 			                       "</li>";
@@ -335,7 +334,6 @@
     			 }
     			 //alert(count);
     			 $("#other_id").html(count); 
-    			 
     			 
     			 
     			 //研究院-总金额
@@ -353,6 +351,39 @@
 
     }
     
+    function setNumStr(num)
+    {
+    	
+    	var result="";
+    	
+    	if(num=='0.00')
+		{
+    		num=0;
+		}
+		if(parseFloat(num)>10000)//亿
+		{
+			var  temp=parseFloat(num/10000).toFixed(2);
+			var  endstr=temp.substring(temp.length-3);
+			//alert(temp);
+			if(endstr=='.00')
+			{
+				temp= temp.substring(0,temp.length-3);
+			}
+			result=temp+"亿";
+		}else//万
+		{
+			
+			var  temp=parseFloat(num).toFixed(2);
+			var  endstr=temp.substring(temp.length-3);
+			if(endstr=='.00')
+			{
+				//temp= temp.replace(".00","")
+				temp= temp.substring(0,temp.length-3);
+			}
+			result=temp+"万";
+		}
+		return result;
+    }
     
     function search_Event()
     {
