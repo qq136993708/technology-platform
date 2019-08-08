@@ -1893,13 +1893,32 @@ public class OneLevelMainController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/common_table_data_mobile")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
-	public String common_table_data_mobile(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+	public String common_table_data_mobile( HttpServletRequest request, HttpServletResponse response) {
 
-		// LayuiTableParam param=new LayuiTableParam();
+		LayuiTableParam param = new LayuiTableParam();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String limit = CommonUtil.getParameter(request, "limit", "15");
 		String page = CommonUtil.getParameter(request, "page", "1");
+		String qdbz = CommonUtil.getParameter(request, "qdbz", "");
+		String xmmc = CommonUtil.getParameter(request, "xmmc", "");
+		String hth = CommonUtil.getParameter(request, "hth", "");
+
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		param.getParam().put("zycbm", zycbm);
+		param.getParam().put("zylbbm", zylbbm);
+		// 领导标识
+		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+
+		param.setLimit(Integer.valueOf(limit));
+		param.setPage(Integer.valueOf(page));
+		param.getParam().put("nd", nd);
+		param.getParam().put("qdbz", qdbz);
+		param.getParam().put("hth", hth);
+		param.getParam().put("xmmc", xmmc);
 		System.out.println(">>>>>>>>>>>>nd:" + nd + "page=" + page);
+
 		String result = this.setCommonTable(param, request, response);
 		return result;
 	}
