@@ -127,6 +127,17 @@ public class ZjkMsgClient {
         return zjkMsgService.selectMsgTree(param);
     }
 
+
+    @RequestMapping(value = "/zjkmsg-provider/zjkmsg/getTableDataTreesCg", method = RequestMethod.POST)
+    public Object getTableDataTreesCg(@RequestBody LayuiTableParam param) {
+        return zjkMsgService.selectMsgTreeCg(param);
+    }
+
+    @RequestMapping(value = "/zjkmsg-provider/zjkmsg/getTableDataTreesJl", method = RequestMethod.POST)
+    public Object getTableDataTreesJl(@RequestBody LayuiTableParam param) {
+        return zjkMsgService.selectMsgTreeJl(param);
+    }
+
     /**
      * 保存
      *

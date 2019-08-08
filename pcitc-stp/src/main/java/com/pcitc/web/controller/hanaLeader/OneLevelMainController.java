@@ -291,7 +291,7 @@ public class OneLevelMainController extends BaseController {
 	public String knowledge_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 		System.out.println(">>>>>>>>>>>>knowledge_table_data>param:" + JSONObject.toJSONString(param));
-		
+
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST, entity, LayuiTableData.class);
@@ -420,7 +420,7 @@ public class OneLevelMainController extends BaseController {
 
 		System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
-		
+
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST, entity, LayuiTableData.class);
@@ -1081,7 +1081,7 @@ public class OneLevelMainController extends BaseController {
 
 		return "stp/hana/home/oneLevelMain/project_fx_table";
 	}
-	
+
 	/**
 	 * 辅助决策-科研项目分析-树表格合并形式
 	 */
@@ -1175,7 +1175,7 @@ public class OneLevelMainController extends BaseController {
 
 		return "stp/hana/home/oneLevelMain/project_fx_table_tree";
 	}
-	
+
 	/**
 	 * 辅助决策-科研项目分析-表格合并形式-年度形式，必须选择立项年度
 	 */
@@ -1396,7 +1396,7 @@ public class OneLevelMainController extends BaseController {
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		return result.toString();
 	}
-	
+
 	/**
 	 * 辅助决策-科研项目分析-数表格合并形式, 数据获取
 	 */
@@ -1461,7 +1461,7 @@ public class OneLevelMainController extends BaseController {
 		System.out.println(">>>>>>>>>>>>>project_fx_table_data:" + result.toString());
 		return result.toString();
 	}
-	
+
 	/**
 	 * 辅助决策-科研项目分析-表格合并形式, 年度方式，数据获取--专家库
 	 */
@@ -1660,21 +1660,21 @@ public class OneLevelMainController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/ten_dragon_table")
 	public String ten_dragon_table(HttpServletRequest request) throws Exception {
-		//String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()), DateUtil.FMT_YYYY));
+		// String nd = CommonUtil.getParameter(request, "nd",
+		// DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()),
+		// DateUtil.FMT_YYYY));
 		String nd = request.getParameter("nd");
-		System.out.println("----------------nd0---------"+nd +"----- xmfl---- "+request.getParameter("xmfl"));
-		if(nd == null) {
+		System.out.println("----------------nd0---------" + nd + "----- xmfl---- " + request.getParameter("xmfl"));
+		if (nd == null) {
 			nd = DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()), DateUtil.FMT_YYYY);
 		}
-		System.out.println("----------------nd0---------"+nd +"----- xmfl---- "+request.getParameter("xmfl"));
+		System.out.println("----------------nd0---------" + nd + "----- xmfl---- " + request.getParameter("xmfl"));
 		request.setAttribute("nd", nd);
 		request.setAttribute("xmfl", CommonUtil.getParameter(request, "xmfl", ""));// 项目分類：(公共领域，油气勘探.....)
 		request.setAttribute("xmzt", CommonUtil.getParameter(request, "xmzt", ""));// 项目状态：（入龙、出龙、退龙...）
 		request.setAttribute("yjy", CommonUtil.getParameter(request, "yjy", ""));// 研究院：8大院等细分结构
 		request.setAttribute("yjdw", CommonUtil.getParameter(request, "yjdw", ""));// 一級單位：直属研究院、分子公司、集团等9种类型
-		
-		
-		
+
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 
@@ -1705,7 +1705,7 @@ public class OneLevelMainController extends BaseController {
 				} else if (showCode.equals("xmlbmc")) {
 					xmflList.add(showName);
 				} else if (showCode.equals("status")) {
-					if(!StringUtils.isBlank(showName)) {
+					if (!StringUtils.isBlank(showName)) {
 						xmztList.add(showName.trim());
 					}
 				} else {
@@ -1885,29 +1885,26 @@ public class OneLevelMainController extends BaseController {
 	@OperationFilter(dataFlag = "true")
 	public String common_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		String result=this.setCommonTable(param, request, response);
+		String result = this.setCommonTable(param, request, response);
 		return result;
 	}
+
 	// 三级表格
 	@RequestMapping(method = RequestMethod.POST, value = "/one_level_main/common_table_data_mobile")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String common_table_data_mobile(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		
-		//LayuiTableParam param=new LayuiTableParam();
+		// LayuiTableParam param=new LayuiTableParam();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String limit = CommonUtil.getParameter(request, "limit", "15");
 		String page = CommonUtil.getParameter(request, "page", "1");
-		System.out.println(">>>>>>>>>>>>nd:" + nd+"page="+page);
-		String result=this.setCommonTable(param, request, response);
+		System.out.println(">>>>>>>>>>>>nd:" + nd + "page=" + page);
+		String result = this.setCommonTable(param, request, response);
 		return result;
 	}
-	
-	
-	
-	private String setCommonTable(LayuiTableParam param,HttpServletRequest request,HttpServletResponse response)
-	{
+
+	private String setCommonTable(LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>>common_table_data>param:" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
@@ -1916,8 +1913,6 @@ public class OneLevelMainController extends BaseController {
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
 		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
 		Object zylbbmFlag_code = param.getParam().get("zylbbmFlag");
-
-		
 
 		String gsbmbmFlag = "";
 		if (gsbmbmFlag_code != null) {
@@ -2582,8 +2577,7 @@ public class OneLevelMainController extends BaseController {
 					pageResult.setLimit(1000);
 					pageResult.setPage(1l);
 				}
-				if (type.equals("mobile"))
-				{
+				if (type.equals("mobile")) {
 
 					result.setSuccess(true);
 					result.setData(list);
@@ -2598,25 +2592,17 @@ public class OneLevelMainController extends BaseController {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
 			System.out.println(">>>>>>>>>>>>>1>>contract_03 " + resultObj.toString());
-		} else if(type.equals("2"))
-		{
+		} else if (type.equals("2")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
 			System.out.println(">>>>>>>>>>>>2>>>contract_03 " + resultObj.toString());
-		}else if(type.equals("mobile"))
-		{
+		} else if (type.equals("mobile")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
 			System.out.println(">>>>>>>>>>>>mobile>>>contract_03 " + resultObj.toString());
 		}
 		return resault;
 	}
-	
-	
-	
-	
-	
-	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/contract_04")
 	@ResponseBody
@@ -2840,7 +2826,7 @@ public class OneLevelMainController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		String  cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
 		paramsMap.put("cgjszy", cgjszy);
 		paramsMap.put("nd", nd);
 		String type = CommonUtil.getParameter(request, "type", "");
@@ -2901,7 +2887,7 @@ public class OneLevelMainController extends BaseController {
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		String  cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
 		paramsMap.put("cgjszy", cgjszy);
 		paramsMap.put("nd", nd);
 		paramsMap.put("define1", "");
@@ -3576,8 +3562,8 @@ public class OneLevelMainController extends BaseController {
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		System.out.println("getUserDisp====================="+sysUserInfo.getUserName());
-		System.out.println("getUserDisp====================="+sysUserInfo.getUserDisp());
+		System.out.println("getUserDisp=====================" + sysUserInfo.getUserName());
+		System.out.println("getUserDisp=====================" + sysUserInfo.getUserDisp());
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		paramsMap.put("username", sysUserInfo.getUserName());
@@ -3615,7 +3601,7 @@ public class OneLevelMainController extends BaseController {
 					result.setSuccess(true);
 					result.setData(barLine);
 				}
-				
+
 			}
 
 		} else {
@@ -3784,39 +3770,35 @@ public class OneLevelMainController extends BaseController {
 		if (!nd.equals("")) {
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200) 
-			{
+			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
-                if(type.equals("mobile"))
-                {
-                	result.setSuccess(true);
-    				result.setData(list);
-                }else
-                {
-                	List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
-    				barLine.setxAxisDataList(xAxisDataList);
-    				List<String> legendDataList = new ArrayList<String>();
-    				legendDataList.add("预算金额");
-    				legendDataList.add("实际科研投入");
-    				legendDataList.add("预算执行率");
-    				barLine.setxAxisDataList(xAxisDataList);
-    				barLine.setLegendDataList(legendDataList);
+				if (type.equals("mobile")) {
+					result.setSuccess(true);
+					result.setData(list);
+				} else {
+					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
+					barLine.setxAxisDataList(xAxisDataList);
+					List<String> legendDataList = new ArrayList<String>();
+					legendDataList.add("预算金额");
+					legendDataList.add("实际科研投入");
+					legendDataList.add("预算执行率");
+					barLine.setxAxisDataList(xAxisDataList);
+					barLine.setLegendDataList(legendDataList);
 
-    				// X轴数据
-    				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-    				ChartBarLineSeries s1 = HanaUtil.getinvestmentBarLineSeries2(list, "zysje");
-    				ChartBarLineSeries s2 = HanaUtil.getinvestmentBarLineSeries2(list, "zsjje");
-    				ChartBarLineSeries ztzwcl = HanaUtil.getinvestmentBarLineSeries2(list, "jeRate");
-    				seriesList.add(s1);
-    				seriesList.add(s2);
-    				seriesList.add(ztzwcl);
-    				barLine.setSeriesList(seriesList);
-    				result.setSuccess(true);
-    				result.setData(barLine);
-                }
-				
+					// X轴数据
+					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+					ChartBarLineSeries s1 = HanaUtil.getinvestmentBarLineSeries2(list, "zysje");
+					ChartBarLineSeries s2 = HanaUtil.getinvestmentBarLineSeries2(list, "zsjje");
+					ChartBarLineSeries ztzwcl = HanaUtil.getinvestmentBarLineSeries2(list, "jeRate");
+					seriesList.add(s1);
+					seriesList.add(s2);
+					seriesList.add(ztzwcl);
+					barLine.setSeriesList(seriesList);
+					result.setSuccess(true);
+					result.setData(barLine);
+				}
 
 			}
 
@@ -3825,14 +3807,14 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>type="+type+">>>>>investment_02 " + resultObj.toString());
+		System.out.println(">>>>>>>>>type=" + type + ">>>>>investment_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
 	/**
 	 * 新开课题科研预算统计
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/investment_03")
+	@RequestMapping(value = "/one_level_main/investment_03")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String investment_03(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -3845,10 +3827,12 @@ public class OneLevelMainController extends BaseController {
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		String type = CommonUtil.getParameter(request, "type", "");
 		String xkFlag = CommonUtil.getParameter(request, "xkFlag", "");
+		String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
 		paramsMap.put("xkFlag", xkFlag);
+		paramsMap.put("xmlbbm", xmlbbm);
 		// 数据控制属性
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
@@ -3885,13 +3869,11 @@ public class OneLevelMainController extends BaseController {
 					result.setSuccess(true);
 					result.setData(barLine);
 					resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-				} else if (type.equals("mobile")) 
-				{
+				} else if (type.equals("mobile")) {
 					result.setSuccess(true);
 					result.setData(list);
 					resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-				}else 
-				{
+				} else {
 					pageResult.setData(list);
 					pageResult.setCode(0);
 					pageResult.setCount(Long.valueOf(list.size()));

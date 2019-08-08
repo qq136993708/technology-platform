@@ -1287,7 +1287,7 @@
 			   IFNULL(tableA.sjzje,'0') as sjzje,IFNULL(tableA.xkMoney,'0') as xkMoney,IFNULL(tableA.jzMoney,'0') as jzMoney
 		from out_tem_money_decompose left join (
 			select 
-			    substr(define10,4) as define10,sum(ysfyxje) as sjzje, zycbm,
+			    substr(define10,4) as define10,sum(ysfyxje) as sjzje, left(zycbm, 8) as zycbm,
 				sum(case when ysnd = '${nd}' and nd = '${nd}' then ysfyxje else 0 end) as xkMoney,
 				sum(case when ysnd = '${nd}' and nd &lt; '${nd}' then ysfyxje else 0 end) as jzMoney
 			from out_project_info 
@@ -1296,16 +1296,19 @@
 				<if test="xkFlag != null and xkFlag != ''">
 					and out_project_info.nd= '${nd}'
 				</if>
-				
+				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+					and out_project_info.xmlbbm = 'KYZB'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+					and out_project_info.xmlbbm != 'KYZB'
+				</if>
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 			    <include refid="dataFilterConditionInfo" />
 				and out_project_info.PROJECT_TYPE != '1'
-				and define3='项目管理系统' and define2 not like '%休斯顿%' and define2 not like '%中东%' 
+				and define3='项目管理系统' 
 				group by out_project_info.define10) as tableA ON (out_tem_money_decompose.unit_code = tableA.zycbm)
 		where
 			out_tem_money_decompose.nd = '${nd}' 
-			and cb not like '专项' 
-			and cb not like '机动'
 			<!-- 数据控制 -->
 			<!-- 2领导能看所有的， 0.1领导能看到自己管理的部分-->
 			<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">

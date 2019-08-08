@@ -107,7 +107,7 @@ public class WorkflowController extends BaseController {
 	@OperationFilter(modelName = "系统管理", actionName = "启动工作流程（测试）")
 	public Result startFlow2(@RequestBody String param, HttpServletRequest request) {
 		System.out.println("=====/workflow/start-flow2");
-		JSONObject json = JSONObject.parseObject(param);
+		/*JSONObject json = JSONObject.parseObject(param);
 		String businessId = UUID.randomUUID().toString().replaceAll("-", "");
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setBusinessId(businessId);
@@ -158,7 +158,9 @@ public class WorkflowController extends BaseController {
 		} else {
 			System.out.println("=================启动失败");
 			return new Result(false, "启动失败");
-		}
+		}*/
+		// 调用后台方法，后台方法中调用程序流程的任务启动方法和自己业务的保存方法
+		return null;
 
 	}
 

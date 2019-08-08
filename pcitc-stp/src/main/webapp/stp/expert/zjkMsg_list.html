@@ -55,13 +55,13 @@
                         <!--data-type="addEvent">新增-->
                         <!--</button>-->
                         <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"-->
-                                <!--data-type="editEvent">编辑-->
+                        <!--data-type="editEvent">编辑-->
                         <!--</button>-->
-                        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                                data-type="deleteEvent">删除
-                        </button>
+                        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                                <!--data-type="deleteEvent">删除-->
+                        <!--</button>-->
                         <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
-                                data-type="batEvent">设置
+                                data-type="batEventXm">回复
                         </button>
                     </div>
                 </div>
@@ -72,143 +72,457 @@
             </div>
         </div>
         <div class="layui-tab-item">
+            <div class="searchBox">
+                <!--查询条件-->
+                <label class="dateInput selectInput">
+                    <span>成果名称</span>
+
+                    <input type="text" name="xmNameCg"
+                           placeholder="请输入成果名称"
+                           title="成果名称" autocomplete="off"
+                           class="form-control" id="xmNameNameCg">
+
+                    <span>阶段</span>
+
+                    <select name="xmStepsCg" id="xmStepsCg" lay-filter="xmStepsCg">
+                        <option value="">请选择</option>
+                    </select>
+                </label>
+                <!--按钮组-->
+                <div class="btnGroup">
+                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEventCg">查询
+                    </button>
+                    <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                            data-type="resetEventCg">重置
+                    </button>
+                </div>
+            </div>
+            <div class="tableBox">
+                <div class="tableToolBox">
+                    <div class="whiteLine"></div>
+                    <div class="tableBtns">
+                        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                                <!--data-type="deleteEvent">删除-->
+                        <!--</button>-->
+                        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                                data-type="batEventCg">回复
+                        </button>
+                    </div>
+                </div>
+                <table id="zjkMsgTableIdCg" class="layui-hide" lay-filter="zjkMsgTableIdCg"></table>
+
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div class="searchBox">
+                <!--查询条件-->
+                <label class="dateInput selectInput">
+                    <span>奖励名称</span>
+
+                    <input type="text" name="xmNameJl"
+                           placeholder="请输入奖励名称"
+                           title="奖励名称" autocomplete="off"
+                           class="form-control" id="xmNameNameJl">
+
+                    <span>阶段</span>
+
+                    <select name="xmStepsJl" id="xmStepsJl" lay-filter="xmSteps">
+                        <option value="">请选择</option>
+                    </select>
+                </label>
+                <!--按钮组-->
+                <div class="btnGroup">
+                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEventJl">查询
+                    </button>
+                    <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                            data-type="resetEventJl">重置
+                    </button>
+                </div>
+            </div>
+            <div class="tableBox">
+                <div class="tableToolBox">
+                    <div class="whiteLine"></div>
+                    <div class="tableBtns">
+                        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                                <!--data-type="deleteEvent">删除-->
+                        <!--</button>-->
+                        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                                data-type="batEventJl">回复
+                        </button>
+                    </div>
+                </div>
+                <table id="zjkMsgTableIdJl" class="layui-hide" lay-filter="zjkMsgTableIdJl"></table>
+            </div>
 
         </div>
-        <div class="layui-tab-item">3</div>
     </div>
 </div>
 <script>
     ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
         $.each(data, function (i, dt) {
             $("#xmSteps").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+            $("#xmStepsCg").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+            $("#xmStepsJl").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
         });
     });
     var treeGridCom;
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus;
     layui.config({
-        base : '/layuiadmin/lib/extend/'
+        base: '/layuiadmin/lib/extend/'
     }).extend({
-        treeGridCom : 'treeGridCom'
-    }).use([ 'jquery', 'form', 'laydate', 'table', 'element','laypage', 'treeGridCom' ], function() {
+        treeGridCom: 'treeGridCom'
+    }).use(['jquery', 'form', 'laydate', 'table', 'element', 'laypage', 'treeGridCom'], function () {
         table = layui.table,
+            tableCg = layui.table,
+            tableJl = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
             publicMethods = layui.publicMethods,
             laypage = layui.laypage,
             treeGridCom = layui.treeGridCom;
+        treeGridComCg = layui.treeGridCom;
+        treeGridComJl = layui.treeGridCom;
+
         function renderTable() {
             table = treeGridCom.render({
-                id : 'zjkMsgTableId',
-                elem : '#zjkMsgTableId',
-                url : '/zjkMsg/getTableDataTrees',
-                cellMinWidth : 200,
-                idField : 'id',//必須字段
-                treeId : 'id',//树形id字段名称
-                treeUpId : 'parentId',//树形父id字段名称
-                treeShowName : 'projectName',//以树形式显示的字段
-                height : commonDislodgeTable(),
-                heightRemove : [ ".dHead", 10 ],//不计算的高度,表格设定的是固定高度，此项不生效
-                isFilter : false,
-                iconOpen : false,//是否显示图标【默认显示】
-                isOpenDefault : true,//节点默认是展开还是折叠【默认展开】
-                loading : true,
-                limit : 15,
-                where : {
-                    param : {
+                id: 'zjkMsgTableId',
+                elem: '#zjkMsgTableId',
+                url: '/zjkMsg/getTableDataTrees',
+                cellMinWidth: 200,
+                idField: 'id',//必須字段
+                treeId: 'id',//树形id字段名称
+                treeUpId: 'parentId',//树形父id字段名称
+                treeShowName: 'projectName',//以树形式显示的字段
+                height: commonDislodgeTable(),
+                heightRemove: [".dHead", 10],//不计算的高度,表格设定的是固定高度，此项不生效
+                isFilter: false,
+                iconOpen: false,//是否显示图标【默认显示】
+                isOpenDefault: true,//节点默认是展开还是折叠【默认展开】
+                loading: true,
+                limit: 15,
+                where: {
+                    param: {
                         "xmName": $("input[name=xmName]").val(),
+                        "type": "xm",
                         "xmSteps": $("#xmSteps").val()
                     }
                 },
-                method : 'POST',
-                page : {
-                    groups : 5,
-                    limits : [ 15, 30, 45, 60 ],
-                    layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ],
-                    first : '首页', //不显示首页
-                    last : '尾页', //不显示尾页
-                    theme : '#0F9EE0'
+                method: 'POST',
+                page: {
+                    groups: 5,
+                    limits: [15, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'],
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
                 },
                 // 立项年度、预算年度、合同号、项目名称，承担单位
-                cols : [ [ {
+                cols: [[{
                     type: 'checkbox',
                     event: 'changeEvents',
-                    width : '55',
+                    width: '55',
                 }
-                // , {
-                //     field : 'realIndex',
-                //     title : '序号',
-                //     style : 'cursor: pointer;',
-                //     align : 'center',
-                //     width : '45'
-                // }
-                , {
-                    field : 'projectName',
-                    title : '项目名称',
-                    templet : function(d) {
-                        console.log(d);
-                        if(d.dataIndex=="1"){
-                            return '<span   onclick="showDetail(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
-                        }else {
-                            if (d.sysFlag=="ROOT_UNIVERSAL_WEHTHER_YES"&&d.isComplete=="ROOT_UNIVERSAL_WEHTHER_YES"){//同意
-                                return '<span style="color:#00B83F">' + d.projectName + '</span>'
-                            }else if (d.sysFlag=="ROOT_UNIVERSAL_WEHTHER_NO"&&d.isComplete=="ROOT_UNIVERSAL_WEHTHER_YES") {//已回复不同意
-                                return '<span style="color: red">' + d.projectName + '</span>'
-                            }else {
-                                return '<span >' + d.projectName + '</span>'
+                    // , {
+                    //     field : 'realIndex',
+                    //     title : '序号',
+                    //     style : 'cursor: pointer;',
+                    //     align : 'center',
+                    //     width : '45'
+                    // }
+                    , {
+                        field: 'projectName',
+                        title: '项目名称',
+                        templet: function (d) {
+                            console.log(d);
+                            if (d.dataIndex == "1") {
+                                return '<span   onclick="showDetail(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
+                            } else {
+                                if (d.sysFlag == "ROOT_UNIVERSAL_WEHTHER_YES" && d.isComplete == "ROOT_UNIVERSAL_WEHTHER_YES") {//同意
+                                    return '<span style="color:#00B83F">' + d.projectName + '</span>'
+                                } else if (d.sysFlag == "ROOT_UNIVERSAL_WEHTHER_NO" && d.isComplete == "ROOT_UNIVERSAL_WEHTHER_YES") {//已回复不同意
+                                    return '<span style="color: red">' + d.projectName + '</span>'
+                                } else {
+                                    return '<span >' + d.projectName + '</span>'
+                                }
                             }
-                        }
-                    },
-                    style : 'cursor: pointer;',
-                    align : 'left',
-                    width : '51%',
-                } , {
-                    field : 'updateUser',
-                    title : '合同号',
-                    style : 'cursor: pointer;',
-                    align : 'center',
-                    width : '10%',
-                }, {
-                    field : 'createUserDisp',
-                    title : '立项年度',
-                    style : 'cursor: pointer;',
-                    align : 'center',
-                    width : '9%',
-                }, {
-                    field : 'modifyUserDisp',
-                    title : '预算年度',
-                    style : 'cursor: pointer;',
-                    align : 'center',
-                    width : '9%',
-                }, {
-                    field : 'formCode',
-                    title : '负责单位',
-                    width : '18%'
-                }] ],
-                isPage : true,
-                parseData : function(res) {
+                        },
+                        style: 'cursor: pointer;',
+                        align: 'left',
+                        width: '51%',
+                    }, {
+                        field: 'updateUser',
+                        title: '合同号',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '10%',
+                    }, {
+                        field: 'createUserDisp',
+                        title: '立项年度',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '9%',
+                    }, {
+                        field: 'modifyUserDisp',
+                        title: '预算年度',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '9%',
+                    }, {
+                        field: 'formCode',
+                        title: '负责单位',
+                        width: '18%'
+                    }]],
+                isPage: true,
+                parseData: function (res) {
                     return res;
                 },
-                done:function(res){
-                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                        var index = parseInt($(this).index() + 1);
-                        $('tr').removeClass('layui-table-click');
-                        $(this).addClass('layui-table-click');
-                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                        $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                        // selectRowData = res.data[index - 1];
-                    });
+                done: function (res) {
+                    // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    //     var index = parseInt($(this).index() + 1);
+                    //     $('tr').removeClass('layui-table-click');
+                    //     $(this).addClass('layui-table-click');
+                    //     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    //     // selectRowData = res.data[index - 1];
+                    // });
                 },
-                onClickRow : function(index, o) {
+                onClickRow: function (index, o) {
                     console.log(index, o, "单击！");
                 },
-                onDblClickRow : function(index, o) {
+                onDblClickRow: function (index, o) {
                     console.log(index, o, "双击");
                 }
             });
         }
 
-        function showDetail(data_id){
+        function renderTableCg() {
+            tableCg = treeGridComCg.render({
+                id: 'zjkMsgTableIdCg',
+                elem: '#zjkMsgTableIdCg',
+                url: '/zjkMsg/getTableDataTreesCg',
+                cellMinWidth: 200,
+                idField: 'id',//必須字段
+                treeId: 'id',//树形id字段名称
+                treeUpId: 'parentId',//树形父id字段名称
+                treeShowName: 'projectName',//以树形式显示的字段
+                height: commonDislodgeTable(),
+                heightRemove: [".dHead", 10],//不计算的高度,表格设定的是固定高度，此项不生效
+                isFilter: false,
+                iconOpen: false,//是否显示图标【默认显示】
+                isOpenDefault: true,//节点默认是展开还是折叠【默认展开】
+                loading: true,
+                limit: 15,
+                where: {
+                    param: {
+                        "xmName": $("input[name=xmNameCg]").val(),
+                        "type": "cg",
+                        "xmSteps": $("#xmStepsCg").val()
+                    }
+                },
+                method: 'POST',
+                page: {
+                    groups: 5,
+                    limits: [15, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'],
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                // 立项年度、预算年度、合同号、项目名称，承担单位
+                cols: [[{
+                    type: 'checkbox',
+                    event: 'changeEvents',
+                    width: '55',
+                }
+                    // , {
+                    //     field : 'realIndex',
+                    //     title : '序号',
+                    //     style : 'cursor: pointer;',
+                    //     align : 'center',
+                    //     width : '45'
+                    // }
+                    , {
+                        field: 'projectName',
+                        title: '成果名称',
+                        templet: function (d) {
+                            if (d.dataIndex == "1") {
+                                return '<span   onclick="showDetailCg(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
+                            } else {
+                                if (d.sysFlag == "ROOT_UNIVERSAL_WEHTHER_YES" && d.isComplete == "ROOT_UNIVERSAL_WEHTHER_YES") {//同意
+                                    return '<span style="color:#00B83F">' + d.projectName + '</span>'
+                                } else if (d.sysFlag == "ROOT_UNIVERSAL_WEHTHER_NO" && d.isComplete == "ROOT_UNIVERSAL_WEHTHER_YES") {//已回复不同意
+                                    return '<span style="color: red">' + d.projectName + '</span>'
+                                } else {
+                                    return '<span >' + d.projectName + '</span>'
+                                }
+                            }
+                        },
+                        style: 'cursor: pointer;',
+                        align: 'left',
+                        width: '50%',
+                    }, {
+                        field: "formCode",
+                        title: "申请单位", event: 'setActive', style: 'cursor: pointer;',
+                        width: '45%',
+                    },]],
+                isPage: true,
+                parseData: function (res) {
+                    return res;
+                },
+                done: function (res) {
+                    // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    //     var index = parseInt($(this).index() + 1);
+                    //     $('tr').removeClass('layui-table-click');
+                    //     $(this).addClass('layui-table-click');
+                    //     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    //     // selectRowData = res.data[index - 1];
+                    // });
+                },
+                onClickRow: function (index, o) {
+                    console.log(index, o, "单击！");
+                },
+                onDblClickRow: function (index, o) {
+                    console.log(index, o, "双击");
+                }
+            });
+        }
+
+        function renderTableJl() {
+            tableJl = treeGridComJl.render({
+                id: 'zjkMsgTableIdJl',
+                elem: '#zjkMsgTableIdJl',
+                url: '/zjkMsg/getTableDataTreesJl',
+                cellMinWidth: 200,
+                idField: 'id',//必須字段
+                treeId: 'id',//树形id字段名称
+                treeUpId: 'parentId',//树形父id字段名称
+                treeShowName: 'projectName',//以树形式显示的字段
+                height: commonDislodgeTable(),
+                heightRemove: [".dHead", 10],//不计算的高度,表格设定的是固定高度，此项不生效
+                isFilter: false,
+                iconOpen: false,//是否显示图标【默认显示】
+                isOpenDefault: true,//节点默认是展开还是折叠【默认展开】
+                loading: true,
+                limit: 15,
+                where: {
+                    param: {
+                        "xmName": $("input[name=xmNameJl]").val(),
+                        "type": "jl",
+                        "xmSteps": $("#xmStepsJl").val()
+                    }
+                },
+                method: 'POST',
+                page: {
+                    groups: 5,
+                    limits: [15, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'],
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                // 立项年度、预算年度、合同号、项目名称，承担单位
+                cols: [[{
+                    type: 'checkbox',
+                    event: 'changeEvents',
+                    width: '55',
+                }
+                    // , {
+                    //     field : 'realIndex',
+                    //     title : '序号',
+                    //     style : 'cursor: pointer;',
+                    //     align : 'center',
+                    //     width : '45'
+                    // }
+                    , {
+                        field: 'projectName',
+                        title: '项目名称',
+                        templet: function (d) {
+                            if (d.dataIndex == "1") {
+                                return '<span   onclick="showDetailJl(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
+                            } else {
+                                if (d.sysFlag == "ROOT_UNIVERSAL_WEHTHER_YES" && d.isComplete == "ROOT_UNIVERSAL_WEHTHER_YES") {//同意
+                                    return '<span style="color:#00B83F">' + d.projectName + '</span>'
+                                } else if (d.sysFlag == "ROOT_UNIVERSAL_WEHTHER_NO" && d.isComplete == "ROOT_UNIVERSAL_WEHTHER_YES") {//已回复不同意
+                                    return '<span style="color: red">' + d.projectName + '</span>'
+                                } else {
+                                    return '<span >' + d.projectName + '</span>'
+                                }
+                            }
+                        },
+                        style: 'cursor: pointer;',
+                        align: 'left',
+                        width: '50%',
+                    }, {
+                        field: 'updateUser',
+                        title: '评审等级',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '30%',
+                    }, {
+                        field: 'modifyUserDisp',
+                        title: '专业领域',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '15%',
+                    }]],
+                isPage: true,
+                parseData: function (res) {
+                    return res;
+                },
+                done: function (res) {
+                    // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    //     var index = parseInt($(this).index() + 1);
+                    //     $('tr').removeClass('layui-table-click');
+                    //     $(this).addClass('layui-table-click');
+                    //     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    //     // selectRowData = res.data[index - 1];
+                    // });
+                },
+                onClickRow: function (index, o) {
+                    console.log(index, o, "单击！");
+                },
+                onDblClickRow: function (index, o) {
+                    console.log(index, o, "双击");
+                }
+            });
+        }
+
+        function showDetailCg(data_id) {
+            var temUrl = "/out/appraisal-detail/" + data_id;
+            layer.open({
+                title: '详情',
+                skin: 'layui-layer-lan',
+                shadeClose: false,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['70%', '90%'],
+                content: temUrl
+            });
+        }
+
+        function showDetailJl(data_id) {
+            var temUrl = "/out/reward-detail/" + data_id;
+            layer.open({
+                title: '详情',
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['90%', '80%'],
+                content: temUrl
+            });
+        }
+
+        function showDetail(data_id) {
             // $.ajax({
             //             type : 'post',
             //             dataType : 'json',
@@ -221,29 +535,36 @@
             //                 if(data.fzrxm=="0"){
             //                     layer.msg("权限不够,请联系系统管理员");
             //                 }else {
-                        var temUrl = "/out/project-detail/" + data_id;
-                        layer.open({
-                            title: '详情',
-                            skin: 'layui-layer-lan',
-                            shadeClose: true,
-                            type: 2,
-                            fixed: false,
-                            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                            maxmin: true,
-                            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                            area: ['90%', '80%'],
-                            content: temUrl
-                        });
+            var temUrl = "/out/project-detail/" + data_id;
+            layer.open({
+                title: '详情',
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['90%', '80%'],
+                content: temUrl
+            });
             //     },
             //     error : function(e) {
             //         alertError("出错了！", e);
             //     }
             // });
         }
+
         renderTable();
+        renderTableJl();
+        renderTableCg();
         $(".layui-table-header table thead th input").remove();
         window.renderTable = renderTable;
+        window.renderTableJl = renderTableJl;
+        window.renderTableCg = renderTableCg;
         window.showDetail = showDetail;
+        window.showDetailCg = showDetailCg;
+        window.showDetailJl = showDetailJl;
         // $(function () {
         //     //propertychange监听input里面的字符变化,属性改变事件
         //     $('.form-control').bind('input propertychange', function () {
@@ -257,6 +578,12 @@
         var $ = layui.$, active = {
             searchEvent: function () { //点击查询按钮
                 renderTable();
+            },
+            searchEventCg: function () { //点击查询按钮
+                renderTableCg();
+            },
+            searchEventJl: function () { //点击查询按钮
+                renderTableJl();
             },
             allEvent: function () { //点击查询按钮
                 workOrderStatus = '';
@@ -275,10 +602,18 @@
                 renderTable();
             },
             resetEvent: function () { //点击重置按钮
-                // $('#workOrderName').val("");
                 $('#xmNameName').val("");
                 $('#xmSteps').val("");
                 renderTable();
+            },
+            resetEventCg: function () { //点击重置按钮
+                $('#xmNameNameCg').val("");
+                $('#xmStepsCg').val("");
+                renderTableCg();
+            }, resetEventJl: function () { //点击重置按钮
+                $('#xmNameNameJl').val("");
+                $('#xmStepsJl').val("");
+                renderTableJl();
             },
             addEvent: function () { //点击新增按钮
                 layer.open({
@@ -295,9 +630,7 @@
                 });
             },
             editEvent: function () {  //点击编辑按钮
-                console.log(active.getCheckData());
                 var id;
-                // selectRowData = active.getCheckData();
                 if (selectRowData) {
                     // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
@@ -321,18 +654,22 @@
                     layer.msg('请选择一条数据');
                     return;
                 }
-            }, batEvent: function () {
+            }, batEventXm: function () {
+                active.batEvent("zjkMsgTableId");
+            }, batEventCg: function () {
+                active.batEvent("zjkMsgTableIdCg");
+            }, batEventJl: function () {
+                active.batEvent("zjkMsgTableIdJl");
+            }, batEvent: function (tableId) {
                 var ids = "";
-                selectRowData = active.getCheckData();
+                selectRowData = active.getCheckData(tableId);
                 if (selectRowData.length > 0) {
                     console.log(selectRowData.length);
                     for (var i = 0; i < selectRowData.length; i++) {
-                        if (selectRowData[i].dataIndex!="1"){
+                        if (selectRowData[i].dataIndex != "1") {
                             ids = (ids == "" ? "" : (ids + ",")) + selectRowData[i].dataId;
                         }
                     }
-                    console.log("-----------batEvent-----------");
-                    console.log(ids);
                     layer.open({
                         title: param.name + '-批量',
                         skin: 'layui-layer-lan',
@@ -408,10 +745,9 @@
                     return;
                 }
             },
-            getCheckData: function () { //获取选中数据
-                var checkStatus = treeGridCom.checkStatus("zjkMsgTableId")
-                    ,data = checkStatus.data;
-                // var checkStatus = treeGridCom.checkStatus('zjkMsgTableId')
+            getCheckData: function (tableId) { //获取选中数据
+                var checkStatus = treeGridCom.checkStatus(tableId)
+                    , data = checkStatus.data;
                 return data;
             },
             getCheckLength: function () { //获取选中数目
