@@ -169,7 +169,7 @@ public class OutProjectInfoClient {
 		String projectAbc = json.getString("projectAbc");
 		String projectSource = json.getString("projectSource");
 		String dataId = json.getString("dataId");
-		OutProjectInfo opi = new OutProjectInfo();
+		OutProjectInfoWithBLOBs opi = new OutProjectInfoWithBLOBs();
 
 		opi.setDataId(dataId);
 		opi.setProjectLevel(projectLevel);

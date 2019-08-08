@@ -146,11 +146,17 @@
                     field : 'projectName',
                     title : '项目名称',
                     templet : function(d) {
+                        console.log(d);
                         if(d.dataIndex=="1"){
                             return '<span   onclick="showDetail(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
                         }else {
-                            // if (d.)
-                            return '<span style="color: #00B83F">' + d.projectName + '</span>'
+                            if (d.sysFlag=="ROOT_UNIVERSAL_WEHTHER_YES"&&d.isComplete=="ROOT_UNIVERSAL_WEHTHER_YES"){//同意
+                                return '<span style="color:#00B83F">' + d.projectName + '</span>'
+                            }else if (d.sysFlag=="ROOT_UNIVERSAL_WEHTHER_NO"&&d.isComplete=="ROOT_UNIVERSAL_WEHTHER_YES") {//已回复不同意
+                                return '<span style="color: red">' + d.projectName + '</span>'
+                            }else {
+                                return '<span >' + d.projectName + '</span>'
+                            }
                         }
                     },
                     style : 'cursor: pointer;',
@@ -190,7 +196,7 @@
                         $(this).addClass('layui-table-click');
                         $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                         $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                        selectRowData = res.data[index - 1];
+                        // selectRowData = res.data[index - 1];
                     });
                 },
                 onClickRow : function(index, o) {
@@ -203,7 +209,6 @@
         }
 
         function showDetail(data_id){
-            console.log(data_id);
             // $.ajax({
             //             type : 'post',
             //             dataType : 'json',

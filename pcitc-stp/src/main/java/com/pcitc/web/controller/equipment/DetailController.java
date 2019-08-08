@@ -342,9 +342,12 @@ public class DetailController extends BaseController {
             //获取研究院
             request.setAttribute("dictonary", dicList);
             request.setAttribute("str", "1");
+            request.setAttribute("isKJBPerson", isKJBPerson);
+
         }else {
             request.setAttribute("dictonary", dicList);
             request.setAttribute("str", "0");
+            request.setAttribute("isKJBPerson", isKJBPerson);
         }
         request.setAttribute("unitPathIds", unitPathIds);
         request.setAttribute("parentUnitPathIds", parentUnitPathIds);

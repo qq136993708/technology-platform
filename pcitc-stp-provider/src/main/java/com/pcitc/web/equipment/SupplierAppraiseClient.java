@@ -1,5 +1,7 @@
 package com.pcitc.web.equipment;
 
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.stp.equipment.SreSupplierAppraise;
 import com.pcitc.service.equipment.SupplierAppraiseService;
@@ -50,5 +52,11 @@ public class SupplierAppraiseClient
         logger.info("===============================get SreSupplierAppraise id "+id+"===========");
         return appraiseService.selectSreSupplierById(id);
     }
-
+    @ApiOperation(value = "供应商评价分页", notes = "供应商评价分页")
+    @RequestMapping(value = "/sre-provider/supplierAppraise/page", method = RequestMethod.POST)
+    public LayuiTableData getSreSupplierAppraiseList(@RequestBody LayuiTableParam paramsJson)throws Exception
+    {
+        logger.info("=== SreSupplierApprais paramsJson============"+paramsJson);
+        return appraiseService.getSreSupplierAppraisePage(paramsJson);
+    }
 }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 import com.pcitc.service.out.OutProjectService;
 
 @Api(value = "对外提供的项目信息接收接口", tags = { "项目信息接收" })
@@ -35,10 +35,10 @@ public class ProjectInfoAPIClient {
 		System.out.println("saveOutProjectInfo==================" + jsonStr);
 		JSONObject json = JSONObject.parseObject(jsonStr);
 		JSONArray jsonArray = json.getJSONArray("itemList");
-		List<OutProjectInfo> itemList = new ArrayList<OutProjectInfo>();
+		List<OutProjectInfoWithBLOBs> itemList = new ArrayList<OutProjectInfoWithBLOBs>();
 		for (int i = 0; i < jsonArray.size(); i++) {
 			JSONObject temJson = jsonArray.getJSONObject(i);
-			OutProjectInfo opri = JSON.toJavaObject(temJson,OutProjectInfo.class);
+			OutProjectInfoWithBLOBs opri = JSON.toJavaObject(temJson,OutProjectInfoWithBLOBs.class);
 			opri.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 			opri.setXmid(json.getString("xmid"));
 			opri.setNd(json.getString("nd"));

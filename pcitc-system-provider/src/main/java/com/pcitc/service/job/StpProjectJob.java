@@ -14,6 +14,7 @@ import org.quartz.JobExecutionException;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.config.SpringContextUtil;
 import com.pcitc.service.out.OutProjectService;
@@ -46,7 +47,7 @@ public class StpProjectJob implements Job, Serializable {
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目数据 返回 success====="+(str != null));
 			if (str != null) {
 				// 先删除年度为nd的本地数据（备份一份到临时表中，防止意外）
-				List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+				List<OutProjectInfoWithBLOBs> insertData = new ArrayList<OutProjectInfoWithBLOBs>();
 				JSONArray jSONArray = JSONArray.parseArray(str);
 				
 				// 批量新增处理
@@ -85,10 +86,10 @@ public class StpProjectJob implements Job, Serializable {
 					String zyly = object.getString("ZYLY");
 					String zysx = object.getString("ZYSX");
 					String sjid = object.getString("SJID");
-					//String lxbj = object.getString("LXBJ");
+					String lxbj = object.getString("LXBJ"); //立项背景
 					//String yjnr = object.getString("YJNR");
 					//String jdap = object.getString("JDAP");
-					//String yjmb = object.getString("YJMB");
+					String yjmb = object.getString("YJMB");	//研究目标
 					
 					String gsbmbm = object.getString("GSBMBM");
 					String gsbmmc = object.getString("GSBMMC");
@@ -99,8 +100,7 @@ public class StpProjectJob implements Job, Serializable {
 					
 					String projectId = object.getString("XMID");
 
-					OutProjectInfo opi = new OutProjectInfo();
-					
+					OutProjectInfoWithBLOBs opi = new OutProjectInfoWithBLOBs();
 					opi.setNd(nd);
 					opi.setYsnd(nd); //预算年度初始值和起始年度一致
 					opi.setXmid(xmid);
@@ -141,10 +141,11 @@ public class StpProjectJob implements Job, Serializable {
 					opi.setZyly(zyly);
 					opi.setZysx(zysx);
 					opi.setSjid(sjid);
-					//opi.setLxbj(lxbj);
+					
+					opi.setLxbj(lxbj);
 					//opi.setYjnr(yjnr);
 					//opi.setJdap(jdap);
-					//opi.setYjmb(yjmb);
+					opi.setYjmb(yjmb);
 					
 					opi.setGsbmbm(gsbmbm);
 					opi.setGsbmmc(gsbmmc);

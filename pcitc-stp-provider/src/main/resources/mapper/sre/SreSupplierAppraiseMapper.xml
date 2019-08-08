@@ -10,10 +10,12 @@
     <result column="equipment_overall_appraise" jdbcType="VARCHAR" property="equipmentOverallAppraise" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
   </resultMap>
   <sql id="Base_Column_List">
     id, equipment_detail_id, applications_situation, maintenance_situation, supplier_appraise, 
-    equipment_overall_appraise, create_date, update_date
+    equipment_overall_appraise, create_date, update_date, supplier_name, equipment_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -29,11 +31,13 @@
     insert into sre_supplier_appraise (id, equipment_detail_id, applications_situation, 
       maintenance_situation, supplier_appraise, 
       equipment_overall_appraise, create_date, 
-      update_date)
+      update_date, supplier_name, equipment_id
+      )
     values (#{id,jdbcType=VARCHAR}, #{equipmentDetailId,jdbcType=VARCHAR}, #{applicationsSituation,jdbcType=VARCHAR}, 
       #{maintenanceSituation,jdbcType=VARCHAR}, #{supplierAppraise,jdbcType=VARCHAR}, 
       #{equipmentOverallAppraise,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateDate,jdbcType=TIMESTAMP})
+      #{updateDate,jdbcType=TIMESTAMP}, #{supplierName,jdbcType=VARCHAR}, #{equipmentId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreSupplierAppraise">
     insert into sre_supplier_appraise
@@ -62,6 +66,12 @@
       <if test="updateDate != null">
         update_date,
       </if>
+      <if test="supplierName != null">
+        supplier_name,
+      </if>
+      <if test="equipmentId != null">
+        equipment_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -87,6 +97,12 @@
       </if>
       <if test="updateDate != null">
         #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -114,6 +130,12 @@
       <if test="updateDate != null">
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="supplierName != null">
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentId != null">
+        equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -125,15 +147,45 @@
       supplier_appraise = #{supplierAppraise,jdbcType=VARCHAR},
       equipment_overall_appraise = #{equipmentOverallAppraise,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_date = #{updateDate,jdbcType=TIMESTAMP}
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      equipment_id = #{equipmentId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-
+  <!--根据装备ID获取评价信息-->
+  <select id="selectEquipmentId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sre_supplier_appraise
+    where equipment_id = #{equipmentId,jdbcType=VARCHAR}
+  </select>
 
   <select id="selectSreSupplierDetailId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from sre_supplier_appraise
     where equipment_detail_id = #{equipmentDetailId,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+    select
+    count(t.supplier_appraise='A' or null) 'A',
+
+    count(t.supplier_appraise='B' or null) 'B',
+
+    count(t.supplier_appraise='C' or null) 'C',
+
+    count(t.supplier_appraise='D' or null) 'D',
+
+    t.*
+    from sre_supplier_appraise t GROUP BY t.supplier_name
+    <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  t.supplier_appraise desc
+      </otherwise>
+    </choose>
+    <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
   </select>
 </mapper>
