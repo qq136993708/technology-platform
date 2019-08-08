@@ -10,8 +10,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import com.pcitc.base.util.HostUtil;
 import com.pcitc.service.system.SysJobService;
-import com.pcitc.utils.HostUtil;
 
 /**
  * package: com.pcitc.listener

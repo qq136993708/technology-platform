@@ -74,7 +74,8 @@ public class IntlProjectInfoProviderClient
 		{
 			return new Result(false,"已发起审批不可重复发起！");
 		}
-		boolean status = intlProjectInfoService.startWorkFlow(workflowVo.getBusinessId(), workflowVo.getFunctionId(), workflowVo.getProcessDefinitionName(), workflowVo.getAuthenticatedUserId(), workflowVo.getAuthenticatedUserName());
+		//boolean status = intlProjectInfoService.startWorkFlow(workflowVo.getBusinessId(), workflowVo.getFunctionId(), workflowVo.getProcessDefinitionName(), workflowVo.getAuthenticatedUserId(), workflowVo.getAuthenticatedUserName());
+		boolean status = intlProjectInfoService.startWorkFlow(workflowVo);
 		if(status) 
 		{
 			return new Result(true,"操作成功!");
