@@ -39,5 +39,8 @@ public interface ZjkMsgMapper {
 
     List<ZjkMsg> selectMsgTree(Map<String,String> map);
 
+    List<ZjkMsg> selectMsgTreeJl(Map<String, String> map);
+
+    List<ZjkMsg> selectMsgTreeCg(Map<String, String> map);
 
 }

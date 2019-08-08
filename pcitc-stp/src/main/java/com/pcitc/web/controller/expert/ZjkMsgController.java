@@ -88,6 +88,8 @@ public class ZjkMsgController extends BaseController {
     private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkmsg-provider/zjkmsg/zjkmsg-page";
 
     private static final String getTableDataTrees = "http://pcitc-zuul/stp-proxy/zjkmsg-provider/zjkmsg/getTableDataTrees";
+    private static final String getTableDataTreesCg = "http://pcitc-zuul/stp-proxy/zjkmsg-provider/zjkmsg/getTableDataTreesCg";
+    private static final String getTableDataTreesJl = "http://pcitc-zuul/stp-proxy/zjkmsg-provider/zjkmsg/getTableDataTreesJl";
     /**
      * 保存
      */
@@ -177,6 +179,25 @@ public class ZjkMsgController extends BaseController {
         param.getParam().put("createUserId",sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(getTableDataTrees, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        return JSON.toJSON(data).toString();
+    }
+
+    @RequestMapping(value = "/getTableDataTreesJl", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getTableDataTreesJl(@ModelAttribute("param") LayuiTableParam param) {
+        param.getParam().put("createUserId",sysUserInfo.getUserId());
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(getTableDataTreesJl, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        return JSON.toJSON(data).toString();
+    }
+    @RequestMapping(value = "/getTableDataTreesCg", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getTableDataTreesCg(@ModelAttribute("param") LayuiTableParam param) {
+        param.getParam().put("createUserId",sysUserInfo.getUserId());
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(getTableDataTreesCg, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
         return JSON.toJSON(data).toString();
     }
