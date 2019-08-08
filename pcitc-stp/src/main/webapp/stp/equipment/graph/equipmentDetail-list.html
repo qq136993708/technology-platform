@@ -19,6 +19,7 @@
     <input type="hidden" name="unitPathIds" id="unitPathIds" value="${unitPathIds}">
     <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
     <input  name="str"     id="str"      value="${str}"    type="hidden">
+    <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
 
     <!--查询条件-->
     <label class="dateInput">
@@ -146,6 +147,7 @@
 <!--表格数据操作js-->
 
 <script>
+    var isKJBPerson=$('#isKJBPerson').val();
     var table,selectRowData;
     var publicMethods;
     var name=$('#name').val();
@@ -155,8 +157,14 @@
             layer = layui.layer,
             laypage = layui.laypage;
         publicMethods=layui.publicMethods;
-        //加载表格
-        renderTable();
+
+        if(isKJBPerson==true || isKJBPerson=='true')
+        {
+            //加载表格
+            renderTable();
+        }else{
+            layer.alert('请以科技部的身份操作');
+        }
         //移除表头的复选框,去掉全选
         $(".layui-table-header table thead th input").remove();
         // 触发不同的按钮事件

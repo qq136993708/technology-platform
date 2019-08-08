@@ -31,16 +31,6 @@
 <div class="tableBox">
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
-
-<!--<script type="text/javascript">
-    $(function(){
-        if(isKJBPerson=="true" || isKJBPerson==true){
-            document.getElementById("bodyId").style.display = "inline";
-        }else{
-            document.getElementById("bodyId").style.display = "none";
-        }
-    })
-</script>-->
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -94,8 +84,7 @@
             layer = layui.layer,
             laypage = layui.laypage;
             form = layui.form,
-        //加载表格
-        renderTable();
+
         $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
 
         //监听排序
@@ -118,6 +107,13 @@
             active[type] ? active[type].call(this) : '';
         });
 
+        if(isKJBPerson==true || isKJBPerson=='true')
+        {
+            //加载表格
+            renderTable();
+        }else{
+            layer.alert('请以科技部的身份操作');
+        }
     });
 
     function renderTable()
