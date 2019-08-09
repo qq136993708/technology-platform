@@ -116,10 +116,10 @@
 				<span class="icon-decision icon-decision_06" id="expert_total">-位</span>
 			</div>
 			<#if isZHJHCPerson== 'true' || sysUserInfo.userLevel=='2'> 
-				<div class="dec-center-right3">
+				<div class="dec-center-right3" id="appropriation_id">
 					<span></span>
 					<span>科研拨款</span>
-					<span class="icon-decision icon-decision_06">-亿</span>
+					<span class="icon-decision icon-decision_06" id="appropriation_sum">-亿</span>
 					<span>直属研究院</span>
 				</div>
 				<div class="dec-center-left2" id="cash">
@@ -279,6 +279,13 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     $("#cash").click(function () {
     	location.href="/mobile/cash";
     });
+    //科研拨款
+    $("#appropriation_id").click(function () {
+    	location.href="/mobile/appropriation";
+    });
+    
+    
+    
     
     
     
@@ -414,9 +421,9 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     	if(isZHJHCPerson==true || isZHJHCPerson=='true' || userLevel=='2')
    		{
    		    //科研拨款
-   		    
+   		    setBKCount(v_date,nd);
    		    //现金流量
-   		    get_Mobile_Month_Cash_Flow()
+   		    get_Mobile_Month_Cash_Flow();
    		}
     	
     	
@@ -433,7 +440,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     {
 		$.ajax({
 			type : 'GET',
-			url : "/one_level_main/investment_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
+			url : "/mobile/index_budget?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
@@ -466,7 +473,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     {
 		$.ajax({
 			type : 'GET',
-			url : "/one_level_main/investment_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
+			url : "/mobile/index_budget?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
@@ -519,10 +526,10 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     
     
     
-	//合同签订
+	//科研合同--合同签订率
 	function setContcat(v_date,nd) 
 	{
-		var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date+"&define3=研究院";
+		var url = "/mobile/index_contract_rate?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date+"&define3=研究院";
 		$.ajax({
 			type : 'POST',
 			url : url,
@@ -549,12 +556,12 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	
 	
 	
-	//合同-今年计划课题
+	//合同-今年计划课题(科研项目)
 	function set_contract(nd) 
 	{
 		$.ajax({
 			type : 'POST',
-			url : "/one_level_main/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
+			url : "/mobile/index_contract?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
@@ -624,10 +631,48 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 
 	        });
 	}
+	 
+	 
+	 //科研拨款
+	 function setBKCount(v_date,nd) 
+	 {
+		 
+		    var url = "/mobile/investment_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date;
+	        $.ajax({
+	            type: "GET",
+	            url: url,
+	            dataType: "json",
+	            timeout: 11000,
+	            cache: false,
+	            headers : {
+					'Content-Type' : 'application/json'
+				},
+	            success: function (data, status)
+	            {
+	            	console.log("科研拨款\n"+JSON.stringify(data));
+	            	var count=0;
+	            	for (var i = 0; i < data.data.length; i++) 
+	            	{
+						var zsjje = data.data[i].zsjje;//实际科研投入
+						var zysje = data.data[i].zysje;//预算金额
+						count = count + parseFloat(zsjje);
+					}
+					$("#appropriation_sum").html((count/ 10000).toFixed(2)+"亿");
+	            },
+	            error: function () {
+					
+				},
+	            complete: function (XMLHttpRequest, status) {
+
+	            }
+
+	        });
+	}
+	 
 	    
 	 
 	 
-	 
+	 //hana 现金流量
 	 function get_Mobile_Month_Cash_Flow()
 	 {
 	    	var month = $('#month').val();
