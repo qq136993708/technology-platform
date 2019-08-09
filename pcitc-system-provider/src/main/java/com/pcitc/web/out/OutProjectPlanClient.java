@@ -230,10 +230,6 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/money/complete-rate/institute")
 	public JSONArray getPlanMoneyCompleteRateByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyCompleteRateByInstitute===========================" + map);
-		List temList = outProjectPlanService.getPlanMoneyCompleteRateByInstitute(map);
-
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd(map.get("nd"));
 		String zycbm = map.get("zycbm");
 		if (zycbm != null && zycbm.contains("30130054")) {
 			map.put("leaderFlag", "2");
@@ -242,6 +238,12 @@ public class OutProjectPlanClient {
 			// 大领导特殊，能看所有的费用性预算
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
+		
+		List temList = outProjectPlanService.getPlanMoneyCompleteRateByInstitute(map);
+
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd(map.get("nd"));
+		
 		// 预算中，科技部外的部门特殊处理
 		if (zycbm.contains("30130011")) {
 			zycbm = zycbm + ",30130011";
@@ -302,11 +304,6 @@ public class OutProjectPlanClient {
 		String nd = map.get("nd");
 		map.put("startMonth", nd + "01");
 		map.put("endMonth", nd + "12");
-		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHana(map);
-
-		// 获取研究院预算，根据其管理的专业处不同有所不同
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd(map.get("nd"));
 		String zycbm = map.get("zycbm");
 		boolean zbxFlag = false;
 		if (zycbm != null && zycbm.contains("30130054")) {
@@ -318,6 +315,12 @@ public class OutProjectPlanClient {
 			zbxFlag = true;
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
+		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHana(map);
+
+		// 获取研究院预算，根据其管理的专业处不同有所不同
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd(map.get("nd"));
+		
 		if (zycbm == null) {
 			zycbm = "xxxxxxxx";
 		}
@@ -402,13 +405,8 @@ public class OutProjectPlanClient {
 		String nd = map.get("nd");
 		map.put("startMonth", nd + "01");
 		map.put("endMonth", nd + "12");
-		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHanaMonth(map);
-
-		// 获取研究院预算，根据其管理的专业处不同有所不同
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd(map.get("nd"));
-		String zycbm = map.get("zycbm");
 		boolean zbxFlag = false;
+		String zycbm = map.get("zycbm");
 		if (zycbm != null && zycbm.contains("30130054")) {
 			map.put("leaderFlag", "2");
 		}
@@ -418,6 +416,13 @@ public class OutProjectPlanClient {
 			System.out.println("1大领导、计划处特殊，能看所有的费用性预算、专项机动");
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
+		
+		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHanaMonth(map);
+
+		// 获取研究院预算，根据其管理的专业处不同有所不同
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd(map.get("nd"));
+		
 		if (zycbm == null) {
 			zycbm = "xxxxxxxx";
 		}
