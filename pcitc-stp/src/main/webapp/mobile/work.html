@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/mobile/css/mobileNew.css">
     <style>
-        .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
+        .tab-top{    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
     </style>
 </head>
 <body>
@@ -17,19 +17,22 @@
         <h4>工作安排</h4>
     </div>
 </header>
-<main class="main contract">
+<main class="main work">
     <div class="layui-tab">
         <div class="tab-top">
             <ul class="layui-tab-title">
                 <li class="layui-this">
-                    <span>09</span>
+                    <span></span>
+                    <span class="number">09</span>
                     <span>我发起的</span>
                 </li>
                 <li>
-                    <span>69</span>
+                    <span></span>
+                    <span class="number">69</span>
                     <span>待处理的</span>
                 </li>
-                <li>
+                <li id="add">
+                    <span></span>
                     <span>新建任务</span>
                 </li>
             </ul>
@@ -38,7 +41,7 @@
             <div class="layui-tab-item layui-show">
 
                 <div class="layui-tab">
-                    <div>
+                    <div class="tab-b">
                         <ul class="layui-tab-title">
                             <li class="layui-this">全部</li>
                             <li>未结束</li>
@@ -47,7 +50,69 @@
                     </div>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
-
+                            <ul class="one">
+                                <li class="list">
+                                    <div class="list-img">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                    </div>
+                                    <div class="list-cont">
+                                        <p>催化剂研究科研任务催化剂研究科研任务</p>
+                                        <p>
+                                            <span>处理人:</span><span>李永建，曾轶可，徐</span>
+                                        </p>
+                                    </div>
+                                    <div class="list-d">
+                                        <span class="list-r">2019.07.29</span>
+                                        <div class="layui-progress">
+                                            <div class="layui-progress-bar" lay-percent="80%" style="width: 80%;"></div>
+                                        </div>
+                                        <span class="number-b">80%</span>
+                                    </div>
+                                    <div class="dele"></div>
+                                </li>
+                                <li class="list">
+                                    <div class="list-img">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                    </div>
+                                    <div class="list-cont">
+                                        <p>催化剂研究科研任务催化剂研究科研任务</p>
+                                        <p>
+                                            <span>处理人:</span><span>李永建，曾轶可，徐</span>
+                                        </p>
+                                    </div>
+                                    <div class="list-d">
+                                        <span class="list-r">2019.07.29</span>
+                                        <div class="layui-progress">
+                                            <div class="layui-progress-bar" lay-percent="80%" style="width: 80%;"></div>
+                                        </div>
+                                        <span class="number-b">80%</span>
+                                    </div>
+                                    <div class="dele"></div>
+                                </li>
+                                <li class="list">
+                                    <div class="list-img">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                    </div>
+                                    <div class="list-cont">
+                                        <p>催化剂研究科研任务催化剂研究科研任务</p>
+                                        <p>
+                                            <span>处理人:</span><span>李永建，曾轶可，徐</span>
+                                        </p>
+                                    </div>
+                                    <div class="list-d">
+                                        <span class="list-r">2019.07.29</span>
+                                        <div class="layui-progress">
+                                            <div class="layui-progress-bar" lay-percent="80%" style="width: 80%;"></div>
+                                        </div>
+                                        <span class="number-b">80%</span>
+                                    </div>
+                                    <div class="dele"></div>
+                                </li>
+                            </ul>
                         </div>
                         <div class="layui-tab-item">
 
@@ -61,16 +126,69 @@
             <div class="layui-tab-item">
 
                 <div class="layui-tab">
-                    <div>
+                    <div class="tab-b">
                         <ul class="layui-tab-title">
                             <li class="layui-this">全部</li>
-                            <li>未结束</li>
-                            <li>已完成</li>
+                            <li>待处理</li>
+                            <li>已处理</li>
                         </ul>
                     </div>
-                    <div class="layui-tab-content">
+                    <div class="layui-tab-content tab-d">
                         <div class="layui-tab-item layui-show">
-
+                            <ul class="one">
+                                <li class="list">
+                                    <div class="list-img">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                    </div>
+                                    <div class="list-cont">
+                                        <p>催化剂研究科研任务催化剂研究科研任务</p>
+                                        <p>
+                                            <span>发起人:</span><span>李永建，曾轶可，徐</span>
+                                        </p>
+                                    </div>
+                                    <div class="list-d">
+                                        <span class="list-r">2019.07.29</span>
+                                        <span class="number-o">已完成</span>
+                                    </div>
+                                    <div class="dele"></div>
+                                </li>
+                                <li class="list">
+                                    <div class="list-img">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                    </div>
+                                    <div class="list-cont">
+                                        <p>催化剂研究科研任务催化剂研究科研任务</p>
+                                        <p>
+                                            <span>发起人:</span><span>李永建，曾轶可，徐</span>
+                                        </p>
+                                    </div>
+                                    <div class="list-d">
+                                        <span class="list-r">2019.07.29</span>
+                                        <span class="number-n">待处理</span>
+                                    </div>
+                                    <div class="dele"></div>
+                                </li>
+                                <li class="list">
+                                    <div class="list-img">
+                                        <img src="/mobile/images/icon-by.png" alt="">
+                                    </div>
+                                    <div class="list-cont">
+                                        <p>催化剂研究科研任务催化剂研究科研任务</p>
+                                        <p>
+                                            <span>发起人:</span><span>李永建，曾轶可，徐</span>
+                                        </p>
+                                    </div>
+                                    <div class="list-d">
+                                        <span class="list-r">2019.07.29</span>
+                                        <span class="number-o">已完成</span>
+                                    </div>
+                                    <div class="dele"></div>
+                                </li>
+                            </ul>
                         </div>
                         <div class="layui-tab-item">
 
@@ -86,6 +204,7 @@
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/mobile/js/jquery.mobile-1.4.5.min.js"></script>
 <script>
     var layer;
     (function(doc, win) {
@@ -107,8 +226,27 @@
             ,type: 'year'
             ,value:"2019"
         });
-
-
+        $(".one li").on("swipeleft",function(){
+            $(this).removeClass('left');
+            $(this).addClass('right');
+            $(this).find(".dele").show()
+        });
+        $(".one li").on("swiperight",function(){
+            $(this).removeClass('right');
+            $(this).addClass('left');
+        });
+        $("#add").click(function () {
+            layer.open({
+                title : '详情',
+                skin : 'layui-layer-mobile',
+                shadeClose : false,
+                type : 2,
+                fixed : false,
+                maxmin : true,
+                area : [ '95%', '72.5%' ],
+                content : '/mobile/work_add.html'
+            });
+        });
     });
 </script>
 </body>
