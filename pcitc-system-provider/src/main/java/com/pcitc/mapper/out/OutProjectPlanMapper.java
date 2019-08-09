@@ -45,6 +45,11 @@ public interface OutProjectPlanMapper {
 	public List getPlanCompleteRateByOldNew(HashMap<String, String> map);
 	
 	/**
+     * 按照专业处分组，来统计各个专业处计划签订合同数量，实际签订合同数量
+     */
+	public List getPlanCountForZYC(HashMap<String, String> map);
+	
+	/**
      * 直属研究院二级页面（领导），总的签订率
      */
 	public List getPlanTotalCompleteRate(HashMap<String, String> map);

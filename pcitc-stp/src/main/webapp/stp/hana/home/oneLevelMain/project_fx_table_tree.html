@@ -26,7 +26,6 @@
 .layui-laydate-hint {
 	display: none;
 }
-.layui-form-item{height: 40px;overflow: hidden;}
 </style>
 </head>
 <body>
@@ -81,110 +80,111 @@
 							</select>
 						</div>
 					</div>
-
-					<!-- 三级级联 begin-->
-					<div class="layui-inline">
-						<label class="layui-form-label">经费来源：</label>
-						<div class="layui-input-inline">
-							<select name="define11" id="define11" lay-filter="select_define11">
-								<option value="">--请选择--</option> <#list jflyList as vo>
-								<option value="${vo.code}"<#if define11=vo.name>selected="selected"</#if>>${vo.name}</option> </#list>
-							</select>
+					<div class="layui-hide select">
+						<!-- 三级级联 begin-->
+						<div class="layui-inline">
+							<label class="layui-form-label">经费来源：</label>
+							<div class="layui-input-inline">
+								<select name="define11" id="define11" lay-filter="select_define11">
+									<option value="">--请选择--</option> <#list jflyList as vo>
+									<option value="${vo.code}"<#if define11=vo.name>selected="selected"</#if>>${vo.name}</option> </#list>
+								</select>
+							</div>
 						</div>
-					</div>
 
-					<div class="layui-inline">
-						<label class="layui-form-label">单位性质：</label>
-						<div class="layui-input-inline">
-							<select name="define12" id="define12" lay-filter="select_define12">
-							</select>
+						<div class="layui-inline">
+							<label class="layui-form-label">单位性质：</label>
+							<div class="layui-input-inline">
+								<select name="define12" id="define12" lay-filter="select_define12">
+								</select>
+							</div>
 						</div>
-					</div>
 
-					<div class="layui-inline">
-						<label class="layui-form-label">研究院：</label>
-						<div class="layui-input-inline">
-							<select name="define2" id="define2">
-							</select>
+						<div class="layui-inline">
+							<label class="layui-form-label">研究院：</label>
+							<div class="layui-input-inline">
+								<select name="define2" id="define2">
+								</select>
+							</div>
 						</div>
-					</div>
-					<!-- 三级级联 end -->
+						<!-- 三级级联 end -->
 
 
-					<!-- 三级级联 begin -->
-					<div class="layui-inline">
-						<label class="layui-form-label">部门：</label>
-						<div class="layui-input-inline">
-							<select name="gsbmbmFlag" id="gsbmbmFlag" lay-filter="select_gsbmbmFlag">
-								<option value="">--请选择--</option> <#list gsbmbmList as vo>
-								<option value="${vo.code}"<#if gsbmbmFlag=vo.name>selected="selected"</#if>>${vo.name}</option> </#list>
-							</select>
+						<!-- 三级级联 begin -->
+						<div class="layui-inline">
+							<label class="layui-form-label">部门：</label>
+							<div class="layui-input-inline">
+								<select name="gsbmbmFlag" id="gsbmbmFlag" lay-filter="select_gsbmbmFlag">
+									<option value="">--请选择--</option> <#list gsbmbmList as vo>
+									<option value="${vo.code}"<#if gsbmbmFlag=vo.name>selected="selected"</#if>>${vo.name}</option> </#list>
+								</select>
+							</div>
 						</div>
-					</div>
 
 
-					<div class="layui-inline">
-						<label class="layui-form-label">处室：</label>
-						<div class="layui-input-inline">
-							<select name="zycbmFlag" id="zycbmFlag" lay-filter="select_zycbmFlag">
-							</select>
+						<div class="layui-inline">
+							<label class="layui-form-label">处室：</label>
+							<div class="layui-input-inline">
+								<select name="zycbmFlag" id="zycbmFlag" lay-filter="select_zycbmFlag">
+								</select>
+							</div>
 						</div>
-					</div>
 
 
-					<div class="layui-inline">
-						<label class="layui-form-label">专业类别：</label>
-						<div class="layui-input-inline">
-							<select name="zylbbmFlag" id="zylbbmFlag">
-							</select>
+						<div class="layui-inline">
+							<label class="layui-form-label">专业类别：</label>
+							<div class="layui-input-inline">
+								<select name="zylbbmFlag" id="zylbbmFlag">
+								</select>
+							</div>
 						</div>
-					</div>
-					<!-- 二级级联 end -->
+						<!-- 二级级联 end -->
 
 
 
 
-					<div class="layui-inline">
-						<label class="layui-form-label">技术分类：</label>
-						<div class="layui-input-inline">
-							<select name="define5" id="define5">
-								<option value="">--请选择--</option> <#list jsflList as vo>
-								<option value="${vo.name}"<#if define5==vo.name>selected="selected"</#if>>${vo.name}</option> </#list>
-							</select>
+						<div class="layui-inline">
+							<label class="layui-form-label">技术分类：</label>
+							<div class="layui-input-inline">
+								<select name="define5" id="define5">
+									<option value="">--请选择--</option> <#list jsflList as vo>
+									<option value="${vo.name}"<#if define5==vo.name>selected="selected"</#if>>${vo.name}</option> </#list>
+								</select>
+							</div>
 						</div>
-					</div>
 
 
 
-					<div class="layui-inline">
-						<label class="layui-form-label">承担单位：</label>
-						<div class="layui-input-inline">
-							<select name="fzdwflag" id="fzdwflag">
-								<option value="">--请选择--</option> <#list fzdwList as vo>
-								<option value="${vo.numValue}">${vo.name}</option> </#list>
-							</select>
+						<div class="layui-inline">
+							<label class="layui-form-label">承担单位：</label>
+							<div class="layui-input-inline">
+								<select name="fzdwflag" id="fzdwflag">
+									<option value="">--请选择--</option> <#list fzdwList as vo>
+									<option value="${vo.numValue}">${vo.name}</option> </#list>
+								</select>
+							</div>
 						</div>
-					</div>
 
 
-					<div class="layui-inline">
-						<label class="layui-form-label">单位名称：</label>
-						<div class="layui-input-inline">
-							<input type="text" name="unitName" id="unitName" title="单位名称" placeholder="请输入单位名称" autocomplete="off" class="layui-input">
+						<div class="layui-inline">
+							<label class="layui-form-label">单位名称：</label>
+							<div class="layui-input-inline">
+								<input type="text" name="unitName" id="unitName" title="单位名称" placeholder="请输入单位名称" autocomplete="off" class="layui-input">
+							</div>
 						</div>
-					</div>
 
 
 
-					<div class="layui-inline">
-						<label class="layui-form-label">分组类型：</label>
-						<div class="layui-input-inline">
-							<select name="groupFlag" id="groupFlag">
-								<option value="">--请选择--</option> <#list fzlxList as vo>
-								<option value="${vo.numValue}"<#if groupFlag==vo.numValue>selected="selected"</#if>>${vo.name}</option> </#list>
-							</select>
+						<div class="layui-inline">
+							<label class="layui-form-label">分组类型：</label>
+							<div class="layui-input-inline">
+								<select name="groupFlag" id="groupFlag">
+									<option value="">--请选择--</option> <#list fzlxList as vo>
+									<option value="${vo.numValue}"<#if groupFlag==vo.numValue>selected="selected"</#if>>${vo.name}</option> </#list>
+								</select>
+							</div>
 						</div>
-					</div>
+				</div>
 				<button  class="layui-btn layuiadmin-btn-list" id="Open" style="position: absolute;top: 4px;right: 14px; height: 27px;width: 40px;padding: 0;text-align: center;display: block;}">展开</button>
 				</div>
 			<div class="layui-inline" style="margin-left: 48px;">
@@ -247,15 +247,15 @@
 
 			//移除表头的复选框,去掉全选
 			$(".layui-table-header table thead th input").remove();
-			$("#Open").click(function () {
-			    if($(this).html()=="收起"){
+            $("#Open").click(function() {
+                if ($(this).html() == "收起") {
                     $(this).html("展开");
-                    $(".layui-form-item").css("height","40px");
-				}else {
+                    $(".select").addClass("layui-hide")
+                } else {
                     $(this).html("收起");
-                    $(".layui-form-item").css("height","auto");
+                    $(".select").removeClass("layui-hide")
 
-				}
+                }
             });
 			// 触发不同的按钮事件
 			var $ = layui.$, active = {

@@ -223,6 +223,20 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 		SreForApplication record = new SreForApplication();
 		record.setApplicationId(id);
 		record.setApplicationState(Constant.OK_THREE);
+		SreForApplication rchase = sreforapplicationMapper.selectByPrimaryKey(id);
+		if(rchase!=null) {
+//			String equipmentId = rchase.getApplicationPurchaseid();
+//			SreDetail Slist = sreDetailMapper.selectSreDetailId(equipmentId);
+//			String SequipmentId = "70f2566f4aa14f6aa2f9e490b4f9755a";
+			String[] sre = rchase.getApplicationPurchaseid().split(",");
+			for(int i=0;i<sre.length;i++) {
+				SreDetail setail = new SreDetail();
+				SreDetail list = sreDetailMapper.selectSreDetailId(sre[i]);
+				setail.setId(list.getId());
+				setail.setNationality(Constant.OK_THREE);
+				sreDetailMapper.updateByPrimaryKeySelective(setail);
+			}
+		}
 		return sreforapplicationMapper.updateByPrimaryKeySelective(record);
 	}
 
