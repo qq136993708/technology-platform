@@ -445,7 +445,8 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-nav-tree .layui-nav-item>a:hover .layui-nav-more{background: url("/layuiadmin/layui/images/icon-r-w.png") no-repeat;}
 .layui-header .layui-icon-prev{position: absolute;right: 0px;top: 30px;cursor: pointer;width: 70px;}
 .layui-header .layui-icon-next{position: absolute;right: 250px;top: 18px;cursor: pointer;}
-.layui-header .layui-icon-prev:before{content: "其他业务"; font-size: 14px; color: rgba(255,255,255,0.6);}
+.layui-header .layui-icon-prev:before{content: "其他业务"; font-size: 14px;     color: rgba(255,255,255,0.9);
+    font-weight: bold;}
 .layui-header .layui-icon-next:before{content: "\e65b";}
 .layadmin-pagetabs .layui-icon-next{right: 40px;}
 .layadmin-pagetabs .layui-icon-down{right: 0;}
@@ -489,7 +490,8 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-header{border-bottom: 1px solid #e6e6e6; box-sizing: border-box;
     background-color: #1890ff;}
 .layui-layout-admin .layui-header a,
-.layui-layout-admin .layui-header a cite{color: rgba(255,255,255,0.6);}
+.layui-layout-admin .layui-header a cite{    color: rgba(255,255,255,0.9);
+    font-weight: bold;}
 .layui-layout-admin .layui-header a:hover{color: #fff;transform: none !important;-webkit-transition:none !important;}
 .layui-layout-admin .layui-header .layui-this a{color: #fff;}
 .layui-layout-admin .layui-header .layui-this dl dd a{ color: black !important;}

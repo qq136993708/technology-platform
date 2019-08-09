@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+    <style>
+        .tab-top{    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
+    </style>
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>我发起的（详情）</h4>
+    </div>
+</header>
+<main class="main work">
+    <div class="work-top">
+        <p class="title"><span></span>催化剂研究科研任务</p>
+        <div class="work-cont">
+            <div class="list">
+                <div class="list-img">
+                    <img src="/mobile/images/icon-by.png" alt="">
+                    <img src="/mobile/images/icon-by.png" alt="">
+                    <img src="/mobile/images/icon-by.png" alt="">
+                </div>
+                <div class="list-cont">
+                    <div class="layui-progress">
+                        <div class="layui-progress-bar" lay-percent="80%" style="width: 80%;"></div>
+                    </div>
+                    <span class="number-b">80%</span>
+                    <p>
+                        <span class="star">2019.07.29</span>至<span class="end">2019.07.29</span>
+                    </p>
+                </div>
+            </div>
+            <p>任务执行人:<span>洪敏下，李永建，曾轶可，徐佑铭，李永建，曾轶可</span></p>
+        </div>
+    </div>
+    <div class="work-main">
+        <div class="layui-collapse work-m" lay-filter="component-panel">
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">为什么JS社区大量采用未发布或者未广泛支持的语言特性？<i class="layui-icon layui-colla-icon"></i></h2>
+                <div class="layui-colla-content">
+                    <p>有不少其他答案说是因为JS太差。我下面的答案已经说了，这不是根本性的原因。但除此之外，我还要纠正一些对JS具体问题的误解。JS当初是被作为脚本语言设计的，所以某些问题并不是JS设计得差或者是JS设计者的失误。比如var的作用域问题，并不是“错误”，而是当时绝大部分脚本语言都是这样的，如perl/php/sh等。模块的问题也是，脚本语言几乎都没有模块/命名空间功能。弱类型、for-in之类的问题也是，只不过现在用那些老的脚本语言的人比较少，所以很多人都误以为是JS才有的坑。另外有人说JS是半残语言，满足不了开发需求，1999年就该死。半残这个嘛，就夸张了。JS虽然有很多问题，但是设计总体还是优秀的。——来自知乎@贺师俊</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/mobile/js/jquery.mobile-1.4.5.min.js"></script>
+<script>
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        laydate.render({
+            elem: '#test-laydate-normElem'
+            ,type: 'year'
+            ,value:"2019"
+        });
+        $(".one li").on("swipeleft",function(){
+            $(this).removeClass('left');
+            $(this).addClass('right');
+            $(this).find(".dele").show()
+        });
+        $(".one li").on("swiperight",function(){
+            $(this).removeClass('right');
+            $(this).addClass('left');
+        });
+        $("#add").click(function () {
+            layer.open({
+                title : '详情',
+                skin : 'layui-layer-mobile',
+                shadeClose : false,
+                type : 2,
+                fixed : false,
+                maxmin : true,
+                area : [ '95%', '72.5%' ],
+                content : '/mobile/work_add.html'
+            });
+        });
+    });
+</script>
+</body>
+</html>

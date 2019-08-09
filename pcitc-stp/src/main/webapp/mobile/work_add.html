@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+    <style>
+        body{background: #fff;}
+        .main{border-radius: 6px;}
+    </style>
+</head>
+<body>
+<main class="main project-d">
+    <div class="title">
+        <h4><span></span>炼化企业科研项</h4>
+        <p></p>
+        <span class="contract-h">MG173829</span><span class="contract-s">合同总金额:</span><span class="contract-n">328万元</span>
+    </div>
+    <div class="project-d-f"></div>
+    <ul>
+        <li>
+            <span>专业处</span>
+            <span>勘探开发处</span>
+        </li>
+        <li>
+            <span>立项年度</span>
+            <span>2019年</span>
+        </li>
+        <li>
+            <span>合同金额</span>
+            <span>2019年 <span class="number"> (289万元)</span></span>
+        </li>
+        <li>
+            <span>合同金额</span>
+            <span>2018年<span class="number"> (289万元)</span></span>
+        </li>
+        <li>
+            <span>牵头单位</span>
+            <span class="project-d-d">河南石油，河北炼</span>
+        </li>
+        <li>
+            <span>参加单位</span>
+            <span class="project-d-d">河南石油，河北炼化河南石油，河北炼化河南石油，河北炼化河南石油，河北炼化</span>
+        </li>
+    </ul>
+    <div class="button-c">
+        <button>确定</button>
+    </div>
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        laydate.render({
+            elem: '#test-laydate-normElem'
+            ,type: 'year'
+            ,value:"2019"
+        });
+
+    });
+</script>
+</body>
+</html>
