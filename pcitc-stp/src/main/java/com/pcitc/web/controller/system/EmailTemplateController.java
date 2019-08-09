@@ -127,6 +127,7 @@ public class EmailTemplateController extends BaseController {
     @RequestMapping(value = "/emailTemplate/getTableData", method = RequestMethod.POST)
     @ResponseBody
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
+        param.getParam().put("createUserId",sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
