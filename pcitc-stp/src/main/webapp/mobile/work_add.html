@@ -12,45 +12,44 @@
     </style>
 </head>
 <body>
-<main class="main project-d">
+<main class="main work-add">
     <div class="title">
-        <h4><span></span>炼化企业科研项</h4>
-        <p></p>
-        <span class="contract-h">MG173829</span><span class="contract-s">合同总金额:</span><span class="contract-n">328万元</span>
+        <p>任务名称</p>
+        <div class="input-percentage">
+            <span></span>
+            <input type="text" value="" placeholder="请输入任务名称">
+        </div>
     </div>
     <div class="project-d-f"></div>
-    <ul>
-        <li>
-            <span>专业处</span>
-            <span>勘探开发处</span>
-        </li>
-        <li>
-            <span>立项年度</span>
-            <span>2019年</span>
-        </li>
-        <li>
-            <span>合同金额</span>
-            <span>2019年 <span class="number"> (289万元)</span></span>
-        </li>
-        <li>
-            <span>合同金额</span>
-            <span>2018年<span class="number"> (289万元)</span></span>
-        </li>
-        <li>
-            <span>牵头单位</span>
-            <span class="project-d-d">河南石油，河北炼</span>
-        </li>
-        <li>
-            <span>参加单位</span>
-            <span class="project-d-d">河南石油，河北炼化河南石油，河北炼化河南石油，河北炼化河南石油，河北炼化</span>
-        </li>
-    </ul>
+    <div class="title star-date">
+        <p>起始时间</p>
+        <div class="input-percentage">
+            <span></span>
+            <input id="date-group1-8" type="text" value="" placeholder="请选择开始时间">
+        </div>
+    </div>
+    <div class="title end-date">
+        <p>至</p>
+        <div class="input-percentage">
+            <span></span>
+            <input id="date-group1-9" type="text" value="" placeholder="请选择结束时间">
+        </div>
+    </div>
+    <div class="title title-p">
+        <p>任务执行人</p>
+        <div class="input-percentage">
+            <span></span>
+            <input id="implement" type="text" value="" placeholder="请选择执行人">
+        </div>
+    </div>
+    <textarea placeholder="请输入任务描述" ></textarea>
     <div class="button-c">
         <button>确定</button>
     </div>
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/mobile/js/rolldate.min.js"></script>
 <script>
     var layer;
     (function(doc, win) {
@@ -72,7 +71,34 @@
             ,type: 'year'
             ,value:"2019"
         });
-
+        beginYear=''
+        new Rolldate({
+            el: '#date-group1-8',
+            format: 'YYYY',
+            beginYear: 2000,
+            endYear: 2100,
+            confirm: function (date) {
+                beginYear=date;
+            }
+        })
+        new Rolldate({
+            el: '#date-group1-9',
+            format: 'YYYY',
+            beginYear: beginYear,
+            endYear: 2100
+        })
+        $("#implement").click(function () {
+            layer.open({
+                title : '详情',
+                skin : 'layui-layer-mobile',
+                shadeClose : false,
+                type : 2,
+                fixed : false,
+                maxmin : true,
+                area : [ '100%', '100%' ],
+                content : '/mobile/implement.html'
+            });
+        });
     });
 </script>
 </body>
