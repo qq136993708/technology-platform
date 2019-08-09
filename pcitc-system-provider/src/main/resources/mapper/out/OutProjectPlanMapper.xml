@@ -1280,6 +1280,35 @@
 		ORDER BY tableB.DEFINE1,tableB.define10
 	</select>
 	
+	
+	<!-- 按照专业处分组，来统计各个专业处计划签订合同数量，实际签订合同数量 -->
+	<select id="getPlanCountForZYC" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+			   SUBSTR(define10 FROM 4) as define10,
+			   count(xmid) as jhqds,
+			   sum(case when tableB.temId is not null then 1 else 0 end) as sjqds,
+			   round(sum(ysje),4) as jhqdje,
+			   round(sum(case when tableB.temId is not null then ysje else 0 end), 4) as sjqdje
+		from (
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid, IFNULL(out_project_plan.define10,'201计划签订') as define10, out_project_plan.ysje
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
+																	and out_project_info.define3='项目管理系统' and out_project_info.ND= '${nd}')
+			WHERE
+				out_project_plan.ND= '${nd}' 
+				and out_project_plan.PROJECT_TYPE != '1'
+				and out_project_plan.DEFINE4 = '项目管理系统'
+				<if test="define3 != null and define3 != ''">
+					and out_project_plan.DEFINE3 like '%${define3}%'
+				</if>
+				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<include refid="dataFilterConditionPlan" />
+				
+				group by out_project_plan.xmid
+		) as tableB 
+		GROUP BY tableB.define10
+		ORDER BY tableB.define10
+	</select>
+	
 	<!-- 领导首页-科研投入-各个处室的新开结转情况 -->
 	<select id="getPlanMoneyByDepartment" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select out_tem_money_decompose.cb as zycmc,out_tem_money_decompose.jfyszjys as ysje,
@@ -1412,32 +1441,45 @@
 	
 	<!-- 直属研究院二级页面（领导），各个院的合同签订率-->
 	<select id="getPlanCompleteRateByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select SUBSTR(tableB.DEFINE2 FROM 6) as define2,count(xmid) as zsl,
-			sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
-			sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
-			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as qdlzj,
-			round(sum(case when tableB.temId is not null and DEFINE1 = '资本性' then 1 else 0 end)/sum(case when DEFINE1 = '资本性' then 1 else 0 end)*100,2) as zbxRate,
-			round(sum(case when tableB.temId is not null and DEFINE1 = '费用性' then 1 else 0 end)/sum(case when DEFINE1 = '费用性' then 1 else 0 end)*100,2) as fyxRate,
-			sum(case when tableB.temId is not null and define1 = '费用性' then 1 else 0 end) as fyxsjsl,
-			sum(case when tableB.temId is not null and define1 = '资本性' then 1 else 0 end) as zbxsjsl
-		from (
-			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.DEFINE2
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
-																 and out_project_info.define3 = '项目管理系统' 
-																 and out_project_info.type_flag like '%直属研究院%'
-																 and out_project_info.ND= '${nd}')
-			WHERE
-				out_project_plan.ND= '${nd}' 
-				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
-			    <include refid="dataFilterConditionPlan" />
-				
-				and out_project_plan.DEFINE3 like '%直属研究院%'
-				and out_project_plan.PROJECT_TYPE != '1'
-				and out_project_plan.define4 = '项目管理系统'
-				group by out_project_plan.xmid,out_project_plan.DEFINE2
-		) as tableB 
-		group by tableB.DEFINE2
-		ORDER BY tableB.DEFINE2
+		select sys_dictionary.name as define2,
+			   ifnull(zsl, 0) as zsl,ifnull(yqhtzj, 0) as yqhtzj,ifnull(wqhtzj, 0) as wqhtzj,ifnull(qdlzj, 0) as qdlzj,
+			   ifnull(zbxRate, 0) as zbxRate,ifnull(fyxRate, 0) as fyxRate,ifnull(fyxsjsl, 0) as fyxsjsl,ifnull(zbxsjsl, 0) as zbxsjsl,
+			   ifnull(jhqds, 0) as jhqds,ifnull(sjqds, 0) as sjqds
+		from sys_dictionary left join ( 
+										select SUBSTR(tableB.DEFINE2 FROM 6) as define2,count(xmid) as zsl,
+											sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
+											sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
+											round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as qdlzj,
+											round(sum(case when tableB.temId is not null and DEFINE1 = '资本性' then 1 else 0 end)/sum(case when DEFINE1 = '资本性' then 1 else 0 end)*100,2) as zbxRate,
+											round(sum(case when tableB.temId is not null and DEFINE1 = '费用性' then 1 else 0 end)/sum(case when DEFINE1 = '费用性' then 1 else 0 end)*100,2) as fyxRate,
+											sum(case when tableB.temId is not null and define1 = '费用性' then 1 else 0 end) as fyxsjsl,
+											sum(case when tableB.temId is not null and define1 = '资本性' then 1 else 0 end) as zbxsjsl,
+											count(*) jhqds,
+											sum(case when tableB.temId is not null then 1 else 0 end) as sjqds
+										from (
+											select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.DEFINE2
+											from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
+																								 and out_project_info.define3 = '项目管理系统' 
+																								 and out_project_info.type_flag like '%直属研究院%'
+																								 and out_project_info.ND= '${nd}')
+											WHERE
+												out_project_plan.ND= '${nd}' 
+												<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+											    <include refid="dataFilterConditionPlan" />
+												
+												and out_project_plan.DEFINE3 like '%直属研究院%'
+												and out_project_plan.PROJECT_TYPE != '1'
+												and out_project_plan.define4 = '项目管理系统'
+												group by out_project_plan.xmid,out_project_plan.DEFINE2
+										) as tableB 
+										group by tableB.DEFINE2
+										ORDER BY tableB.DEFINE2
+									) as tableD ON (sys_dictionary.name = tableD.define2)
+		where 
+			sys_dictionary.parent_code = 'ROOT_FZJCZX_YS'
+		GROUP BY sys_dictionary.name
+		ORDER BY isdelete
+		
 	</select>
 	
 	<!-- 直属研究院二级页面（领导），各个院的合同预算金额-->

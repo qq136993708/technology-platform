@@ -90,6 +90,16 @@ public class OutProjectPlanClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "按照专业处分组，来统计各个专业处计划签订合同数量，实际签订合同数量", notes = "参数年度")
+	@RequestMapping(value = "/out-project-plan-provider/zyc/plan/count")
+	public JSONArray getPlanCountForZYC(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPlanCountForZYC===========================" + map);
+		List temList = outProjectPlanService.getPlanCountForZYC(map);
+
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
 
 	@ApiOperation(value = "直属研究院二级页面（领导），总的签订率 ", notes = "参数年度")
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/total")
@@ -117,111 +127,6 @@ public class OutProjectPlanClient {
 		logger.info("==================page getPlanCompleteRateByInstitute===========================" + map);
 		List temList = outProjectPlanService.getPlanCompleteRateByInstitute(map);
 
-		if (!JSON.toJSONString(temList).contains("勘探院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "勘探院");
-			temList.add(0, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("物探院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "物探院");
-			temList.add(1, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("工程院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "工程院");
-			temList.add(2, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("石科院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "石科院");
-			temList.add(3, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("大连院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "大连院");
-			temList.add(4, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("北化院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "北化院");
-			temList.add(5, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("上海院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "上海院");
-			temList.add(6, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("安工院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "安工院");
-			temList.add(7, temMap);
-		}
-
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
@@ -230,10 +135,6 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/money/complete-rate/institute")
 	public JSONArray getPlanMoneyCompleteRateByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyCompleteRateByInstitute===========================" + map);
-		List temList = outProjectPlanService.getPlanMoneyCompleteRateByInstitute(map);
-
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd(map.get("nd"));
 		String zycbm = map.get("zycbm");
 		if (zycbm != null && zycbm.contains("30130054")) {
 			map.put("leaderFlag", "2");
@@ -242,6 +143,12 @@ public class OutProjectPlanClient {
 			// 大领导特殊，能看所有的费用性预算
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
+		
+		List temList = outProjectPlanService.getPlanMoneyCompleteRateByInstitute(map);
+
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd(map.get("nd"));
+		
 		// 预算中，科技部外的部门特殊处理
 		if (zycbm.contains("30130011")) {
 			zycbm = zycbm + ",30130011";
@@ -302,11 +209,6 @@ public class OutProjectPlanClient {
 		String nd = map.get("nd");
 		map.put("startMonth", nd + "01");
 		map.put("endMonth", nd + "12");
-		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHana(map);
-
-		// 获取研究院预算，根据其管理的专业处不同有所不同
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd(map.get("nd"));
 		String zycbm = map.get("zycbm");
 		boolean zbxFlag = false;
 		if (zycbm != null && zycbm.contains("30130054")) {
@@ -318,6 +220,12 @@ public class OutProjectPlanClient {
 			zbxFlag = true;
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
+		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHana(map);
+
+		// 获取研究院预算，根据其管理的专业处不同有所不同
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd(map.get("nd"));
+		
 		if (zycbm == null) {
 			zycbm = "xxxxxxxx";
 		}
@@ -402,13 +310,8 @@ public class OutProjectPlanClient {
 		String nd = map.get("nd");
 		map.put("startMonth", nd + "01");
 		map.put("endMonth", nd + "12");
-		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHanaMonth(map);
-
-		// 获取研究院预算，根据其管理的专业处不同有所不同
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd(map.get("nd"));
-		String zycbm = map.get("zycbm");
 		boolean zbxFlag = false;
+		String zycbm = map.get("zycbm");
 		if (zycbm != null && zycbm.contains("30130054")) {
 			map.put("leaderFlag", "2");
 		}
@@ -418,6 +321,13 @@ public class OutProjectPlanClient {
 			System.out.println("1大领导、计划处特殊，能看所有的费用性预算、专项机动");
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
+		
+		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHanaMonth(map);
+
+		// 获取研究院预算，根据其管理的专业处不同有所不同
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd(map.get("nd"));
+		
 		if (zycbm == null) {
 			zycbm = "xxxxxxxx";
 		}
@@ -477,7 +387,7 @@ public class OutProjectPlanClient {
 		System.out.println("getPlanCompleteRateByPlanTypeForHanaMonth-----" + JSON.toJSONString(temList));
 		return json;
 	}
-
+	
 	@ApiOperation(value = "领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组", notes = "参数年度")
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/company-type")
 	public JSONArray getPlanCompleteRateByCompanyType(@RequestBody HashMap<String, String> map) throws Exception {
