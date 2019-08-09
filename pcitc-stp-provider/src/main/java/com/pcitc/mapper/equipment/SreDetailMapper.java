@@ -28,6 +28,10 @@ public interface SreDetailMapper {
 
 	SreDetail detail(String id);
 
+	int equipmentIdSelective(SreDetail setail);
+
+	SreDetail selectApplication(String equipmentId);
+
 	
 	
 	

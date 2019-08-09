@@ -21,4 +21,6 @@ public interface SreForApplicationMapper {
 	List getList(Map map);
 	
 	SreForApplication selectaRchaseidKey(String applicationId);
+
+	SreForApplication selectApplication(String applicationPurchaseid);
 }
