@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+    <style>
+        body{
+            background:#fff url(/mobile/images/mobile-bg.png) no-repeat;
+            background-size: 100%;
+            overflow: hidden;
+        }
+        .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
+    </style>
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <h4>任务执行人选择</h4>
+    </div>
+    <div class="search">
+        <input type="text" value="请输入姓名或开头字母" />
+        <img src="/mobile/images/icon-search.png" alt="">
+    </div>
+</header>
+<main class="main implement">
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <ul>
+                <li>
+                    <span>A</span>
+                    <span>李永蔡</span>
+                    <span><img src="/mobile/images/icon-by.png" /> </span>
+                </li>
+                <li>
+                    <span>A</span>
+                    <span>李永蔡</span>
+                    <span><img src="/mobile/images/icon-by.png" /> </span>
+                </li>
+                <li>
+                    <span>A</span>
+                    <span>李永蔡</span>
+                    <span><img src="/mobile/images/icon-by.png" /> </span>
+                </li>
+                <li>
+                    <span>A</span>
+                    <span>李永蔡</span>
+                    <span><img src="/mobile/images/icon-by.png" /> </span>
+                </li>
+                <li>
+                    <span>A</span>
+                    <span>李永蔡</span>
+                    <span><img src="/mobile/images/icon-by.png" /> </span>
+                </li>
+                <li>
+                    <span>A</span>
+                    <span>李永蔡</span>
+                    <span><img src="/mobile/images/icon-by.png" /> </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="button-g">
+        <button>确定</button>
+        <button id="reset">重置</button>
+    </div>
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        laydate.render({
+            elem: '#test-laydate-normElem'
+            ,type: 'year'
+            ,value:"2019"
+        });
+        $(".more-condition").css("height",document.body.clientHeight/100+"rem");
+        $(".layui-tab-item ul li").click(function () {
+            $(this).addClass("layui-this")
+        });
+        $("#reset").click(function () {
+            $(".layui-tab-item ul li").removeClass("layui-this");
+        });
+    });
+</script>
+</body>
+</html>
