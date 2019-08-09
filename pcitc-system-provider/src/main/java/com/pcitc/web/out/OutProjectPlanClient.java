@@ -90,6 +90,16 @@ public class OutProjectPlanClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "按照专业处分组，来统计各个专业处计划签订合同数量，实际签订合同数量", notes = "参数年度")
+	@RequestMapping(value = "/out-project-plan-provider/zyc/plan/count")
+	public JSONArray getPlanCountForZYC(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPlanCountForZYC===========================" + map);
+		List temList = outProjectPlanService.getPlanCountForZYC(map);
+
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
 
 	@ApiOperation(value = "直属研究院二级页面（领导），总的签订率 ", notes = "参数年度")
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/total")

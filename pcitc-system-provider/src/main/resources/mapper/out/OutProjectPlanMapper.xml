@@ -1280,6 +1280,35 @@
 		ORDER BY tableB.DEFINE1,tableB.define10
 	</select>
 	
+	
+	<!-- 按照专业处分组，来统计各个专业处计划签订合同数量，实际签订合同数量 -->
+	<select id="getPlanCountForZYC" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+			   SUBSTR(define10 FROM 4) as define10,
+			   count(xmid) as jhqds,
+			   sum(case when tableB.temId is not null then 1 else 0 end) as sjqds,
+			   round(sum(ysje),4) as jhqdje,
+			   round(sum(case when tableB.temId is not null then ysje else 0 end), 4) as sjqdje
+		from (
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid, IFNULL(out_project_plan.define10,'201计划签订') as define10, out_project_plan.ysje
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
+																	and out_project_info.define3='项目管理系统' and out_project_info.ND= '${nd}')
+			WHERE
+				out_project_plan.ND= '${nd}' 
+				and out_project_plan.PROJECT_TYPE != '1'
+				and out_project_plan.DEFINE4 = '项目管理系统'
+				<if test="define3 != null and define3 != ''">
+					and out_project_plan.DEFINE3 like '%${define3}%'
+				</if>
+				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+				<include refid="dataFilterConditionPlan" />
+				
+				group by out_project_plan.xmid
+		) as tableB 
+		GROUP BY tableB.define10
+		ORDER BY tableB.define10
+	</select>
+	
 	<!-- 领导首页-科研投入-各个处室的新开结转情况 -->
 	<select id="getPlanMoneyByDepartment" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select out_tem_money_decompose.cb as zycmc,out_tem_money_decompose.jfyszjys as ysje,

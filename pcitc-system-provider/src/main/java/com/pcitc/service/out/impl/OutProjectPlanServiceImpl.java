@@ -234,6 +234,15 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectPlanMapper.getPlanCompleteRateByOldNew(map);
 	}
+	
+	/**
+	 * 按照专业处分组，来统计各个专业处计划签订合同数量，实际签订合同数量
+	 */
+	public List getPlanCountForZYC(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+		return outProjectPlanMapper.getPlanCountForZYC(map);
+	}
 
 	/**
 	 * 直属研究院二级页面（领导），总的签订率
