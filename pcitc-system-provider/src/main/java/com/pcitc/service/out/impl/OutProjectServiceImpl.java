@@ -280,6 +280,11 @@ public class OutProjectServiceImpl implements OutProjectService {
 			List<HashMap<String, String>> zycbmList = new ArrayList<HashMap<String, String>>();
 			for (int i = 0; i < distList.size(); i++) {
 				HashMap<String, String> zycbmMap = new HashMap<String, String>();
+				// 综合计划处特殊，和大领导查询数据权限一致
+				if (distList.get(i) != null && distList.get(i).contains("30130054")) {
+					hashmap.put("leaderFlag", "2");
+					break;
+				}
 				zycbmMap.put("zycbm", distList.get(i));
 				if (zylbbmPara != null && !StringUtils.isBlank(zylbbmPara + "") && zylbbmPara.toString().contains(distList.get(i))) {
 					Set<String> zylbbmSet = new HashSet<>(Arrays.asList(zylbbmPara.toString().split(",")));

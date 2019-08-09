@@ -235,7 +235,10 @@ public class OutProjectPlanClient {
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
 		vo.setNd(map.get("nd"));
 		String zycbm = map.get("zycbm");
-		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
+		if (zycbm != null && zycbm.contains("30130054")) {
+			map.put("leaderFlag", "2");
+		}
+		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
 			// 大领导特殊，能看所有的费用性预算
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
@@ -306,7 +309,10 @@ public class OutProjectPlanClient {
 		vo.setNd(map.get("nd"));
 		String zycbm = map.get("zycbm");
 		boolean zbxFlag = false;
-		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
+		if (zycbm != null && zycbm.contains("30130054")) {
+			map.put("leaderFlag", "2");
+		}
+		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
 			// 大领导、计划处特殊，能看所有的费用性预算
 			System.out.println("1大领导、计划处特殊，能看所有的费用性预算、专项机动");
 			zbxFlag = true;
@@ -403,7 +409,10 @@ public class OutProjectPlanClient {
 		vo.setNd(map.get("nd"));
 		String zycbm = map.get("zycbm");
 		boolean zbxFlag = false;
-		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
+		if (zycbm != null && zycbm.contains("30130054")) {
+			map.put("leaderFlag", "2");
+		}
+		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
 			// 大领导、计划处特殊，能看所有的费用性预算
 			zbxFlag = true;
 			System.out.println("1大领导、计划处特殊，能看所有的费用性预算、专项机动");
@@ -587,7 +596,10 @@ public class OutProjectPlanClient {
 
 		List<Map<String, Object>> retList = new ArrayList<Map<String, Object>>();
 
-		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
+		if (zycbm != null && zycbm.contains("30130054")) {
+			map.put("leaderFlag", "2");
+		}
+		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
 			// 大领导特殊，能看所有的费用性预算
 			zbxFlag = true;
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
@@ -601,10 +613,12 @@ public class OutProjectPlanClient {
 			// 数据处理
 			for (int k = 0; k < ysMoneyList.size(); k++) {
 				Map<String, Object> ysMoney = (Map<String, Object>) ysMoneyList.get(k);
+				boolean configFlag = false;
 				for (int j = 0; j < actMoneyList.size(); j++) {
 					Map<String, Object> actMoney = (Map<String, Object>) actMoneyList.get(j);
 					if (actMoney != null) {
 						if (ysMoney.get("show_ali") != null && actMoney.get("type_flag") != null && ysMoney.get("show_ali").toString().equals(actMoney.get("type_flag").toString())) {
+							configFlag = true; // 匹配上了，未匹配的说明没有合同
 							ysMoney.put("budgetItemName", ysMoney.get("show_ali"));
 
 							// 费用性实际、费用性预算、费用性比率
@@ -638,6 +652,24 @@ public class OutProjectPlanClient {
 							break;
 						}
 					}
+				}
+				
+				if (!configFlag) {
+					// 未匹配的，说明没有合同，只有预算
+					// 费用性实际、费用性预算、费用性比率
+					ysMoney.put("fyxysje", ysMoney.get("fyx_money") == null ? "0" : ysMoney.get("fyx_money"));
+					ysMoney.put("fyxsjje", "0");
+					ysMoney.put("fyxRate", "0");
+
+					// 资本性实际、资本性预算、资本性比率
+					ysMoney.put("zbxysje", ysMoney.get("zbx_money") == null ? "0" : ysMoney.get("zbx_money"));
+					ysMoney.put("zbxsjje", "0");
+					ysMoney.put("zbxRate", "0");
+
+					// 总实际、总预算、预算比率
+					ysMoney.put("zysje", ysMoney.get("zysje") == null ? "0" : ysMoney.get("zysje"));
+					ysMoney.put("zsjje", "0");
+					ysMoney.put("zRate", "0");
 				}
 			}
 
@@ -907,6 +939,7 @@ public class OutProjectPlanClient {
 			// 计划处，能看所有的费用性预算
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 			map.put("zycbm", zycbm);
+			map.put("leaderFlag", "2");
 		}
 
 		List temList = outProjectPlanService.getPlanMoneyByDepartment(map);
@@ -930,12 +963,12 @@ public class OutProjectPlanClient {
 			}
 			HashMap addMap = new HashMap();
 			addMap.put("zycmc", "合计");
-			addMap.put("ysje", ysje);
-			addMap.put("ysjzje", ysjzje);
-			addMap.put("ysxkje", ysxkje);
-			addMap.put("sjzje", sjzje);
-			addMap.put("xkMoney", xkMoney);
-			addMap.put("jzMoney", jzMoney);
+			addMap.put("ysje", String.format("%.2f", ysje));
+			addMap.put("ysjzje", String.format("%.2f", ysjzje));
+			addMap.put("ysxkje", String.format("%.2f", ysxkje));
+			addMap.put("sjzje", String.format("%.2f", sjzje));
+			addMap.put("xkMoney", String.format("%.2f", xkMoney));
+			addMap.put("jzMoney", String.format("%.2f", jzMoney));
 			temList.add(0, addMap);
 		}
 		System.out.println("getPlanMoneyByDepartment==========" + JSON.toJSONString(temList));

@@ -3721,12 +3721,12 @@ public class OneLevelMainController extends BaseController {
 				zbxsjje = zbxsjje + Double.valueOf(budgetMysql.getZbxsjje().toString());
 			}
 			BudgetMysql totalBM = new BudgetMysql();
-			totalBM.setZysje(zysje);
-			totalBM.setZsjje(zsjje);
-			totalBM.setFyxysje(fyxysje);
-			totalBM.setFyxsjje(fyxsjje);
-			totalBM.setZbxysje(zbxysje);
-			totalBM.setZbxsjje(zbxsjje);
+			totalBM.setZysje(String.format("%.2f", zysje));
+			totalBM.setZsjje(String.format("%.2f", zsjje));
+			totalBM.setFyxysje(String.format("%.2f", fyxysje));
+			totalBM.setFyxsjje(String.format("%.2f", fyxsjje));
+			totalBM.setZbxysje(String.format("%.2f", zbxysje));
+			totalBM.setZbxsjje(String.format("%.2f", zbxsjje));
 
 			if (fyxysje == 0d || fyxsjje == 0d) {
 				totalBM.setFyxRate("0");
