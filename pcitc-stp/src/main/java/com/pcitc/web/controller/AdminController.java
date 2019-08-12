@@ -121,9 +121,9 @@ public class AdminController extends BaseController {
 	 * 
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/stpHome")
-	public String indexStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("进入indexStp....");
+	@RequestMapping(value = "/")
+	public String stpHome(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("进入stpHome....");
 		SSOPrincipal ssoPrincipal = ((SSOPrincipal) request.getSession().getAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR));
 		System.out.println(JSON.toJSONString(ssoPrincipal));
 		String uAccount = "";

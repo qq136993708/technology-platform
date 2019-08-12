@@ -35,7 +35,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
-			//System.out.println("TokenInterceptor--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
+			System.out.println("TokenInterceptor--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			String path = request.getRequestURI();
 			/*
 			 * if(!doLoginInterceptor(path, basePath) ){//是否进行登陆拦截 return true;
@@ -62,14 +62,14 @@ public class TokenInterceptor implements HandlerInterceptor {
 			SysUser sysUser = null;
 			Cookie[] cookies = request.getCookies();
 			if (cookies == null || cookies.length == 0) {
-				//System.out.println("cookies is null ");
+				System.out.println("cookies is null ");
 				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
+				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().equals("/")) {
 					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
 					resultData(request, response);
 					return false;
 				}
-				//System.out.println("特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
+				System.out.println("特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			} else {
 				// 会话cookie中缺少HttpOnly属性
 				for (Cookie c : cookies) {
@@ -86,7 +86,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 			}
 			if (token != null) {
-				//System.out.println("token is not null:"+token);
+				System.out.println("token is not null:"+token);
 				httpHeaders.set("Authorization", "Bearer " + token);
 				sysUser = JwtTokenUtil.getUserFromTokenByValue(token);
 				// 验证当前url登录人是否有权限查看（url中不会包含ajax请求的）
@@ -97,12 +97,12 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 				
 				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
+				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().equals("/")) {
 					HttpSession session = request.getSession();
 					String sessionId = SessionShare.getSessionIdSave().get(sysUser.getUserName());//获取全局类SessionSave保存账户的静态sessionId
-					//System.out.println("原有session--------------:"+sessionId);
+					System.out.println("原有session--------------:"+sessionId);
 					String currentSessionId = session.getId();//获取当前的sessionId
-					//System.out.println("当前session--------------:"+currentSessionId);
+					System.out.println("当前session--------------:"+currentSessionId);
 					
 					//System.out.println("判断--------------:"+currentSessionId.equals(sessionId));
 					if (sessionId != null && !currentSessionId.equals(sessionId)) {//如果两个sessionId不等，则当前账户强制下线，需要重新登录
@@ -112,9 +112,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 				
 			} else {
-				// System.out.println("token is null ------特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
+				System.out.println("token is null ------特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome")) {
+				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().equals("/")) {
 					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
 					resultData(request, response);
 					return false;
@@ -151,6 +151,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	 */
 	private void resultData(HttpServletRequest request, HttpServletResponse response) {
 		try {
+			System.out.println("====跳转------");
 			String accept = request.getHeader("accept");// ajax请求头定义返回类型
 			String clientReqType = request.getHeader("client_req_type");// 自定义
 			//当前主机的网络地址
@@ -164,12 +165,12 @@ public class TokenInterceptor implements HandlerInterceptor {
 	    	}
 			String path = request.getRequestURI();
 			if (!StringUtils.isBlank(clientReqType)) {
-				Result rs = new Result(false, reqFlag?"/stpHome":"/login", "登录超时!", "401");
+				Result rs = new Result(false, reqFlag?"/":"/login", "登录超时!", "401");
 				PrintWriter out = response.getWriter();
 				out.println(JSON.toJSON(rs));
 				out.close();
 			} else if (!StringUtils.isBlank(accept) && accept.contains("application/json")) {
-				Result rs = new Result(false, reqFlag?"/stpHome":"/login", "登录超时!", "401");
+				Result rs = new Result(false, reqFlag?"/":"/login", "登录超时!", "401");
 				PrintWriter out = response.getWriter();
 				out.println(JSON.toJSON(rs));
 				out.close();
