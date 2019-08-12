@@ -117,13 +117,23 @@ public class SreProjectTask {
     private String professionalFieldValue;
     private String belongDepartmentValue;
     
+    private String sorting;
     
     
     
     
     
     
-    private String sourceType;
+    
+    public String getSorting() {
+		return sorting;
+	}
+
+	public void setSorting(String sorting) {
+		this.sorting = sorting;
+	}
+
+	private String sourceType;
     private String projectCode;
     private String chargeMan;
     private String linkTel;

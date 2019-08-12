@@ -31,7 +31,7 @@ public class BudgetItemSearchVo
 	
 	/**
 	 * 获取总预算数（只包含费用性）
-	 * @param nd
+	 * @param 
 	 * @return
 	 */
 	public Double getBudgetTotal() 
@@ -42,6 +42,34 @@ public class BudgetItemSearchVo
 			total += ((Double)map.get("xq")+(Double)map.get("jz"));
 		}
 		return total;
+	}
+	/**
+	 * 获取结转数（只包含费用性）
+	 * @param 
+	 * @return
+	 */
+	public Double getBudgetJz() 
+	{
+		Double jz = 0d;
+		for(Map<String,Object> map:getRsItems()) 
+		{
+			jz += (Double)map.get("jz");
+		}
+		return jz;
+	}
+	/**
+	 * 获取新签数（只包含费用性）
+	 * @param 
+	 * @return
+	 */
+	public Double getBudgetXq() 
+	{
+		Double xq = 0d;
+		for(Map<String,Object> map:getRsItems()) 
+		{
+			xq += (Double)map.get("xq");
+		}
+		return xq;
 	}
 	/**
 	 * 获取指定机构按预算项目[研究院、分子公司、外部单位...]汇总结果，如果不指定则获取所有机构

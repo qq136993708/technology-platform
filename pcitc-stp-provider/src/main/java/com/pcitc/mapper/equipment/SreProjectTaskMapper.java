@@ -43,4 +43,6 @@ public interface SreProjectTaskMapper {
 	SreProjectTask selectByTopicKey(String taskId);
 
 	List<SreProjectTask> getSelectDate(Map map);
+
+	List<SreProjectTask> getProjectMoney(Map map);
 }

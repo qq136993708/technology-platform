@@ -52,13 +52,13 @@ public class PatentWaitWorkJob implements Job, Serializable {
 					outWaitWork.setTitle(ZLMC);
 					outWaitWork.setType("专利管理系统");
 					outWaitWork.setUserName("");
-					outWaitWork.setUserId(Email);
-					outWaitWork.setUrl(DataServiceUtil.HOME_PAGE);
+					outWaitWork.setUserId(Email == null ? "" : Email.split("@")[0]);
+					outWaitWork.setUrl("http://10.1.19.130/zshzlgl/index.aspx");
 					outWaitWork.setCreateTime(new Date());
 					outWaitWork.setNotes(DWMC + "--" + HDMC + "--" + ZLID);
 					insertList.add(outWaitWork);
 				}
-				
+
 				if (insertList != null && insertList.size() > 1) {
 					outWaitWorkService.deleteOutWaitWorkByType("专利管理系统");
 					outWaitWorkService.insertOutWaitWorkBatch(insertList);
