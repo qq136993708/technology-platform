@@ -72,7 +72,7 @@ public class PplusApplication extends SpringBootServletInitializer {
 		};
 	}
 	
-	@Bean
+	/*@Bean
 	public ServletContextInitializer contextInitializer() {
 	    return new ServletContextInitializer() {
 
@@ -122,7 +122,7 @@ public class PplusApplication extends SpringBootServletInitializer {
 		registration.setName("InitFilter");
 		registration.setOrder(1);
 		return registration;
-	}
+	}*/
 	
 	/**
 	 * 文件上传配置
