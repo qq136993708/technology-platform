@@ -96,7 +96,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 					baerInfo.setUserProfile(sysUser);
 				}
 				
-				// login和index为了开发需要，避开统一身份认证
+				/*// login和index为了开发需要，避开统一身份认证
 				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().equals("/")) {
 					HttpSession session = request.getSession();
 					String sessionId = SessionShare.getSessionIdSave().get(sysUser.getUserName());//获取全局类SessionSave保存账户的静态sessionId
@@ -109,7 +109,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 						resultData(request, response);
 						return false;
 					} 
-				}
+				}*/
 				
 			} else {
 				System.out.println("token is null ------特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
