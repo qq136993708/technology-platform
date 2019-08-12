@@ -823,7 +823,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		for(SreProjectTask project : projectMoney) {
 			if(project.getProjectMoney()!=null) {
 				money = money.add(project.getProjectMoney());
-			}else if(project.getPurchaseMoney()!=null) {
+			}
+			if(project.getPurchaseMoney()!=null) {
 				purchaseMoney = purchaseMoney.add(project.getPurchaseMoney());
 			}
 		}
