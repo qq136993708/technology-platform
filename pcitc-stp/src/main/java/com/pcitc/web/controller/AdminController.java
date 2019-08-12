@@ -428,7 +428,7 @@ public class AdminController extends BaseController {
 
 	@RequestMapping(value = "/index")
 	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		System.out.println("----------====进入toIndexPage....");
 		SysUser userDetails = new SysUser(); // 用户信息，包含此人拥有的菜单权限等。token中放不下这些信息
 		SysUser tokenUser = new SysUser();
 		if (request.getParameter("username") != null && request.getParameter("password") != null) {
@@ -538,13 +538,16 @@ public class AdminController extends BaseController {
 				return "/index";
 			}
 		} else {
+			System.out.println("toIndexPage方法--------------"+sysUserInfo);
 			if (sysUserInfo == null || sysUserInfo.getUserId() == null) {
 				System.out.println("未登录！");
 				response.sendRedirect("/login");
 
 				return null;
 			}
-
+			
+			System.out.println("toIndexPage方法--------------"+sysUserInfo.getUserId());
+			
 			// 用户有哪些菜单权限
 			userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
 			List<SysFunction> funList = userDetails.getFunList();
