@@ -183,7 +183,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				out.println("<script>");
 				if (!path.contains("/mobile/")) {
 			    	if (reqFlag) {
-			    		out.println("window.open ('" + request.getContextPath() + "login','_top')");
+			    		out.println("window.open ('" + request.getContextPath() + "/login','_top')");
 			    	} else {
 			    		out.println("window.open ('" + request.getContextPath() + "/login','_top')");
 			    	}
