@@ -1121,7 +1121,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 		}
 
-		data.setData(finalList);
+		data.setData(finalListOrder);
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 		return data;
