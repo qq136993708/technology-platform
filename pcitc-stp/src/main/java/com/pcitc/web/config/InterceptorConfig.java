@@ -38,13 +38,6 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 		super.addInterceptors(registry);
 	}
 	
-	@Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("stpHome");
-        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        super.addViewControllers(registry);
-    }
-	
 	/* (non-Javadoc)
 	 * 添加到系统的静态路径中，方便在线编辑等操作使用
 	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry)
