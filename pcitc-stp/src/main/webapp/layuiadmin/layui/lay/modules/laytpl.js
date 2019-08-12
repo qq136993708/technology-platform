@@ -141,6 +141,8 @@ layui.define(['jquery'],function (e) {
         }else if(d==3){
         	stateData="<button style='background-color: #1E9FFF' class='layui-btn  layui-btn-xs'>已驳回</button>";
            // stateData="<span class='fontStateColor btn-yellow'></span>"
+        }else if(d==null){
+        	stateData="";
         }else
     	{
         	stateData="<span>-</span>";
