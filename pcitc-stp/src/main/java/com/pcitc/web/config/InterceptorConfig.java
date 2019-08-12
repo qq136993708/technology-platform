@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.pcitc.web.interceptor.CsrCheckInterceptor;
 import com.pcitc.web.interceptor.RequestLogInterceptor;
 import com.pcitc.web.interceptor.TokenInterceptor;
 
@@ -36,6 +37,13 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 		//registry.addInterceptor(csrCheckInterceptor).addPathPatterns("/**");
 		super.addInterceptors(registry);
 	}
+	
+	@Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("forward:/stpHome");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        super.addViewControllers(registry);
+    }
 	
 	/* (non-Javadoc)
 	 * 添加到系统的静态路径中，方便在线编辑等操作使用
