@@ -121,9 +121,9 @@ public class AdminController extends BaseController {
 	 * 
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/")
-	public String stpHome(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("进入stpHome....");
+	@RequestMapping(value = "/stpHome")
+	public String indexStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("进入indexStp....");
 		SSOPrincipal ssoPrincipal = ((SSOPrincipal) request.getSession().getAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR));
 		System.out.println(JSON.toJSONString(ssoPrincipal));
 		String uAccount = "";
@@ -428,7 +428,7 @@ public class AdminController extends BaseController {
 
 	@RequestMapping(value = "/index")
 	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("----------====进入toIndexPage....");
+
 		SysUser userDetails = new SysUser(); // 用户信息，包含此人拥有的菜单权限等。token中放不下这些信息
 		SysUser tokenUser = new SysUser();
 		if (request.getParameter("username") != null && request.getParameter("password") != null) {
@@ -538,16 +538,13 @@ public class AdminController extends BaseController {
 				return "/index";
 			}
 		} else {
-			System.out.println("toIndexPage方法--------------"+sysUserInfo);
 			if (sysUserInfo == null || sysUserInfo.getUserId() == null) {
 				System.out.println("未登录！");
 				response.sendRedirect("/login");
 
 				return null;
 			}
-			
-			System.out.println("toIndexPage方法--------------"+sysUserInfo.getUserId());
-			
+
 			// 用户有哪些菜单权限
 			userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
 			List<SysFunction> funList = userDetails.getFunList();
@@ -597,14 +594,14 @@ public class AdminController extends BaseController {
 			response.addCookie(loginCookie);
 			
 			// 登录成功,保存当前用户登录的sessionId, 一个用户只能一处登录
-			/*String sessionID = request.getRequestedSessionId();
+			String sessionID = request.getRequestedSessionId();
 			String userName = userDetails.getUserName();
 			if (!SessionShare.getSessionIdSave().containsKey(userName)) {
 				SessionShare.getSessionIdSave().put(userName, sessionID);
 			} else if (SessionShare.getSessionIdSave().containsKey(userName) && !sessionID.equals(SessionShare.getSessionIdSave().get(userName))) {
 				SessionShare.getSessionIdSave().remove(userName);
 				SessionShare.getSessionIdSave().put(userName, sessionID);
-			}*/
+			}
 
 			String cFlag = request.getParameter("cFlag");
 			request.setAttribute("userId", userDetails.getUserId());
