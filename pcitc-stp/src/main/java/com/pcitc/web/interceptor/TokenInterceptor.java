@@ -163,15 +163,15 @@ public class TokenInterceptor implements HandlerInterceptor {
 	    	    	  reqFlag = true;
 	    	      }
 	    	}
-	    	System.out.println("路径跳转--------------"+reqFlag+"======="+request.getRemoteAddr());
+	    	System.out.println("跳转路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			String path = request.getRequestURI();
 			if (!StringUtils.isBlank(clientReqType)) {
-				Result rs = new Result(false, reqFlag?"/login":"/login", "登录超时!", "401");
+				Result rs = new Result(false, reqFlag?"/stpHome":"/login", "登录超时!", "401");
 				PrintWriter out = response.getWriter();
 				out.println(JSON.toJSON(rs));
 				out.close();
 			} else if (!StringUtils.isBlank(accept) && accept.contains("application/json")) {
-				Result rs = new Result(false, reqFlag?"/login":"/login", "登录超时!", "401");
+				Result rs = new Result(false, reqFlag?"/stpHome":"/login", "登录超时!", "401");
 				PrintWriter out = response.getWriter();
 				out.println(JSON.toJSON(rs));
 				out.close();
@@ -183,7 +183,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				out.println("<script>");
 				if (!path.contains("/mobile/")) {
 			    	if (reqFlag) {
-			    		out.println("window.open ('" + request.getContextPath() + "/login','_top')");
+			    		out.println("window.open ('" + request.getContextPath() + "/SSO/GLO/Redirect','_top')");
 			    	} else {
 			    		out.println("window.open ('" + request.getContextPath() + "/login','_top')");
 			    	}
