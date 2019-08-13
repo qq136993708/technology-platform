@@ -141,6 +141,15 @@
             <span style="color:red">未关联</span>
           {{#  } }}
 </script>
+<script type="text/html" id="state_temp">
+    {{#  if(d.nationality != '30'){ }}
+    <button class="layui-red layui-btn-primary layui-btn-xs">未通过</button>
+    {{#  } else if(d.nationality == '30'){ }}
+    <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
+    {{#  } else{ }}
+    <button class="layui-red layui-btn-primary layui-btn-xs">未通过</button>
+    {{#  } }}
+</script>
 
 
 <!--表格数据操作js-->
@@ -186,10 +195,12 @@ var name=$('#name').val();
                 });
             }
             ,editEvent: function(){  //点击编辑按钮
-            	
+                 var nationality= selectRowData.nationality;
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
-            	} else {
+            	} else if (nationality!='30'){
+                    layer.msg('请选择已通过总部审核的数据');
+                } else {
             		 var id=selectRowData.id;
                      var specification = selectRowData.specification;
            		     var url="/sre-supplierAppraise/add?equipmentDetailId="+id +"&specification="+specification;
@@ -331,7 +342,8 @@ var name=$('#name').val();
            cols: [[
                {type : 'checkbox', event : 'changeEvents', width : 55},
         	   {title : '序号', type : 'numbers', width : 55},
-        	   {field : 'name',     title : '课题名称', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.specification+'\')" style="color:#1890ff">'+d.name+'</span>'}},
+               {field : 'nationality',     title : '审核状态', sort : true,style : 'cursor: pointer;', align : 'center',templet : '#state_temp', width : '10%'},
+               {field : 'name',     title : '课题名称', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.specification+'\')" style="color:#1890ff">'+d.name+'</span>'}},
         	   {field : 'placePeople',     title : '合同号', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%'},
                {field : 'equipmentName',     title : '装备名称', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span onclick="view_equipment(\''+d.equipmentId+'\')" style="color:#1890ff">'+d.equipmentName+'</span>'}},
                {field : 'assetNumber', title : '资产编号', sort : true,style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span onclick="view(\''+d.assetNumber+'\',\''+d.contractNum+'\',\''+d.name+'\')" style="color:#1890ff">'+d.assetNumber+'</span>'}},

@@ -280,6 +280,11 @@ public class OutProjectServiceImpl implements OutProjectService {
 			List<HashMap<String, String>> zycbmList = new ArrayList<HashMap<String, String>>();
 			for (int i = 0; i < distList.size(); i++) {
 				HashMap<String, String> zycbmMap = new HashMap<String, String>();
+				// 综合计划处特殊，和大领导查询数据权限一致
+				if (distList.get(i) != null && distList.get(i).contains("30130054")) {
+					hashmap.put("leaderFlag", "2");
+					break;
+				}
 				zycbmMap.put("zycbm", distList.get(i));
 				if (zylbbmPara != null && !StringUtils.isBlank(zylbbmPara + "") && zylbbmPara.toString().contains(distList.get(i))) {
 					Set<String> zylbbmSet = new HashSet<>(Arrays.asList(zylbbmPara.toString().split(",")));
@@ -1012,6 +1017,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		LayuiTableData data = new LayuiTableData();
 
 		List finalList = new ArrayList();
+		List finalListOrder = new ArrayList();
 
 		// 利用合同号查询科研奖励数据，单独查询，联合查询效率太慢
 		StringBuffer sb = new StringBuffer("");
@@ -1088,12 +1094,34 @@ public class OutProjectServiceImpl implements OutProjectService {
 					
 				}
 			}
-
-			// list内部分组排序
+			
+			
+			String xmidFlag = "";
+			List finalListSmall = new ArrayList();
+			// list内部分组排序, 同一个xmid内,承担单位有*在最前面（特殊情况没有*，不考虑排序）
+			for (int i = 0; i < finalList.size(); i++) {
+				HashMap temMap = (HashMap) finalList.get(i);
+				Object temXmid = temMap.get("xmid");
+				if (temXmid != null && !temXmid.toString().equals(xmidFlag)) {
+					// 新的xmid
+					finalListOrder.addAll(finalListSmall);
+					xmidFlag = temXmid.toString();
+					finalListSmall = new ArrayList();
+					finalListSmall.add(temMap);
+				} else {
+					Object define8 = temMap.get("define8");
+					if (define8 != null && define8.toString().contains("*")) {
+						finalListSmall.add(0, temMap);
+					} else {
+						finalListSmall.add(temMap);
+					}
+				}
+			}
+			finalListOrder.addAll(finalListSmall);
 
 		}
 
-		data.setData(finalList);
+		data.setData(finalListOrder);
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 		return data;

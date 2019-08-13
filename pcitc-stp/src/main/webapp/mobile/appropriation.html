@@ -13,9 +13,11 @@
             padding-bottom: .1rem;
             background-size: 100%;
             padding-top: .1rem;}
+            li{list-sytle:none}
     </style>
 </head>
 <body>
+<input type="hidden" name="nd" id="nd" value="${nd}">
 <header>
     <div class="m_return child">
         <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
@@ -26,49 +28,13 @@
 <main class="main contract appropriation">
     <div class="layui-row">
         <div class="layui-tab-content">
-            <h4>总计拨款 <span>46 亿</span></h4>
+            <h4>总计拨款 <span id="appropriation_sum">-亿</span></h4>
         </div>
     </div>
     <div id="chart"></div>
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-            <ul>
-                <li>
-                    <p>
-                        <span>拨款 <span class="number">3.2 亿</span></span>
-                        <span>4月</span>
-                        <span>研究院</span>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span>拨款 <span class="number">3.2 亿</span></span>
-                        <span>4月</span>
-                        <span>研究院</span>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span>拨款 <span class="number">3.2 亿</span></span>
-                        <span>4月</span>
-                        <span>研究院</span>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span>拨款 <span class="number">3.2 亿</span></span>
-                        <span>4月</span>
-                        <span>研究院</span>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span>拨款 <span class="number">3.2 亿</span></span>
-                        <span>4月</span>
-                        <span>研究院</span>
-                    </p>
-                </li>
-            </ul>
+            <ul id="appropriation_list"> </ul>
         </div>
     </div>
 </main>
@@ -93,9 +59,134 @@
         laydate.render({
             elem: '#test-laydate-normElem'
             ,type: 'year'
-            ,value:"2019"
+            ,max: $("#nd").val()+1
+            ,value:$("#nd").val(),
+            done : function(value, date, endDate) 
+            {
+            	    $("#nd").val(date.year);
+					search_Event();
+			}
         });
     });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //科研拨款
+	 function setBKCount(v_date,nd) 
+	 {
+		 
+		    var url = "/mobile/investment_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date;
+	        $.ajax({
+	            type: "GET",
+	            url: url,
+	            dataType: "json",
+	            timeout: 11000,
+	            cache: false,
+	            headers : {
+					'Content-Type' : 'application/json'
+				},
+	            success: function (data, status)
+	            {
+	            	console.log("科研拨款\n"+JSON.stringify(data));
+	            	var count=0;
+	            	var countStr="";
+	            	for (var i = 0; i < data.data.length; i++) 
+	            	{
+						var zsjje = data.data[i].zsjje;//实际科研投入
+						var define2 = data.data[i].define2;
+						count = count + parseFloat(zsjje);
+						
+						    var temp="<li style='list-sytle:none'>"+
+					    				"<p>"+
+					    				    "<span>"+define2+"</span>"+
+					                        "<span style='float:right'> "+setNumStr(zsjje)+"</span>"+
+					                    "</p>"+
+				                       "</li>";
+			               countStr=countStr+temp;
+					}
+	            	 $("#appropriation_list").html(countStr); 
+	            	 
+					$("#appropriation_sum").html((count/ 10000).toFixed(2)+"<lable style='font-size:14px;font-weight:normal'>亿<lable>");
+	            },
+	            error: function () {
+					
+				},
+	            complete: function (XMLHttpRequest, status) {
+
+	            }
+
+	        });
+	}
+	 
+    
+    
+	    function search_Event()
+	    {
+	    	var v_date = (new Date()).getTime();
+	    	var nd = $("#nd").val();
+		    setBKCount(v_date,nd)
+	    }
+	    search_Event();
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    function setNumStr(num)
+	    {
+	    	
+	    	var result="";
+	    	
+	    	if(num=='0.00')
+			{
+	    		num=0;
+			}
+			if(parseFloat(num)>10000)//亿
+			{
+				var  temp=parseFloat(num/10000).toFixed(2);
+				var  endstr=temp.substring(temp.length-3);
+				//alert(temp);
+				if(endstr=='.00')
+				{
+					temp= temp.substring(0,temp.length-3);
+				}
+				result="<lable style='color:red'>"+temp+"<lable><lable style='font-size:14px;font-weight:normal'>亿<lable>";
+			}else//万
+			{
+				
+				var  temp=parseFloat(num).toFixed(2);
+				var  endstr=temp.substring(temp.length-3);
+				if(endstr=='.00')
+				{
+					//temp= temp.replace(".00","")
+					temp= temp.substring(0,temp.length-3);
+				}
+				result="<lable style='color:red'>"+temp+"<lable><lable style='font-size:14px;font-weight:normal'>万<lable>";
+			}
+			return result;
+	    }
 </script>
 </body>
 </html>

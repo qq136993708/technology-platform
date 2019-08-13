@@ -281,13 +281,19 @@ table tbody tr td{cursor: pointer;}
 				if (xName.indexOf('化工事业部')>-1) {
 					xName = '化工部';
 				}
+				if (xName.indexOf('合计')>-1) {
+					xName = '';
+				}
 				if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
-					var url = encodeURIComponent("/one_level_main/common_table_new?gsbmbmFlag=" + xName + "&ysnd=" + nd + "&qdbz=" + qdbz + "&define1=费用性&groupFlag=xmid,define8");
+					var url = encodeURIComponent("/one_level_main/count_table_new?gsbmbmFlag=" + xName + "&ysnd=" + nd + "&qdbz=" + qdbz + "&define1=费用性&groupFlag=xmid,define8");
 					window.open("/instituteIndex?url=" + url);
 				} else if (xName == '专项' || xName == '机动') {
 					
+				} else if (xName == '') {
+					var url = encodeURIComponent("/one_level_main/count_table_new?ysnd=" + nd + "&qdbz=" + qdbz + "&define1=费用性&groupFlag=xmid,define8");
+					window.open("/instituteIndex?url=" + url);
 				} else {
-					var url = encodeURIComponent("/one_level_main/common_table_new?zycbmFlag=" + xName + "&ysnd=" + nd + "&qdbz=" + qdbz + "&define1=费用性&groupFlag=xmid,define8");
+					var url = encodeURIComponent("/one_level_main/count_table_new?zycbmFlag=" + xName + "&ysnd=" + nd + "&qdbz=" + qdbz + "&define1=费用性&groupFlag=xmid,define8");
 					window.open("/instituteIndex?url=" + url);
 				}
 				
@@ -387,7 +393,8 @@ table tbody tr td{cursor: pointer;}
 				var define12 = "";
 				if (xName == '资产公司' || xName == '集团公司') {
 					define11 = xName;
-
+				} else if (xName == '合计'){
+					define11 = "";
 				} else {
 					define11 = "股份公司";
 				}
@@ -400,7 +407,7 @@ table tbody tr td{cursor: pointer;}
 					define12 = '中东研发中心';
 				}
 
-				var url = encodeURIComponent("/one_level_main/common_table_new?define12=" + define12 + "&define1=" + legentName.substring(0, 3) + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8&define11=" + define11);
+				var url = encodeURIComponent("/one_level_main/count_table_new?define12=" + define12 + "&define1=" + legentName.substring(0, 3) + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8&define11=" + define11);
 				window.open("/instituteIndex?url=" + url);
 
 			});
@@ -443,7 +450,6 @@ table tbody tr td{cursor: pointer;}
 			var url = '/one_level_main/investment_01_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&v_date=" + v_date;
 			table.init('myTable', {
 				url : url,
-				height : "296px",
 				where : {}
 
 			});
@@ -459,7 +465,6 @@ table tbody tr td{cursor: pointer;}
 			var url = '/one_level_main/investment_03?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&xmlbbm=fkyzb&v_date=" + v_date;
 			table.init('zycysTable', {
 				url : url,
-				height : "296px",
 				where : {}
 			});
 

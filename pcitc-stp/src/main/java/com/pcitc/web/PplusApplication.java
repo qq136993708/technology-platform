@@ -1,6 +1,8 @@
 package com.pcitc.web;
 
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -10,8 +12,11 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -19,6 +24,11 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.client.RestTemplate;
+
+import com.pcitc.web.interceptor.InitFilter;
+import com.sinopec.siam.agent.web.AccessEnforcer;
+import com.sinopec.siam.agent.web.SAMLProfileFilter;
+import com.sinopec.siam.provisioning.listener.ApplicationWatch;
 
 /**
  * @author zhf
@@ -61,8 +71,8 @@ public class PplusApplication extends SpringBootServletInitializer {
 			}
 		};
 	}
-	
-	/*@Bean
+	/*
+	@Bean
 	public ServletContextInitializer contextInitializer() {
 	    return new ServletContextInitializer() {
 
@@ -98,7 +108,7 @@ public class PplusApplication extends SpringBootServletInitializer {
         registration.setFilter(access);
         registration.addUrlPatterns("/*");
         //registration.addInitParameter("spSimpleConfigFile", "classpath:/conf/sp-simple-config.properties");
-        //registration.addInitParameter("noFilterURLs", "/;/login;/index;/index.html;/error;/layuiadmin/*;/layuicommon/*;/plugins/*;/common/js/*;/styles/*;/init.jsp;/spversion.html;/**//*.css;/**//*.js;/**//*.png;/**//*.jpg;/**//*.jpeg;/**//*.gif;");
+        registration.addInitParameter("noFilterURLs", "/error;/stpHome.html;/layuiadmin/*;/layuicommon/*;/plugins/*;/common/js/*;/styles/*;/init.jsp;/spversion.html;/**//*.css;/**//*.js;/**//*.png;/**//*.jpg;/**//*.jpeg;/**//*.gif;");
         registration.setName("AccessEnforcer");
         registration.setOrder(1);
         return registration;

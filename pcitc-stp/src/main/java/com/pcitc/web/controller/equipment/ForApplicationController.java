@@ -310,6 +310,7 @@ public class ForApplicationController extends BaseController {
 			sreDeta.setEquipmentId(equipequipId);//装备ID
 			sreDeta.setEquipmentName(squipment.getName());//装备名称
 			sreDeta.setEquipmentType(squipment.getType());//装备分类
+			sreDeta.setNationality(Constant.OK_ZERO);//转资状态
 			sreDeta.setEquipmentPrice(squipment.getUnitPrice().toString());//装备单价
 			sreDeta.setEquipmenNumber(String.valueOf(squipment.getApplyAcount()));//申请数量
 			sreDeta.setDeclareUnit(squipment.getParentUnitPathNames());//申报单位

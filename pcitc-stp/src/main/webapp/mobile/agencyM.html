@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+    <style>
+        .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
+        .contract .layui-tab-content .layui-tab-item ul li{height: .7rem}
+    </style>
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>我的待办</h4>
+    </div>
+</header>
+<main class="main contract personnel agencyM">
+    <div class="layui-row">
+        <div class="layui-tab-content">
+            <div class="layui-col-xs8"></div>
+            <div class="layui-col-xs4">
+                <button>平台系统</button>
+            </div>
+        </div>
+    </div>
+    <div class="layui-tab">
+        <div>
+            <ul class="layui-tab-title">
+                <li class="layui-this">待办</li>
+                <li>已办</li>
+            </ul>
+        </div>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <ul>
+                    <li>
+                        <p>
+                            <span>催化剂研究项目成果鉴定催化剂研究项目成果鉴定</span>
+                            <span>2019.9.27</span>
+                        </p>
+                        <p><span>描述:</span>内容描述机制上人民币汇率 就是由市场供求决定</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span>催化剂研究项目成果鉴定</span>
+                            <span>2019.9.27</span>
+                        </p>
+                        <p><span>描述:</span>内容描述机制上人民币汇率 就是由市场供求决定</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span>催化剂研究项目成果鉴定</span>
+                            <span>2019.9.27</span>
+                        </p>
+                        <p><span>描述:</span>内容描述机制上人民币汇率 就是由市场供求决定</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span>催化剂研究项目成果鉴定</span>
+                            <span>2019.9.27</span>
+                        </p>
+                        <p><span>描述:</span>内容描述机制上人民币汇率 就是由市场供求决定</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span>催化剂研究项目成果鉴定</span>
+                            <span>2019.9.27</span>
+                        </p>
+                        <p><span>描述:</span>内容描述机制上人民币汇率 就是由市场供求决定</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="layui-tab-item">
+                <ul>
+                    <li>
+                        <p>
+                            <span>催化剂研究项目成果鉴定</span>
+                            <span>2019.9.27</span>
+                        </p>
+                        <p><span>描述:</span>内容描述机制上人民币汇率 就是由市场供求决定</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span>催化剂研究项目成果鉴定</span>
+                            <span>2019.9.27</span>
+                        </p>
+                        <p><span>描述:</span>内容描述机制上人民币汇率 就是由市场供求决定</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span>催化剂研究项目成果鉴定</span>
+                            <span>2019.9.27</span>
+                        </p>
+                        <p><span>描述:</span>内容描述机制上人民币汇率 就是由市场供求决定</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span>催化剂研究项目成果鉴定</span>
+                            <span>2019.9.27</span>
+                        </p>
+                        <p><span>描述:</span>内容描述机制上人民币汇率 就是由市场供求决定</p>
+                    </li>
+                    <li>
+                        <p>
+                            <span>催化剂研究项目成果鉴定</span>
+                            <span>2019.9.27</span>
+                        </p>
+                        <p><span>描述:</span>内容描述机制上人民币汇率 就是由市场供求决定</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        $(".more-condition").css("height",document.body.clientHeight/100+"rem");
+    });
+</script>
+</body>
+</html>
