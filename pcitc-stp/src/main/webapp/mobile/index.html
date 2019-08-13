@@ -606,7 +606,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 //待办个数
 	 function set_wait_notice_count(v_date)
 	 {
-	    	var url="/mobile/task/pending-list?v_date="+v_date;
+	    	var url="/mobile/wait_task_list_data?v_date="+v_date;
 	        $.ajax({
 	            type: "POST",
 	            url: url,
@@ -632,7 +632,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 //任务已办个数
 	 function setOverTaskCount(v_date) 
 	 {
-	    	var url="/mobile/task/done-task-list?v_date="+v_date;
+	    	var url="/mobile/finished_task_list_data?v_date="+v_date;
 	        $.ajax({
 	            type: "POST",
 	            url: url,
