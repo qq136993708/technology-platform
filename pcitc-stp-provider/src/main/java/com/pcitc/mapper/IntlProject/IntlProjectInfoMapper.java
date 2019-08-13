@@ -16,21 +16,15 @@ public interface IntlProjectInfoMapper {
 
     int insertSelective(IntlProjectInfo record);
 
-    List<IntlProjectInfo> selectByExampleWithBLOBs(IntlProjectInfoExample example);
-
     List<IntlProjectInfo> selectByExample(IntlProjectInfoExample example);
 
     IntlProjectInfo selectByPrimaryKey(String projectId);
 
     int updateByExampleSelective(@Param("record") IntlProjectInfo record, @Param("example") IntlProjectInfoExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") IntlProjectInfo record, @Param("example") IntlProjectInfoExample example);
-
     int updateByExample(@Param("record") IntlProjectInfo record, @Param("example") IntlProjectInfoExample example);
 
     int updateByPrimaryKeySelective(IntlProjectInfo record);
-
-    int updateByPrimaryKeyWithBLOBs(IntlProjectInfo record);
 
     int updateByPrimaryKey(IntlProjectInfo record);
 }

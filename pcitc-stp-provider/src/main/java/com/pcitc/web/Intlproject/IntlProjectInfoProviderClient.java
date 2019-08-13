@@ -16,6 +16,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.CommFlowStatusEnum;
+import com.pcitc.base.common.enums.IntlExternalCheckStatusEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -43,11 +44,17 @@ public class IntlProjectInfoProviderClient
 		{
 			Map<String,Object> map = MyBeanUtils.transBean2Map(iter.next());
 			String flowCurrentStatusDesc =CommFlowStatusEnum.STATUS_NO_START.getDesc();
+			String externalCheckDesc = IntlExternalCheckStatusEnum.STATUS_STARTING.getDesc();
 			CommFlowStatusEnum status  =CommFlowStatusEnum.getStatusByCode((Integer)map.get("flowCurrentStatus"));
+			IntlExternalCheckStatusEnum checkStatus = IntlExternalCheckStatusEnum.getStatusByCode((Integer)map.get("flowCurrentStatus"));
 			if(status != null) 
 			{
 				flowCurrentStatusDesc = status.getDesc();
 			}
+			if(checkStatus != null) {
+				externalCheckDesc = checkStatus.getDesc();
+			}
+			map.put("externalCheckDesc", externalCheckDesc);
 			map.put("flowCurrentStatusDesc", flowCurrentStatusDesc);
 			datas.add(map);
 		}
