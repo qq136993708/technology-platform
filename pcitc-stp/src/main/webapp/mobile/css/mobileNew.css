@@ -306,7 +306,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .personnel-details .list .item .item-img{width:.88rem;background:#fff;margin-right:.1rem;border-radius:50%;border:2px solid #4190F6;height:.88rem;position:absolute;top:0;left:.38rem;overflow:hidden}
 .main-c{padding-top:.44rem;position:relative}
 .personnel-details .list .item .item-img img{width:.88rem}
-.personnel-details .list .item .item-cont p{margin:.24rem 0 0 1.46rem}
+.personnel-details .list .item .item-cont p{margin:.24rem 0 0.2rem 1.1rem}
 .personnel-details .list .item .item-cont p span{color:#4190F6;font-size:.18rem;font-weight:600}
 .personnel-details .list .item .item-cont p span:nth-child(3){color:#879EA6;font-size:.14rem}
 .personnel-details .list .item .item-cont p:nth-child(1) span:nth-child(1):after{content:'';width:.03rem;height:.03rem;border-radius:50%;background-color:#4190F6;display:inline-block;margin:0 .04rem;position:relative;top:-0.05rem}
