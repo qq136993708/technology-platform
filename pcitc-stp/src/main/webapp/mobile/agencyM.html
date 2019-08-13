@@ -22,9 +22,9 @@
     <div class="layui-tab" >
         <div class="layui-tab-content">
             <ul class="layui-tab-title">
-                <li class="layui-this">平台待办</li>
-                <li>平台已办</li>
-                <li>外部系统</li>
+                <li class="layui-this">平台待办<label id="wait_task_list_count"></label></li>
+                <li>平台已办<label id="finished_task_list_count"></label></li>
+                <li>外部系统<label id="out_task_list_count"></label></li> 
             </ul>
         </div>
         <div class="layui-tab-content">
@@ -37,7 +37,7 @@
                 </ul>
             </div>
             <div class="layui-tab-item">
-                <ul id="">
+                <ul id="out_task_list">
                 </ul>
             </div>
         </div>
@@ -191,22 +191,28 @@
    					 var type= dataArr[i].type;//系统来源
    					 var title= dataArr[i].title;//任务名称
    					 var showDate= dataArr[i].showDate;
+   					 var type= dataArr[i].type;
+   					 var url= dataArr[i].url;
    					 if(title==null)
 					 {
    						title="";
 					 }
-   					 var temp="<li onclick=\"deal('"+id+"')\">"+
+   					 var temp="<li onclick=\"open('"+url+"','"+type+"')\">"+
 				    				"<p>"+
 				                        "<span>"+title+"</span>"+
 				                        "<span>"+showDate+"</span>"+
 				                    "</p>"+
-				                    "<p><span>来源:</span>"+type+"</p>"+
+				                    "<p><span>"+type+"</span></p>"+
 				             "</li>";
 					count=count+temp;
 		
        			  }
    			   }
-    		   $("#finished_task_list").html(count); 	
+    		   $("#out_task_list").html(count); 	
+    		   $("#out_task_list_count").html(data.count); 	
+    		   
+    		   
+    		   
     		},
     		error : function() {
     		},
@@ -244,6 +250,12 @@
     			}
     		});
     }
+    
+    function open(url,type)
+    {
+    	location.href=url;//+"?type="+type;//(url,type,"fullscreen=1");
+    }
+    
 </script>
 </body>
 </html>
