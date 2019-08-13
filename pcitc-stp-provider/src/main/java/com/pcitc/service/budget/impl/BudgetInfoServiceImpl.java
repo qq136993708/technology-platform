@@ -639,6 +639,8 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		stockTotal.setTypeName("gfgs");
 		stockTotal.setSheetFlag(info.getNd()+"年预算总表");
 		stockTotal.setBudgetType(BudgetInfoEnum.STOCK_TOTAL.getCode());
+		stockTotal.setBudgetCode(BudgetStockEnum.SPLIT_STOCK_TOTAL.getCode());
+		stockTotal.setUnitCode(BudgetStockEnum.SPLIT_STOCK_TOTAL.getUnitCode());
 		saves.add(stockTotal);
 		if(stock != null) 
 		{
@@ -689,6 +691,8 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		groupTotal.setSheetFlag(info.getNd()+"年预算总表");
 		groupTotal.setNo(saves.size()+1);
 		groupTotal.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
+		groupTotal.setBudgetCode(BudgetStockEnum.SPLIT_GROUP_TOTAL.getCode());
+		groupTotal.setUnitCode(BudgetStockEnum.SPLIT_GROUP_TOTAL.getUnitCode());
 		saves.add(groupTotal);
 		if(group != null) 
 		{
@@ -711,6 +715,8 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		assetTotal.setSheetFlag(info.getNd()+"年预算总表");
 		assetTotal.setNo(saves.size()+1);
 		assetTotal.setBudgetType(BudgetInfoEnum.ASSETS_TOTAL.getCode());
+		assetTotal.setBudgetCode(BudgetStockEnum.SPLIT_ASSET_TOTAL.getCode());
+		assetTotal.setUnitCode(BudgetStockEnum.SPLIT_ASSET_TOTAL.getUnitCode());
 		saves.add(assetTotal);
 		if(asset != null) 
 		{
