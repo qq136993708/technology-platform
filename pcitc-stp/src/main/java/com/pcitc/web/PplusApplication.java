@@ -71,8 +71,8 @@ public class PplusApplication extends SpringBootServletInitializer {
 			}
 		};
 	}
-	
-	/*@Bean
+	/*
+	@Bean
 	public ServletContextInitializer contextInitializer() {
 	    return new ServletContextInitializer() {
 
@@ -108,7 +108,7 @@ public class PplusApplication extends SpringBootServletInitializer {
         registration.setFilter(access);
         registration.addUrlPatterns("/*");
         //registration.addInitParameter("spSimpleConfigFile", "classpath:/conf/sp-simple-config.properties");
-        registration.addInitParameter("noFilterURLs", "/error;/layuiadmin/*;/layuicommon/*;/plugins/*;/common/js/*;/styles/*;/init.jsp;/spversion.html;/**//*.css;/**//*.js;/**//*.png;/**//*.jpg;/**//*.jpeg;/**//*.gif;");
+        registration.addInitParameter("noFilterURLs", "/error;/stpHome.html;/layuiadmin/*;/layuicommon/*;/plugins/*;/common/js/*;/styles/*;/init.jsp;/spversion.html;/**//*.css;/**//*.js;/**//*.png;/**//*.jpg;/**//*.jpeg;/**//*.gif;");
         registration.setName("AccessEnforcer");
         registration.setOrder(1);
         return registration;
