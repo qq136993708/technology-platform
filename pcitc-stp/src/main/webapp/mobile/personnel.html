@@ -149,16 +149,17 @@
    					 var expertProfessionalFieldName= data[i].expertProfessionalFieldName;
    					 var userDesc= data[i].userDesc;
    					 userDesc =getClear(userDesc);
-   					 
+   					 var className='';
    					 if(sex=='ROOT_UNIVERSAL_XB_N')
    					 {
    						sex='男';
    					 }else
 					 {
 						sex='女';
+                         className="lady"
 				     }
    					 
-   					 var temp="<div class='item' onclick=\"view('"+dataId+"')\" >"+
+   					 var temp="<div class='item "+className+"' onclick=\"view('"+dataId+"')\" >"+
 			                        "<div class='item-img'>"+
 			                            "<img dataType='headImg' id='"+dataId+"'  height='110'>"+
 			                        "</div>"+
