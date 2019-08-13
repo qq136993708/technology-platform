@@ -1,6 +1,7 @@
 package com.pcitc.web.controller.mobile;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,26 +47,13 @@ import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 public class MobileController extends BaseController {
-	 /**
-     * 根据ID获取对象信息
-     */
-    private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/get-zjkbaseinfo/";
+	
 	
     private static final String LIST_EXAMPLE = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_example";
     //备选查询
     private static final String LISTBAK = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice_list";
-    /**
-	 * 院士
-	 */
-	private static final String ZJK_YS_LIST = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkYsList";
-
-    //查询所有人员列表,姓名&ID
-    private static final String queryAllExpert = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/queryAllExpert";
-    /**
-	 * 分页查询
-	 */
-	private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page";
-	
+   // 科技奖励数量（研究院）
+ 	private static final String APPRAISAL_COUNT = "http://pcitc-zuul/system-proxy/out-provider/appraisal-count";
 	// 科研投入
 	private static final String investment_01 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/money/complete-rate/company-type";
 	private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/money/complete-rate/institute";
@@ -78,6 +66,55 @@ public class MobileController extends BaseController {
 		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 		return "/mobile/budget";
+	}
+	
+	
+	
+	
+	/**
+	 * @param request
+	 * @return 查询科技成果
+	 */
+	@RequestMapping(value = "/mobile/admin/appraisal-count", method = RequestMethod.POST)
+	@ResponseBody
+	@OperationFilter(dataFlag = "true")
+	public Object getAppraisalCount(HttpServletRequest request) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+		Date date = new Date();
+
+		System.out.println("1====getAppraisalCount" + request.getParameter("nd"));
+		if (request.getParameter("lastYearFlag") != null && !request.getParameter("lastYearFlag").equals("")) {
+			map.put("nd", String.valueOf(Integer.parseInt(sdf.format(date)) - 1));
+		}
+		if (request.getParameter("nd") != null && !request.getParameter("nd").equals("")) {
+			map.put("nd", request.getParameter("nd"));
+		}
+		if (request.getParameter("define3") != null && !request.getParameter("define3").equals("")) {
+			map.put("define3", request.getParameter("define3"));
+		}
+		if (request.getParameter("define1") != null && !request.getParameter("define1").equals("")) {
+			map.put("define1", request.getParameter("define1"));
+		}
+
+		map.put("leaderFlag", String.valueOf(sysUserInfo.getUserLevel()));
+
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		System.out.println("1====cgjszy" + cgjszy);
+
+		map.put("cgjszy", cgjszy);
+
+		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
+
+		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(APPRAISAL_COUNT, HttpMethod.POST, entity, JSONObject.class);
+		JSONObject retJson = responseEntity.getBody();
+
+		Long appraisalCount = retJson.get("appraisalCount") != null ? Long.parseLong(retJson.get("appraisalCount").toString()) : 0l;
+
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("appraisalCount", appraisalCount);
+
+		return jsonObj.toString();
 	}
 	
 	
@@ -493,80 +530,6 @@ public class MobileController extends BaseController {
 	}
 	
 
-	/**
-	 * ================================================科研人才
-	 */
-	@RequestMapping(value = "/mobile/personnel")
-	public String kytr(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		String nd = HanaUtil.getCurrentYear();
-		request.setAttribute("nd", nd);
-		return "/mobile/personnel";
-	}
-	
-	@RequestMapping(value = "/mobile/personnel_details")
-	public String personnel_details(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		//专家详情
-        String expertId = request.getParameter("expertId");
-        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + expertId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
-        ZjkExpert zjkBaseInfo = responseEntity.getBody();
-        request.setAttribute("zjkBaseInfo", zjkBaseInfo);
-        request.setAttribute("hylyName", zjkBaseInfo.getExpertProfessionalFieldName());
-        request.setAttribute("hyly", zjkBaseInfo.getExpertProfessionalField());
-        request.setAttribute("display", request.getParameter("display"));
-		
-		return "/mobile/personnel_details";
-	}
-	
-	
-	@RequestMapping(value = "/mobile/zjk-ys-list", method = RequestMethod.POST)
-	@ResponseBody
-	public Object getmobileYsList(HttpServletRequest request) {
-		ZjkExpert zjk = new ZjkExpert();
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(ZJK_YS_LIST, HttpMethod.POST, new HttpEntity<ZjkExpert>(zjk, this.httpHeaders), Object.class);
-		return responseEntity.getBody();
-	}
-	
-	
-	@RequestMapping(value = "/mobile/queryAllExpert", method = RequestMethod.GET)
-    @ResponseBody
-    public String querymobileAllExpert() {
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ZjkExpert expert = new ZjkExpert();
-        expert.setiSortCol("expert_name");
-        expert.setsSortDir_0("asc");
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(queryAllExpert, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
-        JSONObject retJson = responseEntity.getBody();
-        List<Map<String, Object>> list = (List<Map<String, Object>>) retJson.get("expert");
-        return JSON.toJSONString(list);
-    }
-	
-	
-	//所有专家
-	@RequestMapping(value = "/mobile/getAllExpertTableData", method = RequestMethod.POST)
-	@ResponseBody
-	public Object getTableData(HttpServletRequest request, HttpServletResponse response) 
-	{
-		
-
-		LayuiTableParam param = new LayuiTableParam();
-		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String limit = CommonUtil.getParameter(request, "limit", "15");
-		String page = CommonUtil.getParameter(request, "page", "1");
-
-
-		param.setLimit(Integer.valueOf(limit));
-		param.setPage(Integer.valueOf(page));
-		param.getParam().put("nd", nd);
-		System.out.println(">>>>>>>>>>>>nd:" + nd + "page=" + page);
-		
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
-		LayuiTableData data = responseEntity.getBody();
-		System.out.println(JSON.toJSON(data).toString());
-		return JSON.toJSON(data).toString();
-	}
 	
 
 	/**
