@@ -2370,6 +2370,12 @@ public class OneLevelMainController extends BaseController {
 		response.setHeader("Cache-Control", "no-cache");
 		return resault;
 	}
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * 全口径新开课题合同（任务书）签订率--费用性、资本性
@@ -2622,6 +2628,12 @@ public class OneLevelMainController extends BaseController {
 		}
 		return resault;
 	}
+	
+	
+	
+	
+	
+
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/contract_04")
 	@ResponseBody

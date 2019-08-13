@@ -195,21 +195,10 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 				content: projectDecisionHtml
 			})
         });
-        $("#circle").circleProgress({
-            value : 20/100,
-            size : 50,
-            startAngle : -Math.PI / 2,
-            thickness : '5',
-            fill : {
-                gradient : [ "#ffffff", "#e99a54" ]
-            },
-            emptyFill : "#F0EEF6"
-        }).on('circle-animation-progress', function(event, progress, stepValue) {
-        	var v_date = (new Date()).getTime();
-        	var nd = $("#nd").val();
-        	setYusuan_rate(v_date,nd);
-           // $(this).find('span').html(20/100+"%");
-        });
+        
+        var v_date = (new Date()).getTime();
+    	var nd = $("#nd").val();
+    	setYusuan_rate(v_date,nd);
     });
     
     
@@ -480,7 +469,20 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 			},
 			timeout : 6000, //超时时间设置，单位毫秒
 			error : function(XMLHttpRequest, status) {
-				 $("#circle").find('span').html(0+"%");
+				  $("#circle").find('span').html(0+"%");
+				 
+
+			        $("#circle").circleProgress({
+			            value : 0,
+			            size : 50,
+			            startAngle : -Math.PI / 2,
+			            thickness : '5',
+			            fill : {
+			                gradient : [ "#ffffff", "#e99a54" ]
+			            },
+			            emptyFill : "#F0EEF6"
+			        })
+			        
 			},
 			success : function(data) {
 				var projectMoney = data.data;
@@ -497,6 +499,18 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 				var moneyTotal = parseFloat(tt2) / 10000;
 				var rateDate=((moneyCurrent/moneyTotal)*100).toFixed(2);
 				$("#circle").find('span').html(rateDate+"%");
+				
+				 $("#circle").circleProgress({
+			            value : rateDate/100,
+			            size : 50,
+			            startAngle : -Math.PI / 2,
+			            thickness : '5',
+			            fill : {
+			                gradient : [ "#ffffff", "#e99a54" ]
+			            },
+			            emptyFill : "#F0EEF6"
+			        })
+			        
 			}
 		});
     }
@@ -517,6 +531,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 				},
 				success : function(data) {
 					var appraisalCount = data.appraisalCount;
+					//alert(appraisalCount);
 					$("#appraisalId").html(appraisalCount+"个");
 				}
 			});
@@ -682,7 +697,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	   		{
 	    		$.ajax({
 	        		type : "GET",
-	        		url : "/financial-decision/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
+	        		url : "/mobile/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
 	        		timeout : 9000,
 	        		dataType : "json",
 	        		cache : false,
