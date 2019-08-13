@@ -280,9 +280,16 @@ public class IntlProjectInfoServiceImpl implements IntlProjectInfoService {
 	@Override
 	public String createProjectInfoCode() {
 		IntlProjectInfoExample example = new IntlProjectInfoExample();
+		example.setOrderByClause("project_code desc");
 		List<IntlProjectInfo> applys = projectInfoMapper.selectByExample(example);
-		
-		return HanyuPinyinHelper.toPinyin("GJHZ_"+DateUtil.format(new Date(), DateUtil.FMT_YYYY)+"_LX_"+(100+applys.size()));
+		Integer no = 100;
+		if(applys.size() > 0) {
+			String [] splits = applys.get(0).getProjectCode().split("_");
+			if(splits.length == 4) {
+				no = new Integer(splits[3]) + 1;
+			}
+		}
+		return HanyuPinyinHelper.toPinyin("GJHZ_"+DateUtil.format(new Date(), DateUtil.FMT_YYYY)+"_LX_"+(no));
 	}
 
 	@Override

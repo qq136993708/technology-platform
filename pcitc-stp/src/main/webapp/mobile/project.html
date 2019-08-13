@@ -253,7 +253,7 @@
   							xmmc=xmmc.substring(0,15);
   						 }
   					 }
-   					 var temp="<li>"+
+   					 var temp="<li onclick=\"view('"+xmid+"')\">"+
 			    				"<p>"+
 			                        "<span>"+xmmc+"</span>"+
 			                        "<span>"+setNumStr(ysje)+"</span>"+
@@ -299,7 +299,19 @@
     
     
     
-    
+    function  view(xmid)
+    {
+    	layer.open({
+            title : '详情',
+            skin : 'layui-layer-mobile',
+            shadeClose : false,
+            type : 2,
+            fixed : false,
+            maxmin : true,
+            area : [ '95%', '72.5%' ],
+            content : '/mobile/project_details?xmid='+xmid
+        });
+    }
     
     
     
