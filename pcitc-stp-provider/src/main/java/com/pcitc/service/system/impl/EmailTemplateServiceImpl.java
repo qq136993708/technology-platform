@@ -10,6 +10,7 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.system.EmailTemplate;
 import com.pcitc.base.system.EmailTemplateExample;
 import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.system.EmailTemplateMapper;
 import com.pcitc.service.system.EmailTemplateService;
@@ -157,6 +158,11 @@ public class EmailTemplateServiceImpl implements EmailTemplateService {
     public LayuiTableData findEmailTemplateByPage(LayuiTableParam param) {
         EmailTemplateExample example = new EmailTemplateExample();
         EmailTemplateExample.Criteria c = example.createCriteria();
+
+        Object createUserId = param.getParam().get("createUserId");
+        if (!StrUtil.isNullEmpty(createUserId)){
+            c.andCreateUserEqualTo(createUserId.toString());
+        }
 //        c.andStatusEqualTo("1");
 //        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
 //        {
