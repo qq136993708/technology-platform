@@ -74,15 +74,15 @@
                 		<span class="text">已办任务</span>
                 	</div>
                 </li>
-                <li class="layui-col-xs3" >
+                <li class="layui-col-xs3" id="work_list">
                     <div class="agency-box">
 						<img src="/mobile/images/work-img3.png" alt="">
-						<span class="number">89</span>
+						<span class="number">0</span>
                 		<span class="text">工作安排</span>
                 	</div>
                 </li>
 				<li class="layui-col-xs3" >
-                    <div class="agency-box" id="audit_msg_list">
+                    <div class="agency-box" id="institute_list">
 						<img src="/mobile/images/work-img4.png" alt="">
 						<span class="text">研究院概况</span>
                 	</div>
@@ -346,10 +346,13 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     	location.href="/mobile/agencyM";
     });
     // 审核消息
-    $("#audit_msg_list").click(function () {
-    	location.href="/mobile/institute.html";
+    $("#institute_list").click(function () {
+    	location.href="/mobile/institute";
     });
-    
+    // 工作安排
+    $("#work_list").click(function () {
+    	location.href="/mobile/work";
+    });
     
    
     
