@@ -32,8 +32,6 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.system.SysPost;
-import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DataTableInfoVo;
 import com.pcitc.base.util.IdUtil;
@@ -175,6 +173,12 @@ public class UserController extends BaseController {
 				postids.addAll(Arrays.asList(pids.split(",")));
 			}
 		}
+		if(unitids.size()==0 || postids.size()==0)
+		{
+			dataObject.put("data", array);
+			return dataObject;
+		}
+		
 		List<Map<String,Object>> units = this.restTemplate.exchange(UNIT_BY_IDS, HttpMethod.POST, new HttpEntity<Set<String>>(unitids, this.httpHeaders), List.class).getBody();
 		List<Map<String,Object>> posts = this.restTemplate.exchange(POST_BY_IDS, HttpMethod.POST, new HttpEntity<Set<String>>(postids, this.httpHeaders), List.class).getBody();
 		
