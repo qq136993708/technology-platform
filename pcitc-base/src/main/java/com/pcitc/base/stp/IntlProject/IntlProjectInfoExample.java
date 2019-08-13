@@ -10,6 +10,10 @@ public class IntlProjectInfoExample {
 
     protected List<Criteria> oredCriteria;
 
+    private Integer limit;
+
+    private Long offset;
+
     public IntlProjectInfoExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
@@ -61,6 +65,22 @@ public class IntlProjectInfoExample {
         oredCriteria.clear();
         orderByClause = null;
         distinct = false;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setOffset(Long offset) {
+        this.offset = offset;
+    }
+
+    public Long getOffset() {
+        return offset;
     }
 
     protected abstract static class GeneratedCriteria {
@@ -454,63 +474,133 @@ public class IntlProjectInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andProjectContentIsNull() {
+            addCriterion("project_content is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentIsNotNull() {
+            addCriterion("project_content is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentEqualTo(String value) {
+            addCriterion("project_content =", value, "projectContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentNotEqualTo(String value) {
+            addCriterion("project_content <>", value, "projectContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentGreaterThan(String value) {
+            addCriterion("project_content >", value, "projectContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentGreaterThanOrEqualTo(String value) {
+            addCriterion("project_content >=", value, "projectContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentLessThan(String value) {
+            addCriterion("project_content <", value, "projectContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentLessThanOrEqualTo(String value) {
+            addCriterion("project_content <=", value, "projectContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentLike(String value) {
+            addCriterion("project_content like", value, "projectContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentNotLike(String value) {
+            addCriterion("project_content not like", value, "projectContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentIn(List<String> values) {
+            addCriterion("project_content in", values, "projectContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentNotIn(List<String> values) {
+            addCriterion("project_content not in", values, "projectContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentBetween(String value1, String value2) {
+            addCriterion("project_content between", value1, value2, "projectContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectContentNotBetween(String value1, String value2) {
+            addCriterion("project_content not between", value1, value2, "projectContent");
+            return (Criteria) this;
+        }
+
         public Criteria andStatusIsNull() {
-            addCriterion("status is null");
+            addCriterion("`status` is null");
             return (Criteria) this;
         }
 
         public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
+            addCriterion("`status` is not null");
             return (Criteria) this;
         }
 
         public Criteria andStatusEqualTo(Integer value) {
-            addCriterion("status =", value, "status");
+            addCriterion("`status` =", value, "status");
             return (Criteria) this;
         }
 
         public Criteria andStatusNotEqualTo(Integer value) {
-            addCriterion("status <>", value, "status");
+            addCriterion("`status` <>", value, "status");
             return (Criteria) this;
         }
 
         public Criteria andStatusGreaterThan(Integer value) {
-            addCriterion("status >", value, "status");
+            addCriterion("`status` >", value, "status");
             return (Criteria) this;
         }
 
         public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
-            addCriterion("status >=", value, "status");
+            addCriterion("`status` >=", value, "status");
             return (Criteria) this;
         }
 
         public Criteria andStatusLessThan(Integer value) {
-            addCriterion("status <", value, "status");
+            addCriterion("`status` <", value, "status");
             return (Criteria) this;
         }
 
         public Criteria andStatusLessThanOrEqualTo(Integer value) {
-            addCriterion("status <=", value, "status");
+            addCriterion("`status` <=", value, "status");
             return (Criteria) this;
         }
 
         public Criteria andStatusIn(List<Integer> values) {
-            addCriterion("status in", values, "status");
+            addCriterion("`status` in", values, "status");
             return (Criteria) this;
         }
 
         public Criteria andStatusNotIn(List<Integer> values) {
-            addCriterion("status not in", values, "status");
+            addCriterion("`status` not in", values, "status");
             return (Criteria) this;
         }
 
         public Criteria andStatusBetween(Integer value1, Integer value2) {
-            addCriterion("status between", value1, value2, "status");
+            addCriterion("`status` between", value1, value2, "status");
             return (Criteria) this;
         }
 
         public Criteria andStatusNotBetween(Integer value1, Integer value2) {
-            addCriterion("status not between", value1, value2, "status");
+            addCriterion("`status` not between", value1, value2, "status");
             return (Criteria) this;
         }
 
@@ -2663,8 +2753,140 @@ public class IntlProjectInfoExample {
             addCriterion("flow_comprehensive_review not between", value1, value2, "flowComprehensiveReview");
             return (Criteria) this;
         }
+
+        public Criteria andExternalCheckIsNull() {
+            addCriterion("external_check is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalCheckIsNotNull() {
+            addCriterion("external_check is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalCheckEqualTo(Integer value) {
+            addCriterion("external_check =", value, "externalCheck");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalCheckNotEqualTo(Integer value) {
+            addCriterion("external_check <>", value, "externalCheck");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalCheckGreaterThan(Integer value) {
+            addCriterion("external_check >", value, "externalCheck");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalCheckGreaterThanOrEqualTo(Integer value) {
+            addCriterion("external_check >=", value, "externalCheck");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalCheckLessThan(Integer value) {
+            addCriterion("external_check <", value, "externalCheck");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalCheckLessThanOrEqualTo(Integer value) {
+            addCriterion("external_check <=", value, "externalCheck");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalCheckIn(List<Integer> values) {
+            addCriterion("external_check in", values, "externalCheck");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalCheckNotIn(List<Integer> values) {
+            addCriterion("external_check not in", values, "externalCheck");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalCheckBetween(Integer value1, Integer value2) {
+            addCriterion("external_check between", value1, value2, "externalCheck");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalCheckNotBetween(Integer value1, Integer value2) {
+            addCriterion("external_check not between", value1, value2, "externalCheck");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkIsNull() {
+            addCriterion("external_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkIsNotNull() {
+            addCriterion("external_remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkEqualTo(String value) {
+            addCriterion("external_remark =", value, "externalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkNotEqualTo(String value) {
+            addCriterion("external_remark <>", value, "externalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkGreaterThan(String value) {
+            addCriterion("external_remark >", value, "externalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("external_remark >=", value, "externalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkLessThan(String value) {
+            addCriterion("external_remark <", value, "externalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkLessThanOrEqualTo(String value) {
+            addCriterion("external_remark <=", value, "externalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkLike(String value) {
+            addCriterion("external_remark like", value, "externalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkNotLike(String value) {
+            addCriterion("external_remark not like", value, "externalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkIn(List<String> values) {
+            addCriterion("external_remark in", values, "externalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkNotIn(List<String> values) {
+            addCriterion("external_remark not in", values, "externalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkBetween(String value1, String value2) {
+            addCriterion("external_remark between", value1, value2, "externalRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andExternalRemarkNotBetween(String value1, String value2) {
+            addCriterion("external_remark not between", value1, value2, "externalRemark");
+            return (Criteria) this;
+        }
     }
 
+    /**
+     */
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {
