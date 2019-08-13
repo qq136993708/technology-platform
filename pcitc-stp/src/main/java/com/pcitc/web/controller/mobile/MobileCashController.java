@@ -63,6 +63,7 @@ public class MobileCashController extends BaseController{
 			String month = CommonUtil.getParameter(request, "month", "");
 			request.setAttribute("month", month);
 			String companyCode=EquipmentUtils.getCompanyCodeByHanaName(g0GSJC, restTemplate, httpHeaders);
+			request.setAttribute("g0GSJC", g0GSJC);
 			request.setAttribute("companyCode", companyCode);
 			return "/mobile/cash_details";
 		}
