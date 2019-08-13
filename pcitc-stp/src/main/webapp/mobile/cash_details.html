@@ -16,6 +16,9 @@
     </style>
 </head>
 <body>
+<input type="hidden" name="month" id="month" value="${month}">
+<input type="hidden" name="companyCode" id="companyCode" value="${companyCode}">
+
 <header>
     <div class="m_return child">
         <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
@@ -69,6 +72,7 @@
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/mobile/js/mobile.js"></script>
 <script>
     var layer;
     (function(doc, win) {
@@ -91,6 +95,72 @@
             ,value:"2019"
         });
     });
+    
+    
+    
+    function getFlow()
+    {
+    	var month = $('#month').val();
+    	var companyCode=  $('#companyCode').val();
+    	console.log("参数：\n companyCode:"+companyCode+"month="+month);
+    	if(companyCode!=null && companyCode!='')
+   		{
+    		$.ajax({
+        		type : "GET",
+        		url : "/mobile/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
+        		timeout : 9000,
+        		dataType : "json",
+        		cache : false,
+        		headers : {
+        			'Content-Type' : 'application/json'
+        		},
+        		success : function(data, status) 
+        		{
+        			 console.log(data);
+        			 var all=0;
+        			 var count="";
+        			 if(data.length>0)
+        			 {
+        				 for(var i=0;i<data.length;i++)
+            			 {
+        					var g0GSJC= data[i].g0GSJC;
+        					var k0BQLJJE=parseFloat(data[i].k0BQLJJE).toFixed(2);//总预算科研投入
+        					all=all+parseFloat(k0BQLJJE);
+        					
+        					var classstr="";
+        					if(k0BQLJJE<0)
+        					{
+        						classstr=" class='not' ";
+        					
+        					}
+        					var temp="<li  onclick=\"view('"+month+"','"+g0GSJC+"')\" "+classstr+">"+
+    				    				"<p>"+
+    				                        "<span>"+g0GSJC+"</span>"+
+    				                        "<span>"+setNumStr(k0BQLJJE)+"</span>"+
+    				                    "</p>"+
+    			                       "</li>";
+        					count=count+temp;
+            			 } 
+        			 }
+        			 
+        			 $("#list_id").html(count); 
+        			 $("#all_money_id").html((all/10000).toFixed(2)+"<lable style='font-size:14px;font-weight:normal'>亿<lable>"); 
+        		},
+        		error : function() {
+        		},
+        		complete : function(XMLHttpRequest, status) {
+        		}
+        	});
+   		}else
+  			{
+  			    alert("请联系管理员配置研究院相关的数据权限");
+  			}
+    }
+    
+    getFlow();
+    
+    
+    
 </script>
 </body>
 </html>

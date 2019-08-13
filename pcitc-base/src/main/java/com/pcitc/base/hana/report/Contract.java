@@ -29,6 +29,7 @@ public class Contract implements Serializable{
     
     private String define3;
     
+    private String define10;
     
     
     
@@ -46,6 +47,12 @@ public class Contract implements Serializable{
     
     
     
+	public String getDefine10() {
+		return define10;
+	}
+	public void setDefine10(String define10) {
+		this.define10 = define10;
+	}
 	public Integer getProjectCount() {
 		return projectCount;
 	}

@@ -55,36 +55,7 @@
         </div>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <ul id="zyc_id">
-                    <li>
-                        <p>
-                            <span>计划 1580 个</span>
-                            <span>已签 1580 个</span>
-                            <span>直属单位名称</span>
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <span>计划 1580 个</span>
-                            <span>已签 1580 个</span>
-                            <span>直属单位名称</span>
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <span>计划 1580 个</span>
-                            <span>已签 1580 个</span>
-                            <span>直属单位名称</span>
-                        </p>
-                    </li>
-                    <li>
-                        <p>
-                            <span>计划 1580 个</span>
-                            <span>已签 1580 个</span>
-                            <span>直属单位名称</span>
-                        </p>
-                    </li>
-                </ul>
+                <ul id="zyc_id"></ul>
             </div>
             <div class="layui-tab-item">
                 <ul id="researchDepart_id">
@@ -141,7 +112,7 @@
     	var nd = $('#nd').val();
     	$.ajax({
     		type : "POST",
-    		url : "/one_level_main/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
+    		url : "/mobile/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
     		timeout : 9000,
     		dataType : "json",
     		cache : false,
@@ -169,18 +140,69 @@
     	});
 
     }
+    
+   //按专业处分
+   function contract_zyc()
+    {
+		
+    	var v_date = (new Date()).getTime();
+    	var nd = $('#nd').val();
+    	var url = "/mobile/contract_zyc?functionId=984b64b13cf54222bf57bd840759fabe&type=mobile&nd=" + nd + "&v_date=" + v_date;
+    	$.ajax({
+    		type : "GET",
+    		url : url,
+    		timeout : 9000,
+    		dataType : "json",
+    		cache : false,
+    		headers : {
+    			'Content-Type' : 'application/json'
+    		},
+    		success : function(data, status) 
+    		{
+    			 console.log("按专业处分\n "+JSON.stringify(data.data));
+    			 var count="";
+    			 if(data.data.length>0)
+    			 {
+    				 for(var i=0;i<data.data.length;i++)
+        			 {
+    					var define10= data.data[i].define10;//专业处
+    					var jhqds=data.data[i].jhqds;//计划
+    					var sjqds=data.data[i].sjqds;//实际签订数
+    					
+    					var temp="<li>"+
+			                        "<p>"+
+			                            "<span>计划"+jhqds+"个</span>"+
+			                            "<span>已签"+sjqds+"个</span>"+
+			                            "<span>"+define10+"</span>"+
+			                        "</p>"+
+			                       "</li>";
+                       if(jhqds!='0' && sjqds!='0')
+                   	   {
+                    	   count=count+temp;
+                   	   }
+    					
+        			 } 
+    			 }
+    			 //alert(count);
+    			 $("#zyc_id").html(count); 
+    			 
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+  
    
-    
-    
-    
-    
 	//研究院
     function researchDepart()
     {
 		
     	var v_date = (new Date()).getTime();
     	var nd = $('#nd').val();
-    	var url = "/one_level_main/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&type=mobile&nd=" + nd + "&v_date=" + v_date;
+    	var url = "/mobile/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&type=mobile&nd=" + nd + "&v_date=" + v_date;
     	$.ajax({
     		type : "GET",
     		url : url,
@@ -205,7 +227,7 @@
     					
     					var temp="<li>"+
 			                        "<p>"+
-			                            "<span>计划"+zsl+"个</span>"+
+			                            "<span style='width:250px'>计划"+zsl+"个</span>"+
 			                            "<span>已签"+yqhtzj+"个</span>"+
 			                            "<span>"+define2+"</span>"+
 			                        "</p>"+
@@ -235,6 +257,8 @@
     	
     	 allLook();
     	 researchDepart();
+    	 //按专业处分
+    	 contract_zyc()
     }
     search_Event();
     
