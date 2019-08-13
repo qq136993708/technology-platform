@@ -195,21 +195,10 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 				content: projectDecisionHtml
 			})
         });
-        $("#circle").circleProgress({
-            value : 20/100,
-            size : 50,
-            startAngle : -Math.PI / 2,
-            thickness : '5',
-            fill : {
-                gradient : [ "#ffffff", "#e99a54" ]
-            },
-            emptyFill : "#F0EEF6"
-        }).on('circle-animation-progress', function(event, progress, stepValue) {
-        	var v_date = (new Date()).getTime();
-        	var nd = $("#nd").val();
-        	setYusuan_rate(v_date,nd);
-           // $(this).find('span').html(20/100+"%");
-        });
+        
+        var v_date = (new Date()).getTime();
+    	var nd = $("#nd").val();
+    	setYusuan_rate(v_date,nd);
     });
     
     
@@ -480,7 +469,20 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 			},
 			timeout : 6000, //超时时间设置，单位毫秒
 			error : function(XMLHttpRequest, status) {
-				 $("#circle").find('span').html(0+"%");
+				  $("#circle").find('span').html(0+"%");
+				 
+
+			        $("#circle").circleProgress({
+			            value : 0,
+			            size : 50,
+			            startAngle : -Math.PI / 2,
+			            thickness : '5',
+			            fill : {
+			                gradient : [ "#ffffff", "#e99a54" ]
+			            },
+			            emptyFill : "#F0EEF6"
+			        })
+			        
 			},
 			success : function(data) {
 				var projectMoney = data.data;
@@ -497,6 +499,18 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 				var moneyTotal = parseFloat(tt2) / 10000;
 				var rateDate=((moneyCurrent/moneyTotal)*100).toFixed(2);
 				$("#circle").find('span').html(rateDate+"%");
+				
+				 $("#circle").circleProgress({
+			            value : rateDate/100,
+			            size : 50,
+			            startAngle : -Math.PI / 2,
+			            thickness : '5',
+			            fill : {
+			                gradient : [ "#ffffff", "#e99a54" ]
+			            },
+			            emptyFill : "#F0EEF6"
+			        })
+			        
 			}
 		});
     }
@@ -506,7 +520,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     {
 			$.ajax({
 				type : 'POST',
-				url : "/admin/appraisal-count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd+"&v_date="+v_date,
+				url : "/mobile/admin/appraisal-count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd+"&v_date="+v_date,
 				dataType : 'json',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -517,6 +531,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 				},
 				success : function(data) {
 					var appraisalCount = data.appraisalCount;
+					//alert(appraisalCount);
 					$("#appraisalId").html(appraisalCount+"个");
 				}
 			});
@@ -583,7 +598,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 //待办个数
 	 function set_wait_notice_count(v_date)
 	 {
-	    	var url="/task/pending-list?v_date="+v_date;
+	    	var url="/mobile/task/pending-list?v_date="+v_date;
 	        $.ajax({
 	            type: "POST",
 	            url: url,
@@ -609,7 +624,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 //任务已办个数
 	 function setOverTaskCount(v_date) 
 	 {
-	    	var url="/task/done-task-list?v_date="+v_date;
+	    	var url="/mobile/task/done-task-list?v_date="+v_date;
 	        $.ajax({
 	            type: "POST",
 	            url: url,
@@ -682,7 +697,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	   		{
 	    		$.ajax({
 	        		type : "GET",
-	        		url : "/financial-decision/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
+	        		url : "/mobile/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
 	        		timeout : 9000,
 	        		dataType : "json",
 	        		cache : false,
@@ -757,7 +772,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	function readNotice(noticeId) 
 	{
 		
-		 var temUrl='/sysNotice/readNotice?id='+noticeId
+		 var temUrl='/mobile/sysNotice/readNotice?id='+noticeId
 		 layer.open({
 	        title:'详情',
 	        skin: 'layui-layer-lan',

@@ -31,6 +31,9 @@ table tbody tr td{cursor: pointer;}
 .layui-row-main td:nth-child(2) .layui-table-cell{color: red;}
 .layui-row-main td:nth-child(3) .layui-table-cell {color: #1890ff;}
 .layui-row-main td:nth-child(4) .layui-table-cell{color: #41921c;}
+.layui-row-mainN td .layui-table-cell {color: #666666 !important;}
+.layui-row-mainN td:nth-child(3) .layui-table-cell,.layui-row-mainN td:nth-child(6) .layui-table-cell {color: red !important;}
+.layui-row-mainN td:nth-child(4) .layui-table-cell ,.layui-row-mainN td:nth-child(8) .layui-table-cell span{color: green !important;}
 </style>
 </head>
 <body>
@@ -133,7 +136,7 @@ table tbody tr td{cursor: pointer;}
 							<span class="layui-time"></span>
 							专业处科研预算
 						</div>
-						<div class="layui-row-main">
+						<div class="layui-row-main layui-row-mainN">
 							<table id="zycysTable" class="layui-table" lay-filter="zycysTable">
 								<thead>
 									<tr>
