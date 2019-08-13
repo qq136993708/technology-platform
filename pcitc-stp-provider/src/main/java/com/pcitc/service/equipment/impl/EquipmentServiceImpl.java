@@ -816,7 +816,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 		Map map=getMap(param);
 		List<SreProjectTask> list = sreProjectTaskMapper.getRelationList(map);
 		SreProjectTask   projectSorting = new SreProjectTask();
+		String strkjb=getTableParam(param,"strkjb","");
 		if(list.size()!=0) {
+		if(strkjb.equals("1")) {
 		Map projectMoneyMap=getMap(param);
 		List<SreProjectTask> projectMoney = sreProjectTaskMapper.getProjectMoney(projectMoneyMap);
 		BigDecimal money =new BigDecimal("0.0");
@@ -846,6 +848,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		projectSorting.setProjectMoney(money);
 		projectSorting.setPurchaseMoney(purchaseMoney);
 		list.add(0, projectSorting);
+		}
 		}
 		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
 		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
