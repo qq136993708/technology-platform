@@ -198,8 +198,8 @@
     			 $("#zyc_id").html(count); 
     			 
     			 //总金额
-   				 $("#yzc_all_id").html((parseFloat(all)/10000).toFixed(2) + "<lable style='font-size:14px;font-weight:normal'>亿<lable>");
-   				 $("#yzc_finished_id").html((finished/10000).toFixed(2) + "<lable style='font-size:14px;font-weight:normal'>亿<lable>");
+   				 $("#yzc_all_id").html((parseFloat(all)/10000).toFixed(2) + "<lable >亿<lable>");
+   				 $("#yzc_finished_id").html((finished/10000).toFixed(2) + "<lable >亿<lable>");
    				 var zRate = finished * 100 / all;
    				 $("#yzc_rate_id").html(zRate.toFixed(2) + "%");
     		},
@@ -263,8 +263,8 @@
     			 
     			 
     			 //研究院-总金额
-   				 $("#yjy_all_id").html((parseFloat(all)/10000).toFixed(2) + "<lable style='font-size:14px;font-weight:normal'>亿<lable>");
-   				 $("#yjy_finished_id").html((finished/10000).toFixed(2) + "<lable style='font-size:14px;font-weight:normal'>亿<lable>");
+   				 $("#yjy_all_id").html((parseFloat(all)/10000).toFixed(2) + "<lable >亿<lable>");
+   				 $("#yjy_finished_id").html((finished/10000).toFixed(2) + "<lable >亿<lable>");
    				 var zRate = finished * 100 / all;
    				 $("#yjy_rate_id").html(zRate.toFixed(2) + "%");
    				 
@@ -344,8 +344,8 @@
     			 
     			 
     			 //研究院-总金额
-   				 $("#other_all_id").html((parseFloat(all)/10000).toFixed(2) + "<lable style='font-size:14px;font-weight:normal'>亿<lable>");
-   				 $("#other_finished_id").html((finished/10000).toFixed(2) + "<lable style='font-size:14px;font-weight:normal'>亿<lable>");
+   				 $("#other_all_id").html((parseFloat(all)/10000).toFixed(2) + "<lable >亿<lable>");
+   				 $("#other_finished_id").html((finished/10000).toFixed(2) + "<lable >亿<lable>");
    				 var zRate = finished * 100 / all;
    				 $("#other_rate_id").html(zRate.toFixed(2) + "%");
    				 
@@ -376,7 +376,7 @@
 			{
 				temp= temp.substring(0,temp.length-3);
 			}
-			result=temp+"<lable style='font-size:14px;font-weight:normal'>亿<lable>";
+			result=temp+"<lable >亿<lable>";
 		}else//万
 		{
 			
@@ -387,7 +387,7 @@
 				//temp= temp.replace(".00","")
 				temp= temp.substring(0,temp.length-3);
 			}
-			result=temp+"<lable style='font-size:14px;font-weight:normal'>万<lable>";
+			result=temp+"<lable >万<lable>";
 		}
 		return result;
     }
