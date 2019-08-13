@@ -166,12 +166,12 @@ public class TokenInterceptor implements HandlerInterceptor {
 	    	System.out.println("跳转路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			String path = request.getRequestURI();
 			if (!StringUtils.isBlank(clientReqType)) {
-				Result rs = new Result(false, reqFlag?"/":"/login", "登录超时!", "401");
+				Result rs = new Result(false, reqFlag?"/stpHome":"/login", "登录超时!", "401");
 				PrintWriter out = response.getWriter();
 				out.println(JSON.toJSON(rs));
 				out.close();
 			} else if (!StringUtils.isBlank(accept) && accept.contains("application/json")) {
-				Result rs = new Result(false, reqFlag?"/":"/login", "登录超时!", "401");
+				Result rs = new Result(false, reqFlag?"/stpHome":"/login", "登录超时!", "401");
 				PrintWriter out = response.getWriter();
 				out.println(JSON.toJSON(rs));
 				out.close();

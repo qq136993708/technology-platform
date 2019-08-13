@@ -884,6 +884,7 @@
          <if test="startMoney != null   and startMoney !='' ">      AND  t.project_money &gt;= #{startMoney}</if>
          <if test="endMoney != null   and endMoney !='' ">      AND  t.project_money &lt;= #{endMoney}</if>
 	     <if test="sqlStr != null   and sqlStr !='' ">                                        AND ${sqlStr}</if>
+         <if test="contractNumNotNull != null   and contractNumNotNull !='' ">                                        AND contract_num ${contractNumNotNull}</if>
 	 </trim>
 	</sql>
 	
@@ -911,5 +912,10 @@
   <select id="getListMap" resultMap="BaseResultMap" parameterType="Map" >
    select * from sre_project where equipment_ids LIKE  CONCAT('%',#{equipmentIds},'%')
   </select>
-    
+
+
+  <select id="getSumMoney" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select COUNT(t.id) as 'sumNumber',sum(t.project_money) as 'sumMoney' from sre_project t  <include refid="selectCondition" />
+  </select>
+
 </mapper>

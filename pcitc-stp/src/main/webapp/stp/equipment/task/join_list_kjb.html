@@ -22,6 +22,8 @@
 <input  name="joinUnitCode"     id="joinUnitCode"      value="${joinUnitCode}"    type="hidden">
 <input  name="str"     id="str"      value="${str}"    type="hidden">
 
+<input  name="strkjb"     id="strkjb"      value="1"    type="hidden">
+
 
 
     <!--查询条件-->
@@ -63,7 +65,7 @@
 	     </label>
    </#if>
      
-     <label class="dateInput">
+    <!--  <label class="dateInput">
          <span>归属部门</span>
          <select name="belongDepartmentCode" id="belongDepartmentCode"  onchange="getDepartNameByParentCode(this.value)" class="form-control"  >
               <option value="ROOT_ZGSHJT_ZBJG_KJB" >科技部</option>
@@ -79,7 +81,7 @@
          <span>专业</span>
          <select id="professionalFieldCode" name="professionalFieldCode"  class="form-control" ></select>
      </label> 
-             
+         -->      
                             
     <!--按钮组-->
     <div class="btnGroup">
@@ -268,7 +270,6 @@ var name=$('#name').val();
         });
     });
     
-    
     function renderTable()
 	{    
     	//渲染
@@ -276,7 +277,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/relation_list',
             method:"POST",
-            where: {param: {"setupYear":$("#setupYear").val(),"topicName":$("#topicName").val(),"leadUnitCode":$("#leadUnitCode").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"contractNum":$("#contractNum").val(),"auditStatus":$("#auditStatus").val()}},
+            where: {param: {"strkjb":$("#strkjb").val(),"setupYear":$("#setupYear").val(),"topicName":$("#topicName").val(),"leadUnitCode":$("#leadUnitCode").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"contractNum":$("#contractNum").val(),"auditStatus":$("#auditStatus").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

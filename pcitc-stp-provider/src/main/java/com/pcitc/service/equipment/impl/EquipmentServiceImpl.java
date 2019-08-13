@@ -355,7 +355,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String contractNum=getTableParam(param,"contractNum","");
 		String leadUnit=getTableParam(param,"leadname","");
 		String parentUnitPathNames = getTableParam(param, "parentUnitPathNames", "");
-		Map map=new HashMap();
+
+        String contractNumNotNull = getTableParam(param, "contractNumNotNull", "");
+
+        Map map=new HashMap();
 		map.put("belongDepartmentName", belongDepartmentName);
 		map.put("belongDepartmentCode", belongDepartmentCode);
 		map.put("professionalDepartName", professionalDepartName);
@@ -383,12 +386,36 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 		map.put("contractNum", contractNum);
 		map.put("leadUnitCode", leadUnit);
+        map.put("contractNumNotNull", contractNumNotNull);
 
-
-		
 
 		List<SreProject> list = sreProjectMapper.getList(map);
-		PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
+		if (list.size()!=0){
+            if (contractNumNotNull!="") {
+                SreProject projectSumMoney = sreProjectMapper.getSumMoney(map);
+                if (projectSumMoney != null) {
+                    projectSumMoney.getSumNumber();
+                    projectSumMoney.setIndex("合计");
+                    projectSumMoney.setProjectMoney(projectSumMoney.getSumMoney());
+                    projectSumMoney.setName("");
+                    projectSumMoney.setBeginYear("");
+                    projectSumMoney.setEndYear("");
+                }
+                System.err.println("============================");
+
+                int count = 15;
+                int i = pageNum * count;
+                i = i - 14;
+                for (SreProject listmap : list) {
+                    listmap.setIndex(String.valueOf(i++));
+                }
+                if (projectSumMoney.getSumNumber() != 0) {
+                    list.add(0, projectSumMoney);
+                }
+
+            }
+		}
+        PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		
 		LayuiTableData data = new LayuiTableData();
@@ -816,7 +843,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 		Map map=getMap(param);
 		List<SreProjectTask> list = sreProjectTaskMapper.getRelationList(map);
 		SreProjectTask   projectSorting = new SreProjectTask();
+		String strkjb=getTableParam(param,"strkjb","");
 		if(list.size()!=0) {
+		if(strkjb.equals("1")) {
 		Map projectMoneyMap=getMap(param);
 		List<SreProjectTask> projectMoney = sreProjectTaskMapper.getProjectMoney(projectMoneyMap);
 		BigDecimal money =new BigDecimal("0.0");
@@ -846,6 +875,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		projectSorting.setProjectMoney(money);
 		projectSorting.setPurchaseMoney(purchaseMoney);
 		list.add(0, projectSorting);
+		}
 		}
 		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
 		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());

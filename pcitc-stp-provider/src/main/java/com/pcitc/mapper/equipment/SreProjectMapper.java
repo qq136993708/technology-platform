@@ -24,5 +24,6 @@ public interface SreProjectMapper {
 	List<SreProject> getSelectDate(Map map);
 
 	List<SreProject> getListMap(Map map);
-	
+
+    SreProject getSumMoney(Map map);
 }

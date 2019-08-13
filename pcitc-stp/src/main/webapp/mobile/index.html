@@ -520,7 +520,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     {
 			$.ajax({
 				type : 'POST',
-				url : "/admin/appraisal-count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd+"&v_date="+v_date,
+				url : "/mobile/admin/appraisal-count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd+"&v_date="+v_date,
 				dataType : 'json',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -598,7 +598,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 //待办个数
 	 function set_wait_notice_count(v_date)
 	 {
-	    	var url="/task/pending-list?v_date="+v_date;
+	    	var url="/mobile/task/pending-list?v_date="+v_date;
 	        $.ajax({
 	            type: "POST",
 	            url: url,
@@ -624,7 +624,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 //任务已办个数
 	 function setOverTaskCount(v_date) 
 	 {
-	    	var url="/task/done-task-list?v_date="+v_date;
+	    	var url="/mobile/task/done-task-list?v_date="+v_date;
 	        $.ajax({
 	            type: "POST",
 	            url: url,
@@ -772,7 +772,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	function readNotice(noticeId) 
 	{
 		
-		 var temUrl='/sysNotice/readNotice?id='+noticeId
+		 var temUrl='/mobile/sysNotice/readNotice?id='+noticeId
 		 layer.open({
 	        title:'详情',
 	        skin: 'layui-layer-lan',
