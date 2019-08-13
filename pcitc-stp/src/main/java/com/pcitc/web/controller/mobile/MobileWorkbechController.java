@@ -48,6 +48,25 @@ public class MobileWorkbechController extends BaseController{
 		return "/mobile/agencyM";
 	}
  	
+ 	@RequestMapping(value = "/mobile/work")
+	public String work(HttpServletRequest request) {
+		return "/mobile/work";
+	}
+ 	
+ 	
+ 	@RequestMapping(value = "/mobile/work_add")
+	public String work_add(HttpServletRequest request) {
+		return "/mobile/work_add";
+	}
+ 	@RequestMapping(value = "/mobile/work_details")
+	public String work_details(HttpServletRequest request) {
+		return "/mobile/work_details";
+	}
+ 	
+ 	@RequestMapping(value = "/mobile/work_details1")
+	public String work_details1(HttpServletRequest request) {
+		return "/mobile/work_details1";
+	}
  	
  	//处理待办
  	@RequestMapping(value = "/mobile/task/pending/deal/{taskId}")

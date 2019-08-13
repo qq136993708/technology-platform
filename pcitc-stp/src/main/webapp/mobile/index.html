@@ -460,6 +460,11 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	//预算比率
 	function setYusuan_rate(v_date,nd) 
     {
+        var circleSize=0,thickness='';
+        var system = {ipad:false};
+        system.ipad = (navigator.userAgent.match(/iPad/i) != null)?true:false;
+        system.ipad==true ? circleSize=100:circleSize=50;
+        system.ipad==true ? thickness="10":thickness="5";
 		$.ajax({
 			type : 'GET',
 			url : "/mobile/index_budget?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
@@ -469,14 +474,14 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 			},
 			timeout : 6000, //超时时间设置，单位毫秒
 			error : function(XMLHttpRequest, status) {
-				  $("#circle").find('span').html(0+"%");
+				  $("#circle").find('span').html(0);
 				 
 
 			        $("#circle").circleProgress({
 			            value : 0,
-			            size : 50,
+			            size : circleSize,
 			            startAngle : -Math.PI / 2,
-			            thickness : '5',
+			            thickness : thickness,
 			            fill : {
 			                gradient : [ "#ffffff", "#e99a54" ]
 			            },
@@ -498,13 +503,13 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 				var moneyCurrent = parseFloat(tt1)/ 10000;
 				var moneyTotal = parseFloat(tt2) / 10000;
 				var rateDate=((moneyCurrent/moneyTotal)*100).toFixed(2);
-				$("#circle").find('span').html(rateDate+"%");
+				$("#circle").find('span').html(rateDate);
 				
 				 $("#circle").circleProgress({
 			            value : rateDate/100,
-			            size : 50,
+			            size : circleSize,
 			            startAngle : -Math.PI / 2,
-			            thickness : '5',
+			            thickness : thickness,
 			            fill : {
 			                gradient : [ "#ffffff", "#e99a54" ]
 			            },
