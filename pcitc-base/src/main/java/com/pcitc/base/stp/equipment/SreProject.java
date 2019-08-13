@@ -122,17 +122,36 @@ public class SreProject {
     private String projectBackground;
     private String searchContent;
     private String chiefMan;
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-	public String getSourceType() {
+    private Integer sumNumber;
+    private BigDecimal sumMoney;
+    private String  index;
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
+    }
+
+    public Integer getSumNumber() {
+        return sumNumber;
+    }
+
+    public void setSumNumber(Integer sumNumber) {
+        this.sumNumber = sumNumber;
+    }
+
+    public BigDecimal getSumMoney() {
+        return sumMoney;
+    }
+
+    public void setSumMoney(BigDecimal sumMoney) {
+        this.sumMoney = sumMoney;
+    }
+
+    public String getSourceType() {
 		return sourceType;
 	}
 

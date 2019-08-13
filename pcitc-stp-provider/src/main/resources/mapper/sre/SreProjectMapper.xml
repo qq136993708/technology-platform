@@ -912,5 +912,10 @@
   <select id="getListMap" resultMap="BaseResultMap" parameterType="Map" >
    select * from sre_project where equipment_ids LIKE  CONCAT('%',#{equipmentIds},'%')
   </select>
-    
+
+
+  <select id="getSumMoney" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select COUNT(t.id) as 'sumNumber',sum(t.project_money) as 'sumMoney' from sre_project t  <include refid="selectCondition" />
+  </select>
+
 </mapper>

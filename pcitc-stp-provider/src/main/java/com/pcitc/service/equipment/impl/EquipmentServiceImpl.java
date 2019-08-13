@@ -389,10 +389,33 @@ public class EquipmentServiceImpl implements EquipmentService {
         map.put("contractNumNotNull", contractNumNotNull);
 
 
-		
-
 		List<SreProject> list = sreProjectMapper.getList(map);
-		PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
+		if (list.size()!=0){
+            if (contractNumNotNull!="") {
+                SreProject projectSumMoney = sreProjectMapper.getSumMoney(map);
+                if (projectSumMoney != null) {
+                    projectSumMoney.getSumNumber();
+                    projectSumMoney.setIndex("合计");
+                    projectSumMoney.setProjectMoney(projectSumMoney.getSumMoney());
+                    projectSumMoney.setName("");
+                    projectSumMoney.setBeginYear("");
+                    projectSumMoney.setEndYear("");
+                }
+                System.err.println("============================");
+
+                int count = 15;
+                int i = pageNum * count;
+                i = i - 14;
+                for (SreProject listmap : list) {
+                    listmap.setIndex(String.valueOf(i++));
+                }
+                if (projectSumMoney.getSumNumber() != 0) {
+                    list.add(0, projectSumMoney);
+                }
+
+            }
+		}
+        PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		
 		LayuiTableData data = new LayuiTableData();
