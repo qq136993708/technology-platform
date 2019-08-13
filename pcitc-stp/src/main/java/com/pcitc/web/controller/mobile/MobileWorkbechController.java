@@ -1,5 +1,8 @@
 package com.pcitc.web.controller.mobile;
 
+import java.io.IOException;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,6 +26,7 @@ import com.pcitc.base.common.Page;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysNoticeVo;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 
@@ -41,8 +45,14 @@ public class MobileWorkbechController extends BaseController{
 	// 获取任务详情信息
 	private static final String INI_DEAL_TASK = "http://pcitc-zuul/system-proxy/task-provider/deal/task/info";
 	// 获取项目管理系统的待办任务
-		private static final String XMGL_PENDING = "http://pcitc-zuul/system-proxy/out-wait-work/xmgl/page";
- 	
+	private static final String XMGL_PENDING = "http://pcitc-zuul/system-proxy/out-wait-work/xmgl/page";
+	private static final String BOT_WORK_ORDER_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/botWorkOrder_list";
+	// 我的工单
+		private static final String MY_BOT_WORK_ORDER_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/my/botWorkOrder_list";
+	private String basePath;	
+		
+		
+		
  	@RequestMapping(value = "/mobile/agencyM")
 	public String agencyM(HttpServletRequest request) {
 		return "/mobile/agencyM";
@@ -50,6 +60,13 @@ public class MobileWorkbechController extends BaseController{
  	
  	@RequestMapping(value = "/mobile/work")
 	public String work(HttpServletRequest request) {
+ 		
+ 		basePath = request.getContextPath();
+		request.setAttribute("basePath", basePath);
+
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
 		return "/mobile/work";
 	}
  	
@@ -67,6 +84,56 @@ public class MobileWorkbechController extends BaseController{
 	public String work_details1(HttpServletRequest request) {
 		return "/mobile/work_details1";
 	}
+ 	
+ 	
+ 	/**
+	 * 工作安排(我安排的)
+	 */
+	@RequestMapping(value = "/mobile/plan/getTableData", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getTableData( HttpServletRequest request) throws IOException {
+		
+		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		LayuiTableParam param = new LayuiTableParam();
+		param.setPage(pageNo);
+		param.setLimit(15);
+		// 只查询本人创建的
+		param.getParam().put("createUser", sysUserInfo.getUserId());
+
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BOT_WORK_ORDER_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData result = responseEntity.getBody();
+		CommonUtil.addAttachmentField(result, restTemplate, httpHeaders);
+		JSONObject retJson = (JSONObject) JSON.toJSON(result);
+		return retJson;
+	}
+	
+	/**
+	 * 工作安排(别人安排 给我的)
+	 */
+	@RequestMapping(value = "/mobile/plan/my/getTableData", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getMyTableData( HttpServletRequest request) throws IOException {
+		
+		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		LayuiTableParam param = new LayuiTableParam();
+		param.setPage(pageNo);
+		param.setLimit(15);
+		
+		Map<String, Object> map = param.getParam();
+		map.put("workOrderAllotUserId", sysUserInfo.getUserId());
+		if (param.getParam().get("workOrderStatus") == null || "".equals(param.getParam().get("workOrderStatus"))) {
+			map.put("workOrderStatus", "1,2");
+		}
+		param.setParam(map);
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(MY_BOT_WORK_ORDER_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData result = responseEntity.getBody();
+		CommonUtil.addAttachmentField(result, restTemplate, httpHeaders);
+		JSONObject retJson = (JSONObject) JSON.toJSON(result);
+		return retJson;
+	}
+	
  	
  	//处理待办
  	@RequestMapping(value = "/mobile/task/pending/deal/{taskId}")
