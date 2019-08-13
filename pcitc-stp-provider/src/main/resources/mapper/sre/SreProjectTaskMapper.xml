@@ -107,9 +107,9 @@
   </select>
   
   <select id="getProjectMoney" resultMap="BaseResultMap" parameterType="Map">
-    select *,
-     ROUND(( SELECT SUM(K0XMDDJE) AS "K0XMDDJE" FROM sre_purchase_order  t2 WHERE t2.G0PROJCODE = t.`erp_num`)/10000 ,2)AS purchase_money
-      from sre_project_task t
+    select sum(project_money)AS  project_money
+    ,sum( ROUND(( SELECT SUM(K0XMDDJE) AS "K0XMDDJE" FROM sre_purchase_order  t2 WHERE t2.G0PROJCODE = t.`erp_num`)/10000 ,2))AS purchase_money
+      from sre_project_task t <include refid="selectCondition"/>
   </select>
   
   

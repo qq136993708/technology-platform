@@ -343,6 +343,15 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         int pageStart = (param.getPage() - 1) * pageSize;
         int pageNum = pageStart / pageSize + 1;
         PageHelper.startPage(pageNum, pageSize);
+        if (!StrUtil.isNullEmpty(param.getOrderKey())) {
+            String key = param.getOrderKey() ;
+            if ("expertName".equals(key)){
+                key = "expert_name";
+            }else if ("birthDate".equals(key)){
+                key = "birth_date";
+            }
+            PageHelper.orderBy(key +" "+ param.getOrderType().toString());
+        }
         List<ZjkExpert> list = zjkBaseInfoMapper.selectByExample(example);
         // 3、获取分页查询后的数据
         PageInfo<ZjkExpert> pageInfo = new PageInfo<ZjkExpert>(list);

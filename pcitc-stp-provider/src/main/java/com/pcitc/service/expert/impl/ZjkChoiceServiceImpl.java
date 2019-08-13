@@ -553,6 +553,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         String projectSteps = zjkChoice.get(0).getBak1();
         String projectId = zjkChoice.get(0).getXmId();
         String projectName = zjkChoice.get(0).getXmName();
+        String templeteId = zjkChoice.get(0).getId();
         //删除
         ZjkChoiceExample example = new ZjkChoiceExample();
         ZjkChoiceExample.Criteria c = example.createCriteria();
@@ -603,7 +604,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         }
         //发送消息
         try {
-            EmailTemplate emailTemplate = emailTemplateService.selectByPrimaryKey("16b26a1e9ef_b63d62da");
+            EmailTemplate emailTemplate = emailTemplateService.selectByPrimaryKey(templeteId);
 //            List<String> emails = zjkChoice.stream().map(ZjkChoice::getBak3).collect(Collectors.toList());
             for (int i = 0; i < j; i++) {
                 ZjkChoice obj = zjkChoice.get(i);
@@ -616,7 +617,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
                 content = content.replace("${project}", obj.getXmName());
                 content = content.replace("${mobile}", obj.getBak5());
                 m.setContent(content);
-                m.setSubject("项目评审邀请");
+                m.setSubject("评审邀请");
                 int leng = files.size();
                 String[] names = new String[leng];
                 String[] urls = new String[leng];

@@ -816,25 +816,30 @@ public class EquipmentServiceImpl implements EquipmentService {
 		Map map=getMap(param);
 		List<SreProjectTask> list = sreProjectTaskMapper.getRelationList(map);
 		SreProjectTask   projectSorting = new SreProjectTask();
-		Map projectMoneyMap=new HashMap();
+		String strkjb=getTableParam(param,"strkjb","");
+		if(list.size()!=0) {
+		if(strkjb.equals("1")) {
+		Map projectMoneyMap=getMap(param);
 		List<SreProjectTask> projectMoney = sreProjectTaskMapper.getProjectMoney(projectMoneyMap);
 		BigDecimal money =new BigDecimal("0.0");
 		BigDecimal purchaseMoney =new BigDecimal("0.0");
 		for(SreProjectTask project : projectMoney) {
-			if(project.getProjectMoney()!=null) {
-				money = money.add(project.getProjectMoney());
-			}
-			if(project.getPurchaseMoney()!=null) {
-				purchaseMoney = purchaseMoney.add(project.getPurchaseMoney());
+			if(project!=null) {
+				if(project.getProjectMoney()!=null) {
+					money = money.add(project.getProjectMoney());
+				}
+				if(project.getPurchaseMoney()!=null) {
+					purchaseMoney = purchaseMoney.add(project.getPurchaseMoney());
+				}
 			}
 		}
-		List<SreProjectTask> arrlist = new ArrayList<SreProjectTask>();
+		//List<SreProjectTask> arrlist = new ArrayList<SreProjectTask>();
 		int count =15;
 		int i=pageNum*count;
 		i=i-14;
 		for(SreProjectTask listmap : list) {
 			listmap.setSorting(String.valueOf(i++));
-			arrlist.add(listmap);
+			//arrlist.add(listmap);
 		}
 		projectSorting.setSorting("合计");
 		projectSorting.setTopicName("");
@@ -843,6 +848,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		projectSorting.setProjectMoney(money);
 		projectSorting.setPurchaseMoney(purchaseMoney);
 		list.add(0, projectSorting);
+		}
+		}
 		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
 		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
 		PageInfo<SreProjectTask> infodate = new PageInfo<SreProjectTask>(list);

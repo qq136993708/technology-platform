@@ -60,32 +60,10 @@
             [
                 {type: 'checkbox', event: 'changeEvents', width: 55},
                 {title: '序号', type: 'numbers', width: 55},
-                // {
-                //     field: 'workOrderStatus',
-                //     title: '状态',
-                //     event: 'setActive',
-                //     align: 'center',
-                //     style: 'cursor: pointer;',
-                //     templet: '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>',
-                //     width: 55
-                // },
-                // {
-                //     field: 'attachment',
-                //     title: '附件',
-                //     event: 'setActive',
-                //     align: 'center',
-                //     style: 'cursor: pointer;',
-                //     width: 55,
-                //     templet: '<div>{{ layui.laytpl.attToPic(d) }}</div>'
-                // },
                 {
                     field: "title",
                     title: "模板名称", event: 'setActive', style: 'cursor: pointer;'
                 },
-                // {
-                //     field: "msgType",
-                //     title: "模板类型", event: 'setActive', style: 'cursor: pointer;'
-                // },
                 {
                     field: "content",
                     title: "模板内容", event: 'setActive', style: 'cursor: pointer;'
@@ -123,16 +101,6 @@
                     //附件文件配置ID
                     publicMethods.viewAtt(dataId, param.id);
                 });
-
-                // var param = {
-                //     data: res.data,//数据
-                //     element: ".layui-table-body table",// 当前的表格元素
-                //     column: 3,//列数 从0开始
-                //     field: "content",//当前数据的字段
-                //     url: "/pageCommon/dic/ck"//接口
-                // };
-                // publicMethods.dataDictionary(param);
-
                 selectRowData = "";
             });
         }

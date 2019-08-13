@@ -99,7 +99,7 @@
         renderTable({param: {
          	"userName":$("#userName").val(),
          	"userKind":$("#userKind").val(),
-           	"userUnit":$("#userUnitValue").val()
+           	"userUnit":$("#userUnit").val()
          	}
          });
 		
@@ -114,7 +114,7 @@
                 renderTable({param: {
                 	"userName":$("#userName").val(),
                 	"userKind":$("#userKind").val(),
-                  	"userUnit":$("#userUnitValue").val()
+                  	"userUnit":$("#userUnit").val()
                 	}
                 });
                 /* table.reload('userTable', {
@@ -129,13 +129,13 @@
                 /*$("#userUnitShow").val("");
                 $("#userUnitValue").val("");*/
 
-                $("#userUnitShow").attr("value", '');
-                $("#userUnitValue").attr("value",'');
+                $("#unitName").val("");
+                $("#userUnit").val("");
 
                 renderTable({param: {
                 	"userName":$("#userName").val(),
                 	"userKind":$("#userKind").val(),
-                  	"userUnit":$("#userUnitValue").val()
+                  	"userUnit":$("#userUnit").val()
                 	}
                 });
             }
@@ -168,7 +168,7 @@
 	                         renderTable({param: {
 	                         	"userName":$("#userName").val(),
 	                         	"userKind":$("#userKind").val(),
-	                           	"userUnit":$("#userUnitValue").val()
+	                           	"userUnit":$("#userUnit").val()
 	                         	}
 	                         });
 	                    	 //table.reload("userTable");
@@ -192,7 +192,7 @@
 	                         renderTable({param: {
 		                         	"userName":$("#userName").val(),
 		                         	"userKind":$("#userKind").val(),
-		                           	"userUnit":$("#userUnitValue").val()
+		                           	"userUnit":$("#userUnit").val()
 		                         	}
 		                         });
 	                    	 //table.reload("userTable");
@@ -274,12 +274,34 @@
                 });
             });
             //加载机构下拉树数据
-            publicMethods.ajaxAsyncPost('/unit/ztree-unit-list', null, function(data,status) {
+          	/*publicMethods.ajaxAsyncPost('/unit/ztree-unit-list', null, function(data,status) {
                 zNodes = data;//机构下拉树的数据
                 //参数： 参数1：div的id，参数2：isMultiple 是否多选(true或false), 参数3：不用动,参数4：setting
                 unitSelectTree = selectTree.initSelectTree("userUnit", false, true, false, { "Y": "", "N": "" },zNodes)
                 selectTree.initHideMenu();  //不加此方法则默认打开下拉树
-            });
+            }); */
+            window.initUnitTreeChoose = function(){
+        		return [];
+        	}
+        	//机构页面选择后回调函数
+        	window.callbackUnitTreeChoose = function(unitIds, unitNames){
+        		var names = "";
+        		$.each(unitNames,function(i,d){
+        			names += d;
+        		});
+        		$("#userUnit").val(unitIds);
+        		$("#unitName").val(names);
+        		renderTable({param: {
+                  	"userName":$("#userName").val(),
+                  	"userKind":$("#userKind").val(),
+                    "userUnit":$("#userUnit").val()
+                  	}
+                });
+        	}
+            $("#unitName").on("click", function() {
+            	 var url = '/unit/chooseUnitMultiV2';
+                 publicMethods.openBaseWin76('机构选择',url);
+        	});
         });
     });
 </script>
@@ -299,7 +321,9 @@
     <label class="dateInput">
         <span>组织机构</span>
         <div class="layui-input-block" style="display:inline-table; margin-left:0px; min-height:24px;">
-        	<div id="userUnit" class="layui-form-select select-tree"></div>
+        	<!-- <div id="userUnit" class="layui-form-select select-tree"></div> -->
+        	<input type="text" name="unitName" id="unitName" autocomplete="off" style="width:250px;" class="form-control">
+        	<input type="hidden" name="userUnit" id="userUnit">
         </div>
     </label>
     <div class="btnGroup">
