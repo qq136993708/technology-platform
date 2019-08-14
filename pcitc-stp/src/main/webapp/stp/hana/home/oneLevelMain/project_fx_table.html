@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="/layuiadmin/style/admin.css">
 <script src="/layuiadmin/layui/layui.js"></script>
 <style>
+	html{background-color: white}
 .dateInput {
 	font-size: 12px;
 }
@@ -194,15 +195,15 @@
 			</div>
 
 			<table class="layui-table" id="budgetTable">
-				<tbody>
+				<thead>
 					<tr>
-						<td lay-data="{align : 'center'}">序号</td>
-						<td lay-data="{align : 'center',width : '100'}">类别</td>
-						<td lay-data="{align : 'center',width : '500'}" colspan="3">科研经费预算</td>
-						<td lay-data="{align : 'center',width : '300'}" colspan="3">资本性预算</td>
+						<th lay-data="{align : 'center'}">序号</th>
+						<th lay-data="{align : 'center',width : '100'}">类别</th>
+						<th lay-data="{align : 'center',width : '500'}" colspan="3">科研经费预算</th>
+						<th lay-data="{align : 'center',width : '300'}" colspan="3">资本性预算</th>
 					</tr>
 				</tbody>
-
+				<tbody></tbody>
 				<!-- <tbody>
 					<tr>
 						<td lay-data="{align : 'center'}" rowspan="5">合计</td>
@@ -421,40 +422,40 @@
 				success : function(data, status) {
 					var list = data.data;
 					for (var i = 0; i < 2; i++) {
-						$("#budgetTable").append("<tbody>");
-						$("#budgetTable").append("<tr>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center'}\" rowspan=\"5\">合计</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '100'}\" rowspan=\"5\">总体预算执行情况</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '500'}\" colspan=\"3\">9500000</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '300'}\" colspan=\"2\">8000</td>");
-						$("#budgetTable").append("</tr>");
-						$("#budgetTable").append("<tr>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '350'}\" colspan=\"2\">其中:新签预算</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '150'}\">其中：结转预算</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '200'}\">实际新签（科研装备+课题资本性支出）</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '100'}\">执行率</td>");
-						$("#budgetTable").append("</tr>");
-						$("#budgetTable").append("<tr>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '350'}\" colspan=\"2\">750000</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '150'}\">200000</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '200'}\">40000</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '100'}\">50%</td>");
-						$("#budgetTable").append("</tr>");
-						$("#budgetTable").append("<tr>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '170'}\">实际新签</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '180'}\">新签执行率</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '150'}\">结转+新签总执行率</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '200'}\"></td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '100'}\"></td>");
-						$("#budgetTable").append("</tr>");
-						$("#budgetTable").append("<tr>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '170'}\">6800000</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '180'}\">71%</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '150'}\">90%</td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '200'}\"></td>");
-						$("#budgetTable").append("<td lay-data=\"{align : 'center',width : '100rowspan=\"\"></td>");
-						$("#budgetTable").append("</tr>");
-						$("#budgetTable").append("</tbody>");
+                        var html='<tr>' +
+                            '<td lay-data="{align : \'center\'}" rowspan="5">合计</td>' +
+                            '<td lay-data="{align : \'center\',width : \'100\'}" rowspan="5">总体预算执行情况</td>' +
+                            '<td lay-data="{align : \'center\',width : \'500\'}" colspan="3">9500000</td>' +
+                            '<td lay-data="{align : \'center\',width : \'300\'}" colspan="2">8000</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td lay-data="{align : \'center\',width : \'350\'}" colspan="2">其中:新签预算</td>' +
+                            '<td lay-data="{align : \'center\',width : \'150\'}">其中：结转预算</td>' +
+                            '<td lay-data="{align : \'center\',width : \'200\'}">实际新签（科研装备+课题资本性支出）</td>' +
+                            '<td lay-data="{align : \'center\',width : \'100\'}">执行率</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td lay-data="{align : \'center\',width : \'350\'}" colspan="2">750000</td>' +
+                            '<td lay-data="{align : \'center\',width : \'150\'}">200000</td>' +
+                            '<td lay-data="{align : \'center\',width : \'200\'}">40000</td>' +
+                            '<td lay-data="{align : \'center\',width : \'100\'}">50%</td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td lay-data="{align : \'center\',width : \'170\'}">实际新签</td>' +
+                            '<td lay-data="{align : \'center\',width : \'180\'}">新签执行率</td>' +
+                            '<td lay-data="{align : \'center\',width : \'150\'}">结转+新签总执行率</td>' +
+                            '<td lay-data="{align : \'center\',width : \'200\'}"></td>' +
+                            '<td lay-data="{align : \'center\',width : \'100\'}"></td>' +
+                            '</tr>' +
+                            '<tr>' +
+                            '<td lay-data="{align : \'center\',width : \'170\'}">6800000</td>' +
+                            '<td lay-data="{align : \'center\',width : \'180\'}">71%</td>' +
+                            '<td lay-data="{align : \'center\',width : \'150\'}">90%</td>' +
+                            '<td lay-data="{align : \'center\',width : \'200\'}"></td>' +
+                            '<td lay-data="{align : \'center\',width : \'100\'}"></td>' +
+                            '</tr>';
+                        $("#budgetTable tbody").append(html);
+
 					}
 				},
 				error : function() {
