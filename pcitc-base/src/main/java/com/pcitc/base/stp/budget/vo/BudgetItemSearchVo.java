@@ -39,6 +39,10 @@ public class BudgetItemSearchVo
 		Double total = 0d;
 		for(Map<String,Object> map:getRsItems()) 
 		{
+			//移除直属研究院（避免重复统计 ）
+			if("ROOT_ZGSHJT_GFGS_ZSYJY".equals(map.get("budgetItemCode"))) {
+				continue;
+			}
 			total += ((Double)map.get("xq")+(Double)map.get("jz"));
 		}
 		return total;
@@ -53,6 +57,10 @@ public class BudgetItemSearchVo
 		Double jz = 0d;
 		for(Map<String,Object> map:getRsItems()) 
 		{
+			//移除直属研究院（避免重复统计 ）
+			if("ROOT_ZGSHJT_GFGS_ZSYJY".equals(map.get("budgetItemCode"))) {
+				continue;
+			}
 			jz += (Double)map.get("jz");
 		}
 		return jz;
@@ -67,6 +75,10 @@ public class BudgetItemSearchVo
 		Double xq = 0d;
 		for(Map<String,Object> map:getRsItems()) 
 		{
+			//移除直属研究院（避免重复统计 ）
+			if("ROOT_ZGSHJT_GFGS_ZSYJY".equals(map.get("budgetItemCode"))) {
+				continue;
+			}
 			xq += (Double)map.get("xq");
 		}
 		return xq;
