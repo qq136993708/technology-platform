@@ -13,7 +13,7 @@
 <body>
 <header>
     <div class="m_return child">
-        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <a data-rel="back"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>工作安排</h4>
     </div>
 </header>
@@ -88,6 +88,12 @@
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    $(document).bind("mobileinit", function() {
+        $.mobile.loadingMessage = "";
+        $.mobile.pageLoadErrorMessage = "";
+    });
+</script>
 <script src="/mobile/js/jquery.mobile-1.4.5.min.js"></script>
 <script>
     var layer;
