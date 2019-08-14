@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 	<script type="text/javascript">
 		var param;
-		layui.use(['jquery','form','laydate','table', 'layer', 'element','publicMethods'], function(){
+		layui.use(['jquery','form','laydate','table', 'layer','laytpl', 'element','publicMethods'], function(){
 	    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
 	            form = layui.form,publicMethods=layui.publicMethods,table = layui.table,selectRowData;
 	    		
@@ -26,6 +26,29 @@
 						});
 					});
 			   	});
+		    	window.flowStatus=function(d)
+		    	{
+    		        var stateData;
+    		        if(d==0){
+    		        	stateData="<button style='background-color: #5FB878' class='layui-btn  layui-btn-xs'>未提交</button>";
+    		            //<span class='fontStateColor btnYellow'></span>"
+    		        }else if(d==1){
+    		        	stateData="<button style='background-color: #FFB800' class='layui-btn layui-btn-xs'>审核中</button>";
+    		            //stateData="<span class='fontStateColor btn-green'></span>"
+    		        }else if(d==2){
+    		        	stateData="<button  style='background-color: #1E9FFF' class='layui-btn layui-btn-xs'>已通过</button>";
+    		            //stateData="<span class='fontStateColor btn-blue'></span>"
+    		        }else if(d==-1){
+    		        	stateData="<button style='background-color: #1E9FFF' class='layui-btn  layui-btn-xs'>已驳回</button>";
+    		           // stateData="<span class='fontStateColor btn-yellow'></span>"
+    		        }else if(d==null){
+    		        	stateData="<span>---</span>";
+    		        }else
+    		    	{
+    		        	stateData="<span>-</span>";
+    		    	}
+    		        return stateData;
+		    	}
 	    		function renderTable(where){
 	    			var lodingMsg = layer.msg('数据加载中....');
 	    			param = JSON.parse(window.localStorage.getItem("param"));
@@ -49,14 +72,13 @@
 			            	 {type:'checkbox'}
 			            	,{title:'序号', type:'numbers' ,width : 55}
 			            	,{field:'flowCurrentStatusDesc',  title:'审查状态',width : '8%',style:'cursor: pointer;',align:"center"
-			            		,templet:function(d){
+			            		,templet : '<div>{{ flowStatus(d.flowCurrentStatus) }}</div>'
+			            		/* templet:function(d){
 			                		return '<button class="layui-btn layui-btn-xs" target="_top">'+d.flowCurrentStatusDesc+'</button>'
-			                	}
+			                	} */
 			            	}
 			            	,{field:'externalCheckDesc',  title:'外部协议状况',width : '8%',style:'cursor: pointer;',align:"center"
-			            		,templet:function(d){
-			                		return '<button class="layui-btn layui-btn-xs" target="_top">'+d.externalCheckDesc+'</button>'
-			                	}
+			            		,templet : '<div>{{ flowStatus(d.externalCheck) }}</div>'
 			            	}
 			                ,{field:'projectName',   title:'立项名称', style:'cursor: pointer;'}
 			                ,{field:'applyId',title:'申报项目名称',   style:'cursor: pointer;'}
