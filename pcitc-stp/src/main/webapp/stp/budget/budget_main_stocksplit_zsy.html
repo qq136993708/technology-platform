@@ -151,6 +151,7 @@
             var dev_obj = document.getElementById('tableBox'); //table的父div;            //layui table 父div
             var layuitable = null;  //当前的layui table
             var scrollTop = 0;      //记录位置
+            var scrollLeft = 0;
             laydate.render({
                 elem: '#choose-year'
                 ,value: cu_date
@@ -247,6 +248,7 @@
 	                if (layuitable != null && layuitable.length > 0)
 	                {
 	                    scrollTop = layuitable[0].scrollTop; //layuitable获取到的是 class=layui-table-main的集合
+	                    scrollLeft = layuitable[0].scrollLeft;
 	                }
 	            }
             	//计算求和
@@ -268,6 +270,7 @@
 					if (layuitable != null && layuitable.length > 0)
 	                {
 	                    layuitable[0].scrollTop = scrollTop;
+	                    layuitable[0].scrollLeft = scrollLeft;
 	                }
 				}});
 				//格式化求和
