@@ -429,12 +429,13 @@ public class BudgetGroupSplitController extends BaseController {
 			this.processExcelTitle(sheet, param, titles);
 			//从第六行开始数据
 			int c_index = 5;
+			Integer no = 1;
 			for(java.util.Iterator<?> iter = tableData.getData().iterator();iter.hasNext();) 
 			{
 				//{"budgetType":203,"plan_xq":0.0,"no":1,"ROOT_JFYS_JTDWFL2019_QT_total":0.0,"ROOT_JFYS_JTDWFL2019_JX_xq":5000.0,"total_xq":5000.0,"dataVersion":"vs-2019-203-001","ROOT_JFYS_JTDWFL2019_QT_jz":0.0,"plan_jz":0.0,"ROOT_JFYS_JTDWFL2019_YF_xq":0.0,"ROOT_JFYS_JTDWFL2019_QT_xq":0.0,"organName":"油田处","total":10000.0,"ROOT_JFYS_JTDWFL2019_JX_jz":5000.0,"nd":"2019","organCode":"YTC","ROOT_JFYS_JTDWFL2019_YF_jz":0.0,"budgetInfoId":"169e13840cc_22676aa3","organId":1,"total_jz":5000.0,"ROOT_JFYS_JTDWFL2019_JX_total":10000.0,"plan_total":0.0,"ROOT_JFYS_JTDWFL2019_YF_total":0.0,"budgetTypeName":"预算分解表（集团预算分解）"}
 				JSONObject json = JSON.parseObject(JSON.toJSONString(iter.next()));
 				//序号，专业处，预算合计，【合计，油服，机械，其他，计划 | 合计，油服，机械，其他，计划】
-				Integer no = json.getIntValue("no");
+				//Integer no = json.getIntValue("no");
 				Integer plan_xq = json.getInteger("plan_xq");
 				Integer plan_jz = json.getInteger("plan_jz");
 				//Integer plan_total = json.getInteger("plan_total");
@@ -445,7 +446,7 @@ public class BudgetGroupSplitController extends BaseController {
 				
 				Row row = sheet.getRow(c_index++);
 				if(row == null) {row = sheet.createRow(c_index);}
-				row.createCell(0).setCellValue(no);
+				row.createCell(0).setCellValue(no++);
 				row.createCell(1).setCellValue(organName);
 				row.createCell(2).setCellValue(total);
 				row.createCell(3).setCellValue(total_jz);

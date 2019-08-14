@@ -39,8 +39,9 @@ public class BudgetItemSearchVo
 		Double total = 0d;
 		for(Map<String,Object> map:getRsItems()) 
 		{
-			//移除直属研究院（避免重复统计 ）
-			if("ROOT_ZGSHJT_GFGS_ZSYJY".equals(map.get("budgetItemCode"))) {
+			//移除直属研究院和股份公司（避免重复统计 ）
+			if("ROOT_ZGSHJT_GFGS_ZSYJY".equals(map.get("budgetItemCode"))
+				||"STOCK_TOTAL".equals(map.get("budgetItemCode"))) {
 				continue;
 			}
 			total += ((Double)map.get("xq")+(Double)map.get("jz"));
@@ -58,7 +59,8 @@ public class BudgetItemSearchVo
 		for(Map<String,Object> map:getRsItems()) 
 		{
 			//移除直属研究院（避免重复统计 ）
-			if("ROOT_ZGSHJT_GFGS_ZSYJY".equals(map.get("budgetItemCode"))) {
+			if("ROOT_ZGSHJT_GFGS_ZSYJY".equals(map.get("budgetItemCode"))
+				||"STOCK_TOTAL".equals(map.get("budgetItemCode"))) {
 				continue;
 			}
 			jz += (Double)map.get("jz");
@@ -76,7 +78,8 @@ public class BudgetItemSearchVo
 		for(Map<String,Object> map:getRsItems()) 
 		{
 			//移除直属研究院（避免重复统计 ）
-			if("ROOT_ZGSHJT_GFGS_ZSYJY".equals(map.get("budgetItemCode"))) {
+			if("ROOT_ZGSHJT_GFGS_ZSYJY".equals(map.get("budgetItemCode"))
+				||"STOCK_TOTAL".equals(map.get("budgetItemCode"))) {
 				continue;
 			}
 			xq += (Double)map.get("xq");
@@ -139,7 +142,39 @@ public class BudgetItemSearchVo
 				rs.add(m);
 			}
 		}
+		//计算股份公司合计
+		processStockSum(rs);
 		return rs;
+	}
+	/**
+	 * 计算股份公司求和（各研究院和研究院汇总不能重复计算）
+	 * @param data
+	 */
+	private void processStockSum(List<Map<String,Object>> data) 
+	{
+		Map<String,Object> m = new HashMap<String,Object>();
+		m.put("unitId", JSON.toJSONString(unitIds));
+		m.put("unitName", JSON.toJSONString(unitIds));
+		m.put("budgetItemCode", "STOCK_TOTAL");
+		m.put("budgetItemName", "股份公司");
+		m.put("total", 0d);
+		m.put("jz", 0d);
+		m.put("xq", 0d);
+		m.put("otherPayMoney", 0d);
+		for(Map<String,Object> map:data) 
+		{
+			//排除研究院、集团公司、资产公司
+			if("ROOT_ZGSHJT_GFGS_ZSYJY".equals(map.get("budgetItemCode"))
+			||"GROUP_TOTAL".equals(map.get("budgetItemCode"))
+			||"ASSET_TOTAL".equals(map.get("budgetItemCode"))) {
+				continue;
+			}
+			m.put("total", (Double)m.get("total")+(Double)map.get("total"));
+			m.put("jz", (Double)m.get("jz")+(Double)map.get("jz"));
+			m.put("xq", (Double)m.get("xq")+(Double)map.get("xq"));
+			m.put("otherPayMoney", (Double)m.get("otherPayMoney")+(Double)map.get("otherPayMoney"));
+		}
+		data.add(m);
 	}
 	
 	/**
