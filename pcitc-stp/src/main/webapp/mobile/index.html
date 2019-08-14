@@ -74,15 +74,15 @@
                 		<span class="text">已办任务</span>
                 	</div>
                 </li>
-                <li class="layui-col-xs3" >
+                <li class="layui-col-xs3" id="work_list">
                     <div class="agency-box">
 						<img src="/mobile/images/work-img3.png" alt="">
-						<span class="number">89</span>
+						<span class="number">0</span>
                 		<span class="text">工作安排</span>
                 	</div>
                 </li>
 				<li class="layui-col-xs3" >
-                    <div class="agency-box" id="audit_msg_list">
+                    <div class="agency-box" id="institute_list">
 						<img src="/mobile/images/work-img4.png" alt="">
 						<span class="text">研究院概况</span>
                 	</div>
@@ -338,18 +338,21 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
   	
     //代办
     $("#numberNotice_list").click(function () {
-    	location.href="/mobile/wait_task_list_mui";
+    	location.href="/mobile/agencyM";
     });
     
     // 已办任务
     $("#doneTaskCount_list").click(function () {
-    	location.href="/mobile/done_task_list";
+    	location.href="/mobile/agencyM";
     });
     // 审核消息
-    $("#audit_msg_list").click(function () {
-    	location.href="/mobile/message_list";
+    $("#institute_list").click(function () {
+    	location.href="/mobile/institute";
     });
-    
+    // 工作安排
+    $("#work_list").click(function () {
+    	location.href="/mobile/work";
+    });
     
    
     
@@ -460,6 +463,11 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	//预算比率
 	function setYusuan_rate(v_date,nd) 
     {
+        var circleSize=0,thickness='';
+        var system = {ipad:false};
+        system.ipad = (navigator.userAgent.match(/iPad/i) != null)?true:false;
+        system.ipad==true ? circleSize=100:circleSize=50;
+        system.ipad==true ? thickness="10":thickness="5";
 		$.ajax({
 			type : 'GET',
 			url : "/mobile/index_budget?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
@@ -469,14 +477,14 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 			},
 			timeout : 6000, //超时时间设置，单位毫秒
 			error : function(XMLHttpRequest, status) {
-				  $("#circle").find('span').html(0+"%");
+				  $("#circle").find('span').html(0);
 				 
 
 			        $("#circle").circleProgress({
 			            value : 0,
-			            size : 50,
+			            size : circleSize,
 			            startAngle : -Math.PI / 2,
-			            thickness : '5',
+			            thickness : thickness,
 			            fill : {
 			                gradient : [ "#ffffff", "#e99a54" ]
 			            },
@@ -498,13 +506,13 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 				var moneyCurrent = parseFloat(tt1)/ 10000;
 				var moneyTotal = parseFloat(tt2) / 10000;
 				var rateDate=((moneyCurrent/moneyTotal)*100).toFixed(2);
-				$("#circle").find('span').html(rateDate+"%");
+				$("#circle").find('span').html(rateDate);
 				
 				 $("#circle").circleProgress({
 			            value : rateDate/100,
-			            size : 50,
+			            size : circleSize,
 			            startAngle : -Math.PI / 2,
-			            thickness : '5',
+			            thickness : thickness,
 			            fill : {
 			                gradient : [ "#ffffff", "#e99a54" ]
 			            },
@@ -598,7 +606,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 //待办个数
 	 function set_wait_notice_count(v_date)
 	 {
-	    	var url="/mobile/task/pending-list?v_date="+v_date;
+	    	var url="/mobile/wait_task_list_data?v_date="+v_date;
 	        $.ajax({
 	            type: "POST",
 	            url: url,
@@ -624,7 +632,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 //任务已办个数
 	 function setOverTaskCount(v_date) 
 	 {
-	    	var url="/mobile/task/done-task-list?v_date="+v_date;
+	    	var url="/mobile/finished_task_list_data?v_date="+v_date;
 	        $.ajax({
 	            type: "POST",
 	            url: url,

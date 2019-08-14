@@ -65,6 +65,13 @@ public class MobileController extends BaseController {
 		return "/mobile/budget";
 	}
 	
+	@RequestMapping(value = "/mobile/institute")
+	public String institute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String nd = HanaUtil.getCurrentYear();
+		request.setAttribute("nd", nd);
+		return "/mobile/institute";
+	}
 	
 	
 	

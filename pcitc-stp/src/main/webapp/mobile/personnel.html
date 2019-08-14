@@ -17,8 +17,8 @@
         <h4>科技人才</h4>
     </div>
     <div class="search">
-        <input type="text" value="请输入姓名 单位或专业领域" />
-        <img src="/mobile/images/icon-search.png" alt="">
+        <input type="text" name="key" id="key" value="" placeholder="请输入姓名 单位或专业领域" />
+        <img src="/mobile/images/icon-search.png" alt="" onclick="search()">
     </div>
 </header>
 <main class="main contract personnel">
@@ -123,6 +123,15 @@
     
     
     
+    
+    
+    function search()
+    {
+    	 var key=$("#key").val();
+    	 
+    	 
+    }
+    
     //院士
     function queryTabel(url,id,type)
     {
@@ -149,16 +158,17 @@
    					 var expertProfessionalFieldName= data[i].expertProfessionalFieldName;
    					 var userDesc= data[i].userDesc;
    					 userDesc =getClear(userDesc);
-   					 
+   					 var className='';
    					 if(sex=='ROOT_UNIVERSAL_XB_N')
    					 {
    						sex='男';
    					 }else
 					 {
 						sex='女';
+                         className="lady"
 				     }
    					 
-   					 var temp="<div class='item' onclick=\"view('"+dataId+"')\" >"+
+   					 var temp="<div class='item "+className+"' onclick=\"view('"+dataId+"')\" >"+
 			                        "<div class='item-img'>"+
 			                            "<img dataType='headImg' id='"+dataId+"'  height='110'>"+
 			                        "</div>"+
