@@ -52,7 +52,7 @@
                     <h4>任务描述:</h4>
                     <p>${planBase.remarks}</p>
                     <button class="layui-btn layui-active" <#if planBase.workOrderStatus == 2> style="display:none" </#if> id="work">处d理任务</button>
-                    <button class="layui-btn layui-rest layui-hide" id="rest">处理任务</button>
+                    <button class="layui-btn layui-rest"   <#if planBase.workOrderStatus != 2> style="display:none" </#if> id="rest">处理任务</button>
                 </div>
             </div>
         </div>
