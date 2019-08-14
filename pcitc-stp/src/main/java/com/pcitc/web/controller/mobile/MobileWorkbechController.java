@@ -1,7 +1,11 @@
 package com.pcitc.web.controller.mobile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,16 +22,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.InforVo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Page;
 import com.pcitc.base.plan.PlanBase;
+import com.pcitc.base.plan.PlanBaseDetail;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysNoticeVo;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 
@@ -56,7 +63,18 @@ public class MobileWorkbechController extends BaseController
  	private static final String VIEW_MY_BOT_WORK_ORDER_MATTER_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/queryMyBotWorkOrderMatterList";
     // 查看工单事项集合
  	private static final String VIEW_BOT_WORK_ORDER_MATTER_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/queryBotWorkOrderMatterList";
+ // 提交
+ 	private static final String SUBMIT_MY_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/submitMyBotWorkOrder/";
 
+ 	
+   // 修改
+ 	private static final String EDIT_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/editBotWorkOrder";
+ 	// 提交
+ 	private static final String AFFIRM_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/affirmBotWorkOrder/";
+   // 批量保存工单事项
+ 	private static final String SAVE_MY_BOT_WORK_ORDER_MATTER_BATCH = "http://pcitc-zuul/system-proxy/planClient-provider/saveMyBotWorkOrderMatterBatch";
+ 	
+ 	
     private String basePath;	
 		
 	
@@ -212,6 +230,90 @@ public class MobileWorkbechController extends BaseController
 		return retJson;
 	}
 	
+	//处理工单
+	@RequestMapping(value = "/mobile/plan/submitMyBotWorkOrder")
+	@ResponseBody
+	public int submitMyBotWorkOrder(HttpServletRequest request) {
+		int result;
+		result = saveMyBotWorkOrderMatterFeedBack(request);
+		String param = request.getParameter("param");
+		JSONObject jsStr = (JSONObject) JSON.parseObject(param);
+		String dataId = jsStr.getString("dataId");
+		// if (result == 200) {
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SUBMIT_MY_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
+		result = responseEntity.getBody();
+		// }
+		return result;
+	}
+	
+	/**
+	 * 保存我的工单事项反馈
+	 *
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/mobile/plan/saveMyBotWorkOrderMatterFeedBack")
+	@ResponseBody
+	public int saveMyBotWorkOrderMatterFeedBack(HttpServletRequest request) 
+	{
+		String param = request.getParameter("param");
+		System.out.println("--saveMyBotWorkOrderMatterFeedBack="+param);
+		JSONObject jsStr = (JSONObject) JSON.parseObject(param);
+		jsStr.put("auditSts", "0");
+		jsStr.put("createDate", DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+		jsStr.put("dataOrder", new Date().getTime() + "");
+		jsStr.put("updateDate", DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+		jsStr.put("updateUser", sysUserInfo.getUserId());
+		jsStr.put("updateUserName", sysUserInfo.getUserDisp());
+		jsStr.put("status", "0");
+		jsStr.put("unitName", sysUserInfo.getUnitName());
+
+		List<PlanBaseDetail> matterList = new ArrayList<PlanBaseDetail>();
+		if (jsStr.containsKey("matterList")) {
+			JSONArray array = jsStr.getJSONArray("matterList");
+			for (int i = 0; i < array.size(); i++) {
+				PlanBaseDetail matterVo = JSONObject.toJavaObject(array.getJSONObject(i), PlanBaseDetail.class);
+				matterVo.setWorkOrderId(jsStr.getString("dataId"));
+				matterVo.setDataOrder(i + "");
+				matterVo.setMatterType("1");
+				matterVo.setStatus("0");
+				matterVo.setDataId(UUID.randomUUID().toString().replace("-", ""));
+
+				matterVo.setCreateUser(sysUserInfo.getUserId());
+				matterVo.setCreateUserName(sysUserInfo.getUserDisp());
+				matterVo.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+
+				matterList.add(matterVo);
+			}
+		}
+		// 保存主表信息
+		String dataId = jsStr.getString("dataId");
+		ResponseEntity<PlanBase> resultEntity = this.restTemplate.exchange(VIEW_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), PlanBase.class);
+		PlanBase wjbvo = resultEntity.getBody();
+		wjbvo = (PlanBase) JSONObject.toJavaObject(jsStr, PlanBase.class);
+		wjbvo.setUpdateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+		wjbvo.setUpdateUser(sysUserInfo.getUserId());
+		wjbvo.setUpdateUserName(sysUserInfo.getUserDisp());
+		wjbvo.setDelFlag("0");
+		HttpEntity<PlanBase> entity = new HttpEntity<PlanBase>(wjbvo, this.httpHeaders);
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(EDIT_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
+
+		// 保存从表新
+		PlanBase pb = new PlanBase();
+		pb.setDataId(wjbvo.getDataId());
+		pb.setPlanBaseDetailList(matterList);
+		HttpEntity<PlanBase> entityList = new HttpEntity<PlanBase>(pb, this.httpHeaders);
+		ResponseEntity<Integer> responseEntityList = this.restTemplate.exchange(SAVE_MY_BOT_WORK_ORDER_MATTER_BATCH, HttpMethod.POST, entityList, Integer.class);
+		int result = responseEntityList.getBody();
+		try {
+			CommonUtil.updateFileFlag(restTemplate, httpHeaders, jsStr.getString("dataId"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 500;
+		}
+		return result;
+	}
+
  	
  	//处理待办
  	@RequestMapping(value = "/mobile/task/pending/deal/{taskId}")
