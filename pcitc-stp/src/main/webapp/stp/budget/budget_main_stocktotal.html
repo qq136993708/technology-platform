@@ -223,7 +223,7 @@
 			function reloadDataAndTableFormart(data)
 			{
 				var table_data = data?data:[];
-				table.reload('dataTable', {data:table_data,done:function(){
+				table.reload('dataTable', {data:table_data,even: true,done:function(){
 					if (layuitable != null && layuitable.length > 0)
 	                {
 	                    layuitable[0].scrollTop = scrollTop;
