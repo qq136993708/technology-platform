@@ -38,6 +38,7 @@ import com.pcitc.base.expert.ZjkChoice;
 import com.pcitc.base.expert.ZjkExpert;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.Contract;
+import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
@@ -523,6 +524,14 @@ public class MobileController extends BaseController {
 
 		return "/mobile/zhfxTable3";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 }
