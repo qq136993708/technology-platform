@@ -27,6 +27,9 @@
         .doc-box p {height: 26px;line-height: 26px;}
         .doc-box ul li{line-height: 26px;}
         .layui-table-header table thead tr th div{text-align: center;}
+        .layui-table-total{position: relative;}
+        .layui-table-total-fixed{position: absolute;bottom: 0;left: 0;z-index: 101;    box-shadow: 0 -1px 8px rgba(0,0,0,.08);}
+        .layui-table-total-fixed table tbody tr td{background: #f2f2f2 !important;}
     </style>
 </head>
 <body>
@@ -280,6 +283,11 @@
 						$(this).find("div").html(parseInt(val));
 					}
 				});
+				$(".layui-table-total").after("<div class='layui-table-total-fixed'>"+$(".layui-table-total").html()+"</div>");
+				$(".layui-table-total .layui-table-patch").remove();
+                $(".layui-table-total-fixed table tbody tr td").each(function (i,val) {
+                    if(i>3){$(this).remove();}
+                });
 			}
           	//初始化数据版本
             window.initDataVersion =function(budget_id){
