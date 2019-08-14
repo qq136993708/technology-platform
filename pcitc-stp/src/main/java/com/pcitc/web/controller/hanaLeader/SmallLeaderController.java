@@ -1,13 +1,10 @@
 package com.pcitc.web.controller.hanaLeader;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +24,6 @@ import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.BudgetMysql;
-import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
@@ -44,6 +40,8 @@ public class SmallLeaderController extends BaseController {
 	private static final String getInvestmentAll = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
 
 	private static final String getZBX = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/money-hana-type";
+	
+	private static final String getBudgetInfo = "http://pcitc-zuul/system-proxy/out-project-provider/budget/all-level";
 
 	/**
 	 * 专业处--研究院预算（原科研投入功能）
@@ -356,6 +354,39 @@ public class SmallLeaderController extends BaseController {
 		}
 
 		return resault;
+	}
+	
+	/**
+	 * 获取预算总额（按照专业处进行权限获取）
+	 */
+	@RequestMapping(value = "/small_leader/budget/info")
+	@ResponseBody
+	@OperationFilter(dataFlag = "true")
+	public Object getBudgetInfo(HttpServletRequest request, HttpServletResponse response) {
+		Result result = new Result();
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		paramsMap.put("zycbm", zycbm);
+		paramsMap.put("zylbbm", zylbbm);
+		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+		paramsMap.put("nd", nd);
+
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getBudgetInfo, HttpMethod.POST, entity, JSONArray.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			JSONArray jSONArray = responseEntity.getBody();
+			System.out.println(">>>>>>>>>>>>>>getBudgetInfo jSONArray-> " + jSONArray.toString());
+			result.setSuccess(true);
+			result.setData(jSONArray);
+		}
+		
+		return result;
 	}
 
 }

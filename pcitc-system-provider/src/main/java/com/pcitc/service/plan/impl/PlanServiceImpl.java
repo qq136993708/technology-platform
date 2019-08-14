@@ -391,6 +391,10 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     public LayuiTableData queryMyBotWorkOrderListByPage(LayuiTableParam param) {
+    	
+    	
+    	JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+    	System.out.println(">>>>>>>>>> queryMyBotWorkOrderListByPage 参数: "+parmamss.toJSONString());
         // 1、设置分页信息，包括当前页数和每页显示的总计数
         PageHelper.startPage(param.getPage(), param.getLimit());
         // 设置查询条件
