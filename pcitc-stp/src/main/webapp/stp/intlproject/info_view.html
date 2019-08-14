@@ -132,9 +132,10 @@
 					<label for="" class="layui-form-label">外部协议状况<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
 					 	<select name="externalCheck" id="externalCheck" lay-verify="required"  lay-filter="externalCheck">
-		                	<option value="1">协议谈判中</option>
-		                	<option value="2">协议达成</option>
-		                	<option value="-1">协议未达成</option>
+		                	<option value="0">未提交</option>
+			                <option value="1">审核中</option>
+			                <option value="2">已通过</option>
+			                <option value="-1">已驳回</option>
 		             	</select>
 					</div>
 				</div>
