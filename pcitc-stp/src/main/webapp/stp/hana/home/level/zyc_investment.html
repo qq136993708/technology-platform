@@ -36,9 +36,19 @@
 	color: orange;
 }
 
-.layui-row-mainN td .layui-table-cell {color: #666666 !important;}
-.layui-row-mainN td:nth-child(3) .layui-table-cell,.layui-row-mainN td:nth-child(6) .layui-table-cell {color: red !important;}
-.layui-row-mainN td:nth-child(4) .layui-table-cell ,.layui-row-mainN td:nth-child(8) .layui-table-cell span{color: green !important;}
+.layui-row-mainN td .layui-table-cell {
+	color: #666666 !important;
+}
+
+.layui-row-mainN td:nth-child(3) .layui-table-cell, .layui-row-mainN td:nth-child(6) .layui-table-cell
+	{
+	color: red !important;
+}
+
+.layui-row-mainN td:nth-child(4) .layui-table-cell, .layui-row-mainN td:nth-child(8) .layui-table-cell span
+	{
+	color: green !important;
+}
 </style>
 </head>
 <body>
@@ -91,7 +101,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="layui-row layui-col-space15">
 				<div class="layui-col-md12">
 					<div class="layui-card">
@@ -105,17 +115,17 @@
 									<tr>
 										<th lay-data="{field:'zycmc', width:'13%'}" rowspan="2">专业处名称</th>
 										<th lay-data="{align:'center'}" colspan="3">预算总计（万元）</th>
-										<th lay-data="{align:'center'}" colspan="2" id = 'xkInfo'></th>
-										<th lay-data="{align:'center'}" colspan="2" id = 'jzInfo'></th>
+										<th lay-data="{align:'center'}" colspan="2" id='xkInfo'></th>
+										<th lay-data="{align:'center'}" colspan="2" id='jzInfo'></th>
 									</tr>
 									<tr>
-										<th lay-data="{field:'ysje', width:'13%',align:'right'}"> </th>
+										<th lay-data="{field:'ysje', width:'13%',align:'right'}"></th>
 										<th lay-data="{field:'ysxkje', width:'13%',align:'right'}">其中：可新签</th>
 										<th lay-data="{field:'ysjzje', width:'13%',align:'right'}">其中：结转</th>
 
 										<th lay-data="{field:'xkMoney', width:'13%',align:'right'}">新签金额</th>
 										<th lay-data="{width:'11%',align:'right',templet : '#xkMoneyRate'}">新签预算完成比例</th>
-										
+
 										<th lay-data="{field:'jzMoney', width:'13%',align:'right'}">结转金额</th>
 										<th lay-data="{width:'11%',align:'right',templet : '#jzMoneyRate'}">占结转预算比例</th>
 									</tr>
@@ -125,7 +135,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			</#if>
 
 			<div class="layui-row layui-col-space15">
@@ -220,7 +230,7 @@
 	<script type="text/javascript">
 		var table;
 		var userPosition = "${userPosition}"; //职务
-		
+
 		layui.config({
 			base : '/layuiadmin/'
 		}).extend({
@@ -239,7 +249,7 @@
 				}
 			});
 			$(".layui-time").html($("#nd").val());
-			
+
 			//监听行单击事件
 			table.on('row(myTable)', function(obj) {
 				console.log(obj.tr) //得到当前行元素对象
@@ -269,7 +279,7 @@
 					var define12 = "";
 					if (xName == '资产公司' || xName == '集团公司') {
 						define11 = xName;
-					} else if (xName == '合计'){
+					} else if (xName == '合计') {
 						define11 = "";
 					} else {
 						define11 = "股份公司";
@@ -285,36 +295,36 @@
 
 					parent.layui.index.openTabsPage("/one_level_main/count_table_new?define12=" + define12 + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8&define11=" + define11, "科研预算详情");
 				});
-				
+
 				table.on('row(zycysTable)', function(obj) {
 					selectRowData = obj.data;
 					var xName = selectRowData.zycmc;
 					var nd = $('#nd').val();
 
 					var qdbz = '已签订';
-					
+
 					if (xName == '油田处') {
 						xName = '科技部';
 					}
-					if (xName.indexOf('炼油事业部')>-1) {
+					if (xName.indexOf('炼油事业部') > -1) {
 						xName = '炼油部';
 					}
-					if (xName.indexOf('化工事业部')>-1) {
+					if (xName.indexOf('化工事业部') > -1) {
 						xName = '化工部';
 					}
-					if (xName.indexOf('合计')>-1) {
+					if (xName.indexOf('合计') > -1) {
 						xName = '';
 					}
 					if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
 						parent.layui.index.openTabsPage("/one_level_main/count_table_new?gsbmbmFlag=" + xName + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8", "科研预算详情");
 					} else if (xName == '专项' || xName == '机动') {
-						
+
 					} else if (xName == '') {
 						parent.layui.index.openTabsPage("/one_level_main/count_table_new?ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8", "科研预算详情");
 					} else {
 						parent.layui.index.openTabsPage("/one_level_main/count_table_new?zycbmFlag=" + xName + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8", "科研预算详情");
 					}
-					
+
 				});
 
 				kyysTable();
@@ -334,13 +344,13 @@
 			});
 
 		}
-		
+
 		// 专业处预算情况
 		function zycysTable() {
 
 			var nd = $("#nd").val();
-			$("#xkInfo").html($("#nd").val()+"年新签情况（万元）");
-			$("#jzInfo").html($("#nd").val()+"年结转情况（万元）");
+			$("#xkInfo").html($("#nd").val() + "年新签情况（万元）");
+			$("#jzInfo").html($("#nd").val() + "年结转情况（万元）");
 			var v_date = (new Date()).getTime();
 			var url = '/one_level_main/investment_03?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&xmlbbm=fkyzb&v_date=" + v_date;
 			table.init('zycysTable', {
@@ -349,12 +359,12 @@
 			});
 
 		}
-		
+
 		function moneyRate(ysxkje, xkMoney) {
 			if (ysxkje == 0 || xkMoney == 0) {
 				return '<span style="color:red">--</span>';
 			} else {
-				return '<span style="color:red">' + (xkMoney*100 / ysxkje).toFixed(2) + '%</span>';
+				return '<span style="color:red">' + (xkMoney * 100 / ysxkje).toFixed(2) + '%</span>';
 			}
 		}
 

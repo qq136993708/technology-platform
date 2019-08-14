@@ -979,7 +979,6 @@ public class OutProjectInfoClient {
 		double totalZbxBudget = 0d;
 		double totalZbxXqMoney = 0d;
 		
-		// 股份公司特殊处理，ROOT_ZGSHJT_GFGS且等级为2的合
 		for (int i = 0; i < temList.size(); i++) {
 			Map<String, Object> temMap = (Map<String, Object>) temList.get(i);
 
@@ -988,9 +987,15 @@ public class OutProjectInfoClient {
 				if (temMap.get("show_ali").toString().equals(bm.get("budgetItemName").toString())) {
 					temMap.put("fyxXqBudget", bm.get("xq") == null ? "0" : bm.get("xq"));
 					temMap.put("fyxJzBudget", bm.get("jz") == null ? "0" : bm.get("jz"));
-					temMap.put("fyxBudget", Double.valueOf(temMap.get("fyxXqBudget").toString()) + Double.valueOf(temMap.get("fyxJzBudget").toString()));
 					System.out.println("预算各机构金额-----" + bm.get("budgetItemName") + "========" + bm.get("xq") + "========" + bm.get("jz"));
-					
+					if (bm.get("budgetItemName").toString().equals("股份公司") || bm.get("budgetItemName").toString().equals("集团公司") || bm.get("budgetItemName").toString().equals("资产公司")) {
+						if (leaderFlag) {//领导在算股份、集团、资产合计的时候，按照总部计算。
+							temMap.put("fyxBudget", temMap.get("fyxBudget"));
+							temMap.put("fyxJzBudget", bm.get("jz") == null ? "0" : bm.get("jz"));
+							temMap.put("fyxXqBudget", Double.valueOf(temMap.get("fyxBudget").toString()) - Double.valueOf(temMap.get("fyxJzBudget").toString()));
+						}
+					}
+					temMap.put("fyxBudget", Double.valueOf(temMap.get("fyxXqBudget").toString()) + Double.valueOf(temMap.get("fyxJzBudget").toString()));
 					break;
 				}
 			}
@@ -1044,12 +1049,12 @@ public class OutProjectInfoClient {
 				twoOrder++;
 				temMap.put("showOrder", twoOrder);
 				
-				totalFyxBudget = totalFyxBudget + Double.parseDouble(temMap.get("fyxBudget") == null ? "0" : temMap.get("fyxBudget").toString());
+				/*totalFyxBudget = totalFyxBudget + Double.parseDouble(temMap.get("fyxBudget") == null ? "0" : temMap.get("fyxBudget").toString());
 				totalFyxXqBudget = totalFyxXqBudget + Double.parseDouble(temMap.get("fyxXqBudget") == null ? "0" : temMap.get("fyxXqBudget").toString());
 				totalFyxJzBudget = totalFyxJzBudget + Double.parseDouble(temMap.get("fyxJzBudget") == null ? "0" : temMap.get("fyxJzBudget").toString());
 				totalZbxBudget = totalZbxBudget + Double.parseDouble(temMap.get("zbxBudget") == null ? "0" : temMap.get("zbxBudget").toString());
 				totalFyxXqMoney = totalFyxXqMoney + Double.parseDouble(temMap.get("fyxXqMoney") == null ? "0" : temMap.get("fyxXqMoney").toString());
-				totalZbxXqMoney = totalZbxXqMoney + Double.parseDouble(temMap.get("zbxXqMoney") == null ? "0" : temMap.get("zbxXqMoney").toString());
+				totalZbxXqMoney = totalZbxXqMoney + Double.parseDouble(temMap.get("zbxXqMoney") == null ? "0" : temMap.get("zbxXqMoney").toString());*/
 			} else if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("3")) {
 				threeOrder++;
 				temMap.put("showOrder", "1." + String.valueOf(threeOrder));
@@ -1075,17 +1080,17 @@ public class OutProjectInfoClient {
 			Double zbxBudget = temMap.get("zbxBudget") == null ? 0d : Double.valueOf(temMap.get("zbxBudget").toString());
 			Double zbxXqMoney = temMap.get("zbxXqMoney") == null ? 0d : Double.valueOf(temMap.get("zbxXqMoney").toString());
 			if (fyxXqMoney != 0 && fyxXqBudget != 0) {
-				temMap.put("fyxXqRate", fyxXqMoney * 100 / fyxXqBudget);
+				temMap.put("fyxXqRate", String.format("%.4f", Double.valueOf(fyxXqMoney * 100 / fyxXqBudget)));
 			} else {
 				temMap.put("fyxXqRate", 0);
 			}
 			if ((fyxXqMoney + fyxJzBudget) != 0 && fyxBudget != 0) {
-				temMap.put("fyxRate", (fyxXqMoney + fyxJzBudget) * 100 / fyxBudget);
+				temMap.put("fyxRate", String.format("%.4f", Double.valueOf((fyxXqMoney + fyxJzBudget) * 100 / fyxBudget)));
 			} else {
 				temMap.put("fyxRate", 0);
 			}
 			if (zbxXqMoney != 0 && zbxBudget != 0) {
-				temMap.put("zbxRate", zbxXqMoney * 100 / zbxBudget);
+				temMap.put("zbxRate", String.format("%.4f", Double.valueOf(zbxXqMoney * 100 / zbxBudget)));
 			} else {
 				temMap.put("zbxRate", 0);
 			}
