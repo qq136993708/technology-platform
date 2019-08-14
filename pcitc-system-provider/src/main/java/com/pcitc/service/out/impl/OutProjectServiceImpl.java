@@ -2491,13 +2491,17 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * 查询实际金额和实际数量， 粗组织机构分类
 	 */
 	public List getProjectActMoneyAndCount(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getProjectActMoneyAndCount(map);
 	}
-	
+
 	/**
 	 * 查询实际金额和实际数量，细组织机构分类
 	 */
 	public List getProjectActMoneyAndCountThreeLevel(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectInfoMapper.getProjectActMoneyAndCountThreeLevel(map);
 	}
 

@@ -412,7 +412,7 @@
 			//动态填充预算表格
 			$.ajax({
 				type : "POST",
-				url : "/small_leader/budget/info",
+				url : "/small_leader/budget/info?functionId=984b64b13cf54222bf57bd840759fabe",
 				dataType : "json",
 				timeout : 11000,
 				cache : false,
@@ -421,12 +421,13 @@
 				},
 				success : function(data, status) {
 					var list = data.data;
-					for (var i = 0; i < 2; i++) {
+					for (var i = 0; i < list.length; i++) {
+						console.info(list[i]);
                         var html='<tr>' +
-                            '<td lay-data="{align : \'center\'}" rowspan="5">合计</td>' +
-                            '<td lay-data="{align : \'center\',width : \'100\'}" rowspan="5">总体预算执行情况</td>' +
-                            '<td lay-data="{align : \'center\',width : \'500\'}" colspan="3">9500000</td>' +
-                            '<td lay-data="{align : \'center\',width : \'300\'}" colspan="2">8000</td>' +
+                            '<td lay-data="{align : \'center\'}" rowspan="5">'+list[i].showOrder+'</td>' +
+                            '<td lay-data="{align : \'center\',width : \'100\'}" rowspan="5">'+list[i].show_ali+'预算执行情况</td>' +
+                            '<td lay-data="{align : \'center\',width : \'500\'}" colspan="3">'+list[i].fyxBudget+'</td>' +
+                            '<td lay-data="{align : \'center\',width : \'300\'}" colspan="2">'+list[i].zbxBudget+'</td>' +
                             '</tr>' +
                             '<tr>' +
                             '<td lay-data="{align : \'center\',width : \'350\'}" colspan="2">其中:新签预算</td>' +
@@ -435,10 +436,10 @@
                             '<td lay-data="{align : \'center\',width : \'100\'}">执行率</td>' +
                             '</tr>' +
                             '<tr>' +
-                            '<td lay-data="{align : \'center\',width : \'350\'}" colspan="2">750000</td>' +
-                            '<td lay-data="{align : \'center\',width : \'150\'}">200000</td>' +
-                            '<td lay-data="{align : \'center\',width : \'200\'}">40000</td>' +
-                            '<td lay-data="{align : \'center\',width : \'100\'}">50%</td>' +
+                            '<td lay-data="{align : \'center\',width : \'350\'}" colspan="2">'+list[i].fyxXqBudget+'</td>' +
+                            '<td lay-data="{align : \'center\',width : \'150\'}">'+list[i].fyxJzBudget+'</td>' +
+                            '<td lay-data="{align : \'center\',width : \'200\'}">'+list[i].zbxXqMoney+'</td>' +
+                            '<td lay-data="{align : \'center\',width : \'100\'}">'+parseFloat(list[i].zbxRate).toFixed(2)+'%</td>' +
                             '</tr>' +
                             '<tr>' +
                             '<td lay-data="{align : \'center\',width : \'170\'}">实际新签</td>' +
@@ -448,9 +449,9 @@
                             '<td lay-data="{align : \'center\',width : \'100\'}"></td>' +
                             '</tr>' +
                             '<tr>' +
-                            '<td lay-data="{align : \'center\',width : \'170\'}">6800000</td>' +
-                            '<td lay-data="{align : \'center\',width : \'180\'}">71%</td>' +
-                            '<td lay-data="{align : \'center\',width : \'150\'}">90%</td>' +
+                            '<td lay-data="{align : \'center\',width : \'170\'}">'+list[i].fyxXqMoney+'</td>' +
+                            '<td lay-data="{align : \'center\',width : \'180\'}">'+parseFloat(list[i].fyxXqRate).toFixed(2)+'%</td>' +
+                            '<td lay-data="{align : \'center\',width : \'150\'}">'+parseFloat(list[i].fyxRate).toFixed(2)+'%</td>' +
                             '<td lay-data="{align : \'center\',width : \'200\'}"></td>' +
                             '<td lay-data="{align : \'center\',width : \'100\'}"></td>' +
                             '</tr>';

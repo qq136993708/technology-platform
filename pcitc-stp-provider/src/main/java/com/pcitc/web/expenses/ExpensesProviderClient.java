@@ -189,6 +189,7 @@ public class ExpensesProviderClient {
 					String G0AUGBL = json.getString("G0AUGBL");
 					String G0AUGDT = json.getString("G0AUGDT");
 					String G0LIFNR = json.getString("G0LIFNR");
+					String k0dmbtr = json.getString("K0DMBTR");
 					String dataId = UUID.randomUUID().toString().replaceAll("-", "");
 					
 					ExpensesPayHana eph = new ExpensesPayHana();
@@ -205,6 +206,8 @@ public class ExpensesProviderClient {
 					eph.setG0augbl(G0AUGBL);
 					eph.setG0augdt(G0AUGDT);
 					eph.setG0lifnr(G0LIFNR);
+					eph.setK0dmbtr(k0dmbtr);
+					eph.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 					payList.add(eph);
 				}
 

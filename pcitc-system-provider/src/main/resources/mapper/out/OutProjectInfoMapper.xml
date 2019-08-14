@@ -2376,6 +2376,19 @@
 			round(sum(ysje),4) as ysje,round(sum(yszbxje),4) as yszbxje,round(sum(ysfyxje),4) as ysfyxje,
 			round(sum(case when nd = '${nd}' then ysfyxje else 0 end),4) as fyxXqMoney,
 			round(sum(case when nd = '${nd}' then yszbxje else 0 end),4) as zbxXqMoney,
+			count(distinct hth) projectCount,substring(define11, 2) as type_flag
+		from out_project_info
+		where 
+			  ysnd= '${nd}' and project_type != '1' and 
+			  out_project_info.define3 = '项目管理系统' and define11 = 'A股份公司'
+			  <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
+			  <include refid="dataFilterCondition" />
+		union all
+		
+		select
+			round(sum(ysje),4) as ysje,round(sum(yszbxje),4) as yszbxje,round(sum(ysfyxje),4) as ysfyxje,
+			round(sum(case when nd = '${nd}' then ysfyxje else 0 end),4) as fyxXqMoney,
+			round(sum(case when nd = '${nd}' then yszbxje else 0 end),4) as zbxXqMoney,
 			count(distinct hth) projectCount,substring(type_flag, 4) as type_flag
 		from out_project_info
 		where 
