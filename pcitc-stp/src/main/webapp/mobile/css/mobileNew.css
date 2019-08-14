@@ -201,7 +201,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .project .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(1):after{top:.06rem;width:6px;height:16px;background-color:rgba(65,144,246,1)}
 .project .layui-tab-content .layui-tab-item>ul.not li p:nth-child(1) span:nth-child(1):after{background-color:#F3705A !important}
 .project .layui-tab-content .layui-tab-item>ul li.not p:nth-child(1) span:nth-child(1):after{background-color:#F3705A !important}
-.project .layui-tab-content .layui-tab-item>ul li p:nth-child(1){padding:.12rem .05rem .12rem .19rem}
+.project .layui-tab-content .layui-tab-item>ul li p:nth-child(1){padding:.12rem .05rem .12rem .19rem;height: auto;overflow: hidden}
 .project .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2){color:rgba(245,158,35,1);font-size:.16rem;float:right}
 .project .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2):after{height:0}
 .project dl{margin-left:.19rem}
