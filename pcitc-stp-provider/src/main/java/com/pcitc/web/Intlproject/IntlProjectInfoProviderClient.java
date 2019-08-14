@@ -46,7 +46,7 @@ public class IntlProjectInfoProviderClient
 			String flowCurrentStatusDesc =CommFlowStatusEnum.STATUS_NO_START.getDesc();
 			String externalCheckDesc = IntlExternalCheckStatusEnum.STATUS_STARTING.getDesc();
 			CommFlowStatusEnum status  =CommFlowStatusEnum.getStatusByCode((Integer)map.get("flowCurrentStatus"));
-			IntlExternalCheckStatusEnum checkStatus = IntlExternalCheckStatusEnum.getStatusByCode((Integer)map.get("flowCurrentStatus"));
+			IntlExternalCheckStatusEnum checkStatus = IntlExternalCheckStatusEnum.getStatusByCode((Integer)map.get("externalCheck"));
 			if(status != null) 
 			{
 				flowCurrentStatusDesc = status.getDesc();

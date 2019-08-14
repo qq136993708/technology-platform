@@ -149,7 +149,7 @@
                      	});
                 	});
            		});  
-                table.reload('dataTable',{data:table_data,done: function(res, curr, count){
+                table.reload('dataTable',{data:table_data,even: true,done: function(res, curr, count){
                 		var colsArr = [0,table_data.length-2,table_data.length-1];
                     	merge(colsArr);
                 	}

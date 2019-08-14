@@ -120,7 +120,7 @@
             	$('.laytable-cell-group').eq(2).find('span').text((cu_date)+"年重点实验室专项经费");
 			}
             reloadTable = function(tableId,tableData){
-				table.reload(tableId, {data: tableData});
+				table.reload(tableId, {data: tableData,even: true});
 				//格式化求和
 				$.each($(".layui-table-total tr td"),function(i,d){
 					if(i>=2){
