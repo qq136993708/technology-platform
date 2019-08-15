@@ -66,7 +66,7 @@ public class BudgetStockSplitZgsProviderClient
 		{
 			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.STOCK_ZGS_SPLIT.getCode());
 			//获取股份预算总表中可用分配数（审批通过的股份预算,从预算项中获取付分子公司的预算数）
-			BudgetInfo finalBudgetInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.STOCK_TOTAL.getCode());
+			BudgetInfo finalBudgetInfo = budgetInfoService.selectFinalBudgetOrNew(info.getNd(),BudgetInfoEnum.STOCK_TOTAL.getCode());
 			for(BudgetInfo dt:datalist) {
 				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
 				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());

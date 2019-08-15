@@ -51,8 +51,8 @@
                 <div class="layui-colla-content layui-show">
                     <h4>任务描述:</h4>
                     <p>${planBase.remarks}</p>
-                    <button class="layui-btn layui-active" <#if planBase.workOrderStatus == 2> style="display:none" </#if> id="work">处d理任务</button>
-                    <button class="layui-btn layui-rest"   <#if planBase.workOrderStatus != 2> style="display:none" </#if> id="rest">处理任务</button>
+                    <button class="layui-btn layui-active" <#if planBase.workOrderStatus == 2> style="display:none" </#if> id="work">处理任务</button>
+                    <button class="layui-btn layui-rest"   <#if planBase.workOrderStatus != 2> style="display:none" </#if> id="rest">工作处理列表</button>
                 </div>
             </div>
         </div>
@@ -72,13 +72,15 @@
         </div>
         <div class="rest layui-hide">
             <div class="layui-collapse work-w" lay-filter="component-panel">
+              <#list sendList as vo>
                 <div class="layui-colla-item layui-this">
-                    <h2 class="layui-colla-title"><span></span>徐佑铭（已完成）</h2>
+                    <h2 class="layui-colla-title"><span></span>${vo.createUserName}（已完成）</h2>
                     <div class="layui-colla-content layui-show">
                         <h4>任务回复:</h4>
-                        <p>参考一篮子货币进行调节、有管理的浮动汇率制度在机制上人民币汇率 就是由市场供求决定的不在“汇率操纵”的问题！</p>
+                        <p>${vo.remarks}</p>
                     </div>
                 </div>
+              </#list>   
             </div>
         </div>
     </div>
@@ -136,7 +138,7 @@
 			type : 'post',
 			dataType : 'json',
 			async : false,
-			url : '/plan/viewBotWorkOrder?dataId=' + dataId,
+			url : '/mobile/plan/viewBotWorkOrder?dataId=' + dataId,
 			success : function(data) {
 				dataJson = JSON.parse(JSON.stringify(data));
 				//enhance.filling(dataJson);
@@ -166,7 +168,6 @@
 	  }
 	  
 	  var data=getFormData();
-	  
 	  console.log("data\n"+JSON.stringify(data));
 	  $.ajax({
           type: 'post',

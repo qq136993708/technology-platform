@@ -6,6 +6,16 @@ input{letter-spacing:.015rem}
 .m_return a img{height:.13rem;display:inline-block;float:left}
 .m_return h4{font-size:.48rem;color:#000000;display:inline-block}
 .child h4{font-size:.14rem;color:#FFFFFF;display:inline-block;height:.14rem;line-height:.14rem;position:absolute;left:40%;top:.03rem}
+.child input{    background: url(/mobile/images/icon-deta.png) center right no-repeat;
+    border: none;
+    display: inline-block;
+    float: right;
+    height: .15rem;
+    font-size: .12rem;
+    color: white;
+    width: .6rem;
+    background-size: .12rem;
+    margin-right: .05rem;}
 .banner{margin-top:0 !important;overflow:-webkit-paged-x !important}
 .main{height:auto;overflow:hidden;background-image:linear-gradient(-180deg,#F6F8FC 2%,#EAEEF7 100%);box-shadow:0 2px 12px 0 rgba(31,54,74,0.23);border-radius:6px;width:97%;margin:0 auto;padding:0 2%;box-sizing:border-box}
 .main-card{height:auto;overflow:hidden}
@@ -82,7 +92,9 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .dec-center span{display:inline-block;font-size:.42rem;color:#666666;margin-left:0.14rem;margin-top:0.14rem}
 .disNone{display:none}
 .layui-layer{border-radius:4px !important}
-.layui-layer-title{background:linear-gradient(-135deg,#2F6EDD 0%,#5CA7F0 100%);font-size:0.46rem !important;color:#fff !important;text-align:center !important;padding:0 !important;border-radius:4px 4px 0 0 !important}
+.layui-layer-title{background:linear-gradient(-135deg,#2F6EDD 0%,#5CA7F0 100%);font-size:14px !important;
+    color:#fff !important;text-align:left !important;padding:0 !important;border-radius:4px 4px 0 0 !important;
+    text-indent: 1.5em;}
 .win_grid .layui-table-header{border:none !important}
 .win_grid .layui-table-view .layui-table th{display:none}
 .win_grid{padding:0 20px 0 20px}
@@ -179,6 +191,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .contract .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(1){width: 30%;display: block;float: left;overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;}
+.project .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(1){width: 72%;}
 .project .layui-tab-title{margin-bottom:.15rem}
 .contract .layui-tab-title li{box-sizing:border-box;width:.95rem;line-height:.34rem;height:.34rem;background:#fff}
 .contract .layui-tab-title li:nth-child(2),.contract .layui-tab-title li:nth-child(1){border-right:1px solid #4190F6}
@@ -202,7 +215,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .project .layui-tab-content .layui-tab-item>ul.not li p:nth-child(1) span:nth-child(1):after{background-color:#F3705A !important}
 .project .layui-tab-content .layui-tab-item>ul li.not p:nth-child(1) span:nth-child(1):after{background-color:#F3705A !important}
 .project .layui-tab-content .layui-tab-item>ul li p:nth-child(1){padding:.12rem .05rem .12rem .19rem;height: auto;overflow: hidden}
-.project .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2){color:rgba(245,158,35,1);font-size:.16rem;float:right}
+.project .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2){color:rgba(245,158,35,1);font-size:.16rem;float:right;padding-left: 0;}
 .project .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2):after{height:0}
 .project dl{margin-left:.19rem}
 .project dl dd{float:left;width:33%;color:rgb(66,101,112);font-size:.14rem;padding-left:.1rem;position:relative;box-sizing:border-box;display:inline-block}
@@ -247,13 +260,27 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .layui-layer-shade{opacity:.55 !important}
 .project-d ul li span:nth-child(1){color:rgba(23,48,56,1);text-indent:.25rem;display:inline-block;font-size:.16rem;background:url("/mobile/images/icon-list.png") 0 .05rem  no-repeat;background-size:15%}
 .project-d ul li:nth-child(1) span:nth-child(1){background-size:18%}
-.project-d ul li{padding:.12rem .2rem;box-shadow:0px -0.5px 0px 0px rgba(227,230,231,1),0px 0.5px 0px 0px rgba(227,230,231,1);background-color:rgba(230,237,248,0.31)}
+.project-d ul li{padding:.12rem .2rem;box-shadow:0px -0.5px 0px 0px rgba(227,230,231,1),0px 0.5px 0px 0px rgba(227,230,231,1);
+    background-color:rgba(230,237,248,0.31);position: relative;}
 .project-d ul li:nth-child(even){background-color:#fff}
-.project-d ul li span:nth-child(2){float:right;font-size:.14rem;color:#426570}
+.project-d ul li span:nth-child(2){display: inherit;
+    position: absolute;
+    right: .1rem;
+    top: .14rem;font-size:.14rem;color:#426570}
 .project-d ul li span:nth-child(2) .number{color:#F59E23;background:none}
-.project-d ul li span:nth-child(2).project-d-d{color:#4A90E2;width:65%;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.button-c{text-align:center}
-.button-c button{width:2.6rem;height:.42rem;line-height:.42rem;border-radius:.21rem;color:white;border:none;text-align:center;margin-top:.15rem;background-color:rgba(65,144,246,1);box-shadow:0px 4px 14px 0px rgba(19,99,204,0.24)}
+.project-d ul li span:nth-child(2).project-d-d{color: #4A90E2;
+    width: 65%;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inherit;
+    position: absolute;
+    right: .1rem;
+    top: .14rem;}
+.button-c{text-align:center;margin-bottom: .1rem;}
+.button-c button{width:2.6rem;height:.42rem;line-height:.42rem;border-radius:.21rem;color:white;font-size: .14rem;
+    border:none;text-align:center;margin-top:.15rem;background-color:rgba(65,144,246,1);box-shadow:0px 4px 14px 0px rgba(19,99,204,0.24)}
 .appraisal,.cash{width:97%;background:#fff;padding:0;margin:0 auto}
 .appraisal dl dd{width:100% !important}
 .appraisal .layui-tab-content:nth-child(1){margin:0}
@@ -482,7 +509,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
     background-color: #4190F6;
 }
 .agencyM .layui-tab-content .layui-tab-item>ul li p:nth-child(1) {
-    padding: 0.12rem .19rem 0.02rem;
+    padding: 0.12rem .19rem 0.12rem;
 }
 .agencyM  .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(1){
 
@@ -499,7 +526,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .agencyM  .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2) {
     color: rgba(65, 144, 246, 1);
     font-size: .16rem;    float: right;
-    margin-left: 0;
+    margin-left: 0;width: 26%;
     padding-left: 0;
 }
 
@@ -613,8 +640,6 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
     font-size: .14rem;padding: .1rem .2rem;
     background-color: rgba(234, 238, 245, 1);}
 .menu-more{display: none;}
-
-
 
 
 .ui-loader-default{ display:none}
