@@ -30,6 +30,9 @@
 	.layui-table td, .layui-table th{text-align: center;}
 	.tdW{font-weight:bold !important;}
 	.tdR{color: red;}
+	.layui-table td.tdW0{text-align: left !important;}
+	.layui-table td.tdW3{text-align: left !important;text-indent: 2em;}
+	.layui-table td.tdW5{text-align: left !important;text-indent: 4em;}
 </style>
 </head>
 <body>
@@ -443,7 +446,7 @@
                         }
                         var html='<tbody m_id="'+list[i].showFlag+'"><tr>' +
                             '<td lay-data="{align : \'center\'}" rowspan="5" class="tdW add">'+list[i].showOrder+' </td>' +
-                            '<td lay-data="{align : \'center\',width : \'100\'}" rowspan="5" class="tdW">'+list[i].show_ali+'预算执行情况</td>' +
+                            '<td lay-data="{align : \'center\',width : \'100\'}" rowspan="5" class="tdW tdW0">'+list[i].show_ali+'预算执行情况</td>' +
                             '<td lay-data="{align : \'center\',width : \'500\'}" colspan="3">'+list[	i].fyxBudget+'</td>' +
                             '<td lay-data="{align : \'center\',width : \'300\'}" colspan="2">'+list[i].zbxBudget+'</td>' +
                             '</tr>' +
@@ -491,6 +494,7 @@
                                     var mId=$(this).attr("m_id");
                                     if(mId.substr(0,m_id.length)==m_id && mId.split("-").length==mArrL){
                                         $("#budgetTable tbody").eq(j).show()
+                                        $("#budgetTable tbody").eq(j).find(".tdW0").addClass("tdW"+m_id.length)
 									}
                                 });
                             }else {
