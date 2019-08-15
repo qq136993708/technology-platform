@@ -19,10 +19,15 @@
 <input name="userName"  id="userName"  value="${userName}"  type="hidden">
 <input name="unitName"  id="unitName"  value="${unitName}"  type="hidden">
 <input name="bak6"      id="bak6"      value="${bak6}"      type="hidden">
-<input name="bak4"      id="bak4"      value="${bak4}"      type="hidden">
+<input name="createUserName"      id="createUserName"      value="${bak4}"      type="hidden">
 <input name="closeType" id="closeType" value="${closeType}" type="hidden">
+<input name="workOrderAllotUserId"  id="workOrderAllotUserId"  value="${workOrderAllotUserId}"  type="hidden">
+<input name="userStr"  id="userStr"  value="${userStr}"  type="hidden">
+<input name="matterList"  id="matterList"  value=""  type="hidden">
 
-<input name="userIds"  id="userIds"  value="${userIds}"  type="hidden">
+
+
+
 <main class="main work-add">
     <div class="title">
         <p>任务名称</p>
@@ -124,29 +129,27 @@
         });
        
        
-       
         $("#save_id").click(function () {
-            
-        	
+        	var v_date = (new Date()).getTime();
         	  var workOrderName=$("#workOrderName").val();
           	  var workOrderAllotUserName=$("#workOrderAllotUserName").val();
           	  var remarks=$("#remarks").val();
           	  if(workOrderName=='')
           	  {
-          		  alert("任务名称为空");
-          	      return ;
+          		  layer.alert("任务名称为空");
+          	      return false;
           	  }else if(workOrderAllotUserName=='')
           	  {
-          		  alert("任务执行人为空");
-          	      return ;
+          		layer.alert("任务执行人为空");
+          	      return false;
           	  }else if(remarks=='')
           	  {
-          		  alert("任务描述为空");
-          	      return ;
+          		layer.alert("任务描述为空");
+          	      return false;
           	  }
           	  
-        	  var url = '/sre-meeting/save?v_date=' + v_date + "&meetingId=" + meetingId;
-              var backurl = "/sre-meeting/to-list?v_date=" + v_date;
+        	  var url = '/mobile/plan/submitBotWorkOrder?v_date=' + v_date + "&workOrderStatus=1" ;
+              var backurl = "/mobile/work?v_date=" + v_date;
               ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
         });
         
@@ -154,16 +157,14 @@
     });
     
     
-    
-    
-    
-    
-    
-    
     function ajaxOpt(url, formName, type, backurl, successMsg, failMsg) 
     {
+    	//设置下拉列表
+        setTatterList();
     	
     	var data=getFormData();
+    	console.log("确定\n"+JSON.stringify(data));
+		return;
         $.ajax({
             type: type,
             url: url,
@@ -199,9 +200,44 @@
     }
     
     
+    //设置下拉列表
+    function setTatterList() 
+    {
+    	var matterList=new Array();
+    	var userStr=$("#userStr").val();
+    	var remarks=$("#remarks").val();
+    	if(userStr!=null && userStr!='')
+    	{
+    		var arr=userStr.split("#");
+    		if(arr!=null)
+    		{
+    			for(var i=0;i<arr.length;i++)
+   				{
+   				   var temp=arr[i];
+   				   var arr2=temp.split(",");
+   				   if(arr2!=null)
+  				   {
+   					var obj={
+   	   		    			"dataId": "",
+   	   		    			"workOrderName": remarks,
+   	   		    			"workOrderAllotUserName": arr2[1],
+   	   		    			"workOrderAllotUserId": arr2[0],
+   	   		    			"announcements": ""
+   	   		    		};
+   	   				   matterList.push(obj); 
+  				   }
+   				   
+   				}
+    		}
+    	}
+    	
+    	$("#matterList").val(matterList);
+    }
+    
   
     
-    function getFormData() {
+    function getFormData() 
+    {
   	    var unindexed_array =  $('#form1').serializeArray();
   	    var indexed_array = {};
 

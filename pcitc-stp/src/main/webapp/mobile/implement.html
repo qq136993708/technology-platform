@@ -50,6 +50,7 @@
 <script>
 var userIds = new Array();
 var userNames = new Array();
+var userStr="";
     var layer;
     (function(doc, win) {
         var docEl = doc.documentElement,
@@ -80,17 +81,18 @@ var userNames = new Array();
             		var userName=$(this).find(".name").html();
             		userIds.push(userId);
             		userNames.push(userName);
+            		var temp=userId+","+userName+"#";
+            		userStr=userStr+temp;
             	}
             })
             var userIds_str=userIds.join(',');
             var userNames_str=userNames.join(',');
             parent.document.getElementById("workOrderAllotUserName").value=userNames_str;
-            parent.document.getElementById("userIds").value=userIds_str;
-            
+            parent.document.getElementById("workOrderAllotUserId").value=userIds_str;
+            parent.document.getElementById("userStr").value=userStr;
             var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
             parent.layer.close(index);  // 关闭layer
             
-            //alert(userNames_str);
         });
     });
     
