@@ -12,37 +12,46 @@
     </style>
 </head>
 <body>
+<input name="dataCode"  id="dataCode"  value="${dataCode}"  type="hidden">
+<input name="flag"      id="flag"      value="${flag}"      type="hidden">
+<input name="dataId"    id="dataId"    value="${dataId}"    type="hidden">
+<input name="userName"  id="userName"  value="${userName}"  type="hidden">
+<input name="unitName"  id="unitName"  value="${unitName}"  type="hidden">
+<input name="bak6"      id="bak6"      value="${bak6}"      type="hidden">
+<input name="bak4"      id="bak4"      value="${bak4}"      type="hidden">
+<input name="closeType" id="closeType" value="${closeType}" type="hidden">
 <main class="main work-add">
     <div class="title">
         <p>任务名称</p>
         <div class="input-percentage">
             <span></span>
-            <input type="text" value="" placeholder="请输入任务名称">
+            <input type="text" value="" name="workOrderName" id="workOrderName" placeholder="请输入任务名称">
         </div>
     </div>
     <div class="project-d-f"></div>
     <div class="title star-date">
-        <p>起始时间</p>
+        <p>安排时间</p>
         <div class="input-percentage">
             <span></span>
-            <input id="date-group1-8" type="text" value="" placeholder="请选择开始时间">
+            <input id="date-group1-8" type="text" value=""  name="" id="" placeholder="请选择开始时间">
         </div>
     </div>
-    <div class="title end-date">
+    <!-- <div class="title end-date">
         <p>至</p>
         <div class="input-percentage">
             <span></span>
-            <input id="date-group1-9" type="text" value="" placeholder="请选择结束时间">
+            <input id="date-group1-9" type="text" value=""  name="" id="" placeholder="请选择结束时间">
         </div>
-    </div>
+    </div> -->
     <div class="title title-p">
         <p>任务执行人</p>
         <div class="input-percentage">
             <span></span>
-            <input id="implement" type="text" value="" placeholder="请选择执行人">
+            <input type="text" value=""  name="workOrderAllotUserName" id="workOrderAllotUserName" placeholder="请选择执行人">
         </div>
     </div>
-    <textarea placeholder="请输入任务描述" ></textarea>
+    <textarea placeholder="请输入任务描述"  name="remarks" id="remarks"></textarea>
+    
     <div class="button-c">
         <button>确定</button>
     </div>
@@ -66,6 +75,17 @@
     })(document, window);
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        
+        
+        var system = {ipad:false};
+        system.ipad = (navigator.userAgent.match(/iPad/i) != null)?true:false;
+        if(system.ipad){
+            parent.$(".layui-layer-mobile .layui-layer-ico").css("width",".14rem");
+            parent.$(".layui-layer-setwin").css("right","0");
+        }
+
+        
+        
         laydate.render({
             elem: '#test-laydate-normElem'
             ,type: 'year'
@@ -81,13 +101,13 @@
                 beginYear=date;
             }
         })
-        new Rolldate({
+        /* new Rolldate({
             el: '#date-group1-9',
             format: 'YYYY',
             beginYear: beginYear,
             endYear: 2100
-        })
-        $("#implement").click(function () {
+        }) */
+        $("#workOrderAllotUserName").click(function () {
             layer.open({
                 title : '详情',
                 skin : 'layui-layer-mobile',
@@ -96,7 +116,7 @@
                 fixed : false,
                 maxmin : true,
                 area : [ '100%', '100%' ],
-                content : '/mobile/implement.html'
+                content : '/mobile/implement'
             });
         });
     });

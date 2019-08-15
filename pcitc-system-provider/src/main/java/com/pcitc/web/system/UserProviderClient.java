@@ -200,6 +200,19 @@ public class UserProviderClient {
 		return data;
 	}
 	
+	
+	@ApiOperation(value="查询用户信息",notes="查询用户信息")
+	@RequestMapping(value = "/user-provider/getAllUserList")
+	public JSONArray getUserList(@RequestBody Map map) throws Exception 
+	{
+		map.put("userDelflag", DelFlagEnum.STATUS_NORMAL.getCode());
+		List<SysUser> userList = userService.getSysUserList(map);
+		JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(userList));
+		return jsonArray;
+	}
+	
+	
+	
 	@ApiOperation(value = "根据UserUnit查看用户列表")
 	@RequestMapping(value = "/user-provider/user/getSysUserListByUserUnitPage",method = RequestMethod.POST)
 	public LayuiTableData getSysUserListByUserUnitPage(@RequestBody LayuiTableParam param) {
@@ -227,5 +240,7 @@ public class UserProviderClient {
 		JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(userList));
 		return jsonArray;
 	}
+	
+	
 	
 }

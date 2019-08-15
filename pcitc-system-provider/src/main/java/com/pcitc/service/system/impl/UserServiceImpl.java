@@ -641,7 +641,11 @@ public class UserServiceImpl implements UserService {
         data.setCount(total.intValue());
 		return data;
 	}
-
+	public List<SysUser> getSysUserList(Map map)
+	{
+		List<SysUser> list = userMapper.selectUserDetail(map);
+		return list;
+	}
 	public LayuiTableData getSysUserListByUserUnitPage(LayuiTableParam param) {
 		// 每页显示条数
         int pageSize = param.getLimit();

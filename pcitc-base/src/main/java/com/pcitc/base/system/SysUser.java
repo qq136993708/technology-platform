@@ -80,6 +80,46 @@ public class SysUser {
 
 	private List<String> instituteCodes;
 	private List<String> instituteNames;
+	
+	private String nameFullPin;
+	private String nameBigPin;
+	private String nameSmallPin;
+	private String nameBigFirstPin;
+	
+	
+	
+
+	public String getNameBigFirstPin() {
+		return nameBigFirstPin;
+	}
+
+	public void setNameBigFirstPin(String nameBigFirstPin) {
+		this.nameBigFirstPin = nameBigFirstPin;
+	}
+
+	public String getNameFullPin() {
+		return nameFullPin;
+	}
+
+	public void setNameFullPin(String nameFullPin) {
+		this.nameFullPin = nameFullPin;
+	}
+
+	public String getNameBigPin() {
+		return nameBigPin;
+	}
+
+	public void setNameBigPin(String nameBigPin) {
+		this.nameBigPin = nameBigPin;
+	}
+
+	public String getNameSmallPin() {
+		return nameSmallPin;
+	}
+
+	public void setNameSmallPin(String nameSmallPin) {
+		this.nameSmallPin = nameSmallPin;
+	}
 
 	public String getUnitPath() {
 		return unitPath;
