@@ -117,29 +117,19 @@
         new Rolldate({
             el: '#date',
             format: 'YYYY',
-            beginYear: 2000,
-            endYear: 2100,
+            beginYear: 2018,
+            endYear: $("#nd").val(),
             value: $("#nd").val(),
             confirm: function (date) {
-                if (date > $("#nd").val()+1) {
+                /* if (date > $("#nd").val()+1) {
                     layer.alert('不能大于当前的日期');
                     return false;
-                }
+                } */
                 $("#nd").val(date);
                 search_Event();
             }
         })
-        /*laydate.render({
-            elem: '#test-laydate-normElem'
-            ,type: 'year'
-            ,max: $("#nd").val()+1
-            ,value:$("#nd").val(),
-            done : function(value, date, endDate)
-            {
-            	    $("#nd").val(date.year);
-					search_Event();
-			}
-        });*/
+        
     });
     
     

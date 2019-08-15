@@ -71,14 +71,14 @@
         new Rolldate({
             el: '#date',
             format: 'YYYY',
-            beginYear: 2000,
-            endYear: 2100,
+            beginYear: 2018,
+            endYear: $("#nd").val(),
             value: $("#nd").val(),
             confirm: function (date) {
-                if (date > $("#nd").val()+1) {
+                /* if (date > $("#nd").val()+1) {
                     layer.alert('不能大于当前的日期',{title:"提示"});
                     return false;
-                }
+                } */
                 $("#nd").val(date);
                 search_Event();
             }
