@@ -509,7 +509,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
     background-color: #4190F6;
 }
 .agencyM .layui-tab-content .layui-tab-item>ul li p:nth-child(1) {
-    padding: 0.12rem .19rem 0.02rem;
+    padding: 0.12rem .19rem 0.12rem;
 }
 .agencyM  .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(1){
 
@@ -526,7 +526,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .agencyM  .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2) {
     color: rgba(65, 144, 246, 1);
     font-size: .16rem;    float: right;
-    margin-left: 0;
+    margin-left: 0;width: 26%;
     padding-left: 0;
 }
 
