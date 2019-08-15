@@ -41,13 +41,15 @@
         </div>
     </div>
     <div class="button-g">
-        <button>确定</button>
-        <button id="reset">重置</button>
+        <button id="save_id">确定</button>
+        <button >重置</button> 
     </div>
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script>
+var userIds = new Array();
+var userNames = new Array();
     var layer;
     (function(doc, win) {
         var docEl = doc.documentElement,
@@ -69,11 +71,26 @@
             ,value:"2019"
         });
         $(".more-condition").css("height",document.body.clientHeight/100+"rem");
-        $(".layui-tab-item ul li").click(function () {
-            $(this).addClass("layui-this")
-        });
-        $("#reset").click(function () {
-            $(".layui-tab-item ul li").removeClass("layui-this");
+        $("#save_id").click(function () {
+            //$(".layui-tab-item ul li").removeClass("layui-this");
+            $(".layui-tab-item ul li").each(function(){
+            	if($(this).attr("class")=="layui-this")
+            	{
+            		var userId=$(this).attr("ui_id");
+            		var userName=$(this).find(".name").html();
+            		userIds.push(userId);
+            		userNames.push(userName);
+            	}
+            })
+            var userIds_str=userIds.join(',');
+            var userNames_str=userNames.join(',');
+            parent.document.getElementById("workOrderAllotUserName").value=userNames_str;
+            parent.document.getElementById("userIds").value=userIds_str;
+            
+            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+            parent.layer.close(index);  // 关闭layer
+            
+            //alert(userNames_str);
         });
     });
     
@@ -102,20 +119,20 @@
     					var nameBigFirstPin= data[i].nameBigFirstPin;//首字母
     					var userDisp=data[i].userDisp;//名字
     					var unitName=data[i].unitName;//全拼第一个字母（如：张三 zs）
-    					
-    					
-    					
-    					var temp="<li>"+
+    					var userName=data[i].userName;
+    					var temp="<li ui_id='"+userName+"'>"+
 			                        "<span>"+nameBigFirstPin+"</span>"+
-			                        "<span>"+userDisp+"<label style='color:#ccc'>（"+unitName+"）</label></span>"+
+			                        "<span><span class='name'>"+userDisp+"</span><label style='color:#ccc'>（"+unitName+"）</label></span>"+
 			                        "<span><img src='/mobile/images/icon-by.png' /> </span>"+
 			                    "</li>";
     					count=count+temp;
-    					
         			 } 
+    				
     			 }
     			 $("#user_list").html(count); 
-    			 
+    			 $(".layui-tab-item ul li").click(function () {
+			            $(this).addClass("layui-this")
+			      });
     		},
     		error : function() {
     		},

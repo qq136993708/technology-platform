@@ -138,7 +138,7 @@
 			type : 'post',
 			dataType : 'json',
 			async : false,
-			url : '/plan/viewBotWorkOrder?dataId=' + dataId,
+			url : '/mobile/plan/viewBotWorkOrder?dataId=' + dataId,
 			success : function(data) {
 				dataJson = JSON.parse(JSON.stringify(data));
 				//enhance.filling(dataJson);
@@ -168,7 +168,6 @@
 	  }
 	  
 	  var data=getFormData();
-	  
 	  console.log("data\n"+JSON.stringify(data));
 	  $.ajax({
           type: 'post',
