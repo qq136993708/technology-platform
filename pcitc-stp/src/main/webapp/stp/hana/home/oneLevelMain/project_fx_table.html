@@ -27,6 +27,9 @@
 .layui-laydate-hint {
 	display: none;
 }
+	.layui-table td, .layui-table th{text-align: center;}
+	.tdW{font-weight:bold !important;}
+	.tdR{color: red;}
 </style>
 </head>
 <body>
@@ -197,13 +200,13 @@
 			<table class="layui-table" id="budgetTable">
 				<thead>
 					<tr>
-						<th lay-data="{align : 'center'}">序号</th>
-						<th lay-data="{align : 'center',width : '100'}">类别</th>
-						<th lay-data="{align : 'center',width : '500'}" colspan="3">科研经费预算</th>
-						<th lay-data="{align : 'center',width : '300'}" colspan="3">资本性预算</th>
+						<th lay-data="{align : 'center'}" class="tdW">序号</th>
+						<th lay-data="{align : 'center',width : '100'}" class="tdW">类别</th>
+						<th lay-data="{align : 'center',width : '500'}" class="tdW" colspan="3">科研经费预算</th>
+						<th lay-data="{align : 'center',width : '300'}" class="tdW" colspan="3">资本性预算</th>
 					</tr>
-				</tbody>
-				<tbody></tbody>
+				</thead>
+
 				<!-- <tbody>
 					<tr>
 						<td lay-data="{align : 'center'}" rowspan="5">合计</td>
@@ -325,7 +328,7 @@
 					$("#ysnd").val(date.year);
 				}
 			});
-			//加载表格      
+			//加载表格
 			$("#Open").click(function() {
 				if ($(this).html() == "收起") {
 					$(this).html("展开");
@@ -423,46 +426,89 @@
 					var list = data.data;
 					for (var i = 0; i < list.length; i++) {
 						console.info(list[i]);
-                        var html='<tr>' +
-                            '<td lay-data="{align : \'center\'}" rowspan="5">'+list[i].showOrder+'</td>' +
-                            '<td lay-data="{align : \'center\',width : \'100\'}" rowspan="5">'+list[i].show_ali+'预算执行情况</td>' +
-                            '<td lay-data="{align : \'center\',width : \'500\'}" colspan="3">'+list[i].fyxBudget+'</td>' +
+						if(parseFloat(list[i].fyxXqRate).toFixed(2)<50){
+						    var htmlO="<span class='tdR'>"+parseFloat(list[i].fyxXqRate).toFixed(2)+"%</span>"
+						}else {
+                            var htmlO="<span>"+parseFloat(list[i].fyxXqRate).toFixed(2)+"%</span>"
+						}
+                        if(parseFloat(list[i].zbxRate).toFixed(2)<50){
+                            var htmlT="<span class='tdR'>"+parseFloat(list[i].zbxRate).toFixed(2)+"%</span>"
+                        }else {
+                            var htmlT="<span>"+parseFloat(list[i].zbxRate).toFixed(2)+"%</span>"
+                        }
+                        if(parseFloat(list[i].fyxRate).toFixed(2)<50){
+                            var htmlS="<span class='tdR'>"+parseFloat(list[i].fyxRate).toFixed(2)+"%</span>"
+                        }else {
+                            var htmlS="<span>"+parseFloat(list[i].fyxRate).toFixed(2)+"%</span>"
+                        }
+                        var html='<tbody m_id="'+list[i].showFlag+'"><tr>' +
+                            '<td lay-data="{align : \'center\'}" rowspan="5" class="tdW add">'+list[i].showOrder+' </td>' +
+                            '<td lay-data="{align : \'center\',width : \'100\'}" rowspan="5" class="tdW">'+list[i].show_ali+'预算执行情况</td>' +
+                            '<td lay-data="{align : \'center\',width : \'500\'}" colspan="3">'+list[	i].fyxBudget+'</td>' +
                             '<td lay-data="{align : \'center\',width : \'300\'}" colspan="2">'+list[i].zbxBudget+'</td>' +
                             '</tr>' +
                             '<tr>' +
-                            '<td lay-data="{align : \'center\',width : \'350\'}" colspan="2">其中:新签预算</td>' +
-                            '<td lay-data="{align : \'center\',width : \'150\'}">其中：结转预算</td>' +
-                            '<td lay-data="{align : \'center\',width : \'200\'}">实际新签（科研装备+课题资本性支出）</td>' +
-                            '<td lay-data="{align : \'center\',width : \'100\'}">执行率</td>' +
+                            '<td lay-data="{align : \'center\',width : \'350\'}" colspan="2" class="tdW">其中:新签预算</td>' +
+                            '<td lay-data="{align : \'center\',width : \'150\'}" class="tdW">其中：结转预算</td>' +
+                            '<td lay-data="{align : \'center\',width : \'200\'}" class="tdW">实际新签（科研装备+课题资本性支出）</td>' +
+                            '<td lay-data="{align : \'center\',width : \'100\'}" class="tdW">执行率</td>' +
                             '</tr>' +
                             '<tr>' +
                             '<td lay-data="{align : \'center\',width : \'350\'}" colspan="2">'+list[i].fyxXqBudget+'</td>' +
                             '<td lay-data="{align : \'center\',width : \'150\'}">'+list[i].fyxJzBudget+'</td>' +
                             '<td lay-data="{align : \'center\',width : \'200\'}">'+list[i].zbxXqMoney+'</td>' +
-                            '<td lay-data="{align : \'center\',width : \'100\'}">'+parseFloat(list[i].zbxRate).toFixed(2)+'%</td>' +
+                            '<td lay-data="{align : \'center\',width : \'100\'}" >'+htmlT+'</td>' +
                             '</tr>' +
                             '<tr>' +
-                            '<td lay-data="{align : \'center\',width : \'170\'}">实际新签</td>' +
-                            '<td lay-data="{align : \'center\',width : \'180\'}">新签执行率</td>' +
-                            '<td lay-data="{align : \'center\',width : \'150\'}">结转+新签总执行率</td>' +
+                            '<td lay-data="{align : \'center\',width : \'170\'}" class="tdW">实际新签</td>' +
+                            '<td lay-data="{align : \'center\',width : \'180\'}" class="tdW">新签执行率</td>' +
+                            '<td lay-data="{align : \'center\',width : \'150\'}" class="tdW">结转+新签总执行率</td>' +
                             '<td lay-data="{align : \'center\',width : \'200\'}"></td>' +
                             '<td lay-data="{align : \'center\',width : \'100\'}"></td>' +
                             '</tr>' +
                             '<tr>' +
                             '<td lay-data="{align : \'center\',width : \'170\'}">'+list[i].fyxXqMoney+'</td>' +
-                            '<td lay-data="{align : \'center\',width : \'180\'}">'+parseFloat(list[i].fyxXqRate).toFixed(2)+'%</td>' +
-                            '<td lay-data="{align : \'center\',width : \'150\'}">'+parseFloat(list[i].fyxRate).toFixed(2)+'%</td>' +
+                            '<td lay-data="{align : \'center\',width : \'180\'}">'+htmlO+'</td>' +
+                            '<td lay-data="{align : \'center\',width : \'150\'}">'+htmlS+'</td>' +
                             '<td lay-data="{align : \'center\',width : \'200\'}"></td>' +
                             '<td lay-data="{align : \'center\',width : \'100\'}"></td>' +
-                            '</tr>';
-                        $("#budgetTable tbody").append(html);
-
+                            '</tr></tbody>';
+                        $("#budgetTable ").append(html);
+						if(i>0){
+                            if(list[i].showFlag+"-1"==list[i+1].showFlag){
+                                $("#budgetTable tbody").eq(i).find(".add").append("<img src='/layuiadmin/layui/images/icon_add.png' />")
+                            }
+						}
+                        if(list[i].levelFlag>1){
+                            $("#budgetTable tbody").eq(i).hide()
+						}
+                        $("#budgetTable tbody .add img").off().on("click",function () {
+                            var m_id=$(this).parents("tbody").attr("m_id");
+                            var mArrL=m_id.split("-").length+1;
+                            if($(this).attr("src").indexOf("icon_add")!=-1){
+                                $(this).attr("src","/layuiadmin/layui/images/icon_minus.png");
+                                $("#budgetTable tbody").each(function (j, val) {
+                                    var mId=$(this).attr("m_id");
+                                    if(mId.substr(0,m_id.length)==m_id && mId.split("-").length==mArrL){
+                                        $("#budgetTable tbody").eq(j).show()
+									}
+                                });
+                            }else {
+                                $(this).attr("src","/layuiadmin/layui/images/icon_add.png");
+                                $("#budgetTable tbody").each(function (j, val) {
+                                    var mId=$(this).attr("m_id");
+                                    if(mId.substr(0,m_id.length)==m_id && mId.split("-").length==mArrL){
+                                        $("#budgetTable tbody").eq(j).hide()
+                                    }
+                                });
+                            }
+                        });
 					}
 				},
 				error : function() {
 				}
 			});
-			
+
 		});
 
 		function renderTable() {
