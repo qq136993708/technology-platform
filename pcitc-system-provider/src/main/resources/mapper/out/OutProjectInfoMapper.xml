@@ -1946,7 +1946,7 @@
 	<!-- 首页计算新开课题总数 -->
 	<select id="getOutProjectInfoCount" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 
-        	count(DISTINCT xmid) as projectCount
+        	count(DISTINCT hth) as projectCount
 		from out_project_info
 		where 
 			out_project_info.nd = '${nd}' and
@@ -2033,7 +2033,7 @@
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				<include refid="dataFilterCondition" />
 				
-			GROUP BY xmid) tableA
+			GROUP BY hth) tableA
 	</select>
 	
 	<!-- 首页计算十条龙及重大专项项目的总数量 -->
@@ -2055,27 +2055,6 @@
 		) as tableA
 	</select>
 
-    <!-- 工作台-科研课题-科研项目占比分析-按承担单位的单位范畴分组 -->
-	<select id="getProjectTypeInfoByUnit" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
-			   sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
-			   SUBSTR(type_flag FROM 4) as type_flag
-		from (
-			select
-				nd,type_flag
-			from out_project_info
-			where type_flag is not null and 
-				  ysnd= '${nd}' and project_type != '1' and 
-				  out_project_info.define3 = '项目管理系统' and
-				  xmlbbm != 'KYZB'
-				  <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
-				  <include refid="dataFilterCondition" />
-			group by xmid
-		) as tableA
-		group BY tableA.type_flag
-		ORDER BY tableA.type_flag
-	</select>
-	
 	 <!-- 工作台-装备课题-科研项目占比分析-按承担单位的单位范畴分组 -->
 	<select id="getZBProjectTypeInfoByUnit" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
