@@ -1035,13 +1035,17 @@ public class OutProjectInfoClient {
 				oneOrder++;
 				if (oneOrder == 1) {
 					temMap.put("showOrder", "一、");
+					temMap.put("showFlag", "1-1");
 				}
 				if (oneOrder == 2) {
 					temMap.put("showOrder", "二、");
+					temMap.put("showFlag", "1-2");
 				}
 				if (oneOrder == 3) {
 					temMap.put("showOrder", "三、");
+					temMap.put("showFlag", "1-3");
 				}
+				temMap.put("levelFlag", "1");
 				// 计算总数时，考虑总的一层，不计算“二级”预算，防止重复计算
 				totalFyxBudget = totalFyxBudget + Double.parseDouble(temMap.get("fyxBudget") == null ? "0" : temMap.get("fyxBudget").toString());
 				totalFyxXqBudget = totalFyxXqBudget + Double.parseDouble(temMap.get("fyxXqBudget") == null ? "0" : temMap.get("fyxXqBudget").toString());
@@ -1052,7 +1056,8 @@ public class OutProjectInfoClient {
 			} else if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("2")) {
 				twoOrder++;
 				temMap.put("showOrder", twoOrder);
-
+				temMap.put("showFlag", "1-1-"+twoOrder);
+				temMap.put("levelFlag", "2");
 				/*
 				 * totalFyxBudget = totalFyxBudget +
 				 * Double.parseDouble(temMap.get("fyxBudget") == null ? "0" :
@@ -1074,11 +1079,15 @@ public class OutProjectInfoClient {
 			} else if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("3")) {
 				threeOrder++;
 				temMap.put("showOrder", "1." + String.valueOf(threeOrder));
+				temMap.put("showFlag", "1-1-1-"+threeOrder);
+				temMap.put("levelFlag", "3");
 			}
 		}
 		Map<String, Object> totalMap = new HashMap<String, Object>();
 		totalMap.put("showOrder", "总计");
 		totalMap.put("show_ali", "");
+		totalMap.put("showFlag", "1");
+		totalMap.put("levelFlag", "0");
 		totalMap.put("fyxXqBudget", totalFyxXqBudget);
 		totalMap.put("fyxJzBudget", totalFyxJzBudget);
 		totalMap.put("fyxXqMoney", totalFyxXqMoney);
@@ -1102,6 +1111,8 @@ public class OutProjectInfoClient {
 				temMap.put("zbxBudget", 0d);
 			if (temMap.get("zbxXqMoney") == null || temMap.get("zbxXqMoney").toString().equals(""))
 				temMap.put("zbxXqMoney", 0d);
+			if (temMap.get("showFlag") == null || temMap.get("showFlag").toString().equals(""))
+				temMap.put("showFlag", "0");
 
 			Double fyxXqBudget = Double.valueOf(temMap.get("fyxXqBudget").toString());
 			Double fyxJzBudget = Double.valueOf(temMap.get("fyxJzBudget").toString());
