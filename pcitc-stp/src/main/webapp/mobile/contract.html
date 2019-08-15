@@ -21,7 +21,7 @@
     <div class="m_return child">
         <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>科研合同</h4>
-        <div id="test-laydate-normElem" placeholder="yyyy" class="laydate-c"></div>
+        <input id="date" type="text" value="" placeholder="">
     </div>
 </header>
 <main class="main contract">
@@ -70,6 +70,7 @@
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/mobile/js/rolldate.min.js"></script>
 <script type="text/javascript" >
     var layer;
     (function(doc, win) {
@@ -87,7 +88,7 @@
     
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
-        laydate.render({
+        /*laydate.render({
             elem: '#test-laydate-normElem'
             ,type: 'year'
             ,value:$("#nd").val()
@@ -97,8 +98,22 @@
         	    $("#nd").val(date.year);
 				search_Event();
 		    }
-        });
-        
+        });*/
+        new Rolldate({
+            el: '#date',
+            format: 'YYYY',
+            beginYear: 2000,
+            endYear: 2100,
+            value: 2019,
+            confirm: function (date) {
+                if (date > 2020) {
+                    layer.alert('不能大于当前的日期',{title:"提示"});
+                    return false;
+                }
+                $("#nd").val(date);
+                search_Event();
+            }
+        })
         $(".layui-tab-title li").click(function () {
            var index= $(this).index();/*获取当前点击的序号*/
            //alert(index);

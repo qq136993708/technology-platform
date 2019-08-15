@@ -21,44 +21,22 @@
         <h4>任务执行人选择</h4>
     </div>
     <div class="search">
-        <input type="text" value="请输入姓名或开头字母" />
+        <input type="text" name="name" id="name" value="" placeholder="请输入姓名或开头字母" />
         <img src="/mobile/images/icon-search.png" alt="">
     </div>
 </header>
 <main class="main implement">
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-            <ul>
+            <ul id="user_list">
+            <!-- <#list list as vo>
                 <li>
-                    <span>A</span>
-                    <span>李永蔡</span>
+                    <span>${vo.nameBigFirstPin}</span>
+                    <span>${vo.userDisp}<label style="color:#ccc">（${vo.unitName}）</label></span>
                     <span><img src="/mobile/images/icon-by.png" /> </span>
                 </li>
-                <li>
-                    <span>A</span>
-                    <span>李永蔡</span>
-                    <span><img src="/mobile/images/icon-by.png" /> </span>
-                </li>
-                <li>
-                    <span>A</span>
-                    <span>李永蔡</span>
-                    <span><img src="/mobile/images/icon-by.png" /> </span>
-                </li>
-                <li>
-                    <span>A</span>
-                    <span>李永蔡</span>
-                    <span><img src="/mobile/images/icon-by.png" /> </span>
-                </li>
-                <li>
-                    <span>A</span>
-                    <span>李永蔡</span>
-                    <span><img src="/mobile/images/icon-by.png" /> </span>
-                </li>
-                <li>
-                    <span>A</span>
-                    <span>李永蔡</span>
-                    <span><img src="/mobile/images/icon-by.png" /> </span>
-                </li>
+            </#list> -->
+             
             </ul>
         </div>
     </div>
@@ -98,6 +76,57 @@
             $(".layui-tab-item ul li").removeClass("layui-this");
         });
     });
+    
+    function getUserList()
+    {
+		
+    	var v_date = (new Date()).getTime();
+    	var url = "/mobile/user/querySysUserListByPage?v_date=" + v_date;
+    	$.ajax({
+    		type : "GET",
+    		url : url,
+    		timeout : 9000,
+    		dataType : "json",
+    		cache : false,
+    		headers : {
+    			'Content-Type' : 'application/json'
+    		},
+    		success : function(data, status) 
+    		{
+    			 console.log("选下一步处理人\n "+JSON.stringify(data));
+    			 var count="";
+    			 if(data.length>0)
+    			 {
+    				 for(var i=0;i<data.length;i++)
+        			 {
+    					var nameBigFirstPin= data[i].nameBigFirstPin;
+    					var userDisp=data[i].userDisp;
+    					var unitName=data[i].unitName;
+    					
+    					
+    					
+    					var temp="<li>"+
+			                        "<span>"+nameBigFirstPin+"</span>"+
+			                        "<span>"+userDisp+"<label style='color:#ccc'>（"+unitName+"）</label></span>"+
+			                        "<span><img src='/mobile/images/icon-by.png' /> </span>"+
+			                    "</li>";
+    					count=count+temp;
+    					
+        			 } 
+    			 }
+    			 $("#user_list").html(count); 
+    			 
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+    getUserList();
+    
+    
 </script>
 </body>
 </html>

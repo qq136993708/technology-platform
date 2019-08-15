@@ -2,7 +2,10 @@ package com.pcitc.web.controller.mobile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -11,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -37,6 +42,7 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.PinyinUtil;
 
 @Controller
 public class MobileWorkbechController extends BaseController
@@ -63,23 +69,111 @@ public class MobileWorkbechController extends BaseController
  	private static final String VIEW_MY_BOT_WORK_ORDER_MATTER_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/queryMyBotWorkOrderMatterList";
     // 查看工单事项集合
  	private static final String VIEW_BOT_WORK_ORDER_MATTER_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/queryBotWorkOrderMatterList";
- // 提交
+    // 提交
  	private static final String SUBMIT_MY_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/submitMyBotWorkOrder/";
-
- 	
-   // 修改
+    // 修改
  	private static final String EDIT_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/editBotWorkOrder";
  	// 提交
  	private static final String AFFIRM_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/affirmBotWorkOrder/";
-   // 批量保存工单事项
+    // 批量保存工单事项
  	private static final String SAVE_MY_BOT_WORK_ORDER_MATTER_BATCH = "http://pcitc-zuul/system-proxy/planClient-provider/saveMyBotWorkOrderMatterBatch";
- 	
+ 	private static final String getAllUserList = "http://pcitc-zuul/system-proxy/user-provider/getAllUserList";
  	
     private String basePath;	
 		
 	
 	
+  //添加工作安排
+  	@RequestMapping(value = "/mobile/work_add")
+  	public String work_add(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+  		
+  		request.setAttribute("flag", "add");
+          request.setAttribute("dataId", UUID.randomUUID().toString().replace("-", ""));
+          request.setAttribute("userName", sysUserInfo.getUserDisp());
+          request.setAttribute("unitName", sysUserInfo.getUnitName());
+          request.setAttribute("bak6", sysUserInfo.getUserId());
+          request.setAttribute("bak4", sysUserInfo.getUserDisp());
+  		request.setAttribute("closeType", "1");
+  		return "/mobile/work_add";
+  	}
+  	
+  	
+  	//选下一步处理人
+  	@RequestMapping(value = "/mobile/implement")
+  	public String implement(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+  		return "/mobile/implement";
+  	}
+  	
+  	
+    //选下一步处理人
+  	@RequestMapping(value = "/mobile/user/querySysUserListByPage")
+	@ResponseBody
+	public Object querySysUserListByPage(HttpServletRequest request) throws IOException 
+  	{
+  		 //获取下一步处理人
+  		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+  		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		paramMap.put("companyCode", companyCode);
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getAllUserList, HttpMethod.POST, httpEntity, JSONArray.class);
+		JSONArray result = responseEntity.getBody();
+		List<SysUser> list = JSONObject.parseArray(result.toJSONString(), SysUser.class);
+		if(list!=null)
+		{
+			for(int i=0;i<list.size();i++)
+			{
+				SysUser sysUser=list.get(i);
+				String unitName=sysUser.getUnitName();
+				if(unitName!=null)
+				{
+					String arr[]=unitName.split(",");
+					unitName=arr[arr.length-1];
+					
+				}
+				sysUser.setUnitName(unitName.replace("股份有限公司", "").replace("有限责任公司", ""));
+				Map<String, String> map=PinyinUtil.changeChinese2Pinyin(sysUser.getUserDisp());
+				
+				String fullPin=map.get("fullPin");
+				String bigPin=map.get("bigPin");
+				String smallPin=map.get("smallPin");
+				String bigFirstPin=map.get("bigFirstPin");
+				sysUser.setNameBigPin(bigPin);
+				sysUser.setNameSmallPin(smallPin);
+				sysUser.setNameFullPin(fullPin);
+				sysUser.setNameBigFirstPin(bigFirstPin);
+			}
+			
+			Collections.sort(list, new Comparator<SysUser>() 
+			{
+				 public int compare(SysUser p1, SysUser p2) 
+				 {
+		             return p1.getNameBigFirstPin().compareTo(p2.getNameBigFirstPin());
+		         }
+			});
+		}
+		
+		JSONArray array= JSONArray.parseArray(JSON.toJSONString(list));
+		
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
+				
+		return array.toArray();
+	}
 	
+  	/**
+	 * 用户选择:页面跳转
+	 *
+	 * @param request
+	 * @return
+	 */
+  	/*@RequestMapping(method = RequestMethod.GET, value = "/mobile/plan/pageSelectUser")
+	private String pageSelectUser(HttpServletRequest request) {
+		return "/mobile/pageSelectUser";
+	}*/
+  	
 	
 		
  	@RequestMapping(value = "/mobile/agencyM")
@@ -100,10 +194,6 @@ public class MobileWorkbechController extends BaseController
 	}
  	
  	
- 	@RequestMapping(value = "/mobile/work_add")
-	public String work_add(HttpServletRequest request) throws IOException{
-		return "/mobile/work_add";
-	}
  	@RequestMapping(value = "/mobile/work_details")
 	public String work_details(HttpServletRequest request)throws IOException {
  		
@@ -138,24 +228,66 @@ public class MobileWorkbechController extends BaseController
 		ResponseEntity<PlanBase> responseEntity = this.restTemplate.exchange(VIEW_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), PlanBase.class);
 		PlanBase planBase = responseEntity.getBody();
 		request.setAttribute("planBase", planBase);
+		//工作处理---我处理的列表
+		LayuiTableData finished =this.getDealWorkSendFinished(request, restTemplate, httpHeaders);
+		//工作处理---任务接收后，下发给其他人员的工作安排列表
+		LayuiTableData send =this.getDealWorkSendOthedr(request, restTemplate, httpHeaders);
+		
+		request.setAttribute("finishedList", finished.getData());
+		request.setAttribute("sendList", send.getData());
 		return "/mobile/work_details_1";
 	}
  	
- 	//工作安排列表
+ 	//工作处理---我处理的列表
  	@RequestMapping(value = "/mobile/plan/queryMyBotWorkOrderMatterList")
 	@ResponseBody
 	public Object queryMyBotWorkOrderMatterList( HttpServletRequest request) {
- 		String dataId = request.getParameter("dataId");
+ 		
+ 		LayuiTableData result =this.getDealWorkSendFinished(request, restTemplate, httpHeaders);
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
+		return JSON.toJSONString(result);
+	}
+ 	private static LayuiTableData getDealWorkSendFinished(HttpServletRequest request,RestTemplate restTemplate,HttpHeaders httpHeaders) {
+		String dataId = request.getParameter("dataId");
  		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
 		LayuiTableParam param = new LayuiTableParam();
 		param.setPage(pageNo);
-		param.setLimit(15);
+		param.setLimit(100);
 		param.getParam().put("workOrderId", dataId);
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(VIEW_MY_BOT_WORK_ORDER_MATTER_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(VIEW_MY_BOT_WORK_ORDER_MATTER_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData result = responseEntity.getBody();
+		return result;
+
+	}
+ 	//工作处理---任务接收后，下发给其他人员的工作安排列表
+	@RequestMapping(value = "/mobile/plan/queryBotWorkOrderMatterList")
+	@ResponseBody
+	public Object queryBotWorkOrderMatterList( HttpServletRequest request, HttpServletResponse response) {
+		
+		LayuiTableData result =this.getDealWorkSendOthedr(request, restTemplate, httpHeaders);
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
 		return JSON.toJSONString(result);
 	}
+	
+	private static LayuiTableData getDealWorkSendOthedr(HttpServletRequest request,RestTemplate restTemplate,HttpHeaders httpHeaders) {
+		String dataId = request.getParameter("dataId");
+ 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		LayuiTableParam param = new LayuiTableParam();
+		param.setPage(pageNo);
+		param.setLimit(100);
+		param.getParam().put("workOrderId", dataId);
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(VIEW_BOT_WORK_ORDER_MATTER_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData result = responseEntity.getBody();
+		return result;
+
+	}
+ 	
  	/**
 	 * 获取工单管理信息
 	 */

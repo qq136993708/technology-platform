@@ -298,19 +298,16 @@ public class MobileContractController extends BaseController {
 		public String investment_data_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 			String resault = "";
-			PageResult pageResult = new PageResult();
 			Result result = new Result();
 			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 			String type = CommonUtil.getParameter(request, "type", "");
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
-
 			// 数据控制属性
 			String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 			String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 			paramsMap.put("zycbm", zycbm);
 			paramsMap.put("zylbbm", zylbbm);
 			paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
-
 			paramsMap.put("nd", nd);
 
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -324,11 +321,20 @@ public class MobileContractController extends BaseController {
 					System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
 					List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
-					if (type.equals("1")) {
+					if (type.equals("1")) 
+					{
 						ChartSingleLineResultData barLine = new ChartSingleLineResultData();
-						List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "yearMonth");
+						List<String> xAxisList = HanaUtil.getduplicatexAxisByList(list, "yearMonth");
+						List<String> xAxisDataList =new ArrayList<String>();
+						for (int i=0;i<xAxisList.size();i++)
+						{
+							String month = xAxisList.get(i);
+							month=month.replace(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY), "");
+							month = month.replaceAll("^(0+)", "");
+							month=month+"月";
+							xAxisDataList.add(month);
+						}
 						barLine.setxAxisDataList(xAxisDataList);
-
 						// X轴数据
 						List<Object> seriesDataList = new ArrayList<Object>();
 						for (BudgetMysql dt : list)
@@ -339,35 +345,39 @@ public class MobileContractController extends BaseController {
 							seriesDataList.add(str);
 						}
 						
-						//ChartBarLineSeries s2 = HanaUtil.getInvestmentBarLineSeries02(list, "hanaMoney");
 						barLine.setSeriesDataList(seriesDataList); 
 						barLine.setxAxisDataList(xAxisDataList);
 						result.setSuccess(true);
 						result.setData(barLine);
 					}
-					if (type.equals("2")) {
-						BudgetMysql newBM = new BudgetMysql();
-						for (int i = 0; i < list.size(); i++) {
-							BudgetMysql bm = list.get(i);
-
-							newBM.setYearMonth("合计");
-							newBM.setZysje(bm.getZysje());
-							Double zsjje = newBM.getZsjje() == null ? 0d : Double.valueOf(newBM.getZsjje().toString());
-							Double temJE = bm.getZsjje() == null ? 0d : Double.valueOf(bm.getZsjje().toString());
-							newBM.setZsjje((double) Math.round((zsjje + temJE) * 100) / 100);
-
-							Double hanaMoney = newBM.getHanaMoney() == null ? 0d : Double.valueOf(newBM.getHanaMoney().toString());
-							Double temHana = bm.getHanaMoney() == null ? 0d : Double.valueOf(bm.getHanaMoney().toString());
-							newBM.setHanaMoney((double) Math.round((hanaMoney + temHana) * 100) / 100);
-
-							bm.setZysje("-");
+					if (type.equals("2")) 
+					{
+						ChartSingleLineResultData barLine = new ChartSingleLineResultData();
+						List<String> xAxisList = HanaUtil.getduplicatexAxisByList(list, "yearMonth");
+						List<String> xAxisDataList =new ArrayList<String>();
+						for (int i=0;i<xAxisList.size();i++)
+						{
+							String month = xAxisList.get(i);
+							month=month.replace(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY), "");
+							month = month.replaceAll("^(0+)", "");
+							month=month+"月";
+							xAxisDataList.add(month);
 						}
-						list.add(0, newBM);
-						pageResult.setData(list);
-						pageResult.setCode(0);
-						pageResult.setCount(Long.valueOf(list.size()));
-						pageResult.setLimit(1000);
-						pageResult.setPage(1l);
+						
+						barLine.setxAxisDataList(xAxisDataList);
+						// X轴数据
+						List<Object> seriesDataList = new ArrayList<Object>();
+						for (BudgetMysql dt : list)
+						{
+							
+							Integer qdsl = dt.getQdsl();
+							seriesDataList.add(qdsl);
+						}
+						
+						barLine.setSeriesDataList(seriesDataList); 
+						barLine.setxAxisDataList(xAxisDataList);
+						result.setSuccess(true);
+						result.setData(barLine);
 					}
 
 				}
@@ -381,7 +391,7 @@ public class MobileContractController extends BaseController {
 				resault = resultObj.toString();
 				System.out.println(">>>>>>>>>>>11>>>>investment_data_02 " + resultObj.toString());
 			} else {
-				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 				resault = resultObj.toString();
 				System.out.println(">>>>>>>>>>>>22>>>investment_data_02 " + resultObj.toString());
 			}

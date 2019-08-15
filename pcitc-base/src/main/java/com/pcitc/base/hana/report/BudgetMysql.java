@@ -79,9 +79,19 @@ public class BudgetMysql {
 	private Object wbkzje;
 
 	private Object budgetItemName;
-	
 	private Object ysjzje;
+	private Integer qdsl;
 	
+	
+	
+	public Integer getQdsl() {
+		return qdsl;
+	}
+
+	public void setQdsl(Integer qdsl) {
+		this.qdsl = qdsl;
+	}
+
 	public Object getYsjzje() {
 		return ysjzje;
 	}
