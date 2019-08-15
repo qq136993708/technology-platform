@@ -16,7 +16,7 @@
     <div class="m_return child">
         <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>科研预算</h4>
-        <div id="test-laydate-normElem" placeholder="yyyy" class="laydate-c"></div>
+        <input id="date" type="text" value="" placeholder="">
     </div>
 </header>
 <main class="main budget">
@@ -97,6 +97,7 @@
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/mobile/js/rolldate.min.js"></script>
 <script>
     var layer;
     (function(doc, win) {
@@ -113,17 +114,32 @@
     })(document, window);
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
-        laydate.render({
+        new Rolldate({
+            el: '#date',
+            format: 'YYYY',
+            beginYear: 2000,
+            endYear: 2100,
+            value: $("#nd").val(),
+            confirm: function (date) {
+                if (date > $("#nd").val()+1) {
+                    layer.alert('不能大于当前的日期');
+                    return false;
+                }
+                $("#nd").val(date);
+                search_Event();
+            }
+        })
+        /*laydate.render({
             elem: '#test-laydate-normElem'
             ,type: 'year'
             ,max: $("#nd").val()+1
             ,value:$("#nd").val(),
-            done : function(value, date, endDate) 
+            done : function(value, date, endDate)
             {
             	    $("#nd").val(date.year);
 					search_Event();
 			}
-        });
+        });*/
     });
     
     

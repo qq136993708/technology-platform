@@ -6,6 +6,16 @@ input{letter-spacing:.015rem}
 .m_return a img{height:.13rem;display:inline-block;float:left}
 .m_return h4{font-size:.48rem;color:#000000;display:inline-block}
 .child h4{font-size:.14rem;color:#FFFFFF;display:inline-block;height:.14rem;line-height:.14rem;position:absolute;left:40%;top:.03rem}
+.child input{    background: url(/mobile/images/icon-deta.png) center right no-repeat;
+    border: none;
+    display: inline-block;
+    float: right;
+    height: .15rem;
+    font-size: .12rem;
+    color: white;
+    width: .6rem;
+    background-size: .12rem;
+    margin-right: .05rem;}
 .banner{margin-top:0 !important;overflow:-webkit-paged-x !important}
 .main{height:auto;overflow:hidden;background-image:linear-gradient(-180deg,#F6F8FC 2%,#EAEEF7 100%);box-shadow:0 2px 12px 0 rgba(31,54,74,0.23);border-radius:6px;width:97%;margin:0 auto;padding:0 2%;box-sizing:border-box}
 .main-card{height:auto;overflow:hidden}
@@ -82,7 +92,9 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .dec-center span{display:inline-block;font-size:.42rem;color:#666666;margin-left:0.14rem;margin-top:0.14rem}
 .disNone{display:none}
 .layui-layer{border-radius:4px !important}
-.layui-layer-title{background:linear-gradient(-135deg,#2F6EDD 0%,#5CA7F0 100%);font-size:0.46rem !important;color:#fff !important;text-align:center !important;padding:0 !important;border-radius:4px 4px 0 0 !important}
+.layui-layer-title{background:linear-gradient(-135deg,#2F6EDD 0%,#5CA7F0 100%);font-size:0.16rem !important;
+    color:#fff !important;text-align:left !important;padding:0 !important;border-radius:4px 4px 0 0 !important;
+    text-indent: 1.5em;}
 .win_grid .layui-table-header{border:none !important}
 .win_grid .layui-table-view .layui-table th{display:none}
 .win_grid{padding:0 20px 0 20px}
