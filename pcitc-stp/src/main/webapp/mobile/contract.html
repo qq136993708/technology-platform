@@ -44,7 +44,7 @@
             </div>
         </div>
     </div>
-    <div id="chart"></div>
+    <div id="chart1" style="height:300px;width:100%"></div>
     <div class="layui-tab">
         <div style="padding-top: .18rem">
             <ul class="layui-tab-title">
@@ -71,6 +71,13 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/mobile/js/rolldate.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+
+
 <script type="text/javascript" >
     var layer;
     (function(doc, win) {
@@ -267,13 +274,165 @@
     }
 	
 	
+  //图形
+
+    var option = {
+        tooltip: {
+            trigger: 'axis',
+            position: function (pt) {
+                return [pt[0], '10%'];
+            }
+        },
+        legend: {
+            data:['月份']
+        },
+        title: {
+            left: 'center',
+            text: '月度分析图',
+        },
+        toolbox: {
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: []
+        },
+        yAxis: {
+            type: 'value'
+           // boundaryGap: [0, '100%']
+        },
+        dataZoom: [{
+            type: 'inside',
+            start: 0,
+            end: 10
+        }, {
+            start: 0,
+            end: 10,
+            handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+            handleSize: '80%',
+            handleStyle: {
+                color: '#fff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+            }
+        }],
+        series: [
+            {
+                name:'签订数',
+                type:'line',
+                smooth:true,
+                symbol: 'none',
+                sampling: 'average',
+                itemStyle: {
+                    color: 'rgb(255, 70, 131)'
+                },
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: 'rgb(255, 158, 68)'
+                    }, {
+                        offset: 1,
+                        color: 'rgb(255, 70, 131)'
+                    }])
+                },
+                data: []
+            }
+        ]
+    };
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    function lineSingleAjax(url, echartsobj, options) 
+    {
+    	var xAxisData = [];
+    	var series = [];
+    	$.ajax({
+    		type : "get",
+    		url : url,
+    		timeout : 9000,
+    		dataType : "json",
+    		cache : false,
+    		headers : {
+    			'Content-Type' : 'application/json'
+    		},
+    		success : function(data, status) 
+    		{
+    			console.log("lineSingleAjax\n"+JSON.stringify(data));
+    			if (data.success == true || data.success == 'true') 
+    			 {
+    				echartsobj.hideLoading();
+    				var chartList = data.data.xAxisDataList;
+    				for (var i = 0; i < chartList.length; i++) {
+    					xAxisData.push(chartList[i]);
+    				}
+
+    				var seriesDataList = data.data.seriesDataList;
+    				for (var i = 0; i < seriesDataList.length; i++) {
+
+    					series.push(seriesDataList[i]);
+    				}
+    				// 加载数据图表
+    				echartsobj.setOption({
+    					xAxis : {
+    						data : xAxisData
+    					},
+    					series : [ {
+    						data : series
+    					} ]
+    				});
+
+    			}
+    		},
+    		error : function() {
+    			layer.msg('图表加载失败');
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    			if (status == 'timeout') {
+    				layer.msg('超时');
+    			}
+    		}
+    	});
+
+    }
+    function load_line(id) 
+    {
+    	var v_date = (new Date()).getTime();
+ 	    var nd = $('#nd').val();
+ 	    var url = "/mobile/small_leader/investment_data_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&type=2";
+    	var echartsobj = echarts.init(document.getElementById(id));
+    	echartsobj.setOption(option);
+    	echartsobj.showLoading();
+    	lineSingleAjax(url, echartsobj, line_single_option);
+    	return echartsobj;
+    }
+    
+    
+    
+	
+	
     function search_Event()
     {
     	
     	 allLook();
     	 researchDepart();
     	 //按专业处分
-    	 contract_zyc()
+    	 contract_zyc();
+    	 load_line("chart1");
     }
     search_Event();
     
