@@ -341,7 +341,11 @@ public class MobileContractController extends BaseController {
 						{
 							
 							Object hanaMoney = dt.getHanaMoney();
-							String str = HanaUtil.DecimalFormatObject(hanaMoney);
+							String str ="0";
+							if(hanaMoney!=null)
+							{
+								 HanaUtil.DecimalFormatObject(hanaMoney);
+							}
 							seriesDataList.add(str);
 						}
 						
@@ -371,6 +375,10 @@ public class MobileContractController extends BaseController {
 						{
 							
 							Integer qdsl = dt.getQdsl();
+							if(qdsl==null)
+							{
+								qdsl=0;
+							}
 							seriesDataList.add(qdsl);
 						}
 						
