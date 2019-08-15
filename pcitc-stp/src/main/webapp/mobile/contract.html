@@ -103,10 +103,10 @@
             endYear: $("#nd").val(),
             value: 2019,
             confirm: function (date) {
-                if (date > 2020) {
+              /*   if (date > 2020) {
                     layer.alert('不能大于当前的日期',{title:"提示"});
                     return false;
-                }
+                } */
                 $("#nd").val(date);
                 search_Event();
             }

@@ -38,8 +38,10 @@ import com.pcitc.base.plan.PlanBaseDetail;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysNoticeVo;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.PinyinUtil;
@@ -63,7 +65,7 @@ public class MobileWorkbechController extends BaseController
 	private static final String BOT_WORK_ORDER_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/botWorkOrder_list";
 	// 我的工单
     private static final String MY_BOT_WORK_ORDER_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/my/botWorkOrder_list";
-	
+	//
     private static final String VIEW_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/viewBotWorkOrder/";
     // 查看我的工单事项反馈集合
  	private static final String VIEW_MY_BOT_WORK_ORDER_MATTER_LIST = "http://pcitc-zuul/system-proxy/planClient-provider/queryMyBotWorkOrderMatterList";
@@ -78,6 +80,12 @@ public class MobileWorkbechController extends BaseController
     // 批量保存工单事项
  	private static final String SAVE_MY_BOT_WORK_ORDER_MATTER_BATCH = "http://pcitc-zuul/system-proxy/planClient-provider/saveMyBotWorkOrderMatterBatch";
  	private static final String getAllUserList = "http://pcitc-zuul/system-proxy/user-provider/getAllUserList";
+    // 提交
+ 	private static final String SUBMIT_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/submitBotWorkOrder/";
+    // 保存新增
+ 	private static final String SAVE_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/saveBotWorkOrder";
+    // 批量保存任务
+ 	private static final String SAVE_PLAN_BASE_BATCH = "http://pcitc-zuul/system-proxy/planClient-provider/savePlanBaseBatch";
  	
     private String basePath;	
 		
@@ -113,7 +121,7 @@ public class MobileWorkbechController extends BaseController
 	public Object querySysUserListByPage(HttpServletRequest request) throws IOException 
   	{
   		 //获取下一步处理人
-  		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+  		String companyCode = CommonUtil.getParameter(request, "key", "");
   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("companyCode", companyCode);
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
@@ -155,11 +163,9 @@ public class MobileWorkbechController extends BaseController
 		}
 		
 		JSONArray array= JSONArray.parseArray(JSON.toJSONString(list));
-		
 		// 安全设置：归档文件下载
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Cache-Control", "no-cache");
-				
 		return array.toArray();
 	}
 	
@@ -592,5 +598,104 @@ public class MobileWorkbechController extends BaseController
 		return "base/system/info-dialog";
 	}
 
+	
+	
+	/**
+	 * 新增、编辑工作任务单时的保存方法
+	 */
+	@RequestMapping(value = "/mobile/plan/submitBotWorkOrder")
+	@ResponseBody
+	public int submitBotWorkOrder(HttpServletRequest request) {
+		int result;
+		String workOrderStatus = request.getParameter("workOrderStatus");
+		result = saveBotWorkOrder(request);
+		String param = request.getParameter("param");
+		JSONObject jsStr = (JSONObject) JSON.parseObject(param);
+		String dataId = jsStr.getString("dataId");
+		if (result == 200) {
+			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SUBMIT_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
+			result = responseEntity.getBody();
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/mobile/plan/saveBotWorkOrder")
+	@ResponseBody
+	public int saveBotWorkOrder(HttpServletRequest request) {
+		String code = CodeUtil.getCode("XTBM_0048", restTemplate, httpHeaders);
+		String param = request.getParameter("param");
+		// String strCreateUser = sysUserInfo.getUserId();
+		JSONObject jsStr = (JSONObject) JSON.parseObject(param);
+		jsStr.put("dataCode", code);
+		jsStr.put("auditSts", "0");
+		jsStr.put("createDate", DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+		jsStr.put("createUser", sysUserInfo.getUserId());
+		jsStr.put("createUserName", sysUserInfo.getUserDisp());
+		jsStr.put("dataOrder", new Date().getTime() + "");
+		jsStr.put("workOrderStatus", "0");
+		jsStr.put("status", "0");
+		jsStr.put("workOrderCode", code);
+		jsStr.put("unitName", sysUserInfo.getUnitName());
+		if (jsStr.getString("scheduleType") !=null && !jsStr.getString("scheduleType").equals("")) {
+			// 需要定时处理
+			jsStr.put("isSchedule", "1");
+		} else {
+			// 实时任务
+			jsStr.put("isSchedule", "0");
+			jsStr.put("scheduleDate", "");
+		}
+		PlanBase bsv = JSONObject.toJavaObject(jsStr, PlanBase.class);
+
+		bsv.setDelFlag("0");
+		List<PlanBase> baseList = new ArrayList<PlanBase>();
+		if (jsStr.containsKey("matterList")) {
+			JSONArray array = jsStr.getJSONArray("matterList");
+			for (int i = 0; i < array.size(); i++) {
+				// 取值赋给PlanBase
+				JSONObject detail = array.getJSONObject(i);
+				PlanBase planBase = new PlanBase();
+				planBase.setWorkOrderName(detail.get("workOrderName").toString());
+				planBase.setWorkOrderAllotUserId(detail.get("workOrderAllotUserId").toString());// 当前节点处理人
+				planBase.setParentId(bsv.getDataId());
+				planBase.setDelFlag("0");
+				planBase.setBl("");
+				planBase.setDataId("".equals(detail.get("dataId")) ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
+				planBase.setWorkOrderAllotUserName(detail.get("workOrderAllotUserName").toString());// 当前节点处理人
+				planBase.setWorkOrderStatus("0");
+				planBase.setRedactUnitName(bsv.getRedactUnitName());
+				planBase.setWorkOrderType(bsv.getWorkOrderType());
+
+				// 记录父节点的相关信息，方便显示
+				planBase.setDataCode(bsv.getDataCode());
+				planBase.setWorkOrderCode(bsv.getDataCode());
+				planBase.setCreateUser(bsv.getCreateUser());
+				planBase.setCreateUserName(bsv.getCreateUserName());
+				planBase.setCreateDate(bsv.getCreateDate());
+				planBase.setStatus(bsv.getStatus());
+				
+				// 定时的任务暂时不让受理人看到。子工作任务不用考虑定时时间/类型
+				planBase.setIsSchedule(bsv.getIsSchedule());
+
+				System.out.println("announcements = " + detail.get("announcements"));
+				planBase.setAnnouncements(StrUtil.objectToString(detail.get("announcements")));
+				baseList.add(planBase);
+			}
+		}
+		HttpEntity<PlanBase> entity = new HttpEntity<PlanBase>(bsv, this.httpHeaders);
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
+		int result = responseEntity.getBody();
+
+		HttpEntity<List<PlanBase>> entityList = new HttpEntity<List<PlanBase>>(baseList, this.httpHeaders);
+		ResponseEntity<Integer> responseEntityList = this.restTemplate.exchange(SAVE_PLAN_BASE_BATCH, HttpMethod.POST, entityList, Integer.class);
+		try {
+			CommonUtil.updateFileFlag(restTemplate, httpHeaders, bsv.getDataId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = 500;
+		}
+		return result;
+	}
+	
+	
 	
 }
