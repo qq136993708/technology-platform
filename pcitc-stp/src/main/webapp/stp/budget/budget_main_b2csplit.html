@@ -216,7 +216,7 @@
 			function reloadDataAndTableFormart(data)
 			{
 				var table_data = data?data:[];
-				table.reload('dataTable', {data:table_data});
+				table.reload('dataTable', {data:table_data,even: true});
 				renderfunc();
 				//二级预算项居右，序号为空
 				$.each(table_data,function(index,dt){

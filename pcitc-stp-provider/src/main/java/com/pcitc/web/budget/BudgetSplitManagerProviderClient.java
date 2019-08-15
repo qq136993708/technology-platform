@@ -228,9 +228,10 @@ public class BudgetSplitManagerProviderClient
 		List<BudgetStockEnum> stocks = BudgetStockNdEnum.getStockTotalTypes(nd).getSplits();
 		for(BudgetStockEnum enums:stocks) 
 		{
-			if(enums.getId()<3000) {//直属院只统计“直属研究院”
+			/*if(enums.getId()<3000) {//直属院只统计“直属研究院”
 				set.add(enums.getUnitCode());
-			}
+			}*/
+			set.add(enums.getUnitCode());
 		}
 		set.add(BudgetStockEnum.SPLIT_GROUP_TOTAL.getUnitCode());
 		set.add(BudgetStockEnum.SPLIT_ASSET_TOTAL.getUnitCode());
