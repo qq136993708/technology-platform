@@ -95,22 +95,12 @@
     
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
-        /*laydate.render({
-            elem: '#test-laydate-normElem'
-            ,type: 'year'
-            ,value:$("#nd").val()
-            ,max: $("#nd").val()+1
-            ,done : function(value, date, endDate) 
-            {
-        	    $("#nd").val(date.year);
-				search_Event();
-		    }
-        });*/
+        
         new Rolldate({
             el: '#date',
             format: 'YYYY',
-            beginYear: 2000,
-            endYear: 2100,
+            beginYear: 2017,
+            endYear: $("#nd").val(),
             value: 2019,
             confirm: function (date) {
                 if (date > 2020) {

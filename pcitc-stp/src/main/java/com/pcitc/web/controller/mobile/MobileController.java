@@ -394,7 +394,7 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/cash")
 	public String cash(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String month = HanaUtil.getCurrentYearMoth();
+		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
