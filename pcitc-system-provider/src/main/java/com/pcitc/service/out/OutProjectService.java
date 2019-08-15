@@ -116,12 +116,6 @@ public interface OutProjectService {
 
 	OutProjectInfo getOutProjectShowById(String dataId) throws Exception;
 	public int updateProjectData(List<OutProjectInfo> list, String nd);
-	/**
-     * @param nd
-     * @return
-     * 首页查询各单位的新开、续建、完结情况
-     */
-    public List getProjectTypeInfoByUnit(HashMap<String, String> map);
     
     /**
      * @param nd

@@ -1686,16 +1686,6 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 	/**
 	 * @param nd
-	 * @return 首页查询各单位的新开、续建、完结情况
-	 */
-	public List getProjectTypeInfoByUnit(HashMap<String, String> map) {
-		// 数据控制, 专业处、专业
-		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
-		return outProjectInfoMapper.getProjectTypeInfoByUnit(map);
-	}
-
-	/**
-	 * @param nd
 	 * @return 首页、领导首页，查询新开的国家项目、重点项目、重大项目、其他项目、总计的统计
 	 */
 	public HashMap<String, String> getProjectTotalInfoByNew(HashMap<String, String> map) {

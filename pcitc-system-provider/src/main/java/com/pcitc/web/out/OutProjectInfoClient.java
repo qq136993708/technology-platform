@@ -342,31 +342,6 @@ public class OutProjectInfoClient {
 		return outProjectService.getOutProjectShowCount(dataId);
 	}
 
-	@ApiOperation(value = "首页查询各单位的新开、续建、完结情况", notes = "参数暂时是空")
-	@RequestMapping(value = "/out-project-provider/type/unit/list")
-	public JSONArray getProjectTypeInfoByUnit(@RequestBody HashMap<String, String> map) throws Exception {
-		logger.info("==================page getProjectTypeInfoByUnit===========================" + map);
-		List temList = outProjectService.getProjectTypeInfoByUnit(map);
-
-		List keyList = new ArrayList<String>();
-		keyList.add("xksl");
-		keyList.add("xjsl");
-		logger.info("==================page getProjectTypeInfoByUnit===========================" + JSON.toJSONString(temList));
-		// 各个组织机构名称，如果有基础数据库的话，也可以直接取，此处就不用写死
-		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
-		temList = iniListValue(temList, "type_flag", "分子公司", keyList);
-		temList = iniListValue(temList, "type_flag", "集团单位", keyList);
-		temList = iniListValue(temList, "type_flag", "资产单位", keyList);
-		temList = iniListValue(temList, "type_flag", "外部单位", keyList);
-		temList = iniListValue(temList, "type_flag", "集团公司", keyList);
-		temList = iniListValue(temList, "type_flag", "资产公司", keyList);
-		temList = iniListValue(temList, "type_flag", "盈科", keyList);
-
-		System.out.println("====" + JSON.toJSONString(temList));
-		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
-		return json;
-	}
-
 	@ApiOperation(value = "首页查询各单位的新开、续建、完结情况--装备", notes = "参数暂时是空")
 	@RequestMapping(value = "/out-project-provider/type/zb/unit/list")
 	public JSONArray getZBProjectTypeInfoByUnit(@RequestBody HashMap<String, String> map) throws Exception {
