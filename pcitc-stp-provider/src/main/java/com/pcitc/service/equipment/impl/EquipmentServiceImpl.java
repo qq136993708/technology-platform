@@ -391,17 +391,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 		List<SreProject> list = sreProjectMapper.getList(map);
 		if (list.size()!=0){
-            if (contractNumNotNull!="") {
+            if (!contractNumNotNull.equals("")) {
                 SreProject projectSumMoney = sreProjectMapper.getSumMoney(map);
-                if (projectSumMoney != null) {
                     projectSumMoney.getSumNumber();
                     projectSumMoney.setIndex("合计");
                     projectSumMoney.setProjectMoney(projectSumMoney.getSumMoney());
                     projectSumMoney.setName("");
                     projectSumMoney.setBeginYear("");
                     projectSumMoney.setEndYear("");
-                }
-                System.err.println("============================");
 
                 int count = 15;
                 int i = pageNum * count;
@@ -409,10 +406,7 @@ public class EquipmentServiceImpl implements EquipmentService {
                 for (SreProject listmap : list) {
                     listmap.setIndex(String.valueOf(i++));
                 }
-                if (projectSumMoney.getSumNumber() != 0) {
-                    list.add(0, projectSumMoney);
-                }
-
+                list.add(0, projectSumMoney);
             }
 		}
         PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
