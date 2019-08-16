@@ -93,6 +93,13 @@ public interface BudgetInfoService
 	 */
 	public BudgetInfo selectFinalBudget(String nd,Integer budgetType);
 	/**
+	 * 获取年度最终预算表，如果没有则取最新的
+	 * @param nd
+	 * @param budgetType
+	 * @return
+	 */
+	public BudgetInfo selectFinalBudgetOrNew(String nd,Integer budgetType);
+	/**
 	 * 获取计划参考数据
 	 * @param budgetInfoId
 	 * @param nd

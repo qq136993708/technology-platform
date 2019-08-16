@@ -109,12 +109,6 @@ public interface OutProjectInfoMapper {
 
 	/**
 	 * @param nd
-	 *            首页查询，直属研究院、分子公司等9个单位，各单位的新开、续建、完结情况
-	 */
-	public List getProjectTypeInfoByUnit(HashMap<String, String> map);
-
-	/**
-	 * @param nd
 	 *            首页、领导首页，查询新开的国家项目、重点项目、重大项目、其他项目、总计的统计
 	 */
 	public HashMap<String, String> getProjectTotalInfoByNew(HashMap<String, String> map);

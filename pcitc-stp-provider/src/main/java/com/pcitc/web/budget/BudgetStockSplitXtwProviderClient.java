@@ -66,8 +66,8 @@ public class BudgetStockSplitXtwProviderClient
 		try
 		{
 			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.STOCK_XTY_SPLIT.getCode());
-			//获取股份预算总表中可用分配数（审批通过的股份预算,从预算项中获取付系统外的预算数）
-			BudgetInfo finalBudgetInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.STOCK_TOTAL.getCode());
+			//获取股份预算总表中可用分配数（审批通过的股份预算,从预算项中获取付系统外的预算数）如果没有审批通过的则获取最新的
+			BudgetInfo finalBudgetInfo = budgetInfoService.selectFinalBudgetOrNew(info.getNd(),BudgetInfoEnum.STOCK_TOTAL.getCode());
 			for(BudgetInfo dt:datalist) {
 				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
 				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());

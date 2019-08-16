@@ -342,31 +342,6 @@ public class OutProjectInfoClient {
 		return outProjectService.getOutProjectShowCount(dataId);
 	}
 
-	@ApiOperation(value = "首页查询各单位的新开、续建、完结情况", notes = "参数暂时是空")
-	@RequestMapping(value = "/out-project-provider/type/unit/list")
-	public JSONArray getProjectTypeInfoByUnit(@RequestBody HashMap<String, String> map) throws Exception {
-		logger.info("==================page getProjectTypeInfoByUnit===========================" + map);
-		List temList = outProjectService.getProjectTypeInfoByUnit(map);
-
-		List keyList = new ArrayList<String>();
-		keyList.add("xksl");
-		keyList.add("xjsl");
-		logger.info("==================page getProjectTypeInfoByUnit===========================" + JSON.toJSONString(temList));
-		// 各个组织机构名称，如果有基础数据库的话，也可以直接取，此处就不用写死
-		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
-		temList = iniListValue(temList, "type_flag", "分子公司", keyList);
-		temList = iniListValue(temList, "type_flag", "集团单位", keyList);
-		temList = iniListValue(temList, "type_flag", "资产单位", keyList);
-		temList = iniListValue(temList, "type_flag", "外部单位", keyList);
-		temList = iniListValue(temList, "type_flag", "集团公司", keyList);
-		temList = iniListValue(temList, "type_flag", "资产公司", keyList);
-		temList = iniListValue(temList, "type_flag", "盈科", keyList);
-
-		System.out.println("====" + JSON.toJSONString(temList));
-		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
-		return json;
-	}
-
 	@ApiOperation(value = "首页查询各单位的新开、续建、完结情况--装备", notes = "参数暂时是空")
 	@RequestMapping(value = "/out-project-provider/type/zb/unit/list")
 	public JSONArray getZBProjectTypeInfoByUnit(@RequestBody HashMap<String, String> map) throws Exception {
@@ -1035,13 +1010,17 @@ public class OutProjectInfoClient {
 				oneOrder++;
 				if (oneOrder == 1) {
 					temMap.put("showOrder", "一、");
+					temMap.put("showFlag", "1-1");
 				}
 				if (oneOrder == 2) {
 					temMap.put("showOrder", "二、");
+					temMap.put("showFlag", "1-2");
 				}
 				if (oneOrder == 3) {
 					temMap.put("showOrder", "三、");
+					temMap.put("showFlag", "1-3");
 				}
+				temMap.put("levelFlag", "1");
 				// 计算总数时，考虑总的一层，不计算“二级”预算，防止重复计算
 				totalFyxBudget = totalFyxBudget + Double.parseDouble(temMap.get("fyxBudget") == null ? "0" : temMap.get("fyxBudget").toString());
 				totalFyxXqBudget = totalFyxXqBudget + Double.parseDouble(temMap.get("fyxXqBudget") == null ? "0" : temMap.get("fyxXqBudget").toString());
@@ -1052,7 +1031,8 @@ public class OutProjectInfoClient {
 			} else if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("2")) {
 				twoOrder++;
 				temMap.put("showOrder", twoOrder);
-
+				temMap.put("showFlag", "1-1-"+twoOrder);
+				temMap.put("levelFlag", "2");
 				/*
 				 * totalFyxBudget = totalFyxBudget +
 				 * Double.parseDouble(temMap.get("fyxBudget") == null ? "0" :
@@ -1074,11 +1054,15 @@ public class OutProjectInfoClient {
 			} else if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("3")) {
 				threeOrder++;
 				temMap.put("showOrder", "1." + String.valueOf(threeOrder));
+				temMap.put("showFlag", "1-1-1-"+threeOrder);
+				temMap.put("levelFlag", "3");
 			}
 		}
 		Map<String, Object> totalMap = new HashMap<String, Object>();
 		totalMap.put("showOrder", "总计");
 		totalMap.put("show_ali", "");
+		totalMap.put("showFlag", "1");
+		totalMap.put("levelFlag", "0");
 		totalMap.put("fyxXqBudget", totalFyxXqBudget);
 		totalMap.put("fyxJzBudget", totalFyxJzBudget);
 		totalMap.put("fyxXqMoney", totalFyxXqMoney);
@@ -1102,6 +1086,8 @@ public class OutProjectInfoClient {
 				temMap.put("zbxBudget", 0d);
 			if (temMap.get("zbxXqMoney") == null || temMap.get("zbxXqMoney").toString().equals(""))
 				temMap.put("zbxXqMoney", 0d);
+			if (temMap.get("showFlag") == null || temMap.get("showFlag").toString().equals(""))
+				temMap.put("showFlag", "0");
 
 			Double fyxXqBudget = Double.valueOf(temMap.get("fyxXqBudget").toString());
 			Double fyxJzBudget = Double.valueOf(temMap.get("fyxJzBudget").toString());

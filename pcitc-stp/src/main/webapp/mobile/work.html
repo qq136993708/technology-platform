@@ -128,7 +128,7 @@
                 fixed : false,
                 maxmin : true,
                 area : [ '95%', '72.5%' ],
-                content : '/mobile/work_add.html'
+                content : '/mobile/work_add'
             });
         });
     });
@@ -178,11 +178,19 @@
   						bl="0";
  					 }
   					 bl=parseInt(bl);
+  					 
+  					 var workOrderAllotUserName_length=workOrderAllotUserName.split(",");
+  					 var imagstr= "<img src='/mobile/images/icon-by.png' alt=''>";
+  					 if(workOrderAllotUserName_length.length>1)
+  					 {
+  						imagstr=    "<img src='/mobile/images/icon-by.png' alt=''>"+
+			  						"<img src='/mobile/images/icon-by.png' alt=''>"+
+			                        "<img src='/mobile/images/icon-by.png' alt=''>";
+  					 }
+  					 
+  					 
   					 var temp= "<li class='list' onclick=\"view('"+dataId+"','"+workOrderName+"')\">"+
-				                     "<div class='list-img'>"+
-				                         "<img src='/mobile/images/icon-by.png' alt=''>"+
-				                         "<img src='/mobile/images/icon-by.png' alt=''>"+
-				                         "<img src='/mobile/images/icon-by.png' alt=''>"+
+				                     "<div class='list-img'>"+imagstr+
 				                    "</div>"+
 				                     "<div class='list-cont'>"+
 				                         "<p>"+workOrderName+"</p>"+
@@ -262,11 +270,19 @@
  					 {
  						createDate=createDate.substr(0,10);
  					 }
+   					 
+   					 var createUserName_length=createUserName.split(",");
+  					 var imagstr= "<img src='/mobile/images/icon-by.png' alt=''>";
+  					 if(createUserName_length.length>1)
+  					 {
+  						imagstr=    "<img src='/mobile/images/icon-by.png' alt=''>"+
+			  						"<img src='/mobile/images/icon-by.png' alt=''>"+
+			                        "<img src='/mobile/images/icon-by.png' alt=''>";
+  					 }
+  					 
+  					 
    					 var temp= "<li class='list' onclick=\"mydeal('"+dataId+"','"+workOrderName+"')\" >"+
-                                    "<div class='list-img'>"+
-                                       " <img src='/mobile/images/icon-by.png' alt=''>"+
-                                        "<img src='/mobile/images/icon-by.png' alt=''>"+
-                                        "<img src='/mobile/images/icon-by.png' alt=''>"+
+                                    "<div class='list-img'>"+imagstr+
                                    "</div>"+
                                     "<div class='list-cont'>"+
                                         "<p>"+workOrderName+"</p>"+

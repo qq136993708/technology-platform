@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,6 +66,13 @@ public class MobileController extends BaseController {
 		request.setAttribute("nd", nd);
 		return "/mobile/budget";
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value = "/mobile/institute")
 	public String institute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -386,7 +394,7 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/cash")
 	public String cash(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String month = HanaUtil.getCurrentYearMoth();
+		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
