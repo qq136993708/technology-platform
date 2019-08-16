@@ -5,7 +5,7 @@
 layui.define(['jquery','form','table','laydate'],
     function(exports) {
         var $ = layui.jquery,form=layui.form,table=layui.table,laydate=layui.laydate;
-        var param=JSON.parse(window.localStorage.getItem("param"));
+        var param1=JSON.parse(window.localStorage.getItem("param"));
         var publicMet={
             //递归删除空属性防止把null变成空值
             deleteEmptyProp:function(obj) {
@@ -499,7 +499,7 @@ layui.define(['jquery','form','table','laydate'],
                     var page={
                         count: 500 //数据总数，从服务端得到
                         , groups: 5
-                        , limits: [param.selfRownum, 30, 45, 60]
+                        , limits: [15, 30, 45, 60]
                         , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                         , first: '首页' //不显示首页
                         , last: '尾页' //不显示尾页
@@ -512,7 +512,7 @@ layui.define(['jquery','form','table','laydate'],
                     table.render({
                         elem: '#'+elem //表格容器
                         , url:url //请求的url地址
-                        , limit: param.selfRownum //每页默认显示的数量
+                        , limit: 15 //每页默认显示的数量
                         , id: id
                         , where:where
                         ,method:"POST"
@@ -530,7 +530,7 @@ layui.define(['jquery','form','table','laydate'],
                     table.render({
                         elem: '#'+elem //表格容器
                         , url:url //请求的url地址
-                        , limit: param.selfRownum //每页默认显示的数量
+                        , limit: 15 //每页默认显示的数量
                         , id: id
                         , where:where
                         ,method:"POST"
@@ -547,7 +547,7 @@ layui.define(['jquery','form','table','laydate'],
                     var page={
                         count: 500 //数据总数，从服务端得到
                         , groups: 5
-                        , limits: [param.selfRownum, 30, 45, 60]
+                        , limits: [15, 30, 45, 60]
                         , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
                         , first: '首页' //不显示首页
                         , last: '尾页' //不显示尾页
@@ -560,7 +560,7 @@ layui.define(['jquery','form','table','laydate'],
                     table.render({
                         elem: '#'+elem //表格容器
                         , url:url //请求的url地址
-                        , limit: param.selfRownum //每页默认显示的数量
+                        , limit: 15//每页默认显示的数量
                         , id: id
                         , where:where
                         ,method:"POST"
@@ -577,7 +577,7 @@ layui.define(['jquery','form','table','laydate'],
                     table.render({
                         elem: '#'+elem //表格容器
                         , url:url //请求的url地址
-                        , limit: param.selfRownum //每页默认显示的数量
+                        , limit: 15 //每页默认显示的数量
                         , id: id
                         , where:where
                         , height: height
