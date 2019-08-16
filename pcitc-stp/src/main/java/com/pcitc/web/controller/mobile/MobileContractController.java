@@ -24,9 +24,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ChartBarLineResultData;
 import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.ChartPieResultData;
+import com.pcitc.base.common.ChartSingleLineResultData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.hana.report.AchievementsAnalysis;
+import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -45,7 +48,8 @@ public class MobileContractController extends BaseController {
 	private static final String contract_03 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/institute";
 	private static final String contract_zyc = "http://pcitc-zuul/system-proxy/out-project-plan-provider/zyc/plan/count";
 
-	
+	private static final String getInvestment02 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/month/money-hana-type";
+
 
 	/**
 	 * 全口径新开课题合同（任务书）签订率
@@ -283,6 +287,125 @@ public class MobileContractController extends BaseController {
 			return result;
 		}
 		
+		
+		
+		/**
+		 * 直属研究院月度合同签订情况
+		 */
+		@RequestMapping(value = "/mobile/small_leader/investment_data_02")
+		@ResponseBody
+		@OperationFilter(dataFlag = "true")
+		public String investment_data_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			String resault = "";
+			Result result = new Result();
+			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+			String type = CommonUtil.getParameter(request, "type", "");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			// 数据控制属性
+			String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+			String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+			paramsMap.put("zycbm", zycbm);
+			paramsMap.put("zylbbm", zylbbm);
+			paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+			paramsMap.put("nd", nd);
+
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!nd.equals("")) {
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getInvestment02, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) {
+
+					JSONArray jSONArray = responseEntity.getBody();
+					System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
+					List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+
+					if (type.equals("1")) 
+					{
+						ChartSingleLineResultData barLine = new ChartSingleLineResultData();
+						List<String> xAxisList = HanaUtil.getduplicatexAxisByList(list, "yearMonth");
+						List<String> xAxisDataList =new ArrayList<String>();
+						for (int i=0;i<xAxisList.size();i++)
+						{
+							String month = xAxisList.get(i);
+							month=month.replace(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY), "");
+							month = month.replaceAll("^(0+)", "");
+							month=month+"月";
+							xAxisDataList.add(month);
+						}
+						barLine.setxAxisDataList(xAxisDataList);
+						// X轴数据
+						List<Object> seriesDataList = new ArrayList<Object>();
+						for (BudgetMysql dt : list)
+						{
+							
+							Object hanaMoney = dt.getHanaMoney();
+							String str ="0";
+							if(hanaMoney!=null)
+							{
+								 HanaUtil.DecimalFormatObject(hanaMoney);
+							}
+							seriesDataList.add(str);
+						}
+						
+						barLine.setSeriesDataList(seriesDataList); 
+						barLine.setxAxisDataList(xAxisDataList);
+						result.setSuccess(true);
+						result.setData(barLine);
+					}
+					if (type.equals("2")) 
+					{
+						ChartSingleLineResultData barLine = new ChartSingleLineResultData();
+						List<String> xAxisList = HanaUtil.getduplicatexAxisByList(list, "yearMonth");
+						List<String> xAxisDataList =new ArrayList<String>();
+						for (int i=0;i<xAxisList.size();i++)
+						{
+							String month = xAxisList.get(i);
+							month=month.replace(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY), "");
+							month = month.replaceAll("^(0+)", "");
+							month=month+"月";
+							xAxisDataList.add(month);
+						}
+						
+						barLine.setxAxisDataList(xAxisDataList);
+						// X轴数据
+						List<Object> seriesDataList = new ArrayList<Object>();
+						for (BudgetMysql dt : list)
+						{
+							
+							Integer qdsl = dt.getQdsl();
+							if(qdsl==null)
+							{
+								qdsl=0;
+							}
+							seriesDataList.add(qdsl);
+						}
+						
+						barLine.setSeriesDataList(seriesDataList); 
+						barLine.setxAxisDataList(xAxisDataList);
+						result.setSuccess(true);
+						result.setData(barLine);
+					}
+
+				}
+
+			} else {
+				result.setSuccess(false);
+				result.setMessage("参数为空");
+			}
+			if (type.equals("1")) {
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+				resault = resultObj.toString();
+				System.out.println(">>>>>>>>>>>11>>>>investment_data_02 " + resultObj.toString());
+			} else {
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+				resault = resultObj.toString();
+				System.out.println(">>>>>>>>>>>>22>>>investment_data_02 " + resultObj.toString());
+			}
+
+			return resault;
+		}
 	
 	
 }

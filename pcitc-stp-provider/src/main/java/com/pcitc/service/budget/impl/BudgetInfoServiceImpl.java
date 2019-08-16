@@ -272,6 +272,27 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		return null;
 	}
 	@Override
+	public BudgetInfo selectFinalBudgetOrNew(String nd, Integer budgetType) {
+		BudgetInfoExample example = new BudgetInfoExample();
+		BudgetInfoExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		//c.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+		c.andBudgetTypeEqualTo(budgetType);
+		c.andNdEqualTo(nd);
+		example.setOrderByClause("data_version desc");
+		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(example);
+		//如果有最终版本则取最终版本，否则取最新版本
+		List<BudgetInfo> rs = infos.stream().filter(a -> BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode().equals(a.getAuditStatus())).collect(Collectors.toList());
+		if(rs != null && rs.size()>0) {
+			return rs.get(0);
+		}
+		//获取最新版本
+		if(infos != null && infos.size()>0) {
+			return infos.get(0);
+		}
+		return null;
+	}
+	@Override
 	public Map<String, List<OutProjectPlan>> selectBudgetPlanData(Set<String> codes, String nd) {
 		if(codes == null || codes.size() == 0) {
 			return new HashMap<String,List<OutProjectPlan>>();
@@ -639,6 +660,8 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		stockTotal.setTypeName("gfgs");
 		stockTotal.setSheetFlag(info.getNd()+"年预算总表");
 		stockTotal.setBudgetType(BudgetInfoEnum.STOCK_TOTAL.getCode());
+		stockTotal.setBudgetCode(BudgetStockEnum.SPLIT_STOCK_TOTAL.getCode());
+		stockTotal.setUnitCode(BudgetStockEnum.SPLIT_STOCK_TOTAL.getUnitCode());
 		saves.add(stockTotal);
 		if(stock != null) 
 		{
@@ -689,6 +712,8 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		groupTotal.setSheetFlag(info.getNd()+"年预算总表");
 		groupTotal.setNo(saves.size()+1);
 		groupTotal.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
+		groupTotal.setBudgetCode(BudgetStockEnum.SPLIT_GROUP_TOTAL.getCode());
+		groupTotal.setUnitCode(BudgetStockEnum.SPLIT_GROUP_TOTAL.getUnitCode());
 		saves.add(groupTotal);
 		if(group != null) 
 		{
@@ -711,6 +736,8 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		assetTotal.setSheetFlag(info.getNd()+"年预算总表");
 		assetTotal.setNo(saves.size()+1);
 		assetTotal.setBudgetType(BudgetInfoEnum.ASSETS_TOTAL.getCode());
+		assetTotal.setBudgetCode(BudgetStockEnum.SPLIT_ASSET_TOTAL.getCode());
+		assetTotal.setUnitCode(BudgetStockEnum.SPLIT_ASSET_TOTAL.getUnitCode());
 		saves.add(assetTotal);
 		if(asset != null) 
 		{

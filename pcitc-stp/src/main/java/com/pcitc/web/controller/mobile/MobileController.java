@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,7 @@ import com.pcitc.base.expert.ZjkChoice;
 import com.pcitc.base.expert.ZjkExpert;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.Contract;
+import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
@@ -65,6 +67,20 @@ public class MobileController extends BaseController {
 		return "/mobile/budget";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/mobile/institute")
+	public String institute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String nd = HanaUtil.getCurrentYear();
+		request.setAttribute("nd", nd);
+		return "/mobile/institute";
+	}
 	
 	
 	
@@ -378,7 +394,7 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/cash")
 	public String cash(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String month = HanaUtil.getCurrentYearMoth();
+		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
@@ -516,6 +532,14 @@ public class MobileController extends BaseController {
 
 		return "/mobile/zhfxTable3";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 }

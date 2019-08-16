@@ -43,8 +43,8 @@
 
 	<!-- 日志输出级别, 暂时取消STDOUT,只输入日志到文件 -->
 	<root level="INFO">
-		<!-- <appender-ref ref="STDOUT" /> -->
-		<appender-ref ref="FILE" />
+		<appender-ref ref="STDOUT" />
+		<!-- <appender-ref ref="FILE" /> -->
 	</root>
 
 	<!--日志异步到数据库 -->

@@ -76,7 +76,7 @@
 	    			v.total = v.groupMoney+v.assetMoney+v.stockMoney;
 		    	    table_data.push(v);
 		    	});
-	    		table.reload('dataTable', {data: table_data});
+	    		table.reload('dataTable', {data: table_data,even: true});
 	    		//格式化求和
 				$.each($(".layui-table-total tr td"),function(i,d){
 					if(i>=2){

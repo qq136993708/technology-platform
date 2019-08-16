@@ -10,153 +10,157 @@
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
+    <style>
+        .layui-tab-content{padding-bottom: 8px;}
+    </style>
 </head>
 <body>
+<div class="tableBox" style="margin-top: 8px">
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            <li class="layui-this">项目</li>
+            <li>成果</li>
+            <li>奖励</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="searchBox">
+                    <!--查询条件-->
+                    <label class="dateInput selectInput">
+                        <span>项目名称</span>
 
+                        <input type="text" name="xmName"
+                               placeholder="请输入项目名称"
+                               title="项目名称" autocomplete="off"
+                               class="form-control" id="xmNameName">
 
-<div class="layui-tab layui-tab-card">
-    <ul class="layui-tab-title">
-        <li class="layui-this">项目</li>
-        <li>成果</li>
-        <li>奖励</li>
-    </ul>
-    <div class="layui-tab-content">
-        <div class="layui-tab-item layui-show">
-            <div class="searchBox">
-                <!--查询条件-->
-                <label class="dateInput selectInput">
-                    <span>项目名称</span>
+                        <span>项目阶段</span>
 
-                    <input type="text" name="xmName"
-                           placeholder="请输入项目名称"
-                           title="项目名称" autocomplete="off"
-                           class="form-control" id="xmNameName">
-
-                    <span>项目阶段</span>
-
-                    <select name="xmSteps" id="xmSteps" lay-filter="xmSteps">
-                        <option value="">请选择</option>
-                    </select>
-                </label>
-                <!--按钮组-->
-                <div class="btnGroup">
-                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
-                    </button>
-                    <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
-                            data-type="resetEvent">重置
-                    </button>
-                </div>
-            </div>
-            <div class="tableBox">
-                <div class="tableToolBox">
-                    <div class="whiteLine"></div>
-                    <div class="tableBtns">
-                        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"-->
-                        <!--data-type="addEvent">新增-->
-                        <!--</button>-->
-                        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"-->
-                        <!--data-type="editEvent">编辑-->
-                        <!--</button>-->
-                        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-                                <!--data-type="deleteEvent">删除-->
-                        <!--</button>-->
-                        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
-                                data-type="batEventXm">回复
+                        <select name="xmSteps" id="xmSteps" lay-filter="xmSteps">
+                            <option value="">请选择</option>
+                        </select>
+                    </label>
+                    <!--按钮组-->
+                    <div class="btnGroup">
+                        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+                        </button>
+                        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                                data-type="resetEvent">重置
                         </button>
                     </div>
                 </div>
+                <div class="tableBox">
+                    <div class="tableToolBox">
+                        <div class="whiteLine"></div>
+                        <div class="tableBtns">
+                            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"-->
+                            <!--data-type="addEvent">新增-->
+                            <!--</button>-->
+                            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"-->
+                            <!--data-type="editEvent">编辑-->
+                            <!--</button>-->
+                            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                            <!--data-type="deleteEvent">删除-->
+                            <!--</button>-->
+                            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                                    data-type="batEventXm">回复
+                            </button>
+                        </div>
+                    </div>
 
-                <table id="zjkMsgTableId" class="layui-hide" lay-filter="zjkMsgTableId"></table>
+                    <table id="zjkMsgTableId" class="layui-hide" lay-filter="zjkMsgTableId"></table>
 
 
-            </div>
-        </div>
-        <div class="layui-tab-item">
-            <div class="searchBox">
-                <!--查询条件-->
-                <label class="dateInput selectInput">
-                    <span>成果名称</span>
-
-                    <input type="text" name="xmNameCg"
-                           placeholder="请输入成果名称"
-                           title="成果名称" autocomplete="off"
-                           class="form-control" id="xmNameNameCg">
-
-                    <span>阶段</span>
-
-                    <select name="xmStepsCg" id="xmStepsCg" lay-filter="xmStepsCg">
-                        <option value="">请选择</option>
-                    </select>
-                </label>
-                <!--按钮组-->
-                <div class="btnGroup">
-                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEventCg">查询
-                    </button>
-                    <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
-                            data-type="resetEventCg">重置
-                    </button>
                 </div>
             </div>
-            <div class="tableBox">
-                <div class="tableToolBox">
-                    <div class="whiteLine"></div>
-                    <div class="tableBtns">
-                        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-                                <!--data-type="deleteEvent">删除-->
-                        <!--</button>-->
-                        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
-                                data-type="batEventCg">回复
+            <div class="layui-tab-item">
+                <div class="searchBox">
+                    <!--查询条件-->
+                    <label class="dateInput selectInput">
+                        <span>成果名称</span>
+
+                        <input type="text" name="xmNameCg"
+                               placeholder="请输入成果名称"
+                               title="成果名称" autocomplete="off"
+                               class="form-control" id="xmNameNameCg">
+
+                        <span>阶段</span>
+
+                        <select name="xmStepsCg" id="xmStepsCg" lay-filter="xmStepsCg">
+                            <option value="">请选择</option>
+                        </select>
+                    </label>
+                    <!--按钮组-->
+                    <div class="btnGroup">
+                        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEventCg">查询
+                        </button>
+                        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                                data-type="resetEventCg">重置
                         </button>
                     </div>
                 </div>
-                <table id="zjkMsgTableIdCg" class="layui-hide" lay-filter="zjkMsgTableIdCg"></table>
+                <div class="tableBox">
+                    <div class="tableToolBox">
+                        <div class="whiteLine"></div>
+                        <div class="tableBtns">
+                            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                            <!--data-type="deleteEvent">删除-->
+                            <!--</button>-->
+                            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                                    data-type="batEventCg">回复
+                            </button>
+                        </div>
+                    </div>
+                    <table id="zjkMsgTableIdCg" class="layui-hide" lay-filter="zjkMsgTableIdCg"></table>
 
-            </div>
-        </div>
-        <div class="layui-tab-item">
-            <div class="searchBox">
-                <!--查询条件-->
-                <label class="dateInput selectInput">
-                    <span>奖励名称</span>
-
-                    <input type="text" name="xmNameJl"
-                           placeholder="请输入奖励名称"
-                           title="奖励名称" autocomplete="off"
-                           class="form-control" id="xmNameNameJl">
-
-                    <span>阶段</span>
-
-                    <select name="xmStepsJl" id="xmStepsJl" lay-filter="xmSteps">
-                        <option value="">请选择</option>
-                    </select>
-                </label>
-                <!--按钮组-->
-                <div class="btnGroup">
-                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEventJl">查询
-                    </button>
-                    <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
-                            data-type="resetEventJl">重置
-                    </button>
                 </div>
             </div>
-            <div class="tableBox">
-                <div class="tableToolBox">
-                    <div class="whiteLine"></div>
-                    <div class="tableBtns">
-                        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-                                <!--data-type="deleteEvent">删除-->
-                        <!--</button>-->
-                        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
-                                data-type="batEventJl">回复
+            <div class="layui-tab-item">
+                <div class="searchBox">
+                    <!--查询条件-->
+                    <label class="dateInput selectInput">
+                        <span>奖励名称</span>
+
+                        <input type="text" name="xmNameJl"
+                               placeholder="请输入奖励名称"
+                               title="奖励名称" autocomplete="off"
+                               class="form-control" id="xmNameNameJl">
+
+                        <span>阶段</span>
+
+                        <select name="xmStepsJl" id="xmStepsJl" lay-filter="xmSteps">
+                            <option value="">请选择</option>
+                        </select>
+                    </label>
+                    <!--按钮组-->
+                    <div class="btnGroup">
+                        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEventJl">查询
+                        </button>
+                        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                                data-type="resetEventJl">重置
                         </button>
                     </div>
                 </div>
-                <table id="zjkMsgTableIdJl" class="layui-hide" lay-filter="zjkMsgTableIdJl"></table>
-            </div>
+                <div class="tableBox">
+                    <div class="tableToolBox">
+                        <div class="whiteLine"></div>
+                        <div class="tableBtns">
+                            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                            <!--data-type="deleteEvent">删除-->
+                            <!--</button>-->
+                            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                                    data-type="batEventJl">回复
+                            </button>
+                        </div>
+                    </div>
+                    <table id="zjkMsgTableIdJl" class="layui-hide" lay-filter="zjkMsgTableIdJl"></table>
+                </div>
 
+            </div>
         </div>
     </div>
 </div>
+
 <script>
     ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
         $.each(data, function (i, dt) {
@@ -199,7 +203,7 @@
                 isFilter: false,
                 iconOpen: false,//是否显示图标【默认显示】
                 isOpenDefault: true,//节点默认是展开还是折叠【默认展开】
-                loading: true,
+                loading: false,
                 limit: 15,
                 where: {
                     param: {
@@ -278,14 +282,15 @@
                     return res;
                 },
                 done: function (res) {
-                    // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                    //     var index = parseInt($(this).index() + 1);
-                    //     $('tr').removeClass('layui-table-click');
-                    //     $(this).addClass('layui-table-click');
-                    //     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    //     // selectRowData = res.data[index - 1];
-                    // });
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
+                            $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
+                        }else {
+                            $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        }
+                        // selectRowData = res.data[index - 1];
+                    });
                 },
                 onClickRow: function (index, o) {
                     console.log(index, o, "单击！");
@@ -311,7 +316,7 @@
                 isFilter: false,
                 iconOpen: false,//是否显示图标【默认显示】
                 isOpenDefault: true,//节点默认是展开还是折叠【默认展开】
-                loading: true,
+                loading: false,
                 limit: 15,
                 where: {
                     param: {
@@ -379,6 +384,11 @@
                     //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     //     // selectRowData = res.data[index - 1];
                     // });
+                    if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
+                        $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
+                    }else {
+                        $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    }
                 },
                 onClickRow: function (index, o) {
                     console.log(index, o, "单击！");
@@ -404,7 +414,7 @@
                 isFilter: false,
                 iconOpen: false,//是否显示图标【默认显示】
                 isOpenDefault: true,//节点默认是展开还是折叠【默认展开】
-                loading: true,
+                loading: false,
                 limit: 15,
                 where: {
                     param: {
@@ -480,6 +490,11 @@
                     //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     //     // selectRowData = res.data[index - 1];
                     // });
+                    if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
+                        $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
+                    }else {
+                        $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    }
                 },
                 onClickRow: function (index, o) {
                     console.log(index, o, "单击！");
@@ -748,6 +763,7 @@
             getCheckData: function (tableId) { //获取选中数据
                 var checkStatus = treeGridCom.checkStatus(tableId)
                     , data = checkStatus.data;
+                console.log(data)
                 return data;
             },
             getCheckLength: function () { //获取选中数目

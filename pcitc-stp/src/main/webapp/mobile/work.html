@@ -13,7 +13,7 @@
 <body>
 <header>
     <div class="m_return child">
-        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <a data-rel="back"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>工作安排</h4>
     </div>
 </header>
@@ -23,12 +23,12 @@
             <ul class="layui-tab-title">
                 <li class="layui-this">
                     <span></span>
-                    <span class="number">09</span>
+                    <span class="number" id="one_list_count">0</span>
                     <span>我发起的</span>
                 </li>
                 <li>
                     <span></span>
-                    <span class="number">69</span>
+                    <span class="number"  id="two_list_count">0</span>
                     <span>待处理的</span>
                 </li>
                 <li id="add">
@@ -39,7 +39,6 @@
         </div>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-
                 <div class="layui-tab">
                     <div class="tab-b">
                         <ul class="layui-tab-title">
@@ -50,75 +49,13 @@
                     </div>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
-                            <ul class="one">
-                                <li class="list">
-                                    <div class="list-img">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                    </div>
-                                    <div class="list-cont">
-                                        <p>催化剂研究科研任务催化剂研究科研任务</p>
-                                        <p>
-                                            <span>处理人:</span><span>李永建，曾轶可，徐</span>
-                                        </p>
-                                    </div>
-                                    <div class="list-d">
-                                        <span class="list-r">2019.07.29</span>
-                                        <div class="layui-progress">
-                                            <div class="layui-progress-bar" lay-percent="80%" style="width: 80%;"></div>
-                                        </div>
-                                        <span class="number-b">80%</span>
-                                    </div>
-                                    <div class="dele"></div>
-                                </li>
-                                <li class="list">
-                                    <div class="list-img">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                    </div>
-                                    <div class="list-cont">
-                                        <p>催化剂研究科研任务催化剂研究科研任务</p>
-                                        <p>
-                                            <span>处理人:</span><span>李永建，曾轶可，徐</span>
-                                        </p>
-                                    </div>
-                                    <div class="list-d">
-                                        <span class="list-r">2019.07.29</span>
-                                        <div class="layui-progress">
-                                            <div class="layui-progress-bar" lay-percent="80%" style="width: 80%;"></div>
-                                        </div>
-                                        <span class="number-b">80%</span>
-                                    </div>
-                                    <div class="dele"></div>
-                                </li>
-                                <li class="list">
-                                    <div class="list-img">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                    </div>
-                                    <div class="list-cont">
-                                        <p>催化剂研究科研任务催化剂研究科研任务</p>
-                                        <p>
-                                            <span>处理人:</span><span>李永建，曾轶可，徐</span>
-                                        </p>
-                                    </div>
-                                    <div class="list-d">
-                                        <span class="list-r">2019.07.29</span>
-                                        <div class="layui-progress">
-                                            <div class="layui-progress-bar" lay-percent="80%" style="width: 80%;"></div>
-                                        </div>
-                                        <span class="number-b">80%</span>
-                                    </div>
-                                    <div class="dele"></div>
-                                </li>
-                            </ul>
+                            <ul class="one" id="one_list"></ul>
                         </div>
                         <div class="layui-tab-item">
-
+                            <ul class="one" id="one_wait_list"></ul>
                         </div>
                         <div class="layui-tab-item">
-
+                            <ul class="one" id="one_finished_list"></ul>
                         </div>
                     </div>
                 </div>
@@ -135,66 +72,13 @@
                     </div>
                     <div class="layui-tab-content tab-d">
                         <div class="layui-tab-item layui-show">
-                            <ul class="one">
-                                <li class="list">
-                                    <div class="list-img">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                    </div>
-                                    <div class="list-cont">
-                                        <p>催化剂研究科研任务催化剂研究科研任务</p>
-                                        <p>
-                                            <span>发起人:</span><span>李永建，曾轶可，徐</span>
-                                        </p>
-                                    </div>
-                                    <div class="list-d">
-                                        <span class="list-r">2019.07.29</span>
-                                        <span class="number-o">已完成</span>
-                                    </div>
-                                    <div class="dele"></div>
-                                </li>
-                                <li class="list">
-                                    <div class="list-img">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                    </div>
-                                    <div class="list-cont">
-                                        <p>催化剂研究科研任务催化剂研究科研任务</p>
-                                        <p>
-                                            <span>发起人:</span><span>李永建，曾轶可，徐</span>
-                                        </p>
-                                    </div>
-                                    <div class="list-d">
-                                        <span class="list-r">2019.07.29</span>
-                                        <span class="number-n">待处理</span>
-                                    </div>
-                                    <div class="dele"></div>
-                                </li>
-                                <li class="list">
-                                    <div class="list-img">
-                                        <img src="/mobile/images/icon-by.png" alt="">
-                                    </div>
-                                    <div class="list-cont">
-                                        <p>催化剂研究科研任务催化剂研究科研任务</p>
-                                        <p>
-                                            <span>发起人:</span><span>李永建，曾轶可，徐</span>
-                                        </p>
-                                    </div>
-                                    <div class="list-d">
-                                        <span class="list-r">2019.07.29</span>
-                                        <span class="number-o">已完成</span>
-                                    </div>
-                                    <div class="dele"></div>
-                                </li>
-                            </ul>
+                            <ul class="one" id="two_list"></ul>
                         </div>
                         <div class="layui-tab-item">
-
+                              <ul class="one" id="two_wait_list"></ul>
                         </div>
                         <div class="layui-tab-item">
-
+                            <ul class="one" id="two_finished_list"></ul>
                         </div>
                     </div>
                 </div>
@@ -244,10 +128,231 @@
                 fixed : false,
                 maxmin : true,
                 area : [ '95%', '72.5%' ],
-                content : '/mobile/work_add.html'
+                content : '/mobile/work_add'
             });
         });
     });
+    
+    
+    
+    //我发起的
+    function mySend()
+    {
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : 'POST',
+    		url : "/mobile/plan/getTableData?v_date="+v_date+"&parentId=1",
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			console.log("我发起的\n"+JSON.stringify(data));
+    			var dataArr=data.data;
+    			var count="";
+    			var count_wait="";
+    			var count_finished="";
+    			//alert(data.length);
+    			$("#one_list_count").html(""+data.count+""); 	
+    			if(dataArr.length>0)
+   			    {
+   				  for(var i=0;i<dataArr.length;i++)
+       			  {
+   					  
+   					var dataId= dataArr[i].dataId;
+  					 var workOrderName= dataArr[i].workOrderName;//工作任务名称
+  					 var createDate= dataArr[i].createDate;//安排时间
+  					 var workOrderAllotUserName= dataArr[i].workOrderAllotUserName;//工作处理人
+  					 var workOrderStatus= dataArr[i].workOrderStatus;//状态
+  					 var workOrderType= dataArr[i].workOrderType;//紧急程度
+  					 var bl= dataArr[i].bl;//紧急程度
+  					 console.log("bl\n"+bl);
+  					 
+  					 if(createDate!='')
+  					 {
+  						createDate=createDate.substr(0,10);
+  					 }
+  					 
+  					 if(bl==null || bl=="undefined" || typeof(bl) == "undefined" || bl=='')
+ 					 {
+  						bl="0";
+ 					 }
+  					 bl=parseInt(bl);
+  					 
+  					 var workOrderAllotUserName_length=workOrderAllotUserName.split(",");
+  					 var imagstr= "<img src='/mobile/images/icon-by.png' alt=''>";
+  					 if(workOrderAllotUserName_length.length>1)
+  					 {
+  						imagstr=    "<img src='/mobile/images/icon-by.png' alt=''>"+
+			  						"<img src='/mobile/images/icon-by.png' alt=''>"+
+			                        "<img src='/mobile/images/icon-by.png' alt=''>";
+  					 }
+  					 
+  					 
+  					 var temp= "<li class='list' onclick=\"view('"+dataId+"','"+workOrderName+"')\">"+
+				                     "<div class='list-img'>"+imagstr+
+				                    "</div>"+
+				                     "<div class='list-cont'>"+
+				                         "<p>"+workOrderName+"</p>"+
+				                         "<p>"+
+				                              "<span>处理人:</span><span>"+workOrderAllotUserName+"</span>"+
+				                         "</p>"+
+				                     "</div>"+
+				                    "<div class='list-d'>"+
+				                         "<span class='list-r'>"+createDate+"</span>"+
+				                         "<div class='layui-progress'>"+
+				                             "<div class='layui-progress-bar' lay-percent='"+bl+"%' style='width: "+bl+"%;'></div>"+
+				                         "</div>"+
+				                        "<span class='number-b'>"+bl+"%</span>"+
+				                    "</div>"+
+				                     "<div class='dele'></div>"+
+				                "</li>";
+					 count=count+temp;
+					 
+					 if(bl!=100)
+					 {
+						 count_wait=count_wait+temp;
+					 }
+					 if(bl==100)
+					 {
+						 count_finished=count_finished+temp;
+					 }
+					 
+       			  }
+   			   }
+    		   $("#one_list").html(count); 	
+    		   $("#one_wait_list").html(count_wait); 	
+    		   $("#one_finished_list").html(count_finished); 	
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+    
+    mySend();
+    
+    
+    //别人发给我的
+    function myReceivce()
+    {
+    	
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : 'POST',
+    		url : "/mobile/plan/my/getTableData?v_date="+v_date+"&isSchedule=0&bak7=0&isChildren=1",
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			//console.log(JSON.stringify(data));
+    			var dataArr=data.data;
+    			var count="";
+    			var count_wait="";
+    			var count_finished="";
+    			//alert(data.length);
+    			$("#two_list_count").html(""+data.count+""); 	
+    			if(dataArr.length>0)
+   			    {
+   				  for(var i=0;i<dataArr.length;i++)
+       			  {
+   					 var dataId= dataArr[i].dataId;
+   					 var workOrderName= dataArr[i].workOrderName;//工作任务名称
+   					 var createDate= dataArr[i].createDate;//安排时间
+   					 var createUserName= dataArr[i].createUserName;//安排人
+   					 var workOrderStatus= dataArr[i].workOrderStatus;//状态
+   					 var workOrderType= dataArr[i].workOrderType;//紧急程度
+   					
+   					 if(createDate!='')
+ 					 {
+ 						createDate=createDate.substr(0,10);
+ 					 }
+   					 
+   					 var createUserName_length=createUserName.split(",");
+  					 var imagstr= "<img src='/mobile/images/icon-by.png' alt=''>";
+  					 if(createUserName_length.length>1)
+  					 {
+  						imagstr=    "<img src='/mobile/images/icon-by.png' alt=''>"+
+			  						"<img src='/mobile/images/icon-by.png' alt=''>"+
+			                        "<img src='/mobile/images/icon-by.png' alt=''>";
+  					 }
+  					 
+  					 
+   					 var temp= "<li class='list' onclick=\"mydeal('"+dataId+"','"+workOrderName+"')\" >"+
+                                    "<div class='list-img'>"+imagstr+
+                                   "</div>"+
+                                    "<div class='list-cont'>"+
+                                        "<p>"+workOrderName+"</p>"+
+                                       "<p>"+
+                                           "<span>安排人:</span><span>"+createUserName+"</span>"+
+                                       "</p>"+
+                                    "</div>"+
+                                    "<div class='list-d'>"+
+                                        "<span class='list-r'>"+createDate+"</span>"+
+                                        "<span class='number-o'>"+workOrder_Status(workOrderStatus)+"</span>"+
+                                    "</div>"+
+                                    "<div class='dele'></div>"+
+                                "</li>";
+					 count=count+temp;
+					 if(workOrderStatus=='1')
+					 {
+						 count_wait=count_wait+temp;
+					 }
+					 if(workOrderStatus=='2')
+					 {
+						 count_finished=count_finished+temp;
+					 }
+       			  }
+   			   }
+    		   $("#two_list").html(count); 	
+    		   $("#two_wait_list").html(count_wait); 	
+    		   $("#two_finished_list").html(count_finished); 	
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+    
+    myReceivce();
+    
+    
+    
+    
+    
+    function view(dataId,workOrderName) 
+    {
+    	
+    	var url='/mobile/work_details?dataId=' + dataId;
+    	location.href=url;
+    	
+    	
+    }
+    function mydeal(dataId,workOrderName) 
+    {
+    	
+    	var url='/mobile/work_details_1?dataId=' + dataId;
+    	
+    	location.href=url;
+    }
+    
+    
+   function workOrder_Status(d){
+        var stateData;
+        if(d==0){
+            stateData="<span style='color:#ccc'>未提交</span>"
+        }else if(d==1){
+            stateData="<span style='color:orange'>处理中</span>"
+        }else if(d==2){
+            stateData="<span style='color:green'>完成</span>"
+        }
+        return stateData;
+    };
 </script>
 </body>
 </html>

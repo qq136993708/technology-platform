@@ -219,7 +219,7 @@
 			function reloadDataAndTableFormart(data)
 			{
 				var table_data = data?data:[];
-				table.reload('dataTable', {data:table_data});
+				table.reload('dataTable', {data:table_data,even: true});
 				renderfunc();				
 			}
             // 点击按钮时激活

@@ -67,12 +67,12 @@
     })(document, window);
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
-        laydate.render({
-            elem: '#test-laydate-normElem'
-            ,type: 'year'
-            ,value:"2019"
-        });
-
+        var system = {ipad:false};
+        system.ipad = (navigator.userAgent.match(/iPad/i) != null)?true:false;
+        if(system.ipad){
+            parent.$(".layui-layer-mobile .layui-layer-ico").css("width",".14rem");
+            parent.$(".layui-layer-setwin").css("right","0");
+        }
     });
 </script>
 </body>

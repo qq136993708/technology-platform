@@ -1557,9 +1557,9 @@
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照月份分组 -->
 	<select id="getPlanCompleteRateByPlanTypeForHanaMonth" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select CONCAT('${nd}',sys_dictionary.num_value) as yearMonth,round(ifnull(tableB.hanaMoney, '0'), 2) as hanaMoney,
-			   round(ifnull(tableC.ysje, '0'), 2) as zsjje
+			   round(ifnull(tableC.ysje, '0'), 2) as zsjje, tableC.qdsl
 		from sys_dictionary left join (
-					select sum(ysje) as ysje,left(define16, 6) as projectMount
+					select sum(ysje) as ysje,count(distinct hth) qdsl, left(define16, 6) as projectMount
 					from out_project_info
 					where 
 						left(define16, 4) = '${nd}' and define3='项目管理系统' and project_type != 1 and type_flag like '%研究院%' and ysnd = '${nd}'

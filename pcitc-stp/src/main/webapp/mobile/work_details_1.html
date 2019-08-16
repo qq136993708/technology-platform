@@ -13,28 +13,30 @@
     </style>
 </head>
 <body>
+
+<input name="workOrderStatus" id="workOrderStatus" value="${planBase.workOrderStatus}" type="hidden"  >
+
+
 <header>
     <div class="m_return child">
-        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <a data-rel="back"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>待处理的（详情）</h4>
     </div>
 </header>
 <main class="main work work_details">
     <div class="work-top">
-        <p class="title"><span></span>催化剂研究科研任务</p>
+        <p class="title"><span></span>${planBase.workOrderName}</p>
         <div class="work-cont">
             <div class="list">
                 <div class="list-img">
-                    <img src="/mobile/images/icon-by.png" alt="">
-                    <img src="/mobile/images/icon-by.png" alt="">
                     <img src="/mobile/images/icon-by.png" alt="">
                 </div>
                 <div class="list-cont">
                     <div class="list-cont">
                         <p>
-                            <span class="star">2019.07.29</span>至<span class="end">2019.07.29</span>
+                            <span class="star">${planBase.createDate}</span>
                         </p>
-                        <p>任务执行人:<span>洪敏下，李永建，曾轶可，徐佑铭，李永建，曾轶可</span></p>
+                        <p>任务执行人:<span>${planBase.workOrderAllotUserName}</span></p>
                     </div>
                 </div>
             </div>
@@ -46,32 +48,37 @@
                 <h2 class="layui-colla-title"><span></span>我</h2>
                 <div class="layui-colla-content layui-show">
                     <h4>任务描述:</h4>
-                    <p>参考一篮子货币进行调节、有管理的浮动汇率制度在机制上人民币汇率 就是由市场供求决定的不在“汇率操纵”的问题！</p>
-                    <button class="layui-btn layui-active" id="work">处理任务</button>
-                    <button class="layui-btn layui-rest layui-hide" id="rest">处理任务</button>
+                    <p>${planBase.remarks}</p>
+                    <button class="layui-btn layui-active" <#if planBase.workOrderStatus == 2> style="display:none" </#if> id="work">处理任务</button>
+                    <button class="layui-btn layui-rest"   <#if planBase.workOrderStatus != 2> style="display:none" </#if> id="rest">工作处理列表</button>
                 </div>
             </div>
         </div>
         <div class="task layui-hide">
+         <form action="" name="form1" id="form1" method="post">
+         <input name="dataId" id="dataId" value="${planBase.dataId}" type="hidden">
            <div>
                <p>任务状态</p>
                <div class="input-percentage">
                    <span></span>
-                   <input type="text" value="" placeholder="请输入完成百分比">
+                   <input type="text" value="" placeholder="请输入完成百分比" id="bl" name="bl" onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))">
                </div>
-               <textarea placeholder="请输入任务描述及原因" ></textarea>
-               <button>保存并提交</button>
+               <textarea placeholder="请输入任务描述及原因"  name="remarks" id="remarks" ></textarea>
+               <button onclick="save()">保存并提交</button>
            </div>
+         </form>
         </div>
         <div class="rest layui-hide">
             <div class="layui-collapse work-w" lay-filter="component-panel">
+              <#list sendList as vo>
                 <div class="layui-colla-item layui-this">
-                    <h2 class="layui-colla-title"><span></span>徐佑铭（已完成）</h2>
+                    <h2 class="layui-colla-title"><span></span>${vo.createUserName}（已完成）</h2>
                     <div class="layui-colla-content layui-show">
                         <h4>任务回复:</h4>
-                        <p>参考一篮子货币进行调节、有管理的浮动汇率制度在机制上人民币汇率 就是由市场供求决定的不在“汇率操纵”的问题！</p>
+                        <p>${vo.remarks}</p>
                     </div>
                 </div>
+              </#list>   
             </div>
         </div>
     </div>
@@ -122,7 +129,71 @@
         $("#rest").click(function () {
             $(".rest").removeClass("layui-hide")
         });
+        
+        var dataJson;
+		var dataId =$("#dataId").val();
+		$.ajax({
+			type : 'post',
+			dataType : 'json',
+			async : false,
+			url : '/mobile/plan/viewBotWorkOrder?dataId=' + dataId,
+			success : function(data) {
+				dataJson = JSON.parse(JSON.stringify(data));
+				//enhance.filling(dataJson);
+				$("#remarks").val(dataJson.remarks);
+			},
+			error : function(e) {
+				alertError("出错了！", e);
+			}
+		});
+		
     });
+    
+    
+    
+  function save()
+  {
+	  var bl=$("#bl").val();
+	  var remarks=$("#remarks").val();
+	  if(bl=='')
+	  {
+		  alert("完成百分比为空");
+	      return ;
+	  }else if(remarks=='')
+	  {
+		  alert("任务描述为空");
+	      return ;
+	  }
+	  
+	  var data=getFormData();
+	  console.log("data\n"+JSON.stringify(data));
+	  $.ajax({
+          type: 'post',
+          dataType: 'json',
+          data: {
+              'param': JSON.stringify(data)
+          },
+          url: '/mobile/plan/submitMyBotWorkOrder?workOrderStatus=2',
+          success: function (data) {
+              
+          },
+          error: function (e) {
+              console.log("出错了"+e);
+          }
+      });
+  }
+  
+  
+  function getFormData() {
+	    var unindexed_array =  $('#form1').serializeArray();
+	    var indexed_array = {};
+
+	    $.map(unindexed_array, function (n, i) {
+	      indexed_array[n['name']] = n['value'];
+	    });
+	    return indexed_array;
+	}
+	
 </script>
 </body>
 </html>

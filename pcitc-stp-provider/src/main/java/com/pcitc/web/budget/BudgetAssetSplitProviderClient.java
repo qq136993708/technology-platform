@@ -69,8 +69,8 @@ public class BudgetAssetSplitProviderClient
 		try
 		{
 			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.ASSET_SPLIT.getCode());
-			//获取资产预算总表中可用分配数（审批通过的资产预算）
-			BudgetInfo finalBudgetInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.ASSETS_TOTAL.getCode());
+			//获取资产预算总表中可用分配数（审批通过的资产预算）如果没有审批通过的则获取最新的
+			BudgetInfo finalBudgetInfo = budgetInfoService.selectFinalBudgetOrNew(info.getNd(),BudgetInfoEnum.ASSETS_TOTAL.getCode());
 			for(BudgetInfo dt:datalist) {
 				if(finalBudgetInfo !=null) {
 					dt.setBudgetMoney(finalBudgetInfo.getBudgetMoney());

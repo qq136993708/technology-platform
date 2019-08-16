@@ -21,55 +21,36 @@
         <h4>任务执行人选择</h4>
     </div>
     <div class="search">
-        <input type="text" value="请输入姓名或开头字母" />
+        <input type="text" name="name" id="name" value="" placeholder="请输入姓名或开头字母" />
         <img src="/mobile/images/icon-search.png" alt="">
     </div>
 </header>
 <main class="main implement">
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-            <ul>
+            <ul id="user_list">
+            <!-- <#list list as vo>
                 <li>
-                    <span>A</span>
-                    <span>李永蔡</span>
+                    <span>${vo.nameBigFirstPin}</span>
+                    <span>${vo.userDisp}<label style="color:#ccc">（${vo.unitName}）</label></span>
                     <span><img src="/mobile/images/icon-by.png" /> </span>
                 </li>
-                <li>
-                    <span>A</span>
-                    <span>李永蔡</span>
-                    <span><img src="/mobile/images/icon-by.png" /> </span>
-                </li>
-                <li>
-                    <span>A</span>
-                    <span>李永蔡</span>
-                    <span><img src="/mobile/images/icon-by.png" /> </span>
-                </li>
-                <li>
-                    <span>A</span>
-                    <span>李永蔡</span>
-                    <span><img src="/mobile/images/icon-by.png" /> </span>
-                </li>
-                <li>
-                    <span>A</span>
-                    <span>李永蔡</span>
-                    <span><img src="/mobile/images/icon-by.png" /> </span>
-                </li>
-                <li>
-                    <span>A</span>
-                    <span>李永蔡</span>
-                    <span><img src="/mobile/images/icon-by.png" /> </span>
-                </li>
+            </#list> -->
+             
             </ul>
         </div>
     </div>
     <div class="button-g">
-        <button>确定</button>
-        <button id="reset">重置</button>
+        <button id="save_id">确定</button>
+        <button >重置</button> 
     </div>
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script>
+var userIds = new Array();
+var userNames = new Array();
+var userStr="";
     var layer;
     (function(doc, win) {
         var docEl = doc.documentElement,
@@ -91,13 +72,80 @@
             ,value:"2019"
         });
         $(".more-condition").css("height",document.body.clientHeight/100+"rem");
-        $(".layui-tab-item ul li").click(function () {
-            $(this).addClass("layui-this")
-        });
-        $("#reset").click(function () {
-            $(".layui-tab-item ul li").removeClass("layui-this");
+        $("#save_id").click(function () {
+            //$(".layui-tab-item ul li").removeClass("layui-this");
+            $(".layui-tab-item ul li").each(function(){
+            	if($(this).attr("class")=="layui-this")
+            	{
+            		var userId=$(this).attr("ui_id");
+            		var userName=$(this).find(".name").html();
+            		userIds.push(userId);
+            		userNames.push(userName);
+            		var temp=userId+","+userName+"#";
+            		userStr=userStr+temp;
+            	}
+            })
+            var userIds_str=userIds.join(',');
+            var userNames_str=userNames.join(',');
+            parent.document.getElementById("workOrderAllotUserName").value=userNames_str;
+            parent.document.getElementById("workOrderAllotUserId").value=userIds_str;
+            parent.document.getElementById("userStr").value=userStr;
+            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+            parent.layer.close(index);  // 关闭layer
+            
         });
     });
+    
+    function getUserList()
+    {
+		
+    	var v_date = (new Date()).getTime();
+    	var url = "/mobile/user/querySysUserListByPage?v_date=" + v_date;
+    	$.ajax({
+    		type : "GET",
+    		url : url,
+    		timeout : 9000,
+    		dataType : "json",
+    		cache : false,
+    		headers : {
+    			'Content-Type' : 'application/json'
+    		},
+    		success : function(data, status) 
+    		{
+    			 console.log("选下一步处理人\n "+JSON.stringify(data));
+    			 var count="";
+    			 if(data.length>0)
+    			 {
+    				 for(var i=0;i<data.length;i++)
+        			 {
+    					var nameBigFirstPin= data[i].nameBigFirstPin;//首字母
+    					var userDisp=data[i].userDisp;//名字
+    					var unitName=data[i].unitName;//全拼第一个字母（如：张三 zs）
+    					var userName=data[i].userName;
+    					var temp="<li ui_id='"+userName+"'>"+
+			                        "<span>"+nameBigFirstPin+"</span>"+
+			                        "<span><span class='name'>"+userDisp+"</span><label style='color:#ccc'>（"+unitName+"）</label></span>"+
+			                        "<span><img src='/mobile/images/icon-by.png' /> </span>"+
+			                    "</li>";
+    					count=count+temp;
+        			 } 
+    				
+    			 }
+    			 $("#user_list").html(count); 
+    			 $(".layui-tab-item ul li").click(function () {
+			            $(this).addClass("layui-this")
+			      });
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+    getUserList();
+    
+    
 </script>
 </body>
 </html>

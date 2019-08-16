@@ -252,7 +252,7 @@
 			});
 			//刷新数据
 			window.reloadTable = function(tableId,tableData){
-				table.reload(tableId, {data: tableData});
+				table.reload(tableId, {data: tableData,even: true});
 				//格式化求和
 				$.each($(".layui-table-total tr td"),function(i,d){
 					if(i>=3){
