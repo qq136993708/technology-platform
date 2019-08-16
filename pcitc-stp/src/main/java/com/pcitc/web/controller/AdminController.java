@@ -90,9 +90,6 @@ public class AdminController extends BaseController {
 	private static final String NEW_PROJECT_COUNT = "http://pcitc-zuul/system-proxy/out-project-provider/type/new";
 	// 新开的国家项目、重点项目、重大项目、其他项目和去年比
 	private static final String NEW_PROJECT_RATE = "http://pcitc-zuul/system-proxy/out-project-provider/type/last-year/rate";
-	// 年度科研项目总览
-	private static final String PROJECT_TOTAL_YEAR = "http://pcitc-zuul/system-proxy/out-project-provider/type/unit/list";
-
 	// 收藏菜单
 	private static final String COLLECT_FUNCTION = "http://pcitc-zuul/system-proxy/syscollect-provider/sys_collect/add";
 
@@ -1124,67 +1121,6 @@ public class AdminController extends BaseController {
 		JSONObject retJson = responseEntity.getBody();
 
 		return retJson.toString();
-	}
-
-	/**
-	 * @param request
-	 * @return 年度科研项目总览
-	 */
-	@RequestMapping(value = "/admin/project/type/unit/list")
-	@ResponseBody
-	public String getProjectTypeInfoByUnit(HttpServletRequest request) {
-		System.out.println("1====/admin/project/type/unit/list");
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("nd", "2017");
-		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
-
-		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_YEAR, HttpMethod.POST, entity, JSONArray.class);
-		JSONArray retJson = responseEntity.getBody();
-
-		Result result = new Result();
-		ChartBarLineResultData barLine = new ChartBarLineResultData();
-		List<String> legendDataList = new ArrayList<String>();
-		legendDataList.add("新开课题");
-		legendDataList.add("结转课题");
-		barLine.setLegendDataList(legendDataList);
-
-		// Y轴各个柱体显示的数值
-		List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-
-		ChartBarLineSeries xkBar = new ChartBarLineSeries();
-		ChartBarLineSeries xjBar = new ChartBarLineSeries();
-		List<Object> xkDataBar = new ArrayList<Object>();// 新开
-		List<Object> xjDataBar = new ArrayList<Object>();// 续建
-
-		// x轴显示的汉字
-		List<String> xAxisDataList = new ArrayList<String>();
-		for (int i = 0; i < retJson.size(); i++) {
-			JSONObject temJson = retJson.getJSONObject(i);
-			xAxisDataList.add(temJson.getString("type_flag"));
-
-			xkDataBar.add(temJson.getString("xksl"));
-			xjDataBar.add(temJson.getString("xjsl"));
-		}
-		xkBar.setName("新开课题");
-		xkBar.setType(HanaConstant.ECHARTS_TYPE_BAR);
-		xkBar.setData(xkDataBar);
-
-		xjBar.setName("结转课题");
-		xjBar.setType(HanaConstant.ECHARTS_TYPE_BAR);
-		xjBar.setData(xjDataBar);
-
-		seriesList.add(xkBar);
-		seriesList.add(xjBar);
-
-		barLine.setxAxisDataList(xAxisDataList);
-		barLine.setSeriesList(seriesList);
-
-		result.setSuccess(true);
-		result.setData(barLine);
-
-		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>年度科研项目总览 " + resultObj.toString());
-		return resultObj.toString();
 	}
 
 	/**
