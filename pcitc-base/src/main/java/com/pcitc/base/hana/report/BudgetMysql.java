@@ -81,9 +81,44 @@ public class BudgetMysql {
 	private Object budgetItemName;
 	private Object ysjzje;
 	private Integer qdsl;
+	private Object ysfyxje;
+	private Object yszbxje;
+	private Object fyxXqBudget;
+	private Object zbxBudget;
 	
 	
-	
+	public Object getFyxXqBudget() {
+		return fyxXqBudget;
+	}
+
+	public void setFyxXqBudget(Object fyxXqBudget) {
+		this.fyxXqBudget = fyxXqBudget;
+	}
+
+	public Object getZbxBudget() {
+		return zbxBudget;
+	}
+
+	public void setZbxBudget(Object zbxBudget) {
+		this.zbxBudget = zbxBudget;
+	}
+
+	public Object getYsfyxje() {
+		return ysfyxje;
+	}
+
+	public void setYsfyxje(Object ysfyxje) {
+		this.ysfyxje = ysfyxje;
+	}
+
+	public Object getYszbxje() {
+		return yszbxje;
+	}
+
+	public void setYszbxje(Object yszbxje) {
+		this.yszbxje = yszbxje;
+	}
+
 	public Integer getQdsl() {
 		return qdsl;
 	}

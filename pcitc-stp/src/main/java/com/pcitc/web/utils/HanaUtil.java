@@ -2971,24 +2971,24 @@ public class HanaUtil {
 	public static ChartBarLineSeries getInvestmentBarLineSeries(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (name.equals("zysje")) {
-			chartBarLineSeries.setName("可新签预算");
+		if (name.equals("fyxXqBudget")) {
+			chartBarLineSeries.setName("新签费用性预算");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("zsjje")) {
-			chartBarLineSeries.setName("已签订金额");
+		if (name.equals("zbxBudget")) {
+			chartBarLineSeries.setName("资本性预算");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("ysfyxje")) {
+			chartBarLineSeries.setName("新签费用性金额");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("yszbxje")) {
+			chartBarLineSeries.setName("新签资本性金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("hanaMoney")) {
 			chartBarLineSeries.setName("已拨款金额");
-			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
-		}
-		if (name.equals("wqhtzje")) {
-			chartBarLineSeries.setName("未签合同金额");
-			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
-		}
-		if (name.equals("wbkzje")) {
-			chartBarLineSeries.setName("未拨款金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 
@@ -2996,16 +2996,16 @@ public class HanaUtil {
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-				Object zysje = f03.getZysje();
-				Object zsjje = f03.getZsjje();
+				Object fyxXqBudget = f03.getFyxXqBudget();
+				Object zbxBudget = f03.getZbxBudget();
 				Object hanaMoney = f03.getHanaMoney();
-				Object wqhtzje = f03.getWqhtzje();
-				Object wbkzje = f03.getWbkzje();
+				Object ysfyxje = f03.getYsfyxje();
+				Object yszbxje = f03.getYszbxje();
 
-				if (name.equals("zysje")) {
+				if (name.equals("fyxXqBudget")) {
 
-					if (zysje != null) {
-						String str = HanaUtil.DecimalFormatObject(zysje);
+					if (fyxXqBudget != null) {
+						String str = HanaUtil.DecimalFormatObject(fyxXqBudget);
 						dataList.add(str);
 
 					} else {
@@ -3014,10 +3014,10 @@ public class HanaUtil {
 
 				}
 
-				if (name.equals("zsjje")) {
+				if (name.equals("zbxBudget")) {
 
-					if (zsjje != null) {
-						String str = HanaUtil.DecimalFormatObject(zsjje);
+					if (zbxBudget != null) {
+						String str = HanaUtil.DecimalFormatObject(zbxBudget);
 						dataList.add(str);
 
 					} else {
@@ -3037,10 +3037,10 @@ public class HanaUtil {
 
 				}
 
-				if (name.equals("wqhtzje")) {
+				if (name.equals("ysfyxje")) {
 
-					if (wqhtzje != null) {
-						String str = HanaUtil.DecimalFormatObject(wqhtzje);
+					if (ysfyxje != null) {
+						String str = HanaUtil.DecimalFormatObject(ysfyxje);
 						dataList.add(str);
 
 					} else {
@@ -3049,10 +3049,10 @@ public class HanaUtil {
 
 				}
 
-				if (name.equals("wbkzje")) {
+				if (name.equals("yszbxje")) {
 
-					if (wbkzje != null) {
-						String str = HanaUtil.DecimalFormatObject(wbkzje);
+					if (yszbxje != null) {
+						String str = HanaUtil.DecimalFormatObject(yszbxje);
 						dataList.add(str);
 
 					} else {
@@ -3070,12 +3070,12 @@ public class HanaUtil {
 	public static ChartBarLineSeries getInvestmentBarLineSeries02(List<BudgetMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (name.equals("zysje")) {
-			chartBarLineSeries.setName("可新签预算");
+		if (name.equals("yszbxje")) {
+			chartBarLineSeries.setName("当月资本性签订金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
-		if (name.equals("zsjje")) {
-			chartBarLineSeries.setName("当月签订金额");
+		if (name.equals("ysfyxje")) {
+			chartBarLineSeries.setName("当月费用性签订金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
 		if (name.equals("hanaMoney")) {
@@ -3087,14 +3087,14 @@ public class HanaUtil {
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-				Object zysje = f03.getZysje();
-				Object zsjje = f03.getZsjje();
+				Object ysfyxje = f03.getYsfyxje();
+				Object yszbxje = f03.getYszbxje();
 				Object hanaMoney = f03.getHanaMoney();
 
-				if (name.equals("zysje")) {
+				if (name.equals("yszbxje")) {
 
-					if (zysje != null) {
-						String str = HanaUtil.DecimalFormatObject(zysje);
+					if (yszbxje != null) {
+						String str = HanaUtil.DecimalFormatObject(yszbxje);
 						dataList.add(str);
 					} else {
 						dataList.add(0);
@@ -3102,10 +3102,10 @@ public class HanaUtil {
 
 				}
 
-				if (name.equals("zsjje")) {
+				if (name.equals("ysfyxje")) {
 
-					if (zsjje != null) {
-						String str = HanaUtil.DecimalFormatObject(zsjje);
+					if (ysfyxje != null) {
+						String str = HanaUtil.DecimalFormatObject(ysfyxje);
 						dataList.add(str);
 					} else {
 						dataList.add(0);
