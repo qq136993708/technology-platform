@@ -963,7 +963,7 @@ public class OutProjectInfoClient {
 				if (temMap.get("show_ali").toString().equals(bm.get("budgetItemName").toString())) {
 					temMap.put("fyxXqBudget", bm.get("xq") == null ? "0" : bm.get("xq"));
 					temMap.put("fyxJzBudget", bm.get("jz") == null ? "0" : bm.get("jz"));
-					System.out.println("预算各机构金额-----" + bm.get("budgetItemName") + "========" + bm.get("xq") + "========" + bm.get("jz"));
+					System.out.println("预算各机构金额-----" + bm.get("budgetItemName") + "========" + bm.get("xq") + "========" + bm.get("jz") + "========" + bm.get("otherPayMoney"));
 					if (bm.get("budgetItemName").toString().equals("股份公司") || bm.get("budgetItemName").toString().equals("集团公司") || bm.get("budgetItemName").toString().equals("资产公司")) {
 						if (leaderFlag) {// 领导在算股份、集团、资产合计的时候，按照总部计算。
 							temMap.put("fyxBudget", temMap.get("fyxBudget"));
@@ -982,7 +982,8 @@ public class OutProjectInfoClient {
 				Map<String, Object> act = (Map<String, Object>) actList.get(j);
 				if (temMap.get("show_ali").toString().equals(act.get("type_flag").toString())) {
 					// 加上手动认定的新签
-					temMap.put("fyxXqMoney", act.get("fyxXqMoney") == null ? "0" : Double.valueOf(act.get("fyxXqMoney").toString()) + Double.valueOf(temMap.get("fyxXqMoney").toString()));
+					if (temMap.get("fyxXqMoney") == null) temMap.put("fyxXqMoney", "0");
+					temMap.put("fyxXqMoney", act.get("fyxXqMoney") == null ? Double.valueOf(temMap.get("fyxXqMoney").toString()) : Double.valueOf(act.get("fyxXqMoney").toString()) + Double.valueOf(temMap.get("fyxXqMoney").toString()));
 					temMap.put("zbxXqMoney", act.get("zbxXqMoney") == null ? "0" : act.get("zbxXqMoney"));
 					System.out.println("实际各机构金额-----" + act.get("type_flag") + "========" + act.get("fyxXqMoney") + "========" + act.get("zbxXqMoney"));
 					break;
@@ -1031,7 +1032,7 @@ public class OutProjectInfoClient {
 			} else if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("2")) {
 				twoOrder++;
 				temMap.put("showOrder", twoOrder);
-				temMap.put("showFlag", "1-1-"+twoOrder);
+				temMap.put("showFlag", "1-1-" + twoOrder);
 				temMap.put("levelFlag", "2");
 				/*
 				 * totalFyxBudget = totalFyxBudget +
@@ -1054,7 +1055,7 @@ public class OutProjectInfoClient {
 			} else if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("3")) {
 				threeOrder++;
 				temMap.put("showOrder", "1." + String.valueOf(threeOrder));
-				temMap.put("showFlag", "1-1-1-"+threeOrder);
+				temMap.put("showFlag", "1-1-1-" + threeOrder);
 				temMap.put("levelFlag", "3");
 			}
 		}
