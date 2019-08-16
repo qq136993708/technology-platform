@@ -427,6 +427,7 @@
 				},
 				success : function(data, status) {
 					var list = data.data;
+					$("#budgetTable tbody").remove();
 					for (var i = 0; i < list.length; i++) {
 						console.info(list[i]);
 						if(parseFloat(list[i].fyxXqRate).toFixed(2)<50){
