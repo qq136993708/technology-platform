@@ -14,7 +14,13 @@
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <style>
-        #sonlist{min-height: 490px;overflow: scroll;}
+        #sonlist{min-height: 490px;overflow-y: scroll;}
+        .ztree li a{width: 93%;overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;}
+        .ztree li a .node_name{width: 93%;overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;}
     </style>
 </head>
 <body>
