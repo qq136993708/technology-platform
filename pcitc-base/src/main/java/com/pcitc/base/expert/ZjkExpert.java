@@ -403,8 +403,21 @@ public class ZjkExpert extends DataEntity implements Serializable {
      * bak10 -
      */
     private String bak10;
+    
+    
+    private String key;
+    
+    
 
-    public String getDataId() {
+    public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getDataId() {
         return this.dataId;
     }
 

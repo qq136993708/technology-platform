@@ -43,5 +43,8 @@ public interface ZjkExpertMapper {
 
     List<Map<String,Object>> queryAllExpert(Map<String,Object> map);
 
+    List<ZjkExpert> getYsList(Map map);
+    
+    
 
 }

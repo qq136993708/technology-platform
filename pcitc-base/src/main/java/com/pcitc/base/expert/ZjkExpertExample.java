@@ -14,8 +14,20 @@ public class ZjkExpertExample {
     private Integer limit;
 
     private Integer offset;
+    
+    private String key;
+    
+    
 
-    public ZjkExpertExample() {
+    public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public ZjkExpertExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

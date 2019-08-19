@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/mobile/css/mobileNew.css">
     <style>
-        .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
+         .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
     </style>
 </head>
 <body>
@@ -15,53 +15,17 @@
     <div class="m_return child">
         <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>成果鉴定</h4>
-        <input id="date" type="text" value="" placeholder="">
+        <input id="nd" type="text" value="${nd}" >
     </div>
     <div class="search">
-        <input type="text" value="请输入成果名称或单位" />
-        <img src="/mobile/images/icon-search.png" alt="">
+        <input type="text" value="" placeholder="请输入成果名称或单位"  name="key" id="key" />
+        <img src="/mobile/images/icon-search.png" alt="" id="search">
     </div>
 </header>
 <main class="main project appraisal">
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-            <ul>
-                <li>
-                    <p>
-                        <span>催化剂研究项目成果鉴定</span>
-                        <span>一等奖</span>
-                    </p>
-                    <dl>
-                        <dd>成果单位 中原油田</dd>
-                    </dl>
-                </li>
-                <li>
-                    <p>
-                        <span>催化剂研究项目成果鉴定</span>
-                        <span>一等奖</span>
-                    </p>
-                    <dl>
-                        <dd>成果单位 中原油田</dd>
-                    </dl>
-                </li>
-                <li>
-                    <p>
-                        <span>催化剂研究项目成果鉴定</span>
-                        <span>一等奖</span>
-                    </p>
-                    <dl>
-                        <dd>成果单位 中原油田</dd>
-                    </dl>
-                </li>
-                <li>
-                    <p>
-                        <span>催化剂研究项目成果鉴定</span>
-                        <span>一等奖</span>
-                    </p>
-                    <dl>
-                        <dd>成果单位 中原油田</dd>
-                    </dl>
-                </li>
+            <ul id="list_div">
             </ul>
         </div>
     </div>
@@ -88,21 +52,17 @@
         laydate.render({
             elem: '#test-laydate-normElem'
             ,type: 'year'
-            ,value:"2019"
+            ,value:$("#nd").val()
         });
         new Rolldate({
-            el: '#date',
+            el: '#nd',
             format: 'YYYY',
-            beginYear: 2000,
-            endYear: 2100,
-            value: 2019,
+            beginYear: 2017,
+            endYear:  $("#nd").val(),
+            value: $("#nd").val(),
             confirm: function (date) {
-                if (date > 2020) {
-                    layer.alert('不能大于当前的日期',{title:"提示"});
-                    return false;
-                }
-                /*$("#nd").val(date);
-                search_Event();*/
+                $("#nd").val(date);
+                search();
             }
         })
         $(".more-condition").css("height",document.body.clientHeight/100+"rem");
@@ -115,6 +75,12 @@
         $("#more").click(function () {
             $(".more-condition").slideToggle("slow");
         });
+        
+        
+        $("#search").click(function () {
+        	search();
+        });
+        
         $(".layui-tab-item ul li").click(function () {
             layer.open({
                 title : '详情',
@@ -128,6 +94,64 @@
             });
         });
     });
+    
+    
+    function search()
+    {
+    	 var key=$("#key").val();
+    	 var nd=$("#nd").val();
+    	 var v_date = (new Date()).getTime();
+    	 queryAll("/mobile/one_level_main/achievement_table_data?page=1&nd="+nd+"&key="+key,"list_div","POST");
+    }
+    search();
+    
+    
+    function queryAll(url,id,type)
+    {
+    	
+    	$.ajax({
+    		type : type,
+    		url : url,
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			//console.log(data);
+    			var count="";
+    			$("#other_count").html("("+data.count+")"); 	
+    			if(parseInt(data.data.length)>0)
+   			    {
+    				
+   				  for(var i=0;i<data.data.length;i++)
+       			  {
+   					 var dataId= data.data[i].dataId;
+   					 var cgmc= data.data[i].cgmc;
+   					 var sqjddw= data.data[i].sqjddw;
+   					 var jdjg= data.data[i].jdjg;
+   					 
+   					   var temp="<li>"+
+			                     "<p>"+
+			                         "<span>"+cgmc+"</span>"+
+			                         "<span>一等奖</span>"+
+			                      "</p>"+
+			                      "<dl>"+
+			                        " <dd>成果单位: "+sqjddw+"</dd>"+
+			                      "</dl>"+
+			                    "</li>";
+   					
+					 count=count+temp;
+       			  }
+   			   }
+    		   $("#"+id).html(count); 	
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
 </script>
 </body>
 </html>

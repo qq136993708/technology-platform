@@ -258,10 +258,19 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         if (keywords != null && !"".equals(keywords)) {
             c.andExpertNameLike("%" + keywords + "%");
         }
+        
+        
+        Object key = param.getParam().get("key");
+        if (key != null && !"".equals(key)) {
+        	 example.setKey(key.toString());
+        }
+       
+        
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
 
     }
+    
 
     public List<SysDictionary> getDicSon(String strParentCode) {
         List<SysDictionary> list = systemRemoteClient.getDictionaryListByParentCode(strParentCode);
@@ -1723,6 +1732,25 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     public List<Map<String, Object>> queryAllExpert(Map<String, Object> map) {
         return zjkBaseInfoMapper.queryAllExpert(new HashMap<>());
     }
+    
+    public List<ZjkExpert> getYsList(Map map)
+    {
+    	  String[] sorts = new String[]{"陈俊武", "徐承恩", "李大东", "顾心怿", "汪燮卿", "毛炳权", "关兴亚", "袁晴棠", "何鸣元", "杨启业", "胡永康", "曹湘洪", "蒋士成", "舒兴田", "王基铭", "康玉柱", "马永生", "曹耀峰", "李阳", "金之钧", "戴厚良", "谢在库"};
+          List<String> names = new ArrayList<String>(Arrays.asList(sorts));
+
+          List<ZjkExpert> rs = zjkBaseInfoMapper.getYsList(map);
+          rs.sort(new Comparator<ZjkExpert>() {
+              @Override
+              public int compare(ZjkExpert o1, ZjkExpert o2) {
+                  Integer s1 = names.indexOf(o1.getExpertName());
+                  Integer s2 = names.indexOf(o2.getExpertName());
+                  return s1 - s2;
+              }
+
+          });
+          return rs;
+    }
+    
 
     @Override
     public List<ZjkExpert> selectYsList() {
@@ -1752,5 +1780,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         return rs;
     }
+    
+    
 
 }

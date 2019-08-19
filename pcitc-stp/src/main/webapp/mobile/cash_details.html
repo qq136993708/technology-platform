@@ -23,7 +23,7 @@
     <div class="m_return child">
         <a href="/mobile/cash"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>${g0GSJC}</h4>
-        <input id="date" type="text" value="" placeholder="">
+       
     </div>
 </header>
 <main class="main cash cash-d">
@@ -58,19 +58,19 @@
     })(document, window);
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
-        new Rolldate({
-            el: '#date',
-            format: 'YYYY',
-            beginYear: 2000,
-            endYear: 2100,
-            value: '2019',
+       /*  new Rolldate({
+            el: '#month',
+            format: 'YYYY-MM',
+            beginYear: 2016,
+            endYear: $("#month").val().substr(0,4),
+            value: $("#month").val(),
             confirm: function (date) {
-                if (date > 2020) {
-                    layer.alert('不能大于当前的日期',{title:"提示"});
-                    return false;
-                }
+                
+            	  $("#month").val(date);
+                getFlowDetail();
+                  
             }
-        })
+        }) */
     });
     
     
@@ -78,6 +78,7 @@
     function getFlowDetail()
     {
     	var month = $('#month').val();
+    	month=month.replace("-","");
     	var companyCode=  $('#companyCode').val();
     	console.log("参数：\n companyCode:"+companyCode+"month="+month);
     	if(companyCode!=null && companyCode!='')

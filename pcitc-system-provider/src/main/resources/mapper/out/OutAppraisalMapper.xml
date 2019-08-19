@@ -912,6 +912,13 @@
 			<if test="cgmc != null">
 				and out_appraisal.cgmc like '%${cgmc}%' 
 			</if>
+			
+			<if test="key != null">
+				and (out_appraisal.cgmc like '%${key}%' or  out_appraisal.sqjddw like '%${key}%')
+			</if>
+			
+			
+			
 			<if test="define1 != null">
 				and (
 				<foreach collection="define1" item="define1" index="index" separator=" or ">
