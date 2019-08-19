@@ -16,9 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +45,7 @@ import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.StrUtil;
+import com.pcitc.base.workflow.ActivityVo;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.PinyinUtil;
@@ -86,7 +90,9 @@ public class MobileWorkbechController extends BaseController
  	private static final String SAVE_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/saveBotWorkOrder";
     // 批量保存任务
  	private static final String SAVE_PLAN_BASE_BATCH = "http://pcitc-zuul/system-proxy/planClient-provider/savePlanBaseBatch";
- 	
+    // 事例任务列表
+ 	private static final String INSTANCE_TASK_PAGE_URL = "http://pcitc-zuul/system-proxy/task-provider/task/process/list/";
+
     private String basePath;	
 		
 	
@@ -121,9 +127,9 @@ public class MobileWorkbechController extends BaseController
 	public Object querySysUserListByPage(HttpServletRequest request) throws IOException 
   	{
   		 //获取下一步处理人
-  		String companyCode = CommonUtil.getParameter(request, "key", "");
+  		String keyWord = CommonUtil.getParameter(request, "keyWord", "");
   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
-		paramMap.put("companyCode", companyCode);
+		paramMap.put("keyWord", keyWord);
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getAllUserList, HttpMethod.POST, httpEntity, JSONArray.class);
 		JSONArray result = responseEntity.getBody();
@@ -694,6 +700,54 @@ public class MobileWorkbechController extends BaseController
 			result = 500;
 		}
 		return result;
+	}
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/mobile/task/process/{instanceId}", method = RequestMethod.GET)
+	public String processShow(@PathVariable("instanceId") String instanceId, HttpServletRequest request) 
+	{
+		return "/mobile/task_process_show";
+	}
+	
+	
+	/**
+	 * 显示流程的列表
+	 * 
+	 * @author zhf
+	 * @date 2018年4月23日 下午5:19:25
+	 */
+	@RequestMapping(value = "/mobile/task/process/list/{instanceId}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object processList(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
+
+		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		// 获取当前登录人信息
+		JSONObject jsonStr = new JSONObject();
+		jsonStr.put("page", request.getParameter("page")); // 起始索引
+		jsonStr.put("limit", request.getParameter("limit")); // 每页显示的行数
+
+		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+		requestBody.add("jsonStr", jsonStr.toJSONString());
+		System.out.println("2====processList====" + jsonStr.toJSONString());
+		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, httpHeaders);
+
+		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(INSTANCE_TASK_PAGE_URL + instanceId, HttpMethod.POST, entity, JSONObject.class);
+		JSONObject retJson = responseEntity.getBody();
+
+		Long totalCount = retJson.get("totalCount") != null ? Long.parseLong(retJson.get("totalCount").toString()) : 0l;
+		List<ActivityVo> auditList = JSONArray.parseArray(retJson.getJSONArray("list").toString(), ActivityVo.class);
+
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("code", "0");
+		jsonObj.put("msg", "提示");
+		jsonObj.put("count", totalCount);
+		jsonObj.put("data", auditList);
+		System.out.println("2====processList====" + jsonObj.toString());
+		return jsonObj.toString();
 	}
 	
 	

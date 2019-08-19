@@ -21,8 +21,8 @@
         <h4>任务执行人选择</h4>
     </div>
     <div class="search">
-        <input type="text" name="name" id="name" value="" placeholder="请输入姓名或开头字母" />
-        <img src="/mobile/images/icon-search.png" alt="">
+        <input type="text" name="name" id="name" value="" placeholder="请输入姓名" />
+        <img src="/mobile/images/icon-search.png" alt="" id="search">
     </div>
 </header>
 <main class="main implement">
@@ -66,12 +66,11 @@ var userStr="";
     })(document, window);
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
-        laydate.render({
-            elem: '#test-laydate-normElem'
-            ,type: 'year'
-            ,value:"2019"
-        });
         $(".more-condition").css("height",document.body.clientHeight/100+"rem");
+        $("#search").click(function () {
+        	getUserList();
+        });
+        
         $("#save_id").click(function () {
             //$(".layui-tab-item ul li").removeClass("layui-this");
             $(".layui-tab-item ul li").each(function(){
@@ -98,9 +97,9 @@ var userStr="";
     
     function getUserList()
     {
-		
     	var v_date = (new Date()).getTime();
-    	var url = "/mobile/user/querySysUserListByPage?v_date=" + v_date;
+    	var name=$("#name").val();
+    	var url = "/mobile/user/querySysUserListByPage?v_date=" + v_date+"&keyWord="+name;
     	$.ajax({
     		type : "GET",
     		url : url,
@@ -121,8 +120,9 @@ var userStr="";
     					var nameBigFirstPin= data[i].nameBigFirstPin;//首字母
     					var userDisp=data[i].userDisp;//名字
     					var unitName=data[i].unitName;//全拼第一个字母（如：张三 zs）
-    					var userName=data[i].userName;
-    					var temp="<li ui_id='"+userName+"'>"+
+    					//var userName=data[i].userName;
+    					var userId=data[i].userId;
+    					var temp="<li ui_id='"+userId+"'>"+
 			                        "<span>"+nameBigFirstPin+"</span>"+
 			                        "<span><span class='name'>"+userDisp+"</span><label style='color:#ccc'>（"+unitName+"）</label></span>"+
 			                        "<span><img src='/mobile/images/icon-by.png' /> </span>"+
