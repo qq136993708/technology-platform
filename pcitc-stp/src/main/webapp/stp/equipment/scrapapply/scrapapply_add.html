@@ -228,6 +228,10 @@ var publicMethods;
                 		layer.alert("报废名称不能为空");
                 		 return false;
                 	}
+                	froname = froname.replace(/<script|<\/script/ig,function(froname){
+         	   		    return "&lt;"+froname.substring(1);
+         	   	  	});
+                	froname = froname.replace("<","&lt;").replace(">","&gt");
                 	$.ajax({
                         type : "POST",
                         url: "/sre-announceAdd/announceAdd",
