@@ -88,12 +88,12 @@ public class SmallLeaderController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>>getInvestmentAll jSONArray-> " + jSONArray.toString());
 			List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 			double investMoney = 0d;
 			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql bm = list.get(i);
-				investMoney = bm.getZysje() == null?0d:Double.valueOf(bm.getZysje().toString());
+				investMoney = bm.getFyxXqBudget() == null?0d:Double.valueOf(bm.getFyxXqBudget().toString());
 				break;
 			}
 			Map<String, String> map = new HashMap<String, String>();

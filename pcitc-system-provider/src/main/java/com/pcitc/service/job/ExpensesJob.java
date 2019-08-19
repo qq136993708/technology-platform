@@ -12,14 +12,10 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MD5Util;
