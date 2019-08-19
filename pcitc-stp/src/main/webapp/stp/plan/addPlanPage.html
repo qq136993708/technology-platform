@@ -442,7 +442,6 @@
 						}
 					});
 				});
-
 				return false;
 			});
 			//关闭事件
@@ -630,7 +629,7 @@
 				if (index == 1) {
 					console.log(parent.$("#mainIframe"))
 					parent.$(".layui-body .layadmin-tabsbody-item").eq(index - 1).addClass("layui-show");
-					parent.$("#mainIframe").attr('src', parent.$("#mainIframe").attr('src'));
+                    top.$("#mainIframe").attr("src","/mainStp");
 				} else {
 					parent.$(".layui-body .layadmin-tabsbody-item").eq(index - 1).addClass("layui-show");
 				}
@@ -640,9 +639,9 @@
 				var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);
 				parent.layer.msg("操作成功");
+                top.$("#mainIframe").attr("src","/mainStp");
 				// 原表单的行选中状态恢复
 				parent.selectRowData = "";
-				parent.layui.table.reload('tableList', {});
 			}
 		}
 	</script>

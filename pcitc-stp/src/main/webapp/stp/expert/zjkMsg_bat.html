@@ -82,7 +82,9 @@
                 console.log(data.field);
                 ajaxPost("/zjkMsg/saveZjkMsgBat", data.field, function (dt, status) {
                     layer.msg("操作成功");
-                    parent.layui.table.reload('zjkMsgTableId', {where: {param: {}}});
+                    parent.renderTable();
+                    parent.renderTableCg();
+                    parent.renderTableJl();
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                 });

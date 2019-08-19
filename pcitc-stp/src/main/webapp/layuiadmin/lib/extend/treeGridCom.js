@@ -324,11 +324,10 @@ layui.config({
                         invalidNum++; //无效数据，或已删除的
                         return;
                     }
-                    console.log()
-                    if(item[table.config.cols.isCheckName]){
+                    /*if(item[table.config.cols.isCheckName]){
                         nums++;
                         arr.push(table.clearCacheKey(item));
-                    }
+                    }*/
                 });
                 layui.each($("#"+tableId).next().find("table tbody tr"), function(i, item){
 

@@ -679,4 +679,4 @@ display: inline-block;vertical-align: top;margin: 6px 10px 0 0;}
 .visualizationSearchBox .btn-function a:nth-child(3n){background: #aec95b}
 .visualizationSearchBox .btn-function a:nth-child(3n+1){background: #f7a35c}
 .paiNumber{font-size: 14px;}
-
+#budgetTable .add img{cursor: pointer;}
