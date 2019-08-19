@@ -20,47 +20,47 @@
 <input type="hidden" id="id" name="id" value="">
 <input type="hidden" id="username" name="username" value=${username}>
 <div  class="layer-box" style="padding:10px">
- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-			                    <div class="layui-form-item">
-			                        <label for="" class="layui-form-label">选择任务书<span class="must-fill">*</span></label>
-			                        <div class="layui-input-block">
-			                            <input class="layui-input readOnlyBox" placeholder="请选择任务书" name="name" id="name" value="" readonly="readonly" onclick="chooseProject()" 
-			                                   autocomplete="off" type="text">
-			                        </div>
-			                    </div>
-			                </div>
-    <div class="layui-form-item layui-form-text" >
-        <label for="" class="layui-form-label">验收描述<span class="must-fill">*</span></label>
-        <div class="layui-input-block">
-          <textarea placeholder="请输入验收描述" name="describe" id="describe" lay-verify="required"   class="layui-textarea">${sreEquipment.specification}</textarea>
-        </div>
-      </div>
-      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-			                    <div class="layui-form-item">
-			                        <label for="" class="layui-form-label">申请人：</label>
-			                         <div class="layui-input-block">
-			                          <input class="layui-input readOnlyBox"   value="${username}" readonly="readonly" 
-			                                   autocomplete="off" type="text">
-			                        </div>
-			                    </div>
-			                </div>
-			                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-			                    <div class="layui-form-item">
-			                        <label for="" class="layui-form-label">申请时间：</label>
-			                        <div class="layui-input-block">
-			                         <input class="layui-input readOnlyBox"   value="${userDate}" readonly="readonly" 
-			                                   autocomplete="off" type="text">
-			                       
-			                        </div>
-			                    </div>
-			                </div>
-	  	<div class="form-bottom">
-	  		<div class="form-bottom-btns">
-	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="sub" lay-filter="sub" onclick="save()">保存</button>
-				<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"id="closeBtn">关闭</button>
+		<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+			<div class="layui-form-item">
+				<label for="" class="layui-form-label">选择任务书<span class="must-fill">*</span></label>
+				<div class="layui-input-block">
+					<input class="layui-input readOnlyBox" placeholder="请选择任务书" name="name" id="name" value="" readonly="readonly" onclick="chooseProject()"
+						   autocomplete="off" type="text">
+				</div>
 			</div>
 		</div>
+    	<div class="layui-form-item layui-form-text" >
+			<label for="" class="layui-form-label">验收描述<span class="must-fill">*</span></label>
+			<div class="layui-input-block">
+			  <textarea placeholder="请输入验收描述" name="describe" id="describe" class="layui-textarea">${sreEquipment.specification}</textarea>
+			</div>
+      	</div>
+      	<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+			<div class="layui-form-item">
+				<label for="" class="layui-form-label">申请人：</label>
+				 <div class="layui-input-block">
+				  <input class="layui-input readOnlyBox"   value="${username}" readonly="readonly"
+						   autocomplete="off" type="text">
+				</div>
+			</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">申请时间：</label>
+					<div class="layui-input-block">
+					 <input class="layui-input readOnlyBox"   value="${userDate}" readonly="readonly"
+							   autocomplete="off" type="text">
+
+					</div>
+				</div>
+			</div>
   </div>
+<div class="form-bottom">
+	<div class="form-bottom-btns">
+		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="sub" lay-filter="sub" onclick="save()">保存</button>
+		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"id="closeBtn">关闭</button>
+	</div>
+</div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
 var publicMethods;
