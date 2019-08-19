@@ -78,6 +78,11 @@ var publicMethods;
     });
       //流程
       function save(){
+    	  var content = $("#describe").val();
+	   	   content = content.replace(/<script|<\/script/ig,function(content){
+	   		    return "&lt;"+content.substring(1);
+	   	  });
+	   	  content = content.replace("<","&lt;").replace(">","&gt");
 	if($("#name").val()=="")
 			{
 			layer.alert("请选择课题！");
@@ -92,7 +97,7 @@ var publicMethods;
 	           type : 'POST',
 	           url : "/sre_project_assess/addAudit",
 	           dataType:"json",
-	           data : {id:$("#id").val(),name:$("#name").val(),content:$("#describe").val()},
+	           data : {"id":$("#id").val(),"name":$("#name").val(),"content":content},
 	           success : function(data) {
 	           if(data.success=="success")
 	           {
