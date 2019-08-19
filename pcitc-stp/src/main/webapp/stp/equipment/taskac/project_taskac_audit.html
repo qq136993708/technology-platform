@@ -75,46 +75,50 @@ var publicMethods;
         , form = layui.form;
         publicMethods = layui.publicMethods;
     });
-      //流程
-      function save(){
-			if($("#name").val()=="")
-			{
-			layer.alert("请选择课题！");
-			return;
-			}
-            if($("#describe").val()=="")
-			{
-			layer.alert("请输入验收描述！");
-			return;
-			}
-    	  $.ajax({
-	           type : 'POST',
-	           url : "/sre_project_taskac/addAudit",
-	           dataType:"json",
-	           data : {id:$("#id").val(),name:$("#name").val(),content:$("#describe").val()},
-	           success : function(data) {
-	           if(data.success=="success")
-	           {
-	        	 layer.alert("操作成功！", {icon: 1,closeBtn: 0 }, function () 
-	                       {
-	                           var index = parent.layer.getFrameIndex(window.name); 
-						       parent.layer.close(index); 
-						       var v_date = (new Date()).getTime();
-						       var backurl="/sre_project_taskac/to_list?v_date="+v_date;
-						       parent.location.href = backurl;
-	                      });
-	        	}
-	        	else
-	        	{
-	        		layer.alert("操作失败！");
-	        	}
-	           },
-	           error : function(msg) {//请求失败处理函数  
-              }
-	       });
-    	  
-      }
-          function chooseProject()
+    //流程
+    function save(){
+        var content = $("#describe").val();
+        content = content.replace(/<script|<\/script/ig,function(content){
+        return "&lt;"+content.substring(1);
+        });
+        content = content.replace("<","&lt;").replace(">","&gt");
+        if($("#name").val()=="")
+        {
+            layer.alert("请选择课题！");
+            return;
+        }
+        if($("#describe").val()=="")
+        {
+            layer.alert("请输入验收描述！");
+            return;
+        }
+        $.ajax({
+            type : 'POST',
+            url : "/sre_project_taskac/addAudit",
+            dataType:"json",
+            data : {id:$("#id").val(),name:$("#name").val(),content:content},
+            success : function(data) {
+                if(data.success=="success")
+                {
+                layer.alert("操作成功！", {icon: 1,closeBtn: 0 }, function ()
+                       {
+                           var index = parent.layer.getFrameIndex(window.name);
+                           parent.layer.close(index);
+                           var v_date = (new Date()).getTime();
+                           var backurl="/sre_project_taskac/to_list?v_date="+v_date;
+                           parent.location.href = backurl;
+                      });
+                }else
+                {
+                    layer.alert("操作失败！");
+                }
+            },
+            error : function(msg) {//请求失败处理函数
+            }
+        });
+
+    }
+    function chooseProject()
     {
     	var temUrl = '/sre_project_taskac/task_list';
         publicMethods.openBaseWin("选择任务",temUrl,"90%","80%");
