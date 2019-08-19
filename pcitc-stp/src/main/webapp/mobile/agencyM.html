@@ -107,6 +107,10 @@
        			  }
    			   }
     		   $("#wait_task_list").html(count); 	
+    		   
+    		   $("#wait_task_list_count").html(data.count); 	
+    		   
+    		   
     		},
     		error : function() {
     		},
@@ -138,7 +142,7 @@
    					 var id= dataArr[i].id;
    					 var processDefinitionName= dataArr[i].processDefinitionName;
    					 var auditor= dataArr[i].auditor;
-   					 var createTimeStr= dataArr[i].createTimeStr;
+   					 var endTime= dataArr[i].endTime;
    					 var auditRemarks= dataArr[i].auditRemarks;
    					 var processInstanceId= dataArr[i].processInstanceId;
    					 if(auditRemarks==null)
@@ -148,7 +152,7 @@
    					 var temp="<li onclick=\"deal('"+id+"')\">"+
 				    				"<p>"+
 				                        "<span>"+processDefinitionName+"</span>"+
-				                        "<span>"+createTimeStr+"</span>"+
+				                        "<span>"+layui.laytpl.toDateString(startTime)+"</span>"+
 				                    "</p>"+
 				                    "<p><span>上一步处理人:</span>"+auditor+"</p>"+
 				             "</li>";
@@ -156,7 +160,8 @@
 		
        			  }
    			   }
-    		   $("#finished_task_list").html(count); 	
+    		   $("#finished_task_list").html(count); 
+    		   $("#finished_task_list_count").html(data.count); 	
     		},
     		error : function() {
     		},
@@ -197,7 +202,7 @@
 					 {
    						title="";
 					 }
-   					 var temp="<li onclick=\"open('"+url+"','"+type+"')\">"+
+   					 var temp="<li>"+
 				    				"<p>"+
 				                        "<span>"+title+"</span>"+
 				                        "<span>"+showDate+"</span>"+
