@@ -637,8 +637,17 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
     font-size: .14rem;padding: .1rem .2rem;
     background-color: rgba(234, 238, 245, 1);}
 .menu-more{display: none;}
-
-
+.mobile-page {height: .47rem;background: rgba(0,0,0,.7);margin-top: .1rem;margin-bottom: -0.1rem;}
+.mobile-page>a{ float: left;display: block;text-align: center;width: 33%;margin: .11rem 0;font-size: .18rem;color: #4190F6;}
+.mobile-page>ul.show{float: left;height: .47rem;overflow: hidden;width: 33%;text-align: center;line-height: .47rem;font-size: .24rem;}
+.mobile-page>ul.show a{color: white;padding:0 .12rem;background-color: #4190F6;display: inline-block;height: .47rem;border-radius: .06rem;}
+.mobile-page>ul.cont-number{position: absolute;height: 1.3rem;
+    bottom: .47rem;width: 100%;background-color: white;overflow-y: scroll;
+}
+.mobile-page>ul.cont-number li{text-align: center;height: .28rem !important;line-height: .28rem;}
+.mobile-page>ul.cont-number li a{color: rgba(0,0,0,.6);}
+.mobile-page>ul.cont-number li.layui-this a{color: rgba(0,0,0,1);}
+.aH{color: #F0F0F2 !important;}
 .ui-loader-default{ display:none}
 .ui-mobile-viewport{ border:none;}
 .ui-page {padding: 0; margin: 0; outline: 0}

@@ -2,6 +2,7 @@ package com.pcitc.web.controller.mobile;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.FileResult;
 import com.pcitc.base.common.LayuiTableData;
@@ -37,7 +39,7 @@ public class MobilePersonnelController extends BaseController{
 	    /**
 		 * 院士
 		 */
-		private static final String ZJK_YS_LIST = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkYsList";
+		private static final String ZJK_YS_LIST = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/getYsList";
 
 	    //查询所有人员列表,姓名&ID
 	    private static final String queryAllExpert = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/queryAllExpert";
@@ -91,9 +93,17 @@ public class MobilePersonnelController extends BaseController{
 	
 	@RequestMapping(value = "/mobile/zjk-ys-list", method = RequestMethod.POST)
 	@ResponseBody
-	public Object getmobileYsList(HttpServletRequest request) {
-		ZjkExpert zjk = new ZjkExpert();
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(ZJK_YS_LIST, HttpMethod.POST, new HttpEntity<ZjkExpert>(zjk, this.httpHeaders), Object.class);
+	public Object getmobileYsList(HttpServletRequest request) 
+	{
+		
+		String key = CommonUtil.getParameter(request, "key", "");
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("key", key);
+		
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		ResponseEntity<Object> responseEntity = restTemplate.exchange(ZJK_YS_LIST, HttpMethod.POST, entity, Object.class);
+		
 		return responseEntity.getBody();
 	}
 	
@@ -117,8 +127,8 @@ public class MobilePersonnelController extends BaseController{
 	@ResponseBody
 	public Object getTableData(HttpServletRequest request, HttpServletResponse response) 
 	{
+		String key = CommonUtil.getParameter(request, "key", "");
 		String page = CommonUtil.getParameter(request, "page", "1");
-
 		LayuiTableParam param = new LayuiTableParam();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String limit = CommonUtil.getParameter(request, "limit", "15");
@@ -127,6 +137,7 @@ public class MobilePersonnelController extends BaseController{
 		param.setLimit(Integer.valueOf(limit));
 		param.setPage(Integer.valueOf(page));
 		param.getParam().put("nd", nd);
+		param.getParam().put("key", key);
 		System.out.println(">>>>>>>>>>>>nd:" + nd + "page=" + page);
 		
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);

@@ -59,6 +59,9 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 		if(param.getParam().get("xmmc") !=null && !StringUtils.isBlank(param.getParam().get("xmmc")+"")){
 			hashmap.put("xmmc", param.getParam().get("xmmc"));
 		}
+		if(param.getParam().get("key") !=null && !StringUtils.isBlank(param.getParam().get("key")+"")){
+			hashmap.put("key", param.getParam().get("key"));
+		}
 		
 		if(param.getParam().get("hth") !=null && !StringUtils.isBlank(param.getParam().get("hth")+"")){
 			hashmap.put("hth", param.getParam().get("hth"));
