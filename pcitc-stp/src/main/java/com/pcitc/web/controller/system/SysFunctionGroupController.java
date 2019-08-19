@@ -22,6 +22,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.system.SysFunctionGroup;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.InputCheckUtil;
 
 @Controller
 @RequestMapping("functiongroup")
@@ -94,9 +95,13 @@ public class SysFunctionGroupController extends BaseController {
 	@ResponseBody
 	public Object saveFunctionGroupInfo(@ModelAttribute("group") SysFunctionGroup group, HttpServletRequest request)
 			throws IOException {
+		
 		group.setCreatePersonId(sysUserInfo.getUserId());
 		group.setCreatePersonName(sysUserInfo.getUserName());
 		group.setStatus(DelFlagEnum.STATUS_NORMAL.getCode());
+		group.setRemarks(InputCheckUtil.filterContentTag(group.getRemarks()));
+		
+		
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(FUNCTIONGROUP_ADD_AND_UPD, HttpMethod.POST,
 				new HttpEntity<SysFunctionGroup>(group, this.httpHeaders), Integer.class);
 		Integer rs = responseEntity.getBody();
