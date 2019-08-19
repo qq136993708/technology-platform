@@ -145,6 +145,10 @@
             		layer.msg('内容不能为空!');
             		return false;
             	}
+            	publicationTitle = publicationTitle.replace(/<script|<\/script/ig,function(publicationTitle){
+     	   		    return "&lt;"+publicationTitle.substring(1);
+     	   	  	});
+            	publicationTitle = publicationTitle.replace("<","&lt;").replace(">","&gt");
             	$.ajax({
                     type : "POST",
                     url: "/sre-informationDelivery/save",
