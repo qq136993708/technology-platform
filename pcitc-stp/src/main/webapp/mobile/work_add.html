@@ -68,6 +68,8 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/mobile/js/rolldate.min.js"></script>
+
+
 <script>
     var layer;
     (function(doc, win) {
@@ -150,7 +152,7 @@
           	  
         	  var url = '/mobile/plan/submitBotWorkOrder?v_date=' + v_date + "&workOrderStatus=1" ;
               var backurl = "/mobile/work?v_date=" + v_date;
-              ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
+              ajaxOpt(url, "form1", "POST", backurl, "工作安排成功", "保存失败");
             return false;
         });
         
@@ -165,7 +167,7 @@
     	var data=getFormData();
         data.matterList=setTatterList();
     	console.log("确定\n"+JSON.stringify(data));
-		return;
+		//return;
         $.ajax({
             type: type,
             url: url,
@@ -178,7 +180,7 @@
             contentType: "application/x-www-form-urlencoded; charset=utf-8",
             success: function (data, status) {
 
-                if (data.success == true || data.success == 'true') {
+                if (parseInt(data)>0) {
                     layer.alert(
                         successMsg,
                         {icon: 1, closeBtn: 0},
@@ -218,14 +220,20 @@
    				   var arr2=temp.split(",");
    				   if(arr2!=null)
   				   {
-   					var obj={
-   	   		    			"dataId": "",
-   	   		    			"workOrderName": remarks,
-   	   		    			"workOrderAllotUserName": arr2[1],
-   	   		    			"workOrderAllotUserId": arr2[0],
-   	   		    			"announcements": ""
-   	   		    		};
-   	   				   matterList.push(obj); 
+	   					var userid=arr2[0];
+	   					if(userid!=null && userid!='')
+	   					{
+	
+	   	   					   var obj={
+	   	   	   		    			"dataId": "",
+	   	   	   		    			"workOrderName": remarks,
+	   	   	   		    			"workOrderAllotUserName": arr2[1],
+	   	   	   		    			"workOrderAllotUserId": arr2[0],
+	   	   	   		    			"announcements": ""
+	   	   	   		    		};
+	   	   	   				   matterList.push(obj); 
+	   					}
+   					
   				   }
    				   
    				}
@@ -246,6 +254,10 @@
   	    return indexed_array;
   	}
     
+    
+   　
+
+	 
     
 </script>
 </body>

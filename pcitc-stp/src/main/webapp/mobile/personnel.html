@@ -89,6 +89,7 @@
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/mobile/js/mobile.js"></script>
 <script>
     var layer,page1,page2;
     (function(doc, win) {
@@ -269,61 +270,13 @@
     
     queryTabel("/mobile/zjk-ys-list","ys_list_id","POST");
     queryAllExpert("/mobile/getAllExpertTableData?page=1","all_list_id","POST");
-    page("all_list_id","/mobile/getAllExpertTableData?page=1","POST")
+    page("ys_list_id","/mobile/zjk-ys-list?page=1","POST");
+    page("all_list_id","/mobile/getAllExpertTableData","POST");
     
-    function page(id,url,type) {
-        var v_date = (new Date()).getTime();
-        $.ajax({
-            type: type,
-            url: url + "&v_date=" + v_date,
-            timeout: 9000,
-            dataType: 'json',
-            cache: false,
-            success: function (data, status) {
-                var page = Math.ceil(data.count / 15);
-                if(page>1) {
-                    var html = '<div class="mobile-page" id="' + id + '1">' +
-                        '                    <a href="javascript:;" class="aH">上一页</a>' +
-                        '                    <ul class="show">' +
-                        '                        <li><a href="javascript:;">01</a></li>' +
-                        '                    </ul>' +
-                        '                    <ul class="cont-number layui-hide"></ul>' +
-                        '                    <a href="javascript:;">下一页</a>' +
-                        '                </div>';
-                    $("#" + id).after(html);
-                    var htmlUl = "";
-                    for (var i = 1; i <= page; i++) {
-                        if (i < 10) {
-                            htmlUl += "<li><a href='javascript:;'>0 " + i + "</a></li>";
-                        } else {
-                            htmlUl += "<li><a href='javascript:;'> " + i + "</a></li>";
-                        }
-                    }
-                    $("#" + id + "1 .cont-number").append(htmlUl);
-                    $("#" + id + "1 .cont-number li").eq(1).addClass("layui-this");
-                    $("#" + id + "1 .show").click(function () {
-                        if ($("#" + id + "1 .cont-number").attr("class").indexOf("layui-hide") != -1) {
-                            $("#" + id + "1 .cont-number").removeClass("layui-hide");
-                        } else {
-                            $("#" + id + "1 .cont-number").addClass("layui-hide");
-                        }
-                    });
-                    $("#" + id + "1 ul.cont-number li").click(function () {
-                        $("#" + id + "1 .cont-number").addClass("layui-hide");
-                        var numberN =$(this).text();
-                        if(numberN.substring(0,1)==0){
-                            var number=numberN.substring(1);
-                        }else {var number =$(this).text();}
-                        $("#" + id + "1 .show li a").html(numberN)
-                        queryAllExpert("/mobile/getAllExpertTableData?page=" + parseInt(number), "all_list_id", "POST");
-                    });
-                }
-            }
-        });
-    }
+
     
     
-    
+
     
     function getFileResultImg() 
     {

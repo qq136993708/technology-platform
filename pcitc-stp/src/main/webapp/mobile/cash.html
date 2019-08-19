@@ -63,14 +63,14 @@
         new Rolldate({
             el: '#date',
             format: 'YYYY-MM',
-            beginYear: 2000,
-            endYear: 2100,
+            beginYear: 2016,
+            endYear: $("#month").val().substr(0,4),
             value: $("#month").val(),
             confirm: function (date) {
-                if (date.substr(0,4) > 2020) {
+               /*  if (date.substr(0,4) > 2020) {
                     layer.alert('不能大于当前的日期',{title:"提示"});
                     return false;
-                }
+                } */
                 $("#month").val(date);
                 getFlow();
             }
@@ -81,8 +81,8 @@
     
     function getFlow()
     {
-    	var month = $('#month').val();
-    	month=month.replace("-","");
+    	var monthstr = $('#month').val();
+    	var month=monthstr.replace("-","");
     	var companyCode=  $('#companyCode').val();
     	console.log("参数：\n companyCode:"+companyCode+"month="+month);
     	if(companyCode!=null && companyCode!='')
@@ -115,7 +115,7 @@
         						classstr=" class='not' ";
         					
         					}
-        					var temp="<li  onclick=\"view('"+month+"','"+g0GSJC+"')\" "+classstr+">"+
+        					var temp="<li  onclick=\"view('"+monthstr+"','"+g0GSJC+"')\" "+classstr+">"+
     				    				"<p>"+
     				                        "<span>"+g0GSJC+"</span>"+
     				                        "<span>"+setNumStr(k0BQLJJE)+"</span>"+

@@ -45,6 +45,9 @@
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/layui/lay/modules/laytpl.js"></script>
+
+
 <script>
     var layer;
     (function(doc, win) {
@@ -107,6 +110,10 @@
        			  }
    			   }
     		   $("#wait_task_list").html(count); 	
+    		   
+    		   $("#wait_task_list_count").html(data.count); 	
+    		   
+    		   
     		},
     		error : function() {
     		},
@@ -138,25 +145,26 @@
    					 var id= dataArr[i].id;
    					 var processDefinitionName= dataArr[i].processDefinitionName;
    					 var auditor= dataArr[i].auditor;
-   					 var createTimeStr= dataArr[i].createTimeStr;
+   					 var endTime= dataArr[i].endTime;
    					 var auditRemarks= dataArr[i].auditRemarks;
    					 var processInstanceId= dataArr[i].processInstanceId;
    					 if(auditRemarks==null)
 					 {
-						auditRemarks="";
+						auditRemarks="ok";
 					 }
-   					 var temp="<li onclick=\"deal('"+id+"')\">"+
+   					 var temp="<li onclick=\"task_process_show('"+processInstanceId+"')\">"+
 				    				"<p>"+
 				                        "<span>"+processDefinitionName+"</span>"+
-				                        "<span>"+createTimeStr+"</span>"+
+				                        "<span>"+dateToString(new Date(endTime))+"</span>"+
 				                    "</p>"+
-				                    "<p><span>上一步处理人:</span>"+auditor+"</p>"+
+				                    "<p><span>审批意见:</span>"+auditRemarks+"</p>"+
 				             "</li>";
 					count=count+temp;
 		
        			  }
    			   }
-    		   $("#finished_task_list").html(count); 	
+    		   $("#finished_task_list").html(count); 
+    		   $("#finished_task_list_count").html(data.count); 	
     		},
     		error : function() {
     		},
@@ -197,7 +205,7 @@
 					 {
    						title="";
 					 }
-   					 var temp="<li onclick=\"open('"+url+"','"+type+"')\">"+
+   					 var temp="<li>"+
 				    				"<p>"+
 				                        "<span>"+title+"</span>"+
 				                        "<span>"+showDate+"</span>"+
@@ -251,10 +259,48 @@
     		});
     }
     
+    
+    //详情流程监控--已审批、待审批/流程图片
+    function task_process_show(id)
+    {
+    	   var temUrl = "/mobile/task/process/" + id;
+    		updateFlag = false;
+    		layer.open({
+    			title : '待审批/流程图片',
+    			skin : 'layui-layer-lan',
+    			shadeClose : true,
+    			type : 2,
+    			fixed : false,
+    			//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+    			maxmin : true,
+    			//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+    			area : [ '99%', '99%' ],
+    			content : temUrl
+    		});
+    }
+    
+    
+    
     function open(url,type)
     {
     	location.href=url;//+"?type="+type;//(url,type,"fullscreen=1");
     }
+    
+    
+    function dateToString (date){ 
+ 	   var year = date.getFullYear(); 
+ 	   var month =(date.getMonth() + 1).toString(); 
+ 	   var day = (date.getDate()).toString();  
+ 	   if (month.length == 1) { 
+ 	       month = "0" + month; 
+ 	   } 
+ 	   if (day.length == 1) { 
+ 	       day = "0" + day; 
+ 	   }
+ 	   var dateTime = year + "-" + month + "-" + day;
+ 	   return dateTime; 
+ 	 }
+
     
 </script>
 </body>

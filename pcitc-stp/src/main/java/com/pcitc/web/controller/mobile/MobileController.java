@@ -54,11 +54,16 @@ public class MobileController extends BaseController {
     private static final String LIST_EXAMPLE = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_example";
     //备选查询
     private static final String LISTBAK = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice_list";
-   // 科技奖励数量（研究院）
+    // 科技奖励数量（研究院）
  	private static final String APPRAISAL_COUNT = "http://pcitc-zuul/system-proxy/out-provider/appraisal-count";
 	
 	private static final String contract_01 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/total";
-	
+	// 数量--知识
+    private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
+
+		
+		
+		
 	@RequestMapping(value = "/mobile/budget")
 	public String budget(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -545,7 +550,38 @@ public class MobileController extends BaseController {
 	
 	
 	
-	
+	@RequestMapping(method = RequestMethod.POST, value = "/mobile/one_level_main/achievement_table_data")
+	@ResponseBody
+	@OperationFilter(dataFlag = "true")
+	public String achievement_table_data(HttpServletRequest request, HttpServletResponse response) {
+
+		
+		
+		String key = CommonUtil.getParameter(request, "key", "");
+		String page = CommonUtil.getParameter(request, "page", "1");
+		LayuiTableParam param = new LayuiTableParam();
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String limit = CommonUtil.getParameter(request, "limit", "15");
+
+		param.setLimit(Integer.valueOf(limit));
+		param.setPage(Integer.valueOf(page));
+		param.getParam().put("nd", nd);
+		param.getParam().put("key", key);
+		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+		System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
+		
+		
+		
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		return result.toString();
+	}
 	
 
 }
