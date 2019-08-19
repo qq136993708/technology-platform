@@ -381,7 +381,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					}
 
 					if (sysUser.getUserUnit()==null || sysUser.getUserUnit().equals("")) {
-						if (sysUser.getUserExtend() != null && sysUser.getUserExtend().contains("30130006")) {
+						if (sysUser.getUserRelation() != null && sysUser.getUserRelation().contains("30130006")) {
 							sysUser.setUserUnit("30130006");
 						} else {
 							// 盈科
