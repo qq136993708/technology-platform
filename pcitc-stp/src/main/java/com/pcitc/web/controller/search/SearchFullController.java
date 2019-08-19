@@ -13,6 +13,7 @@ import com.pcitc.base.system.SearchLog;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.InputCheckUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -147,6 +148,7 @@ public class SearchFullController extends BaseController {
     @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/search")
     public String search(HttpServletRequest request) {
         try {
+            InputCheckUtil.processRequestTag(request);
             String keyword = request.getParameter("keyword");
             String hotKeyWord = "";
             if (keyword != null && !"".equals(keyword)) {
@@ -469,5 +471,13 @@ public class SearchFullController extends BaseController {
         request.setAttribute("hotKeyWord", (hotKeyWord == null || "".equals(hotKeyWord)) ? "" : java.net.URLDecoder.decode(hotKeyWord, "utf-8"));
         System.out.println(request.getAttribute("hotKeyWord"));
         return "stp/hana/home/search/query_scientific";
+    }
+
+    public static void main(String[] args) {
+        String str1 = "hello";
+        String str2 = "he" + new String("llo");
+        System.err.println(str1 == str2);
+        String s = null;
+        System.out.println(s.isEmpty());
     }
 }
