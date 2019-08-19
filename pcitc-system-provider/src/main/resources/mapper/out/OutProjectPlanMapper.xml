@@ -1528,15 +1528,16 @@
 	<select id="getPlanCompleteRateByPlanTypeForHana" resultType="java.util.Map" parameterType="java.util.HashMap">
 		
 		select round(sum(K0DMBTR)/10000,2) as hanaMoney,ifnull(tableB.zsjje, 0) as zsjje,sys_dictionary.name as define2,
-			   round((ifnull(tableB.zsjje, 0) - sum(K0DMBTR)/10000),2) as wbkzje
+			   round((ifnull(tableB.zsjje, 0) - sum(K0DMBTR)/10000),2) as wbkzje,
+			   ifnull(tableB.yszbxje, 0) as yszbxje,ifnull(tableB.ysfyxje, 0) as ysfyxje
 		from sys_dictionary left join expenses_pay_hana on (
 										find_in_set(expenses_pay_hana.G0LIFNR,sys_dictionary.num_value)  
 										and STRCMP(left(G0AUGDT, 6), '${startMonth}') &gt; -1
 										and STRCMP(left(G0AUGDT, 6), '${endMonth}') &lt; 1
 									)
 							left join (
-								select SUBSTR(out_project_info.define2 FROM 6) as define2,out_project_info.define2 as define3,round(sum(ysje),4) as zsjje
-								        
+								select SUBSTR(out_project_info.define2 FROM 6) as define2,out_project_info.define2 as define3,
+								       round(sum(ysje),4) as zsjje,round(sum(yszbxje),4) as yszbxje,round(sum(ysfyxje),4) as ysfyxje  
 								from out_project_info
 								WHERE
 									out_project_info.ysnd= '${nd}' and out_project_info.nd = '${nd}'
@@ -1557,9 +1558,10 @@
 	<!-- 首页-直属研究院，项目计划完成的比率, 实际的hana报销费用，按照月份分组 -->
 	<select id="getPlanCompleteRateByPlanTypeForHanaMonth" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select CONCAT('${nd}',sys_dictionary.num_value) as yearMonth,round(ifnull(tableB.hanaMoney, '0'), 2) as hanaMoney,
-			   round(ifnull(tableC.ysje, '0'), 2) as zsjje, tableC.qdsl
+			   round(ifnull(tableC.ysje, '0'), 2) as zsjje,round(ifnull(tableC.yszbxje, '0'), 2) as yszbxje,
+			   round(ifnull(tableC.ysfyxje, '0'), 2) as ysfyxje, tableC.qdsl
 		from sys_dictionary left join (
-					select sum(ysje) as ysje,count(distinct hth) qdsl, left(define16, 6) as projectMount
+					select sum(ysje) as ysje,sum(yszbxje) as yszbxje,sum(ysfyxje) as ysfyxje,count(distinct hth) qdsl, left(define16, 6) as projectMount
 					from out_project_info
 					where 
 						left(define16, 4) = '${nd}' and define3='项目管理系统' and project_type != 1 and type_flag like '%研究院%' and ysnd = '${nd}'
@@ -1642,6 +1644,24 @@
 		from out_tem_money_total
 		where 
 			  nd= '${nd}' and (money_level = 1 or money_level = 2) and show_ali != '股份公司'
+	</select>
+	
+	<!-- 领导首页-预算投入 资本性预算分组,资本性不按照专业处权限控制 -->
+	<select id="getOutTemMoneyTotalInfoWithCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select
+			 unit_name,show_ali,zbx_money,fyx_money, (zbx_money+fyx_money) as zysje, show_ali as budgetItemName
+		from out_tem_money_total
+		where 
+			  nd= '${nd}'
+			  <if test="unitCode != null and unitCode != ''">
+				  and unit_code like '${unitCode}%'
+			  </if>
+			  <if test="moneyLevel != null and moneyLevel != ''">
+				  and money_level = '${moneyLevel}'
+			  </if>
+			  <if test="showAli != null and showAli != ''">
+				  and find_in_set(show_ali, '${showAli}')
+			  </if>
 	</select>
 	
 	<!-- 领导首页-获取专项、机动的预算费用，专项和机动特殊，不按照专业处进行权限控制 -->

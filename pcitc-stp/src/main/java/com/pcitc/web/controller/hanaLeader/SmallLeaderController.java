@@ -39,8 +39,6 @@ public class SmallLeaderController extends BaseController {
 
 	private static final String getInvestmentAll = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
 
-	private static final String getZBX = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/money-hana-type";
-	
 	private static final String getBudgetInfo = "http://pcitc-zuul/system-proxy/out-project-provider/budget/all-level";
 
 	/**
@@ -90,12 +88,12 @@ public class SmallLeaderController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>>>getInvestmentAll jSONArray-> " + jSONArray.toString());
 			List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 			double investMoney = 0d;
 			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql bm = list.get(i);
-				investMoney = bm.getZysje() == null?0d:Double.valueOf(bm.getZysje().toString());
+				investMoney = bm.getFyxXqBudget() == null?0d:Double.valueOf(bm.getFyxXqBudget().toString());
 				break;
 			}
 			Map<String, String> map = new HashMap<String, String>();
@@ -150,18 +148,24 @@ public class SmallLeaderController extends BaseController {
 					barLine.setxAxisDataList(xAxisDataList);
 
 					List<String> legendDataList = new ArrayList<String>();
-					legendDataList.add("可新签预算");
-					legendDataList.add("已签订金额");
+					legendDataList.add("新签费用性预算");
+					legendDataList.add("资本性预算");
+					legendDataList.add("新签费用性金额");
+					legendDataList.add("新签资本性金额");
 					legendDataList.add("已拨款金额");
 					barLine.setLegendDataList(legendDataList);
 					// X轴数据
 					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-					ChartBarLineSeries s1 = HanaUtil.getInvestmentBarLineSeries(list, "zysje");
+					ChartBarLineSeries s1 = HanaUtil.getInvestmentBarLineSeries(list, "fyxXqBudget");
 					seriesList.add(s1);
-					ChartBarLineSeries s2 = HanaUtil.getInvestmentBarLineSeries(list, "zsjje");
+					ChartBarLineSeries s2 = HanaUtil.getInvestmentBarLineSeries(list, "zbxBudget");
 					seriesList.add(s2);
-					ChartBarLineSeries s3 = HanaUtil.getInvestmentBarLineSeries(list, "hanaMoney");
+					ChartBarLineSeries s3 = HanaUtil.getInvestmentBarLineSeries(list, "ysfyxje");
 					seriesList.add(s3);
+					ChartBarLineSeries s4 = HanaUtil.getInvestmentBarLineSeries(list, "yszbxje");
+					seriesList.add(s4);
+					ChartBarLineSeries s5 = HanaUtil.getInvestmentBarLineSeries(list, "hanaMoney");
+					seriesList.add(s5);
 					barLine.setSeriesList(seriesList);
 					result.setSuccess(true);
 					result.setData(barLine);
@@ -173,46 +177,46 @@ public class SmallLeaderController extends BaseController {
 						BudgetMysql bm = list.get(i);
 
 						newBM.setDefine2("合计");
-						Double zysje = newBM.getZysje() == null ? 0d : Double.valueOf(newBM.getZysje().toString());
-						Double temYS = bm.getZysje() == null ? 0d : Double.valueOf(bm.getZysje().toString());
-						newBM.setZysje(zysje + temYS);
+						Double fyxXqBudget = newBM.getFyxXqBudget() == null ? 0d : Double.valueOf(newBM.getFyxXqBudget().toString());
+						Double temYS = bm.getFyxXqBudget() == null ? 0d : Double.valueOf(bm.getFyxXqBudget().toString());
+						newBM.setFyxXqBudget(fyxXqBudget + temYS);
 						
-						Double zsjje = newBM.getZsjje() == null ? 0d : Double.valueOf(newBM.getZsjje().toString());
-						Double temJE = bm.getZsjje() == null ? 0d : Double.valueOf(bm.getZsjje().toString());
-						newBM.setZsjje(zsjje + temJE);
+						Double zbxBudget = newBM.getZbxBudget() == null ? 0d : Double.valueOf(newBM.getZbxBudget().toString());
+						Double temJE = bm.getZbxBudget() == null ? 0d : Double.valueOf(bm.getZbxBudget().toString());
+						newBM.setZbxBudget(zbxBudget + temJE);
 						
-						Double wqhtzje = newBM.getWqhtzje() == null ? 0d : Double.valueOf(newBM.getWqhtzje().toString());
-						Double temWXD = bm.getWqhtzje() == null ? 0d : Double.valueOf(bm.getWqhtzje().toString());
-						newBM.setWqhtzje(wqhtzje + temWXD);
+						Double ysfyxje = newBM.getYsfyxje() == null ? 0d : Double.valueOf(newBM.getYsfyxje().toString());
+						Double temWXD = bm.getYsfyxje() == null ? 0d : Double.valueOf(bm.getYsfyxje().toString());
+						newBM.setYsfyxje(ysfyxje + temWXD);
 						
 						Double hanaMoney = newBM.getHanaMoney() == null ? 0d : Double.valueOf(newBM.getHanaMoney().toString());
 						Double temHana = bm.getHanaMoney() == null ? 0d : Double.valueOf(bm.getHanaMoney().toString());
 						newBM.setHanaMoney(hanaMoney + temHana);
-
-						Double wbkzje = newBM.getWbkzje() == null ? 0d : Double.valueOf(newBM.getWbkzje().toString());
-						Double temWBK = bm.getWbkzje() == null ? 0d : Double.valueOf(bm.getWbkzje().toString());
-						newBM.setWbkzje(wbkzje + temWBK);
+						
+						Double yszbxje = newBM.getYszbxje() == null ? 0d : Double.valueOf(newBM.getYszbxje().toString());
+						Double temZBX = bm.getYszbxje() == null ? 0d : Double.valueOf(bm.getYszbxje().toString());
+						newBM.setYszbxje(yszbxje + temZBX);
 					}
 					list.add(0, newBM);
 					
 					for (int i = 0; i < list.size(); i++) {
 						BudgetMysql bm = list.get(i);
-						if (bm.getZysje() == null || bm.getZysje().toString().equals("null") || bm.getZysje().toString().equals("")) {
-							bm.setZysje(String.format("%.2f", 0d));
+						if (bm.getFyxXqBudget() == null || bm.getFyxXqBudget().toString().equals("null") || bm.getFyxXqBudget().toString().equals("")) {
+							bm.setFyxXqBudget(String.format("%.2f", 0d));
 						} else {
-							bm.setZysje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getZysje()))));
+							bm.setFyxXqBudget(String.format("%.2f", Double.valueOf(String.valueOf(bm.getFyxXqBudget()))));
 						}
 						
-						if (bm.getZsjje() == null || bm.getZsjje().toString().equals("null") || bm.getZsjje().toString().equals("")) {
-							bm.setZsjje(String.format("%.2f", 0d));
+						if (bm.getZbxBudget() == null || bm.getZbxBudget().toString().equals("null") || bm.getZbxBudget().toString().equals("")) {
+							bm.setZbxBudget(String.format("%.2f", 0d));
 						} else {
-							bm.setZsjje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getZsjje()))));
+							bm.setZbxBudget(String.format("%.2f", Double.valueOf(String.valueOf(bm.getZbxBudget()))));
 						}
 						
-						if (bm.getWqhtzje() == null || bm.getWqhtzje().toString().equals("null") || bm.getWqhtzje().toString().equals("")) {
-							bm.setWqhtzje(String.format("%.2f", 0d));
+						if (bm.getYsfyxje() == null || bm.getYsfyxje().toString().equals("null") || bm.getYsfyxje().toString().equals("")) {
+							bm.setYsfyxje(String.format("%.2f", 0d));
 						} else {
-							bm.setWqhtzje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getWqhtzje()))));
+							bm.setYsfyxje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getYsfyxje()))));
 						}
 						
 						if (bm.getHanaMoney() == null || bm.getHanaMoney().toString().equals("null") || bm.getHanaMoney().toString().equals("")) {
@@ -221,10 +225,10 @@ public class SmallLeaderController extends BaseController {
 							bm.setHanaMoney(String.format("%.2f", Double.valueOf(String.valueOf(bm.getHanaMoney()))));
 						}
 						
-						if (bm.getWbkzje() == null || bm.getWbkzje().toString().equals("null") || bm.getWbkzje().toString().equals("")) {
-							bm.setWbkzje(String.format("%.2f", 0d));
+						if (bm.getYszbxje() == null || bm.getYszbxje().toString().equals("null") || bm.getYszbxje().toString().equals("")) {
+							bm.setYszbxje(String.format("%.2f", 0d));
 						} else {
-							bm.setWbkzje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getWbkzje()))));
+							bm.setYszbxje(String.format("%.2f", Double.valueOf(String.valueOf(bm.getYszbxje()))));
 						}
 						
 					}
@@ -296,18 +300,22 @@ public class SmallLeaderController extends BaseController {
 					barLine.setxAxisDataList(xAxisDataList);
 
 					List<String> legendDataList = new ArrayList<String>();
-					legendDataList.add("当月签订金额");
+					legendDataList.add("当月费用性签订金额");
+					legendDataList.add("当月资本性签订金额");
 					legendDataList.add("当月拨款金额");
 					barLine.setLegendDataList(legendDataList);
 
 					// X轴数据
 					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 
-					ChartBarLineSeries s12 = HanaUtil.getInvestmentBarLineSeries02(list, "zsjje");
-					seriesList.add(s12);
-
-					ChartBarLineSeries s2 = HanaUtil.getInvestmentBarLineSeries02(list, "hanaMoney");
+					ChartBarLineSeries s1 = HanaUtil.getInvestmentBarLineSeries02(list, "ysfyxje");
+					seriesList.add(s1);
+					
+					ChartBarLineSeries s2 = HanaUtil.getInvestmentBarLineSeries02(list, "yszbxje");
 					seriesList.add(s2);
+
+					ChartBarLineSeries s3 = HanaUtil.getInvestmentBarLineSeries02(list, "hanaMoney");
+					seriesList.add(s3);
 					barLine.setSeriesList(seriesList);
 					result.setSuccess(true);
 					result.setData(barLine);
@@ -318,17 +326,24 @@ public class SmallLeaderController extends BaseController {
 						BudgetMysql bm = list.get(i);
 
 						newBM.setYearMonth("合计");
-						newBM.setZysje(bm.getZysje());
-						Double zsjje = newBM.getZsjje() == null ? 0d : Double.valueOf(newBM.getZsjje().toString());
-						Double temJE = bm.getZsjje() == null ? 0d : Double.valueOf(bm.getZsjje().toString());
-						newBM.setZsjje((double) Math.round((zsjje + temJE) * 100) / 100);
+						newBM.setFyxXqBudget(bm.getFyxXqBudget());
+						newBM.setZbxBudget(bm.getZbxBudget());
+						Double ysfyxje = newBM.getYsfyxje() == null ? 0d : Double.valueOf(newBM.getYsfyxje().toString());
+						Double temJE = bm.getYsfyxje() == null ? 0d : Double.valueOf(bm.getYsfyxje().toString());
+						newBM.setYsfyxje((double) Math.round((ysfyxje + temJE) * 100) / 100);
+						
+						Double yszbxje = newBM.getYszbxje() == null ? 0d : Double.valueOf(newBM.getYszbxje().toString());
+						Double temJEz = bm.getYszbxje() == null ? 0d : Double.valueOf(bm.getYszbxje().toString());
+						newBM.setYszbxje((double) Math.round((yszbxje + temJEz) * 100) / 100);
 
 						Double hanaMoney = newBM.getHanaMoney() == null ? 0d : Double.valueOf(newBM.getHanaMoney().toString());
 						Double temHana = bm.getHanaMoney() == null ? 0d : Double.valueOf(bm.getHanaMoney().toString());
 						newBM.setHanaMoney((double) Math.round((hanaMoney + temHana) * 100) / 100);
 
-						bm.setZysje("-");
+						bm.setFyxXqBudget("-");
+						bm.setZbxBudget("-");
 					}
+					
 					list.add(0, newBM);
 					pageResult.setData(list);
 					pageResult.setCode(0);

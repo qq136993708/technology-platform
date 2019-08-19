@@ -94,7 +94,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				if (StrUtil.isNotBlank(opp.getJf())) {
 					newOPI.setJf(opp.getJf());
 				}
-				
+
 				if (StrUtil.isNotBlank(opp.getHth())) {
 					newOPI.setHth(opp.getHth());
 				}
@@ -234,7 +234,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectPlanMapper.getPlanCompleteRateByOldNew(map);
 	}
-	
+
 	/**
 	 * 按照专业处分组，来统计各个专业处计划签订合同数量，实际签订合同数量
 	 */
@@ -709,6 +709,15 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		// 数据控制, 专业处、专业
 		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectPlanMapper.getOutTemMoneyTotalInfo(map);
+	}
+
+	/**
+	 * 领导首页-预算投入 资本性预算分组,资本性不按照专业处权限控制
+	 */
+	public List getOutTemMoneyTotalInfoWithCondition(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+		return outProjectPlanMapper.getOutTemMoneyTotalInfoWithCondition(map);
 	}
 
 	/**

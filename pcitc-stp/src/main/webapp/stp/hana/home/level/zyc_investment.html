@@ -49,6 +49,20 @@
 	{
 	color: green !important;
 }
+
+.sign th .layui-table-cell {
+	height: 62px;
+	line-height: 24px;
+	padding: 10px;
+	box-sizing: border-box;
+	overflow: visible;
+	text-overflow: unset;
+	white-space: normal;
+}
+
+.sign th:nth-child(1) .layui-table-cell {
+	line-height: 46px;
+}
 </style>
 </head>
 <body>
@@ -143,13 +157,20 @@
 							<span class="layui-time"></span>
 							年直属研究院月度合同签订情况
 						</div>
-						<div class="layui-row-main">
+						<div class="layui-row-main sign">
 							<table id="myTable2" class="layui-table" lay-filter="myTable2">
 								<thead>
-									<th lay-data="{field:'yearMonth', width:'25%',align:'center'}">月份</th>
-									<th lay-data="{field:'zysje',     width:'25%',align:'right',style:'color: #f67d06'}">可新签预算(万元)</th>
-									<th lay-data="{field:'zsjje',     width:'25%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.zsjje) }}</div>'}">当月签订金额(万元)</th>
-									<th lay-data="{field:'hanaMoney', width:'25%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.hanaMoney) }}</div>'}">当月拨款金额(万元)</th>
+									<th lay-data="{field:'yearMonth', width:'15%',align:'center'}">月份</th>
+									<th lay-data="{field:'fyxXqBudget',     width:'17%',align:'right',style:'color: #f67d06'}">新签费用性<br>预算(万元)
+									</th>
+									<th lay-data="{field:'zbxBudget',     width:'17%',align:'right',style:'color: #f67d06'}">资本性<br>预算(万元)
+									</th>
+									<th lay-data="{field:'ysfyxje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.ysfyxje) }}</div>'}">费用性<br>签订金额(万元)
+									</th>
+									<th lay-data="{field:'yszbxje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.yszbxje) }}</div>'}">资本性<br>签订金额(万元)
+									</th>
+									<th lay-data="{field:'hanaMoney', width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.hanaMoney) }}</div>'}">当月<br>拨款金额(万元)
+									</th>
 								</thead>
 							</table>
 						</div>
@@ -180,16 +201,16 @@
 							<span class="layui-time"></span>
 							年直属研究院合同签订情况
 						</div>
-						<div class="layui-row-main">
+						<div class="layui-row-main sign">
 							<table id="myTable" class="layui-table" lay-filter="myTable">
 								<thead>
 									<tr>
-										<th lay-data="{field:'define2',   width:'16%',align:'center'}">研究院</th>
-										<th lay-data="{field:'zysje',     width:'16%',align:'right'}">可新签预算(万元)</th>
-										<th lay-data="{field:'zsjje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.zsjje) }}</div>'}">已签合同总金额(万元)</th>
-										<th lay-data="{field:'wqhtzje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.wqhtzje) }}</div>'}">未签合同总金额(万元)</th>
+										<th lay-data="{field:'define2',   width:'15%',align:'center'}">研究院</th>
+										<th lay-data="{field:'fyxXqBudget',     width:'17%',align:'right'}">新签费用性预算(万元)</th>
+										<th lay-data="{field:'zbxBudget',     width:'17%',align:'right'}">资本性预算(万元)</th>
+										<th lay-data="{field:'ysfyxje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.ysfyxje) }}</div>'}">新签费用性金额(万元)</th>
+										<th lay-data="{field:'yszbxje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.yszbxje) }}</div>'}">新签资本性金额(万元)</th>
 										<th lay-data="{field:'hanaMoney', width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.hanaMoney) }}</div>'}">已拨款总金额(万元)</th>
-										<th lay-data="{field:'wbkzje', width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.wbkzje) }}</div>'}">未拨款总金额(万元)</th>
 									</tr>
 								</thead>
 							</table>
@@ -198,6 +219,7 @@
 				</div>
 			</div>
 		</div>
+
 	</div>
 	<script src="/common/js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
@@ -221,106 +243,104 @@
 			base : '/layuiadmin/'
 		}).extend({
 			index : 'lib/index' //主入口模块
-		}).use(
-				[ 'index', 'jquery', 'form', 'laydate', 'table', 'laypage' ],
-				function() {
-					$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate
-					form.render(null, 'component-form-group');
-					laydate.render({
-						elem : '#nd',
-						min : '2018-01-01',
-						type : 'year',
-						done : function(value, date, endDate) {
-							$(".layui-time").html(date.year);
-							$("#nd").val(date.year);
-							search_Event();
-						}
-					});
-					$(".layui-time").html($("#nd").val());
+		}).use([ 'index', 'jquery', 'form', 'laydate', 'table', 'laypage' ], function() {
+			$ = layui.jquery, table = layui.table, form = layui.form, laydate = layui.laydate
+			form.render(null, 'component-form-group');
+			laydate.render({
+				elem : '#nd',
+				min : '2018-01-01',
+				type : 'year',
+				done : function(value, date, endDate) {
+					$(".layui-time").html(date.year);
+					$("#nd").val(date.year);
+					search_Event();
+				}
+			});
+			$(".layui-time").html($("#nd").val());
 
-					//监听行单击事件
-					table.on('row(myTable)', function(obj) {
-						console.log(obj.tr) //得到当前行元素对象
-						console.log(obj.data) //得到当前行数据
-						selectRowData = obj.data;
-						var nd = $("#nd").val();
-					});
+			//监听行单击事件
+			table.on('row(myTable)', function(obj) {
+				console.log(obj.tr) //得到当前行元素对象
+				console.log(obj.data) //得到当前行数据
+				selectRowData = obj.data;
+				var nd = $("#nd").val();
+			});
 
-					//监听行单击事件
-					table.on('row(myTable2)', function(obj) {
-						selectRowData = obj.data;
-						var nd = $("#nd").val();
-					});
+			//监听行单击事件
+			table.on('row(myTable2)', function(obj) {
+				selectRowData = obj.data;
+				var nd = $("#nd").val();
+			});
 
-					myTable();
-					myTable2();
+			myTable();
+			myTable2();
 
-					if (userPosition == '处长' || userPosition == '副处长') {
-						//监听行单击事件
-						/* table.on('row(kyysTable)', function(obj) {
-							selectRowData = obj.data;
-							var xName = selectRowData.budgetItemName;
-							var nd = $('#nd').val();
+			if (userPosition == '处长' || userPosition == '副处长') {
+				//监听行单击事件
+				/* table.on('row(kyysTable)', function(obj) {
+					selectRowData = obj.data;
+					var xName = selectRowData.budgetItemName;
+					var nd = $('#nd').val();
 
-							var qdbz = '已签订';
-							var define11 = "";
-							var define12 = "";
-							if (xName == '资产公司' || xName == '集团公司') {
-								define11 = xName;
-							} else if (xName == '合计') {
-								define11 = "";
-							} else {
-								define11 = "股份公司";
-							}
+					var qdbz = '已签订';
+					var define11 = "";
+					var define12 = "";
+					if (xName == '资产公司' || xName == '集团公司') {
+						define11 = xName;
+					} else if (xName == '合计') {
+						define11 = "";
+					} else {
+						define11 = "股份公司";
+					}
 
-							define12 = xName;
-							if (xName == '休斯顿') {
-								define12 = '休斯顿研发中心';
-							}
-							if (xName == '中东') {
-								define12 = '中东研发中心';
-							}
+					define12 = xName;
+					if (xName == '休斯顿') {
+						define12 = '休斯顿研发中心';
+					}
+					if (xName == '中东') {
+						define12 = '中东研发中心';
+					}
 
-							parent.layui.index.openTabsPage("/one_level_main/count_table_new?define12=" + define12 + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8&define11=" + define11, "科研预算详情");
-						}); */
+					parent.layui.index.openTabsPage("/one_level_main/count_table_new?define12=" + define12 + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8&define11=" + define11, "科研预算详情");
+				}); */
 
-						table.on('row(zycysTable)', function(obj) {
-							selectRowData = obj.data;
-							var xName = selectRowData.zycmc;
-							var nd = $('#nd').val();
+				table.on('row(zycysTable)', function(obj) {
+					selectRowData = obj.data;
+					var xName = selectRowData.zycmc;
+					var nd = $('#nd').val();
 
-							var qdbz = '已签订';
+					var qdbz = '已签订';
 
-							if (xName == '油田处') {
-								xName = '科技部';
-							}
-							if (xName.indexOf('炼油事业部') > -1) {
-								xName = '炼油部';
-							}
-							if (xName.indexOf('化工事业部') > -1) {
-								xName = '化工部';
-							}
-							if (xName.indexOf('合计') > -1) {
-								xName = '';
-							}
-							if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
-								parent.layui.index.openTabsPage("/one_level_main/count_table_new?gsbmbmFlag=" + xName + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8", "科研预算详情");
-							} else if (xName == '专项' || xName == '机动') {
+					if (xName == '油田处') {
+						xName = '科技部';
+					}
+					if (xName.indexOf('炼油事业部') > -1) {
+						xName = '炼油部';
+					}
+					if (xName.indexOf('化工事业部') > -1) {
+						xName = '化工部';
+					}
+					if (xName.indexOf('合计') > -1) {
+						xName = '';
+					}
+					if (xName == '科技部' || xName == '物装部' || xName == '炼油部' || xName == '化工部' || xName == '信息部' || xName == '工程部') {
+						parent.layui.index.openTabsPage("/one_level_main/count_table_new?gsbmbmFlag=" + xName + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8", "科研预算详情");
+					} else if (xName == '专项' || xName == '机动') {
 
-							} else if (xName == '') {
-								parent.layui.index.openTabsPage("/one_level_main/count_table_new?ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8", "科研预算详情");
-							} else {
-								parent.layui.index.openTabsPage("/one_level_main/count_table_new?zycbmFlag=" + xName + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8", "科研预算详情");
-							}
-
-						});
-
-						//kyysTable();
-						kyysTableNew();
-						zycysTable();
+					} else if (xName == '') {
+						parent.layui.index.openTabsPage("/one_level_main/count_table_new?ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8", "科研预算详情");
+					} else {
+						parent.layui.index.openTabsPage("/one_level_main/count_table_new?zycbmFlag=" + xName + "&ysnd=" + nd + "&qdbz=" + qdbz + "&groupFlag=xmid,define8", "科研预算详情");
 					}
 
 				});
+
+				//kyysTable();
+				kyysTableNew();
+				zycysTable();
+			}
+
+		});
 
 		// 科研预算，老表格形式，暂时作废
 		function kyysTable() {
@@ -334,7 +354,7 @@
 			});
 
 		}
-		
+
 		function kyysTableNew() {
 
 			var nd = $("#nd").val();
@@ -370,15 +390,15 @@
 						} else {
 							var htmlS = "<span>" + parseFloat(list[i].fyxRate).toFixed(2) + "%</span>"
 						}
-						var html = '<tbody m_id="'+list[i].showFlag+'"><tr>' + '<td lay-data="{align : \'center\'}" rowspan="5" class="tdW add">' + list[i].showOrder + ' </td>' + '<td lay-data="{align : \'center\',width : \'100\'}" rowspan="5" class="tdW tdW0">' + list[i].show_ali
-								+ '预算执行情况</td>' + '<td lay-data="{align : \'center\',width : \'500\'}" colspan="3">' + list[i].fyxBudget + '</td>' + '<td lay-data="{align : \'center\',width : \'300\'}" colspan="2">' + list[i].zbxBudget + '</td>' + '</tr>' + '<tr>'
+						var html = '<tbody m_id="'+list[i].showFlag+'"><tr>' + '<td lay-data="{align : \'center\'}" rowspan="5" class="tdW add">' + list[i].showOrder + ' </td>' + '<td lay-data="{align : \'center\',width : \'100\'}" rowspan="5" class="tdW tdW0">' + list[i].show_ali + '预算执行情况</td>'
+								+ '<td lay-data="{align : \'center\',width : \'500\'}" colspan="3">' + list[i].fyxBudget + '</td>' + '<td lay-data="{align : \'center\',width : \'300\'}" colspan="2">' + list[i].zbxBudget + '</td>' + '</tr>' + '<tr>'
 								+ '<td lay-data="{align : \'center\',width : \'350\'}" colspan="2" class="tdW">其中:新签预算（含结转）</td>' + '<td lay-data="{align : \'center\',width : \'150\'}" class="tdW">其中：结转预算</td>'
-								+ '<td lay-data="{align : \'center\',width : \'200\'}" class="tdW">实际新签（科研装备+课题资本性支出）</td>' + '<td lay-data="{align : \'center\',width : \'100\'}" class="tdW">执行率</td>' + '</tr>' + '<tr>'
-								+ '<td lay-data="{align : \'center\',width : \'350\'}" colspan="2">' + list[i].fyxXqBudget + '</td>' + '<td lay-data="{align : \'center\',width : \'150\'}">' + list[i].fyxJzBudget + '</td>' + '<td lay-data="{align : \'center\',width : \'200\'}">'
-								+ list[i].zbxXqMoney + '</td>' + '<td lay-data="{align : \'center\',width : \'100\'}" >' + htmlT + '</td>' + '</tr>' + '<tr>' + '<td lay-data="{align : \'center\',width : \'170\'}" class="tdW">实际新签</td>'
-								+ '<td lay-data="{align : \'center\',width : \'180\'}" class="tdW">新签执行率</td>' + '<td lay-data="{align : \'center\',width : \'150\'}" class="tdW">结转+新签总执行率</td>' + '<td lay-data="{align : \'center\',width : \'200\'}"></td>'
-								+ '<td lay-data="{align : \'center\',width : \'100\'}"></td>' + '</tr>' + '<tr>' + '<td lay-data="{align : \'center\',width : \'170\'}">' + list[i].fyxXqMoney + '</td>' + '<td lay-data="{align : \'center\',width : \'180\'}">' + htmlO + '</td>'
-								+ '<td lay-data="{align : \'center\',width : \'150\'}">' + htmlS + '</td>' + '<td lay-data="{align : \'center\',width : \'200\'}"></td>' + '<td lay-data="{align : \'center\',width : \'100\'}"></td>' + '</tr></tbody>';
+								+ '<td lay-data="{align : \'center\',width : \'200\'}" class="tdW">实际新签（科研装备+课题资本性支出）</td>' + '<td lay-data="{align : \'center\',width : \'100\'}" class="tdW">执行率</td>' + '</tr>' + '<tr>' + '<td lay-data="{align : \'center\',width : \'350\'}" colspan="2">'
+								+ list[i].fyxXqBudget + '</td>' + '<td lay-data="{align : \'center\',width : \'150\'}">' + list[i].fyxJzBudget + '</td>' + '<td lay-data="{align : \'center\',width : \'200\'}">' + list[i].zbxXqMoney + '</td>' + '<td lay-data="{align : \'center\',width : \'100\'}" >'
+								+ htmlT + '</td>' + '</tr>' + '<tr>' + '<td lay-data="{align : \'center\',width : \'170\'}" class="tdW">实际新签</td>' + '<td lay-data="{align : \'center\',width : \'180\'}" class="tdW">新签执行率</td>'
+								+ '<td lay-data="{align : \'center\',width : \'150\'}" class="tdW">结转+新签总执行率</td>' + '<td lay-data="{align : \'center\',width : \'200\'}"></td>' + '<td lay-data="{align : \'center\',width : \'100\'}"></td>' + '</tr>' + '<tr>'
+								+ '<td lay-data="{align : \'center\',width : \'170\'}">' + list[i].fyxXqMoney + '</td>' + '<td lay-data="{align : \'center\',width : \'180\'}">' + htmlO + '</td>' + '<td lay-data="{align : \'center\',width : \'150\'}">' + htmlS + '</td>'
+								+ '<td lay-data="{align : \'center\',width : \'200\'}"></td>' + '<td lay-data="{align : \'center\',width : \'100\'}"></td>' + '</tr></tbody>';
 						$("#budgetTable ").append(html);
 						if (i > 0) {
 							if (list[i].showFlag + "-1" == list[i + 1].showFlag) {
@@ -517,9 +537,7 @@
 				url : chart1_url,
 				height : "299px",
 				where : {}
-
 			});
-
 		}
 
 		function myTable2() {
@@ -530,9 +548,7 @@
 				url : chart1_url,
 				height : "299px",
 				where : {}
-
 			});
-
 		}
 	</script>
 </body>

@@ -235,7 +235,16 @@ var option_graph =  {
     },
     tooltip: {
         trigger: 'item',
-        formatter: '{b}'
+        // formatter: '{b}'
+        formatter: function (a,b,c) {
+            var ret = "";
+            if (a.data.name==""){
+                ret = ""
+            } else {
+                ret = a.data.name;
+            }
+            return ret;
+        }
     },
     legend: [{
         // selectedMode: 'single',
@@ -309,14 +318,11 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
             // echartsobj.setOption(option_graph);
 
             if (data.success == true || data.success == 'true') {
-                console.log("data");
-                console.log(data);
                 var nodes = data.data.nodes;
                 var links = data.data.links;
                 var categories = data.data.categories;
                 var legendDataList = data.data.legendDataList;
                 echartslegenddata = legendDataList;
-
 
                 //加载数据图表
                 option_graph.series[0].links = links;
@@ -328,13 +334,11 @@ function force_img_render(url, echartsobj, options, callback, len, id, title, su
                 option_graph.legend.selected = echart_selected(legendDataList,2);
 
                 echartsobj_five.setOption(option_graph);
-                try {
-                    console.log("-echartsobj_five-");
-                    console.log(echartsobj_five);
-                    // echartsobj.resize();
-                } catch (e) {
-                    console.log(e);
-                }
+                // try {
+                //     // echartsobj.resize();
+                // } catch (e) {
+                //     console.log(e);
+                // }
                 if (callback) {
                     callback(data);
                 }
