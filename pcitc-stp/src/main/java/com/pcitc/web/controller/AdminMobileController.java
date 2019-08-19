@@ -42,12 +42,13 @@ import com.sinopec.siam.agent.sp.config.SysConfig;
 public class AdminMobileController extends BaseController {
 
 	// 访问zuul中的登录方法
-	private static final String	LOGIN_URL		= "http://pcitc-zuul/auth/login";
-	private static final String	GET_USER_INFO	= "http://pcitc-zuul/system-proxy/user-provider/user/info";
+	private static final String LOGIN_URL = "http://pcitc-zuul/auth/login";
+	private static final String GET_USER_INFO = "http://pcitc-zuul/system-proxy/user-provider/user/info";
 
 	private static final String USER_DETAILS_URL = "http://pcitc-zuul/system-proxy/user-provider/user/user-details/";
-	
+
 	private Integer TIME_OUT = 1 * 60 * 60;
+
 	/**
 	 * 移动本地测试方法
 	 * 
@@ -62,21 +63,21 @@ public class AdminMobileController extends BaseController {
 		request.setAttribute("year", year);
 
 		String unitPathId = sysUserInfo.getUnitPath();
-		
-		String unitCode =sysUserInfo.getUnitCode();
-		//科技部综合计划处
+
+		String unitCode = sysUserInfo.getUnitCode();
+		// 科技部综合计划处
 		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitCode, EquipmentUtils.KJB_ZHJHC_NUM);
 		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 		request.setAttribute("sysUserInfo", sysUserInfo);
-		List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+		List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 		request.setAttribute("list", list);
-		String nd=HanaUtil.getCurrentYear();
-		String month=HanaUtil.getCurrentYearMoth();
+		String nd = HanaUtil.getCurrentYear();
+		String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("nd", nd);
 		request.setAttribute("month", month);
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
-		
+
 		return "/mobile/index";
 	}
 
@@ -93,10 +94,10 @@ public class AdminMobileController extends BaseController {
 		String key1 = desUtils.des3Decode0(token);
 		Map keymap = desUtils.getAcountByToken0(key1);
 		String username = keymap.get("username").toString();
-		System.out.println("username =========="+username);
+		System.out.println("username ==========" + username);
 
 		String jsonString = JSON.toJSONString(keymap);
-		System.out.println("jsonString =========="+jsonString);
+		System.out.println("jsonString ==========" + jsonString);
 
 		// 通过统一身份账号，查询是否有这个用户
 		JSONObject userPara = new JSONObject();
@@ -105,7 +106,7 @@ public class AdminMobileController extends BaseController {
 		List<SysUser> userList = JSONObject.parseArray(jSONArray.toJSONString(), SysUser.class);
 
 		SysUser extUser = new SysUser();
-		if (userList!=null&&userList.size()>0) {
+		if (userList != null && userList.size() > 0) {
 			extUser = userList.get(0);
 		} else {
 			System.out.println("indexMobileStp----没有此用户");
@@ -122,15 +123,15 @@ public class AdminMobileController extends BaseController {
 
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
-		if (retJson==null||retJson.get("token")==null) {
+		if (retJson == null || retJson.get("token") == null) {
 			// 返回权限不足页面
 			System.out.println("indexMobileStp----缺少权限");
 			return "no_access";
 		}
-		System.out.println("-----indexStp----------login token:"+retJson.get("token"));
+		System.out.println("-----indexStp----------login token:" + retJson.get("token"));
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(1*60*60);// 设置有效期为1天
+		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
@@ -139,14 +140,14 @@ public class AdminMobileController extends BaseController {
 
 		String unitPathId = tokenUser.getUnitPath();
 
-		//科技部综合计划处
+		// 科技部综合计划处
 		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
 		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 		request.setAttribute("sysUserInfo", sysUserInfo);
-		List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+		List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 		request.setAttribute("list", list);
-		String nd=HanaUtil.getCurrentYear();
-		String month=HanaUtil.getCurrentYearMoth();
+		String nd = HanaUtil.getCurrentYear();
+		String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("nd", nd);
 		request.setAttribute("month", month);
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
@@ -162,15 +163,15 @@ public class AdminMobileController extends BaseController {
 	@RequestMapping(value = "/mobile/index")
 	public String indexMobileStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("1进入indexMobileStp....");
-		System.out.println("2进入indexMobileStp...."+request.getParameter("oauth_token"));
+		System.out.println("2进入indexMobileStp...." + request.getParameter("oauth_token"));
 		// 获取移动组统一身份的oauthToken值
 		String oauthToken = request.getParameter("oauth_token");
-		System.out.println("3进入indexMobileStp....SysConfig========="+SysConfig.sp_login_tsysaccount);
+		System.out.println("3进入indexMobileStp....SysConfig=========" + SysConfig.sp_login_tsysaccount);
 		// 调用统一身份认证组的刷新oauth码的接口（此接口返回值可以继续调用统一身份的接口来获取人员信息）
 		Map<String, String> headerMap = new HashMap<String, String>();
 		headerMap.put("Content-Type", "application/json");
 		RestfulHttpClient.setDefaultHeaders(headerMap);
-		
+
 		String refreshOauthUrl = "https://oauth.siam.sinopec.com/oauth/interface/token";
 		RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(refreshOauthUrl);
 		client.post();
@@ -187,16 +188,16 @@ public class AdminMobileController extends BaseController {
 		// 是否获取人员信息成功标识
 		boolean testFlag = false;
 		String uid = "";
-		System.out.println("authResponse--------"+authResponse);
-		System.out.println("authResponse--------"+authResponse.getCode());
-		System.out.println("authResponse--------"+authResponse.getContent());
+		System.out.println("authResponse--------" + authResponse);
+		System.out.println("authResponse--------" + authResponse.getCode());
+		System.out.println("authResponse--------" + authResponse.getContent());
 		// 根据状态码判断请求是否成功
-		if (authResponse.getCode()==200) {
+		if (authResponse.getCode() == 200) {
 			// 获取响应内容
 			String result = authResponse.getContent();
-			System.out.println("refreshOauth返回--------"+result);
+			System.out.println("refreshOauth返回--------" + result);
 			JSONObject json = JSONObject.parseObject(result);
-			if (json!=null&&json.get("access_token")!=null) {
+			if (json != null && json.get("access_token") != null) {
 				String access_token = json.getString("access_token");
 				String refresh_token = json.getString("refresh_token");
 				String expires_in = json.getString("expires_in");
@@ -208,21 +209,21 @@ public class AdminMobileController extends BaseController {
 				userClient.post();
 				// 添加多个参数请求头
 				userClient.addHeaders(headerMap);
-				
+
 				userClient.addQueryParam("access_token", access_token);
 				userClient.addQueryParam("client_id", "YWlvYmdjbWJjcGpibmhra2FwZG1lcGdvYmRnbmRtbWdmbm1vZW1sYWdtcGdtamZjamFobGRnY2lwaGFpZGtrcA==");
 				userClient.addQueryParam("client_secret", "b25ibGFrY2hoZGxsZ2VmaWxtZmdiaGRobG9mZmNvbWlvaWdobGJoYWdub2NmbmVlb21qbG5qZmhja2JlcHBlbw==");
 
 				RestfulHttpClient.HttpResponse userResponse = userClient.request();
-				if (userResponse.getCode()==200) {
+				if (userResponse.getCode() == 200) {
 					// 获取响应内容
 					String userResult = userResponse.getContent();
-					System.out.println("userOauth返回--------"+userResult);
+					System.out.println("userOauth返回--------" + userResult);
 					JSONObject userJson = JSONObject.parseObject(userResult);
-					if (userJson!=null&&userJson.getString("uid")!=null) {
+					if (userJson != null && userJson.getString("uid") != null) {
 						uid = userJson.getString("uid");
-						System.out.println("uid返回--------"+uid);
-						
+						System.out.println("uid返回--------" + uid);
+
 						// sprolelist 判断此人是否有《科技管理平台》的权限，没有的话，直接返回
 						testFlag = true;
 					}
@@ -243,7 +244,7 @@ public class AdminMobileController extends BaseController {
 		List<SysUser> userList = JSONObject.parseArray(jSONArray.toJSONString(), SysUser.class);
 
 		SysUser extUser = new SysUser();
-		if (userList!=null&&userList.size()>0) {
+		if (userList != null && userList.size() > 0) {
 			extUser = userList.get(0);
 		} else {
 			System.out.println("indexMobileStp----没有此用户");
@@ -261,15 +262,15 @@ public class AdminMobileController extends BaseController {
 
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
-		if (retJson==null||retJson.get("token")==null) {
+		if (retJson == null || retJson.get("token") == null) {
 			// 返回权限不足页面
 			System.out.println("indexMobileStp----缺少权限");
 			return "no_access";
 		}
-		System.out.println("-----indexStp----------login token:"+retJson.get("token"));
+		System.out.println("-----indexStp----------login token:" + retJson.get("token"));
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
-		cookie.setMaxAge(1*60*60);// 设置有效期为1天
+		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
@@ -278,14 +279,14 @@ public class AdminMobileController extends BaseController {
 
 		String unitPathId = tokenUser.getUnitPath();
 
-		//科技部综合计划处
+		// 科技部综合计划处
 		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
 		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
-		request.setAttribute("sysUserInfo", sysUserInfo);
-		List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+		request.setAttribute("sysUserInfo", tokenUser); // tokenUser中有userLevel等基本属性
+		List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 		request.setAttribute("list", list);
-		String nd=HanaUtil.getCurrentYear();
-		String month=HanaUtil.getCurrentYearMoth();
+		String nd = HanaUtil.getCurrentYear();
+		String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("nd", nd);
 		request.setAttribute("month", month);
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
@@ -309,24 +310,24 @@ public class AdminMobileController extends BaseController {
 		while (paramNames.hasMoreElements()) {
 			String paramName = (String) paramNames.nextElement();
 			String[] paramValues = request.getParameterValues(paramName);
-			System.out.println("3-----adToken----------:"+paramName);
-			if (paramValues!=null) {
-				System.out.println("4-----adToken----------:"+paramValues.length);
-				for (int i = 0; i<paramValues.length; i++) {
-					System.out.println("5-----adToken----------:"+i+"=============="+paramValues[i]);
+			System.out.println("3-----adToken----------:" + paramName);
+			if (paramValues != null) {
+				System.out.println("4-----adToken----------:" + paramValues.length);
+				for (int i = 0; i < paramValues.length; i++) {
+					System.out.println("5-----adToken----------:" + i + "==============" + paramValues[i]);
 				}
 			}
 		}
-		System.out.println("8都大写-----adToken-Identity_Key---------:"+request.getParameter("Identity_Key"));
-		System.out.println("9都大写-----adToken-Identity_Token---------:"+request.getParameter("Identity_Token"));
+		System.out.println("8都大写-----adToken-Identity_Key---------:" + request.getParameter("Identity_Key"));
+		System.out.println("9都大写-----adToken-Identity_Token---------:" + request.getParameter("Identity_Token"));
 		DES3Utils desUtils = new DES3Utils(request.getParameter("Identity_Key"));
 		String pKey = desUtils.des3Decode(request.getParameter("Identity_Token"));
 		Map<String, String> keymap = desUtils.getAcountByToken(pKey);
 		name = keymap.get("username");
 		pwd = keymap.get("password");
 		String jsonString = JSON.toJSONString(keymap);
-		System.out.println("adToken--------jsonString =========="+jsonString);
-		System.out.println("12-----adToken----------:"+name+"===="+pwd);
+		System.out.println("adToken--------jsonString ==========" + jsonString);
+		System.out.println("12-----adToken----------:" + name + "====" + pwd);
 		Cookie c = new Cookie("userInfo", name);
 		c.setPath("/");
 		response.addCookie(c);
@@ -335,22 +336,20 @@ public class AdminMobileController extends BaseController {
 
 	public String getRemoteHost(javax.servlet.http.HttpServletRequest request) {
 		String ip = request.getHeader("x-forwarded-for");
-		if (ip==null||ip.length()==0||"unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("Proxy-Client-IP");
 		}
-		if (ip==null||ip.length()==0||"unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("WL-Proxy-Client-IP");
 		}
-		if (ip==null||ip.length()==0||"unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
 		}
 		return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
 	}
-	
-	
-	
+
 	/**
-	 *移动登录界面，测试专用
+	 * 移动登录界面，测试专用
 	 */
 	@RequestMapping(value = "/mobile/login")
 	public String pcitcToIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -370,7 +369,7 @@ public class AdminMobileController extends BaseController {
 		}
 		return "/mobile-login";
 	}
-	
+
 	@RequestMapping(value = "/mobile/temIndex")
 	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -410,15 +409,16 @@ public class AdminMobileController extends BaseController {
 			String year = HanaUtil.getCurrentYear();
 			request.setAttribute("year", year);
 
-			String unitPathId = sysUserInfo.getUnitPath();
+			tokenUser = JwtTokenUtil.getUserFromTokenByValue(retJson.get("token").toString());
+			String unitPathId = tokenUser.getUnitPath();
 			boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
 			request.setAttribute("isZHJHCPerson", isZHJHCPerson);
-			request.setAttribute("sysUserInfo", sysUserInfo);
+			request.setAttribute("sysUserInfo", tokenUser); // tokenUser中有userLevel等基本属性
 
-			List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+			List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 			request.setAttribute("list", list);
-			String nd=HanaUtil.getCurrentYear();
-			String month=HanaUtil.getCurrentYearMoth();
+			String nd = HanaUtil.getCurrentYear();
+			String month = HanaUtil.getCurrentYearMoth();
 			request.setAttribute("nd", nd);
 			request.setAttribute("month", month);
 			String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
@@ -434,7 +434,7 @@ public class AdminMobileController extends BaseController {
 
 			// 用户有哪些菜单权限
 			userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-			
+
 			// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
 			httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 			MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
@@ -457,10 +457,10 @@ public class AdminMobileController extends BaseController {
 			boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
 			request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 			request.setAttribute("sysUserInfo", sysUserInfo);
-			List<SysNotice> list=OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
+			List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 			request.setAttribute("list", list);
-			String nd=HanaUtil.getCurrentYear();
-			String month=HanaUtil.getCurrentYearMoth();
+			String nd = HanaUtil.getCurrentYear();
+			String month = HanaUtil.getCurrentYearMoth();
 			request.setAttribute("nd", nd);
 			request.setAttribute("month", month);
 			String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
