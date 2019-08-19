@@ -17,6 +17,11 @@
 </head>
 <body>
 <div class="layui-fluid">
+	<div  class="tableBtns">
+        	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent" id="add">新增</button>
+        	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent" id="edit">编辑</button>
+        	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="delEvent" id="delete">删除</button>
+    </div>
     <div class="">
         <input type="hidden" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
 
@@ -62,7 +67,47 @@
 
 <script type="text/javascript">
 
-
+// 为新增添加按钮事件
+$(document).ready(function(){
+	$("#add").click(function(){
+		var publicMethods=layui.publicMethods;
+		var temUrl = '/more-dimension/reward_page_edit';
+        publicMethods.openBaseWinFull("新增奖项",temUrl);
+	});
+	
+	$("#edit").click(function(){
+		var publicMethods=layui.publicMethods;
+		var selectRowData = layui.table.checkStatus('processdef-table').data;
+		var temUrl = '/more-dimension/reward_page_edit?dataId='+selectRowData[0].dataId;
+		alert(selectRowData[0]);
+        publicMethods.openBaseWinFull("编辑奖项",temUrl);
+	});
+	$("#delete").click(function(){
+		var publicMethods=layui.publicMethods;
+		var selectRowData = layui.table.checkStatus('processdef-table').data;
+		var dataId = selectRowData[0].dataId;
+		if (!selectRowData) {
+        	layer.msg('请选择一条奖项!');
+    		return;
+    	}
+        layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
+			layer.close(index);
+			publicMethods.ajaxPost('/more-dimension/outReward/reward-del', {"dataId":dataId}, function (data, status) {
+				if(data.success){
+					layui.table.reload('processdef-table',null);
+			       	//parent.renderfunc();//隐藏全选按钮
+			       	var index = parent.layer.getFrameIndex(window.name);
+			       	parent.layer.close(index);
+               }
+	        });
+           /*  ajaxPost("/more-dimension/outReward/reward-del"+selectRowData.roleId,null,function(data){
+                if(data.success){
+                	 reloadTable("roleListTable",{param: {"roleName":$("#roleName").val()}});
+                }
+            }); */
+        });
+	});
+});
 var tableOne=null,tableTwo=null,selectRowData,nd='';
 layui.config({
     base: '/layuiadmin/lib/extend/'
@@ -300,13 +345,14 @@ function renderTable(nd){
         , limit: 15 //每页默认显示的数量
         , id: 'processdef-table'
         , height: "620px"
-        , cols: [[
+        , cols: [[  /* {type:'checkbox',event: 'changeEvents',width : 55}, */
         	  		{field:'nd',title:'年度',edit:'text',align: 'center'},
 		  	   		{field:'sbjz',title:'获奖类别',edit:'text', width: '15%'},
 		       		{field:'sbdj',title:'奖项',style:'cursor: pointer;',align: 'center', width: '8%'},
 		       		{field:'xmmc',title:'名称',style:'cursor: pointer;',align: 'left', width: '25%'},
 		       		{field:'fzdw',title:'主要完成人',style:'cursor: pointer;',align: 'left', width: '20%'},
-		       		{field:'sbdw',title:'单位',style:'cursor: pointer;',align: 'left', width: '25%'}
+		       		{field:'sbdw',title:'单位',style:'cursor: pointer;',align: 'left', width: '25%'},
+		       		{type:'checkbox',type:'radio',event: 'changeEvents',width : 55}
         ]],
         done: function(res, curr, count){
             merge(res);
