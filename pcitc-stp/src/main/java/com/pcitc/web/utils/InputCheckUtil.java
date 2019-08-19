@@ -73,7 +73,7 @@ public class InputCheckUtil
 	 * @param str
 	 * @return
 	 */
-	public static String filterHtmlTag(String str) 
+	public static String filterContentTag(String str) 
 	{
 		if(StringUtils.isBlank(str))
 		{
@@ -154,10 +154,5 @@ public class InputCheckUtil
 		{
 			return input;
 		}
-	}
-	public static void main(String [] args) 
-	{
-		String str = "<script>alert('test')$</script>";
-		System.out.println(filterHtmlTag(str));
 	}
 }
