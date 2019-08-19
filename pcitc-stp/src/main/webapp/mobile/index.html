@@ -131,7 +131,7 @@
 			</#if>
 			
 			
-			<div class="dec-center-right3">
+			<div class="dec-center-right3" id="appraisalId_div">
 				<span></span>
 				<span>成果鉴定</span>
 				<span class="icon-decision icon-decision_06" id="appraisalId">-</span>
@@ -271,6 +271,12 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     //科研拨款
     $("#appropriation_id").click(function () {
     	location.href="/mobile/appropriation";
+    });
+    
+    
+    
+    $("#appraisalId_div").click(function () {
+    	location.href="/mobile/appraisal";
     });
     
     

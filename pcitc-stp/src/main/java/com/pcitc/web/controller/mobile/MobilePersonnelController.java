@@ -117,12 +117,11 @@ public class MobilePersonnelController extends BaseController{
 	@ResponseBody
 	public Object getTableData(HttpServletRequest request, HttpServletResponse response) 
 	{
-		
+		String page = CommonUtil.getParameter(request, "page", "1");
 
 		LayuiTableParam param = new LayuiTableParam();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String limit = CommonUtil.getParameter(request, "limit", "15");
-		String page = CommonUtil.getParameter(request, "page", "1");
 
 
 		param.setLimit(Integer.valueOf(limit));
@@ -135,6 +134,7 @@ public class MobilePersonnelController extends BaseController{
 		LayuiTableData data = responseEntity.getBody();
 		System.out.println(JSON.toJSON(data).toString());
 		return JSON.toJSON(data).toString();
+		
 	}
 	
 	

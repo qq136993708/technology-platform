@@ -198,7 +198,7 @@
     	var v_date = (new Date()).getTime();
     	$.ajax({
     		type : type,
-    		url : url+"?v_date="+v_date,
+    		url : url+"&v_date="+v_date,
     		timeout : 9000,
     		dataType:'json', 
     		cache : false,
@@ -267,7 +267,7 @@
     
     
     queryTabel("/mobile/zjk-ys-list","ys_list_id","POST");
-    queryAllExpert("/mobile/getAllExpertTableData","all_list_id","POST");
+    queryAllExpert("/mobile/getAllExpertTableData?page=2","all_list_id","POST");
     
     
     
