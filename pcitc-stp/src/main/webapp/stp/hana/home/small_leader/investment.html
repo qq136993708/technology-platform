@@ -35,6 +35,20 @@
 .layui-row-main td:nth-child(6) .layui-table-cell {
 	color: orange;
 }
+
+.sign th .layui-table-cell {
+	height: 62px;
+	line-height: 24px;
+	padding: 10px;
+	box-sizing: border-box;
+	overflow: visible;
+	text-overflow: unset;
+	white-space: normal;
+}
+
+.sign th:nth-child(1) .layui-table-cell {
+	line-height: 46px;
+}
 </style>
 </head>
 <body>
@@ -64,7 +78,8 @@
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院月度合同签订情况
+							<span class="layui-time"></span>
+							年直属研究院月度合同签订情况
 						</div>
 						<div class="layui-row-main">
 							<div class="main-chart" id="investment_smal_chart2" style="height: 300px; width: 100%;"></div>
@@ -75,16 +90,23 @@
 
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院月度合同签订情况
+							<span class="layui-time"></span>
+							年直属研究院月度合同签订情况
 						</div>
-						<div class="layui-row-main">
+						<div class="layui-row-main sign">
 							<table id="myTable2" class="layui-table" lay-filter="myTable2">
 								<thead>
-									<th lay-data="{field:'yearMonth', width:'25%',align:'center'}">月份</th>
-									<th lay-data="{field:'zysje',     width:'25%',align:'right',style:'color: #f67d06'}">可新签预算(万元)</th>
-									<th lay-data="{field:'zsjje',     width:'25%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.zsjje) }}</div>'}">当月签订金额(万元)</th>
-									<th lay-data="{field:'hanaMoney', width:'25%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.hanaMoney) }}</div>'}">当月拨款金额(万元)</th>
-
+									<th lay-data="{field:'yearMonth', width:'15%',align:'center'}">月份</th>
+									<th lay-data="{field:'fyxXqBudget',     width:'17%',align:'right',style:'color: #f67d06'}">新签费用性<br>预算(万元)
+									</th>
+									<th lay-data="{field:'zbxBudget',     width:'17%',align:'right',style:'color: #f67d06'}">资本性<br>预算(万元)
+									</th>
+									<th lay-data="{field:'ysfyxje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.ysfyxje) }}</div>'}">费用性<br>签订金额(万元)
+									</th>
+									<th lay-data="{field:'yszbxje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.yszbxje) }}</div>'}">资本性<br>签订金额(万元)
+									</th>
+									<th lay-data="{field:'hanaMoney', width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.hanaMoney) }}</div>'}">当月<br>拨款金额(万元)
+									</th>
 								</thead>
 							</table>
 						</div>
@@ -92,11 +114,14 @@
 				</div>
 			</div>
 
+
+
 			<div class="layui-row layui-col-space15">
 				<div class="layui-col-md6">
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院合同签订情况
+							<span class="layui-time"></span>
+							年直属研究院合同签订情况
 						</div>
 
 
@@ -109,18 +134,19 @@
 
 					<div class="layui-card">
 						<div class="layui-card-header">
-							<span class="layui-time"></span>年直属研究院合同签订情况
+							<span class="layui-time"></span>
+							年直属研究院合同签订情况
 						</div>
-						<div class="layui-row-main">
+						<div class="layui-row-main sign">
 							<table id="myTable" class="layui-table" lay-filter="myTable">
 								<thead>
 									<tr>
-										<th lay-data="{field:'define2',   width:'16%',align:'center'}">研究院</th>
-										<th lay-data="{field:'zysje',     width:'16%',align:'right'}">可新签预算(万元)</th>
-										<th lay-data="{field:'zsjje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.zsjje) }}</div>'}">已签合同总金额(万元)</th>
-										<th lay-data="{field:'wqhtzje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.wqhtzje) }}</div>'}">未签合同总金额(万元)</th>
+										<th lay-data="{field:'define2',   width:'15%',align:'center'}">研究院</th>
+										<th lay-data="{field:'fyxXqBudget',     width:'17%',align:'right'}">新签费用性预算(万元)</th>
+										<th lay-data="{field:'zbxBudget',     width:'17%',align:'right'}">资本性预算(万元)</th>
+										<th lay-data="{field:'ysfyxje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.ysfyxje) }}</div>'}">新签费用性金额(万元)</th>
+										<th lay-data="{field:'yszbxje',     width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.yszbxje) }}</div>'}">新签资本性金额(万元)</th>
 										<th lay-data="{field:'hanaMoney', width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.hanaMoney) }}</div>'}">已拨款总金额(万元)</th>
-										<th lay-data="{field:'wbkzje', width:'17%',align:'right',templet:'<div>{{ layui.laytpl.zero_gang(d.wbkzje) }}</div>'}">未拨款总金额(万元)</th>
 									</tr>
 								</thead>
 							</table>
@@ -164,29 +190,15 @@
 
 				//监听行单击事件
 				table.on('row(myTable)', function(obj) {
-					console.log(obj.tr) //得到当前行元素对象
-					console.log(obj.data) //得到当前行数据
-					//obj.del(); //删除当前行
-					//obj.update(fields) //修改当前行数据
 					selectRowData = obj.data;
 					var nd = $("#nd").val();
-					//var url = encodeURIComponent("/one_level_main/count_table?define2=" + selectRowData.define2 + "&nd=&ysnd=" + nd + "&define1=费用性");
-					//window.open("/instituteIndex?url=" + url);
 
 				});
 
 				//监听行单击事件
 				table.on('row(myTable2)', function(obj) {
-					//alert(obj.data.project_property);
-					console.log(obj.tr) //得到当前行元素对象
-					console.log(obj.data) //得到当前行数据
-					//obj.del(); //删除当前行
-					//obj.update(fields) //修改当前行数据
 					selectRowData = obj.data;
-
 					var nd = $("#nd").val();
-					//var url = encodeURIComponent("/one_level_main/count_table?project_property=" + selectRowData.project_property + "&nd=&ysnd=" + nd + "&define1=费用性");
-					//window.open("/instituteIndex?url=" + url);
 				});
 				myTable();
 				myTable2();
@@ -274,9 +286,7 @@
 					url : chart1_url,
 					height : "299px",
 					where : {}
-
 				});
-
 			}
 
 			function myTable2() {
@@ -287,9 +297,7 @@
 					url : chart1_url,
 					height : "299px",
 					where : {}
-
 				});
-
 			}
 		</script>
 </body>
