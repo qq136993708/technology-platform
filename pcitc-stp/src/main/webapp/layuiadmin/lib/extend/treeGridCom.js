@@ -324,11 +324,21 @@ layui.config({
                         invalidNum++; //无效数据，或已删除的
                         return;
                     }
-                    if(item[table.config.cols.isCheckName]){
+                    /*if(item[table.config.cols.isCheckName]){
                         nums++;
                         arr.push(table.clearCacheKey(item));
+                    }*/
+                });
+                layui.each($("#"+tableId).next().find("table tbody tr"), function(i, item){
+
+                    var className=$(this).find("td").eq(0).find(".layui-form-checkbox").attr("class");
+                    //alert()
+                    if(className.indexOf("layui-form-checked")!=-1){
+                        nums++;
+                        arr.push(table.clearCacheKey(data[i]));
                     }
                 });
+
                 return {
                     data: arr //选中的数据
                     ,isAll: data.length ? (nums === (data.length - invalidNum)) : false //是否全选

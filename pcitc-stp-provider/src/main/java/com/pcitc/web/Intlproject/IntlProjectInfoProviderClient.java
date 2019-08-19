@@ -1,5 +1,9 @@
 package com.pcitc.web.Intlproject;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.CommFlowStatusEnum;
+import com.pcitc.base.common.enums.IntlExternalCheckStatusEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.service.intlproject.IntlProjectInfoService;
 
@@ -30,7 +38,28 @@ public class IntlProjectInfoProviderClient
 	@RequestMapping(value = "/stp-provider/project/info-list")
 	public Object getWorkflowPassApplyProject(@RequestBody LayuiTableParam param) throws Exception 
 	{
-		return intlProjectInfoService.selectProjectInfoByPage(param);
+		LayuiTableData data = intlProjectInfoService.selectProjectInfoByPage(param);
+		List<Map<String,Object>> datas = new ArrayList<Map<String,Object>>();
+		for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) 
+		{
+			Map<String,Object> map = MyBeanUtils.transBean2Map(iter.next());
+			String flowCurrentStatusDesc =CommFlowStatusEnum.STATUS_NO_START.getDesc();
+			String externalCheckDesc = IntlExternalCheckStatusEnum.STATUS_STARTING.getDesc();
+			CommFlowStatusEnum status  =CommFlowStatusEnum.getStatusByCode((Integer)map.get("flowCurrentStatus"));
+			IntlExternalCheckStatusEnum checkStatus = IntlExternalCheckStatusEnum.getStatusByCode((Integer)map.get("externalCheck"));
+			if(status != null) 
+			{
+				flowCurrentStatusDesc = status.getDesc();
+			}
+			if(checkStatus != null) {
+				externalCheckDesc = checkStatus.getDesc();
+			}
+			map.put("externalCheckDesc", externalCheckDesc);
+			map.put("flowCurrentStatusDesc", flowCurrentStatusDesc);
+			datas.add(map);
+		}
+		data.setData(datas);
+		return data;
 	}
 	
 	@ApiOperation(value="检索立项项目列表",notes="检索全部立项项目数据，返回数据列表。")

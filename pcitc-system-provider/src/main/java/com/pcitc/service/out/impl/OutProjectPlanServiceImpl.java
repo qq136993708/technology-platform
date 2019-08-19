@@ -94,7 +94,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				if (StrUtil.isNotBlank(opp.getJf())) {
 					newOPI.setJf(opp.getJf());
 				}
-				
+
 				if (StrUtil.isNotBlank(opp.getHth())) {
 					newOPI.setHth(opp.getHth());
 				}
@@ -233,6 +233,15 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		// 数据控制, 专业处、专业
 		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
 		return outProjectPlanMapper.getPlanCompleteRateByOldNew(map);
+	}
+
+	/**
+	 * 按照专业处分组，来统计各个专业处计划签订合同数量，实际签订合同数量
+	 */
+	public List getPlanCountForZYC(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+		return outProjectPlanMapper.getPlanCountForZYC(map);
 	}
 
 	/**
@@ -703,6 +712,15 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	}
 
 	/**
+	 * 领导首页-预算投入 资本性预算分组,资本性不按照专业处权限控制
+	 */
+	public List getOutTemMoneyTotalInfoWithCondition(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+		return outProjectPlanMapper.getOutTemMoneyTotalInfoWithCondition(map);
+	}
+
+	/**
 	 * 领导首页-获取专项、机动的预算费用，专项和机动特殊，不按照专业处进行权限控制
 	 */
 	public List getOutTemMoneyDecomposeInfo(HashMap<String, String> map) {
@@ -726,6 +744,11 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			for (int i = 0; i < distList.size(); i++) {
 				HashMap<String, String> zycbmMap = new HashMap<String, String>();
 				zycbmMap.put("zycbm", distList.get(i));
+				// 综合计划处特殊，和大领导查询数据权限一致
+				if (distList.get(i) != null && distList.get(i).contains("30130054")) {
+					hashmap.put("leaderFlag", "2");
+					break;
+				}
 				if (zylbbmPara != null && !StringUtils.isBlank(zylbbmPara + "") && zylbbmPara.toString().contains(distList.get(i))) {
 					Set<String> zylbbmSet = new HashSet<>(Arrays.asList(zylbbmPara.toString().split(",")));
 					String zylbbm = "";

@@ -36,6 +36,11 @@ public interface OutProjectPlanService {
 	public List getPlanCompleteRateByOldNew(HashMap<String, String> map);
 	
 	/**
+     * 按照专业处分组，来统计各个专业处计划签订合同数量，实际签订合同数量
+     */
+	public List getPlanCountForZYC(HashMap<String, String> map);
+	
+	/**
      * 直属研究院二级页面（领导），总的签订率
      */
 	public List getPlanTotalCompleteRate(HashMap<String, String> map);
@@ -79,6 +84,11 @@ public interface OutProjectPlanService {
      * 领导首页-预算投入 资本性预算分组,资本性不按照专业处权限控制
      */
 	public List getOutTemMoneyTotalInfo(HashMap<String, String> map);
+	
+	/**
+     * 领导首页-预算投入 资本性预算分组,资本性不按照专业处权限控制
+     */
+	public List getOutTemMoneyTotalInfoWithCondition(HashMap<String, String> map);
 	
 	/**
      * 领导首页-获取专项、机动的预算费用，专项和机动特殊，不按照专业处进行权限控制

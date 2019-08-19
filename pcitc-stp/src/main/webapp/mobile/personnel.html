@@ -17,8 +17,8 @@
         <h4>科技人才</h4>
     </div>
     <div class="search">
-        <input type="text" value="请输入姓名 单位或专业领域" />
-        <img src="/mobile/images/icon-search.png" alt="">
+        <input type="text" name="key" id="key" value="" placeholder="请输入姓名 单位或专业领域" />
+        <img src="/mobile/images/icon-search.png" alt="" onclick="search()">
     </div>
 </header>
 <main class="main contract personnel">
@@ -89,8 +89,9 @@
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/mobile/js/mobile.js"></script>
 <script>
-    var layer;
+    var layer,page1,page2;
     (function(doc, win) {
         var docEl = doc.documentElement,
             resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
@@ -123,6 +124,15 @@
     
     
     
+    
+    
+    function search()
+    {
+    	 var key=$("#key").val();
+    	 
+    	 
+    }
+    
     //院士
     function queryTabel(url,id,type)
     {
@@ -149,21 +159,22 @@
    					 var expertProfessionalFieldName= data[i].expertProfessionalFieldName;
    					 var userDesc= data[i].userDesc;
    					 userDesc =getClear(userDesc);
-   					 
+   					 var className='';
    					 if(sex=='ROOT_UNIVERSAL_XB_N')
    					 {
    						sex='男';
    					 }else
 					 {
 						sex='女';
+                         className="lady"
 				     }
    					 
-   					 var temp="<div class='item' onclick=\"view('"+dataId+"')\" >"+
+   					 var temp="<div class='item "+className+"' onclick=\"view('"+dataId+"')\" >"+
 			                        "<div class='item-img'>"+
-			                            "<img dataType='headImg' id='"+dataId+"'  height='110'>"+
+			                            "<img dataType='headImg' id='"+dataId+"'  >"+
 			                        "</div>"+
 			                        "<div class='item-cont'>"+
-			                            "<p><span>"+expertName+"</span><span>"+sex+"</span><span>（"+expertProfessionalFieldName+"）</span></p>"+
+			                            "<p><span>"+expertName+"</span><span>（"+expertProfessionalFieldName+"）</span></p>"+
 			                            "<p><span>简介</span><span>"+userDesc+"</span></p>"+
 			                        "</div>"+
 			                    "</div>"
@@ -188,13 +199,13 @@
     	var v_date = (new Date()).getTime();
     	$.ajax({
     		type : type,
-    		url : url+"?v_date="+v_date,
+    		url : url+"&v_date="+v_date,
     		timeout : 9000,
     		dataType:'json', 
     		cache : false,
     		success : function(data, status) 
     		{
-    			//console.log(data);
+                page1=Math.ceil(data.count/15);
     			var count="";
     			$("#other_count").html("("+data.count+")"); 	
     			if(parseInt(data.data.length)>0)
@@ -231,10 +242,10 @@
    					// {
    						      temp="<div class='item' onclick=\"view('"+dataId+"')\" >"+
 			                        "<div class='item-img'>"+
-			                            "<img dataType='headImg' id='"+dataId+"'  height='110'>"+
+			                            "<img dataType='headImg' id='"+dataId+"'  >"+
 			                        "</div>"+
 			                        "<div class='item-cont'>"+
-			                            "<p><span>"+expert_name+"</span><span>"+sex+"</span>"+expertProfessionalFieldNameStr+
+			                            "<p><span>"+expert_name+"</span>"+expertProfessionalFieldNameStr+
 			                            "</p>"+
 			                            "<p><span>简介</span><span>"+userDesc+"</span></p>"+
 			                        "</div>"+
@@ -242,8 +253,9 @@
    					// }
 					 count=count+temp;
        			  }
+                    $("#"+id).html(count);
+
    			   }
-    		   $("#"+id).html(count); 	
     		   //获取图片
                getFileResultImg();
     		},
@@ -257,13 +269,14 @@
     
     
     queryTabel("/mobile/zjk-ys-list","ys_list_id","POST");
-    queryAllExpert("/mobile/getAllExpertTableData","all_list_id","POST");
+    queryAllExpert("/mobile/getAllExpertTableData?page=1","all_list_id","POST");
+    page("ys_list_id","/mobile/zjk-ys-list?page=1","POST");
+    page("all_list_id","/mobile/getAllExpertTableData","POST");
+    
+
     
     
-    
-    
-    
-    
+
     
     function getFileResultImg() 
     {
@@ -298,7 +311,7 @@
             type: 'get',
             dataType: 'text',
             async: false,
-            url: '/sysfile/viewPic/' + picId,
+            url: '/mobile/sysfile/viewPic/' + picId,
             success: function (data) {
                 base64 = data;
             },
@@ -314,7 +327,7 @@
     function getFileResult(fileIds) 
     {
         var ret = null;
-        ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+        ajaxFile("/mobile/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
             ret = result;
         });
         //console.log("加载图片 \n"+JSON.stringify(ret));

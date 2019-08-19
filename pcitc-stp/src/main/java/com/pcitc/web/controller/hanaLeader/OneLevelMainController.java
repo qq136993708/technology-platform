@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -50,6 +52,7 @@ import com.pcitc.base.hana.report.ProjectForMysql;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysNewsVo;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.ireport.SysUserInfo;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
@@ -1885,45 +1888,13 @@ public class OneLevelMainController extends BaseController {
 	@OperationFilter(dataFlag = "true")
 	public String common_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		String result = this.setCommonTable(param, request, response);
+		String result = this.setCommonTable(restTemplate, httpHeaders, sysUserInfo, param, request, response);
 		return result;
 	}
 
-	// 三级表格
-	@RequestMapping(method = RequestMethod.POST, value = "/mobile/common_table_data_mobile")
-	@ResponseBody
-	@OperationFilter(dataFlag = "true")
-	public String common_table_data_mobile( HttpServletRequest request, HttpServletResponse response) {
+	
 
-		LayuiTableParam param = new LayuiTableParam();
-		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		String limit = CommonUtil.getParameter(request, "limit", "15");
-		String page = CommonUtil.getParameter(request, "page", "1");
-		String qdbz = CommonUtil.getParameter(request, "qdbz", "");
-		String xmmc = CommonUtil.getParameter(request, "xmmc", "");
-		String hth = CommonUtil.getParameter(request, "hth", "");
-
-		// 数据控制属性
-		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
-		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
-		param.getParam().put("zycbm", zycbm);
-		param.getParam().put("zylbbm", zylbbm);
-		// 领导标识
-		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
-
-		param.setLimit(Integer.valueOf(limit));
-		param.setPage(Integer.valueOf(page));
-		param.getParam().put("nd", nd);
-		param.getParam().put("qdbz", qdbz);
-		param.getParam().put("hth", hth);
-		param.getParam().put("xmmc", xmmc);
-		System.out.println(">>>>>>>>>>>>nd:" + nd + "page=" + page);
-
-		String result = this.setCommonTable(param, request, response);
-		return result;
-	}
-
-	private String setCommonTable(LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+	public static String setCommonTable(RestTemplate restTemplate,HttpHeaders httpHeaders,SysUser sysUserInfo,LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>>common_table_data>param:" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
@@ -2370,6 +2341,12 @@ public class OneLevelMainController extends BaseController {
 		response.setHeader("Cache-Control", "no-cache");
 		return resault;
 	}
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * 全口径新开课题合同（任务书）签订率--费用性、资本性
@@ -2622,6 +2599,12 @@ public class OneLevelMainController extends BaseController {
 		}
 		return resault;
 	}
+	
+	
+	
+	
+	
+
 
 	@RequestMapping(method = RequestMethod.GET, value = "/one_level_main/contract_04")
 	@ResponseBody
@@ -3721,12 +3704,12 @@ public class OneLevelMainController extends BaseController {
 				zbxsjje = zbxsjje + Double.valueOf(budgetMysql.getZbxsjje().toString());
 			}
 			BudgetMysql totalBM = new BudgetMysql();
-			totalBM.setZysje(zysje);
-			totalBM.setZsjje(zsjje);
-			totalBM.setFyxysje(fyxysje);
-			totalBM.setFyxsjje(fyxsjje);
-			totalBM.setZbxysje(zbxysje);
-			totalBM.setZbxsjje(zbxsjje);
+			totalBM.setZysje(String.format("%.2f", zysje));
+			totalBM.setZsjje(String.format("%.2f", zsjje));
+			totalBM.setFyxysje(String.format("%.2f", fyxysje));
+			totalBM.setFyxsjje(String.format("%.2f", fyxsjje));
+			totalBM.setZbxysje(String.format("%.2f", zbxysje));
+			totalBM.setZbxsjje(String.format("%.2f", zbxsjje));
 
 			if (fyxysje == 0d || fyxsjje == 0d) {
 				totalBM.setFyxRate("0");
@@ -3874,6 +3857,10 @@ public class OneLevelMainController extends BaseController {
 		System.out.println(">>>>>>>>>type=" + type + ">>>>>investment_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
+	
+	
+
+	
 
 	/**
 	 * 新开课题科研预算统计

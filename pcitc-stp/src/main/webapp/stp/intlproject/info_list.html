@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 	<script type="text/javascript">
 		var param;
-		layui.use(['jquery','form','laydate','table', 'layer', 'element','publicMethods'], function(){
+		layui.use(['jquery','form','laydate','table', 'layer','laytpl', 'element','publicMethods'], function(){
 	    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
 	            form = layui.form,publicMethods=layui.publicMethods,table = layui.table,selectRowData;
 	    		
@@ -26,6 +26,29 @@
 						});
 					});
 			   	});
+		    	window.flowStatus=function(d)
+		    	{
+    		        var stateData;
+    		        if(d==0){
+    		        	stateData="<button style='background-color: #5FB878' class='layui-btn  layui-btn-xs'>未提交</button>";
+    		            //<span class='fontStateColor btnYellow'></span>"
+    		        }else if(d==1){
+    		        	stateData="<button style='background-color: #FFB800' class='layui-btn layui-btn-xs'>审核中</button>";
+    		            //stateData="<span class='fontStateColor btn-green'></span>"
+    		        }else if(d==2){
+    		        	stateData="<button  style='background-color: #1E9FFF' class='layui-btn layui-btn-xs'>已通过</button>";
+    		            //stateData="<span class='fontStateColor btn-blue'></span>"
+    		        }else if(d==-1){
+    		        	stateData="<button style='background-color: #1E9FFF' class='layui-btn  layui-btn-xs'>已驳回</button>";
+    		           // stateData="<span class='fontStateColor btn-yellow'></span>"
+    		        }else if(d==null){
+    		        	stateData="<span>---</span>";
+    		        }else
+    		    	{
+    		        	stateData="<span>-</span>";
+    		    	}
+    		        return stateData;
+		    	}
 	    		function renderTable(where){
 	    			var lodingMsg = layer.msg('数据加载中....');
 	    			param = JSON.parse(window.localStorage.getItem("param"));
@@ -48,17 +71,24 @@
 			            cols: [[
 			            	 {type:'checkbox'}
 			            	,{title:'序号', type:'numbers' ,width : 55}
-			            	,{field:'flowCurrentStatus',  title:'审批状态',width : 80,style:'cursor: pointer;',align:"left"}
+			            	,{field:'flowCurrentStatusDesc',  title:'审查状态',width : '8%',style:'cursor: pointer;',align:"center"
+			            		,templet : '<div>{{ flowStatus(d.flowCurrentStatus) }}</div>'
+			            		/* templet:function(d){
+			                		return '<button class="layui-btn layui-btn-xs" target="_top">'+d.flowCurrentStatusDesc+'</button>'
+			                	} */
+			            	}
+			            	,{field:'externalCheckDesc',  title:'外部协议状况',width : '8%',style:'cursor: pointer;',align:"center"
+			            		,templet : '<div>{{ flowStatus(d.externalCheck) }}</div>'
+			            	}
 			                ,{field:'projectName',   title:'立项名称', style:'cursor: pointer;'}
-			                /* ,{field:'projectCode',title:'立项编码',	width: '14%',   style:'cursor: pointer;'} */
 			                ,{field:'applyId',title:'申报项目名称',   style:'cursor: pointer;'}
-			                ,{field:'reportYear',   title:'申报年度', width: '5%',  style:'cursor: pointer;',align:"center"}
-			            	,{field:'unitId',   title:'所属研究院', width: '8%',  style:'cursor: pointer;',align:"center"}
+			                ,{field:'reportYear',   title:'申报年度', width: '8%',  style:'cursor: pointer;',align:"center"}
+			            	,{field:'unitId',   title:'所属研究院', width: '10%',  style:'cursor: pointer;',align:"center"}
 			                ,{field:'moneyRmb',title:'总投资(万元)',	width: '8%',   style:'cursor: pointer;',align:"right"}
-			                ,{field:'flowAgreementReview',title:'协议审查',width : '8%',style:'cursor: pointer;',align:"left"}
-			                ,{field:'flowTechnologyReview',title:'专业技术审查',width : '8%',style:'cursor: pointer;',align:"left"}
-			                ,{field:'flowKnowledgeReview',title:'知识产权审查',width : '8%',style:'cursor: pointer;',align:"left"}
-			                ,{field:'flowComprehensiveReview',title:'综合审查',width : '8%',style:'cursor: pointer;',align:"left"}
+			                //,{field:'flowAgreementReview',title:'协议审查',style:'cursor: pointer;',align:"left"}
+			                //,{field:'flowTechnologyReview',title:'专业技术审查',style:'cursor: pointer;',align:"left"}
+			                //,{field:'flowKnowledgeReview',title:'知识产权审查',style:'cursor: pointer;',align:"left"}
+			                //,{field:'flowComprehensiveReview',title:'综合审查',style:'cursor: pointer;',align:"left"}
 			            ]],
 			            done: function (res, curr, count) {
 			            	layer.close(lodingMsg);
@@ -72,19 +102,7 @@
 			                    selectRowData=res.data[index-1];
 			                }); 
 			                $.each(res.data,function(i,dt){
-			                	var flow_status = "未提交";
-		                		if(res.data[i].flowCurrentStatus == 0 ){
-		                			flow_status = "未提交";
-								}else if(res.data[i].flowCurrentStatus == -1){
-									flow_status = "审批驳回";
-						   		}else if(res.data[i].flowCurrentStatus == 1){
-						   			flow_status = "审批中";
-						   		}else if(res.data[i].flowCurrentStatus == 2){
-						   			flow_status = "审批通过";
-						   		}else{
-						   			flow_status = "未提交";
-						   		}
-		                		$("tr[data-index='"+i+"'] td[data-field='flowCurrentStatus'] div").html(flow_status);
+		                		//$("tr[data-index='"+i+"'] td[data-field='flowCurrentStatus'] div").html(flow_status);
 				            	//显示字典数据
 				            	$("tr[data-index='"+i+"'] td[data-field='flowAgreementReview'] div").html(res.data[i].flowAgreementReviewStatus==0?"待审查":"已通过&nbsp;&nbsp;"+(res.data[i].flowAgreementReview==null?"":res.data[i].flowAgreementReview));
 				            	$("tr[data-index='"+i+"'] td[data-field='flowTechnologyReview'] div").html(res.data[i].flowTechnologyReviewStatus==0?"待审查":"已通过&nbsp;&nbsp;"+(res.data[i].flowTechnologyReview==null?"":res.data[i].flowTechnologyReview));

@@ -8,47 +8,72 @@
     <link rel="stylesheet" href="/mobile/css/mobileNew.css">
     <style>
         .tab-top{    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
+        .layui-badge-rim, .layui-colla-content, .layui-colla-item, .layui-collapse, .layui-elem-field, .layui-form-pane .layui-form-item[pane], .layui-form-pane .layui-form-label, .layui-input, .layui-layedit, .layui-layedit-tool, .layui-quote-nm,
+        .layui-select, .layui-tab-bar, .layui-tab-card, .layui-tab-title, .layui-tab-title .layui-this:after, .layui-textarea{border: none}
     </style>
 </head>
 <body>
 <header>
     <div class="m_return child">
-        <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
+        <a data-rel="back"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>我发起的（详情）</h4>
     </div>
 </header>
 <main class="main work">
     <div class="work-top">
-        <p class="title"><span></span>催化剂研究科研任务</p>
+        <p class="title"><span></span>${planBase.workOrderName}</p>
         <div class="work-cont">
             <div class="list">
                 <div class="list-img">
                     <img src="/mobile/images/icon-by.png" alt="">
-                    <img src="/mobile/images/icon-by.png" alt="">
-                    <img src="/mobile/images/icon-by.png" alt="">
                 </div>
                 <div class="list-cont">
                     <div class="layui-progress">
-                        <div class="layui-progress-bar" lay-percent="80%" style="width: 80%;"></div>
+                        <div class="layui-progress-bar" lay-percent="${planBase.bl}%" style="width: ${planBase.bl}%;"></div>
                     </div>
-                    <span class="number-b">80%</span>
+                    <span class="number-b">
+                    <#if planBase.bl ==null>0</#if> 
+                    <#if planBase.bl !=null>${planBase.bl}</#if>
+                    %</span>
                     <p>
-                        <span class="star">2019.07.29</span>至<span class="end">2019.07.29</span>
+                        <span class="star">${planBase.createDate}</span>
                     </p>
                 </div>
             </div>
-            <p>任务执行人:<span>洪敏下，李永建，曾轶可，徐佑铭，李永建，曾轶可</span></p>
+            <p>任务执行人:<span>${planBase.workOrderAllotUserName}</span></p>
         </div>
     </div>
     <div class="work-main">
         <div class="layui-collapse work-m" lay-filter="component-panel">
-            <div class="layui-colla-item">
-                <h2 class="layui-colla-title">为什么JS社区大量采用未发布或者未广泛支持的语言特性？<i class="layui-icon layui-colla-icon"></i></h2>
-                <div class="layui-colla-content">
-                    <p>有不少其他答案说是因为JS太差。我下面的答案已经说了，这不是根本性的原因。但除此之外，我还要纠正一些对JS具体问题的误解。JS当初是被作为脚本语言设计的，所以某些问题并不是JS设计得差或者是JS设计者的失误。比如var的作用域问题，并不是“错误”，而是当时绝大部分脚本语言都是这样的，如perl/php/sh等。模块的问题也是，脚本语言几乎都没有模块/命名空间功能。弱类型、for-in之类的问题也是，只不过现在用那些老的脚本语言的人比较少，所以很多人都误以为是JS才有的坑。另外有人说JS是半残语言，满足不了开发需求，1999年就该死。半残这个嘛，就夸张了。JS虽然有很多问题，但是设计总体还是优秀的。——来自知乎@贺师俊</p>
+            <div class="layui-colla-item layui-this">
+                <h2 class="layui-colla-title"><span></span>我</h2>
+                <div class="layui-colla-content layui-show">
+                    <h4>任务描述:</h4>
+                    <p>${planBase.remarks}</p>
                 </div>
             </div>
         </div>
+        
+        <#list list as vo>
+        <div class="layui-collapse <#if vo.bl != 100> work-c </#if> <#if vo.bl == 100> work-w </#if>" lay-filter="component-panel">
+            <div class="layui-colla-item layui-this">
+                <h2 class="layui-colla-title"><span></span>${vo.workOrderAllotUserName}（<#if vo.bl != 100> 处理中… </#if> <#if vo.bl == 100>已完成</#if>）</h2>
+                <div class="layui-colla-content">
+                    <h4>任务回复:</h4>
+                    <p>${vo.workOrderName}</p>
+                </div>
+            </div>
+        </div>
+       </#list>
+       <!--  <div class="layui-collapse work-w" lay-filter="component-panel">
+            <div class="layui-colla-item layui-this">
+                <h2 class="layui-colla-title"><span></span>徐佑铭（已完成）</h2>
+                <div class="layui-colla-content">
+                    <h4>任务回复:</h4>
+                    <p>参考一篮子货币进行调节、有管理的浮动汇率制度在机制上人民币汇率 就是由市场供求决定的不在“汇率操纵”的问题！</p>
+                </div>
+            </div>
+        </div> -->
     </div>
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
@@ -75,26 +100,21 @@
             ,type: 'year'
             ,value:"2019"
         });
-        $(".one li").on("swipeleft",function(){
-            $(this).removeClass('left');
-            $(this).addClass('right');
-            $(this).find(".dele").show()
+        $(".layui-collapse .layui-colla-content").each(function () {
+            if($(this).attr("class").indexOf("layui-show")!=-1){
+                $(this).prev().find("i").html("<img class='dw' src='/mobile/images/icon-up.png' />")
+            }else {
+                $(this).prev().find("i").html("<img class='dw' src='/mobile/images/icon-dw.png' />")
+            }
         });
-        $(".one li").on("swiperight",function(){
-            $(this).removeClass('right');
-            $(this).addClass('left');
-        });
-        $("#add").click(function () {
-            layer.open({
-                title : '详情',
-                skin : 'layui-layer-mobile',
-                shadeClose : false,
-                type : 2,
-                fixed : false,
-                maxmin : true,
-                area : [ '95%', '72.5%' ],
-                content : '/mobile/work_add.html'
-            });
+        element.on('collapse(component-panel)', function(data){
+            console.log()
+            if(data.show==false){
+                $(data.content.context).find("i").html("<img class='dw' src='/mobile/images/icon-dw.png' />")
+            }else {
+
+                $(data.content.context).find("i").html("<img class='dw' src='/mobile/images/icon-up.png' />")
+            }
         });
     });
 </script>

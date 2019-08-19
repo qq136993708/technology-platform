@@ -97,9 +97,8 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "fndktjfjh");
+			paramMap.put("sqlName", "GetPendingTasks_ContractsManageN");
 			JsonObject jo = new JsonObject();
-			jo.addProperty("ND", "2020");
 			System.out.println(jo.toString());
 			paramMap.put("conditions", jo.toString());
 			// 添加多个参数

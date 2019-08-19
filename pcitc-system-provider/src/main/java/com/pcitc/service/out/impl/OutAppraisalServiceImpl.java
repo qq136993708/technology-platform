@@ -7,11 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.expert.ZjkChoice;
-import com.pcitc.base.expert.ZjkChoiceExample;
-import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +14,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.expert.ZjkChoice;
+import com.pcitc.base.expert.ZjkChoiceExample;
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutAppraisalExample;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.service.out.OutAppraisalService;
 import com.pcitc.utils.StringUtils;
+import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
 
 @Service("outAppraisalService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -58,6 +58,9 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 		}
 		if(param.getParam().get("xmmc") !=null && !StringUtils.isBlank(param.getParam().get("xmmc")+"")){
 			hashmap.put("xmmc", param.getParam().get("xmmc"));
+		}
+		if(param.getParam().get("key") !=null && !StringUtils.isBlank(param.getParam().get("key")+"")){
+			hashmap.put("key", param.getParam().get("key"));
 		}
 		
 		if(param.getParam().get("hth") !=null && !StringUtils.isBlank(param.getParam().get("hth")+"")){
@@ -158,7 +161,7 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 		outAppraisalMapper.insertOutAppraisalBatch(list);
 		
 		// 更新define1、define3统计属性
-		
+		outAppraisalMapper.updateOutAppraisal();
 		return 1;
 	}
 

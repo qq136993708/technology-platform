@@ -90,6 +90,16 @@ public class OutProjectPlanClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "按照专业处分组，来统计各个专业处计划签订合同数量，实际签订合同数量", notes = "参数年度")
+	@RequestMapping(value = "/out-project-plan-provider/zyc/plan/count")
+	public JSONArray getPlanCountForZYC(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPlanCountForZYC===========================" + map);
+		List temList = outProjectPlanService.getPlanCountForZYC(map);
+
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
 
 	@ApiOperation(value = "直属研究院二级页面（领导），总的签订率 ", notes = "参数年度")
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/total")
@@ -117,111 +127,6 @@ public class OutProjectPlanClient {
 		logger.info("==================page getPlanCompleteRateByInstitute===========================" + map);
 		List temList = outProjectPlanService.getPlanCompleteRateByInstitute(map);
 
-		if (!JSON.toJSONString(temList).contains("勘探院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "勘探院");
-			temList.add(0, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("物探院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "物探院");
-			temList.add(1, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("工程院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "工程院");
-			temList.add(2, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("石科院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "石科院");
-			temList.add(3, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("大连院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "大连院");
-			temList.add(4, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("北化院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "北化院");
-			temList.add(5, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("上海院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "上海院");
-			temList.add(6, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("安工院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("zsl", 0);
-			temMap.put("yqhtzj", 0);
-			temMap.put("wqhtzj", 0);
-			temMap.put("qdlzj", 0);
-			temMap.put("zbxRate", 0);
-			temMap.put("fyxRate", 0);
-			temMap.put("fyxsjsl", 0);
-			temMap.put("zbxsjsl", 0);
-			temMap.put("define2", "安工院");
-			temList.add(7, temMap);
-		}
-
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
@@ -230,15 +135,20 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/money/complete-rate/institute")
 	public JSONArray getPlanMoneyCompleteRateByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyCompleteRateByInstitute===========================" + map);
+		String zycbm = map.get("zycbm");
+		if (zycbm != null && zycbm.contains("30130054")) {
+			map.put("leaderFlag", "2");
+		}
+		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
+			// 大领导特殊，能看所有的费用性预算
+			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
+		}
+		
 		List temList = outProjectPlanService.getPlanMoneyCompleteRateByInstitute(map);
 
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
 		vo.setNd(map.get("nd"));
-		String zycbm = map.get("zycbm");
-		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
-			// 大领导特殊，能看所有的费用性预算
-			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
-		}
+		
 		// 预算中，科技部外的部门特殊处理
 		if (zycbm.contains("30130011")) {
 			zycbm = zycbm + ",30130011";
@@ -299,19 +209,24 @@ public class OutProjectPlanClient {
 		String nd = map.get("nd");
 		map.put("startMonth", nd + "01");
 		map.put("endMonth", nd + "12");
-		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHana(map);
-
-		// 获取研究院预算，根据其管理的专业处不同有所不同
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd(map.get("nd"));
 		String zycbm = map.get("zycbm");
 		boolean zbxFlag = false;
-		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
+		if (zycbm != null && zycbm.contains("30130054")) {
+			map.put("leaderFlag", "2");
+		}
+		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
 			// 大领导、计划处特殊，能看所有的费用性预算
 			System.out.println("1大领导、计划处特殊，能看所有的费用性预算、专项机动");
 			zbxFlag = true;
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
+		// 实际资本性金额、实际费用性金额、hanaMoney拨款金额
+		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHana(map);
+
+		// 获取研究院预算，根据其管理的专业处不同有所不同
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd(map.get("nd"));
+		
 		if (zycbm == null) {
 			zycbm = "xxxxxxxx";
 		}
@@ -340,34 +255,33 @@ public class OutProjectPlanClient {
 		vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY_AGY");
 		vo = budgetClient.selectBudgetInfoList(vo);
 		// 费用性预算金额
-		List<Map<String, Object>> budMoneyList = vo.getBudgetByAllUnit();
+		List<Map<String, Object>> fyxBudgetList = vo.getBudgetByAllUnit();
 
 		// 资本性预算金额
-		List<Map<String, Object>> zbxMoneyList = null;
+		List<Map<String, Object>> zbxMoneyList = new ArrayList<Map<String, Object>>();
 		if (zbxFlag) {
-			zbxMoneyList = outProjectPlanService.getOutTemMoneyTotalInfo(map);
+			map.put("moneyLevel", "3");
+			map.put("unitCode", "ROOT_ZGSHJT_GFGS_ZSYJY");
+			zbxMoneyList = outProjectPlanService.getOutTemMoneyTotalInfoWithCondition(map);
 		}
 
 		for (int i = 0; i < temList.size(); i++) {
 			Map<String, Object> temMap = (Map<String, Object>) temList.get(i);
-			for (int j = 0; j < budMoneyList.size(); j++) {
-				Map<String, Object> bm = budMoneyList.get(j);
+			for (int j = 0; j < fyxBudgetList.size(); j++) {
+				Map<String, Object> bm = fyxBudgetList.get(j);
 				if (temMap.get("define2").toString().equals(bm.get("budgetItemName").toString())) {
-					temMap.put("zysje", bm.get("total") == null ? "0" : bm.get("total"));
-					System.out.println("预算各研究院金额-----" + bm.get("budgetItemName") + "========" + bm.get("total"));
+					temMap.put("fyxXqBudget", bm.get("xq") == null ? "0" : bm.get("xq"));
+					System.out.println("预算各研究院金额fyxXqBudget-----" + bm.get("budgetItemName") + "========" + bm.get("xq"));
 					break;
 				}
 			}
-			// 领导及专业处，总预算计算资本性金额
-			if (zbxMoneyList != null) {
-				for (int j = 0; j < zbxMoneyList.size(); j++) {
-					Map<String, Object> zbxMap = zbxMoneyList.get(j);
-					if (temMap.get("define2").toString().equals(zbxMap.get("show_ali").toString())) {
-						Double zysje = Double.parseDouble(temMap.get("zysje").toString());
-						temMap.put("zysje", zysje + Double.parseDouble(zbxMap.get("zbx_money").toString()));
-						System.out.println("预算各研究院资本性金额-----" + zbxMap.get("show_ali") + "========" + zbxMap.get("zbx_money"));
-						break;
-					}
+			// 领导及专业处，计算资本性预算金额
+			for (int j = 0; j < zbxMoneyList.size(); j++) {
+				Map<String, Object> zbxMap = zbxMoneyList.get(j);
+				if (temMap.get("define2").toString().equals(zbxMap.get("show_ali").toString())) {
+					temMap.put("zbxBudget", Double.parseDouble(zbxMap.get("zbx_money").toString()));
+					System.out.println("预算各研究院资本性金额-----" + zbxMap.get("show_ali") + "========" + zbxMap.get("zbx_money"));
+					break;
 				}
 			}
 		}
@@ -375,13 +289,32 @@ public class OutProjectPlanClient {
 		// 未下单金额（总预算-总实际）、je比率
 		for (int i = 0; i < temList.size(); i++) {
 			Map<String, Object> temMap = (Map<String, Object>) temList.get(i);
-			Double zysje = temMap.get("zysje") == null ? 0d : Double.parseDouble(temMap.get("zysje").toString());
-			Double zsjje = temMap.get("zsjje") == null ? 0d : Double.parseDouble(temMap.get("zsjje").toString());
-			temMap.put("wqhtzje", String.valueOf(zysje - zsjje));
-			temMap.put("jeRate", String.valueOf(zsjje * 100 / zysje));
+			
+			if (temMap.get("ysfyxje") == null) temMap.put("ysfyxje", 0d);
+			if (temMap.get("yszbxje") == null) temMap.put("yszbxje", 0d);
+			if (temMap.get("fyxXqBudget") == null) temMap.put("fyxXqBudget", 0d);
+			if (temMap.get("zbxBudget") == null) temMap.put("zbxBudget", 0d);
+			
+			
+			Double ysfyxje = Double.parseDouble(temMap.get("ysfyxje").toString());
+			Double yszbxje = Double.parseDouble(temMap.get("yszbxje").toString());
+			Double fyxXqBudget = Double.parseDouble(temMap.get("fyxXqBudget").toString());
+			Double zbxBudget = Double.parseDouble(temMap.get("zbxBudget").toString());
+			if (ysfyxje != 0 && fyxXqBudget != 0) {
+				temMap.put("fyxXqRate", String.format("%.2f", ysfyxje * 100 / fyxXqBudget));
+			} else {
+				temMap.put("fyxXqRate", 0);
+			}
+			if (yszbxje != 0 && zbxBudget != 0) {
+				temMap.put("zbxRate", String.format("%.2f", yszbxje * 100 / zbxBudget));
+			} else {
+				temMap.put("zbxRate", 0);
+			}
 			if (!zbxFlag) {
 				temMap.put("hanaMoney", "0");
-				temMap.put("wbkzje", "0");
+				temMap.put("yszbxje", "0");
+				temMap.put("zbxBudget", "0");
+				temMap.put("zbxRate", "0");
 			}
 		}
 
@@ -396,19 +329,24 @@ public class OutProjectPlanClient {
 		String nd = map.get("nd");
 		map.put("startMonth", nd + "01");
 		map.put("endMonth", nd + "12");
-		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHanaMonth(map);
-
-		// 获取研究院预算，根据其管理的专业处不同有所不同
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd(map.get("nd"));
-		String zycbm = map.get("zycbm");
 		boolean zbxFlag = false;
-		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
+		String zycbm = map.get("zycbm");
+		if (zycbm != null && zycbm.contains("30130054")) {
+			map.put("leaderFlag", "2");
+		}
+		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
 			// 大领导、计划处特殊，能看所有的费用性预算
 			zbxFlag = true;
 			System.out.println("1大领导、计划处特殊，能看所有的费用性预算、专项机动");
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
+		
+		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHanaMonth(map);
+
+		// 获取研究院预算，根据其管理的专业处不同有所不同
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd(map.get("nd"));
+		
 		if (zycbm == null) {
 			zycbm = "xxxxxxxx";
 		}
@@ -431,34 +369,36 @@ public class OutProjectPlanClient {
 		// 费用性预算金额
 		List<Map<String, Object>> budMoneyList = vo.getBudgetByAllUnit();
 
-		String budMoney = "0";
+		String fyxXqBudget = "0";
+		String zbxBudget = "0";
 		for (int i = 0; i < budMoneyList.size(); i++) {
 			Map temMap = (HashMap) budMoneyList.get(i);
 			if (temMap.get("budgetItemName") != null && temMap.get("budgetItemName").toString().contains("研究院")) {
-				// 费用性预算
-				budMoney = temMap.get("total") == null ? "0" : temMap.get("total").toString();
-				System.out.println("预算研究院金额-----" + temMap.get("budgetItemName") + "========" + budMoney);
+				// 费用性预算（新签，不含结转）
+				fyxXqBudget = temMap.get("xq") == null ? "0" : temMap.get("xq").toString();
+				System.out.println("新签预算研究院-----" + temMap.get("budgetItemName") + "========" + fyxXqBudget);
 				break;
 			}
 		}
 		// 资本性预算金额(只有领导和计划处计算）、专项机动金额
-		List<Map<String, Object>> zbxMoneyList = null;
+		List<Map<String, Object>> zbxMoneyList = new ArrayList<Map<String, Object>>();
 		if (zbxFlag) {
 			zbxMoneyList = outProjectPlanService.getOutTemMoneyTotalInfo(map);
 			for (int j = 0; j < zbxMoneyList.size(); j++) {
 				Map<String, Object> zbxMap = zbxMoneyList.get(j);
 				if (zbxMap.get("show_ali").toString().contains("研究院")) {
-					budMoney = String.valueOf(Double.parseDouble(budMoney) + Double.parseDouble(zbxMap.get("zbx_money").toString()));
-					System.out.println("预算研究院资本性金额-----" + zbxMap.get("zbx_money") + "========" + budMoney);
+					zbxBudget = String.valueOf(Double.parseDouble(zbxMap.get("zbx_money").toString()));
+					System.out.println("预算研究院资本性金额-----" + zbxMap.get("zbx_money") + "========" + zbxBudget);
 					break;
 				}
 			}
 		}
 
-		System.out.println("2预算金额=========" + budMoney);
+		System.out.println("2预算金额=========" + zbxBudget);
 		for (int i = 0; i < temList.size(); i++) {
 			Map temMap = (HashMap) temList.get(i);
-			temMap.put("zysje", budMoney);
+			temMap.put("fyxXqBudget", fyxXqBudget);
+			temMap.put("zbxBudget", zbxBudget);
 			if (!zbxFlag) {
 				// 其他部门不让看到拨款金额
 				temMap.put("hanaMoney", "0");
@@ -468,7 +408,7 @@ public class OutProjectPlanClient {
 		System.out.println("getPlanCompleteRateByPlanTypeForHanaMonth-----" + JSON.toJSONString(temList));
 		return json;
 	}
-
+	
 	@ApiOperation(value = "领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组", notes = "参数年度")
 	@RequestMapping(value = "/out-project-plan-provider/complete-rate/company-type")
 	public JSONArray getPlanCompleteRateByCompanyType(@RequestBody HashMap<String, String> map) throws Exception {
@@ -587,7 +527,10 @@ public class OutProjectPlanClient {
 
 		List<Map<String, Object>> retList = new ArrayList<Map<String, Object>>();
 
-		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
+		if (zycbm != null && zycbm.contains("30130054")) {
+			map.put("leaderFlag", "2");
+		}
+		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
 			// 大领导特殊，能看所有的费用性预算
 			zbxFlag = true;
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
@@ -601,10 +544,12 @@ public class OutProjectPlanClient {
 			// 数据处理
 			for (int k = 0; k < ysMoneyList.size(); k++) {
 				Map<String, Object> ysMoney = (Map<String, Object>) ysMoneyList.get(k);
+				boolean configFlag = false;
 				for (int j = 0; j < actMoneyList.size(); j++) {
 					Map<String, Object> actMoney = (Map<String, Object>) actMoneyList.get(j);
 					if (actMoney != null) {
 						if (ysMoney.get("show_ali") != null && actMoney.get("type_flag") != null && ysMoney.get("show_ali").toString().equals(actMoney.get("type_flag").toString())) {
+							configFlag = true; // 匹配上了，未匹配的说明没有合同
 							ysMoney.put("budgetItemName", ysMoney.get("show_ali"));
 
 							// 费用性实际、费用性预算、费用性比率
@@ -638,6 +583,24 @@ public class OutProjectPlanClient {
 							break;
 						}
 					}
+				}
+				
+				if (!configFlag) {
+					// 未匹配的，说明没有合同，只有预算
+					// 费用性实际、费用性预算、费用性比率
+					ysMoney.put("fyxysje", ysMoney.get("fyx_money") == null ? "0" : ysMoney.get("fyx_money"));
+					ysMoney.put("fyxsjje", "0");
+					ysMoney.put("fyxRate", "0");
+
+					// 资本性实际、资本性预算、资本性比率
+					ysMoney.put("zbxysje", ysMoney.get("zbx_money") == null ? "0" : ysMoney.get("zbx_money"));
+					ysMoney.put("zbxsjje", "0");
+					ysMoney.put("zbxRate", "0");
+
+					// 总实际、总预算、预算比率
+					ysMoney.put("zysje", ysMoney.get("zysje") == null ? "0" : ysMoney.get("zysje"));
+					ysMoney.put("zsjje", "0");
+					ysMoney.put("zRate", "0");
 				}
 			}
 
@@ -907,6 +870,7 @@ public class OutProjectPlanClient {
 			// 计划处，能看所有的费用性预算
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 			map.put("zycbm", zycbm);
+			map.put("leaderFlag", "2");
 		}
 
 		List temList = outProjectPlanService.getPlanMoneyByDepartment(map);
@@ -930,12 +894,12 @@ public class OutProjectPlanClient {
 			}
 			HashMap addMap = new HashMap();
 			addMap.put("zycmc", "合计");
-			addMap.put("ysje", ysje);
-			addMap.put("ysjzje", ysjzje);
-			addMap.put("ysxkje", ysxkje);
-			addMap.put("sjzje", sjzje);
-			addMap.put("xkMoney", xkMoney);
-			addMap.put("jzMoney", jzMoney);
+			addMap.put("ysje", String.format("%.2f", ysje));
+			addMap.put("ysjzje", String.format("%.2f", ysjzje));
+			addMap.put("ysxkje", String.format("%.2f", ysxkje));
+			addMap.put("sjzje", String.format("%.2f", sjzje));
+			addMap.put("xkMoney", String.format("%.2f", xkMoney));
+			addMap.put("jzMoney", String.format("%.2f", jzMoney));
 			temList.add(0, addMap);
 		}
 		System.out.println("getPlanMoneyByDepartment==========" + JSON.toJSONString(temList));

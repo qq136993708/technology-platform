@@ -1,4 +1,5 @@
 package com.pcitc.service.equipment.impl;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -354,7 +355,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String contractNum=getTableParam(param,"contractNum","");
 		String leadUnit=getTableParam(param,"leadname","");
 		String parentUnitPathNames = getTableParam(param, "parentUnitPathNames", "");
-		Map map=new HashMap();
+
+        String contractNumNotNull = getTableParam(param, "contractNumNotNull", "");
+
+        Map map=new HashMap();
 		map.put("belongDepartmentName", belongDepartmentName);
 		map.put("belongDepartmentCode", belongDepartmentCode);
 		map.put("professionalDepartName", professionalDepartName);
@@ -382,12 +386,30 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 		map.put("contractNum", contractNum);
 		map.put("leadUnitCode", leadUnit);
+        map.put("contractNumNotNull", contractNumNotNull);
 
-
-		
 
 		List<SreProject> list = sreProjectMapper.getList(map);
-		PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
+		if (list.size()!=0){
+            if (!contractNumNotNull.equals("")) {
+                SreProject projectSumMoney = sreProjectMapper.getSumMoney(map);
+                    projectSumMoney.getSumNumber();
+                    projectSumMoney.setIndex("合计");
+                    projectSumMoney.setProjectMoney(projectSumMoney.getSumMoney());
+                    projectSumMoney.setName("");
+                    projectSumMoney.setBeginYear("");
+                    projectSumMoney.setEndYear("");
+
+                int count = 15;
+                int i = pageNum * count;
+                i = i - 14;
+                for (SreProject listmap : list) {
+                    listmap.setIndex(String.valueOf(i++));
+                }
+                list.add(0, projectSumMoney);
+            }
+		}
+        PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		
 		LayuiTableData data = new LayuiTableData();
@@ -814,12 +836,47 @@ public class EquipmentServiceImpl implements EquipmentService {
 		PageHelper.startPage(pageNum, pageSize);
 		Map map=getMap(param);
 		List<SreProjectTask> list = sreProjectTaskMapper.getRelationList(map);
+		SreProjectTask   projectSorting = new SreProjectTask();
+		String strkjb=getTableParam(param,"strkjb","");
+		if(list.size()!=0) {
+		if(strkjb.equals("1")) {
+		Map projectMoneyMap=getMap(param);
+		List<SreProjectTask> projectMoney = sreProjectTaskMapper.getProjectMoney(projectMoneyMap);
+		BigDecimal money =new BigDecimal("0.0");
+		BigDecimal purchaseMoney =new BigDecimal("0.0");
+		for(SreProjectTask project : projectMoney) {
+			if(project!=null) {
+				if(project.getProjectMoney()!=null) {
+					money = money.add(project.getProjectMoney());
+				}
+				if(project.getPurchaseMoney()!=null) {
+					purchaseMoney = purchaseMoney.add(project.getPurchaseMoney());
+				}
+			}
+		}
+		//List<SreProjectTask> arrlist = new ArrayList<SreProjectTask>();
+		int count =15;
+		int i=pageNum*count;
+		i=i-14;
+		for(SreProjectTask listmap : list) {
+			listmap.setSorting(String.valueOf(i++));
+			//arrlist.add(listmap);
+		}
+		projectSorting.setSorting("合计");
+		projectSorting.setTopicName("");
+		projectSorting.setTopicName("");
+		projectSorting.setTaskVersion("");
+		projectSorting.setProjectMoney(money);
+		projectSorting.setPurchaseMoney(purchaseMoney);
+		list.add(0, projectSorting);
+		}
+		}
 		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
 		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
-		
+		PageInfo<SreProjectTask> infodate = new PageInfo<SreProjectTask>(list);
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
-		Long total = pageInfo.getTotal();
+		Long total = infodate.getTotal();
 		data.setCount(total.intValue());
 	    return data;
 	}

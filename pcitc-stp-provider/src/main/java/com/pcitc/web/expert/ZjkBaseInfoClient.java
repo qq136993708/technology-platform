@@ -1,24 +1,30 @@
 package com.pcitc.web.expert;
 
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
-import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.expert.ZjkExpert;
-import com.pcitc.base.expert.ZjkExpertExample;
-import com.pcitc.service.expert.ZjkBaseInfoService;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.expert.ZjkExpert;
+import com.pcitc.base.expert.ZjkExpertExample;
+import com.pcitc.service.expert.ZjkBaseInfoService;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * <p>服务接口</p>
@@ -268,6 +274,10 @@ public class ZjkBaseInfoClient {
         }
         return retJson;
     }
+    
+    
+    
+    
     @ApiOperation(value = "专家-院士查询列表", notes = "专家-院士基本信息列表")
     @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkYsList", method = RequestMethod.POST)
 	public Object selectZjkBaseInfoYsList(@RequestBody ZjkExpert zjkBaseInfo) {
@@ -281,6 +291,35 @@ public class ZjkBaseInfoClient {
 //				if(z.getExpertProfessionalFieldName() == null) {
 //					z.setExpertProfessionalFieldName("院士");
 //				}
+				if ("ZJK_ZJLX_ZGKXYYS".equals(z.getBak3())){
+                    z.setExpertProfessionalFieldName("中国科学院院士");
+                }
+                if ("ZJK_ZJLX_ZGGCYYS".equals(z.getBak3())){
+                    z.setExpertProfessionalFieldName("中国工程院院士");
+                }
+			}
+			
+			return JSON.toJSONString(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return retJson;
+	}
+    
+    
+    
+    
+    
+    @ApiOperation(value = "专家-院士查询列表", notes = "专家-院士基本信息列表")
+    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/getYsList", method = RequestMethod.POST)
+	public Object getYsList(@RequestBody Map map ) {
+		JSONObject retJson = new JSONObject();
+		try {
+			List<ZjkExpert> list = zjkBaseInfoService.getYsList(map);
+			for(ZjkExpert z:list) {
+				if(z.getUserDesc() != null) {
+					z.setUserDesc(z.getUserDesc().replaceAll("<p>", ""));
+				}
 				if ("ZJK_ZJLX_ZGKXYYS".equals(z.getBak3())){
                     z.setExpertProfessionalFieldName("中国科学院院士");
                 }

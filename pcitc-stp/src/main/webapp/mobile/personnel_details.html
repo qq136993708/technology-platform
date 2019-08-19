@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/mobile/css/mobileNew.css">
     <style>
         .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
+        .layui-tab-item>p{color: #426570;font-size: .13rem;line-height: .27rem;text-indent: 2em;}
     </style>
 </head>
 <body>
@@ -27,10 +28,7 @@
                 </div>
                 <div class="item-cont">
                     <p><span>${zjkBaseInfo.expertName}</span>
-                    <span>
-                      <#if zjkBaseInfo.sex=='ROOT_UNIVERSAL_XB_N'>男 </#if>
-                      <#if zjkBaseInfo.sex=='ROOT_UNIVERSAL_XB_V'>女 </#if>
-                    </span>
+
                     <#if zjkBaseInfo.expertProfessionalFieldName!=''>
                        <span>（${zjkBaseInfo.expertProfessionalFieldName}）</span>
                     </#if>

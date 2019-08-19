@@ -116,12 +116,6 @@ public interface OutProjectService {
 
 	OutProjectInfo getOutProjectShowById(String dataId) throws Exception;
 	public int updateProjectData(List<OutProjectInfo> list, String nd);
-	/**
-     * @param nd
-     * @return
-     * 首页查询各单位的新开、续建、完结情况
-     */
-    public List getProjectTypeInfoByUnit(HashMap<String, String> map);
     
     /**
      * @param nd
@@ -221,6 +215,16 @@ public interface OutProjectService {
 	public List getProjectMoneyByYJY(HashMap<String, String> map);
 	
 	/**
+     * 查询实际金额和实际数量， 粗组织机构分类
+     */
+	public List getProjectActMoneyAndCount(HashMap<String, String> map);
+	
+	/**
+	 * 查询实际金额和实际数量，细组织机构分类
+	 */
+	public List getProjectActMoneyAndCountThreeLevel(HashMap<String, String> map);
+	
+	/**
      * @param nd
      * @return
      * 科研二级页面，树形结构，费用性金额、资本性金额和新开、续建情况
@@ -270,10 +274,9 @@ public interface OutProjectService {
 	public List getProjectTypeCountByUnitLD(HashMap<String, String> map);
 	
 	/**
-     * @return
-     * 领导二级页面，预算数据，8个院费用性和资本性的柱状图
+     * 预算执行情况，包含股份公司、资产公司、集团公司的
      */
-	public List getInstituteMoneyWithYS(HashMap<String, String> map);
+	public List getAllBudgetWithAllLevel(HashMap<String, String> map);
 	
 	/**
      * 领导二级页面，预算数据，直属研究院、分子公司等9个维度的费用统计,树形结构

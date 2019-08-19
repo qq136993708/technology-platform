@@ -22,6 +22,8 @@
 <input  name="joinUnitCode"     id="joinUnitCode"      value="${joinUnitCode}"    type="hidden">
 <input  name="str"     id="str"      value="${str}"    type="hidden">
 
+<input  name="strkjb"     id="strkjb"      value="1"    type="hidden">
+
 
 
     <!--查询条件-->
@@ -63,7 +65,7 @@
 	     </label>
    </#if>
      
-     <label class="dateInput">
+    <!--  <label class="dateInput">
          <span>归属部门</span>
          <select name="belongDepartmentCode" id="belongDepartmentCode"  onchange="getDepartNameByParentCode(this.value)" class="form-control"  >
               <option value="ROOT_ZGSHJT_ZBJG_KJB" >科技部</option>
@@ -79,7 +81,7 @@
          <span>专业</span>
          <select id="professionalFieldCode" name="professionalFieldCode"  class="form-control" ></select>
      </label> 
-             
+         -->      
                             
     <!--按钮组-->
     <div class="btnGroup">
@@ -106,7 +108,9 @@
 
 function view_setup_str(d) 
 {
-    if (d.setupId!=null && d.setupId!='') 
+	if(d.setupId==null){
+		 return '';
+	}else if (d.setupId!='') 
     {
     	 return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #1890ff">详情</span>';
     } else 
@@ -124,7 +128,7 @@ function purchase_money(d)
         return '<span style="color:red">'+d+'</span>';
     } else 
     {
-        return "<span></span>";
+        return "0";
     }
 }
 
@@ -156,11 +160,11 @@ function view_isWriteTask(isWriteTask)
 }
 function view_taskVersion(taskVersion) 
 {
-    if (taskVersion==null || taskVersion==''|| taskVersion=='1') 
-    {
+	if(taskVersion==''){
+		 return '';
+	}else if (taskVersion==null|| taskVersion=='1'){
     	 return '<span style="color:green">主版本</span>';
-    } else 
-    {
+    }else{
     	 return '<span style="color:red">补充版本</span>';
     }
 }
@@ -266,7 +270,6 @@ var name=$('#name').val();
         });
     });
     
-    
     function renderTable()
 	{    
     	//渲染
@@ -274,7 +277,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/relation_list',
             method:"POST",
-            where: {param: {"setupYear":$("#setupYear").val(),"topicName":$("#topicName").val(),"leadUnitCode":$("#leadUnitCode").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"contractNum":$("#contractNum").val(),"auditStatus":$("#auditStatus").val()}},
+            where: {param: {"strkjb":$("#strkjb").val(),"setupYear":$("#setupYear").val(),"topicName":$("#topicName").val(),"leadUnitCode":$("#leadUnitCode").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"contractNum":$("#contractNum").val(),"auditStatus":$("#auditStatus").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -287,8 +290,7 @@ var name=$('#name').val();
                 theme: '#0F9EE0'
             },
             cols: [[
-            	 {type : 'checkbox', event : 'changeEvents', width : 55},
-            	 {title : '序号', type :'numbers', width : 55},
+            	 {field : 'sorting',       title : '序号', style : 'cursor: pointer;', align: 'center', width : '8%',sort : true},
             	 {field : 'topicName',     title : '课题名称',      style : 'cursor: pointer;', align: 'left', width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#1890ff">'+d.topicName+'</span>'},sort : true},
             	 {field : 'topicName',     title : '任务书',     style : 'cursor: pointer;', align: 'left', width : '20%',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #1890ff">'+d.topicName+'</span>'},sort : true},
             	 {field : 'projectMoney',    title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '8%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'},sort : true},

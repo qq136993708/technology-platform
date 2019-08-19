@@ -238,4 +238,7 @@ public interface ZjkBaseInfoService {
     List<ZjkExpert> selectYsList();
 
     public JSONObject picExpertDetail(ZjkExpert zjkBaseInfo);
+    
+    public List<ZjkExpert> getYsList(Map map);
+    
 }

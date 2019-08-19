@@ -272,6 +272,15 @@ var publicMethods;
                		 	return false;
       	        	 }
                 	var companyCode = $("#companyCode").val();
+                	froname = froname.replace(/<script|<\/script/ig,function(froname){
+         	   		    return "&lt;"+froname.substring(1);
+         	   	  	});
+                	froname = froname.replace("<","&lt;").replace(">","&gt");
+                	
+                	companyCode = companyCode.replace(/<script|<\/script/ig,function(companyCode){
+         	   		    return "&lt;"+content.substring(1);
+         	   	  	});
+                	companyCode = companyCode.replace("<","&lt;").replace(">","&gt");
                 	$.ajax({
                         type : "POST",
                         url: "/sre-forapplicatio/save",

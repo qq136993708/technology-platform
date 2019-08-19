@@ -16,7 +16,7 @@
     <div class="m_return child">
         <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>科研预算</h4>
-        <div id="test-laydate-normElem" placeholder="yyyy" class="laydate-c"></div>
+        <input id="date" type="text" value="" placeholder="">
     </div>
 </header>
 <main class="main budget">
@@ -97,6 +97,7 @@
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/mobile/js/rolldate.min.js"></script>
 <script>
     var layer;
     (function(doc, win) {
@@ -113,17 +114,22 @@
     })(document, window);
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
-        laydate.render({
-            elem: '#test-laydate-normElem'
-            ,type: 'year'
-            ,max: $("#nd").val()+1
-            ,value:$("#nd").val(),
-            done : function(value, date, endDate) 
-            {
-            	    $("#nd").val(date.year);
-					search_Event();
-			}
-        });
+        new Rolldate({
+            el: '#date',
+            format: 'YYYY',
+            beginYear: 2018,
+            endYear: $("#nd").val(),
+            value: $("#nd").val(),
+            confirm: function (date) {
+                /* if (date > $("#nd").val()+1) {
+                    layer.alert('不能大于当前的日期');
+                    return false;
+                } */
+                $("#nd").val(date);
+                search_Event();
+            }
+        })
+        
     });
     
     
@@ -133,7 +139,7 @@
     {
     	var v_date = (new Date()).getTime();
     	var nd = $('#nd').val();
-    	var url = "/one_level_main/investment_03?functionId=984b64b13cf54222bf57bd840759fabe&type=mobile&nd=" + nd + "&v_date=" + v_date + "&type=1&xkFlag=1";
+    	var url = "/mobile/investment_03?functionId=984b64b13cf54222bf57bd840759fabe&type=mobile&nd=" + nd + "&v_date=" + v_date + "&type=1&xkFlag=1";
     	$.ajax({
     		type : "GET",
     		url : url,
@@ -157,8 +163,11 @@
     					var ysxkje=data.data[i].ysxkje;//预算金额
     					var xkMoney=data.data[i].xkMoney;//已签金额
     					
-    					all=all+parseFloat(ysxkje);
-    					finished=finished+parseFloat(xkMoney);
+    					if(zycmc!='合计')
+   						{
+    					  all=all+parseFloat(ysxkje);
+    					  finished=finished+parseFloat(xkMoney);
+   						}
     					var rate=(xkMoney/ysxkje*100).toFixed(2);
     					
     					var yq=parseFloat(xkMoney).toFixed(2);
@@ -176,7 +185,10 @@
                      	{
                      		wclCount="<span>完成率"+rate+"%</span>";
                      	}
-    					var temp="<li>"+
+    					var temp="";
+    					if(zycmc!='合计')
+   						{
+    						 temp="<li>"+
 				    				"<p>"+
 				                        "<span>预算 "+setNumStr(ysxkje)+"</span>"+
 				                        "<span>"+zycmc+"</span>"+
@@ -185,14 +197,15 @@
 				                        "<span>已签"+setNumStr(yq)+"</span>"+wclCount+
 				                    "</p>"+
 			                       "</li>";
+   						}
     					count=count+temp;
         			 } 
     			 }
     			 $("#zyc_id").html(count); 
     			 
     			 //总金额
-   				 $("#yzc_all_id").html((parseFloat(all)/10000).toFixed(2) + "亿");
-   				 $("#yzc_finished_id").html((finished/10000).toFixed(2) + "亿");
+   				 $("#yzc_all_id").html((parseFloat(all)/10000).toFixed(2) + "<lable >亿<lable>");
+   				 $("#yzc_finished_id").html((finished/10000).toFixed(2) + "<lable >亿<lable>");
    				 var zRate = finished * 100 / all;
    				 $("#yzc_rate_id").html(zRate.toFixed(2) + "%");
     		},
@@ -210,7 +223,7 @@
 		
     	var v_date = (new Date()).getTime();
     	var nd = $('#nd').val();
-    	var url = "/one_level_main/investment_02?functionId=984b64b13cf54222bf57bd840759fabe&type=mobile&nd=" + nd + "&v_date=" + v_date;
+    	var url = "/mobile/investment_02?functionId=984b64b13cf54222bf57bd840759fabe&type=mobile&nd=" + nd + "&v_date=" + v_date;
     	$.ajax({
     		type : "GET",
     		url : url,
@@ -256,8 +269,8 @@
     			 
     			 
     			 //研究院-总金额
-   				 $("#yjy_all_id").html((parseFloat(all)/10000).toFixed(2) + "亿");
-   				 $("#yjy_finished_id").html((finished/10000).toFixed(2) + "亿");
+   				 $("#yjy_all_id").html((parseFloat(all)/10000).toFixed(2) + "<lable >亿<lable>");
+   				 $("#yjy_finished_id").html((finished/10000).toFixed(2) + "<lable >亿<lable>");
    				 var zRate = finished * 100 / all;
    				 $("#yjy_rate_id").html(zRate.toFixed(2) + "%");
    				 
@@ -278,7 +291,7 @@
 		
     	var v_date = (new Date()).getTime();
     	var nd = $('#nd').val();
-    	var url = "/one_level_main/investment_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date;
+    	var url = "/mobile/index_budget?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date;
     	$.ajax({
     		type : "GET",
     		url : url,
@@ -337,8 +350,8 @@
     			 
     			 
     			 //研究院-总金额
-   				 $("#other_all_id").html((parseFloat(all)/10000).toFixed(2) + "亿");
-   				 $("#other_finished_id").html((finished/10000).toFixed(2) + "亿");
+   				 $("#other_all_id").html((parseFloat(all)/10000).toFixed(2) + "<lable >亿<lable>");
+   				 $("#other_finished_id").html((finished/10000).toFixed(2) + "<lable >亿<lable>");
    				 var zRate = finished * 100 / all;
    				 $("#other_rate_id").html(zRate.toFixed(2) + "%");
    				 
@@ -369,7 +382,7 @@
 			{
 				temp= temp.substring(0,temp.length-3);
 			}
-			result=temp+"亿";
+			result=temp+"<lable >亿<lable>";
 		}else//万
 		{
 			
@@ -380,7 +393,7 @@
 				//temp= temp.replace(".00","")
 				temp= temp.substring(0,temp.length-3);
 			}
-			result=temp+"万";
+			result=temp+"<lable >万<lable>";
 		}
 		return result;
     }

@@ -27,10 +27,19 @@
     from sre_for_application
     where application_id = #{applicationId,jdbcType=VARCHAR}
   </select>
+  
+   <select id="selectApplication" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_for_application
+    where selectApplication = #{selectApplication,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sre_for_application
     where application_id = #{applicationId,jdbcType=VARCHAR}
   </delete>
+  
   <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreForApplication" >
     insert into sre_for_application (application_id, application_name, application_time, 
       application_account, application_user_name, 

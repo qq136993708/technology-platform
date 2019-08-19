@@ -13,67 +13,45 @@
             padding-bottom: .1rem;
             background-size: 100%;
             padding-top: .1rem;}
+            li{list-sytle:none}
     </style>
 </head>
 <body>
+<input type="hidden" name="nd" id="nd" value="${nd}">
 <header>
     <div class="m_return child">
         <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>科研拨款</h4>
-        <div id="test-laydate-normElem" placeholder="yyyy" class="laydate-c"></div>
+        <input id="date" type="text" value="" placeholder="">
     </div>
 </header>
+
+
 <main class="main contract appropriation">
+<div id="chart1" style="height:300px;width:100%"></div>
     <div class="layui-row">
         <div class="layui-tab-content">
-            <h4>总计拨款 <span>46 亿</span></h4>
+            <h4>总计拨款 <span id="appropriation_sum">-亿</span></h4>
         </div>
     </div>
     <div id="chart"></div>
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-            <ul>
-                <li>
-                    <p>
-                        <span>拨款 <span class="number">3.2 亿</span></span>
-                        <span>4月</span>
-                        <span>研究院</span>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span>拨款 <span class="number">3.2 亿</span></span>
-                        <span>4月</span>
-                        <span>研究院</span>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span>拨款 <span class="number">3.2 亿</span></span>
-                        <span>4月</span>
-                        <span>研究院</span>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span>拨款 <span class="number">3.2 亿</span></span>
-                        <span>4月</span>
-                        <span>研究院</span>
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        <span>拨款 <span class="number">3.2 亿</span></span>
-                        <span>4月</span>
-                        <span>研究院</span>
-                    </p>
-                </li>
-            </ul>
+            <ul id="appropriation_list"> </ul>
         </div>
     </div>
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+
+<script src="/mobile/js/rolldate.min.js"></script>
+
 <script>
     var layer;
     (function(doc, win) {
@@ -90,12 +68,310 @@
     })(document, window);
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
-        laydate.render({
-            elem: '#test-laydate-normElem'
-            ,type: 'year'
-            ,value:"2019"
-        });
+        new Rolldate({
+            el: '#date',
+            format: 'YYYY',
+            beginYear: 2018,
+            endYear: $("#nd").val(),
+            value: $("#nd").val(),
+            confirm: function (date) {
+                /* if (date > $("#nd").val()+1) {
+                    layer.alert('不能大于当前的日期',{title:"提示"});
+                    return false;
+                } */
+                $("#nd").val(date);
+                search_Event();
+            }
+        })
     });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //科研拨款
+	 function setBKCount(v_date,nd) 
+	 {
+		 
+		    var url = "/mobile/investment_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date;
+	        $.ajax({
+	            type: "GET",
+	            url: url,
+	            dataType: "json",
+	            timeout: 11000,
+	            cache: false,
+	            headers : {
+					'Content-Type' : 'application/json'
+				},
+	            success: function (data, status)
+	            {
+	            	console.log("科研拨款\n"+JSON.stringify(data));
+	            	var count=0;
+	            	var countStr="";
+	            	for (var i = 0; i < data.data.length; i++) 
+	            	{
+						var zsjje = data.data[i].zsjje;//实际科研投入
+						var define2 = data.data[i].define2;
+						count = count + parseFloat(zsjje);
+						
+						    var temp="<li style='list-sytle:none'>"+
+					    				"<p>"+
+					    				    "<span>"+define2+"</span>"+
+					                        "<span style='float:right'> "+setNumStr(zsjje)+"</span>"+
+					                    "</p>"+
+				                       "</li>";
+			               countStr=countStr+temp;
+					}
+	            	 $("#appropriation_list").html(countStr); 
+	            	 
+					$("#appropriation_sum").html((count/ 10000).toFixed(2)+"<lable >亿<lable>");
+	            },
+	            error: function () {
+					
+				},
+	            complete: function (XMLHttpRequest, status) {
+
+	            }
+
+	        });
+	}
+	 
+    
+    
+	    function search_Event()
+	    {
+	    	var v_date = (new Date()).getTime();
+	    	var nd = $("#nd").val();
+		    setBKCount(v_date,nd)
+	    }
+	    search_Event();
+	    
+	    
+	    
+	    
+	    
+	    
+	    //图形
+
+	    var option = {
+	        tooltip: {
+	            trigger: 'axis',
+	            position: function (pt) {
+	                return [pt[0], '10%'];
+	            }
+	        },
+	        legend: {
+                data:['月份']
+            },
+	        title: {
+	            left: 'center',
+	            text: '月度分析图',
+	        },
+	        toolbox: {
+	            feature: {
+	                dataZoom: {
+	                    yAxisIndex: 'none'
+	                },
+	                restore: {},
+	                saveAsImage: {}
+	            }
+	        },
+	        xAxis: {
+	            type: 'category',
+	            boundaryGap: false,
+	            data: []
+	        },
+	        yAxis: {
+	            type: 'value'
+	           // boundaryGap: [0, '100%']
+	        },
+	        dataZoom: [{
+	            type: 'inside',
+	            start: 0,
+	            end: 120
+	        }, {
+	            start: 0,
+	            end: 120,
+	            handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+	            handleSize: '80%',
+	            handleStyle: {
+	                color: '#fff',
+	                shadowBlur: 3,
+	                shadowColor: 'rgba(0, 0, 0, 0.6)',
+	                shadowOffsetX: 2,
+	                shadowOffsetY: 2
+	            }
+	        }],
+	        series: [
+	            {
+	                name:'拨款金额（亿）',
+	                type:'line',
+	                smooth:true,
+	                symbol: 'none',
+	                sampling: 'average',
+	                itemStyle: {
+	                    color: 'rgb(255, 70, 131)'
+	                },
+	                areaStyle: {
+	                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+	                        offset: 0,
+	                        color: 'rgb(255, 158, 68)'
+	                    }, {
+	                        offset: 1,
+	                        color: 'rgb(255, 70, 131)'
+	                    }])
+	                },
+	                data: []
+	            }
+	        ]
+	    };
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    function lineSingleAjax(url, echartsobj, options) 
+	    {
+	    	var xAxisData = [];
+	    	var series = [];
+	    	$.ajax({
+	    		type : "get",
+	    		url : url,
+	    		timeout : 9000,
+	    		dataType : "json",
+	    		cache : false,
+	    		headers : {
+	    			'Content-Type' : 'application/json'
+	    		},
+	    		success : function(data, status) 
+	    		{
+	    			console.log("lineSingleAjax\n"+JSON.stringify(data));
+	    			if (data.success == true || data.success == 'true') 
+	    			 {
+	    				echartsobj.hideLoading();
+	    				var chartList = data.data.xAxisDataList;
+	    				for (var i = 0; i < chartList.length; i++) {
+	    					xAxisData.push(chartList[i]);
+	    				}
+
+	    				var seriesDataList = data.data.seriesDataList;
+	    				for (var i = 0; i < seriesDataList.length; i++) {
+
+	    					series.push(seriesDataList[i]);
+	    				}
+	    				// 加载数据图表
+	    				echartsobj.setOption({
+	    					xAxis : {
+	    						data : xAxisData
+	    					},
+	    					series : [ {
+	    						data : series
+	    					} ]
+	    				});
+
+	    			}
+	    		},
+	    		error : function() {
+	    			layer.msg('图表加载失败');
+	    		},
+	    		complete : function(XMLHttpRequest, status) {
+	    			if (status == 'timeout') {
+	    				layer.msg('超时');
+	    			}
+	    		}
+	    	});
+
+	    }
+	    function load_line(id) 
+	    {
+	    	var v_date = (new Date()).getTime();
+	 	    var nd = $('#nd').val();
+	 	    var url = "/mobile/small_leader/investment_data_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&type=1";
+	    	var echartsobj = echarts.init(document.getElementById(id));
+	    	echartsobj.setOption(option);
+	    	echartsobj.showLoading();
+	    	lineSingleAjax(url, echartsobj, line_single_option);
+	    	return echartsobj;
+	    }
+	    
+	    load_line("chart1");
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    function setNumStr(num)
+	    {
+	    	
+	    	var result="";
+	    	
+	    	if(num=='0.00')
+			{
+	    		num=0;
+			}
+			if(parseFloat(num)>10000)//亿
+			{
+				var  temp=parseFloat(num/10000).toFixed(2);
+				var  endstr=temp.substring(temp.length-3);
+				//alert(temp);
+				if(endstr=='.00')
+				{
+					temp= temp.substring(0,temp.length-3);
+				}
+				result="<lable style='color:red'>"+temp+"<lable><lable style='font-size:14px;font-weight:normal'>亿<lable>";
+			}else//万
+			{
+				
+				var  temp=parseFloat(num).toFixed(2);
+				var  endstr=temp.substring(temp.length-3);
+				if(endstr=='.00')
+				{
+					//temp= temp.replace(".00","")
+					temp= temp.substring(0,temp.length-3);
+				}
+				result="<lable style='color:red'>"+temp+"<lable><lable style='font-size:14px;font-weight:normal'>万<lable>";
+			}
+			return result;
+	    }
 </script>
 </body>
 </html>

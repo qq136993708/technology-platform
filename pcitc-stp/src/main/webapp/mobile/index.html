@@ -74,15 +74,15 @@
                 		<span class="text">已办任务</span>
                 	</div>
                 </li>
-                <li class="layui-col-xs3" >
+                <li class="layui-col-xs3" id="work_list">
                     <div class="agency-box">
 						<img src="/mobile/images/work-img3.png" alt="">
-						<span class="number">89</span>
+						<span class="number">0</span>
                 		<span class="text">工作安排</span>
                 	</div>
                 </li>
 				<li class="layui-col-xs3" >
-                    <div class="agency-box" id="audit_msg_list">
+                    <div class="agency-box" id="institute_list">
 						<img src="/mobile/images/work-img4.png" alt="">
 						<span class="text">研究院概况</span>
                 	</div>
@@ -116,10 +116,10 @@
 				<span class="icon-decision icon-decision_06" id="expert_total">-位</span>
 			</div>
 			<#if isZHJHCPerson== 'true' || sysUserInfo.userLevel=='2'> 
-				<div class="dec-center-right3">
+				<div class="dec-center-right3" id="appropriation_id">
 					<span></span>
 					<span>科研拨款</span>
-					<span class="icon-decision icon-decision_06">-亿</span>
+					<span class="icon-decision icon-decision_06" id="appropriation_sum">-亿</span>
 					<span>直属研究院</span>
 				</div>
 				<div class="dec-center-left2" id="cash">
@@ -131,7 +131,7 @@
 			</#if>
 			
 			
-			<div class="dec-center-right3">
+			<div class="dec-center-right3" id="appraisalId_div">
 				<span></span>
 				<span>成果鉴定</span>
 				<span class="icon-decision icon-decision_06" id="appraisalId">-</span>
@@ -195,21 +195,10 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 				content: projectDecisionHtml
 			})
         });
-        $("#circle").circleProgress({
-            value : 20/100,
-            size : 50,
-            startAngle : -Math.PI / 2,
-            thickness : '5',
-            fill : {
-                gradient : [ "#ffffff", "#e99a54" ]
-            },
-            emptyFill : "#F0EEF6"
-        }).on('circle-animation-progress', function(event, progress, stepValue) {
-        	var v_date = (new Date()).getTime();
-        	var nd = $("#nd").val();
-        	setYusuan_rate(v_date,nd);
-           // $(this).find('span').html(20/100+"%");
-        });
+        
+        var v_date = (new Date()).getTime();
+    	var nd = $("#nd").val();
+    	setYusuan_rate(v_date,nd);
     });
     
     
@@ -279,6 +268,19 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     $("#cash").click(function () {
     	location.href="/mobile/cash";
     });
+    //科研拨款
+    $("#appropriation_id").click(function () {
+    	location.href="/mobile/appropriation";
+    });
+    
+    
+    
+    $("#appraisalId_div").click(function () {
+    	location.href="/mobile/appraisal";
+    });
+    
+    
+    
     
     
     
@@ -342,18 +344,21 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
   	
     //代办
     $("#numberNotice_list").click(function () {
-    	location.href="/mobile/wait_task_list_mui";
+    	location.href="/mobile/agencyM";
     });
     
     // 已办任务
     $("#doneTaskCount_list").click(function () {
-    	location.href="/mobile/done_task_list";
+    	location.href="/mobile/agencyM";
     });
     // 审核消息
-    $("#audit_msg_list").click(function () {
-    	location.href="/mobile/message_list";
+    $("#institute_list").click(function () {
+    	location.href="/mobile/institute";
     });
-    
+    // 工作安排
+    $("#work_list").click(function () {
+    	location.href="/mobile/work";
+    });
     
    
     
@@ -414,9 +419,9 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     	if(isZHJHCPerson==true || isZHJHCPerson=='true' || userLevel=='2')
    		{
    		    //科研拨款
-   		    
+   		    setBKCount(v_date,nd);
    		    //现金流量
-   		    get_Mobile_Month_Cash_Flow()
+   		    get_Mobile_Month_Cash_Flow();
    		}
     	
     	
@@ -433,7 +438,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     {
 		$.ajax({
 			type : 'GET',
-			url : "/one_level_main/investment_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
+			url : "/mobile/index_budget?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
@@ -464,16 +469,34 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	//预算比率
 	function setYusuan_rate(v_date,nd) 
     {
+        var circleSize=0,thickness='';
+        var system = {ipad:false};
+        system.ipad = (navigator.userAgent.match(/iPad/i) != null)?true:false;
+        system.ipad==true ? circleSize=100:circleSize=50;
+        system.ipad==true ? thickness="10":thickness="5";
 		$.ajax({
 			type : 'GET',
-			url : "/one_level_main/investment_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
+			url : "/mobile/index_budget?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
 			},
 			timeout : 6000, //超时时间设置，单位毫秒
 			error : function(XMLHttpRequest, status) {
-				 $("#circle").find('span').html(0+"%");
+				  $("#circle").find('span').html(0);
+				 
+
+			        $("#circle").circleProgress({
+			            value : 0,
+			            size : circleSize,
+			            startAngle : -Math.PI / 2,
+			            thickness : thickness,
+			            fill : {
+			                gradient : [ "#ffffff", "#e99a54" ]
+			            },
+			            emptyFill : "#F0EEF6"
+			        })
+			        
 			},
 			success : function(data) {
 				var projectMoney = data.data;
@@ -489,7 +512,19 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 				var moneyCurrent = parseFloat(tt1)/ 10000;
 				var moneyTotal = parseFloat(tt2) / 10000;
 				var rateDate=((moneyCurrent/moneyTotal)*100).toFixed(2);
-				$("#circle").find('span').html(rateDate+"%");
+				$("#circle").find('span').html(rateDate);
+				
+				 $("#circle").circleProgress({
+			            value : rateDate/100,
+			            size : circleSize,
+			            startAngle : -Math.PI / 2,
+			            thickness : thickness,
+			            fill : {
+			                gradient : [ "#ffffff", "#e99a54" ]
+			            },
+			            emptyFill : "#F0EEF6"
+			        })
+			        
 			}
 		});
     }
@@ -499,7 +534,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     {
 			$.ajax({
 				type : 'POST',
-				url : "/admin/appraisal-count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd+"&v_date="+v_date,
+				url : "/mobile/admin/appraisal-count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd+"&v_date="+v_date,
 				dataType : 'json',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -510,6 +545,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 				},
 				success : function(data) {
 					var appraisalCount = data.appraisalCount;
+					//alert(appraisalCount);
 					$("#appraisalId").html(appraisalCount+"个");
 				}
 			});
@@ -519,10 +555,10 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     
     
     
-	//合同签订
+	//科研合同--合同签订率
 	function setContcat(v_date,nd) 
 	{
-		var url = "/direct/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date+"&define3=研究院";
+		var url = "/mobile/index_contract_rate?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date+"&define3=研究院";
 		$.ajax({
 			type : 'POST',
 			url : url,
@@ -549,12 +585,12 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	
 	
 	
-	//合同-今年计划课题
+	//合同-今年计划课题(科研项目)
 	function set_contract(nd) 
 	{
 		$.ajax({
 			type : 'POST',
-			url : "/one_level_main/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
+			url : "/mobile/index_contract?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
@@ -576,7 +612,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 //待办个数
 	 function set_wait_notice_count(v_date)
 	 {
-	    	var url="/task/pending-list?v_date="+v_date;
+	    	var url="/mobile/wait_task_list_data?v_date="+v_date;
 	        $.ajax({
 	            type: "POST",
 	            url: url,
@@ -602,7 +638,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 //任务已办个数
 	 function setOverTaskCount(v_date) 
 	 {
-	    	var url="/task/done-task-list?v_date="+v_date;
+	    	var url="/mobile/finished_task_list_data?v_date="+v_date;
 	        $.ajax({
 	            type: "POST",
 	            url: url,
@@ -624,10 +660,48 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 
 	        });
 	}
+	 
+	 
+	 //科研拨款
+	 function setBKCount(v_date,nd) 
+	 {
+		 
+		    var url = "/mobile/investment_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date;
+	        $.ajax({
+	            type: "GET",
+	            url: url,
+	            dataType: "json",
+	            timeout: 11000,
+	            cache: false,
+	            headers : {
+					'Content-Type' : 'application/json'
+				},
+	            success: function (data, status)
+	            {
+	            	console.log("科研拨款\n"+JSON.stringify(data));
+	            	var count=0;
+	            	for (var i = 0; i < data.data.length; i++) 
+	            	{
+						var zsjje = data.data[i].zsjje;//实际科研投入
+						var zysje = data.data[i].zysje;//预算金额
+						count = count + parseFloat(zsjje);
+					}
+					$("#appropriation_sum").html((count/ 10000).toFixed(2)+"亿");
+	            },
+	            error: function () {
+					
+				},
+	            complete: function (XMLHttpRequest, status) {
+
+	            }
+
+	        });
+	}
+	 
 	    
 	 
 	 
-	 
+	 //hana 现金流量
 	 function get_Mobile_Month_Cash_Flow()
 	 {
 	    	var month = $('#month').val();
@@ -637,7 +711,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	   		{
 	    		$.ajax({
 	        		type : "GET",
-	        		url : "/financial-decision/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
+	        		url : "/mobile/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
 	        		timeout : 9000,
 	        		dataType : "json",
 	        		cache : false,
@@ -712,7 +786,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	function readNotice(noticeId) 
 	{
 		
-		 var temUrl='/sysNotice/readNotice?id='+noticeId
+		 var temUrl='/mobile/sysNotice/readNotice?id='+noticeId
 		 layer.open({
 	        title:'详情',
 	        skin: 'layui-layer-lan',

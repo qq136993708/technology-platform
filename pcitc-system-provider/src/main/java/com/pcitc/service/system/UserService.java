@@ -104,5 +104,6 @@ public interface UserService {
 	 * mybatis自带查询用户信息
 	 */
 	public List<SysUser> selectByExample(SysUserExample example);
+	public List<SysUser> getSysUserList(Map map);
 
 }

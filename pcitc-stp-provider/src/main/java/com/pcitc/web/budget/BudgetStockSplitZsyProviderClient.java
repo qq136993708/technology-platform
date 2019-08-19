@@ -65,7 +65,7 @@ public class BudgetStockSplitZsyProviderClient
 		{
 			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.STOCK_ZSY_SPLIT.getCode());
 			//获取股份预算总表中可用分配数（审批通过的股份预算,从预算项中获取直属院的预算数）
-			BudgetInfo finalBudgetInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.STOCK_TOTAL.getCode());
+			BudgetInfo finalBudgetInfo = budgetInfoService.selectFinalBudgetOrNew(info.getNd(),BudgetInfoEnum.STOCK_TOTAL.getCode());
 			for(BudgetInfo dt:datalist) {
 				if(finalBudgetInfo !=null) {
 					List<BudgetStockTotal> totals = budgetStockTotalService.selectItemsByBudgetId(finalBudgetInfo.getDataId());

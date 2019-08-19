@@ -1,5 +1,8 @@
 package com.pcitc.web.out;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -35,9 +38,6 @@ import com.pcitc.service.feign.stp.BudgetClient;
 import com.pcitc.service.out.OutProjectPlanService;
 import com.pcitc.service.out.OutProjectService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 @Api(value = "OUTPROJECT-API", description = "项目数据，从项目管理系统中获取")
 @RestController
 public class OutProjectInfoClient {
@@ -47,7 +47,7 @@ public class OutProjectInfoClient {
 
 	@Autowired
 	private OutProjectPlanService outProjectPlanService;
-	
+
 	@Autowired
 	private BudgetClient budgetClient;
 
@@ -76,14 +76,14 @@ public class OutProjectInfoClient {
 		logger.info("==================page selectProjectInfoWithAllInfoByCond===========================" + JSONObject.toJSONString(param));
 		return outProjectService.selectProjectInfoWithAllInfoByCond(param);
 	}
-	
+
 	@ApiOperation(value = "科研项目分析，包含项目基本信息，同时包含成果、奖励等信息", notes = "分页显示")
 	@RequestMapping(value = "/out-project-provider/project/all-info/tree/list", method = RequestMethod.POST)
 	public LayuiTableData selectProjectInfoWithAllInfoByCondTree(@RequestBody LayuiTableParam param) throws Exception {
 		logger.info("==================page selectProjectInfoWithAllInfoByCondTree===========================" + JSONObject.toJSONString(param));
 		return outProjectService.selectProjectInfoWithAllInfoByCondTree(param);
 	}
-	
+
 	@ApiOperation(value = "科研项目分析，包含项目基本信息，同时包含成果、奖励等信息-专家", notes = "分页显示")
 	@RequestMapping(value = "/out-project-provider/project/all-info/year/list_expert", method = RequestMethod.POST)
 	public LayuiTableData selectProjectInfoWithAllInfoByCondYearExpert(@RequestBody LayuiTableParam param) throws Exception {
@@ -202,17 +202,17 @@ public class OutProjectInfoClient {
 		String zycbm = map.get("zycbm");
 		String zylbbm = map.get("zylbbm");
 		String username = map.get("username");
-		
+
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
 		vo.setNd(map.get("nd"));
-		
+
 		boolean leaderFlag = false;
 		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
 			// 大领导特殊，能看所有
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 			leaderFlag = true;
 		}
-		
+
 		// 预算中，科技部外的部门特殊处理
 		if (zycbm.contains("30130011")) {
 			zycbm = zycbm + ",30130011";
@@ -223,16 +223,17 @@ public class OutProjectInfoClient {
 		if (zycbm.contains("30130009")) {
 			zycbm = zycbm + ",30130009";
 		}
-		
+
 		map.put("zycbm", zycbm);
-		
+
 		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 		List<String> list_1 = new ArrayList<>(set);
 		vo.getUnitIds().addAll(list_1);
 		vo = budgetClient.selectBudgetInfoList(vo);
 		// 费用性预算金额
 		Double zysje = vo.getBudgetTotal();
-		
+
+		// 科研装备特殊，有这个专业类别的可看资本性
 		if (username != null && username.equals("wanglj")) {
 			System.out.println("2username========" + username);
 			map.put("zycbm", zycbm + ",30130054");
@@ -255,13 +256,13 @@ public class OutProjectInfoClient {
 			// 科研装备特殊，有这个专业类别的可看资本性
 			if (username != null && username.equals("wanglj")) {
 				Object temMoney = temBudZbxMap.get("budgetZbxMoney");
-				retJson.put("zysje", zysje.doubleValue()+Double.valueOf(temMoney.toString()));
+				retJson.put("zysje", zysje.doubleValue() + Double.valueOf(temMoney.toString()));
 			} else {
 				retJson.put("zysje", zysje);
 			}
-			
+
 		}
-		
+
 		return retJson;
 	}
 
@@ -301,14 +302,14 @@ public class OutProjectInfoClient {
 	public JSONObject getProjectCountForDragon(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
 		String zycbm = map.get("zycbm");
-		System.out.println("dragon======================"+zycbm);
-		System.out.println("leaderFlag======================"+map.get("leaderFlag"));
+		System.out.println("dragon======================" + zycbm);
+		System.out.println("leaderFlag======================" + map.get("leaderFlag"));
 		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
 			// 大领导特殊，能看所有
 			map.put("leaderFlag", "2");
 		}
 		HashMap<String, String> temMap = outProjectService.getOutProjectDragonInfoCount(map);
-		
+
 		if (temMap != null) {
 			retJson.put("zsl", temMap.get("zsl") == null ? 0 : temMap.get("zsl"));
 			retJson.put("zdzxsl", temMap.get("zdzxsl") == null ? 0 : temMap.get("zdzxsl"));
@@ -339,31 +340,6 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/get-project-list-count/{dataId}", method = RequestMethod.POST)
 	public JSONObject getOutProjectShowCount(@PathVariable(value = "dataId", required = true) String dataId) throws Exception {
 		return outProjectService.getOutProjectShowCount(dataId);
-	}
-
-	@ApiOperation(value = "首页查询各单位的新开、续建、完结情况", notes = "参数暂时是空")
-	@RequestMapping(value = "/out-project-provider/type/unit/list")
-	public JSONArray getProjectTypeInfoByUnit(@RequestBody HashMap<String, String> map) throws Exception {
-		logger.info("==================page getProjectTypeInfoByUnit===========================" + map);
-		List temList = outProjectService.getProjectTypeInfoByUnit(map);
-
-		List keyList = new ArrayList<String>();
-		keyList.add("xksl");
-		keyList.add("xjsl");
-		logger.info("==================page getProjectTypeInfoByUnit===========================" + JSON.toJSONString(temList));
-		// 各个组织机构名称，如果有基础数据库的话，也可以直接取，此处就不用写死
-		temList = iniListValue(temList, "type_flag", "直属研究院", keyList);
-		temList = iniListValue(temList, "type_flag", "分子公司", keyList);
-		temList = iniListValue(temList, "type_flag", "集团单位", keyList);
-		temList = iniListValue(temList, "type_flag", "资产单位", keyList);
-		temList = iniListValue(temList, "type_flag", "外部单位", keyList);
-		temList = iniListValue(temList, "type_flag", "集团公司", keyList);
-		temList = iniListValue(temList, "type_flag", "资产公司", keyList);
-		temList = iniListValue(temList, "type_flag", "盈科", keyList);
-
-		System.out.println("====" + JSON.toJSONString(temList));
-		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
-		return json;
 	}
 
 	@ApiOperation(value = "首页查询各单位的新开、续建、完结情况--装备", notes = "参数暂时是空")
@@ -926,12 +902,216 @@ public class OutProjectInfoClient {
 		return json;
 	}
 
-	@ApiOperation(value = "领导二级页面，预算数据，8个院费用性和资本性的柱状图", notes = "参数年度")
-	@RequestMapping(value = "/out-project-provider/ys/institute-money")
-	public JSONArray getInstituteMoneyWithYS(@RequestBody HashMap<String, String> map) throws Exception {
-		logger.info("==================page getInstituteMoneyWithYS===========================" + map);
+	@ApiOperation(value = "预算执行情况，包含股份公司、资产公司、集团公司的", notes = "参数年度，权限控制")
+	@RequestMapping(value = "/out-project-provider/budget/all-level")
+	public JSONArray getAllBudgetWithAllLevel(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getAllBudgetWithAllLevel===========================" + map);
 
-		List temList = outProjectService.getInstituteMoneyWithYS(map);
+		List temList = outProjectService.getAllBudgetWithAllLevel(map);
+
+		// temList 为返回数据的架子，里面包含费用性和资本性的金额。如果权限足够不用调整，先清空金额再分别计算
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd(map.get("nd"));
+
+		boolean leaderFlag = false;
+		String zycbm = map.get("zycbm");
+		if ((map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) || (zycbm != null && zycbm.contains("30130054"))) {
+			// 大领导特殊，能看所有
+			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
+			leaderFlag = true;
+			map.put("leaderFlag", "2");
+		}
+		System.out.println("leaderFlag========================" + zycbm);
+		System.out.println("leaderFlag========================" + map.get("leaderFlag"));
+		// 预算中，科技部外的部门特殊处理
+		if (zycbm.contains("30130011")) {
+			zycbm = zycbm + ",30130011";
+		}
+		if (zycbm.contains("30130016")) {
+			zycbm = zycbm + ",30130016";
+		}
+		if (zycbm.contains("30130009")) {
+			zycbm = zycbm + ",30130009";
+		}
+
+		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
+		List<String> list_1 = new ArrayList<>(set);
+		vo.getUnitIds().addAll(list_1);
+		vo = budgetClient.selectBudgetInfoList(vo);
+		// 费用性预算金额
+		List<Map<String, Object>> budMoneyList = vo.getBudgetByAllUnit();
+
+		// 实际新签金额（资本性金额、费用性金额）---不包括各个研究院，只有研究院总金额
+		List actList = outProjectService.getProjectActMoneyAndCount(map);
+
+		// 实际各个研究院新签金额（资本性金额、费用性金额）
+		map.put("typeFlag", "直属研究院");
+		List instList = outProjectService.getProjectActMoneyAndCountThreeLevel(map);
+		int oneOrder = 0, twoOrder = 0, threeOrder = 0;
+		double totalFyxBudget = 0d;
+		double totalFyxXqBudget = 0d;
+		double totalFyxJzBudget = 0d;
+		double totalFyxXqMoney = 0d;
+		double totalZbxBudget = 0d;
+		double totalZbxXqMoney = 0d;
+
+		for (int i = 0; i < temList.size(); i++) {
+			Map<String, Object> temMap = (Map<String, Object>) temList.get(i);
+
+			for (int j = 0; j < budMoneyList.size(); j++) {
+				Map<String, Object> bm = budMoneyList.get(j);
+				if (temMap.get("show_ali").toString().equals(bm.get("budgetItemName").toString())) {
+					temMap.put("fyxXqBudget", bm.get("xq") == null ? "0" : bm.get("xq"));
+					temMap.put("fyxJzBudget", bm.get("jz") == null ? "0" : bm.get("jz"));
+					System.out.println("预算各机构金额-----" + bm.get("budgetItemName") + "========" + bm.get("xq") + "========" + bm.get("jz") + "========" + bm.get("otherPayMoney"));
+					if (bm.get("budgetItemName").toString().equals("股份公司") || bm.get("budgetItemName").toString().equals("集团公司") || bm.get("budgetItemName").toString().equals("资产公司")) {
+						if (leaderFlag) {// 领导在算股份、集团、资产合计的时候，按照总部计算。
+							temMap.put("fyxBudget", temMap.get("fyxBudget"));
+							temMap.put("fyxJzBudget", bm.get("jz") == null ? "0" : bm.get("jz"));
+							temMap.put("fyxXqBudget", Double.valueOf(temMap.get("fyxBudget").toString()) - Double.valueOf(temMap.get("fyxJzBudget").toString()));
+						}
+					}
+					temMap.put("fyxBudget", Double.valueOf(temMap.get("fyxXqBudget").toString()) + Double.valueOf(temMap.get("fyxJzBudget").toString()));
+
+					temMap.put("fyxXqMoney", bm.get("otherPayMoney") == null ? "0" : bm.get("otherPayMoney"));
+					break;
+				}
+			}
+
+			for (int j = 0; j < actList.size(); j++) {
+				Map<String, Object> act = (Map<String, Object>) actList.get(j);
+				if (temMap.get("show_ali").toString().equals(act.get("type_flag").toString())) {
+					// 加上手动认定的新签
+					if (temMap.get("fyxXqMoney") == null) temMap.put("fyxXqMoney", "0");
+					temMap.put("fyxXqMoney", act.get("fyxXqMoney") == null ? Double.valueOf(temMap.get("fyxXqMoney").toString()) : Double.valueOf(act.get("fyxXqMoney").toString()) + Double.valueOf(temMap.get("fyxXqMoney").toString()));
+					temMap.put("zbxXqMoney", act.get("zbxXqMoney") == null ? "0" : act.get("zbxXqMoney"));
+					System.out.println("实际各机构金额-----" + act.get("type_flag") + "========" + act.get("fyxXqMoney") + "========" + act.get("zbxXqMoney"));
+					break;
+				}
+			}
+
+			for (int j = 0; j < instList.size(); j++) {
+				Map<String, Object> inst = (Map<String, Object>) instList.get(j);
+				if (temMap.get("show_ali").toString().equals(inst.get("define2").toString())) {
+					temMap.put("fyxXqMoney", inst.get("fyxXqMoney") == null ? "0" : inst.get("fyxXqMoney"));
+					temMap.put("zbxXqMoney", inst.get("zbxXqMoney") == null ? "0" : inst.get("zbxXqMoney"));
+					System.out.println("研究院实际金额-----" + inst.get("define2") + "========" + inst.get("fyxXqMoney") + "========" + inst.get("zbxXqMoney"));
+					break;
+				}
+			}
+
+			// 不可以看资本性的，直接清空所有资本性
+			if (!leaderFlag) {
+				temMap.put("zbxBudget", 0);
+				temMap.put("zbxXqMoney", 0);
+			}
+
+			// 序号处理
+			if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("1")) {
+				oneOrder++;
+				if (oneOrder == 1) {
+					temMap.put("showOrder", "一、");
+					temMap.put("showFlag", "1-1");
+				}
+				if (oneOrder == 2) {
+					temMap.put("showOrder", "二、");
+					temMap.put("showFlag", "1-2");
+				}
+				if (oneOrder == 3) {
+					temMap.put("showOrder", "三、");
+					temMap.put("showFlag", "1-3");
+				}
+				temMap.put("levelFlag", "1");
+				// 计算总数时，考虑总的一层，不计算“二级”预算，防止重复计算
+				totalFyxBudget = totalFyxBudget + Double.parseDouble(temMap.get("fyxBudget") == null ? "0" : temMap.get("fyxBudget").toString());
+				totalFyxXqBudget = totalFyxXqBudget + Double.parseDouble(temMap.get("fyxXqBudget") == null ? "0" : temMap.get("fyxXqBudget").toString());
+				totalFyxJzBudget = totalFyxJzBudget + Double.parseDouble(temMap.get("fyxJzBudget") == null ? "0" : temMap.get("fyxJzBudget").toString());
+				totalZbxBudget = totalZbxBudget + Double.parseDouble(temMap.get("zbxBudget") == null ? "0" : temMap.get("zbxBudget").toString());
+				totalFyxXqMoney = totalFyxXqMoney + Double.parseDouble(temMap.get("fyxXqMoney") == null ? "0" : temMap.get("fyxXqMoney").toString());
+				totalZbxXqMoney = totalZbxXqMoney + Double.parseDouble(temMap.get("zbxXqMoney") == null ? "0" : temMap.get("zbxXqMoney").toString());
+			} else if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("2")) {
+				twoOrder++;
+				temMap.put("showOrder", twoOrder);
+				temMap.put("showFlag", "1-1-" + twoOrder);
+				temMap.put("levelFlag", "2");
+				/*
+				 * totalFyxBudget = totalFyxBudget +
+				 * Double.parseDouble(temMap.get("fyxBudget") == null ? "0" :
+				 * temMap.get("fyxBudget").toString()); totalFyxXqBudget =
+				 * totalFyxXqBudget +
+				 * Double.parseDouble(temMap.get("fyxXqBudget") == null ? "0" :
+				 * temMap.get("fyxXqBudget").toString()); totalFyxJzBudget =
+				 * totalFyxJzBudget +
+				 * Double.parseDouble(temMap.get("fyxJzBudget") == null ? "0" :
+				 * temMap.get("fyxJzBudget").toString()); totalZbxBudget =
+				 * totalZbxBudget + Double.parseDouble(temMap.get("zbxBudget")
+				 * == null ? "0" : temMap.get("zbxBudget").toString());
+				 * totalFyxXqMoney = totalFyxXqMoney +
+				 * Double.parseDouble(temMap.get("fyxXqMoney") == null ? "0" :
+				 * temMap.get("fyxXqMoney").toString()); totalZbxXqMoney =
+				 * totalZbxXqMoney + Double.parseDouble(temMap.get("zbxXqMoney")
+				 * == null ? "0" : temMap.get("zbxXqMoney").toString());
+				 */
+			} else if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("3")) {
+				threeOrder++;
+				temMap.put("showOrder", "1." + String.valueOf(threeOrder));
+				temMap.put("showFlag", "1-1-1-" + threeOrder);
+				temMap.put("levelFlag", "3");
+			}
+		}
+		Map<String, Object> totalMap = new HashMap<String, Object>();
+		totalMap.put("showOrder", "总计");
+		totalMap.put("show_ali", "");
+		totalMap.put("showFlag", "1");
+		totalMap.put("levelFlag", "0");
+		totalMap.put("fyxXqBudget", totalFyxXqBudget);
+		totalMap.put("fyxJzBudget", totalFyxJzBudget);
+		totalMap.put("fyxXqMoney", totalFyxXqMoney);
+		totalMap.put("fyxBudget", totalFyxBudget);
+		totalMap.put("zbxBudget", totalZbxBudget);
+		totalMap.put("zbxXqMoney", totalZbxXqMoney);
+		temList.add(0, totalMap);
+
+		// 计算各个比率
+		for (int i = 0; i < temList.size(); i++) {
+			Map<String, Object> temMap = (Map<String, Object>) temList.get(i);
+			if (temMap.get("fyxXqBudget") == null || temMap.get("fyxXqBudget").toString().equals(""))
+				temMap.put("fyxXqBudget", 0d);
+			if (temMap.get("fyxJzBudget") == null || temMap.get("fyxJzBudget").toString().equals(""))
+				temMap.put("fyxJzBudget", 0d);
+			if (temMap.get("fyxXqMoney") == null || temMap.get("fyxXqMoney").toString().equals(""))
+				temMap.put("fyxXqMoney", 0d);
+			if (temMap.get("fyxBudget") == null || temMap.get("fyxBudget").toString().equals(""))
+				temMap.put("fyxBudget", 0d);
+			if (temMap.get("zbxBudget") == null || temMap.get("zbxBudget").toString().equals(""))
+				temMap.put("zbxBudget", 0d);
+			if (temMap.get("zbxXqMoney") == null || temMap.get("zbxXqMoney").toString().equals(""))
+				temMap.put("zbxXqMoney", 0d);
+			if (temMap.get("showFlag") == null || temMap.get("showFlag").toString().equals(""))
+				temMap.put("showFlag", "0");
+
+			Double fyxXqBudget = Double.valueOf(temMap.get("fyxXqBudget").toString());
+			Double fyxJzBudget = Double.valueOf(temMap.get("fyxJzBudget").toString());
+			Double fyxXqMoney = Double.valueOf(temMap.get("fyxXqMoney").toString());
+			Double fyxBudget = Double.valueOf(temMap.get("fyxBudget").toString());
+			Double zbxBudget = Double.valueOf(temMap.get("zbxBudget").toString());
+			Double zbxXqMoney = Double.valueOf(temMap.get("zbxXqMoney").toString());
+			if (fyxXqMoney != 0 && fyxXqBudget != 0) {
+				temMap.put("fyxXqRate", String.format("%.4f", Double.valueOf(fyxXqMoney * 100 / fyxXqBudget)));
+			} else {
+				temMap.put("fyxXqRate", 0);
+			}
+			if ((fyxXqMoney + fyxJzBudget) != 0 && fyxBudget != 0) {
+				temMap.put("fyxRate", String.format("%.4f", Double.valueOf((fyxXqMoney + fyxJzBudget) * 100 / fyxBudget)));
+			} else {
+				temMap.put("fyxRate", 0);
+			}
+			if (zbxXqMoney != 0 && zbxBudget != 0) {
+				temMap.put("zbxRate", String.format("%.4f", Double.valueOf(zbxXqMoney * 100 / zbxBudget)));
+			} else {
+				temMap.put("zbxRate", 0);
+			}
+		}
 
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -1042,7 +1222,7 @@ public class OutProjectInfoClient {
 			// 大领导特殊，能看所有
 			map.put("leaderFlag", "2");
 		}
-		
+
 		List temList = outProjectService.getDragonProjectInfoByType(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -1167,95 +1347,79 @@ public class OutProjectInfoClient {
 	public List<OutProjectInfo> selectByExample(OutProjectInfoExample example) throws Exception {
 		return outProjectService.selectByExample(example);
 	}
-	
 
 	@ApiOperation(value = "检索项目单位", notes = "根据条件检索负责单位")
 	@RequestMapping(value = "/out-provider/select-project-unit", method = RequestMethod.POST)
 	public List<OutProjectInfo> selectProjectUnit(@RequestBody OutProjectInfo example) {
 		return outProjectService.selectProjectUnit(example);
 	}
+
 	@ApiOperation(value = "检索结转项目", notes = "根据年度检索结转项目列表")
 	@RequestMapping(value = "/out-provider/select-project-jz-items", method = RequestMethod.POST)
 	public List<OutProjectInfo> selectProjectInfoJzItems(@RequestBody OutProjectInfo example) {
 		return outProjectService.selectProjectInfoJzItems(example);
 	}
+
 	@ApiOperation(value = "检索结转金额", notes = "根据年度预算单位、处部门汇总结转金额")
 	@RequestMapping(value = "/out-provider/select-project-jz", method = RequestMethod.POST)
 	public List<OutProjectInfo> selectProjectInfoJz(@RequestBody OutProjectInfo example) {
 		return outProjectService.selectProjectInfoJz(example);
 	}
-	
-	
-	
-	
-	
-	/**===============================================十条龙维护===================================================*/
-	
 
-	
-	
-	
+	/**
+	 * ===============================================十条龙维护====================
+	 * ===============================
+	 */
+
 	@ApiOperation(value = "分页显示项目数据", notes = "分页显示项目数据")
 	@RequestMapping(value = "/out-project-provider/ten_dragons/page", method = RequestMethod.POST)
 	public LayuiTableData page(@RequestBody LayuiTableParam param) throws Exception {
 		logger.info("==================page ten_dragons page===========================" + JSONObject.toJSONString(param));
 		return outProjectService.getTenDragonsOutProjectPage(param);
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/out-project-provider/ten_dragons/add", method = RequestMethod.POST)
-	public Integer insertOutProjectInfo(@RequestBody OutProjectInfo outProjectInfo) throws Exception{
+	public Integer insertOutProjectInfo(@RequestBody OutProjectInfo outProjectInfo) throws Exception {
 		logger.info("====================add ten_dragons....========================");
-		Integer count= outProjectService.insertOutProjectInfo(outProjectInfo);
+		Integer count = outProjectService.insertOutProjectInfo(outProjectInfo);
 		return count;
 	}
-	
-	
+
 	@RequestMapping(value = "/out-project-provider/ten_dragons/addWithBLOB", method = RequestMethod.POST)
-	public Integer insertOutProjectInfoWithBLOBs(@RequestBody OutProjectInfoWithBLOBs record) throws Exception{
+	public Integer insertOutProjectInfoWithBLOBs(@RequestBody OutProjectInfoWithBLOBs record) throws Exception {
 		logger.info("====================add ten_dragons...addWithBLOB.========================");
-		Integer count= outProjectService.insertOutProjectInfoWithBLOBs(record);
+		Integer count = outProjectService.insertOutProjectInfoWithBLOBs(record);
 		return count;
 	}
-	
-	
+
 	@RequestMapping(value = "/out-project-provider/ten_dragons/update", method = RequestMethod.POST)
-	public Integer updateOutProjectInfo(@RequestBody OutProjectInfo outProjectInfo) throws Exception{
+	public Integer updateOutProjectInfo(@RequestBody OutProjectInfo outProjectInfo) throws Exception {
 		logger.info("==================update ten_dragons update===========================");
 		return outProjectService.updateOutProject_Info(outProjectInfo);
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/out-project-provider/ten_dragons/updateWithBLOB", method = RequestMethod.POST)
-	public Integer updateOutProjectInfoWithBLOBs(@RequestBody OutProjectInfoWithBLOBs record) throws Exception{
+	public Integer updateOutProjectInfoWithBLOBs(@RequestBody OutProjectInfoWithBLOBs record) throws Exception {
 		logger.info("==================update ten_dragons updateWithBLOB===========================");
-		return outProjectService.updateOutProjectInfoWithBLOBs(record) ;
+		return outProjectService.updateOutProjectInfoWithBLOBs(record);
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/out-project-provider/ten_dragons/delete/{id}", method = RequestMethod.POST)
-	public int deleteOutProjectInfo(@PathVariable("id") String id)throws Exception{
+	public int deleteOutProjectInfo(@PathVariable("id") String id) throws Exception {
 		logger.info("=============================delete ten_dragons=================");
 		return outProjectService.deleteOutProjectInfo(id);
 	}
-	
-	
+
 	@RequestMapping(value = "/out-project-provider/ten_dragons/get/{id}", method = RequestMethod.GET)
 	public OutProjectInfo selectOutProjectInfo(@PathVariable(value = "id", required = true) String id) throws Exception {
-		logger.info("===============================get ten_dragons id "+id+"===========");
+		logger.info("===============================get ten_dragons id " + id + "===========");
 		return outProjectService.selectOutProjectInfo(id);
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/out-project-provider/ten_dragons/getWithBLOB/{id}", method = RequestMethod.GET)
 	public OutProjectInfo selectOutProjectInfoWithBLOB(@PathVariable(value = "id", required = true) String id) throws Exception {
-		logger.info("===============================get ten_dragons  WithBLOB id "+id+"===========");
+		logger.info("===============================get ten_dragons  WithBLOB id " + id + "===========");
 		return outProjectService.selectOutProjectInfoWithBLOBs(id);
 	}
-	
-	
+
 }

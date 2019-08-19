@@ -817,7 +817,9 @@
 	
 	<!--  辅助决策分析，成果鉴定年度分析，近三年成果各专业分布 -->
 	<select id="getAppraisalInfoByZyForThreeYear" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select tableB.* from sys_dictionary left join (
+		select sys_dictionary.name as zy, tableB.zsl, tableB.thisYearSl,
+			   tableB.lastYearSl, tableB.beforeYearSl 
+		from sys_dictionary left join (
 			select 
 				tableA.zy,
 				sum(case when tableA.nd = '${nd}' OR tableA.nd = '${nd}'-1 OR tableA.nd = '${nd}'-2 then sl else 0 end) as zsl,
@@ -910,6 +912,13 @@
 			<if test="cgmc != null">
 				and out_appraisal.cgmc like '%${cgmc}%' 
 			</if>
+			
+			<if test="key != null">
+				and (out_appraisal.cgmc like '%${key}%' or  out_appraisal.sqjddw like '%${key}%')
+			</if>
+			
+			
+			
 			<if test="define1 != null">
 				and (
 				<foreach collection="define1" item="define1" index="index" separator=" or ">

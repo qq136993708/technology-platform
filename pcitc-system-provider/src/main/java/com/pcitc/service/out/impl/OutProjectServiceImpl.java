@@ -15,7 +15,6 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -280,6 +279,11 @@ public class OutProjectServiceImpl implements OutProjectService {
 			List<HashMap<String, String>> zycbmList = new ArrayList<HashMap<String, String>>();
 			for (int i = 0; i < distList.size(); i++) {
 				HashMap<String, String> zycbmMap = new HashMap<String, String>();
+				// 综合计划处特殊，和大领导查询数据权限一致
+				if (distList.get(i) != null && distList.get(i).contains("30130054")) {
+					hashmap.put("leaderFlag", "2");
+					break;
+				}
 				zycbmMap.put("zycbm", distList.get(i));
 				if (zylbbmPara != null && !StringUtils.isBlank(zylbbmPara + "") && zylbbmPara.toString().contains(distList.get(i))) {
 					Set<String> zylbbmSet = new HashSet<>(Arrays.asList(zylbbmPara.toString().split(",")));
@@ -726,11 +730,11 @@ public class OutProjectServiceImpl implements OutProjectService {
 		JSONObject hashmapstr = JSONObject.parseObject(JSONObject.toJSONString(hashmap));
 		System.out.println(">>>>>>>封装后->参数： " + hashmapstr.toString());
 
-		//20190807-添加dataId查询条件-开始
-        if (!StrUtil.isNullEmpty(param.getParam().get("zjps"))&&!StrUtil.isNullEmpty(param.getParam().get("dataIds"))){
-            hashmap.put("dataIds",param.getParam().get("dataIds"));
-        }
-		//20190807-添加dataId查询条件-结束
+		// 20190807-添加dataId查询条件-开始
+		if (!StrUtil.isNullEmpty(param.getParam().get("zjps")) && !StrUtil.isNullEmpty(param.getParam().get("dataIds"))) {
+			hashmap.put("dataIds", param.getParam().get("dataIds"));
+		}
+		// 20190807-添加dataId查询条件-结束
 
 		// 先按照合同号分组获取当前页的15个合同号，再用这些合同号去获取对应查询条件下的所有数据
 		List list = outProjectInfoMapper.selectProjectInfoWithAllInfoByCondForGroup(hashmap);
@@ -1012,6 +1016,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		LayuiTableData data = new LayuiTableData();
 
 		List finalList = new ArrayList();
+		List finalListOrder = new ArrayList();
 
 		// 利用合同号查询科研奖励数据，单独查询，联合查询效率太慢
 		StringBuffer sb = new StringBuffer("");
@@ -1085,15 +1090,36 @@ public class OutProjectServiceImpl implements OutProjectService {
 						temMap.put("ktmc", pageMap.get("ktmc"));
 						temMap.put("xmmc", pageMap.get("xmmc"));
 					}
-					
+
 				}
 			}
 
-			// list内部分组排序
+			String xmidFlag = "";
+			List finalListSmall = new ArrayList();
+			// list内部分组排序, 同一个xmid内,承担单位有*在最前面（特殊情况没有*，不考虑排序）
+			for (int i = 0; i < finalList.size(); i++) {
+				HashMap temMap = (HashMap) finalList.get(i);
+				Object temXmid = temMap.get("xmid");
+				if (temXmid != null && !temXmid.toString().equals(xmidFlag)) {
+					// 新的xmid
+					finalListOrder.addAll(finalListSmall);
+					xmidFlag = temXmid.toString();
+					finalListSmall = new ArrayList();
+					finalListSmall.add(temMap);
+				} else {
+					Object define8 = temMap.get("define8");
+					if (define8 != null && define8.toString().contains("*")) {
+						finalListSmall.add(0, temMap);
+					} else {
+						finalListSmall.add(temMap);
+					}
+				}
+			}
+			finalListOrder.addAll(finalListSmall);
 
 		}
 
-		data.setData(finalList);
+		data.setData(finalListOrder);
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 		return data;
@@ -1660,16 +1686,6 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 	/**
 	 * @param nd
-	 * @return 首页查询各单位的新开、续建、完结情况
-	 */
-	public List getProjectTypeInfoByUnit(HashMap<String, String> map) {
-		// 数据控制, 专业处、专业
-		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
-		return outProjectInfoMapper.getProjectTypeInfoByUnit(map);
-	}
-
-	/**
-	 * @param nd
 	 * @return 首页、领导首页，查询新开的国家项目、重点项目、重大项目、其他项目、总计的统计
 	 */
 	public HashMap<String, String> getProjectTotalInfoByNew(HashMap<String, String> map) {
@@ -1898,10 +1914,10 @@ public class OutProjectServiceImpl implements OutProjectService {
 	}
 
 	/**
-	 * @return 领导二级页面，预算数据，8个院费用性和资本性的柱状图
+	 * 预算执行情况，包含股份公司、资产公司、集团公司的
 	 */
-	public List getInstituteMoneyWithYS(HashMap<String, String> map) {
-		return outProjectInfoMapper.getInstituteMoneyWithYS(map);
+	public List getAllBudgetWithAllLevel(HashMap<String, String> map) {
+		return outProjectInfoMapper.getAllBudgetWithAllLevel(map);
 	}
 
 	/**
@@ -2428,45 +2444,63 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return data;
 	}
 
-    @Override
-    public LayuiTableData selectProjectInfoWithAllInfoByCondYearExpert(LayuiTableParam param) {
+	@Override
+	public LayuiTableData selectProjectInfoWithAllInfoByCondYearExpert(LayuiTableParam param) {
 
-        LayuiTableData data = this.selectProjectInfoWithAllInfoByCondYear(param);
-        List<Map<String, Object>> maps = (List<Map<String, Object>>) data.getData();
-        int j = maps.size();
+		LayuiTableData data = this.selectProjectInfoWithAllInfoByCondYear(param);
+		List<Map<String, Object>> maps = (List<Map<String, Object>>) data.getData();
+		int j = maps.size();
 
-        List<String> ids = new ArrayList<>();
-        for (int i = 0; i < j; i++) {
-            ids.add(maps.get(i).get("xmid").toString());
-        }
-        if (ids == null || ids.size() == 0) {
-            ids.add("");
-        }
-        ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
-        zjkChoiceExample.createCriteria().andXmIdIn(ids);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("list", ids);
-        List<Map<String, Object>> objectMap = (List<Map<String, Object>>) zjkBaseInfoServiceClient.selectByExample(jsonObject).get("list");
-        List<ZjkChoice> zjkChoices = new ArrayList<>();
-        for (int i = 0; i < objectMap.size(); i++) {
-            ZjkChoice choice = new ZjkChoice();
-            MyBeanUtils.transMap2Bean((Map<String, Object>) objectMap.get(i), choice);
-            zjkChoices.add(choice);
-        }
-        Map<String, Object> map = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId, ZjkChoice::getZjId, (entity1, entity2) -> entity1));
+		List<String> ids = new ArrayList<>();
+		for (int i = 0; i < j; i++) {
+			ids.add(maps.get(i).get("xmid").toString());
+		}
+		if (ids == null || ids.size() == 0) {
+			ids.add("");
+		}
+		ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+		zjkChoiceExample.createCriteria().andXmIdIn(ids);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("list", ids);
+		List<Map<String, Object>> objectMap = (List<Map<String, Object>>) zjkBaseInfoServiceClient.selectByExample(jsonObject).get("list");
+		List<ZjkChoice> zjkChoices = new ArrayList<>();
+		for (int i = 0; i < objectMap.size(); i++) {
+			ZjkChoice choice = new ZjkChoice();
+			MyBeanUtils.transMap2Bean((Map<String, Object>) objectMap.get(i), choice);
+			zjkChoices.add(choice);
+		}
+		Map<String, Object> map = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId, ZjkChoice::getZjId, (entity1, entity2) -> entity1));
 
-        for (int i = 0; i < j; i++) {
-            if (!StrUtil.isNullEmpty(map.get(maps.get(i).get("xmid")))) {
-                maps.get(i).put("flag", "1");
-            }
-        }
+		for (int i = 0; i < j; i++) {
+			if (!StrUtil.isNullEmpty(map.get(maps.get(i).get("xmid")))) {
+				maps.get(i).put("flag", "1");
+			}
+		}
 
-        data.setData(maps);
-        return data;
+		data.setData(maps);
+		return data;
 
-    }
+	}
 
-    public OutProjectInfo selectOutProjectInfo(String id) throws Exception {
+	/**
+	 * 查询实际金额和实际数量， 粗组织机构分类
+	 */
+	public List getProjectActMoneyAndCount(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+		return outProjectInfoMapper.getProjectActMoneyAndCount(map);
+	}
+
+	/**
+	 * 查询实际金额和实际数量，细组织机构分类
+	 */
+	public List getProjectActMoneyAndCountThreeLevel(HashMap<String, String> map) {
+		// 数据控制, 专业处、专业
+		this.getDataFilterCondition(map, map.get("zycbm"), map.get("zylbbm"));
+		return outProjectInfoMapper.getProjectActMoneyAndCountThreeLevel(map);
+	}
+
+	public OutProjectInfo selectOutProjectInfo(String id) throws Exception {
 		return outProjectInfoMapper.selectByPrimaryKey(id);
 	}
 
@@ -2485,33 +2519,25 @@ public class OutProjectServiceImpl implements OutProjectService {
 	public Integer insertOutProjectInfo(OutProjectInfo record) throws Exception {
 		return outProjectInfoMapper.insertOutProjectInfo(record);
 	}
-	/*public Integer insertOutProjectInfo(OutProjectInfo outProjectInfo)throws Exception
-	{
-		String fzdwStr= outProjectInfo.getFzdwStr();
-		logger.info("====================  add ten_dragons ========================fzdwStr: "+fzdwStr);
-		String xmId=outProjectInfo.getXmid();
-		String arr[]=fzdwStr.split("\\|");
-		Integer count=0;
-		if(arr!=null && arr.length>0)
-		{
-			for(int i=0;i<arr.length;i++)
-			{
-				String lineStr=arr[i];
-				String array[]=lineStr.split("#");
-				String fzdw=array[0];
-				String define6=array[1];
-				
-				OutProjectInfo projectInfo=new OutProjectInfo();
-				BeanUtils.copyProperties(projectInfo, outProjectInfo);
-				String dataId = UUID.randomUUID().toString().replaceAll("-", "");
-				projectInfo.setDataId(dataId);
-				projectInfo.setFzdw(fzdw);
-				projectInfo.setDefine6(define6);
-				count= outProjectInfoMapper.insertOutProjectInfo(projectInfo);
-			}
-		}
-		return count;
-	}*/
+
+	/*
+	 * public Integer insertOutProjectInfo(OutProjectInfo outProjectInfo)throws
+	 * Exception { String fzdwStr= outProjectInfo.getFzdwStr(); logger.info(
+	 * "====================  add ten_dragons ========================fzdwStr: "
+	 * +fzdwStr); String xmId=outProjectInfo.getXmid(); String
+	 * arr[]=fzdwStr.split("\\|"); Integer count=0; if(arr!=null &&
+	 * arr.length>0) { for(int i=0;i<arr.length;i++) { String lineStr=arr[i];
+	 * String array[]=lineStr.split("#"); String fzdw=array[0]; String
+	 * define6=array[1];
+	 * 
+	 * OutProjectInfo projectInfo=new OutProjectInfo();
+	 * BeanUtils.copyProperties(projectInfo, outProjectInfo); String dataId =
+	 * UUID.randomUUID().toString().replaceAll("-", "");
+	 * projectInfo.setDataId(dataId); projectInfo.setFzdw(fzdw);
+	 * projectInfo.setDefine6(define6); count=
+	 * outProjectInfoMapper.insertOutProjectInfo(projectInfo); } } return count;
+	 * }
+	 */
 
 	public Integer insertOutProjectInfoWithBLOBs(OutProjectInfoWithBLOBs record) throws Exception {
 		return outProjectInfoMapper.insert(record);

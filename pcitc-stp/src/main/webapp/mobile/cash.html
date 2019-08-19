@@ -13,6 +13,7 @@
             padding-bottom: .1rem;
             background-size: 100%;
             padding-top: .1rem;}
+        .child input{width: .8rem;}
     </style>
 </head>
 <body>
@@ -20,7 +21,7 @@
     <div class="m_return child">
         <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>研究院现金流</h4>
-        <div id="test-laydate-normElem" placeholder="yyyy" class="laydate-c"></div>
+        <input id="date" type="text" value="" placeholder="">
     </div>
 </header>
 <main class="main contract cash">
@@ -42,6 +43,7 @@
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/mobile/js/rolldate.min.js"></script>
 <script>
     var layer;
     (function(doc, win) {
@@ -58,25 +60,36 @@
     })(document, window);
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
-        laydate.render({
-            elem: '#test-laydate-normElem'
-            ,type: 'year'
-            ,value:"2019"
-        });
+        new Rolldate({
+            el: '#date',
+            format: 'YYYY-MM',
+            beginYear: 2016,
+            endYear: $("#month").val().substr(0,4),
+            value: $("#month").val(),
+            confirm: function (date) {
+               /*  if (date.substr(0,4) > 2020) {
+                    layer.alert('不能大于当前的日期',{title:"提示"});
+                    return false;
+                } */
+                $("#month").val(date);
+                getFlow();
+            }
+        })
     });
     
     
     
-    function get_Mobile_Month_Cash_Flow()
+    function getFlow()
     {
-    	var month = $('#month').val();
+    	var monthstr = $('#month').val();
+    	var month=monthstr.replace("-","");
     	var companyCode=  $('#companyCode').val();
     	console.log("参数：\n companyCode:"+companyCode+"month="+month);
     	if(companyCode!=null && companyCode!='')
    		{
     		$.ajax({
         		type : "GET",
-        		url : "/financial-decision/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
+        		url : "/mobile/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
         		timeout : 9000,
         		dataType : "json",
         		cache : false,
@@ -102,10 +115,10 @@
         						classstr=" class='not' ";
         					
         					}
-        					var temp="<li "+classstr+">"+
+        					var temp="<li  onclick=\"view('"+monthstr+"','"+g0GSJC+"')\" "+classstr+">"+
     				    				"<p>"+
     				                        "<span>"+g0GSJC+"</span>"+
-    				                        "<span>"+k0BQLJJE+"万元</span>"+
+    				                        "<span>"+setNumStr(k0BQLJJE)+"</span>"+
     				                    "</p>"+
     			                       "</li>";
         					count=count+temp;
@@ -113,7 +126,7 @@
         			 }
         			 
         			 $("#list_id").html(count); 
-        			 $("#all_money_id").html((all/10000).toFixed(2)+" 亿"); 
+        			 $("#all_money_id").html((all/10000).toFixed(2)+"<lable >亿<lable>");
         		},
         		error : function() {
         		},
@@ -124,14 +137,49 @@
   			{
   			    alert("请联系管理员配置研究院相关的数据权限");
   			}
-    	
-    	
-
     }
-    get_Mobile_Month_Cash_Flow();
+    
+    getFlow();
     
     
+    function view(month,g0GSJC)
+    {
+    	location.href="/mobile/cash_details?g0GSJC="+g0GSJC+"&month="+month;
+    }
     
+    function setNumStr(num)
+    {
+    	
+    	var result="";
+    	
+    	if(num=='0.00')
+		{
+    		num=0;
+		}
+		if(parseFloat(num)>10000)//亿
+		{
+			var  temp=parseFloat(num/10000).toFixed(2);
+			var  endstr=temp.substring(temp.length-3);
+			//alert(temp);
+			if(endstr=='.00')
+			{
+				temp= temp.substring(0,temp.length-3);
+			}
+			result=temp+"<lable >亿<lable>";
+		}else//万
+		{
+			
+			var  temp=parseFloat(num).toFixed(2);
+			var  endstr=temp.substring(temp.length-3);
+			if(endstr=='.00')
+			{
+				//temp= temp.replace(".00","")
+				temp= temp.substring(0,temp.length-3);
+			}
+			result=temp+"<lable >万<lable>";
+		}
+		return result;
+    }
     
 </script>
 </body>
