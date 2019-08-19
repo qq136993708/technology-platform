@@ -47,7 +47,6 @@ public class MobileContractController extends BaseController {
 	private static final String contract_01 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/total";
 	private static final String contract_03 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/institute";
 	private static final String contract_zyc = "http://pcitc-zuul/system-proxy/out-project-plan-provider/zyc/plan/count";
-
 	private static final String getInvestment02 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/month/money-hana-type";
 
 
@@ -344,7 +343,8 @@ public class MobileContractController extends BaseController {
 							String str ="0";
 							if(hanaMoney!=null)
 							{
-								 HanaUtil.DecimalFormatObject(hanaMoney);
+								str=HanaUtil.DecimalFormatObject(hanaMoney);
+								str=HanaUtil.chufa(Integer.valueOf(str), 10000);
 							}
 							seriesDataList.add(str);
 						}
