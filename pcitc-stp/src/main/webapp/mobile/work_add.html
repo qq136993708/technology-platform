@@ -151,6 +151,7 @@
         	  var url = '/mobile/plan/submitBotWorkOrder?v_date=' + v_date + "&workOrderStatus=1" ;
               var backurl = "/mobile/work?v_date=" + v_date;
               ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
+            return false;
         });
         
        
@@ -161,8 +162,8 @@
     {
     	//设置下拉列表
         setTatterList();
-    	
     	var data=getFormData();
+        data.matterList=setTatterList();
     	console.log("确定\n"+JSON.stringify(data));
 		return;
         $.ajax({
@@ -230,8 +231,7 @@
    				}
     		}
     	}
-    	
-    	$("#matterList").val(matterList);
+    	return matterList;
     }
     
   
@@ -240,7 +240,6 @@
     {
   	    var unindexed_array =  $('#form1').serializeArray();
   	    var indexed_array = {};
-
   	    $.map(unindexed_array, function (n, i) {
   	      indexed_array[n['name']] = n['value'];
   	    });
