@@ -67,8 +67,9 @@
                             </button>
                         </div>
                     </div>
-
-                    <table id="zjkMsgTableId" class="layui-hide" lay-filter="zjkMsgTableId"></table>
+                    <div class="zjkMsgTableId">
+                        <table id="zjkMsgTableId" class="layui-hide" lay-filter="zjkMsgTableId"></table>
+                    </div>
 
 
                 </div>
@@ -111,7 +112,9 @@
                             </button>
                         </div>
                     </div>
-                    <table id="zjkMsgTableIdCg" class="layui-hide" lay-filter="zjkMsgTableIdCg"></table>
+                    <div class="zjkMsgTableIdCg">
+                        <table id="zjkMsgTableIdCg" class="layui-hide" lay-filter="zjkMsgTableIdCg"></table>
+                    </div>
 
                 </div>
             </div>
@@ -153,7 +156,9 @@
                             </button>
                         </div>
                     </div>
-                    <table id="zjkMsgTableIdJl" class="layui-hide" lay-filter="zjkMsgTableIdJl"></table>
+                    <div class="zjkMsgTableIdJl">
+                        <table id="zjkMsgTableIdJl" class="layui-hide" lay-filter="zjkMsgTableIdJl"></table>
+                    </div>
                 </div>
 
             </div>
@@ -282,7 +287,7 @@
                     return res;
                 },
                 done: function (res) {
-                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    $('.zjkMsgTableId .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
                         if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
                             $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
@@ -376,19 +381,14 @@
                     return res;
                 },
                 done: function (res) {
-                    // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                    //     var index = parseInt($(this).index() + 1);
-                    //     $('tr').removeClass('layui-table-click');
-                    //     $(this).addClass('layui-table-click');
-                    //     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    //     // selectRowData = res.data[index - 1];
-                    // });
-                    if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
-                        $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
-                    }else {
-                        $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    }
+                     $('.zjkMsgTableIdCg .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                         if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
+                             $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
+                         }else {
+                             $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                         }
+                     });
+
                 },
                 onClickRow: function (index, o) {
                     console.log(index, o, "单击！");
@@ -482,19 +482,14 @@
                     return res;
                 },
                 done: function (res) {
-                    // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                    //     var index = parseInt($(this).index() + 1);
-                    //     $('tr').removeClass('layui-table-click');
-                    //     $(this).addClass('layui-table-click');
-                    //     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    //     // selectRowData = res.data[index - 1];
-                    // });
-                    if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
-                        $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
-                    }else {
-                        $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    }
+                     $('.zjkMsgTableIdJl .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                         if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
+                             $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
+                         }else {
+                             $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                         }
+                    });
+
                 },
                 onClickRow: function (index, o) {
                     console.log(index, o, "单击！");
