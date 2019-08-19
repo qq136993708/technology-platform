@@ -317,6 +317,9 @@ span{display: inline-block;}
     background: none; padding: 0;font-size: 14px;    text-indent: 24px;
     margin-left: 20px;
     color: #666666;}
+.layui-expert-div .layui-a{overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;}
 .layui-a{display: block;background: url("/layuiadmin/layui/images/dizhi.png") 0 5px no-repeat !important;}
 .layui-expert-div .layui-zc{display: block;
     background: url("/layuiadmin/layui/images/zhicheng.png") 0 5px no-repeat;}
