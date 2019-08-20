@@ -55,6 +55,17 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 		commonKey.add("logout");
 		commonKey.add("common-login");
 		commonKey.add("mobile");
+		
+		commonKey.add("unit_select_radio");
+		commonKey.add("reportStore");
+		commonKey.add("sysfileconfig");
+		commonKey.add("small_leader");
+		commonKey.add("sysNews");
+		commonKey.add("dictionary");
+		commonKey.add("pageCommon");
+		commonKey.add("sysAddress");
+		
+		commonKey.add("zjkBaseInfo");
 	}
 
 	@Override
