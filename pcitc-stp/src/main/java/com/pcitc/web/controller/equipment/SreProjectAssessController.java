@@ -29,7 +29,6 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 @Controller
-@RequestMapping(value = "/sre_project_assess")
 public class SreProjectAssessController extends BaseController{
 	private static final String PROJECTPAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectAssess/page";
 	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/pagebyacceptTwo";
@@ -38,11 +37,11 @@ public class SreProjectAssessController extends BaseController{
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectAssess/get/";
 	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectAssess/updateAssess";
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectAssess/delete/";
-	@RequestMapping(value = "/to_list")
+	@RequestMapping(value = "/sre_project_assess/to_list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return "/stp/equipment/assess/project_taskac_list";
 	}
-	@RequestMapping(value = "/list")
+	@RequestMapping(value = "/sre_project_assess/list")
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 	{
@@ -57,25 +56,25 @@ public class SreProjectAssessController extends BaseController{
 		logger.info("============result" + result);
 		return result.toString();
 	}
-	@RequestMapping(value = "/task_list")
+	@RequestMapping(value = "/sre_project_assess/task_list")
 	public String tasklist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		return "/stp/equipment/assess/project_task_list";
 	}
 	
-	@RequestMapping(value = "/notice_list")
+	@RequestMapping(value = "/sre_project_assess/notice_list")
 	public String noticelist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		return "/stp/equipment/assess/project_tasknotice_list";
 	}
-	@RequestMapping(value = "/projectusers")
+	@RequestMapping(value = "/sre_project_assess/projectusers")
 	public String projectusers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
 		return "/stp/equipment/assess/project_task_users";
 	}
 	
-	@RequestMapping(value = "/projectlist")
+	@RequestMapping(value = "/sre_project_assess/projectlist")
 	@ResponseBody
 	public String projectlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		
@@ -96,26 +95,26 @@ public class SreProjectAssessController extends BaseController{
 		return result.toString();
 	}
 	
-	@RequestMapping(value = "/to_prlist")
+	@RequestMapping(value = "/sre_project_assess/to_prlist")
 	public String prlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
 		return "/stp/equipment/assess/project_taskpr_list";
 	}
 	
-	@RequestMapping(value = "/to_reportlist")
+	@RequestMapping(value = "/sre_project_assess/to_reportlist")
 	public String reportlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		return "/stp/equipment/assess/project_taskreport_list";
 	}
-	@RequestMapping(value = "/project_audit")
+	@RequestMapping(value = "/sre_project_assess/project_audit")
 	public String audit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    request.setAttribute("username",sysUserInfo.getUserDisp());
 	    request.setAttribute("userDate",new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		return "/stp/equipment/assess/project_taskac_audit";
 	}
 	
-	@RequestMapping(value = "/addAudit")
+	@RequestMapping(value = "/sre_project_assess/addAudit")
 	@ResponseBody
 	public String addAudit(HttpServletRequest request) throws Exception {
 		ResponseEntity<String> responseEntity = null;
@@ -144,7 +143,7 @@ public class SreProjectAssessController extends BaseController{
 	}
 		return success;
 	}
-	@RequestMapping(value = "/submitAudit")
+	@RequestMapping(value = "/sre_project_assess/submitAudit")
 	@ResponseBody
 	public String submitAudit(HttpServletRequest request) throws Exception {
 		ResponseEntity<String> responseEntity = null;
@@ -167,7 +166,7 @@ public class SreProjectAssessController extends BaseController{
 			return success;
 		}
 		
-	  @RequestMapping(value = "/projecttaskpradd")
+	  @RequestMapping(value = "/sre_project_assess/projecttaskpradd")
 	    public String upFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
@@ -208,7 +207,7 @@ public class SreProjectAssessController extends BaseController{
 	        return "/stp/equipment/assess/project_taskpr_add";
 	    }
 	  
-	  @RequestMapping(value = "/updateFileDoc")
+	  @RequestMapping(value = "/sre_project_assess/updateFileDoc")
 	    public String updateFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 	        Result resultsDate = new Result();
@@ -253,7 +252,7 @@ public class SreProjectAssessController extends BaseController{
 	    }
 	  
 	  
-	    @RequestMapping(value = "/addUsers")
+	    @RequestMapping(value = "/sre_project_assess/addUsers")
 	    @ResponseBody
 		public String addUsers(HttpServletRequest request) throws Exception {
 	    	String id = CommonUtil.getParameter(request, "id", "");
@@ -291,7 +290,7 @@ public class SreProjectAssessController extends BaseController{
 		 * @return
 		 * @throws Exception
 		 */
-		@RequestMapping(value = "/delete/{id}")
+		@RequestMapping(value = "/sre_project_assess/delete/{id}")
 		public String delete(@PathVariable("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception {
 			Result resultsDate = new Result();
 			ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
