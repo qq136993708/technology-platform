@@ -218,9 +218,9 @@ public class MobileWorkbechController extends BaseController
 		
 		
 		//工作安排列表
-		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		int page = request.getParameter("page") == null ? 1 : Integer.parseInt((String) request.getParameter("page"));
 		LayuiTableParam param = new LayuiTableParam();
-		param.setPage(pageNo);
+		param.setPage(page);
 		param.setLimit(100);
 		param.getParam().put("workOrderId", dataId);
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -263,9 +263,9 @@ public class MobileWorkbechController extends BaseController
 	}
  	private static LayuiTableData getDealWorkSendFinished(HttpServletRequest request,RestTemplate restTemplate,HttpHeaders httpHeaders) {
 		String dataId = request.getParameter("dataId");
- 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+ 		int page = request.getParameter("page") == null ? 1 : Integer.parseInt((String) request.getParameter("page"));
 		LayuiTableParam param = new LayuiTableParam();
-		param.setPage(pageNo);
+		param.setPage(page);
 		param.setLimit(100);
 		param.getParam().put("workOrderId", dataId);
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -288,9 +288,9 @@ public class MobileWorkbechController extends BaseController
 	
 	private static LayuiTableData getDealWorkSendOthedr(HttpServletRequest request,RestTemplate restTemplate,HttpHeaders httpHeaders) {
 		String dataId = request.getParameter("dataId");
- 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+ 		int page = request.getParameter("page") == null ? 1 : Integer.parseInt((String) request.getParameter("page"));
 		LayuiTableParam param = new LayuiTableParam();
-		param.setPage(pageNo);
+		param.setPage(page);
 		param.setLimit(100);
 		param.getParam().put("workOrderId", dataId);
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -322,9 +322,9 @@ public class MobileWorkbechController extends BaseController
 	{
 		
 		String parentId=CommonUtil.getParameter(request,"parentId", "");
-		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		int page = request.getParameter("page") == null ? 1 : Integer.parseInt((String) request.getParameter("page"));
 		LayuiTableParam param = new LayuiTableParam();
-		param.setPage(pageNo);
+		param.setPage(page);
 		param.setLimit(15);
 		// 只查询本人创建的
 		param.getParam().put("createUser", sysUserInfo.getUserId());
@@ -349,9 +349,9 @@ public class MobileWorkbechController extends BaseController
 		String bak7=CommonUtil.getParameter(request,"bak7", "");
 		String isChildren=CommonUtil.getParameter(request,"isChildren", "");
 		
-		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		int page = request.getParameter("page") == null ? 1 : Integer.parseInt((String) request.getParameter("page"));
 		LayuiTableParam param = new LayuiTableParam();
-		param.setPage(pageNo);
+		param.setPage(page);
 		param.setLimit(15);
 		
 		param.getParam().put("isSchedule", isSchedule);
@@ -483,9 +483,9 @@ public class MobileWorkbechController extends BaseController
 	@RequestMapping(value = "/mobile/wait_task_list_data")
 	@ResponseBody
 	public LayuiTableData wait_task_list_data(HttpServletRequest request) {
-		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		int page = request.getParameter("page") == null ? 1 : Integer.parseInt((String) request.getParameter("page"));
 		LayuiTableParam param = new LayuiTableParam();
-		param.setPage(pageNo);
+		param.setPage(page);
 		param.setLimit(15);
 		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
@@ -499,9 +499,9 @@ public class MobileWorkbechController extends BaseController
 	@RequestMapping(value = "/mobile/finished_task_list_data")
 	@ResponseBody
 	public LayuiTableData finished_task_list_data(HttpServletRequest request) {
-		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		int page = request.getParameter("page") == null ? 1 : Integer.parseInt((String) request.getParameter("page"));
 		LayuiTableParam param = new LayuiTableParam();
-		param.setPage(pageNo);
+		param.setPage(page);
 		param.setLimit(15);
 		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
@@ -521,9 +521,9 @@ public class MobileWorkbechController extends BaseController
 	public Object otherPendingList(HttpServletRequest request) 
 	{
 		
-		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
+		int page = request.getParameter("page") == null ? 1 : Integer.parseInt((String) request.getParameter("page"));
 		LayuiTableParam param = new LayuiTableParam();
-		param.setPage(pageNo);
+		param.setPage(page);
 		param.setLimit(15);
 		
 		System.out.println("==== 待办 param-->" + JSON.toJSON(param).toString());
