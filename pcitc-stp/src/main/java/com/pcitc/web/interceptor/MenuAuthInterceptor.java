@@ -80,6 +80,19 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 			}
 			System.out.println("1MenuAuthInterceptor=====-"+pathKey);
 			System.out.println("2MenuAuthInterceptor=====-"+authSet);
+			
+			if (path.contains("/mobile/investment_02") || path.contains("/mobile/get_Mobile_Month_Cash_Flow")) {
+				// 移动的特殊处理
+				String mobileLeader = (String)request.getSession().getAttribute("mobileLeader");
+				if (mobileLeader != null && mobileLeader.equals("true")) {
+					
+				} else {
+					System.out.println("3MenuAuthInterceptor=====-"+pathKey);
+					resultData(request, response);
+					return false;
+				}
+				
+			}
 			if (!commonKey.contains(pathKey)) {
 				// 没有权限访问才功能
 				System.out.println("3MenuAuthInterceptor=====-"+pathKey);

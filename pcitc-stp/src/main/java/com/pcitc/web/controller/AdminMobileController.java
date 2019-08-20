@@ -112,6 +112,11 @@ public class AdminMobileController extends BaseController {
 		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
 		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 		request.setAttribute("sysUserInfo", sysUserInfo);
+		
+		if (isZHJHCPerson || sysUserInfo.getUserLevel() == 2) {
+			request.getSession().setAttribute("mobileLeader", "true");
+		}
+		
 		List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 		request.setAttribute("list", list);
 		String nd = HanaUtil.getCurrentYear();
@@ -251,6 +256,11 @@ public class AdminMobileController extends BaseController {
 		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
 		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 		request.setAttribute("sysUserInfo", tokenUser); // tokenUser中有userLevel等基本属性
+		
+		if (isZHJHCPerson || sysUserInfo.getUserLevel() == 2) {
+			request.getSession().setAttribute("mobileLeader", "true");
+		}
+		
 		List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 		request.setAttribute("list", list);
 		String nd = HanaUtil.getCurrentYear();
@@ -383,6 +393,10 @@ public class AdminMobileController extends BaseController {
 			request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 			request.setAttribute("sysUserInfo", tokenUser); // tokenUser中有userLevel等基本属性
 
+			if (isZHJHCPerson || sysUserInfo.getUserLevel() == 2) {
+				request.getSession().setAttribute("mobileLeader", "true");
+			}
+			
 			List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 			request.setAttribute("list", list);
 			String nd = HanaUtil.getCurrentYear();
@@ -425,6 +439,11 @@ public class AdminMobileController extends BaseController {
 			boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
 			request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 			request.setAttribute("sysUserInfo", sysUserInfo);
+			
+			if (isZHJHCPerson || sysUserInfo.getUserLevel() == 2) {
+				request.getSession().setAttribute("mobileLeader", "true");
+			}
+			
 			List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
 			request.setAttribute("list", list);
 			String nd = HanaUtil.getCurrentYear();
