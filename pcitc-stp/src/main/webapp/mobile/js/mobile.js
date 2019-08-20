@@ -121,7 +121,7 @@ function page(id,url,type,functionN)
                                 $("#" + id + "1>a:eq(1)").removeClass("aH");
                             }
                            // functionN(url+"&page=" + (number1), id, type);
-                            eval(functionN+"('"+url+"&page=" + (number)+"','"+id+"','"+type+"');");
+                            eval(functionN+"('"+url+"&page=" + (number1)+"','"+id+"','"+type+"');");
                         });
 
                     }
