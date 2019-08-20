@@ -42,9 +42,9 @@
                 <div class="layui-tab">
                     <div class="tab-b">
                         <ul class="layui-tab-title">
-                            <li class="layui-this">全部</li>
-                            <li>未结束</li>
-                            <li>已完成</li>
+                            <li class="layui-this">全部<label id="send_count_all"></label></li>
+                            <li>未结束<label id="send_count_doing"></label></li>
+                            <li>已完成<label id="send_count_finished"></label></li>
                         </ul>
                     </div>
                     <div class="layui-tab-content">
@@ -65,9 +65,9 @@
                 <div class="layui-tab">
                     <div class="tab-b">
                         <ul class="layui-tab-title">
-                            <li class="layui-this">全部</li>
-                            <li>待处理</li>
-                            <li>已处理</li>
+                            <li class="layui-this">全部<label id="deal_count_all"></label></li>
+                            <li>待处理<label id="deal_count_doing"></label></li>
+                            <li>已处理<label id="deal_count_finished"></label></li>
                         </ul>
                     </div>
                     <div class="layui-tab-content tab-d">
@@ -152,14 +152,16 @@
     			var count="";
     			var count_wait="";
     			var count_finished="";
+    			var send_count_all=data.count;
+    			var send_count_doing=0;
+    			var send_count_finished=0;
     			//alert(data.length);
     			$("#one_list_count").html(""+data.count+""); 	
     			if(dataArr.length>0)
    			    {
    				  for(var i=0;i<dataArr.length;i++)
        			  {
-   					  
-   					var dataId= dataArr[i].dataId;
+   					 var dataId= dataArr[i].dataId;
   					 var workOrderName= dataArr[i].workOrderName;//工作任务名称
   					 var createDate= dataArr[i].createDate;//安排时间
   					 var workOrderAllotUserName= dataArr[i].workOrderAllotUserName;//工作处理人
@@ -212,17 +214,28 @@
 					 if(bl!=100)
 					 {
 						 count_wait=count_wait+temp;
+						 send_count_doing++;
 					 }
 					 if(bl==100)
 					 {
 						 count_finished=count_finished+temp;
+						 send_count_finished++;
 					 }
 					 
        			  }
    			   }
+    			
+    		   //列表
     		   $("#one_list").html(count); 	
     		   $("#one_wait_list").html(count_wait); 	
     		   $("#one_finished_list").html(count_finished); 	
+    		   
+    		   //统计数
+    		   $("#send_count_all").html(send_count_all); 	
+    		   $("#send_count_doing").html(send_count_doing); 	
+    		   $("#send_count_finished").html(send_count_finished); 	
+    		   
+    		   
     		},
     		error : function() {
     		},
@@ -253,6 +266,11 @@
     			var count="";
     			var count_wait="";
     			var count_finished="";
+    			
+    			var deal_count_all=data.count;
+    			var deal_count_doing=0;
+    			var deal_count_finished=0;
+    			
     			//alert(data.length);
     			$("#two_list_count").html(""+data.count+""); 	
     			if(dataArr.length>0)
@@ -300,16 +318,24 @@
 					 if(workOrderStatus=='1')
 					 {
 						 count_wait=count_wait+temp;
+						 deal_count_doing++;
 					 }
 					 if(workOrderStatus=='2')
 					 {
 						 count_finished=count_finished+temp;
+						 deal_count_finished++;
 					 }
        			  }
    			   }
     		   $("#two_list").html(count); 	
     		   $("#two_wait_list").html(count_wait); 	
     		   $("#two_finished_list").html(count_finished); 	
+    		   
+    		   
+    		   $("#deal_count_doing").html(deal_count_doing); 	
+    		   $("#deal_count_finished").html(deal_count_finished); 	
+    		   $("#deal_count_all").html(deal_count_all); 	
+    		   
     		},
     		error : function() {
     		},
@@ -335,7 +361,6 @@
     }
     function mydeal(dataId,workOrderName) 
     {
-    	
     	var url='/mobile/work_details_1?dataId=' + dataId;
     	
     	location.href=url;
