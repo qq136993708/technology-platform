@@ -96,7 +96,7 @@ public class InputCheckUtil
 			return str;
 		}
 		/*str = str.replaceAll("\"","&quot;");
-		str = str.replaceAll("'","&#39;");
+		str = str.replaceAll("'","&#x27;");
 	    str = str.replaceAll("\\(","&#40;");
 	    str = str.replaceAll("\\)","&#41;");
 	    str = str.replaceAll("$","&#36;");
