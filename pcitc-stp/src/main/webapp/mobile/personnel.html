@@ -198,7 +198,7 @@
     //所有专家
     function queryAllExpert(url,id,type)
     {
-    	alert(url);
+    	
     	$.ajax({
     		type : type,
     		url : url,
@@ -269,15 +269,6 @@
 
     }
     
-    
-    // queryTabel("/mobile/zjk-ys-list","ys_list_id","POST");
-    // queryAllExpert("/mobile/getAllExpertTableData?page=1","all_list_id","POST");
-    
-    //下面分页
-    //var v_date = (new Date()).getTime();
-    // page("ys_list_id","/mobile/zjk-ys-list?page=1","POST");
-    //page("all_list_id","/mobile/getAllExpertTableData?v_date="+v_date,"POST");
-    
 
     function search()
     {
@@ -286,14 +277,9 @@
    	    queryTabel("/mobile/zjk-ys-list?key="+$("#key").val()+"&v_date="+v_date,"ys_list_id","POST");
    	    queryAllExpert("/mobile/getAllExpertTableData?key="+$("#key").val(),"all_list_id","POST");
    	    page("all_list_id","/mobile/getAllExpertTableData?v_date="+(new Date()).getTime()+"&key="+$("#key").val(),"POST","queryAllExpert");
-   	   
-     
     }
     
     search();
-    //page("ys_list_id","/mobile/zjk-ys-list?key="+$("#key").val(),"POST");
-  //  page("all_list_id","/mobile/getAllExpertTableData?v_date="+(new Date()).getTime()+"&key="+$("#key").val(),"POST");
-
     
     function getFileResultImg() 
     {
