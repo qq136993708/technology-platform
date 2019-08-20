@@ -183,7 +183,7 @@ public class AdminController extends BaseController {
 
 						// 个人工作台菜单
 						List<SysFunction> grgztList = new ArrayList<SysFunction>();
-
+						HashSet authSet = new HashSet();
 						if (funList != null) {
 							for (SysFunction sysfun : funList) {
 								if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
@@ -194,7 +194,12 @@ public class AdminController extends BaseController {
 								if (sysfun.getParentCode() != null && sysfun.getParentCode().startsWith("1027") && !sysfun.getName().equals("个人工作台")) {
 									grgztList.add(sysfun);
 								}
+								
+								if (sysfun.getUrl() != null && !sysfun.getUrl().contains("#") && sysfun.getUrl().split("/").length > 1) {
+									authSet.add(sysfun.getUrl().split("/")[1]);
+								}
 							}
+							request.getSession().setAttribute("authSet", authSet);
 							System.out.println("查询菜单权限----------" + funList.size());
 						} else {
 							System.out.println("无菜单权限----------");
@@ -341,7 +346,7 @@ public class AdminController extends BaseController {
 
 						// 个人工作台菜单
 						List<SysFunction> grgztList = new ArrayList<SysFunction>();
-
+						HashSet authSet = new HashSet();
 						if (funList != null) {
 							for (SysFunction sysfun : funList) {
 								if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
@@ -353,7 +358,11 @@ public class AdminController extends BaseController {
 									// System.out.println("个人工作台================"+sysfun.getName());
 									grgztList.add(sysfun);
 								}
+								if (sysfun.getUrl() != null && !sysfun.getUrl().contains("#") && sysfun.getUrl().split("/").length > 1) {
+									authSet.add(sysfun.getUrl().split("/")[1]);
+								}
 							}
+							request.getSession().setAttribute("authSet", authSet);
 							System.out.println("查询菜单权限----------" + funList.size());
 						} else {
 							System.out.println("无菜单权限----------");
@@ -476,6 +485,7 @@ public class AdminController extends BaseController {
 			List<SysFunction> upList = new ArrayList<SysFunction>();
 			// 个人工作台菜单
 			List<SysFunction> grgztList = new ArrayList<SysFunction>();
+			HashSet authSet = new HashSet();
 			for (SysFunction sysfun : funList) {
 				if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
 					upList.add(sysfun);
@@ -486,7 +496,11 @@ public class AdminController extends BaseController {
 					// System.out.println("个人工作台================"+sysfun.getName());
 					grgztList.add(sysfun);
 				}
+				if (sysfun.getUrl() != null && !sysfun.getUrl().contains("#") && sysfun.getUrl().split("/").length > 1) {
+					authSet.add(sysfun.getUrl().split("/")[1]);
+				}
 			}
+			request.getSession().setAttribute("authSet", authSet);
 
 			// 收藏的菜单
 			List<SysCollect> scList = userDetails.getScList();
@@ -548,6 +562,7 @@ public class AdminController extends BaseController {
 			List<SysFunction> upList = new ArrayList<SysFunction>();
 			// 个人工作台菜单
 			List<SysFunction> grgztList = new ArrayList<SysFunction>();
+			HashSet authSet = new HashSet();
 			for (SysFunction sysfun : funList) {
 				if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
 					upList.add(sysfun);
@@ -558,7 +573,11 @@ public class AdminController extends BaseController {
 					// System.out.println("个人工作台================"+sysfun.getName());
 					grgztList.add(sysfun);
 				}
+				if (sysfun.getUrl() != null && !sysfun.getUrl().contains("#") && sysfun.getUrl().split("/").length > 1) {
+					authSet.add(sysfun.getUrl().split("/")[1]);
+				}
 			}
+			request.getSession().setAttribute("authSet", authSet);
 
 			// 收藏的菜单
 			List<SysCollect> scList = userDetails.getScList();
@@ -638,6 +657,7 @@ public class AdminController extends BaseController {
 		List<SysFunction> upList = new ArrayList<SysFunction>();
 		// 个人工作台菜单
 		List<SysFunction> grgztList = new ArrayList<SysFunction>();
+		HashSet authSet = new HashSet();
 		for (SysFunction sysfun : funList) {
 			if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
 				upList.add(sysfun);
@@ -647,7 +667,11 @@ public class AdminController extends BaseController {
 				// System.out.println("个人工作台================"+sysfun.getName());
 				grgztList.add(sysfun);
 			}
+			if (sysfun.getUrl() != null && !sysfun.getUrl().contains("#") && sysfun.getUrl().split("/").length > 1) {
+				authSet.add(sysfun.getUrl().split("/")[1]);
+			}
 		}
+		request.getSession().setAttribute("authSet", authSet);
 		request.setAttribute("funList", funList);
 		request.setAttribute("grgztList", grgztList);
 		request.setAttribute("upList", upList);

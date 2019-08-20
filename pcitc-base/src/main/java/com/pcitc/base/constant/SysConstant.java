@@ -12,7 +12,7 @@ import java.util.Set;
 public class SysConstant 
 {
 	//服务器IP
-	public static String STP_SERVER_HOST = "10.246.94.84,10.246.94.76,172.16.100.127,172.16.100.8";
+	public static String STP_SERVER_HOST = "10.246.94.85,10.246.94.76,172.16.100.127,172.16.100.8";
 	//生产服务器地址
 	public static String STP_FINAL_SERVER_HOST = "10.246.94.143";
 	//服务器列表

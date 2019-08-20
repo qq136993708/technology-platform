@@ -27,61 +27,54 @@ import com.pcitc.base.util.HostUtil;
 import com.pcitc.web.common.BaseController;
 
 @Component
-public class RequestLogInterceptor implements HandlerInterceptor 
-{
+public class RequestLogInterceptor implements HandlerInterceptor {
 	private static final String LOG_CLIENT = "http://pcitc-zuul/system-proxy/sys-provider/processlogs/process-logs-save";
-	
+
 	private static Boolean runInServerHost = false;
 	private static String serverHost = HostUtil.getLocalHostIpAddress();
-	
+
 	private static Set<String> runHost = HostUtil.getLocalHostAddressSet();
 	private static Set<String> serverHostSet = new HashSet<String>(Arrays.asList(SysConstant.STP_SERVER_HOST.split(",")));
-	
-	static 
-	{
+
+	static {
 		serverHostSet.retainAll(runHost);
-    	if(serverHostSet.size() > 0) 
-    	{
-    		runInServerHost = true;
-    	}
+		if (serverHostSet.size() > 0) {
+			runInServerHost = true;
+		}
 	}
-	
+
 	@Autowired
-    public HttpHeaders httpHeaders;
-	  
+	public HttpHeaders httpHeaders;
+
 	@Autowired
 	public RestTemplate restTemplate;
-	
+
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		request.setAttribute("preHandleStartTime", System.currentTimeMillis());
 		return true;
 	}
 
 	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		request.setAttribute("postHandleStartTime", System.currentTimeMillis());
 	}
 
 	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-			throws Exception {
-		try 
-		{
-			if(!runInServerHost) 
-			{
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+		try {
+			if (!runInServerHost) {
 				return;
 			}
 			request.setAttribute("afterCompletionStartTime", System.currentTimeMillis());
-			//此功能暂时禁用，待未来有需求时放开
-			Long preHandleStartTime = (Long)request.getAttribute("preHandleStartTime");
-			//Long postHandleStartTime = (Long)request.getAttribute("postHandleStartTime");
-			Long afterCompletionStartTime = (Long)request.getAttribute("afterCompletionStartTime");
+			// 此功能暂时禁用，待未来有需求时放开
+			Long preHandleStartTime = (Long) request.getAttribute("preHandleStartTime");
+			// Long postHandleStartTime =
+			// (Long)request.getAttribute("postHandleStartTime");
+			Long afterCompletionStartTime = (Long) request.getAttribute("afterCompletionStartTime");
 			HandlerMethod m = (HandlerMethod) handler;
-			//m.getMethod().getAnnotations();
-			//m.getBean().getClass().getAnnotations();
+			// m.getMethod().getAnnotations();
+			// m.getBean().getClass().getAnnotations();
 			SysUser sysUser = null;
 			if (m.getBean() instanceof BaseController) {
 				BaseController baerInfo = (BaseController) m.getBean();
@@ -92,10 +85,10 @@ public class RequestLogInterceptor implements HandlerInterceptor
 			String host = request.getRemoteHost();
 			String methodName = m.getMethod().getName();
 			String className = m.getBean().getClass().getName();
-			String userId = sysUser == null?null:sysUser.getUserId();
+			String userId = sysUser == null ? null : sysUser.getUserId();
 			String ctime = DateUtil.format(new Date(), DateUtil.FMT_SSS);
-			Long processTime = afterCompletionStartTime-preHandleStartTime;
-			
+			Long processTime = afterCompletionStartTime - preHandleStartTime;
+
 			SysReqLogs bean = new SysReqLogs();
 			bean.setClassName(className);
 			bean.setHost(host);
@@ -108,13 +101,11 @@ public class RequestLogInterceptor implements HandlerInterceptor
 			bean.setEndTime(afterCompletionStartTime.toString());
 			bean.setReqType(reqType);
 			bean.setServerHost(serverHost);
-			
+
 			HttpEntity<SysReqLogs> entity = new HttpEntity<SysReqLogs>(bean, httpHeaders);
-			restTemplate.exchange(LOG_CLIENT, HttpMethod.POST, entity, Result.class).getBody();
-			//System.out.println("[http-log-time]:"+ctime+" uri:"+uri+" host:"+host+" methodName:"+methodName+" className:"+className+" userId:"+userId+" processTime:"+(processTime)+JSON.toJSONString(rs));
-		}
-		catch(Exception e) 
-		{
+			// restTemplate.exchange(LOG_CLIENT, HttpMethod.POST, entity, Result.class).getBody();
+			// System.out.println("[http-log-time]:"+ctime+" uri:"+uri+" host:"+host+" methodName:"+methodName+" className:"+className+" userId:"+userId+" processTime:"+(processTime)+JSON.toJSONString(rs));
+		} catch (Exception e) {
 			System.out.println("log error...");
 		}
 	}

@@ -33,6 +33,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/mobile/js/rolldate.min.js"></script>
+<script src="/mobile/js/mobile.js"></script>
 <script>
     var layer;
     (function(doc, win) {
@@ -101,7 +102,10 @@
     	 var key=$("#key").val();
     	 var nd=$("#nd").val();
     	 var v_date = (new Date()).getTime();
-    	 queryAll("/mobile/one_level_main/achievement_table_data?page=1&nd="+nd+"&key="+key,"list_div","POST");
+    	 queryAll("/mobile/one_level_main/achievement_table_data?nd="+nd+"&key="+key,"list_div","POST");
+    	 
+    	 page("list_div","/mobile/one_level_main/achievement_table_data?v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&nd="+nd,"POST","queryAll");
+    	 
     }
     search();
     
@@ -130,7 +134,7 @@
    					 var sqjddw= data.data[i].sqjddw;
    					 var jdjg= data.data[i].jdjg;
    					 
-   					   var temp="<li>"+
+   					   var temp="<li  >"+
 			                     "<p>"+
 			                         "<span>"+cgmc+"</span>"+
 			                         "<span>一等奖</span>"+
