@@ -155,9 +155,16 @@ public class ReportClient {
      * @throws Exception
      */
     @ApiOperation(value = "查询STP报表信息", notes = "查询STP报表信息,返回JSONArray对象")
-    @RequestMapping(value = "/hana/report/getReportListStp")
-    public LayuiTableData getReportListStp(@RequestBody LayuiTableParam param) throws Exception {
-        return reportService.getReportListStp(param);
+    @RequestMapping(value = "/hana/report/getReportListStp",method = RequestMethod.POST)
+    public LayuiTableData getReportListStp(@RequestBody LayuiTableParam param) {
+        LayuiTableData data = null;
+        try {
+            data = reportService.getReportListStp(param);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            return data;
+        }
     }
 //    public JSONArray getReportListStp(@RequestParam(value = "paramsJson", required = false) String paramsJson) throws Exception {
 //        return reportService.getReportListStp(paramsJson);

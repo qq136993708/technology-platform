@@ -444,12 +444,17 @@ var pcitcReport = pcitc.report = {
         //初始化公司代码
         var gsdm_html = "<option value=\"\"></option>";
         var gsdm_init = "";
-        for (var i = 0; i < gsdmcode.length; i++) {
-            gsdm_init = (gsdm_init == "" ? "" : (gsdm_init + ",")) + gsdmcode[i];
-            gsdm_html = gsdm_html + "<option value='" + gsdmcode[i] + "'>" + gsdmname[i] + "</option>";
+        if (gsdmcode != null) {
+            for (var i = 0; i < gsdmcode.length; i++) {
+                gsdm_init = (gsdm_init == "" ? "" : (gsdm_init + ",")) + gsdmcode[i];
+                gsdm_html = gsdm_html + "<option value='" + gsdmcode[i] + "'>" + gsdmname[i] + "</option>";
+            }
+            $("#gsdm_select").html(gsdm_html);
+            pcitcReport.gsdm = gsdm_init;
+        }else {
+            console.log("公司代码为空,请联系管理员");
         }
-        $("#gsdm_select").html(gsdm_html);
-        pcitcReport.gsdm = gsdm_init;
+
     }, queryCon: function (obj) {
         var input = "<input type=\"text\"  id=\"xxxxx\" value=\"\">"
         for (var i = 0,l = obj.length; i < l; i++) {
