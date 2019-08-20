@@ -35,7 +35,7 @@ function setNumStr(num)
 
 
 
-function page(id,url,type) 
+function page(id,url,type,functionN)
 {
     var v_date = (new Date()).getTime();
     $.ajax({
@@ -47,7 +47,8 @@ function page(id,url,type)
         success: function (data, status) {
             console.log(data)
             var page = Math.ceil(data.count / 15);
-            if(page>1) {
+            $("#" + id+"1").remove();
+            if(page>1) { alert(page)
                 var html = '<div class="mobile-page" id="' + id + '1">' +
                     '                    <a  href="javascript:;" class="aH">上一页</a>' +
                     '                    <ul class="show">' +
@@ -87,7 +88,7 @@ function page(id,url,type)
                         $("#" + id + "1>a:eq(1)").addClass("prev");
                         $("#" + id + "1>a:eq(1)").removeClass("aH");
                     }
-                    queryAllExpert(url+"&page=" + parseInt(number), id, type);
+                    functionN(url+"&page=" + parseInt(number), id, type);
                 });
                 $(".prev").click(function () {
                     $("#" + id + "1 .cont-number").addClass("layui-hide");
@@ -118,7 +119,7 @@ function page(id,url,type)
                                 $("#" + id + "1>a:eq(1)").addClass("prev");
                                 $("#" + id + "1>a:eq(1)").removeClass("aH");
                             }
-                            queryAllExpert(url+"&page=" + (number1), id, type);
+                            functionN(url+"&page=" + (number1), id, type);
                         });
 
                     }
@@ -130,7 +131,7 @@ function page(id,url,type)
                         $("#" + id + "1>a:eq(1)").addClass("prev");
                         $("#" + id + "1>a:eq(1)").removeClass("aH");
                     }
-                    queryAllExpert(url+"&page=" + (number), id, type);
+                    functionN(url+"&page=" + (number), id, type);
                     //eval(funcName+"('"+unitIds+"','"+unitNames+"','"+unitCodes+"');");
                 });
                 $(".aH").unbind("click");

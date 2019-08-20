@@ -285,7 +285,7 @@
     	var v_date = (new Date()).getTime();
    	    queryTabel("/mobile/zjk-ys-list?key="+$("#key").val()+"&v_date="+v_date,"ys_list_id","POST");
    	    queryAllExpert("/mobile/getAllExpertTableData?key="+$("#key").val(),"all_list_id","POST");
-   	    page("all_list_id","/mobile/getAllExpertTableData?v_date="+(new Date()).getTime()+"&key="+$("#key").val(),"POST");
+   	    page("all_list_id","/mobile/getAllExpertTableData?v_date="+(new Date()).getTime()+"&key="+$("#key").val(),"POST","queryAllExpert");
    	   
      
     }
