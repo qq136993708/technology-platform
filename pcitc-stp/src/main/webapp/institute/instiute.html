@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>科技管理平台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/institute.css">
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+    <div class="main institute">
+        <div class="layui-card-body">
+            <div class="layui-tab">
+                <div class="layui-tab-top">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">企业简介</li>
+                        <li>发展历程</li>
+                        <li>组织结构</li>
+                        <li>人员结构</li>
+                        <li>荣誉与业绩</li>
+                    </ul>
+                </div>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <iframe src="/institute/synopsis.html" class="layui-iframe"></iframe>
+                    </div>
+                    <div class="layui-tab-item">
+                        <iframe src="/institute/synopsis.html" class="layui-iframe"></iframe>
+                    </div>
+                    <div class="layui-tab-item">
+                        <iframe src="/institute/synopsis.html" class="layui-iframe"></iframe>
+                    </div>
+                    <div class="layui-tab-item">
+                        <iframe src="/institute/synopsis.html" class="layui-iframe"></iframe>
+                    </div>
+                    <div class="layui-tab-item">
+                        <iframe src="/institute/synopsis.html" class="layui-iframe"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        layui.use(['jquery', 'element'], function(){
+            var $ = layui.jquery, element = layui.element;
+            parent.$("#LAY_app_body").css({"left":"16px","top":"107px","margin":"0","right":"16px","bottom":"46px"});
+        });
+    </script>
+</body>
+</html>
