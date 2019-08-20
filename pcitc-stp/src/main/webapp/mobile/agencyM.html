@@ -46,7 +46,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/layui/lay/modules/laytpl.js"></script>
-
+<script src="/mobile/js/mobile.js"></script>
 
 <script>
     var layer;
@@ -81,7 +81,7 @@
     		cache : false,
     		success : function(data, status) 
     		{
-    			console.log("本系统待办\n"+JSON.stringify(data));
+    			//console.log("本系统待办\n"+JSON.stringify(data));
     			var count="";
     			var dataArr=data.data;
     			if(dataArr.length>0)
@@ -135,7 +135,7 @@
     		cache : false,
     		success : function(data, status) 
     		{
-    			console.log("本系统已办\n"+JSON.stringify(data));
+    			//console.log("本系统已办\n"+JSON.stringify(data));
     			var count="";
     			var dataArr=data.data;
     			if(dataArr.length>0)
@@ -177,12 +177,12 @@
     
     
     //外系统待办
-    function out_wait()
+    function out_wait(url,id,type)
     {
     	var v_date = (new Date()).getTime();
     	$.ajax({
-    		type : 'POST',
-    		url : "/mobile/task/other/pending-list?pageNo=1&v_date="+v_date,
+    		type : type,
+    		url : url,
     		timeout : 9000,
     		dataType:'json', 
     		cache : false,
@@ -216,11 +216,8 @@
 		
        			  }
    			   }
-    		   $("#out_task_list").html(count); 	
+    		   $("#"+id).html(count); 	
     		   $("#out_task_list_count").html(data.count); 	
-    		   
-    		   
-    		   
     		},
     		error : function() {
     		},
@@ -233,7 +230,8 @@
     
     local_wait();
     local_finished();
-    out_wait();
+    out_wait("/mobile/task/other/pending-list?v_date="+(new Date()).getTime(),"out_task_list","POST");
+    page("out_task_list","/mobile/task/other/pending-list?v_date="+(new Date()).getTime(),"POST","out_wait");
     
     function deal(id)
     {

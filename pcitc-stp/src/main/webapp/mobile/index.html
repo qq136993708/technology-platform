@@ -63,21 +63,21 @@
                 <li class="layui-col-xs3" id="numberNotice_list">
                 	<div class="agency-box">
 						<img src="/mobile/images/work-img1.png" alt="">
-						<span class="number" id="wait_notice_count">-</span>
+						<span class="number" id="wait_notice_count">0</span>
                 		<span class="text">待办任务</span>
                 	</div>
                 </li>
                 <li class="layui-col-xs3" id="doneTaskCount_list">
                 	<div class="agency-box">
 						<img src="/mobile/images/work-img2.png" alt="">
-						<span class="number" id="over_notice_count">-</span>
+						<span class="number" id="over_notice_count">0</span>
                 		<span class="text">已办任务</span>
                 	</div>
                 </li>
                 <li class="layui-col-xs3" id="work_list">
                     <div class="agency-box">
 						<img src="/mobile/images/work-img3.png" alt="">
-						<span class="number">0</span>
+						<span class="number" id="work_count">0</span>
                 		<span class="text">工作安排</span>
                 	</div>
                 </li>
@@ -402,6 +402,11 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     	var month = $("#month").val();
     	//待办
     	set_wait_notice_count(v_date);
+    	
+    	
+    	//工作安排
+   	    set_work_count(v_date);
+    	
     	//任务已办个数
    	    setOverTaskCount(v_date) 
     	//预算
@@ -612,18 +617,23 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 //待办个数
 	 function set_wait_notice_count(v_date)
 	 {
+		 
+		    var all_count=0;
+		    //本系统待办
 	    	var url="/mobile/wait_task_list_data?v_date="+v_date;
 	        $.ajax({
 	            type: "POST",
 	            url: url,
 	            dataType: "json",
 	            timeout: 11000,
+	            async: false,
 	            cache: false,
 	            headers : {
 					'Content-Type' : 'application/json'
 				},
 	            success: function (data, status) {
-					$("#wait_notice_count").html(data.count);
+	            	all_count=all_count+parseInt(data.count);
+					
 	            },
 	            error: function () {
 					
@@ -632,7 +642,88 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 					
 	            }
 	        });
+	        
+	        
+	        //外系统待办
+	        var v_date = (new Date()).getTime();
+	    	$.ajax({
+	    		type : 'POST',
+	    		url : "/mobile/task/other/pending-list?pageNo=1&v_date="+v_date,
+	    		timeout : 9000,
+	    		dataType:'json', 
+	    		cache : false,
+	    		async: false,
+	    		success : function(data, status) 
+	    		{
+	    			console.log("外系统待办\n"+JSON.stringify(data));
+	    		    //$("#out_task_list_count").html(data.count); 	
+	    			all_count=all_count+parseInt(data.count);
+	    		},
+	    		error : function() {
+	    		},
+	    		complete : function(XMLHttpRequest, status) {
+	    		}
+	    	});
+	    	$("#wait_notice_count").html(all_count);
 	 }
+	 
+	 
+	 //工作安排
+	 function set_work_count(v_date)
+	 {
+		 
+		    var all_count=0;
+		    //工作安排-未处理完的
+	        $.ajax({
+	            type: "POST",
+	        	url : "/mobile/plan/getTableData?v_date="+v_date+"&parentId=1",
+	            dataType: "json",
+	            timeout: 11000,
+	            async: false,
+	            cache: false,
+	            headers : {
+					'Content-Type' : 'application/json'
+				},
+	            success: function (data, status) {
+	            	all_count=all_count+parseInt(data.count);
+					
+	            },
+	            error: function () {
+					
+				},
+	            complete: function (XMLHttpRequest, status) {
+					
+	            }
+	        });
+	        
+	        
+	        //工作处理-未处理完的
+	        var v_date = (new Date()).getTime();
+	    	$.ajax({
+	    		type : 'POST',
+	    		url : "/mobile/plan/my/getTableData?v_date="+v_date+"&isSchedule=0&bak7=0&isChildren=1",
+	    		timeout : 9000,
+	    		dataType:'json', 
+	    		cache : false,
+	    		async: false,
+	    		success : function(data, status) 
+	    		{
+	    			console.log("工作处理-未处理完的\n"+JSON.stringify(data));
+	    		    //$("#out_task_list_count").html(data.count); 	
+	    			all_count=all_count+parseInt(data.count);
+	    		},
+	    		error : function() {
+	    		},
+	    		complete : function(XMLHttpRequest, status) {
+	    		}
+	    	});
+	    	$("#work_count").html(all_count);
+	 }
+	 
+	 
+	 
+	 
+	 
 	 
 	 
 	 //任务已办个数

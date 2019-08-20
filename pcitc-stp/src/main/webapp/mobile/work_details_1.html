@@ -45,12 +45,12 @@
     <div class="work-main">
         <div class="layui-collapse work-m" lay-filter="component-panel">
             <div class="layui-colla-item layui-this">
-                <h2 class="layui-colla-title"><span></span>我</h2>
+                <h2 class="layui-colla-title"><span></span>任务描述</h2>
                 <div class="layui-colla-content layui-show">
-                    <h4>任务描述:</h4>
+                   <!--  <h4>任务描述:</h4> -->
                     <p>${planBase.remarks}</p>
                     <button class="layui-btn layui-active" <#if planBase.workOrderStatus == 2> style="display:none" </#if> id="work">处理任务</button>
-                    <button class="layui-btn layui-rest"   <#if planBase.workOrderStatus != 2> style="display:none" </#if> id="rest">工作处理列表</button>
+                    <button class="layui-btn layui-rest" id="rest"  <#if planBase.workOrderStatus != 2> style="display:none" </#if> id="rest">工作处理列表</button>
                 </div>
             </div>
         </div>
@@ -70,11 +70,11 @@
         </div>
         <div class="rest layui-hide">
             <div class="layui-collapse work-w" lay-filter="component-panel">
-              <#list sendList as vo>
+              <#list finishedList as vo>
                 <div class="layui-colla-item layui-this">
-                    <h2 class="layui-colla-title"><span></span>${vo.createUserName}（已完成）</h2>
+                    <h2 class="layui-colla-title"><span></span>处理人：${vo.createUserName}</h2>
                     <div class="layui-colla-content layui-show">
-                        <h4>任务回复:</h4>
+                        <h4>处理内容:</h4>
                         <p>${vo.remarks}</p>
                     </div>
                 </div>
@@ -175,7 +175,7 @@
           },
           url: '/mobile/plan/submitMyBotWorkOrder?workOrderStatus=2',
           success: function (data) {
-              
+              location.href="/mobile/work";
           },
           error: function (e) {
               console.log("出错了"+e);
