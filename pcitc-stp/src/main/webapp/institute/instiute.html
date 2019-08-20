@@ -26,10 +26,10 @@
                 </div>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <iframe src="/institute/synopsis.html" class="layui-iframe"></iframe>
+                        <iframe src="/institute/structure.html" class="layui-iframe"></iframe>
                     </div>
                     <div class="layui-tab-item">
-                        <iframe src="/institute/synopsis.html" class="layui-iframe"></iframe>
+                        <iframe src="/institute/history.html" class="layui-iframe"></iframe>
                     </div>
                     <div class="layui-tab-item">
                         <iframe src="/institute/synopsis.html" class="layui-iframe"></iframe>
@@ -48,6 +48,7 @@
         layui.use(['jquery', 'element'], function(){
             var $ = layui.jquery, element = layui.element;
             parent.$("#LAY_app_body").css({"left":"16px","top":"107px","margin":"0","right":"16px","bottom":"46px"});
+            $(".layui-tab-content iframe").css("height",parent.$("#LAY_app_body iframe").height()-120+"px");
         });
     </script>
 </body>
