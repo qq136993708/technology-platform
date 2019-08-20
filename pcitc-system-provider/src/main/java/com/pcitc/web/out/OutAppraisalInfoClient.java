@@ -219,4 +219,16 @@ public class OutAppraisalInfoClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "根据鉴定号取详情", notes = "根据鉴定号取详情")
+	@RequestMapping(value = "/out-appraisal-provider/getAppraisalInfoByjdh/{jdh}", method = RequestMethod.GET)
+	public OutAppraisal getAppraisalInfoByjdh(@PathVariable(value = "jdh", required = true) String jdh) throws Exception {
+		logger.info("===============================get getAppraisalInfoByjdh id "+jdh+"===========");
+		return outAppraisalService.getAppraisalInfoByjdh(jdh);
+	}
+	
+	
+	
+	
+	
 }

@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,6 +41,8 @@ import com.pcitc.base.expert.ZjkExpert;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.Knowledge;
+import com.pcitc.base.stp.equipment.SreEquipment;
+import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
@@ -62,7 +65,7 @@ public class MobileController extends BaseController {
     private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
 
 		
-		
+    private static final String GET_OUT_APPRAISAL = "http://pcitc-zuul/system-proxy/out-appraisal-provider/getAppraisalInfoByjdh/";
 		
 	@RequestMapping(value = "/mobile/budget")
 	public String budget(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -582,6 +585,34 @@ public class MobileController extends BaseController {
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		return result.toString();
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/mobile/getAppraisalInfoByjdh/{jdh}", method = RequestMethod.POST)
+	@ResponseBody
+	public OutAppraisal  getAppraisalInfoByjdh(@PathVariable("jdh") String jdh, HttpServletRequest request) {
+		System.out.println("-------------------------getAppraisalInfoByjdh --------------------------------");
+		ResponseEntity<OutAppraisal> responseEntity = this.restTemplate.exchange(GET_OUT_APPRAISAL + jdh, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), OutAppraisal.class);
+		OutAppraisal  outAppraisal = responseEntity.getBody();
+		return outAppraisal;
+	}
+	
+	
+	
+	@RequestMapping(value = "/mobile/appraisal_detail/{jdh}", method = RequestMethod.GET)
+	public String get(@PathVariable("jdh") String jdh, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ResponseEntity<OutAppraisal> responseEntity = this.restTemplate.exchange(GET_OUT_APPRAISAL + jdh, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), OutAppraisal.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		logger.info("============远程返回  statusCode " + statusCode);
+		OutAppraisal outAppraisal = responseEntity.getBody();
+		request.setAttribute("outAppraisal", outAppraisal);
+		return "/mobile/appraisal_detail";
+	}
+	
+
+	
 	
 
 }

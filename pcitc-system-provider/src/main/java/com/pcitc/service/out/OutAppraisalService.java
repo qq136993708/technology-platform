@@ -73,4 +73,6 @@ public interface OutAppraisalService {
 	 */
 	public List getAppraisalInfoByZyForThreeYear(HashMap<String, String> map);
 	
+	public OutAppraisal getAppraisalInfoByjdh(String jdh);
+	
 }
