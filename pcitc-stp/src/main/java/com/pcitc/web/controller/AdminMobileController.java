@@ -50,38 +50,6 @@ public class AdminMobileController extends BaseController {
 	private Integer TIME_OUT = 1 * 60 * 60;
 
 	/**
-	 * 移动本地测试方法
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/mobile/indexTest")
-	public String indexMobile(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String year = HanaUtil.getCurrentYear();
-		request.setAttribute("year", year);
-
-		String unitPathId = sysUserInfo.getUnitPath();
-
-		String unitCode = sysUserInfo.getUnitCode();
-		// 科技部综合计划处
-		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitCode, EquipmentUtils.KJB_ZHJHC_NUM);
-		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
-		request.setAttribute("sysUserInfo", sysUserInfo);
-		List<SysNotice> list = OtherUtil.getSysNoticeTopList(request, restTemplate, httpHeaders);
-		request.setAttribute("list", list);
-		String nd = HanaUtil.getCurrentYear();
-		String month = HanaUtil.getCurrentYearMoth();
-		request.setAttribute("nd", nd);
-		request.setAttribute("month", month);
-		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
-		request.setAttribute("companyCode", companyCode);
-
-		return "/mobile/index";
-	}
-
-	/**
 	 * 科技平台统一身份认证移动首页 作废方法，短token方式
 	 * 
 	 * @throws Exception

@@ -122,12 +122,6 @@
                           class="layui-textarea">${remarks}</textarea>
                 </div>
             </div>
-           <!-- <div class="layui-form-item">
-                <label class="layui-form-label">附件</label>
-                <div id="file_div" class="layui-input-block"></div>
-            </div>-->
-
-
 
             <!-- 按钮组  -->
                 <div class="form-bottom">
@@ -211,6 +205,14 @@
 
         /* 监听提交 */
         form.on('submit(sub)', function (data) {
+
+            var remarks = $("#remarks").val();
+            remarks = remarks.replace(/<script|<\/script/ig,function(remarks){
+                return "&lt;"+remarks.substring(1);
+            });
+            remarks = remarks.replace("<","&lt;").replace(">","&gt;");
+            $("#remarks").val(remarks)
+
             var check = table.checkStatus('join_apply_table');
             var topicId = $("#topicId").val();
             var purchaseName = $("#purchaseName").val();
@@ -232,7 +234,7 @@
                 }
                 document.getElementById("equipmentIds").value=equipmentIds;
                 var url="/sre-purchase/save?v_date="+v_date;
-                var backurl="/sre_purchase/to-list?v_date="+v_date;
+                var backurl="/sre-purchase/to-list?v_date="+v_date;
                 ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
                 return false;
             }

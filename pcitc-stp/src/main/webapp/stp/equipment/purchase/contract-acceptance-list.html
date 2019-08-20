@@ -216,7 +216,7 @@
         //渲染
         table.render({
             elem: '#processdef-table',
-            url: '/sre_purchase/list',
+            url: '/sre-purchase/list',
             method:"POST",
             where: {param: {"purchaseName":$("#purchaseName").val(),"departCode":$("#departCode").val(),"stage":"4","innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,

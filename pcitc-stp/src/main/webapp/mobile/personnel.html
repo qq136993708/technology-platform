@@ -16,10 +16,12 @@
         <a href="/mobile/indexTest"><img src="/mobile/images/icon-back.png"/> </a>
         <h4>科技人才</h4>
     </div>
-    <div class="search">
-        <input type="text" name="key" id="key" value="" placeholder="请输入姓名 单位或专业领域" />
-        <img src="/mobile/images/icon-search.png" alt="" onclick="search()">
-    </div>
+    <form action=""  name="form1" id="form1"  method="post">
+	    <div class="search">
+	        <input type="text" name="key" id="key" value="" placeholder="请输入姓名单位或专业领域" />
+	        <img src="/mobile/images/icon-search.png" alt="" id="search">
+	    </div>
+    </form>
 </header>
 <main class="main contract personnel">
     <div class="layui-row">
@@ -113,6 +115,12 @@
         $("#reset").click(function () {
             $(".more-bg ul li").removeClass("layui-this");
         });
+        
+        $("#search").click(function () {
+        	search();
+        });
+        
+        
         $("#kMore").click(function () {
             $(".more-condition").slideToggle("slow");
         });
@@ -126,12 +134,6 @@
     
     
     
-    function search()
-    {
-    	 var key=$("#key").val();
-    	 
-    	 
-    }
     
     //院士
     function queryTabel(url,id,type)
@@ -196,10 +198,10 @@
     //所有专家
     function queryAllExpert(url,id,type)
     {
-    	var v_date = (new Date()).getTime();
+    	
     	$.ajax({
     		type : type,
-    		url : url+"&v_date="+v_date,
+    		url : url,
     		timeout : 9000,
     		dataType:'json', 
     		cache : false,
@@ -267,16 +269,17 @@
 
     }
     
-    
-    queryTabel("/mobile/zjk-ys-list","ys_list_id","POST");
-    queryAllExpert("/mobile/getAllExpertTableData?page=1","all_list_id","POST");
-    page("ys_list_id","/mobile/zjk-ys-list?page=1","POST");
-    page("all_list_id","/mobile/getAllExpertTableData","POST");
-    
 
+    function search()
+    {
+    	
+    	var v_date = (new Date()).getTime();
+   	    queryTabel("/mobile/zjk-ys-list?key="+$("#key").val()+"&v_date="+v_date,"ys_list_id","POST");
+   	    queryAllExpert("/mobile/getAllExpertTableData?key="+$("#key").val(),"all_list_id","POST");
+   	    page("all_list_id","/mobile/getAllExpertTableData?v_date="+(new Date()).getTime()+"&key="+$("#key").val(),"POST","queryAllExpert");
+    }
     
-    
-
+    search();
     
     function getFileResultImg() 
     {

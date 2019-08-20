@@ -30,5 +30,10 @@ public @interface OperationFilter {
      * 归属菜单code
      */
     String dataFlag() default "";
+    
+    /**
+     * 权限控制flag，标注这个说明要进行菜单功能控制
+     */
+    String authFlag() default "";
 
 }
