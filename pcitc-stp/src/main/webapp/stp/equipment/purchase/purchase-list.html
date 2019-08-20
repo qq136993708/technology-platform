@@ -327,7 +327,7 @@ var name=$('#name').val();
                      parent.layer.alert("请选择需要导出的预算版本", {title : '提示'});
                      return;
                  }*/
-                 window.open("/sre_purchase/exportExcel/");
+                 window.open("/sre-purchase/exportExcel/");
             },
             allEvent: function(){ 
             	$("#state").val("");
@@ -383,7 +383,7 @@ var name=$('#name').val();
     	//渲染
         table.render({
             elem: '#processdef-table',
-            url: '/sre_purchase/list',
+            url: '/sre-purchase/list',
             method:"POST",
 		//查询条件            
             where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"departCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
@@ -554,7 +554,7 @@ var name=$('#name').val();
         $('#userIds').val(userIds);
         var v_date=(new Date()).getTime();
         var url="/sre-purchase/start_purchase_workflow?v_date="+v_date;
-        var backurl="/sre_purchase/to-list?v_date="+v_date;
+        var backurl="/sre-purchase/to-list?v_date="+v_date;
         ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
     }
     

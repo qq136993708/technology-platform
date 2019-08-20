@@ -82,7 +82,7 @@ public class PurchaseController extends BaseController {
 	private static final String PURCHASE_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/purchase/start_purchase_activity/";
 
 	// 跳转到采购申请页面
-	@RequestMapping(value = "/sre_purchase/to-list")
+	@RequestMapping(value = "/sre-purchase/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
@@ -224,7 +224,7 @@ public class PurchaseController extends BaseController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/sre_purchase/list")
+	@RequestMapping(value = "/sre-purchase/list")
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -1240,7 +1240,7 @@ public class PurchaseController extends BaseController {
 	}
 
 	/*=================================导出Excel文档    START================================*/
-	@RequestMapping("sre_purchase/exportExcel")
+	@RequestMapping("sre-purchase/exportExcel")
 	public void downBudgetGroupSplit(HttpServletResponse res) throws IOException {
 		LayuiTableParam param = new LayuiTableParam();
 		param.setLimit(100);
