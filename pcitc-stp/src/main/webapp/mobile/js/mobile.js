@@ -48,7 +48,7 @@ function page(id,url,type,functionN)
             console.log(data)
             var page = Math.ceil(data.count / 15);
             $("#" + id+"1").remove();
-            if(page>1) { alert(page)
+            if(page>1) { 
                 var html = '<div class="mobile-page" id="' + id + '1">' +
                     '                    <a  href="javascript:;" class="aH">上一页</a>' +
                     '                    <ul class="show">' +
@@ -88,7 +88,8 @@ function page(id,url,type,functionN)
                         $("#" + id + "1>a:eq(1)").addClass("prev");
                         $("#" + id + "1>a:eq(1)").removeClass("aH");
                     }
-                    functionN(url+"&page=" + parseInt(number), id, type);
+                   // functionN(url+"&page=" + parseInt(number), id, type);
+                    eval(functionN+"('"+url+"&page=" + (number)+"','"+id+"','"+type+"');");
                 });
                 $(".prev").click(function () {
                     $("#" + id + "1 .cont-number").addClass("layui-hide");
@@ -119,7 +120,8 @@ function page(id,url,type,functionN)
                                 $("#" + id + "1>a:eq(1)").addClass("prev");
                                 $("#" + id + "1>a:eq(1)").removeClass("aH");
                             }
-                            functionN(url+"&page=" + (number1), id, type);
+                           // functionN(url+"&page=" + (number1), id, type);
+                            eval(functionN+"('"+url+"&page=" + (number)+"','"+id+"','"+type+"');");
                         });
 
                     }
@@ -131,8 +133,8 @@ function page(id,url,type,functionN)
                         $("#" + id + "1>a:eq(1)").addClass("prev");
                         $("#" + id + "1>a:eq(1)").removeClass("aH");
                     }
-                    functionN(url+"&page=" + (number), id, type);
-                    //eval(funcName+"('"+unitIds+"','"+unitNames+"','"+unitCodes+"');");
+                   // eval( functionN(url+"&page=" + (number), id, type);
+                    eval(functionN+"('"+url+"&page=" + (number)+"','"+id+"','"+type+"');");
                 });
                 $(".aH").unbind("click");
             }
