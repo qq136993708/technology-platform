@@ -31,11 +31,16 @@ function setNumStr(num)
 		}
 		return result;
 }
-function page(id,url,type) {
+
+
+
+
+function page(id,url,type) 
+{
     var v_date = (new Date()).getTime();
     $.ajax({
         type: type,
-        url: url + "&v_date=" + v_date,
+        url: url ,
         timeout: 9000,
         dataType: 'json',
         cache: false,
@@ -82,7 +87,7 @@ function page(id,url,type) {
                         $("#" + id + "1>a:eq(1)").addClass("prev");
                         $("#" + id + "1>a:eq(1)").removeClass("aH");
                     }
-                    queryAllExpert(url+"?page=" + parseInt(number), id, type);
+                    queryAllExpert(url+"&page=" + parseInt(number), id, type);
                 });
                 $(".prev").click(function () {
                     $("#" + id + "1 .cont-number").addClass("layui-hide");
@@ -113,7 +118,7 @@ function page(id,url,type) {
                                 $("#" + id + "1>a:eq(1)").addClass("prev");
                                 $("#" + id + "1>a:eq(1)").removeClass("aH");
                             }
-                            queryAllExpert(url+"?page=" + (number1), id, type);
+                            queryAllExpert(url+"&page=" + (number1), id, type);
                         });
 
                     }
@@ -125,7 +130,8 @@ function page(id,url,type) {
                         $("#" + id + "1>a:eq(1)").addClass("prev");
                         $("#" + id + "1>a:eq(1)").removeClass("aH");
                     }
-                    queryAllExpert(url+"?page=" + (number), id, type);
+                    queryAllExpert(url+"&page=" + (number), id, type);
+                    //eval(funcName+"('"+unitIds+"','"+unitNames+"','"+unitCodes+"');");
                 });
                 $(".aH").unbind("click");
             }
