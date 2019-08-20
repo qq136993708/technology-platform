@@ -355,4 +355,12 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 	public List getAppraisalInfoByZyForThreeYear(HashMap<String, String> map) {
 		return outAppraisalMapper.getAppraisalInfoByZyForThreeYear(map);
 	}
+	
+	
+	
+	public OutAppraisal getAppraisalInfoByjdh(String jdh)
+	{
+		return outAppraisalMapper.getAppraisalInfoByjdh(jdh);
+	}
+	
 }

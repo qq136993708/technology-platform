@@ -82,18 +82,6 @@
         	search();
         });
         
-        $(".layui-tab-item ul li").click(function () {
-            layer.open({
-                title : '详情',
-                skin : 'layui-layer-mobile',
-                shadeClose : false,
-                type : 2,
-                fixed : false,
-                maxmin : true,
-                area : [ '95%', '72.5%' ],
-                content : '/mobile/project_details.html'
-            });
-        });
     });
     
     
@@ -132,15 +120,23 @@
    					 var dataId= data.data[i].dataId;
    					 var cgmc= data.data[i].cgmc;
    					 var sqjddw= data.data[i].sqjddw;
+   					 var jdh= data.data[i].jdh;
    					 var jdjg= data.data[i].jdjg;
+   					 if(cgmc!='')
+  					 {
+   						    if(cgmc.length>15)
+  							{
+   						    	cgmc=cgmc.substr(0,15);
+  							}
+  				     }
    					 
-   					   var temp="<li  >"+
+   					   var temp="<li onclick=\"view('"+jdh+"')\" >"+
 			                     "<p>"+
 			                         "<span>"+cgmc+"</span>"+
 			                         "<span>一等奖</span>"+
 			                      "</p>"+
 			                      "<dl>"+
-			                        " <dd>成果单位: "+sqjddw+"</dd>"+
+			                        " <dd>"+sqjddw+"</dd>"+
 			                      "</dl>"+
 			                    "</li>";
    					
@@ -156,6 +152,28 @@
     	});
 
     }
+    
+    
+    
+    function view(jdh) 
+    {
+    	//alert(jdh);
+    	var url='/mobile/appraisal_detail/' + jdh;
+    	layer.open({
+            title : '详情',
+            skin : 'layui-layer-mobile',
+            shadeClose : false,
+            type : 2,
+            fixed : false,
+            maxmin : true,
+            area : [ '95%', '72.5%' ],
+            content : url
+        });
+    	
+    	
+    }
+    
+    
 </script>
 </body>
 </html>

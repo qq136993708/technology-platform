@@ -1017,4 +1017,30 @@
 		) and name not like '%外部单位%') as tableA 
 		ORDER BY orderType, orderValue
 	</select>
+	
+	
+	<select id="getAppraisalInfoByjdh" resultMap="BaseResultMap" parameterType="java.lang.String" >
+      SELECT * FROM 
+      (
+			  SELECT 
+			  nd,
+			  sqdjh,
+			  jdh,
+			  MIN(startTime) AS startTime,
+			  MAX(endTime) AS endTime,
+			  GROUP_CONCAT(DISTINCT sqjddw) AS sqjddw,
+			  GROUP_CONCAT(DISTINCT cgmc) AS cgmc,
+			  GROUP_CONCAT(DISTINCT cglx) AS cglx,
+			  GROUP_CONCAT(DISTINCT xmmc) AS xmmc,
+			  GROUP_CONCAT(DISTINCT jdjg) AS jdjg,
+			  GROUP_CONCAT(DISTINCT hth) AS hth,
+			  GROUP_CONCAT(DISTINCT zy) AS zy,
+			  GROUP_CONCAT(DISTINCT SUBSTR(define1 FROM 4)) AS define1,
+			  GROUP_CONCAT(DISTINCT SUBSTR(define3 FROM 2)) AS define3 
+	          FROM out_appraisal  GROUP BY jdh
+	  ) tt
+	 WHERE tt.jdh= #{jdh} 
+    </select>
+	
+	
 </mapper>

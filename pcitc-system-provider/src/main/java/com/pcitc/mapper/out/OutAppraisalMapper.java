@@ -25,6 +25,8 @@ public interface OutAppraisalMapper {
     List<OutAppraisal> selectByExample(OutAppraisalExample example);
 
     OutAppraisal selectByPrimaryKey(String dataId);
+    OutAppraisal getAppraisalInfoByjdh(String jdh);
+    
 
     int updateByExampleSelective(@Param("record") OutAppraisal record, @Param("example") OutAppraisalExample example);
 
