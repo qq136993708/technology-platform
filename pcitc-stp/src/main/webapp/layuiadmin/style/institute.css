@@ -1,2 +1,54 @@
 .institute .layui-card-body{padding: 0;}
-.institute .layui-tab-title li:after{height: 40px;border: none;}
+.institute .layui-tab-title li{
+    font-size:16px;
+    font-weight:500;
+    color:rgba(73,73,73,1);margin-right: 60px;}
+.institute .layui-tab-title li:after{height: 3px;border: none;background-color: #FD5442;    bottom: 0;
+    top: auto;}
+.institute .layui-tab-title li.layui-this{color: #FD5442;font-size: 20px;}
+.institute .layui-tab-top .layui-tab-title{border: none;margin-top: 30px;padding-left: 104px;}
+.institute .layui-tab-top {border-bottom: 1px solid #E9E9E9;}
+.layui-tab-content iframe{border: 0;width: 100%;height: 100%;}
+.header h4{text-align: center;margin-top: 70px;font-size: 32px;color: #333333;font-weight: 500;}
+.header p{text-align: center;margin-top: 10px;font-size: 30px;color: #ABABAB;font-weight: 400;}
+.main-item{margin: 36px 114px 0;height: auto;overflow: hidden;}
+.main-item .main-left{float: left;width: 55%;}
+.main-item .main-left p{text-indent: 2em;font-size: 14px;color: #494949;font-weight: 500;line-height: 28px;margin-bottom: 10px;}
+.main-item .main-right{float: right;width: 40%;}
+.main-item .main-right img:nth-child(1){width: 100%;margin-bottom: 5px;}
+.main-item .main-right img:nth-child(2){width: 49.6%;}
+.main-item .main-right img:nth-child(3){width: 49.6%;margin-left: 0.2%}
+.main-item .main-top p{font-size: 14px;color: #494949;font-weight: 500;line-height: 28px;margin-bottom: 15px;text-indent: 2em;}
+.main-cont {padding: 36px 90px;}
+.structure .main-left{ width: 55%;float: left;text-align: right;
+    margin-bottom: 12px;}
+.structure .main-left img{height: 329px;width: 99%;box-shadow: -12px 12px 0 #C2C2C2;}
+.structure .main-left p{    width: 20%;
+    height:160px;position: absolute;left: 0;top: 120px;
+    background:rgba(0,99,175,1);}
+.structure .main-right{ float: right;width: 43%;}
+.structure .item p{line-height: 28px;margin-bottom: 16px;}
+.structure .item p span:nth-child(1){
+    height:25px;display: block;
+    font-size:18px;
+    font-weight:500;
+    color:rgba(163,163,163,1);
+    line-height:25px;}
+
+.structure .item p span:nth-child(2){
+    display: block;
+    font-size:14px;
+    font-weight:500;
+    color:#494949;
+    line-height:25px;}
+
+
+
+
+
+
+
+
+
+
+
