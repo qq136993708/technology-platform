@@ -35,7 +35,7 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 @Controller
-@RequestMapping(value = "/sre_project_taskac")
+//@RequestMapping(value = "/sre_project_taskac")
 public class ProjectTaskAcController extends BaseController{
 	private static final String PROJECTPAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectTaskAc/page";
 	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/pagebyaccept";
@@ -47,11 +47,11 @@ public class ProjectTaskAcController extends BaseController{
 
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/sreProjectTaskAc/delete/";
 
-	@RequestMapping(value = "/to_list")
+	@RequestMapping(value = "/sre_project_taskac/to_list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return "/stp/equipment/taskac/project_taskac_list";
 	}
-	@RequestMapping(value = "/list")
+	@RequestMapping(value = "/sre_project_taskac/list")
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 	{
@@ -66,25 +66,25 @@ public class ProjectTaskAcController extends BaseController{
 		logger.info("============result" + result);
 		return result.toString();
 	}
-	@RequestMapping(value = "/task_list")
+	@RequestMapping(value = "/sre_project_taskac/task_list")
 	public String tasklist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		return "/stp/equipment/taskac/project_task_list";
 	}
 	
-	@RequestMapping(value = "/notice_list")
+	@RequestMapping(value = "/sre_project_taskac/notice_list")
 	public String noticelist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		return "/stp/equipment/taskac/project_tasknotice_list";
 	}
-	@RequestMapping(value = "/projectusers")
+	@RequestMapping(value = "/sre_project_taskac/projectusers")
 	public String projectusers(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
 		return "/stp/equipment/taskac/project_task_users";
 	}
 	
-	@RequestMapping(value = "/projectlist")
+	@RequestMapping(value = "/sre_project_taskac/projectlist")
 	@ResponseBody
 	public String projectlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		
@@ -105,26 +105,26 @@ public class ProjectTaskAcController extends BaseController{
 		return result.toString();
 	}
 	
-	@RequestMapping(value = "/to_prlist")
+	@RequestMapping(value = "/sre_project_taskac/to_prlist")
 	public String prlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
 		return "/stp/equipment/taskac/project_taskpr_list";
 	}
 	
-	@RequestMapping(value = "/to_reportlist")
+	@RequestMapping(value = "/sre_project_taskac/to_reportlist")
 	public String reportlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		return "/stp/equipment/taskac/project_taskreport_list";
 	}
-	@RequestMapping(value = "/project_audit")
+	@RequestMapping(value = "/sre_project_taskac/project_audit")
 	public String audit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 	    request.setAttribute("username",sysUserInfo.getUserDisp());
 	    request.setAttribute("userDate",new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		return "/stp/equipment/taskac/project_taskac_audit";
 	}
 	
-	@RequestMapping(value = "/addAudit")
+	@RequestMapping(value = "/sre_project_taskac/addAudit")
 	@ResponseBody
 	public String addAudit(HttpServletRequest request) throws Exception {
 		ResponseEntity<String> responseEntity = null;
@@ -153,7 +153,7 @@ public class ProjectTaskAcController extends BaseController{
 	}
 		return success;
 	}
-	@RequestMapping(value = "/submitAudit")
+	@RequestMapping(value = "/sre_project_taskac/submitAudit")
 	@ResponseBody
 	public String submitAudit(HttpServletRequest request) throws Exception {
 		ResponseEntity<String> responseEntity = null;
@@ -190,7 +190,7 @@ public class ProjectTaskAcController extends BaseController{
 			return success;
 		}
 		
-	  @RequestMapping(value = "/projecttaskpradd")
+	  @RequestMapping(value = "/sre_project_taskac/projecttaskpradd")
 	    public String upFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
@@ -227,7 +227,7 @@ public class ProjectTaskAcController extends BaseController{
 	        return "/stp/equipment/taskac/project_taskpr_add";
 	    }
 	  
-	  @RequestMapping(value = "/updateFileDoc")
+	  @RequestMapping(value = "/sre_project_taskac/updateFileDoc")
 	    public String updateFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 	        Result resultsDate = new Result();
@@ -275,7 +275,7 @@ public class ProjectTaskAcController extends BaseController{
 	    }
 	  
 	  
-	    @RequestMapping(value = "/addUsers")
+	    @RequestMapping(value = "/sre_project_taskac/addUsers")
 	    @ResponseBody
 		public Result addUsers(HttpServletRequest request) throws Exception {
 			Result resultsDate = new Result();
@@ -312,7 +312,7 @@ public class ProjectTaskAcController extends BaseController{
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/delete/{id}")
+	@RequestMapping(value = "/sre_project_taskac/delete/{id}")
 	public String delete(@PathVariable("id") String id, HttpServletResponse response)throws Exception{
 		Result resultsDate = new Result();
         ResponseEntity<Integer> exchange =null;
