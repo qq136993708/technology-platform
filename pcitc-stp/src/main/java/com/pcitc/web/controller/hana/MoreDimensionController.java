@@ -837,12 +837,22 @@ public class MoreDimensionController extends BaseController {
        return "stp/hana/moreDimension/reward_page_edit";
    }
 	
+	/**
+	 * 获取奖项
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/outReward/reward-get", method = RequestMethod.GET)
 	@ResponseBody
 	public Object getReward(@RequestParam(value = "dataId", required = true) String dataId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return this.restTemplate.exchange(REWARD_GET_URL, HttpMethod.POST, new HttpEntity<String>(dataId,this.httpHeaders), OutReward.class).getBody();
    }
 	
+	/**
+	 * 删除奖项
+	 * @param request
+	 * @return
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/outReward/reward-del")
 	@ResponseBody
@@ -858,7 +868,6 @@ public class MoreDimensionController extends BaseController {
 	
 	/**
 	 * 添加或者修改奖项
-	 * 
 	 * @param request
 	 * @return
 	 */

@@ -79,7 +79,6 @@ $(document).ready(function(){
 		var publicMethods=layui.publicMethods;
 		var selectRowData = layui.table.checkStatus('processdef-table').data;
 		var temUrl = '/more-dimension/reward_page_edit?dataId='+selectRowData[0].dataId;
-		alert(selectRowData[0]);
         publicMethods.openBaseWinFull("编辑奖项",temUrl);
 	});
 	$("#delete").click(function(){

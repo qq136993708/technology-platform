@@ -2600,4 +2600,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return resault;
 	}
 
+	@Override
+	public List<OutProjectInfo> getOutCompanyList(OutProjectInfo outProjectInfo) {
+		return outProjectInfoMapper.selectOutCompanyInfo(outProjectInfo);
+	}
+
 }
