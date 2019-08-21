@@ -89,7 +89,7 @@ function page(id,url,type,functionN)
                         $("#" + id + "1>a:eq(1)").removeClass("aH");
                     }
                    // functionN(url+"&page=" + parseInt(number), id, type);
-                    eval(functionN+"('"+url+"&page=" + (number)+"','"+id+"','"+type+"');");
+                    eval(functionN+"('"+url+"&page=" + parseInt(number)+"','"+id+"','"+type+"');");
                 });
                 $(".prev").click(function () {
                     $("#" + id + "1 .cont-number").addClass("layui-hide");
