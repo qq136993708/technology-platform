@@ -203,4 +203,5 @@ public interface ZjkChoiceService {
     public LayuiTableData getListChoice(LayuiTableParam param) throws Exception;
 
     public JSONObject selectByExampleByXmId(JSONObject jsonObject);
+    public JSONObject selectZjkChoiceByExampleByType(JSONObject jsonObject);
 }

@@ -44,7 +44,6 @@
     <table id="showTable" class="layui-table" lay-filter="tableData"></table>
 </div>
 
-
 <!--表格数据操作js-->
 <script>
     var table, active, dateId, xmid, erpProjectCode, selectRowData = '';
@@ -95,9 +94,9 @@
                             title: "成果名称", event: 'setActive', style: 'cursor: pointer;'
                             ,templet:function (d) {
                                 if(d.define6=="1"){
-                                    return '<span style="color:red">' + d.cgmc + '</span>'
+                                    return '<span style="color:red"  onclick="showDetailCg(\'' + d.dataId + '\')">' + d.cgmc + '</span>'
                                 }else {
-                                    return d.cgmc;
+                                    return '<span onclick="showDetailCg(\'' + d.dataId + '\')">' + d.cgmc + '</span>'
                                 }
                             }
                         },
@@ -105,6 +104,20 @@
                             field: "sqjddw",
                             title: "申请单位", event: 'setActive', style: 'cursor: pointer;'
                         },
+                        {
+                            field : 'define6',
+                            title : '专家评审',
+                            style : 'cursor: pointer;',
+                            align : 'center',
+                            templet:function (d) {
+                                if (d.define6=="1"){
+                                    return "<a class=\"layui-btn layui-btn-xs\" style='background-color:#2ac845' lay-event=\"pj\"><span style=''>查看专家</span></a>";
+                                } else {
+                                    return "<a class=\"layui-btn layui-btn-xs\" lay-event=\"zjxz\">选择专家</a>";
+                                }
+                            }
+                        }
+
                     ]],
                 done: function (res, curr, count) {
                     // 关闭等待刷新
@@ -121,7 +134,26 @@
                 }
             });
         }
+
+        window.showDetailCg = showDetailCg;
+        function showDetailCg(data_id) {
+            var temUrl = "/out/appraisal-detail/" + data_id;
+            layer.open({
+                title: '详情',
+                skin: 'layui-layer-lan',
+                shadeClose: false,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['70%', '90%'],
+                content: temUrl
+            });
+        }
+
         renderTable();
+
         $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 
         // 触发不同的按钮事件
@@ -195,7 +227,13 @@
         };
 
         table.on('tool(tableData)', function (obj) {
-            selectRowData = obj.data;
+            var sel = obj.data;
+            if (obj.event === 'pj') {
+                openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + sel.dataId);
+            }
+            if (obj.event === 'zjxz') {
+                openFullWin("选择专家", "/expertController/getUserChoicePage?flag=cg&projectId=" + sel.dataId+"&projectName="+encodeURI(encodeURI(sel.cgmc))+"&unitCode="+sel.dataId);
+            }
         });
 
         //监听排序
