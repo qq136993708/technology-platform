@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.mobile;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.ChartBarLineResultData;
+import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.util.CommonUtil;
@@ -91,7 +94,7 @@ public class MobileBudgetController extends BaseController{
 	
 	
 	  // 原one_level_main/investment_02
-		@RequestMapping(method = RequestMethod.GET, value = "/mobile/investment_02")
+		/*@RequestMapping(method = RequestMethod.GET, value = "/mobile/investment_02")
 		@ResponseBody
 		@OperationFilter(dataFlag = "true")
 		public String investment_mobile(HttpServletRequest request, HttpServletResponse response) throws Exception 
@@ -134,7 +137,57 @@ public class MobileBudgetController extends BaseController{
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			System.out.println(">>>>>>>>>type=" + type + ">>>>>imobilenvestment_02 " + resultObj.toString());
 			return resultObj.toString();
+		}*/
+		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/mobile/investment_02")
+		@ResponseBody
+		@OperationFilter(dataFlag = "true")
+		public String investment_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			Result result = new Result();
+			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+			String type = CommonUtil.getParameter(request, "type", "");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("nd", nd);
+			paramsMap.put("companyCode", companyCode);
+			// 数据控制属性
+			String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+			String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+			String zsyjy = request.getAttribute("zsyjy") == null ? "" : request.getAttribute("zsyjy").toString();
+			paramsMap.put("zycbm", zycbm);
+			paramsMap.put("zylbbm", zylbbm);
+			paramsMap.put("zsyjy", zsyjy);
+
+			// 领导标识
+			paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+			paramsMap.put("username", sysUserInfo.getUserName());
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!nd.equals("")) {
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) {
+					JSONArray jSONArray = responseEntity.getBody();
+					System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + jSONArray.toString());
+					List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+					result.setSuccess(true);
+					result.setData(list);
+
+				}
+
+			} else {
+				result.setSuccess(false);
+				result.setMessage("参数为空");
+			}
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			System.out.println(">>>>>>>>>type=" + type + ">>>>>investment_02 " + resultObj.toString());
+			return resultObj.toString();
 		}
+		
+		
+		
+		
 		
 		// 原:/one_level_main/investment_03
 		@RequestMapping(value = "/mobile/investment_03")
