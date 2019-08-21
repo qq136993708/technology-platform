@@ -31,11 +31,13 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.Contract;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.controller.hanaLeader.OneLevelMainController;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
@@ -257,7 +259,7 @@ public class MobileContractController extends BaseController {
 		@RequestMapping(method = RequestMethod.POST, value = "/mobile/common_table_data_mobile")
 		@ResponseBody
 		@OperationFilter(dataFlag = "true")
-		public String common_table_data_mobile( HttpServletRequest request, HttpServletResponse response) {
+		public String common_table_data_mobile( HttpServletRequest request, HttpServletResponse response) throws Exception{
 
 			LayuiTableParam param = new LayuiTableParam();
 			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
@@ -267,12 +269,60 @@ public class MobileContractController extends BaseController {
 			String xmmc = CommonUtil.getParameter(request, "xmmc", "");
 			String hth = CommonUtil.getParameter(request, "hth", "");
 			String key = CommonUtil.getParameter(request, "key", "");
-
+			
+			String define2 = CommonUtil.getParameter(request, "define2", "");//研究院
+			String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");//部门
+			String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");//处室
+			String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");
+			String fzdwflag = CommonUtil.getParameter(request, "fzdwflag", "");
+			
+			
+			
+			 // 部门
+			List<SysDictionary> gsbmbmList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+			if(gsbmbmList!=null && gsbmbmList.size()>0)
+			{
+				for(int i=0;i<gsbmbmList.size();i++)
+				{
+					SysDictionary sysDictionary=gsbmbmList.get(i);
+					String name=sysDictionary.getName();
+					String code=sysDictionary.getCode();
+					if(gsbmbmFlag.equals(name))
+					{
+						gsbmbmFlag=code;
+					}
+					
+				}
+			}
+			// 科技部二级级联： 专业处->专业类别
+			List<SysDictionary> zycList = EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
+			if(zycList!=null && zycList.size()>0)
+			{
+				for(int i=0;i<zycList.size();i++)
+				{
+					SysDictionary sysDictionary=zycList.get(i);
+					String name=sysDictionary.getName();
+					String code=sysDictionary.getCode();
+					if(zycbmFlag.equals(name))
+					{
+						zycbmFlag=code;
+					}
+					
+				}
+			}
+			
 			// 数据控制属性
 			String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
 			String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 			param.getParam().put("zycbm", zycbm);
 			param.getParam().put("zylbbm", zylbbm);
+			
+			param.getParam().put("define2", define2);
+			param.getParam().put("gsbmbmFlag", gsbmbmFlag);
+			param.getParam().put("zycbmFlag", zycbmFlag);
+			param.getParam().put("groupFlag", groupFlag);
+			param.getParam().put("fzdwflag", fzdwflag);
+			
 			// 领导标识
 			param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 

@@ -27,7 +27,8 @@
 <input type="hidden" name="limit" id="limit" value="${limit}">
 <input type="hidden" name="page"  id="page"  value="${page}">
 <input type="hidden" name="qdbz"  id="qdbz"  value="${qdbz}">
-<input type="hidden" name="fzdwflag"  id="fzdwflag"  value="牵头单位">
+<input type="hidden" name="fzdwflag"  id="fzdwflag"  value="参与单位">
+<input type="hidden" name="groupFlag"  id="groupFlag"  value="xmid">
 
 
 <input type="hidden" name="functionId"  id="functionId"  value="984b64b13cf54222bf57bd840759fabe">
@@ -78,7 +79,7 @@
             </div>
         </div>
         <div class="button-g">
-            <button>确定</button>
+            <button id="search_ok">确定</button>
             <button id="reset">重置</button>
         </div>
     </div>
@@ -180,7 +181,10 @@
         $("#search").click(function () {
         	search_Event();
         });
-        
+        $("#search_ok").click(function () {
+        	$(".more-condition").slideToggle("slow");
+        	search_Event();
+        });
         
     });
     
@@ -243,19 +247,27 @@
    					{
    						hth="";
    					}
+   					var ysjestr=setNumStr(ysje);
+   					if(xmmc=='总计' && ysjestr=='NaN万')
+   					{
+   						
+   					}else
+  					{
+   						var temp="<li onclick=\"view('"+xmid+"')\">"+
+	    				"<p>"+
+	                        "<span>"+xmmc+"</span>"+
+	                        "<span>"+setNumStr(ysje)+"</span>"+
+	                    "</p>"+
+	                    "<dl>"+
+	                        "<dd>"+hth+"</dd>"+
+	                        "<dd>"+define10+"</dd>"+
+	                        "<dd>"+define12+"</dd>"+
+	                    "</dl>"+
+	                   "</li>";
+			         count=count+temp;
+  					}
    					
-   					 var temp="<li onclick=\"view('"+xmid+"')\">"+
-			    				"<p>"+
-			                        "<span>"+xmmc+"</span>"+
-			                        "<span>"+setNumStr(ysje)+"</span>"+
-			                    "</p>"+
-			                    "<dl>"+
-			                        "<dd>"+hth+"</dd>"+
-			                        "<dd>"+define10+"</dd>"+
-			                        "<dd>"+define12+"</dd>"+
-			                    "</dl>"+
-			                   "</li>";
-					         count=count+temp;
+   					 
        			  }
    			   }
     		    $("#"+id).html(count); 	
@@ -273,10 +285,24 @@
     {
     	var v_date = (new Date()).getTime();
     	var nd = $('#nd').val();
-    	//console.log("研究院="+define2+" 部门="+gsbmbmFlag+" 处室="+zycbmFlag);
+    	
     	var define2=$("#define2").find(".layui-this").html();
-    	var gsbmbmFlag=$("#gsbmbmFlag").find(".layui-this").html()
-    	var zycbmFlag=$("#zycbmFlag").find(".layui-this").html()
+    	var gsbmbmFlag=$("#gsbmbmFlag").find(".layui-this").html();
+    	var zycbmFlag=$("#zycbmFlag").find(".layui-this").html(); 
+    	console.log("研究院="+define2+" 部门="+gsbmbmFlag+" 处室="+zycbmFlag);
+    	
+    	if(typeof(define2) == "undefined")
+    	{
+    		define2="";
+    	}
+    	if(typeof(gsbmbmFlag) == "undefined")
+    	{
+    		gsbmbmFlag="";
+    	}
+    	if(typeof(zycbmFlag) == "undefined")
+    	{
+    		zycbmFlag="";
+    	}
     	queryTabel("/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=已签订&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag,"qdbz_ed_id","POST");
     	queryTabel("/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=未签订&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag,"qdbz_not_id","POST");
     	queryTabel("/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag,"qdbz_all_id","POST");
