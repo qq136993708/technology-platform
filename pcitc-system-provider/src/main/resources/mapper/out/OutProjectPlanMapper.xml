@@ -2123,7 +2123,7 @@
 			  zylb,
 			  qdbz,
 			   GROUP_CONCAT(CONCAT(ysnd,',',ROUND(YSFYXJE),',',ROUND(YSZBXJE),',',ROUND(YSJE))SEPARATOR '#') AS yearMoneryStr,
-               GROUP_CONCAT(CONCAT(define8,',',ROUND(YSFYXJE),',',ROUND(YSZBXJE),',',ROUND(YSJE))SEPARATOR '#') AS companyMoneryStr
+			   GROUP_CONCAT(CONCAT(define8,',',ysnd,',',ROUND(YSFYXJE),',',ROUND(YSZBXJE),',',ROUND(YSJE))SEPARATOR '#') AS companyMoneryStr
 			FROM
 			  out_project_plan t 
 			WHERE t.`XMID` = #{xmid} 

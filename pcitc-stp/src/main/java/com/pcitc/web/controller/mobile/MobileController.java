@@ -33,6 +33,7 @@ import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutProjectPlan;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
@@ -375,8 +376,16 @@ public class MobileController extends BaseController {
 		request.setAttribute("projectId", projectId);
 		
 		
-		
-		
+        // 部门
+		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+		request.setAttribute("gsbmbmList", gsbmbmList);
+		// 科技部二级级联： 专业处->专业类别
+		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
+		request.setAttribute("zycList", zycList);
+		// 直属研究院
+		List<SysDictionary> yjyList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+		request.setAttribute("yjyList", yjyList);
+				
 		return "/mobile/project";
 	}
 	
@@ -393,18 +402,13 @@ public class MobileController extends BaseController {
 		String xmid = CommonUtil.getParameter(request, "xmid", "");
 		request.setAttribute("xmid", xmid);
 		
-		
 		ResponseEntity<OutProjectPlan> responseEntity = this.restTemplate.exchange(getOutProjectPlanByXmId + xmid, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), OutProjectPlan.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		logger.info("============远程返回  statusCode " + statusCode);
 		OutProjectPlan outProjectPlan = responseEntity.getBody();
-		request.setAttribute("outProjectPlan", outProjectPlan);
-		    
-		List<OutProjectPlan> yearMoneryList=new ArrayList<OutProjectPlan>();
 		    
 		List<OutProjectPlan> companyMoneryList=new ArrayList<OutProjectPlan>();  
 		String companyMoneryStr=outProjectPlan.getCompanyMoneryStr();
-		String yearMoneryStr=outProjectPlan.getYearMoneryStr();
 		if(companyMoneryStr!=null)
 		{
 			String arr[]=companyMoneryStr.split("#");
@@ -413,15 +417,23 @@ public class MobileController extends BaseController {
 				for(int i=0;i<arr.length;i++)
 				{
 					String str=arr[i];
+					
 					if(str!=null)
 					{
+						OutProjectPlan opp=new OutProjectPlan();
 						String arr2[]=str.split(",");
+						opp.setDefine8(arr2[0]);
+						opp.setYsnd(arr2[1]);
+						opp.setYsfyxje(arr2[2]);
+						opp.setYszbxje(arr2[3]);
+						opp.setYsje(arr2[4]);
+						companyMoneryList.add(opp);
 					}
 				}
 			}
-			
+			outProjectPlan.setCompanyMoneryList(companyMoneryList);
 		}
-		
+		request.setAttribute("outProjectPlan", outProjectPlan);
 		
 		
 		return "/mobile/project_details";
