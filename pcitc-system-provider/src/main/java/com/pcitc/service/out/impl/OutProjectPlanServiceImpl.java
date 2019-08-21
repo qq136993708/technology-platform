@@ -342,6 +342,9 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		if (param.getParam().get("xmmc") != null && !StringUtils.isBlank(param.getParam().get("xmmc") + "")) {
 			hashmap.put("xmmc", param.getParam().get("xmmc"));
 		}
+		if (param.getParam().get("key") != null && !StringUtils.isBlank(param.getParam().get("key") + "")) {
+			hashmap.put("key", param.getParam().get("key"));
+		}
 
 		if (param.getParam().get("fzdwflag") != null && !StringUtils.isBlank(param.getParam().get("fzdwflag") + "")) {
 			hashmap.put("fzdwflag", param.getParam().get("fzdwflag"));
@@ -766,5 +769,13 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("zycbmList", zycbmList);
 		}
 		return hashmap;
+	}
+	
+	
+	
+	
+	public OutProjectPlan getOutProjectPlanByXmId(String xmid)
+	{
+		return outProjectPlanMapper.getOutProjectPlanByXmId(xmid);
 	}
 }

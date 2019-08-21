@@ -373,7 +373,7 @@
 		{
     		num=0;
 		}
-		if(parseFloat(num)>10000)//亿
+		if(Math.abs(parseFloat(num))>10000)//亿
 		{
 			var  temp=parseFloat(num/10000).toFixed(2);
 			var  endstr=temp.substring(temp.length-3);

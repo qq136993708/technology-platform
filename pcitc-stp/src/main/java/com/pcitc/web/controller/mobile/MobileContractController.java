@@ -266,6 +266,7 @@ public class MobileContractController extends BaseController {
 			String qdbz = CommonUtil.getParameter(request, "qdbz", "");
 			String xmmc = CommonUtil.getParameter(request, "xmmc", "");
 			String hth = CommonUtil.getParameter(request, "hth", "");
+			String key = CommonUtil.getParameter(request, "key", "");
 
 			// 数据控制属性
 			String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
@@ -281,6 +282,7 @@ public class MobileContractController extends BaseController {
 			param.getParam().put("qdbz", qdbz);
 			param.getParam().put("hth", hth);
 			param.getParam().put("xmmc", xmmc);
+			param.getParam().put("key", key);
 			System.out.println(">>>>>>>>>>>>nd:" + nd + "page=" + page);
 			String result = OneLevelMainController.setCommonTable(restTemplate, httpHeaders, sysUserInfo, param, request, response);
 			return result;

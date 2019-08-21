@@ -1,6 +1,7 @@
 package com.pcitc.base.stp.out;
 
 import java.util.Date;
+import java.util.List;
 
 public class OutProjectPlan {
     private String dataId;
@@ -139,7 +140,51 @@ public class OutProjectPlan {
     
     private Date updateDate;
     
-    public Date getCreateDate() {
+    
+    private String yearMoneryStr;
+    
+    private String companyMoneryStr;
+    
+    private List<OutProjectPlan> yearMoneryList;
+    
+    private List<OutProjectPlan> companyMoneryList;
+    
+    
+    public List<OutProjectPlan> getYearMoneryList() {
+		return yearMoneryList;
+	}
+
+	public void setYearMoneryList(List<OutProjectPlan> yearMoneryList) {
+		this.yearMoneryList = yearMoneryList;
+	}
+
+	public List<OutProjectPlan> getCompanyMoneryList() {
+		return companyMoneryList;
+	}
+
+	public void setCompanyMoneryList(List<OutProjectPlan> companyMoneryList) {
+		this.companyMoneryList = companyMoneryList;
+	}
+
+	public String getYearMoneryStr() {
+		return yearMoneryStr;
+	}
+
+	public void setYearMoneryStr(String yearMoneryStr) {
+		this.yearMoneryStr = yearMoneryStr;
+	}
+
+	public String getCompanyMoneryStr() {
+		return companyMoneryStr;
+	}
+
+	public void setCompanyMoneryStr(String companyMoneryStr) {
+		this.companyMoneryStr = companyMoneryStr;
+	}
+
+	
+
+	public Date getCreateDate() {
 		return createDate;
 	}
 

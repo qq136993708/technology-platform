@@ -150,4 +150,9 @@ public interface OutProjectPlanService {
 	 */
 	public void updateProjectPropertyInfo();
 	
+	/**
+	 * 根据项目ID取项目信息
+	 */
+	public OutProjectPlan getOutProjectPlanByXmId(String xmid);
+	
 }
