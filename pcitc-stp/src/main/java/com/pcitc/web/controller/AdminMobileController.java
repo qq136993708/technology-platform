@@ -393,7 +393,7 @@ public class AdminMobileController extends BaseController {
 			request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 			request.setAttribute("sysUserInfo", tokenUser); // tokenUser中有userLevel等基本属性
 
-			if (isZHJHCPerson || sysUserInfo.getUserLevel() == 2) {
+			if (isZHJHCPerson || tokenUser.getUserLevel() == 2) {
 				request.getSession().setAttribute("mobileLeader", "true");
 			}
 			
