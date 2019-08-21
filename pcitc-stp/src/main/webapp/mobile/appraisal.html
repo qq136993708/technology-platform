@@ -90,9 +90,9 @@
     	 var key=$("#key").val();
     	 var nd=$("#nd").val();
     	 var v_date = (new Date()).getTime();
-    	 queryAll("/mobile/one_level_main/achievement_table_data?nd="+nd+"&key="+key,"list_div","POST");
+    	 queryAll("/mobile/one_level_main/achievement_table_data?functionId=984b64b13cf54222bf57bd840759fabe&nd="+nd+"&key="+key,"list_div","POST");
     	 
-    	 page("list_div","/mobile/one_level_main/achievement_table_data?v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&nd="+nd,"POST","queryAll");
+    	 page("list_div","/mobile/one_level_main/achievement_table_data?functionId=984b64b13cf54222bf57bd840759fabe&v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&nd="+nd,"POST","queryAll");
     	 
     }
     search();
