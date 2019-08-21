@@ -66,6 +66,7 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 		commonKey.add("sysAddress");
 		
 		commonKey.add("zjkBaseInfo");
+		commonKey.add("activiti");
 	}
 
 	@Override
