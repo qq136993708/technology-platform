@@ -253,14 +253,14 @@
     	var v_date = (new Date()).getTime();
     	var nd = $('#nd').val();
     	
-    	queryTabel("/mobile/common_table_data_mobile?key="+$("#key").val()+"&v_date="+v_date+"&qdbz=已签订&nd="+nd,"qdbz_ed_id","POST");
-    	queryTabel("/mobile/common_table_data_mobile?key="+$("#key").val()+"&v_date="+v_date+"&qdbz=未签订&nd="+nd,"qdbz_not_id","POST");
-    	queryTabel("/mobile/common_table_data_mobile?key="+$("#key").val()+"&v_date="+v_date+"&qdbz=&nd="+nd,"qdbz_all_id","POST");
+    	queryTabel("/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=已签订&nd="+nd,"qdbz_ed_id","POST");
+    	queryTabel("/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=未签订&nd="+nd,"qdbz_not_id","POST");
+    	queryTabel("/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=&nd="+nd,"qdbz_all_id","POST");
     	 
     	 
-    	 page("qdbz_ed_id", "/mobile/common_table_data_mobile?v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=已签订&nd="+nd,"POST","queryTabel");
-    	 page("qdbz_not_id","/mobile/common_table_data_mobile?v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=未签订&nd="+nd,"POST","queryTabel");
-    	 page("qdbz_all_id","/mobile/common_table_data_mobile?v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=&nd="+nd,"POST","queryTabel");
+    	 page("qdbz_ed_id", "/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=已签订&nd="+nd,"POST","queryTabel");
+    	 page("qdbz_not_id","/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=未签订&nd="+nd,"POST","queryTabel");
+    	 page("qdbz_all_id","/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=&nd="+nd,"POST","queryTabel");
     }
     search_Event();
     

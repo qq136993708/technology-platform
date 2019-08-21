@@ -400,15 +400,27 @@ public class MobileController extends BaseController {
 		OutProjectPlan outProjectPlan = responseEntity.getBody();
 		request.setAttribute("outProjectPlan", outProjectPlan);
 		    
-		    /* List yearMoneryList;
+		List<OutProjectPlan> yearMoneryList=new ArrayList<OutProjectPlan>();
 		    
-		     List companyMoneryList;
+		List<OutProjectPlan> companyMoneryList=new ArrayList<OutProjectPlan>();  
 		String companyMoneryStr=outProjectPlan.getCompanyMoneryStr();
 		String yearMoneryStr=outProjectPlan.getYearMoneryStr();
 		if(companyMoneryStr!=null)
 		{
-			String str[]=companyMoneryStr.split("#");
-		}*/
+			String arr[]=companyMoneryStr.split("#");
+			if(arr!=null)
+			{
+				for(int i=0;i<arr.length;i++)
+				{
+					String str=arr[i];
+					if(str!=null)
+					{
+						String arr2[]=str.split(",");
+					}
+				}
+			}
+			
+		}
 		
 		
 		
