@@ -19,6 +19,7 @@
 .main-item .main-right img:nth-child(2){width: 49.6%;}
 .main-item .main-right img:nth-child(3){width: 49.6%;margin-left: 0.2%}
 .main-item .main-top p{font-size: 14px;color: #494949;font-weight: 500;line-height: 28px;margin-bottom: 15px;text-indent: 2em;}
+.personnel .main-top p{text-align: center;}
 .main-cont {padding: 36px 90px;}
 .structure .main-left{ width: 55%;float: left;text-align: right;
     margin-bottom: 12px;}
@@ -41,7 +42,7 @@
     font-weight:500;
     color:#494949;
     line-height:25px;}
-
+.personnel img{width: 24.5%;}
 
 
 
