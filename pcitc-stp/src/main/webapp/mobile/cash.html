@@ -14,6 +14,8 @@
             background-size: 100%;
             padding-top: .1rem;}
         .child input{width: .8rem;}
+        
+        .cash .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2){float:right;color:green}
     </style>
 </head>
 <body>
@@ -126,7 +128,7 @@
         			 }
         			 
         			 $("#list_id").html(count); 
-        			 $("#all_money_id").html((all/10000).toFixed(2)+"<lable >亿<lable>");
+        			 $("#all_money_id").html((all/10000).toFixed(2)+"<lable style='font-size:12px;font-weight:normal'>亿<lable>"); 
         		},
         		error : function() {
         		},
@@ -156,7 +158,7 @@
 		{
     		num=0;
 		}
-		if(parseFloat(num)>10000)//亿
+		if(Math.abs(parseFloat(num))>10000)//亿
 		{
 			var  temp=parseFloat(num/10000).toFixed(2);
 			var  endstr=temp.substring(temp.length-3);
@@ -165,7 +167,7 @@
 			{
 				temp= temp.substring(0,temp.length-3);
 			}
-			result=temp+"<lable >亿<lable>";
+			result=temp+"<lable style='font-size:12px;font-weight:normal'>亿<lable>";
 		}else//万
 		{
 			
@@ -176,7 +178,7 @@
 				//temp= temp.replace(".00","")
 				temp= temp.substring(0,temp.length-3);
 			}
-			result=temp+"<lable >万<lable>";
+			result=temp+"<lable style='font-size:12px;font-weight:normal'>万<lable>";
 		}
 		return result;
     }

@@ -18,8 +18,8 @@
         <input id="date" type="text" value="" placeholder="">
     </div>
     <div class="search">
-        <input type="text" name="xmmc" id="xmmc" value="请输入合同号或项目名" />
-        <img src="/mobile/images/icon-search.png" alt="">
+        <input type="text" name="key" id="key" value="" placeholder="请输入合同号或项目名" />
+        <img src="/mobile/images/icon-search.png" alt="" id="search">
     </div>
 </header>
 <form action="" name="form1" id="form1" >
@@ -36,12 +36,12 @@
     <div class="layui-row">
         <div class="layui-tab-content">
             <div class="layui-col-xs4">
-                <span id="finished_id">-个</span>
+                <span id="finished_id">0个</span>
                 <span>已签约</span>
                 <span></span>
             </div>
             <div class="layui-col-xs4">
-                <span  id="not_finished_id">-个</span>
+                <span  id="not_finished_id">0个</span>
                 <span>未签约</span>
                 <span></span>
             </div>
@@ -92,9 +92,9 @@
     <div class="layui-tab">
         <div>
             <ul class="layui-tab-title">
-                <li class="layui-this">已签</li>
-                <li>未签</li>
-                <li>全部</li>
+                <li class="layui-this">已签<label id="finished_count" ></label> </li>
+                <li>未签<label id="not_finished_count"></label></li>
+                <li>全部<label id="all_count"></label></li>
             </ul>
         </div>
         <div class="layui-tab-content">
@@ -113,6 +113,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/mobile/js/rolldate.min.js"></script>
+<script src="/mobile/js/mobile.js"></script>
 <script>
     var layer;
     (function(doc, win) {
@@ -155,85 +156,42 @@
         $("#more").click(function () {
             $(".more-condition").slideToggle("slow");
         });
-        $(".layui-tab-item ul li").click(function () {
-            layer.open({
-                title : '详情',
-                skin : 'layui-layer-mobile',
-                shadeClose : false,
-                type : 2,
-                fixed : false,
-                maxmin : true,
-                area : [ '95%', '72.5%' ],
-                content : '/mobile/project_details.html'
-            });
+        $("#search").click(function () {
+        	search_Event();
         });
+        
+        
     });
     
     
     
-    //总预览
-    /* function allLook()
+    function queryTabel(url,id,type)
     {
-    	var nd = $('#nd').val();
-    	$.ajax({
-    		type : "POST",
-    		url : "/one_level_main/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
-    		timeout : 9000,
-    		dataType : "json",
-    		cache : false,
-    		headers : {
-    			'Content-Type' : 'application/json'
-    		},
-    		success : function(data, status) {
-    			if (data.success == true || data.success == 'true') 
-    			{
-    				$("#plan_id").html(data.data.zsl + "个");
-
-    				if (typeof (data.data.yqht) == "undefined") 
-    				{
-    					$("#finished_id").html("0个");
-    				} else 
-    				{
-    					$("#finished_id").html(data.data.yqht + "个");
-    				}
-    			}
-    		},
-    		error : function() {
-    		},
-    		complete : function(XMLHttpRequest, status) {
-    		}
-    	});
-
-    } */
-   
-    
-    
-    function queryTabel(qdbz,id)
-    {
-    	$("#qdbz").val(qdbz);
     	var v_date = (new Date()).getTime();
     	$.ajax({
-    		type : "POST",
-    		url : "/mobile/common_table_data_mobile?v_date="+v_date,
+    		type : type,
+    		url : url,
     		timeout : 9000,
-    		data: $("#form1").serialize(),
+    		//data: $("#form1").serialize(),
     		dataType:'json', 
     		cache : false,
     		success : function(data, status) 
     		{
-    			console.log(data.data);
-    			
-    			
-    			
-    			if(qdbz=='已签订')
+    			//console.log(id+"\n"+JSON.stringify(data.data));
+    			if(id=='qdbz_ed_id')
     			{
-    				$("#finished_id").html(data.count+"个");
+    				$("#finished_count").html((data.count-1)+"个");
+    				$("#finished_id").html((data.count-1)+"个");
     			}
-    			if(qdbz=='未签订')
+    			if(id=='qdbz_not_id')
     			{
-    				$("#not_finished_id").html(data.count+"个");
+    				$("#not_finished_count").html((data.count-1)+"个");
+    				$("#not_finished_id").html((data.count-1)+"个");
     			}
-				
+    			if(id=='qdbz_all_id')
+    			{
+    				$("#all_count").html((data.count-1)+"个");
+    			}
     			var count="";
     			if(data.data.length>0)
    			    {
@@ -259,6 +217,12 @@
   							xmmc=xmmc.substring(0,15);
   						 }
   					 }
+   					
+   					if (typeof(hth) == "undefined")
+   					{
+   						hth="";
+   					}
+   					
    					 var temp="<li onclick=\"view('"+xmid+"')\">"+
 			    				"<p>"+
 			                        "<span>"+xmmc+"</span>"+
@@ -286,10 +250,17 @@
 
     function search_Event()
     {
-    	//allLook();
-    	queryTabel("已签订",'qdbz_ed_id');
-    	queryTabel("未签订",'qdbz_not_id');
-    	queryTabel("",'qdbz_all_id');
+    	var v_date = (new Date()).getTime();
+    	var nd = $('#nd').val();
+    	
+    	queryTabel("/mobile/common_table_data_mobile?key="+$("#key").val()+"&v_date="+v_date+"&qdbz=已签订&nd="+nd,"qdbz_ed_id","POST");
+    	queryTabel("/mobile/common_table_data_mobile?key="+$("#key").val()+"&v_date="+v_date+"&qdbz=未签订&nd="+nd,"qdbz_not_id","POST");
+    	queryTabel("/mobile/common_table_data_mobile?key="+$("#key").val()+"&v_date="+v_date+"&qdbz=&nd="+nd,"qdbz_all_id","POST");
+    	 
+    	 
+    	 page("qdbz_ed_id", "/mobile/common_table_data_mobile?v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=已签订&nd="+nd,"POST","queryTabel");
+    	 page("qdbz_not_id","/mobile/common_table_data_mobile?v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=未签订&nd="+nd,"POST","queryTabel");
+    	 page("qdbz_all_id","/mobile/common_table_data_mobile?v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=&nd="+nd,"POST","queryTabel");
     }
     search_Event();
     
@@ -307,6 +278,8 @@
     
     function  view(xmid)
     {
+    	
+    	console.log(xmid+"\n"+JSON.stringify(xmid));
     	layer.open({
             title : '详情',
             skin : 'layui-layer-mobile',

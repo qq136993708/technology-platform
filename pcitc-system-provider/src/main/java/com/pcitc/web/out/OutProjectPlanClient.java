@@ -14,6 +14,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +25,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
+import com.pcitc.base.stp.equipment.SreEquipment;
+import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.service.feign.stp.BudgetClient;
 import com.pcitc.service.out.OutProjectPlanService;
 
@@ -916,5 +919,15 @@ public class OutProjectPlanClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	
+	@ApiOperation(value = "根据项目ID取项目信息", notes = "根据项目ID取项目信息")
+	@RequestMapping(value = "/out-project-plan-provider/getOutProjectPlanByXmId/{xmid}", method = RequestMethod.GET)
+	public OutProjectPlan getOutProjectPlanByXmId(@PathVariable(value = "xmid", required = true) String xmid) throws Exception {
+		logger.info("===============================getOutProjectPlanByXmId  "+xmid+"===========");
+		return outProjectPlanService.getOutProjectPlanByXmId(xmid);
+	}
+	
+	
 
 }
