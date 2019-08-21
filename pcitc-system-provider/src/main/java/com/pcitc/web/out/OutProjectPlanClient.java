@@ -582,7 +582,7 @@ public class OutProjectPlanClient {
 								ysMoney.put("zRate", Double.parseDouble(ysMoney.get("zsjje").toString()) * 100 / Double.parseDouble(ysMoney.get("zysje").toString()));
 							}
 
-							System.out.println(ysMoney.get("show_ali") + "====ysMoney.get()-----------" + ysMoney.get("zsjje"));
+							System.out.println(ysMoney.get("show_ali") + "====fyxsjje-----------" + ysMoney.get("fyxsjje") + "====zbxsjje-----------" + ysMoney.get("zbxsjje"));
 							break;
 						}
 					}
@@ -604,6 +604,8 @@ public class OutProjectPlanClient {
 					ysMoney.put("zysje", ysMoney.get("zysje") == null ? "0" : ysMoney.get("zysje"));
 					ysMoney.put("zsjje", "0");
 					ysMoney.put("zRate", "0");
+					
+					System.out.println(ysMoney.get("zysje") + "====configFlag-----------" + ysMoney.get("fyx_money") + "====zysje-----------" + ysMoney.get("zbx_money"));
 				}
 			}
 
