@@ -68,6 +68,10 @@
     <result column="DEFINE17" property="define17" jdbcType="VARCHAR" />
     <result column="DEFINE18" property="define18" jdbcType="VARCHAR" />
     <result column="DEFINE19" property="define19" jdbcType="VARCHAR" />
+    <result column="yearMoneryStr"    property="yearMoneryStr"    jdbcType="VARCHAR" />
+    <result column="companyMoneryStr" property="companyMoneryStr" jdbcType="VARCHAR" />
+    
+    
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -1711,6 +1715,9 @@
 			<if test="xmmc != null and xmmc != ''">
 				and tableA.xmmc like '%${xmmc}%'
 			</if>
+			<if test="key != null and key != ''">
+			    and (tableA.xmmc like '%${key}%' or tableA.hth like '%${key}%' ) 
+		    </if>
 			<if test="ktlx != null and ktlx == '新开课题' and nd != null and nd != ''">
 				and tableA.ysnd = #{nd} and tableA.nd = #{nd} 
 			</if>
@@ -1928,6 +1935,9 @@
 				   <if test="xmmc != null and xmmc != ''">
 						and out_project_plan.xmmc like '%${xmmc}%'
 				   </if>
+				   <if test="key != null and key != ''">
+						and (out_project_plan.xmmc like '%${key}%' or out_project_plan.hth like '%${key}%' ) 
+				   </if>
 				) as tableA
 		WHERE 
 			1 = 1
@@ -2088,6 +2098,39 @@
 			xmid = ${xmid} and sbzt = '已上报'
 		order by out_reward.xmbh desc
 	</select>
+	
+	
+	
+	<!-- 根据项目ID得到信息 -->
+	<select id="getOutProjectPlanByXmId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		SELECT 
+			  XMID,
+			  ND,
+			  ysnd,
+			  hth,
+			  define10,
+			  xmmc,
+			  SUM(Jf) AS Jf,
+			  SUM(YSJE) AS YSJE,
+			  SUM(YSZBXJE) AS YSZBXJE,
+			  SUM(YSFYXJE) AS YSFYXJE,
+			  PROJECT_PROPERTY,
+			  fzdw,
+			  GROUP_CONCAT(DEFINE8) AS define8,
+			  define11,
+			  define1,
+			  define12,
+			  zylb,
+			  qdbz,
+			   GROUP_CONCAT(CONCAT(ysnd,',',ROUND(YSFYXJE),',',ROUND(YSZBXJE),',',ROUND(YSJE))SEPARATOR '#') AS yearMoneryStr,
+			   GROUP_CONCAT(CONCAT(define8,',',ysnd,',',ROUND(YSFYXJE),',',ROUND(YSZBXJE),',',ROUND(YSJE))SEPARATOR '#') AS companyMoneryStr
+			FROM
+			  out_project_plan t 
+			WHERE t.`XMID` = #{xmid} 
+		GROUP BY XMID 
+     </select>
+	
+	
 	
 	
 </mapper>

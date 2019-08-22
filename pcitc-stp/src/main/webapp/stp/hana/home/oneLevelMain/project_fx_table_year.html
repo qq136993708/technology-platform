@@ -201,7 +201,7 @@
 							<th lay-data="{field : 'realIndex',align : 'center',width : '45', fixed: 'left'}" rowspan="2">序号</th>
 							<th lay-data="{field : 'hth',align : 'center',width : '100',sort : true, fixed: 'left'}" rowspan="2">合同号</th>
 							<th lay-data="{field : 'xmmc',align : 'left',width : '250',sort : true, fixed: 'left'}" rowspan="2">项目名称</th>
-							<th lay-data="{field : 'ktmc',align : 'left',width : '200'}" rowspan="2">课题名称</th>
+							<th lay-data="{field : 'ktmc',align : 'left',width : '200', fixed: 'left'}" rowspan="2">课题名称</th>
 							<th lay-data="{field : 'nd',align : 'center',width : '80'}" rowspan="2">立项年度</th>
 							<th lay-data="{field : 'define10',align : 'left',width : '80'}" rowspan="2">专业处</th>
 							<th lay-data="{align:'center'}" colspan="3">总经费（万元）</th>
@@ -477,16 +477,29 @@
 				limit : 15,
 				done : function(res, curr, count) {
 					// 点击行联动选择框--单选
-					$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
-						var index = parseInt($(this).index() + 1);
-						$('tr').removeClass('layui-table-click');
-						$(this).addClass('layui-table-click');
-						$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-						$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-						selectRowData = res.data[index - 1];
-					});
 
 					merge(res);
+                    $('.layui-table-box>.layui-table-body table tbody tr').each(function() {
+                        var rowspanN=$(this).find("td:nth-child(2)").attr("rowspan")
+						//alert(rowspanN)
+                        if(rowspanN!=undefined){
+                            var heightPx=33*rowspanN+"px";
+                            $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(1)").attr("rowspan",rowspanN).css("height",heightPx);;
+                            $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(2)").attr("rowspan",rowspanN).css("height",heightPx);;
+                            $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(3)").attr("rowspan",rowspanN).css("height",heightPx);;
+                            $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(4)").attr("rowspan",rowspanN).css("height",heightPx);;
+                            var rowspanC=parseInt($(this).index())+parseInt(rowspanN);
+                            var indexN=$(this).index();
+                            $(".layui-table-fixed .layui-table tbody tr").each(function (i, val) {
+								if(i>indexN){
+								    if(i<rowspanC){
+
+                                        $(".layui-table-fixed .layui-table tbody tr").eq(i).find("td").addClass("layui-hide")
+									}
+								}
+                            });
+                        }
+                    });
 				}
 			});
 

@@ -14,37 +14,89 @@
 <body>
 <main class="main project-d">
     <div class="title">
-        <h4><span></span>炼化企业科研项</h4>
+        <h4><span></span>${outProjectPlan.xmmc}</h4>
         <p></p>
-        <span class="contract-h">MG173829</span><span class="contract-s">合同总金额:</span><span class="contract-n">328万元</span>
+        <span class="contract-h">${outProjectPlan.hth}</span><span class="contract-s">合同总金额:</span><span class="contract-n">${outProjectPlan.jf}万元</span>
     </div>
     <div class="project-d-f"></div>
     <ul>
         <li>
             <span>专业处</span>
-            <span>勘探开发处</span>
+            <span>${outProjectPlan.define10}</span>
         </li>
         <li>
             <span>立项年度</span>
-            <span>2019年</span>
+            <span>${outProjectPlan.nd}年</span>
         </li>
         <li>
-            <span>合同金额</span>
+            <span>计划签订金额</span>
+            <span><span class="number" >${outProjectPlan.ysje}万元</span></span>
+        </li>
+        <li>
+            <span>资本性预算</span>
+            <span><span class="number"> ${outProjectPlan.yszbxje}万元</span></span>
+        </li>
+        <li>
+            <span>费用性预算</span>
+            <span><span class="number"> ${outProjectPlan.ysfyxje}万元</span></span>
+        </li>
+       <!--  
+        <li>
+            <span>计划签订金额</span>
             <span>2019年 <span class="number"> (289万元)</span></span>
         </li>
         <li>
             <span>合同金额</span>
             <span>2018年<span class="number"> (289万元)</span></span>
-        </li>
+        </li> -->
         <li>
             <span>牵头单位</span>
-            <span class="project-d-d">河南石油，河北炼</span>
+            <span>${outProjectPlan.fzdw}</span>
         </li>
         <li>
-            <span>参加单位</span>
-            <span class="project-d-d">河南石油，河北炼化河南石油，河北炼化河南石油，河北炼化河南石油，河北炼化</span>
+            <span>参与单位</span>
+            <span>${outProjectPlan.define8}</span>
         </li>
+        <li>
+            <span>经费来源</span>
+            <span>${outProjectPlan.define11}</span>
+        </li>
+        <li>
+            <span>资本/费用</span>
+            <span>${outProjectPlan.define1}</span>
+        </li>
+        <li>
+            <span>单位性质</span>
+            <span>${outProjectPlan.define12}</span>
+        </li>
+        <li>
+            <span>项目类型</span>
+            <span>${outProjectPlan.projectProperty}</span>
+        </li>
+        <li>
+            <span>专业类别</span>
+            <span>${outProjectPlan.zylb}</span>
+        </li>
+        <li>
+            <span>签订标识</span>
+            <span>${outProjectPlan.qdbz}</span>
+        </li>
+        
     </ul>
+     <div class="project-d-f"></div>
+     <!--  <li  style="height:35px">
+         <span style="font-size:14px;margin:10px; font-weight: bold">参加单位: </span>
+      <li> -->
+      <ul>
+       <#list outProjectPlan.companyMoneryList as vo>
+         <li>
+            <p  style="height:25px">${vo.define8}</p>
+            <p  style="height:25px">预算年度：${vo.ysnd} </p>
+            <p  style="height:25px">计划：<label style="color: #F59E23">${vo.ysje}万</label> 资本性：<label style="color: #F59E23">${vo.yszbxje}万</label> 费用性：<label style="color: #F59E23">${vo.ysfyxje}万</label></p>
+        </li>
+         </#list>
+      
+      </ul>
     <div class="button-c">
         <button>确定</button>
     </div>

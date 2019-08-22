@@ -18,8 +18,8 @@
         <input id="date" type="text" value="" placeholder="">
     </div>
     <div class="search">
-        <input type="text" name="xmmc" id="xmmc" value="请输入合同号或项目名" />
-        <img src="/mobile/images/icon-search.png" alt="">
+        <input type="text" name="key" id="key" value="" placeholder="请输入合同号或项目名" />
+        <img src="/mobile/images/icon-search.png" alt="" id="search">
     </div>
 </header>
 <form action="" name="form1" id="form1" >
@@ -27,7 +27,8 @@
 <input type="hidden" name="limit" id="limit" value="${limit}">
 <input type="hidden" name="page"  id="page"  value="${page}">
 <input type="hidden" name="qdbz"  id="qdbz"  value="${qdbz}">
-<input type="hidden" name="fzdwflag"  id="fzdwflag"  value="牵头单位">
+<input type="hidden" name="fzdwflag"  id="fzdwflag"  value="参与单位">
+<input type="hidden" name="groupFlag"  id="groupFlag"  value="xmid">
 
 
 <input type="hidden" name="functionId"  id="functionId"  value="984b64b13cf54222bf57bd840759fabe">
@@ -36,12 +37,12 @@
     <div class="layui-row">
         <div class="layui-tab-content">
             <div class="layui-col-xs4">
-                <span id="finished_id">-个</span>
+                <span id="finished_id">0个</span>
                 <span>已签约</span>
                 <span></span>
             </div>
             <div class="layui-col-xs4">
-                <span  id="not_finished_id">-个</span>
+                <span  id="not_finished_id">0个</span>
                 <span>未签约</span>
                 <span></span>
             </div>
@@ -54,37 +55,31 @@
         <div class="more-bg">
             <div class="item">
                 <p><span>& </span>专业处</p>
-                <ul>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
+                <ul id="zycbmFlag">
+                   <#list zycList as vo>
+                      <li>${vo.name}</li>
+                    </#list>
                 </ul>
             </div>
             <div class="item">
                 <p><span>& </span>研究院</p>
-                <ul>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
+                <ul id="define2">
+                  <#list yjyList as vo>
+                      <li>${vo.name}</li>
+                    </#list>
                 </ul>
             </div>
             <div class="item">
                 <p><span>& </span>部门</p>
-                <ul>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
+                <ul id="gsbmbmFlag">
+                    <#list gsbmbmList as vo>
+                      <li>${vo.name}</li>
+                    </#list>
                 </ul>
             </div>
         </div>
         <div class="button-g">
-            <button>确定</button>
+            <button id="search_ok">确定</button>
             <button id="reset">重置</button>
         </div>
     </div>
@@ -92,9 +87,9 @@
     <div class="layui-tab">
         <div>
             <ul class="layui-tab-title">
-                <li class="layui-this">已签</li>
-                <li>未签</li>
-                <li>全部</li>
+                <li class="layui-this">已签<label id="finished_count" ></label> </li>
+                <li>未签<label id="not_finished_count"></label></li>
+                <li>全部<label id="all_count"></label></li>
             </ul>
         </div>
         <div class="layui-tab-content">
@@ -113,6 +108,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/mobile/js/rolldate.min.js"></script>
+<script src="/mobile/js/mobile.js"></script>
 <script>
     var layer;
     (function(doc, win) {
@@ -146,8 +142,35 @@
         })
 
         $(".more-condition").css("height",document.body.clientHeight/100+"rem");
-        $(".more-bg ul li").click(function () {
-            $(this).addClass("layui-this")
+        $(".more-bg>div:nth-child(1) ul li").click(function () {
+            $(".more-bg>div:nth-child(1) ul li").each(function () {
+               $(this).removeClass("layui-this")
+            });
+            if($(this).attr("class")==undefined || $(this).attr("class")==''){
+                $(this).addClass("layui-this")
+            }else {
+                $(this).removeClass("layui-this")
+            }
+        });
+        $(".more-bg>div:nth-child(2) ul li").click(function () {
+            $(".more-bg>div:nth-child(2) ul li").each(function () {
+                $(this).removeClass("layui-this")
+            });
+            if($(this).attr("class")==undefined || $(this).attr("class")==''){
+                $(this).addClass("layui-this")
+            }else {
+                $(this).removeClass("layui-this")
+            }
+        });
+        $(".more-bg>div:nth-child(3) ul li").click(function () {
+            $(".more-bg>div:nth-child(3) ul li").each(function () {
+                $(this).removeClass("layui-this")
+            });
+            if($(this).attr("class")==undefined || $(this).attr("class")==''){
+                $(this).addClass("layui-this")
+            }else {
+                $(this).removeClass("layui-this")
+            }
         });
         $("#reset").click(function () {
             $(".more-bg ul li").removeClass("layui-this");
@@ -155,85 +178,45 @@
         $("#more").click(function () {
             $(".more-condition").slideToggle("slow");
         });
-        $(".layui-tab-item ul li").click(function () {
-            layer.open({
-                title : '详情',
-                skin : 'layui-layer-mobile',
-                shadeClose : false,
-                type : 2,
-                fixed : false,
-                maxmin : true,
-                area : [ '95%', '72.5%' ],
-                content : '/mobile/project_details.html'
-            });
+        $("#search").click(function () {
+        	search_Event();
         });
+        $("#search_ok").click(function () {
+        	$(".more-condition").slideToggle("slow");
+        	search_Event();
+        });
+        
     });
     
     
     
-    //总预览
-    /* function allLook()
+    function queryTabel(url,id,type)
     {
-    	var nd = $('#nd').val();
-    	$.ajax({
-    		type : "POST",
-    		url : "/one_level_main/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
-    		timeout : 9000,
-    		dataType : "json",
-    		cache : false,
-    		headers : {
-    			'Content-Type' : 'application/json'
-    		},
-    		success : function(data, status) {
-    			if (data.success == true || data.success == 'true') 
-    			{
-    				$("#plan_id").html(data.data.zsl + "个");
-
-    				if (typeof (data.data.yqht) == "undefined") 
-    				{
-    					$("#finished_id").html("0个");
-    				} else 
-    				{
-    					$("#finished_id").html(data.data.yqht + "个");
-    				}
-    			}
-    		},
-    		error : function() {
-    		},
-    		complete : function(XMLHttpRequest, status) {
-    		}
-    	});
-
-    } */
-   
-    
-    
-    function queryTabel(qdbz,id)
-    {
-    	$("#qdbz").val(qdbz);
     	var v_date = (new Date()).getTime();
     	$.ajax({
-    		type : "POST",
-    		url : "/mobile/common_table_data_mobile?v_date="+v_date,
+    		type : type,
+    		url : url,
     		timeout : 9000,
-    		data: $("#form1").serialize(),
+    		//data: $("#form1").serialize(),
     		dataType:'json', 
     		cache : false,
     		success : function(data, status) 
     		{
-    			console.log(data.data);
-    			
-    			
-    			
-    			if(qdbz=='已签订')
+    			//console.log(id+"\n"+JSON.stringify(data.data));
+    			if(id=='qdbz_ed_id')
     			{
-    				$("#finished_id").html(data.count+"个");
+    				$("#finished_count").html((data.count-1)+"个");
+    				$("#finished_id").html((data.count-1)+"个");
     			}
-    			if(qdbz=='未签订')
+    			if(id=='qdbz_not_id')
     			{
-    				$("#not_finished_id").html(data.count+"个");
+    				$("#not_finished_count").html((data.count-1)+"个");
+    				$("#not_finished_id").html((data.count-1)+"个");
     			}
-				
+    			if(id=='qdbz_all_id')
+    			{
+    				$("#all_count").html((data.count-1)+"个");
+    			}
     			var count="";
     			if(data.data.length>0)
    			    {
@@ -259,18 +242,32 @@
   							xmmc=xmmc.substring(0,15);
   						 }
   					 }
-   					 var temp="<li onclick=\"view('"+xmid+"')\">"+
-			    				"<p>"+
-			                        "<span>"+xmmc+"</span>"+
-			                        "<span>"+setNumStr(ysje)+"</span>"+
-			                    "</p>"+
-			                    "<dl>"+
-			                        "<dd>"+hth+"</dd>"+
-			                        "<dd>"+define10+"</dd>"+
-			                        "<dd>"+define12+"</dd>"+
-			                    "</dl>"+
-			                   "</li>";
-					         count=count+temp;
+   					
+   					if (typeof(hth) == "undefined")
+   					{
+   						hth="";
+   					}
+   					var ysjestr=setNumStr(ysje);
+   					if(xmmc=='总计' && ysjestr=='NaN万')
+   					{
+   						
+   					}else
+  					{
+   						var temp="<li onclick=\"view('"+xmid+"')\">"+
+	    				"<p>"+
+	                        "<span>"+xmmc+"</span>"+
+	                        "<span>"+setNumStr(ysje)+"</span>"+
+	                    "</p>"+
+	                    "<dl>"+
+	                        "<dd>"+hth+"</dd>"+
+	                        "<dd>"+define10+"</dd>"+
+	                        "<dd>"+define12+"</dd>"+
+	                    "</dl>"+
+	                   "</li>";
+			         count=count+temp;
+  					}
+   					
+   					 
        			  }
    			   }
     		    $("#"+id).html(count); 	
@@ -286,10 +283,34 @@
 
     function search_Event()
     {
-    	//allLook();
-    	queryTabel("已签订",'qdbz_ed_id');
-    	queryTabel("未签订",'qdbz_not_id');
-    	queryTabel("",'qdbz_all_id');
+    	var v_date = (new Date()).getTime();
+    	var nd = $('#nd').val();
+    	
+    	var define2=$("#define2").find(".layui-this").html();
+    	var gsbmbmFlag=$("#gsbmbmFlag").find(".layui-this").html();
+    	var zycbmFlag=$("#zycbmFlag").find(".layui-this").html(); 
+    	console.log("研究院="+define2+" 部门="+gsbmbmFlag+" 处室="+zycbmFlag);
+    	
+    	if(typeof(define2) == "undefined")
+    	{
+    		define2="";
+    	}
+    	if(typeof(gsbmbmFlag) == "undefined")
+    	{
+    		gsbmbmFlag="";
+    	}
+    	if(typeof(zycbmFlag) == "undefined")
+    	{
+    		zycbmFlag="";
+    	}
+    	queryTabel("/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=已签订&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag,"qdbz_ed_id","POST");
+    	queryTabel("/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=未签订&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag,"qdbz_not_id","POST");
+    	queryTabel("/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag,"qdbz_all_id","POST");
+    	 
+    	 
+    	 page("qdbz_ed_id", "/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=已签订&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag,"POST","queryTabel");
+    	 page("qdbz_not_id","/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=未签订&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag,"POST","queryTabel");
+    	 page("qdbz_all_id","/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag,"POST","queryTabel");
     }
     search_Event();
     
@@ -307,6 +328,8 @@
     
     function  view(xmid)
     {
+    	
+    	console.log(xmid+"\n"+JSON.stringify(xmid));
     	layer.open({
             title : '详情',
             skin : 'layui-layer-mobile',

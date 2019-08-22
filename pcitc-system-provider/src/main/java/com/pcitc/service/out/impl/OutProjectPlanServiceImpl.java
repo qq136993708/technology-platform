@@ -342,6 +342,9 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		if (param.getParam().get("xmmc") != null && !StringUtils.isBlank(param.getParam().get("xmmc") + "")) {
 			hashmap.put("xmmc", param.getParam().get("xmmc"));
 		}
+		if (param.getParam().get("key") != null && !StringUtils.isBlank(param.getParam().get("key") + "")) {
+			hashmap.put("key", param.getParam().get("key"));
+		}
 
 		if (param.getParam().get("fzdwflag") != null && !StringUtils.isBlank(param.getParam().get("fzdwflag") + "")) {
 			hashmap.put("fzdwflag", param.getParam().get("fzdwflag"));
@@ -465,12 +468,12 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("ktlx", param.getParam().get("ktlx"));
 		}
 
-		// 数据控制
-		this.getDataFilterCondition(hashmap, param.getParam().get("zycbm"), param.getParam().get("zylbbm"));
-
 		if (param.getParam().get("leaderFlag") != null && !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
 			hashmap.put("leaderFlag", String.valueOf(param.getParam().get("leaderFlag")));
 		}
+
+		// 数据控制
+		this.getDataFilterCondition(hashmap, param.getParam().get("zycbm"), param.getParam().get("zylbbm"));
 
 		// 部门-处室--专业类别, 加Flag和数据控制的字段区分出来
 		if (param.getParam().get("gsbmbmFlag") != null && !StringUtils.isBlank(param.getParam().get("gsbmbmFlag") + "")) {
@@ -544,12 +547,13 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("xmmc", param.getParam().get("xmmc"));
 		}
 
-		// 数据控制
-		this.getDataFilterCondition(hashmap, param.getParam().get("zycbm"), param.getParam().get("zylbbm"));
-
 		if (param.getParam().get("leaderFlag") != null && !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
 			hashmap.put("leaderFlag", String.valueOf(param.getParam().get("leaderFlag")));
 		}
+
+		// 数据控制
+		this.getDataFilterCondition(hashmap, param.getParam().get("zycbm"), param.getParam().get("zylbbm"));
+
 		List list = outProjectPlanMapper.selectProjectCycleByCondition(hashmap);
 		PageInfo<HashMap> pageInfo = new PageInfo<HashMap>(list);
 
@@ -766,5 +770,9 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("zycbmList", zycbmList);
 		}
 		return hashmap;
+	}
+
+	public OutProjectPlan getOutProjectPlanByXmId(String xmid) {
+		return outProjectPlanMapper.getOutProjectPlanByXmId(xmid);
 	}
 }
