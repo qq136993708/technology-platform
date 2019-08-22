@@ -380,6 +380,12 @@
 			}
 			result=temp+"万";
 		}
+		
+		if(result=='NaN万')
+		{
+			result="0万";
+		}
+		
 		return result;
     }
     
