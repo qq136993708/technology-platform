@@ -165,29 +165,49 @@ public class OutRewardServiceImpl implements OutRewardService {
 
         criteria.andSbztEqualTo("已上报");
 
-        example.setOrderByClause(" sbjz,sbdj asc ");
+
+        Object zjps = param.getParam().get("zjps");
+        List<Map<String, Object>> objectMap = null;
+        if (zjps != null && !"".equals(zjps)) {
+            //获取项目
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("type", "zl");
+            objectMap =(List<Map<String, Object>>) zjkBaseInfoServiceClient.selectZjkChoiceByExampleByType(jsonObject).get("list");
+            //获取dataid
+            String dataIds = "''";
+            for (int i = 0; i < objectMap.size(); i++) {
+                dataIds = dataIds+","+"'"+objectMap.get(i).get("xmId")+"'";
+            }
+            System.out.println("dataIds:"+dataIds);
+            //排序
+            if (!"''".equals(dataIds)){
+                example.setOrderByClause("(CASE WHEN data_id in("+dataIds+") THEN 1 ELSE 3 END ),sbjz,sbdj asc");
+            }
+        }else {
+            example.setOrderByClause("sbjz,sbdj asc");
+        }
 
         List<OutReward> list = outRewardMapper.selectByExample(example);
         PageInfo<OutReward> pageInfo = new PageInfo<OutReward>(list);
         System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 
         //专家评审字段标红
-        Object zjps = param.getParam().get("zjps");
+
         if (zjps != null&&!"".equals(zjps)) {
             int j = pageInfo.getList().size();
-
-            List<String> ids = new ArrayList<>();
-            for (int i = 0; i < j; i++) {
-                ids.add(pageInfo.getList().get(i).getDataId());
-            }
-            if(ids==null||ids.size()==0){
-                ids.add("");
-            }
-            ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
-            zjkChoiceExample.createCriteria().andXmIdIn(ids);
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("list",ids);
-            List<Map<String,Object>> objectMap = (List<Map<String, Object>>) zjkBaseInfoServiceClient.selectByExample(jsonObject).get("list");
+//
+//            List<String> ids = new ArrayList<>();
+//            for (int i = 0; i < j; i++) {
+//                ids.add(pageInfo.getList().get(i).getDataId());
+//            }
+//            if(ids==null||ids.size()==0){
+//                ids.add("");
+//            }
+//            ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+//            zjkChoiceExample.createCriteria().andXmIdIn(ids);
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("list",ids);
+//            List<Map<String,Object>> objectMap = (List<Map<String, Object>>) zjkBaseInfoServiceClient.selectByExample(jsonObject).get("list");
             List<ZjkChoice> zjkChoices = new ArrayList<>();
             for (int i = 0; i < objectMap.size(); i++) {
                 ZjkChoice choice = new ZjkChoice();

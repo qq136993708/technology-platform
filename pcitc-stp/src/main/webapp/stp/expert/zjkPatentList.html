@@ -99,13 +99,23 @@
                         title : '项目名称',
                         width : '40%',
                         style : 'cursor: pointer;'
-                    ,templet:function (d) {
+                    // ,templet:function (d) {
+                    //         if (d.define4 == "1") {
+                    //             return '<span style="color:red">' + d.xmmc + '</span>'
+                    //         } else {
+                    //             return d.xmmc;
+                    //         }
+                    //     }
+
+                        ,templet : function(d) {
                             if (d.define4 == "1") {
-                                return '<span style="color:red">' + d.xmmc + '</span>'
-                            } else {
-                                return d.xmmc;
+                                return '<span  style="color:red" onclick="showDetailJl(\'' + d.dataId + '\')">' + d.xmmc + '</span>';
+                            }else {
+                                return '<span onclick="showDetailJl(\'' + d.dataId + '\')">' + d.xmmc + '</span>';
                             }
-                        }
+                        },
+
+
                     }, {
                         field : 'xkfl',
                         title : '专业领域',
@@ -116,7 +126,20 @@
                         field : 'psdj',
                         title : '评审等级',
                         style : 'cursor: pointer;'
-                    } ] ],
+                    } ,
+                    {
+                        field : 'define6',
+                        title : '专家评审',
+                        style : 'cursor: pointer;',
+                        align : 'center',
+                        templet:function (d) {
+                            if (d.define4=="1"){
+                                return "<a class=\"layui-btn layui-btn-xs\" style='background-color:#2ac845' lay-event=\"pj\"><span style=''>查看专家</span></a>";
+                            } else {
+                                return "<a class=\"layui-btn layui-btn-xs\" lay-event=\"zjxz\">选择专家</a>";
+                            }
+                        }
+                    }] ],
                 done : function(res, curr, count) {
                     // 关闭等待刷新
                     layer.close(lodingMsg);
@@ -134,6 +157,33 @@
                         selectRowData = res.data[index - 1];
                     });
 
+                }
+            });
+            window.showDetailJl = showDetailJl;
+
+            function showDetailJl(data_id) {
+                var temUrl = "/out/reward-detail/" + data_id;
+                layer.open({
+                    title: '详情',
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['90%', '80%'],
+                    content: temUrl
+                });
+            }
+            table.on('tool(tableData)', function (obj) {
+                selectRowData = obj.data;
+                console.log(selectRowData.dataId+"  "+selectRowData.xmmc+"  ");
+                if (obj.event === 'pj') {
+                    openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + selectRowData.dataId);
+                }
+                if (obj.event === 'zjxz') {
+                    openFullWin("选择专家", "/expertController/getUserChoicePage?flag=zl&projectId=" + selectRowData.dataId+"&projectName="+encodeURI(encodeURI(selectRowData.xmmc))+"&unitCode="+selectRowData.dataId);
                 }
             });
             // table.render({
@@ -281,10 +331,6 @@
                 renderTable();
             },
         };
-
-        table.on('tool(tableData)', function (obj) {
-            selectRowData = obj.data;
-        });
 
         //监听排序
         table.on('sort(showTable)', function (obj) {

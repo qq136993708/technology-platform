@@ -224,4 +224,9 @@ public class ZjkChoiceClient {
     public JSONObject selectByExample(@RequestBody JSONObject jsonObject) {
         return zjkChoiceService.selectByExampleByXmId(jsonObject);
     }
+
+    @RequestMapping(value = "/zjkchoice-provider/zjkchoice/selectZjkChoiceByExampleByType", method = RequestMethod.POST)
+    public JSONObject selectZjkChoiceByExampleByType(@RequestBody JSONObject jsonObject) {
+        return zjkChoiceService.selectZjkChoiceByExampleByType(jsonObject);
+    }
 }
