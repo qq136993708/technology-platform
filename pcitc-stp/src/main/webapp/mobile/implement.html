@@ -25,17 +25,17 @@
         <img src="/mobile/images/icon-search.png" alt="" id="search">
     </div>
 </header>
-<main class="main implement">
-    <div class="layui-tab-content">
+<main class="implement" style="height: 4rem;">
+    <div class="layui-tab-content" style="height: 3.5rem;overflow-y: scroll">
         <div class="layui-tab-item layui-show">
             <ul id="user_list">
-            <!-- <#list list as vo>
+             <#list list as vo>
                 <li>
                     <span>${vo.nameBigFirstPin}</span>
                     <span>${vo.userDisp}<label style="color:#ccc">（${vo.unitName}）</label></span>
                     <span><img src="/mobile/images/icon-by.png" /> </span>
                 </li>
-            </#list> -->
+            </#list>
              
             </ul>
         </div>
@@ -66,7 +66,7 @@ var userStr="";
     })(document, window);
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
-        $(".more-condition").css("height",document.body.clientHeight/100+"rem");
+        //$(".more-condition").css("height",document.body.clientHeight/100+"rem");
         $("#search").click(function () {
         	getUserList();
         });
@@ -133,7 +133,11 @@ var userStr="";
     			 }
     			 $("#user_list").html(count); 
     			 $(".layui-tab-item ul li").click(function () {
-			            $(this).addClass("layui-this")
+			            if($(this).attr("class")==undefined || $(this).attr("class")==''){
+                            $(this).addClass("layui-this")
+                        }else {
+                            $(this).removeClass("layui-this")
+                        }
 			      });
     		},
     		error : function() {

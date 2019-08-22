@@ -222,12 +222,15 @@
    					 var userDesc= data.data[i].userDesc;
    					 var bak3= data.data[i].bak3;
    					 userDesc =getClear(userDesc);
+
+                      var className='';
    					 if(sex=='ROOT_UNIVERSAL_XB_N')
    					 {
    						sex='男';
    					 }else
 					 {
 						sex='女';
+                         className="lady"
 				     }
    					 if(expertProfessionalFieldName=="undefined" || typeof(expertProfessionalFieldName) == "undefined")
 					 {
@@ -242,7 +245,7 @@
    					 var temp="";
    					 //if(bak3!='ZJK_ZJLX_ZGKXYYS' && bak3!='ZJK_ZJLX_ZGGCYYS')//中国科学院院士,中国工程院院士
    					// {
-   						      temp="<div class='item' onclick=\"view('"+dataId+"')\" >"+
+   						      temp="<div class='item "+className+"' onclick=\"view('"+dataId+"')\" >"+
 			                        "<div class='item-img'>"+
 			                            "<img dataType='headImg' id='"+dataId+"'  >"+
 			                        "</div>"+

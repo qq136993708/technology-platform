@@ -11,60 +11,56 @@
         .main{border-radius: 6px;}
     </style>
 </head>
-<body>
- <form action="" name="form1" id="form1" method="post">
-<input name="dataCode"  id="dataCode"  value="${dataCode}"  type="hidden">
-<input name="flag"      id="flag"      value="${flag}"      type="hidden">
-<input name="dataId"    id="dataId"    value="${dataId}"    type="hidden">
-<input name="userName"  id="userName"  value="${userName}"  type="hidden">
-<input name="unitName"  id="unitName"  value="${unitName}"  type="hidden">
-<input name="bak6"      id="bak6"      value="${bak6}"      type="hidden">
-<input name="createUserName"      id="createUserName"      value="${bak4}"      type="hidden">
-<input name="closeType" id="closeType" value="${closeType}" type="hidden">
-<input name="workOrderAllotUserId"  id="workOrderAllotUserId"  value="${workOrderAllotUserId}"  type="hidden">
-<input name="userStr"  id="userStr"  value="${userStr}"  type="hidden">
-<input name="matterList"  id="matterList"  value=""  type="hidden">
-
-
-
-
-<main class="main work-add">
-    <div class="title">
-        <p>任务名称</p>
-        <div class="input-percentage">
-            <span></span>
-            <input type="text" value="" name="workOrderName" id="workOrderName" placeholder="请输入任务名称">
+<body style="overflow-y: hidden;">
+<form action="" name="form1" id="form1" method="post">
+    <input name="dataCode"  id="dataCode"  value="${dataCode}"  type="hidden">
+    <input name="flag"      id="flag"      value="${flag}"      type="hidden">
+    <input name="dataId"    id="dataId"    value="${dataId}"    type="hidden">
+    <input name="userName"  id="userName"  value="${userName}"  type="hidden">
+    <input name="unitName"  id="unitName"  value="${unitName}"  type="hidden">
+    <input name="bak6"      id="bak6"      value="${bak6}"      type="hidden">
+    <input name="createUserName"      id="createUserName"      value="${bak4}"      type="hidden">
+    <input name="closeType" id="closeType" value="${closeType}" type="hidden">
+    <input name="workOrderAllotUserId"  id="workOrderAllotUserId"  value="${workOrderAllotUserId}"  type="hidden">
+    <input name="userStr"  id="userStr"  value="${userStr}"  type="hidden">
+    <input name="matterList"  id="matterList"  value=""  type="hidden">
+    <main class=" work-add" style="height: 6.45rem;overflow-y: scroll;">
+        <div class="title">
+            <p>任务名称</p>
+            <div class="input-percentage">
+                <span></span>
+                <input type="text" value="" name="workOrderName" id="workOrderName" placeholder="请输入任务名称">
+            </div>
         </div>
-    </div>
-    <div class="project-d-f"></div>
-    <!-- <div class="title star-date">
-        <p>安排时间</p>
-        <div class="input-percentage">
-            <span></span>
-            <input id="date-group1-8" type="text" value=""  name="" id="" placeholder="请选择开始时间">
+        <div class="project-d-f"></div>
+        <!-- <div class="title star-date">
+            <p>安排时间</p>
+            <div class="input-percentage">
+                <span></span>
+                <input id="date-group1-8" type="text" value=""  name="" id="" placeholder="请选择开始时间">
+            </div>
+        </div> -->
+        <!-- <div class="title end-date">
+            <p>至</p>
+            <div class="input-percentage">
+                <span></span>
+                <input id="date-group1-9" type="text" value=""  name="" id="" placeholder="请选择结束时间">
+            </div>
+        </div> -->
+        <div class="title title-p">
+            <p>任务执行人</p>
+            <div class="input-percentage">
+                <span></span>
+                <input type="text" value=""  name="workOrderAllotUserName" id="workOrderAllotUserName" placeholder="请选择执行人">
+            </div>
         </div>
-    </div> -->
-    <!-- <div class="title end-date">
-        <p>至</p>
-        <div class="input-percentage">
-            <span></span>
-            <input id="date-group1-9" type="text" value=""  name="" id="" placeholder="请选择结束时间">
+        <textarea placeholder="请输入任务描述"  name="remarks" id="remarks"></textarea>
+
+        <div class="button-c">
+            <button id="save_id">确定</button>
         </div>
-    </div> -->
-    <div class="title title-p">
-        <p>任务执行人</p>
-        <div class="input-percentage">
-            <span></span>
-            <input type="text" value=""  name="workOrderAllotUserName" id="workOrderAllotUserName" placeholder="请选择执行人">
-        </div>
-    </div>
-    <textarea placeholder="请输入任务描述"  name="remarks" id="remarks"></textarea>
-    
-    <div class="button-c">
-        <button id="save_id">确定</button>
-    </div>
-    </form>
-</main>
+    </main>
+</form>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/mobile/js/rolldate.min.js"></script>
@@ -125,7 +121,7 @@
                 type : 2,
                 fixed : false,
                 maxmin : true,
-                area : [ '100%', '100%' ],
+                area : [ '100%', '5.5rem' ],
                 content : '/mobile/implement'
             });
         });
