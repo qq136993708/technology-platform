@@ -25,6 +25,8 @@ public interface OutProjectPlanMapper {
     List<OutProjectPlan> selectByExample(OutProjectPlanExample example);
 
     OutProjectPlan selectByPrimaryKey(String dataId);
+    OutProjectPlan getOutProjectPlanByXmId(String xmid);
+    
 
     int updateByExampleSelective(@Param("record") OutProjectPlan record, @Param("example") OutProjectPlanExample example);
 

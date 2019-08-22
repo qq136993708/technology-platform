@@ -1118,4 +1118,66 @@ public class SysFileController extends BaseController {
             out.println(result.toJSONString());
         }
     }
+
+    @RequestMapping(value = "/sysfile/ckupload5")
+    public void ckupload5(@RequestParam("upload") MultipartFile file) {
+//    public void ckupload5(@RequestParam(value = "upload", required = false) MultipartFile files) {
+        PrintWriter out = null;
+        String originalFilename = file.getOriginalFilename();
+        String fileType = originalFilename.substring(originalFilename.lastIndexOf(".", originalFilename.length()));
+        String imageUrl = "ckupload";
+        String msg = "";
+        String fileName = "";
+        String strFilePath = "";
+        boolean isComplete = false;
+        JSONObject result = new JSONObject();
+        try {
+            String date = sysUserInfo.getUserId();
+            strFilePath = ckfilepath + imageUrl + File.separator + date + File.separator;
+            File filePath = new File(strFilePath);
+            if (!filePath.exists()) filePath.mkdirs();
+            fileName = UUID.randomUUID().toString() + fileType;
+            String savedName = strFilePath + File.separator + fileName;
+            isComplete = FileUtil.copyInputStreamToFile(file.getInputStream(), new File(savedName));
+            if (isComplete == true) {
+                out = response.getWriter();
+                imageUrl = imageUrl + File.separator + date + File.separator + fileName;
+                imageUrl = imageUrl.replace("\\", "/");
+                imageUrl = imageUrl.replace("\\\\", "/");
+            }
+
+            //统一上传---文件不能传输到后台,使用独立上传
+//            String tempFileName = files.getOriginalFilename();
+//            if (tempFileName.indexOf("\\") > -1) {
+//                tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
+//            }
+//            String uuid = IdUtil.createIdByTime();
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("bak10","");
+//            jsonObject.put("bak9","");
+//            jsonObject.put("flag","0");
+//            jsonObject.put("lastModifiedDate","");
+//            sysFileFeignClient.uploadFileSaveLayui(files, request, response, tempFileName, "ff8129325ed94773bfd9f33145ccd080", sysUserInfo.getUserId(), uuid, "ckupload", jsonObject.toJSONString());
+//            SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("富文本编辑器上传图片时发生异常", e);
+            msg = "服务器异常";
+        } finally {
+            if (!StrUtil.isBlank(msg)) {
+                //上传失败
+                result.put("uploaded", 0);
+                JSONObject errorObj = new JSONObject();
+                errorObj.put("message", msg);
+                result.put("error", errorObj);
+            } else {
+                //上传成功
+                result.put("uploaded", 1);
+                result.put("fileName", fileName);
+                result.put("url", File.separator + imageUrl);
+            }
+            out.println(result.toJSONString());
+        }
+    }
 }

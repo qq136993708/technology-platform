@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,31 +16,24 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.ChartBarLineResultData;
-import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.ChartPieDataValue;
 import com.pcitc.base.common.ChartPieResultData;
 import com.pcitc.base.common.ChartSingleLineResultData;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.expert.ZjkChoice;
-import com.pcitc.base.expert.ZjkExpert;
-import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.Contract;
-import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.out.OutAppraisal;
+import com.pcitc.base.stp.out.OutProjectPlan;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
@@ -66,6 +57,9 @@ public class MobileController extends BaseController {
 
 		
     private static final String GET_OUT_APPRAISAL = "http://pcitc-zuul/system-proxy/out-appraisal-provider/getAppraisalInfoByjdh/";
+    
+    private static final String getOutProjectPlanByXmId = "http://pcitc-zuul/system-proxy/out-project-plan-provider/getOutProjectPlanByXmId/";
+    
 		
 	@RequestMapping(value = "/mobile/budget")
 	public String budget(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -382,22 +376,71 @@ public class MobileController extends BaseController {
 		request.setAttribute("projectId", projectId);
 		
 		
-		
-		
+        // 部门
+		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
+		request.setAttribute("gsbmbmList", gsbmbmList);
+		// 科技部二级级联： 专业处->专业类别
+		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
+		request.setAttribute("zycList", zycList);
+		// 直属研究院
+		List<SysDictionary> yjyList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+		request.setAttribute("yjyList", yjyList);
+				
 		return "/mobile/project";
 	}
 	
 	
 	@RequestMapping(value = "/mobile/project_details")
-	public String project_details(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String project_details(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
 
 		String month = HanaUtil.getCurrentYearMoth();
 		request.setAttribute("month", month);
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
 		
+		String xmid = CommonUtil.getParameter(request, "xmid", "");
+		request.setAttribute("xmid", xmid);
+		
+		ResponseEntity<OutProjectPlan> responseEntity = this.restTemplate.exchange(getOutProjectPlanByXmId + xmid, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), OutProjectPlan.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		logger.info("============远程返回  statusCode " + statusCode);
+		OutProjectPlan outProjectPlan = responseEntity.getBody();
+		    
+		List<OutProjectPlan> companyMoneryList=new ArrayList<OutProjectPlan>();  
+		String companyMoneryStr=outProjectPlan.getCompanyMoneryStr();
+		if(companyMoneryStr!=null)
+		{
+			String arr[]=companyMoneryStr.split("#");
+			if(arr!=null)
+			{
+				for(int i=0;i<arr.length;i++)
+				{
+					String str=arr[i];
+					
+					if(str!=null)
+					{
+						OutProjectPlan opp=new OutProjectPlan();
+						String arr2[]=str.split(",");
+						opp.setDefine8(arr2[0]);
+						opp.setYsnd(arr2[1]);
+						opp.setYsfyxje(arr2[2]);
+						opp.setYszbxje(arr2[3]);
+						opp.setYsje(arr2[4]);
+						companyMoneryList.add(opp);
+					}
+				}
+			}
+			outProjectPlan.setCompanyMoneryList(companyMoneryList);
+		}
+		request.setAttribute("outProjectPlan", outProjectPlan);
+		
+		
 		return "/mobile/project_details";
 	}
+	
+	
+	
 	
 	
 	

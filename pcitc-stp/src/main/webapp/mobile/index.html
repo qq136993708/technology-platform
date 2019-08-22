@@ -462,10 +462,12 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 					var fyxsjje = projectMoney[i].fyxsjje;
 					var zbxsjje = projectMoney[i].zbxsjje;
 					tt1 = tt1 + parseFloat(fyxsjje) + parseFloat(zbxsjje);
+					console.info(parseFloat(fyxsjje)+"====projectMoney======"+parseFloat(zbxsjje))
 					tt2 = tt2 + parseFloat(zysje);
 				}
 				var tt1 = parseFloat(tt1)/ 10000;
 				var tt2 = parseFloat(tt2) / 10000;
+				
 				$("#moneyTotal").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
 				$("#moneyCurrent").html(tt1.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
 			}

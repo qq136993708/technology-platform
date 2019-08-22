@@ -50,6 +50,10 @@ public interface ZjkBaseInfoServiceClient {
     @RequestMapping(value = "/zjkchoice-provider/zjkchoice/selectByExample", method = RequestMethod.POST)
     public JSONObject selectByExample(@RequestBody JSONObject jsonObject);
 
+    //查询被选中项目列表
+    @RequestMapping(value = "/zjkchoice-provider/zjkchoice/selectZjkChoiceByExampleByType", method = RequestMethod.POST)
+    public JSONObject selectZjkChoiceByExampleByType(@RequestBody JSONObject jsonObject);
+
 
 }
 

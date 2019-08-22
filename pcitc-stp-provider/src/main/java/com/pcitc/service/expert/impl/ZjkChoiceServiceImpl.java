@@ -133,7 +133,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 
     @Override
     public int insert(ZjkChoice record) {
-        if (record.getId() == null) {
+        if (StrUtil.isNullEmpty(record.getId())) {
             record.setId(IdUtil.createIdByTime());
         }
         return zjkChoiceMapper.insert(record);
@@ -369,6 +369,18 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         return object;
     }
 
+    @Override
+    public JSONObject selectZjkChoiceByExampleByType(JSONObject jsonObject) {
+        JSONObject object = new JSONObject();
+        ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+        String type = (String) jsonObject.get("type");
+        zjkChoiceExample.createCriteria().andUserIdEqualTo(type);
+        List<ZjkChoice> zjkChoices = this.selectByExample(zjkChoiceExample);
+        List<ZjkChoice> zjkChoicesEmpty = new ArrayList<>();
+        object.put("list", zjkChoices == null || zjkChoices.size() == 0 ? zjkChoicesEmpty : zjkChoices);
+        return object;
+    }
+
     /**
      * 根据条件分页搜索
      *
@@ -563,11 +575,13 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         this.deleteByExample(example);
         //新增
         int j = zjkChoice.size();
-        for (int i = 0; i < j; i++) {
-//            ZjkChoiceExample ex = new ZjkChoiceExample();
-//            ZjkChoiceExample.Criteria criteria = ex.createCriteria();
-//            this.deleteByExample(ex);
-            this.insert(zjkChoice.get(i));
+        try {
+            for (int i = 0; i < j; i++) {
+                zjkChoice.get(i).setId("");
+                this.insert(zjkChoice.get(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         //查询项目阶段提醒方式
         ZjkMsgConfigExample configExample = new ZjkMsgConfigExample();

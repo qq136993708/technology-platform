@@ -1009,7 +1009,14 @@ public class OutProjectServiceImpl implements OutProjectService {
 		JSONObject hashmapstr = JSONObject.parseObject(JSONObject.toJSONString(hashmap));
 		System.out.println(">>>>>>>封装后->参数： " + hashmapstr.toString());
 
-		// 先按照合同号分组获取当前页的15个合同号，再用这些合同号去获取对应查询条件下的所有数据
+        // 20190821-添加dataId查询条件-开始
+        if (!StrUtil.isNullEmpty(param.getParam().get("zjps")) && !StrUtil.isNullEmpty(param.getParam().get("dataIds"))) {
+            hashmap.put("dataIds", param.getParam().get("dataIds"));
+        }
+        // 20190821-添加dataId查询条件-结束
+
+
+        // 先按照合同号分组获取当前页的15个合同号，再用这些合同号去获取对应查询条件下的所有数据
 		List list = outProjectInfoMapper.selectProjectInfoWithAllInfoByCondForGroup(hashmap);
 		PageInfo<HashMap<String, String>> pageInfo = new PageInfo<HashMap<String, String>>(list);
 
@@ -2466,15 +2473,21 @@ public class OutProjectServiceImpl implements OutProjectService {
 		}
 		Map<String, Object> map = zjkChoices.stream().collect(Collectors.toMap(ZjkChoice::getXmId, ZjkChoice::getZjId, (entity1, entity2) -> entity1));
 
+        List<Map<String, Object>> map_contain = new ArrayList<>();
+        List<Map<String, Object>> map_no_contain = new ArrayList<>();
 		for (int i = 0; i < j; i++) {
+//			if (!StrUtil.isNullEmpty(map.get(maps.get(i).get("xmid")))||StrUtil.isNullEmpty(maps.get(i).get("xmid"))) {
 			if (!StrUtil.isNullEmpty(map.get(maps.get(i).get("xmid")))) {
 				maps.get(i).put("flag", "1");
+                map_contain.add(maps.get(i));
 			}
+			else {
+                map_no_contain.add(maps.get(i));
+            }
 		}
-
+        map_contain.addAll(map_no_contain);
 		data.setData(maps);
 		return data;
-
 	}
 
 	/**
