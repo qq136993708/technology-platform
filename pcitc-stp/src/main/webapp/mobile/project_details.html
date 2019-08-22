@@ -59,7 +59,7 @@
         </li>
         <li>
             <span>经费来源</span>
-            <span>${outProjectPlan.define11}</span>
+            <span>${outProjectPlan.define11?substring(1,outProjectPlan.define11?length)}</span>
         </li>
         <li>
             <span>资本/费用</span>
@@ -67,7 +67,7 @@
         </li>
         <li>
             <span>单位性质</span>
-            <span>${outProjectPlan.define12}</span>
+             <span>${outProjectPlan.define12?substring(3,outProjectPlan.define12?length)}</span>
         </li>
         <li>
             <span>项目类型</span>

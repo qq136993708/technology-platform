@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +31,9 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkExpert;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
@@ -53,8 +56,8 @@ public class MobilePersonnelController extends BaseController{
 	     */
 	    private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/get-zjkbaseinfo/";
 	
-	    
-	    
+	    private static final String LIST_OUT_PATENT = "http://pcitc-zuul/system-proxy/out-patent-provider/outpatent_list";
+	    private static final String PROJECT_LIST_PAGE = "http://pcitc-zuul/system-proxy/out-provider/project-list-expert";
 	    /**
 	     * 下载
 	     */
@@ -184,5 +187,69 @@ public class MobilePersonnelController extends BaseController{
 	        ResponseEntity<FileResult> responseEntity = this.restTemplate.postForEntity(getFilesLayuiByFormId, httpEntity, FileResult.class);
 	        return responseEntity.getBody();
 	    }
+	    
+	    
+	    
+	    
+	    //专利
+	    @RequestMapping(value = "/mobile/queryOutPatentList", method = RequestMethod.POST)
+	    @ResponseBody
+	    public Object queryOutPatentList( HttpServletRequest request) 
+	    {
+
+	    	String name = CommonUtil.getParameter(request, "name", "");
+	    	String page = CommonUtil.getParameter(request, "page", "1");
+			LayuiTableParam param = new LayuiTableParam();
+			String limit = CommonUtil.getParameter(request, "limit", "15");
+			
+
+			param.setLimit(Integer.valueOf(limit));
+			param.setPage(Integer.valueOf(page));
+			
+			param.getParam().put("name", name);
+	        LayuiTableData data = new LayuiTableData();
+	        if (StrUtil.isNullLayuiTableParam(param)) 
+	        {
+	            data.setCount(0);
+	            return JSONObject.toJSONString(data);
+	        } else 
+	        {
+	            HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+	            ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LIST_OUT_PATENT, HttpMethod.POST, entity, LayuiTableData.class);
+	            data = responseEntity.getBody();
+	            return JSON.toJSON(data).toString();
+	        }
+	    }
+	    
+	    
+	    //课题
+	    @RequestMapping(value = "/mobile/outProjectList", method = RequestMethod.POST)
+	    @OperationFilter(dataFlag = "true")
+	    @ResponseBody
+	    public Object outProjectList(HttpServletRequest request) {
+
+	    	
+	    	
+	    	String name = CommonUtil.getParameter(request, "name", "");
+	    	String page = CommonUtil.getParameter(request, "page", "1");
+			LayuiTableParam param = new LayuiTableParam();
+			String limit = CommonUtil.getParameter(request, "limit", "15");
+			
+
+			param.setLimit(Integer.valueOf(limit));
+			param.setPage(Integer.valueOf(page));
+			
+			param.getParam().put("name", name);
+			
+			
+	        param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+	        param.getParam().put("username", sysUserInfo.getUserName());
+	        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+	        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_LIST_PAGE, HttpMethod.POST, entity, LayuiTableData.class);
+	        LayuiTableData retJson = responseEntity.getBody();
+
+	        return JSON.toJSON(retJson).toString();
+	    }
+	    
 	    
 }
