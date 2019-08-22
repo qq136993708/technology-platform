@@ -28,15 +28,15 @@
     height:160px;position: absolute;left: 0;top: 120px;
     background:rgba(0,99,175,1);}
 .structure .main-right{ float: right;width: 43%;}
-.structure .item p{line-height: 28px;margin-bottom: 16px;}
-.structure .item p span:nth-child(1){
+.structure .item p,.honor .item p{line-height: 28px;margin-bottom: 16px;}
+.structure .item p span:nth-child(1),.honor .item p span:nth-child(1){
     height:25px;display: block;
     font-size:18px;
     font-weight:500;
     color:rgba(163,163,163,1);
     line-height:25px;}
 
-.structure .item p span:nth-child(2){
+.structure .item p span:nth-child(2),.honor .item p span:nth-child(2){
     display: block;
     font-size:14px;
     font-weight:500;
@@ -44,13 +44,18 @@
     line-height:25px;}
 .personnel img{width: 24.5%;}
 .honor{margin:78px 0 0;}
-.honor .main-top{background-color: #0052AF;}
+.honor .main-top{background-color: #0052AF;    height: auto;
+    overflow: hidden;display: flex;}
+.honor .main-top img{width: 545px;height: 359px;}
+.honor .main-top .main-left{width: auto;padding: 0 130px 28px 116px;}
+.honor .main-top .main-right{width: 58%;}
+.honor .main-top .main-right .header h4{margin-top: 48px;color: white;opacity: .7}
 
+.honor .main-top .main-right .header p{font-size:30px;margin-top:2px;color: white;opacity: .7}
+.honor .item p span{color: white !important;opacity: .7 !important;;}
 
-
-
-
-
+.honor  .main-bottom{margin: 67px 260px;}
+.honor  .main-bottom{line-height: 28px;text-align: center;font-size: 14px;color: #494949;}
 
 
 
