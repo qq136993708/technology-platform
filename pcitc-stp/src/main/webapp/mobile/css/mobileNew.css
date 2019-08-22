@@ -52,8 +52,8 @@ input{letter-spacing:.015rem}
 .quota{padding-bottom:.1rem}
 .quota .quata-cont .item{width:1.13rem;height:.86rem;float:left;box-shadow:0 0 8px rgba(117,117,117,0.16);position:relative}
 .quota .quata-cont{height:auto;overflow:hidden;margin:1% 0 1% 1.5%}
-.quota .quata-cont .item:nth-child(1){background:url("/mobile/images/mobile-img1.png") no-repeat;background-size:100%;margin-right:.08rem}
-.quota .quata-cont .item:nth-child(2){background:url("/mobile/images/mobile-img2.png") no-repeat;background-size:100%;margin-right:.08rem;width:1.27rem}
+.quota .quata-cont .item:nth-child(1){background:url("/mobile/images/mobile-img1.png") no-repeat;background-size:100%;margin-right:.07rem}
+.quota .quata-cont .item:nth-child(2){background:url("/mobile/images/mobile-img2.png") no-repeat;background-size:100%;margin-right:.07rem;width:1.27rem}
 .quota .quata-cont .item:nth-child(3){background:url("/mobile/images/mobile-img3.png") no-repeat;background-size:100%}
 .quota .quata-cont .item div{height:.66rem}
 .quota .quata-cont .item>p:nth-child(1){font-size:.18rem;color:#FFFFFF;letter-spacing:0;text-align:center;height:.66rem;line-height:.66rem;font-family:"Impact"}
@@ -190,7 +190,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(1):after,.layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2):after{content:'';width:6px;display:inline-block;position:absolute;left:0;height:6px;top:.08rem;background-color:#499AED}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2):after{background-color:#48BA97}
 .laydate-c{height:.14rem;line-height:.14rem;font-size:.14rem;position:absolute;right:3%}
-.contract .layui-tab-title{width:2.88rem;margin:0 auto .1rem;border-radius:4px;line-height:.34rem;border:1px solid #4190F6;height:.34rem}
+.contract .layui-tab-title{width:3.03rem;margin:0 auto .1rem;border-radius:4px;line-height:.34rem;border:1px solid #4190F6;height:.34rem}
 .contract .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(1){width: 30%;display: block;float: left;overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;}
@@ -198,11 +198,12 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .project .layui-tab-title{margin-bottom:.15rem}
 .contract .layui-tab-title li{box-sizing:border-box;width:.95rem;line-height:.34rem;height:.34rem;background:#fff}
 .contract .layui-tab-title li:nth-child(2),.contract .layui-tab-title li:nth-child(1){border-right:1px solid #4190F6}
+.contract .layui-tab-title li:nth-child(2){width: 1rem;}
 .contract .layui-tab-title li:nth-child(3){border-radius:0 4px 4px 0}
 .contract .layui-tab-title li:nth-child(1){border-radius:4px 0 0 4px}
 .contract .layui-tab-title li.layui-this{background-color:rgba(65,144,246,1);color:white;left: -0.02rem;
     box-shadow:0px 4px 16px 0px rgba(74,144,226,0.32)}
-.contract .layui-tab-title li.layui-this:nth-child(3){width: 1rem;}
+.contract .layui-tab-title li.layui-this:nth-child(3){width: 1.1rem;}
 .contract .layui-tab-title .layui-this:after{height:0 !important;background:none !important;border:none !important}
 .contract .layui-tab-content .layui-tab-item ul li{height:.45rem}
 .contract .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2){float:none;margin-left:.1rem;position:relative;padding-left:.19rem;font-weight:600;color:rgba(23,48,56,1);font-size:.16rem}
@@ -253,7 +254,10 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .layui-layer-mobile  iframe{border-radius:6px !important}
 .project-d,.work-add{box-shadow:none;background:none;width:100%;padding:0;margin:0;border-radius:0 !important}
 .project-d .title{margin:0 4%}
-.project-d .title h4{color:rgba(23,48,56,1);font-size:.24rem;margin:.23rem 0 .1rem}
+.project-d .title h4{color:rgba(23,48,56,1);font-size:.24rem;margin:.23rem 0 .1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;}
 .project-d .title h4 span{border-left:6px solid #4190F6;height:.22rem;width:.06rem;margin-right:.1rem}
 .project-d .title p{width:.96rem;margin-bottom:.1rem;height:.02rem;border-bottom:0.5px solid rgba(211,211,211,1)}
 .project-d .title .contract-h{color:rgba(66,101,112,1);font-size:.14rem;padding-right:.1rem}
