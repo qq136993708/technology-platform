@@ -129,11 +129,14 @@
    						    	cgmc=cgmc.substr(0,15);
   							}
   				     }
-   					 
+   					if(typeof(jdjg) == "undefined")
+   					{
+   						jdjg="";
+   					}
    					   var temp="<li onclick=\"view('"+jdh+"')\" >"+
 			                     "<p>"+
 			                         "<span>"+cgmc+"</span>"+
-			                         "<span>一等奖</span>"+
+			                         "<span>"+jdjg+"</span>"+
 			                      "</p>"+
 			                      "<dl>"+
 			                        " <dd>"+sqjddw+"</dd>"+
