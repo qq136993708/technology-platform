@@ -131,15 +131,13 @@
                 param: {
                     "name": $("#expertName").val(),
                     "leaderFlag": "1",
-                    "functionCode": param.code
                 }
             },
-            limit: param.selfRownum,
+            limit: 15,
             id: 'showTableKt',
-            height: 260,
             page: {
                 groups: 5,
-                limits: [param.selfRownum,  30, 45, 60],
+                limits: [15,  30, 45, 60],
                 first: '首页', //不显示首页
                 last: '尾页', //不显示尾页
                 theme: '#0F9EE0'
@@ -211,12 +209,11 @@
                     "name": $("#expertName").val(),
                 }
             },
-            limit: param.selfRownum,
+            limit: 15,
             id: 'showTable',
-            height: 260,
             page: {
                 groups: 5,
-                limits: [param.selfRownum, 30, 45, 60],
+                limits: [15, 30, 45, 60],
                 // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                 first: '首页', //不显示首页
                 last: '尾页', //不显示尾页
@@ -227,11 +224,11 @@
                 {title: '序号', type: 'numbers', width: 55},
                 {
                     field: "fmmc",
-                    title: "名称", event: 'setActive', style: 'cursor: pointer;', width: '15%'
+                    title: "名称", event: 'setActive', style: 'cursor: pointer;', width: '20%'
                 },
                 {
                     field: "wxlx",
-                    title: "类型", event: 'setActive', style: 'cursor: pointer;', width: '15%'
+                    title: "类型", event: 'setActive', style: 'cursor: pointer;', width: '20%'
 
                 },
                 // {
