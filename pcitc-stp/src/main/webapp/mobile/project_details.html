@@ -13,10 +13,15 @@
 </head>
 <body>
 <main class="main project-d">
+
     <div class="title">
         <h4><span></span>${outProjectPlan.xmmc}</h4>
         <p></p>
-        <span class="contract-h">${outProjectPlan.hth}</span><span class="contract-s">合同总金额:</span><span class="contract-n">${outProjectPlan.jf?substring(0,outProjectPlan.jf?length-2)}万元</span>
+        <span class="contract-h">${outProjectPlan.hth}</span><span class="contract-s">合同总金额:</span>
+        <span class="contract-n">
+        <#if outProjectPlan.jf != null>${outProjectPlan.jf?substring(0,outProjectPlan.jf?length-2)}万元 </#if>
+        <#if outProjectPlan.jf == null>0万元</#if>
+        </span>
     </div>
     <div class="project-d-f"></div>
     <ul>
@@ -30,15 +35,25 @@
         </li>
         <li>
             <span>计划签订金额</span>
-            <span><span class="number" >${outProjectPlan.ysje?substring(0,outProjectPlan.ysje?length-2)}万元</span></span>
+            <span><span class="number" >
+             <#if outProjectPlan.ysje != null>${outProjectPlan.ysje?substring(0,outProjectPlan.ysje?length-2)}万元 </#if>
+             <#if outProjectPlan.ysje == null>0万元</#if>
+            </span></span>
         </li>
         <li>
             <span>资本性预算</span>
-           <span > ${outProjectPlan.yszbxje?substring(0,outProjectPlan.yszbxje?length-2)}万元</span>
+            <span> 
+            <#if outProjectPlan.yszbxje != null>${outProjectPlan.yszbxje?substring(0,outProjectPlan.yszbxje?length-2)}万元</#if>
+            <#if outProjectPlan.yszbxje == null>0万元</#if>
+            
+            </span>
         </li>
         <li>
             <span>费用性预算</span>
-            <span > ${outProjectPlan.ysfyxje?substring(0,outProjectPlan.ysfyxje?length-2)}万元</span>
+            <span > 
+            <#if outProjectPlan.ysfyxje != null>${outProjectPlan.ysfyxje?substring(0,outProjectPlan.ysfyxje?length-2)}万元</#if>
+            <#if outProjectPlan.ysfyxje == null>0万元</#if>
+            </span>
         </li>
        <!--
         <li>
@@ -59,7 +74,10 @@
         </li>
         <li>
             <span>经费来源</span>
-            <span>${outProjectPlan.define11?substring(1,outProjectPlan.define11?length)}</span>
+            <span>
+            <#if outProjectPlan.define11 != null>${outProjectPlan.define11?substring(1,outProjectPlan.define11?length)}</#if>
+            <#if outProjectPlan.define11 == null>0</#if>
+            </span>
         </li>
         <li>
             <span>资本/费用</span>
@@ -67,7 +85,10 @@
         </li>
         <li>
             <span>单位性质</span>
-             <span>${outProjectPlan.define12?substring(3,outProjectPlan.define12?length)}</span>
+             <span>
+              <#if outProjectPlan.define12 != null>${outProjectPlan.define12?substring(3,outProjectPlan.define12?length)}</#if>
+              <#if outProjectPlan.define12 == null>0</#if>
+             </span>
         </li>
         <li>
             <span>项目类型</span>
