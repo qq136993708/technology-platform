@@ -443,4 +443,6 @@ public interface OutProjectService {
     public LayuiTableData selectProjectInfoWithAllInfoByCondTreeExpert(LayuiTableParam param);
 
     public LayuiTableData selectProjectInfoWithAllInfoByCondYearExpert(LayuiTableParam param);
+
+	public List<OutProjectInfo> getOutCompanyList(OutProjectInfo outProjectInfo);
 }

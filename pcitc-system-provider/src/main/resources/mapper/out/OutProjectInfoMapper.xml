@@ -3945,5 +3945,20 @@
 	
 	
 	
-	
+	<!-- 查询分子公司数据 -->	
+	<select id="selectOutCompanyInfo" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
+			SELECT 
+				<include refid="Base_Column_List" /> 
+			from out_project_info where 1=1
+		<if test="typeFlag != null">
+			and out_project_info.type_flag like '%${typeFlag}%'
+		</if>
+		<if test="define11 != null">
+			and out_project_info.define11 like '%${define11}%'
+		</if>
+		<if test="define8 != null">
+			and out_project_info.define8 like '%${define8}%'
+		</if>
+		group by out_project_info.define8
+	</select>
 </mapper>
