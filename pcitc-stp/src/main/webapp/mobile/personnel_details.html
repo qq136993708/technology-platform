@@ -44,8 +44,8 @@
                 <ul class="layui-tab-title">
                     <li class="layui-this">人物简介</li>
                     <li>人物成就</li>
-                    <li>相关课题</li>
-                    <li>研究专利</li>
+                    <li>相关课题<label id="kt_task_list_count"></label></li>
+                    <li>研究专利<label id="zl_task_list_count"></label> </li>
                 </ul>
             </div>
             <div class="layui-tab-content">
@@ -56,10 +56,11 @@
                     ${zjkBaseInfo.bak6}
                 </div>
                 <div class="layui-tab-item">
-                 <table id="showTableKt" class="layui-table" lay-filter="tableDataCg"></table>
+                 <ul id="kt_task_list"> </ul>
                 </div>
                 <div class="layui-tab-item">
-                   <table id="showTable" class="layui-table" lay-filter="tableDataCg"></table>
+                  <!--  <table id="showTable" class="layui-table" lay-filter="tableDataCg"></table> -->
+                   <ul id="zl_task_list"> </ul>
                 </div>
             </div>
         </div>
@@ -67,6 +68,7 @@
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
+<script src="/mobile/js/mobile.js"></script>
 <script>
     var  layer;
     var  table;
@@ -105,8 +107,6 @@
             $(".layui-col-xs4 button").addClass('layui-hide')
             $(".layui-col-xs4 button").eq($(this).index()).removeClass("layui-hide");
         });
-        renderTableKt();
-        renderZLTablePatent();
     });
     
     
@@ -118,149 +118,132 @@
     
     
     
-    //科研课题start
-    function renderTableKt() 
-    {
-        var param = JSON.parse(window.localStorage.getItem("param"));
-        //渲染
-        table.render({
-            elem: '#showTableKt',
-            url: '/expertController/outProjectList',
-            method: "POST",
-            where: {
-                param: {
-                    "name": $("#expertName").val(),
-                    "leaderFlag": "1",
-                }
-            },
-            limit: 15,
-            id: 'showTableKt',
-            page: {
-                groups: 5,
-                limits: [15,  30, 45, 60],
-                first: '首页', //不显示首页
-                last: '尾页', //不显示尾页
-                theme: '#0F9EE0'
-            },
-            cols: [[
-            //     {
-            //     type: 'checkbox',
-            //     event: 'changeEvents'
-            // },
-                {
-                title: '序号',
-                type: 'numbers',
-                width:55
-            },
-                {
-                field: 'xmmc',
-                title: '项目名称',
-                width: '18%',
-                style: 'cursor: pointer;'
-            },
-
-                {
-                    field: 'fzdw',
-                    title: '负责单位',
-                    width: '18%',
-                    style: 'cursor: pointer;'
-                },{
-                field: 'zylb',
-                title: '专业类别',
-                width: '18%',
-                style: 'cursor: pointer;'
-            },
-                {
-                    field: 'nd',
-                    title: '立项年度',
-                    style: 'cursor: pointer;'
-                }
-            ]],
-            done: function (res, curr, count) {
-                // 关闭等待刷新
-                //$("#ktCount").html(count);
-                //$("#ktCountShow").html(count);
-                // 点击行联动选择框--单选
-                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                    var index = parseInt($(this).index() + 1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData = res.data[index - 1];
-                });
-            }
-        });
-    }
     
     
-    //专利start
-    function renderZLTablePatent() 
+    //课题
+    function kt_task_list(url,id,type)
     {
-        var param = JSON.parse(window.localStorage.getItem("param"));
-
-        //渲染
-        table.render({
-            elem: '#showTable',
-            url: '/expertController/queryOutPatentList',
-            method: "POST",
-            where: {
-                param: {
-                    "name": $("#expertName").val(),
-                }
-            },
-            limit: 15,
-            id: 'showTable',
-            page: {
-                groups: 5,
-                limits: [15, 30, 45, 60],
-                // layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-                first: '首页', //不显示首页
-                last: '尾页', //不显示尾页
-                theme: '#0F9EE0'
-            },
-            cols: [[
-                // {type: 'checkbox', event: 'changeEvents'},
-                {title: '序号', type: 'numbers', width: 55},
-                {
-                    field: "fmmc",
-                    title: "名称", event: 'setActive', style: 'cursor: pointer;', width: '20%'
-                },
-                {
-                    field: "wxlx",
-                    title: "类型", event: 'setActive', style: 'cursor: pointer;', width: '20%'
-
-                },
-                // {
-                //     field: "zlh",
-                //     title: "专利号", event: 'setActive', style: 'cursor: pointer;'
-                // }
-                // ,
-                {
-                    field: "qlyq",
-                    title: "专利描述", event: 'setActive', style: 'cursor: pointer;'
-                    , templet: function (d) {
-                        return d.qlyq.substring(0, 20)+"...";
-                    }
-                }
-            ]],
-            done: function (res, curr, count) {
-                // 关闭等待刷新
-               // $("#zlCount").html(count);
-               // $("#zlCountShow").html(count);
-                // 点击行联动选择框--单选
-                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                    var index = parseInt($(this).index() + 1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData = res.data[index - 1];
-                });
-            }
-        });
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : type,
+    		url : url,
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			console.log("外系统待办\n"+JSON.stringify(data));
+    			var count="";
+    			var dataArr=data.data;
+    			if(dataArr.length>0)
+   			    {
+   				  for(var i=0;i<dataArr.length;i++)
+       			  {
+   					 var id= dataArr[i].id;
+   					 var xmmc= dataArr[i].xmmc;//名称
+   					 var fzdw= dataArr[i].fzdw;//负责单位
+   					 var nd= dataArr[i].nd;//立项年度
+   					 
+   					 if(fzdw.length>8)
+   					 {
+   						fzdw=fzdw.substr(0,8);
+   					 }
+   					
+   					 if(xmmc.length>11)
+   					 {
+   						xmmc=xmmc.substr(0,10);
+   					 }
+   					 var temp="<li>"+
+				    				"<p>"+
+				                        "<span>"+xmmc+"</span>"+
+				                        "<span>"+nd+"</span>"+
+				                    "</p>"+
+				                    "<p><span>"+fzdw+"</span></p>"+
+				             "</li>";
+					count=count+temp;
+		
+       			  }
+   			   }
+    		   $("#kt_task_list").html(count); 	
+    		   $("#kt_task_list_count").html(data.count); 	
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
     }
-
+    kt_task_list("/mobile/outProjectList?v_date="+(new Date()).getTime()+"&name="+$("#expertName").val(),"kt_task_list","POST");
+    page("kt_task_list","/mobile/outProjectList?v_date="+(new Date()).getTime()+"&name="+$("#expertName").val(),"POST","kt_task_list");
+    
+    
+    
+    
+    
+    
+   
+    
+    
+    
+    //专利
+    function zl_task_list(url,id,type)
+    {
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : type,
+    		url : url,
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			console.log("外系统待办\n"+JSON.stringify(data));
+    			var count="";
+    			var dataArr=data.data;
+    			if(dataArr.length>0)
+   			    {
+   				  for(var i=0;i<dataArr.length;i++)
+       			  {
+   					 var id= dataArr[i].id;
+   					 var fmmc= dataArr[i].fmmc;//名称
+   					 var wxlx= dataArr[i].wxlx;//类型
+   					 var qlyq= dataArr[i].qlyq;//专利描述
+   					 if(fmmc==null)
+					 {
+   						fmmc="";
+					 }
+   					 
+   					 if(qlyq.length>8)
+   					 {
+   						 qlyq=qlyq.substr(0,8);
+   					 }
+   					
+   					 if(fmmc.length>11)
+   					 {
+   						fmmc=fmmc.substr(0,10);
+   					 }
+   					 var temp="<li>"+
+				    				"<p>"+
+				                        "<span>"+fmmc+"</span>"+
+				                        "<span>"+wxlx+"</span>"+
+				                    "</p>"+
+				                    "<p><span>"+qlyq+"</span></p>"+
+				             "</li>";
+					count=count+temp;
+		
+       			  }
+   			   }
+    		   $("#zl_task_list").html(count); 	
+    		   $("#zl_task_list_count").html(data.count); 	
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+    }
+    zl_task_list("/mobile/queryOutPatentList?v_date="+(new Date()).getTime()+"&name="+$("#expertName").val(),"zl_task_list","POST");
+    page("zl_task_list","/mobile/queryOutPatentList?v_date="+(new Date()).getTime()+"&name="+$("#expertName").val(),"POST","zl_task_list");
     
     
     
