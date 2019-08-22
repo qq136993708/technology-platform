@@ -401,23 +401,13 @@ public class TaskController extends BaseController {
 		ResponseEntity<JSONObject> status = this.restTemplate.exchange(COMPLETE_TASK_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, httpHeaders), JSONObject.class);
 		// System.out.println("=============completeTask=========" +
 		// status.getBody());
-		if (status.getBody() != null && status.getBody().get("result") != null) {
-			if (status.getBody().get("result").equals("1")) {
-				// 流程结束，调用各个业务的审批通过后的业务处理方法
-				// System.out.println("====auditAgreeMethod===============" +
-				// status.getBody().get("auditAgreeMethod").toString());
-				this.restTemplate.exchange(status.getBody().get("auditAgreeMethod").toString(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), Integer.class).getBody();
-
+		if (status.getBody() != null && status.getBody().get("statusCode") != null) {
+			if (status.getBody().get("statusCode").equals("-1")) {
+				return new Result(true, "数据异常");
 			}
-			if (status.getBody().get("result").equals("2")) {
-				// 驳回，调用各个业务的审批驳回后的业务处理方法
-				// System.out.println("====auditRejectMethod===============" +
-				// status.getBody().get("auditRejectMethod").toString());
-				this.restTemplate.exchange(status.getBody().get("auditRejectMethod").toString(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), Integer.class).getBody();
-			}
-			return new Result(true, "启动成功");
+			return new Result(true, "操作成功");
 		} else {
-			return new Result(false, "启动失败");
+			return new Result(false, "操作失败");
 		}
 
 	}

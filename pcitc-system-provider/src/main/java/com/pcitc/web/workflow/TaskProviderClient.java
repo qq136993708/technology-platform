@@ -793,7 +793,7 @@ public class TaskProviderClient {
 					retJson.put("statusCode", handleBusinessInfo(nextVar.get("auditAgreeMethod").toString()));
 					return retJson;
 				}
-				retJson.put("result", "0");
+				retJson.put("statusCode", "0");
 				return retJson;
 			}
 		} else {
@@ -818,7 +818,7 @@ public class TaskProviderClient {
 							return retJson;
 						}
 						System.out.println("=========会签流程结束=======流程未结束----------");
-						retJson.put("result", "0");
+						retJson.put("statusCode", "0");
 						return retJson;
 					} else {// 审批不通过 ，直接打回
 						// 审批驳回
@@ -830,13 +830,13 @@ public class TaskProviderClient {
 					}
 				} else { // 会签还没完全走完（之后可以逻辑细分）
 					System.out.println("=========会签流程未结束=======----------");
-					retJson.put("result", "0");
+					retJson.put("statusCode", "0");
 					return retJson;
 				}
 			} else {
 				// 异常情况，会签必须要signAuditRate属性
 				System.out.println("=========1会签异常情况=======----------");
-				retJson.put("result", "0");
+				retJson.put("statusCode", "-1");
 				return retJson;
 			}
 		}
