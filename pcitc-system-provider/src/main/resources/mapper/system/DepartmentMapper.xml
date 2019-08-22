@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.system.DepartmentMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.Department">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="VARCHAR" property="createUserId" />
+     <result column="breif" jdbcType="LONGVARCHAR" property="breif" />
+    <result column="develop_history" jdbcType="LONGVARCHAR" property="developHistory" />
+    <result column="organization" jdbcType="LONGVARCHAR" property="organization" />
+    <result column="personnel" jdbcType="LONGVARCHAR" property="personnel" />
+    <result column="honor" jdbcType="LONGVARCHAR" property="honor" />
+    <result column="major" jdbcType="LONGVARCHAR" property="major" />
+    <result column="notes" jdbcType="LONGVARCHAR" property="notes" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, `type`, create_time, create_user_id,breif, develop_history, organization, personnel, honor, major, notes
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_department
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_department
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.system.Department">
+    insert into t_department (id, title, `type`, 
+      create_time, create_user_id, breif, 
+      develop_history, organization, personnel, 
+      honor, major, notes
+      )
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, #{breif,jdbcType=LONGVARCHAR}, 
+      #{developHistory,jdbcType=LONGVARCHAR}, #{organization,jdbcType=LONGVARCHAR}, #{personnel,jdbcType=LONGVARCHAR}, 
+      #{honor,jdbcType=LONGVARCHAR}, #{major,jdbcType=LONGVARCHAR}, #{notes,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.Department">
+    insert into t_department
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="breif != null">
+        breif,
+      </if>
+      <if test="developHistory != null">
+        develop_history,
+      </if>
+      <if test="organization != null">
+        organization,
+      </if>
+      <if test="personnel != null">
+        personnel,
+      </if>
+      <if test="honor != null">
+        honor,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="notes != null">
+        notes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="breif != null">
+        #{breif,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="developHistory != null">
+        #{developHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="organization != null">
+        #{organization,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="personnel != null">
+        #{personnel,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="honor != null">
+        #{honor,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="notes != null">
+        #{notes,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.Department">
+    update t_department
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="breif != null">
+        breif = #{breif,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="developHistory != null">
+        develop_history = #{developHistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="organization != null">
+        organization = #{organization,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="personnel != null">
+        personnel = #{personnel,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="honor != null">
+        honor = #{honor,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="major != null">
+        major = #{major,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="notes != null">
+        notes = #{notes,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.Department">
+    update t_department
+    set title = #{title,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      breif = #{breif,jdbcType=LONGVARCHAR},
+      develop_history = #{developHistory,jdbcType=LONGVARCHAR},
+      organization = #{organization,jdbcType=LONGVARCHAR},
+      personnel = #{personnel,jdbcType=LONGVARCHAR},
+      honor = #{honor,jdbcType=LONGVARCHAR},
+      major = #{major,jdbcType=LONGVARCHAR},
+      notes = #{notes,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+  
+     <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="title != null and title  !='' ">               AND t.title like CONCAT('%',#{title},'%')</if>
+	     <if test="type != null       and type !=''  ">     AND t.type = #{type}</if>
+	 </trim>
+	</sql>
+	
+	 
+    
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from t_department t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_time desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM t_department t <include refid="selectCondition"/>
+    </select>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</mapper>
