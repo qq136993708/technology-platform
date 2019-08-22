@@ -69,6 +69,7 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 		commonKey.add("activiti");
 		commonKey.add("emailTemplate");
 		commonKey.add("one_level_main");
+		commonKey.add("unit");
 	}
 
 	@Override

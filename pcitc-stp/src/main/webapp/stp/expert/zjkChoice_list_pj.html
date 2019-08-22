@@ -56,10 +56,12 @@
                         <!--</button>-->
                     </div>
                 </div>
+                <div class="zjkMsgTableIdDiv">
 
                 <table id="zjkMsgTableId" class="layui-hide" lay-filter="zjkMsgTableId"></table>
 
 
+            </div>
             </div>
         </div>
         <div class="layui-tab-item">
@@ -97,8 +99,11 @@
                         <!--</button>-->
                     </div>
                 </div>
+                <div class="zjkMsgTableIdCgDiv">
+
                 <table id="zjkMsgTableIdCg" class="layui-hide" lay-filter="zjkMsgTableIdCg"></table>
 
+            </div>
             </div>
         </div>
         <div class="layui-tab-item">
@@ -136,7 +141,9 @@
                         <!--</button>-->
                     </div>
                 </div>
-                <table id="zjkMsgTableIdJl" class="layui-hide" lay-filter="zjkMsgTableIdJl"></table>
+                <div class="zjkMsgTableIdJlDiv">
+                    <table id="zjkMsgTableIdJl" class="layui-hide" lay-filter="zjkMsgTableIdJl"></table>
+                </div>
             </div>
 
         </div>
@@ -276,6 +283,13 @@
                     return res;
                 },
                 done: function (res) {
+                    $('.zjkMsgTableIdDiv .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
+                            $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
+                        }else {
+                            $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        }
+                    });
                     // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     //     var index = parseInt($(this).index() + 1);
                     //     $('tr').removeClass('layui-table-click');
@@ -401,7 +415,7 @@
                         title: '成果名称',
                         templet: function (d) {
                             if (d.dataIndex == "1") {
-                                return '<span   onclick="showDetail(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
+                                return '<span   onclick="showDetailCg(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
                             } else {
                                 if (d.sysFlag == "1") {
                                     return '<span style="color:#00B83F">' + d.projectName + '</span>'
@@ -442,6 +456,13 @@
                     //     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     //     // selectRowData = res.data[index - 1];
                     // });
+                    $('.zjkMsgTableIdCgDiv .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
+                            $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
+                        }else {
+                            $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        }
+                    });
                 },
                 onClickRow: function (index, o) {
                     console.log(index, o, "单击！");
@@ -504,7 +525,7 @@
                         title: '项目名称',
                         templet: function (d) {
                             if (d.dataIndex == "1") {
-                                return '<span   onclick="showDetail(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
+                                return '<span   onclick="showDetailJl(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
                             } else {
                                 if (d.sysFlag == "1") {
                                     return '<span style="color:#00B83F">' + d.projectName + '</span>'
@@ -544,6 +565,13 @@
                     return res;
                 },
                 done: function (res) {
+                    $('.zjkMsgTableIdJlDiv .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
+                            $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
+                        }else {
+                            $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        }
+                    });
                     // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     //     var index = parseInt($(this).index() + 1);
                     //     $('tr').removeClass('layui-table-click');

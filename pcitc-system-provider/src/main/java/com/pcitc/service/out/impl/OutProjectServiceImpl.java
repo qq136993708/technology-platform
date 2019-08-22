@@ -1013,6 +1013,23 @@ public class OutProjectServiceImpl implements OutProjectService {
         if (!StrUtil.isNullEmpty(param.getParam().get("zjps")) && !StrUtil.isNullEmpty(param.getParam().get("dataIds"))) {
             hashmap.put("dataIds", param.getParam().get("dataIds"));
         }
+        if(!StrUtil.isNullEmpty(param.getParam().get("desc"))){
+            //获取项目
+            List<Map<String, Object>> objectMap = null;
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("type", "xm");
+            objectMap =(List<Map<String, Object>>) zjkBaseInfoServiceClient.selectZjkChoiceByExampleByType(jsonObject).get("list");
+            //获取dataid
+            String dataIds = "''";
+            for (int i = 0; i < objectMap.size(); i++) {
+                dataIds = dataIds+","+"'"+objectMap.get(i).get("xmId")+"'";
+            }
+            System.out.println("dataIds:"+dataIds);
+            //排序
+            if (!"''".equals(dataIds)) {
+                hashmap.put("desc", "(CASE WHEN out_project_info.xmid in(" + dataIds + ") THEN 1 ELSE 3 END ),");
+            }
+        }
         // 20190821-添加dataId查询条件-结束
 
 
@@ -1125,9 +1142,48 @@ public class OutProjectServiceImpl implements OutProjectService {
 			finalListOrder.addAll(finalListSmall);
 
 		}
+		//重新排序
+        if(!StrUtil.isNullEmpty(param.getParam().get("desc"))){
+            List<Map<String,String>> newList = new ArrayList<>();
+            List<Map<String,String>> newListNo = new ArrayList<>();
+            boolean flag = true;
+            for (int i = 0,j =list.size(); i < j; i++) {
+                for (int k = 0; k < finalListOrder.size(); k++) {
+                    Map<String,String> temp_map = (Map<String, String>) list.get(i);
+                    Map<String,String> temp_map_final = (Map<String, String>) finalListOrder.get(k);
+                    if (temp_map.get("xmid").equals(temp_map_final.get("xmid"))){
+                        newList.add(temp_map_final);
+                        finalListOrder.remove(temp_map_final);
+                    }
+                    else if(("合计").equals(temp_map_final.get("realIndex"))&&flag){
+                        newList.add(temp_map_final);
+                        flag=false;
+                    }
+                }
+            }
 
-		data.setData(finalListOrder);
-		Long total = pageInfo.getTotal();
+            List<Map<String,String>> newListEnd = new ArrayList<>();
+            Map<String,String> mapIndex = new HashMap<>();
+            for (int i = 0; i < newList.size(); i++) {
+                Map<String,String> temp_map = (Map<String, String>) newList.get(i);
+                if(!("合计").equals(temp_map.get("realIndex"))){
+                    if (!StrUtil.isNullEmpty(mapIndex.get(temp_map.get("hth")))){
+                        temp_map.put("realIndex",mapIndex.get(temp_map.get("hth")));
+                        newList.set(i,temp_map);
+                    }else {
+                        temp_map.put("realIndex",mapIndex.size()+1+"");
+                        mapIndex.put(temp_map.get("hth"),i+"");
+                        newList.set(i,temp_map);
+                    }
+                }
+            }
+            data.setData(newList);
+        }else {
+             data.setData(finalListOrder);
+        }
+//        data.setData(finalListOrder);
+
+        Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 		return data;
 	}
