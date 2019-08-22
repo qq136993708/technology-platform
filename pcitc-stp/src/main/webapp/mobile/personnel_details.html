@@ -28,15 +28,15 @@
                 </div>
                 <div class="item-cont">
                     <p><span>${zjkBaseInfo.expertName}</span>
-
-                    <#if zjkBaseInfo.expertProfessionalFieldName!=''>
-                       <span>（${zjkBaseInfo.expertProfessionalFieldName}）</span>
-                    </#if>
+                       <span class="layui-pone"></span>
                     </p>
                 </div>
-                 <!-- <div class="item-c">
-                    <p><span>职称：</span><span>${zjkBaseInfo.expertProfessinal}</span></p>
-                </div>  -->
+                  <div style="margin:5px">
+                      <p style="height:25px"><span >职称：${zjkBaseInfo.expertProfessinal}</span></p>
+                      <p style="height:25px"><span>所在单位：</span><span>${zjkBaseInfo.companyName}</span></p>
+                      <p style="height:25px"><span>专业领域：</span><span>${zjkBaseInfo.expertProfessionalField}</span></p>
+                      
+                  </div> 
             </div>
         </div>
         <div class="layui-tab">
@@ -87,11 +87,12 @@
     })(document, window);
     
     
-    layui.use(['jquery','layer','element','laydate', 'table'], function(){
+    layui.use(['jquery','layer','element','laydate', 'table', 'publicMethods'], function(){
         $=layui.jquery;
         layer=layui.layer;
         table = layui.table;
         element=layui.element,laydate = layui.laydate;
+        publicMethods = layui.publicMethods;
         
         $(".more-condition").css("height",document.body.clientHeight/100+"rem");
         $(".more-bg ul li").click(function () {
@@ -107,6 +108,17 @@
             $(".layui-col-xs4 button").addClass('layui-hide')
             $(".layui-col-xs4 button").eq($(this).index()).removeClass("layui-hide");
         });
+        
+        
+        publicMethods.ajaxPost('/dictionary/list/ZJK_ZJLX', null, function (data, status) {
+            $.each(data, function (i, dt) {
+                if (data[i].code === "${zjkBaseInfo.bak3}") {
+                    $(".layui-pone").html("("+ data[i].name+")");
+                }
+            });
+        });
+        
+        
     });
     
     
