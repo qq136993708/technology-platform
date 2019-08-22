@@ -354,7 +354,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .personnel-details .list .item .item-c span:nth-child(2){text-indent:.04rem;display:inline-block;width:84%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative;top:.04rem}
 .personnel-details .tab-c{height:.42rem;padding:0 .05rem;border-radius:.06rem;background-color:rgba(255,255,255,1);box-shadow:0px 4px 14px 0px rgba(0,0,0,0.16);margin-bottom:.3rem}
 .personnel-details .tab-c .layui-tab-title{border:none !important}
-.personnel-details .layui-tab-title li{padding:.0rem .15rem;min-width:.6rem;height:.34rem;line-height:.34rem;color:rgba(66,101,112,1);font-size:.14rem;margin-top:.04rem;border-right:1px solid #D6E0EC;text-align:center}
+.personnel-details .layui-tab-title li{padding:.0rem .12rem;min-width:.6rem;height:.34rem;line-height:.34rem;color:rgba(66,101,112,1);font-size:.14rem;margin-top:.04rem;border-right:1px solid #D6E0EC;text-align:center}
 .personnel-details .layui-tab-title li.layui-this{background-color:#4D96FF;color:white;border-radius:.06rem;border-right:0}
 .personnel-details .layui-tab-title li:last-child{border-right:0}
 .personnel-details .layui-tab-title .layui-this:after{border:none !important}
