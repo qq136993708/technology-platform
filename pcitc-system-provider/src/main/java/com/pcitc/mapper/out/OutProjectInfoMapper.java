@@ -361,5 +361,7 @@ public interface OutProjectInfoMapper {
 	int getTenDragonsCount(Map map);
 
 	int deleteOutProjectInfoByXmid(String xmid);
+	
+	List<OutProjectInfo> selectOutCompanyInfo(OutProjectInfo outProjectInfo);
 
 }

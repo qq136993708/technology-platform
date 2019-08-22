@@ -2270,6 +2270,11 @@ public class OutProjectServiceImpl implements OutProjectService {
 		if (param.getParam().get("nd") != null && !StringUtils.isBlank(param.getParam().get("nd") + "")) {
 			opi.setNd((String) param.getParam().get("nd"));
 		}
+		// 年度，
+		if (param.getParam().get("ysnd") != null && !StringUtils.isBlank(param.getParam().get("ysnd") + "")) {
+			opi.setYsnd((String) param.getParam().get("ysnd"));
+		}
+		
 
 		List<OutProjectInfo> list = outProjectInfoMapper.selectProjectInfoByCond(opi);
 		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
@@ -2606,6 +2611,11 @@ public class OutProjectServiceImpl implements OutProjectService {
 			resault = (String) object;
 		}
 		return resault;
+	}
+
+	@Override
+	public List<OutProjectInfo> getOutCompanyList(OutProjectInfo outProjectInfo) {
+		return outProjectInfoMapper.selectOutCompanyInfo(outProjectInfo);
 	}
 
 }

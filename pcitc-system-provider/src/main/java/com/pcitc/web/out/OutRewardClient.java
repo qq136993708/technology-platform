@@ -82,4 +82,32 @@ public class OutRewardClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "添加奖励数据", notes = "添加奖励数据")
+	@RequestMapping(value = "/out-provider/outReward/add-reward", method = RequestMethod.POST)
+	public Integer addReward(@RequestBody OutReward outReward) throws Exception {
+		logger.info("==================page addReward==================" + outReward);
+		return outRewardService.addReward(outReward);
+	}
+	
+	@ApiOperation(value = "获取奖励数据", notes = "获取奖励数据")
+	@RequestMapping(value = "/out-provider/outReward/get-reward", method = RequestMethod.POST)
+	public OutReward getReward(@RequestBody String dataId) throws Exception {
+		logger.info("==================page getReward==================" + dataId);
+		OutReward outReward = outRewardService.getOutRewardShowById(dataId);
+		return outReward;
+	}
+	
+	@ApiOperation(value = "删除奖励数据", notes = "删除奖励数据")
+	@RequestMapping(value = "/out-provider/outReward/del-reward", method = RequestMethod.POST)
+	public Integer delReward(@RequestBody String dataId) throws Exception {
+		logger.info("==================page delReward==================" + dataId);
+		return outRewardService.delOutRewardById(dataId);
+	}
+	
+	@ApiOperation(value = "更新奖励数据", notes = "更新奖励数据")
+	@RequestMapping(value = "/out-provider/outReward/update-reward", method = RequestMethod.POST)
+	public Integer updateReward(@RequestBody OutReward outReward) throws Exception {
+		logger.info("==================page updateReward==================" + outReward);
+		return outRewardService.updateReward(outReward);
+	}
 }

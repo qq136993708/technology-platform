@@ -1421,5 +1421,12 @@ public class OutProjectInfoClient {
 		logger.info("===============================get ten_dragons  WithBLOB id " + id + "===========");
 		return outProjectService.selectOutProjectInfoWithBLOBs(id);
 	}
+	
+	@ApiOperation(value = "查询分子公司数据", notes = "查询分子公司数据")
+	@RequestMapping(value = "/out-provider/project-company-list", method = RequestMethod.POST)
+	public List<OutProjectInfo> getOutCompanyList(@RequestBody OutProjectInfo outProjectInfo) throws Exception {
+		logger.info("==================page getOutProjectCompanyList===========================" + JSONObject.toJSONString(outProjectInfo));
+		return outProjectService.getOutCompanyList(outProjectInfo);
+	}
 
 }

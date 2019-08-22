@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,14 +33,19 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.DelFlagEnum;
+import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.Award;
 import com.pcitc.base.hana.report.HanaConstant;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ProjectCode;
+import com.pcitc.base.stp.out.OutReward;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.common.OperationFilter;
@@ -72,6 +79,11 @@ public class MoreDimensionController extends BaseController {
 
 	private static final String reward_analysis_01 = "http://pcitc-zuul/system-proxy/out-reward-provider/sbjz/five-year/count";
 	private static final String reward_analysis_02 = "http://pcitc-zuul/system-proxy/out-reward-provider/yjy/type/count";
+	
+	private static final String REWARD_ADD_URL = "http://pcitc-zuul/system-proxy/out-provider/outReward/add-reward";
+	private static final String REWARD_UPDATE_URL = "http://pcitc-zuul/system-proxy/out-provider/outReward/update-reward";
+	private static final String REWARD_GET_URL = "http://pcitc-zuul/system-proxy/out-provider/outReward/get-reward";
+	private static final String REWARD_DEL_URL = "http://pcitc-zuul/system-proxy/out-provider/outReward/del-reward";
 
 	// 课题研发支出多维分析表
 	@RequestMapping(method = RequestMethod.GET, value = "/ktyfzcdwfxb")
@@ -817,6 +829,64 @@ public class MoreDimensionController extends BaseController {
 		pageResult.setPage(1l);
 
 		return JSONObject.toJSONString(pageResult);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/reward_page_edit")
+	private String edit(String dataId, HttpServletRequest request) {
+       request.setAttribute("dataId", dataId);
+       return "stp/hana/moreDimension/reward_page_edit";
+   }
+	
+	/**
+	 * 获取奖项
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/outReward/reward-get", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getReward(@RequestParam(value = "dataId", required = true) String dataId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return this.restTemplate.exchange(REWARD_GET_URL, HttpMethod.POST, new HttpEntity<String>(dataId,this.httpHeaders), OutReward.class).getBody();
+   }
+	
+	/**
+	 * 删除奖项
+	 * @param request
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/outReward/reward-del")
+	@ResponseBody
+	public Object delReward(@RequestParam(value = "dataId", required = true) String dataId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ResponseEntity<Integer> status = null;
+		status = this.restTemplate.exchange(REWARD_DEL_URL, HttpMethod.POST, new HttpEntity<String>(dataId,this.httpHeaders), Integer.class);
+		if (status.getBody() == 0) {
+			return new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+		} else {
+			return new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+		}
+	}
+	
+	/**
+	 * 添加或者修改奖项
+	 * @param request
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/outReward/reward-saveorupdate", method = RequestMethod.POST)
+	@ResponseBody
+	public Object rewardInsert(@ModelAttribute("outReward") OutReward outReward, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ResponseEntity<Integer> status = null;
+		if (StringUtils.isBlank(outReward.getDataId())) {
+			outReward.setDataId(IdUtil.createIdByTime());
+			status = this.restTemplate.exchange(REWARD_ADD_URL, HttpMethod.POST, new HttpEntity<OutReward>(outReward, this.httpHeaders), Integer.class);
+		} else {
+			status = this.restTemplate.exchange(REWARD_UPDATE_URL, HttpMethod.POST, new HttpEntity<OutReward>(outReward, this.httpHeaders), Integer.class);
+		}
+		if (status.getBody() == 0) {
+			return new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+		} else {
+			return new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+		}
 	}
 
 }
