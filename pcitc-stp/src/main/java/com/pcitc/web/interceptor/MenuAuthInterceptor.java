@@ -51,7 +51,7 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 		commonKey.add("expertController");
 		
 		commonKey.add("out");
-		
+		commonKey.add("home_budget_02");
 		commonKey.add("logout");
 		commonKey.add("common-login");
 		commonKey.add("mobile");
