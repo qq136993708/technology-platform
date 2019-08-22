@@ -345,7 +345,7 @@
 				if("ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY"==parentCode){
 					$("#lay_company").html("研究院：");
 				}else{
-					$("#lay_company").html("公司：");
+					$("#lay_company").html("单位名称：");
 				}
 				getDicByParentCode(parentCode, 'define2');
 				console.log("监听单位性质:" + data);
@@ -645,7 +645,7 @@
 						success : function(data) {
 							$("#" + downId).append("<option value=''>--请选择--</option>");
 							$.each(data, function(i, el) {
-								$("#" + downId).append('<option value="'+ el.dataId +'">' + el.define8 + '</option>');
+								$("#" + downId).append('<option value="'+ el.define8 +'">' + el.define8 + '</option>');
 								if (define12 == el.name) {
 									$("#" + downId).val(el.dataId);
 								}
