@@ -16,7 +16,7 @@
     <div class="title">
         <h4><span></span>${outProjectPlan.xmmc}</h4>
         <p></p>
-        <span class="contract-h">${outProjectPlan.hth}</span><span class="contract-s">合同总金额:</span><span class="contract-n">${outProjectPlan.jf}万元</span>
+        <span class="contract-h">${outProjectPlan.hth}</span><span class="contract-s">合同总金额:</span><span class="contract-n">${outProjectPlan.jf?substring(0,outProjectPlan.jf?length-2)}万元</span>
     </div>
     <div class="project-d-f"></div>
     <ul>
@@ -30,15 +30,15 @@
         </li>
         <li>
             <span>计划签订金额</span>
-            <span><span class="number" >${outProjectPlan.ysje}万元</span></span>
+            <span><span class="number" >${outProjectPlan.ysje?substring(0,outProjectPlan.ysje?length-2)}万元</span></span>
         </li>
         <li>
             <span>资本性预算</span>
-            <span><span class="number"> ${outProjectPlan.yszbxje}万元</span></span>
+           <span > ${outProjectPlan.yszbxje?substring(0,outProjectPlan.yszbxje?length-2)}万元</span>
         </li>
         <li>
             <span>费用性预算</span>
-            <span><span class="number"> ${outProjectPlan.ysfyxje}万元</span></span>
+            <span > ${outProjectPlan.ysfyxje?substring(0,outProjectPlan.ysfyxje?length-2)}万元</span>
         </li>
        <!--
         <li>
@@ -90,9 +90,13 @@
       <ul>
        <#list outProjectPlan.companyMoneryList as vo>
          <li>
-            <p  style="height:.25rem">${vo.define8}</p>
-            <p  style="height:.25rem">预算年度：${vo.ysnd} </p>
-            <p  style="height:.25rem">计划：<label style="color: #F59E23">${vo.ysje}万</label> 资本性：<label style="color: #F59E23">${vo.yszbxje}万</label> 费用性：<label style="color: #F59E23">${vo.ysfyxje}万</label></p>
+            <p  style="height:.25rem;font-family: "arial-black","微软雅黑","黑体"">${vo.define8}</p>
+            <p  style="height:.25remfont-family: "arial-black","微软雅黑","黑体"">预算年度：${vo.ysnd} </p>
+            <p  style="height:.25remfont-family: "arial-black","微软雅黑","黑体"">计划：<label style="color: #F59E23">${vo.ysje}万</label> 
+            <label  style="font-size:.10rem;color:#ccc;font-family: "arial-black","微软雅黑","黑体"">（资本性：${vo.yszbxje}万 费用性：${vo.ysfyxje}万） </label>
+            </p>
+            
+       
         </li>
          </#list>
       
