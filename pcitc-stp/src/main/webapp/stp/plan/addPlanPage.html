@@ -550,7 +550,18 @@
 				publicMethods.addTableTr(trParam);
 				//calTableQz();
 			});
-
+            window.select=function () {
+                var name=$("#workOrderAllotUserName").val().split(",");
+                var value=$("#workOrderAllotUserId").val().split(",");
+                $(".layui-table-body table tbody tr").each(function (i, val) {
+                    var trSelect=$(this).find("td:eq(4) select");
+					$(trSelect).empty();
+					$.each(name,function (k, val) {
+                        $(trSelect).append("<option value='"+value[k]+"'>"+name[k]+"</option>");
+                    });
+					form.render("select")
+                });
+            }
 			function calTableQz() {
 				var sthTrArr = [];
 				var sthTrArrAll = [];
