@@ -12,12 +12,12 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     }  
   
     @Override  
-    public String getHeader(String name) {  
+    public String getHeader(String name) {
         return StringEscapeUtils.escapeHtml4(super.getHeader(name));  
     }  
   
     @Override  
-    public String getQueryString() {  
+    public String getQueryString() {
         return StringEscapeUtils.escapeHtml4(super.getQueryString());  
     }  
   
