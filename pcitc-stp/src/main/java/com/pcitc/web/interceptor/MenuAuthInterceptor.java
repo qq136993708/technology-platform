@@ -71,6 +71,7 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 		commonKey.add("one_level_main");
 		commonKey.add("unit");
 		commonKey.add("fullSearch");
+		commonKey.add("user");
 	}
 
 	@Override
