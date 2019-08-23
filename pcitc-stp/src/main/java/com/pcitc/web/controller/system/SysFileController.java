@@ -314,13 +314,13 @@ public class SysFileController extends BaseController {
 
     @RequestMapping(value = "/sysfile/download/{id}", method = RequestMethod.GET, produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<byte[]> downloadFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        
-    	System.out.println("downloadFile==========="+id);
+
+        System.out.println("downloadFile===========" + id);
 
         String agent = request.getHeader("User-Agent");
-        boolean isMSIE = ((agent != null && agent.indexOf("MSIE") != -1 ) || ( null != agent && -1 != agent.indexOf("like Gecko")));
+        boolean isMSIE = ((agent != null && agent.indexOf("MSIE") != -1) || (null != agent && -1 != agent.indexOf("like Gecko")));
         MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
-        form.add("isMSIE", isMSIE+"");
+        form.add("isMSIE", isMSIE + "");
 //        if(isMSIE){
 //            System.out.println("----ie内核");
 //            fileName = new String(fileName.getBytes("GBK"),"ISO8859-1");  
@@ -329,10 +329,9 @@ public class SysFileController extends BaseController {
 //            fileName = new String(fileName.getBytes("UTF8"), "ISO8859-1");
 //        }
 
-
         form.add("id", id);
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
-            ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(((id.split("\\|").length > 1) ? downloads : download) + id, httpEntity, byte[].class);
+        ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(((id.split("\\|").length > 1) ? downloads : download) + id, httpEntity, byte[].class);
 //        byte[] result = responseEntity.getBody();
         httpHeaders.add("x-frame-options", "SAMEORIGIN");
         response.addHeader("x-frame-options", "SAMEORIGIN");
@@ -512,6 +511,7 @@ public class SysFileController extends BaseController {
 
     /**
      * 获取OSS地址
+     *
      * @param fileIds
      * @param request
      * @return
@@ -652,7 +652,7 @@ public class SysFileController extends BaseController {
 
         String rsStr = sysFileFeignClient.uploadFileSavetest(file, request, response, file.getOriginalFilename(), request.getParameter("fileId"), sysUserInfo.getUserId(), uuid);
         JSONArray array = JSON.parseArray(rsStr);
-        
+
         SysFile sysFile = JSON.toJavaObject(JSON.parseObject(array.get(0).toString()), SysFile.class);
         System.out.println("=============");
         System.out.println(JSON.toJSONString(sysFile));
@@ -923,33 +923,33 @@ public class SysFileController extends BaseController {
     @ResponseBody
     public Object getTableDataEsIndex(@ModelAttribute("param") LayuiTableParam param) throws IOException {
         LayuiTableData data = new LayuiTableData();
-        if (StrUtil.isNullLayuiTableParam(param)){
+        if (StrUtil.isNullLayuiTableParam(param)) {
             data.setCount(0);
             return JSONObject.toJSONString(data);
-        }else {
-        DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
-        dataTableInfoVo.setiDisplayLength(param.getLimit());
-        dataTableInfoVo.setiDisplayStart((param.getPage() - 1) * param.getLimit());
-        SysFileVo vo = new SysFileVo();
-        vo.setDataTableInfoVo(dataTableInfoVo);
-        if (param.getParam().get("bak4") != null) {
-            vo.setFileName(param.getParam().get("bak4").toString());
-        }
-        if (param.getParam().get("fileKind") != null) {
-            vo.setFileKind(param.getParam().get("fileKind").toString());
-        }
-        HttpEntity<SysFileVo> entity = new HttpEntity<SysFileVo>(vo, this.httpHeaders);
-        ResponseEntity<String> responseEntity = this.restTemplate.exchange(getTableDataEsIndex, HttpMethod.POST, entity, String.class);
-        String result = responseEntity.getBody();
-        JSONObject retJson = JSONObject.parseObject(result);
-        // DataTableParameter data = new DataTableParameter();
-        if (retJson != null) {
-            int totalCount = retJson.get("totalCount") != null ? Integer.parseInt(retJson.get("totalCount").toString()) : 0;
-            List<SysFile> SysFileList = JSONObject.parseArray(retJson.getJSONArray("list").toJSONString(), SysFile.class);
-            data.setData(SysFileList);
-            data.setCount(totalCount);
-        }
-        return data;
+        } else {
+            DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
+            dataTableInfoVo.setiDisplayLength(param.getLimit());
+            dataTableInfoVo.setiDisplayStart((param.getPage() - 1) * param.getLimit());
+            SysFileVo vo = new SysFileVo();
+            vo.setDataTableInfoVo(dataTableInfoVo);
+            if (param.getParam().get("bak4") != null) {
+                vo.setFileName(param.getParam().get("bak4").toString());
+            }
+            if (param.getParam().get("fileKind") != null) {
+                vo.setFileKind(param.getParam().get("fileKind").toString());
+            }
+            HttpEntity<SysFileVo> entity = new HttpEntity<SysFileVo>(vo, this.httpHeaders);
+            ResponseEntity<String> responseEntity = this.restTemplate.exchange(getTableDataEsIndex, HttpMethod.POST, entity, String.class);
+            String result = responseEntity.getBody();
+            JSONObject retJson = JSONObject.parseObject(result);
+            // DataTableParameter data = new DataTableParameter();
+            if (retJson != null) {
+                int totalCount = retJson.get("totalCount") != null ? Integer.parseInt(retJson.get("totalCount").toString()) : 0;
+                List<SysFile> SysFileList = JSONObject.parseArray(retJson.getJSONArray("list").toJSONString(), SysFile.class);
+                data.setData(SysFileList);
+                data.setCount(totalCount);
+            }
+            return data;
         }
     }
 
@@ -1119,65 +1119,36 @@ public class SysFileController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/sysfile/ckupload5")
-    public void ckupload5(@RequestParam("upload") MultipartFile file) {
-//    public void ckupload5(@RequestParam(value = "upload", required = false) MultipartFile files) {
-        PrintWriter out = null;
-        String originalFilename = file.getOriginalFilename();
-        String fileType = originalFilename.substring(originalFilename.lastIndexOf(".", originalFilename.length()));
-        String imageUrl = "ckupload";
-        String msg = "";
-        String fileName = "";
-        String strFilePath = "";
-        boolean isComplete = false;
-        JSONObject result = new JSONObject();
+    @RequestMapping(value = "/sysfile/ckupload5", method = RequestMethod.POST)
+    @ResponseBody
+    public String ckupload5(@RequestParam(value = "upload", required = false) MultipartFile[] files, HttpServletRequest request) {
+        JSONObject r = new JSONObject();
+        SysFile sysFile = null;
+        String tempFileName = "";
         try {
-            String date = sysUserInfo.getUserId();
-            strFilePath = ckfilepath + imageUrl + File.separator + date + File.separator;
-            File filePath = new File(strFilePath);
-            if (!filePath.exists()) filePath.mkdirs();
-            fileName = UUID.randomUUID().toString() + fileType;
-            String savedName = strFilePath + File.separator + fileName;
-            isComplete = FileUtil.copyInputStreamToFile(file.getInputStream(), new File(savedName));
-            if (isComplete == true) {
-                out = response.getWriter();
-                imageUrl = imageUrl + File.separator + date + File.separator + fileName;
-                imageUrl = imageUrl.replace("\\", "/");
-                imageUrl = imageUrl.replace("\\\\", "/");
+            /** 转换文件 */
+            MultipartFile file = files[0];
+            System.out.println(file);
+            tempFileName = file.getOriginalFilename();
+            if (tempFileName.indexOf("\\") > -1) {
+                tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
             }
-
-            //统一上传---文件不能传输到后台,使用独立上传
-//            String tempFileName = files.getOriginalFilename();
-//            if (tempFileName.indexOf("\\") > -1) {
-//                tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
-//            }
-//            String uuid = IdUtil.createIdByTime();
-//            JSONObject jsonObject = new JSONObject();
-//            jsonObject.put("bak10","");
-//            jsonObject.put("bak9","");
-//            jsonObject.put("flag","0");
-//            jsonObject.put("lastModifiedDate","");
-//            sysFileFeignClient.uploadFileSaveLayui(files, request, response, tempFileName, "ff8129325ed94773bfd9f33145ccd080", sysUserInfo.getUserId(), uuid, "ckupload", jsonObject.toJSONString());
-//            SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
-
+            String uuid = IdUtil.createIdByTime();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("flag", "0");
+            sysFileFeignClient.uploadFileByValueUpload(file, request, response, tempFileName, "1638bb9aecf_48ca8867", sysUserInfo.getUserId(), uuid, "ckeditor_"+DateUtil.format(new Date(), "yyyyMMddHHmmssS"), jsonObject.toJSONString());
+            sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
+            //上传成功
+            r.put("uploaded", 1);
+            r.put("fileName", tempFileName);
+            r.put("url", sysFile.getFilePath());
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("富文本编辑器上传图片时发生异常", e);
-            msg = "服务器异常";
+            r.put("uploaded", 0);
+            r.put("message", "文件上传失败");
+            r.put("error", r);
         } finally {
-            if (!StrUtil.isBlank(msg)) {
-                //上传失败
-                result.put("uploaded", 0);
-                JSONObject errorObj = new JSONObject();
-                errorObj.put("message", msg);
-                result.put("error", errorObj);
-            } else {
-                //上传成功
-                result.put("uploaded", 1);
-                result.put("fileName", fileName);
-                result.put("url", File.separator + imageUrl);
-            }
-            out.println(result.toJSONString());
+            return JSON.toJSONString(r);
         }
     }
 }

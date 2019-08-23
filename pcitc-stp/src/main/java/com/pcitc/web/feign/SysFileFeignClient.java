@@ -30,7 +30,7 @@ public interface SysFileFeignClient {
                                      @RequestParam("request") HttpServletRequest request, @RequestParam("response") HttpServletResponse response,
                                      @RequestParam("filename") String filename, @RequestParam("filepathconfig") String filepathconfig, @RequestParam("userid") String userid, @RequestParam("uuid") String uuid);
 
-        @RequestMapping(method = RequestMethod.POST, value = "/sysfile-provider/sysfile/uploadFileSaveLayui",
+     @RequestMapping(method = RequestMethod.POST, value = "/sysfile-provider/sysfile/uploadFileSaveLayui",
             produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadFileSaveLayui(@RequestPart(value = "file") MultipartFile filePart,
@@ -46,5 +46,12 @@ public interface SysFileFeignClient {
 
     @RequestMapping(value = "/sys-provider/processlogs/process-logs-save", method = RequestMethod.POST)
 	public Result saveSysReqLogs(@RequestBody SysReqLogs bean);
-   
+
+    @RequestMapping(method = RequestMethod.POST, value = "/sysfile-provider/sysfile/uploadFileByValueUpload",
+            produces = {MediaType.APPLICATION_JSON_UTF8_VALUE},
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String uploadFileByValueUpload(@RequestPart(value = "upload") MultipartFile filePart,
+                                      @RequestParam("request") HttpServletRequest request, @RequestParam("response") HttpServletResponse response,
+                                      @RequestParam("filename") String filename, @RequestParam("filepathconfig") String filepathconfig, @RequestParam("userid") String userid, @RequestParam("uuid") String uuid, @RequestParam("formId") String formId, @RequestParam("flag") String flag);
+
 }
