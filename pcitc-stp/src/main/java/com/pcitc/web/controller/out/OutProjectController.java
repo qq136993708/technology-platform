@@ -3,6 +3,7 @@ package com.pcitc.web.controller.out;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +47,8 @@ public class OutProjectController extends BaseController {
 	private static final String GET_OUT_PROJECT = "http://pcitc-zuul/system-proxy/out-provider/get-project-list/";
 	
 	private static final String FILE_DOWNLOAD = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/downloadFileFromOss";
+	
+	private static final String PROJECT_COMPANY_LIST = "http://pcitc-zuul/system-proxy/out-provider/project-company-list";
 	
 	
 	@RequestMapping(value = "/out/ini-project-list")
@@ -183,5 +186,27 @@ public class OutProjectController extends BaseController {
 		
 		//File f = new File(fileName);
 		//FileUtil.fileDownload(f, res);
+	}
+	
+	/*
+	 * @description 查询分子公司
+	 */
+	@RequestMapping(value = "/out/project-company-list", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OutProjectInfo> outCompanyList(@RequestParam(value = "jfly", required = true) String jfly,@RequestParam(value = "dwxz", required = true) String dwxz,@RequestParam(value = "gs", required = false) String gs) {
+
+		System.out.println("====/out/project-company-list");
+		OutProjectInfo outProjectInfo = new OutProjectInfo();
+		outProjectInfo.setDefine11(jfly);
+		outProjectInfo.setTypeFlag(dwxz);
+		outProjectInfo.setDefine8(gs);
+		HttpEntity<OutProjectInfo> entity = new HttpEntity<OutProjectInfo>(outProjectInfo, this.httpHeaders);
+		ResponseEntity<List> responseEntity = this.restTemplate.exchange(PROJECT_COMPANY_LIST, HttpMethod.POST, entity, List.class);
+		
+		
+		
+		List<OutProjectInfo> arrList = responseEntity.getBody();
+
+		return arrList;
 	}
 }

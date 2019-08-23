@@ -203,9 +203,9 @@
     </button>
 </div>
 <div class="layui-inline">
-    <button class="layui-btn layuiadmin-btn-list" data-type="expertEvent">
-        <i class="layui-icon  layuiadmin-button-btn">选择专家</i>
-    </button>
+    <!--<button class="layui-btn layuiadmin-btn-list" data-type="expertEvent">-->
+        <!--<i class="layui-icon  layuiadmin-button-btn">选择专家</i>-->
+    <!--</button>-->
     <!--<button class="layui-btn layuiadmin-btn-list" data-type="showExpertEvent">-->
         <!--<i class="layui-icon  layuiadmin-button-btn">已选专家</i>-->
     <!--</button>-->
@@ -460,6 +460,7 @@
                     "groupFlag" : groupFlag,
                     "gsbmbmFlag" : gsbmbmFlag,
                     "zycbmFlag" : zycbmFlag,
+                    "desc" : "desc",
                     "zylbbmFlag" : zylbbmFlag
 
                 }
@@ -706,12 +707,12 @@
             }
         });
         table.on('tool(processdef-table)', function (obj) {
+            var selectRowData = obj.data;
             if (obj.event === 'pj') {
-                openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + obj.xmid);
+                openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + selectRowData.xmid);
             }
             if (obj.event === 'zjxz') {
-                var selectRowData = obj.data;
-                openFullWin("选择专家", "/expertController/getUserChoicePage?flag=xm&projectId=" + obj.xmid+"&projectName="+encodeURI(encodeURI(obj.xmmc))+"&unitCode="+obj.define9);
+                openFullWin("选择专家", "/expertController/getUserChoicePage?flag=xm&projectId=" + selectRowData.xmid+"&projectName="+encodeURI(encodeURI(selectRowData.xmmc))+"&unitCode="+selectRowData.define9);
             }
         });
         $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
@@ -721,7 +722,7 @@
             var mergeIndex = 0;//定位需要添加合并属性的行数
             var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
             var columsName = [ 'realIndex', 'hth', 'nd', 'define10', 'xmmc', 'ktmc', 'fwdx', 'define1', 'project_property', 'zylb', 'jdh', 'cgmc', 'jdjg', 'psdj', 'xkfl' ];//需要合并的列名称
-            var columsIndex = [ 0, 1, 2, 3, 4, 5, 17, 18, 19, 20, 21, 22, 23, 24, 25];//需要合并的列索引值
+            var columsIndex = [ 0, 1, 2, 3, 4, 5,6, 17, 18, 19, 20, 21, 22, 23, 24, 25];//需要合并的列索引值
             // hth 合同号
             for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
                 var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行

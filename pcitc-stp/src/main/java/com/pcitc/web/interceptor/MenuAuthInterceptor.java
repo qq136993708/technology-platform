@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,10 +21,11 @@ import com.pcitc.base.util.HostUtil;
  */
 @Component
 public class MenuAuthInterceptor implements HandlerInterceptor {
-	
-	private static Set<String> commonKey = new HashSet();
-	
-	static {
+
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		
+		Set<String> commonKey = new HashSet();
 		commonKey.add("login");
 		commonKey.add("stpHome");
 		commonKey.add("index");
@@ -51,7 +51,7 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 		commonKey.add("expertController");
 		
 		commonKey.add("out");
-		
+		commonKey.add("home_budget_02");
 		commonKey.add("logout");
 		commonKey.add("common-login");
 		commonKey.add("mobile");
@@ -69,10 +69,10 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 		commonKey.add("activiti");
 		commonKey.add("emailTemplate");
 		commonKey.add("one_level_main");
-	}
-
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		commonKey.add("unit");
+		commonKey.add("fullSearch");
+		commonKey.add("user");
+		
 		String path = request.getRequestURI();
 		String pathKey = path.split("/")[1];
 		if (pathKey != null && !pathKey.equals("")) {
@@ -81,9 +81,6 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 			if (authSet != null) {
 				commonKey.addAll(authSet);
 			}
-			System.out.println("1MenuAuthInterceptor=====-"+pathKey);
-			System.out.println("2MenuAuthInterceptor=====-"+authSet);
-			
 			if (path.contains("/mobile/investment_02") || path.contains("/mobile/get_Mobile_Month_Cash_Flow")) {
 				// 移动的特殊处理
 				String mobileLeader = (String)request.getSession().getAttribute("mobileLeader");
@@ -96,6 +93,7 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 				}
 				
 			}
+			
 			if (!commonKey.contains(pathKey)) {
 				// 没有权限访问才功能
 				System.out.println("3MenuAuthInterceptor=====-"+pathKey);
@@ -136,7 +134,7 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 	    	System.out.println("跳转路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			response.setHeader("Content-Type", "text/html; charset=utf-8");
 			//response.setHeader("X-Content-Type-Options", "nosniff");
-			Result rs = new Result(false, reqFlag?"/stpHome":"/login", "权限不足，无法访问!", "404");
+			Result rs = new Result(false, reqFlag?"/stpHome":"/login", "越权访问，请重新登录操作!", "404");
 			PrintWriter out = response.getWriter();
 			out.println(JSON.toJSON(rs));
 			out.close();

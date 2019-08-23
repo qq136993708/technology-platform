@@ -33,4 +33,10 @@ public interface OutRewardService {
 	public List getRewardInfoByYjy(HashMap<String, String> map);
 
     public LayuiTableData getOutRewardListPageExpert(LayuiTableParam param);
+
+	public Integer addReward(OutReward outReward);
+	
+	public Integer updateReward(OutReward outReward);
+
+	public Integer delOutRewardById(String dataId);
 }

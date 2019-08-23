@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import com.pcitc.base.util.DateUtil;
+
 public class OutProjectInfo {
     private String dataId;
 
@@ -226,7 +228,7 @@ public class OutProjectInfo {
 	}
 
 	public String getCreateDateStr() {
-		return createDateStr;
+		return DateUtil.dateToStr(this.createDate, DateUtil.FMT_SS);
 	}
 
 	public void setCreateDateStr(String createDateStr) {

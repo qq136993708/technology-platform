@@ -22,6 +22,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutReward;
 import com.pcitc.base.stp.out.OutRewardExample;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.mapper.out.OutRewardMapper;
 import com.pcitc.service.out.OutRewardService;
 
@@ -231,4 +232,23 @@ public class OutRewardServiceImpl implements OutRewardService {
 
     @Autowired
     ZjkBaseInfoServiceClient zjkBaseInfoServiceClient;
+
+	@Override
+	public Integer addReward(OutReward outReward) {
+		OutReward newoOutReward = (OutReward) MyBeanUtils.createBean(OutReward.class);
+		MyBeanUtils.copyPropertiesIgnoreNull(outReward, newoOutReward);
+		return outRewardMapper.insert(newoOutReward);
+	}
+
+	@Override
+	public Integer updateReward(OutReward outReward) {
+		OutReward newoOutReward = (OutReward) MyBeanUtils.createBean(OutReward.class);
+		MyBeanUtils.copyPropertiesIgnoreNull(outReward, newoOutReward);
+		return outRewardMapper.updateByPrimaryKey(newoOutReward);
+	}
+
+	@Override
+	public Integer delOutRewardById(String dataId) {
+		return outRewardMapper.deleteByPrimaryKey(dataId);
+	}
 }

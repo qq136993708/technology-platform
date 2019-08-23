@@ -17,7 +17,7 @@ input{letter-spacing:.015rem}
     background-size: .12rem;
     margin-right: .05rem;}
 .banner{margin-top:0 !important;overflow:-webkit-paged-x !important}
-.main{height:auto;overflow:hidden;background-image:linear-gradient(-180deg,#F6F8FC 2%,#EAEEF7 100%);box-shadow:0 2px 12px 0 rgba(31,54,74,0.23);border-radius:6px;width:97%;margin:0 auto;padding:0 2%;box-sizing:border-box}
+.main{height:auto;min-height: 8rem;overflow:hidden;background-image:linear-gradient(-180deg,#F6F8FC 2%,#EAEEF7 100%);box-shadow:0 2px 12px 0 rgba(31,54,74,0.23);border-radius:6px;width:97%;margin:0 auto;padding:0 2%;box-sizing:border-box}
 .main-card{height:auto;overflow:hidden}
 .main-card{margin-top:2%;background:#FFFFFF;padding-top:.10rem;padding-right:2%;box-shadow:0 4px 14px 0 rgba(117,117,117,0.10);border-radius:8px}
 .main-card .main-card-header{font-size:.5rem;height:1.3rem;line-height:1.3rem;color:#333333;margin-left:.51rem;margin-right:.51rem}
@@ -186,6 +186,11 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(1),
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2){position:relative;padding-left:.19rem;color:#426570;
     font-size:.14rem;width: 40%;display: block;float: left;}
+.work .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(1){width: 16%}
+.work .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2){
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;width: 70%;}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2){margin-left:.19rem}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(1):after,.layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2):after{content:'';width:6px;display:inline-block;position:absolute;left:0;height:6px;top:.08rem;background-color:#499AED}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2):after{background-color:#48BA97}
@@ -253,11 +258,9 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .layui-layer-mobile .layui-layer-ico{background:url("/mobile/images/icon-close.png") no-repeat;background-size:100%;height:.44rem;width:.26rem;background-position:0 0 !important}
 .layui-layer-mobile  iframe{border-radius:6px !important}
 .project-d,.work-add{box-shadow:none;background:none;width:100%;padding:0;margin:0;border-radius:0 !important}
-.project-d .title{margin:0 4%}
+.project-d .title{margin:0 auto;width: 92%;}
 .project-d .title h4{color:rgba(23,48,56,1);font-size:.24rem;margin:.23rem 0 .1rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;}
+    }
 .project-d .title h4 span{border-left:6px solid #4190F6;height:.22rem;width:.06rem;margin-right:.1rem}
 .project-d .title p{width:.96rem;margin-bottom:.1rem;height:.02rem;border-bottom:0.5px solid rgba(211,211,211,1)}
 .project-d .title .contract-h{color:rgba(66,101,112,1);font-size:.14rem;padding-right:.1rem}
@@ -322,9 +325,13 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .personnel .list .lady{background:#F7F8FD url("/mobile/images/icon-p2.png") center bottom no-repeat;background-size:90%}
 .personnel .list .item:nth-child(even){background-color:#fff}
 .personnel .list .item .item-img{width:.52rem;background:#fff;margin-right:.1rem;border-radius:50%;float:left;border:2px solid #4190F6;height:.52rem;overflow:hidden}
+.personnel .list .lady .item-img{border-color: #EF7561;}
 .personnel .list .item .item-img img{width:.52rem}
 .personnel .list .item  .item-cont{float:right;width:82%}
-.personnel .list .item  .item-cont p:nth-child(1){margin-bottom:.09rem}
+.personnel .list .item  .item-cont p:nth-child(1){margin-bottom:.09rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;}
 .personnel .list .item  .item-cont p:nth-child(1) span{color:#4190F6;font-size:.18rem;font-weight:600}
 .personnel .list .lady  .item-cont p:nth-child(1) span{color:#EF7561}
 .personnel .list .item  .item-cont p:nth-child(1) span:nth-child(3){color:#879EA6;font-size:.14rem}
@@ -347,7 +354,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .personnel-details .list .item .item-c span:nth-child(2){text-indent:.04rem;display:inline-block;width:84%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;position:relative;top:.04rem}
 .personnel-details .tab-c{height:.42rem;padding:0 .05rem;border-radius:.06rem;background-color:rgba(255,255,255,1);box-shadow:0px 4px 14px 0px rgba(0,0,0,0.16);margin-bottom:.3rem}
 .personnel-details .tab-c .layui-tab-title{border:none !important}
-.personnel-details .layui-tab-title li{padding:.0rem .15rem;min-width:.6rem;height:.34rem;line-height:.34rem;color:rgba(66,101,112,1);font-size:.14rem;margin-top:.04rem;border-right:1px solid #D6E0EC;text-align:center}
+.personnel-details .layui-tab-title li{padding:.0rem .12rem;min-width:.6rem;height:.34rem;line-height:.34rem;color:rgba(66,101,112,1);font-size:.14rem;margin-top:.04rem;border-right:1px solid #D6E0EC;text-align:center}
 .personnel-details .layui-tab-title li.layui-this{background-color:#4D96FF;color:white;border-radius:.06rem;border-right:0}
 .personnel-details .layui-tab-title li:last-child{border-right:0}
 .personnel-details .layui-tab-title .layui-this:after{border:none !important}
@@ -481,17 +488,18 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
     border: 1px solid rgba(65,144,246,0.22);}
 .work-add textarea::-webkit-input-placeholder,.work-add .title  input,.work-add textarea{color: #173038 ;font-size: .12rem}
 .implement{background: white}
-.implement .layui-tab-content .layui-tab-item>ul li{height: .48rem;line-height: .48rem;background-color: white !important;}
+.implement .layui-tab-content .layui-tab-item>ul li{height: .48rem;line-height: .48rem;background-color: white !important;overflow: hidden}
 .implement .layui-tab-content .layui-tab-item>ul li.layui-this{background: #F1F5F9 !important;;}
 .implement .layui-tab-content .layui-tab-item>ul li span{font-size: .17rem;color: black;}
 .implement .layui-tab-content .layui-tab-item>ul li span:nth-child(1){color: #8E8D93;padding: 0 .18rem 0 .06rem}
+.implement .layui-tab-content .layui-tab-item>ul li span span:nth-child(1){width: 25%;display: inline-table;}
 .implement .layui-tab-content .layui-tab-item>ul li span:nth-child(3) img{float: right;width: .34rem;height: .34rem;position: relative;top: .07rem}
 
 .implement .layui-tab-content .layui-tab-item>ul li:last-child{border-bottom: 0;}
 .implement .layui-tab-content .layui-tab-item>ul li:nth-child(1){border-top: 0;box-shadow:none;}
 .implement .button-g {
     background-color: white;
-    height: .3rem;position: absolute;bottom: 0;width: 100%;left: 0;
+    height: .3rem;position: fixed;bottom: 0;width: 100%;left: 0;
     padding: .05rem 0;
 }
 .implement .button-g button:nth-child(1) {
