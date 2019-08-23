@@ -33,6 +33,7 @@ import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutProjectPlan;
+import com.pcitc.base.system.Department;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -59,7 +60,7 @@ public class MobileController extends BaseController {
     private static final String GET_OUT_APPRAISAL = "http://pcitc-zuul/system-proxy/out-appraisal-provider/getAppraisalInfoByjdh/";
     
     private static final String getOutProjectPlanByXmId = "http://pcitc-zuul/system-proxy/out-project-plan-provider/getOutProjectPlanByXmId/";
-    
+    private static final String GET_URL    = "http://pcitc-zuul/system-proxy/department-provider/department/get/";
 		
 	@RequestMapping(value = "/mobile/budget")
 	public String budget(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -85,9 +86,21 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/institute")
 	public String institute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		String nd = HanaUtil.getCurrentYear();
-		request.setAttribute("nd", nd);
+		
+		
 		return "/mobile/institute";
+	}
+
+	@RequestMapping(value = "/mobile/institute_new")
+	public String institute_new(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String id = CommonUtil.getParameter(request, "id", "");
+		ResponseEntity<Department> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), Department.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		logger.info("============远程返回  statusCode " + statusCode);
+		Department department = responseEntity.getBody();
+		request.setAttribute("department", department);
+		return "/mobile/institute_new";
 	}
 	
 	

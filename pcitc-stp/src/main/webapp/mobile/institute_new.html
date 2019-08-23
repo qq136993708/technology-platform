@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+    <style>
+        .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;height: .75rem;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
+    </style>
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/mobile/temIndex"><img src="/mobile/images/icon-back.png"/> </a>
+        <h4>${department.type}</h4>
+    </div>
+</header>
+<main class="main  project institute">
+    <div class="layui-row">
+        <div class="layui-tab-content">
+            <div class="layui-col-xs4">
+                <button id="more">更多条件</button>
+            </div>
+        </div>
+        <div class="menu-more">
+            <ul>
+                <li><a href="#synopsis">企业简介</a></li>
+                <li><a href="#history">发展历程</a></li>
+                <li><a href="#structure">组织结构</a></li>
+                <li><a href="#personnel">人员构成</a></li>
+                <li><a href="#honor">荣誉与业绩</a></li>
+                <li><a href="#equipment">主要科研装备</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="item synopsis">
+        <h4 id="synopsis">企业简介</h4>
+        <span>Company Introduction</span>
+        <p class="synopsis-bg"></p>
+        <div>${department.breif}</div>
+    </div>
+    <div class="item synopsis history">
+        <h4 id="history">发展历程</h4>
+        <span>Development History</span>
+        <div>${department.developHistory}</div>
+    </div>
+    <div class="item synopsis structure">
+        <h4 id="structure">组织结构</h4>
+        <span>Organization Structure</span>
+        <p class="structure-bg"></p>
+        <div>${department.organization}</div>
+        
+    </div>
+    <div class="item personnel">
+        <h4 id="personnel">人员结构</h4>
+        <span>Structure of Personnel</span>
+        <p class="personnel-bg"></p>
+       <div>${department.personnel}</div>
+    </div>
+    <div class="item synopsis honor">
+        <h4 id="honor">荣誉与业绩</h4>
+        <span>Honor and Performance</span>
+        <p class="honor-bg"></p>
+        <div>${department.honor}</div>
+    </div>
+    <div class="item equipment">
+        <h4 id="equipment">主要科研装备</h4>
+        <span>Scientific research equipment</span>
+       <div>${department.major}</div>
+    </div>
+</main>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        $("#more").click(function () {
+            $(".menu-more").slideToggle("slow");
+        });
+    });
+</script>
+</body>
+</html>
