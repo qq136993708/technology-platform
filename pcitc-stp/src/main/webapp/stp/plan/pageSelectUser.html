@@ -298,6 +298,9 @@
             }
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
+            if(parent.$(".layui-table-body table").find(".layui-table-none").length!=1){
+                parent.select();
+			}
         },
         
     };
