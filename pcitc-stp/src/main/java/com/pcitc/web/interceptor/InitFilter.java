@@ -8,6 +8,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import com.sinopec.siam.apache.log4j.Logger;
 import com.sinopec.siam.provisioning.timer.ProvisioningEventSubscriberTimer;
@@ -30,7 +31,9 @@ public class InitFilter implements Filter {
 		}
 	}
 
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		chain.doFilter(new XssHttpServletRequestWrapper((HttpServletRequest) request), response);
 	}
 
 	public void destroy() {
