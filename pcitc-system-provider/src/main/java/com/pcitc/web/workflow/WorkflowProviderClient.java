@@ -196,7 +196,7 @@ public class WorkflowProviderClient {
 		for (String key : taskVar.keySet()) {
 			System.out.println(key+"-----taskVar====" + taskVar.get(key));
 		}
-		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
+		// 本次任务节点的下一个节点。特殊节点，根据表单内容来决定下一步的审批人
 		// 启动节点，获取开始的下一个节点的下个节点（二层）
 		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), variables);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
@@ -330,13 +330,10 @@ public class WorkflowProviderClient {
 		Map<String, Object> taskVar = taskService.getVariables(task.getId());
 		// 把启动时的变量也都给下一步
 		for (String key : iniVar.keySet()) {
-			// 几个常用key，不自动处理
-			if (!key.equals("agree") && !key.equals("comment") && !key.equals("auditor")) {
-				taskVar.put(key, iniVar.get(key));
-			}
+			taskVar.put(key, iniVar.get(key));
 		}
 		
-		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
+		// 本次任务节点的下一个节点。特殊节点，根据表单内容来决定下一步的审批人
 		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), iniVar);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
 		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && (taskVar.get("auditor") == null || taskVar.get("auditor").equals(""))) {
