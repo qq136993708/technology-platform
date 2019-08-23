@@ -252,7 +252,7 @@
    						
    					}else
   					{
-   						var temp="<li onclick=\"view('"+xmid+"')\">"+
+   						var temp="<li onclick=\"view('"+xmid+"','"+xmmc+"')\">"+
 	    				"<p>"+
 	                        "<span>"+xmmc+"</span>"+
 	                        "<span>"+setNumStr(ysje)+"</span>"+
@@ -328,20 +328,24 @@
     
     
     
-    function  view(xmid)
+    function  view(xmid,xmmc)
     {
     	
-    	console.log(xmid+"\n"+JSON.stringify(xmid));
-    	layer.open({
-            title : '详情',
-            skin : 'layui-layer-mobile',
-            shadeClose : false,
-            type : 2,
-            fixed : false,
-            maxmin : true,
-            area : [ '95%', '72.5%' ],
-            content : '/mobile/project_details?xmid='+xmid
-        });
+    	//console.log(xmid+"\n"+JSON.stringify(xmid));
+    	if(xmmc!='总计')
+   		{
+    		layer.open({
+                title : '详情',
+                skin : 'layui-layer-mobile',
+                shadeClose : false,
+                type : 2,
+                fixed : false,
+                maxmin : true,
+                area : [ '95%', '72.5%' ],
+                content : '/mobile/project_details?xmid='+xmid
+            });
+   		}
+    	
     }
     
     
