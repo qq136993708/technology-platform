@@ -31,9 +31,7 @@ public class InitFilter implements Filter {
 		}
 	}
 
-	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		chain.doFilter(new XssHttpServletRequestWrapper((HttpServletRequest) request), response);
 	}
 
 	public void destroy() {
