@@ -77,6 +77,14 @@ public class DepartmentServiceImpl implements DepartmentService
 			    return data;
 	}
 
+	
+	
+	public List getDepartmentList(Map map)throws Exception
+	{
+		List<Department> list = departmentMapper.getList(map);
+		return list;
+	}
+	
 
 	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
 	{

@@ -167,7 +167,7 @@
         var myEditor_major = null;
         ClassicEditor.create(document.querySelector('#major'),{}).then(editor => {
         	myEditor_major = editor;
-    	});
+    	}); 
 
         /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
         form.verify({
@@ -190,14 +190,14 @@
             /*parent.layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })*/
-            
-            $("#breif").val(myEditor.getData());
+            console.log("--breif\n"+myEditor.getData());
+             $("#breif").val(myEditor.getData());
             $("#developHistory").val(myEditor_developHistory.getData());
             $("#organization").val(myEditor_organization.getData());
             
             $("#personnel").val(myEditor_personnel.getData());
             $("#honor").val(myEditor_honor.getData());
-            $("#major").val(myEditor_major.getData());
+            $("#major").val(myEditor_major.getData()); 
             
             var url = '/department/save?v_date=' + v_date + "&id=" + id;
             var backurl = "/department/to-list?v_date=" + v_date;
