@@ -30,7 +30,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.Contract;
-import com.pcitc.base.stp.equipment.SreEquipment;
+import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.system.Department;
@@ -61,7 +61,10 @@ public class MobileController extends BaseController {
     
     private static final String getOutProjectPlanByXmId = "http://pcitc-zuul/system-proxy/out-project-plan-provider/getOutProjectPlanByXmId/";
     private static final String GET_URL    = "http://pcitc-zuul/system-proxy/department-provider/department/get/";
-		
+    private static final String PAGE_URL   = "http://pcitc-zuul/system-proxy/department-provider/department/list";
+    
+    
+    
 	@RequestMapping(value = "/mobile/budget")
 	public String budget(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -84,13 +87,55 @@ public class MobileController extends BaseController {
 	
 	
 	@RequestMapping(value = "/mobile/institute")
-	public String institute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String institute(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
 
 		
+		/*List<SysDictionary> listSysDictionary=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+		request.setAttribute("list", listSysDictionary);*/
 		
+		String id = CommonUtil.getParameter(request, "id", "");
+		Department department=null;
+		
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("type", "");
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(PAGE_URL, HttpMethod.POST, entity, JSONArray.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		List<Department> listDepartment =null;
+		if (statusCode == 200)
+		{
+			JSONArray jSONArray = responseEntity.getBody();
+			listDepartment = JSONObject.parseArray(jSONArray.toJSONString(), Department.class);
+			if(listDepartment!=null && listDepartment.size()>0)
+			{
+				request.setAttribute("listDepartment", listDepartment);
+			}
+		}
+		
+		
+		if(id.equals(""))
+		{
+			if(listDepartment!=null)
+			{
+				department=listDepartment.get(0);
+			}
+			
+		}else
+		{
+			ResponseEntity<Department> response_Entity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), Department.class);
+			int status_Code = response_Entity.getStatusCodeValue();
+			logger.info("============远程返回  statusCode " + status_Code);
+			department = response_Entity.getBody();
+		}
+		
+		
+		request.setAttribute("department", department);
 		return "/mobile/institute";
 	}
 
+	
 	@RequestMapping(value = "/mobile/institute_new")
 	public String institute_new(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -102,7 +147,6 @@ public class MobileController extends BaseController {
 		request.setAttribute("department", department);
 		return "/mobile/institute_new";
 	}
-	
 	
 	
 	/**
