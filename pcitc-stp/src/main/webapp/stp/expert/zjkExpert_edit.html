@@ -425,14 +425,42 @@
             });
 
             var myEditor = null;
-            ClassicEditor.create(document.querySelector('#userDesc'),{}).then(editor => {
-                myEditor = editor;
-            });
+            ClassicEditor
+                .create( document.querySelector( '#userDesc' ), {
+                    language:"zh-cn"
+                    ,image: {
+                        toolbar: [ 'imageTextAlternative' ]
+                    }
+                    ,
+                    ckfinder: {
+                        uploadUrl: '/sysfile/ckupload5?type=Image'
+                    }
+                })
+                .then( editor => {
+                    myEditor = editor;
+                } )
+                .catch( error => {
+                    console.error( error );
+                } );
 
             var myEditorPeople = null;
-            ClassicEditor.create(document.querySelector('#bak6'),{}).then(editor => {
-                myEditorPeople = editor;
-            });
+            ClassicEditor
+                .create( document.querySelector( '#bak6' ), {
+                    language:"zh-cn"
+                    ,image: {
+                        toolbar: [ 'imageTextAlternative' ]
+                    }
+                    ,
+                    ckfinder: {
+                        uploadUrl: '/sysfile/ckupload5?type=Image'
+                    }
+                })
+                .then( editor => {
+                    myEditorPeople = editor;
+                } )
+                .catch( error => {
+                    console.error( error );
+                } );
             //初始赋值 component-form-group 当前form的lay-filter
             if (id != "0") {
                 ajaxPost("/zjkBaseInfo/getZjkBaseInfoInfo", {"id": id}, function (data) {

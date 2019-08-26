@@ -166,7 +166,8 @@
             ,image: {
                 toolbar: [ 'imageTextAlternative' ]
             }
-            ,ckfinder: {
+            ,
+            ckfinder: {
                 uploadUrl: '/sysfile/ckupload5?type=Image'
             }
         })
@@ -204,7 +205,6 @@
                 ajaxPost("/sysNews/getSysNewsInfo", {"id": id}, function (data) {
                     form.val("sysNews-form", data);
                     myEditor.setData(data.content);
-                    //CKEDITOR.replace(data.content);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/

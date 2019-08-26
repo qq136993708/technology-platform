@@ -119,6 +119,13 @@
                     {
                         field: "bak2",
                         title: "专家名称", event: 'setActive', style: 'cursor: pointer;'
+                        ,templet:function (d) {
+                            if(d.bak5=="1"){
+                                return '<span  style="color: #DC143C">' + d.bak2 +"(已投诉)"+ '</span>'
+                            }else {
+                                return '<span  >' + d.bak2 + '</span>'
+                            }
+                        }
                     },
                     // {
                     //     field: "userId",
