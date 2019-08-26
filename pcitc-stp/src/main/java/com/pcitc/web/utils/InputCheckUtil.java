@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * 输入有效性验证
  * @author uuy
@@ -83,7 +86,25 @@ public class InputCheckUtil
 			}
 		}
 	}
-	
+	public static Object processObjectTag(Object obj) 
+	{
+		if(obj == null) 
+		{
+			return null;
+		}
+		//Map<String, Object> map = MyBeanUtils.transBean2Map(obj);
+		JSONObject json = JSON.parseObject(JSON.toJSONString(obj));
+		for(java.util.Iterator<String> iter = json.keySet().iterator();iter.hasNext();) 
+		{
+			String key = iter.next();
+			Object v = json.get(key);
+			if(v != null && v instanceof java.lang.String) 
+			{
+				json.put(key, filterContentTag(v.toString()));
+			}
+		}
+		return JSON.toJavaObject(json, obj.getClass());
+	}
 	/**
 	 * 
 	 * @param str
