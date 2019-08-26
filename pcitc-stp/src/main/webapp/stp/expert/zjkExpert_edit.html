@@ -473,7 +473,8 @@
                     // $("#county").find("option:selected").text(addressData[2]);
                     global_hos = data;
                     //地址-结束
-                    //myEditor.setData(data.userDesc);
+                    myEditor.setData(data.userDesc);
+                    myEditorPeople.setData(data.bak6);
                     form.render();
                     // $("#companyDivShow").val(data.companyName);
                 });

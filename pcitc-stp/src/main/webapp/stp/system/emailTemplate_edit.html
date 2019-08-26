@@ -91,7 +91,7 @@
             if (id != "0") {
                 ajaxPost("/emailTemplate/getEmailTemplateInfo", {"id": id}, function (data) {
                     form.val("emailTemplate-form", data);
-                    CKEDITOR.instances.content.setData(data.content);
+                    myEditorPeople.setData(data.content);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -124,7 +124,7 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                data.field.content = CKEDITOR.instances.content.getData();
+                data.field.content = myEditorPeople.getData();
                 ajaxPost("/emailTemplate/saveEmailTemplate", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     parent.renderTable();
