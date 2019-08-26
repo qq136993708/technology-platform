@@ -589,7 +589,11 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .menu-more{width: .96rem;    position: absolute;
     top: .26rem;
     left: .16rem;
+    padding-top: .3rem;
     z-index: 0;}
+.institute-m{color: rgba(171, 171, 171, 1);
+    font-size: .14rem;
+    right: .43rem;left: auto;}
 .menu-more ul{    width: .96rem;
     border-radius: .04rem;
     background-color: rgba(255, 255, 255, 1);
