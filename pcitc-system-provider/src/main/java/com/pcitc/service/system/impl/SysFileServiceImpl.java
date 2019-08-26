@@ -708,6 +708,187 @@ public class SysFileServiceImpl implements SysFileService {
 		return JSONArray.parseArray(JSON.toJSONString(fileList)).toJSONString();
 	}
 
+	@Transactional(isolation = Isolation.READ_UNCOMMITTED)
+	public String uploadFileByValueUpload(@RequestParam(value = "upload", required = false) MultipartFile filePart, HttpServletRequest request, HttpServletResponse response, String filename, String filepathconfig, String userid, String uuid, String formId, String flag) {
+		System.out.println(filePart);
+		MultipartFile[] files = new MultipartFile[] { filePart };
+		String strUserId = userid;
+		FileResult msg = new FileResult();
+		ArrayList<Integer> arr = new ArrayList<>();
+		String strSavePath = "";
+		SysFileConfig sysFileConfig = sysFileConfigService.selectByPrimaryKey(filepathconfig);
+		strSavePath = sysFileConfig.getPosition();
+		JSONObject jsonObject = JSONObject.parseObject(flag);
+		String strCjsj = jsonObject.getString("lastModifiedDate");
+		String mobile_longlat = jsonObject.getString("bak10");// 经纬度
+		String mobile_address = jsonObject.getString("bak9");// 地址
+		if (strCjsj!=null&&!"".equals(strCjsj)) {
+			strCjsj = DateUtil.dateAddHour(strCjsj, DateUtil.FMT_SS, 8);
+		} else {
+			strCjsj = "";
+		}
+		flag = jsonObject.getString("flag");
+		// 缓存当前的文件
+		List<SysFile> fileList = new ArrayList<>();
+		for (int i = 0; i<files.length; i++) {
+			MultipartFile file = files[i];
+			if (!file.isEmpty()) {
+				InputStream in = null;
+				OutputStream out = null;
+				SysFile sysFile = null;
+				String strFileSuffix = "";
+				try {
+					// 获取文件MD5
+					String strMd5 = fileService.getMD5ByInputStream(file.getInputStream());
+					// 查询数量
+					List<SysFile> sysFiles = getSysFileByMd5(strMd5);
+					if (sysFiles!=null&&sysFiles.size()>0) {
+						sysFile = sysFiles.get(0);
+						strFileSuffix = sysFile.getFileSuffix().toLowerCase();
+						// 这样也可以上传同名文件了
+						String filePrefixFormat = "yyyyMMddHHmmssS";
+						String savedName = DateUtil.format(new Date(), filePrefixFormat)+"_"+filename;
+						sysFile.setId(uuid);
+						sysFile.setFileName(filename);
+						sysFile.setSavedName(savedName);
+						sysFile.setCreateDateTime(DateUtil.format(new Date(), DateUtil.FMT_SSS));
+						sysFile.setUpdateDateTime(DateUtil.format(new Date(), DateUtil.FMT_SSS));
+						sysFile.setCreateUserId(strUserId);
+						sysFile.setDeleted("0");
+						sysFile.setIsDel("0");
+						sysFile.setFileMd(strMd5);
+						sysFile.setVersion(filepathconfig);
+						sysFile.setFormId(sysFileConfig.getMenuId());
+						sysFile.setStartTime("");
+						sysFile.setEndTime("");
+						sysFile.setFilePublish("");
+						sysFile.setFilePwd("");
+						sysFile.setFileKind("");
+						sysFile.setBak4("");
+						sysFile.setBak3("");
+						sysFile.setBak2("");
+						sysFile.setBak1("");
+						sysFile.setFlag((flag==null||"".equals(flag)) ? "" : flag.toString());
+						sysFile.setDataid((formId==null||"".equals(formId)) ? "" : formId.toString());
+						this.insert(sysFile);
+					} else {
+						String filePrefixFormat = "yyyyMMddHHmmssS";
+						String strSuffix = filename.substring(filename.lastIndexOf(".")+1);
+						// 文件名，带后缀
+						String savedName = DateUtil.format(new Date(), filePrefixFormat)+"_"+IdUtil.createFileIdByTime()+"."+strSuffix;
+						// 将文件写入oss服务器
+						String filePath = OSSUtil.uploadFileByInputStream(file.getInputStream(), uploaderPath+strSavePath+"/", savedName);
+						sysFile = new SysFile();
+						sysFile.setId(uuid);
+						sysFile.setFileName(filename);
+						sysFile.setSavedName(savedName);
+						sysFile.setCreateDateTime(DateUtil.format(new Date(), DateUtil.FMT_SSS));
+						sysFile.setUpdateDateTime(DateUtil.format(new Date(), DateUtil.FMT_SSS));
+						sysFile.setCreateUserId(strUserId);
+						sysFile.setDeleted("0");
+						sysFile.setFileMd(strMd5);
+						sysFile.setVersion(filepathconfig);
+						sysFile.setFormId(sysFileConfig.getMenuId());
+						sysFile.setFileSize(file.getSize()+"");
+						sysFile.setFilePath(filePath);
+						sysFile.setFileSuffix(strSuffix);
+						sysFile.setFlag((flag==null||"".equals(flag)) ? "" : flag.toString());
+						sysFile.setDataid((formId==null||"".equals(formId)) ? "" : formId.toString());
+						sysFile.setBak5(strSavePath+File.separator+savedName);
+
+						strSuffix = strSuffix.toLowerCase();
+
+						// 获取文件经纬度,创建时间
+						sysFile.setBak6(strCjsj);// 文件实际创建时间
+						if ("jpg".equals(strSuffix)||"jpeg".equals(strSuffix)) {
+							String[] strings = fileService.getFileLatAndLong(sysFile.getFilePath(), new String[] { "GPS Longitude", "GPS Latitude", "Date/Time" });
+							if (strings[0]!=null&&!"".equals(strings[0])) {
+								sysFile.setBak8(strings[0]+","+strings[1]);// 文件经纬度
+								sysFile.setBak7(GetLocation.getLocationPosition(strings[0], strings[1]));// 地址
+							}
+							if (strings[2]!=null&&!"".equals(strings[2])) {
+								sysFile.setBak6(strings[2].substring(0, strings[2].indexOf(" ")).replace(":", "-")+strings[2].substring(strings[2].indexOf(" "), strings[2].length()));// 手机端获取日期
+							}
+							sysFile.setBak8((mobile_longlat==null||"".equals(mobile_longlat)) ? sysFile.getBak8() : mobile_longlat);
+							sysFile.setBak7((mobile_address==null||"".equals(mobile_address)) ? sysFile.getBak7() : mobile_address);
+						}
+						sysFile.setBak7(mobile_address);
+						if ("jpg".equals(strSuffix)||"jpeg".equals(strSuffix)||"png".equals(strSuffix)||"bmp".equals(strSuffix)) {
+							/*
+							 * // 保存图片路径，压缩图片 String partImgPath = ""; // 压缩
+							 * String strImgType = sysFileConfig.getImgType();
+							 * String strImgDesc = sysFileConfig.getImgDesc();
+							 * if ("0".equals(strImgType)) { String[]
+							 * strImgTypeArray = strImgDesc.split(":");
+							 * partImgPath =
+							 * ImageUtils.getImgSize(Integer.parseInt
+							 * (strImgTypeArray[0]),
+							 * Integer.parseInt(strImgTypeArray[1]),
+							 * file.getInputStream(),
+							 * uploaderPath+strSavePath+File
+							 * .separator+"img_"+savedName); } else if
+							 * ("1".equals(strImgType)) { strImgDesc =
+							 * strImgDesc==null ? "0.5" : strImgDesc;
+							 * partImgPath =
+							 * ImageUtils.getImgScale(Double.parseDouble
+							 * (strImgDesc), file.getInputStream(),
+							 * uploaderPath+
+							 * strSavePath+File.separator+"img_"+savedName); }
+							 * else if ("2".equals(strImgType)) { String[]
+							 * strImgTypeArray = strImgDesc.split(":");
+							 * partImgPath =
+							 * ImageUtils.getImgSizeNoScale(Integer
+							 * .parseInt(strImgTypeArray[0]),
+							 * Integer.parseInt(strImgTypeArray[1]),
+							 * file.getInputStream(),
+							 * uploaderPath+strSavePath+File
+							 * .separator+"img_"+savedName); } else {
+							 * partImgPath = ImageUtils.getImgScale(0.5f,
+							 * file.getInputStream(),
+							 * uploaderPath+strSavePath+File
+							 * .separator+"img_"+savedName); }
+							 * sysFile.setPartImgPath(partImgPath);
+							 */
+						}
+						insert(sysFile);
+
+						if (sysFile.getFileSuffix()!=null) {
+							if ("docx".equals(sysFile.getFileSuffix())||"doc".equals(sysFile.getFileSuffix())||"txt".equals(sysFile.getFileSuffix())||"xls".equals(sysFile.getFileSuffix())||"xlsx".equals(sysFile.getFileSuffix())||"pdf".equals(sysFile.getFileSuffix())||"xml".equals(sysFile.getFileSuffix())) {
+								fileToEs(sysFile);
+							}
+						}
+					}
+
+					fileList.add(sysFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println(filename+"上传发生异常，异常原因："+e.getMessage());
+					arr.add(i);
+					return JSONArray.parseArray(JSON.toJSONString(fileList)).toJSONString();
+				} finally {
+					try {
+						if (out!=null) {
+							out.close();
+						}
+						if (in!=null) {
+							in.close();
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			} else {
+				arr.add(i);
+			}
+		}
+
+		if (arr.size()>0) {
+			msg.setError("文件上传失败！");
+			msg.setErrorkeys(arr);
+		}
+		return JSONArray.parseArray(JSON.toJSONString(fileList)).toJSONString();
+	}
+
 	public AccessorService getAccessorService() {
 		// AccessorService accessor = new
 		// ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true).createByConfig();

@@ -140,6 +140,10 @@ public interface SysFileService {
     public String uploadFileSaveLayui(@RequestParam(value = "file", required = false) MultipartFile filePart,
                                       HttpServletRequest request, HttpServletResponse response, String filename, String filepathconfig, String userid, String uuid,String formId,String flag);
 
+
+    public String uploadFileByValueUpload(@RequestParam(value = "upload", required = false) MultipartFile filePart,
+                                      HttpServletRequest request, HttpServletResponse response, String filename, String filepathconfig, String userid, String uuid,String formId,String flag);
+
     /**
      * 文件内容到ES
      *
