@@ -207,7 +207,7 @@ layui.use(['jquery','form', 'laydate','table','laypage','layer',"publicMethods"]
           elem: '#year' ,type: 'year'
           
        });
-	        init_companyCode(functionId);
+	        
      	     myTable();
      	     //移除表头的复选框,去掉全选
      	     $(".layui-table-header table thead th input").remove();  
@@ -247,6 +247,7 @@ function search_Event()
 
 function myTable()
 {
+	
 	 var auditStatus=$("#auditStatus").val();
 	 var unitName=$("#unitName").val(); 
 	 var year=$("#year").val(); 
