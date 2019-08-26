@@ -83,11 +83,17 @@ public class SysFileClient {
         sysFileService.deleteSysFileByIdReal();
     }
 
-    @ApiOperation(value = "Layui多文件上传&解析文件到ES", notes = "Layui多上传文件并解析文件内容到ES,返回文件列表(JSON字符串)")
+//    @ApiOperation(value = "Layui多文件上传&解析文件到ES", notes = "Layui多上传文件并解析文件内容到ES,返回文件列表(JSON字符串)")
     @RequestMapping(value = "/sysfile-provider/sysfile/uploadFileSaveLayui", method = RequestMethod.POST)
     public String uploadFileSaveLayui(@RequestParam(value = "file", required = false) MultipartFile filePart,
                                       HttpServletRequest request, HttpServletResponse response, String filename, String filepathconfig, String userid, String uuid,String formId,String flag) throws IOException {
         return sysFileService.uploadFileSaveLayui(filePart, request, response, filename, filepathconfig, userid, uuid,formId,flag);
+    }
+
+    @RequestMapping(value = "/sysfile-provider/sysfile/uploadFileByValueUpload", method = RequestMethod.POST)
+    public String uploadFileByValueUpload(@RequestParam(value = "upload", required = false) MultipartFile filePart,
+                                      HttpServletRequest request, HttpServletResponse response, String filename, String filepathconfig, String userid, String uuid,String formId,String flag) throws IOException {
+        return sysFileService.uploadFileByValueUpload(filePart, request, response, filename, filepathconfig, userid, uuid,formId,flag);
     }
 
     /**
