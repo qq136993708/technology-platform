@@ -23,8 +23,11 @@
             <div class="layui-col-xs4">
                 <button id="more">更多条件</button>
             </div>
+            <div class="layui-col-xs4" style="float: right;">
+                <button id="institute">研究院</button>
+            </div>
         </div>
-        <div class="menu-more">
+        <div class="menu-more more">
             <ul>
                 <li><a href="#synopsis">企业简介</a></li>
                 <li><a href="#history">发展历程</a></li>
@@ -32,6 +35,16 @@
                 <li><a href="#personnel">人员构成</a></li>
                 <li><a href="#honor">荣誉与业绩</a></li>
                 <li><a href="#equipment">主要科研装备</a></li>
+            </ul>
+        </div>
+        <div class="menu-more institute-m">
+            <ul>
+                <li>企业简介</li>
+                <li>发展历程</li>
+                <li>组织结构</li>
+                <li>人员构成</li>
+                <li>荣誉与业绩</li>
+                <li>主要科研装备</li>
             </ul>
         </div>
     </div>
@@ -183,7 +196,10 @@
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
         $("#more").click(function () {
-            $(".menu-more").slideToggle("slow");
+            $(".more").slideToggle("slow");
+        });
+        $("#institute").click(function () {
+            $(".institute-m").slideToggle("slow");
         });
     });
 </script>
