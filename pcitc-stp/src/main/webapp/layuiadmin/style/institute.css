@@ -1,3 +1,9 @@
+::-webkit-scrollbar{width: 5px; height: 5px;}
+::-webkit-scrollbar-button:vertical{display: none;}
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner{background-color: #e2e2e2;}
+::-webkit-scrollbar-thumb{border-radius: 5px; background-color: rgba(0,0,0,.3);}
+::-webkit-scrollbar-thumb:vertical:hover{background-color: rgba(0,0,0,.35);}
+::-webkit-scrollbar-thumb:vertical:active{background-color: rgba(0,0,0,.38);}
 .institute .layui-card-body{padding: 0;}
 .institute .layui-tab-title li{
     font-size:16px;
@@ -67,6 +73,10 @@
 
 .honor  .main-bottom{margin: 67px 260px;}
 .honor  .main-bottom{line-height: 28px;text-align: center;font-size: 14px;color: #494949;}
-
-
+.menu-right{    position: absolute;
+    top: 70px;
+    right: 0;}
+.menu-right ul li{height: 38px;line-height: 38px;color: #000000;opacity: .85;padding: 0 25px;
+    background: rgba(0,0,0,0.03);cursor: pointer;font-size: 14px;}
+.menu-right ul li.layui-this{background: rgba(253,84,66,0.24);color: #FD5442;border-right: 2px solid #FD5442;}
 
