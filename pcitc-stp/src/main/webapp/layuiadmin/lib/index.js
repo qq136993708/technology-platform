@@ -150,8 +150,11 @@ layui.extend({
           "name":$("#LAY_app_tabsheader li.layui-this span").text(),
           "selfRownum":selfRownum
       }
+
       param = JSON.stringify(param)
       window.localStorage.setItem("param",param);
+      var child = $("#"+parent.$(".layui-body .layui-show .layadmin-iframe").eq(0).attr("id"))[0].contentWindow;
+      child.getParam();
   });
   $(".index-fixed li").click(function () {
       $("#mainIframe").attr('src', $("#mainIframe").attr('src'));
