@@ -157,9 +157,23 @@
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
             form.render(null, 'zjkComplaint-form');
             var complaintDesc=null;
-            ClassicEditor.create(document.querySelector('#complaintDesc'),{}).then(editor => {
-                complaintDesc = editor;
-            });
+            ClassicEditor
+                .create( document.querySelector( '#complaintDesc' ), {
+                    language:"zh-cn"
+                    ,image: {
+                        toolbar: [ 'imageTextAlternative' ]
+                    }
+                    ,
+                    ckfinder: {
+                        uploadUrl: '/sysfile/ckupload5?type=Image'
+                    }
+                })
+                .then( editor => {
+                    complaintDesc = editor;
+                } )
+                .catch( error => {
+                    console.error( error );
+                } );
             //初始赋值 component-form-group 当前form的lay-filter
             // if (id != "0") {
             //     ajaxPost("/zjkComplaint/getZjkComplaintInfo", {"id": id}, function (data) {
@@ -203,7 +217,7 @@
                 data.field.isComplet="ROOT_UNIVERSAL_WEHTHER_NO";
                 ajaxPost("/zjkComplaint/saveZjkComplaint", data.field, function (dt, status) {
                     layer.msg("操作成功");
-                    parent.layui.table.reload('zjkComplaintTableId', {where: {param: {}}});
+                    parent.layui.table.reload('zjkChoiceTableId', {where: {param: {}}});
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                 });

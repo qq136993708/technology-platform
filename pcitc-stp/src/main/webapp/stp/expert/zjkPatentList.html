@@ -108,17 +108,17 @@
                     //     }
 
                         ,templet : function(d) {
-                            if (d.define4 == "1") {
-                                return '<span  style="color:red" onclick="showDetailJl(\'' + d.dataId + '\')">' + d.xmmc + '</span>';
-                            }else {
+                            // if (d.define4 == "1") {
+                            //     return '<span  style="color:red" onclick="showDetailJl(\'' + d.dataId + '\')">' + d.xmmc + '</span>';
+                            // }else {
                                 return '<span onclick="showDetailJl(\'' + d.dataId + '\')">' + d.xmmc + '</span>';
-                            }
+                            // }
                         },
 
 
                     }, {
                         field : 'xkfl',
-                        title : '专业领域',
+                        title : '奖励学科分类',
                         width : '15%',
                         style : 'cursor: pointer;'
                     },
@@ -134,7 +134,7 @@
                         align : 'center',
                         templet:function (d) {
                             if (d.define4=="1"){
-                                return "<a class=\"layui-btn layui-btn-xs\" style='background-color:#2ac845' lay-event=\"pj\"><span style=''>查看专家</span></a>";
+                                return "<a class=\"layui-btn layui-btn-xs\" style='background-color:#70ac48' lay-event=\"pj\"><span style=''>查看专家</span></a>";
                             } else {
                                 return "<a class=\"layui-btn layui-btn-xs\" lay-event=\"zjxz\">选择专家</a>";
                             }

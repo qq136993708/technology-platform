@@ -671,6 +671,89 @@ public class EquipmentUtils {
 	
 	
 	
+	
+	public static  boolean  getZycbmDic(String functionId ,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		
+		   boolean flag=false;
+		   List<String> list_temp = httpHeaders.get("Authorization");
+		   if(!functionId.equals(""))
+		   {
+			   if (list_temp != null && list_temp.get(0) != null) 
+			   {
+				   
+				   System.out.println("========getZycbmDic.get(0)>" + list_temp.get(0));
+				   
+			    SysUser userInfo = JwtTokenUtil.getUserFromTokenByValue(list_temp.get(0).split(" ")[1]);
+			    
+			    System.out.println("=======getZycbmDic=userInfo>" + userInfo.getUserName());
+			    
+				HashMap<String, Object> paramMap = new HashMap<String, Object>();
+				paramMap.put("functionId", functionId);
+				System.out.println("========getZycbmDic.getUserPost()>" + userInfo.getUserPost());
+				
+				String[] postArr = userInfo.getUserPost().split(",");
+				System.out.println("========getZycbmDic===============" + userInfo.getUserPost()+" functionId="+functionId);
+				paramMap.put("postIds", Arrays.asList(postArr));
+				
+				httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+				
+				HttpEntity<HashMap<String, Object>> entityv = new HttpEntity<HashMap<String, Object>>(paramMap, httpHeaders);
+				ResponseEntity<JSONArray> response_Entity = restTemplate.exchange(FUNCTION_FILTER_URL , HttpMethod.POST, entityv, JSONArray.class);
+				JSONArray retJson = response_Entity.getBody();
+				System.out.println("========getZycbmDic retJson===============" + retJson.toString());
+				if (retJson != null)
+				{
+					List<SysFunctionProperty> sfpList = JSONArray.parseArray(retJson.toString(), SysFunctionProperty.class);
+					for (int i=0;i<sfpList.size();i++ ) 
+					{
+						
+						SysFunctionProperty sysFunctionProperty=sfpList.get(i);
+						String proCode=sysFunctionProperty.getProCode();
+						String postConfigValue=sysFunctionProperty.getPostConfigValue();
+						System.out.println(proCode + "======-getZycbmDic--键值对---=>" + postConfigValue);
+						if(proCode.equals("zycbm"))
+						{
+							String arr[]=postConfigValue.split("\\$");
+							if(arr!=null)
+							{
+								for (int j=0;j<arr.length;j++ ) 
+								{
+									String str=arr[j];//1020#1040,1041#1060,1061#1080
+									System.out.println(proCode + "==getZycbmDic=str===-----=>" + str);
+									if(str!=null)
+									{
+										String arr2[]=str.split(",");
+										if(arr2!=null && arr2.length>0)
+										{
+											for (int k=0;k<arr2.length;k++ ) 
+											{
+												String postid=arr2[k];
+												if(postid!=null)
+												{
+													if(postid.equals("30130054"))
+													{
+														flag=true;
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						
+					}
+				}
+				
+			  }
+		   }
+		   return flag;
+	}
+	
+	
+	
+	
 	//数据控制配置（直属院）
 	public static List<SysDictionary>  getDirDeparetMentList(String functionId ,RestTemplate restTemplate,HttpHeaders httpHeaders)
 	{
@@ -920,7 +1003,32 @@ public class EquipmentUtils {
 	}
 	
 	
-	
+	public static boolean isHasJHCPost(String unitCode,String unitCodestr)throws Exception
+	{
+		
+		System.out.println("---------isHasJHCPost--="+unitCode);
+		boolean flag=false;//默认不是
+		if(!unitCode.equals(""))
+		{
+			String array[]=unitCode.split(",");
+			for(int i=0;i<array.length;i++)
+			{
+				String strPath=array[i];
+				if(strPath!=null && !strPath.equals(""))
+				{
+					if(strPath.equals(unitCodestr))
+					{
+						flag=true;
+						System.out.println("------------------ 是该机构人员-----------------------");
+						System.out.println("------------------ 是该机构人员-----------------------");
+						System.out.println("------------------ 是该机构人员-----------------------");
+					}
+				}
+				
+			}
+		}
+		return flag;
+	}
 	
 	
 	public static LayuiTableData getHanaSupplierByIds(String supplierIds,String companyCode,HttpServletRequest request, HttpServletResponse response,RestTemplate restTemplate,HttpHeaders httpHeaders)

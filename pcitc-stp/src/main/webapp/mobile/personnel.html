@@ -35,39 +35,36 @@
     </div>
     <div class="more-condition">
         <div class="more-bg">
+        
+          <div class="item">
+                <p><span>& </span>专家类型</p>
+                <ul id="bak3">
+                    <#list zjlxList as vo>
+                      <li>${vo.name}</li>
+                    </#list>
+                </ul>
+            </div>
+            
             <div class="item">
-                <p><span>& </span>专业处</p>
-                <ul>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
+                <p><span>& </span>职称</p>
+                <ul id="expertProfessinal">
+                   <#list zcxxList as vo>
+                      <li>${vo.name}</li>
+                    </#list>
                 </ul>
             </div>
             <div class="item">
-                <p><span>& </span>研究院</p>
-                <ul>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
+                <p><span>& </span>行业领域</p>
+                <ul id="expertProfessionalField">
+                    <#list hylyList as vo>
+                      <li>${vo.name}</li>
+                    </#list>
                 </ul>
             </div>
-            <div class="item">
-                <p><span>& </span>部门</p>
-                <ul>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                    <li>勘探条件</li>
-                </ul>
-            </div>
+            
         </div>
         <div class="button-g">
-            <button>确定</button>
+            <button id="search_ok">确定</button>
             <button id="reset">重置</button>
         </div>
     </div>
@@ -109,9 +106,7 @@
     layui.use(['jquery','layer','element','laydate'], function(){
         var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
         $(".more-condition").css("height",document.body.clientHeight/100+"rem");
-        $(".more-bg ul li").click(function () {
-            $(this).addClass("layui-this")
-        });
+        
         $("#reset").click(function () {
             $(".more-bg ul li").removeClass("layui-this");
         });
@@ -120,6 +115,43 @@
         	search();
         });
         
+        
+        
+        $(".more-bg>div:nth-child(1) ul li").click(function () {
+            $(".more-bg>div:nth-child(1) ul li").each(function () {
+               $(this).removeClass("layui-this")
+            });
+            if($(this).attr("class")==undefined || $(this).attr("class")==''){
+                $(this).addClass("layui-this")
+            }else {
+                $(this).removeClass("layui-this")
+            }
+        });
+        $(".more-bg>div:nth-child(2) ul li").click(function () {
+            $(".more-bg>div:nth-child(2) ul li").each(function () {
+                $(this).removeClass("layui-this")
+            });
+            if($(this).attr("class")==undefined || $(this).attr("class")==''){
+                $(this).addClass("layui-this")
+            }else {
+                $(this).removeClass("layui-this")
+            }
+        });
+        $(".more-bg>div:nth-child(3) ul li").click(function () {
+            $(".more-bg>div:nth-child(3) ul li").each(function () {
+                $(this).removeClass("layui-this")
+            });
+            if($(this).attr("class")==undefined || $(this).attr("class")==''){
+                $(this).addClass("layui-this")
+            }else {
+                $(this).removeClass("layui-this")
+            }
+        });
+        
+        $("#search_ok").click(function () {
+        	$(".more-condition").slideToggle("slow");
+        	search();
+        });
         
         $("#kMore").click(function () {
             $(".more-condition").slideToggle("slow");
@@ -276,10 +308,30 @@
     function search()
     {
     	
+    	
+    	var bak3=$("#bak3").find(".layui-this").html();
+    	var expertProfessinal=$("#expertProfessinal").find(".layui-this").html();
+    	var expertProfessionalField=$("#expertProfessionalField").find(".layui-this").html(); 
+    	
+    	
+    	if(typeof(bak3) == "undefined")
+    	{
+    		bak3="";
+    	}
+    	if(typeof(expertProfessinal) == "undefined")
+    	{
+    		expertProfessinal="";
+    	}
+    	if(typeof(expertProfessionalField) == "undefined")
+    	{
+    		expertProfessionalField="";
+    	}
+    	console.log("专家类型="+bak3+" 职称="+expertProfessinal+" 行业领域="+expertProfessionalField);
+    	var temp="&bak3="+bak3+"&expertProfessinal="+expertProfessinal+"&expertProfessionalField="+expertProfessionalField
     	var v_date = (new Date()).getTime();
    	    queryTabel("/mobile/zjk-ys-list?key="+$("#key").val()+"&v_date="+v_date,"ys_list_id","POST");
-   	    queryAllExpert("/mobile/getAllExpertTableData?key="+$("#key").val(),"all_list_id","POST");
-   	    page("all_list_id","/mobile/getAllExpertTableData?v_date="+(new Date()).getTime()+"&key="+$("#key").val(),"POST","queryAllExpert");
+   	    queryAllExpert("/mobile/getAllExpertTableData?key="+$("#key").val()+temp,"all_list_id","POST");
+   	    page("all_list_id","/mobile/getAllExpertTableData?v_date="+(new Date()).getTime()+"&key="+$("#key").val()+temp,"POST","queryAllExpert");
     }
     
     search();

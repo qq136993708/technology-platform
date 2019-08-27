@@ -19,7 +19,7 @@ import com.sinopec.siam.apache.log4j.Logger;
  * xss攻击过滤
  *
  */
-@Component
+//@Component
 public class XssFilter implements Filter {
 	private final Logger log = Logger.getLogger(XssFilter.class);
 

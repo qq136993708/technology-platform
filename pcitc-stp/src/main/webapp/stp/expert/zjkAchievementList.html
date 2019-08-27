@@ -93,11 +93,11 @@
                             field: "cgmc",
                             title: "成果名称", event: 'setActive', style: 'cursor: pointer;'
                             ,templet:function (d) {
-                                if(d.define6=="1"){
-                                    return '<span style="color:red"  onclick="showDetailCg(\'' + d.dataId + '\')">' + d.cgmc + '</span>'
-                                }else {
+                                // if(d.define6=="1"){
+                                //     return '<span style="color:red"  onclick="showDetailCg(\'' + d.dataId + '\')">' + d.cgmc + '</span>'
+                                // }else {
                                     return '<span onclick="showDetailCg(\'' + d.dataId + '\')">' + d.cgmc + '</span>'
-                                }
+                                // }
                             }
                         },
                         {
@@ -111,7 +111,7 @@
                             align : 'center',
                             templet:function (d) {
                                 if (d.define6=="1"){
-                                    return "<a class=\"layui-btn layui-btn-xs\" style='background-color:#2ac845' lay-event=\"pj\"><span style=''>查看专家</span></a>";
+                                    return "<a class=\"layui-btn layui-btn-xs\" style='background-color:#70ac48' lay-event=\"pj\"><span style=''>查看专家</span></a>";
                                 } else {
                                     return "<a class=\"layui-btn layui-btn-xs\" lay-event=\"zjxz\">选择专家</a>";
                                 }

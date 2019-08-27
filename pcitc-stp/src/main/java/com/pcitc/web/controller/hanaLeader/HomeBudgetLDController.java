@@ -51,8 +51,6 @@ public class HomeBudgetLDController extends BaseController {
 	private static final String getBudgetByUnitCricle = "http://pcitc-zuul/system-proxy/out-project-provider/project-money/scope/institute";
 	private static final String getBudgetTable = "http://pcitc-zuul/hana-proxy/hana/home/getBudgetTable";
 
-	private static final String getMoney_rate = "http://pcitc-zuul/system-proxy/out-project-provider/ld/money-rate/institute";
-
 	/**
 	 * =====================================科研项目二级页面============================
 	 */
@@ -333,56 +331,5 @@ public class HomeBudgetLDController extends BaseController {
 		return resultObj.toString();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/home_budget_ld/getMoney_rate")
-	@ResponseBody
-	public String money_rate(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		Result result = new Result();
-		ChartBarLineResultData barLine = new ChartBarLineResultData();
-		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		String type = CommonUtil.getParameter(request, "type", "");
-		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("month", month);
-		paramsMap.put("companyCode", companyCode);
-		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-		if (!companyCode.equals("")) {
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getMoney_rate, HttpMethod.POST, entity, JSONArray.class);
-			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200) {
-				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>money_rate jSONArray-> " + jSONArray.toString());
-
-				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
-				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "unitName");
-				barLine.setxAxisDataList(xAxisDataList);
-
-				List<String> legendDataList = new ArrayList<String>();
-				legendDataList.add("费用性");
-				legendDataList.add("资本性");
-
-				barLine.setxAxisDataList(xAxisDataList);
-				barLine.setLegendDataList(legendDataList);
-				// X轴数据
-				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-				ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_budget_unit_meony(list, "fyxrate");
-				ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_budget_unit_meony(list, "zbxrate");
-
-				seriesList.add(s2);
-				seriesList.add(s3);
-				barLine.setSeriesList(seriesList);
-				result.setSuccess(true);
-				result.setData(barLine);
-			}
-
-		} else {
-			result.setSuccess(false);
-			result.setMessage("参数为空");
-		}
-		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>money_rate " + resultObj.toString());
-		return resultObj.toString();
-	}
 
 }

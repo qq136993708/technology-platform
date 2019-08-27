@@ -884,7 +884,7 @@
          <if test="startMoney != null   and startMoney !='' ">      AND  t.project_money &gt;= #{startMoney}</if>
          <if test="endMoney != null   and endMoney !='' ">      AND  t.project_money &lt;= #{endMoney}</if>
 	     <if test="sqlStr != null   and sqlStr !='' ">                                        AND ${sqlStr}</if>
-         <if test="contractNumNotNull != null   and contractNumNotNull !='' ">                                        AND contract_num ${contractNumNotNull}</if>
+         <if test="contractNumNotNull != null   and contractNumNotNull !='' ">                                        AND t.contract_num ${contractNumNotNull}</if>
 	 </trim>
 	</sql>
 	

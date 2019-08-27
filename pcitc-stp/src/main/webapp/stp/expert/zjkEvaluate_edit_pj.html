@@ -109,9 +109,27 @@
                 , position: 'fixed'
             });
             var evalDesc = null;
-            ClassicEditor.create(document.querySelector('#evalDesc'),{}).then(editor => {
-                evalDesc = editor;
-            });
+            ClassicEditor
+                .create( document.querySelector( '#evalDesc' ), {
+                    language:"zh-cn"
+                    ,image: {
+                        toolbar: [ 'imageTextAlternative' ]
+                    }
+                    ,
+                    ckfinder: {
+                        uploadUrl: '/sysfile/ckupload5?type=Image'
+                    }
+                })
+                .then( editor => {
+                    evalDesc = editor;
+                } )
+                .catch( error => {
+                    console.error( error );
+                } );
+
+            // ClassicEditor.create(document.querySelector('#evalDesc'),{}).then(editor => {
+            //     evalDesc = editor;
+            // });
             form.render(null, 'zjkEvaluate-form');
             //初始赋值 component-form-group 当前form的lay-filter
             console.log("----------");
@@ -120,7 +138,7 @@
                 ajaxPost("/zjkEvaluate/getZjkEvaluateInfo", {"id": id}, function (data) {
                     console.log(data);
                     form.val("zjkEvaluate-form", data);
-                    //evalDesc.setData(data.evalDesc);
+                    evalDesc.setData(data.evalDesc);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -158,10 +176,15 @@
                 ajaxPost("/zjkEvaluate/saveZjkEvaluate", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     setTimeout(function (){
-                        parent.layui.table.reload('zjkChoiceTableId', {where: {param: {}}});
-                        parent.selectRowData="";
+                        parent.renderTable();
+                        parent.renderTableCg();
+                        parent.renderTableJl();
                         var index = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(index);
+                        // parent.layui.table.reload('zjkChoiceTableId', {where: {param: {}}});
+                        // parent.selectRowData="";
+                        // var index = parent.layer.getFrameIndex(window.name);
+                        // parent.layer.close(index);
                     }, 1000);
 
                 });
