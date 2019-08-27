@@ -160,6 +160,7 @@ line-height: 60px;font-size: 22px;}
     padding-bottom: 4px;position: relative;}
 .main-left .main-left-p .layui-btn-sm{height: 25px;line-height: 25px;position: absolute;border-radius: 3px 3px 0 0;
     background-color: #0C9DDF;right: 0;}
+.main-left-p>a{color: white;}
 .main-left .main-left-p span{border-radius: 8px;position: relative;left: -1px;top: -8px;font-size: 12px;
     background-color: #f82b3d;padding: 0 4px;color: white;}
 .state_1 a{color: #ffffff;}
