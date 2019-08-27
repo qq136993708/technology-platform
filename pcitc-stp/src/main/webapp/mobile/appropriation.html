@@ -104,7 +104,8 @@
 	 function setBKCount(v_date,nd) 
 	 {
 		 
-		    var url = "/mobile/investment_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date;
+		    
+			var url = "/mobile/small_leader/investment_data?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
 	        $.ajax({
 	            type: "GET",
 	            url: url,
@@ -121,14 +122,14 @@
 	            	var countStr="";
 	            	for (var i = 0; i < data.data.length; i++) 
 	            	{
-						var zsjje = data.data[i].zsjje;//实际科研投入
+						var hanaMoney = data.data[i].hanaMoney;//实际科研投入
 						var define2 = data.data[i].define2;
-						count = count + parseFloat(zsjje);
+						count = count + parseFloat(hanaMoney);
 						
 						    var temp="<li style='list-sytle:none'>"+
 					    				"<p>"+
 					    				    "<span>"+define2+"</span>"+
-					                        "<span style='float:right'> "+setNumStr(zsjje)+"</span>"+
+					                        "<span style='float:right'> "+setNumStr(hanaMoney)+"</span>"+
 					                    "</p>"+
 				                       "</li>";
 			               countStr=countStr+temp;

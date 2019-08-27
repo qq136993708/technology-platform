@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ChartBarLineResultData;
 import com.pcitc.base.common.ChartBarLineSeries;
+import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.util.CommonUtil;
@@ -38,7 +39,7 @@ public class MobileBudgetController extends BaseController{
 	private static final String investment_01 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/money/complete-rate/company-type";
 	private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/money/complete-rate/institute";
 	private static final String investment_03 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/plan-money/department";
-
+	private static final String getBudgetInfo = "http://pcitc-zuul/system-proxy/out-project-provider/budget/all-level";
 
 	//首页预算数据
 	@RequestMapping(method = RequestMethod.GET, value = "/mobile/index_budget")
@@ -189,6 +190,44 @@ public class MobileBudgetController extends BaseController{
 		
 		
 		
+	
+		
+		/**
+		 * 获取预算总额（按照专业处进行权限获取）
+		 */
+		@RequestMapping(value = "/mobile/small_leader/budget/info")
+		@ResponseBody
+		@OperationFilter(dataFlag = "true")
+		public Object getBudgetInfo(HttpServletRequest request, HttpServletResponse response) {
+			Result result = new Result();
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+			
+			// 数据控制属性
+			String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+			String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+			paramsMap.put("zycbm", zycbm);
+			paramsMap.put("zylbbm", zylbbm);
+			paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+			paramsMap.put("nd", nd);
+
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getBudgetInfo, HttpMethod.POST, entity, JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				JSONArray jSONArray = responseEntity.getBody();
+				System.out.println(">>>>>>>>>>>>>>getBudgetInfo jSONArray-> " + jSONArray.toString());
+				result.setSuccess(true);
+				result.setData(jSONArray);
+			}
+			
+			return result;
+		}
+		
+		
+		
+
 		// 原:/one_level_main/investment_03
 		@RequestMapping(value = "/mobile/investment_03")
 		@ResponseBody
@@ -242,5 +281,9 @@ public class MobileBudgetController extends BaseController{
 			return resultObj.toString();
 		}
 		
-	
+		
+		
+
+		
+		
 }
