@@ -980,7 +980,7 @@ public class OutProjectInfoClient {
 
 			for (int j = 0; j < actList.size(); j++) {
 				Map<String, Object> act = (Map<String, Object>) actList.get(j);
-				if (temMap.get("show_ali").toString().equals(act.get("type_flag").toString())) {
+				if (temMap.get("show_ali") != null && act.get("type_flag")!= null && temMap.get("show_ali").toString().equals(act.get("type_flag").toString())) {
 					// 加上手动认定的新签
 					if (temMap.get("fyxXqMoney") == null) temMap.put("fyxXqMoney", "0");
 					temMap.put("fyxXqMoney", act.get("fyxXqMoney") == null ? Double.valueOf(temMap.get("fyxXqMoney").toString()) : Double.valueOf(act.get("fyxXqMoney").toString()) + Double.valueOf(temMap.get("fyxXqMoney").toString()));
@@ -992,7 +992,7 @@ public class OutProjectInfoClient {
 
 			for (int j = 0; j < instList.size(); j++) {
 				Map<String, Object> inst = (Map<String, Object>) instList.get(j);
-				if (temMap.get("show_ali").toString().equals(inst.get("define2").toString())) {
+				if (temMap.get("show_ali") != null && temMap.get("show_ali").toString().equals(inst.get("define2").toString())) {
 					temMap.put("fyxXqMoney", inst.get("fyxXqMoney") == null ? "0" : inst.get("fyxXqMoney"));
 					temMap.put("zbxXqMoney", inst.get("zbxXqMoney") == null ? "0" : inst.get("zbxXqMoney"));
 					System.out.println("研究院实际金额-----" + inst.get("define2") + "========" + inst.get("fyxXqMoney") + "========" + inst.get("zbxXqMoney"));
@@ -1155,16 +1155,6 @@ public class OutProjectInfoClient {
 		logger.info("==================page getOfficeMoneyWithYS===========================" + map);
 
 		List temList = outProjectService.getOfficeMoneyWithYS(map);
-		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
-		return json;
-	}
-
-	@ApiOperation(value = "领导二级页面，直属研究院，8个院预算金额和实际金额的统计", notes = "参数年度、研究院等")
-	@RequestMapping(value = "/out-project-provider/ld/money-rate/institute")
-	public JSONArray getProjectMoneyByInstituteForLD(@RequestBody HashMap<String, String> map) throws Exception {
-		logger.info("==================page getProjectMoneyByInstituteForLD===========================" + map);
-
-		List temList = outProjectService.getProjectMoneyByInstituteForLD(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}

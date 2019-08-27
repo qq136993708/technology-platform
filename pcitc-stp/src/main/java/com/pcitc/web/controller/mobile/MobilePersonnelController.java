@@ -16,24 +16,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.FileResult;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkExpert;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
@@ -75,6 +75,16 @@ public class MobilePersonnelController extends BaseController{
 
 		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
+		//职称信息
+		List<SysDictionary> zcxxList = EquipmentUtils.getSysDictionaryListByParentCode("ZJK_ZCXX", restTemplate, httpHeaders);
+		//行业领域
+	    List<SysDictionary> hylyList = EquipmentUtils.getSysDictionaryListByParentCode("ZJK_ZYFL", restTemplate, httpHeaders);
+	    //专家类型
+	    List<SysDictionary> zjlxList = EquipmentUtils.getSysDictionaryListByParentCode("ZJK_ZJLX", restTemplate, httpHeaders);
+	    request.setAttribute("zcxxList", zcxxList);
+	    request.setAttribute("hylyList", hylyList);
+	    request.setAttribute("zjlxList", zjlxList);
+	    
 		return "/mobile/personnel";
 	}
 	
@@ -135,12 +145,32 @@ public class MobilePersonnelController extends BaseController{
 		LayuiTableParam param = new LayuiTableParam();
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String limit = CommonUtil.getParameter(request, "limit", "15");
-
+		String bak3 = CommonUtil.getParameter(request, "bak3", "");
+		String expertProfessinal = CommonUtil.getParameter(request, "expertProfessinal", "");
+		String expertProfessionalField = CommonUtil.getParameter(request, "expertProfessionalField", "");
+		
+		 List<SysDictionary> zjlxList = EquipmentUtils.getSysDictionaryListByParentCode("ZJK_ZJLX", restTemplate, httpHeaders);
+		 if(zjlxList!=null)
+		 {
+			 for(int i=0;i<zjlxList.size();i++)
+			 {
+				 SysDictionary sysDictionary= zjlxList.get(i);
+				 String code=sysDictionary.getCode();
+				 String name=sysDictionary.getName();
+				 if(name.equals(bak3))
+				 {
+					 bak3=code;
+				 }
+			 }
+		 }
 
 		param.setLimit(Integer.valueOf(limit));
 		param.setPage(Integer.valueOf(page));
 		param.getParam().put("nd", nd);
 		param.getParam().put("key", key);
+		param.getParam().put("expertProfessinal", expertProfessinal);
+		param.getParam().put("expertProfessionalField", expertProfessionalField);
+		param.getParam().put("bak3", bak3);
 		System.out.println(">>>>>>>>>>>>nd:" + nd + "page=" + page);
 		
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
