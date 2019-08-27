@@ -240,24 +240,37 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         ZjkEvaluateExample e = new ZjkEvaluateExample();
         List<String> xmidList = zjkChoices.stream().map(ZjkChoice::getXmId).collect(Collectors.toList());
         List<String> zjidList = zjkChoices.stream().map(ZjkChoice::getZjId).collect(Collectors.toList());
+        ZjkComplaintExample ex = new ZjkComplaintExample();
+
         if (xmidList != null && xmidList.size() > 0) {
             e.createCriteria().andXmIdIn(xmidList);
+            ex.createCriteria().andXmIdIn(xmidList);
         }
         if (zjidList != null && zjidList.size() > 0) {
             e.createCriteria().andZjkIdIn(zjidList);
+            ex.createCriteria().andZjkIdIn(zjidList);
         }
         e.setOrderByClause("create_date desc");
         List<ZjkEvaluate> zjkEvaluates = zjkEvaluateService.selectByExample(e);
+        //查询投诉信息
+
+        List<ZjkComplaint> zjkComplaints = zjkComplaintService.selectByExample(ex);
+
         for (int i = 0, j = zjkChoices.size(); i < j; i++) {
             ZjkChoice zjkChoice = zjkChoices.get(i);
             List<ZjkEvaluate> collect = zjkEvaluates.stream().filter(obj -> obj.getXmId().equals(zjkChoice.getXmId()) && obj.getXmSteps().equals(zjkChoice.getBak1()) && obj.getZjkId().equals(zjkChoice.getZjId())).collect(Collectors.toList());
             zjkChoice.setBak6((collect != null && collect.size() > 0) ? collect.get(0).getCreateDate() : "");
+            List<ZjkComplaint> complaints = zjkComplaints.stream().filter(obj -> obj.getXmId().equals(zjkChoice.getXmId()) && obj.getXmSteps().equals(zjkChoice.getBak1()) && obj.getZjkId().equals(zjkChoice.getZjId())).collect(Collectors.toList());
+            zjkChoice.setBak5((complaints != null && complaints.size() > 0) ? "1" : "0");
             dataList.add(zjkChoice);
         }
         data.setData(dataList);
         return data;
 
     }
+
+    @Autowired
+    private ZjkComplaintService zjkComplaintService;
 
     @Override
     public LayuiTableData findZjkChoiceByPage(LayuiTableParam param) {
