@@ -675,7 +675,8 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .ui-loader-default{ display:none}
 .ui-mobile-viewport{ border:none;}
 .ui-page {padding: 0; margin: 0; outline: 0}
-
+.return-top{width: .28rem;height: .28rem;background: rgba(0,0,0,.6);color: white;padding: .05rem;
+    border-radius: 50%;line-height: .28rem;position: fixed;bottom: .2rem;right: .4rem;}
 
 
 
