@@ -37,7 +37,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 		// registry.addInterceptor(logInterceptor).addPathPatterns("/**");
 		registry.addInterceptor(tokenInterceptor).addPathPatterns("/**");
 		//registry.addInterceptor(csrCheckInterceptor).addPathPatterns("/**");
-		registry.addInterceptor(menuAuthInterceptor).addPathPatterns("/**");
+		//registry.addInterceptor(menuAuthInterceptor).addPathPatterns("/**");
 		super.addInterceptors(registry);
 	}
 	
