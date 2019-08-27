@@ -77,6 +77,9 @@
         <div>${department.honor?html}</div>
     </div>
 </main>
+<div class="return-top layui-hide">
+    top
+</div>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script>
@@ -100,6 +103,10 @@
         });
         $("#institute").click(function () {
             $(".institute-m").slideToggle("slow");
+        });
+
+        $('.return-top').click(function(){
+            $('html , body').animate({scrollTop: 0},'slow');
         });
     });
     
