@@ -189,6 +189,17 @@ layui.define(['jquery'],function (e) {
 		}
         return resutlt_str;
     };
+
+    o.choice_expert = function(d)
+    {
+        if (d.flag=="1"){
+            return "<a class=\"layui-btn layui-btn-xs\" style='background-color:#2ac845' lay-event=\"pj\"><span style=''>查看专家</span></a>";
+        } else if(d.xmid!="") {
+            return "<a class=\"layui-btn layui-btn-xs\" lay-event=\"zjxz\">选择专家</a>";
+        }else {
+            return "";
+        }
+    };
     
     o.arrange_man = function(d){
     	alert(d);

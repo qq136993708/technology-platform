@@ -191,10 +191,18 @@
                     {field:'typeScope',      title:'分类标签', width: '10%', style:'cursor: pointer;'},
                     {field:'directionInfo',      title:'发展方向', width: '15%', style:'cursor: pointer;'},
                     {field:'isHot',      title:'是否热点', style:'cursor: pointer;'},
-                    {field:'remarks',   title:'说明',  style:'cursor: pointer;'}
+                    // {field:'remarks',   title:'说明',  style:'cursor: pointer;'}
                 ]],
                 done: function (res, curr, count) {
 	            	layer.close(lodingMsg);
+	            	$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $(this).parent().find('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
 	            	
 	            	$(document).on("click",".layui-table-body table.layui-table tbody tr", function () {
                         var index = $(this).attr('data-index');

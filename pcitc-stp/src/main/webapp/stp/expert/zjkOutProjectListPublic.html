@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <link rel="stylesheet" href="/layuiadmin/style/admin.css">
     <script src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/common/js/base.js"></script>
-
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <style>
         .dateInput {
             font-size: 12px;
@@ -28,7 +27,7 @@
         .layui-laydate-hint {
             display: none;
         }
-        .layui-form-item{height: 40px;overflow: hidden;}
+
     </style>
 </head>
 <body>
@@ -83,111 +82,106 @@
                     </select>
                 </div>
             </div>
+            <div class="layui-hide select">
+                <!-- 三级级联 begin-->
+                <div class="layui-inline">
+                    <label class="layui-form-label">经费来源：</label>
+                    <div class="layui-input-inline">
+                        <select name="define11" id="define11" lay-filter="select_define11">
+                            <option value="">--请选择--</option> <#list jflyList as vo>
+                            <option value="${vo.code}"<#if define11=vo.name>selected="selected"</#if>>${vo.name}</option> </#list>
+                    </select>
+                </div>
+            </div>
 
-            <!-- 三级级联 begin-->
             <div class="layui-inline">
-                <label class="layui-form-label">经费来源：</label>
+                <label class="layui-form-label">单位性质：</label>
                 <div class="layui-input-inline">
-                    <select name="define11" id="define11" lay-filter="select_define11">
-                        <option value="">--请选择--</option> <#list jflyList as vo>
-                        <option value="${vo.code}"<#if define11=vo.name>selected="selected"</#if>>${vo.name}</option> </#list>
+                    <select name="define12" id="define12" lay-filter="select_define12">
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
+                <label class="layui-form-label" id="lay_company">研究院：</label>
+                <div class="layui-input-inline layui-form">
+                    <select name="define2" id="define2" lay-filter="select_define2" lay-verify="" lay-search>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 三级级联 end -->
+
+
+            <!-- 三级级联 begin -->
+            <div class="layui-inline">
+                <label class="layui-form-label">部门：</label>
+                <div class="layui-input-inline">
+                    <select name="gsbmbmFlag" id="gsbmbmFlag" lay-filter="select_gsbmbmFlag">
+                        <option value="">--请选择--</option> <#list gsbmbmList as vo>
+                        <option value="${vo.code}"<#if gsbmbmFlag=vo.name>selected="selected"</#if>>${vo.name}</option> </#list>
                 </select>
             </div>
         </div>
 
+
         <div class="layui-inline">
-            <label class="layui-form-label">单位性质：</label>
+            <label class="layui-form-label">处室：</label>
             <div class="layui-input-inline">
-                <select name="define12" id="define12" lay-filter="select_define12">
+                <select name="zycbmFlag" id="zycbmFlag" lay-filter="select_zycbmFlag">
                 </select>
             </div>
         </div>
 
+
         <div class="layui-inline">
-            <label class="layui-form-label">研究院：</label>
+            <label class="layui-form-label">专业类别：</label>
             <div class="layui-input-inline">
-                <select name="define2" id="define2">
+                <select name="zylbbmFlag" id="zylbbmFlag">
                 </select>
             </div>
         </div>
-        <!-- 三级级联 end -->
+        <!-- 二级级联 end -->
 
-
-        <!-- 三级级联 begin -->
         <div class="layui-inline">
-            <label class="layui-form-label">部门：</label>
+            <label class="layui-form-label">技术分类：</label>
             <div class="layui-input-inline">
-                <select name="gsbmbmFlag" id="gsbmbmFlag" lay-filter="select_gsbmbmFlag">
-                    <option value="">--请选择--</option> <#list gsbmbmList as vo>
-                    <option value="${vo.code}"<#if gsbmbmFlag=vo.name>selected="selected"</#if>>${vo.name}</option> </#list>
+                <select name="define5" id="define5">
+                    <option value="">--请选择--</option> <#list jsflList as vo>
+                    <option value="${vo.name}"<#if define5==vo.name>selected="selected"</#if>>${vo.name}</option> </#list>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-inline">
+        <label class="layui-form-label">承担单位：</label>
+        <div class="layui-input-inline">
+            <select name="fzdwflag" id="fzdwflag">
+                <option value="">--请选择--</option> <#list fzdwList as vo>
+                <option value="${vo.numValue}">${vo.name}</option> </#list>
             </select>
         </div>
     </div>
 
 
     <div class="layui-inline">
-        <label class="layui-form-label">处室：</label>
+        <label class="layui-form-label">单位名称：</label>
         <div class="layui-input-inline">
-            <select name="zycbmFlag" id="zycbmFlag" lay-filter="select_zycbmFlag">
-            </select>
+            <input type="text" name="unitName" id="unitName" title="单位名称" placeholder="请输入单位名称" autocomplete="off" class="layui-input">
         </div>
     </div>
 
-
     <div class="layui-inline">
-        <label class="layui-form-label">专业类别：</label>
+        <label class="layui-form-label">分组类型：</label>
         <div class="layui-input-inline">
-            <select name="zylbbmFlag" id="zylbbmFlag">
-            </select>
-        </div>
-    </div>
-    <!-- 二级级联 end -->
-
-
-
-
-    <div class="layui-inline">
-        <label class="layui-form-label">技术分类：</label>
-        <div class="layui-input-inline">
-            <select name="define5" id="define5">
-                <option value="">--请选择--</option> <#list jsflList as vo>
-                <option value="${vo.name}"<#if define5==vo.name>selected="selected"</#if>>${vo.name}</option> </#list>
+            <select name="groupFlag" id="groupFlag">
+                <option value="">--请选择--</option> <#list fzlxList as vo>
+                <option value="${vo.numValue}"<#if groupFlag==vo.numValue>selected="selected"</#if>>${vo.name}</option> </#list>
         </select>
     </div>
 </div>
-
-
-
-<div class="layui-inline">
-    <label class="layui-form-label">承担单位：</label>
-    <div class="layui-input-inline">
-        <select name="fzdwflag" id="fzdwflag">
-            <option value="">--请选择--</option> <#list fzdwList as vo>
-            <option value="${vo.numValue}">${vo.name}</option> </#list>
-        </select>
-    </div>
 </div>
-
-
-<div class="layui-inline">
-    <label class="layui-form-label">单位名称：</label>
-    <div class="layui-input-inline">
-        <input type="text" name="unitName" id="unitName" title="单位名称" placeholder="请输入单位名称" autocomplete="off" class="layui-input">
-    </div>
-</div>
-
-
-
-<div class="layui-inline">
-    <label class="layui-form-label">分组类型：</label>
-    <div class="layui-input-inline">
-        <select name="groupFlag" id="groupFlag">
-            <option value="">--请选择--</option> <#list fzlxList as vo>
-            <option value="${vo.numValue}"<#if groupFlag==vo.numValue>selected="selected"</#if>>${vo.name}</option> </#list>
-    </select>
-</div>
-</div>
-<button  class="layui-btn layuiadmin-btn-list" id="Open" style="position: absolute;top: 4px;right: 14px; height: 27px;width: 40px;padding: 0;text-align: center;display: block;}">展开</button>
+<button class="layui-btn layuiadmin-btn-list" id="Open" style="position: absolute; top: 4px; right: 14px; height: 27px; width: 40px; padding: 0; text-align: center; display: block;">展开</button>
 </div>
 <div class="layui-inline" style="margin-left: 48px;">
     <button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
@@ -195,40 +189,77 @@
     </button>
 </div>
 
-
 <div class="layui-inline">
     <button class="layui-btn layuiadmin-btn-list" data-type="resetEvent">
         <i class="layui-icon  layuiadmin-button-btn">重置</i>
     </button>
 </div>
-<div class="layui-inline">
-    <button class="layui-btn layuiadmin-btn-list" data-type="showExpertEvent">
-        <i class="layui-icon  layuiadmin-button-btn">已选专家</i>
-    </button>
-</div>
-
-
-
 </div>
 <div class="layui-card-body">
-    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
+
+        <thead>
+        <tr>
+            <th lay-data="{field : 'realIndex',align : 'center',width : '45', fixed: 'left'}" rowspan="2">序号</th>
+            <th lay-data="{field : 'hth',align : 'center',width : '100',sort : true, fixed: 'left'}" rowspan="2">合同号</th>
+            <th lay-data="{field : 'xmmc',align : 'left',width : '250',sort : true, fixed: 'left'}" rowspan="2">项目名称</th>
+            <th lay-data="{field : 'ktmc',align : 'left',width : '200', fixed: 'left'}" rowspan="2">课题名称</th>
+            <!--<th lay-data="{field : 'define12',align : 'left',width : '200', fixed: 'left''}" rowspan="2">专家评审</th>-->
+            <th lay-data="{field : 'define12',align : 'left',width : '100', fixed: 'left',templet:'<p>{{ layui.laytpl.choice_expert(d) }}</p>'}" rowspan="2">专家评审</th>
+            <th lay-data="{field : 'nd',align : 'center',width : '80'}" rowspan="2">立项年度</th>
+            <th lay-data="{field : 'define10',align : 'left',width : '80'}" rowspan="2">专业处</th>
+            <th lay-data="{align:'center'}" colspan="3">总经费（万元）</th>
+            <th lay-data="{align:'center'}" colspan="2" id="showColumn1">2019年经费（万元）</th>
+            <th lay-data="{align:'center'}" colspan="2" id="showColumn2">2020年经费（万元）</th>
+            <th lay-data="{align:'center'}" colspan="2" id="showColumn3">2021年经费（万元）</th>
+
+            <th lay-data="{field : 'define8',align : 'left',width : '150'}" rowspan="2">承担单位</th>
+            <!--<th lay-data="{field : 'define12',align : 'left',width : '100'}" rowspan="2">单位性质</th>-->
+            <!--<th lay-data="{field : 'fwdx',align : 'left',width : '80'}" rowspan="2">服务对象</th>-->
+            <!--<th lay-data="{field : 'xmlbmc',align : 'left',width : '100'}" rowspan="2">项目类别</th>-->
+            <!--<th lay-data="{field : 'project_property',align : 'left',width : '100'}" rowspan="2">项目类型</th>-->
+            <!--<th lay-data="{field : 'zylb',align : 'left',width : '130'}" rowspan="2">专业类别</th>-->
+            <!--<th lay-data="{field : 'jdh',align : 'left',width : '130'}" rowspan="2">鉴定号</th>-->
+            <!--<th lay-data="{field : 'cgmc',align : 'left',width : '130'}" rowspan="2">成果名称</th>-->
+            <!--<th lay-data="{field : 'jdjg',align : 'left',width : '130'}" rowspan="2">鉴定结果</th>-->
+            <!--<th lay-data="{field : 'psdj',align : 'left',width : '130'}" rowspan="2">奖励等级</th>-->
+            <!--<th lay-data="{field : 'xkfl',align : 'left',width : '130'}" rowspan="2">奖励学科分类</th>-->
+
+        </tr>
+        <tr>
+            <th lay-data="{field:'ysfyxje',templet : '#ysfyxje', width : '100',align:'center'}">费用性</th>
+            <th lay-data="{field:'yszbxje',templet : '#yszbxje', width : '100',align:'center'}">资本性</th>
+            <th lay-data="{field:'ysje',templet : '#ysje', width : '100',align:'center'}">合计</th>
+            <th lay-data="{field:'ysfyxjeYear',templet : '#ysfyxjeYear', width : '100',align:'center'}">费用性</th>
+            <th lay-data="{field:'yszbxjeYear',templet : '#yszbxjeYear', width : '100',align:'center'}">资本性</th>
+            <th lay-data="{field:'ysfyxjeNextYear',templet : '#ysfyxjeNextYear', width : '100',align:'center'}">费用性</th>
+            <th lay-data="{field:'yszbxjeNextYear',templet : '#yszbxjeNextYear', width : '100',align:'center'}">资本性</th>
+            <th lay-data="{field:'ysfyxjeAfterNextYear',templet : '#ysfyxjeAfterNextYear', width : '100',align:'center'}">费用性</th>
+            <th lay-data="{field:'yszbxjeAfterNextYear',templet : '#yszbxjeAfterNextYear', width : '100',align:'center'}">资本性</th>
+        </tr>
+        </thead>
+    </table>
 </div>
 </div>
 </div>
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
-<script id="view_taskVersion2" type="text/html"> {{purchase_money(d.ysje)}} </script>
-<script id="view_taskVersion3" type="text/html"> {{purchase_money(d.yszbxje)}} </script>
-<script id="view_taskVersion4" type="text/html"> {{purchase_money(d.ysfyxje)}} </script>
+<script id="view_taskVersion2" type="text/html"> {{purchase_money(d.realIndex, d.ysje)}} </script>
+<script id="view_taskVersion3" type="text/html"> {{purchase_money(d.realIndex, d.yszbxje)}} </script>
+<script id="view_taskVersion4" type="text/html"> {{purchase_money(d.realIndex, d.ysfyxje)}} </script>
 
-<script id="yszbxjeYear" type="text/html"> {{purchase_money(d.yszbxjeYear)}} </script>
-<script id="ysfyxjeYear" type="text/html"> {{purchase_money(d.ysfyxjeYear)}} </script>
+<script id="ysfyxje" type="text/html"> {{purchase_money(d.realIndex, d.ysfyxje)}} </script>
+<script id="yszbxje" type="text/html"> {{purchase_money(d.realIndex, d.yszbxje)}} </script>
+<script id="ysje" type="text/html"> {{purchase_money(d.realIndex, d.ysje)}} </script>
 
-<script id="yszbxjeNextYear" type="text/html"> {{purchase_money(d.yszbxjeNextYear)}} </script>
-<script id="ysfyxjeNextYear" type="text/html"> {{purchase_money(d.ysfyxjeNextYear)}} </script>
+<script id="yszbxjeYear" type="text/html"> {{purchase_money(d.realIndex, d.yszbxjeYear)}} </script>
+<script id="ysfyxjeYear" type="text/html"> {{purchase_money(d.realIndex, d.ysfyxjeYear)}} </script>
 
-<script id="yszbxjeAfterNextYear" type="text/html"> {{purchase_money(d.yszbxjeAfterNextYear)}} </script>
-<script id="ysfyxjeAfterNextYear" type="text/html"> {{purchase_money(d.ysfyxjeAfterNextYear)}} </script>
+<script id="yszbxjeNextYear" type="text/html"> {{purchase_money(d.realIndex, d.yszbxjeNextYear)}} </script>
+<script id="ysfyxjeNextYear" type="text/html"> {{purchase_money(d.realIndex, d.ysfyxjeNextYear)}} </script>
+
+<script id="yszbxjeAfterNextYear" type="text/html"> {{purchase_money(d.realIndex, d.yszbxjeAfterNextYear)}} </script>
+<script id="ysfyxjeAfterNextYear" type="text/html"> {{purchase_money(d.realIndex, d.ysfyxjeAfterNextYear)}} </script>
 
 <script id="showDefine8" type="text/html"> {{showName(d.define8)}} </script>
 
@@ -257,13 +288,13 @@
             }
         });
         //加载表格
-        $("#Open").click(function () {
-            if($(this).html()=="收起"){
+        $("#Open").click(function() {
+            if ($(this).html() == "收起") {
                 $(this).html("展开");
-                $(".layui-form-item").css("height","40px");
-            }else {
+                $(".select").addClass("layui-hide")
+            } else {
                 $(this).html("收起");
-                $(".layui-form-item").css("height","auto");
+                $(".select").removeClass("layui-hide")
 
             }
         });
@@ -274,23 +305,6 @@
         var $ = layui.$, active = {
             searchEvent : function() { //点击查询按钮
                 renderTable();
-            }, showExpertEvent: function () { //查看已选专家
-                if (typeof (selectRowData.xmid) == "undefined"||selectRowData.xmid=="") {
-                    layer.msg('请点击选择一行数据');
-                } else {
-                    openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + selectRowData.xmid);
-                }
-            },
-            expertEvent: function () {
-                if (typeof (selectRowData.xmid) == "undefined") {
-                    layer.msg('请点击选择一行数据');
-                }
-                // else if(selectRowData.define19=="1"){
-                //     layer.msg('当前项目已经评审');
-                // }
-                else {
-                    openFullWin("选择专家", "/expertController/getUserChoicePage?flag=xm&projectId=" + selectRowData.xmid+"&projectName="+encodeURI(encodeURI(selectRowData.xmmc))+"&unitCode="+selectRowData.define9);
-                }
             },
             resetEvent : function() {
                 $('#nd').val("");
@@ -324,12 +338,18 @@
         form.on('select(select_define11)', function(data) {
             //alert(data.value);
             var parentCode = data.value;
+            $("#lay_company").html("研究院：");
             getDicByParentCode(parentCode, 'define12');
             console.log("监听经费来源:" + data);
         });
         //监听单位性质
         form.on('select(select_define12)', function(data) {
             var parentCode = data.value;
+            if("ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY"==parentCode){
+                $("#lay_company").html("研究院：");
+            }else{
+                $("#lay_company").html("单位名称：");
+            }
             getDicByParentCode(parentCode, 'define2');
             console.log("监听单位性质:" + data);
         });
@@ -360,6 +380,7 @@
 
         renderTable();
     });
+
     function renderTable() {
         //alert("dd");
         //获取选中的option的文本值
@@ -375,7 +396,6 @@
         var gsbmbmFlag = $("#gsbmbmFlag").val();
         var zycbmFlag = $("#zycbmFlag").val();
         var zylbbmFlag = $("#zylbbmFlag").val();
-
 
         //是否是：结转课题
         var isCarry = "0";
@@ -417,15 +437,26 @@
             layer.msg('请选择立项年度');
             return false;
         }
-        var nextYear = parseInt(thisYear)+1;
-        var afterNextYear = parseInt(nextYear)+1;
+        var nextYear = parseInt(thisYear) + 1;
+        var afterNextYear = parseInt(nextYear) + 1;
 
-        //渲染
-        table.render({
-            elem : '#processdef-table',
+        $("#showColumn1").html(thisYear+"年经费（万元）");
+        $("#showColumn2").html(nextYear+"年经费（万元）");
+        $("#showColumn3").html(afterNextYear+"年经费（万元）");
+
+        table.init('processdef-table', {
             url : '/one_level_main/project_fx_table_year_data_expert?v_date=' + v_date,
             // url : '/one_level_main/project_fx_table_year_data?v_date=' + v_date,
+            height : commonDislodgeTable() - 150,
             method : "POST",
+            page : {
+                groups : 5,
+                limits : [ 15, 30, 45, 60 ],
+                layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+                first : '首页', //不显示首页
+                last : '尾页', //不显示尾页
+                theme : '#0F9EE0'
+            },
             where : {
                 param : {
                     "functionId" : '984b64b13cf54222bf57bd840759fabe', //数据控制标示
@@ -450,230 +481,60 @@
                     "groupFlag" : groupFlag,
                     "gsbmbmFlag" : gsbmbmFlag,
                     "zycbmFlag" : zycbmFlag,
+                    "zylbbmFlag" : zylbbmFlag,
                     "dataIds" : "${xmid}",
                     "zjps": "1",
-                    "zylbbmFlag" : zylbbmFlag
 
                 }
             },
             limit : 15,
-            id : 'processdef-table',
-            height : commonDislodgeTable() - 150,
-            page : {
-                groups : 5,
-                limits : [ 15, 30, 45, 60 ],
-                layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
-                first : '首页', //不显示首页
-                last : '尾页', //不显示尾页
-                theme : '#0F9EE0'
-            },
-            cols : [ [
-                {type: 'checkbox', event: 'changeEvents', width: 55},
-                {
-                    field : 'realIndex',
-                    title : '序号',
-                    style : 'cursor: pointer;',
-                    align : 'center',
-                    width : '45'
-                },
-
-                {
-                    field : 'hth',
-                    title : '合同号',
-                    style : 'cursor: pointer;',
-                    align : 'center',
-                    width : '100',
-                    sort : true
-                }, {
-                    field : 'nd',
-                    title : '立项年度',
-                    style : 'cursor: pointer;',
-                    align : 'center',
-                    width : '80',
-                }, {
-                    field : 'define10',
-                    title : '专业处',
-                    style : 'cursor: pointer;',
-                    align : 'left',
-                    width : '80',
-                }, {
-                    field : 'xmmc',
-                    title : '项目名称',
-                    templet : function(d) {
-                        // if(d.flag=="1"){
-                        //     return '<span   onclick="view_pro(\'' + d.xmmc + '\',\'' + d.project_property + '\',\'' + d.xmid + '\')" style="color: #DC143C">' + d.xmmc + '</span>'
-                        // }else {
-                            return '<span   onclick="view_pro(\'' + d.xmmc + '\',\'' + d.project_property + '\',\'' + d.xmid + '\')" style="color: #1890ff">' + d.xmmc + '</span>'
-                        // }
-                    },
-                    style : 'cursor: pointer;',
-                    align : 'left',
-                    width : '300',
-                    sort : true
-                }, {
-                    field : 'ktmc',
-                    title : '课题名称',
-                    style : 'cursor: pointer;',
-                    align : 'center',
-                    width : '300',
-                },
-                // , {
-                //     field : 'ysje',
-                //     title : '总经费（万元）',
-                //     style : 'cursor: pointer;',
-                //     align : 'center',
-                //     width : '150',
-                //     templet : '#view_taskVersion2',
-                // }, {
-                //     field : 'ysfyxje',
-                //     title : '费用性经费（万元）',
-                //     style : 'cursor: pointer;',
-                //     align : 'center',
-                //     templet : '#view_taskVersion4',
-                //     width : '130',
-                // }, {
-                //     field : 'yszbxje',
-                //     title : '资本性经费（万元）',
-                //     style : 'cursor: pointer;',
-                //     align : 'center',
-                //     templet : '#view_taskVersion3',
-                //     width : '130',
-                // }, {
-                //     field : 'ysfyxjeYear',
-                //     title : thisYear+'年费用性',
-                //     style : 'cursor: pointer;',
-                //     align : 'center',
-                //     templet : '#ysfyxjeYear',
-                //     width : '150',
-                // }, {
-                //     field : 'yszbxjeYear',
-                //     title : thisYear+'年资本性',
-                //     style : 'cursor: pointer;',
-                //     align : 'center',
-                //     templet : '#yszbxjeYear',
-                //     width : '150',
-                // }, {
-                //     field : 'ysfyxjeNextYear',
-                //     title : nextYear+'年费用性',
-                //     style : 'cursor: pointer;',
-                //     align : 'center',
-                //     templet : '#ysfyxjeNextYear',
-                //     width : '150',
-                // }, {
-                //     field : 'yszbxjeNextYear',
-                //     title : nextYear+'年资本性',
-                //     style : 'cursor: pointer;',
-                //     align : 'center',
-                //     templet : '#yszbxjeNextYear',
-                //     width : '150',
-                // }, {
-                //     field : 'ysfyxjeAfterNextYear',
-                //     title : afterNextYear+'年费用性',
-                //     style : 'cursor: pointer;',
-                //     align : 'center',
-                //     templet : '#ysfyxjeAfterNextYear',
-                //     width : '150',
-                // }, {
-                //     field : 'yszbxjeAfterNextYear',
-                //     title : afterNextYear+'年资本性',
-                //     style : 'cursor: pointer;',
-                //     align : 'center',
-                //     templet : '#yszbxjeAfterNextYear',
-                //     width : '150',
-                // },
-                {
-                    field : 'define8',
-                    title : '承担单位',
-                    style : 'cursor: pointer;',
-                    align : 'left',
-                    width : '270',
-                    // templet : '#showDefine8',
-                }
-                // , {
-                //     field : 'define12',
-                //     title : '单位性质',
-                //     style : 'cursor: pointer;',
-                //     align : 'left',
-                //     width : '150',
-                // }, {
-                //     field : 'fwdx',
-                //     title : '服务对象',
-                //     style : 'cursor: pointer;',
-                //     align : 'center',
-                //     width : '100',
-                // }, {
-                //     field : 'define1',
-                //     title : '资本/费用',
-                //     style : 'cursor: pointer;',
-                //     align : 'center',
-                //     width : '120',
-                // }, {
-                //     field : 'project_property',
-                //     title : '项目类型',
-                //     style : 'cursor: pointer;',
-                //     align : 'left',
-                //     width : '100',
-                // }, {
-                //     field : 'zylb',
-                //     title : '专业类别',
-                //     style : 'cursor: pointer;',
-                //     align : 'left',
-                //     width : '130',
-                // }, {
-                //     field : 'jdh',
-                //     title : '鉴定号',
-                //     style : 'cursor: pointer;',
-                //     align : 'left',
-                //     width : '130',
-                // }, {
-                //     field : 'cgmc',
-                //     title : '成果名称',
-                //     style : 'cursor: pointer;',
-                //     align : 'left',
-                //     width : '130',
-                // }, {
-                //     field : 'jdjg',
-                //     title : '鉴定结果',
-                //     style : 'cursor: pointer;',
-                //     align : 'left',
-                //     width : '130',
-                // }, {
-                //     field : 'psdj',
-                //     title : '奖励等级',
-                //     style : 'cursor: pointer;',
-                //     align : 'left',
-                //     width : '130',
-                // }, {
-                //     field : 'xkfl',
-                //     title : '奖励学科分类',
-                //     style : 'cursor: pointer;',
-                //     align : 'left',
-                //     width : '130',
-                // }
-
-            ] ],
             done : function(res, curr, count) {
                 // 点击行联动选择框--单选
-                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
-                    var index = parseInt($(this).index() + 1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData = res.data[index - 1];
-                });
 
                 merge(res);
+                $('.layui-table-box>.layui-table-body table tbody tr').each(function() {
+                    var rowspanN=$(this).find("td:nth-child(2)").attr("rowspan")
+                    //alert(rowspanN)
+                    if(rowspanN!=undefined){
+                        var heightPx=33*rowspanN+"px";
+                        $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(1)").attr("rowspan",rowspanN).css("height",heightPx);;
+                        $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(2)").attr("rowspan",rowspanN).css("height",heightPx);;
+                        $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(3)").attr("rowspan",rowspanN).css("height",heightPx);;
+                        $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(4)").attr("rowspan",rowspanN).css("height",heightPx);;
+                        $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(5)").attr("rowspan",rowspanN).css("height",heightPx);;
+                        var rowspanC=parseInt($(this).index())+parseInt(rowspanN);
+                        var indexN=$(this).index();
+                        $(".layui-table-fixed .layui-table tbody tr").each(function (i, val) {
+                            if(i>indexN){
+                                if(i<rowspanC){
+
+                                    $(".layui-table-fixed .layui-table tbody tr").eq(i).find("td").addClass("layui-hide")
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
 
-        function merge(res) {
+        table.on('tool(processdef-table)', function (obj) {
+            var selectRowData = obj.data;
+            if (obj.event === 'pj') {
+                openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + selectRowData.xmid);
+            }
+            if (obj.event === 'zjxz') {
+                openFullWin("选择专家", "/expertController/getUserChoicePage?flag=xm&projectId=" + selectRowData.xmid+"&projectName="+encodeURI(encodeURI(selectRowData.xmmc))+"&unitCode="+selectRowData.define9);
+            }
+        });
+        $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 
+
+        function merge(res) {
             var data = res.data;
             var mergeIndex = 0;//定位需要添加合并属性的行数
             var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
-            var columsName = [ 'realIndex', 'hth', 'nd', 'define10', 'xmmc', 'ktmc', 'fwdx', 'define1', 'project_property', 'zylb', 'jdh', 'cgmc', 'jdjg', 'psdj', 'xkfl' ];//需要合并的列名称
-            var columsIndex = [ 0, 1, 2, 3, 4, 5, 17, 18, 19, 20, 21, 22, 23, 24, 25];//需要合并的列索引值
+            var columsName = [ 'realIndex', 'hth', 'xmmc', 'ktmc', 'nd', 'define10', 'fwdx', 'xmlbmc', 'project_property', 'zylb', 'jdh', 'cgmc', 'jdjg', 'psdj', 'xkfl'  ];//需要合并的列名称
+            var columsIndex = [ 0, 1, 2, 3, 4, 5, 6,17, 18, 19, 20, 21, 22, 23, 24, 25 ];//需要合并的列索引值
             // hth 合同号
             for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
                 var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
@@ -734,6 +595,15 @@
                 }
             });
         });
+        table.on('tool(processdef-table)', function (obj) {
+            var selectRowData = obj.data;
+            if (obj.event === 'pj') {
+                openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + selectRowData.xmid);
+            }
+            if (obj.event === 'zjxz') {
+                openFullWin("选择专家", "/expertController/getUserChoicePage?flag=xm&projectId=" + selectRowData.xmid+"&projectName="+encodeURI(encodeURI(selectRowData.xmmc))+"&unitCode="+selectRowData.define9);
+            }
+        });
 
     }
 
@@ -772,38 +642,72 @@
         }
         console.log("级联：\n parentCode=" + parentCode + " downId=" + downId);
         var v_date = (new Date()).getTime();
-        if (parentCode != null && parentCode != '') {
+        if (parentCode != null && parentCode != '' && parentCode!="-1") {
+            if((downId=="define2"&&parentCode=="ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY")||downId=="define12"||downId=="zylbbmFlag"){
+                $.ajax({
+                    url : "/sre-project-basic/getDicListByParentCode?v_date=" + v_date + "&parentCode=" + parentCode,
+                    type : "post",
+                    async : false,
+                    dataType : "json",
+                    success : function(data) {
+                        $("#" + downId).append("<option value=''>--请选择--</option>");
+                        $.each(data, function(i, el) {
+                            $("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
+                            if (define12 == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+                            if (define2 == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+                            if (zycbmFlag == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+                            if (zycbmFlag == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
 
-            $.ajax({
-                url : "/sre-project-basic/getDicListByParentCode?v_date=" + v_date + "&parentCode=" + parentCode,
-                type : "post",
-                async : false,
-                dataType : "json",
-                success : function(data) {
-                    $("#" + downId).append("<option value=''>--请选择--</option>");
-                    $.each(data, function(i, el) {
-                        $("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
-                        if (define12 == el.name) {
-                            $("#" + downId).val(el.code);
-                        }
-                        if (define2 == el.name) {
-                            $("#" + downId).val(el.code);
-                        }
-                        if (zycbmFlag == el.name) {
-                            $("#" + downId).val(el.code);
-                        }
-                        if (zycbmFlag == el.name) {
-                            $("#" + downId).val(el.code);
-                        }
+                        });
+                        form.render();
+                    },
+                    error : function() {
+                        alert("发生未知错误 ,请重新操作.");
+                    }
+                });
+            }else{
+                $.ajax({
+                    url : "/out/project-company-list",
+                    type : "post",
+                    async : false,
+                    dataType : "json",
+                    data:{
+                        "jfly":$("#define11").find("option:selected").text(),
+                        "dwxz":$("#define12").find("option:selected").text()
+                    },
+                    success : function(data) {
+                        $("#" + downId).append("<option value=''>--请选择--</option>");
+                        $.each(data, function(i, el) {
+                            $("#" + downId).append('<option value="'+ el.define8 +'">' + el.define8 + '</option>');
+                            if (define12 == el.name) {
+                                $("#" + downId).val(el.dataId);
+                            }
+                            if (define2 == el.name) {
+                                $("#" + downId).val(el.dataId);
+                            }
+                            if (zycbmFlag == el.name) {
+                                $("#" + downId).val(el.dataId);
+                            }
+                            if (zycbmFlag == el.name) {
+                                $("#" + downId).val(el.dataId);
+                            }
 
-                    });
-                    form.render();
-                },
-                error : function() {
-                    alert("发生未知错误 ,请重新操作.");
-                }
-            });
-
+                        });
+                        form.render();
+                    },
+                    error : function() {
+                        alert("发生未知错误 ,请重新操作.");
+                    }
+                });
+            }
         }
         var code_temp = $("#" + downId).val();
         //如果ID=单位性质 ,再调用一次，形成第三级
@@ -816,8 +720,12 @@
         form.render();
     }
 
-    function purchase_money(jf) {
-        return '<span style="color:red">' + jf + '</span>';
+    function purchase_money(realIndex, jf) {
+        if (realIndex == '合计') {
+            return '<span style="color:red">' + jf + '</span>';
+        } else {
+            return '<span>' + jf + '</span>';
+        }
     }
 
     function purchase_money_jf(jf) {
