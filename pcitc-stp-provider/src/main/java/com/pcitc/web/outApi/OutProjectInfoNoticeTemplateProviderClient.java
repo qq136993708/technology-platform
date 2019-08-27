@@ -34,7 +34,7 @@ public class OutProjectInfoNoticeTemplateProviderClient
 	
 	
 	@ApiOperation(value="通知模板-检索付款通知模板",notes="根据付款通知模板ID检索付款通知模板!")
-	@RequestMapping(value = "/stp-provider/out/out-standarddata-get/{dataId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/out/out-noticetemplate-get/{dataId}", method = RequestMethod.POST)
 	public Object selectOutProjectInfoNoticeTemplateByDataId(@PathVariable("dataId") String dataId) 
 	{
 		OutProjectInfoNoticeTemplate organ = null;
@@ -49,7 +49,7 @@ public class OutProjectInfoNoticeTemplateProviderClient
 		return organ;
 	}
 	@ApiOperation(value="通知模板-检索付款通知模板",notes="根据付款通知模板ID检索付款通知模板!")
-	@RequestMapping(value = "/stp-provider/out/out-standarddata-getbyId/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/out/out-noticetemplate-getbyId/{id}", method = RequestMethod.POST)
 	public Object selectOutProjectInfoNoticeTemplateById(@PathVariable("id") String id) 
 	{
 		OutProjectInfoNoticeTemplate organ = null;
@@ -66,7 +66,7 @@ public class OutProjectInfoNoticeTemplateProviderClient
 	
 	
 	@ApiOperation(value="通知模板-付款通知模板列表",notes="获取付款通知模板列表。")
-	@RequestMapping(value = "/stp-provider/out/out-standarddata-list", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/out/out-noticetemplate-list", method = RequestMethod.POST)
 	public Object selectOutProjectInfoNoticeTemplateList(@RequestBody OutProjectInfoNoticeTemplate bean) 
 	{
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
@@ -86,7 +86,7 @@ public class OutProjectInfoNoticeTemplateProviderClient
 		return rsdata;
 	}
 	@ApiOperation(value="通知模板-预算分页列表",notes="获取付款通知模板列表（带分页）。")
-	@RequestMapping(value = "/stp-provider/out/out-standarddata-table", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/out/out-noticetemplate-table", method = RequestMethod.POST)
 	public Object selectOutProjectInfoNoticeTemplateTable(@RequestBody LayuiTableParam param) 
 	{
 		LayuiTableData data = null;
@@ -102,7 +102,7 @@ public class OutProjectInfoNoticeTemplateProviderClient
 		return data;
 	}
 	@ApiOperation(value="通知模板-付款通知模板保存",notes="保存付款通知模板")
-	@RequestMapping(value = "/stp-provider/out/out-standarddata-save", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/out/out-noticetemplate-save", method = RequestMethod.POST)
 	public Object saveOutProjectInfoNoticeTemplate(@RequestBody OutProjectInfoNoticeTemplate bean) 
 	{
 		Result rs = new Result(false);
@@ -117,7 +117,7 @@ public class OutProjectInfoNoticeTemplateProviderClient
 		return rs;
 	}
 	@ApiOperation(value="通知模板-付款通知模板更新",notes="更新付款通知模板")
-	@RequestMapping(value = "/stp-provider/out/out-standarddata-upd", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/out/out-noticetemplate-upd", method = RequestMethod.POST)
 	public Object updOutProjectInfoNoticeTemplate(@RequestBody OutProjectInfoNoticeTemplate bean) 
 	{
 		Result rs = new Result(false);
@@ -133,7 +133,7 @@ public class OutProjectInfoNoticeTemplateProviderClient
 	}
 
 	@ApiOperation(value="通知模板-付款通知模板保存或更新",notes="付款通知模板保存或更新")
-	@RequestMapping(value = "/stp-provider/out/out-standarddata-saveorupd", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/out/out-noticetemplate-saveorupd", method = RequestMethod.POST)
 	public Object saveOrUpdOutProjectInfoNoticeTemplate(@RequestBody OutProjectInfoNoticeTemplate bean) 
 	{
 		Result rs = new Result(false);
@@ -150,7 +150,7 @@ public class OutProjectInfoNoticeTemplateProviderClient
 	}
 	
 	@ApiOperation(value="通知模板-付款通知模板删除",notes="付款通知模板删除")
-	@RequestMapping(value = "/stp-provider/out/out-standarddata-del/{dataId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/out/out-noticetemplate-del/{dataId}", method = RequestMethod.POST)
 	public Object delOutProjectInfoNoticeTemplate(@PathVariable("dataId") String dataId) 
 	{
 		Result rs = new Result(false);
