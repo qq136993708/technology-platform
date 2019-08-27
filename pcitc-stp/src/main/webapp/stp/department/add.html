@@ -79,12 +79,12 @@
                     <textarea placeholder="请输入荣誉" name="honor" id="honor" lay-verify="honor" class="layui-textarea">${department.honor}</textarea>
                     </div>
                 </div>
-                <div class="layui-form-item">
+                <!-- <div class="layui-form-item">
                     <label class="layui-form-label">主要装备<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
                     <textarea placeholder="请输入简介" name="major" id="major" lay-verify="major" class="layui-textarea">${department.major}</textarea>
                     </div>
-                </div>
+                </div> -->
                 
 
                 <div class="layui-form-item">
@@ -164,10 +164,10 @@
     	});
         
         
-        var myEditor_major = null;
+      /*   var myEditor_major = null;
         ClassicEditor.create(document.querySelector('#major'),{}).then(editor => {
         	myEditor_major = editor;
-    	}); 
+    	});  */
 
         /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
         form.verify({
@@ -197,7 +197,7 @@
             
             $("#personnel").val(myEditor_personnel.getData());
             $("#honor").val(myEditor_honor.getData());
-            $("#major").val(myEditor_major.getData()); 
+            //$("#major").val(myEditor_major.getData()); 
             
             var url = '/department/save?v_date=' + v_date + "&id=" + id;
             var backurl = "/department/to-list?v_date=" + v_date;
