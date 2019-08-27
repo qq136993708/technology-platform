@@ -335,14 +335,18 @@
 			form.on('select(select_define11)', function(data) {
 				//alert(data.value);
 				var parentCode = data.value;
-				$("#lay_company").html("研究院：");
+				if("ROOT_FZJCZX_GSLXCW_GFGS"==parentCode){
+					$("#lay_company").html("研究院：");
+				}else{
+					$("#lay_company").html("单位名称：");
+				}
 				getDicByParentCode(parentCode, 'define12');
 				console.log("监听经费来源:" + data);
 			});
 			//监听单位性质
 			form.on('select(select_define12)', function(data) {
 				var parentCode = data.value;
-				if("ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY"==parentCode){
+				if("ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY"==parentCode||"-1"==parentCode){
 					$("#lay_company").html("研究院：");
 				}else{
 					$("#lay_company").html("单位名称：");
@@ -622,7 +626,7 @@
 					async : false,
 					dataType : "json",
 					success : function(data) {
-						$("#" + downId).append("<option value=''>--请选择--</option>");
+						$("#" + downId).append("<option value='-1'>--请选择--</option>");
 						$.each(data, function(i, el) {
 							$("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
 							if (define12 == el.name) {
@@ -680,6 +684,40 @@
 						}
 					});
 				}
+			}else if((parentCode==null||"-1"==parentCode)&&downId=="define12"){
+				if((""==$("#define11").val()||undefined==$("#define11").val())&&(""==$("#define12").val()||undefined==$("#define12").val())){
+					parentCode = "ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY";
+					downId = "define2";
+					$.ajax({
+						url : "/sre-project-basic/getDicListByParentCode?v_date=" + v_date + "&parentCode=" + parentCode,
+						type : "post",
+						async : false,
+						dataType : "json",
+						success : function(data) {
+							$("#" + downId).append("<option value='-1'>--请选择--</option>");
+							$.each(data, function(i, el) {
+								$("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
+								if (define12 == el.name) {
+									$("#" + downId).val(el.code);
+								}
+								if (define2 == el.name) {
+									$("#" + downId).val(el.code);
+								}
+								if (zycbmFlag == el.name) {
+									$("#" + downId).val(el.code);
+								}
+								if (zycbmFlag == el.name) {
+									$("#" + downId).val(el.code);
+								}
+
+							});
+							form.render();
+						},
+						error : function() {
+							alert("发生未知错误 ,请重新操作.");
+						}
+					});
+				}
 			}
 			var code_temp = $("#" + downId).val();
 			//如果ID=单位性质 ,再调用一次，形成第三级
@@ -721,6 +759,7 @@
 			}
 
 		}
+
 	</script>
 </body>
 
