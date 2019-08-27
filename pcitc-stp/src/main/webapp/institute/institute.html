@@ -44,11 +44,27 @@
             </div>
         </div>
     </div>
+    <div class="menu-right">
+        <ul>
+            <li class="layui-this">研究院</li>
+            <li>研究院</li>
+            <li>研究院</li>
+            <li>研究院</li>
+            <li>研究院</li>
+            <li>研究院</li>
+            <li>研究院</li>
+            <li>研究院</li>
+        </ul>
+    </div>
     <script>
         layui.use(['jquery', 'element'], function(){
             var $ = layui.jquery, element = layui.element;
             parent.$("#LAY_app_body").css({"left":"16px","top":"107px","margin":"0","right":"16px","bottom":"46px"});
             $(".layui-tab-content iframe").css("height",parent.$("#LAY_app_body iframe").height()-120+"px");
+            $(".menu-right ul li").click(function () {
+                $(".menu-right ul li").removeClass("layui-this");
+                $(this).addClass("layui-this");
+            });
         });
     </script>
 </body>

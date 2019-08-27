@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.outApi.OutProjectInvoicesMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutProjectInvoices">
+    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
+    <result column="nd" jdbcType="VARCHAR" property="nd" />
+    <result column="xmid" jdbcType="VARCHAR" property="xmid" />
+    <result column="xmmc" jdbcType="VARCHAR" property="xmmc" />
+    <result column="hth" jdbcType="VARCHAR" property="hth" />
+    <result column="ysnd" jdbcType="VARCHAR" property="ysnd" />
+    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="invoice_status" jdbcType="INTEGER" property="invoiceStatus" />
+    <result column="invoice_fee" jdbcType="DOUBLE" property="invoiceFee" />
+    <result column="invoice_num" jdbcType="INTEGER" property="invoiceNum" />
+    <result column="invoice_date" jdbcType="VARCHAR" property="invoiceDate" />
+    <result column="payment_status" jdbcType="INTEGER" property="paymentStatus" />
+    <result column="payment_date" jdbcType="VARCHAR" property="paymentDate" />
+    <result column="payment_no" jdbcType="VARCHAR" property="paymentNo" />
+    <result column="project_id_md5" jdbcType="VARCHAR" property="projectIdMd5" />
+    <result column="define8" jdbcType="VARCHAR" property="define8" />
+    <result column="define9" jdbcType="VARCHAR" property="define9" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    data_id, nd, xmid, xmmc, hth, ysnd, batch_no, invoice_status, invoice_fee, invoice_num, 
+    invoice_date, payment_status, payment_date, payment_no, project_id_md5, define8, 
+    define9
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.out.OutProjectInvoicesExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from out_project_invoices
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from out_project_invoices
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from out_project_invoices
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutProjectInvoicesExample">
+    delete from out_project_invoices
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectInvoices">
+    insert into out_project_invoices (data_id, nd, xmid, 
+      xmmc, hth, ysnd, batch_no, 
+      invoice_status, invoice_fee, invoice_num, 
+      invoice_date, payment_status, payment_date, 
+      payment_no, project_id_md5, define8, 
+      define9)
+    values (#{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, 
+      #{xmmc,jdbcType=VARCHAR}, #{hth,jdbcType=VARCHAR}, #{ysnd,jdbcType=VARCHAR}, #{batchNo,jdbcType=VARCHAR}, 
+      #{invoiceStatus,jdbcType=INTEGER}, #{invoiceFee,jdbcType=DOUBLE}, #{invoiceNum,jdbcType=INTEGER}, 
+      #{invoiceDate,jdbcType=VARCHAR}, #{paymentStatus,jdbcType=INTEGER}, #{paymentDate,jdbcType=VARCHAR}, 
+      #{paymentNo,jdbcType=VARCHAR}, #{projectIdMd5,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, 
+      #{define9,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectInvoices">
+    insert into out_project_invoices
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        data_id,
+      </if>
+      <if test="nd != null">
+        nd,
+      </if>
+      <if test="xmid != null">
+        xmid,
+      </if>
+      <if test="xmmc != null">
+        xmmc,
+      </if>
+      <if test="hth != null">
+        hth,
+      </if>
+      <if test="ysnd != null">
+        ysnd,
+      </if>
+      <if test="batchNo != null">
+        batch_no,
+      </if>
+      <if test="invoiceStatus != null">
+        invoice_status,
+      </if>
+      <if test="invoiceFee != null">
+        invoice_fee,
+      </if>
+      <if test="invoiceNum != null">
+        invoice_num,
+      </if>
+      <if test="invoiceDate != null">
+        invoice_date,
+      </if>
+      <if test="paymentStatus != null">
+        payment_status,
+      </if>
+      <if test="paymentDate != null">
+        payment_date,
+      </if>
+      <if test="paymentNo != null">
+        payment_no,
+      </if>
+      <if test="projectIdMd5 != null">
+        project_id_md5,
+      </if>
+      <if test="define8 != null">
+        define8,
+      </if>
+      <if test="define9 != null">
+        define9,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="nd != null">
+        #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="xmid != null">
+        #{xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null">
+        #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="hth != null">
+        #{hth,jdbcType=VARCHAR},
+      </if>
+      <if test="ysnd != null">
+        #{ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null">
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceStatus != null">
+        #{invoiceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceFee != null">
+        #{invoiceFee,jdbcType=DOUBLE},
+      </if>
+      <if test="invoiceNum != null">
+        #{invoiceNum,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceDate != null">
+        #{invoiceDate,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentStatus != null">
+        #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentDate != null">
+        #{paymentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentNo != null">
+        #{paymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectIdMd5 != null">
+        #{projectIdMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="define8 != null">
+        #{define8,jdbcType=VARCHAR},
+      </if>
+      <if test="define9 != null">
+        #{define9,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutProjectInvoicesExample" resultType="java.lang.Long">
+    select count(*) from out_project_invoices
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update out_project_invoices
+    <set>
+      <if test="record.dataId != null">
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nd != null">
+        nd = #{record.nd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmid != null">
+        xmid = #{record.xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmmc != null">
+        xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hth != null">
+        hth = #{record.hth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ysnd != null">
+        ysnd = #{record.ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchNo != null">
+        batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceStatus != null">
+        invoice_status = #{record.invoiceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.invoiceFee != null">
+        invoice_fee = #{record.invoiceFee,jdbcType=DOUBLE},
+      </if>
+      <if test="record.invoiceNum != null">
+        invoice_num = #{record.invoiceNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.invoiceDate != null">
+        invoice_date = #{record.invoiceDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentStatus != null">
+        payment_status = #{record.paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.paymentDate != null">
+        payment_date = #{record.paymentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentNo != null">
+        payment_no = #{record.paymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectIdMd5 != null">
+        project_id_md5 = #{record.projectIdMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define8 != null">
+        define8 = #{record.define8,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define9 != null">
+        define9 = #{record.define9,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update out_project_invoices
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      nd = #{record.nd,jdbcType=VARCHAR},
+      xmid = #{record.xmid,jdbcType=VARCHAR},
+      xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      hth = #{record.hth,jdbcType=VARCHAR},
+      ysnd = #{record.ysnd,jdbcType=VARCHAR},
+      batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      invoice_status = #{record.invoiceStatus,jdbcType=INTEGER},
+      invoice_fee = #{record.invoiceFee,jdbcType=DOUBLE},
+      invoice_num = #{record.invoiceNum,jdbcType=INTEGER},
+      invoice_date = #{record.invoiceDate,jdbcType=VARCHAR},
+      payment_status = #{record.paymentStatus,jdbcType=INTEGER},
+      payment_date = #{record.paymentDate,jdbcType=VARCHAR},
+      payment_no = #{record.paymentNo,jdbcType=VARCHAR},
+      project_id_md5 = #{record.projectIdMd5,jdbcType=VARCHAR},
+      define8 = #{record.define8,jdbcType=VARCHAR},
+      define9 = #{record.define9,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutProjectInvoices">
+    update out_project_invoices
+    <set>
+      <if test="nd != null">
+        nd = #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="xmid != null">
+        xmid = #{xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null">
+        xmmc = #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="hth != null">
+        hth = #{hth,jdbcType=VARCHAR},
+      </if>
+      <if test="ysnd != null">
+        ysnd = #{ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null">
+        batch_no = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceStatus != null">
+        invoice_status = #{invoiceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceFee != null">
+        invoice_fee = #{invoiceFee,jdbcType=DOUBLE},
+      </if>
+      <if test="invoiceNum != null">
+        invoice_num = #{invoiceNum,jdbcType=INTEGER},
+      </if>
+      <if test="invoiceDate != null">
+        invoice_date = #{invoiceDate,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentStatus != null">
+        payment_status = #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentDate != null">
+        payment_date = #{paymentDate,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentNo != null">
+        payment_no = #{paymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectIdMd5 != null">
+        project_id_md5 = #{projectIdMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="define8 != null">
+        define8 = #{define8,jdbcType=VARCHAR},
+      </if>
+      <if test="define9 != null">
+        define9 = #{define9,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutProjectInvoices">
+    update out_project_invoices
+    set nd = #{nd,jdbcType=VARCHAR},
+      xmid = #{xmid,jdbcType=VARCHAR},
+      xmmc = #{xmmc,jdbcType=VARCHAR},
+      hth = #{hth,jdbcType=VARCHAR},
+      ysnd = #{ysnd,jdbcType=VARCHAR},
+      batch_no = #{batchNo,jdbcType=VARCHAR},
+      invoice_status = #{invoiceStatus,jdbcType=INTEGER},
+      invoice_fee = #{invoiceFee,jdbcType=DOUBLE},
+      invoice_num = #{invoiceNum,jdbcType=INTEGER},
+      invoice_date = #{invoiceDate,jdbcType=VARCHAR},
+      payment_status = #{paymentStatus,jdbcType=INTEGER},
+      payment_date = #{paymentDate,jdbcType=VARCHAR},
+      payment_no = #{paymentNo,jdbcType=VARCHAR},
+      project_id_md5 = #{projectIdMd5,jdbcType=VARCHAR},
+      define8 = #{define8,jdbcType=VARCHAR},
+      define9 = #{define9,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+</mapper>

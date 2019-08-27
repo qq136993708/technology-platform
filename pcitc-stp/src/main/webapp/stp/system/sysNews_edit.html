@@ -7,8 +7,9 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
+    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor5_common.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
 <body>
@@ -38,7 +39,6 @@
                     </div>
                 </div>
 
-
             </div>
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -58,7 +58,6 @@
                     </div>
                 </div>
 
-
             </div>
             <div class="layui-row">
                 <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
@@ -75,79 +74,64 @@
                             <label class="layui-form-label">新闻类型<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <select name="stype" id="stype" lay-filter="stype">
-                                         <option value="" >--请选择--</option>
-							             <#list lbList as vo> 
-									          <option value="${vo.code}"  <#if sysNews.stype=vo.code>selected="selected"</#if> >${vo.name}</option>
-									      </#list>
-                                </select>
+                                    <option value="" >--请选择--</option>
+                                    <#list lbList as vo>
+                                    <option value="${vo.code}"  <#if sysNews.stype=vo.code>selected="selected"</#if> >${vo.name}</option>
+                            </#list>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-bottom">
+                    <div class="form-bottom-btns">
+                        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-row">
+            <div class="layui-form-item layui-form-text">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">内容<span class="must-fill">*</span></label>
+                    <div class="layui-input-block">
+                        <textarea name="content" id="content" class="ckeditor"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-row" id="pic_id" >
+            <div class="layui-form-item layui-form-text">
+                <div class="layui-form-item">
+
+                    <label class="layui-form-label">新闻图片</label>
+                    <div class="layui-input-block">
+
+                        <div class="tableBox">
+                            <span class="file-span">新闻图片</span>
+                            <div class="tableToolBox" style="border: 0;">
+                                <div class="layui-form-item">
+                                    <input type="hidden" name="bak6" id="bak6" value="">
+                                    <div id="file_upload_img">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                
 
-                    <div class="form-bottom">
-                        <div class="form-bottom-btns">
-                            <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
-                            <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
-                        </div>
-                    </div>
                 </div>
             </div>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
-            <div class="layui-row">
-                <div class="layui-form-item layui-form-text">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">内容<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <textarea name="content" id="content" class="ckeditor"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            
-            
-            <div class="layui-row" id="pic_id" >
-                <div class="layui-form-item layui-form-text">
-                    <div class="layui-form-item">
-                    
-                        <label class="layui-form-label">新闻图片</label>
-                        <div class="layui-input-block">
-                        
-                              <div class="tableBox">
-		                    <span class="file-span">新闻图片</span>
-		                    <div class="tableToolBox" style="border: 0;">
-		                        <div class="layui-form-item">
-		                            <input type="hidden" name="bak6" id="bak6" value="">
-		                            <div id="file_upload_img">
-		                            </div>
-		                        </div>
-		                    </div>
-		                </div>
-                        </div>
-                      
-                    </div>
-                </div>
-            </div>
-            
-            <div style="margin-top:100px;height:50px"> </div>
-            
-            
         </div>
-    </form>
+
+        <div style="margin-top:100px;height:50px"> </div>
+
+
+</div>
+</form>
 </div>
 <script>
     ajaxPost('/dictionary/list/ROOT_UNIVERSAL_WEHTHER', null, function (data, status) {
@@ -161,34 +145,56 @@
         });
     }); */
     var id = "${id?default(0)}";
-    if (id != "0") 
+    if (id != "0")
     {
         $("#id").val(id);
     }
-    
-    
-   
-    
+
+
+
+
     var param = JSON.parse(window.localStorage.getItem("param"));
     var file_opt_flag = param.id;
 
     var file_opt_flag2= param.id;
     var file_ids2 = "bak6";
     var file_edit_detail2 = "edit";
-    
-    
-    
+    var myEditor = null;
+    ClassicEditor
+        .create( document.querySelector( '#content' ), {
+            language:"zh-cn"
+            ,image: {
+                toolbar: [ 'imageTextAlternative' ]
+            }
+            ,
+            ckfinder: {
+                uploadUrl: '/sysfile/ckupload5?type=Image'
+            }
+        })
+        .then( editor => {
+            myEditor = editor;
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
         function () {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
-            var myEditor = null;
-            ClassicEditor.create(document.querySelector('#content'),{}).then(editor => {
-                myEditor = editor;
-            });
+            // var myEditor = null;
+            // ClassicEditor.create(document.querySelector('#content'),{}).then(editor => {
+            //     editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+            //         return new UploadAdapter( loader );
+            //     };
+            //     myEditor = editor;
+            // });
+
+
+
             form.render(null, 'sysNews-form');
             $("#bak6").val("${bak6}");
-            
-            
+
+
             laydate.render({
                 elem: '#publicDate'
                 , value: new Date()//必须遵循format参数设定的格式
@@ -198,8 +204,7 @@
             if (id != "0") {
                 ajaxPost("/sysNews/getSysNewsInfo", {"id": id}, function (data) {
                     form.val("sysNews-form", data);
-                    //myEditor.setData(data.content);
-                    //CKEDITOR.replace(data.content);
+                    myEditor.setData(data.content);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -216,14 +221,14 @@
                     layedit.sync(editIndex);
                 }
             }); */
-            
-            
+
+
             form.on('select(stype)', function(data){
-    			  //alert(data.value);
-    			   var code=data.value;
-    			   initpic(code);
-    		   });
-            
+                //alert(data.value);
+                var code=data.value;
+                initpic(code);
+            });
+
             $("#file_upload_img").load('/common/public/uploadlayuiload2.html');
 
             /* 监听指定开关 */
@@ -244,7 +249,8 @@
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
                 data.field.content = myEditor.getData();
-                
+                console.log("myEditor\n"+myEditor.getData());
+
                 var stype=  $("#stype").val();
                 var bakvv=  $("#bak6").val();
                 /* if(stype=='ROOT_XTGL_XWLX_XWTP')//新闻图片
@@ -255,7 +261,7 @@
                 		 return false;
                		}
                 } */
-                
+
                 ajaxPost("/sysNews/saveSysNews", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     // parent.layui.table.reload('sysNewsTableId', {where: {param: {}}});
@@ -270,22 +276,22 @@
                 parent.layer.close(index);
             })
         });
-    
-    
+
+
     function initpic(code)
     {
-    	
-    	   console.log("新闻图片:"+code);
-    	   if(code=='ROOT_XTGL_XWLX_XWTP')//新闻图片
-		   {
-			   $("#pic_id").show();
-			   $("#file_upload_img").show();
-		   }else
-		   {
-			   $("#pic_id").hide();
-			   $("#bak6").val("");
-			   $("#file_upload_img").hide();
-		   }
+
+        console.log("新闻图片:"+code);
+        if(code=='ROOT_XTGL_XWLX_XWTP')//新闻图片
+        {
+            $("#pic_id").show();
+            $("#file_upload_img").show();
+        }else
+        {
+            $("#pic_id").hide();
+            $("#bak6").val("");
+            $("#file_upload_img").hide();
+        }
     }
     var code=$("#stype").val();
     initpic(code);

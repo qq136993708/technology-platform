@@ -8,8 +8,8 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/javascript/ckeditor5/ckeditor.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
 <body>
@@ -133,21 +133,58 @@
     if (id != "0") {
         $("#id").val(id);
     }
+    var doDesc = null,complaintDesc=null;
+    ClassicEditor
+        .create( document.querySelector( '#doDesc' ), {
+            language:"zh-cn"
+            ,image: {
+                toolbar: [ 'imageTextAlternative' ]
+            }
+            ,ckfinder: {
+                uploadUrl: '/sysfile/ckupload5?type=Image'
+            }
+        })
+        .then( editor => {
+            doDesc = editor;
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+
+    ClassicEditor
+        .create( document.querySelector( '#complaintDesc' ), {
+            language:"zh-cn"
+            ,image: {
+                toolbar: [ 'imageTextAlternative' ]
+            }
+            ,ckfinder: {
+                uploadUrl: '/sysfile/ckupload5?type=Image'
+            }
+        })
+        .then( editor => {
+            complaintDesc = editor;
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
         function () {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
             form.render(null, 'zjkComplaint-form');
             //初始赋值 component-form-group 当前form的lay-filter
-            var doDesc = null,complaintDesc=null;
-            ClassicEditor.create(document.querySelector('#doDesc'),{}).then(editor => {
-                doDesc = editor;
-            });
-            ClassicEditor.create(document.querySelector('#complaintDesc'),{}).then(editor => {
-                complaintDesc = editor;
-            });
+            // var doDesc = null,complaintDesc=null;
+            // ClassicEditor.create(document.querySelector('#doDesc'),{}).then(editor => {
+            //     doDesc = editor;
+            // });
+            // ClassicEditor.create(document.querySelector('#complaintDesc'),{}).then(editor => {
+            //     complaintDesc = editor;
+            // });
             if (id != "0") {
                 ajaxPost("/zjkComplaint/getZjkComplaintInfo", {"id": id}, function (data) {
                     form.val("zjkComplaint-form", data);
+                    doDesc.setData(data.doDesc);
+                    complaintDesc.setData(data.complaintDesc);
                     /*complaintDesc.setData(data.complaintDesc);
                     doDesc.setData(data.doDesc);*/
                 });

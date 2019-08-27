@@ -1,5 +1,8 @@
 package com.pcitc.web.system;
 
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.system.Department;
 import com.pcitc.service.system.DepartmentService;
 
@@ -36,6 +42,17 @@ public class DepartmentProviderClient
 		
 	}
 	
+	
+	
+	@RequestMapping(value = "/department-provider/department/list", method = RequestMethod.POST)
+	public JSONArray getDepartmentJSONArray(@RequestBody Map map)throws Exception
+	{
+		
+		logger.info("=== Department paramsJson============"+map);
+		List<Department> list= departmentService.getDepartmentList(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
 	
 	@RequestMapping(value = "/department-provider/department/add", method = RequestMethod.POST)
 	public String insertDepartment(@RequestBody Department department) throws Exception{

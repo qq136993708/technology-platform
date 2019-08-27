@@ -32,9 +32,27 @@ $(document).ready(function() {
 				var noticeId = "${noticeId?default(0)}";
 				var publicMethods=layui.publicMethods;
                 var myEditor = null;
-                ClassicEditor.create(document.querySelector('#noticeContent'),{}).then(editor => {
+               /*  ClassicEditor.create(document.querySelector('#noticeContent'),{
+                	uploadUrl: '/sysfile/ckupload5?type=Image'
+                }).then(editor => {
                     myEditor = editor;
-            	});
+            	}); */
+                ClassicEditor.create( document.querySelector('#noticeContent'), {
+                    language:"zh-cn"
+                    ,image: {
+                        toolbar: [ 'imageTextAlternative' ]
+                    }
+                    ,ckfinder: {
+                        uploadUrl: '/sysfile/ckupload5?type=Image'
+                    }
+                })
+                .then( editor => {
+                    myEditor = editor;
+                })
+                .catch( error => {
+                    console.error( error );
+                });
+                
 				//加载字典
 				var dicMap = ['GJXMGL_TZLX'];
 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {

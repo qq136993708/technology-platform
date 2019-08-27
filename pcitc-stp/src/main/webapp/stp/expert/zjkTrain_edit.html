@@ -110,9 +110,23 @@
                 , position: 'fixed'
             });
             var myEditor = null;
-            ClassicEditor.create(document.querySelector('#trainDesc'),{}).then(editor => {
-                myEditor = editor;
-            });
+            ClassicEditor
+                .create( document.querySelector( '#trainDesc' ), {
+                    language:"zh-cn"
+                    ,image: {
+                        toolbar: [ 'imageTextAlternative' ]
+                    }
+                    ,
+                    ckfinder: {
+                        uploadUrl: '/sysfile/ckupload5?type=Image'
+                    }
+                })
+                .then( editor => {
+                    myEditor = editor;
+                } )
+                .catch( error => {
+                    console.error( error );
+                } );
             if (id != "0") {
                 ajaxPost("/zjkTrain/getZjkTrainInfo", {"id": id}, function (data) {
                     form.val("zjkTrain-form", data);
