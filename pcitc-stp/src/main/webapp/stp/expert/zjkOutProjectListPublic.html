@@ -194,6 +194,11 @@
         <i class="layui-icon  layuiadmin-button-btn">重置</i>
     </button>
 </div>
+<!--<div class="layui-inline">-->
+    <!--<button class="layui-btn layuiadmin-btn-list" onclick="showExpertEvent()">-->
+        <!--<i class="layui-icon  layuiadmin-button-btn">已选专家</i>-->
+    <!--</button>-->
+<!--</div>-->
 </div>
 <div class="layui-card-body">
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
@@ -606,6 +611,14 @@
         });
 
     }
+
+    // function showExpertEvent() { //查看已选专家
+    //     if (typeof (selectRowData.xmid) == "undefined"||selectRowData.xmid=="") {
+    //         layer.msg('请点击选择一行数据');
+    //     } else {
+    //         openBaseWin("已选专家列表", "/expertController/showExpertPage?projectId=" + selectRowData.xmid);
+    //     }
+    // }
 
     function view_pro(xmmc, projectProperty, id) {
         layer.open({
