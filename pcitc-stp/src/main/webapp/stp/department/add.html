@@ -79,12 +79,12 @@
                     <textarea placeholder="请输入荣誉" name="honor" id="honor" lay-verify="honor" class="layui-textarea">${department.honor}</textarea>
                     </div>
                 </div>
-                <div class="layui-form-item">
+                <!-- <div class="layui-form-item">
                     <label class="layui-form-label">主要装备<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
                     <textarea placeholder="请输入简介" name="major" id="major" lay-verify="major" class="layui-textarea">${department.major}</textarea>
                     </div>
-                </div>
+                </div> -->
                 
 
                 <div class="layui-form-item">
@@ -132,42 +132,90 @@
         form.render(null, 'component-form-group');
 
         var myEditor = null;
-        ClassicEditor.create(document.querySelector('#breif'),{}).then(editor => {
+        ClassicEditor.create(document.querySelector('#breif'),{
+        	   language:"zh-cn"
+                ,image: {
+                    toolbar: [ 'imageTextAlternative' ]
+                }
+                ,
+                ckfinder: {
+                    uploadUrl: '/sysfile/ckupload5?type=Image'
+                }
+        	
+        }).then(editor => {
             myEditor = editor;
     	});
         
         
         
         var myEditor_developHistory = null;
-        ClassicEditor.create(document.querySelector('#developHistory'),{}).then(editor => {
+        ClassicEditor.create(document.querySelector('#developHistory'),{
+        	language:"zh-cn"
+                ,image: {
+                    toolbar: [ 'imageTextAlternative' ]
+                }
+                ,
+                ckfinder: {
+                    uploadUrl: '/sysfile/ckupload5?type=Image'
+                }
+        	
+        }).then(editor => {
         	myEditor_developHistory = editor;
     	});
         
         
         var myEditor_organization = null;
-        ClassicEditor.create(document.querySelector('#organization'),{}).then(editor => {
+        ClassicEditor.create(document.querySelector('#organization'),{
+        	language:"zh-cn"
+                ,image: {
+                    toolbar: [ 'imageTextAlternative' ]
+                }
+                ,
+                ckfinder: {
+                    uploadUrl: '/sysfile/ckupload5?type=Image'
+                }
+        	
+        }).then(editor => {
         	myEditor_organization = editor;
     	});
         
         
         
         var myEditor_personnel = null;
-        ClassicEditor.create(document.querySelector('#personnel'),{}).then(editor => {
+        ClassicEditor.create(document.querySelector('#personnel'),{
+        	language:"zh-cn"
+                ,image: {
+                    toolbar: [ 'imageTextAlternative' ]
+                }
+                ,
+                ckfinder: {
+                    uploadUrl: '/sysfile/ckupload5?type=Image'
+                }
+        }).then(editor => {
         	myEditor_personnel = editor;
     	});
         
         
         
         var myEditor_honor = null;
-        ClassicEditor.create(document.querySelector('#honor'),{}).then(editor => {
+        ClassicEditor.create(document.querySelector('#honor'),{
+        	language:"zh-cn"
+                ,image: {
+                    toolbar: [ 'imageTextAlternative' ]
+                }
+                ,
+                ckfinder: {
+                    uploadUrl: '/sysfile/ckupload5?type=Image'
+                }
+        }).then(editor => {
         	myEditor_honor = editor;
     	});
         
         
-        var myEditor_major = null;
+      /*   var myEditor_major = null;
         ClassicEditor.create(document.querySelector('#major'),{}).then(editor => {
         	myEditor_major = editor;
-    	}); 
+    	});  */
 
         /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
         form.verify({
@@ -197,7 +245,7 @@
             
             $("#personnel").val(myEditor_personnel.getData());
             $("#honor").val(myEditor_honor.getData());
-            $("#major").val(myEditor_major.getData()); 
+            //$("#major").val(myEditor_major.getData()); 
             
             var url = '/department/save?v_date=' + v_date + "&id=" + id;
             var backurl = "/department/to-list?v_date=" + v_date;

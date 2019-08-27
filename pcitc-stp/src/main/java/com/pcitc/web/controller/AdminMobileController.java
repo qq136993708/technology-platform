@@ -389,7 +389,8 @@ public class AdminMobileController extends BaseController {
 
 			tokenUser = JwtTokenUtil.getUserFromTokenByValue(retJson.get("token").toString());
 			String unitPathId = tokenUser.getUnitPath();
-			boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
+			//boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
+			boolean isZHJHCPerson=EquipmentUtils.getZycbmDic(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 			request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 			request.setAttribute("sysUserInfo", tokenUser); // tokenUser中有userLevel等基本属性
 
@@ -436,7 +437,10 @@ public class AdminMobileController extends BaseController {
 			request.setAttribute("year", year);
 
 			String unitPathId = sysUserInfo.getUnitPath();
-			boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
+			//boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
+			boolean isZHJHCPerson=EquipmentUtils.getZycbmDic(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
+			
+			
 			request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 			request.setAttribute("sysUserInfo", sysUserInfo);
 			
