@@ -72,7 +72,14 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 		commonKey.add("unit");
 		commonKey.add("fullSearch");
 		commonKey.add("user");
-		
+		commonKey.add("zjkExtractConfig");
+		commonKey.add("zjkMsgConfig");
+		commonKey.add("zjkMsg");
+		commonKey.add("zjkEvaluate");
+		commonKey.add("zjkComplaint");
+		commonKey.add("zjkTrain");
+		commonKey.add("zjkChoice");
+
 		String path = request.getRequestURI();
 		String pathKey = path.split("/")[1];
 		if (pathKey != null && !pathKey.equals("")) {
