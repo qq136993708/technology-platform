@@ -101,7 +101,12 @@
 				var taskName = $('#taskName').val();
 				var dateFlag = $('#dateFlag').val();
 				var param = JSON.parse(window.localStorage.getItem("param"));
-
+				/*右侧点击标签重新获取param*/
+                window.getParam=function(){
+                    if(param==undefined){
+                        var param = JSON.parse(window.localStorage.getItem("param"));
+                    }
+                }
 				var lodingMsg = layer.msg('数据加载中....');
 
 				//渲染
@@ -215,7 +220,6 @@
 				});
 				$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 			}
-			
 			function renderOtherTable() {
 				var taskName = $('#taskName').val();
 				var dateFlag = $('#dateFlag').val();

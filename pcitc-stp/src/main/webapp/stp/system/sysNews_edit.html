@@ -249,6 +249,7 @@
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
                 data.field.content = myEditor.getData();
+                console.log("myEditor\n"+myEditor.getData());
 
                 var stype=  $("#stype").val();
                 var bakvv=  $("#bak6").val();

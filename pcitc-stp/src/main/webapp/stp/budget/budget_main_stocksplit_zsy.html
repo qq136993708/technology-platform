@@ -100,7 +100,7 @@
 	                 <tr>
 	                    <#list items as item>
 	                    	<#list item?keys as key>
-	                    		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true,width: 100}">预算</th> 
+	                    		<th lay-data="{field:'${key}_total', align: 'right',totalRow: true,width: 100,style:'background-color: #f2f2f2;'}">预算</th> 
 	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true,width: 100}">老合同</th>
 	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true,width: 100}">可新签</th>
 	                    	</#list> 
@@ -269,7 +269,7 @@
 			});
 			//刷新数据
 			window.reloadTable = function(tableId,tableData){
-				table.reload(tableId, {data: tableData,even: true,done:function(){
+				table.reload(tableId, {data: tableData,done:function(){
 					if (layuitable != null && layuitable.length > 0)
 	                {
 	                    layuitable[0].scrollTop = scrollTop;

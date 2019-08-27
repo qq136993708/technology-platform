@@ -851,6 +851,45 @@ public class EquipmentUtils {
 		return flag;
 	}
 	
+	//是不是8大院人员
+	public static String getYSPersonName(String unitPathIds,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
+	{
+		
+		System.out.println("---------isYSPerson--unitPathId="+unitPathIds);
+		String  resalut="";//默认不是
+		if(!unitPathIds.equals(""))
+		{
+			String array[]=unitPathIds.split(",");
+			for(int i=0;i<array.length;i++)
+			{
+				String strPath=array[i];
+				if(strPath!=null && !strPath.equals(""))
+				{
+					if(strPath.length()>4)
+					{
+						String parentUnitPathId=strPath.substring(0, strPath.length()-4);
+						List<SysDictionary> listSysDictionary=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
+						
+						for(int j=0;j<array.length;j++)
+						{
+							SysDictionary sysDictionary=listSysDictionary.get(j);
+							String code=sysDictionary.getNumValue();
+							String name=sysDictionary.getRemark();
+							if(parentUnitPathId.equals(code))
+							{
+								resalut=name;
+								System.out.println("------------------isYSPerson 院人员-----------------------"+name);
+							}
+						}
+						
+					}
+				}
+				
+			}
+		}
+		return resalut;
+	}
+	
 	
 	
 	public static boolean isHasUnitCode(String unitCode,String unitCodestr)throws Exception

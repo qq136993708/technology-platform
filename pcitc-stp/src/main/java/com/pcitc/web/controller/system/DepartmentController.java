@@ -36,12 +36,19 @@ public class DepartmentController extends BaseController {
 	private static final String UPDATE_URL = "http://pcitc-zuul/system-proxy/department-provider/department/update";
 	private static final String DEL_URL    = "http://pcitc-zuul/system-proxy/department-provider/department/delete/";
 	private static final String GET_URL    = "http://pcitc-zuul/system-proxy/department-provider/department/get/";
+	
+	private static final String LIST_URL   = "http://pcitc-zuul/system-proxy/department-provider/department/list";
+	
 
 	@RequestMapping(value = "/department/to-list")
-	public String list(HttpServletRequest request, HttpServletResponse response) {
+	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
 		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
 		request.setAttribute("list", list);
+		
+		String unitPathIds = sysUserInfo.getUnitPath();
+	//	String type=EquipmentUtils.getYSPersonName(unitPathIds, restTemplate, httpHeaders);
+		//request.setAttribute("type", type);
 		return "/stp/department/list";
 	}
 
