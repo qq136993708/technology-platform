@@ -59,7 +59,7 @@ html {
 					<div class="layui-row-pic">
 						<div class="layui-carousel" id="test-carousel-img">
 							<div carousel-item="">
-								<#list sysNewsList as vo> 
+								<#list sysNewsList as vo>
 									<div>
 										<img title="${vo.title}"  style="cursor:pointer" onclick="to_sysNews('${vo.dataId}')"  src="/sysfile/getFilesLayuiByFormIdReturnBase64Image/${vo.bak6}" />
 										<p><a target="_blank" href="/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=${vo.dataId}">${vo.title}</a></p><!--新闻标题-->
@@ -729,8 +729,8 @@ html {
 				}
 
 			});
-			
-			
+
+
 
 			publicMethods.ajaxAsyncPost('/admin/workorder/ld/stat', {
 				page : 1,
@@ -796,7 +796,7 @@ html {
 			}
 			return parseInt(xkCount);
 		}
-		
+
 		function addPlan() { //新增工作安排
 			//parent.layui.index.openTabsPage("/plan/addPlanPageMain", "任务计划-新增");
 			layer.open({
@@ -810,12 +810,12 @@ html {
 				content : '/plan/pageAddPlan'
 			});
 		}
-		
+
 		function to_sysNews(id)
 		{
 			window.open("/instituteIndex?url=/sysNews/getNewsIndexTypeDetail?dataId=" + id);
 		}
-		
+
 	</script>
 </body>
 </html>

@@ -63,6 +63,54 @@
 .sign th:nth-child(1) .layui-table-cell {
 	line-height: 46px;
 }
+
+html {
+	background-color: white
+}
+
+.dateInput {
+	font-size: 12px;
+}
+
+.layui-btn {
+	height: 30px;
+	line-height: 30px;
+	padding: 0 15px;
+}
+
+.layuiadmin-card-header-auto i.layuiadmin-button-btn {
+	font-size: 14px;
+}
+
+.layui-laydate-hint {
+	display: none;
+}
+
+.layui-table td, .layui-table th {
+	text-align: center;
+}
+
+.tdW {
+	font-weight: bold !important;
+}
+
+.tdR {
+	color: red;
+}
+
+.layui-table td.tdW0 {
+	text-align: left !important;
+}
+
+.layui-table td.tdW3 {
+	text-align: left !important;
+	text-indent: 2em;
+}
+
+.layui-table td.tdW5 {
+	text-align: left !important;
+	text-indent: 4em;
+}
 </style>
 </head>
 <body>
@@ -408,28 +456,37 @@
 						if (list[i].levelFlag > 1) {
 							$("#budgetTable tbody").eq(i).hide()
 						}
-						$("#budgetTable tbody .add img").off().on("click", function() {
-							var m_id = $(this).parents("tbody").attr("m_id");
-							var mArrL = m_id.split("-").length + 1;
-							if ($(this).attr("src").indexOf("icon_add") != -1) {
-								$(this).attr("src", "/layuiadmin/layui/images/icon_minus.png");
-								$("#budgetTable tbody").each(function(j, val) {
-									var mId = $(this).attr("m_id");
-									if (mId.substr(0, m_id.length) == m_id && mId.split("-").length == mArrL) {
-										$("#budgetTable tbody").eq(j).show()
-										$("#budgetTable tbody").eq(j).find(".tdW0").addClass("tdW" + m_id.length)
-									}
-								});
-							} else {
-								$(this).attr("src", "/layuiadmin/layui/images/icon_add.png");
-								$("#budgetTable tbody").each(function(j, val) {
-									var mId = $(this).attr("m_id");
-									if (mId.substr(0, m_id.length) == m_id && mId.split("-").length == mArrL) {
-										$("#budgetTable tbody").eq(j).hide()
-									}
-								});
-							}
-						});
+						$("#budgetTable tbody .add img").off().on("click",function () {
+	                        var m_id=$(this).parents("tbody").attr("m_id");
+	                        var mArrL=m_id.split("-").length+1;
+	                        if($(this).attr("src").indexOf("icon_add")!=-1){
+	                            $(this).attr("src","/layuiadmin/layui/images/icon_minus.png");
+	                            $("#budgetTable tbody").each(function (j, val) {
+	                                var mId=$(this).attr("m_id");
+	                                if(mId.substr(0,m_id.length)==m_id && mId.split("-").length==mArrL){
+	                                    $("#budgetTable tbody").eq(j).show();
+	                                    $("#budgetTable tbody").eq(j).find(".tdW0").addClass("tdW"+m_id.length)
+	                                }
+	                            });
+	                        }else {
+	                            $(this).attr("src","/layuiadmin/layui/images/icon_add.png");
+	                            $("#budgetTable tbody").each(function (j, val) {
+	                                var mId=$(this).attr("m_id");
+	                                if(mId.substr(0,m_id.length)==m_id && mId.split("-").length==mArrL){
+	                                    if($("#budgetTable tbody").eq(j).find(".add img").length>0){
+	                                        $("#budgetTable tbody").each(function (k, val) {
+	                                            var mIdC=$("#budgetTable tbody").eq(k).attr("m_id");
+	                                            if(mIdC.substr(0,$("#budgetTable tbody").eq(j).attr("m_id").length)==$("#budgetTable tbody").eq(j).attr("m_id") &&
+	                                                mIdC.split("-").length==$("#budgetTable tbody").eq(j).attr("m_id").split("-").length+1){
+	                                                $("#budgetTable tbody").eq(k).hide();
+	                                            }
+	                                        });
+	                                    }
+	                                    $("#budgetTable tbody").eq(j).hide()
+	                                }
+	                            });
+	                        }
+	                    });
 					}
 				},
 				error : function() {

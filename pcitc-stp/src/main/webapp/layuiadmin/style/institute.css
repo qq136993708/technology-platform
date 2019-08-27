@@ -1,82 +1,52 @@
-::-webkit-scrollbar{width: 5px; height: 5px;}
-::-webkit-scrollbar-button:vertical{display: none;}
-::-webkit-scrollbar-track, ::-webkit-scrollbar-corner{background-color: #e2e2e2;}
-::-webkit-scrollbar-thumb{border-radius: 5px; background-color: rgba(0,0,0,.3);}
-::-webkit-scrollbar-thumb:vertical:hover{background-color: rgba(0,0,0,.35);}
-::-webkit-scrollbar-thumb:vertical:active{background-color: rgba(0,0,0,.38);}
-.institute .layui-card-body{padding: 0;}
-.institute .layui-tab-title li{
-    font-size:16px;
-    font-weight:500;
-    color:rgba(73,73,73,1);margin-right: 60px;}
-.institute .layui-tab-title li:after{height: 3px;border: none;background-color: #FD5442;    bottom: 0;
-    top: auto;}
-.institute .layui-tab-title li.layui-this{color: #FD5442;font-size: 20px;}
-.institute .layui-tab-top .layui-tab-title{border: none;margin-top: 30px;padding-left: 104px;}
-.institute .layui-tab-top {border-bottom: 1px solid #E9E9E9;}
-.layui-tab-content iframe{border: 0;width: 100%;height: 100%;}
-.header h4{text-align: center;margin-top: 70px;font-size: 32px;color: #333333;font-weight: 500;}
-.header p{text-align: center;margin-top: 10px;font-size: 30px;color: #ABABAB;font-weight: 400;}
-.main-item{margin: 36px 114px 0;height: auto;overflow: hidden;}
-.main-item .main-left{float: left;width: 55%;}
-.main-item .main-left p{text-indent: 2em;font-size: 14px;color: #494949;font-weight: 500;line-height: 28px;margin-bottom: 10px;}
-.main-item .main-right{float: right;width: 40%;}
-.main-item .main-right img:nth-child(1){width: 100%;margin-bottom: 5px;height: 226px;}
-.main-item .main-right img:nth-child(2){width: 49.6%;
-    height: 200px;}
-.main-item .main-right img:nth-child(3){width: 49.6%;
-    height: 200px;}
-.main-item .main-top p{font-size: 14px;color: #494949;font-weight: 500;line-height: 28px;margin-bottom: 15px;text-indent: 2em;}
-.personnel .main-top p{text-align: center;}
-.main-cont {padding: 36px 0 36px 90px;background: url("/layuiadmin/layui/images/icon-history-bg.png") no-repeat;height: 228px;box-sizing: border-box;}
-.personnel .main-cont{background: none;box-sizing: content-box;padding: 36px 0;}
-.personnel .main-top p{text-indent: 0;}
-.main-cont .layui-col-md4 p:nth-child(1){height:71px;
-    width: 71px;
-    margin: 0 auto 18px;background: url("/layuiadmin/layui/images/icon-history.png") no-repeat;
-    background-size: 100%;}
-.main-cont .layui-col-md4{padding-right: 70px;}
-.main-cont .layui-col-md4:last-child{padding-right: 90px;}
-.main-cont .layui-col-md4 p:nth-child(2){color: white;line-height: 26px;opacity: .8;}
-.structure .main-left{ width: 55%;float: left;text-align: right;
-    margin-bottom: 12px;}
-.structure .main-left img{height: 329px;width: 99%;box-shadow: -12px 12px 0 #C2C2C2;}
-.structure .main-left p{    width: 20%;
-    height:160px;position: absolute;left: 0;top: 120px;
-    background:rgba(0,99,175,1);}
-.structure .main-right{ float: right;width: 43%;}
-.structure .item p,.honor .item p{line-height: 28px;margin-bottom: 16px;}
-.structure .item p span:nth-child(1),.honor .item p span:nth-child(1){
-    height:25px;display: block;
-    font-size:18px;
-    font-weight:500;
-    color:rgba(163,163,163,1);
-    line-height:25px;}
-
-.structure .item p span:nth-child(2),.honor .item p span:nth-child(2){
-    display: block;
-    font-size:14px;
-    font-weight:500;
-    color:#494949;
-    line-height:25px;}
-.personnel img{width: 24.7%;height: 277px;}
-.honor{margin:78px 0 0;}
-.honor .main-top{background-color: #0052AF;    height: auto;
-    overflow: hidden;display: flex;}
-.honor .main-top img{width: 545px;height: 359px;}
-.honor .main-top .main-left{width: auto;padding: 0 130px 28px 116px;}
-.honor .main-top .main-right{width: 58%;}
-.honor .main-top .main-right .header h4{margin-top: 48px;color: white;opacity: .7}
-
-.honor .main-top .main-right .header p{font-size:30px;margin-top:2px;color: white;opacity: .7}
-.honor .item p span{color: white !important;opacity: .7 !important;;}
-
-.honor  .main-bottom{margin: 67px 260px;}
-.honor  .main-bottom{line-height: 28px;text-align: center;font-size: 14px;color: #494949;}
-.menu-right{    position: absolute;
-    top: 70px;
-    right: 0;}
-.menu-right ul li{height: 38px;line-height: 38px;color: #000000;opacity: .85;padding: 0 25px;
-    background: rgba(0,0,0,0.03);cursor: pointer;font-size: 14px;}
-.menu-right ul li.layui-this{background: rgba(253,84,66,0.24);color: #FD5442;border-right: 2px solid #FD5442;}
-
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-button:vertical{display:none}
+::-webkit-scrollbar-corner,::-webkit-scrollbar-track{background-color:#e2e2e2}
+::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(0,0,0,.3)}
+::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(0,0,0,.35)}
+::-webkit-scrollbar-thumb:vertical:active{background-color:rgba(0,0,0,.38)}
+.institute .layui-card-body{padding:0}
+.institute .layui-tab-title li{font-size:16px;font-weight:500;color:rgba(73,73,73,1);margin-right:60px}
+.institute .layui-tab-title li:after{height:3px;border:none;background-color:#fd5442;bottom:0;top:auto}
+.institute .layui-tab-title li.layui-this{color:#fd5442;font-size:20px}
+.institute .layui-tab-top .layui-tab-title{border:none;margin-top:30px;padding-left:104px}
+.institute .layui-tab-top{border-bottom:1px solid #e9e9e9}
+.layui-tab-content iframe{border:0;width:100%;height:100%}
+.header h4{text-align:center;margin-top:70px;font-size:32px;color:#333;font-weight:500}
+.header p{text-align:center;margin-top:10px;font-size:30px;color:#ababab;font-weight:400}
+.main-item{margin:36px 114px 0;height:auto;overflow:hidden}
+.main-item .main-left{float:left;width:55%}
+.main-item .main-left p{text-indent:2em;font-size:14px;color:#494949;font-weight:500;line-height:28px;margin-bottom:10px}
+.main-item .main-right{float:right;width:40%}
+.main-item .main-right img:nth-child(1){width:100%;margin-bottom:5px;height:226px}
+.main-item .main-right img:nth-child(2){width:49.6%;height:200px}
+.main-item .main-right img:nth-child(3){width:49.6%;height:200px}
+.main-item .main-top p{font-size:14px;color:#494949;font-weight:500;line-height:28px;margin-bottom:15px;text-indent:2em}
+.personnel .main-top p{text-align:center}
+.main-cont{padding:36px 0 36px 90px;background:url(/layuiadmin/layui/images/icon-history-bg.png) no-repeat;height:228px;box-sizing:border-box}
+.personnel .main-cont{background:0 0;box-sizing:content-box;padding:36px 0}
+.personnel .main-top p{text-indent:0}
+.main-cont .layui-col-md4 p:nth-child(1){height:71px;width:71px;margin:0 auto 18px;background:url(/layuiadmin/layui/images/icon-history.png) no-repeat;background-size:100%}
+.main-cont .layui-col-md4{padding-right:70px}
+.main-cont .layui-col-md4:last-child{padding-right:90px}
+.main-cont .layui-col-md4 p:nth-child(2){color:#fff;line-height:26px;opacity:.8}
+.structure .main-left{width:55%;float:left;text-align:right;margin-bottom:12px}
+.structure .main-left img{height:329px;width:99%;box-shadow:-12px 12px 0 #c2c2c2}
+.structure .main-left p{width:20%;height:160px;position:absolute;left:0;top:120px;background:rgba(0,99,175,1)}
+.structure .main-right{float:right;width:43%}
+.honor .item p,.structure .item p{line-height:28px;margin-bottom:16px}
+.honor .item p span:nth-child(1),.structure .item p span:nth-child(1){height:25px;display:block;font-size:18px;font-weight:500;color:rgba(163,163,163,1);line-height:25px}
+.honor .item p span:nth-child(2),.structure .item p span:nth-child(2){display:block;font-size:14px;font-weight:500;color:#494949;line-height:25px}
+.personnel img{width:24.7%;height:277px}
+.honor{margin:78px 0 0}
+.honor .main-top{background-color:#0052af;height:auto;overflow:hidden;display:flex}
+.honor .main-top img{width:545px;height:359px}
+.honor .main-top .main-left{width:auto;padding:0 130px 28px 116px}
+.honor .main-top .main-right{width:58%}
+.honor .main-top .main-right .header h4{margin-top:48px;color:#fff;opacity:.7}
+.honor .main-top .main-right .header p{font-size:30px;margin-top:2px;color:#fff;opacity:.7}
+.honor .item p span{color:#fff!important;opacity:.7!important}
+.honor .main-bottom{margin:67px 260px}
+.honor .main-bottom{line-height:28px;text-align:center;font-size:14px;color:#494949}
+.menu-right{position:absolute;top:70px;right:0}
+.menu-right ul li{height:38px;line-height:38px;color:#000;opacity:.85;padding:0 25px;background:rgba(0,0,0,.03);cursor:pointer;font-size:14px}
+.menu-right ul li.layui-this{background:rgba(253,84,66,.24);color:#fd5442;border-right:2px solid #fd5442}
