@@ -165,7 +165,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .layui-tab-content .layui-col-xs4{position:relative}
 .layui-tab-content .layui-col-xs4 span:nth-child(1){color:rgba(23,48,56,1);font-size:.23rem;text-align:left}
 .layui-tab-content .layui-col-xs4 span:nth-child(2){display:block;color:rgba(66,101,112,1);font-size:.16rem;text-align:left}
-.layui-tab-content .layui-col-xs4 span:nth-child(3){position:absolute;width:.09rem;height:.16rem;top:.05rem;right:20%;background-color:rgba(243,112,90,1)}
+.layui-tab-content .layui-col-xs4 span:nth-child(3){position:absolute;width:.09rem;height:.16rem;top:.05rem;right:.12rem;background-color:rgba(243,112,90,1)}
 .layui-tab-content .layui-col-xs4:nth-child(2) span:nth-child(3){background-color:rgba(73,154,237,1)}
 .layui-tab-content .layui-col-xs4:nth-child(3) span:nth-child(3){background-color:#48BA97;right:10%}
 .layui-tab-content .layui-tab-item>ul{margin-top:2%}
@@ -179,10 +179,11 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .project .layui-tab-content .layui-tab-item>ul li:nth-of-type(odd){background-color:rgba(247,248,253,1);box-shadow:0px -0.5px 0px 0px rgba(227,230,231,1),0px 0.5px 0px 0px rgba(227,230,231,1)}
 .layui-tab-content .layui-tab-item>ul li p{padding:0rem .19rem}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(1){padding:.12rem .19rem}
-.layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(1){color:rgba(23,48,56,1);padding-left:.19rem;font-size:.16rem;position:relative;text-align:left;font-weight:600}
-.layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(1):after{content:'';width:6px;display:inline-block;position:absolute;
-    left:0;height:6px;top:.1rem;background-color:rgba(243,112,90,1)}
-.layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(2){float:right;font-size:.14rem;color:#426570}
+.layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(2){
+    float: right;color:rgba(23,48,56,1);padding-left:.19rem;font-size:.16rem;position:relative;text-align:left;font-weight:600}
+.layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(2):after{content:'';width:6px;display:inline-block;position:absolute;
+    left:0;height:6px;top:.07rem;background-color:rgba(243,112,90,1)}
+.layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(1){font-size:.14rem;color:#426570}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(1),
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2){position:relative;padding-left:.19rem;color:#426570;
     font-size:.14rem;width: 40%;display: block;float: left;}
@@ -192,7 +193,9 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
     text-overflow: ellipsis;
     white-space: nowrap;width: 70%;}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2){margin-left:.19rem}
-.layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(1):after,.layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2):after{content:'';width:6px;display:inline-block;position:absolute;left:0;height:6px;top:.08rem;background-color:#499AED}
+.layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(1):after,
+.layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2):after{content:'';width:6px;display:inline-block;position:absolute;
+    left:0;height:6px;top:.05rem;background-color:#499AED}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2):after{background-color:#48BA97}
 .laydate-c{height:.14rem;line-height:.14rem;font-size:.14rem;position:absolute;right:3%}
 .contract .layui-tab-title{width:3.03rem;margin:0 auto .1rem;border-radius:4px;line-height:.34rem;border:1px solid #4190F6;height:.34rem}
@@ -245,7 +248,6 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .more-condition .item ul{margin-bottom:.1rem;height:auto;overflow:hidden}
 .more-condition .item ul li{background-color:#7287A1;height:.28rem;line-height:.28rem;padding:0 .1rem;border-radius:2px;float:left;font-size:.12rem;color:white;margin-right:.1rem;margin-bottom:.1rem;cursor:pointer}
 .more-condition .item ul li.layui-this{background-color:#4190F6}
-.more-condition .item ul li:nth-child(4){margin-right:0}
 .more-condition .item p{padding:.2rem 0 .17rem;height:.24rem;color:#173038;line-height:.24rem;font-size:.18rem}
 .button-g{background-color:white;height:.3rem;border-top:1px solid #ccc;padding:.05rem 0}
 .project .button-g button{width:49%;border:none;background:none}
