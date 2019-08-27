@@ -41,13 +41,13 @@ public class MobileCashController extends BaseController{
 			paramsMap.put("companyCode", companyCode);
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-			ResponseEntity<List> responseEntity = restTemplate.exchange(GET_Mobile_Month_Cash_Flow, HttpMethod.POST, entity, List.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_Mobile_Month_Cash_Flow, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			JSONArray array=new JSONArray();
+			JSONArray array =new JSONArray();
 			if (statusCode == 200) 
 			{
-				List list = responseEntity.getBody();
-				array= JSONArray.parseArray(JSON.toJSONString(list));
+				 array = responseEntity.getBody();
+				//array= JSONArray.parseArray(JSON.toJSONString(list));
 				
 				System.out.println(">>>>>>>>>>>>>>>>>>>>>get_Mobile_Month_Cash_Flow result = " + array.toString());
 			}
