@@ -264,6 +264,20 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         if (key != null && !"".equals(key)) {
         	 example.setKey(key.toString());
         }
+        
+        
+        Object expertProfessinal = param.getParam().get("expertProfessinal");
+        if (expertProfessinal != null && !"".equals(expertProfessinal)) {
+        	c.andExpertProfessinalEqualTo(expertProfessinal.toString());
+        }
+        Object expertProfessionalField = param.getParam().get("expertProfessionalField");
+        if (expertProfessionalField != null && !"".equals(expertProfessionalField)) {
+        	c.andExpertProfessionalFieldEqualTo(expertProfessionalField.toString());
+        }
+        Object bak3 = param.getParam().get("bak3");
+        if (bak3 != null && !"".equals(bak3)) {
+        	c.andBak3EqualTo(bak3.toString());
+        }
        
         
         example.setOrderByClause("create_date desc");
