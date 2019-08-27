@@ -132,34 +132,82 @@
         form.render(null, 'component-form-group');
 
         var myEditor = null;
-        ClassicEditor.create(document.querySelector('#breif'),{}).then(editor => {
+        ClassicEditor.create(document.querySelector('#breif'),{
+        	   language:"zh-cn"
+                ,image: {
+                    toolbar: [ 'imageTextAlternative' ]
+                }
+                ,
+                ckfinder: {
+                    uploadUrl: '/sysfile/ckupload5?type=Image'
+                }
+        	
+        }).then(editor => {
             myEditor = editor;
     	});
         
         
         
         var myEditor_developHistory = null;
-        ClassicEditor.create(document.querySelector('#developHistory'),{}).then(editor => {
+        ClassicEditor.create(document.querySelector('#developHistory'),{
+        	language:"zh-cn"
+                ,image: {
+                    toolbar: [ 'imageTextAlternative' ]
+                }
+                ,
+                ckfinder: {
+                    uploadUrl: '/sysfile/ckupload5?type=Image'
+                }
+        	
+        }).then(editor => {
         	myEditor_developHistory = editor;
     	});
         
         
         var myEditor_organization = null;
-        ClassicEditor.create(document.querySelector('#organization'),{}).then(editor => {
+        ClassicEditor.create(document.querySelector('#organization'),{
+        	language:"zh-cn"
+                ,image: {
+                    toolbar: [ 'imageTextAlternative' ]
+                }
+                ,
+                ckfinder: {
+                    uploadUrl: '/sysfile/ckupload5?type=Image'
+                }
+        	
+        }).then(editor => {
         	myEditor_organization = editor;
     	});
         
         
         
         var myEditor_personnel = null;
-        ClassicEditor.create(document.querySelector('#personnel'),{}).then(editor => {
+        ClassicEditor.create(document.querySelector('#personnel'),{
+        	language:"zh-cn"
+                ,image: {
+                    toolbar: [ 'imageTextAlternative' ]
+                }
+                ,
+                ckfinder: {
+                    uploadUrl: '/sysfile/ckupload5?type=Image'
+                }
+        }).then(editor => {
         	myEditor_personnel = editor;
     	});
         
         
         
         var myEditor_honor = null;
-        ClassicEditor.create(document.querySelector('#honor'),{}).then(editor => {
+        ClassicEditor.create(document.querySelector('#honor'),{
+        	language:"zh-cn"
+                ,image: {
+                    toolbar: [ 'imageTextAlternative' ]
+                }
+                ,
+                ckfinder: {
+                    uploadUrl: '/sysfile/ckupload5?type=Image'
+                }
+        }).then(editor => {
         	myEditor_honor = editor;
     	});
         
