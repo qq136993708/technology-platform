@@ -1881,8 +1881,8 @@
 		<if test="status != null">
 			and out_project_info.status = #{status,jdbcType=VARCHAR}
 		</if>
-		group by xmid
-		order by define10
+		group by hth
+		order by define10, hth desc
 	</select>
 
     <select id="selectProjectByCondExpert" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
@@ -1940,8 +1940,8 @@
             <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
             <include refid="dataFilterCondition" />
         </if>
-        group by xmid
-        order by  nd desc,define10
+        group by hth
+        order by  nd desc,define10, hth desc
     </select>
 	<!-- 首页计算新开课题总数 -->
 	<select id="getOutProjectInfoCount" resultType="java.util.Map" parameterType="java.util.HashMap">
@@ -2070,7 +2070,7 @@
 				  xmlbbm = 'KYZB'
 				  <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				  <include refid="dataFilterCondition" />
-			group by xmid
+			group by hth
 		) as tableA
 		group BY tableA.type_flag
 		ORDER BY tableA.type_flag
@@ -2101,7 +2101,7 @@
 				  </if>
 				  <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				  <include refid="dataFilterCondition" />
-			group by xmid
+			group by hth
 		) as tableA
 		
 			
@@ -2138,7 +2138,7 @@
 				</if>
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				<include refid="dataFilterCondition" />
-			group by xmid
+			group by hth
 		) as tableA
 		
 		
@@ -2159,7 +2159,7 @@
 				define10 is not null
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				<include refid="dataFilterCondition" />
-			GROUP BY xmid
+			GROUP BY hth
 		) as tableA
 		GROUP BY tableA.define10
 		ORDER BY tableA.define10
@@ -2183,7 +2183,7 @@
 				  define2 is not null
 				  <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				  <include refid="dataFilterCondition" />
-			group by xmid
+			group by hth
 		) as tableA
 		group BY tableA.define2
 		ORDER BY tableA.define2
@@ -2207,7 +2207,7 @@
 				  define2 is not null
 				  <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				  <include refid="dataFilterCondition" />
-			group by xmid
+			group by hth
 		) as tableA
 		group BY tableA.define2
 		ORDER BY tableA.define2
@@ -2228,7 +2228,7 @@
 				zylb is not null
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				<include refid="dataFilterCondition" />
-			GROUP BY xmid
+			GROUP BY hth
 		) as tableA
 		GROUP BY tableA.zylb
 		ORDER BY tableA.zylb
@@ -2252,7 +2252,7 @@
 				  define2 is not null
 				  <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				  <include refid="dataFilterCondition" />
-			group by xmid
+			group by hth
 		) as tableA
 		group BY tableA.xmlbbm
 		ORDER BY tableA.xmlbbm
@@ -2343,7 +2343,7 @@
 				  xmlbbm is not null
 				  <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				  <include refid="dataFilterCondition" />
-			group by xmid
+			group by hth
 		) as tableA
 	    group by tableA.define2
 	    order by tableA.define2
@@ -2416,7 +2416,7 @@
 				  project_property = '国家项目'
 				  <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				  <include refid="dataFilterCondition" />
-			group by xmid
+			group by hth
 		) as tableA
 	    GROUP BY tableA.define2
 		ORDER BY tableA.define2
@@ -2435,7 +2435,7 @@
 				type_flag is not null
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 			    <include refid="dataFilterCondition" />
-		    group by xmid
+		    group by hth
 		) as tableA 
 		GROUP BY tableA.project_scope,tableA.type_flag
 		ORDER BY tableA.project_scope,tableA.type_flag
@@ -2454,7 +2454,7 @@
 				define10 is not null
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 			    <include refid="dataFilterCondition" />
-		    group by xmid
+		    group by hth
 		) as tableA 
 		GROUP BY tableA.project_scope,tableA.define10
 		ORDER BY tableA.project_scope,tableA.define10
@@ -2473,7 +2473,7 @@
 				type_flag is not null
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 			    <include refid="dataFilterCondition" />
-		    group by xmid
+		    group by hth
 		) as tableA 
 		GROUP BY tableA.project_scope,tableA.type_flag
 		ORDER BY tableA.project_scope,tableA.type_flag
@@ -2492,7 +2492,7 @@
 				define2 is not null 
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				<include refid="dataFilterCondition" />
-		    group by xmid
+		    group by hth
 		) as tableA 
 		GROUP BY tableA.project_scope,tableA.define2
 		ORDER BY tableA.project_scope,tableA.define2
@@ -2511,7 +2511,7 @@
 				xmlbbm is not null
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				<include refid="dataFilterCondition" />
-		    group by xmid
+		    group by hth
 		) as tableA 
 		GROUP BY tableA.project_scope,tableA.xmlbbm
 		ORDER BY tableA.project_scope,tableA.xmlbbm
@@ -2529,7 +2529,7 @@
 				xmlbbm is not null
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				<include refid="dataFilterCondition" />
-		    group by xmid
+		    group by hth
 		) as tableA 
 		GROUP BY tableA.type_flag,tableA.xmlbbm
 		ORDER BY tableA.type_flag,tableA.xmlbbm
@@ -2547,7 +2547,7 @@
 				project_property is not null
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				<include refid="dataFilterCondition" />
-		    group by xmid
+		    group by hth
 		) as tableA
 		group by tableA.project_property
 	</select>
@@ -2567,7 +2567,7 @@
 				xmlbbm !='KYZB'
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				<include refid="dataFilterCondition" />
-		    group by xmid
+		    group by hth
 		) as tableA
 		group by tableA.type_flag,tableA.project_scope
 		order by tableA.type_flag,tableA.project_scope
@@ -2589,7 +2589,7 @@
 				xmlbbm !='KYZB'
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				<include refid="dataFilterCondition" />
-		    group by xmid
+		    group by hth
 		) as tableA
 		group by tableA.type_flag
 		order by tableA.type_flag
@@ -2619,7 +2619,7 @@
 				  </if>
 				  <!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 				  <include refid="dataFilterCondition" />
-		    group by xmid
+		    group by hth
 		) as tableA
 		group by tableA.define10
 		order by tableA.define10
@@ -2743,38 +2743,6 @@
 			group by unit_name
 	</select>
 	
-	<!-- 领导二级页面，直属研究院，8个院预算金额和实际金额的统计 -->
-	<select id="getProjectMoneyByInstituteForLD" resultType="java.util.Map" parameterType="java.util.HashMap">
-			select 
-				sum(case when showFlag = 'preMoney' then zbxje else 0 end) as prezbxje,
-				sum(case when showFlag = 'preMoney' then fyxje else 0 end) as prefyxje,
-				sum(case when showFlag = 'preMoney' then zje else 0 end) as prezje,
-				sum(case when showFlag = 'actMoney' then zbxje else 0 end) as actzbxje,
-				sum(case when showFlag = 'actMoney' then fyxje else 0 end) as actfyxje,
-				sum(case when showFlag = 'actMoney' then zje else 0 end) as actzje,
-				round(sum(case when showFlag = 'actMoney' then fyxje else 0 end)/sum(case when showFlag = 'preMoney' then fyxje else 0 end) * 100, 2) as fyxrate,
-				round(sum(case when showFlag = 'actMoney' then zbxje else 0 end)/sum(case when showFlag = 'preMoney' then zbxje else 0 end) * 100, 2) as zbxrate,
-				round(sum(case when showFlag = 'actMoney' then zje else 0 end)/sum(case when showFlag = 'preMoney' then zje else 0 end) * 100, 2) as zrate,
-				unitName
-			from (	
-				SELECT show_ali as unitName,zbx_money as zbxje,fyx_money as fyxje,zbx_money+fyx_money as zje,'preMoney' as showFlag,show_order
-				FROM out_tem_money_total
-				WHERE
-					is_yjy = '研究院'
-					
-				union ALL
-				SELECT SUBSTR(define2 FROM 6) as unitName,ROUND(sum(case when define1 = '资本性' then jf else 0 end),2) as zbxje,
-					    ROUND(sum(case when define1 = '费用性' then jf else 0 end),2) as fyxje,
-							ROUND(sum(jf),2) as zje,
-							'actMoney' as showFlag,SUBSTR(define2,5,1) as show_order
-				FROM out_project_info
-				WHERE
-					define2 is not NULL and nd = '2018' and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag like '%直属研究院%'
-				group by define2) as tableA
-			GROUP BY unitName, show_order
-			ORDER BY show_order
-	</select>
-	
 	<!-- 领导二级页面，重大专项项目详情 -->
 	<select id="getZDSTLProjectInfo" resultType="java.util.Map" parameterType="java.util.HashMap">
 			select 
@@ -2798,7 +2766,7 @@
 			sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
 		    sum(case when nd &lt; '${nd}' then 1 else 0 end) as xjsl,
 		    count(*) as zsl,
-			round(count(DISTINCT xmid)/(select count(DISTINCT xmid) 
+			round(count(DISTINCT hth)/(select count(DISTINCT hth) 
 										from out_project_info 
 										where 
 											project_type != '1' 
@@ -2838,7 +2806,7 @@
 				  <if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 					 and xmlbbm !='KYZB'
 				  </if>
-				  group by xmid
+				  group by hth
 		) as tableA
 		group by project_property
 		
@@ -2867,7 +2835,7 @@
 				<!--数据控制 2领导能看所有的， 1领导能看到自己管理的部分-->
 			    <include refid="dataFilterCondition" />
 			    
-			group by xmid) AS tableA 
+			group by hth) AS tableA 
 		GROUP BY tableA.define5
 		order by tableA.define5
 	</select>
