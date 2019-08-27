@@ -441,9 +441,11 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
     //预算
 	function setYusuan(v_date,nd) 
     {
+    	
+		var url = '/mobile/small_leader/budget/info?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&v_date=" + v_date;
 		$.ajax({
 			type : 'GET',
-			url : "/mobile/index_budget?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
+			url : url,
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
@@ -454,28 +456,43 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 				$("#moneyCurrent").html("<span style='font-size:14px;'>--亿</span>");
 			},
 			success : function(data) {
-				var projectMoney = data.data;
-				var tt1 = 0;
+				console.log("预算\n"+JSON.stringify(data));
+				var dataList = data.data;
+				var total_money = 0;
 				var tt2 = 0;
-				for (var i = 0; i < projectMoney.length; i++) {
-					var zysje = projectMoney[i].zysje;
-					var fyxsjje = projectMoney[i].fyxsjje;
-					var zbxsjje = projectMoney[i].zbxsjje;
-					tt1 = tt1 + parseFloat(fyxsjje) + parseFloat(zbxsjje);
-					console.info(parseFloat(fyxsjje)+"====projectMoney======"+parseFloat(zbxsjje))
-					tt2 = tt2 + parseFloat(zysje);
+				for (var i = 0; i < dataList.length; i++)
+				{
+					var levelFlag = dataList[i].levelFlag;
+					if(levelFlag==0 || levelFlag=='0')
+					{
+						var fyxBudget = dataList[i].fyxBudget;//科研经费预算
+						var zbxBudget = dataList[i].zbxBudget;//资本性预算
+						
+						
+						var fyxXqMoney = dataList[i].fyxXqMoney;  //经费-实际新签
+						var fyxJzBudget = dataList[i].fyxJzBudget;//经费--其中：结转预算
+						var zbxXqMoney = dataList[i].zbxXqMoney;//资本性--实际新签（科研装备+课题资本性支出）
+						
+						
+						total_money = total_money + parseFloat(zbxBudget) + parseFloat(fyxBudget);
+						tt2 = tt2 + parseFloat(fyxXqMoney) + parseFloat(fyxJzBudget) + parseFloat(zbxXqMoney);
+					}
+					
+					
 				}
-				var tt1 = parseFloat(tt1)/ 10000;
+				var total_money = parseFloat(total_money)/ 10000;
 				var tt2 = parseFloat(tt2) / 10000;
 				
-				$("#moneyTotal").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
-				$("#moneyCurrent").html(tt1.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
+				$("#moneyTotal").html(total_money.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
+				$("#moneyCurrent").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
 			}
 		});
 	}
 	//预算比率
 	function setYusuan_rate(v_date,nd) 
     {
+		
+		var url = '/mobile/small_leader/budget/info?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&v_date=" + v_date;
         var circleSize=0,thickness='';
         var system = {ipad:false};
         system.ipad = (navigator.userAgent.match(/iPad/i) != null)?true:false;
@@ -483,7 +500,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
         system.ipad==true ? thickness="10":thickness="5";
 		$.ajax({
 			type : 'GET',
-			url : "/mobile/index_budget?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
+			url : url,
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
@@ -506,18 +523,36 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 			        
 			},
 			success : function(data) {
-				var projectMoney = data.data;
-				var tt1 = 0;
+				
+				
+				var dataList = data.data;
+				var total_money = 0;
 				var tt2 = 0;
-				for (var i = 0; i < projectMoney.length; i++) {
-					var zysje = projectMoney[i].zysje;
-					var fyxsjje = projectMoney[i].fyxsjje;
-					var zbxsjje = projectMoney[i].zbxsjje;
-					tt1 = tt1 + parseFloat(fyxsjje) + parseFloat(zbxsjje);
-					tt2 = tt2 + parseFloat(zysje);
+				for (var i = 0; i < dataList.length; i++)
+				{
+					var levelFlag = dataList[i].levelFlag;
+					if(levelFlag==0 || levelFlag=='0')
+					{
+						var fyxBudget = dataList[i].fyxBudget;//科研经费预算
+						var zbxBudget = dataList[i].zbxBudget;//资本性预算
+						
+						
+						var fyxXqMoney = dataList[i].fyxXqMoney;  //经费-实际新签
+						var fyxJzBudget = dataList[i].fyxJzBudget;//经费--其中：结转预算
+						var zbxXqMoney = dataList[i].zbxXqMoney;//资本性--实际新签（科研装备+课题资本性支出）
+						
+						
+						total_money = total_money + parseFloat(zbxBudget) + parseFloat(fyxBudget);
+						tt2 = tt2 + parseFloat(fyxXqMoney) + parseFloat(fyxJzBudget) + parseFloat(zbxXqMoney);
+					}
+					
+					
 				}
-				var moneyCurrent = parseFloat(tt1)/ 10000;
-				var moneyTotal = parseFloat(tt2) / 10000;
+				var moneyTotal = parseFloat(total_money)/ 10000;
+				var moneyCurrent = parseFloat(tt2) / 10000;
+				
+				
+				
 				var rateDate=((moneyCurrent/moneyTotal)*100).toFixed(2);
 				$("#circle").find('span').html(rateDate);
 				
@@ -759,7 +794,7 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	 function setBKCount(v_date,nd) 
 	 {
 		 
-		    var url = "/mobile/investment_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date;
+		    var url = "/mobile/small_leader/investment_data?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd=" + nd + "&v_date=" + v_date + "&typeFlag=研究院&xmlbbm=fkyzb";
 	        $.ajax({
 	            type: "GET",
 	            url: url,
@@ -775,9 +810,8 @@ var userLevel="${sysUserInfo.userLevel?default('')}";
 	            	var count=0;
 	            	for (var i = 0; i < data.data.length; i++) 
 	            	{
-						var zsjje = data.data[i].zsjje;//实际科研投入
-						var zysje = data.data[i].zysje;//预算金额
-						count = count + parseFloat(zsjje);
+						var hanaMoney = data.data[i].hanaMoney;//实际科研投入
+						count = count + parseFloat(hanaMoney);
 					}
 					$("#appropriation_sum").html((count/ 10000).toFixed(2)+"亿");
 	            },
