@@ -185,7 +185,6 @@
                     // },
                 ]],
                 done: function (res, curr, count) {
-                    console.log(res.data);
                     $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                         var index = parseInt($(this).index() + 1);
                         $(this).parent().find('tr').removeClass('layui-table-click');
