@@ -156,7 +156,7 @@
     			var send_count_doing=0;
     			var send_count_finished=0;
     			//alert(data.length);
-    			$("#one_list_count").html(""+data.count+""); 	
+    			
     			if(dataArr.length>0)
    			    {
    				  for(var i=0;i<dataArr.length;i++)
@@ -224,7 +224,7 @@
 					 
        			  }
    			   }
-    			
+    			$("#one_list_count").html(""+send_count_doing+""); 	
     		   //列表
     		   $("#one_list").html(count); 	
     		   $("#one_wait_list").html(count_wait); 	
@@ -272,7 +272,7 @@
     			var deal_count_finished=0;
     			
     			//alert(data.length);
-    			$("#two_list_count").html(""+data.count+""); 	
+    			
     			if(dataArr.length>0)
    			    {
    				  for(var i=0;i<dataArr.length;i++)
@@ -327,6 +327,10 @@
 					 }
        			  }
    			   }
+    			
+    		   $("#two_list_count").html(""+deal_count_doing+""); 	
+    			
+    			
     		   $("#two_list").html(count); 	
     		   $("#two_wait_list").html(count_wait); 	
     		   $("#two_finished_list").html(count_finished); 	
