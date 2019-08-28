@@ -710,8 +710,10 @@ public class MobileController extends BaseController {
 	
 	
 	
-	@RequestMapping(value = "/mobile/appraisal_detail/{jdh}", method = RequestMethod.GET)
-	public String get(@PathVariable("jdh") String jdh, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/mobile/appraisal_detail", method = RequestMethod.GET)
+	public String get(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String jdh = CommonUtil.getParameter(request, "jdh", "");
+		
 		ResponseEntity<OutAppraisal> responseEntity = this.restTemplate.exchange(GET_OUT_APPRAISAL + jdh, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), OutAppraisal.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		logger.info("============远程返回  statusCode " + statusCode);

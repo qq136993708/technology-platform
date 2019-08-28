@@ -605,7 +605,8 @@ var companyCode="${companyCode?default('')}";
 	//科研合同--合同签订率
 	function setContcat(v_date,nd) 
 	{
-		var url = "/mobile/index_contract_rate?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date+"&define3=研究院";
+		//var url = "/mobile/index_contract_rate?functionId=984b64b13cf54222bf57bd840759fabe&type=3&nd=" + nd + "&v_date=" + v_date+"&define3=研究院";
+		var url="/mobile/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd ;
 		$.ajax({
 			type : 'POST',
 			url : url,
