@@ -70,11 +70,13 @@
                 },
 
                 height: commonDislodgeTable(),
-                limit : param.selfRownum,
+                limit : 15,
+                // limit : param.selfRownum,
                 id : 'showTable',
                 page : {
                     groups : 5,
-                    limits : [ param.selfRownum, 15, 30, 45, 60 ],
+                    limits : [15, 30, 45, 60 ],
+                    // limits : [ param.selfRownum, 15, 30, 45, 60 ],
                     layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
                     first : '首页', //不显示首页
                     last : '尾页', //不显示尾页
@@ -108,11 +110,11 @@
                     //     }
 
                         ,templet : function(d) {
-                            // if (d.define4 == "1") {
-                            //     return '<span  style="color:red" onclick="showDetailJl(\'' + d.dataId + '\')">' + d.xmmc + '</span>';
-                            // }else {
+                            if (d.define4 == "1") {
+                                return '<span  style="color:red" onclick="showDetailJl(\'' + d.dataId + '\')">' + d.xmmc + '</span>';
+                            }else {
                                 return '<span onclick="showDetailJl(\'' + d.dataId + '\')">' + d.xmmc + '</span>';
-                            // }
+                            }
                         },
 
 

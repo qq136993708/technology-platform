@@ -184,9 +184,6 @@
                 ajaxPost("/zjkComplaint/getZjkComplaintInfo", {"id": id}, function (data) {
                     form.val("zjkComplaint-form", data);
                     complaintDesc.setData(data.complaintDesc);
-                    console.log("-------data.complaintDesc------");
-                    console.log(data.complaintDesc);
-                    console.log(data.doDesc);
                     doDesc.setData(data.doDesc);
                     /*complaintDesc.setData(data.complaintDesc);
                     doDesc.setData(data.doDesc);*/
