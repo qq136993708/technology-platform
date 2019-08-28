@@ -166,18 +166,18 @@
     				 for(var i=0;i<data.data.length;i++)
         			 {
     					var zycmc= data.data[i].zycmc;//专业处
-    					var ysxkje=data.data[i].ysxkje;//预算金额
-    					var xkMoney=data.data[i].xkMoney;//已投入金额
-    					
+    					var ysje=data.data[i].ysje;//预算金额
+    					var xkFyxMoney=data.data[i].xkFyxMoney;//已投入金额(合同中费用性新签)
+    					var ysjzje=data.data[i].ysjzje;//已投入金额(预算结转)
     					if(zycmc!='合计')
    						{
-    					  all=all+parseFloat(ysxkje);
-    					  finished=finished+parseFloat(xkMoney);
+    					  all=all+parseFloat(ysje);
+    					  finished=finished+parseFloat(xkFyxMoney)+parseFloat(ysjzje);
    						}
-    					var rate=(xkMoney/ysxkje*100).toFixed(2);
     					
-    					var yq=parseFloat(xkMoney).toFixed(2);
+    					var yq=parseFloat(xkFyxMoney)+parseFloat(ysjzje);
     					
+    					var rate=((parseFloat(xkFyxMoney)+parseFloat(ysjzje))/parseFloat(ysje)*100).toFixed(2);
     					
     					var wclCount="";
     					if(rate=='0.00')
@@ -196,7 +196,7 @@
    						{
     						 temp="<li>"+
 				    				"<p>"+
-				                        "<span style='font-weight:bold'>"+zycmc+"</span><span>预算 "+setNumStr(ysxkje)+"</span>"+
+				                        "<span style='font-weight:bold'>"+zycmc+"</span><span>预算 "+setNumStr(ysje)+"</span>"+
 				                    "</p>"+
 				                    "<p>"+
 				                        "<span>已投入"+setNumStr(yq)+"</span>"+wclCount+

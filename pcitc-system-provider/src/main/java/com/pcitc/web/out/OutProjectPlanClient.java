@@ -888,6 +888,7 @@ public class OutProjectPlanClient {
 			Double sjzje = 0d;
 			Double xkMoney = 0d;
 			Double jzMoney = 0d;
+			Double xkFyxMoney = 0d;
 			for (int i = 0; i < temList.size(); i++) {
 				HashMap temMap = (HashMap) temList.get(i);
 				ysje = ysje + (temMap.get("ysje") == null ? 0d : Double.parseDouble(temMap.get("ysje").toString()));
@@ -896,6 +897,7 @@ public class OutProjectPlanClient {
 				sjzje = sjzje + (temMap.get("sjzje") == null ? 0d : Double.parseDouble(temMap.get("sjzje").toString()));
 				xkMoney = xkMoney + (temMap.get("xkMoney") == null ? 0d : Double.parseDouble(temMap.get("xkMoney").toString()));
 				jzMoney = jzMoney + (temMap.get("jzMoney") == null ? 0d : Double.parseDouble(temMap.get("jzMoney").toString()));
+				xkFyxMoney = xkFyxMoney + (temMap.get("xkFyxMoney") == null ? 0d : Double.parseDouble(temMap.get("xkFyxMoney").toString()));
 			}
 			HashMap addMap = new HashMap();
 			addMap.put("zycmc", "合计");
@@ -905,6 +907,7 @@ public class OutProjectPlanClient {
 			addMap.put("sjzje", String.format("%.2f", sjzje));
 			addMap.put("xkMoney", String.format("%.2f", xkMoney));
 			addMap.put("jzMoney", String.format("%.2f", jzMoney));
+			addMap.put("xkFyxMoney", String.format("%.2f", xkFyxMoney));
 			temList.add(0, addMap);
 		}
 		System.out.println("getPlanMoneyByDepartment==========" + JSON.toJSONString(temList));
