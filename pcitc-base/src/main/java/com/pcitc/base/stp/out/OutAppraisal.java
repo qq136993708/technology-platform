@@ -66,9 +66,18 @@ public class OutAppraisal implements Serializable {
     private String define6;
     
     private List<String> xmmcList;
+    private List<String> hthList;
     
 
-    public List<String> getXmmcList() {
+    public List<String> getHthList() {
+		return hthList;
+	}
+
+	public void setHthList(List<String> hthList) {
+		this.hthList = hthList;
+	}
+
+	public List<String> getXmmcList() {
 		return xmmcList;
 	}
 
