@@ -907,7 +907,7 @@ public class OutProjectInfoClient {
 	public JSONArray getAllBudgetWithAllLevel(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getAllBudgetWithAllLevel===========================" + map);
 
-		List temList = outProjectService.getAllBudgetWithAllLevel(map);
+		List noAuthTotalList = outProjectService.getAllBudgetWithAllLevel(map);
 
 		// temList 为返回数据的架子，里面包含费用性和资本性的金额。如果权限足够不用调整，先清空金额再分别计算
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
@@ -954,10 +954,12 @@ public class OutProjectInfoClient {
 		double totalFyxXqMoney = 0d;
 		double totalZbxBudget = 0d;
 		double totalZbxXqMoney = 0d;
+		
+		double totalFyxBudgetMobile = 0d;
+		double totalZbxBudgetMobile = 0d;
 
-		for (int i = 0; i < temList.size(); i++) {
-			Map<String, Object> temMap = (Map<String, Object>) temList.get(i);
-
+		for (int i = 0; i < noAuthTotalList.size(); i++) {
+			Map<String, Object> temMap = (Map<String, Object>) noAuthTotalList.get(i);
 			for (int j = 0; j < budMoneyList.size(); j++) {
 				Map<String, Object> bm = budMoneyList.get(j);
 				if (temMap.get("show_ali").toString().equals(bm.get("budgetItemName").toString())) {
@@ -965,15 +967,25 @@ public class OutProjectInfoClient {
 					temMap.put("fyxJzBudget", bm.get("jz") == null ? "0" : bm.get("jz"));
 					System.out.println("预算各机构金额-----" + bm.get("budgetItemName") + "========" + bm.get("xq") + "========" + bm.get("jz") + "========" + bm.get("otherPayMoney"));
 					if (bm.get("budgetItemName").toString().equals("股份公司") || bm.get("budgetItemName").toString().equals("集团公司") || bm.get("budgetItemName").toString().equals("资产公司")) {
-						if (leaderFlag) {// 领导在算股份、集团、资产合计的时候，按照总部计算。
+						if (leaderFlag) {// 领导在算股份、集团、资产合计的时候，直接按照总表计算。
 							temMap.put("fyxBudget", temMap.get("fyxBudget"));
 							temMap.put("fyxJzBudget", bm.get("jz") == null ? "0" : bm.get("jz"));
 							temMap.put("fyxXqBudget", Double.valueOf(temMap.get("fyxBudget").toString()) - Double.valueOf(temMap.get("fyxJzBudget").toString()));
 						}
 					}
 					temMap.put("fyxBudget", Double.valueOf(temMap.get("fyxXqBudget").toString()) + Double.valueOf(temMap.get("fyxJzBudget").toString()));
-
 					temMap.put("fyxXqMoney", bm.get("otherPayMoney") == null ? "0" : bm.get("otherPayMoney"));
+					
+					// 如果费用性为0，说明没有进行分解（中东、休斯顿等），直接按照总表的数值即可
+					if (temMap.get("fyxBudget") == null || Double.parseDouble(temMap.get("fyxBudget").toString()) == 0d){
+						if (leaderFlag) { // 领导直接看总表数值
+							temMap.put("fyxBudgetMobile", temMap.get("fyxBudgetMobile"));
+						} else {
+							temMap.put("fyxBudgetMobile", "0");
+						}
+					} else {
+						temMap.put("fyxBudgetMobile", temMap.get("fyxBudget"));
+					}
 					break;
 				}
 			}
@@ -1003,6 +1015,7 @@ public class OutProjectInfoClient {
 			// 不可以看资本性的，直接清空所有资本性
 			if (!leaderFlag) {
 				temMap.put("zbxBudget", 0);
+				temMap.put("zbxBudgetMobile", 0);
 				temMap.put("zbxXqMoney", 0);
 			}
 
@@ -1029,6 +1042,9 @@ public class OutProjectInfoClient {
 				totalZbxBudget = totalZbxBudget + Double.parseDouble(temMap.get("zbxBudget") == null ? "0" : temMap.get("zbxBudget").toString());
 				totalFyxXqMoney = totalFyxXqMoney + Double.parseDouble(temMap.get("fyxXqMoney") == null ? "0" : temMap.get("fyxXqMoney").toString());
 				totalZbxXqMoney = totalZbxXqMoney + Double.parseDouble(temMap.get("zbxXqMoney") == null ? "0" : temMap.get("zbxXqMoney").toString());
+				
+				totalFyxBudgetMobile = totalFyxBudgetMobile + Double.parseDouble(temMap.get("fyxBudgetMobile") == null ? "0" : temMap.get("fyxBudgetMobile").toString());
+				totalZbxBudgetMobile = totalZbxBudgetMobile + Double.parseDouble(temMap.get("zbxBudgetMobile") == null ? "0" : temMap.get("zbxBudgetMobile").toString());
 			} else if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("2")) {
 				twoOrder++;
 				temMap.put("showOrder", twoOrder);
@@ -1070,11 +1086,15 @@ public class OutProjectInfoClient {
 		totalMap.put("fyxBudget", totalFyxBudget);
 		totalMap.put("zbxBudget", totalZbxBudget);
 		totalMap.put("zbxXqMoney", totalZbxXqMoney);
-		temList.add(0, totalMap);
+		
+		totalMap.put("fyxBudgetMobile", totalFyxBudgetMobile);
+		totalMap.put("zbxBudgetMobile", totalZbxBudgetMobile);
+		
+		noAuthTotalList.add(0, totalMap);
 
 		// 计算各个比率
-		for (int i = 0; i < temList.size(); i++) {
-			Map<String, Object> temMap = (Map<String, Object>) temList.get(i);
+		for (int i = 0; i < noAuthTotalList.size(); i++) {
+			Map<String, Object> temMap = (Map<String, Object>) noAuthTotalList.get(i);
 			if (temMap.get("fyxXqBudget") == null || temMap.get("fyxXqBudget").toString().equals(""))
 				temMap.put("fyxXqBudget", 0d);
 			if (temMap.get("fyxJzBudget") == null || temMap.get("fyxJzBudget").toString().equals(""))
@@ -1087,6 +1107,12 @@ public class OutProjectInfoClient {
 				temMap.put("zbxBudget", 0d);
 			if (temMap.get("zbxXqMoney") == null || temMap.get("zbxXqMoney").toString().equals(""))
 				temMap.put("zbxXqMoney", 0d);
+			
+			if (temMap.get("fyxBudgetMobile") == null || temMap.get("fyxBudgetMobile").toString().equals(""))
+				temMap.put("fyxBudgetMobile", 0d);
+			if (temMap.get("zbxBudgetMobile") == null || temMap.get("zbxBudgetMobile").toString().equals(""))
+				temMap.put("zbxBudgetMobile", 0d);
+			
 			if (temMap.get("showFlag") == null || temMap.get("showFlag").toString().equals(""))
 				temMap.put("showFlag", "0");
 
@@ -1096,6 +1122,7 @@ public class OutProjectInfoClient {
 			Double fyxBudget = Double.valueOf(temMap.get("fyxBudget").toString());
 			Double zbxBudget = Double.valueOf(temMap.get("zbxBudget").toString());
 			Double zbxXqMoney = Double.valueOf(temMap.get("zbxXqMoney").toString());
+			
 			if (fyxXqMoney != 0 && fyxXqBudget != 0) {
 				temMap.put("fyxXqRate", String.format("%.4f", Double.valueOf(fyxXqMoney * 100 / fyxXqBudget)));
 			} else {
@@ -1113,7 +1140,7 @@ public class OutProjectInfoClient {
 			}
 		}
 
-		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(noAuthTotalList));
 		return json;
 	}
 

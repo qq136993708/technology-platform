@@ -255,14 +255,14 @@
  					    if(levelFlag==3 || levelFlag=='3')
 						{
 							//预算
-							var fyxBudget = dataList[i].fyxBudget;//科研经费预算
-							var zbxBudget = dataList[i].zbxBudget;//资本性预算
+							var fyxBudgetMobile = dataList[i].fyxBudgetMobile;//科研经费预算
+							var zbxBudgetMobile = dataList[i].zbxBudgetMobile;//资本性预算
 							//已投
 							var fyxXqMoney = dataList[i].fyxXqMoney;  //经费-实际新签
 							var fyxJzBudget = dataList[i].fyxJzBudget;//经费--其中：结转预算
 							var zbxXqMoney = dataList[i].zbxXqMoney;//资本性--实际新签（科研装备+课题资本性支出）
 							
-							var total_money =  parseFloat(zbxBudget) + parseFloat(fyxBudget);
+							var total_money =  parseFloat(zbxBudgetMobile) + parseFloat(fyxBudgetMobile);
 						    var finished_money = parseFloat(fyxXqMoney) + parseFloat(fyxJzBudget) + parseFloat(zbxXqMoney);
 						    var zRatev = finished_money * 100 / total_money;
 						    
@@ -337,14 +337,14 @@
     						if(levelFlag==0 || levelFlag=='0')
     						{
     							//预算
-    							var fyxBudget = dataList[i].fyxBudget;//科研经费预算
-    							var zbxBudget = dataList[i].zbxBudget;//资本性预算
+    							var fyxBudgetMobile = dataList[i].fyxBudgetMobile;//科研经费预算
+    							var zbxBudgetMobile = dataList[i].zbxBudgetMobile;//资本性预算
     							//已投
     							var fyxXqMoney = dataList[i].fyxXqMoney;  //经费-实际新签
     							var fyxJzBudget = dataList[i].fyxJzBudget;//经费--其中：结转预算
     							var zbxXqMoney = dataList[i].zbxXqMoney;//资本性--实际新签（科研装备+课题资本性支出）
     							
-    							var total_money =  parseFloat(zbxBudget) + parseFloat(fyxBudget);
+    							var total_money =  parseFloat(zbxBudgetMobile) + parseFloat(fyxBudgetMobile);
     						    var tt2 = parseFloat(fyxXqMoney) + parseFloat(fyxJzBudget) + parseFloat(zbxXqMoney);
     							
     							 var other_all = parseFloat(total_money)/ 10000;
@@ -362,14 +362,14 @@
     						if(levelFlag==2 || levelFlag=='2')
     						{
     							//预算
-    							var fyxBudget = dataList[i].fyxBudget;//科研经费预算
-    							var zbxBudget = dataList[i].zbxBudget;//资本性预算
+    							var fyxBudgetMobile = dataList[i].fyxBudgetMobile;//科研经费预算
+    							var zbxBudgetMobile = dataList[i].zbxBudgetMobile;//资本性预算
     							//已投
     							var fyxXqMoney = dataList[i].fyxXqMoney;  //经费-实际新签
     							var fyxJzBudget = dataList[i].fyxJzBudget;//经费--其中：结转预算
     							var zbxXqMoney = dataList[i].zbxXqMoney;//资本性--实际新签（科研装备+课题资本性支出）
     							
-    							var ys_money =  parseFloat(zbxBudget) + parseFloat(fyxBudget);
+    							var ys_money =  parseFloat(zbxBudgetMobile) + parseFloat(fyxBudgetMobile);
     						    var finished_money = parseFloat(fyxXqMoney) + parseFloat(fyxJzBudget) + parseFloat(zbxXqMoney);
     						    var zRate = (finished_money * 100 / ys_money).toFixed(2);
     						    if(zRate=='NaN' || zRate=='Infinity')
@@ -394,14 +394,14 @@
     							if(unitName=='集团公司' || unitName=='资产公司')
     							{
     								//预算
-        							var fyxBudget = dataList[i].fyxBudget;//科研经费预算
-        							var zbxBudget = dataList[i].zbxBudget;//资本性预算
+        							var fyxBudgetMobile = dataList[i].fyxBudgetMobile;//科研经费预算
+        							var zbxBudgetMobile = dataList[i].zbxBudgetMobile;//资本性预算
         							//已投
         							var fyxXqMoney = dataList[i].fyxXqMoney;  //经费-实际新签
         							var fyxJzBudget = dataList[i].fyxJzBudget;//经费--其中：结转预算
         							var zbxXqMoney = dataList[i].zbxXqMoney;//资本性--实际新签（科研装备+课题资本性支出）
         							
-        							var ys_money =  parseFloat(zbxBudget) + parseFloat(fyxBudget);
+        							var ys_money =  parseFloat(zbxBudgetMobile) + parseFloat(fyxBudgetMobile);
         						    var finished_money = parseFloat(fyxXqMoney) + parseFloat(fyxJzBudget) + parseFloat(zbxXqMoney);
         						    var zRate = (finished_money * 100 / ys_money).toFixed(2);
         						    if(zRate=='NaN' || zRate=='Infinity')
