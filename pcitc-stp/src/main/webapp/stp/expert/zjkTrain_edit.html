@@ -182,6 +182,7 @@
                 data.field.trainDesc = myEditor.getData();
                 ajaxPost("/zjkTrain/saveZjkTrain", data.field, function (dt, status) {
                     layer.msg("操作成功");
+                    parent.selectRowData="";
                     parent.layui.table.reload('zjkTrainTableId', {where: {param: {}}});
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);

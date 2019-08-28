@@ -426,7 +426,7 @@
 
             var myEditor = null;
             ClassicEditor
-                .create( document.querySelector( '#userDesc' ), {
+                .create( document.querySelector('#userDesc'), {
                     language:"zh-cn"
                     ,image: {
                         toolbar: [ 'imageTextAlternative' ]
@@ -445,7 +445,7 @@
 
             var myEditorPeople = null;
             ClassicEditor
-                .create( document.querySelector( '#bak6' ), {
+                .create( document.querySelector('#bak6'), {
                     language:"zh-cn"
                     ,image: {
                         toolbar: [ 'imageTextAlternative' ]
@@ -459,7 +459,6 @@
                     myEditorPeople = editor;
                 } )
                 .catch( error => {
-                    console.error( error );
                 } );
             //初始赋值 component-form-group 当前form的lay-filter
             if (id != "0") {
@@ -473,8 +472,11 @@
                     // $("#county").find("option:selected").text(addressData[2]);
                     global_hos = data;
                     //地址-结束
-                    myEditor.setData(data.userDesc);
-                    myEditorPeople.setData(data.bak6);
+                    try {
+                        myEditor.setData(data.userDesc);
+                        myEditorPeople.setData(data.bak6);
+                    }catch (e) {
+                    }
                     form.render();
                     // $("#companyDivShow").val(data.companyName);
                 });

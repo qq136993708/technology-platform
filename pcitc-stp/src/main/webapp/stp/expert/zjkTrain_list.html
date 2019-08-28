@@ -212,7 +212,7 @@
             },
             editEvent: function () {  //点击编辑按钮
                 var id;
-                if (selectRowData != undefined) {
+                if (typeof selectRowData != undefined&&selectRowData!="") {
                     // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
                     layer.open({
@@ -238,7 +238,7 @@
             },
             detailEvent: function () {  //点击详情按钮
                 var dataId;
-                if (selectRowData != undefined) {
+                if (typeof selectRowData != undefined&&selectRowData!="") {
                     dataId = selectRowData.dataId;
                     layer.open({
                         title: param.name + '-查看',
@@ -261,7 +261,7 @@
             },
             deleteEvent: function () { //点击删除按钮
                 var id;
-                if (selectRowData != undefined) {
+                if (typeof selectRowData != undefined&&selectRowData!="") {
                     // if (selectRowData.workOrderStatus == '0') {
                     id = selectRowData.dataId;
                     layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
@@ -275,6 +275,7 @@
                             success: function (data) {
                                 // if(data==200){
                                 layer.msg("删除成功");
+                                selectRowData = "";
                                 active.searchEvent();
                                 // }
                             },

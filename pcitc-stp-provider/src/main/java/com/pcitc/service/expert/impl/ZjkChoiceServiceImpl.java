@@ -453,7 +453,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
     public LayuiTableData getUserChoiceTableData(LayuiTableParam param) {
         LayuiTableData data = new LayuiTableData();
         Map<String, Object> map = param.getParam();
-        String strProjectId = map.get("projectId").toString();//项目ID
+//        String strProjectId = map.get("projectId").toString();//项目ID
         String strProjectConfigId = map.get("projectConfigId").toString();//项目阶段ID
         String strType = map.get("type").toString();//随机，固定，单位
         String unitId = map.get("unitId").toString();//机构id
