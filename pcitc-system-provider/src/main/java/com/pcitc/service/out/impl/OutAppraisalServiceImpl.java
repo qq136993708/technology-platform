@@ -380,8 +380,10 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
     	jdh=jdh.replace("_", "]");
     	OutAppraisal outAppraisal= outAppraisalMapper.getAppraisalInfoByjdh(jdh);
     	List<String> xmmcList=new ArrayList<String>();
+    	List<String> hthList=new ArrayList<String>();
     	String xmmc=outAppraisal.getXmmc();
-    	System.out.println(">>>>>>>>>>>>xmmc : " + xmmc);
+    	String hth=outAppraisal.getHth();
+    	System.out.println(">>>>>>>>>>>>hth : " + hth);
     	String arr[]=xmmc.split(",");
     	
     	if(arr!=null)
@@ -391,12 +393,28 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
     			String str=arr[i];
     			if(str!=null)
     			{
-    				System.out.println(">>>>>>>>>>>>str : " + str);
     				xmmcList.add(str);
     			}
     		}
     	}
     	outAppraisal.setXmmcList(xmmcList);
+    	
+        String htharr[]=hth.split(",");
+    	if(htharr!=null)
+    	{
+    		for(int i=0;i<htharr.length;i++)
+    		{
+    			String str=htharr[i];
+    			if(str!=null)
+    			{
+    				System.out.println(">>>>>>>>>>>>str : " + str);
+    				hthList.add(str);
+    			}
+    		}
+    	}
+    	outAppraisal.setHthList(hthList);
+    	
+    	
     	return outAppraisal;
     }
 
