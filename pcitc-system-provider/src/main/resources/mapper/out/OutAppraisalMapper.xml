@@ -1031,7 +1031,7 @@
 			  GROUP_CONCAT(DISTINCT sqjddw) AS sqjddw,
 			  GROUP_CONCAT(DISTINCT cgmc) AS cgmc,
 			  GROUP_CONCAT(DISTINCT cglx) AS cglx,
-			  GROUP_CONCAT(DISTINCT xmmc) AS xmmc,
+			  GROUP_CONCAT(xmmc SEPARATOR ',') AS xmmc,
 			  GROUP_CONCAT(DISTINCT jdjg) AS jdjg,
 			  GROUP_CONCAT(DISTINCT hth) AS hth,
 			  GROUP_CONCAT(DISTINCT zy) AS zy,
