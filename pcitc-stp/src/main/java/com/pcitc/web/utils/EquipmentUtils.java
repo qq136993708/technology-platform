@@ -840,9 +840,13 @@ public class EquipmentUtils {
 	public static String  getVirtualDirDeparetCode(String functionId ,RestTemplate restTemplate,HttpHeaders httpHeaders)
 	{
 		   List<String> arrayList = getPostDic( functionId , restTemplate, httpHeaders);
+		   JSONArray json = JSONArray.parseArray(JSON.toJSONString(arrayList));
+		   System.out.println( "配置研究院 arrayList=>" + json.toString());
 		   //与字典表匹配
 		   List<SysDictionary> result=new ArrayList<SysDictionary> ();
 		   List<SysDictionary>  sysDictionaryList=  EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY",  restTemplate, httpHeaders);
+		   JSONArray sysDictionaryListjson = JSONArray.parseArray(JSON.toJSONString(sysDictionaryList));
+		   System.out.println( "字典表  arrayList=>" + sysDictionaryListjson.toString());
 		   if(sysDictionaryList!=null && sysDictionaryList.size()>0)
 		   {
 			    for(int v=0;v<sysDictionaryList.size();v++ ) 
@@ -856,14 +860,16 @@ public class EquipmentUtils {
 			    		for(int k=0;k<arrayList.size();k++ ) 
 						{
 			    			String str=arrayList.get(k);
+			    			
 			    			if(str.equals(value))
 			    			{
+			    				System.out.println( "str=>" + str);
 			    				sysDictionary.setLevelCode(v+1);
 			    				result.add(sysDictionary);
 			    			}
 						}
 			    	}
-			    	//System.out.println( "name=>" + name+" code=>" + code+"  value=>" + value);
+			    	
 				}
 		}
 		   

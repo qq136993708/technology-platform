@@ -1,15 +1,8 @@
 package com.pcitc.web.search;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.service.out.OutAppraisalService;
-import com.pcitc.service.out.OutProjectPlanService;
-import com.pcitc.service.search.FullSearchService;
-import com.pcitc.web.out.OutProjectPlanClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.List;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.service.search.FullSearchService;
 
 @Api(value = "FullSearchClient-API", description = "首页查询")
 @RestController
@@ -29,7 +23,7 @@ public class FullSearchClient {
     private FullSearchService fullSearchService;
 
 
-    private final static Logger logger = LoggerFactory.getLogger(OutProjectPlanClient.class);
+    private final static Logger logger = LoggerFactory.getLogger(FullSearchClient.class);
 
     @ApiOperation(value = "分页显示成果数据", notes = "分页显示成果数据")
     @RequestMapping(value = "/search/getTableDataAchivement", method = RequestMethod.POST)

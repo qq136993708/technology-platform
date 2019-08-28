@@ -104,7 +104,7 @@ public class DecisionProviderClient {
 	
 	@ApiOperation(value = "手机端月报表", notes = "报表名称: 手机端月报表 ")
 	@RequestMapping(value = "/funds/cash-flow/getMobileMonthCashFlow", method = RequestMethod.POST)
-	public List getMobileMonthCashFlow(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception {
+	public JSONArray getMobileMonthCashFlow(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception {
 		System.out.println(" paramsJson=" + paramsJson);
 		JSONObject jo = JSONObject.parseObject(paramsJson);
 		String month = jo.getString("month");
@@ -114,7 +114,8 @@ public class DecisionProviderClient {
 		map.put("month", month);
 		map.put("companyCode", companyCode);
 		List<ScientificCashFlow02> list = decisionService.getMobileMonthCashFlow(map);
-		return list;
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
 	}
 	
 	
