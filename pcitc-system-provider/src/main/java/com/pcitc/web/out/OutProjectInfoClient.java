@@ -957,6 +957,9 @@ public class OutProjectInfoClient {
 		
 		double totalFyxBudgetMobile = 0d;
 		double totalZbxBudgetMobile = 0d;
+		
+		// 马永生工作室的预算，在移动端查看预算总值时，特殊处理，从直属研究院/勘探院中扣除
+		double mysBudget = 0d;
 
 		for (int i = 0; i < noAuthTotalList.size(); i++) {
 			Map<String, Object> temMap = (Map<String, Object>) noAuthTotalList.get(i);
@@ -980,6 +983,9 @@ public class OutProjectInfoClient {
 					if (temMap.get("fyxBudget") == null || Double.parseDouble(temMap.get("fyxBudget").toString()) == 0d){
 						if (leaderFlag) { // 领导直接看总表数值
 							temMap.put("fyxBudgetMobile", temMap.get("fyxBudgetMobile"));
+							if (temMap.get("show_ali").toString().contains("马永生")) {
+								mysBudget = Double.parseDouble(temMap.get("fyxBudgetMobile").toString());
+							}
 						} else {
 							temMap.put("fyxBudgetMobile", "0");
 						}
@@ -1018,7 +1024,7 @@ public class OutProjectInfoClient {
 				temMap.put("zbxBudgetMobile", 0);
 				temMap.put("zbxXqMoney", 0);
 			}
-
+			
 			// 序号处理
 			if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("1")) {
 				oneOrder++;
@@ -1050,24 +1056,7 @@ public class OutProjectInfoClient {
 				temMap.put("showOrder", twoOrder);
 				temMap.put("showFlag", "1-1-" + twoOrder);
 				temMap.put("levelFlag", "2");
-				/*
-				 * totalFyxBudget = totalFyxBudget +
-				 * Double.parseDouble(temMap.get("fyxBudget") == null ? "0" :
-				 * temMap.get("fyxBudget").toString()); totalFyxXqBudget =
-				 * totalFyxXqBudget +
-				 * Double.parseDouble(temMap.get("fyxXqBudget") == null ? "0" :
-				 * temMap.get("fyxXqBudget").toString()); totalFyxJzBudget =
-				 * totalFyxJzBudget +
-				 * Double.parseDouble(temMap.get("fyxJzBudget") == null ? "0" :
-				 * temMap.get("fyxJzBudget").toString()); totalZbxBudget =
-				 * totalZbxBudget + Double.parseDouble(temMap.get("zbxBudget")
-				 * == null ? "0" : temMap.get("zbxBudget").toString());
-				 * totalFyxXqMoney = totalFyxXqMoney +
-				 * Double.parseDouble(temMap.get("fyxXqMoney") == null ? "0" :
-				 * temMap.get("fyxXqMoney").toString()); totalZbxXqMoney =
-				 * totalZbxXqMoney + Double.parseDouble(temMap.get("zbxXqMoney")
-				 * == null ? "0" : temMap.get("zbxXqMoney").toString());
-				 */
+				
 			} else if (temMap.get("money_level") != null && temMap.get("money_level").toString().equals("3")) {
 				threeOrder++;
 				temMap.put("showOrder", "1." + String.valueOf(threeOrder));
@@ -1091,7 +1080,8 @@ public class OutProjectInfoClient {
 		totalMap.put("zbxBudgetMobile", totalZbxBudgetMobile);
 		
 		noAuthTotalList.add(0, totalMap);
-
+		
+		System.out.println("特殊马永生-----" + mysBudget);
 		// 计算各个比率
 		for (int i = 0; i < noAuthTotalList.size(); i++) {
 			Map<String, Object> temMap = (Map<String, Object>) noAuthTotalList.get(i);
@@ -1115,6 +1105,12 @@ public class OutProjectInfoClient {
 			
 			if (temMap.get("showFlag") == null || temMap.get("showFlag").toString().equals(""))
 				temMap.put("showFlag", "0");
+			
+			// 马永生工作室的预算，在移动端查看预算总值时，特殊处理，从直属研究院/勘探院中扣除
+			if (temMap.get("show_ali").toString().contains("勘探院") || temMap.get("show_ali").toString().contains("直属研究院")) {
+				System.out.println("特殊马永生直属研究院勘探院-----" + mysBudget);
+				temMap.put("fyxBudgetMobile", Double.parseDouble(temMap.get("fyxBudgetMobile").toString()) - mysBudget);
+			}
 
 			Double fyxXqBudget = Double.valueOf(temMap.get("fyxXqBudget").toString());
 			Double fyxJzBudget = Double.valueOf(temMap.get("fyxJzBudget").toString());

@@ -86,7 +86,17 @@ public class BudgetMysql {
 	private Object fyxXqBudget;
 	private Object zbxBudget;
 	
+	private Object xkFyxMoney;
 	
+	
+	public Object getXkFyxMoney() {
+		return xkFyxMoney;
+	}
+
+	public void setXkFyxMoney(Object xkFyxMoney) {
+		this.xkFyxMoney = xkFyxMoney;
+	}
+
 	public Object getFyxXqBudget() {
 		return fyxXqBudget;
 	}
