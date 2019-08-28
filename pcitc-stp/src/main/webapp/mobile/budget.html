@@ -64,7 +64,7 @@
                     </div>
                     <div class="layui-col-xs4">
                         <span id="yzc_finished_id">-亿</span>
-                        <span>已签</span>
+                        <span>已投入</span>
                         <span></span>
                     </div>
                     <div class="layui-col-xs4">
@@ -85,7 +85,7 @@
                     </div>
                     <div class="layui-col-xs4">
                         <span id="yjy_finished_id">-亿</span>
-                        <span>已签约</span>
+                        <span>已投入</span>
                         <span></span>
                     </div>
                     <div class="layui-col-xs4">
@@ -167,7 +167,7 @@
         			 {
     					var zycmc= data.data[i].zycmc;//专业处
     					var ysxkje=data.data[i].ysxkje;//预算金额
-    					var xkMoney=data.data[i].xkMoney;//已签金额
+    					var xkMoney=data.data[i].xkMoney;//已投入金额
     					
     					if(zycmc!='合计')
    						{
@@ -196,10 +196,10 @@
    						{
     						 temp="<li>"+
 				    				"<p>"+
-				                        "<span>"+zycmc+"</span><span>预算 "+setNumStr(ysxkje)+"</span>"+
+				                        "<span style='font-weight:bold'>"+zycmc+"</span><span>预算 "+setNumStr(ysxkje)+"</span>"+
 				                    "</p>"+
 				                    "<p>"+
-				                        "<span>已签"+setNumStr(yq)+"</span>"+wclCount+
+				                        "<span>已投入"+setNumStr(yq)+"</span>"+wclCount+
 				                    "</p>"+
 			                       "</li>";
    						}
@@ -228,7 +228,7 @@
 		
     	var v_date = (new Date()).getTime();
     	var nd = $('#nd').val();
-    	var url = "/mobile/investment_02?functionId=984b64b13cf54222bf57bd840759fabe&type=mobile&nd=" + nd + "&v_date=" + v_date;
+    	var url = '/mobile/small_leader/budget/info?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&v_date=" + v_date;
     	$.ajax({
     		type : "GET",
     		url : url,
@@ -241,44 +241,60 @@
     		success : function(data, status) 
     		{
     			 console.log("研究院\n"+data.data);
+    			 var dataList = data.data;
     			 var count="";
     			 var all=0;
     			 var finished=0;
-    			 if(data.data.length>0)
+    			 if(dataList.length>0)
     			 {
-    				 for(var i=0;i<data.data.length;i++)
+    				 for(var i=0;i<dataList.length;i++)
         			 {
-    					var define2= data.data[i].define2;//研究院
-    					var zysje=data.data[i].zysje;//预算金额
-    					var zsjje=data.data[i].zsjje;//实际科研投入
-    					var jeRate=data.data[i].jeRate;//预算执行率
+    					var levelFlag = dataList[i].levelFlag;
+ 					    var unitName=dataList[i].unitName;
+ 					    
+ 					    if(levelFlag==3 || levelFlag=='3')
+						{
+							//预算
+							var fyxBudget = dataList[i].fyxBudget;//科研经费预算
+							var zbxBudget = dataList[i].zbxBudget;//资本性预算
+							//已投
+							var fyxXqMoney = dataList[i].fyxXqMoney;  //经费-实际新签
+							var fyxJzBudget = dataList[i].fyxJzBudget;//经费--其中：结转预算
+							var zbxXqMoney = dataList[i].zbxXqMoney;//资本性--实际新签（科研装备+课题资本性支出）
+							
+							var total_money =  parseFloat(zbxBudget) + parseFloat(fyxBudget);
+						    var finished_money = parseFloat(fyxXqMoney) + parseFloat(fyxJzBudget) + parseFloat(zbxXqMoney);
+						    var zRatev = finished_money * 100 / total_money;
+						    
+						    all=all+total_money;
+						    finished=finished+finished_money;
+						    
+						    var temp="<li>"+
+					    				"<p>"+
+					                        "<span style='font-weight:bold'>"+unitName+"</span><span>预算 "+setNumStr(total_money)+"</span>"+
+					                    "</p>"+
+					                    "<p>"+
+					                        "<span>已投入"+setNumStr(finished_money)+"</span>"+
+					                        "<span>完成率"+zRatev.toFixed(2)+"%</span>"+
+					                    "</p>"+
+				                       "</li>";
+							count=count+temp;
+							
+						 }
     					
-    					all=all+parseFloat(zysje);
-    					finished=finished+parseFloat(zsjje);
-    					var temp="<li>"+
-				    				"<p>"+
-
-				                        "<span>"+define2+"</span><span>预算 "+setNumStr(zysje)+"</span>"+
-				                    "</p>"+
-				                    "<p>"+
-				                        "<span>已签"+setNumStr(zsjje)+"</span>"+
-				                        "<span>完成率"+jeRate.toFixed(2)+"%</span>"+
-				                    "</p>"+
-			                       "</li>";
-    					count=count+temp;
         			 } 
-    			 }
-    			 //alert(count);
-    			 $("#researchDepart_id").html(count); 
-    			 
-    			 
-    			 
-    			 //研究院-总金额
-   				 $("#yjy_all_id").html((parseFloat(all)/10000).toFixed(2) + "<lable >亿<lable>");
-   				 $("#yjy_finished_id").html((finished/10000).toFixed(2) + "<lable >亿<lable>");
-   				 var zRate = finished * 100 / all;
-   				 $("#yjy_rate_id").html(zRate.toFixed(2) + "%");
+    				 
+    				 
+    				 var yjy_all = parseFloat(all)/ 10000;
+					 var yjy_finished = parseFloat(finished) / 10000;
+					 
+	   				 $("#yjy_all_id").html(yjy_all.toFixed(2) + "<lable >亿<lable>");
+	   				 $("#yjy_finished_id").html(yjy_finished.toFixed(2) + "<lable >亿<lable>");
+	   				 var zRate = yjy_finished * 100 / yjy_all;
+	   				 $("#yjy_rate_id").html(zRate.toFixed(2) + "%");
    				 
+    			 }
+    			 $("#researchDepart_id").html(count); 
    				 
     		},
     		error : function() {
@@ -290,13 +306,13 @@
     }
     
     
-    //
+    //总体情况
     function set_all_look()
     {
 		
     	var v_date = (new Date()).getTime();
     	var nd = $('#nd').val();
-    	var url = "/mobile/index_budget?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "&v_date=" + v_date;
+    	var url = '/mobile/small_leader/budget/info?functionId=984b64b13cf54222bf57bd840759fabe&nd=' + nd + "&v_date=" + v_date;
     	$.ajax({
     		type : "GET",
     		url : url,
@@ -309,55 +325,110 @@
     		success : function(data, status) 
     		{
     			 console.log(data.data);
+    			 var dataList = data.data;
     			 var count="";
-    			 var all=0;
-    			 var finished=0;
-    			 if(data.data.length>0)
+    			 if(dataList.length>0)
     			 {
     				 for(var i=0;i<data.data.length;i++)
         			 {
-    					var budgetItemName= data.data[i].budgetItemName;
-    					var zysje=data.data[i].zysje;//总预算科研投入
-    					var fyxsjje=data.data[i].fyxsjje;//费用性科研投入
-    					var zbxsjje=data.data[i].zbxsjje;//资本性科研投入
-    					var overed=parseFloat(fyxsjje)+parseFloat(zbxsjje);//已投入
     					
-    					all=all+parseFloat(zysje);
-    					finished=finished+parseFloat(overed);
+    					    var levelFlag = dataList[i].levelFlag;
+    					    var unitName=dataList[i].unitName;
+    						if(levelFlag==0 || levelFlag=='0')
+    						{
+    							//预算
+    							var fyxBudget = dataList[i].fyxBudget;//科研经费预算
+    							var zbxBudget = dataList[i].zbxBudget;//资本性预算
+    							//已投
+    							var fyxXqMoney = dataList[i].fyxXqMoney;  //经费-实际新签
+    							var fyxJzBudget = dataList[i].fyxJzBudget;//经费--其中：结转预算
+    							var zbxXqMoney = dataList[i].zbxXqMoney;//资本性--实际新签（科研装备+课题资本性支出）
+    							
+    							var total_money =  parseFloat(zbxBudget) + parseFloat(fyxBudget);
+    						    var tt2 = parseFloat(fyxXqMoney) + parseFloat(fyxJzBudget) + parseFloat(zbxXqMoney);
+    							
+    							 var other_all = parseFloat(total_money)/ 10000;
+    							 var other_finished = parseFloat(tt2) / 10000;
+    							 //研究院-总金额
+    							 $("#other_all_id").html(other_all.toFixed(2) + "<lable >亿<lable>");
+    			   				 $("#other_finished_id").html(other_finished.toFixed(2) + "<lable >亿<lable>");
+    			   				 var zRate = other_finished * 100 / other_all;
+    			   				 $("#other_rate_id").html(zRate.toFixed(2) + "%");
+    							
+    							
+    						}
+    						
+    						
+    						if(levelFlag==2 || levelFlag=='2')
+    						{
+    							//预算
+    							var fyxBudget = dataList[i].fyxBudget;//科研经费预算
+    							var zbxBudget = dataList[i].zbxBudget;//资本性预算
+    							//已投
+    							var fyxXqMoney = dataList[i].fyxXqMoney;  //经费-实际新签
+    							var fyxJzBudget = dataList[i].fyxJzBudget;//经费--其中：结转预算
+    							var zbxXqMoney = dataList[i].zbxXqMoney;//资本性--实际新签（科研装备+课题资本性支出）
+    							
+    							var ys_money =  parseFloat(zbxBudget) + parseFloat(fyxBudget);
+    						    var finished_money = parseFloat(fyxXqMoney) + parseFloat(fyxJzBudget) + parseFloat(zbxXqMoney);
+    						    var zRate = (finished_money * 100 / ys_money).toFixed(2);
+    						    if(zRate=='NaN' || zRate=='Infinity')
+   						    	{
+   						    	  zRate="-";
+   						    	}
+    							var temp="<li>"+
+						    				"<p>"+
+						    				"<span style='font-weight:bold'>"+unitName+"</span><span>预算 "+setNumStr(ys_money)+"</span>"+
+						    				
+						                    "</p>"+
+						                    "<p>"+
+						                        "<span>已投入"+setNumStr(finished_money)+"</span>"+
+						                        "<span>完成率"+zRate+"%</span>"+
+						                    "</p>"+
+					                       "</li>";
+								count=count+temp;
+    						}
+    						
+    						if(levelFlag==1 || levelFlag=='1')
+    						{
+    							if(unitName=='集团公司' || unitName=='资产公司')
+    							{
+    								//预算
+        							var fyxBudget = dataList[i].fyxBudget;//科研经费预算
+        							var zbxBudget = dataList[i].zbxBudget;//资本性预算
+        							//已投
+        							var fyxXqMoney = dataList[i].fyxXqMoney;  //经费-实际新签
+        							var fyxJzBudget = dataList[i].fyxJzBudget;//经费--其中：结转预算
+        							var zbxXqMoney = dataList[i].zbxXqMoney;//资本性--实际新签（科研装备+课题资本性支出）
+        							
+        							var ys_money =  parseFloat(zbxBudget) + parseFloat(fyxBudget);
+        						    var finished_money = parseFloat(fyxXqMoney) + parseFloat(fyxJzBudget) + parseFloat(zbxXqMoney);
+        						    var zRate = (finished_money * 100 / ys_money).toFixed(2);
+        						    if(zRate=='NaN' || zRate=='Infinity')
+       						    	{
+       						    	  zRate="-";
+       						    	}
+        							
+        							var temp="<li>"+
+    						    				"<p>"+
+    						    				"<span style='font-weight:bold'>"+unitName+"</span><span>预算 "+setNumStr(ys_money)+"</span>"+
+    						    				
+    						                    "</p>"+
+    						                    "<p>"+
+    						                        "<span>已投入"+setNumStr(finished_money)+"</span>"+
+    						                        "<span>完成率"+zRate+"%</span>"+
+    						                    "</p>"+
+    					                       "</li>";
+    								count=count+temp;
+    							}
+    							
+    							
+    						}
     					
     					
-    					var yq=parseFloat(overed).toFixed(2);//已签
-    					if(yq=='0.00')
-    					{
-    						yq=0;
-    					}
-    					var wcl=(overed/zysje*100).toFixed(2);//完成率
-    					if(wcl=='0.00')
-    					{
-    						wcl=0;
-    					}
-    					
-    					var temp="<li>"+
-				    				"<p>"+
-				                        "<span>"+budgetItemName+"</span><span>预算 "+setNumStr(zysje)+"</span>"+
-				                    "</p>"+
-				                    "<p>"+
-				                        "<span>已签"+setNumStr(yq)+"</span>"+
-				                        "<span>完成率"+wcl+"%</span>"+
-				                    "</p>"+
-			                       "</li>";
-    					count=count+temp;
         			 } 
     			 }
-    			 //alert(count);
     			 $("#other_id").html(count); 
-    			 
-    			 
-    			 //研究院-总金额
-   				 $("#other_all_id").html((parseFloat(all)/10000).toFixed(2) + "<lable >亿<lable>");
-   				 $("#other_finished_id").html((finished/10000).toFixed(2) + "<lable >亿<lable>");
-   				 var zRate = finished * 100 / all;
-   				 $("#other_rate_id").html(zRate.toFixed(2) + "%");
    				 
     		},
     		error : function() {

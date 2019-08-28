@@ -43,7 +43,7 @@
 
 	<!-- 日志输出级别, 暂时取消STDOUT,只输入日志到文件 -->
 	<root level="INFO">
-		<!-- <appender-ref ref="STDOUT" /> -->
+		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</root>
 

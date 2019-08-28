@@ -191,7 +191,7 @@ public class UserServiceImpl implements UserService {
 
 	/**
 	 * @author zhf
-	 * @date 2018年5月17日 上午9:30:34 包含用户本身的熟悉、所拥有的角色、菜单等
+	 * @date 2018年5月17日 上午9:30:34 包含用户本身的属性、所拥有的角色、菜单等
 	 */
 	// @Cacheable(key = "'userDetails_'+#userId", value = "userCache")
 	public SysUser selectUserDetailsByUserId(String userId) throws Exception {

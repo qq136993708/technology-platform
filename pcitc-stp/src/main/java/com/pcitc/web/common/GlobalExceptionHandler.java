@@ -17,7 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.Result;
 
 
-@ControllerAdvice
+//@ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler 
 {
 	
