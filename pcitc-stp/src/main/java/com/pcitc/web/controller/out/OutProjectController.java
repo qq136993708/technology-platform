@@ -202,11 +202,8 @@ public class OutProjectController extends BaseController {
 		outProjectInfo.setDefine8(gs);
 		HttpEntity<OutProjectInfo> entity = new HttpEntity<OutProjectInfo>(outProjectInfo, this.httpHeaders);
 		ResponseEntity<List> responseEntity = this.restTemplate.exchange(PROJECT_COMPANY_LIST, HttpMethod.POST, entity, List.class);
-		
-		
-		
-		List<OutProjectInfo> arrList = responseEntity.getBody();
 
+		List<OutProjectInfo> arrList = responseEntity.getBody();
 		return arrList;
 	}
 }

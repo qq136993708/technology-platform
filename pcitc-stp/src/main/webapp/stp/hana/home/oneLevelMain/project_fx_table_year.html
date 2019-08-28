@@ -335,22 +335,14 @@
 			form.on('select(select_define11)', function(data) {
 				//alert(data.value);
 				var parentCode = data.value;
-				if("ROOT_FZJCZX_GSLXCW_GFGS"==parentCode){
-					$("#lay_company").html("研究院：");
-				}else{
-					$("#lay_company").html("单位名称：");
-				}
+				showCompanyName(parentCode);
 				getDicByParentCode(parentCode, 'define12');
 				console.log("监听经费来源:" + data);
 			});
 			//监听单位性质
 			form.on('select(select_define12)', function(data) {
 				var parentCode = data.value;
-				if("ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY"==parentCode||"-1"==parentCode){
-					$("#lay_company").html("研究院：");
-				}else{
-					$("#lay_company").html("单位名称：");
-				}
+				showCompanyName(parentCode);
 				getDicByParentCode(parentCode, 'define2');
 				console.log("监听单位性质:" + data);
 			});
@@ -373,7 +365,10 @@
 
 			//初始化经费来源
 			var define11 = $("#define11").val();
+			showCompanyName(define11);
 			getDicByParentCode(define11, 'define12');
+			var define12 = $("#define12").val();
+			showCompanyName(define12);
 
 			//初始部门
 			var gsbmbmFlag = $("#gsbmbmFlag").val();
@@ -381,6 +376,15 @@
 
 			renderTable();
 		});
+
+
+		function showCompanyName(parentCode){
+			if("ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY"==parentCode||"ROOT_FZJCZX_GSLXCW_GFGS"==parentCode||"-1"==parentCode||""==parentCode||null==parentCode){
+				$("#lay_company").html("研究院：");
+			}else{
+				$("#lay_company").html("单位名称：");
+			}
+		}
 
 		function renderTable() {
 			//alert("dd");

@@ -94,9 +94,9 @@
           </div>
           
            <div class="layui-inline">
-            <label class="layui-form-label">研究院：</label>
+            <label class="layui-form-label" id="lay_company">研究院：</label>
             <div class="layui-input-inline">
-               <select name="define2" id="define2"  > </select>
+               <select name="define2" id="define2" lay-filter="select_define2" lay-verify="" lay-search> </select>
             </div>
           </div>
            <!-- 三级级联 end -->
@@ -277,14 +277,16 @@
 		   form.on('select(select_define11)', function(data){
 			//alert(data.value);
 			   var parentCode=data.value;
+               showCompanyName(parentCode);
 			   getDicByParentCode(parentCode,'define12');
 			   console.log("监听经费来源:"+data);
 		   });
 		   //监听单位性质
 		   form.on('select(select_define12)', function(data){
-				   var parentCode=data.value;
-				   getDicByParentCode(parentCode,'define2');
-				   console.log("监听单位性质:"+data);
+               var parentCode=data.value;
+               showCompanyName(parentCode);
+               getDicByParentCode(parentCode,'define2');
+               console.log("监听单位性质:"+data);
 		   });
 		   
 		   //监听部门
@@ -305,15 +307,26 @@
 		
 			//初始化经费来源
 			var define11=$("#define11").val();
+            showCompanyName(define11);
 			getDicByParentCode(define11,'define12');
-			
+            var define12=$("#define12").val();
+            showCompanyName(define12);
 			//初始部门
 			var gsbmbmFlag=$("#gsbmbmFlag").val();
 			getDicByParentCode(gsbmbmFlag,'zycbmFlag');
 			
 			renderTable();
 		});
-		
+
+
+        function showCompanyName(parentCode){
+            if("ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY"==parentCode||"ROOT_FZJCZX_GSLXCW_GFGS"==parentCode||"-1"==parentCode||""==parentCode||null==parentCode){
+                $("#lay_company").html("研究院：");
+            }else{
+                $("#lay_company").html("单位名称：");
+            }
+        }
+
 		function renderTable() 
 		{
 			//alert("dd");
@@ -592,66 +605,123 @@
 	//获取单位性质
 	function getDicByParentCode(parentCode,downId)
     {
-    	 //alert(parentCode+"--"+downId);
-    	 $("#"+downId).empty();
-    	 if(parentCode==null || parentCode=='')
-     	 {
-     		parentCode='-1';
-     	 }
-    	 console.log("级联：\n parentCode="+parentCode+" downId="+downId);
-    	 var v_date=(new Date()).getTime();
-    	 if(parentCode!=null && parentCode!='')
-         {
-    		 
-    		 $.ajax({
-    				url : "/sre-project-basic/getDicListByParentCode?v_date="+v_date+"&parentCode="+parentCode,
-    				type : "post",
-    				async: false,
-    				dataType : "json",
-    				success : function(data) 
-    				{
-    					$("#"+downId).append("<option value=''>--请选择--</option>");
-    					$.each(data, function(i, el) 
-    					{
-    						$("#"+downId).append('<option value="'+ el.code +'">' + el.name+ '</option>');
-    						if(define12==el.name)
-    						{
-    							$("#"+downId).val(el.code);
-    						} 
-    						if(define2==el.name)
-    						{
-    							$("#"+downId).val(el.code);
-    						} 
-    						if(zycbmFlag==el.name)
-    						{
-    							$("#"+downId).val(el.code);
-    						}
-    						if(zycbmFlag==el.name)
-    						{
-    							$("#"+downId).val(el.code);
-    						}
-    						
-    					});
-    					 form.render();
-    				},
-    				error : function() 
-    				{
-    					alert("发生未知错误 ,请重新操作.");
-    				}
-    			});
-    		
-         }
-    	 var code_temp=$("#"+downId).val();
-    	 //如果ID=单位性质 ,再调用一次，形成第三级
-    	 if(downId=='define12')
-    	 {
-    		getDicByParentCode(code_temp,'define2');
-    	 }
-    	 if(downId=='zycbmFlag')
-    	 {
-    		getDicByParentCode(code_temp,'zylbbmFlag');
-    	 }
-    	 form.render();
+        //alert(parentCode+"--"+downId);
+        $("#" + downId).empty();
+        if (parentCode == null || parentCode == '') {
+            parentCode = '-1';
+        }
+        console.log("级联：\n parentCode=" + parentCode + " downId=" + downId);
+        var v_date = (new Date()).getTime();
+        if (parentCode != null && parentCode != '' && parentCode!="-1") {
+            if((downId=="define2"&&parentCode=="ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY")||downId=="define12"||downId=="zylbbmFlag"){
+                $.ajax({
+                    url : "/sre-project-basic/getDicListByParentCode?v_date=" + v_date + "&parentCode=" + parentCode,
+                    type : "post",
+                    async : false,
+                    dataType : "json",
+                    success : function(data) {
+                        $("#" + downId).append("<option value='-1'>--请选择--</option>");
+                        $.each(data, function(i, el) {
+                            $("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
+                            if (define12 == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+                            if (define2 == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+                            if (zycbmFlag == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+                            if (zycbmFlag == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+
+                        });
+                        form.render();
+                    },
+                    error : function() {
+                        alert("发生未知错误 ,请重新操作.");
+                    }
+                });
+            }else{
+                $.ajax({
+                    url : "/out/project-company-list",
+                    type : "post",
+                    async : false,
+                    dataType : "json",
+                    data:{
+                        "jfly":$("#define11").find("option:selected").text(),
+                        "dwxz":$("#define12").find("option:selected").text()
+                    },
+                    success : function(data) {
+                        $("#" + downId).append("<option value=''>--请选择--</option>");
+                        $.each(data, function(i, el) {
+                            $("#" + downId).append('<option value="'+ el.define8 +'">' + el.define8 + '</option>');
+                            if (define12 == el.name) {
+                                $("#" + downId).val(el.dataId);
+                            }
+                            if (define2 == el.name) {
+                                $("#" + downId).val(el.dataId);
+                            }
+                            if (zycbmFlag == el.name) {
+                                $("#" + downId).val(el.dataId);
+                            }
+                            if (zycbmFlag == el.name) {
+                                $("#" + downId).val(el.dataId);
+                            }
+
+                        });
+                        form.render();
+                    },
+                    error : function() {
+                        alert("发生未知错误 ,请重新操作.");
+                    }
+                });
+            }
+        }else if((parentCode==null||"-1"==parentCode)&&downId=="define12"){
+            if((""==$("#define11").val()||undefined==$("#define11").val())&&(""==$("#define12").val()||undefined==$("#define12").val())){
+                parentCode = "ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY";
+                downId = "define2";
+                $.ajax({
+                    url : "/sre-project-basic/getDicListByParentCode?v_date=" + v_date + "&parentCode=" + parentCode,
+                    type : "post",
+                    async : false,
+                    dataType : "json",
+                    success : function(data) {
+                        $("#" + downId).append("<option value='-1'>--请选择--</option>");
+                        $.each(data, function(i, el) {
+                            $("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
+                            if (define12 == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+                            if (define2 == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+                            if (zycbmFlag == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+                            if (zycbmFlag == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+
+                        });
+                        form.render();
+                    },
+                    error : function() {
+                        alert("发生未知错误 ,请重新操作.");
+                    }
+                });
+            }
+        }
+        var code_temp = $("#" + downId).val();
+        //如果ID=单位性质 ,再调用一次，形成第三级
+        if (downId == 'define12') {
+            getDicByParentCode(code_temp, 'define2');
+        }
+        if (downId == 'zycbmFlag') {
+            getDicByParentCode(code_temp, 'zylbbmFlag');
+        }
+        form.render();
     }
 	
 	
