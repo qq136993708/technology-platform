@@ -631,40 +631,16 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         }
         //发送消息
         try {
-            EmailTemplate emailTemplate = emailTemplateService.selectByPrimaryKey(templeteId);
-//            List<String> emails = zjkChoice.stream().map(ZjkChoice::getBak3).collect(Collectors.toList());
-            for (int i = 0; i < j; i++) {
-                ZjkChoice obj = zjkChoice.get(i);
-                MailSenderInfo m = new MailSenderInfo();
-//                m.setToAddress(new String[]{"635447170@qq.com"});
-                m.setToAddress(new String[]{obj.getBak3()});
-                String content = emailTemplate.getContent();
-                content = content.replace("${name}", obj.getBak2());
-                content = content.replace("${date}", obj.getBak4());
-                content = content.replace("${project}", obj.getXmName());
-                content = content.replace("${mobile}", obj.getBak5());
-                m.setContent(content);
-                m.setSubject("评审邀请");
-                int leng = files.size();
-                String[] names = new String[leng];
-                String[] urls = new String[leng];
-                for (int k = 0; k < leng; k++) {
-                    names[k] = files.get(k).getFileName();
-                    urls[k] = files.get(k).getFilePath();
-                }
-                m.setAttachFileUrls(urls);
-                m.setAttachFileNames(names);
-                mailSentService.sendMailFileInputStream(m);
-            }
+            commonAsycService.sendEmailAsyc(templeteId,zjkChoice,files);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-
         }
         //返回
         return 200;
     }
 
+    @Autowired
+    private CommonAsycService commonAsycService;
     @Autowired
     private ZjkMsgService zjkMsgService;
     @Autowired
