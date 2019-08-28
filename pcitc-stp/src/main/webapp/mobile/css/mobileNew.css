@@ -180,9 +180,11 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .layui-tab-content .layui-tab-item>ul li p{padding:0rem .19rem}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(1){padding:.12rem .19rem}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(2){
-    float: right;color:rgba(23,48,56,1);padding-left:.19rem;font-size:.16rem;position:relative;text-align:left;font-weight:600}
+    float: right;color:rgba(245,158,35,1);padding-left:.19rem;font-size:.16rem;position:relative;text-align:left;font-weight:600}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(2):after{content:'';width:6px;display:inline-block;position:absolute;
     left:0;height:6px;top:.07rem;background-color:rgba(243,112,90,1)}
+.budget .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(2){width: 44%;}
+.budget .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(2):after{width: 0;}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(1){font-size:.14rem;color:#426570}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(1),
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2){position:relative;padding-left:.19rem;color:#426570;
@@ -197,6 +199,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2):after{content:'';width:6px;display:inline-block;position:absolute;
     left:0;height:6px;top:.05rem;background-color:#499AED}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2):after{background-color:#48BA97}
+.budget .layui-tab-content .layui-tab-item>ul li p:nth-child(2) span:nth-child(2):after{width: 0}
 .laydate-c{height:.14rem;line-height:.14rem;font-size:.14rem;position:absolute;right:3%}
 .contract .layui-tab-title{width:3.03rem;margin:0 auto .1rem;border-radius:4px;line-height:.34rem;border:1px solid #4190F6;height:.34rem}
 .contract .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(1){width: 30%;display: block;float: left;overflow: hidden;
@@ -230,7 +233,10 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .project .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2){color:rgba(245,158,35,1);font-size:.16rem;float:right;padding-left: 0;}
 .project .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2):after{height:0}
 .project dl{margin-left:.19rem}
-.project dl dd{float:left;width:33%;color:rgb(66,101,112);font-size:.14rem;padding-left:.1rem;position:relative;box-sizing:border-box;display:inline-block}
+.project dl dd{float:left;width:33%;color:rgb(66,101,112);font-size:.14rem;padding-left:.1rem;position:relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;box-sizing:border-box;display:inline-block}
 .project dl dd:nth-child(1),.project dl dd:nth-child(2){width:27%}
 .project dl dd:nth-child(3){width:46%}
 .project dl dd:after{content:'';top:.09rem;position:absolute;left:0;width:3px;height:3px;border-radius:1.5px;background-color:rgba(66,101,112,1)}
@@ -329,7 +335,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .personnel .list .item .item-img{width:.52rem;background:#fff;margin-right:.1rem;border-radius:50%;float:left;border:2px solid #4190F6;height:.52rem;overflow:hidden}
 .personnel .list .lady .item-img{border-color: #EF7561;}
 .personnel .list .item .item-img img{width:.52rem}
-.personnel .list .item  .item-cont{float:right;width:82%}
+.personnel .list .item  .item-cont{float:right;width:81%}
 .personnel .list .item  .item-cont p:nth-child(1){margin-bottom:.09rem;
     overflow: hidden;
     text-overflow: ellipsis;
