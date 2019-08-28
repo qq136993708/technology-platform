@@ -643,6 +643,7 @@
                         parent.layui.table.reload('zjkBaseInfoTableId', {where: {param: {}}});
                     } else {
                         layer.msg("操作成功");
+                        parent.selectRowData = "";
                         parent.layui.table.reload('zjkBaseInfoTableId', {where: {param: {}}});
                         var index = parent.layer.getFrameIndex(window.name);
                         // parent.layer.close(index);

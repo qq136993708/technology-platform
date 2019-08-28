@@ -115,6 +115,9 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         ZjkExpert expert = zjkBaseInfoMapper.selectByPrimaryKey(zjkBaseInfo.getDataId());
         if (expert != null) {
             //不要修改
+            if(StrUtil.isNullEmpty(zjkBaseInfo.getEmail())){
+                zjkBaseInfo.setEmail("");
+            }
             zjkBaseInfoMapper.updateByPrimaryKeySelective(zjkBaseInfo);
         } else {
 //            zjkBaseInfo.setDataId(IdUtil.createIdByTime());
