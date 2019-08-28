@@ -659,7 +659,7 @@ public class MobileController extends BaseController {
 	public String achievement_table_data(HttpServletRequest request, HttpServletResponse response) {
 
 		
-		
+		String functionId = CommonUtil.getParameter(request, "functionId", "");
 		String key = CommonUtil.getParameter(request, "key", "");
 		String page = CommonUtil.getParameter(request, "page", "1");
 		LayuiTableParam param = new LayuiTableParam();
@@ -670,10 +670,19 @@ public class MobileController extends BaseController {
 		param.setPage(Integer.valueOf(page));
 		param.getParam().put("nd", nd);
 		param.getParam().put("key", key);
+		param.getParam().put("functionId", functionId);
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+	
+		// 数据控制属性
+		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
+		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
+		param.getParam().put("zycbm", zycbm);
+		param.getParam().put("zylbbm", zylbbm);
+		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
+		param.getParam().put("cgjszy", cgjszy);
+		
+		
 		System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
-		
-		
 		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
