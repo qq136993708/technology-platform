@@ -135,7 +135,7 @@ public class AdminMobileController extends BaseController {
 	 */
 	@RequestMapping(value = "/mobile/index")
 	public String indexMobileStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("1进入indexMobileStp....");
+		//System.out.println("1进入indexMobileStp....");
 		System.out.println("2进入indexMobileStp...." + request.getParameter("oauth_token"));
 		// 获取移动组统一身份的oauthToken值
 		String oauthToken = request.getParameter("oauth_token");
@@ -161,14 +161,14 @@ public class AdminMobileController extends BaseController {
 		// 是否获取人员信息成功标识
 		boolean testFlag = false;
 		String uid = "";
-		System.out.println("authResponse--------" + authResponse);
-		System.out.println("authResponse--------" + authResponse.getCode());
-		System.out.println("authResponse--------" + authResponse.getContent());
+		//System.out.println("authResponse--------" + authResponse);
+		//System.out.println("authResponse--------" + authResponse.getCode());
+		//System.out.println("authResponse--------" + authResponse.getContent());
 		// 根据状态码判断请求是否成功
 		if (authResponse.getCode() == 200) {
 			// 获取响应内容
 			String result = authResponse.getContent();
-			System.out.println("refreshOauth返回--------" + result);
+			//System.out.println("refreshOauth返回--------" + result);
 			JSONObject json = JSONObject.parseObject(result);
 			if (json != null && json.get("access_token") != null) {
 				String access_token = json.getString("access_token");
@@ -240,7 +240,7 @@ public class AdminMobileController extends BaseController {
 			System.out.println("indexMobileStp----缺少权限");
 			return "no_access";
 		}
-		System.out.println("-----indexStp----------login token:" + retJson.get("token"));
+		//System.out.println("-----indexStp----------login token:" + retJson.get("token"));
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
 		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
@@ -257,7 +257,7 @@ public class AdminMobileController extends BaseController {
 		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 		request.setAttribute("sysUserInfo", tokenUser); // tokenUser中有userLevel等基本属性
 		
-		if (isZHJHCPerson || sysUserInfo.getUserLevel() == 2) {
+		if (isZHJHCPerson || tokenUser.getUserLevel() == 2) {
 			request.getSession().setAttribute("mobileLeader", "true");
 		}
 		
@@ -288,24 +288,24 @@ public class AdminMobileController extends BaseController {
 		while (paramNames.hasMoreElements()) {
 			String paramName = (String) paramNames.nextElement();
 			String[] paramValues = request.getParameterValues(paramName);
-			System.out.println("3-----adToken----------:" + paramName);
+			//System.out.println("3-----adToken----------:" + paramName);
 			if (paramValues != null) {
-				System.out.println("4-----adToken----------:" + paramValues.length);
+				//System.out.println("4-----adToken----------:" + paramValues.length);
 				for (int i = 0; i < paramValues.length; i++) {
-					System.out.println("5-----adToken----------:" + i + "==============" + paramValues[i]);
+					//System.out.println("5-----adToken----------:" + i + "==============" + paramValues[i]);
 				}
 			}
 		}
-		System.out.println("8都大写-----adToken-Identity_Key---------:" + request.getParameter("Identity_Key"));
-		System.out.println("9都大写-----adToken-Identity_Token---------:" + request.getParameter("Identity_Token"));
+		//System.out.println("8都大写-----adToken-Identity_Key---------:" + request.getParameter("Identity_Key"));
+		//System.out.println("9都大写-----adToken-Identity_Token---------:" + request.getParameter("Identity_Token"));
 		DES3Utils desUtils = new DES3Utils(request.getParameter("Identity_Key"));
 		String pKey = desUtils.des3Decode(request.getParameter("Identity_Token"));
 		Map<String, String> keymap = desUtils.getAcountByToken(pKey);
 		name = keymap.get("username");
 		pwd = keymap.get("password");
 		String jsonString = JSON.toJSONString(keymap);
-		System.out.println("adToken--------jsonString ==========" + jsonString);
-		System.out.println("12-----adToken----------:" + name + "====" + pwd);
+		//System.out.println("adToken--------jsonString ==========" + jsonString);
+		//System.out.println("12-----adToken----------:" + name + "====" + pwd);
 		Cookie c = new Cookie("userInfo", name);
 		c.setPath("/");
 		response.addCookie(c);
@@ -388,7 +388,6 @@ public class AdminMobileController extends BaseController {
 			request.setAttribute("year", year);
 
 			tokenUser = JwtTokenUtil.getUserFromTokenByValue(retJson.get("token").toString());
-			String unitPathId = tokenUser.getUnitPath();
 			//boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
 			boolean isZHJHCPerson=EquipmentUtils.getZycbmDic(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 			request.setAttribute("isZHJHCPerson", isZHJHCPerson);
