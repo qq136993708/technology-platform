@@ -2,6 +2,7 @@ package com.pcitc.base.stp.out;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class OutAppraisal implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -63,8 +64,19 @@ public class OutAppraisal implements Serializable {
     private String define5;
 
     private String define6;
+    
+    private List<String> xmmcList;
+    
 
-    public String getDataId() {
+    public List<String> getXmmcList() {
+		return xmmcList;
+	}
+
+	public void setXmmcList(List<String> xmmcList) {
+		this.xmmcList = xmmcList;
+	}
+
+	public String getDataId() {
         return dataId;
     }
 

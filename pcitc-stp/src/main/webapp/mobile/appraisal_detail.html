@@ -29,8 +29,16 @@
             <span class="project-d-d">${outAppraisal.sqjddw}</span>
         </li>
         <li>
-            <span>项目名称</span>
-            <span class="project-d-d">${outAppraisal.xmmc}</span>
+            <span>项目名称:</span>
+            <p style="height:15px"> </p>
+            <#list outAppraisal.xmmcList as vo>
+            <p style="height:25px;margin-top:5px">${vo}</p>
+            </#list>
+        </li>
+        
+        <li>
+            <span>合同号</span>
+            <span>${outAppraisal.hth}</span>
         </li>
         <li>
             <span>成果专业</span>
@@ -50,6 +58,10 @@
             <span >${outAppraisal.endtime?date} </span>
         </li>
     </ul>
+     <div class="project-d-f"></div>
+       <!-- <#list outAppraisal.xmmcList as vo>
+            <p  style="height:.25rem;font-family: "arial-black","微软雅黑","黑体"">${vo}</p>
+        </#list> -->
     <!-- <div class="button-c">
         <button>确定</button>
     </div> -->
