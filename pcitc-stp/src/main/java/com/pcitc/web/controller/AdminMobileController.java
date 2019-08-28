@@ -240,7 +240,7 @@ public class AdminMobileController extends BaseController {
 			System.out.println("indexMobileStp----缺少权限");
 			return "no_access";
 		}
-		//System.out.println("-----indexStp----------login token:" + retJson.get("token"));
+		System.out.println("-----indexStp----------login token:" + retJson.get("token"));
 
 		Cookie cookie = new Cookie("token", retJson.getString("token"));
 		cookie.setMaxAge(1 * 60 * 60);// 设置有效期为1天
