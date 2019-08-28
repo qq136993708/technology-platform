@@ -94,6 +94,12 @@
    					 var createTimeStr= dataArr[i].createTimeStr;
    					 var auditRemarks= dataArr[i].auditRemarks;
    					 var processInstanceId= dataArr[i].processInstanceId;
+   					 if(createTimeStr!=null && createTimeStr!='')
+  					 {
+   						createTimeStr=createTimeStr.substr(0,10);
+  					 }
+  					 
+   					
    					 if(auditRemarks==null)
 					 {
 						auditRemarks="";
@@ -199,6 +205,15 @@
    					 var type= dataArr[i].type;//系统来源
    					 var title= dataArr[i].title;//任务名称
    					 var showDate= dataArr[i].showDate;
+   					 if (typeof(showDate) == "undefined")
+   					 {
+   						showDate="";
+   					 }
+   					 if(showDate!=null && showDate!='')
+   					 {
+   						showDate=showDate.substr(0,10);
+   					 }
+   					 
    					 var type= dataArr[i].type;
    					 var url= dataArr[i].url;
    					 if(title==null)
@@ -207,10 +222,10 @@
 					 }
    					 var temp="<li>"+
 				    				"<p>"+
-				                        "<span>"+title+"</span>"+
-				                        "<span>"+showDate+"</span>"+
+				                        "<span style='font-weight:bold'>"+title+"</span>"+
+				                        "<span style='color:#ccc'>"+showDate+"</span>"+
 				                    "</p>"+
-				                    "<p><span>"+type+"</span></p>"+
+				                    "<p><span >"+type+"</span></p>"+
 				             "</li>";
 					count=count+temp;
 		

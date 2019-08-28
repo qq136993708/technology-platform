@@ -47,6 +47,8 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
      */
     public LayuiTableData getAppraisalInfoByCond(LayuiTableParam param) {
 
+    	
+    	System.out.println(">>>>>>>>>>>>getAppraisalInfoByCond 封装入口参数: " + JSONObject.toJSONString(param));
         // 1、设置分页信息，包括当前页数和每页显示的总计数
         PageHelper.startPage(param.getPage(), param.getLimit());
 
@@ -141,6 +143,8 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
         System.out.println("cgjszy======" + param.getParam().get("cgjszy"));
         System.out.println("cgjszy======" + hashmap.get("cgjszy"));
 
+        System.out.println(">>>>>>>>>>>>getAppraisalInfoByCond 封装后参数: " + JSONObject.toJSONString(hashmap));
+        
         List<OutAppraisal> list = outAppraisalMapper.getAppraisalInfoByCond(hashmap);
         PageInfo<OutAppraisal> pageInfo = new PageInfo<OutAppraisal>(list);
 

@@ -259,7 +259,7 @@ var companyCode="${companyCode?default('')}";
     });
     //科研项目
     $("#project_id").click(function () {
-    	location.href="/mobile/project";
+    	location.href="/mobile/project?&groupFlag=xmid";
     });
     
     //科研合同 
@@ -576,9 +576,12 @@ var companyCode="${companyCode?default('')}";
     //科研成果
 	function appraisalCount(v_date,nd) 
     {
+    	
+		   var url="/mobile/one_level_main/achievement_table_data?functionId=984b64b13cf54222bf57bd840759fabe&nd="+nd+"&v_date="+v_date;
+		
 			$.ajax({
 				type : 'POST',
-				url : "/mobile/admin/appraisal-count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd+"&v_date="+v_date,
+				url : url,
 				dataType : 'json',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -588,9 +591,9 @@ var companyCode="${companyCode?default('')}";
 
 				},
 				success : function(data) {
-					var appraisalCount = data.appraisalCount;
+					//var appraisalCount = data.appraisalCount;
 					//alert(appraisalCount);
-					$("#appraisalId").html(appraisalCount+"个");
+					$("#appraisalId").html(data.count+"个");
 				}
 			});
 
