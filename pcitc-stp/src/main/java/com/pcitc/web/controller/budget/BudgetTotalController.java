@@ -45,7 +45,7 @@ import com.pcitc.base.stp.budget.BudgetAssetTotal;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
-import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 /**
@@ -65,19 +65,27 @@ public class BudgetTotalController extends BaseController {
 	{
 		request.setAttribute("nd", DateUtil.format(DateUtil.getNextYearDay(new Date()), DateUtil.FMT_YYYY));
 		
-		String url = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd("2019");
+		//String url = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
+		//BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		//vo.setNd("2019");
 		//vo.getBudgetItemCodes().add("ROOT_ZGSHJT_GFGS_ZSYJY");
 		//String unit = "30130055,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130017,30130018,3013000902,30130009,30130016,30130064,30130065";
 		//vo.getUnitIds().addAll(Arrays.asList(unit.split(",")));
+		//ResponseEntity<BudgetItemSearchVo> responseEntity = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<BudgetItemSearchVo>(vo, this.httpHeaders), BudgetItemSearchVo.class);
+		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		//BudgetItemSearchVo rsvo = responseEntity.getBody();
+		//System.out.println(JSON.toJSONString(rsvo.getBudgetByAllUnit()));
+		//System.out.println(rsvo.getBudgetTotal());
 		
-		ResponseEntity<BudgetItemSearchVo> responseEntity = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<BudgetItemSearchVo>(vo, this.httpHeaders), BudgetItemSearchVo.class);
+		String url = "http://pcitc-zuul/system-proxy/out-provider/project-info-list-bycondition";
+		OutProjectInfo out = new OutProjectInfo();
+		out.setNd("2018");
+		out.setYsnd("2019");
+		out.setDefine11("C资产公司");
+		ResponseEntity<List> responseEntity = this.restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<OutProjectInfo>(out, this.httpHeaders), List.class);
+		System.out.println(responseEntity.getBody().size());
 		System.out.println(JSON.toJSONString(responseEntity.getBody()));
 		
-		BudgetItemSearchVo rsvo = responseEntity.getBody();
-		System.out.println(JSON.toJSONString(rsvo.getBudgetByAllUnit()));
-		//System.out.println(rsvo.getBudgetTotal());
 		
 		return "stp/budget/budget_main_total";
 	}
