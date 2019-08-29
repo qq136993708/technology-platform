@@ -147,7 +147,20 @@ public class MobileController extends BaseController {
 		request.setAttribute("department", department);
 		return "/mobile/institute_new";
 	}
-	
+
+	@RequestMapping(value = "/getDepartment/institute_new")
+	@ResponseBody
+	public JSONObject getDepartment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		JSONObject jsonObject = new JSONObject(1);
+		String id = CommonUtil.getParameter(request, "id", "");
+		ResponseEntity<Department> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), Department.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		logger.info("============远程返回  statusCode " + statusCode);
+		Department department = responseEntity.getBody();
+		jsonObject.put("department",department);
+		return jsonObject;
+	}
 	
 	/**
 	 * @param request
