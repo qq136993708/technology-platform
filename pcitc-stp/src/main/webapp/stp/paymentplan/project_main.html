@@ -205,6 +205,17 @@
 			</div>
 
 			<div class="layui-card-body">
+				<div class="tableToolBox">
+		            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+		                    data-type="addEvent">生成报销计划
+		            </button>
+		            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+		                    data-type="editEvent">发送报销通知单
+		            </button>
+		            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
+		                    data-type="exportEvent">下载报销通知单
+		            </button>
+		        </div>
 				<table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true,text:{none:'请稍后...'}}">
 	                <thead>
 		                <tr>
@@ -217,9 +228,8 @@
 		                    <th lay-data="{field:'gsbmmc', width: 100,align:'left'}">部门</th>
 		                    <th lay-data="{field:'define10', width: 100,align:'left'}">专业处</th>
 		                    <th lay-data="{field:'xmmc',align:'left'}">项目名称</th>
-		                    <th lay-data="{field:'fzdwunit',align:'left'}">负责单位</th>
 		                    <th lay-data="{field:'define8',align:'left'}">承担单位</th>
-		                    <th lay-data="{field:'ysje', width: 100,align:'left'}">项目金额</th>
+		                    <th lay-data="{field:'ysje', width: 100,align:'left',templet : '#view_format'}">项目金额</th>
 		                    <th lay-data="{field:'define17', width: 100,align:'left'}">拨款批次</th>
 		                </tr>
 	                </thead>
@@ -229,10 +239,8 @@
 	</div>
 	<!--表格数据操作js-->
 	<script src="/common/js/jquery-1.11.3.min.js"></script>
-	<script id="view_taskVersion" type="text/html"> {{purchase_money_jf(d.jf)}} </script>
-	<script id="view_taskVersion2" type="text/html"> {{purchase_money(d.ysje)}} </script>
-	<script id="view_taskVersion3" type="text/html"> {{purchase_money(d.yszbxje)}} </script>
-	<script id="view_taskVersion4" type="text/html"> {{purchase_money(d.ysfyxje)}} </script>
+	<script id="view_format" type="text/html"> {{purchase_money_jf(d.ysje)}} </script>
+	
 
 	<script>
 		var selectRowData, laydate;
@@ -471,12 +479,13 @@
 		}
 
 		function purchase_money_jf(jf) {
-
+			console.log(jf);
 			if (jf != null) {
 				var h_strs = jf.substring(jf.lastIndexOf("."), jf.length);
 				if (h_strs == '.0') {
 					jf = jf.replace(".0", "");
 				}
+				console.log(jf);
 				return '<span style="color:green">' + jf + '</span>';
 			} else {
 				return "<span></span>";
