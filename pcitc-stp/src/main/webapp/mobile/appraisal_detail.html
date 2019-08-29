@@ -11,8 +11,8 @@
         .main{border-radius: 6px;}
     </style>
 </head>
-<body style="overflow-y: hidden">
-<main class="main project-d">
+<body >
+<main class="main project-d" >
     <div class="title">
         <h4><span></span>${outAppraisal.cgmc}</h4>
         <p></p>
@@ -29,8 +29,19 @@
             <span class="project-d-d">${outAppraisal.sqjddw}</span>
         </li>
         <li>
-            <span>项目名称</span>
-            <span class="project-d-d">${outAppraisal.xmmc}</span>
+            <span>项目名称:</span>
+            <p style="height:0.15rem"> </p>
+            <#list outAppraisal.xmmcList as vo>
+               <p class="project-d-d" style="height: 0.25rem;margin-top:0.12rem;font-size:.14rem">${vo_index+1}、${vo}</p>
+            </#list>
+        </li>
+        
+        <li>
+            <span>合同号:</span>
+            <p style="height:0.15rem"> </p>
+            <#list outAppraisal.hthList as vo>
+               <p class="project-d-d" style="height: 0.25rem;margin-top:0.05rem;font-size:.14rem">${vo_index+1}、${vo}</p>
+            </#list>
         </li>
         <li>
             <span>成果专业</span>
@@ -50,9 +61,6 @@
             <span >${outAppraisal.endtime?date} </span>
         </li>
     </ul>
-    <!-- <div class="button-c">
-        <button>确定</button>
-    </div> -->
 </main>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>

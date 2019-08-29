@@ -47,6 +47,8 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
      */
     public LayuiTableData getAppraisalInfoByCond(LayuiTableParam param) {
 
+    	
+    	System.out.println(">>>>>>>>>>>>getAppraisalInfoByCond 封装入口参数: " + JSONObject.toJSONString(param));
         // 1、设置分页信息，包括当前页数和每页显示的总计数
         PageHelper.startPage(param.getPage(), param.getLimit());
 
@@ -141,6 +143,8 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
         System.out.println("cgjszy======" + param.getParam().get("cgjszy"));
         System.out.println("cgjszy======" + hashmap.get("cgjszy"));
 
+        System.out.println(">>>>>>>>>>>>getAppraisalInfoByCond 封装后参数: " + JSONObject.toJSONString(hashmap));
+        
         List<OutAppraisal> list = outAppraisalMapper.getAppraisalInfoByCond(hashmap);
         PageInfo<OutAppraisal> pageInfo = new PageInfo<OutAppraisal>(list);
 
@@ -372,7 +376,46 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
     }
 
     public OutAppraisal getAppraisalInfoByjdh(String jdh) {
-        return outAppraisalMapper.getAppraisalInfoByjdh(jdh);
+    	jdh=jdh.replace("-", "[");
+    	jdh=jdh.replace("_", "]");
+    	OutAppraisal outAppraisal= outAppraisalMapper.getAppraisalInfoByjdh(jdh);
+    	List<String> xmmcList=new ArrayList<String>();
+    	List<String> hthList=new ArrayList<String>();
+    	String xmmc=outAppraisal.getXmmc();
+    	String hth=outAppraisal.getHth();
+    	System.out.println(">>>>>>>>>>>>hth : " + hth);
+    	String arr[]=xmmc.split(",");
+    	
+    	if(arr!=null)
+    	{
+    		for(int i=0;i<arr.length;i++)
+    		{
+    			String str=arr[i];
+    			if(str!=null)
+    			{
+    				xmmcList.add(str);
+    			}
+    		}
+    	}
+    	outAppraisal.setXmmcList(xmmcList);
+    	
+        String htharr[]=hth.split(",");
+    	if(htharr!=null)
+    	{
+    		for(int i=0;i<htharr.length;i++)
+    		{
+    			String str=htharr[i];
+    			if(str!=null)
+    			{
+    				System.out.println(">>>>>>>>>>>>str : " + str);
+    				hthList.add(str);
+    			}
+    		}
+    	}
+    	outAppraisal.setHthList(hthList);
+    	
+    	
+    	return outAppraisal;
     }
 
 }

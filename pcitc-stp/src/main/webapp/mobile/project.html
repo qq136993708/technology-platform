@@ -37,12 +37,12 @@
     <div class="layui-row">
         <div class="layui-tab-content">
             <div class="layui-col-xs4">
-                <span id="finished_id">0个</span>
+                <span id="finished_id"><img height="20" width="20" src="/mobile/images/loading_mobile2.gif">个</span>
                 <span>已签约</span>
                 <span></span>
             </div>
             <div class="layui-col-xs4">
-                <span  id="not_finished_id">0个</span>
+                <span  id="not_finished_id"><img height="20" width="20" src="/mobile/images/loading_mobile2.gif">个</span>
                 <span>未签约</span>
                 <span></span>
             </div>
@@ -97,7 +97,7 @@
                 <ul id="qdbz_ed_id"></ul>
             </div>
             <div class="layui-tab-item">
-             <ul id="qdbz_not_id"></ul>
+               <ul id="qdbz_not_id"></ul>
             </div>
             <div class="layui-tab-item">
                 <ul id="qdbz_all_id"></ul>
@@ -186,6 +186,123 @@
         });
         
     });
+    
+    
+    
+    //通用三合一 
+    /* function queryCommonTabel(url,id,type)
+    {
+    	
+    	var content_all_str="";
+		var content_not_str="";
+		var content_finished_str="";
+		
+		
+		var content_all_count=0;
+		var content_not_count=0;
+		var content_finished_count=0;
+		
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : type,
+    		url : url,
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			console.log("通用三合一 \n"+JSON.stringify(data.data));
+    			$("#all_count").html((data.count)+"个");
+    			if(data.data.length>0)
+   			    {
+   				  for(var i=0;i<data.data.length;i++)
+       			  {
+   					 var xmmc= data.data[i].xmmc;
+   					 var ysje= data.data[i].ysje;//预算金额
+   					 var xmid= data.data[i].xmid;
+   					 var jf= data.data[i].jf;
+   					 var fzdw= data.data[i].fzdw;
+   					 var define10= data.data[i].define10;
+   					 var define12= data.data[i].define12;
+   					 var hth= data.data[i].hth;
+   					 var qdbz= data.data[i].qdbz;
+   					
+   					 if(xmmc==null || xmmc=='')
+   					 {
+   						xmmc="总计";
+   					 }	 
+   					 
+   					 if(xmmc!=null && xmmc!='')
+  					 {
+  						 if(xmmc.length>15)
+  						 {
+  							xmmc=xmmc.substring(0,15);
+  						 }
+  					 }
+   					
+   					if (typeof(hth) == "undefined")
+   					{
+   						hth="";
+   					}
+   					if (typeof(define12) == "undefined")
+   					{
+   						define12="";
+   					}
+   					if (typeof(fzdw) == "undefined")
+   					{
+   						fzdw="";
+   					}
+   					var ysjestr=setNumStr(ysje);
+   					
+   						
+   						var temp="<li onclick=\"view('"+xmid+"','"+xmmc+"')\">"+
+			    				"<p>"+
+			                        "<span style='font-weight:bold'>"+xmmc+"</span>"+
+			                        "<span>"+setNumStr(ysje)+"</span>"+
+			                    "</p>"+
+			                    "<dl>"+
+			                        "<dd>"+hth+"</dd>"+
+			                        "<dd>"+define10+"</dd>"+
+			                        "<dd>"+fzdw+"</dd>"+
+			                    "</dl>"+
+			                   "</li>";
+			          content_all_str=content_all_str+temp;          
+			          if(qdbz=='未签订')
+			          {
+			        	  content_not_str=content_not_str+temp;     
+			        	  content_not_count++;
+			          }
+			          if(qdbz=='已签订')
+			          {
+			        	  content_finished_str=content_finished_str+temp;     
+			        	  content_finished_count++;
+			          }
+  					}
+   					 
+   			   }
+    			
+    			
+                 
+                 
+    			
+    			$("#not_finished_count").html(content_not_count+"个");
+				$("#finished_count").html(content_finished_count+"个");
+				
+				
+				$("#qdbz_ed_id").html(content_finished_str);
+				$("#qdbz_not_id").html(content_not_str);
+				$("#qdbz_all_id").html(content_all_str);
+				
+				
+
+                $('html , body').animate({scrollTop: 0},'slow');
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+    } */
     
     
     
@@ -315,16 +432,18 @@
     	{
     		zycbmFlag="";
     	}
-    	 var url="/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag+"&fzdwflag="+fzdwflag+"&groupFlag="+groupFlag+"&functionId="+functionId;
+    	 var url="/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag+"&fzdwflag="+fzdwflag+"&groupFlag="+groupFlag+"&functionId="+functionId;
     	
-    	 queryTabel("/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=已签订&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag+"&fzdwflag="+fzdwflag+"&groupFlag="+groupFlag+"&functionId="+functionId,"qdbz_ed_id","POST");
-    	 queryTabel("/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=未签订&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag+"&fzdwflag="+fzdwflag+"&groupFlag="+groupFlag+"&functionId="+functionId,"qdbz_not_id","POST");
-    	 queryTabel("/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&qdbz=&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag+"&fzdwflag="+fzdwflag+"&groupFlag="+groupFlag+"&functionId="+functionId,"qdbz_all_id","POST");
+    	 queryTabel(url+"&qdbz=已签订","qdbz_ed_id","POST");
+    	 queryTabel(url+"&qdbz=未签订","qdbz_not_id","POST");
+    	 queryTabel(url+"&qdbz=",    "qdbz_all_id","POST");
+    	 
+    	 page("qdbz_ed_id", url+"&qdbz=已签订","POST","queryTabel");
+    	 page("qdbz_not_id",url+"&qdbz=未签订","POST","queryTabel");
+    	 page("qdbz_all_id",url+"&qdbz=","POST","queryTabel"); 
     	 
     	 
-    	 page("qdbz_ed_id", "/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=已签订&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag+"&fzdwflag="+fzdwflag+"&groupFlag="+groupFlag+"&functionId="+functionId,"POST","queryTabel");
-    	 page("qdbz_not_id","/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=未签订&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag+"&fzdwflag="+fzdwflag+"&groupFlag="+groupFlag+"&functionId="+functionId,"POST","queryTabel");
-    	 page("qdbz_all_id","/mobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&v_date="+(new Date()).getTime()+"&key="+$("#key").val()+"&qdbz=&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag+"&fzdwflag="+fzdwflag+"&groupFlag="+groupFlag+"&functionId="+functionId,"POST","queryTabel");
+    	 
 
     }
     search_Event();

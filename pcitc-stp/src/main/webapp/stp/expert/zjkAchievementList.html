@@ -68,7 +68,7 @@
                         // "fmh": $('#fmh').val()
                     }
                 },
-                limit: param.selfRownum,
+                // limit: param.selfRownum,
                 limit: 15,
                 id: 'showTable',
                 height: commonDislodgeTable(),
@@ -93,11 +93,11 @@
                             field: "cgmc",
                             title: "成果名称", event: 'setActive', style: 'cursor: pointer;'
                             ,templet:function (d) {
-                                // if(d.define6=="1"){
-                                //     return '<span style="color:red"  onclick="showDetailCg(\'' + d.dataId + '\')">' + d.cgmc + '</span>'
-                                // }else {
+                                if(d.define6=="1"){
+                                    return '<span style="color:red"  onclick="showDetailCg(\'' + d.dataId + '\')">' + d.cgmc + '</span>'
+                                }else {
                                     return '<span onclick="showDetailCg(\'' + d.dataId + '\')">' + d.cgmc + '</span>'
-                                // }
+                                }
                             }
                         },
                         {

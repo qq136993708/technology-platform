@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/mobile/css/mobileNew.css">
     <style>
-        .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;
+         .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;
             height: auto;
             overflow: hidden;
             padding-bottom: .1rem;
             background-size: 100%;
             padding-top: .1rem;}
-            li{list-sytle:none}
+        .child input{width: .8rem;}
+        
+        .cash .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2){float:right;color:green}
     </style>
 </head>
 <body>
@@ -27,7 +29,7 @@
 </header>
 
 
-<main class="main contract appropriation">
+<main class="main contract cash">
 <div id="chart1" style="height:300px;width:100%"></div>
     <div class="layui-row">
         <div class="layui-tab-content">
@@ -128,8 +130,8 @@
 						
 						    var temp="<li style='list-sytle:none'>"+
 					    				"<p>"+
-					    				    "<span>"+define2+"</span>"+
-					                        "<span style='float:right'> "+setNumStr(hanaMoney)+"</span>"+
+					    				    "<span style='font-weight:bold'>"+define2+"</span>"+
+					                        "<span > "+setNumStr(hanaMoney)+"</span>"+
 					                    "</p>"+
 				                       "</li>";
 			               countStr=countStr+temp;
@@ -358,7 +360,7 @@
 				{
 					temp= temp.substring(0,temp.length-3);
 				}
-				result="<lable style='color:red'>"+temp+"<lable><lable style='font-size:14px;font-weight:normal'>亿<lable>";
+				result="<lable style='color: #F3705A'>"+temp+"<lable><lable style='font-size:14px;font-weight:normal'>亿<lable>";
 			}else//万
 			{
 				
@@ -369,7 +371,7 @@
 					//temp= temp.replace(".00","")
 					temp= temp.substring(0,temp.length-3);
 				}
-				result="<lable style='color:red'>"+temp+"<lable><lable style='font-size:14px;font-weight:normal'>万<lable>";
+				result="<lable style='color: #F3705A'>"+temp+"<lable><lable style='font-size:14px;font-weight:normal'>万<lable>";
 			}
 			return result;
 	    }

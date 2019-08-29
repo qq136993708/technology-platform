@@ -2349,7 +2349,7 @@
 	    order by tableA.define2
 	</select>
 	
-	<!--  查询实际金额和实际数量， 粗组织机构分类 -->
+	<!--  查询实际金额和实际数量， 粗组织机构分类，计算A股份公司一个总值，方便查询显示 -->
 	<select id="getProjectActMoneyAndCount" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select
 			round(sum(ysje),4) as ysje,round(sum(yszbxje),4) as yszbxje,round(sum(ysfyxje),4) as ysfyxje,
@@ -2693,9 +2693,9 @@
 			nd = '${nd}' AND money_level = 1
 	</select>
 	
-	<!-- 预算执行情况，包含股份公司、资产公司、集团公司的 -->
+	<!-- 预算执行情况，包含股份公司、资产公司、集团公司的, fyxBudgetMobile特殊为移动显示准备的 -->
 	<select id="getAllBudgetWithAllLevel" resultType="java.util.Map" parameterType="java.util.HashMap">
-		SELECT money_level,show_index,show_ali,show_ali as unitName,zbx_money as zbxBudget,fyx_money as fyxBudget 
+		SELECT money_level,show_index,show_ali,show_ali as unitName,zbx_money as zbxBudget,fyx_money as fyxBudget,zbx_money as zbxBudgetMobile,fyx_money as fyxBudgetMobile  
 		FROM out_tem_money_total
 		WHERE 
 			(money_level != 3 or unit_code like 'ROOT_ZGSHJT_GFGS_ZSYJY%') and nd = '${nd}'
