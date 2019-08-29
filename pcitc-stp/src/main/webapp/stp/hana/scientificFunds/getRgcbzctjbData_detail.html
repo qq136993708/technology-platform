@@ -25,14 +25,14 @@
      <tr>
          <th lay-data="{field:'g0FYXLMS', width:'40%',align:'left'}">项目</th>
          <th lay-data="{field:'k0BNCB', width:'15%',align:'right'}">本年累计分配</th>
-         <th lay-data="{field:'k0SNCB', width:'15%',align:'right'}">本年累计分配</th>
-         <th lay-data="{field:'k0TBCB', width:'15%',align:'right'}">同比成本</th> 
-         <th lay-data="{field:'k0TBBL', width:'15%',align:'right'}">同比成本 比例</th> 
+         <th lay-data="{field:'k0SNCB', width:'15%',align:'right'}">同期累计支出</th>
+         <th lay-data="{field:'k0TBCB', width:'15%',align:'right'}">同比金额</th> 
+         <th lay-data="{field:'k0TBBL', width:'15%',align:'right',templet:presentTpl}">同比%</th> 
      </tr>
     </thead>
 </table>
 </div>
-
+<script id="presentTpl" type="text/html"> {{present(d.k0TBBL)}} </script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
 <script type="text/javascript">
     // 时间格式化
@@ -94,6 +94,13 @@ function search_Event()
 {
 }
 
+function present(d) 
+      {
+    	  
+    	  var tt=d*100;
+    	  tt=tt.toFixed(2);
+    	  return tt+'%';
+      }
 
 
 function myTable2()
