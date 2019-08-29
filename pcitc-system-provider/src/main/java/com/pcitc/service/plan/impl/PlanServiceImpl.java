@@ -585,15 +585,19 @@ public class PlanServiceImpl implements PlanService {
     public String selectListPlan(JSONObject jsonObject) {
         String dataId = jsonObject.get("dataId").toString();
         PlanBase planBase = planBaseMapper.selectByPrimaryKey(dataId);
-        String workOrderCode = planBase.getWorkOrderCode();
-        //查询所有子节点
-        PlanBaseExample e = new PlanBaseExample();
-        PlanBaseExample.Criteria criteria = e.createCriteria();
-        criteria.andWorkOrderCodeEqualTo(workOrderCode);
-        criteria.andParentIdNotEqualTo("");
-        e.setOrderByClause("create_date desc");
-        List<PlanBase> planBases = planBaseMapper.selectByExample(e);
-        return planBases.get(0).getBl();
+        if (planBase==null){
+            return "0";
+        }else {
+            String workOrderCode = planBase.getWorkOrderCode();
+            //查询所有子节点
+            PlanBaseExample e = new PlanBaseExample();
+            PlanBaseExample.Criteria criteria = e.createCriteria();
+            criteria.andWorkOrderCodeEqualTo(workOrderCode);
+            criteria.andParentIdNotEqualTo("");
+            e.setOrderByClause("create_date desc");
+            List<PlanBase> planBases = planBaseMapper.selectByExample(e);
+            return planBases.get(0).getBl();
+        }
         //
 
 //
