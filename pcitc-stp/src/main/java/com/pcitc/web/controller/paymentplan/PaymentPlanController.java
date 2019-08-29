@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectInfoPaymentplan;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
@@ -24,10 +25,16 @@ import com.pcitc.web.common.BaseController;
 public class PaymentPlanController extends BaseController 
 {
 	private static final String PROJECT_INFO_LIST_BYCONDITION = "http://pcitc-zuul/system-proxy/out-provider/project-info-list-bycondition";
+	private static final String PROJECT_PAYMENTPLANT_LIST = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-list";
 
+	
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/paymentplan/project_main")
 	public Object toPaymentPlanProjectMain(HttpServletRequest request) throws Exception 
 	{
+		//OutProjectInfoPaymentplan plan = new OutProjectInfoPaymentplan();
+		//ResponseEntity<List> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST, HttpMethod.POST, new HttpEntity<OutProjectInfoPaymentplan>(plan,this.httpHeaders), List.class);
+		//System.out.println("++++++++++++++++++++++++++++"+JSON.toJSONString(responseEntity.getBody()));
 		// 费用类别
 		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
 		request.setAttribute("fylbList", fylbList);
