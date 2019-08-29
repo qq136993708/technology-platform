@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pcitc.base.system.*;
 import com.pcitc.mapper.system.SysUserMapper;
+import com.pcitc.service.search.FullSearchAsycService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -105,6 +106,9 @@ public class SysFileServiceImpl implements SysFileService {
 
 	@Autowired
 	private ClientFactoryBuilder	clientFactoryBuilder;
+
+	@Autowired
+    FullSearchAsycService fullSearchAsycService;
 
 	// @Autowired
 	// SysSerialService sysSerialService;
@@ -908,21 +912,23 @@ public class SysFileServiceImpl implements SysFileService {
 	 * @return
 	 */
 	public byte[] fileToEs(SysFile sysFile) {
-		try {
-			AccessorService accessor = getAccessorService();
-			IndexAccessorService indexAccessor = getIndexAccessorService(accessor);
-			indexAccessor.createIndexWithSettings(SysFile.class);
-			indexAccessor.createMappingXContentBuilder(SysFile.class);
-			sysFile.setEsId((int) (accessor.count(SysFile.class, null)));
-			sysFile.setBak4(GetTextFromFile.getText(sysFile.getFilePath()));
-			accessor.add(sysFile);
-		} catch (Exception e) {
-			System.out.println("文件写入ES异常");
-			e.printStackTrace();
-		} finally {
-
-		}
-		return null;
+        fullSearchAsycService.fileToEs(sysFile);
+        return  null;
+//		try {
+//			AccessorService accessor = getAccessorService();
+//			IndexAccessorService indexAccessor = getIndexAccessorService(accessor);
+//			indexAccessor.createIndexWithSettings(SysFile.class);
+//			indexAccessor.createMappingXContentBuilder(SysFile.class);
+//			sysFile.setEsId((int) (accessor.count(SysFile.class, null)));
+//			sysFile.setBak4(GetTextFromFile.getText(sysFile.getFilePath()));
+//			accessor.add(sysFile);
+//		} catch (Exception e) {
+//			System.out.println("文件写入ES异常");
+//			e.printStackTrace();
+//		} finally {
+//
+//		}
+//		return null;
 	}
 
 	public FileResult getPreivewSettingsByController(@RequestBody FileResult result, HttpServletRequest request) {

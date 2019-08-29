@@ -633,12 +633,11 @@
 		});
 
 		//判断关闭
-        var closeType = "${closeType}";
-        function closeType() {
-			if (closeType == "1") {
+        var closeTypeFlag = "${closeType}";
+        window.closeType=function (){
+			if (closeTypeFlag == "1") {
 				var index = parent.$(".layui-body .layui-show").index();
 				if (index == 1) {
-					console.log(parent.$("#mainIframe"))
 					parent.$(".layui-body .layadmin-tabsbody-item").eq(index - 1).addClass("layui-show");
                     top.$("#mainIframe").attr("src","/mainStp");
 				} else {
