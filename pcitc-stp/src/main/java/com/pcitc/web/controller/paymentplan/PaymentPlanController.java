@@ -80,9 +80,10 @@ public class PaymentPlanController extends BaseController
 		//OutProjectInfo out = new OutProjectInfo();
 		out.setNd("2018");
 		out.setYsnd("2019");
-		out.setDefine11("C资产公司");
-		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_BYCONDITION, HttpMethod.POST, new HttpEntity<OutProjectInfo>(out, this.httpHeaders), List.class);
-		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		//out.setDefine11("C资产公司");
+		ResponseEntity<List> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_BYCONDITION, HttpMethod.POST, new HttpEntity<OutProjectInfo>(out, this.httpHeaders), List.class);
+		System.out.println("++++++++++++++++++++++++++++"+responseEntity.getBody().size());
+		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
 		return JSON.toJSONString(responseEntity.getBody());
 	}
 }
