@@ -3768,6 +3768,7 @@
 				define1,define2,define3,define4,define5,define6,define7,define8,define9,define10,define11,define12,define13 
 			FROM out_project_info 
 			WHERE define3 = '项目管理系统'
+			AND project_type != 1
 		<if test="ysnd != null">
 			and out_project_info.ysnd = #{ysnd,jdbcType=VARCHAR}
 		</if>
@@ -3787,6 +3788,7 @@
 				gsbmmc,zycmc,define10,type_flag,define2,sum(jf) jf,sum(ysje) ysje,sum(ysfyxje) ysfyxje,sum(yszbxje) yszbxje
 			FROM out_project_info 
 			WHERE define3 = '项目管理系统'
+			AND project_type != 1
 		<if test="ysnd != null">
 			and out_project_info.ysnd = #{ysnd,jdbcType=VARCHAR}
 		</if>
@@ -3928,5 +3930,49 @@
 			and out_project_info.define8 like '%${define8}%'
 		</if>
 		group by out_project_info.define8
+	</select>
+	
+	<select id="selectProjectInfoByCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT 
+			* 
+		FROM 
+			out_project_info 
+		WHERE 
+			define3 = '项目管理系统'
+			AND project_type != 1
+		<if test="xmmc != null and xmmc != ''">
+			and xmmc like '%${xmmc}%'
+		</if>
+		<if test="xmid != null and xmid != ''">
+			and xmid = '${xmid}'
+		</if>
+		<if test="jtfzdw != null and xmmc != ''">
+			and jtfzdw like '%${jtfzdw}%'
+		</if>
+		<if test="nd != null and nd != ''">
+			and nd = '${nd}'
+		</if>
+		<if test="ysnd != null and ysnd != ''">
+			and ysnd = '${ysnd}'
+		</if>
+		<if test="define17 != null and define17 != ''">
+			and define17 = '${define17}'
+		</if>
+		<if test="define11 != null and define11 != ''">
+			and define11 = '${define11}'
+		</if>
+		<if test="zycmc != null and zycmc != ''">
+			and zycmc = '${zycmc}'
+		</if>
+		<if test="zycbm != null and zycbm != ''">
+			and zycbm = '${zycbm}'
+		</if>
+		<if test="gsbmbm != null and gsbmbm != ''">
+			and gsbmbm = '${gsbmbm}'
+		</if>
+		<if test="gsbmmc != null and gsbmmc != ''">
+			and gsbmmc = '${gsbmmc}'
+		</if>
+		ORDER BY define16 DESC;
 	</select>
 </mapper>

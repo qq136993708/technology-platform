@@ -358,5 +358,9 @@ public interface OutProjectInfoMapper {
 	int deleteOutProjectInfoByXmid(String xmid);
 	
 	List<OutProjectInfo> selectOutCompanyInfo(OutProjectInfo outProjectInfo);
+	/**
+	 * 获取报销处理合同信息
+	 */
+	public List<OutProjectInfo> selectProjectInfoByCondition(Map<String, Object> map);
 
 }

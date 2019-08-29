@@ -2667,4 +2667,12 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return outProjectInfoMapper.selectOutCompanyInfo(outProjectInfo);
 	}
 
+	@Override
+	public List<OutProjectInfo> selectProjectInfoByCondition(OutProjectInfo outProjectInfo) {
+	
+		Map<String,Object> paramMap = MyBeanUtils.transBean2Map(outProjectInfo);
+		
+		return outProjectInfoMapper.selectProjectInfoByCondition(paramMap);
+	}
+
 }
