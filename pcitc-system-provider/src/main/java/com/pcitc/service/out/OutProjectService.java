@@ -440,4 +440,6 @@ public interface OutProjectService {
     public LayuiTableData selectProjectInfoWithAllInfoByCondYearExpert(LayuiTableParam param);
 
 	public List<OutProjectInfo> getOutCompanyList(OutProjectInfo outProjectInfo);
+	
+	public List<OutProjectInfo> selectProjectInfoByCondition(OutProjectInfo outProjectInfo);
 }
