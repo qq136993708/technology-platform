@@ -12,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -205,6 +206,20 @@ public class CommonUtil {
 		    List<SysDictionary>  list=restTemplate.exchange(DIC_ENCODE_CREATE + parentCode, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), List.class).getBody();
 		    return list;
 
+	}
+	/**
+	 *  一次获取多个字典
+	 * @param codes
+	 * @param restTemplate
+	 * @param httpHeaders
+	 * @return
+	 * @throws Exception
+	 */
+	public static Map<String,List<SysDictionary>> getDictionaryByParentCodes(List<String> codes,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
+	{
+		    String DIC_ENCODE_CREATE = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/get-map-dicionarys";
+		    ResponseEntity<?> rs = restTemplate.exchange(DIC_ENCODE_CREATE, HttpMethod.POST, new HttpEntity<Object>(codes), Map.class);
+		    return (Map<String,List<SysDictionary>>)rs.getBody();
 	}
 	
 	public static List<UnitField> getUnitNameList(RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception

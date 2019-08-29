@@ -31,7 +31,7 @@ public class PaymentPlanController extends BaseController
 		// 费用类别
 		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
 		request.setAttribute("fylbList", fylbList);
-		System.out.println("fylbList::::"+JSON.toJSONString(fylbList));
+		//System.out.println("fylbList::::"+JSON.toJSONString(fylbList));
 		// 课题类型
 		//List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
 		//request.setAttribute("ktlxList", ktlxList);
@@ -52,7 +52,6 @@ public class PaymentPlanController extends BaseController
 		// 分组类型
 		//List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
 		//request.setAttribute("fzlxList", fzlxList);
-
 		// 部门
 		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
 		request.setAttribute("gsbmbmList", gsbmbmList);
