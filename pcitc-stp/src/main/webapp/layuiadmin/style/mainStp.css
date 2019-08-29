@@ -92,7 +92,7 @@ background: url("/layuiadmin/layui/images/icon-leader-aw.png") right no-repeat;
 .layui-leader-admin .layui-bottom .layui-box:nth-child(3) .layui-main-box{background: #4ac5a8}
 .layui-leader-admin  .layui-bottom .layui-box:nth-child(4) .layui-main-box{background: #eeb412}
 @media screen and (max-width: 1673px) {
-    .layui-main-box .layui-box-content span:first-child{font-size: 14px;color: #000;}}
+    .layui-main-box .layui-box-content span:first-child{font-size: 12px;color: #000;}}
 @media screen and (max-width: 1366px) {
     .layui-main-box .layui-box-icon{width: 44px;height: 44px;background-size: cover;}
     .layui-main-oil .layui-main-box .layui-box-icon{width: 34px !important;
