@@ -2,6 +2,7 @@ package com.pcitc.service.search;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysFile;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.concurrent.Future;
@@ -15,4 +16,12 @@ public interface FullSearchAsycService {
     Future<LayuiTableData> findTfmTypeByPage(LayuiTableParam param);
     public Future<LayuiTableData>  selectZjkBaseInfoByPage(@RequestBody LayuiTableParam param);
     public Future<LayuiTableData> selectZjkZhuanliByPage(@RequestBody LayuiTableParam param);
+
+    /**
+     * 文件内容到ES
+     *
+     * @param sysFile
+     * @return
+     */
+    public byte[] fileToEs(SysFile sysFile);
 }

@@ -9,18 +9,25 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode2;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.stp.out.*;
+import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysFunctionExample;
 import com.pcitc.base.util.StrUtil;
+import com.pcitc.es.clientmanager.ClientFactoryBuilder;
+import com.pcitc.es.clientmanager.IndexHelperBuilder;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.mapper.out.OutRewardMapper;
+import com.pcitc.service.doc.AccessorService;
+import com.pcitc.service.doc.IndexAccessorService;
+import com.pcitc.service.doc.impl.AccessorServiceImpl;
 import com.pcitc.service.expert.TfmTypeService;
 import com.pcitc.service.out.OutPatentService;
 import com.pcitc.service.report.SysReportStpService;
 import com.pcitc.service.search.FullSearchAsycService;
 import com.pcitc.service.search.FullSearchService;
 import com.pcitc.service.system.SysFunctionService;
+import com.pcitc.utils.GetTextFromFile;
 import com.pcitc.utils.StringUtils;
 import com.pcitc.web.feign.HomeProviderClient;
 import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
@@ -183,6 +190,37 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
         LayuiTableData data = outPatentService.findOutPatentListByName(param);
 //        LayuiTableData data = zjkBaseInfoServiceClient.selectZjkZhuanliByPage(param);
         return new AsyncResult<LayuiTableData>(data);
+    }
+
+    @Autowired
+    private ClientFactoryBuilder clientFactoryBuilder;
+
+    public AccessorService getAccessorService() {
+        AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
+        return accessor;
+    }
+
+    public IndexAccessorService getIndexAccessorService(AccessorService accessor) {
+        IndexAccessorService indexAccessor = new IndexHelperBuilder.Builder().withClient(accessor.getClient()).creatAccessor();
+        return indexAccessor;
+    }
+
+    @Override
+    public byte[] fileToEs(SysFile sysFile) {
+        try {
+            AccessorService accessor = getAccessorService();
+            IndexAccessorService indexAccessor = getIndexAccessorService(accessor);
+            indexAccessor.createIndexWithSettings(SysFile.class);
+            indexAccessor.createMappingXContentBuilder(SysFile.class);
+            sysFile.setEsId((int) (accessor.count(SysFile.class, null)));
+            sysFile.setBak4(GetTextFromFile.getText(sysFile.getFilePath()));
+            accessor.add(sysFile);
+        } catch (Exception e) {
+            System.out.println("文件写入ES异常");
+//            e.printStackTrace();
+        } finally {
+            return null;
+        }
     }
 
     @Autowired
