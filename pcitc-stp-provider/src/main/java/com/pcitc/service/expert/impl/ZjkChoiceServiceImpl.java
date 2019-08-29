@@ -506,27 +506,34 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         //判断类型
         if ("suiji".equals(strType)) {
             String strCount = map.get("count").toString();//数量
-
             Object expertProfessinalField = param.getParam().get("expertProfessinal");
             if (!StrUtil.isObjectEmpty(expertProfessinalField)) {
                 c.andExpertProfessionalFieldEqualTo(expertProfessinalField.toString());
             }
-            List<ZjkExpert> experts = zjkBaseInfoService.selectByExample(example);
             int count = Integer.parseInt(strCount);
-
-            //专家数量>取值，正常操作
-            if (experts.size() > count) {
-                int[] s = StrUtil.randomCommon(0, experts.size(), count);
-                List<ZjkExpert> expertsData = new ArrayList<>();
-                for (int i = 0; i < count; i++) {
-                    expertsData.add(experts.get(s[i]));
-                }
-                data.setData(expertsData);
-            }
-            //专家数量<取值,取专家数据
-            else {
-                data.setData(experts);
-            }
+            //随机查询数量,优化
+            example.setOrderByClause("rand()");
+            LayuiTableParam p = new LayuiTableParam();
+            p.setPage(0);
+            p.setLimit(count);
+            LayuiTableData tableData = zjkBaseInfoService.findByExample(p,example);
+            data.setData(tableData.getData());
+//
+//            List<ZjkExpert> experts = zjkBaseInfoService.selectByExample(example);
+//
+//            //专家数量>取值，正常操作
+//            if (experts.size() > count) {
+//                int[] s = StrUtil.randomCommon(0, experts.size(), count);
+//                List<ZjkExpert> expertsData = new ArrayList<>();
+//                for (int i = 0; i < count; i++) {
+//                    expertsData.add(experts.get(s[i]));
+//                }
+//                data.setData(expertsData);
+//            }
+//            //专家数量<取值,取专家数据
+//            else {
+//                data.setData(experts);
+//            }
 
         } else if ("guding".equals(strType)) {
 
