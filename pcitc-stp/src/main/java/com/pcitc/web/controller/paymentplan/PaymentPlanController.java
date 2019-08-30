@@ -1,7 +1,11 @@
 package com.pcitc.web.controller.paymentplan;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +23,7 @@ import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoPaymentplan;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtils;
 import com.pcitc.web.common.BaseController;
 
 @Controller
@@ -32,36 +37,28 @@ public class PaymentPlanController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/paymentplan/project_main")
 	public Object toPaymentPlanProjectMain(HttpServletRequest request) throws Exception 
 	{
-		//OutProjectInfoPaymentplan plan = new OutProjectInfoPaymentplan();
-		//ResponseEntity<List> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST, HttpMethod.POST, new HttpEntity<OutProjectInfoPaymentplan>(plan,this.httpHeaders), List.class);
-		//System.out.println("++++++++++++++++++++++++++++"+JSON.toJSONString(responseEntity.getBody()));
-		// 费用类别
-		List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
-		request.setAttribute("fylbList", fylbList);
-		//System.out.println("fylbList::::"+JSON.toJSONString(fylbList));
-		// 课题类型
-		//List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
-		//request.setAttribute("ktlxList", ktlxList);
-		// 技术分类
-		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
-		request.setAttribute("jsflList", jsflList);
+		OutProjectInfoPaymentplan plan = new OutProjectInfoPaymentplan();
+		plan.setNd(DateUtils.dateToStr(new Date(),DateUtils.FMT_YY));
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST, HttpMethod.POST, new HttpEntity<OutProjectInfoPaymentplan>(plan,this.httpHeaders), List.class);
+		request.setAttribute("paymentplans", responseEntity.getBody());
 		
-		// 三级级联：经费来源(公司类型财务)->单位类别->研究院
-		List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
-		request.setAttribute("jflyList", jflyList);
-		// 科技部二级级联： 专业处->专业类别
-		List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
-		request.setAttribute("zycList", zycList);
 		
-		// 负责单位
-		List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
-		request.setAttribute("fzdwList", fzdwList);
-		// 分组类型
-		//List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
-		//request.setAttribute("fzlxList", fzlxList);
-		// 部门
-		List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
-		request.setAttribute("gsbmbmList", gsbmbmList);
+		Map<String,String> dis = new HashMap<String,String>();
+		dis.put("fylbList", "ROOT_FZJCZX_FYLX");//费用类别
+		dis.put("ktlxList", "ROOT_FZJCZX_KTLX");//课题类型
+		dis.put("jsflList", "ROOT_FZJCZX_JSFL");//技术分类
+		dis.put("jflyList", "ROOT_FZJCZX_GSLXCW");//三级级联：经费来源(公司类型财务)->单位类别->研究院
+		dis.put("zycList", "ROOT_ZGSHJT_ZBJG_KJB");//科技部二级级联： 专业处->专业类别
+		dis.put("fzdwList", "ROOT_FZJCZX_FZDW");//负责单位
+		dis.put("fzlxList", "ROOT_FZJCZX_FZLX");//分组类型
+		dis.put("gsbmbmList", "ROOT_ZGSHJT_ZBJG");//部门
+		
+		Map<String,List<SysDictionary>> map = CommonUtil.getDictionaryByParentCodes(new ArrayList<String>(dis.values()), restTemplate, httpHeaders);
+		for(java.util.Iterator<String> iter = dis.keySet().iterator();iter.hasNext();) 
+		{
+			String key = iter.next();
+			request.setAttribute(key, map.get(dis.get(key)));
+		}
 
 		// 倒推部门-各个处室(汉字)->倒推部门
 		String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");// 部门
@@ -83,13 +80,12 @@ public class PaymentPlanController extends BaseController
 	@ResponseBody
 	public Object toBudgetMainTotal(@ModelAttribute("out")OutProjectInfo out,HttpServletRequest request) throws IOException 
 	{
-		//OutProjectInfo out = new OutProjectInfo();
-		out.setNd("2018");
-		out.setYsnd("2019");
-		//out.setDefine11("C资产公司");
-		ResponseEntity<List> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_BYCONDITION, HttpMethod.POST, new HttpEntity<OutProjectInfo>(out, this.httpHeaders), List.class);
-		System.out.println("++++++++++++++++++++++++++++"+responseEntity.getBody().size());
-		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		
+		/*out.setNd("2018");
+		out.setYsnd("2019");*/
+		out.setDefine11("C资产公司");
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_BYCONDITION, HttpMethod.POST, new HttpEntity<OutProjectInfo>(out, this.httpHeaders), List.class);
+		System.out.println(JSON.toJSONString(responseEntity.getBody()));
 		return JSON.toJSONString(responseEntity.getBody());
 	}
 }

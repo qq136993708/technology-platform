@@ -176,15 +176,17 @@
 
 
 
-						<!-- <div class="layui-inline">
-							<label class="layui-form-label">分组类型：</label>
+						<div class="layui-inline">
+							<label class="layui-form-label">报销批次：</label>
 							<div class="layui-input-inline">
-								<select name="groupFlag" id="groupFlag">
-									<option value="">--请选择--</option> <#list fzlxList as vo>
-									<option value="${vo.numValue}"<#if groupFlag==vo.numValue>selected="selected"</#if>>${vo.name}</option> </#list>
+								<select name="paymentPlanNo" id="paymentPlanNo">
+									<option value="">--请选择--</option> 
+									<#list paymentplans as vo>
+										<option value="${vo.paymentPlanNo}">${vo.paymentPlanNo}</option>
+									</#list>
 								</select>
 							</div>
-						</div> -->
+						</div>
 				</div>
 				<!-- 
 				<button  class="layui-btn layuiadmin-btn-list" id="Open" style="position: absolute;top: 4px;right: 14px; height: 27px;width: 40px;padding: 0;text-align: center;display: block;}">展开</button>
