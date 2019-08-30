@@ -636,20 +636,16 @@
         var closeTypeFlag = "${closeType}";
         window.closeType=function (){
 			if (closeTypeFlag == "1") {
-				var index = parent.$(".layui-body .layui-show").index();
-				if (index == 1) {
-					parent.$(".layui-body .layadmin-tabsbody-item").eq(index - 1).addClass("layui-show");
-                    top.$("#mainIframe").attr("src","/mainStp");
-				} else {
-					parent.$(".layui-body .layadmin-tabsbody-item").eq(index - 1).addClass("layui-show");
-				}
-				parent.$("#LAY_app_tabsheader li:eq(" + (index - 1) + ")").remove();
-				parent.$(".layui-body .layadmin-tabsbody-item").eq(index).remove();
-			} else {
-				var index = parent.layer.getFrameIndex(window.name);
-				parent.layer.close(index);
-				parent.layer.msg("操作成功");
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+                parent.layer.msg("提交成功");
+                parent.selectRowData = "";
                 top.$("#mainIframe").attr("src","/mainStp");
+                parent.layui.table.reload('tableList', {});
+			} else {
+                parent.renderTable();
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
 				// 原表单的行选中状态恢复
 				parent.selectRowData = "";
 			}
