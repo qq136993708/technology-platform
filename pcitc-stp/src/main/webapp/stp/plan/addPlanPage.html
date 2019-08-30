@@ -179,7 +179,7 @@
 									定时安排时间
 								</label>
 								<div class="layui-input-block">
-									<input class="layui-input" id="scheduleDate" name="scheduleDate" type="text">
+									<input class="layui-input" id="scheduleDate" lay-verify="dateVerify" name="scheduleDate" type="text">
 								</div>
 							</div>
 						</div>
@@ -267,11 +267,20 @@
 				type : 'datetime',
 				value : new Date()
 			});
-			
+
+            var date = new Date().getTime()+24*60*60*1000;
+            date = new Date(date);
+            var year = date.getFullYear();
+            var month = date.getMonth()+1;
+            var day = date.getDate();
+            var scheduleDate = year+'-'+month+'-'+day+' 00:00:00';
+            console.log(scheduleDate);
 			laydate.render({
 				elem : '#scheduleDate',
-				type : 'datetime'
-			});
+				type : 'datetime',
+                btns:['clear','confirm']
+                ,min:scheduleDate
+            });
 
 			$("#createDate").attr("value", $("#createDate").val());
 			$("#scheduleDate").attr("value", $("#scheduleDate").val());
@@ -289,12 +298,31 @@
 			console.log($('#workOrderAllotUserId').val)
 			//显示文件上传部分
 			$("#file_upload").load('/common/public/uploadlayuiload.html');
+
+
+
 			form.verify({
 				title : function(value) {
 					if (value.length < 4) {
 						return '工作任务名称至少得4个字符';
 					}
-				}
+				},
+                dateVerify : function(value,item) {
+                    var scheduleType= $("#scheduleType").val();
+                    if(scheduleType!=""){
+                        if (value==""){
+                            return "请选择定时安排时间";
+                        }
+                        // else {
+                        //     publicMethods.getCurrentDate();
+                        //     var nowDateAdd = publicMethods.getCurrentDate();
+                        //     console.log(nowDateAdd+"---"+value);
+                        //     if (!tab(value,nowDateAdd)){
+                        //         return '定时安排时间不能小于当前日期';
+                        //     }
+                        // }
+                    }
+                }
 			});
 			$.ajax({
 				url : '/pageCommon/dic/ROOT_RWGL_RWLX',
@@ -334,6 +362,7 @@
 				url = "/plan/editBotWorkOrder";
 				dataStatus = 1;
 			}
+
 			form.on('submit(save)', function(data) {
 				var sthTrArr = [];
 				var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
