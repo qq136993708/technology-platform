@@ -169,9 +169,14 @@ public  class InvestServiceImpl implements InvestService {
 				}
 		}else {
 			mentrogress.setTaskCloseState("10");//获取任务书关闭状态
-			mentrogress.setPurchaseState("10");//获取采购状态
+			if(sreProject.getId()!=null) {
+				mentrogress.setPurchaseState("2");//获取采购状态
+				mentrogress.setContractState("");//获取合同编号
+			}else {
+				mentrogress.setPurchaseState("10");//获取采购状态
+				mentrogress.setContractState("10");//获取合同编号
+			}
 			mentrogress.setAcceptanceState("10");//获取项目验收状态
-			mentrogress.setContractState("10");//获取合同编号
 			mentrogress.setForapplicationState("10");//获取转资状态
 		}
 			list.add(mentrogress);
