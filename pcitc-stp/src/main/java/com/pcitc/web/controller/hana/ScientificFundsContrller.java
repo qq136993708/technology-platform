@@ -693,8 +693,8 @@ public class ScientificFundsContrller extends BaseController {
 	   	        // 文件名默认设置为当前时间：年月日时分秒
 	   	        String fileName = DateFormatUtils.format(new Date(), "ddhhmmss");
 	   	        // 设置response头信息
-	   	     response.reset();
-	   	  response.setCharacterEncoding("UTF-8");
+	   	       response.reset();
+	   	       response.setCharacterEncoding("UTF-8");
 	   	  			        response.setContentType("application/vnd.ms-excel");
 	   	  			        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
 	   	        try {
