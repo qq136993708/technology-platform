@@ -601,7 +601,7 @@
 					var formIds = "";
 					var list = [];
 					var ROOT_XTGL_SPLX_PT = "";//视频
-					publicMethods.ajaxPost("/sysNews/getNewsIndexType", {
+					publicMethods.ajaxAsyncPost("/sysNews/getNewsIndexType", {
 						"stype" : stype,
 						"bak3" : 10
 					}, function(data) {

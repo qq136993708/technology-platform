@@ -44,6 +44,7 @@
 		<div class="layui-card">
 
 			<div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding: 0px">
+				<form id="paymentplan-form" name="paymentplan-form" lay-filter="paymentplan-form" class="form-horizontal layui-form">
 				<div class="layui-form-item">
 					<div class="layui-inline">
 						<label class="layui-form-label">项目名称：</label>
@@ -192,18 +193,19 @@
 				<button  class="layui-btn layuiadmin-btn-list" id="Open" style="position: absolute;top: 4px;right: 14px; height: 27px;width: 40px;padding: 0;text-align: center;display: block;}">展开</button>
 				 -->
 				</div>
-			<div class="layui-inline" style="margin-left: 48px;">
-				<button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
-					<i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
-				</button>
-			</div>
-
-
-			<div class="layui-inline">
-				<button class="layui-btn layuiadmin-btn-list" data-type="resetEvent">
-					<i class="layui-icon  layuiadmin-button-btn">重置</i>
-				</button>
-			</div>
+				</form>
+				<div class="layui-inline" style="margin-left: 48px;">
+					<button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
+						<i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
+					</button>
+				</div>
+	
+	
+				<div class="layui-inline">
+					<button class="layui-btn layuiadmin-btn-list" data-type="resetEvent">
+						<i class="layui-icon  layuiadmin-button-btn">重置</i>
+					</button>
+				</div>
 			</div>
 
 			<div class="layui-card-body">
@@ -239,6 +241,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<!--表格数据操作js-->
 	<script src="/common/js/jquery-1.11.3.min.js"></script>
 	<script id="view_format" type="text/html"> {{purchase_money_jf(d.ysje)}} </script>
@@ -386,7 +389,7 @@
 			
 			
 			var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
-			publicMethods.ajaxAsyncPost("/paymentplan/project-info-list-bycondition",{"nd":'2019',define1:define1}, function (data) {
+			publicMethods.ajaxAsyncPost("/paymentplan/project-info-list-bycondition",$("paymentplan-form").serialize(), function (data) {
     			table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,text:{none:'请稍后...'},done:function(rs){
     				layer.close(lodingMsg);
     			}});

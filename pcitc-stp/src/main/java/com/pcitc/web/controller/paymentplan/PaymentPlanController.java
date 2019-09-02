@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -84,8 +85,24 @@ public class PaymentPlanController extends BaseController
 		/*out.setNd("2018");
 		out.setYsnd("2019");*/
 		out.setDefine11("C资产公司");
+		System.out.println(JSON.toJSONString(out));
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_BYCONDITION, HttpMethod.POST, new HttpEntity<OutProjectInfo>(out, this.httpHeaders), List.class);
 		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		return JSON.toJSONString(responseEntity.getBody());
+	}
+	
+	@RequestMapping(value = "/paymentplan/project-paymentplan-list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getprojectPaymentplanList(@ModelAttribute("out")OutProjectInfo out,HttpServletRequest request) throws IOException 
+	{
+		OutProjectInfoPaymentplan plan = new OutProjectInfoPaymentplan();
+		if(StringUtils.isBlank(out.getNd())) {
+			plan.setNd(DateUtils.dateToStr(new Date(),DateUtils.FMT_YY));
+		}else {
+			plan.setNd(out.getNd());
+		}
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST, HttpMethod.POST, new HttpEntity<OutProjectInfoPaymentplan>(plan,this.httpHeaders), List.class);
+		
 		return JSON.toJSONString(responseEntity.getBody());
 	}
 }
