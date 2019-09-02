@@ -68,9 +68,9 @@
 						</div>
 					</div>
 					<div class="layui-inline">
-						<label class="layui-form-label">预算年度：</label>
+						<label class="layui-form-label">拨款年度：</label>
 						<div class="layui-input-inline">
-							<input type="text" name="ysnd" readonly="readonly" style="cursor: pointer" placeholder="请选择预算年度" title="预算年度" value="${ysnd}" autocomplete="off" class="layui-input" id="ysnd" width="100px">
+							<input type="text" name="ysnd" readonly="readonly" style="cursor: pointer" placeholder="请选择拨款年度"  title="拨款年度" value="${ysnd}" autocomplete="off" class="layui-input" id="ysnd" width="100px">
 						</div>
 					</div>
 					<div class="layui-inline">
@@ -220,7 +220,7 @@
 		                    data-type="exportEvent">下载报销通知单
 		            </button>
 		        </div>
-				<table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true,text:{none:'请稍后...'}}">
+				<table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true,text:{none:''}}">
 	                <thead>
 		                <tr>
 		                	<th lay-data="{type:'checkbox'}"></th>
@@ -396,8 +396,8 @@
 			
 			
 			var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
-			publicMethods.ajaxAsyncPost("/paymentplan/project-info-list-bycondition",$("paymentplan-form").serialize(), function (data) {
-    			table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,text:{none:'请稍后...'},done:function(rs){
+			publicMethods.ajaxAsyncPost("/paymentplan/project-info-list-bycondition",$("#paymentplan-form").serialize(), function (data) {
+    			table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,text:{none:''},done:function(rs){
     				layer.close(lodingMsg);
     			}});
 	   		}); 
