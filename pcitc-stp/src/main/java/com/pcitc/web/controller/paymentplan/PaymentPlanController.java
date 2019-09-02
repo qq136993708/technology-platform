@@ -38,8 +38,10 @@ public class PaymentPlanController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/paymentplan/project_main")
 	public Object toPaymentPlanProjectMain(HttpServletRequest request) throws Exception 
 	{
+		
+		String ysnd = DateUtils.dateToStr(new Date(),DateUtils.FMT_YY);
 		OutProjectInfoPaymentplan plan = new OutProjectInfoPaymentplan();
-		plan.setNd(DateUtils.dateToStr(new Date(),DateUtils.FMT_YY));
+		plan.setNd(ysnd);
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST, HttpMethod.POST, new HttpEntity<OutProjectInfoPaymentplan>(plan,this.httpHeaders), List.class);
 		request.setAttribute("paymentplans", responseEntity.getBody());
 		
@@ -72,6 +74,7 @@ public class PaymentPlanController extends BaseController
 		request.setAttribute("zycbmFlag", zycbmFlag);
 		request.setAttribute("gsbmbmFlag", gsbmbmFlag);
 		request.setAttribute("zylbbmFlag", zylbbmFlag);
+		request.setAttribute("ysnd", ysnd);
 		// (汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2
 		
 		return "stp/paymentplan/project_main";
@@ -96,10 +99,10 @@ public class PaymentPlanController extends BaseController
 	public Object getprojectPaymentplanList(@ModelAttribute("out")OutProjectInfo out,HttpServletRequest request) throws IOException 
 	{
 		OutProjectInfoPaymentplan plan = new OutProjectInfoPaymentplan();
-		if(StringUtils.isBlank(out.getNd())) {
+		if(StringUtils.isBlank(out.getYsnd())) {
 			plan.setNd(DateUtils.dateToStr(new Date(),DateUtils.FMT_YY));
 		}else {
-			plan.setNd(out.getNd());
+			plan.setNd(out.getYsnd());
 		}
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST, HttpMethod.POST, new HttpEntity<OutProjectInfoPaymentplan>(plan,this.httpHeaders), List.class);
 		

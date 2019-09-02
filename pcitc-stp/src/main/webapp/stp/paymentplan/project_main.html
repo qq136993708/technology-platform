@@ -270,6 +270,13 @@
 				type : 'year',
 				done : function(value, date, endDate) {
 					$("#ysnd").val(date.year);
+					publicMethods.ajaxAsyncPost("/paymentplan/project-paymentplan-list",{"ysnd":$("#ysnd").val()}, function (data) {
+		    			$("#paymentPlanNo").html("<option value=''>--请选择--</option>");
+		    			$.each(data,function(index,dt){
+		    				$("#paymentPlanNo").append("<option value='"+dt.paymentPlanNo+"'>"+dt.paymentPlanNo+"</option>");
+		    			});
+		    			form.render();
+			   		}); 
 				}
 			});
 			//加载表格      
