@@ -3934,7 +3934,7 @@
 	
 	<select id="selectProjectInfoByCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
 		SELECT 
-			* 
+			nd,ysnd,gsbmmc,hth,xmid,xmmc,fzdwunit,ysje,define8,define9,define10,define11,define17,define18,define19
 		FROM 
 			out_project_info 
 		WHERE 
