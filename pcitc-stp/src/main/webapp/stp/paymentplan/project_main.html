@@ -233,7 +233,7 @@
 		                    <th lay-data="{field:'define10', width: 100,align:'left'}">专业处</th>
 		                    <th lay-data="{field:'xmmc',align:'left'}">项目名称</th>
 		                    <th lay-data="{field:'define8',align:'left'}">承担单位</th>
-		                    <th lay-data="{field:'ysje', width: 100,align:'left',templet : '#view_format'}">项目金额</th>
+		                    <th lay-data="{field:'ysje', width: 120,align:'right',templet : '#view_format'}">金额（万元）</th>
 		                    <th lay-data="{field:'define17', width: 100,align:'left'}">拨款批次</th>
 		                </tr>
 	                </thead>
@@ -490,13 +490,12 @@
 			return '<span style="color:red">' + jf + '</span>';
 		}
 		function purchase_money_jf(jf) {
-			console.log(jf);
+			
 			if (jf != null) {
 				var h_strs = jf.substring(jf.lastIndexOf("."), jf.length);
-				if (h_strs == '.0') {
-					jf = jf.replace(".0", "");
+				if (h_strs == '.0000') {
+					jf = jf.replace(".0000", "");
 				}
-				console.log(jf);
 				return '<span style="color:green">' + jf + '</span>';
 			} else {
 				return "<span></span>";
