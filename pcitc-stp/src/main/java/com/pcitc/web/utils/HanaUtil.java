@@ -5794,6 +5794,13 @@ public class HanaUtil {
 		double f1 = new BigDecimal((float) a / b).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 		return String.valueOf(f1);
 	}
+	
+	
+	public static String chufa(float a, int b) {
+		double f1 = new BigDecimal( a / b).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return String.valueOf(f1);
+	}
+
 
 	public static double chufa2(int a, int b) {
 		double f1 = new BigDecimal((float) a / b).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();

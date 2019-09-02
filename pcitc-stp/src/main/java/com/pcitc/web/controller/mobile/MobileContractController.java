@@ -396,7 +396,7 @@ public class MobileContractController extends BaseController {
 							if(hanaMoney!=null)
 							{
 								str=HanaUtil.DecimalFormatObject(hanaMoney);
-								str=HanaUtil.chufa(Integer.valueOf(str), 10000);
+								str=HanaUtil.chufa(Float.valueOf(str), 10000);
 							}
 							seriesDataList.add(str);
 						}
