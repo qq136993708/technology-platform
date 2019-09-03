@@ -69,13 +69,18 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			}
 		}
 		System.out.println("===========新插入条数----------------" + insertData.size());
-		// 批量插入数据
+		// 批量插入新数据
 		if (insertData.size() > 0) {
 			outProjectPlanMapper.insertOutProjectPlanBatch(insertData);
 		}
 
 	}
 
+	/**
+	 * 判断是否有此项目计划
+	 * 如果有的话，修改部分属性
+	 * 如果没有的话，返回-1
+	 */
 	public int updateOutProjectPlan(OutProjectPlan opp) {
 
 		OutProjectPlanExample example = new OutProjectPlanExample();
@@ -750,8 +755,12 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				zycbmMap.put("zycbm", distList.get(i));
 				// 综合计划处特殊，和大领导查询数据权限一致
 				if (distList.get(i) != null && distList.get(i).contains("30130054")) {
-					hashmap.put("leaderFlag", "2");
-					break;
+					if (hashmap.get("username") != null && hashmap.get("username").toString().equals("wanglj")) {
+						// 特殊，只能看到综合计划处的实际，不能看到总的
+					} else {
+						hashmap.put("leaderFlag", "2");
+						break;
+					}
 				}
 				if (zylbbmPara != null && !StringUtils.isBlank(zylbbmPara + "") && zylbbmPara.toString().contains(distList.get(i))) {
 					Set<String> zylbbmSet = new HashSet<>(Arrays.asList(zylbbmPara.toString().split(",")));

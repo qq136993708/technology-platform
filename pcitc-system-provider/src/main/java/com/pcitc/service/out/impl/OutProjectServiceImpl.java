@@ -281,8 +281,12 @@ public class OutProjectServiceImpl implements OutProjectService {
 				HashMap<String, String> zycbmMap = new HashMap<String, String>();
 				// 综合计划处特殊，和大领导查询数据权限一致
 				if (distList.get(i) != null && distList.get(i).contains("30130054")) {
-					hashmap.put("leaderFlag", "2");
-					break;
+					if (hashmap.get("username") != null && hashmap.get("username").toString().equals("wanglj")) {
+						// 特殊，只能看到综合计划处的实际，不能看到总的
+					} else {
+						hashmap.put("leaderFlag", "2");
+						break;
+					}
 				}
 				zycbmMap.put("zycbm", distList.get(i));
 				if (zylbbmPara != null && !StringUtils.isBlank(zylbbmPara + "") && zylbbmPara.toString().contains(distList.get(i))) {
