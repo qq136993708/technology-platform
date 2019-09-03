@@ -205,13 +205,16 @@
 							<th lay-data="{field : 'ktmc',align : 'left',width : '200', fixed: 'left'}" rowspan="2">课题名称</th>
 							<th lay-data="{field : 'nd',align : 'center',width : '80'}" rowspan="2">立项年度</th>
 							<th lay-data="{field : 'define10',align : 'left',width : '80'}" rowspan="2">专业处</th>
+							
+							<th lay-data="{field : 'define8',align : 'left',width : '150'}" rowspan="2">承担单位</th>
+							<th lay-data="{field : 'define12',align : 'left',width : '100'}" rowspan="2">单位性质</th>
+							
 							<th lay-data="{align:'center'}" colspan="3">总经费（万元）</th>
 							<th lay-data="{align:'center'}" colspan="2" id="showColumn1">2019年经费（万元）</th>
 							<th lay-data="{align:'center'}" colspan="2" id="showColumn2">2020年经费（万元）</th>
 							<th lay-data="{align:'center'}" colspan="2" id="showColumn3">2021年经费（万元）</th>
 							
-							<th lay-data="{field : 'define8',align : 'left',width : '150'}" rowspan="2">承担单位</th>
-							<th lay-data="{field : 'define12',align : 'left',width : '100'}" rowspan="2">单位性质</th>
+							
 							<th lay-data="{field : 'fwdx',align : 'left',width : '80'}" rowspan="2">服务对象</th>
 							<th lay-data="{field : 'xmlbmc',align : 'left',width : '100'}" rowspan="2">项目类别</th>
 							<th lay-data="{field : 'project_property',align : 'left',width : '100'}" rowspan="2">项目类型</th>
@@ -535,6 +538,20 @@
 						// 序号列特殊
 						if (columsName[k] == 'realIndex' || columsName[k] == 'hth') {
 							if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['hth'] === data[i - 1]['hth'])) { //后一行的值与前一行的值做比较，相同就需要合并
+								mark += 1;
+								tdPreArr.each(function() {//相同列的第一列增加rowspan属性
+									$(this).attr("rowspan", mark);
+								});
+								tdCurArr.each(function() {//当前行隐藏
+									$(this).css("display", "none");
+								});
+							} else {
+								mergeIndex = i;
+								mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+							}
+						} else if (columsName[k] == 'xmmc') {
+							console.info(data[i][columsName[k]]+"-------"+(data[i][columsName[k]] === data[i - 1][columsName[k]]));
+							if (data[i][columsName[k]] === data[i - 1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
 								mark += 1;
 								tdPreArr.each(function() {//相同列的第一列增加rowspan属性
 									$(this).attr("rowspan", mark);

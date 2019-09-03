@@ -645,6 +645,18 @@ public class OutProjectPlanClient {
 		vo = budgetClient.selectBudgetInfoList(vo);
 		List<Map<String, Object>> budMoneyList = vo.getBudgetByAllUnit();
 		
+		// 移除无用的8个研究院（已经有合计的直属研究院了）和股份公司（已经有各个二级的分项了）
+		for (int i = 0; i < budMoneyList.size(); i++) {
+			Map<String, Object> bm = budMoneyList.get(i);
+			Object bin = bm.get("budgetItemName");
+			if (bin != null && (bin.toString().contains("勘探院") || bin.toString().contains("工程院") || bin.toString().contains("物探院") || bin.toString().contains("石科院") || bin.toString().contains("大连院") || bin.toString().contains("北化院") || bin.toString().contains("上海院") || bin.toString().contains("安工院") || bin.toString().contains("股份公司"))) {
+				budMoneyList.remove(i);
+				i--;
+			}
+		}
+		
+		System.out.println("0getPlanMoneyCompleteRateByCompanyType====="+JSON.toJSONString(budMoneyList));
+		
 		String username = map.get("username");
 		// 特殊处理，不是大领导，也要看30130054专业处的预算
 		if (username != null && username.equals("wanglj")) {
@@ -731,6 +743,7 @@ public class OutProjectPlanClient {
 		}
 
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(retList));
+		System.out.println("getPlanMoneyCompleteRateByCompanyType====="+json);
 		return json;
 	}
 
