@@ -274,9 +274,6 @@ var companyCode="${companyCode?default('')}";
     $("#appropriation_id").click(function () {
     	location.href="/mobile/appropriation";
     });
-    
-    
-    
     $("#appraisalId_div").click(function () {
     	location.href="/mobile/appraisal";
     });
@@ -555,7 +552,7 @@ var companyCode="${companyCode?default('')}";
 				
 				
 				var rateDate=((moneyCurrent/moneyTotal)*100).toFixed(2);
-				$("#circle").find('span').html(rateDate);
+				$("#circle").find('span').html(rateDate+"%");
 				
 				 $("#circle").circleProgress({
 			            value : rateDate/100,
