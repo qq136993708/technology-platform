@@ -336,14 +336,14 @@
 				//alert(data.value);
 				var parentCode = data.value;
 				showCompanyName(parentCode);
-				getDicByParentCode(parentCode, 'define12');
+				getDicByParentCode_company(parentCode, 'define12');
 				console.log("监听经费来源:" + data);
 			});
 			//监听单位性质
 			form.on('select(select_define12)', function(data) {
 				var parentCode = data.value;
 				showCompanyName(parentCode);
-				getDicByParentCode(parentCode, 'define2');
+				getDicByParentCode_company(parentCode, 'define2');
 				console.log("监听单位性质:" + data);
 			});
 
@@ -615,6 +615,59 @@
 
 		//获取单位性质
 		function getDicByParentCode(parentCode, downId) {
+			//alert(parentCode+"--"+downId);
+			$("#" + downId).empty();
+			if (parentCode == null || parentCode == '') {
+				parentCode = '-1';
+			}
+			console.log("级联：\n parentCode=" + parentCode + " downId=" + downId);
+			var v_date = (new Date()).getTime();
+			if (parentCode != null && parentCode != '') {
+
+				$.ajax({
+					url : "/sre-project-basic/getDicListByParentCode?v_date=" + v_date + "&parentCode=" + parentCode,
+					type : "post",
+					async : false,
+					dataType : "json",
+					success : function(data) {
+						$("#" + downId).append("<option value=''>--请选择--</option>");
+						$.each(data, function(i, el) {
+							$("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
+							if (define12 == el.name) {
+								$("#" + downId).val(el.code);
+							}
+							if (define2 == el.name) {
+								$("#" + downId).val(el.code);
+							}
+							if (zycbmFlag == el.name) {
+								$("#" + downId).val(el.code);
+							}
+							if (zycbmFlag == el.name) {
+								$("#" + downId).val(el.code);
+							}
+
+						});
+						form.render();
+					},
+					error : function() {
+						alert("发生未知错误 ,请重新操作.");
+					}
+				});
+
+			}
+			var code_temp = $("#" + downId).val();
+			//如果ID=单位性质 ,再调用一次，形成第三级
+			if (downId == 'define12') {
+				getDicByParentCode(code_temp, 'define2');
+			}
+			if (downId == 'zycbmFlag') {
+				getDicByParentCode(code_temp, 'zylbbmFlag');
+			}
+			form.render();
+		}
+
+		//获取单位性质
+		function getDicByParentCode_company(parentCode, downId) {
 			//alert(parentCode+"--"+downId);
 			$("#" + downId).empty();
 			if (parentCode == null || parentCode == '') {
