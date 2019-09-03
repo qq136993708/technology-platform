@@ -639,7 +639,7 @@
 	
 	<!-- 按照技术权限，控制成果的查询 -->
 	<sql id="appraisalCondition">
-		<if test="leaderFlag != null and (leaderFlag == 0 or leaderFlag == 1)">
+		<if test="leaderFlag != null and (leaderFlag == '0'.toString() or leaderFlag == '1'.toString())">
 			<if test="cgjszy != null and cgjszy != ''">
 				and find_in_set(out_appraisal.zy, '${cgjszy}')
 			</if>

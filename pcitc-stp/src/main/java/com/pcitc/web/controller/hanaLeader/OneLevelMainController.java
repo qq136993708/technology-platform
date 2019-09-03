@@ -299,6 +299,9 @@ public class OneLevelMainController extends BaseController {
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		
+		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+		
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
