@@ -65,14 +65,19 @@
         <h4 id="personnel">人员结构</h4>
         <span>Structure of Personnel</span>
         <div>
-           ${department.type}共有员工${techOrgCount.workersCount}人，其中女性员工${techOrgCount.femaleCount}人。员工中高级职称人数${techOrgCount.titleSeniorCount}人，中级职称人数${techOrgCount.titleMiddleCount}人，无高中级技术职称的大学本科及以上学历人员${techOrgCount.titleLowerCount}人。共有博士${techOrgCount.diplomaDoctorCount}人，硕士${techOrgCount.diplomaMasterCount}人，学士${techOrgCount.diplomaUndergraduateCount}人。国家级专家${techOrgCount.specialistCountryCount}人，省、部、计划单列市级专家${techOrgCount.specialistProvinceCount}人，研究与试验发展（R&D）${techOrgCount.researcherCount}人，直接参与研究与实验发展项目（课题）${techOrgCount.directResearcherCount}人，研究与实验发展项目（课题）管理和辅助工作人员${techOrgCount.assistResearcherCount}人。
+           ${department.type}共有员工${techOrgCount.workersCount}人，其中女性员工${techOrgCount.femaleCount}人。员工中高级职称人数${techOrgCount.titleSeniorCount}人，中级职称人数${techOrgCount.titleMiddleCount}人，无高中级技术职称的大学本科及以上学历人员${techOrgCount.titleLowerCount}人。共有博士${techOrgCount.diplomaDoctorCount}人，硕士${techOrgCount.diplomaMasterCount}人，学士${techOrgCount.diplomaUndergraduateCount}人。国家级专家${techOrgCount.specialistCountryCount}人，省、部、计划单列市级专家${techOrgCount.specialistProvinceCount}人
+           <#if techOrgCount.researcherCount!=0>，研究与试验发展（R&D）${techOrgCount.researcherCount}人</#if>     
+           <#if techOrgCount.directResearcherCount!=0>，直接参与研究与实验发展项目（课题）${techOrgCount.directResearcherCount}人，研究与实验发展项目（课题）管理和辅助工作人员${techOrgCount.assistResearcherCount}人。</#if>     
+           
+           
         </div>
     </div>
     <div class="item synopsis honor">
         <h4 id="honor">荣誉与业绩</h4>
         <span>Honor and Performance</span>
         <div>
-           ${department.type}持有专利总数${techOrgCount.allPatentCount}个，其中发明专利${techOrgCount.allPatentLookCount}个。${year}年申请专利${techOrgCount.currentYearPatentCount}个，其中发明专利${techOrgCount.currentPatentLookCount}个；获得国家级奖项${techOrgCount.achievementsCountryCount}个、省部级奖项${techOrgCount.achievementsPrivanceCount}个、公司级奖项${techOrgCount.achievementsCompanyCount}个。
+           ${department.type}持有专利总数${techOrgCount.allPatentCount}个，其中发明专利${techOrgCount.allPatentLookCount}个。${year}年申请专利${techOrgCount.currentYearPatentCount}个，其中发明专利${techOrgCount.currentPatentLookCount}个；获得国家级奖项${techOrgCount.achievementsCountryCount}个、省部级奖项${techOrgCount.achievementsPrivanceCount}个
+           <#if techOrgCount.achievementsCompanyCount!=0> 、公司级奖项${techOrgCount.achievementsCompanyCount}个。</#if>                
            ${year}年发表科技论文总量${techOrgCount.thesisAllCount}篇，SCI（科学引文索引）${techOrgCount.thesisSciCount}次
            <#if techOrgCount.thesisSciInnerCount!=0>，其中${department.type}员工作为第一作者的数量${techOrgCount.thesisSciInnerCount}个。 </#if>
            <#if techOrgCount.thesisEiCount!=0> EI（工程索引）${techOrgCount.thesisEiCount}次， </#if>
