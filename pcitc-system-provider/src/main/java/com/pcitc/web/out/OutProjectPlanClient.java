@@ -138,30 +138,15 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/money/complete-rate/institute")
 	public JSONArray getPlanMoneyCompleteRateByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyCompleteRateByInstitute===========================" + map);
-		String zycbm = map.get("zycbm");
-		if (zycbm != null && zycbm.contains("30130054")) {
-			map.put("leaderFlag", "2");
-		}
-		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
-			// 大领导特殊，能看所有的费用性预算
-			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
-		}
+		
+		boolean leaderFlag = false;
+		this.authControl(leaderFlag, map);
 		
 		List temList = outProjectPlanService.getPlanMoneyCompleteRateByInstitute(map);
 
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
 		vo.setNd(map.get("nd"));
-		
-		// 预算中，科技部外的部门特殊处理
-		if (zycbm.contains("30130011")) {
-			zycbm = zycbm + ",30130011";
-		}
-		if (zycbm.contains("30130016")) {
-			zycbm = zycbm + ",30130016";
-		}
-		if (zycbm.contains("30130009")) {
-			zycbm = zycbm + ",30130009";
-		}
+		String zycbm = map.get("zycbm");
 		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 		List<String> list_1 = new ArrayList<>(set);
 
@@ -212,38 +197,16 @@ public class OutProjectPlanClient {
 		String nd = map.get("nd");
 		map.put("startMonth", nd + "01");
 		map.put("endMonth", nd + "12");
-		String zycbm = map.get("zycbm");
 		boolean zbxFlag = false;
-		if (zycbm != null && zycbm.contains("30130054")) {
-			map.put("leaderFlag", "2");
-		}
-		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
-			// 大领导、计划处特殊，能看所有的费用性预算
-			System.out.println("1大领导、计划处特殊，能看所有的费用性预算、专项机动");
-			zbxFlag = true;
-			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
-		}
+		this.authControl(zbxFlag, map);
 		// 实际资本性金额、实际费用性金额、hanaMoney拨款金额
 		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHana(map);
 
 		// 获取研究院预算，根据其管理的专业处不同有所不同
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
 		vo.setNd(map.get("nd"));
+		String zycbm = map.get("zycbm");
 		
-		if (zycbm == null) {
-			zycbm = "xxxxxxxx";
-		}
-		// 预算中，科技部外的部门特殊处理
-		if (zycbm.contains("30130011")) {
-			zycbm = zycbm + ",30130011";
-		}
-		if (zycbm.contains("30130016")) {
-			zycbm = zycbm + ",30130016";
-		}
-		if (zycbm.contains("30130009")) {
-			zycbm = zycbm + ",30130009";
-		}
-		map.put("zycbm", zycbm);
 		System.out.println(zbxFlag + "预算专业处编码-----" + zycbm);
 		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 		List<String> list_1 = new ArrayList<>(set);
@@ -324,31 +287,20 @@ public class OutProjectPlanClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
-
-	@ApiOperation(value = "项目计划完成的比率，+ hana支付的费用，按照月份分组 ", notes = "参数年度")
-	@RequestMapping(value = "/out-project-plan-provider/complete-rate/month/money-hana-type")
-	public JSONArray getPlanCompleteRateByPlanTypeForHanaMonth(@RequestBody HashMap<String, String> map) throws Exception {
-		logger.info("==================page getPlanCompleteRateByPlanTypeForHanaMonth===========================" + map);
-		String nd = map.get("nd");
-		map.put("startMonth", nd + "01");
-		map.put("endMonth", nd + "12");
-		boolean zbxFlag = false;
-		String zycbm = map.get("zycbm");
+	
+	/**
+	 * 访问权限处理，集中控制
+	 */
+	public void authControl(Boolean authFlag, HashMap map) {
+		String zycbm = (String)map.get("zycbm");
 		if (zycbm != null && zycbm.contains("30130054")) {
 			map.put("leaderFlag", "2");
 		}
 		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
 			// 大领导、计划处特殊，能看所有的费用性预算
-			zbxFlag = true;
-			System.out.println("1大领导、计划处特殊，能看所有的费用性预算、专项机动");
+			authFlag = true;
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
-		
-		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHanaMonth(map);
-
-		// 获取研究院预算，根据其管理的专业处不同有所不同
-		BudgetItemSearchVo vo = new BudgetItemSearchVo();
-		vo.setNd(map.get("nd"));
 		
 		if (zycbm == null) {
 			zycbm = "xxxxxxxx";
@@ -363,8 +315,34 @@ public class OutProjectPlanClient {
 		if (zycbm.contains("30130009")) {
 			zycbm = zycbm + ",30130009";
 		}
+		
+		Object username = map.get("username");
+		// 王丽娟特殊处理，不是大领导，也需要看30130054专业处的预算
+		if (username != null && username.toString().equals("wanglj")) {
+			zycbm = zycbm + ",30130054";
+			authFlag = true;
+		}
 		map.put("zycbm", zycbm);
-		System.out.println("预算专业处编码-----" + zycbm);
+	}
+
+	@ApiOperation(value = "项目计划完成的比率，+ hana支付的费用，按照月份分组 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-plan-provider/complete-rate/month/money-hana-type")
+	public JSONArray getPlanCompleteRateByPlanTypeForHanaMonth(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPlanCompleteRateByPlanTypeForHanaMonth===========================" + map);
+		String nd = map.get("nd");
+		map.put("startMonth", nd + "01");
+		map.put("endMonth", nd + "12");
+		boolean leaderFlag = false;
+		System.out.println("leaderFlag========"+leaderFlag);
+		this.authControl(leaderFlag, map);
+		System.out.println("authControlleaderFlag========"+leaderFlag);
+		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHanaMonth(map);
+
+		// 获取研究院预算，根据其管理的专业处不同有所不同
+		BudgetItemSearchVo vo = new BudgetItemSearchVo();
+		vo.setNd(map.get("nd"));
+		String zycbm = map.get("zycbm");
+		System.out.println("authControlzycbm========"+zycbm);
 		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 		List<String> list_1 = new ArrayList<>(set);
 		vo.getUnitIds().addAll(list_1);
@@ -385,7 +363,7 @@ public class OutProjectPlanClient {
 		}
 		// 资本性预算金额(只有领导和计划处计算）、专项机动金额
 		List<Map<String, Object>> zbxMoneyList = new ArrayList<Map<String, Object>>();
-		if (zbxFlag) {
+		if (leaderFlag) {
 			zbxMoneyList = outProjectPlanService.getOutTemMoneyTotalInfo(map);
 			for (int j = 0; j < zbxMoneyList.size(); j++) {
 				Map<String, Object> zbxMap = zbxMoneyList.get(j);
@@ -402,7 +380,7 @@ public class OutProjectPlanClient {
 			Map temMap = (HashMap) temList.get(i);
 			temMap.put("fyxXqBudget", fyxXqBudget);
 			temMap.put("zbxBudget", zbxBudget);
-			if (!zbxFlag) {
+			if (!leaderFlag) {
 				// 其他部门不让看到拨款金额
 				temMap.put("hanaMoney", "0");
 			}
@@ -519,8 +497,6 @@ public class OutProjectPlanClient {
 		// 获取费用性预算
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
 		vo.setNd(map.get("nd"));
-		String zycbm = map.get("zycbm");
-		String zylbbm = map.get("zylbbm");
 		boolean zbxFlag = false;
 		// 获取实际的科研投入(费用性和资本性)
 		List actMoneyList = null;
@@ -529,16 +505,14 @@ public class OutProjectPlanClient {
 		List ysMoneyList = null;
 
 		List<Map<String, Object>> retList = new ArrayList<Map<String, Object>>();
-
-		if (zycbm != null && zycbm.contains("30130054")) {
-			map.put("leaderFlag", "2");
-		}
+		System.out.println("1authControl----------"+zbxFlag);
+		this.authControl(zbxFlag, map);
+		System.out.println("2authControl----------"+zbxFlag);
+		String zycbm = map.get("zycbm");
+		String zylbbm = map.get("zylbbm");
+		
 		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
-			// 大领导特殊，能看所有的费用性预算
-			zbxFlag = true;
-			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
-			map.put("zycbm", zycbm);
-
+			// 大领导及综合计划处，能看所有的费用性预算
 			actMoneyList = outProjectPlanService.getPlanMoneyCompleteRateByCompanyType(map);
 
 			// 直接获取预算总表数据
@@ -654,35 +628,18 @@ public class OutProjectPlanClient {
 			}
 			return JSONArray.parseArray(JSON.toJSONString(retList));
 		}
-		if (zycbm == null) {
-			zycbm = "xxxxxxxx";
-		}
-		// 预算中，科技部外的部门特殊处理
-		if (zycbm.contains("30130011")) {
-			zycbm = zycbm + ",30130011";
-		}
-		if (zycbm.contains("30130016")) {
-			zycbm = zycbm + ",30130016";
-		}
-		if (zycbm.contains("30130009")) {
-			zycbm = zycbm + ",30130009";
-		}
-		map.put("zycbm", zycbm);
 
-		System.out.println("zycbm========" + zycbm);
+		System.out.println("getPlanMoneyCompleteRateByCompanyType--zycbm========" + zycbm);
 		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 		List<String> list_1 = new ArrayList<>(set);
 
 		vo.getUnitIds().addAll(list_1);
 		vo = budgetClient.selectBudgetInfoList(vo);
 		List<Map<String, Object>> budMoneyList = vo.getBudgetByAllUnit();
+		
 		String username = map.get("username");
-		System.out.println("1username========" + username);
+		// 特殊处理，不是大领导，也要看30130054专业处的预算
 		if (username != null && username.equals("wanglj")) {
-			System.out.println("2username========" + username);
-			map.put("zycbm", zycbm + ",30130054");
-			zbxFlag = true;
-
 			// 直接获取预算总表数据
 			ysMoneyList = outProjectPlanService.getOutTemMoneyTotalInfo(map);
 		}
@@ -692,58 +649,10 @@ public class OutProjectPlanClient {
 
 		for (int i = 0; i < budMoneyList.size(); i++) {
 			Map<String, Object> bm = budMoneyList.get(i);
-			System.out.println(zbxFlag + "=====budMoneyList========" + bm.get("budgetItemName") + "====" + bm.get("total"));
+			
 			for (int k = 0; k < actMoneyList.size(); k++) {
 				Map<String, Object> actMoney = (Map<String, Object>) actMoneyList.get(k);
-				if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("研究院") && actMoney.get("type_flag") != null && actMoney.get("type_flag").toString().contains("研究院")) {
-					// 费用性预算金额、费用性实际投入金额、投入比率、 资本性实际投入、总实际投入
-					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
-					break;
-				}
-
-				if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("分子公司") && actMoney.get("type_flag") != null && actMoney.get("type_flag").toString().contains("分子公司")) {
-					// 费用性预算金额、费用性实际投入金额、投入比率、 资本性实际投入、总实际投入
-					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
-					break;
-				}
-
-				if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("集团单位") && actMoney.get("type_flag") != null && (actMoney.get("type_flag").toString().contains("集团单位") || actMoney.get("type_flag").toString().contains("集团单位"))) {
-					// 费用性预算金额、费用性实际投入金额、投入比率、 资本性实际投入、总实际投入
-					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
-					break;
-				}
-
-				if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("外部单位") && actMoney.get("type_flag") != null && actMoney.get("type_flag").toString().contains("外部单位")) {
-					// 费用性预算金额、费用性实际投入金额、投入比率、 资本性实际投入、总实际投入
-					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
-					break;
-				}
-
-				if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("盈科") && actMoney.get("type_flag") != null && actMoney.get("type_flag").toString().contains("盈科")) {
-					// 费用性预算金额、费用性实际投入金额、投入比率、 资本性实际投入、总实际投入
-					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
-					break;
-				}
-
-				if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("休斯顿") && actMoney.get("type_flag") != null && actMoney.get("type_flag").toString().contains("休斯顿")) {
-					// 费用性预算金额、费用性实际投入金额、投入比率、 资本性实际投入、总实际投入
-					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
-					break;
-				}
-
-				if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("中东") && actMoney.get("type_flag") != null && actMoney.get("type_flag").toString().contains("中东")) {
-					// 费用性预算金额、费用性实际投入金额、投入比率、 资本性实际投入、总实际投入
-					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
-					break;
-				}
-
-				if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("集团公司") && actMoney.get("type_flag") != null && actMoney.get("type_flag").toString().contains("集团公司")) {
-					// 费用性预算金额、费用性实际投入金额、投入比率、 资本性实际投入、总实际投入
-					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
-					break;
-				}
-
-				if (bm.get("budgetItemName") != null && bm.get("budgetItemName").toString().contains("资产公司") && actMoney.get("type_flag") != null && actMoney.get("type_flag").toString().contains("资产公司")) {
+				if (bm.get("budgetItemName") != null && actMoney.get("type_flag") != null && actMoney.get("type_flag").toString().contains(bm.get("budgetItemName").toString())) {
 					// 费用性预算金额、费用性实际投入金额、投入比率、 资本性实际投入、总实际投入
 					bm = this.getMoneyProperty1(bm, actMoney, zbxFlag);
 					break;
@@ -764,7 +673,6 @@ public class OutProjectPlanClient {
 					}
 				}
 			}
-
 		}
 
 		for (int k = 0; k < budMoneyList.size(); k++) {
@@ -783,16 +691,14 @@ public class OutProjectPlanClient {
 			} else {
 				ysMoney.put("zRate", Double.parseDouble(ysMoney.get("zsjje").toString()) * 100 / Double.parseDouble(ysMoney.get("zysje").toString()));
 			}
-
-			System.out.println("zbxsjje========" + ysMoney.get("zbxsjje"));
 		}
 
 		retList = budMoneyList;
 
 		for (int k = 0; k < actMoneyList.size(); k++) {
 			Map<String, Object> actMoney = (Map<String, Object>) actMoneyList.get(k);
-			// 资产单位，特殊
-			if (actMoney.get("type_flag") != null && (actMoney.get("type_flag").toString().contains("资产单位") || actMoney.get("type_flag").toString().contains("资产单位"))) {
+			// 资产单位，特殊考虑。retList中没有资产单位
+			if (actMoney.get("type_flag") != null && actMoney.get("type_flag").toString().contains("资产单位")) {
 				Map<String, Object> bm = new HashMap<String, Object>();
 				bm.put("budgetItemName", "资产单位");
 				bm.put("fyxysje", "0");
@@ -822,6 +728,7 @@ public class OutProjectPlanClient {
 
 	/**
 	 * 费用性预算金额、费用性实际投入金额、费用性投入比率、 资本性实际投入、总实际投入
+	 * 资本性预算根据权限来定
 	 */
 	private Map<String, Object> getMoneyProperty1(Map<String, Object> bm, Map<String, Object> actMoney, boolean zbxFlag) {
 		bm.put("fyxysje", bm.get("total") == null ? "0" : bm.get("total"));
@@ -831,13 +738,10 @@ public class OutProjectPlanClient {
 		} else {
 			bm.put("fyxRate", Double.parseDouble(actMoney.get("fyxsjje").toString()) * 100 / Double.parseDouble(bm.get("fyxysje").toString()));
 		}
-		System.out.println("1zbxsjje========" + actMoney.get("zbxsjje"));
 		if (zbxFlag) {
-			System.out.println("2zbxsjje========" + actMoney.get("zbxsjje"));
 			bm.put("zbxsjje", actMoney.get("zbxsjje") == null ? "0" : actMoney.get("zbxsjje"));
 			bm.put("zsjje", Double.parseDouble(actMoney.get("zbxsjje").toString()) + Double.parseDouble(actMoney.get("fyxsjje").toString()));
 		} else {
-			System.out.println("3zbxsjje========" + actMoney.get("zbxsjje"));
 			bm.put("zbxsjje", 0);
 			bm.put("zsjje", actMoney.get("fyxsjje"));
 		}
@@ -868,15 +772,9 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/plan-money/department")
 	public JSONArray getPlanMoneyByDepartment(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyByDepartment===========================" + map);
-		String username = map.get("username");
-		String zycbm = map.get("zycbm");
-
-		if (zycbm != null && zycbm.contains("30130054")) {
-			// 计划处，能看所有的费用性预算
-			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
-			map.put("zycbm", zycbm);
-			map.put("leaderFlag", "2");
-		}
+		// 计划处，能看所有的费用性预算
+		boolean leaderFlag = false;
+		this.authControl(leaderFlag, map);
 
 		List temList = outProjectPlanService.getPlanMoneyByDepartment(map);
 		if (temList == null || temList.size() == 0) {

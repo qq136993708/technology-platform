@@ -66,7 +66,7 @@ public class ActivitiConfig {
 		configuration.setActivityFontName("SimSun");
 		configuration.setAnnotationFontName("SimSun");
 		
-		// 不使用activiti自动的四个表（ACT_ID_*），用四个视图表代替
+		// 不使用activiti自动的三个表（ACT_ID_*），用三个视图表代替
 		configuration.setDbIdentityUsed(false);
 		// TaskCreatedListener taskCreatedListener = new TaskCreatedListener();
 		// System.out.println("======="+taskCreatedListener);

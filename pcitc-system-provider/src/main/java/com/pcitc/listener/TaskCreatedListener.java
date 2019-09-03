@@ -59,12 +59,12 @@ public class TaskCreatedListener implements ActivitiEventListener {
 			} else {
 				
 			}*/
-			System.out.println("------1受理人任务委托------任务ID:" + taskEntity.getId());
-			// 只有一个候选人的代理
+			System.out.println("------任务委托------任务ID:" + taskEntity.getId());
+			// 只有一个候选人的代理，委托生效
 			List<IdentityLink> identityLinks = processEngine.getTaskService().getIdentityLinksForTask(taskEntity.getId());
 			List<String> userIds = taskInstanceService.getCandidateUserForTask(identityLinks);
 			if (userIds.size() == 1) {
-				System.out.println("------2受理人任务委托------任务ID:" + userIds);
+				System.out.println("------任务委托------节点只有一个审批人，委托生效---:" + userIds);
 				String assignee = userIds.get(0);
 				List<SysDelegate> attorneyList = taskInstanceService.getAttorneyByAssignee(assignee, processDefinition.getCategory());
 				// 查询这个时间段是否有被委托人，如果没有的话，此任务还是默认到委托人待办列表中
@@ -72,14 +72,14 @@ public class TaskCreatedListener implements ActivitiEventListener {
 					
 					String attorney = attorneyList.get(0).getAttorneyCode();
 					String delegateId = attorneyList.get(0).getDelegateId();
-					System.out.println("------3受理人任务委托------任务ID:" + attorney);
-					System.out.println("------4受理人任务委托------任务ID:" + assignee);
+					System.out.println("------任务委托------委托人:" + attorney);
+					System.out.println("------任务委托------被委托人:" + assignee);
 					if (!StrUtil.isEmpty(attorney)) {
 						taskService.addCandidateUser(taskEntity.getId(), attorney);
 						//不调用delegateTask，delegateTask会把原审批人的待办任务去掉。调用addCandidateUser，本质上只是动态添加一个审批人
 						//taskService.delegateTask(taskEntity.getId(), assignee);
 						//taskEntity.delegate(attorney);
-						System.out.println("------5受理人任务委托------任务ID:" + attorney);
+						System.out.println("------任务委托------委托记录，方便日志和取消:" + attorney);
 						// 把委托后，调用此监听器产生的委托任务都保存起来
 						SysTaskDelegate record = new SysTaskDelegate();
 						record.setTaskId(taskEntity.getId());
