@@ -37,8 +37,6 @@ public class SmallLeaderController extends BaseController {
 
 	private static final String getInvestment02 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/month/money-hana-type";
 
-	private static final String getInvestmentAll = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
-
 	private static final String getBudgetInfo = "http://pcitc-zuul/system-proxy/out-project-provider/budget/all-level";
 
 	/**
