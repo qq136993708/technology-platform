@@ -1,13 +1,19 @@
 package com.pcitc.web.controller.system;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,17 +21,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.stp.report.TechCost;
+import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.system.Department;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
-import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.HanaUtil;
 
 @Controller
 public class DepartmentController extends BaseController {
@@ -37,13 +47,13 @@ public class DepartmentController extends BaseController {
 	private static final String DEL_URL    = "http://pcitc-zuul/system-proxy/department-provider/department/delete/";
 	private static final String GET_URL    = "http://pcitc-zuul/system-proxy/department-provider/department/get/";
 	
-	private static final String LIST_URL   = "http://pcitc-zuul/system-proxy/department-provider/department/list";
+	private static final String getTechOrgCountByUncodeYear   = "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/getTechOrgCountByUncodeYear";
 	
 
 	@RequestMapping(value = "/department/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
-		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
 		request.setAttribute("list", list);
 		
 		String unitPathIds = sysUserInfo.getUnitPath();
@@ -83,7 +93,7 @@ public class DepartmentController extends BaseController {
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id", id);
 
-		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
 		request.setAttribute("list", list);
 		return "/stp/department/add";
 	}
@@ -108,10 +118,24 @@ public class DepartmentController extends BaseController {
 		String notes = CommonUtil.getParameter(request, "notes", "");
 		String honor = CommonUtil.getParameter(request, "honor", "");
 		String developHistory = CommonUtil.getParameter(request, "developHistory", "");
+		String orders = CommonUtil.getParameter(request, "orders", "1");
 
 		String breif = CommonUtil.getParameter(request, "breif", "");
-
-
+        String typeCode="";
+		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
+		if(list!=null)
+		{
+			for(int i=0;i<list.size();i++)
+			{
+				SysDictionary sysDictionary=list.get(i);
+				String name=sysDictionary.getName();
+				if(name.equals(type))
+				{
+					typeCode=sysDictionary.getNumValue();
+				}
+			}
+		}
+		
 		Department department = null;
 		if (id.equals("")) {
 			department = new Department();
@@ -132,7 +156,8 @@ public class DepartmentController extends BaseController {
 		department.setOrganization(organization);
 		department.setPersonnel(personnel);
 		department.setType(type);
-		
+		department.setTypeCode(typeCode);
+		department.setOrders(Integer.valueOf(orders));
 		// 判断是新增还是修改
 		if (id.equals(""))
 		{
@@ -184,7 +209,7 @@ public class DepartmentController extends BaseController {
 		logger.info("============远程返回  statusCode " + statusCode);
 		Department department = responseEntity.getBody();
 		request.setAttribute("department", department);
-		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
+		List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
 		request.setAttribute("list", list);
 		return "/stp/department/add";
 	}
@@ -234,6 +259,28 @@ public class DepartmentController extends BaseController {
 		logger.info("============远程返回  statusCode " + statusCode);
 		Department department = responseEntity.getBody();
 		request.setAttribute("department", department);
+		
+		
+		
+		
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		
+		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		paramMap.put("year", HanaUtil.getBeforeYear());
+		paramMap.put("unitCode", department.getTypeCode());
+		System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      year = "+HanaUtil.getBeforeYear()+" unitCode="+department.getTypeCode());
+		
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		ResponseEntity<TechOrgCount> rs = restTemplate.exchange(getTechOrgCountByUncodeYear, HttpMethod.POST, httpEntity, TechOrgCount.class);
+		int status_Code = rs.getStatusCodeValue();
+		String ryjg="";
+		String ryyj="";
+		if (status_Code == 200)
+		{
+			TechOrgCount techOrgCount = rs.getBody();
+			request.setAttribute("techOrgCount", techOrgCount);
+		}
+		
 		return "/stp/department/view";
 	}
 

@@ -33,18 +33,36 @@
             <form class="layui-form" name="form1" id="form1" action="" method="POST"
                   lay-filter="component-form-group layui-container">
                 <input type="hidden" name="id" id="id" value="${department.id}">
-
-                <div class="layui-form-item">
-                    <label class="layui-form-label">标题<span class="must-fill">*</span></label>
-                    <div class="layui-input-block">
-                         <select name="type" id="type" >
-		                      <option value="" >--请选择--</option>
-				              <#list list as vo> 
-						          <option  value="${vo.name}" <#if department.type==vo.name>selected="selected"</#if> >${vo.name}</option>
-						      </#list>
-		              </select>
-                    </div>
-                </div>
+                
+                
+                  <!-- 行有两个的情况 -->
+		            <div class="layui-row">
+		                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		                    <div class="layui-form-item">
+		                        <label for="" class="layui-form-label">院所<span class="must-fill">*</span></label>
+		                        <div class="layui-input-block">
+		                             <select name="type" id="type" >
+					                      <option value="" >--请选择--</option>
+							              <#list list as vo> 
+									          <option  value="${vo.name}" <#if department.type==vo.name>selected="selected"</#if> >${vo.name}</option>
+									      </#list>
+						              </select>
+		                        </div>
+		                    </div>
+		                </div>
+		                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		                    <div class="layui-form-item">
+		                        <label for="" class="layui-form-label">序号</label>
+		                        <div class="layui-input-block">
+		                            <input class="layui-input" name="orders" id="orders" value="${department.orders}" lay-verify="orders"
+                                   placeholder="请输入序号" autocomplete="off" type="text">
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+            
+            
+            
                 
 
                 <div class="layui-form-item">

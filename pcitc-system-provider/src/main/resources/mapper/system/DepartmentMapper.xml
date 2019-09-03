@@ -14,9 +14,13 @@
     <result column="honor" jdbcType="LONGVARCHAR" property="honor" />
     <result column="major" jdbcType="LONGVARCHAR" property="major" />
     <result column="notes" jdbcType="LONGVARCHAR" property="notes" />
+    
+    <result column="type_code" jdbcType="VARCHAR" property="typeCode" />
+    <result column="orders" jdbcType="VARCHAR" property="orders" />
+    
   </resultMap>
   <sql id="Base_Column_List">
-    id, title, `type`, create_time, create_user_id,breif, develop_history, organization, personnel, honor, major, notes
+    id, title, `type`, create_time, create_user_id,breif, develop_history, organization, personnel, honor, major, notes,type_code,orders
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -32,12 +36,13 @@
     insert into t_department (id, title, `type`, 
       create_time, create_user_id, breif, 
       develop_history, organization, personnel, 
-      honor, major, notes
+      honor, major, notes,type_code,orders
       )
     values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, #{breif,jdbcType=LONGVARCHAR}, 
       #{developHistory,jdbcType=LONGVARCHAR}, #{organization,jdbcType=LONGVARCHAR}, #{personnel,jdbcType=LONGVARCHAR}, 
       #{honor,jdbcType=LONGVARCHAR}, #{major,jdbcType=LONGVARCHAR}, #{notes,jdbcType=LONGVARCHAR}
+      , #{typeCode,jdbcType=VARCHAR}, #{orders,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.system.Department">
@@ -79,6 +84,12 @@
       <if test="notes != null">
         notes,
       </if>
+      <if test="typeCode != null">
+        type_code,
+      </if>
+      <if test="orders != null">
+        orders,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -116,6 +127,12 @@
       </if>
       <if test="notes != null">
         #{notes,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="typeCode != null">
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orders != null">
+        #{orders,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -155,6 +172,13 @@
       <if test="notes != null">
         notes = #{notes,jdbcType=LONGVARCHAR},
       </if>
+      <if test="VARCHAR != null">
+        type_code = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="VARCHAR != null">
+        orders = #{orders,jdbcType=VARCHAR},
+      </if>
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -163,7 +187,9 @@
     set title = #{title,jdbcType=VARCHAR},
       `type` = #{type,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      orders = #{orders,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=VARCHAR},
+      type_code = #{typeCode,jdbcType=VARCHAR},
       breif = #{breif,jdbcType=LONGVARCHAR},
       develop_history = #{developHistory,jdbcType=LONGVARCHAR},
       organization = #{organization,jdbcType=LONGVARCHAR},
@@ -183,8 +209,9 @@
   
      <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="title != null and title  !='' ">               AND t.title like CONCAT('%',#{title},'%')</if>
+	     <if test="title != null and title  !='' ">         AND t.title like CONCAT('%',#{title},'%')</if>
 	     <if test="type != null       and type !=''  ">     AND t.type = #{type}</if>
+	     <if test="typeCode != null       and typeCode !=''  ">     AND t.type_code = #{typeCode}</if>
 	 </trim>
 	</sql>
 	
@@ -195,7 +222,7 @@
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  create_time desc
+        ORDER BY  orders asc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
