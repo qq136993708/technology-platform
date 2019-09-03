@@ -80,6 +80,7 @@ public class SmallLeaderController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+		paramsMap.put("username", sysUserInfo.getUserName());
 		paramsMap.put("nd", nd);
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -128,6 +129,7 @@ public class SmallLeaderController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
@@ -280,6 +282,7 @@ public class SmallLeaderController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		paramsMap.put("nd", nd);
 
@@ -388,6 +391,7 @@ public class SmallLeaderController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+		paramsMap.put("username", sysUserInfo.getUserName());
 		paramsMap.put("nd", nd);
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
