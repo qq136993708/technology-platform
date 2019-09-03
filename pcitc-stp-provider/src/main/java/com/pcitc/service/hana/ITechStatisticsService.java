@@ -45,7 +45,7 @@ public interface ITechStatisticsService {
 	
 	public JSONArray getTechOrgCountList(Map map)throws Exception;
 	
-	
+	public TechOrgCount  getTechOrgCountByUncodeYear(Map map) throws Exception;
 	public TechOrgCount selectTechOrgCount(String id) throws Exception;
 
 	public Integer updateTechOrgCount(TechOrgCount record)throws Exception;

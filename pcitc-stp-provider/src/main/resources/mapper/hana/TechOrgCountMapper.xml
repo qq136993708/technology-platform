@@ -962,7 +962,9 @@
   
   
   
-  
+  <select id="getTechOrgCountByUncodeYear" resultMap="BaseResultMap" parameterType="Map" >
+    SELECT * FROM tech_org_count t WHERE t.`year`=#{year}  AND t.`type`='1' AND t.`unit_code` =#{unitCode,jdbcType=VARCHAR}
+  </select>
   
   
   

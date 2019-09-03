@@ -2112,7 +2112,7 @@
 			  hth,
 			  define10,
 			  xmmc,
-			  SUM(Jf) AS Jf,
+			  Jf,
 			  SUM(YSJE) AS YSJE,
 			  SUM(YSZBXJE) AS YSZBXJE,
 			  SUM(YSFYXJE) AS YSFYXJE,
