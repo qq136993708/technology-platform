@@ -196,6 +196,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -245,6 +246,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -330,6 +332,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -391,10 +394,6 @@ public class OneLevelMainController extends BaseController {
 		request.setAttribute("define3", define3);
 		request.setAttribute("define1", define1);
 		request.setAttribute("groupFlag", groupFlag);
-		Map<String, Object> paramsMap = new HashMap<String, Object>();
-		paramsMap.put("nd", nd);
-		// 领导标识
-		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 
 		// 技术分类
 		List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
@@ -423,6 +422,7 @@ public class OneLevelMainController extends BaseController {
 
 		System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+		param.getParam().put("username", sysUserInfo.getUserName());
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -482,6 +482,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -648,6 +649,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			request.setAttribute("leaderFlag", "1");
 		}
@@ -773,6 +775,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			request.setAttribute("leaderFlag", "1");
@@ -940,6 +943,7 @@ public class OneLevelMainController extends BaseController {
 
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			request.setAttribute("leaderFlag", "1");
@@ -1038,6 +1042,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			request.setAttribute("leaderFlag", "1");
@@ -1132,6 +1137,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			request.setAttribute("leaderFlag", "1");
@@ -1226,6 +1232,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			request.setAttribute("leaderFlag", "1");
@@ -1284,6 +1291,7 @@ public class OneLevelMainController extends BaseController {
 		System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+		param.getParam().put("username", sysUserInfo.getUserName());
 
 		// 封装：code->nameValue
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
@@ -1344,8 +1352,6 @@ public class OneLevelMainController extends BaseController {
 	@OperationFilter(dataFlag = "true")
 	public String project_fx_table_data_expert(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
-		// 领导标识
-		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 
 		// 封装：code->nameValue
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
@@ -1355,6 +1361,7 @@ public class OneLevelMainController extends BaseController {
 		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+		param.getParam().put("username", sysUserInfo.getUserName());
 		String gsbmbmFlag = "";
 		if (gsbmbmFlag_code != null) {
 
@@ -1408,8 +1415,6 @@ public class OneLevelMainController extends BaseController {
 	@OperationFilter(dataFlag = "true")
 	public String project_fx_table_data_tree(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
-		// 领导标识
-		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 
 		// 封装：code->nameValue
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
@@ -1419,6 +1424,7 @@ public class OneLevelMainController extends BaseController {
 		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+		param.getParam().put("username", sysUserInfo.getUserName());
 		String gsbmbmFlag = "";
 		if (gsbmbmFlag_code != null) {
 
@@ -1473,9 +1479,6 @@ public class OneLevelMainController extends BaseController {
 	@OperationFilter(dataFlag = "true")
 	public String project_fx_table_data_year_expert(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>project_fx_table_data_year三级表格参数：" + JSONObject.toJSONString(param));
-		// 领导标识
-		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
-
 		// 封装：code->nameValue
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
 		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
@@ -1484,6 +1487,7 @@ public class OneLevelMainController extends BaseController {
 		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+		param.getParam().put("username", sysUserInfo.getUserName());
 		String gsbmbmFlag = "";
 		if (gsbmbmFlag_code != null) {
 
@@ -1538,9 +1542,6 @@ public class OneLevelMainController extends BaseController {
 	@OperationFilter(dataFlag = "true")
 	public String project_fx_table_data_year(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>project_fx_table_data_year三级表格参数：" + JSONObject.toJSONString(param));
-		// 领导标识
-		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
-
 		// 封装：code->nameValue
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
 		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
@@ -1549,6 +1550,7 @@ public class OneLevelMainController extends BaseController {
 		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+		param.getParam().put("username", sysUserInfo.getUserName());
 		String gsbmbmFlag = "";
 		if (gsbmbmFlag_code != null) {
 
@@ -1601,9 +1603,6 @@ public class OneLevelMainController extends BaseController {
 	@OperationFilter(dataFlag = "true")
 	public String count_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(">>>>>>>>>>>count_table_data三级表格参数：" + JSONObject.toJSONString(param));
-		// 领导标识
-		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
-
 		// 封装：code->nameValue
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
 		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
@@ -1612,6 +1611,7 @@ public class OneLevelMainController extends BaseController {
 		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+		param.getParam().put("username", sysUserInfo.getUserName());
 		String gsbmbmFlag = "";
 		if (gsbmbmFlag_code != null) {
 
@@ -1683,6 +1683,7 @@ public class OneLevelMainController extends BaseController {
 
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		HttpEntity<String> entity = new HttpEntity<String>(JSONObject.toJSONString(paramsMap), httpHeaders);
 
@@ -1744,6 +1745,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zycbm", param.getParam().get("zycbm") == "" ? null : param.getParam().get("zycbm"));// 项目状态
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -1808,6 +1810,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 		if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
 			request.setAttribute("leaderFlag", "1");
 		}
@@ -1898,6 +1901,7 @@ public class OneLevelMainController extends BaseController {
 		System.out.println(">>>>>>>>>>>>common_table_data>param:" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
+		param.getParam().put("username", sysUserInfo.getUserName());
 
 		// 封装：code->nameValue
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
@@ -1977,6 +1981,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("type", type);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2032,6 +2037,7 @@ public class OneLevelMainController extends BaseController {
 
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2092,6 +2098,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("type", type);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2155,6 +2162,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("type", type);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2209,6 +2217,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("type", type);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2288,6 +2297,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		ChartPieResultData pie = new ChartPieResultData();
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -2370,6 +2380,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2479,6 +2490,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2535,6 +2547,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2617,6 +2630,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2702,6 +2716,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -2788,6 +2803,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("cgjszy", cgjszy);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 		paramsMap.put("nd", nd);
 
 		String type = CommonUtil.getParameter(request, "type", "");
@@ -2834,6 +2850,7 @@ public class OneLevelMainController extends BaseController {
 		String type = CommonUtil.getParameter(request, "type", "");
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_02, HttpMethod.POST, entity, JSONArray.class);
@@ -2895,6 +2912,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("define1", "");
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_03, HttpMethod.POST, entity, JSONArray.class);
@@ -2999,6 +3017,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zylbbm", zylbbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -3049,6 +3068,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -3175,6 +3195,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -3220,6 +3241,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 		paramsMap.put("nd", nd);
 		paramsMap.put("type", type);
 
@@ -3274,6 +3296,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 		paramsMap.put("nd", nd);
 		paramsMap.put("l_nd", l_nd);
 		paramsMap.put("companyCode", companyCode);
@@ -3340,6 +3363,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
 
@@ -3410,6 +3434,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -3450,6 +3475,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("typeFlag", typeFlag);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -3490,6 +3516,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
 
@@ -3564,8 +3591,6 @@ public class OneLevelMainController extends BaseController {
 		String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
-		System.out.println("getUserDisp=====================" + sysUserInfo.getUserName());
-		System.out.println("getUserDisp=====================" + sysUserInfo.getUserDisp());
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
 		paramsMap.put("username", sysUserInfo.getUserName());
@@ -3627,6 +3652,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -3964,6 +3990,7 @@ public class OneLevelMainController extends BaseController {
 
 		// 领导标识
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
+		paramsMap.put("username", sysUserInfo.getUserName());
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!nd.equals("")) {
