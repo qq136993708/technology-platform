@@ -282,4 +282,22 @@ public class MobilePersonnelController extends BaseController{
 	    }
 	    
 	    
+	    @RequestMapping(value = "/mobile/zl_details")
+		public String zl_details(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+	        String fmmc = request.getParameter("fmmc");
+	        String wxlx = request.getParameter("wxlx");
+	        String qlyq = request.getParameter("qlyq");
+	        
+	        request.setAttribute("qlyq", qlyq);
+	        request.setAttribute("fmmc", fmmc);
+	        request.setAttribute("wxlx", wxlx);
+			
+			return "/mobile/zl_details";
+		}
+	    
+	    
+	    
+	    
+	    
 }
