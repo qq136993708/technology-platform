@@ -195,7 +195,7 @@
 				</div>
 			</div>
 			<div class="layui-card-body">
-				<table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
+				<table id="showTable" class="layui-hide" lay-filter="showTable">
 
 					<thead>
 						<tr>
@@ -452,10 +452,11 @@
 			$("#showColumn2").html(nextYear+"年经费（万元）");
 			$("#showColumn3").html(afterNextYear+"年经费（万元）");
 
-			table.init('processdef-table', {
+			table.init('showTable', {
 				url : '/one_level_main/project_fx_table_year_data?v_date=' + v_date,
 				height : commonDislodgeTable() - 150,
 				method : "POST",
+				limit : 30,
 				page : {
 					groups : 5,
 					limits : [ 15, 30, 45, 60 ],
@@ -492,7 +493,6 @@
 
 					}
 				},
-				limit : 15,
 				done : function(res, curr, count) {
 					// 点击行联动选择框--单选
 
@@ -599,11 +599,11 @@
 			}
 
 			//监听排序
-			table.on('sort(processdef-table)', function(obj) {
+			table.on('sort(showTable)', function(obj) {
 				console.log(this, obj.field, obj.type)
 				//return;
 				//服务端排序
-				table.reload('processdef-table', {
+				table.reload('showTable', {
 					initSort : obj,
 					page : {
 						curr : 1
@@ -611,30 +611,27 @@
 					where : { //重新请求服务端
 						orderKey : obj.field, //排序字段
 						orderType : obj.type
-					//排序方式
 					}
+				});
+			});
+			
+			//监听行双击事件
+			table.on('rowDouble(showTable)', function(obj) {
+				var temUrl = "/whole-process/science/details?xmid=" + obj.data.xmid;
+				layer.open({
+					title : '项目进展详情',
+					skin : 'layui-layer-lan',
+					shadeClose : true,
+					type : 2,
+					fixed : false,
+					maxmin : true,
+					area : [ '70%', '90%' ],
+					content : temUrl
 				});
 			});
 
 		}
 
-		function view_pro(xmmc, projectProperty, id) {
-			layer.open({
-				title : '项目进展详情',
-				skin : 'layui-layer-lan',
-				shadeClose : false,
-				type : 2,
-				id : "cycle",
-				fixed : false,
-				//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-				maxmin : true,
-				//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-				area : [ '70%', '90%' ],
-				content : "/whole-process/science/details?xmid=" + id,
-				success : function(layero, index) {
-				}
-			});
-		}
 		/**======================================联动=====================================*/
 		var define11 = "${define11?default('')}";//单位性质
 		var define12 = "${define12?default('')}";//单位性质
@@ -847,6 +844,8 @@
 			}
 
 		}
+		
+		
 
 	</script>
 </body>
