@@ -404,6 +404,8 @@
 			var gsbmbmFlag = $("#gsbmbmFlag").val();
 			var zycbmFlag = $("#zycbmFlag").val();
 			var zylbbmFlag = $("#zylbbmFlag").val();
+			var nd = $("#nd").val();
+			var ysnd = $("#ysnd").val();
 
 			//是否是：结转课题
 			var isCarry = "0";
@@ -445,6 +447,15 @@
 				layer.msg('请选择立项年度');
 				return false;
 			}
+			if(parseInt(thisYear)>new Date().getFullYear()){
+				layer.msg('立项年度不能大于当前年');
+				return false;
+			}
+			if(undefined!=ysnd&&null!=ysnd&&""!=ysnd&&parseInt(ysnd)<parseInt(nd)){
+				layer.msg('预算年度不能小于立项年度');
+				return false;
+			}
+
 			var nextYear = parseInt(thisYear) + 1;
 			var afterNextYear = parseInt(nextYear) + 1;
 			

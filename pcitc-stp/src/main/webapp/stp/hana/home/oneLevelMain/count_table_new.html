@@ -343,7 +343,8 @@
 		    var gsbmbmFlag=$("#gsbmbmFlag").val();
 		    var zycbmFlag=$("#zycbmFlag").val();
 		    var zylbbmFlag=$("#zylbbmFlag").val();
-		    
+            var nd = $("#nd").val();
+            var ysnd = $("#ysnd").val();
 		    
 		    
 		    
@@ -363,8 +364,15 @@
 		    if(ktlx=='结转课题') {isCarry='1'}
 		    
 		    var v_date=(new Date()).getTime();
-		    
-		    
+
+            if(parseInt(nd)>new Date().getFullYear()){
+                layer.msg('立项年度不能大于当前年');
+                return false;
+            }
+            if(undefined!=ysnd&&null!=ysnd&&""!=ysnd&&parseInt(ysnd)<parseInt(nd)){
+                layer.msg('预算年度不能小于立项年度');
+                return false;
+            }
 			//渲染
 			table.render({
 				elem : '#processdef-table',
