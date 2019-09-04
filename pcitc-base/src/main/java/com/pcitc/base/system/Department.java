@@ -62,6 +62,30 @@ public class Department implements Serializable {
      * 备注
      */
     private String notes;
+    
+    
+    private String typeCode;
+    
+    private Integer orders;
+    
+    
+    
+    
+	public Integer getOrders() {
+		return orders;
+	}
+
+	public void setOrders(Integer orders) {
+		this.orders = orders;
+	}
+
+	public String getTypeCode() {
+		return typeCode;
+	}
+
+	public void setTypeCode(String typeCode) {
+		this.typeCode = typeCode;
+	}
 
 	public String getId() {
 		return id;

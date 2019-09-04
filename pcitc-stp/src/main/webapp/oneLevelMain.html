@@ -277,7 +277,7 @@ html {
 					});
 					//直属研究院
 					$(".institute").on("click", function() {
-						window.open("/instituteIndex?url=" + "/home_ld/direct_depart", "_target");
+						window.open("instituteIndex?url=/institute/institute.html", "_target");
 					});
 					//科研投入
 					$(".investment").on("click", function() {
@@ -615,7 +615,8 @@ html {
 			$.ajax({
 				type : 'GET',
 				//url : "/one_level_main/investment_first_page_count?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date,
-				url : "/one_level_main/investment_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
+				//url : "/one_level_main/investment_01?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date+"&type=1",
+				url : "/small_leader/budget/info?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date,
 				dataType : 'json',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -626,20 +627,34 @@ html {
 					$("#moneyCurrent").html("<span style='font-size:14px;'>--亿</span>");
 				},
 				success : function(data) {
-					var projectMoney = data.data;
-					var tt1 = 0;
+					var dataList = data.data;
+					var total_money = 0;
 					var tt2 = 0;
-					for (var i = 0; i < projectMoney.length; i++) {
-						var zysje = projectMoney[i].zysje;
-						var fyxsjje = projectMoney[i].fyxsjje;
-						var zbxsjje = projectMoney[i].zbxsjje;
-						tt1 = tt1 + parseFloat(fyxsjje) + parseFloat(zbxsjje);
-						tt2 = tt2 + parseFloat(zysje);
+					for (var i = 0; i < dataList.length; i++)
+					{
+						var levelFlag = dataList[i].levelFlag;
+						if(levelFlag==0 || levelFlag=='0')
+						{
+							var fyxBudget = dataList[i].fyxBudget;//科研经费预算
+							var zbxBudget = dataList[i].zbxBudget;//资本性预算
+							
+							
+							var fyxXqMoney = dataList[i].fyxXqMoney;  //经费-实际新签
+							var fyxJzBudget = dataList[i].fyxJzBudget;//经费--其中：结转预算
+							var zbxXqMoney = dataList[i].zbxXqMoney;//资本性--实际新签（科研装备+课题资本性支出）
+							
+							
+							total_money = total_money + parseFloat(zbxBudget) + parseFloat(fyxBudget);
+							tt2 = tt2 + parseFloat(fyxXqMoney) + parseFloat(fyxJzBudget) + parseFloat(zbxXqMoney);
+						}
+						
+						
 					}
-					var tt1 = parseFloat(tt1)/ 10000;
+					var total_money = parseFloat(total_money)/ 10000;
 					var tt2 = parseFloat(tt2) / 10000;
-					$("#moneyTotal").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
-					$("#moneyCurrent").html(tt1.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
+					
+					$("#moneyTotal").html(total_money.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
+					$("#moneyCurrent").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
 				}
 			});
 		}

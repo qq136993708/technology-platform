@@ -165,7 +165,7 @@
    					 {
    						xmmc=xmmc.substr(0,10);
    					 }
-   					 var temp="<li>"+
+   					 var temp="<li >"+
 				    				"<p>"+
 				                        "<span>"+xmmc+"</span>"+
 				                        "<span>"+nd+"</span>"+
@@ -220,6 +220,8 @@
    					 var fmmc= dataArr[i].fmmc;//名称
    					 var wxlx= dataArr[i].wxlx;//类型
    					 var qlyq= dataArr[i].qlyq;//专利描述
+   					 var qlyqStr=qlyq;
+   					 var fmmcStr=fmmc;
    					 if(fmmc==null)
 					 {
    						fmmc="";
@@ -234,7 +236,7 @@
    					 {
    						fmmc=fmmc.substr(0,10);
    					 }
-   					 var temp="<li>"+
+   					 var temp="<li onclick=\"zl_details('"+fmmcStr+"','"+wxlx+"','"+qlyqStr+"')\">"+
 				    				"<p>"+
 				                        "<span>"+fmmc+"</span>"+
 				                        "<span>"+wxlx+"</span>"+
@@ -259,6 +261,21 @@
     
     
     
+    function zl_details(fmmc,wxlx,qlyq) 
+    {
+    	
+    	var url='/mobile/zl_details?fmmc=' + fmmc+"&wxlx="+wxlx+"&qlyq="+qlyq;
+    	layer.open({
+            title : '详情',
+            skin : 'layui-layer-mobile',
+            shadeClose : false,
+            type : 2,
+            fixed : false,
+            maxmin : true,
+            area : [ '95%', '72.5%' ],
+            content : url
+        });
+    }
     
     
     

@@ -260,6 +260,15 @@ public class TechStatisticsServiceImpl implements ITechStatisticsService {
 		}
 		return techOrgCount;
 	}
+	
+	public TechOrgCount  getTechOrgCountByUncodeYear(Map map) throws Exception
+	{
+		TechOrgCount techOrgCount= techOrgCountMapper.getTechOrgCountByUncodeYear(map);
+		return techOrgCount;
+	}
+	
+	
+	
 	public TechOrgCount getTechOrgCount(String id) throws Exception
 	{
 		TechOrgCount techOrgCount= techOrgCountMapper.selectByPrimaryKey(id);

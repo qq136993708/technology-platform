@@ -10,6 +10,7 @@ public class DateUtils {
 	public static String FMT_MI = "yyyy-MM-dd HH:mm";
 	public static String FMT_DD = "yyyy-MM-dd";
 	public static String FMT_SSS = "yyyy-MM-dd HH:mm:ss:SSS";
+	public static String FMT_YY = "yyyy";
 
 	public static String dateToStr(Date date, String formatStyle) {
 		String str = "";

@@ -109,7 +109,7 @@ public class AdminMobileController extends BaseController {
 		String unitPathId = tokenUser.getUnitPath();
 
 		// 科技部综合计划处
-		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
+		boolean isZHJHCPerson=EquipmentUtils.getZycbmDic(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 		request.setAttribute("sysUserInfo", sysUserInfo);
 		
@@ -253,7 +253,7 @@ public class AdminMobileController extends BaseController {
 		String unitPathId = tokenUser.getUnitPath();
 
 		// 科技部综合计划处
-		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
+		boolean isZHJHCPerson=EquipmentUtils.getZycbmDic(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 		request.setAttribute("sysUserInfo", tokenUser); // tokenUser中有userLevel等基本属性
 		
