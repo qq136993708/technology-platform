@@ -110,6 +110,9 @@
             ,type: 'year'
             ,value:"2019"
         });
+        $(".dele").click(function () {
+            /*$(this).parents("li").remove();*/
+        });
         $(".one li").on("swipeleft",function(){
             $(this).removeClass('left');
             $(this).addClass('right');
