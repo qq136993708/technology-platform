@@ -111,11 +111,12 @@
             ,value:"2019"
         });
         $(".dele").click(function () {
-            /*$(this).parents("li").remove();*/
+           
             var id=$(this).attr("id");
             var workOrderStatus=$(this).attr("workOrderStatus");
-            alert(id);
-        	//del(id,workOrderStatus);
+            //alert(id);
+        	del(id,workOrderStatus);
+        	$(this).parents("li").remove();
         });
         $(".one li").on("swipeleft",function(){
             $(this).removeClass('left');
@@ -393,9 +394,8 @@
 			layer.msg('只能删除草稿状态的工作任务！');
 		}
     	
-    	
-    	
     }
+    
     
     function view(dataId,workOrderName) 
     {
@@ -403,8 +403,10 @@
     	var url='/mobile/work_details?dataId=' + dataId;
     	location.href=url;
     	
-    	
     }
+    
+    
+    
     function mydeal(dataId,workOrderName) 
     {
     	var url='/mobile/work_details_1?dataId=' + dataId;
