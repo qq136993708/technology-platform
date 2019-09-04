@@ -497,10 +497,14 @@
 					// 点击行联动选择框--单选
 
 					merge(res);
+					if($(document).width()==1680){
+					    var height=33
+					}else {
+                        var height=32.8
+					}
                     $('.layui-table-box>.layui-table-body table tbody tr').each(function() {
-                        var rowspanN=$(this).find("td:nth-child(2)").attr("rowspan")
-						var height=parseInt($(this).find("td:nth-child(2)").height())
-                        var rowspanN3=$(this).find("td:nth-child(3)").attr("rowspan")
+                        var rowspanN=$(this).find("td:nth-child(2)").attr("rowspan");
+                        var rowspanN3=$(this).find("td:nth-child(3)").attr("rowspan");
                         var indexN=$(this).index();
 						//alert(rowspanN)
                         if(rowspanN3!=undefined){
