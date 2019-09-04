@@ -58,7 +58,8 @@ public class MobileController extends BaseController {
     private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
     private static final String getTechOrgCountByUncodeYear   = "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/getTechOrgCountByUncodeYear";
 	
-		
+ // 删除
+ 	private static final String DELETE_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/deleteBotWorkOrder/";
     private static final String GET_OUT_APPRAISAL = "http://pcitc-zuul/system-proxy/out-appraisal-provider/getAppraisalInfoByjdh/";
     
     private static final String getOutProjectPlanByXmId = "http://pcitc-zuul/system-proxy/out-project-plan-provider/getOutProjectPlanByXmId/";
@@ -84,7 +85,21 @@ public class MobileController extends BaseController {
 		return "/mobile/appraisal";
 	}
 	
-	
+	/**
+	 * 删除工单管理
+	 *
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/mobile/plan/deletePlan")
+	@ResponseBody
+	public int deletePlan(HttpServletRequest request) {
+		String id = request.getParameter("ids");
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DELETE_BOT_WORK_ORDER + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
+		int result = responseEntity.getBody();
+		return result;
+	}
+
 	
 	
 	
