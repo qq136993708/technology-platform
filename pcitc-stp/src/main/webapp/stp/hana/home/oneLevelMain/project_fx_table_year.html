@@ -499,11 +499,12 @@
 					merge(res);
                     $('.layui-table-box>.layui-table-body table tbody tr').each(function() {
                         var rowspanN=$(this).find("td:nth-child(2)").attr("rowspan")
+						var height=parseInt($(this).find("td:nth-child(2)").height())
                         var rowspanN3=$(this).find("td:nth-child(3)").attr("rowspan")
                         var indexN=$(this).index();
 						//alert(rowspanN)
                         if(rowspanN3!=undefined){
-                            var heightPx=33*rowspanN3+"px";
+                            var heightPx=height*rowspanN3+"px";
                             $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(3)").attr("rowspan",rowspanN3).css("height",heightPx);;
                             var rowspanC=parseInt($(this).index())+parseInt(rowspanN3);
                             $(".layui-table-fixed .layui-table tbody tr").each(function (i, val) {
@@ -515,7 +516,7 @@
                             });
 						}
                         if(rowspanN!=undefined){
-                            var heightPx=33*rowspanN+"px";
+                            var heightPx=height*rowspanN+"px";
                             $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(1)").attr("rowspan",rowspanN).css("height",heightPx);;
                             $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(2)").attr("rowspan",rowspanN).css("height",heightPx);;
 
