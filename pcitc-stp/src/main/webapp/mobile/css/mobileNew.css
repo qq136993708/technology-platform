@@ -177,6 +177,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .project .layui-tab-content .layui-tab-item>ul li{background-color:#fff;box-shadow:0px -0.5px 0px 0px rgba(227,230,231,1),0px 0.5px 0px 0px rgba(227,230,231,1)}
 .project .layui-tab-content .layui-tab-item>ul li:nth-child(1){box-shadow:0px -0.5px 0px 0px rgba(227,230,231,1),0px 0.5px 0px 0px rgba(227,230,231,1)}
 .project .layui-tab-content .layui-tab-item>ul li:nth-of-type(odd){background-color:rgba(247,248,253,1);box-shadow:0px -0.5px 0px 0px rgba(227,230,231,1),0px 0.5px 0px 0px rgba(227,230,231,1)}
+.appraisal .layui-tab-content .layui-tab-item>ul li{    height: 1rem;}
 .layui-tab-content .layui-tab-item>ul li p{padding:0rem .19rem}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(1){padding:.12rem .19rem}
 .layui-tab-content .layui-tab-item>ul li p:nth-child(1) span:nth-child(2){
@@ -300,7 +301,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
 .button-c button{width:2.6rem;height:.42rem;line-height:.42rem;border-radius:.21rem;color:white;font-size: .14rem;
     border:none;text-align:center;margin-top:.15rem;background-color:rgba(65,144,246,1);box-shadow:0px 4px 14px 0px rgba(19,99,204,0.24)}
 .appraisal,.cash{width:97%;background:#fff;padding:0;margin:0 auto}
-.appraisal dl dd{width:100% !important}
+.appraisal dl dd{width:100% !important;line-height: .26rem;}
 .appraisal .layui-tab-content:nth-child(1){margin:0}
 .appraisal .layui-tab-content .layui-tab-item>ul li{background-color:rgba(247,248,253,1);box-shadow:0px -0.5px 0px 0px rgba(227,230,231,1),0px 0.5px 0px 0px rgba(227,230,231,1)}
 .appraisal .layui-tab-content .layui-tab-item>ul li:nth-child(odd){background-color:#fff;box-shadow:0px -0.5px 0px 0px rgba(227,230,231,1),0px 0.5px 0px 0px rgba(227,230,231,1)}
@@ -679,7 +680,7 @@ iframe{width:100%;height:auto;border:0;overflow:hidden}
     bottom: .47rem;width: 100%;background-color: white;overflow-y: scroll;
 }
 .mobile-page>ul.cont-number li{text-align: center;height: .28rem !important;line-height: .28rem;}
-.mobile-page>ul.cont-number li a{color: rgba(0,0,0,.6);}
+.mobile-page>ul.cont-number li a{color: rgba(0,0,0,.6);font-size: .22rem;}
 .mobile-page>ul.cont-number li.layui-this a{color: rgba(0,0,0,1);}
 .aH{color: #F0F0F2 !important;}
 .ui-loader-default{ display:none}
