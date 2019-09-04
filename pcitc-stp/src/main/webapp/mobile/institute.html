@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/mobile/css/mobileNew.css">
+    
+    
+    
     <style>
         .layui-tab-content:nth-child(1){    background: url(/mobile/images/mobile-line.png) no-repeat center bottom;height: .75rem;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
     </style>
@@ -44,7 +47,6 @@
             </ul>
         </div>
     </div>
-    
     <div class="item synopsis">
         <h4 id="synopsis">企业简介</h4>
         <span>Company Introduction</span>
@@ -76,17 +78,24 @@
         <span>Honor and Performance</span>
         <div>
         <p >
-           ${department.type}持有专利总数${techOrgCount.allPatentCount}个，其中发明专利${techOrgCount.allPatentLookCount}个。${year}年申请专利${techOrgCount.currentYearPatentCount}个，其中发明专利${techOrgCount.currentPatentLookCount}个；获得国家级奖项${techOrgCount.achievementsCountryCount}个、省部级奖项${techOrgCount.achievementsPrivanceCount}个
-           <#if techOrgCount.achievementsCompanyCount!=0> 、公司级奖项${techOrgCount.achievementsCompanyCount}个。</#if>                
-           ${year}年发表科技论文总量${techOrgCount.thesisAllCount}篇，SCI（科学引文索引）${techOrgCount.thesisSciCount}次
-           <#if techOrgCount.thesisSciInnerCount!=0>，其中${department.type}员工作为第一作者的数量${techOrgCount.thesisSciInnerCount}个。 </#if>
+           ${department.type}持有专利总数${techOrgCount.allPatentCount}个，其中发明专利${techOrgCount.allPatentLookCount}个。${year}年申请专利${techOrgCount.currentYearPatentCount}个，其中发明专利${techOrgCount.currentPatentLookCount}个；
+                              
+           <#if techOrgCount.achievementsCountryCount!=0>获得国家级奖项${techOrgCount.achievementsCountryCount}个、 </#if>     
+           <#if techOrgCount.achievementsPrivanceCount!=0>获得省部级奖项${techOrgCount.achievementsPrivanceCount}个 、</#if>                      
+                             
+           <#if techOrgCount.achievementsCompanyCount!=0>公司级奖项${techOrgCount.achievementsCompanyCount}个。</#if>                
+             ${year}年发表科技论文总量${techOrgCount.thesisAllCount}篇，SCI（科学引文索引）${techOrgCount.thesisSciCount}次，
+           <#if techOrgCount.thesisSciInnerCount!=0>其中${department.type}员工作为第一作者的数量${techOrgCount.thesisSciInnerCount}个。 </#if>
            <#if techOrgCount.thesisEiCount!=0> EI（工程索引）${techOrgCount.thesisEiCount}次， </#if>
            <#if techOrgCount.thesisEiInnerCount!=0>其中${department.type}员工作为第一作者数量${techOrgCount.thesisEiInnerCount}个。 </#if>
-           <#if techOrgCount.thesisIstpCount!=0>ISTP（科学技术会议录索引）${techOrgCount.thesisIstpCount}次</#if>
-           <#if techOrgCount.thesisIsrCount!=0>，ISR（科学评论索引）数量${techOrgCount.thesisIsrCount}次。</#if>               
+           <#if techOrgCount.thesisIstpCount!=0>ISTP（科学技术会议录索引）${techOrgCount.thesisIstpCount}次，</#if>
+           <#if techOrgCount.thesisIsrCount!=0>ISR（科学评论索引）数量${techOrgCount.thesisIsrCount}次。</#if>               
         </p>
         </div>
     </div>
+    
+    
+     
 </main>
 <div class="return-top layui-hide">
     top
