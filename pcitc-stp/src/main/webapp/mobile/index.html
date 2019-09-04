@@ -453,8 +453,8 @@ var companyCode="${companyCode?default('')}";
 			},
 			timeout : 6000, //超时时间设置，单位毫秒
 			error : function(XMLHttpRequest, status) {
-				$("#moneyTotal").html("<span style='font-size:14px;'>--亿</span>");
-				$("#moneyCurrent").html("<span style='font-size:14px;'>--亿</span>");
+				$("#moneyTotal").html("<span '>--亿</span>");
+				$("#moneyCurrent").html("<span '>--亿</span>");
 			},
 			success : function(data) {
 				console.log("预算\n"+JSON.stringify(data));
@@ -484,8 +484,8 @@ var companyCode="${companyCode?default('')}";
 				var total_money = parseFloat(total_money)/ 10000;
 				var tt2 = parseFloat(tt2) / 10000;
 				
-				$("#moneyTotal").html(total_money.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
-				$("#moneyCurrent").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
+				$("#moneyTotal").html(total_money.toFixed(2) + "<span '>亿</span>");
+				$("#moneyCurrent").html(tt2.toFixed(2) + "<span'>亿</span>");
 			}
 		});
 	}
