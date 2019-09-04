@@ -37,8 +37,6 @@ public class SmallLeaderController extends BaseController {
 
 	private static final String getInvestment02 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/month/money-hana-type";
 
-	private static final String getInvestmentAll = "http://pcitc-zuul/stp-proxy/stp-provider/budget/out-organ-items";
-
 	private static final String getBudgetInfo = "http://pcitc-zuul/system-proxy/out-project-provider/budget/all-level";
 
 	/**
@@ -80,6 +78,7 @@ public class SmallLeaderController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+		paramsMap.put("username", sysUserInfo.getUserName());
 		paramsMap.put("nd", nd);
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -128,6 +127,7 @@ public class SmallLeaderController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		paramsMap.put("nd", nd);
 		paramsMap.put("typeFlag", typeFlag);
@@ -280,6 +280,7 @@ public class SmallLeaderController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+		paramsMap.put("username", sysUserInfo.getUserName());
 
 		paramsMap.put("nd", nd);
 
@@ -388,6 +389,7 @@ public class SmallLeaderController extends BaseController {
 		paramsMap.put("zycbm", zycbm);
 		paramsMap.put("zylbbm", zylbbm);
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
+		paramsMap.put("username", sysUserInfo.getUserName());
 		paramsMap.put("nd", nd);
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));

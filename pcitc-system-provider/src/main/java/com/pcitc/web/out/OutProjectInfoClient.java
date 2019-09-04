@@ -204,7 +204,11 @@ public class OutProjectInfoClient {
 		vo.setNd(map.get("nd"));
 
 		boolean leaderFlag = false;
-		this.authControl(leaderFlag, map);
+		this.authControl(map);
+		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
+			leaderFlag = true;
+		}
+		
 		String zycbm = map.get("zycbm");
 		String username = map.get("username");
 
@@ -278,8 +282,8 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/dragon/project-count", method = RequestMethod.POST)
 	public JSONObject getProjectCountForDragon(@RequestBody HashMap<String, String> map) {
 		JSONObject retJson = new JSONObject();
-		boolean leaderFlag = false;
-		this.authControl(leaderFlag, map);
+		this.authControl(map);
+		
 		HashMap<String, String> temMap = outProjectService.getOutProjectDragonInfoCount(map);
 
 		if (temMap != null) {
@@ -886,7 +890,16 @@ public class OutProjectInfoClient {
 		vo.setNd(map.get("nd"));
 
 		boolean leaderFlag = false;
-		this.authControl(leaderFlag, map);
+		boolean zbxFlag = false;
+		this.authControl(map);
+		if (map.get("zbxFlag") != null && map.get("zbxFlag").toString().equals("2")) {
+			zbxFlag = true;
+		}
+		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
+			leaderFlag = true;
+		}
+		System.out.println("2getAllBudgetWithAllLevelleaderFlag--------------"+leaderFlag+"===="+zbxFlag);
+		
 		String zycbm = map.get("zycbm");
 		Set<String> set = new HashSet<>(Arrays.asList(zycbm.split(",")));
 		List<String> list_1 = new ArrayList<>(set);
@@ -974,7 +987,7 @@ public class OutProjectInfoClient {
 			}
 
 			// 不可以看资本性的，直接清空所有资本性
-			if (!leaderFlag) {
+			if (!zbxFlag) {
 				temMap.put("zbxBudget", 0);
 				temMap.put("zbxBudgetMobile", 0);
 				temMap.put("zbxXqMoney", 0);
@@ -1183,8 +1196,7 @@ public class OutProjectInfoClient {
 	@ApiOperation(value = "领导首页-十条龙，十条龙项目的类型分布 ", notes = "参数年度")
 	@RequestMapping(value = "/out-project-provider/dragon/type/project-info")
 	public JSONArray getDragonProjectInfoByType(@RequestBody HashMap<String, String> map) throws Exception {
-		boolean leaderFlag = false;
-		this.authControl(leaderFlag, map);
+		this.authControl(map);
 
 		List temList = outProjectService.getDragonProjectInfoByType(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -1195,8 +1207,7 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/dragon/out-in/project-info")
 	public JSONArray getDragonProjectInfoWithOutIn(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getDragonProjectInfoWithOutIn===========================" + map);
-		boolean leaderFlag = false;
-		this.authControl(leaderFlag, map);
+		this.authControl(map);
 		List temList = outProjectService.getDragonProjectInfoWithOutIn(map);
 
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
@@ -1207,8 +1218,7 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/dragon/institute/project-info")
 	public JSONArray getDragonProjectInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getDragonProjectInfoByInstitute===========================" + map);
-		boolean leaderFlag = false;
-		this.authControl(leaderFlag, map);
+		this.authControl(map);
 		List temList = outProjectService.getDragonProjectInfoByInstitute(map);
 		HashMap<String, String> map1 = new HashMap<String, String>();
 		// outProjectRemoteClient.getLastCountryProject(map1);
@@ -1231,8 +1241,7 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-project-provider/dragon/details")
 	public JSONArray getDragonProjectDetails(@RequestBody HashMap<String, Object> map) throws Exception {
 		logger.info("==================page getDragonProjectDetails===========================" + map);
-		boolean leaderFlag = false;
-		this.authControl(leaderFlag, map);
+		this.authControl(map);
 		List temList = outProjectService.getDragonProjectDetails(map);
 
 		// 特殊处理，显示序号问题。相同的十条龙项目合并序号
@@ -1392,15 +1401,16 @@ public class OutProjectInfoClient {
 
 	/**
 	 * 访问权限处理，集中控制
+	 * authFlag 资本性权利
 	 */
-	public void authControl(Boolean authFlag, HashMap map) {
+	public void authControl(HashMap map) {
 		String zycbm = (String) map.get("zycbm");
 		if (zycbm != null && zycbm.contains("30130054")) {
 			map.put("leaderFlag", "2");
 		}
 		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
 			// 大领导、计划处特殊，能看所有的费用性预算
-			authFlag = true;
+			map.put("zbxFlag", "2");
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
 
@@ -1422,7 +1432,7 @@ public class OutProjectInfoClient {
 		// 王丽娟特殊处理，不是大领导，也需要看30130054专业处的预算
 		if (username != null && username.toString().equals("wanglj")) {
 			zycbm = zycbm + ",30130054";
-			authFlag = true;
+			map.put("zbxFlag", "2");
 		}
 		map.put("zycbm", zycbm);
 	}

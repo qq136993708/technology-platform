@@ -195,7 +195,7 @@
 				</div>
 			</div>
 			<div class="layui-card-body">
-				<table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
+				<table id="showTable" class="layui-hide" lay-filter="showTable">
 
 					<thead>
 						<tr>
@@ -205,13 +205,16 @@
 							<th lay-data="{field : 'ktmc',align : 'left',width : '200', fixed: 'left'}" rowspan="2">课题名称</th>
 							<th lay-data="{field : 'nd',align : 'center',width : '80'}" rowspan="2">立项年度</th>
 							<th lay-data="{field : 'define10',align : 'left',width : '80'}" rowspan="2">专业处</th>
+							
+							<th lay-data="{field : 'define8',align : 'left',width : '150'}" rowspan="2">承担单位</th>
+							<th lay-data="{field : 'define12',align : 'left',width : '100'}" rowspan="2">单位性质</th>
+							
 							<th lay-data="{align:'center'}" colspan="3">总经费（万元）</th>
 							<th lay-data="{align:'center'}" colspan="2" id="showColumn1">2019年经费（万元）</th>
 							<th lay-data="{align:'center'}" colspan="2" id="showColumn2">2020年经费（万元）</th>
 							<th lay-data="{align:'center'}" colspan="2" id="showColumn3">2021年经费（万元）</th>
 							
-							<th lay-data="{field : 'define8',align : 'left',width : '150'}" rowspan="2">承担单位</th>
-							<th lay-data="{field : 'define12',align : 'left',width : '100'}" rowspan="2">单位性质</th>
+							
 							<th lay-data="{field : 'fwdx',align : 'left',width : '80'}" rowspan="2">服务对象</th>
 							<th lay-data="{field : 'xmlbmc',align : 'left',width : '100'}" rowspan="2">项目类别</th>
 							<th lay-data="{field : 'project_property',align : 'left',width : '100'}" rowspan="2">项目类型</th>
@@ -460,10 +463,11 @@
 			$("#showColumn2").html(nextYear+"年经费（万元）");
 			$("#showColumn3").html(afterNextYear+"年经费（万元）");
 
-			table.init('processdef-table', {
+			table.init('showTable', {
 				url : '/one_level_main/project_fx_table_year_data?v_date=' + v_date,
 				height : commonDislodgeTable() - 150,
 				method : "POST",
+				limit : 30,
 				page : {
 					groups : 5,
 					limits : [ 15, 30, 45, 60 ],
@@ -500,22 +504,39 @@
 
 					}
 				},
-				limit : 15,
 				done : function(res, curr, count) {
 					// 点击行联动选择框--单选
 
 					merge(res);
+					if($(document).width()==1680){
+					    var height=33
+					}else {
+                        var height=32.8
+					}
                     $('.layui-table-box>.layui-table-body table tbody tr').each(function() {
-                        var rowspanN=$(this).find("td:nth-child(2)").attr("rowspan")
+                        var rowspanN=$(this).find("td:nth-child(2)").attr("rowspan");
+                        var rowspanN3=$(this).find("td:nth-child(3)").attr("rowspan");
+                        var indexN=$(this).index();
 						//alert(rowspanN)
+                        if(rowspanN3!=undefined){
+                            var heightPx=height*rowspanN3+"px";
+                            $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(3)").attr("rowspan",rowspanN3).css("height",heightPx);;
+                            var rowspanC=parseInt($(this).index())+parseInt(rowspanN3);
+                            $(".layui-table-fixed .layui-table tbody tr").each(function (i, val) {
+                                if(i>indexN){
+                                    if(i<rowspanC){
+                                        $(".layui-table-fixed .layui-table tbody tr").eq(i).find("td:nth-child(3)").addClass("layui-hide")
+                                    }
+                                }
+                            });
+						}
                         if(rowspanN!=undefined){
-                            var heightPx=33*rowspanN+"px";
+                            var heightPx=height*rowspanN+"px";
                             $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(1)").attr("rowspan",rowspanN).css("height",heightPx);;
                             $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(2)").attr("rowspan",rowspanN).css("height",heightPx);;
-                            $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(3)").attr("rowspan",rowspanN).css("height",heightPx);;
+
                             $(".layui-table-fixed .layui-table tbody tr").eq($(this).index()).find("td:nth-child(4)").attr("rowspan",rowspanN).css("height",heightPx);;
                             var rowspanC=parseInt($(this).index())+parseInt(rowspanN);
-                            var indexN=$(this).index();
                             $(".layui-table-fixed .layui-table tbody tr").each(function (i, val) {
 								if(i>indexN){
 								    if(i<rowspanC){
@@ -557,6 +578,20 @@
 								mergeIndex = i;
 								mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
 							}
+						} else if (columsName[k] == 'xmmc') {
+							console.info(data[i][columsName[k]]+"-------"+(data[i][columsName[k]] === data[i - 1][columsName[k]]));
+							if (data[i][columsName[k]] === data[i - 1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
+								mark += 1;
+								tdPreArr.each(function() {//相同列的第一列增加rowspan属性
+									$(this).attr("rowspan", mark);
+								});
+								tdCurArr.each(function() {//当前行隐藏
+									$(this).css("display", "none");
+								});
+							} else {
+								mergeIndex = i;
+								mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+							}
 						} else {
 							if ((data[i][columsName[k]] === data[i - 1][columsName[k]]) && (data[i]['xmid'] === data[i - 1]['xmid'])) { //后一行的值与前一行的值做比较，相同就需要合并
 								mark += 1;
@@ -579,11 +614,11 @@
 			}
 
 			//监听排序
-			table.on('sort(processdef-table)', function(obj) {
+			table.on('sort(showTable)', function(obj) {
 				console.log(this, obj.field, obj.type)
 				//return;
 				//服务端排序
-				table.reload('processdef-table', {
+				table.reload('showTable', {
 					initSort : obj,
 					page : {
 						curr : 1
@@ -591,30 +626,27 @@
 					where : { //重新请求服务端
 						orderKey : obj.field, //排序字段
 						orderType : obj.type
-					//排序方式
 					}
+				});
+			});
+			
+			//监听行双击事件
+			table.on('rowDouble(showTable)', function(obj) {
+				var temUrl = "/whole-process/science/details?xmid=" + obj.data.xmid;
+				layer.open({
+					title : '项目进展详情',
+					skin : 'layui-layer-lan',
+					shadeClose : true,
+					type : 2,
+					fixed : false,
+					maxmin : true,
+					area : [ '70%', '90%' ],
+					content : temUrl
 				});
 			});
 
 		}
 
-		function view_pro(xmmc, projectProperty, id) {
-			layer.open({
-				title : '项目进展详情',
-				skin : 'layui-layer-lan',
-				shadeClose : false,
-				type : 2,
-				id : "cycle",
-				fixed : false,
-				//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-				maxmin : true,
-				//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-				area : [ '70%', '90%' ],
-				content : "/whole-process/science/details?xmid=" + id,
-				success : function(layero, index) {
-				}
-			});
-		}
 		/**======================================联动=====================================*/
 		var define11 = "${define11?default('')}";//单位性质
 		var define12 = "${define12?default('')}";//单位性质
@@ -827,6 +859,8 @@
 			}
 
 		}
+		
+		
 
 	</script>
 </body>

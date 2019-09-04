@@ -981,7 +981,7 @@ public class EquipmentUtils {
 	
 	
 	
-	public static boolean isHasUnitCode(String unitCode,String unitCodestr)throws Exception
+	/*public static boolean isHasUnitCode(String unitCode,String unitCodestr)throws Exception
 	{
 		
 		System.out.println("---------isHasUnitCode--="+unitCode);
@@ -1006,7 +1006,7 @@ public class EquipmentUtils {
 			}
 		}
 		return flag;
-	}
+	}*/
 	
 	
 	public static boolean isHasJHCPost(String unitCode,String unitCodestr)throws Exception

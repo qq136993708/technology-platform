@@ -25,7 +25,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.vo.BudgetItemSearchVo;
-import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.service.feign.stp.BudgetClient;
 import com.pcitc.service.out.OutProjectPlanService;
@@ -138,9 +137,7 @@ public class OutProjectPlanClient {
 	@RequestMapping(value = "/out-project-plan-provider/money/complete-rate/institute")
 	public JSONArray getPlanMoneyCompleteRateByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyCompleteRateByInstitute===========================" + map);
-		
-		boolean leaderFlag = false;
-		this.authControl(leaderFlag, map);
+		this.authControl(map);
 		
 		List temList = outProjectPlanService.getPlanMoneyCompleteRateByInstitute(map);
 
@@ -198,7 +195,10 @@ public class OutProjectPlanClient {
 		map.put("startMonth", nd + "01");
 		map.put("endMonth", nd + "12");
 		boolean zbxFlag = false;
-		this.authControl(zbxFlag, map);
+		this.authControl(map);
+		if (map.get("zbxFlag") != null && map.get("zbxFlag").toString().equals("2")) {
+			zbxFlag = true;
+		}
 		// 实际资本性金额、实际费用性金额、hanaMoney拨款金额
 		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHana(map);
 
@@ -290,18 +290,19 @@ public class OutProjectPlanClient {
 	
 	/**
 	 * 访问权限处理，集中控制
+	 * authFlag 资本性权利
 	 */
-	public void authControl(Boolean authFlag, HashMap map) {
-		String zycbm = (String)map.get("zycbm");
+	public void authControl(HashMap map) {
+		String zycbm = (String) map.get("zycbm");
 		if (zycbm != null && zycbm.contains("30130054")) {
 			map.put("leaderFlag", "2");
 		}
 		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
 			// 大领导、计划处特殊，能看所有的费用性预算
-			authFlag = true;
+			map.put("zbxFlag", "2");
 			zycbm = "30130055,30130064,30130065,30130056,30130057,30130058,30130059,30130054,30130063,30130062,30130061,30130011,30130010,30130015,3013000902,30130009,30130016,ZX,JD";
 		}
-		
+
 		if (zycbm == null) {
 			zycbm = "xxxxxxxx";
 		}
@@ -315,12 +316,12 @@ public class OutProjectPlanClient {
 		if (zycbm.contains("30130009")) {
 			zycbm = zycbm + ",30130009";
 		}
-		
+
 		Object username = map.get("username");
 		// 王丽娟特殊处理，不是大领导，也需要看30130054专业处的预算
 		if (username != null && username.toString().equals("wanglj")) {
 			zycbm = zycbm + ",30130054";
-			authFlag = true;
+			map.put("zbxFlag", "2");
 		}
 		map.put("zycbm", zycbm);
 	}
@@ -333,8 +334,14 @@ public class OutProjectPlanClient {
 		map.put("startMonth", nd + "01");
 		map.put("endMonth", nd + "12");
 		boolean leaderFlag = false;
-		System.out.println("leaderFlag========"+leaderFlag);
-		this.authControl(leaderFlag, map);
+		boolean zbxFlag = false;
+		this.authControl(map);
+		if (map.get("leaderFlag") != null && map.get("leaderFlag").toString().equals("2")) {
+			leaderFlag = true;
+		}
+		if (map.get("zbxFlag") != null && map.get("zbxFlag").toString().equals("2")) {
+			zbxFlag = true;
+		}
 		System.out.println("authControlleaderFlag========"+leaderFlag);
 		List temList = outProjectPlanService.getPlanCompleteRateByPlanTypeForHanaMonth(map);
 
@@ -363,7 +370,7 @@ public class OutProjectPlanClient {
 		}
 		// 资本性预算金额(只有领导和计划处计算）、专项机动金额
 		List<Map<String, Object>> zbxMoneyList = new ArrayList<Map<String, Object>>();
-		if (leaderFlag) {
+		if (zbxFlag) {
 			zbxMoneyList = outProjectPlanService.getOutTemMoneyTotalInfo(map);
 			for (int j = 0; j < zbxMoneyList.size(); j++) {
 				Map<String, Object> zbxMap = zbxMoneyList.get(j);
@@ -497,7 +504,6 @@ public class OutProjectPlanClient {
 		// 获取费用性预算
 		BudgetItemSearchVo vo = new BudgetItemSearchVo();
 		vo.setNd(map.get("nd"));
-		boolean zbxFlag = false;
 		// 获取实际的科研投入(费用性和资本性)
 		List actMoneyList = null;
 
@@ -505,9 +511,11 @@ public class OutProjectPlanClient {
 		List ysMoneyList = null;
 
 		List<Map<String, Object>> retList = new ArrayList<Map<String, Object>>();
-		System.out.println("1authControl----------"+zbxFlag);
-		this.authControl(zbxFlag, map);
-		System.out.println("2authControl----------"+zbxFlag);
+		boolean zbxFlag = false;
+		this.authControl(map);
+		if (map.get("zbxFlag") != null && map.get("zbxFlag").toString().equals("2")) {
+			zbxFlag = true;
+		}
 		String zycbm = map.get("zycbm");
 		String zylbbm = map.get("zylbbm");
 		
@@ -637,6 +645,18 @@ public class OutProjectPlanClient {
 		vo = budgetClient.selectBudgetInfoList(vo);
 		List<Map<String, Object>> budMoneyList = vo.getBudgetByAllUnit();
 		
+		// 移除无用的8个研究院（已经有合计的直属研究院了）和股份公司（已经有各个二级的分项了）
+		for (int i = 0; i < budMoneyList.size(); i++) {
+			Map<String, Object> bm = budMoneyList.get(i);
+			Object bin = bm.get("budgetItemName");
+			if (bin != null && (bin.toString().contains("勘探院") || bin.toString().contains("工程院") || bin.toString().contains("物探院") || bin.toString().contains("石科院") || bin.toString().contains("大连院") || bin.toString().contains("北化院") || bin.toString().contains("上海院") || bin.toString().contains("安工院") || bin.toString().contains("股份公司"))) {
+				budMoneyList.remove(i);
+				i--;
+			}
+		}
+		
+		System.out.println("0getPlanMoneyCompleteRateByCompanyType====="+JSON.toJSONString(budMoneyList));
+		
 		String username = map.get("username");
 		// 特殊处理，不是大领导，也要看30130054专业处的预算
 		if (username != null && username.equals("wanglj")) {
@@ -723,6 +743,7 @@ public class OutProjectPlanClient {
 		}
 
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(retList));
+		System.out.println("getPlanMoneyCompleteRateByCompanyType====="+json);
 		return json;
 	}
 
@@ -773,8 +794,7 @@ public class OutProjectPlanClient {
 	public JSONArray getPlanMoneyByDepartment(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanMoneyByDepartment===========================" + map);
 		// 计划处，能看所有的费用性预算
-		boolean leaderFlag = false;
-		this.authControl(leaderFlag, map);
+		this.authControl(map);
 
 		List temList = outProjectPlanService.getPlanMoneyByDepartment(map);
 		if (temList == null || temList.size() == 0) {

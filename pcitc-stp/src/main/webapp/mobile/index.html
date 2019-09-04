@@ -17,19 +17,22 @@
 	<div class="main-card banner">
 	    <div class="layui-carousel" id="test1" lay-filter="test1">
 			<div carousel-item="">
-				<#list list as t>
-					<div class="item" onclick="readNotice('${t.noticeId}')">
-						<p>通知</p>
-						<span class="line"></span>
-						<span>${t.noticeTitle}</span>
-					</div>
-				</#list>	
-				<!-- 
+			   <#if (list?size>0) >
+					<#list list as t>
+						<div class="item" onclick="readNotice('${t.noticeId}')">
+							<p>通知</p>
+							<span class="line"></span>
+							<span>${t.noticeTitle}</span>
+						</div>
+					</#list>
+			   </#if>	
+			   <#if (list?size<=0) >	
 				<div class="item">
 					<p>科研项目综合分析</p>
 					<span class="line"></span>
-					<span>Comprehensive Analysis Of Scientific Research Projects</span>
-				</div> -->
+					<span>Comprehensive Analysis Of Scientific Research</span>
+				</div>
+				</#if>	
 			</div>
 		</div> 
     </div>
@@ -450,8 +453,8 @@ var companyCode="${companyCode?default('')}";
 			},
 			timeout : 6000, //超时时间设置，单位毫秒
 			error : function(XMLHttpRequest, status) {
-				$("#moneyTotal").html("<span style='font-size:14px;'>--亿</span>");
-				$("#moneyCurrent").html("<span style='font-size:14px;'>--亿</span>");
+				$("#moneyTotal").html("<span '>--亿</span>");
+				$("#moneyCurrent").html("<span '>--亿</span>");
 			},
 			success : function(data) {
 				console.log("预算\n"+JSON.stringify(data));
@@ -481,8 +484,8 @@ var companyCode="${companyCode?default('')}";
 				var total_money = parseFloat(total_money)/ 10000;
 				var tt2 = parseFloat(tt2) / 10000;
 				
-				$("#moneyTotal").html(total_money.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
-				$("#moneyCurrent").html(tt2.toFixed(2) + "<span style='font-size:14px;'>亿</span>");
+				$("#moneyTotal").html(total_money.toFixed(2) + "<span '>亿</span>");
+				$("#moneyCurrent").html(tt2.toFixed(2) + "<span'>亿</span>");
 			}
 		});
 	}

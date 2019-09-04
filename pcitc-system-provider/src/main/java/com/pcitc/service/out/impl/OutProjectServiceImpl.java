@@ -1063,7 +1063,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 				temMap.put("ktmc", temMap.get("xmmc"));
 				temMap.put("xmmc", temMap.get("sjxmmc"));
 			} else {
-				temMap.put("ktmc", "/");
+				temMap.put("ktmc", temMap.get("xmmc"));
+				temMap.put("xmmc", "独立课题");
 			}
 		}
 		if (sb != null && sb.length() > 0) {

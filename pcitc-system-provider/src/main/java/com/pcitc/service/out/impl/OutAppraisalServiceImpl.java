@@ -138,7 +138,7 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 
         // 数据控制
         if (param.getParam().get("leaderFlag") != null && !StringUtils.isBlank(param.getParam().get("leaderFlag") + "")) {
-            hashmap.put("leaderFlag", param.getParam().get("leaderFlag"));
+            hashmap.put("leaderFlag", param.getParam().get("leaderFlag").toString());
         }
         System.out.println("cgjszy======" + param.getParam().get("cgjszy"));
         System.out.println("cgjszy======" + hashmap.get("cgjszy"));
