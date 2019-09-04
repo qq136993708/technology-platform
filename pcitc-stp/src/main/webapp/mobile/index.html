@@ -17,19 +17,22 @@
 	<div class="main-card banner">
 	    <div class="layui-carousel" id="test1" lay-filter="test1">
 			<div carousel-item="">
-				<#list list as t>
-					<div class="item" onclick="readNotice('${t.noticeId}')">
-						<p>通知</p>
-						<span class="line"></span>
-						<span>${t.noticeTitle}</span>
-					</div>
-				</#list>	
-				<!-- 
+			   <#if (list?size>0) >
+					<#list list as t>
+						<div class="item" onclick="readNotice('${t.noticeId}')">
+							<p>通知</p>
+							<span class="line"></span>
+							<span>${t.noticeTitle}</span>
+						</div>
+					</#list>
+			   </#if>	
+			   <#if (list?size<=0) >	
 				<div class="item">
 					<p>科研项目综合分析</p>
 					<span class="line"></span>
-					<span>Comprehensive Analysis Of Scientific Research Projects</span>
-				</div> -->
+					<span>Comprehensive Analysis Of Scientific Research</span>
+				</div>
+				</#if>	
 			</div>
 		</div> 
     </div>
