@@ -84,13 +84,15 @@ public class PaymentPlanController extends BaseController
 	@ResponseBody
 	public Object toBudgetMainTotal(@ModelAttribute("out")OutProjectInfo out,HttpServletRequest request) throws IOException 
 	{
-		
-		/*out.setNd("2018");
-		out.setYsnd("2019");*/
 		out.setDefine11("C资产公司");
 		System.out.println(JSON.toJSONString(out));
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_BYCONDITION, HttpMethod.POST, new HttpEntity<OutProjectInfo>(out, this.httpHeaders), List.class);
-		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		/*JSONArray array = JSONArray.parseArray(JSON.toJSONString(responseEntity.getBody()));
+		for(int i = 0;i<array.size();i++) 
+		{
+			JSONObject obj = (JSONObject)array.get(i);
+		}
+		System.out.println(array.toJSONString());*/
 		return JSON.toJSONString(responseEntity.getBody());
 	}
 	
