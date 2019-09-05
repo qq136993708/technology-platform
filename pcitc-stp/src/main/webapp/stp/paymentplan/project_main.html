@@ -174,11 +174,30 @@
 								<input type="text" name="unitName" id="unitName" title="单位名称" placeholder="请输入单位名称" autocomplete="off" class="layui-input">
 							</div>
 						</div>
-
-
-
 						<div class="layui-inline">
-							<label class="layui-form-label">报销批次：</label>
+							<label class="layui-form-label">拨付状态：</label>
+							<div class="layui-input-inline">
+								<select name="paymentStatus" id="paymentStatus">
+									<option value="">--请选择--</option> 
+									<option value="0">未拨付</option>
+									<option value="1">已拨付</option>
+									<option value="2">部分拨付</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">拨付批次：</label>
+							<div class="layui-input-inline">
+								<select name="paymentPlanNo" id="paymentPlanNo">
+									<option value="">--请选择--</option> 
+									<#list paymentplans as vo>
+										<option value="${vo.paymentPlanNo}">${vo.paymentPlanNo}</option>
+									</#list>
+								</select>
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">报销状态：</label>
 							<div class="layui-input-inline">
 								<select name="paymentPlanNo" id="paymentPlanNo">
 									<option value="">--请选择--</option> 

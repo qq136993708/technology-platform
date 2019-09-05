@@ -26,7 +26,13 @@
 .layui-laydate-hint {
 	display: none;
 }
-
+@media screen and (max-width: 1180px) {
+    .layui-form-label{width: 62px;
+    margin-left: 5px;}
+    .layui-form-item .layui-inline{margin-right:0;}
+    .layui-form-item .layui-input-inline{
+    width: 116px;}
+}
 </style>
 </head>
 <body>
@@ -465,7 +471,7 @@
 
 			table.init('showTable', {
 				url : '/one_level_main/project_fx_table_year_data?v_date=' + v_date,
-				height : commonDislodgeTable() - 150,
+				height : commonDislodgeTable() - 110,
 				method : "POST",
 				limit : 30,
 				page : {
