@@ -96,7 +96,7 @@ public class HomeDeviceMsqlController extends BaseController{
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getProjectByCountBar jSONArray-> "+jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getProjectByCountBar jSONArray-> "+jSONArray.toString());
 
 				List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "zylb");
@@ -125,7 +125,7 @@ public class HomeDeviceMsqlController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>getDeviceByCountBar "+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>getDeviceByCountBar "+resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -149,7 +149,7 @@ public class HomeDeviceMsqlController extends BaseController{
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getProjectByCountPie jSONArray-> "+jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getProjectByCountPie jSONArray-> "+jSONArray.toString());
 				List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -187,7 +187,7 @@ public class HomeDeviceMsqlController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getDeviceByCountPie "+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getDeviceByCountPie "+resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -211,7 +211,7 @@ public class HomeDeviceMsqlController extends BaseController{
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode==200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>getDeviceByCountCricle jSONArray"+jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>>getDeviceByCountCricle jSONArray"+jSONArray.toString());
 			List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 			List<String> lista = HanaUtil.getduplicatexAxisByList(list, "project_scope");
 			List<TreeNode2> chartCircleList = HanaUtil.getChildChartCircleuNITForproject02type(lista, list);
@@ -224,7 +224,7 @@ public class HomeDeviceMsqlController extends BaseController{
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>getDeviceByCountCricle "+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getDeviceByCountCricle "+resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -257,7 +257,7 @@ public class HomeDeviceMsqlController extends BaseController{
 	 * } else { result.setSuccess(false); result.setMessage("参数为空"); }
 	 * JSONObject resultObj =
 	 * JSONObject.parseObject(JSONObject.toJSONString(result));
-	 * System.out.println(">>>>>>>>>>>>>>>getDeviceByCountCricle " +
+	 * //System.out.println(">>>>>>>>>>>>>>>getDeviceByCountCricle " +
 	 * resultObj.toString()); return resultObj.toString(); }
 	 */
 
@@ -283,7 +283,7 @@ public class HomeDeviceMsqlController extends BaseController{
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getDeviceByUnitBar jSONArray-> "+jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getDeviceByUnitBar jSONArray-> "+jSONArray.toString());
 
 				List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "type_flag");
@@ -311,7 +311,7 @@ public class HomeDeviceMsqlController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>getDeviceByUnitBar "+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>getDeviceByUnitBar "+resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -335,7 +335,7 @@ public class HomeDeviceMsqlController extends BaseController{
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getDeviceByUnitPie jSONArray-> "+jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getDeviceByUnitPie jSONArray-> "+jSONArray.toString());
 				List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -369,7 +369,7 @@ public class HomeDeviceMsqlController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getDeviceByUnitPie "+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getDeviceByUnitPie "+resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -394,7 +394,7 @@ public class HomeDeviceMsqlController extends BaseController{
 		if (statusCode==200) {
 			JSONArray jSONArray = responseEntity.getBody();
 
-			System.out.println(">>>>>>>>>>>>>>>getDeviceByUnitCricle jSONArray "+jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>>getDeviceByUnitCricle jSONArray "+jSONArray.toString());
 
 			List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 			List<String> lista = HanaUtil.getduplicatexAxisByList(list, "project_scope");
@@ -409,7 +409,7 @@ public class HomeDeviceMsqlController extends BaseController{
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>getDeviceByUnitCricle "+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getDeviceByUnitCricle "+resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -434,7 +434,7 @@ public class HomeDeviceMsqlController extends BaseController{
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getDeviceByDistributeBar jSONArray-> "+jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getDeviceByDistributeBar jSONArray-> "+jSONArray.toString());
 
 				List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 
@@ -465,7 +465,7 @@ public class HomeDeviceMsqlController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>getDeviceByDistributeBar "+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>getDeviceByDistributeBar "+resultObj.toString());
 		return resultObj.toString();
 	}
 

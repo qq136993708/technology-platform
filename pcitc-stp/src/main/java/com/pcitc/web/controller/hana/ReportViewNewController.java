@@ -107,7 +107,7 @@ public class ReportViewNewController extends BaseController {
             String strStoreId = request.getParameter("storeId");
             request.setAttribute("storeId",strStoreId==null?"":strStoreId);
             request.setAttribute("strUrl",config.getBak2());
-            System.out.println(config.getBak2());
+            //System.out.println(config.getBak2());
 
             //url param
             String jsonparam = request.getParameter("jsonparam");
@@ -211,7 +211,7 @@ public class ReportViewNewController extends BaseController {
             String strStoreId = request.getParameter("storeId");
             request.setAttribute("storeId",strStoreId==null?"":strStoreId);
             request.setAttribute("strUrl",config.getBak2());
-            System.out.println(config.getBak2());
+            //System.out.println(config.getBak2());
 
             //url param
             String jsonparam = request.getParameter("jsonparam");
@@ -405,7 +405,7 @@ public class ReportViewNewController extends BaseController {
             ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(LIST_REPORT_STP, HttpMethod.POST, entity, LayuiTableData.class);
             data = responseEntity.getBody();
             long end_getReportList = System.currentTimeMillis();
-            System.out.println("getTableReportStp用时: " + (end_getReportList - start_getReportList));
+            //System.out.println("getTableReportStp用时: " + (end_getReportList - start_getReportList));
         } catch (Exception e) {
             e.printStackTrace();
         }

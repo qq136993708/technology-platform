@@ -87,7 +87,7 @@ public class FinanceController extends BaseController {
 		    String month=CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		    List<String> list=HanaUtil.getDayListOfMonth(month);
 		    JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
-		    System.out.println(">>>>>json="+json);
+		    //System.out.println(">>>>>json="+json);
 		    request.setAttribute("days", json.toJSONString());
 		    String day= DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY_DD_ZN);
 		    request.setAttribute("day", day);
@@ -111,7 +111,7 @@ public class FinanceController extends BaseController {
 				if (statusCode == 200) 
 				{
 					JSONArray jSONArray = responseEntity.getBody();
-					System.out.println(">>>>>>>>>>>>>>>getDayCashFlowReport01 jSONArray" + jSONArray.toString());
+					//System.out.println(">>>>>>>>>>>>>>>getDayCashFlowReport01 jSONArray" + jSONArray.toString());
 					List<DayCashFlow> list = JSONObject.parseArray(jSONArray.toJSONString(), DayCashFlow.class);
 					List<String> xAxisDataList = new ArrayList<String>();
 					List<Object> seriesDataList = new ArrayList<Object>();
@@ -137,7 +137,7 @@ public class FinanceController extends BaseController {
 				
 			
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-			System.out.println(">>>>>>>>>>>>>>>getDayCashFlowReport01 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>getDayCashFlowReport01 " + resultObj.toString());
 			return resultObj.toString();
 		}
 	  
@@ -149,7 +149,7 @@ public class FinanceController extends BaseController {
 
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY_DD));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-			System.out.println(">>>>>>>>>>getDayCashFlowReport2>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+			//System.out.println(">>>>>>>>>>getDayCashFlowReport2>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
@@ -163,7 +163,7 @@ public class FinanceController extends BaseController {
 				layuiTableData = responseEntity.getBody();
 			}
 			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-			System.out.println(">>>>>>>>>>>>>getDayCashFlowReport2:" + result.toString());
+			//System.out.println(">>>>>>>>>>>>>getDayCashFlowReport2:" + result.toString());
 			return result.toString();
 		}
 	
@@ -186,7 +186,7 @@ public class FinanceController extends BaseController {
 				layuiTableData = responseEntity.getBody();
 			}
 			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-			System.out.println(">>>>>>>>>>>>>xjrllfx_data:" + result.toString());
+			//System.out.println(">>>>>>>>>>>>>xjrllfx_data:" + result.toString());
 			return result.toString();
 		}
 	  
@@ -199,7 +199,7 @@ public class FinanceController extends BaseController {
 			Result result = new Result();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-			// System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+			// //System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
@@ -212,7 +212,7 @@ public class FinanceController extends BaseController {
 				if (statusCode == 200) {
 					JSONArray jSONArray = responseEntity.getBody();
 					List<TotalCostProjectPay01> list = JSONObject.parseArray(jSONArray.toJSONString(), TotalCostProjectPay01.class);
-					System.out.println(">>>>>>>>>>>>>>>>>>>日现金流  statusCode = " + statusCode + " jSONArray=" + jSONArray.toString());
+					//System.out.println(">>>>>>>>>>>>>>>>>>>日现金流  statusCode = " + statusCode + " jSONArray=" + jSONArray.toString());
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> legendDataList = new ArrayList<String>();
 					legendDataList.add("实际支出");
@@ -232,7 +232,7 @@ public class FinanceController extends BaseController {
 				result.setMessage("参数为空");
 			}
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-			System.out.println(">>>>>>>>>>>>>>>>>>日现金流分析 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>>日现金流分析 " + resultObj.toString());
 			return resultObj.toString();
 
 		}
@@ -452,7 +452,7 @@ public class FinanceController extends BaseController {
 		public String yfftj_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 		{
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
-			System.out.println(">>>>>>>>>>>>>>>>>yfftj_data 参数 "+resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>yfftj_data 参数 "+resultObj.toString());
 			
 			LayuiTableData layuiTableData = new LayuiTableData();
 			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -463,7 +463,7 @@ public class FinanceController extends BaseController {
 				layuiTableData = responseEntity.getBody();
 			}
 			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-			System.out.println(">>>>>>>>>>>>>yfftj_data:" + result.toString());
+			//System.out.println(">>>>>>>>>>>>>yfftj_data:" + result.toString());
 			return result.toString();
 		}
 		
@@ -481,7 +481,7 @@ public class FinanceController extends BaseController {
 	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 	   		paramMap.put("month", month);
-	   		System.out.println(">yfftj_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month);
+	   		//System.out.println(">yfftj_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month);
 	   		
 	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(yfftj_data_excel, HttpMethod.POST, httpEntity, JSONArray.class);
@@ -549,7 +549,7 @@ public class FinanceController extends BaseController {
 	   		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 	   		paramMap.put("month", month);
-	   		System.out.println(">jsgztj_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month);
+	   		//System.out.println(">jsgztj_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month);
 	   		
 	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(jsgztj_data_excel, HttpMethod.POST, httpEntity, JSONArray.class);
@@ -626,7 +626,7 @@ public class FinanceController extends BaseController {
 		  public String yfftj_detail_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 			{
 				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
-				System.out.println(">>>>>>>>>>>>>>>>>yfftj_detail_data 参数 "+resultObj.toString());
+				//System.out.println(">>>>>>>>>>>>>>>>>yfftj_detail_data 参数 "+resultObj.toString());
 				
 				LayuiTableData layuiTableData = new LayuiTableData();
 				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -637,7 +637,7 @@ public class FinanceController extends BaseController {
 					layuiTableData = responseEntity.getBody();
 				}
 				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-				System.out.println(">>>>>>>>>>>>>yfftj_detail_data 返回结果:" + result.toString());
+				//System.out.println(">>>>>>>>>>>>>yfftj_detail_data 返回结果:" + result.toString());
 				return result.toString();
 			}
 		  
@@ -664,7 +664,7 @@ public class FinanceController extends BaseController {
 			public String jsgztj_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 			{
 				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
-				System.out.println(">>>>>>>>>>>>>>>>>jsgztj_data 参数 "+resultObj.toString());
+				//System.out.println(">>>>>>>>>>>>>>>>>jsgztj_data 参数 "+resultObj.toString());
 				
 				LayuiTableData layuiTableData = new LayuiTableData();
 				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -675,7 +675,7 @@ public class FinanceController extends BaseController {
 					layuiTableData = responseEntity.getBody();
 				}
 				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-				System.out.println(">>>>>>>>>>>>>jsgztj_data:" + result.toString());
+				//System.out.println(">>>>>>>>>>>>>jsgztj_data:" + result.toString());
 				return result.toString();
 			}
 			
@@ -705,7 +705,7 @@ public class FinanceController extends BaseController {
 			  public String jsgztj_detail_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 				{
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
-					System.out.println(">>>>>>>>>>>>>>>>>jsgztj_detail_data 参数 "+resultObj.toString());
+					//System.out.println(">>>>>>>>>>>>>>>>>jsgztj_detail_data 参数 "+resultObj.toString());
 					
 					LayuiTableData layuiTableData = new LayuiTableData();
 					HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -716,7 +716,7 @@ public class FinanceController extends BaseController {
 						layuiTableData = responseEntity.getBody();
 					}
 					JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-					System.out.println(">>>>>>>>>>>>>jsgztj_detail_data 返回结果:" + result.toString());
+					//System.out.println(">>>>>>>>>>>>>jsgztj_detail_data 返回结果:" + result.toString());
 					return result.toString();
 				}
 			  

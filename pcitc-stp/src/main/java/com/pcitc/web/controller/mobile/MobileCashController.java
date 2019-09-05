@@ -53,7 +53,7 @@ public class MobileCashController extends BaseController{
 				 array = responseEntity.getBody();
 				//array= JSONArray.parseArray(JSON.toJSONString(list));
 				
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>get_Mobile_Month_Cash_Flow result = " + array.toString());
+				//System.out.println(">>>>>>>>>>>>>>>>>>>>>get_Mobile_Month_Cash_Flow result = " + array.toString());
 			}
 			
 			return array.toString();
@@ -89,7 +89,7 @@ public class MobileCashController extends BaseController{
 			JSONArray array=new JSONArray();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
@@ -107,7 +107,7 @@ public class MobileCashController extends BaseController{
 			    	 public int compare(ScientificCashFlow01 u1, ScientificCashFlow01 u2) 
 					  {
 							int diff = Integer.valueOf(u1.getG0CWNY()).intValue()-Integer.valueOf(u2.getG0CWNY()).intValue() ;
-							System.out.println(">>>>>>>>>>>>>>>>>>>>  getG0CWNY = " + u1.getG0CWNY() );
+							//System.out.println(">>>>>>>>>>>>>>>>>>>>  getG0CWNY = " + u1.getG0CWNY() );
 							if (diff > 0) 
 							{
 								return -1;

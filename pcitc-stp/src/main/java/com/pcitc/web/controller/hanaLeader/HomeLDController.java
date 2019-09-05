@@ -119,7 +119,7 @@ public class HomeLDController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>>>年度预算 经费支出" + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>年度预算 经费支出" + resultObj.toString());
 		return resultObj.toString();
 
 	}
@@ -158,7 +158,7 @@ public class HomeLDController extends BaseController{
 				layuiTableData = responseEntity.getBody();
 			}
 			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-			System.out.println(">>>>>>>>>>>>>getZhuanziTableList:" + result.toString());
+			//System.out.println(">>>>>>>>>>>>>getZhuanziTableList:" + result.toString());
 			return result.toString();
 		}
 	  
@@ -183,7 +183,7 @@ public class HomeLDController extends BaseController{
 				int statusCode = responseEntity.getStatusCodeValue();
 				if (statusCode == 200) {
 					JSONArray jSONArray = responseEntity.getBody();
-					System.out.println(">>>>>>>>>>>>>>>>>GET_getDzzk " + jSONArray.toString());
+					//System.out.println(">>>>>>>>>>>>>>>>>GET_getDzzk " + jSONArray.toString());
 					List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
 					if(list!=null && list.size()>0)
 					{
@@ -197,7 +197,7 @@ public class HomeLDController extends BaseController{
 				result.setMessage("参数为空");
 			}
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-			System.out.println(">>>>>>>>>>>>>>>>>y " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>y " + resultObj.toString());
 			return resultObj.toString();
 
 		}

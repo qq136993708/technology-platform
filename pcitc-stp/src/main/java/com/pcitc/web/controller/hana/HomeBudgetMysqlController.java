@@ -99,7 +99,7 @@ public class HomeBudgetMysqlController extends BaseController{
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getBudgetByCountBar jSONArray-> "+jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getBudgetByCountBar jSONArray-> "+jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define1");
 				barLine.setxAxisDataList(xAxisDataList);
@@ -126,7 +126,7 @@ public class HomeBudgetMysqlController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>getBudgetByCountBar 结果"+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>getBudgetByCountBar 结果"+resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -150,7 +150,7 @@ public class HomeBudgetMysqlController extends BaseController{
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getBudgetByCountPie jSONArray-> "+jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getBudgetByCountPie jSONArray-> "+jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -176,7 +176,7 @@ public class HomeBudgetMysqlController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getBudgetByCountPie "+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getBudgetByCountPie "+resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -200,7 +200,7 @@ public class HomeBudgetMysqlController extends BaseController{
 		if (statusCode==200) {
 			JSONArray jSONArray = responseEntity.getBody();
 
-			System.out.println(">>>>>>>>>>>>getBudgetByCountCricle jSONArray>>> "+jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>getBudgetByCountCricle jSONArray>>> "+jSONArray.toString());
 			List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 			List<String> lista = HanaUtil.getduplicatexAxisByList(list, "project_scope");
 			List<TreeNode2> chartCircleList = HanaUtil.getChildChartCircleForBudgetCountMysql(lista, list);
@@ -212,7 +212,7 @@ public class HomeBudgetMysqlController extends BaseController{
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>getBudgetByCountCricle "+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getBudgetByCountCricle "+resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -238,7 +238,7 @@ public class HomeBudgetMysqlController extends BaseController{
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getBudgetByUnitBar jSONArray-> "+jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getBudgetByUnitBar jSONArray-> "+jSONArray.toString());
 
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "type_flag");
@@ -266,7 +266,7 @@ public class HomeBudgetMysqlController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>getBudgetByUnitBar "+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>getBudgetByUnitBar "+resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -291,7 +291,7 @@ public class HomeBudgetMysqlController extends BaseController{
 		if (statusCode==200) {
 			JSONArray jSONArray = responseEntity.getBody();
 
-			System.out.println(">>>>>>>>>>>>>>>getBudgetByUnitCricle jSONArray "+jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>>getBudgetByUnitCricle jSONArray "+jSONArray.toString());
 
 			List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 			List<String> lista = HanaUtil.getduplicatexAxisByList(list, "define1");
@@ -306,7 +306,7 @@ public class HomeBudgetMysqlController extends BaseController{
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>getBudgetByUnitCricle "+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getBudgetByUnitCricle "+resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -334,7 +334,7 @@ public class HomeBudgetMysqlController extends BaseController{
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode==200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getBudgetByDistributeBar jSONArray-> "+jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getBudgetByDistributeBar jSONArray-> "+jSONArray.toString());
 
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
@@ -368,7 +368,7 @@ public class HomeBudgetMysqlController extends BaseController{
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>getBudgetByDistributeBar "+resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>getBudgetByDistributeBar "+resultObj.toString());
 		return resultObj.toString();
 	}
 

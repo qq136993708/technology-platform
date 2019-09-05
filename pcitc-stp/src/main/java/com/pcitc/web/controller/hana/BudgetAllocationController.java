@@ -213,7 +213,7 @@ public class BudgetAllocationController extends BaseController {
 				
 			}
 			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-			System.out.println(">>>>>>>>>>>>>jtgszbkjjfys_data:" + result.toString());
+			//System.out.println(">>>>>>>>>>>>>jtgszbkjjfys_data:" + result.toString());
 			return result.toString();
 		}
 	  
@@ -268,7 +268,7 @@ public class BudgetAllocationController extends BaseController {
 			paramsMap.put("companyCode", companyCode);
 			
 			String result = getTableDataNotPagin(paramsMap,gfgszbkjjfysjyg_data);
-			System.out.println(">>>>>>>>>>>>>股份公司总部科技经费预算gfgszbkjjfysjyg_data:" + result);
+			//System.out.println(">>>>>>>>>>>>>股份公司总部科技经费预算gfgszbkjjfysjyg_data:" + result);
 			return result;
 			/*PageResult pageResult = new PageResult();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
@@ -293,7 +293,7 @@ public class BudgetAllocationController extends BaseController {
 	
 			}
 			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-			System.out.println(">>>>>>>>>>>>>股份公司总部科技经费预算gfgszbkjjfysjyg_data:" + result.toString());
+			//System.out.println(">>>>>>>>>>>>>股份公司总部科技经费预算gfgszbkjjfysjyg_data:" + result.toString());
 			return result.toString();*/
 	  }
 
@@ -337,7 +337,7 @@ public class BudgetAllocationController extends BaseController {
 				
 			}
 			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-			System.out.println(">>>>>>>>>>>>>处部门科技经费预算总表 gfgszbkjjfysjyg_data:" + result.toString());
+			//System.out.println(">>>>>>>>>>>>>处部门科技经费预算总表 gfgszbkjjfysjyg_data:" + result.toString());
 			return result.toString();
 		}
 	  
@@ -362,7 +362,7 @@ public class BudgetAllocationController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		
 		String result = getTableDataNotPagin(paramsMap,jtjfysmxb_data);
-		System.out.println(">>>>>>>>>>>>>集团经费预算明细表jtjfysmxb_data:" + result);
+		//System.out.println(">>>>>>>>>>>>>集团经费预算明细表jtjfysmxb_data:" + result);
 		return result;
 	  }
 	  //资产经费预算明细表
@@ -384,7 +384,7 @@ public class BudgetAllocationController extends BaseController {
 		paramsMap.put("companyCode", companyCode);
 		
 		String result = getTableDataNotPagin(paramsMap,zcjfysmxb_data);
-		System.out.println(">>>>>>>>>>>>>资产经费预算明细表zcjfysmxb_data:" + result);
+		//System.out.println(">>>>>>>>>>>>>资产经费预算明细表zcjfysmxb_data:" + result);
 		return result;
 	  }
 	  //股份（直属院）经费预算明细表
@@ -407,7 +407,7 @@ public class BudgetAllocationController extends BaseController {
 			paramsMap.put("companyCode", companyCode);
 			
 			String result = getTableDataNotPagin(paramsMap,gfzsyjfysmxb_data);
-			System.out.println(">>>>>>>>>>>>>股份（直属院）经费预算明细表gfzsyjfysmxb_data:" + result);
+			//System.out.println(">>>>>>>>>>>>>股份（直属院）经费预算明细表gfzsyjfysmxb_data:" + result);
 			return result;
 	  }
 	  //股份（系统外及集团）经费预算明细表
@@ -430,7 +430,7 @@ public class BudgetAllocationController extends BaseController {
 			paramsMap.put("companyCode", companyCode);
 			
 			String result = getTableDataNotPagin(paramsMap,gfxtwjjtjfysmxb_data);
-			System.out.println(">>>>>>>>>>>>>股份（直属院）经费预算明细表gfzsyjfysmxb_data:" + result);
+			//System.out.println(">>>>>>>>>>>>>股份（直属院）经费预算明细表gfzsyjfysmxb_data:" + result);
 			return result;
 	  }
 	  //股份（分子公司）预算
@@ -453,7 +453,7 @@ public class BudgetAllocationController extends BaseController {
 			paramsMap.put("companyCode", companyCode);
 			
 			String result = getTableDataNotPagin(paramsMap,gffzgsys_data);
-			System.out.println(">>>>>>>>>>>>>股份（分子公司）预算gffzgsys_data:" + result);
+			//System.out.println(">>>>>>>>>>>>>股份（分子公司）预算gffzgsys_data:" + result);
 			return result;
 	  }
 	  //股份炼油事业部、化工事业部B2、C类科技经费预算表
@@ -476,7 +476,7 @@ public class BudgetAllocationController extends BaseController {
 			paramsMap.put("companyCode", companyCode);
 			
 			String result = getTableDataNotPagin(paramsMap,gflysybhgsybB2Clkjjfysb_data);
-			System.out.println(">>>>>>>>>>>>>股份炼油事业部、化工事业部B2、C类科技经费预算表gflysybhgsybB2Clkjjfysb_data:" + result);
+			//System.out.println(">>>>>>>>>>>>>股份炼油事业部、化工事业部B2、C类科技经费预算表gflysybhgsybB2Clkjjfysb_data:" + result);
 			return result;
 	  }
 	  //股份公司科技专项经费预算表
@@ -498,7 +498,7 @@ public class BudgetAllocationController extends BaseController {
 			paramsMap.put("companyCode", companyCode);
 			
 			String result = getTableDataNotPagin(paramsMap,gfgskjzxjfysb_data);
-			System.out.println(">>>>>>>>>>>>>股份公司科技专项经费预算表gfgskjzxjfysb_data:" + result);
+			//System.out.println(">>>>>>>>>>>>>股份公司科技专项经费预算表gfgskjzxjfysb_data:" + result);
 			return result;
 	  }
 	  //获取二维表格数据（不分页）
@@ -522,7 +522,7 @@ public class BudgetAllocationController extends BaseController {
 				
 			}
 			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-			System.out.println("load data>>>>>>>>>>>>>:" + result.toString());
+			//System.out.println("load data>>>>>>>>>>>>>:" + result.toString());
 			return result.toString();
 	  }
 }

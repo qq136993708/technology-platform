@@ -114,7 +114,7 @@ public class MoreDimensionController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>zlsbqkmxfxb_data:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>zlsbqkmxfxb_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -179,7 +179,7 @@ public class MoreDimensionController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>patent_trend_analysis jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				// List<String> xAxisDataList =
@@ -195,7 +195,7 @@ public class MoreDimensionController extends BaseController {
 				know.setQnCount(list.get(0).getQnCount() + list.get(1).getQnCount());
 				know.setQiannCount(list.get(0).getQiannCount() + list.get(1).getQiannCount());
 				list.add(0, know);
-				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis jSONArray-> " + jSONArray.toJSONString(list));
+				//System.out.println(">>>>>>>>>>>>>>patent_trend_analysis jSONArray-> " + jSONArray.toJSONString(list));
 
 				List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrentYear(), 3);
 				List<String> legendDataList = yearList;
@@ -221,7 +221,7 @@ public class MoreDimensionController extends BaseController {
 						dt.add(list.get(1).getQiannCount());
 						dt.add(list.get(2).getQiannCount());
 					} else {
-						System.out.println("not found.....");
+						//System.out.println("not found.....");
 					}
 					ChartBarLineSeries s1 = new ChartBarLineSeries();
 					s1.setName(str);
@@ -239,7 +239,7 @@ public class MoreDimensionController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>patent_trend_analysis 结果" + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>patent_trend_analysis 结果" + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -270,7 +270,7 @@ public class MoreDimensionController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis_03 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>patent_trend_analysis_03 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -294,7 +294,7 @@ public class MoreDimensionController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>patent_trend_analysis_02_pie " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>patent_trend_analysis_02_pie " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -313,7 +313,7 @@ public class MoreDimensionController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis_institute jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>patent_trend_analysis_institute jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -336,7 +336,7 @@ public class MoreDimensionController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>patent_trend_analysis_institute " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>patent_trend_analysis_institute " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -380,7 +380,7 @@ public class MoreDimensionController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_01 jSONArray-> " + jSONArray.toString());
 				List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -434,7 +434,7 @@ public class MoreDimensionController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_01 type= " + type + " : " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_01 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -462,7 +462,7 @@ public class MoreDimensionController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_02 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_02 jSONArray-> " + jSONArray.toString());
 				List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -509,7 +509,7 @@ public class MoreDimensionController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_02 type= " + type + " : " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_02 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -580,7 +580,7 @@ public class MoreDimensionController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>reward_analysis_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>reward_analysis_01 jSONArray-> " + jSONArray.toString());
 				List<Award> list = JSONObject.parseArray(jSONArray.toJSONString(), Award.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -707,7 +707,7 @@ public class MoreDimensionController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>reward_analysis_01 type= " + type + " : " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>reward_analysis_01 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -730,7 +730,7 @@ public class MoreDimensionController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>reward_analysis_02 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>reward_analysis_02 jSONArray-> " + jSONArray.toString());
 				List<Award> list = JSONObject.parseArray(jSONArray.toJSONString(), Award.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -782,7 +782,7 @@ public class MoreDimensionController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>reward_analysis_02 type= " + type + " : " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>reward_analysis_02 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 

@@ -173,7 +173,7 @@ public class DirectController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>>>年度预算 经费支出" + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>年度预算 经费支出" + resultObj.toString());
 		return resultObj.toString();
 
 	}
@@ -219,7 +219,7 @@ public class DirectController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getKnowledgeBar_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getKnowledgeBar_01 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -248,7 +248,7 @@ public class DirectController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getKnowledgeBar_01 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getKnowledgeBar_01 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -274,7 +274,7 @@ public class DirectController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getKnowledgeBar_02 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getKnowledgeBar_02 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -305,7 +305,7 @@ public class DirectController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getKnowledgeBar_02 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getKnowledgeBar_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -331,7 +331,7 @@ public class DirectController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getKnowledgePie jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getKnowledgePie jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -366,7 +366,7 @@ public class DirectController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getKnowledgePie " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getKnowledgePie " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -392,7 +392,7 @@ public class DirectController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>knowledge_04 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>knowledge_04 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -446,7 +446,7 @@ public class DirectController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>knowledge_04 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>knowledge_04 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -478,7 +478,7 @@ public class DirectController extends BaseController {
 		paramsMap.put("leaderFlag", sysUserInfo.getUserLevel()); // 领导标识
 
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-		System.out.println(">>>>>>>>>>>>>>contry_01 参数-> " + jsonObject.toString());
+		//System.out.println(">>>>>>>>>>>>>>contry_01 参数-> " + jsonObject.toString());
 
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
@@ -486,7 +486,7 @@ public class DirectController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contry_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contry_01 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -551,7 +551,7 @@ public class DirectController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>contry_01 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>contry_01 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -576,7 +576,7 @@ public class DirectController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contry_02 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contry_02 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartPieResultData pie = new ChartPieResultData();
@@ -600,7 +600,7 @@ public class DirectController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>contry_02 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>contry_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -675,7 +675,7 @@ public class DirectController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contract_01 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				if (type.equals("1")) {
 					Contract contract = list.get(0);
@@ -757,7 +757,7 @@ public class DirectController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_01_count jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contract_01_count jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				Contract contract = list.get(0);
 				result.setSuccess(true);
@@ -771,7 +771,7 @@ public class DirectController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
-		System.out.println(">>>>>>>>>>>>>contract_01_count " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>contract_01_count " + resultObj.toString());
 
 		return resault;
 	}
@@ -806,7 +806,7 @@ public class DirectController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>contract_02 jSONArray" + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>>contract_02 jSONArray" + jSONArray.toString());
 
 			List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 			Map map = get_contract_02_map(list);
@@ -821,7 +821,7 @@ public class DirectController extends BaseController {
 			String jhqds_count = String.valueOf(map.get("jhqds_count"));
 			String sjqds_count = String.valueOf(map.get("sjqds_count"));
 
-			// System.out.println(">>>>>>>>>>>>>>>sjqds_count " +
+			// //System.out.println(">>>>>>>>>>>>>>>sjqds_count " +
 			// sjqds_count+" jhqds_count="+jhqds_count);
 			if (!jhqds_count.equals("0")) {
 				DecimalFormat df = new DecimalFormat("0.00");
@@ -845,7 +845,7 @@ public class DirectController extends BaseController {
 			pageResult.setPage(1l);
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>contract_02 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>contract_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -896,7 +896,7 @@ public class DirectController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_03 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contract_03 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -938,11 +938,11 @@ public class DirectController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>>>>contract_03 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>contract_03 " + resultObj.toString());
 		} else {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>>>>contract_03 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>contract_03 " + resultObj.toString());
 		}
 
 		return resault;
@@ -976,7 +976,7 @@ public class DirectController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_04 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contract_04 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -1035,7 +1035,7 @@ public class DirectController extends BaseController {
 					if (zbxjhsl_count != 0) {
 						zbxsl_rate = HanaUtil.chufa2(zbxsjsl_count, zbxjhsl_count);
 					}
-					// System.out.println(">>>>>>>>>>>>>>fyxsl_rate: " +
+					// //System.out.println(">>>>>>>>>>>>>>fyxsl_rate: " +
 					// fyxsl_rate+" zbxsl_rate:"+zbxsl_rate);
 					map.put("fyxsl_rate", String.format("%.2f", Double.valueOf(fyxsl_rate)) + "%");
 					map.put("zbxsl_rate", String.format("%.2f", Double.valueOf(zbxsl_rate)) + "%");
@@ -1050,7 +1050,7 @@ public class DirectController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>contract_04 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>contract_04 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1073,7 +1073,7 @@ public class DirectController extends BaseController {
 		temp.setZsl(zsl_count);
 		temp.setYqhtzj(yqhtzj_count);
 		DecimalFormat df = new DecimalFormat("0.00");
-		System.out.println("yqhtzj_count=" + yqhtzj_count + "zsl_count=" + zsl_count);
+		//System.out.println("yqhtzj_count=" + yqhtzj_count + "zsl_count=" + zsl_count);
 		String str = "0";
 		if (zsl_count != 0) {
 			str = df.format(((float) yqhtzj_count / zsl_count) * 100);
@@ -1142,7 +1142,7 @@ public class DirectController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>topic_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>topic_01 jSONArray-> " + jSONArray.toString());
 				List<Topic> list = JSONObject.parseArray(jSONArray.toJSONString(), Topic.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -1181,11 +1181,11 @@ public class DirectController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
 		} else {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
 		}
 
 		return resault;
@@ -1258,7 +1258,7 @@ public class DirectController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>topic_02 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>topic_02 jSONArray-> " + jSONArray.toString());
 				List<Topic> list = JSONObject.parseArray(jSONArray.toJSONString(), Topic.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -1295,11 +1295,11 @@ public class DirectController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>type>>" + type + ">>>>>topic_02 resault" + resultObj.toString());
+			//System.out.println(">>>>>>>>type>>" + type + ">>>>>topic_02 resault" + resultObj.toString());
 		} else {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>type>>>>" + type + ">>>topic_02 resault " + resultObj.toString());
+			//System.out.println(">>>>>>>>type>>>>" + type + ">>>topic_02 resault " + resultObj.toString());
 		}
 		return resault;
 	}
@@ -1369,7 +1369,7 @@ public class DirectController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>topic_03 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>topic_03 jSONArray-> " + jSONArray.toString());
 				List<Topic> list = JSONObject.parseArray(jSONArray.toJSONString(), Topic.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -1397,7 +1397,7 @@ public class DirectController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>topic_03 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>topic_03 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1432,7 +1432,7 @@ public class DirectController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>topic_08 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>topic_08 jSONArray-> " + jSONArray.toString());
 				List<Topic> list = JSONObject.parseArray(jSONArray.toJSONString(), Topic.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -1460,7 +1460,7 @@ public class DirectController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>topic_08 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>topic_08 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1486,7 +1486,7 @@ public class DirectController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONObject jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>topic_equip_count jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>topic_equip_count jSONArray-> " + jSONArray.toString());
 				Integer projectCount = jSONArray.getInteger("projectCount");
 				Integer kyzbCount = jSONArray.getInteger("kyzbCount");
 
@@ -1509,7 +1509,7 @@ public class DirectController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
-		System.out.println(">>>>>>topic_equip_count " + resultObj.toString());
+		//System.out.println(">>>>>>topic_equip_count " + resultObj.toString());
 		return resault;
 	}
 
@@ -1566,7 +1566,7 @@ public class DirectController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>equipment_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>equipment_01 jSONArray-> " + jSONArray.toString());
 				List<Topic> list = JSONObject.parseArray(jSONArray.toJSONString(), Topic.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -1604,11 +1604,11 @@ public class DirectController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>type=" + type + ">>>>>>>>>equipment_01 " + resultObj.toString());
+			//System.out.println(">>>>>>>type=" + type + ">>>>>>>>>equipment_01 " + resultObj.toString());
 		} else {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>type=" + type + ">>>>>>>>>>equipment_01 " + resultObj.toString());
+			//System.out.println(">>>>>type=" + type + ">>>>>>>>>>equipment_01 " + resultObj.toString());
 		}
 
 		return resault;
@@ -1634,7 +1634,7 @@ public class DirectController extends BaseController {
 		temp.setZsl(zsl_count);
 		temp.setXksl(xksl_count);
 		temp.setXjsl(xjsl_count);
-		System.out.println(">>>>>>>>>>xksl_count" + xksl_count + "zsl_count" + zsl_count);
+		//System.out.println(">>>>>>>>>>xksl_count" + xksl_count + "zsl_count" + zsl_count);
 		if (zsl_count == 0) {
 			temp.setXkRate(0);
 			temp.setXjRate(0);
@@ -1674,7 +1674,7 @@ public class DirectController extends BaseController {
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 				List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
-				System.out.println("type=" + type + ">>>>>>equipment_02>>>>>>>>>>>>>>       statusCode = " + statusCode + " jSONArray=" + jSONArray.toString());
+				//System.out.println("type=" + type + ">>>>>>equipment_02>>>>>>>>>>>>>>       statusCode = " + statusCode + " jSONArray=" + jSONArray.toString());
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
 					List<String> legendDataList = new ArrayList<String>();
@@ -1715,11 +1715,11 @@ public class DirectController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println("type=" + type + ">>>>>>>>>>>>>>>equipment_02 result" + resultObj.toString());
+			//System.out.println("type=" + type + ">>>>>>>>>>>>>>>equipment_02 result" + resultObj.toString());
 		} else {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println("type=" + type + ">>>>>>>>>>>>>>>equipment_02 result " + resultObj.toString());
+			//System.out.println("type=" + type + ">>>>>>>>>>>>>>>equipment_02 result " + resultObj.toString());
 		}
 		return resault;
 
@@ -1814,7 +1814,7 @@ public class DirectController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>equipment_03 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>equipment_03 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -1846,7 +1846,7 @@ public class DirectController extends BaseController {
 	@ResponseBody
 	public String actualPay_detail_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(param));
-		System.out.println(">>>>>>>>>>>>>>>>>actualPay_detail_data 参数 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>actualPay_detail_data 参数 " + resultObj.toString());
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -1856,7 +1856,7 @@ public class DirectController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>actualPay_detail_data 返回结果:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>actualPay_detail_data 返回结果:" + result.toString());
 		return result.toString();
 	}
 
@@ -1895,7 +1895,7 @@ public class DirectController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>pay_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>pay_01 jSONArray-> " + jSONArray.toString());
 
 				List<H1AMKYSY10010902> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY10010902.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "g0XMDL");
@@ -1923,7 +1923,7 @@ public class DirectController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>pay_01 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>pay_01 " + resultObj.toString());
 
 		// 安全设置：归档文件下载
 		response.setHeader("Pragma", "no-cache");
@@ -1934,7 +1934,7 @@ public class DirectController extends BaseController {
 	@RequestMapping(value = "/direct/pay_02")
 	@ResponseBody
 	public String pay_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println(">>>>>>>>>>>>pay_02-----ddddd------- ");
+		//System.out.println(">>>>>>>>>>>>pay_02-----ddddd------- ");
 
 		PageResult pageResult = new PageResult();
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
@@ -1952,7 +1952,7 @@ public class DirectController extends BaseController {
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 
-			System.out.println(">>>>>>>>>>>>pay_02 jSONArray>>> " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>pay_02 jSONArray>>> " + jSONArray.toString());
 			List<H1AMKYSY10010902> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY10010902.class);
 
 			Map map = get_pay_02_map(list);
@@ -1979,7 +1979,7 @@ public class DirectController extends BaseController {
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>pay_02 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>pay_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2018,7 +2018,7 @@ public class DirectController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>pay_03 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>pay_03 jSONArray-> " + jSONArray.toString());
 
 				List<H1AMKYSY10010902> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY10010902.class);
 				if (type.equals("1")) {
@@ -2069,15 +2069,15 @@ public class DirectController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>type>>" + type + ">>>>>>>>>pay_03 " + resultObj.toString());
+			//System.out.println(">>>>type>>" + type + ">>>>>>>>>pay_03 " + resultObj.toString());
 		} else if (type.equals("2")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>type>" + type + ">>>>pay_03 " + resultObj.toString());
+			//System.out.println(">>>>>>type>" + type + ">>>>pay_03 " + resultObj.toString());
 		} else if (type.equals("3")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>type>" + type + ">>>>pay_03 " + resultObj.toString());
+			//System.out.println(">>>>>>type>" + type + ">>>>pay_03 " + resultObj.toString());
 		}
 
 		return resault;

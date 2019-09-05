@@ -163,8 +163,8 @@ public class AdminMobileController extends BaseController {
 		// 是否获取人员信息成功标识
 		boolean testFlag = false;
 		String uid = "";
-		//System.out.println("authResponse--------" + authResponse);
-		//System.out.println("authResponse--------" + authResponse.getCode());
+		System.out.println("authResponse--------" + authResponse);
+		System.out.println("authResponse--------" + authResponse.getCode());
 		//System.out.println("authResponse--------" + authResponse.getContent());
 		// 根据状态码判断请求是否成功
 		if (authResponse.getCode() == 200) {

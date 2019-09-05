@@ -45,7 +45,7 @@ public class ReportViewController extends BaseController {
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
         requestBody.add("id", strId);
-        System.out.println("strId = " + strId);
+        //System.out.println("strId = " + strId);
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
 
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_REPORT, HttpMethod.POST, entity, JSONObject.class);
@@ -75,7 +75,7 @@ public class ReportViewController extends BaseController {
 
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
         String str = JSONObject.toJSONString(this.getParameterMap(request));
-        System.out.println("getTableReport = " + str);
+        //System.out.println("getTableReport = " + str);
         requestBody.add("paramsJson", str);
 
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -83,12 +83,12 @@ public class ReportViewController extends BaseController {
         ResponseEntity<com.alibaba.fastjson.JSONArray> responseEntity = restTemplate.exchange(GET_LIST, HttpMethod.POST, entity, com.alibaba.fastjson.JSONArray.class);
         com.alibaba.fastjson.JSONArray json = responseEntity.getBody();
         List<ReportViewVo> reportViewVos = JSONObject.parseArray(json.toJSONString(), ReportViewVo.class);
-        System.out.println("getTableReport-reportViewVos= " + reportViewVos);
+        //System.out.println("getTableReport-reportViewVos= " + reportViewVos);
         DataTableLayui data = new DataTableLayui();
         data.setData(reportViewVos);
         data.setMsg("");
         data.setCode("0");
-        System.out.println("data = " + JSON.toJSONString(data));
+        //System.out.println("data = " + JSON.toJSONString(data));
         return JSON.toJSONString(data);
     }
 
@@ -105,20 +105,20 @@ public class ReportViewController extends BaseController {
 
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
         String str = JSONObject.toJSONString(this.getParameterMap(request));
-        System.out.println("getTableReportTree = " + str);
+        //System.out.println("getTableReportTree = " + str);
         requestBody.add("paramsJson", str);
 
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
         ResponseEntity<com.alibaba.fastjson.JSONArray> responseEntity = restTemplate.exchange(GET_LIST_TREE, HttpMethod.POST, entity, com.alibaba.fastjson.JSONArray.class);
         com.alibaba.fastjson.JSONArray json = responseEntity.getBody();
-        System.out.println("json = " + json);
+        //System.out.println("json = " + json);
 //        List<ReportViewVo> reportViewVos = com.alibaba.fastjson.JSONObject.parseArray(json.toJSONString(), ReportViewVo.class);
         DataTableLayui data = new DataTableLayui();
         data.setData(json);
         data.setMsg("");
         data.setCode("0");
-        System.out.println("getTableReportTree-data = " + JSON.toJSONString(data));
+        //System.out.println("getTableReportTree-data = " + JSON.toJSONString(data));
         return JSON.toJSONString(data);
     }
 
@@ -149,13 +149,13 @@ public class ReportViewController extends BaseController {
         xfield = (xfield == null) ? "" : xfield;
         name = (name == null) ? "" : name;
 
-        System.out.println("column = " + column);
-        System.out.println("gsdm = " + gsdm);
-        System.out.println("name = " + name);
-        System.out.println("where = " + where);
-        System.out.println("group = " + group);
-        System.out.println("date = " + date);
-        System.out.println("columnko = " + columnko);
+        //System.out.println("column = " + column);
+        //System.out.println("gsdm = " + gsdm);
+        //System.out.println("name = " + name);
+        //System.out.println("where = " + where);
+        //System.out.println("group = " + group);
+        //System.out.println("date = " + date);
+        //System.out.println("columnko = " + columnko);
 
         paramsMap.put("column", column);
         paramsMap.put("group", group);
