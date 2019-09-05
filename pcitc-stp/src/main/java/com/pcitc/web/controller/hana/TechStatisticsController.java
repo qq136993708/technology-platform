@@ -1080,7 +1080,7 @@ public class TechStatisticsController extends BaseController{
 		String userIds = CommonUtil.getParameter(request, "userIds", "");
 		TechOrgCount sreProject = EquipmentUtils.getTechOrgCount(id, restTemplate, httpHeaders);
 		//System.out.println(
-				"============start_org_workflow userIds=" + userIds + " functionId=" + functionId + " id=" + id);
+				//"============start_org_workflow userIds=" + userIds + " functionId=" + functionId + " id=" + id);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("id", id);
 		paramMap.put("functionId", functionId);
