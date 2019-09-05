@@ -1341,11 +1341,13 @@ public class OutProjectServiceImpl implements OutProjectService {
 			int temInt = this.updateOutProjectInfo(list.get(i));
 			if (temInt == -1) {
 				insertData.add(list.get(i));
+				System.out.println("===========新插入----------------"+list.get(i).getXmid()+"---------"+list.get(i).getXmmc());
 			}
 		}
 
 		// 批量插入数据
 		if (insertData.size() > 0) {
+			System.out.println("===========新插入条数----------------"+insertData.size());
 			outProjectInfoMapper.insertOutProjectWithBLOBsBatch(insertData);
 		}
 
@@ -1566,7 +1568,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		OutProjectInfoExample.Criteria criteria = example.createCriteria();
 		criteria.andXmidEqualTo(opi.getXmid());
 		criteria.andYsndEqualTo(opi.getYsnd());
-		criteria.andDefine8EqualTo(opi.getDefine8());
+		criteria.andDefine9EqualTo(opi.getDefine9());
 		criteria.andDefine3EqualTo("项目管理系统");
 		List<OutProjectInfoWithBLOBs> returnList = outProjectInfoMapper.selectByExampleWithBLOBs(example);
 		if (returnList != null && returnList.size() > 0) {
@@ -1649,7 +1651,6 @@ public class OutProjectServiceImpl implements OutProjectService {
 			if (StrUtil.isNotBlank(opi.getYjmb())) {
 				newOPI.setYjmb(opi.getYjmb());
 			}
-			System.out.println("update .... ");
 			return outProjectInfoMapper.updateByPrimaryKeyWithBLOBs(newOPI);
 		} else {
 			// 此项目此预算年度没有预算费用
@@ -1659,7 +1660,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 			List<OutProjectInfoWithBLOBs> insertList = outProjectInfoMapper.selectByExampleWithBLOBs(example1);
 			if (insertList != null && insertList.size() > 0) {
 				OutProjectInfoWithBLOBs insertOPI = insertList.get(0);
-				if (insertOPI.getDefine8() == null) {
+				if (insertOPI.getDefine9() == null) {
 					// 原项目主数据，无用删除
 					OutProjectInfoExample example2 = new OutProjectInfoExample();
 					example2.createCriteria().andDataIdEqualTo(insertOPI.getDataId());
@@ -1669,7 +1670,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 				insertOPI.setYsje(opi.getYsje());
 				insertOPI.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 				insertOPI.setCreateDate(new Date());
-				insertOPI.setCreatePerson("newItem");
+				insertOPI.setCreatePerson("newItem1");
 				insertOPI.setDefine8(opi.getDefine8());
 				insertOPI.setDefine9(opi.getDefine9());
 				insertOPI.setDefine3(opi.getDefine3());
@@ -1678,11 +1679,11 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 				List<OutProjectInfoWithBLOBs> temList = new ArrayList<OutProjectInfoWithBLOBs>();
 				temList.add(insertOPI);
-				System.out.println("insert .... ");
+				//System.out.println("xmid第一次插入某年某承担单位的数据----");
 				outProjectInfoMapper.insertOutProjectWithBLOBsBatch(temList);
 				return 1;
 			}
-			System.out.println("插入异常------插入异常------插入异常---------" + opi.getDefine8() + "--------------------" + opi.getNd() + "-------------------" + opi.getXmid());
+			System.out.println("插入异常------" + opi.getDefine8() + "--------------------" + opi.getNd() + "-------------------" + opi.getXmid()+ "-------------------" + opi.getYsnd());
 			return -1;
 		}
 
