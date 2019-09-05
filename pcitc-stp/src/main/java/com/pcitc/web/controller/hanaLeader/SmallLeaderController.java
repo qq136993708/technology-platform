@@ -139,7 +139,7 @@ public class SmallLeaderController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
 				if (type.equals("1")) {
@@ -398,7 +398,7 @@ public class SmallLeaderController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>getBudgetInfo jSONArray-> " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>getBudgetInfo jSONArray-> " + jSONArray.toString());
 			result.setSuccess(true);
 			result.setData(jSONArray);
 		}

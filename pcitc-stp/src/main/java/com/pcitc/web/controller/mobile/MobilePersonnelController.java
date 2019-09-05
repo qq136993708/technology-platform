@@ -171,12 +171,12 @@ public class MobilePersonnelController extends BaseController{
 		param.getParam().put("expertProfessinal", expertProfessinal);
 		param.getParam().put("expertProfessionalField", expertProfessionalField);
 		param.getParam().put("bak3", bak3);
-		System.out.println(">>>>>>>>>>>>nd:" + nd + "page=" + page);
+		//System.out.println(">>>>>>>>>>>>nd:" + nd + "page=" + page);
 		
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
-		System.out.println(JSON.toJSON(data).toString());
+		//System.out.println(JSON.toJSON(data).toString());
 		return JSON.toJSON(data).toString();
 		
 	}
