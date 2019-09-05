@@ -98,7 +98,7 @@ public class ProjectCostController extends BaseController {
 	    PageResult pageResult = new PageResult();
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-		System.out.println(">>>>>>>>>>>>>>>>>>kytztjb_data>>参数      month = "+month+" companyCode="+companyCode);
+		//System.out.println(">>>>>>>>>>>>>>>>>>kytztjb_data>>参数      month = "+month+" companyCode="+companyCode);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
@@ -120,7 +120,7 @@ public class ProjectCostController extends BaseController {
 			}
 		} 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>>>kytztjb_data " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>kytztjb_data " + resultObj.toString());
 		return resultObj.toString();
 	}
      
@@ -137,7 +137,7 @@ public class ProjectCostController extends BaseController {
 			Map<String ,Object> paramMap = new HashMap<String ,Object>();
 			paramMap.put("month", month);
 			paramMap.put("companyCode", companyCode);
-			System.out.println(">kytztjb_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+			//System.out.println(">kytztjb_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 			
 			HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(kytztjb_data_out_excel, HttpMethod.POST, httpEntity, JSONArray.class);
@@ -232,7 +232,7 @@ public class ProjectCostController extends BaseController {
 
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
@@ -246,7 +246,7 @@ public class ProjectCostController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>kytztjb_detail:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>kytztjb_detail:" + result.toString());
 		return result.toString();
 	}
 	
@@ -271,7 +271,7 @@ public class ProjectCostController extends BaseController {
 		paramMap.put("g0PROJCODE", g0PROJCODE);
 		paramMap.put("g0PROJTXT", g0PROJTXT);
 		
-		System.out.println(">kytztjb_detail_out_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+		//System.out.println(">kytztjb_detail_out_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 		
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(kytztjb_detail_out_excel, HttpMethod.POST, httpEntity, JSONArray.class);
@@ -341,7 +341,7 @@ public class ProjectCostController extends BaseController {
 		    PageResult pageResult = new PageResult();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-			System.out.println(">>>>>>>>>>>>>>>>>>kjjftjb_data>>参数      month = "+month+" companyCode="+companyCode);
+			//System.out.println(">>>>>>>>>>>>>>>>>>kjjftjb_data>>参数      month = "+month+" companyCode="+companyCode);
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
@@ -363,7 +363,7 @@ public class ProjectCostController extends BaseController {
 				}
 			} 
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-			System.out.println(">>>>>>>>>>>>>>>>>kjjftjb_data " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>kjjftjb_data " + resultObj.toString());
 			return resultObj.toString();
 		}
 	     
@@ -388,7 +388,7 @@ public class ProjectCostController extends BaseController {
 	 		paramMap.put("g0PROJCODE", g0PROJCODE);
 	 		paramMap.put("g0PROJTXT", g0PROJTXT);
 	 		
-	 		System.out.println(">kjjftjb_data_out_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+	 		//System.out.println(">kjjftjb_data_out_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 	 		
 	 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 	 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(kjjftjb_data_out_excel, HttpMethod.POST, httpEntity, JSONArray.class);
@@ -485,7 +485,7 @@ public class ProjectCostController extends BaseController {
 
 				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-				System.out.println(">>>>>>>>>>kjjftjb_detail>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+				//System.out.println(">>>>>>>>>>kjjftjb_detail>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("month", month);
 				paramsMap.put("companyCode", companyCode);
@@ -499,7 +499,7 @@ public class ProjectCostController extends BaseController {
 					layuiTableData = responseEntity.getBody();
 				}
 				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-				System.out.println(">>>>>>>>>>>>>kjjftjb_detail:" + result.toString());
+				//System.out.println(">>>>>>>>>>>>>kjjftjb_detail:" + result.toString());
 				return result.toString();
 			}
 
@@ -515,7 +515,7 @@ public class ProjectCostController extends BaseController {
 				Map<String ,Object> paramMap = new HashMap<String ,Object>();
 				paramMap.put("month", month);
 				paramMap.put("companyCode", companyCode);
-				System.out.println(">kytztjb_detail_out_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+				//System.out.println(">kytztjb_detail_out_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 				
 				
 				String g0PROJCODE = CommonUtil.getParameter(request, "g0PROJCODE", "" );
@@ -590,7 +590,7 @@ public class ProjectCostController extends BaseController {
 		    PageResult pageResult = new PageResult();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-			System.out.println(">>>>>>>>>>>>>>>>>>hxktqcbtjb_data>>参数      month = "+month+" companyCode="+companyCode);
+			//System.out.println(">>>>>>>>>>>>>>>>>>hxktqcbtjb_data>>参数      month = "+month+" companyCode="+companyCode);
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
@@ -612,7 +612,7 @@ public class ProjectCostController extends BaseController {
 				}
 			} 
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-			System.out.println(">>>>>>>>>>>>>>>>>hxktqcbtjb_data " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>hxktqcbtjb_data " + resultObj.toString());
 			return resultObj.toString();
 		}
 	     
@@ -638,7 +638,7 @@ public class ProjectCostController extends BaseController {
 	 		paramMap.put("g0PROJCODE", g0PROJCODE);
 	 		paramMap.put("g0PROJTXT", g0PROJTXT);
 	 		
-	 		System.out.println(">hxktqcbtjb_data_out_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+	 		//System.out.println(">hxktqcbtjb_data_out_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 	 		
 	 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 	 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(hxktqcbtjb_data_out_excel, HttpMethod.POST, httpEntity, JSONArray.class);
@@ -738,7 +738,7 @@ public class ProjectCostController extends BaseController {
 
 	  				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 	  				String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-	  				System.out.println(">>>>>>>>>>kjjftjb_detail>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+	  				//System.out.println(">>>>>>>>>>kjjftjb_detail>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 	  				Map<String, Object> paramsMap = new HashMap<String, Object>();
 	  				paramsMap.put("month", month);
 	  				paramsMap.put("companyCode", companyCode);
@@ -752,7 +752,7 @@ public class ProjectCostController extends BaseController {
 	  					layuiTableData = responseEntity.getBody();
 	  				}
 	  				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-	  				System.out.println(">>>>>>>>>>>>>hxktqcbtjb_detail:" + result.toString());
+	  				//System.out.println(">>>>>>>>>>>>>hxktqcbtjb_detail:" + result.toString());
 	  				return result.toString();
 	  			}
 	     
@@ -775,7 +775,7 @@ public class ProjectCostController extends BaseController {
 					paramMap.put("g0PROJCODE", g0PROJCODE);
 					paramMap.put("g0PROJTXT", g0PROJTXT);
 			    	
-					System.out.println(">hxktqcbtjb_detail_out_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+					//System.out.println(">hxktqcbtjb_detail_out_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 					
 					HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(hxktqcbtjb_detail_out_excel, HttpMethod.POST, httpEntity, JSONArray.class);

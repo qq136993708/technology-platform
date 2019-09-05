@@ -65,7 +65,7 @@ public class SmallLeaderController extends BaseController {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		// 数据控制属性
 		String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
-		System.out.println("getInvestmentAll=================" + zycbm);
+		//System.out.println("getInvestmentAll=================" + zycbm);
 
 		JSONObject resultObj = new JSONObject();
 		if (zycbm.equals("")) {
@@ -87,7 +87,7 @@ public class SmallLeaderController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>getInvestmentAll jSONArray-> " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>getInvestmentAll jSONArray-> " + jSONArray.toString());
 			List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 			double investMoney = 0d;
 			for (int i = 0; i < list.size(); i++) {
@@ -102,7 +102,7 @@ public class SmallLeaderController extends BaseController {
 		}
 		resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
-		System.out.println(">>>>>>>>>>>>>>>getInvestmentAll " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getInvestmentAll " + resultObj.toString());
 		return resault;
 	}
 
@@ -139,7 +139,7 @@ public class SmallLeaderController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				//System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray.toString());
+				////System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
 				if (type.equals("1")) {
@@ -249,11 +249,11 @@ public class SmallLeaderController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>11>>>>investment_data " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>11>>>>investment_data " + resultObj.toString());
 		} else {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>22>>>investment_data " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>22>>>investment_data " + resultObj.toString());
 		}
 
 		return resault;
@@ -292,7 +292,7 @@ public class SmallLeaderController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
 				if (type.equals("1")) {
@@ -362,11 +362,11 @@ public class SmallLeaderController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>11>>>>investment_data_02 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>11>>>>investment_data_02 " + resultObj.toString());
 		} else {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>22>>>investment_data_02 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>22>>>investment_data_02 " + resultObj.toString());
 		}
 
 		return resault;
@@ -398,7 +398,7 @@ public class SmallLeaderController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			//System.out.println(">>>>>>>>>>>>>>getBudgetInfo jSONArray-> " + jSONArray.toString());
+			////System.out.println(">>>>>>>>>>>>>>getBudgetInfo jSONArray-> " + jSONArray.toString());
 			result.setSuccess(true);
 			result.setData(jSONArray);
 		}

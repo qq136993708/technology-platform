@@ -108,7 +108,7 @@ public class HomePayLDController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>home_pay_table_data:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>home_pay_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -131,7 +131,7 @@ public class HomePayLDController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getPayByCountBar jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getPayByCountBar jSONArray-> " + jSONArray.toString());
 
 				List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "g0XMDL");
@@ -159,7 +159,7 @@ public class HomePayLDController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>getPayByCountBar " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>getPayByCountBar " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -180,7 +180,7 @@ public class HomePayLDController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getPayByCountPie jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getPayByCountPie jSONArray-> " + jSONArray.toString());
 				List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -222,7 +222,7 @@ public class HomePayLDController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getPayByCountPie " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getPayByCountPie " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -243,7 +243,7 @@ public class HomePayLDController extends BaseController {
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 
-			System.out.println(">>>>>>>>>>>>getPayByCountCricle jSONArray>>> " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>getPayByCountCricle jSONArray>>> " + jSONArray.toString());
 			List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
 			List<String> lista = HanaUtil.getduplicatexAxisByList(list, "g0XMXZ");
 			List<TreeNode2> chartCircleList = HanaUtil.getChildChartCircleForBudgetCount(lista, list);
@@ -255,7 +255,7 @@ public class HomePayLDController extends BaseController {
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>getPayByCountCricle " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getPayByCountCricle " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -278,7 +278,7 @@ public class HomePayLDController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getPayByUnitBar jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getPayByUnitBar jSONArray-> " + jSONArray.toString());
 
 				List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "g0GSSP");
@@ -306,7 +306,7 @@ public class HomePayLDController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>getPayByUnitBar " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>getPayByUnitBar " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -327,7 +327,7 @@ public class HomePayLDController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getPayByUnitPie jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getPayByUnitPie jSONArray-> " + jSONArray.toString());
 				List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -361,7 +361,7 @@ public class HomePayLDController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getPayByUnitPie " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getPayByUnitPie " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -382,7 +382,7 @@ public class HomePayLDController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>getPayByUnitCricle " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>>getPayByUnitCricle " + jSONArray.toString());
 
 			List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
 			List<String> lista = HanaUtil.getduplicatexAxisByList(list, "g0XMDL");
@@ -397,7 +397,7 @@ public class HomePayLDController extends BaseController {
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>getPayByUnitCricle " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getPayByUnitCricle " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -430,7 +430,7 @@ public class HomePayLDController extends BaseController {
 	 * } else { result.setSuccess(false); result.setMessage("参数为空"); }
 	 * JSONObject resultObj =
 	 * JSONObject.parseObject(JSONObject.toJSONString(result));
-	 * System.out.println(">>>>>>>>>>>>>>>getPayByUnitCricle " +
+	 * //System.out.println(">>>>>>>>>>>>>>>getPayByUnitCricle " +
 	 * resultObj.toString()); return resultObj.toString(); }
 	 */
 
@@ -452,7 +452,7 @@ public class HomePayLDController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getPayByDistributeBar jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getPayByDistributeBar jSONArray-> " + jSONArray.toString());
 
 				List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "g0GSJC");
@@ -485,7 +485,7 @@ public class HomePayLDController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>getPayByDistributeBar " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>getPayByDistributeBar " + resultObj.toString());
 		return resultObj.toString();
 	}
 

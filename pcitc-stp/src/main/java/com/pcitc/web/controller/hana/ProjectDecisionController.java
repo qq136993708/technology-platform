@@ -120,7 +120,7 @@ public class ProjectDecisionController extends BaseController {
 	 * Result resultsDate = new Result();
 	 * httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 	 * 
-	 * System.out.println(
+	 * //System.out.println(
 	 * ">>>>>>>>>>>>>>>>scientificProjectsComprehensiveAnalysisNew>>>>>>>>>>>>>>>>token="
 	 * );
 	 * 
@@ -290,7 +290,7 @@ public class ProjectDecisionController extends BaseController {
 	 * if(data_value_List!=null && data_value_List.size()>0) { for(int
 	 * i=0;i<data_value_List.size();i++) { ChartBarLineDataValue
 	 * chartDataValue=data_value_List.get(i); String
-	 * name=chartDataValue.getName(); System.out.println("name="+name);
+	 * name=chartDataValue.getName(); //System.out.println("name="+name);
 	 * xAxisDataList.add(name); } }
 	 * chartBarLineResultData.setxAxisDataList(xAxisDataList);
 	 * resultsDate.setData(chartBarLineResultData);
@@ -301,7 +301,7 @@ public class ProjectDecisionController extends BaseController {
 	 * resultsDate.setSuccess(true); String
 	 * resut=JSON.toJSONString(resultsDate); //JSONObject
 	 * ob=JSONObject.fromObject(results);
-	 * System.out.println(chartId+" ajax 请求-->:"+resut); return resut; }
+	 * //System.out.println(chartId+" ajax 请求-->:"+resut); return resut; }
 	 */
     
     //key--value  -->valueList
