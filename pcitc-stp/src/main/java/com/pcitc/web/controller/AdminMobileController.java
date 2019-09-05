@@ -141,7 +141,6 @@ public class AdminMobileController extends BaseController {
 		System.out.println("2进入indexMobileStp...." + request.getParameter("oauth_token"));
 		// 获取移动组统一身份的oauthToken值
 		String oauthToken = request.getParameter("oauth_token");
-		System.out.println("3进入indexMobileStp....SysConfig=========" + SysConfig.sp_login_tsysaccount);
 		// 调用统一身份认证组的刷新oauth码的接口（此接口返回值可以继续调用统一身份的接口来获取人员信息）
 		Map<String, String> headerMap = new HashMap<String, String>();
 		headerMap.put("Content-Type", "application/json");
