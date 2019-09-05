@@ -281,7 +281,7 @@ public class MobileController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>index_contract jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>index_contract jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				Contract contract = list.get(0);
 				Integer yqht = (Integer) contract.getYqht();
@@ -361,7 +361,7 @@ public class MobileController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>index_contract_rate jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>index_contract_rate jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				if (type.equals("1")) {
 					Contract contract = list.get(0);

@@ -465,7 +465,7 @@ public class MobileContractController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray.toString());
 				list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
 				/*
