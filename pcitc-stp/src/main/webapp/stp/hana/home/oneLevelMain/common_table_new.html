@@ -296,14 +296,14 @@
 				//alert(data.value);
 				   var parentCode=data.value;
                    showCompanyName(parentCode);
-				   getDicByParentCode(parentCode,'define12');
+                   getDicByParentCode_company(parentCode,'define12');
 				   console.log("监听经费来源:"+data);
 			   });
 			   //监听单位性质
 			   form.on('select(select_define12)', function(data){
                    var parentCode=data.value;
                    showCompanyName(parentCode);
-                   getDicByParentCode(parentCode,'define2');
+                   getDicByParentCode_company(parentCode,'define2');
                    console.log("监听单位性质:"+data);
 			   });
 			   
@@ -368,6 +368,8 @@
 		        var gsbmbmFlag=$("#gsbmbmFlag").val();
 		        var zycbmFlag=$("#zycbmFlag").val();
 		        var zylbbmFlag=$("#zylbbmFlag").val();
+                var nd = $("#nd").val();
+                var ysnd = $("#ysnd").val();
 			    //是否是：结转课题
 			    var isCarry="0";
 			    if(define1=='--请选择--') {define1=''}
@@ -385,8 +387,16 @@
 			    {
 			    	define2=yjy;
 			    } */
-			    
-			    
+
+                if(parseInt(nd)>new Date().getFullYear()){
+                    layer.msg('立项年度不能大于当前年');
+                    return false;
+                }
+                if(undefined!=ysnd&&null!=ysnd&&""!=ysnd&&parseInt(ysnd)<parseInt(nd)){
+                    layer.msg('预算年度不能小于立项年度');
+                    return false;
+                }
+
 			    console.log("研究院="+define2+" 部门="+gsbmbmFlag+" 处室="+zycbmFlag+"groupFlag="+groupFlag+" 承担单位="+fzdwflag);
 			    var v_date=(new Date()).getTime();
 			    table.render({
@@ -635,9 +645,61 @@
 	var zylbbmFlag="${zylbbmFlag?default('')}";
 	
 	//alert(define11);
-	
+
+        //获取单位性质
+        function getDicByParentCode(parentCode, downId) {
+            //alert(parentCode+"--"+downId);
+            $("#" + downId).empty();
+            if (parentCode == null || parentCode == '') {
+                parentCode = '-1';
+            }
+            console.log("级联：\n parentCode=" + parentCode + " downId=" + downId);
+            var v_date = (new Date()).getTime();
+            if (parentCode != null && parentCode != '') {
+
+                $.ajax({
+                    url : "/sre-project-basic/getDicListByParentCode?v_date=" + v_date + "&parentCode=" + parentCode,
+                    type : "post",
+                    async : false,
+                    dataType : "json",
+                    success : function(data) {
+                        $("#" + downId).append("<option value=''>--请选择--</option>");
+                        $.each(data, function(i, el) {
+                            $("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
+                            if (define12 == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+                            if (define2 == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+                            if (zycbmFlag == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+                            if (zycbmFlag == el.name) {
+                                $("#" + downId).val(el.code);
+                            }
+
+                        });
+                        form.render();
+                    },
+                    error : function() {
+                        alert("发生未知错误 ,请重新操作.");
+                    }
+                });
+
+            }
+            var code_temp = $("#" + downId).val();
+            //如果ID=单位性质 ,再调用一次，形成第三级
+            if (downId == 'define12') {
+                getDicByParentCode(code_temp, 'define2');
+            }
+            if (downId == 'zycbmFlag') {
+                getDicByParentCode(code_temp, 'zylbbmFlag');
+            }
+            form.render();
+        }
 	//获取单位性质
-	function getDicByParentCode(parentCode,downId)
+	function getDicByParentCode_company(parentCode,downId)
     {
     	 //alert(parentCode+"--"+downId);
         $("#" + downId).empty();

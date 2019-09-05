@@ -52,7 +52,6 @@ public class TechStatisticsProviderClient {
 	
 	
 	
-	
 	@ApiOperation(value = "科研投入表分页", notes = "科研投入表分页")
 	@RequestMapping(value = "/sre-provider/techCost/statistics_page", method = RequestMethod.POST)
 	public LayuiTableData getTechCostStatisticsPage(@RequestBody LayuiTableParam param)throws Exception
@@ -152,14 +151,12 @@ public class TechStatisticsProviderClient {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	@ApiOperation(value = "获取8大院某个科研机构", notes = "获取8大院某个科研机构")
+	@RequestMapping(value = "/sre-provider/techOrgCount/getTechOrgCountByUncodeYear", method = RequestMethod.POST)
+	public TechOrgCount getTechOrgCountByUncodeYear(@RequestBody Map map)throws Exception
+	{
+		return techStatisticsService.getTechOrgCountByUncodeYear(map);
+	}
 	
 	
 

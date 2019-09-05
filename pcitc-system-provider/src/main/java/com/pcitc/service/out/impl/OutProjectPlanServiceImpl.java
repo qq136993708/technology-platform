@@ -69,13 +69,18 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			}
 		}
 		System.out.println("===========新插入条数----------------" + insertData.size());
-		// 批量插入数据
+		// 批量插入新数据
 		if (insertData.size() > 0) {
 			outProjectPlanMapper.insertOutProjectPlanBatch(insertData);
 		}
 
 	}
 
+	/**
+	 * 判断是否有此项目计划
+	 * 如果有的话，修改部分属性
+	 * 如果没有的话，返回-1
+	 */
 	public int updateOutProjectPlan(OutProjectPlan opp) {
 
 		OutProjectPlanExample example = new OutProjectPlanExample();
@@ -159,7 +164,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			criteria.andDefine4EqualTo("项目管理系统");
 			criteria.andYsndEqualTo(opp.getYsnd());
 			criteria.andXmidEqualTo(opp.getXmid());
-			criteria.andDefine8EqualTo(opp.getDefine8());
+			criteria.andDefine9EqualTo(opp.getDefine9());
 
 			List<OutProjectPlan> oppList = outProjectPlanMapper.selectByExample(example);
 
@@ -187,7 +192,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				if (insertList != null && insertList.size() > 0) {
 					OutProjectPlan insertOPP = insertList.get(0);
 
-					if (insertOPP.getDefine8() == null) {
+					if (insertOPP.getDefine9() == null) {
 						// 原项目主数据，无用删除
 						OutProjectPlanExample example2 = new OutProjectPlanExample();
 						example2.createCriteria().andDataIdEqualTo(insertOPP.getDataId());
@@ -750,8 +755,12 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				zycbmMap.put("zycbm", distList.get(i));
 				// 综合计划处特殊，和大领导查询数据权限一致
 				if (distList.get(i) != null && distList.get(i).contains("30130054")) {
-					hashmap.put("leaderFlag", "2");
-					break;
+					if (hashmap.get("username") != null && hashmap.get("username").toString().equals("wanglj")) {
+						// 特殊，只能看到综合计划处的实际，不能看到总的
+					} else {
+						hashmap.put("leaderFlag", "2");
+						break;
+					}
 				}
 				if (zylbbmPara != null && !StringUtils.isBlank(zylbbmPara + "") && zylbbmPara.toString().contains(distList.get(i))) {
 					Set<String> zylbbmSet = new HashSet<>(Arrays.asList(zylbbmPara.toString().split(",")));

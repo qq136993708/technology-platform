@@ -1,11 +1,15 @@
 package com.pcitc.web.controller.mobile;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -21,7 +26,6 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
-import com.pcitc.web.utils.HanaUtil;
 @Controller
 public class MobileCashController extends BaseController{
 	
@@ -97,6 +101,27 @@ public class MobileCashController extends BaseController{
 			{
 				JSONArray jSONArray = responseEntity.getBody();
 				List<ScientificCashFlow01> list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificCashFlow01.class);
+				
+			    Collections.sort(list, new Comparator<ScientificCashFlow01>() 
+				{
+			    	 public int compare(ScientificCashFlow01 u1, ScientificCashFlow01 u2) 
+					  {
+							int diff = Integer.valueOf(u1.getG0CWNY()).intValue()-Integer.valueOf(u2.getG0CWNY()).intValue() ;
+							System.out.println(">>>>>>>>>>>>>>>>>>>>  getG0CWNY = " + u1.getG0CWNY() );
+							if (diff > 0) 
+							{
+								return -1;
+							}else if (diff < 0) 
+							{
+							    return 1;
+							}else
+							{
+								 return 0;
+							}
+						    
+					}
+				}); 
+			    
 				array= JSONArray.parseArray(JSON.toJSONString(list));
 				
 			} 

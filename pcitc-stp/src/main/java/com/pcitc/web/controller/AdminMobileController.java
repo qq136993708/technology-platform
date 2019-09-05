@@ -51,6 +51,8 @@ public class AdminMobileController extends BaseController {
 
 	/**
 	 * 科技平台统一身份认证移动首页 作废方法，短token方式
+	 * 短token方式，测试用pc页面的时候，没问题
+	 * 手机端登录后，识别认为当前用户没认证登录
 	 * 
 	 * @throws Exception
 	 */
@@ -109,7 +111,7 @@ public class AdminMobileController extends BaseController {
 		String unitPathId = tokenUser.getUnitPath();
 
 		// 科技部综合计划处
-		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
+		boolean isZHJHCPerson=EquipmentUtils.getZycbmDic(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 		request.setAttribute("sysUserInfo", sysUserInfo);
 		
@@ -253,7 +255,7 @@ public class AdminMobileController extends BaseController {
 		String unitPathId = tokenUser.getUnitPath();
 
 		// 科技部综合计划处
-		boolean isZHJHCPerson = EquipmentUtils.isHasUnitCode(unitPathId, EquipmentUtils.KJB_ZHJHC_NUM);
+		boolean isZHJHCPerson=EquipmentUtils.getZycbmDic(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("isZHJHCPerson", isZHJHCPerson);
 		request.setAttribute("sysUserInfo", tokenUser); // tokenUser中有userLevel等基本属性
 		

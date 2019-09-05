@@ -33,6 +33,7 @@ import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutProjectPlan;
+import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.system.Department;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
@@ -55,8 +56,10 @@ public class MobileController extends BaseController {
 	private static final String contract_01 = "http://pcitc-zuul/system-proxy/out-project-plan-provider/complete-rate/total";
 	// 数量--知识
     private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
-
-		
+    private static final String getTechOrgCountByUncodeYear   = "http://pcitc-zuul/stp-proxy/sre-provider/techOrgCount/getTechOrgCountByUncodeYear";
+	
+ // 删除
+ 	private static final String DELETE_BOT_WORK_ORDER = "http://pcitc-zuul/system-proxy/planClient-provider/deleteBotWorkOrder/";
     private static final String GET_OUT_APPRAISAL = "http://pcitc-zuul/system-proxy/out-appraisal-provider/getAppraisalInfoByjdh/";
     
     private static final String getOutProjectPlanByXmId = "http://pcitc-zuul/system-proxy/out-project-plan-provider/getOutProjectPlanByXmId/";
@@ -82,7 +85,21 @@ public class MobileController extends BaseController {
 		return "/mobile/appraisal";
 	}
 	
-	
+	/**
+	 * 删除工单管理
+	 *
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/mobile/plan/deletePlan")
+	@ResponseBody
+	public int deletePlan(HttpServletRequest request) {
+		String id = request.getParameter("ids");
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DELETE_BOT_WORK_ORDER + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
+		int result = responseEntity.getBody();
+		return result;
+	}
+
 	
 	
 	
@@ -132,6 +149,27 @@ public class MobileController extends BaseController {
 		
 		
 		request.setAttribute("department", department);
+		
+		
+		
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		
+		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		paramMap.put("year", HanaUtil.getBeforeYear());
+		paramMap.put("unitCode", department.getTypeCode());
+		System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      year = "+HanaUtil.getBeforeYear()+" unitCode="+department.getTypeCode());
+		
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		ResponseEntity<TechOrgCount> rs = restTemplate.exchange(getTechOrgCountByUncodeYear, HttpMethod.POST, httpEntity, TechOrgCount.class);
+		int status_Code = rs.getStatusCodeValue();
+		String ryjg="";
+		String ryyj="";
+		if (status_Code == 200)
+		{
+			TechOrgCount techOrgCount = rs.getBody();
+			request.setAttribute("techOrgCount", techOrgCount);
+		}
+		request.setAttribute("year", HanaUtil.getBeforeYear());
 		return "/mobile/institute";
 	}
 
@@ -147,7 +185,20 @@ public class MobileController extends BaseController {
 		request.setAttribute("department", department);
 		return "/mobile/institute_new";
 	}
-	
+
+	@RequestMapping(value = "/getDepartment/institute_new")
+	@ResponseBody
+	public JSONObject getDepartment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		JSONObject jsonObject = new JSONObject(1);
+		String id = CommonUtil.getParameter(request, "id", "");
+		ResponseEntity<Department> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), Department.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		logger.info("============远程返回  statusCode " + statusCode);
+		Department department = responseEntity.getBody();
+		jsonObject.put("department",department);
+		return jsonObject;
+	}
 	
 	/**
 	 * @param request

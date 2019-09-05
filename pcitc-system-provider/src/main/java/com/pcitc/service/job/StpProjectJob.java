@@ -152,44 +152,7 @@ public class StpProjectJob implements Job, Serializable {
 					opi.setZycbm(zycbm);
 					opi.setZycmc(zycmc);
 					
-					if (hth != null) {
-						if (hth.indexOf("P") == 0 || hth.indexOf("JP") == 0 || hth.indexOf("LP") == 0) {
-							if (Integer.parseInt(nd) > 2018) {
-								opi.setDefine10("101勘探开发处");
-							} else {
-								opi.setDefine10("101油田处");
-							}
-							
-						} else if (hth.indexOf("PE") == 0 || hth.indexOf("JPE") == 0 || hth.indexOf("LPE") == 0) {
-							opi.setDefine10("101石油工程处");
-						} else if (hth.indexOf("1") == 0 || hth.indexOf("J1") == 0 || hth.indexOf("L1") == 0) {
-							opi.setDefine10("102炼油处");
-						} else if (hth.indexOf("4") == 0 || hth.indexOf("J4") == 0 || hth.indexOf("L4") == 0) {
-							opi.setDefine10("103化工处");
-						} else if (hth.indexOf("2") == 0 || hth.indexOf("J2") == 0 || hth.indexOf("L2") == 0) {
-							opi.setDefine10("104材料处");
-						} else if (hth.indexOf("3") == 0 || hth.indexOf("J3") == 0 || hth.indexOf("L3") == 0) {
-							opi.setDefine10("105装储处");
-						} else if (hth.indexOf("R") == 0 || hth.indexOf("X") == 0 || hth.indexOf("KL") == 0 || hth.indexOf("JR") == 0 || hth.indexOf("LR") == 0 || hth.indexOf("JX") == 0 || hth.indexOf("LX") == 0 || hth.indexOf("J5") == 0 || hth.indexOf("L5") == 0 || hth.indexOf("JKL") == 0 || hth.indexOf("LKL") == 0) {
-							opi.setDefine10("106计划处");
-						} else if (hth.indexOf("G") == 0 || hth.indexOf("JG") == 0 || hth.indexOf("LG") == 0) {
-							opi.setDefine10("107技术监督处");
-						} else if (hth.indexOf("H") == 0 || hth.indexOf("JH") == 0 || hth.indexOf("LH") == 0) {
-							opi.setDefine10("108三剂处");
-						} else if (hth.indexOf("9") == 0 || hth.indexOf("J9") == 0 || hth.indexOf("L9") == 0) {
-							opi.setDefine10("109知识产权处");
-						} else if (hth.indexOf("W") == 0 || hth.indexOf("JW") == 0 || hth.indexOf("LW") == 0) {
-							opi.setDefine10("110物装部");
-						} else if (hth.indexOf("CLY") == 0 || hth.indexOf("JCLY") == 0 || hth.indexOf("LCLY") == 0) {
-							opi.setDefine10("114炼油部（B2、C类）");
-						} else if (hth.indexOf("CHG") == 0 || hth.indexOf("JCHG") == 0 || hth.indexOf("LCHG") == 0) {
-							opi.setDefine10("115化工部（B2、C类）");
-						} else if (hth.indexOf("E") == 0 || hth.indexOf("JE") == 0 || hth.indexOf("LE") == 0) {
-							opi.setDefine10("111信息部");
-						} else if (hth.indexOf("Z") == 0 || hth.indexOf("JZ") == 0 || hth.indexOf("LZ") == 0) {
-							opi.setDefine10("112工程部");
-						} 
-					}
+					// define10 所属专业处，通过视图updateOutProjectInfo来更新
 					opi.setXmlbbm(xmlbbm);
 					opi.setXmlbmc(xmlbmc);
 					if (sjid != null && Integer.parseInt(sjid) > 0) {
@@ -205,7 +168,7 @@ public class StpProjectJob implements Job, Serializable {
 					
 					if (xmlbbm != null && xmlbbm.equals("KYZB")) {
 						opi.setDefine1("资本性");
-						opi.setProjectProperty("其他项目");
+						opi.setProjectProperty("科研装备");
 					} else {
 						opi.setDefine1("费用性");
 						if (xmlbbm != null && !xmlbbm.equals("KY")) {
@@ -218,7 +181,6 @@ public class StpProjectJob implements Job, Serializable {
 							}
 						}
 					}
-					System.out.println("======----------------" + xmid);
 					//opi.setProjectScope("新开课题");  //新开
 					opi.setProjectId(projectId);
 					
@@ -233,7 +195,7 @@ public class StpProjectJob implements Job, Serializable {
 				if (insertData != null && insertData.size() > 0) {
 					outProjectService.insertProjectData(insertData, ndCon);
 					
-					System.out.println("开始批量更新统计属性======----------------");
+					// System.out.println("开始批量更新统计属性======----------------");
 					// 批量更新表中的统计属性，方便统计查询
 					System.out.println("结束批量更新统计属性======----------------");
 					

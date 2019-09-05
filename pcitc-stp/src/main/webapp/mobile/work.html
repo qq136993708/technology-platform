@@ -110,6 +110,14 @@
             ,type: 'year'
             ,value:"2019"
         });
+        $(".dele").click(function () {
+           
+            var id=$(this).attr("id");
+            var workOrderStatus=$(this).attr("workOrderStatus");
+            //alert(id);
+        	del(id,workOrderStatus);
+        	$(this).parents("li").remove();
+        });
         $(".one li").on("swipeleft",function(){
             $(this).removeClass('left');
             $(this).addClass('right');
@@ -207,7 +215,7 @@
 				                         "</div>"+
 				                        "<span class='number-b'>"+bl+"%</span>"+
 				                    "</div>"+
-				                     "<div class='dele'></div>"+
+				                     "<div class='dele' id='"+dataId+"' workOrderStatus='"+workOrderStatus+"' ></div>"+
 				                "</li>";
 					 count=count+temp;
 					 
@@ -353,6 +361,40 @@
     
     
     
+    function del(id,workOrderStatus) 
+    {
+    	if(workOrderStatus == '0' || workOrderStatus == '')
+    	{
+    		layer.confirm('确认要删除吗？', {
+    			icon : 3,
+    			btn : [ '确定', '取消' ]
+    		}, function(index) {
+    			layer.close(index);
+    			$.ajax({
+    				type : 'post',
+    				dataType : 'text',
+    				async : false,
+    				data : {
+    					"ids" : id
+    				},
+    				url : '/mobile/plan/deletePlan',
+    				success : function(data) {
+    					if (data == 200) {
+    						layer.msg("删除成功");
+    					}
+    				},
+    				error : function(e) {
+    					alert("出错了");
+    					console.log(e);
+    				}
+    			});
+    		});
+    	} else 
+    	{
+			layer.msg('只能删除草稿状态的工作任务！');
+		}
+    	
+    }
     
     
     function view(dataId,workOrderName) 
@@ -361,8 +403,10 @@
     	var url='/mobile/work_details?dataId=' + dataId;
     	location.href=url;
     	
-    	
     }
+    
+    
+    
     function mydeal(dataId,workOrderName) 
     {
     	var url='/mobile/work_details_1?dataId=' + dataId;
