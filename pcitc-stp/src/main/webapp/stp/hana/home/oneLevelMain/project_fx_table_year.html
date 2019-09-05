@@ -78,17 +78,18 @@
 							<input type="text" name="ysnd" readonly="readonly" style="cursor: pointer" placeholder="请选择预算年度" title="预算年度" value="${ysnd}" autocomplete="off" class="layui-input" id="ysnd" width="100px">
 						</div>
 					</div>
-					<div class="layui-inline">
-						<label class="layui-form-label">费用类别：</label>
-						<div class="layui-input-inline">
-							<select name="define1" id="define1">
-								<option value="">--请选择--</option> <#list fylbList as vo>
-								<option value="${vo.numValue}"<#if define1==vo.numValue>selected="selected"</#if> >${vo.name}</option> </#list>
+
+					<div class="layui-hide select">
+						<!-- 三级级联 begin-->
+						<div class="layui-inline">
+							<label class="layui-form-label">费用类别：</label>
+							<div class="layui-input-inline">
+								<select name="define1" id="define1">
+									<option value="">--请选择--</option> <#list fylbList as vo>
+									<option value="${vo.numValue}"<#if define1==vo.numValue>selected="selected"</#if> >${vo.name}</option> </#list>
 							</select>
 						</div>
 					</div>
-					<div class="layui-hide select">
-						<!-- 三级级联 begin-->
 						<div class="layui-inline">
 							<label class="layui-form-label">经费来源：</label>
 							<div class="layui-input-inline">
@@ -186,15 +187,15 @@
 							</div>
 						</div>
 					</div>
-					<button class="layui-btn layuiadmin-btn-list" id="Open" style="position: absolute; top: 4px; right: 14px; height: 27px; width: 40px; padding: 0; text-align: center; display: block;">展开</button>
+					<button class="layui-btn layuiadmin-btn-list" id="Open" style="position: absolute; top: 3px; right: 14px; height: 30px; padding: 0 10px; text-align: center; display: block;">展开</button>
 				</div>
-				<div class="layui-inline" style="margin-left: 48px;">
+				<div class="layui-inline" style="margin-left: 48px;    margin-left: 48px;position: absolute;top: -5px;right: 143px;">
 					<button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
 						<i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
 					</button>
 				</div>
 
-				<div class="layui-inline">
+				<div class="layui-inline" style="    position: absolute;top: -5px;right: 72px;">
 					<button class="layui-btn layuiadmin-btn-list" data-type="resetEvent">
 						<i class="layui-icon  layuiadmin-button-btn">重置</i>
 					</button>
@@ -471,7 +472,7 @@
 
 			table.init('showTable', {
 				url : '/one_level_main/project_fx_table_year_data?v_date=' + v_date,
-				height : commonDislodgeTable() - 110,
+				height : commonDislodgeTable() - 80,
 				method : "POST",
 				limit : 30,
 				page : {
