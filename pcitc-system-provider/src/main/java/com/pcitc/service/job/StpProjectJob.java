@@ -43,7 +43,7 @@ public class StpProjectJob implements Job, Serializable {
 		String str = null;
 		try {
 			// 远程获取数据 -----
-			str = DataServiceUtil.getProjectData(sqlName, "2018");
+			str = DataServiceUtil.getProjectData(sqlName, ndCon);
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目数据 返回 success====="+(str != null));
 			if (str != null) {
 				// 先删除年度为nd的本地数据（备份一份到临时表中，防止意外）
