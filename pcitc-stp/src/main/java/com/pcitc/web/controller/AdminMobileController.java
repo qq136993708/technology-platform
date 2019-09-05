@@ -51,6 +51,8 @@ public class AdminMobileController extends BaseController {
 
 	/**
 	 * 科技平台统一身份认证移动首页 作废方法，短token方式
+	 * 短token方式，测试用pc页面的时候，没问题
+	 * 手机端登录后，识别认为当前用户没认证登录
 	 * 
 	 * @throws Exception
 	 */

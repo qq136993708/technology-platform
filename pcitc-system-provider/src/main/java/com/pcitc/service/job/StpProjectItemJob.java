@@ -49,7 +49,7 @@ public class StpProjectItemJob implements Job, Serializable {
 		String str = null;
 		try {
 			// 远程当年获取数据 -----
-			str = DataServiceUtil.getProjectData(sqlName, ndCon);
+			str = DataServiceUtil.getProjectData(sqlName, "2018");
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success====="+ndCon);
 			if (str != null) {
 				List<OutProjectInfoWithBLOBs> insertData = new ArrayList<OutProjectInfoWithBLOBs>();
@@ -113,7 +113,7 @@ public class StpProjectItemJob implements Job, Serializable {
 			}
 			
 			
-			// 远程获取第二年数据 -----
+			/*// 远程获取第二年数据 -----
 			str = DataServiceUtil.getProjectData(sqlName, String.valueOf(Integer.parseInt(ndCon)+1));
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success第二年====="+String.valueOf(Integer.parseInt(ndCon)+1));
 			if (str != null) {
@@ -238,7 +238,7 @@ public class StpProjectItemJob implements Job, Serializable {
 				}
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
 				// 统一调用存储过程，把数据中部分属性集中处理
-			}
+			}*/
 			
 			// 数据插入后，修改统计用的属性分类（没有使用存储过程或者函数来弄）
 			outProjectPlanService.updateProjectPropertyInfo();

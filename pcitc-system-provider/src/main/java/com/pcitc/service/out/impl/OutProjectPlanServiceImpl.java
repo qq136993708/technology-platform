@@ -164,7 +164,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			criteria.andDefine4EqualTo("项目管理系统");
 			criteria.andYsndEqualTo(opp.getYsnd());
 			criteria.andXmidEqualTo(opp.getXmid());
-			criteria.andDefine8EqualTo(opp.getDefine8());
+			criteria.andDefine9EqualTo(opp.getDefine9());
 
 			List<OutProjectPlan> oppList = outProjectPlanMapper.selectByExample(example);
 
@@ -192,7 +192,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				if (insertList != null && insertList.size() > 0) {
 					OutProjectPlan insertOPP = insertList.get(0);
 
-					if (insertOPP.getDefine8() == null) {
+					if (insertOPP.getDefine9() == null) {
 						// 原项目主数据，无用删除
 						OutProjectPlanExample example2 = new OutProjectPlanExample();
 						example2.createCriteria().andDataIdEqualTo(insertOPP.getDataId());
