@@ -100,7 +100,7 @@ public class HomeKnowledgeController extends BaseController{
 			public String getKnowledgeLevel3TAble(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 				JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
-				System.out.println(">>>>>>>>>>>>>getKnowledgeTable参数 :" + tt.toString());
+				//System.out.println(">>>>>>>>>>>>>getKnowledgeTable参数 :" + tt.toString());
 				LayuiTableData layuiTableData = new LayuiTableData();
 				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 				ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getKnowledgeTable, HttpMethod.POST, entity, LayuiTableData.class);
@@ -109,7 +109,7 @@ public class HomeKnowledgeController extends BaseController{
 					layuiTableData = responseEntity.getBody();
 				}
 				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-				System.out.println(">>>>>>>>>>>>>getKnowledgeTable:" + result.toString());
+				//System.out.println(">>>>>>>>>>>>>getKnowledgeTable:" + result.toString());
 				return result.toString();
 			}
 		
@@ -141,7 +141,7 @@ public class HomeKnowledgeController extends BaseController{
 				{
 					
 					JSONArray jSONArray = responseEntity.getBody();
-				    System.out.println(">>>>>>>>>>>>>>getKnowledgeTypeList jSONArray-> " + jSONArray.toString());
+				    //System.out.println(">>>>>>>>>>>>>>getKnowledgeTypeList jSONArray-> " + jSONArray.toString());
 					List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 				
 					if(type.equals("1"))
@@ -209,7 +209,7 @@ public class HomeKnowledgeController extends BaseController{
 				result.setMessage("参数为空");
 			}
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-			System.out.println(">>>>>>>>>>>>>>getKnowledgeTypeList " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>getKnowledgeTypeList " + resultObj.toString());
 			return resultObj.toString();
 		}
 		
@@ -241,7 +241,7 @@ public class HomeKnowledgeController extends BaseController{
 				if (statusCode == 200) 
 				{
 					JSONArray jSONArray = responseEntity.getBody();
-					//System.out.println(">>>>>>>>>>>>>>getUnitTypeList jSONArray-> " + jSONArray.toString());
+					////System.out.println(">>>>>>>>>>>>>>getUnitTypeList jSONArray-> " + jSONArray.toString());
 					List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 				
 					if(type.equals("1"))
@@ -311,7 +311,7 @@ public class HomeKnowledgeController extends BaseController{
 				result.setMessage("参数为空");
 			}
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-			//System.out.println(">>>>>>>>>>>>>>>getUnitTypeList " + resultObj.toString());
+			////System.out.println(">>>>>>>>>>>>>>>getUnitTypeList " + resultObj.toString());
 			return resultObj.toString();
 		}
 	
@@ -344,7 +344,7 @@ public class HomeKnowledgeController extends BaseController{
 				{
 					
 						JSONArray jSONArray = responseEntity.getBody();
-						System.out.println(">>>>>>>>>>>>>>getKnowledgeUnitList jSONArray-> " + jSONArray.toString());
+						//System.out.println(">>>>>>>>>>>>>>getKnowledgeUnitList jSONArray-> " + jSONArray.toString());
 						List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 						
 						ChartBarLineResultData barLine=new ChartBarLineResultData();
@@ -378,7 +378,7 @@ public class HomeKnowledgeController extends BaseController{
 				result.setMessage("参数为空");
 			}
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-			System.out.println(">>>>>>>>>>>>>>>getKnowledgeUnitList " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>getKnowledgeUnitList " + resultObj.toString());
 			return resultObj.toString();
 		}
 	

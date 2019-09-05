@@ -155,7 +155,7 @@ public class FinancialDecisionController extends BaseController {
 		Result result = new Result();
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		// System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+		// //System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
@@ -168,7 +168,7 @@ public class FinancialDecisionController extends BaseController {
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 				List<TotalCostProjectPay01> list = JSONObject.parseArray(jSONArray.toJSONString(), TotalCostProjectPay01.class);
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>研究院科研经费预算批复和实际支出全成本分析       statusCode = " + statusCode + " jSONArray=" + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>>>>>>>>研究院科研经费预算批复和实际支出全成本分析       statusCode = " + statusCode + " jSONArray=" + jSONArray.toString());
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
 				List<String> legendDataList = new ArrayList<String>();
 				legendDataList.add("实际支出");
@@ -188,7 +188,7 @@ public class FinancialDecisionController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>>>>>研究院科研经费预算批复和实际支出全成本分析 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>>>研究院科研经费预算批复和实际支出全成本分析 " + resultObj.toString());
 		return resultObj.toString();
 
 	}
@@ -204,7 +204,7 @@ public class FinancialDecisionController extends BaseController {
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		String type = CommonUtil.getParameter(request, "type", "G0XMGLLX");
-		// System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode+" type="+type);
+		// //System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode+" type="+type);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("type", type);
 		paramsMap.put("month", month);
@@ -218,7 +218,7 @@ public class FinancialDecisionController extends BaseController {
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 				List<TotalCostProjectPay01> list = JSONObject.parseArray(jSONArray.toJSONString(), TotalCostProjectPay01.class);
-				// System.out.println(">>>>>>>>>>>>>>>>>>>>>GET_TOTAL_COST_PROJECT_PAY_TYPE_01 返回      statusCode = "+statusCode+" jSONArray="+jSONArray.toString());
+				// //System.out.println(">>>>>>>>>>>>>>>>>>>>>GET_TOTAL_COST_PROJECT_PAY_TYPE_01 返回      statusCode = "+statusCode+" jSONArray="+jSONArray.toString());
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
 				List<String> legendDataList = new ArrayList<String>();
 				legendDataList.add("实际支出");
@@ -239,11 +239,11 @@ public class FinancialDecisionController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		if (type.equals("G0XMGLLX")) {
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>项目类型使用率分析: " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>项目类型使用率分析: " + resultObj.toString());
 		} else if (type.equals("G0XMGLLY")) {
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>项目来源使用率分析: " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>项目来源使用率分析: " + resultObj.toString());
 		} else if (type.equals("G0XMGLJB")) {
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>项目管理级别使用率分析: " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>项目管理级别使用率分析: " + resultObj.toString());
 		}
 
 		return resultObj.toString();
@@ -266,7 +266,7 @@ public class FinancialDecisionController extends BaseController {
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		String type = CommonUtil.getParameter(request, "type", "");
-		// System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode+" type="+type);
+		// //System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode+" type="+type);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("type", type);
 		paramsMap.put("month", month);
@@ -280,7 +280,7 @@ public class FinancialDecisionController extends BaseController {
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 				List<TotalCostProjectPay02> list = JSONObject.parseArray(jSONArray.toJSONString(), TotalCostProjectPay02.class);
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>GET_TOTAL_COST_PROJECT_PAY_02 返回      statusCode = " + statusCode + " jSONArray=" + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>>>>>>>>GET_TOTAL_COST_PROJECT_PAY_02 返回      statusCode = " + statusCode + " jSONArray=" + jSONArray.toString());
 				if (type.equals("1"))// 费用细分类型使用率分析
 				{
 					// 封装返回对像
@@ -348,11 +348,11 @@ public class FinancialDecisionController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		if (type.equals("1")) {
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>费用细分类型使用率分析: " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>费用细分类型使用率分析: " + resultObj.toString());
 		} else if (type.equals("2")) {
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>费用细分类型占比分析: " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>费用细分类型占比分析: " + resultObj.toString());
 		} else if (type.equals("3")) {
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>研究院实际支出占比分析: " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>研究院实际支出占比分析: " + resultObj.toString());
 		}
 
 		return resultObj.toString();
@@ -368,7 +368,7 @@ public class FinancialDecisionController extends BaseController {
 
 		Result result = new Result();
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -380,7 +380,7 @@ public class FinancialDecisionController extends BaseController {
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 				List<TotalCostProjectPay03> list = JSONObject.parseArray(jSONArray.toJSONString(), TotalCostProjectPay03.class);
-				// System.out.println(">>>>>>>>>>>>>>>>>>>>>研究院人均实际支出分析 返回      statusCode = "+statusCode+" jSONArray="+jSONArray.toString());
+				// //System.out.println(">>>>>>>>>>>>>>>>>>>>>研究院人均实际支出分析 返回      statusCode = "+statusCode+" jSONArray="+jSONArray.toString());
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
 				// xAxis
 				List<String> xAxisDataList = HanaUtil.getxAxisByList(list, "g0GSJC");
@@ -403,7 +403,7 @@ public class FinancialDecisionController extends BaseController {
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>研究院人均实际支出分析 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>研究院人均实际支出分析 " + resultObj.toString());
 		return resultObj.toString();
 
 	}
@@ -440,7 +440,7 @@ public class FinancialDecisionController extends BaseController {
 		Result result = new Result();
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
@@ -453,7 +453,7 @@ public class FinancialDecisionController extends BaseController {
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 				List<FundsComprehensiveAnalysis01> list = JSONObject.parseArray(jSONArray.toJSONString(), FundsComprehensiveAnalysis01.class);
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>GET_FUNDS_ALL_ANANLYSIS_01 返回      statusCode = " + statusCode + " jSONArray=" + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>>>>>>>>GET_FUNDS_ALL_ANANLYSIS_01 返回      statusCode = " + statusCode + " jSONArray=" + jSONArray.toString());
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
 				List<String> xAxisDataList = HanaUtil.duplicateList(list);
 				barLine.setxAxisDataList(xAxisDataList);
@@ -469,7 +469,7 @@ public class FinancialDecisionController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>resultObj " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>resultObj " + resultObj.toString());
 		return resultObj.toString();
 
 	}
@@ -486,7 +486,7 @@ public class FinancialDecisionController extends BaseController {
 		String type = CommonUtil.getParameter(request, "type", "");
 		String analysisType = CommonUtil.getParameter(request, "analysisType", "1");// 1预算,2投入
 		if (!month.equals("") && !companyCode.equals("") && !type.equals("")) {
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode + " type=" + type);
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode + " type=" + type);
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
@@ -577,9 +577,9 @@ public class FinancialDecisionController extends BaseController {
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 
 		if (type.equals("manage") && analysisType.equals("2")) {
-			System.out.println(">>>>>>>>>>>>>>>>>研究院实际经费投入管理级别占比分析 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>研究院实际经费投入管理级别占比分析 " + resultObj.toString());
 		} else {
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>funds-all-analysis-02 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>funds-all-analysis-02 " + resultObj.toString());
 		}
 
 		return resultObj.toString();
@@ -598,7 +598,7 @@ public class FinancialDecisionController extends BaseController {
 		List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
 		String companyCode = HanaUtil.getCompanyCodeAll(companyCodeList);
 
-		// System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+		// //System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
@@ -611,7 +611,7 @@ public class FinancialDecisionController extends BaseController {
 			JSONArray jSONArray = responseEntity_03.getBody();
 			if (jSONArray != null) {
 				List<FundsComprehensiveAnalysis03> list = JSONObject.parseArray(jSONArray.toJSONString(), FundsComprehensiveAnalysis03.class);
-				// System.out.println(">>>>>>>>>>>>>>>>>>>>>GET_FUNDS_ALL_ANANLYSIS_03 返回      statusCode = "+statusCode_03+" jSONArray="+jSONArray.toString());
+				// //System.out.println(">>>>>>>>>>>>>>>>>>>>>GET_FUNDS_ALL_ANANLYSIS_03 返回      statusCode = "+statusCode_03+" jSONArray="+jSONArray.toString());
 				// 封装返回对像
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
 				// xAxis data
@@ -640,7 +640,7 @@ public class FinancialDecisionController extends BaseController {
 			}
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>研究院科研经费资金使用率分析: " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>研究院科研经费资金使用率分析: " + resultObj.toString());
 		return resultObj.toString();
 
 	}
@@ -682,7 +682,7 @@ public class FinancialDecisionController extends BaseController {
 		ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
@@ -693,7 +693,7 @@ public class FinancialDecisionController extends BaseController {
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<ScientificCashFlow01> list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificCashFlow01.class);
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>loadData 返回      statusCode = " + statusCode + " list=" + list.size());
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>loadData 返回      statusCode = " + statusCode + " list=" + list.size());
 			if (list.size() > 0) {
 				List<String> xAxisDataList = new ArrayList<String>();
 				List<Object> seriesDataList = new ArrayList<Object>();
@@ -755,7 +755,7 @@ public class FinancialDecisionController extends BaseController {
 		
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 		
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>cash-flow-02 result = " + result.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>cash-flow-02 result = " + result.toString());
 		
 		return result.toString();
 
@@ -816,10 +816,10 @@ public class FinancialDecisionController extends BaseController {
 			resultsDate.setData(null);
 		}
 
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>loadData 返回      status = " + responseEntity.getStatusCodeValue() + " json=" + array.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>loadData 返回      status = " + responseEntity.getStatusCodeValue() + " json=" + array.toString());
 		response.setContentType("text/html;charset=UTF-8");
 		String resut = JSON.toJSONString(resultsDate);
-		System.out.println(" ajax 结果-->:" + resut);
+		//System.out.println(" ajax 结果-->:" + resut);
 		return resut;
 
 	}
@@ -854,7 +854,7 @@ public class FinancialDecisionController extends BaseController {
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
@@ -882,7 +882,7 @@ public class FinancialDecisionController extends BaseController {
 		}
 
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		System.out.println("科研基建支出年度趋势分析 " + result.toString());
+		//System.out.println("科研基建支出年度趋势分析 " + result.toString());
 		return result.toString();
 
 	}
@@ -897,7 +897,7 @@ public class FinancialDecisionController extends BaseController {
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		String type = CommonUtil.getParameter(request, "type", "");
 		String foreachIn = CommonUtil.getParameter(request, "foreachIn", "");
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode + " foreachIn=" + foreachIn);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode + " foreachIn=" + foreachIn);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
@@ -910,7 +910,7 @@ public class FinancialDecisionController extends BaseController {
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<ScientificBaseBuildFee02> list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificBaseBuildFee02.class);
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>loadData 返回      statusCode = " + statusCode + " list=" + list.size());
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>loadData 返回      statusCode = " + statusCode + " list=" + list.size());
 			if (list.size() > 0) {
 				if (type.equals("1")) {
 					// xAxis
@@ -952,10 +952,10 @@ public class FinancialDecisionController extends BaseController {
 
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		if (type.equals("1")) {
-			System.out.println("研究院基建支出同比分析 " + result.toString());
+			//System.out.println("研究院基建支出同比分析 " + result.toString());
 		}
 		if (type.equals("2")) {
-			System.out.println("研究院基建支出占比分析 " + result.toString());
+			//System.out.println("研究院基建支出占比分析 " + result.toString());
 		}
 		return result.toString();
 
@@ -971,7 +971,7 @@ public class FinancialDecisionController extends BaseController {
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		String type = CommonUtil.getParameter(request, "type", "");
 		String foreachIn = CommonUtil.getParameter(request, "foreachIn", "");
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode + " type=" + type);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode + " type=" + type);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
@@ -984,7 +984,7 @@ public class FinancialDecisionController extends BaseController {
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<ScientificBaseBuildFee03> list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificBaseBuildFee03.class);
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>loadData 返回      statusCode = " + statusCode + " list=" + list.size());
+			//System.out.println(">>>>>>>>>>>>>>>>>>>>>loadData 返回      statusCode = " + statusCode + " list=" + list.size());
 			if (list.size() > 0) {
 				if (type.equals("1")) {
 
@@ -1027,10 +1027,10 @@ public class FinancialDecisionController extends BaseController {
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 
 		if (type.equals("1")) {
-			System.out.println("研究院基建人均面积分析 " + result.toString());
+			//System.out.println("研究院基建人均面积分析 " + result.toString());
 		}
 		if (type.equals("2")) {
-			System.out.println("研究院基建面积占比分析 " + result.toString());
+			//System.out.println("研究院基建面积占比分析 " + result.toString());
 		}
 
 		return result.toString();
@@ -1054,7 +1054,7 @@ public class FinancialDecisionController extends BaseController {
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("scientific_base_pay_analysis_detail_list param=   " + JSONObject.toJSONString(param));
+		//System.out.println("scientific_base_pay_analysis_detail_list param=   " + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -1078,7 +1078,7 @@ public class FinancialDecisionController extends BaseController {
 		map.put("companyCode", companyCode);
 		map.put("g0TXT50", g0TXT50);
 
-		System.out.println(">>>>>>>>>excel-out  month" + month + " companyCode=" + companyCode);
+		//System.out.println(">>>>>>>>>excel-out  month" + month + " companyCode=" + companyCode);
 		HttpEntity<Map> entity = new HttpEntity<Map>(map, this.httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(GET_BASE_BUILD_04_EXCEL, HttpMethod.POST, entity, JSONArray.class);
 		JSONArray result = responseEntity.getBody();
@@ -1168,7 +1168,7 @@ public class FinancialDecisionController extends BaseController {
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
@@ -1195,7 +1195,7 @@ public class FinancialDecisionController extends BaseController {
 		}
 
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		System.out.println("科研基建支出年度趋势分析 " + result.toString());
+		//System.out.println("科研基建支出年度趋势分析 " + result.toString());
 		return result.toString();
 
 	}
@@ -1269,9 +1269,9 @@ public class FinancialDecisionController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		if (type.equals("1")) {
-			System.out.println(">>>>>>>>>>>>>>>科研仪器支出-按资产类别-同比-分析: " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>科研仪器支出-按资产类别-同比-分析: " + resultObj.toString());
 		} else {
-			System.out.println(">>>>>>>>>>>>>>科研仪器支出-按资产类型-占比-分析:" + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>科研仪器支出-按资产类型-占比-分析:" + resultObj.toString());
 		}
 		return resultObj.toString();
 
@@ -1348,9 +1348,9 @@ public class FinancialDecisionController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		if (type.equals("1")) {
-			System.out.println(">>>>>>>>>>>>>>>科研仪器支出-按研究院-同比-分析: " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>科研仪器支出-按研究院-同比-分析: " + resultObj.toString());
 		} else {
-			System.out.println(">>>>>>>>>>>>>>科研仪器支出-按研究院-占比-分析:" + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>科研仪器支出-按研究院-占比-分析:" + resultObj.toString());
 		}
 		return resultObj.toString();
 	}
@@ -1366,7 +1366,7 @@ public class FinancialDecisionController extends BaseController {
 	@ResponseBody
 	public String ScientificInstrumentPayDetailajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("scientific_base_pay_analysis_detail_list param=   " + JSONObject.toJSONString(param));
+		//System.out.println("scientific_base_pay_analysis_detail_list param=   " + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -1396,7 +1396,7 @@ public class FinancialDecisionController extends BaseController {
 
 		if (result != null) {
 			List<ScientificInstrumentPayDetail> list = JSON.parseArray(result.toJSONString(), ScientificInstrumentPayDetail.class);
-			System.out.println(">>>>>>ScientificInstrumentPayDetail>>>excel-out  list" + list.size());
+			//System.out.println(">>>>>>ScientificInstrumentPayDetail>>>excel-out  list" + list.size());
 
 			// 处理list数据
 			List<String> listKey = new ArrayList<String>();
@@ -1460,7 +1460,7 @@ public class FinancialDecisionController extends BaseController {
 		ChartBarLineResultData barLine = new ChartBarLineResultData();
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
@@ -1487,7 +1487,7 @@ public class FinancialDecisionController extends BaseController {
 		}
 
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		System.out.println("品牌建设支出年度趋势分析 " + result.toString());
+		//System.out.println("品牌建设支出年度趋势分析 " + result.toString());
 		return result.toString();
 
 	}
@@ -1549,9 +1549,9 @@ public class FinancialDecisionController extends BaseController {
 	 * resultsDate.setSuccess(true); resultsDate.setData(pie); } } } JSONObject
 	 * resultObj = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 	 * if(type.equals("1")) {
-	 * System.out.println(">>>>>>>>>>>>>>>品牌建设支出-按资产类别-同比-分析: "
+	 * //System.out.println(">>>>>>>>>>>>>>>品牌建设支出-按资产类别-同比-分析: "
 	 * +resultObj.toString()); }else {
-	 * System.out.println(">>>>>>>>>>>>>>品牌建设支出-按资产类型-占比-分析:"
+	 * //System.out.println(">>>>>>>>>>>>>>品牌建设支出-按资产类型-占比-分析:"
 	 * +resultObj.toString()); } return resultObj.toString();
 	 * 
 	 * }
@@ -1631,9 +1631,9 @@ public class FinancialDecisionController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		if (type.equals("1")) {
-			System.out.println(">>>>>>>>>>>>>>>品牌建设支出-按研究院-同比-分析: " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>品牌建设支出-按研究院-同比-分析: " + resultObj.toString());
 		} else {
-			System.out.println(">>>>>>>>>>>>>>品牌建设支出-按研究院-占比-分析:" + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>品牌建设支出-按研究院-占比-分析:" + resultObj.toString());
 		}
 		return resultObj.toString();
 	}
@@ -1658,7 +1658,7 @@ public class FinancialDecisionController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>>品牌建设明细:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>>品牌建设明细:" + result.toString());
 		return result.toString();
 	}
 
@@ -1679,7 +1679,7 @@ public class FinancialDecisionController extends BaseController {
 
 		if (result != null) {
 			List<BrandConstructionPay> list = JSON.parseArray(result.toJSONString(), BrandConstructionPay.class);
-			System.out.println(">>>>>>ScientificInstrumentPayDetail>>>excel-out  list" + list.size());
+			//System.out.println(">>>>>>ScientificInstrumentPayDetail>>>excel-out  list" + list.size());
 
 			// 处理list数据
 			List<String> listKey = new ArrayList<String>();
@@ -1747,7 +1747,7 @@ public class FinancialDecisionController extends BaseController {
 
 		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = " + month + " companyCode=" + companyCode);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
@@ -1774,7 +1774,7 @@ public class FinancialDecisionController extends BaseController {
 		}
 
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		System.out.println("无形资产支出年度趋势分析 " + result.toString());
+		//System.out.println("无形资产支出年度趋势分析 " + result.toString());
 		return result.toString();
 
 	}
@@ -1850,9 +1850,9 @@ public class FinancialDecisionController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		if (type.equals("1")) {
-			System.out.println(">>>>>>>>>>>>>>>无形资产支出-按资产类别-同比-分析: " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>无形资产支出-按资产类别-同比-分析: " + resultObj.toString());
 		} else {
-			System.out.println(">>>>>>>>>>>>>>无形资产支出-按资产类型-占比-分析:" + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>无形资产支出-按资产类型-占比-分析:" + resultObj.toString());
 		}
 		return resultObj.toString();
 
@@ -1929,9 +1929,9 @@ public class FinancialDecisionController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		if (type.equals("1")) {
-			System.out.println(">>>>>>>>>>>>>>>无形资产设支出-按研究院-同比-分析: " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>>无形资产设支出-按研究院-同比-分析: " + resultObj.toString());
 		} else {
-			System.out.println(">>>>>>>>>>>>>>无形资产支出-按研究院-占比-分析:" + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>>无形资产支出-按研究院-占比-分析:" + resultObj.toString());
 		}
 		return resultObj.toString();
 	}
@@ -1947,7 +1947,7 @@ public class FinancialDecisionController extends BaseController {
 	@ResponseBody
 	public String scientific_invisible_capital_detail_list(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("scientific_invisible_capital_detail_list param=   " + JSONObject.toJSONString(param));
+		//System.out.println("scientific_invisible_capital_detail_list param=   " + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 
@@ -1959,7 +1959,7 @@ public class FinancialDecisionController extends BaseController {
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 
-		System.out.println(">>>>>>>>>>>>>>无形资产明细:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>>无形资产明细:" + result.toString());
 		return result.toString();
 	}
 
@@ -1980,7 +1980,7 @@ public class FinancialDecisionController extends BaseController {
 
 		if (result != null) {
 			List<InvisibleCapitalDevelop> list = JSON.parseArray(result.toJSONString(), InvisibleCapitalDevelop.class);
-			System.out.println(">>>>>>ScientificInstrumentPayDetail>>>excel-out  list" + list.size());
+			//System.out.println(">>>>>>ScientificInstrumentPayDetail>>>excel-out  list" + list.size());
 
 			// 处理list数据
 			List<String> listKey = new ArrayList<String>();
@@ -2138,7 +2138,7 @@ public class FinancialDecisionController extends BaseController {
 			}
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		System.out.println(">>>>>>>>>>>>>>气泡: " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>气泡: " + resultObj.toString());
 		return resultObj.toString();
 
 	}
@@ -2147,7 +2147,7 @@ public class FinancialDecisionController extends BaseController {
 	@ResponseBody
 	public String scientific_topic_develop_pot_detail_list(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("项目明细 param=   " + JSONObject.toJSONString(param));
+		//System.out.println("项目明细 param=   " + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 
@@ -2159,7 +2159,7 @@ public class FinancialDecisionController extends BaseController {
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 
-		System.out.println(">>>>>>>>>>>>>>课题研发支出分析项目明细:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>>课题研发支出分析项目明细:" + result.toString());
 		return result.toString();
 	}
 
@@ -2203,7 +2203,7 @@ public class FinancialDecisionController extends BaseController {
 			}
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		System.out.println(">>>>>>>>>>>>>>>课题研发支出: " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>课题研发支出: " + resultObj.toString());
 		return resultObj.toString();
 	}
 

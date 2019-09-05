@@ -137,7 +137,7 @@ public class HomePageController extends BaseController {
 		paramsMap.put("month", month);
 		paramsMap.put("companyCode", companyCode);
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-		// System.out.println(">>>>>>>>>>>>>>>>>参数 " + jsonObject.toString());
+		// //System.out.println(">>>>>>>>>>>>>>>>>参数 " + jsonObject.toString());
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals("")) {
 			// 科研经费预算投入年度趋势分析
@@ -146,7 +146,7 @@ public class HomePageController extends BaseController {
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 				List<H1AMKYSY100101> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100101.class);
-				// System.out.println(">>>>>>>>>>>>>>>>>>>>>科研项目、年度预算、经费支出       statusCode = "
+				// //System.out.println(">>>>>>>>>>>>>>>>>>>>>科研项目、年度预算、经费支出       statusCode = "
 				// + statusCode + " jSONArray=" + jSONArray.toString());
 				if (list != null && list.size() > 0) {
 					result.setSuccess(true);
@@ -159,7 +159,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>>>>科研项目 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>>科研项目 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -194,7 +194,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>>>>科研装备" + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>>科研装备" + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -228,7 +228,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>>>年度预算 经费支出" + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>年度预算 经费支出" + resultObj.toString());
 		return resultObj.toString();
 
 	}
@@ -290,7 +290,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>年度科研项目总览 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>年度科研项目总览 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -325,7 +325,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>>>>新开课题占比情况" + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>>新开课题占比情况" + resultObj.toString());
 		return resultObj.toString();
 
 	}
@@ -349,7 +349,7 @@ public class HomePageController extends BaseController {
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 				List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
-				// System.out.println(">>>>>>>>>>>>>>>>>>>ttt     statusCode = "
+				// //System.out.println(">>>>>>>>>>>>>>>>>>>ttt     statusCode = "
 				// + statusCode + " jSONArray=" + jSONArray.toString());
 				if (list != null && list.size() > 0) {
 					result.setSuccess(true);
@@ -361,7 +361,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>>>x " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>x " + resultObj.toString());
 		return resultObj.toString();
 
 	}
@@ -383,7 +383,7 @@ public class HomePageController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>>>>GET_getDzzk " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>>>>GET_getDzzk " + jSONArray.toString());
 				List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
 				if (list != null && list.size() > 0) {
 					result.setSuccess(true);
@@ -396,7 +396,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>>>y " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>>>y " + resultObj.toString());
 		return resultObj.toString();
 
 	}
@@ -451,7 +451,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>GET_getDzzk_bar " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>GET_getDzzk_bar " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -540,7 +540,7 @@ public class HomePageController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>research_project_table_data:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>research_project_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -604,7 +604,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>ndkyxmzl " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>ndkyxmzl " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -620,7 +620,7 @@ public class HomePageController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>ndkyxmzl_table:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>ndkyxmzl_table:" + result.toString());
 		return result.toString();
 	}
 
@@ -652,7 +652,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getNdkyxmzl02 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getNdkyxmzl02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -704,7 +704,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getNdkyxmzBar " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getNdkyxmzBar " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -739,7 +739,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getNdkyxmzCircle " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getNdkyxmzCircle " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -771,7 +771,7 @@ public class HomePageController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>getKYZBTble:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>getKYZBTble:" + result.toString());
 		return result.toString();
 	}
 
@@ -815,7 +815,7 @@ public class HomePageController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>get_kyzb_table_data:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>get_kyzb_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -837,7 +837,7 @@ public class HomePageController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getLevel2KYZB01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getLevel2KYZB01 jSONArray-> " + jSONArray.toString());
 
 				List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "g0GSJC");
@@ -866,7 +866,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>getLevel2KYZB01 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>getLevel2KYZB01 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -889,7 +889,7 @@ public class HomePageController extends BaseController {
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
 
-				System.out.println(">>>>>>>>>>>>>>getLevel2KYZB02Bar jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getLevel2KYZB02Bar jSONArray-> " + jSONArray.toString());
 
 				List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "g0XMXZ");
@@ -920,7 +920,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getLevel2KYZB02Bar " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getLevel2KYZB02Bar " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -954,7 +954,7 @@ public class HomePageController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getLevel2KYZB03Circle " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getLevel2KYZB03Circle " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -988,7 +988,7 @@ public class HomePageController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>getZhuanziTableList:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>getZhuanziTableList:" + result.toString());
 		return result.toString();
 	}
 	

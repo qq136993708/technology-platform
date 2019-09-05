@@ -163,14 +163,14 @@ public class AdminMobileController extends BaseController {
 		// 是否获取人员信息成功标识
 		boolean testFlag = false;
 		String uid = "";
-		//System.out.println("authResponse--------" + authResponse);
-		//System.out.println("authResponse--------" + authResponse.getCode());
+		System.out.println("authResponse--------" + authResponse);
+		System.out.println("authResponse--------" + authResponse.getCode());
 		//System.out.println("authResponse--------" + authResponse.getContent());
 		// 根据状态码判断请求是否成功
 		if (authResponse.getCode() == 200) {
 			// 获取响应内容
 			String result = authResponse.getContent();
-			//System.out.println("refreshOauth返回--------" + result);
+			System.out.println("refreshOauth返回--------" + result);
 			JSONObject json = JSONObject.parseObject(result);
 			if (json != null && json.get("access_token") != null) {
 				String access_token = json.getString("access_token");
@@ -190,6 +190,8 @@ public class AdminMobileController extends BaseController {
 				userClient.addQueryParam("client_secret", "b25ibGFrY2hoZGxsZ2VmaWxtZmdiaGRobG9mZmNvbWlvaWdobGJoYWdub2NmbmVlb21qbG5qZmhja2JlcHBlbw==");
 
 				RestfulHttpClient.HttpResponse userResponse = userClient.request();
+				System.out.println("userResponse--------" + userResponse);
+				System.out.println("userResponse--------" + userResponse.getCode());
 				if (userResponse.getCode() == 200) {
 					// 获取响应内容
 					String userResult = userResponse.getContent();

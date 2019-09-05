@@ -103,7 +103,7 @@ public class HomeKnowledgeLDController extends BaseController {
 
 		JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
 
-		System.out.println(">>>>>>>>>>>>>getKnowledgeTable参数 :" + tt.toString());
+		//System.out.println(">>>>>>>>>>>>>getKnowledgeTable参数 :" + tt.toString());
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getKnowledgeTable, HttpMethod.POST, entity, LayuiTableData.class);
@@ -112,7 +112,7 @@ public class HomeKnowledgeLDController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>getKnowledgeTable:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>getKnowledgeTable:" + result.toString());
 		return result.toString();
 	}
 
@@ -135,7 +135,7 @@ public class HomeKnowledgeLDController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getKnowledgeTypeList jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getKnowledgeTypeList jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				if (type.equals("1")) {
@@ -199,7 +199,7 @@ public class HomeKnowledgeLDController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>getKnowledgeTypeList type= " + type + " : " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>getKnowledgeTypeList type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -219,7 +219,7 @@ public class HomeKnowledgeLDController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				// System.out.println(">>>>>>>>>>>>>>getUnitTypeList jSONArray-> "
+				// //System.out.println(">>>>>>>>>>>>>>getUnitTypeList jSONArray-> "
 				// + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
@@ -284,7 +284,7 @@ public class HomeKnowledgeLDController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		// System.out.println(">>>>>>>>>>>>>>>getUnitTypeList " +
+		// //System.out.println(">>>>>>>>>>>>>>>getUnitTypeList " +
 		// resultObj.toString());
 		return resultObj.toString();
 	}
@@ -308,7 +308,7 @@ public class HomeKnowledgeLDController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getKnowledgeUnitList jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getKnowledgeUnitList jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -337,7 +337,7 @@ public class HomeKnowledgeLDController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getKnowledgeUnitList " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getKnowledgeUnitList " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -359,7 +359,7 @@ public class HomeKnowledgeLDController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getKnowledgeUnitList_stack jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getKnowledgeUnitList_stack jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -388,7 +388,7 @@ public class HomeKnowledgeLDController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getKnowledgeUnitList_stack " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getKnowledgeUnitList_stack " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -410,7 +410,7 @@ public class HomeKnowledgeLDController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getKnowledgePie jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getKnowledgePie jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -439,7 +439,7 @@ public class HomeKnowledgeLDController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getKnowledgePie " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getKnowledgePie " + resultObj.toString());
 		return resultObj.toString();
 	}
 

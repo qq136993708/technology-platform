@@ -194,7 +194,7 @@ public class TechStatisticsController extends BaseController{
 		paramMap.put("auditStatus", auditStatus);
 		paramMap.put("year", year);
 		paramMap.put("type", type);
-		System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      type = "+type+" year="+year);
+		//System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      type = "+type+" year="+year);
 		
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(LIST_COST_URL, HttpMethod.POST, httpEntity, JSONArray.class);
@@ -209,7 +209,7 @@ public class TechStatisticsController extends BaseController{
 			/*for(int i=0;i<list.size();i++)
 			{
 				ScientificInvestment scientificInvestment=list.get(i);
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      getG0GSJC = "+scientificInvestment.getG0GSJC());
+				//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      getG0GSJC = "+scientificInvestment.getG0GSJC());
 			}*/
 		}
 		
@@ -261,7 +261,7 @@ public class TechStatisticsController extends BaseController{
 		paramMap.put("auditStatus", auditStatus);
 		paramMap.put("year", year);
 		paramMap.put("type", type);
-		System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      type = "+type+" year="+year);
+		//System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      type = "+type+" year="+year);
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		
 		
@@ -278,7 +278,7 @@ public class TechStatisticsController extends BaseController{
 			/*for(int i=0;i<list.size();i++)
 			{
 				ScientificInvestment scientificInvestment=list.get(i);
-				System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      getG0GSJC = "+scientificInvestment.getG0GSJC());
+				//System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      getG0GSJC = "+scientificInvestment.getG0GSJC());
 			}*/
 		}
 		
@@ -286,7 +286,7 @@ public class TechStatisticsController extends BaseController{
 		
 		URL path = this.getClass().getResource("/");
 		File f = new File(path.getPath() + "static/techStatistics/tech_cost_template.xlsx");
-		//System.out.println(f.getAbsolutePath());
+		////System.out.println(f.getAbsolutePath());
 		//写入新文件2019年集团公司总部科技经费预算
 		String newFilePath = path.getPath() + "static/techStatistics/科技投入统计表"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
@@ -381,7 +381,7 @@ public class TechStatisticsController extends BaseController{
 		String year = CommonUtil.getParameter(request, "year", "");
 		String createUserName = CommonUtil.getParameter(request, "createUserName", "");
 		String writeType = CommonUtil.getParameter(request, "writeType", "1");
-		System.out.println("--------封装前-------unitCode:" + unitCode + " unitName=" + unitName );
+		//System.out.println("--------封装前-------unitCode:" + unitCode + " unitName=" + unitName );
 
 		//UnitId-->unitCode
 		String parentUnitCode="";
@@ -401,7 +401,7 @@ public class TechStatisticsController extends BaseController{
 			}
 			
 		}
-		System.out.println("--------封装前---------parentUnitName:" + parentUnitName + " parentUnitCode=" + parentUnitCode + " UserId=" + sysUserInfo.getUserId());
+		//System.out.println("--------封装前---------parentUnitName:" + parentUnitName + " parentUnitCode=" + parentUnitCode + " UserId=" + sysUserInfo.getUserId());
 
 		// 流程状态-是保存还是提交
 		String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
@@ -458,7 +458,7 @@ public class TechStatisticsController extends BaseController{
 		}
 		// 返回结果代码
 		int statusCode = responseEntity.getStatusCodeValue();
-		System.out.println(">>>>>>>>>>>>>>>>>>>返回  statusCode=" + statusCode);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>返回  statusCode=" + statusCode);
 		if (statusCode == 200) 
 		{
 			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
@@ -539,7 +539,7 @@ public class TechStatisticsController extends BaseController{
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
 		String userIds = CommonUtil.getParameter(request, "userIds", "");
 		
-		System.out.println("========start_cost_workflow userIds=" + userIds + " functionId=" + functionId + " id=" + id);
+		//System.out.println("========start_cost_workflow userIds=" + userIds + " functionId=" + functionId + " id=" + id);
 		
 		
 		TechCost sreProject = EquipmentUtils.getTechCost(id, restTemplate, httpHeaders);
@@ -632,7 +632,7 @@ public class TechStatisticsController extends BaseController{
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 		
-		System.out.println("---------------tech_org_statistics_list:" +result.toString());
+		//System.out.println("---------------tech_org_statistics_list:" +result.toString());
 		
 		
 		// 安全设置：归档文件下载
@@ -789,7 +789,7 @@ public class TechStatisticsController extends BaseController{
 			techOrgCount  = se.getBody();
 		}
 		
-		System.out.println("---------------parentUnitName:" + parentUnitName + " parentUnitCode=" + parentUnitCode + " UserId=" + sysUserInfo.getUserId());
+		//System.out.println("---------------parentUnitName:" + parentUnitName + " parentUnitCode=" + parentUnitCode + " UserId=" + sysUserInfo.getUserId());
 		techOrgCount.setWriteType(writeType);
 		techOrgCount.setStatisticsType(statisticsType);
 		techOrgCount.setThesisEiInnerCount(Integer.valueOf(thesisEiInnerCount));
@@ -855,7 +855,7 @@ public class TechStatisticsController extends BaseController{
 		}
 		// 返回结果代码
 		int statusCode = responseEntity.getStatusCodeValue();
-		System.out.println(">>>>>>>>>>>>>>>>>>>返回  statusCode=" + statusCode);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>返回  statusCode=" + statusCode);
 		if (statusCode == 200) {
 			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
 		} else {
@@ -946,7 +946,7 @@ public class TechStatisticsController extends BaseController{
 			techOrgCount  = se.getBody();
 		}
 		
-		System.out.println("---------------parentUnitName:" + parentUnitName + " parentUnitCode=" + parentUnitCode + " UserId=" + sysUserInfo.getUserId());
+		//System.out.println("---------------parentUnitName:" + parentUnitName + " parentUnitCode=" + parentUnitCode + " UserId=" + sysUserInfo.getUserId());
 		
 		techOrgCount.setCreateUserId(sysUserInfo.getUserName());
 		techOrgCount.setCreateUserName(createUserName);
@@ -972,7 +972,7 @@ public class TechStatisticsController extends BaseController{
 		}
 		// 返回结果代码
 		int statusCode = responseEntity.getStatusCodeValue();
-		System.out.println(">>>>>>>>>>>>>>>>>>>返回  statusCode=" + statusCode);
+		//System.out.println(">>>>>>>>>>>>>>>>>>>返回  statusCode=" + statusCode);
 		if (statusCode == 200) {
 			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
 		} else {
@@ -1064,7 +1064,7 @@ public class TechStatisticsController extends BaseController{
 	public Object selectBudgetGroupTotalItem(@PathVariable("id") String id,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<TechOrgCount> responseEntity = this.restTemplate.exchange(GET_ORG_URL+id, HttpMethod.GET, new HttpEntity<Object>(id, this.httpHeaders), TechOrgCount.class);
-		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		////System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
@@ -1079,8 +1079,8 @@ public class TechStatisticsController extends BaseController{
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
 		String userIds = CommonUtil.getParameter(request, "userIds", "");
 		TechOrgCount sreProject = EquipmentUtils.getTechOrgCount(id, restTemplate, httpHeaders);
-		System.out.println(
-				"============start_org_workflow userIds=" + userIds + " functionId=" + functionId + " id=" + id);
+		//System.out.println(
+				//"============start_org_workflow userIds=" + userIds + " functionId=" + functionId + " id=" + id);
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("id", id);
 		paramMap.put("functionId", functionId);
@@ -1114,7 +1114,7 @@ public class TechStatisticsController extends BaseController{
 		paramMap.put("auditStatus", auditStatus);
 		paramMap.put("year", year);
 		paramMap.put("type", type);
-		System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      type = "+type+" year="+year);
+		//System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      type = "+type+" year="+year);
 		
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(EXCEL_ORG_STATISTICS_URL, HttpMethod.POST, httpEntity, JSONArray.class);
@@ -1330,14 +1330,14 @@ public class TechStatisticsController extends BaseController{
 	{
 		try {
 			if(workbook != null) {
-				System.out.println("workbook != null .............");
+				//System.out.println("workbook != null .............");
 			}else {
-				System.out.println("workbook == null .............");
+				//System.out.println("workbook == null .............");
 			}
 			if(sheet != null) {
-				System.out.println("sheet != null .............");
+				//System.out.println("sheet != null .............");
 			}else {
-				System.out.println("sheet == null .............");
+				//System.out.println("sheet == null .............");
 			}
 			
 			InputStream is = new FileInputStream(template);
@@ -1347,7 +1347,7 @@ public class TechStatisticsController extends BaseController{
 			sheet.setDefaultColumnWidth(20);// 设置表格默认列宽度为20个字节  
 			sheet.setColumnWidth(0, 9966); 
             
-			System.out.println(">>>>>>>>>>sheet: "+sheet);
+			//System.out.println(">>>>>>>>>>sheet: "+sheet);
 			//从第五行开始，第五行是测试数据
 			/*Row templateRow = sheet.getRow(3);
 			Double total_xmjf = 0d;
@@ -1408,7 +1408,7 @@ public class TechStatisticsController extends BaseController{
 				
 				Row crow = sheet.getRow(i+3);
 				
-				System.out.println(">>>>>>>>>>crow.createCell(0): "+crow.createCell(0));
+				//System.out.println(">>>>>>>>>>crow.createCell(0): "+crow.createCell(0));
 				crow.createCell(0).setCellValue(unitName);
 				crow.createCell(1).setCellValue(year);
 				crow.createCell(2).setCellValue(typeStr);

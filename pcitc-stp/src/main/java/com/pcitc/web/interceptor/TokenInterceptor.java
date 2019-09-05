@@ -69,7 +69,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 					resultData(request, response);
 					return false;
 				}
-				System.out.println("特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
+				//System.out.println("特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			} else {
 				// 会话cookie中缺少HttpOnly属性
 				for (Cookie c : cookies) {
@@ -86,7 +86,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 			}
 			if (token != null) {
-				System.out.println("token is not null:"+token);
+				//System.out.println("token is not null:"+token);
 				httpHeaders.set("Authorization", "Bearer " + token);
 				sysUser = JwtTokenUtil.getUserFromTokenByValue(token);
 				// 验证当前url登录人是否有权限查看（url中不会包含ajax请求的）
@@ -100,7 +100,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/login") && !request.getRequestURI().contains("/mobile/temIndex") && !request.getRequestURI().contains("/mobile/index") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome") && !request.getRequestURI().equals("/")) {
 					HttpSession session = request.getSession();
 					String sessionId = SessionShare.getSessionIdSave().get(sysUser.getUserName());//获取全局类SessionSave保存账户的静态sessionId
-					System.out.println("原有session--------------:"+sessionId);
+					//System.out.println("原有session--------------:"+sessionId);
 					String currentSessionId = session.getId();//获取当前的sessionId
 					//System.out.println("当前session--------------:"+currentSessionId);
 					

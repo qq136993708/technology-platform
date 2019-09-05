@@ -83,7 +83,7 @@ public class MobileContractController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contract_01 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				Contract contract = list.get(0);
 				Integer yqht = (Integer) contract.getYqht();
@@ -154,7 +154,7 @@ public class MobileContractController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_03 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contract_03 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -188,15 +188,15 @@ public class MobileContractController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>>1>>contract_03 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>1>>contract_03 " + resultObj.toString());
 		} else if (type.equals("2")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>2>>>contract_03 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>2>>>contract_03 " + resultObj.toString());
 		} else if (type.equals("mobile")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>mobile>>>contract_03 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>mobile>>>contract_03 " + resultObj.toString());
 		}
 		return resault;
 	}
@@ -230,7 +230,7 @@ public class MobileContractController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_03 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contract_03 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				result.setSuccess(true);
 				result.setData(list);
@@ -242,7 +242,7 @@ public class MobileContractController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
-		System.out.println(">>>>>>>>>>>>mobile>>>contract_03 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>mobile>>>contract_03 " + resultObj.toString());
 		return resault;
 	}
 
@@ -317,7 +317,7 @@ public class MobileContractController extends BaseController {
 		param.getParam().put("hth", hth);
 		param.getParam().put("xmmc", xmmc);
 		param.getParam().put("key", key);
-		System.out.println(">>>>>>>>>>>>nd:" + nd + "page=" + page);
+		//System.out.println(">>>>>>>>>>>>nd:" + nd + "page=" + page);
 		String result = OneLevelMainController.setCommonTable(restTemplate, httpHeaders, sysUserInfo, param, request, response);
 		return result;
 	}
@@ -352,7 +352,7 @@ public class MobileContractController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getInvestment02 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
 				if (type.equals("1")) {
@@ -424,11 +424,11 @@ public class MobileContractController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>11>>>>investment_data_02 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>11>>>>investment_data_02 " + resultObj.toString());
 		} else {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>22>>>investment_data_02 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>22>>>investment_data_02 " + resultObj.toString());
 		}
 
 		return resault;
@@ -465,7 +465,7 @@ public class MobileContractController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray.toString());
+				////System.out.println(">>>>>>>>>>>>>>investment_data jSONArray-> " + jSONArray.toString());
 				list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
 				/*
@@ -548,7 +548,7 @@ public class MobileContractController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
-		System.out.println(">>>>>>>>>>>>>investment_data " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>investment_data " + resultObj.toString());
 
 		return resault;
 	}

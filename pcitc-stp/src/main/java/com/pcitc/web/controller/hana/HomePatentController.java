@@ -122,7 +122,7 @@ public class HomePatentController extends BaseController {
 							layuiTableData = responseEntity.getBody();
 						}
 						JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-						System.out.println(">>>>>>>>>>>>>home_patent_table_data:" + result.toString());
+						//System.out.println(">>>>>>>>>>>>>home_patent_table_data:" + result.toString());
 						return result.toString();
 					}
 				
@@ -153,7 +153,7 @@ public class HomePatentController extends BaseController {
 						if (statusCode == 200) 
 						{
 							JSONArray jSONArray = responseEntity.getBody();
-							System.out.println(">>>>>>>>>>>>>>getPatentByCountBar jSONArray-> " + jSONArray.toString());
+							//System.out.println(">>>>>>>>>>>>>>getPatentByCountBar jSONArray-> " + jSONArray.toString());
 							
 							List<H1AMKYSY100104> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100104.class);
 							List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"g0GSJC");
@@ -183,7 +183,7 @@ public class HomePatentController extends BaseController {
 						result.setMessage("参数为空");
 					}
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					System.out.println(">>>>>>>>>>>>>>getPatentByCountBar " + resultObj.toString());
+					//System.out.println(">>>>>>>>>>>>>>getPatentByCountBar " + resultObj.toString());
 					return resultObj.toString();
 				}
 				
@@ -207,7 +207,7 @@ public class HomePatentController extends BaseController {
 						if (statusCode == 200) 
 						{
 							JSONArray jSONArray = responseEntity.getBody();
-							System.out.println(">>>>>>>>>>>>>>getPatentByCountPie jSONArray-> " + jSONArray.toString());
+							//System.out.println(">>>>>>>>>>>>>>getPatentByCountPie jSONArray-> " + jSONArray.toString());
 							List<H1AMKYSY100104> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100104.class);
 							ChartPieResultData pie = new ChartPieResultData();
 							List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -235,7 +235,7 @@ public class HomePatentController extends BaseController {
 						result.setMessage("参数为空");
 					}
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					System.out.println(">>>>>>>>>>>>>>>getPatentByCountPie " + resultObj.toString());
+					//System.out.println(">>>>>>>>>>>>>>>getPatentByCountPie " + resultObj.toString());
 					return resultObj.toString();
 				}
 				
@@ -273,7 +273,7 @@ public class HomePatentController extends BaseController {
 						result.setMessage("参数为空");
 					}
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					System.out.println(">>>>>>>>>>>>>>>getPatentByCountCricle " + resultObj.toString());
+					//System.out.println(">>>>>>>>>>>>>>>getPatentByCountCricle " + resultObj.toString());
 					return resultObj.toString();
 				}
 				
@@ -308,7 +308,7 @@ public class HomePatentController extends BaseController {
 									if (statusCode == 200) 
 									{
 										JSONArray jSONArray = responseEntity.getBody();
-										System.out.println(">>>>>>>>>>>>>>getPatentByUnitBar jSONArray-> " + jSONArray.toString());
+										//System.out.println(">>>>>>>>>>>>>>getPatentByUnitBar jSONArray-> " + jSONArray.toString());
 										
 										List<H1AMKYSY100104> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100104.class);
 										List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"g0GSJC");
@@ -338,7 +338,7 @@ public class HomePatentController extends BaseController {
 									result.setMessage("参数为空");
 								}
 								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-								System.out.println(">>>>>>>>>>>>>>getPatentByUnitBar " + resultObj.toString());
+								//System.out.println(">>>>>>>>>>>>>>getPatentByUnitBar " + resultObj.toString());
 								return resultObj.toString();
 							}
 							
@@ -362,7 +362,7 @@ public class HomePatentController extends BaseController {
 									if (statusCode == 200) 
 									{
 										JSONArray jSONArray = responseEntity.getBody();
-										System.out.println(">>>>>>>>>>>>>>getPatentByUnitPie jSONArray-> " + jSONArray.toString());
+										//System.out.println(">>>>>>>>>>>>>>getPatentByUnitPie jSONArray-> " + jSONArray.toString());
 										List<H1AMKYSY100104> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100104.class);
 										ChartPieResultData pie = new ChartPieResultData();
 										List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -390,7 +390,7 @@ public class HomePatentController extends BaseController {
 									result.setMessage("参数为空");
 								}
 								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-								System.out.println(">>>>>>>>>>>>>>>getPatentByUnitPie " + resultObj.toString());
+								//System.out.println(">>>>>>>>>>>>>>>getPatentByUnitPie " + resultObj.toString());
 								return resultObj.toString();
 							}
 							
@@ -428,7 +428,7 @@ public class HomePatentController extends BaseController {
 									result.setMessage("参数为空");
 								}
 								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-								System.out.println(">>>>>>>>>>>>>>>getPatentByUnitCricle " + resultObj.toString());
+								//System.out.println(">>>>>>>>>>>>>>>getPatentByUnitCricle " + resultObj.toString());
 								return resultObj.toString();
 							}
 							
@@ -462,7 +462,7 @@ public class HomePatentController extends BaseController {
 									if (statusCode == 200) 
 									{
 										JSONArray jSONArray = responseEntity.getBody();
-										System.out.println(">>>>>>>>>>>>>>getPatentByDistributeBar jSONArray-> " + jSONArray.toString());
+										//System.out.println(">>>>>>>>>>>>>>getPatentByDistributeBar jSONArray-> " + jSONArray.toString());
 										
 										List<H1AMKYSY100104> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100104.class);
 										List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"g0GSJC");
@@ -492,7 +492,7 @@ public class HomePatentController extends BaseController {
 									result.setMessage("参数为空");
 								}
 								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-								System.out.println(">>>>>>>>>>>>>>getPatentByDistributeBar " + resultObj.toString());
+								//System.out.println(">>>>>>>>>>>>>>getPatentByDistributeBar " + resultObj.toString());
 								return resultObj.toString();
 							}
 				

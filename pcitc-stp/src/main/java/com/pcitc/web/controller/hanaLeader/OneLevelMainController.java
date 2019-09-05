@@ -157,7 +157,7 @@ public class OneLevelMainController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONObject jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
 
 				String projectMoney = String.valueOf(jSONArray.getString("projectMoney"));
 				String zysje = String.valueOf(jSONArray.getString("zysje"));
@@ -176,7 +176,7 @@ public class OneLevelMainController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
-		System.out.println(">>>>>>>>>>>>>investment_first_page_count " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>investment_first_page_count " + resultObj.toString());
 
 		return resault;
 	}
@@ -205,7 +205,7 @@ public class OneLevelMainController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONObject jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_count jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contract_count jSONArray-> " + jSONArray.toString());
 				Integer projectCount = jSONArray.getInteger("projectCount");
 				Map map = new HashMap();
 				map.put("projectCount", projectCount);
@@ -219,7 +219,7 @@ public class OneLevelMainController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
-		System.out.println(">>>>>>>>>>>>>contract_count " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>contract_count " + resultObj.toString());
 
 		return resault;
 	}
@@ -255,7 +255,7 @@ public class OneLevelMainController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>knowledge_table:" + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>knowledge_table:" + jSONArray.toString());
 
 			List<String> define1List = new ArrayList<String>();
 			List<String> define31List = new ArrayList<String>();// 8大研究院
@@ -295,7 +295,7 @@ public class OneLevelMainController extends BaseController {
 	@ResponseBody
 	public String knowledge_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println(">>>>>>>>>>>>knowledge_table_data>param:" + JSONObject.toJSONString(param));
+		//System.out.println(">>>>>>>>>>>>knowledge_table_data>param:" + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -308,7 +308,7 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>knowledge_table_data:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>knowledge_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -344,7 +344,7 @@ public class OneLevelMainController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>achievement_table:" + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>achievement_table:" + jSONArray.toString());
 
 			List<String> define1List = new ArrayList<String>();
 			List<String> define31List = new ArrayList<String>();// 8大研究院
@@ -423,7 +423,7 @@ public class OneLevelMainController extends BaseController {
 	@OperationFilter(dataFlag = "true")
 	public String achievement_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
+		//System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 		param.getParam().put("username", sysUserInfo.getUserName());
 
@@ -435,7 +435,7 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		// System.out.println(">>>>>>>>>>>>>achievement_table_data:" +
+		// //System.out.println(">>>>>>>>>>>>>achievement_table_data:" +
 		// result.toString());
 		return result.toString();
 	}
@@ -591,7 +591,7 @@ public class OneLevelMainController extends BaseController {
 	@ResponseBody
 	public String country_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println(">>>>>>>>>>>>country_table_data>param:" + JSONObject.toJSONString(param));
+		//System.out.println(">>>>>>>>>>>>country_table_data>param:" + JSONObject.toJSONString(param));
 
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -601,7 +601,7 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>country_table_data:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>country_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -838,7 +838,7 @@ public class OneLevelMainController extends BaseController {
 					String parentId = sysDictionary.getParentId();
 					if (zycbmFlag.equals(name)) {
 						// 得到父类
-						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
+						//System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
 						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
 						gsbmbmFlag = sys_Dictionary.getName();
 					}
@@ -856,7 +856,7 @@ public class OneLevelMainController extends BaseController {
 					String parentId = sysDictionary.getParentId();
 					if (zycbmFlag.equals(name)) {
 						// 得到父类
-						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
+						//System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
 						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
 						gsbmbmFlag = sys_Dictionary.getName();
 					}
@@ -874,7 +874,7 @@ public class OneLevelMainController extends BaseController {
 					String parentId = sysDictionary.getParentId();
 					if (zycbmFlag.equals(name)) {
 						// 得到父类
-						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
+						//System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
 						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
 						gsbmbmFlag = sys_Dictionary.getName();
 					}
@@ -892,7 +892,7 @@ public class OneLevelMainController extends BaseController {
 					String parentId = sysDictionary.getParentId();
 					if (zycbmFlag.equals(name)) {
 						// 得到父类
-						System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
+						//System.out.println(">>>>>>>>>>>>处室>zycbmFlag:" + zycbmFlag + " parentId=" + parentId);
 						SysDictionary sys_Dictionary = EquipmentUtils.getDictionaryById(parentId, restTemplate, httpHeaders);
 						gsbmbmFlag = sys_Dictionary.getName();
 					}
@@ -1291,7 +1291,7 @@ public class OneLevelMainController extends BaseController {
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String project_fx_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
+		//System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 		param.getParam().put("username", sysUserInfo.getUserName());
@@ -1301,7 +1301,7 @@ public class OneLevelMainController extends BaseController {
 		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
 		Object zylbbmFlag_code = param.getParam().get("zylbbmFlag");
 
-		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
+		//System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 		String gsbmbmFlag = "";
@@ -1346,7 +1346,7 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>project_fx_table_data:" + result.toString());
+		////System.out.println(">>>>>>>>>>>>>project_fx_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -1354,14 +1354,14 @@ public class OneLevelMainController extends BaseController {
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String project_fx_table_data_expert(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
+		//System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
 
 		// 封装：code->nameValue
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
 		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
 		Object zylbbmFlag_code = param.getParam().get("zylbbmFlag");
 
-		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
+		//System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 		param.getParam().put("username", sysUserInfo.getUserName());
@@ -1417,14 +1417,14 @@ public class OneLevelMainController extends BaseController {
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String project_fx_table_data_tree(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
+		//System.out.println(">>>>>>>>>>>project_fx_table_data三级表格参数：" + JSONObject.toJSONString(param));
 
 		// 封装：code->nameValue
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
 		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
 		Object zylbbmFlag_code = param.getParam().get("zylbbmFlag");
 
-		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
+		//System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 		param.getParam().put("username", sysUserInfo.getUserName());
@@ -1470,7 +1470,7 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>project_fx_table_data:" + result.toString());
+		////System.out.println(">>>>>>>>>>>>>project_fx_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -1481,13 +1481,13 @@ public class OneLevelMainController extends BaseController {
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String project_fx_table_data_year_expert(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println(">>>>>>>>>>>project_fx_table_data_year三级表格参数：" + JSONObject.toJSONString(param));
+		//System.out.println(">>>>>>>>>>>project_fx_table_data_year三级表格参数：" + JSONObject.toJSONString(param));
 		// 封装：code->nameValue
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
 		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
 		Object zylbbmFlag_code = param.getParam().get("zylbbmFlag");
 
-		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
+		//System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 		param.getParam().put("username", sysUserInfo.getUserName());
@@ -1533,7 +1533,7 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>project_fx_table_data:" + result.toString());
+		////System.out.println(">>>>>>>>>>>>>project_fx_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -1544,13 +1544,13 @@ public class OneLevelMainController extends BaseController {
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String project_fx_table_data_year(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println(">>>>>>>>>>>project_fx_table_data_year三级表格参数：" + JSONObject.toJSONString(param));
+		//System.out.println(">>>>>>>>>>>project_fx_table_data_year三级表格参数：" + JSONObject.toJSONString(param));
 		// 封装：code->nameValue
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
 		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
 		Object zylbbmFlag_code = param.getParam().get("zylbbmFlag");
 
-		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
+		//System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 		param.getParam().put("username", sysUserInfo.getUserName());
@@ -1596,7 +1596,7 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>project_fx_table_data:" + result.toString());
+		////System.out.println(">>>>>>>>>>>>>project_fx_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -1605,13 +1605,13 @@ public class OneLevelMainController extends BaseController {
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String count_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println(">>>>>>>>>>>count_table_data三级表格参数：" + JSONObject.toJSONString(param));
+		//System.out.println(">>>>>>>>>>>count_table_data三级表格参数：" + JSONObject.toJSONString(param));
 		// 封装：code->nameValue
 		Object gsbmbmFlag_code = param.getParam().get("gsbmbmFlag");
 		Object zycbmFlag_code = param.getParam().get("zycbmFlag");
 		Object zylbbmFlag_code = param.getParam().get("zylbbmFlag");
 
-		System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
+		//System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 		param.getParam().put("username", sysUserInfo.getUserName());
@@ -1657,7 +1657,7 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>count_table_data:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>count_table_data:" + result.toString());
 		return result.toString();
 	}
 
@@ -1670,11 +1670,11 @@ public class OneLevelMainController extends BaseController {
 		// DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()),
 		// DateUtil.FMT_YYYY));
 		String nd = request.getParameter("nd");
-		System.out.println("----------------nd0---------" + nd + "----- xmfl---- " + request.getParameter("xmfl"));
+		//System.out.println("----------------nd0---------" + nd + "----- xmfl---- " + request.getParameter("xmfl"));
 		if (nd == null) {
 			nd = DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()), DateUtil.FMT_YYYY);
 		}
-		System.out.println("----------------nd0---------" + nd + "----- xmfl---- " + request.getParameter("xmfl"));
+		//System.out.println("----------------nd0---------" + nd + "----- xmfl---- " + request.getParameter("xmfl"));
 		request.setAttribute("nd", nd);
 		request.setAttribute("xmfl", CommonUtil.getParameter(request, "xmfl", ""));// 项目分類：(公共领域，油气勘探.....)
 		request.setAttribute("xmzt", CommonUtil.getParameter(request, "xmzt", ""));// 项目状态：（入龙、出龙、退龙...）
@@ -1691,7 +1691,7 @@ public class OneLevelMainController extends BaseController {
 		HttpEntity<String> entity = new HttpEntity<String>(JSONObject.toJSONString(paramsMap), httpHeaders);
 
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_search_con, HttpMethod.POST, entity, JSONArray.class);
-		// System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		// //System.out.println(JSON.toJSONString(responseEntity.getBody()));
 
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
@@ -1716,14 +1716,14 @@ public class OneLevelMainController extends BaseController {
 						xmztList.add(showName.trim());
 					}
 				} else {
-					System.out.println("other param:" + showCode + ":" + showName);
+					//System.out.println("other param:" + showCode + ":" + showName);
 				}
 			}
 			request.setAttribute("yjyList", yjyList);
 			request.setAttribute("yjdwList", yjdwList);
 			request.setAttribute("xmflList", xmflList);
 			request.setAttribute("xmztList", xmztList);
-			System.out.println(JSON.toJSONString(xmztList));
+			//System.out.println(JSON.toJSONString(xmztList));
 		}
 		return "stp/hana/home/oneLevelMain/ten_dragon_table";
 	}
@@ -1734,7 +1734,7 @@ public class OneLevelMainController extends BaseController {
 	@OperationFilter(dataFlag = "true")
 	public String ten_dragon_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println(">>>>>>>>>>>>ten_dragon_table_data>param:" + JSONObject.toJSONString(param));
+		//System.out.println(">>>>>>>>>>>>ten_dragon_table_data>param:" + JSONObject.toJSONString(param));
 		PageResult pageResult = new PageResult();
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -1757,14 +1757,14 @@ public class OneLevelMainController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>ten_dragon_table_data jSONArray>>> " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>ten_dragon_table_data jSONArray>>> " + jSONArray.toString());
 			pageResult.setData(jSONArray);
 			pageResult.setCode(0);
 			pageResult.setCount(Long.valueOf(jSONArray.size()));
 			pageResult.setLimit(1000);
 			pageResult.setPage(1l);
 		}
-		System.out.println(">>>>>>>>>>>>>>>ten_dragon_table_data " + JSON.toJSON(pageResult).toString());
+		//System.out.println(">>>>>>>>>>>>>>>ten_dragon_table_data " + JSON.toJSON(pageResult).toString());
 		return JSON.toJSON(pageResult).toString();
 	}
 
@@ -1824,7 +1824,7 @@ public class OneLevelMainController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>common_table jSONArray " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>common_table jSONArray " + jSONArray.toString());
 
 			List<String> define1List = new ArrayList<String>();
 			List<String> define21List = new ArrayList<String>();// 8大研究院
@@ -1901,7 +1901,7 @@ public class OneLevelMainController extends BaseController {
 	
 
 	public static String setCommonTable(RestTemplate restTemplate,HttpHeaders httpHeaders,SysUser sysUserInfo,LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
-		System.out.println(">>>>>>>>>>>>common_table_data>param:" + JSONObject.toJSONString(param));
+		//System.out.println(">>>>>>>>>>>>common_table_data>param:" + JSONObject.toJSONString(param));
 		// 领导标识
 		param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
 		param.getParam().put("username", sysUserInfo.getUserName());
@@ -1913,7 +1913,7 @@ public class OneLevelMainController extends BaseController {
 
 		String gsbmbmFlag = "";
 		if (gsbmbmFlag_code != null) {
-			System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
+			//System.out.println(">>>>>>>>>>>gsbmbmFlagCode：" + gsbmbmFlag_code.toString());
 			String gsbmbmFlagCode = (String) gsbmbmFlag_code;
 			if (!gsbmbmFlagCode.equals("")) {
 				SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(gsbmbmFlagCode, restTemplate, httpHeaders);
@@ -1953,7 +1953,7 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>common_table:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>common_table:" + result.toString());
 		return result.toString();
 	}
 
@@ -1994,7 +1994,7 @@ public class OneLevelMainController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>knowledge_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>knowledge_01 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -2022,7 +2022,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>knowledge_01 type= " + type + " : " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>knowledge_01 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2050,7 +2050,7 @@ public class OneLevelMainController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>knowledge_pie_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>knowledge_pie_01 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartPieResultData pie = new ChartPieResultData();
@@ -2083,7 +2083,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>knowledge_pie_01 type= " + type + " : " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>knowledge_pie_01 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2111,7 +2111,7 @@ public class OneLevelMainController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>knowledge_pie jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>knowledge_pie jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartPieResultData pie = new ChartPieResultData();
@@ -2147,7 +2147,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>knowledge_pie type= " + type + " : " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>knowledge_pie type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2174,7 +2174,7 @@ public class OneLevelMainController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getKnowledgeBar_02 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getKnowledgeBar_02 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -2204,7 +2204,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>knowledge_bar_02 type= " + type + " : " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>knowledge_bar_02 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2230,7 +2230,7 @@ public class OneLevelMainController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getKnowledgeBar_02 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getKnowledgeBar_02 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -2261,7 +2261,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>knowledge_03 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>knowledge_03 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2313,7 +2313,7 @@ public class OneLevelMainController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contract_01 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				Contract contract = list.get(0);
 				Integer yqht = (Integer) contract.getYqht();
@@ -2393,7 +2393,7 @@ public class OneLevelMainController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_01_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contract_01_01 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -2436,11 +2436,11 @@ public class OneLevelMainController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>1>>>>>contract_01_01 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>1>>>>>contract_01_01 " + resultObj.toString());
 		} else {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>2>>>contract_01_01 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>2>>>contract_01_01 " + resultObj.toString());
 		}
 
 		return resault;
@@ -2502,7 +2502,7 @@ public class OneLevelMainController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>contract_02 jSONArray" + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>>contract_02 jSONArray" + jSONArray.toString());
 
 			List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 
@@ -2527,7 +2527,7 @@ public class OneLevelMainController extends BaseController {
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>contract_02 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>contract_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2560,7 +2560,7 @@ public class OneLevelMainController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_03 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contract_03 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -2603,15 +2603,15 @@ public class OneLevelMainController extends BaseController {
 		if (type.equals("1")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>>1>>contract_03 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>>1>>contract_03 " + resultObj.toString());
 		} else if (type.equals("2")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>2>>>contract_03 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>2>>>contract_03 " + resultObj.toString());
 		} else if (type.equals("mobile")) {
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 			resault = resultObj.toString();
-			System.out.println(">>>>>>>>>>>>mobile>>>contract_03 " + resultObj.toString());
+			//System.out.println(">>>>>>>>>>>>mobile>>>contract_03 " + resultObj.toString());
 		}
 		return resault;
 	}
@@ -2642,7 +2642,7 @@ public class OneLevelMainController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>contract_04 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>contract_04 jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				if (type.equals("1")) {
 					ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -2697,7 +2697,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>contract_04 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>contract_04 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2728,7 +2728,7 @@ public class OneLevelMainController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>contract_05 jSONArray" + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>>contract_05 jSONArray" + jSONArray.toString());
 
 			// List<Contract> list =
 			// JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
@@ -2746,7 +2746,7 @@ public class OneLevelMainController extends BaseController {
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>contract_05 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>contract_05 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2768,7 +2768,7 @@ public class OneLevelMainController extends BaseController {
 		temp.setZsl(zsl_count);
 		temp.setYqhtzj(yqhtzj_count);
 		DecimalFormat df = new DecimalFormat("0.00");
-		System.out.println("yqhtzj_count=" + yqhtzj_count + "zsl_count=" + zsl_count);
+		//System.out.println("yqhtzj_count=" + yqhtzj_count + "zsl_count=" + zsl_count);
 
 		String str = df.format(((float) yqhtzj_count / zsl_count) * 100);
 
@@ -2816,7 +2816,7 @@ public class OneLevelMainController extends BaseController {
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-			System.out.println(">>>>>>>>>>>>>>achievement_01 jSONArray-> " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>achievement_01 jSONArray-> " + jSONArray.toString());
 			ChartPieResultData pie = new ChartPieResultData();
 			List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
 			List<String> legendDataList = new ArrayList<String>();
@@ -2834,7 +2834,7 @@ public class OneLevelMainController extends BaseController {
 
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>achievement_01 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>achievement_01 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2861,7 +2861,7 @@ public class OneLevelMainController extends BaseController {
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-			System.out.println(">>>>>>>>>>>>>>achievement_02 jSONArray-> " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>achievement_02 jSONArray-> " + jSONArray.toString());
 
 			if (type.equals("1")) {
 				ChartSingleLineResultData csr = new ChartSingleLineResultData();
@@ -2897,7 +2897,7 @@ public class OneLevelMainController extends BaseController {
 
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println("type>>>>>>>>>>>" + type + ">>>>>>>>>>>>>>>achievement_02 " + resultObj.toString());
+		//System.out.println("type>>>>>>>>>>>" + type + ">>>>>>>>>>>>>>>achievement_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2923,7 +2923,7 @@ public class OneLevelMainController extends BaseController {
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
 			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-			System.out.println(">>>>>>>>>>>>>>achievement_03 jSONArray-> " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>achievement_03 jSONArray-> " + jSONArray.toString());
 
 			ChartSingleLineResultData csr = new ChartSingleLineResultData();
 			// X轴数据
@@ -2941,7 +2941,7 @@ public class OneLevelMainController extends BaseController {
 
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>achievement_03 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>achievement_03 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -2949,7 +2949,7 @@ public class OneLevelMainController extends BaseController {
 	@ResponseBody
 	public String achievement_04(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("achievement_04 param=   " + JSONObject.toJSONString(param));
+		//System.out.println("achievement_04 param=   " + JSONObject.toJSONString(param));
 		String nd = CommonUtil.getParameter(request, "nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		param.setLimit(2000);
 		param.getParam().put("nd", nd);
@@ -2961,7 +2961,7 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println("achievement_04 result=   " + result.toJSONString());
+		//System.out.println("achievement_04 result=   " + result.toJSONString());
 		return result.toString();
 	}
 
@@ -2970,7 +2970,7 @@ public class OneLevelMainController extends BaseController {
 	@ResponseBody
 	public String achievement_05(HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("achievement_05 param=   ");
+		//System.out.println("achievement_05 param=   ");
 
 		Object rs = null;
 		HttpEntity<Object> entity = new HttpEntity<Object>(httpHeaders);
@@ -2979,7 +2979,7 @@ public class OneLevelMainController extends BaseController {
 		if (statusCode == 200) {
 			rs = responseEntity.getBody();
 		}
-		System.out.println("achievement_05 result=   " + JSON.toJSONString(rs));
+		//System.out.println("achievement_05 result=   " + JSON.toJSONString(rs));
 		return JSON.toJSONString(rs);
 	}
 
@@ -3029,7 +3029,7 @@ public class OneLevelMainController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>equipment_01 jSONArray" + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>>equipment_01 jSONArray" + jSONArray.toString());
 			List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
 			List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "g0GSJC");
 			barLine.setxAxisDataList(xAxisDataList);
@@ -3055,7 +3055,7 @@ public class OneLevelMainController extends BaseController {
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>equipment_01 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>equipment_01 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -3080,7 +3080,7 @@ public class OneLevelMainController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>equipment_02 " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>>equipment_02 " + jSONArray.toString());
 
 			List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
 			// List<String>
@@ -3133,7 +3133,7 @@ public class OneLevelMainController extends BaseController {
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		// System.out.println(">>>>>>>>>>>>>>>equipment_02 " +
+		// //System.out.println(">>>>>>>>>>>>>>>equipment_02 " +
 		// resultObj.toString());
 		return resultObj.toString();
 	}
@@ -3172,7 +3172,7 @@ public class OneLevelMainController extends BaseController {
 	@ResponseBody
 	public String equipment_03(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-		System.out.println("equipment_03 param=   " + JSONObject.toJSONString(param));
+		//System.out.println("equipment_03 param=   " + JSONObject.toJSONString(param));
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(equipment_03, HttpMethod.POST, entity, LayuiTableData.class);
@@ -3181,7 +3181,7 @@ public class OneLevelMainController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println("equipment_03 result=   " + result.toJSONString());
+		//System.out.println("equipment_03 result=   " + result.toJSONString());
 		return result.toString();
 	}
 
@@ -3210,7 +3210,7 @@ public class OneLevelMainController extends BaseController {
 			result.setData(jSONArray.toString());
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>equipment_04 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>equipment_04 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -3256,7 +3256,7 @@ public class OneLevelMainController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>dragon_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>dragon_01 jSONArray-> " + jSONArray.toString());
 				List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 
 				ChartPieResultData pie = new ChartPieResultData();
@@ -3281,7 +3281,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>dragon_01 type= " + type + " : " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>dragon_01 type= " + type + " : " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -3311,7 +3311,7 @@ public class OneLevelMainController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>>dragon_02 jSONArray" + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>>dragon_02 jSONArray" + jSONArray.toString());
 			// List<ProjectForMysql> list =
 			// JSONObject.parseArray(jSONArray.toJSONString(),
 			// ProjectForMysql.class);
@@ -3348,7 +3348,7 @@ public class OneLevelMainController extends BaseController {
 			result.setData(chartSingleLineResultData);
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>dragon_02 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>dragon_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -3377,7 +3377,7 @@ public class OneLevelMainController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>dragon_03 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>dragon_03 jSONArray-> " + jSONArray.toString());
 				List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
 				barLine.setxAxisDataList(xAxisDataList);
@@ -3403,7 +3403,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>dragon_03 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>dragon_03 " + resultObj.toString());
 
 		return resultObj.toString();
 	}
@@ -3419,7 +3419,7 @@ public class OneLevelMainController extends BaseController {
 		paramsMap.put("nd", nd);
 		paramsMap.put("type_flag", "研究院");
 		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_01, HttpMethod.POST, new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders), JSONArray.class);
-		System.out.println(">>>>>>>>>>>>>>dragon_03-01 " + responseEntity.getBody().toString());
+		//System.out.println(">>>>>>>>>>>>>>dragon_03-01 " + responseEntity.getBody().toString());
 
 		return responseEntity.getBody().toString();
 	}
@@ -3446,7 +3446,7 @@ public class OneLevelMainController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>getZdstlTable jSONArray>>> " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>getZdstlTable jSONArray>>> " + jSONArray.toString());
 			// List<ProjectForMysql> list =
 			// JSONObject.parseArray(jSONArray.toJSONString(),
 			// ProjectForMysql.class);
@@ -3458,7 +3458,7 @@ public class OneLevelMainController extends BaseController {
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>getZdstlTable " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getZdstlTable " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -3488,7 +3488,7 @@ public class OneLevelMainController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONObject jSONObject = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>jSONObject -> " + jSONObject.toString());
+				//System.out.println(">>>>>>>>>>>>>>jSONObject -> " + jSONObject.toString());
 				result.setSuccess(true);
 				result.setData(jSONObject);
 
@@ -3500,7 +3500,7 @@ public class OneLevelMainController extends BaseController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		resault = resultObj.toString();
-		System.out.println(">>>>>>>>>>>>>dragon_count " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>dragon_count " + resultObj.toString());
 
 		return resault;
 	}
@@ -3530,7 +3530,7 @@ public class OneLevelMainController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>getStlTable jSONArray>>> " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>getStlTable jSONArray>>> " + jSONArray.toString());
 			// List<ProjectForMysql> list =
 			// JSONObject.parseArray(jSONArray.toJSONString(),
 			// ProjectForMysql.class);
@@ -3542,7 +3542,7 @@ public class OneLevelMainController extends BaseController {
 		}
 		// JSONObject resultObj =
 		// JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>getStlTable " + JSON.toJSON(pageResult).toString());
+		//System.out.println(">>>>>>>>>>>>>>>getStlTable " + JSON.toJSON(pageResult).toString());
 		return JSON.toJSON(pageResult).toString();
 	}
 
@@ -3604,7 +3604,7 @@ public class OneLevelMainController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_01 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>investment_01 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				if (type != null && type.equals("1")) {
 					result.setData(list);
@@ -3639,7 +3639,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>investment_01 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>investment_01 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -3664,7 +3664,7 @@ public class OneLevelMainController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_0101 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>investment_0101 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				result.setSuccess(true);
 				result.setData(list);
@@ -3675,7 +3675,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>investment_0101 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>investment_0101 " + resultObj.toString());
 
 		// 安全设置：归档文件下载
 		response.setHeader("Pragma", "no-cache");
@@ -3712,7 +3712,7 @@ public class OneLevelMainController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			// System.out.println(">>>>>>>>>>>>investment_01_01 jSONArray>>> " +
+			// //System.out.println(">>>>>>>>>>>>investment_01_01 jSONArray>>> " +
 			// jSONArray.toString());
 			List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
@@ -3810,7 +3810,7 @@ public class OneLevelMainController extends BaseController {
 		}
 
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		// System.out.println(">>>>>>>>>>>>>>>investment_01_01 " +
+		// //System.out.println(">>>>>>>>>>>>>>>investment_01_01 " +
 		// resultObj.toString());
 		return resultObj.toString();
 	}
@@ -3848,7 +3848,7 @@ public class OneLevelMainController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				if (type.equals("mobile")) {
 					result.setSuccess(true);
@@ -3883,7 +3883,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>type=" + type + ">>>>>investment_02 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>type=" + type + ">>>>>investment_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 	
@@ -3929,7 +3929,7 @@ public class OneLevelMainController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_03 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>investment_03 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				if (type.equals("1")) {
 					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "zycmc");
@@ -3968,7 +3968,7 @@ public class OneLevelMainController extends BaseController {
 			result.setSuccess(false);
 			result.setMessage("参数为空");
 		}
-		System.out.println(">>>>>>>type=" + type + ">>>>>>>investment_03 " + resultObj.toString());
+		//System.out.println(">>>>>>>type=" + type + ">>>>>>>investment_03 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -4002,7 +4002,7 @@ public class OneLevelMainController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_02_count jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>investment_02_count jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 
 				List<Object> dataList = new ArrayList<Object>();
@@ -4049,7 +4049,7 @@ public class OneLevelMainController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>investment_02_count " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>investment_02_count " + resultObj.toString());
 		return resultObj.toString();
 	}
 

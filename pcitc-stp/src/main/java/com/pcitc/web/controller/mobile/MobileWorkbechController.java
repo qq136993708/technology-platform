@@ -402,7 +402,7 @@ public class MobileWorkbechController extends BaseController
 	public int saveMyBotWorkOrderMatterFeedBack(HttpServletRequest request) 
 	{
 		String param = request.getParameter("param");
-		System.out.println("--saveMyBotWorkOrderMatterFeedBack="+param);
+		//System.out.println("--saveMyBotWorkOrderMatterFeedBack="+param);
 		JSONObject jsStr = (JSONObject) JSON.parseObject(param);
 		jsStr.put("auditSts", "0");
 		jsStr.put("createDate", DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
@@ -463,12 +463,12 @@ public class MobileWorkbechController extends BaseController
  	//处理待办
  	@RequestMapping(value = "/mobile/task/pending/deal/{taskId}")
 	public String iniDealTask(@PathVariable("taskId") String taskId, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("1=====iniDealTask====" + taskId);
+		//System.out.println("1=====iniDealTask====" + taskId);
 
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setTaskId(taskId);
 		ResponseEntity<JSONObject> retJson = this.restTemplate.exchange(INI_DEAL_TASK, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), JSONObject.class);
-		System.out.println("iniDealTask=====" + retJson.getBody());
+		//System.out.println("iniDealTask=====" + retJson.getBody());
 		// 当前审批人信息
 		request.setAttribute("userInfo", sysUserInfo);
 		request.setAttribute("auditDetailsPath", retJson.getBody().get("auditDetailsPath"));
@@ -526,7 +526,7 @@ public class MobileWorkbechController extends BaseController
 		param.setPage(page);
 		param.setLimit(15);
 		
-		System.out.println("==== 待办 param-->" + JSON.toJSON(param).toString());
+		//System.out.println("==== 待办 param-->" + JSON.toJSON(param).toString());
 		// 获取当前登录人信息, 统一身份名作为用户id
 		param.getParam().put("userId", sysUserInfo.getUserName());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -683,7 +683,7 @@ public class MobileWorkbechController extends BaseController
 				// 定时的任务暂时不让受理人看到。子工作任务不用考虑定时时间/类型
 				planBase.setIsSchedule(bsv.getIsSchedule());
 
-				System.out.println("announcements = " + detail.get("announcements"));
+				//System.out.println("announcements = " + detail.get("announcements"));
 				planBase.setAnnouncements(StrUtil.objectToString(detail.get("announcements")));
 				baseList.add(planBase);
 			}
@@ -733,7 +733,7 @@ public class MobileWorkbechController extends BaseController
 
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
 		requestBody.add("jsonStr", jsonStr.toJSONString());
-		System.out.println("2====processList====" + jsonStr.toJSONString());
+		//System.out.println("2====processList====" + jsonStr.toJSONString());
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, httpHeaders);
 
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(INSTANCE_TASK_PAGE_URL + instanceId, HttpMethod.POST, entity, JSONObject.class);
@@ -747,7 +747,7 @@ public class MobileWorkbechController extends BaseController
 		jsonObj.put("msg", "提示");
 		jsonObj.put("count", totalCount);
 		jsonObj.put("data", auditList);
-		System.out.println("2====processList====" + jsonObj.toString());
+		//System.out.println("2====processList====" + jsonObj.toString());
 		return jsonObj.toString();
 	}
 	

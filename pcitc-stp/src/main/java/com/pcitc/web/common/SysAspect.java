@@ -162,7 +162,7 @@ public class SysAspect extends BaseController {
 
 							for (SysFunctionProperty sfpVO : sfpList) {
 								if (inPro != null && inPro.getParam().get(sfpVO.getProCode()) == null) {
-									System.out.println(sfpVO.getProCode() + "========自动加入的控制数据key-value================" + sfpVO.getPostConfigValue());
+									//System.out.println(sfpVO.getProCode() + "========自动加入的控制数据key-value================" + sfpVO.getPostConfigValue());
 									inPro.getParam().put(sfpVO.getProCode(), sfpVO.getPostConfigValue());
 								}
 							}
@@ -192,7 +192,7 @@ public class SysAspect extends BaseController {
 							List<SysFunctionProperty> sfpList = JSONArray.parseArray(retJson.toString(), SysFunctionProperty.class);
 							for (SysFunctionProperty sfpVO : sfpList) {
 								if (inPro != null && inPro.getParameter(sfpVO.getProCode()) == null) {
-									System.out.println(sfpVO.getProCode() + "========自动加入的控制数据key-value================" + sfpVO.getPostConfigValue());
+									//System.out.println(sfpVO.getProCode() + "========自动加入的控制数据key-value================" + sfpVO.getPostConfigValue());
 									inPro.setAttribute(sfpVO.getProCode(), sfpVO.getPostConfigValue());
 								}
 							}

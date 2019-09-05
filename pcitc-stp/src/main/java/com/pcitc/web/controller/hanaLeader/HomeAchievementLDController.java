@@ -93,7 +93,7 @@ public class HomeAchievementLDController extends BaseController {
 
 		JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
 
-		System.out.println(">>>>>>>>>>>>>getAwardTable参数 :" + tt.toString());
+		//System.out.println(">>>>>>>>>>>>>getAwardTable参数 :" + tt.toString());
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getAwardTable, HttpMethod.POST, entity, LayuiTableData.class);
@@ -102,7 +102,7 @@ public class HomeAchievementLDController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		System.out.println(">>>>>>>>>>>>>getAwardTable:" + result.toString());
+		//System.out.println(">>>>>>>>>>>>>getAwardTable:" + result.toString());
 		return result.toString();
 	}
 
@@ -115,7 +115,7 @@ public class HomeAchievementLDController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 
-		System.out.println(">>>>>>>>>>>>>getAwardTypeList参数 nd :" + nd + " type=" + type);
+		//System.out.println(">>>>>>>>>>>>>getAwardTypeList参数 nd :" + nd + " type=" + type);
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
@@ -133,7 +133,7 @@ public class HomeAchievementLDController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getAwardTypeList type=" + type + "jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getAwardTypeList type=" + type + "jSONArray-> " + jSONArray.toString());
 				List<Award> list = JSONObject.parseArray(jSONArray.toJSONString(), Award.class);
 				if (type.equals("1")) {
 					ChartSingleLineResultData csr = new ChartSingleLineResultData();
@@ -150,7 +150,7 @@ public class HomeAchievementLDController extends BaseController {
 					result.setSuccess(true);
 					result.setData(csr);
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					System.out.println(">>>>>>>>>>>>>>getAwardTypeList 1结果 " + resultObj.toString());
+					//System.out.println(">>>>>>>>>>>>>>getAwardTypeList 1结果 " + resultObj.toString());
 				}
 				if (type.equals("2")) {
 
@@ -203,7 +203,7 @@ public class HomeAchievementLDController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>getAwardCircle jSONArray  " + jSONArray.toString());
+			//System.out.println(">>>>>>>>>>>>>>getAwardCircle jSONArray  " + jSONArray.toString());
 
 			List<Award> list = JSONObject.parseArray(jSONArray.toJSONString(), Award.class);
 			List<String> lista = HanaUtil.getduplicatexAxisByList(list, "cglx");
@@ -217,7 +217,7 @@ public class HomeAchievementLDController extends BaseController {
 			pageResult.setPage(1l);
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>getAwardCircle " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getAwardCircle " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -230,7 +230,7 @@ public class HomeAchievementLDController extends BaseController {
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		String type = CommonUtil.getParameter(request, "type", "");
 
-		System.out.println(">>>>>>>>>>>>>get_unit_result_count参数 nd :" + nd + " type=" + type);
+		//System.out.println(">>>>>>>>>>>>>get_unit_result_count参数 nd :" + nd + " type=" + type);
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
@@ -247,7 +247,7 @@ public class HomeAchievementLDController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>get_unit_result_count type=" + type + "jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>get_unit_result_count type=" + type + "jSONArray-> " + jSONArray.toString());
 				List<Award> list = JSONObject.parseArray(jSONArray.toJSONString(), Award.class);
 				if (type.equals("1")) {
 					ChartSingleLineResultData csr = new ChartSingleLineResultData();
@@ -264,7 +264,7 @@ public class HomeAchievementLDController extends BaseController {
 					result.setSuccess(true);
 					result.setData(csr);
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					System.out.println(">>>>>>>>>>>>>>get_unit_result_count 结果 " + resultObj.toString());
+					//System.out.println(">>>>>>>>>>>>>>get_unit_result_count 结果 " + resultObj.toString());
 
 				}
 				if (type.equals("2")) {
@@ -303,7 +303,7 @@ public class HomeAchievementLDController extends BaseController {
 
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 
-		System.out.println(">>>>>>>>>>>>>get_institution_result_count参数 nd :" + nd);
+		//System.out.println(">>>>>>>>>>>>>get_institution_result_count参数 nd :" + nd);
 
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
@@ -319,7 +319,7 @@ public class HomeAchievementLDController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>get_institution_result_count jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>get_institution_result_count jSONArray-> " + jSONArray.toString());
 				List<Award> list = JSONObject.parseArray(jSONArray.toJSONString(), Award.class);
 
 				ChartPieResultData pie = new ChartPieResultData();
@@ -338,7 +338,7 @@ public class HomeAchievementLDController extends BaseController {
 				result.setData(pie);
 
 				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-				System.out.println(">>>>>>>>>>>>>>get_institution_result_count 结果 " + resultObj.toString());
+				//System.out.println(">>>>>>>>>>>>>>get_institution_result_count 结果 " + resultObj.toString());
 
 			}
 
@@ -360,7 +360,7 @@ public class HomeAchievementLDController extends BaseController {
 		String type = CommonUtil.getParameter(request, "type", "");
 		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 
-		System.out.println(">>>>>>>>>>>>>getAwardUnitTypeList参数 nd :" + nd + " type=" + type);
+		//System.out.println(">>>>>>>>>>>>>getAwardUnitTypeList参数 nd :" + nd + " type=" + type);
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
 		paramsMap.put("cgjszy", cgjszy);
@@ -374,7 +374,7 @@ public class HomeAchievementLDController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>getAwardUnitTypeList jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>getAwardUnitTypeList jSONArray-> " + jSONArray.toString());
 				List<Award> list = JSONObject.parseArray(jSONArray.toJSONString(), Award.class);
 
 				ChartBarLineResultData barLine = new ChartBarLineResultData();
@@ -420,7 +420,7 @@ public class HomeAchievementLDController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>getAwardUnitTypeList 结果 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>>getAwardUnitTypeList 结果 " + resultObj.toString());
 		return resultObj.toString();
 	}
 

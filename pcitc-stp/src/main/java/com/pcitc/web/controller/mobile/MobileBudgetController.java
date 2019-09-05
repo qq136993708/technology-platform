@@ -63,7 +63,7 @@ public class MobileBudgetController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>index_budget jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>index_budget jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				result.setData(list);
 				result.setSuccess(true);
@@ -74,7 +74,7 @@ public class MobileBudgetController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>index_budget " + resultObj.toString());
+		//System.out.println(">>>>>>>>>>>>>>index_budget " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -109,13 +109,13 @@ public class MobileBudgetController extends BaseController {
 	 * entity, JSONArray.class); int statusCode =
 	 * responseEntity.getStatusCodeValue(); if (statusCode == 200) { JSONArray
 	 * jSONArray = responseEntity.getBody();
-	 * System.out.println(">>>>>>>>>>>>>>imobilenvestment_02 jSONArray-> " +
+	 * //System.out.println(">>>>>>>>>>>>>>imobilenvestment_02 jSONArray-> " +
 	 * jSONArray.toString()); List<BudgetMysql> list =
 	 * JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 	 * result.setSuccess(true); result.setData(list); } }else {
 	 * result.setSuccess(false); result.setMessage("参数为空"); } JSONObject
 	 * resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-	 * System.out.println(">>>>>>>>>type=" + type + ">>>>>imobilenvestment_02 "
+	 * //System.out.println(">>>>>>>>>type=" + type + ">>>>>imobilenvestment_02 "
 	 * + resultObj.toString()); return resultObj.toString(); }
 	 */
 
@@ -148,7 +148,7 @@ public class MobileBudgetController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				result.setSuccess(true);
 				result.setData(list);
@@ -160,7 +160,7 @@ public class MobileBudgetController extends BaseController {
 			result.setMessage("参数为空");
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>type=" + type + ">>>>>investment_02 " + resultObj.toString());
+		//System.out.println(">>>>>>>>>type=" + type + ">>>>>investment_02 " + resultObj.toString());
 		return resultObj.toString();
 	}
 
@@ -190,7 +190,7 @@ public class MobileBudgetController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>>>getBudgetInfo jSONArray-> " + jSONArray.toString());
+			////System.out.println(">>>>>>>>>>>>>>getBudgetInfo jSONArray-> " + jSONArray.toString());
 			result.setSuccess(true);
 			result.setData(jSONArray);
 		}
@@ -232,7 +232,7 @@ public class MobileBudgetController extends BaseController {
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200) {
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>investment_03 jSONArray-> " + jSONArray.toString());
+				//System.out.println(">>>>>>>>>>>>>>investment_03 jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 				result.setSuccess(true);
 				result.setData(list);
@@ -244,7 +244,7 @@ public class MobileBudgetController extends BaseController {
 			result.setSuccess(false);
 			result.setMessage("参数为空");
 		}
-		System.out.println(">>>>>>>type=" + type + ">>>>>>>investment_03 " + resultObj.toString());
+		//System.out.println(">>>>>>>type=" + type + ">>>>>>>investment_03 " + resultObj.toString());
 		return resultObj.toString();
 	}
 

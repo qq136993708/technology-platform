@@ -88,7 +88,7 @@ public class HomeLevel2Controller extends BaseController {
 						layuiTableData = responseEntity.getBody();
 					}
 					JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-					System.out.println(">>>>>>>>>>>>>getKYZBTble:" + result.toString());
+					//System.out.println(">>>>>>>>>>>>>getKYZBTble:" + result.toString());
 					return result.toString();
 				}
 				 @RequestMapping(method = RequestMethod.GET, value = "/jfzc_table")
@@ -134,7 +134,7 @@ public class HomeLevel2Controller extends BaseController {
 							layuiTableData = responseEntity.getBody();
 						}
 						JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-						System.out.println(">>>>>>>>>>>>>getJFZCLevel3TAble:" + result.toString());
+						//System.out.println(">>>>>>>>>>>>>getJFZCLevel3TAble:" + result.toString());
 						return result.toString();
 					}
 				
@@ -158,7 +158,7 @@ public class HomeLevel2Controller extends BaseController {
 						if (statusCode == 200) 
 						{
 							JSONArray jSONArray = responseEntity.getBody();
-							System.out.println(">>>>>>>>>>>>>>getJFZCLevel2 jSONArray-> " + jSONArray.toString());
+							//System.out.println(">>>>>>>>>>>>>>getJFZCLevel2 jSONArray-> " + jSONArray.toString());
 							
 							List<H1AMKYSY100104> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100104.class);
 							List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"g0GSJC");
@@ -188,7 +188,7 @@ public class HomeLevel2Controller extends BaseController {
 						result.setMessage("参数为空");
 					}
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					System.out.println(">>>>>>>>>>>>>>getJFZCLevel2 " + resultObj.toString());
+					//System.out.println(">>>>>>>>>>>>>>getJFZCLevel2 " + resultObj.toString());
 					return resultObj.toString();
 				}
 				
@@ -214,7 +214,7 @@ public class HomeLevel2Controller extends BaseController {
 						if (statusCode == 200) 
 						{
 							JSONArray jSONArray = responseEntity.getBody();
-							System.out.println(">>>>>>>>>>>>>>getJFZCLevel2Pie jSONArray-> " + jSONArray.toString());
+							//System.out.println(">>>>>>>>>>>>>>getJFZCLevel2Pie jSONArray-> " + jSONArray.toString());
 							List<H1AMKYSY100104> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100104.class);
 							ChartPieResultData pie = new ChartPieResultData();
 							List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -242,7 +242,7 @@ public class HomeLevel2Controller extends BaseController {
 						result.setMessage("参数为空");
 					}
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					System.out.println(">>>>>>>>>>>>>>>getJFZCLevel2Pie " + resultObj.toString());
+					//System.out.println(">>>>>>>>>>>>>>>getJFZCLevel2Pie " + resultObj.toString());
 					return resultObj.toString();
 				}
 				
@@ -281,7 +281,7 @@ public class HomeLevel2Controller extends BaseController {
 						result.setMessage("参数为空");
 					}
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					System.out.println(">>>>>>>>>>>>>>>getJFZCLevel2Circle " + resultObj.toString());
+					//System.out.println(">>>>>>>>>>>>>>>getJFZCLevel2Circle " + resultObj.toString());
 					return resultObj.toString();
 				}
 				
@@ -322,7 +322,7 @@ public class HomeLevel2Controller extends BaseController {
 						layuiTableData = responseEntity.getBody();
 					}
 					JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-					System.out.println(">>>>>>>>>>>>>getKYZBTble:" + result.toString());
+					//System.out.println(">>>>>>>>>>>>>getKYZBTble:" + result.toString());
 					return result.toString();
 				}
 				 @RequestMapping(method = RequestMethod.GET, value = "/ndys_table")
@@ -368,7 +368,7 @@ public class HomeLevel2Controller extends BaseController {
 							layuiTableData = responseEntity.getBody();
 						}
 						JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-						System.out.println(">>>>>>>>>>>>>getndysLevel3TAble:" + result.toString());
+						//System.out.println(">>>>>>>>>>>>>getndysLevel3TAble:" + result.toString());
 						return result.toString();
 					}
 				
@@ -392,7 +392,7 @@ public class HomeLevel2Controller extends BaseController {
 						if (statusCode == 200) 
 						{
 							JSONArray jSONArray = responseEntity.getBody();
-							System.out.println(">>>>>>>>>>>>>>getNDYSLevel2 jSONArray-> " + jSONArray.toString());
+							//System.out.println(">>>>>>>>>>>>>>getNDYSLevel2 jSONArray-> " + jSONArray.toString());
 							
 							List<H1AMKYSY100104> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100104.class);
 							List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"g0GSJC");
@@ -417,7 +417,7 @@ public class HomeLevel2Controller extends BaseController {
 						result.setMessage("参数为空");
 					}
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					System.out.println(">>>>>>>>>>>>>>getNDYSLevel2 " + resultObj.toString());
+					//System.out.println(">>>>>>>>>>>>>>getNDYSLevel2 " + resultObj.toString());
 					return resultObj.toString();
 				}
 				
@@ -443,7 +443,7 @@ public class HomeLevel2Controller extends BaseController {
 						if (statusCode == 200) 
 						{
 							JSONArray jSONArray = responseEntity.getBody();
-							System.out.println(">>>>>>>>>>>>>>getJFXDPie jSONArray-> " + jSONArray.toString());
+							//System.out.println(">>>>>>>>>>>>>>getJFXDPie jSONArray-> " + jSONArray.toString());
 							List<H1AMKYSY100104> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100104.class);
 							ChartPieResultData pie = new ChartPieResultData();
 							List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
@@ -471,7 +471,7 @@ public class HomeLevel2Controller extends BaseController {
 						result.setMessage("参数为空");
 					}
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					System.out.println(">>>>>>>>>>>>>>>getNDYSLevel2Bar " + resultObj.toString());
+					//System.out.println(">>>>>>>>>>>>>>>getNDYSLevel2Bar " + resultObj.toString());
 					return resultObj.toString();
 				}
 				
@@ -510,7 +510,7 @@ public class HomeLevel2Controller extends BaseController {
 						result.setMessage("参数为空");
 					}
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					System.out.println(">>>>>>>>>>>>>>>getNDYSLevel2Circle " + resultObj.toString());
+					//System.out.println(">>>>>>>>>>>>>>>getNDYSLevel2Circle " + resultObj.toString());
 					return resultObj.toString();
 				}
 				

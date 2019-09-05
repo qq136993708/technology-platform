@@ -157,7 +157,7 @@ public class MobileController extends BaseController {
 		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("year", HanaUtil.getBeforeYear());
 		paramMap.put("unitCode", department.getTypeCode());
-		System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      year = "+HanaUtil.getBeforeYear()+" unitCode="+department.getTypeCode());
+		//System.out.println(">exput_excel>>>>>>>>>>>>>>>>>>>>参数      year = "+HanaUtil.getBeforeYear()+" unitCode="+department.getTypeCode());
 		
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		ResponseEntity<TechOrgCount> rs = restTemplate.exchange(getTechOrgCountByUncodeYear, HttpMethod.POST, httpEntity, TechOrgCount.class);
@@ -212,7 +212,7 @@ public class MobileController extends BaseController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 		Date date = new Date();
 
-		System.out.println("1====getAppraisalCount" + request.getParameter("nd"));
+		//System.out.println("1====getAppraisalCount" + request.getParameter("nd"));
 		if (request.getParameter("lastYearFlag") != null && !request.getParameter("lastYearFlag").equals("")) {
 			map.put("nd", String.valueOf(Integer.parseInt(sdf.format(date)) - 1));
 		}
@@ -229,7 +229,7 @@ public class MobileController extends BaseController {
 		map.put("leaderFlag", String.valueOf(sysUserInfo.getUserLevel()));
 
 		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
-		System.out.println("1====cgjszy" + cgjszy);
+		//System.out.println("1====cgjszy" + cgjszy);
 
 		map.put("cgjszy", cgjszy);
 
@@ -281,7 +281,7 @@ public class MobileController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>index_contract jSONArray-> " + jSONArray.toString());
+				////System.out.println(">>>>>>>>>>>>>>index_contract jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				Contract contract = list.get(0);
 				Integer yqht = (Integer) contract.getYqht();
@@ -361,7 +361,7 @@ public class MobileController extends BaseController {
 			if (statusCode == 200) {
 
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>index_contract_rate jSONArray-> " + jSONArray.toString());
+				////System.out.println(">>>>>>>>>>>>>>index_contract_rate jSONArray-> " + jSONArray.toString());
 				List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 				if (type.equals("1")) {
 					Contract contract = list.get(0);
@@ -733,7 +733,7 @@ public class MobileController extends BaseController {
 		param.getParam().put("cgjszy", cgjszy);
 		
 		
-		System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
+		//System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
 		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -753,7 +753,7 @@ public class MobileController extends BaseController {
 	@RequestMapping(value = "/mobile/getAppraisalInfoByjdh/{jdh}", method = RequestMethod.POST)
 	@ResponseBody
 	public OutAppraisal  getAppraisalInfoByjdh(@PathVariable("jdh") String jdh, HttpServletRequest request) {
-		System.out.println("-------------------------getAppraisalInfoByjdh --------------------------------");
+		//System.out.println("-------------------------getAppraisalInfoByjdh --------------------------------");
 		ResponseEntity<OutAppraisal> responseEntity = this.restTemplate.exchange(GET_OUT_APPRAISAL + jdh, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), OutAppraisal.class);
 		OutAppraisal  outAppraisal = responseEntity.getBody();
 		return outAppraisal;
