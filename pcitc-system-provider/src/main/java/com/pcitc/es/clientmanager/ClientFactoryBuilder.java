@@ -47,10 +47,9 @@ public class ClientFactoryBuilder {
 	public static TransportClient client;
 
 	public TransportClient getClient() {
-
+		System.out.println("0ClientFactoryBuilder------getClient------" + client);
 		if (client == null) {
-			
-			System.out.println("1HOSTS == null------------" + HOSTS);
+			System.out.println("1ClientFactoryBuilder------getClient------" + HOSTS);
 			if (HOSTS != null && HOSTS.size() > 0 && CLIENT_PORT != null) {
 				return clientByConfig();
 			}
