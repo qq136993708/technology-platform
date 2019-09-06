@@ -306,6 +306,12 @@ html {
 				}
 			});
 			$(".layui-time").html($("#nd").val());
+			
+			
+			$("#knowledge_table").click(function() {
+				var url = encodeURIComponent("/one_level_main/common_table_new?ysnd=" + $("#nd").val() + "&groupFlag=xmid&nd="+ $("#nd").val());
+				window.open("/instituteIndex?url=" + url);
+			});
 
 			//监听行单击事件
 			table.on('row(myTable)', function(obj) {
