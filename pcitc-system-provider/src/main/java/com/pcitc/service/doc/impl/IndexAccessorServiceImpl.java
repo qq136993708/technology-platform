@@ -26,11 +26,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pcitc.base.common.HotWord;
+import com.pcitc.config.SpringContextUtil;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.es.clientmanager.IndexHelperBuilder;
 import com.pcitc.es.utils.SearchUtil;
 import com.pcitc.service.doc.AccessorService;
 import com.pcitc.service.doc.IndexAccessorService;
+import com.pcitc.service.system.SysMessageService;
 
 /**
  * @author:Administrator
@@ -43,10 +45,10 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
 
     private static TransportClient client;
     
-    @Autowired
-    private ClientFactoryBuilder clientFactoryBuilder;
-
+    private static ClientFactoryBuilder clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+    
     public IndexAccessorServiceImpl() {
+    	
         try {
             if (client == null) {
             	System.out.println("IndexAccessorServiceImpl:初始化client " + clientFactoryBuilder);

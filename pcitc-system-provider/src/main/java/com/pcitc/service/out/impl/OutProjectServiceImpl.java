@@ -42,6 +42,7 @@ import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyEs;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.StrUtil;
+import com.pcitc.config.SpringContextUtil;
 import com.pcitc.es.builder.BooleanCondtionBuilder;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.es.clientmanager.IndexHelperBuilder;
@@ -2343,8 +2344,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return data;
 	}
 
-	@Autowired
-	private ClientFactoryBuilder clientFactoryBuilder;
+	private static ClientFactoryBuilder clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
 
 	public OutProjectInfo getOutProjectShowByIdFc(String dataId) {
 		OutProjectInfo outProjectInfo = outProjectInfoMapper.selectByPrimaryKey(dataId);

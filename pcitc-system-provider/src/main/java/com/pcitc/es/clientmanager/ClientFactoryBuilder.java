@@ -17,9 +17,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ClientFactoryBuilder {
-	private ClientFactoryBuilder() {
-		System.out.println("======================ClientFactoryBuilder");
-	}
 	
 	@Value("#{'${elasticsearch.hosts}'.split(',')}")
 	private List<String> HOSTS;
