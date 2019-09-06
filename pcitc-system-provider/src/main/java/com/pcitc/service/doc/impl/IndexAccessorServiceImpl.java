@@ -46,7 +46,7 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
     public IndexAccessorServiceImpl() {
         try {
             if (client == null) {
-            	System.out.println("IndexAccessorServiceImpl:初始化client ");
+            	System.out.println("IndexAccessorServiceImpl:初始化client " + clientFactoryBuilder);
                 client = clientFactoryBuilder.getClient();
             }
         } catch (Exception e) {
