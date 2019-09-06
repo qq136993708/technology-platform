@@ -25,6 +25,8 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -34,6 +36,7 @@ import java.util.logging.Logger;
  * @date:2018/6/23
  */
 @Service("accessorService")
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class AccessorServiceImpl implements AccessorService {
     private static Logger LOG = Logger.getLogger(String.valueOf(AccessorServiceImpl.class));
 
@@ -44,12 +47,13 @@ public class AccessorServiceImpl implements AccessorService {
 
     public AccessorServiceImpl() {
         try {
+        	System.out.println("AccessorServiceImpl client get========== "+clientFactoryBuilder);
             if (client == null) {
             	//new ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true);
             	System.out.println("AccessorServiceImpl:初始化client ");
             	client = clientFactoryBuilder.getClient();
             }
-            System.out.println("AccessorServiceImpl client get========== "+client);
+            
         } catch (Exception e) {
             System.out.println("AccessorServiceImpl:client:null:连接异常 ");
 //            e.printStackTrace();
