@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  */
 @Component("clientFactoryBuilder")
 public class ClientFactoryBuilder {
-	public void ClientFactoryBuilder() {
+	private ClientFactoryBuilder() {
 		System.out.println("======================ClientFactoryBuilder");
 	}
 	
