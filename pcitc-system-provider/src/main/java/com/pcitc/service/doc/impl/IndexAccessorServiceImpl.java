@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.pcitc.base.common.HotWord;
-import com.pcitc.es.clientmanager.IndexHelperBuilder;
-import com.pcitc.service.doc.AccessorService;
 import org.elasticsearch.action.admin.cluster.state.ClusterStateResponse;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
@@ -25,9 +22,14 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.pcitc.base.common.HotWord;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
+import com.pcitc.es.clientmanager.IndexHelperBuilder;
 import com.pcitc.es.utils.SearchUtil;
+import com.pcitc.service.doc.AccessorService;
 import com.pcitc.service.doc.IndexAccessorService;
 
 /**
@@ -35,6 +37,7 @@ import com.pcitc.service.doc.IndexAccessorService;
  * @date:2018/6/23
  */
 @Service("indexAccessorService")
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class IndexAccessorServiceImpl implements IndexAccessorService {
     private static Logger LOG = Logger.getLogger(String.valueOf(IndexAccessorServiceImpl.class));
 
