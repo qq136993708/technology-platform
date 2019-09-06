@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component;
  * @author:Administrator
  * @date:2018/6/23
  */
-@Component
+@Component("clientFactoryBuilder")
 public class ClientFactoryBuilder {
-	/*private ClientFactoryBuilder() {
+	public void ClientFactoryBuilder() {
 		System.out.println("======================ClientFactoryBuilder");
-	}*/
+	}
 	
 	//@Value("#{'${elasticsearch.hosts}'.split(',')}")
 	private List<String> HOSTS;
