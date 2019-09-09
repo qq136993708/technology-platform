@@ -120,12 +120,12 @@ public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPayme
 			List<OutProjectInfoPaymentplan> organs = mapper.selectByExample(example);
 			if(organs == null || organs.size()==0) 
 			{
-				bean.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
+				//bean.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 				return this.saveOutProjectInfoPaymentplan(bean);
 			}else {
 				OutProjectInfoPaymentplan old = organs.get(0);
 				MyBeanUtils.copyPropertiesIgnoreNull(bean, old);
-				old.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
+				//old.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 				Integer rs = mapper.updateByPrimaryKey(old);
 				if(rs > 0) {
 					status = true;
@@ -147,7 +147,7 @@ public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPayme
 	{
 		OutProjectInfoPaymentplanExample example = new OutProjectInfoPaymentplanExample();
 		OutProjectInfoPaymentplanExample.Criteria c = example.createCriteria();
-		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		//c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		if(!StringUtils.isBlank(param.getParam().get("nd")+"")) 
 		{
 			c.andNdEqualTo(param.getParam().get("nd")+"");

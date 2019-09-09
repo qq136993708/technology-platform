@@ -7,90 +7,64 @@ import java.io.Serializable;
  * @author 
  */
 public class OutProjectInvoices implements Serializable {
-    /**
-     * 主键
-     */
     private String dataId;
 
     /**
-     * 合同年度
+     * 年度
      */
     private String nd;
 
     /**
-     * 项目ID
+     * 拨付计划号
      */
-    private String xmid;
+    private String paymentPlanNo;
 
     /**
-     * 项目名称
+     * 发票号
      */
-    private String xmmc;
-
-    /**
-     * 合同号
-     */
-    private String hth;
-
-    /**
-     * 预算年度
-     */
-    private String ysnd;
-
-    /**
-     * 报销批次
-     */
-    private String batchNo;
-
-    /**
-     * 发票状态
-     */
-    private Integer invoiceStatus;
+    private String invoiceNo;
 
     /**
      * 发票金额
      */
     private Double invoiceFee;
 
-    /**
-     * 发票张数
-     */
-    private Integer invoiceNum;
+    private String companyName;
 
     /**
-     * 发票收取时间
+     * 创建人
      */
-    private String invoiceDate;
+    private String creater;
 
     /**
-     * 付款状态
+     * 创建人名字
      */
-    private Integer paymentStatus;
+    private String createrName;
 
     /**
-     * 付款时间
+     * 创建时间
      */
-    private String paymentDate;
+    private String createTime;
 
     /**
-     * 付款单号
+     * 最后编辑时间
      */
-    private String paymentNo;
+    private String updateTime;
 
     /**
-     * 项目唯一识别码
+     * 删除标识
      */
-    private String projectIdMd5;
+    private Integer delFlag;
 
     /**
-     * 对应out_project_info表define8
+     * 审批状态
      */
-    private String define8;
+    private Integer auditStatus;
 
     /**
-     * 对应out_project_info表define9
+     * 备注
      */
-    private String define9;
+    private String remarks;
 
     private static final long serialVersionUID = 1L;
 
@@ -110,52 +84,20 @@ public class OutProjectInvoices implements Serializable {
         this.nd = nd;
     }
 
-    public String getXmid() {
-        return xmid;
+    public String getPaymentPlanNo() {
+        return paymentPlanNo;
     }
 
-    public void setXmid(String xmid) {
-        this.xmid = xmid;
+    public void setPaymentPlanNo(String paymentPlanNo) {
+        this.paymentPlanNo = paymentPlanNo;
     }
 
-    public String getXmmc() {
-        return xmmc;
+    public String getInvoiceNo() {
+        return invoiceNo;
     }
 
-    public void setXmmc(String xmmc) {
-        this.xmmc = xmmc;
-    }
-
-    public String getHth() {
-        return hth;
-    }
-
-    public void setHth(String hth) {
-        this.hth = hth;
-    }
-
-    public String getYsnd() {
-        return ysnd;
-    }
-
-    public void setYsnd(String ysnd) {
-        this.ysnd = ysnd;
-    }
-
-    public String getBatchNo() {
-        return batchNo;
-    }
-
-    public void setBatchNo(String batchNo) {
-        this.batchNo = batchNo;
-    }
-
-    public Integer getInvoiceStatus() {
-        return invoiceStatus;
-    }
-
-    public void setInvoiceStatus(Integer invoiceStatus) {
-        this.invoiceStatus = invoiceStatus;
+    public void setInvoiceNo(String invoiceNo) {
+        this.invoiceNo = invoiceNo;
     }
 
     public Double getInvoiceFee() {
@@ -166,68 +108,68 @@ public class OutProjectInvoices implements Serializable {
         this.invoiceFee = invoiceFee;
     }
 
-    public Integer getInvoiceNum() {
-        return invoiceNum;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setInvoiceNum(Integer invoiceNum) {
-        this.invoiceNum = invoiceNum;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public String getInvoiceDate() {
-        return invoiceDate;
+    public String getCreater() {
+        return creater;
     }
 
-    public void setInvoiceDate(String invoiceDate) {
-        this.invoiceDate = invoiceDate;
+    public void setCreater(String creater) {
+        this.creater = creater;
     }
 
-    public Integer getPaymentStatus() {
-        return paymentStatus;
+    public String getCreaterName() {
+        return createrName;
     }
 
-    public void setPaymentStatus(Integer paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setCreaterName(String createrName) {
+        this.createrName = createrName;
     }
 
-    public String getPaymentDate() {
-        return paymentDate;
+    public String getCreateTime() {
+        return createTime;
     }
 
-    public void setPaymentDate(String paymentDate) {
-        this.paymentDate = paymentDate;
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
-    public String getPaymentNo() {
-        return paymentNo;
+    public String getUpdateTime() {
+        return updateTime;
     }
 
-    public void setPaymentNo(String paymentNo) {
-        this.paymentNo = paymentNo;
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public String getProjectIdMd5() {
-        return projectIdMd5;
+    public Integer getDelFlag() {
+        return delFlag;
     }
 
-    public void setProjectIdMd5(String projectIdMd5) {
-        this.projectIdMd5 = projectIdMd5;
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
     }
 
-    public String getDefine8() {
-        return define8;
+    public Integer getAuditStatus() {
+        return auditStatus;
     }
 
-    public void setDefine8(String define8) {
-        this.define8 = define8;
+    public void setAuditStatus(Integer auditStatus) {
+        this.auditStatus = auditStatus;
     }
 
-    public String getDefine9() {
-        return define9;
+    public String getRemarks() {
+        return remarks;
     }
 
-    public void setDefine9(String define9) {
-        this.define9 = define9;
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     @Override
@@ -244,21 +186,17 @@ public class OutProjectInvoices implements Serializable {
         OutProjectInvoices other = (OutProjectInvoices) that;
         return (this.getDataId() == null ? other.getDataId() == null : this.getDataId().equals(other.getDataId()))
             && (this.getNd() == null ? other.getNd() == null : this.getNd().equals(other.getNd()))
-            && (this.getXmid() == null ? other.getXmid() == null : this.getXmid().equals(other.getXmid()))
-            && (this.getXmmc() == null ? other.getXmmc() == null : this.getXmmc().equals(other.getXmmc()))
-            && (this.getHth() == null ? other.getHth() == null : this.getHth().equals(other.getHth()))
-            && (this.getYsnd() == null ? other.getYsnd() == null : this.getYsnd().equals(other.getYsnd()))
-            && (this.getBatchNo() == null ? other.getBatchNo() == null : this.getBatchNo().equals(other.getBatchNo()))
-            && (this.getInvoiceStatus() == null ? other.getInvoiceStatus() == null : this.getInvoiceStatus().equals(other.getInvoiceStatus()))
+            && (this.getPaymentPlanNo() == null ? other.getPaymentPlanNo() == null : this.getPaymentPlanNo().equals(other.getPaymentPlanNo()))
+            && (this.getInvoiceNo() == null ? other.getInvoiceNo() == null : this.getInvoiceNo().equals(other.getInvoiceNo()))
             && (this.getInvoiceFee() == null ? other.getInvoiceFee() == null : this.getInvoiceFee().equals(other.getInvoiceFee()))
-            && (this.getInvoiceNum() == null ? other.getInvoiceNum() == null : this.getInvoiceNum().equals(other.getInvoiceNum()))
-            && (this.getInvoiceDate() == null ? other.getInvoiceDate() == null : this.getInvoiceDate().equals(other.getInvoiceDate()))
-            && (this.getPaymentStatus() == null ? other.getPaymentStatus() == null : this.getPaymentStatus().equals(other.getPaymentStatus()))
-            && (this.getPaymentDate() == null ? other.getPaymentDate() == null : this.getPaymentDate().equals(other.getPaymentDate()))
-            && (this.getPaymentNo() == null ? other.getPaymentNo() == null : this.getPaymentNo().equals(other.getPaymentNo()))
-            && (this.getProjectIdMd5() == null ? other.getProjectIdMd5() == null : this.getProjectIdMd5().equals(other.getProjectIdMd5()))
-            && (this.getDefine8() == null ? other.getDefine8() == null : this.getDefine8().equals(other.getDefine8()))
-            && (this.getDefine9() == null ? other.getDefine9() == null : this.getDefine9().equals(other.getDefine9()));
+            && (this.getCompanyName() == null ? other.getCompanyName() == null : this.getCompanyName().equals(other.getCompanyName()))
+            && (this.getCreater() == null ? other.getCreater() == null : this.getCreater().equals(other.getCreater()))
+            && (this.getCreaterName() == null ? other.getCreaterName() == null : this.getCreaterName().equals(other.getCreaterName()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getDelFlag() == null ? other.getDelFlag() == null : this.getDelFlag().equals(other.getDelFlag()))
+            && (this.getAuditStatus() == null ? other.getAuditStatus() == null : this.getAuditStatus().equals(other.getAuditStatus()))
+            && (this.getRemarks() == null ? other.getRemarks() == null : this.getRemarks().equals(other.getRemarks()));
     }
 
     @Override
@@ -267,21 +205,17 @@ public class OutProjectInvoices implements Serializable {
         int result = 1;
         result = prime * result + ((getDataId() == null) ? 0 : getDataId().hashCode());
         result = prime * result + ((getNd() == null) ? 0 : getNd().hashCode());
-        result = prime * result + ((getXmid() == null) ? 0 : getXmid().hashCode());
-        result = prime * result + ((getXmmc() == null) ? 0 : getXmmc().hashCode());
-        result = prime * result + ((getHth() == null) ? 0 : getHth().hashCode());
-        result = prime * result + ((getYsnd() == null) ? 0 : getYsnd().hashCode());
-        result = prime * result + ((getBatchNo() == null) ? 0 : getBatchNo().hashCode());
-        result = prime * result + ((getInvoiceStatus() == null) ? 0 : getInvoiceStatus().hashCode());
+        result = prime * result + ((getPaymentPlanNo() == null) ? 0 : getPaymentPlanNo().hashCode());
+        result = prime * result + ((getInvoiceNo() == null) ? 0 : getInvoiceNo().hashCode());
         result = prime * result + ((getInvoiceFee() == null) ? 0 : getInvoiceFee().hashCode());
-        result = prime * result + ((getInvoiceNum() == null) ? 0 : getInvoiceNum().hashCode());
-        result = prime * result + ((getInvoiceDate() == null) ? 0 : getInvoiceDate().hashCode());
-        result = prime * result + ((getPaymentStatus() == null) ? 0 : getPaymentStatus().hashCode());
-        result = prime * result + ((getPaymentDate() == null) ? 0 : getPaymentDate().hashCode());
-        result = prime * result + ((getPaymentNo() == null) ? 0 : getPaymentNo().hashCode());
-        result = prime * result + ((getProjectIdMd5() == null) ? 0 : getProjectIdMd5().hashCode());
-        result = prime * result + ((getDefine8() == null) ? 0 : getDefine8().hashCode());
-        result = prime * result + ((getDefine9() == null) ? 0 : getDefine9().hashCode());
+        result = prime * result + ((getCompanyName() == null) ? 0 : getCompanyName().hashCode());
+        result = prime * result + ((getCreater() == null) ? 0 : getCreater().hashCode());
+        result = prime * result + ((getCreaterName() == null) ? 0 : getCreaterName().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getDelFlag() == null) ? 0 : getDelFlag().hashCode());
+        result = prime * result + ((getAuditStatus() == null) ? 0 : getAuditStatus().hashCode());
+        result = prime * result + ((getRemarks() == null) ? 0 : getRemarks().hashCode());
         return result;
     }
 
@@ -293,21 +227,17 @@ public class OutProjectInvoices implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", dataId=").append(dataId);
         sb.append(", nd=").append(nd);
-        sb.append(", xmid=").append(xmid);
-        sb.append(", xmmc=").append(xmmc);
-        sb.append(", hth=").append(hth);
-        sb.append(", ysnd=").append(ysnd);
-        sb.append(", batchNo=").append(batchNo);
-        sb.append(", invoiceStatus=").append(invoiceStatus);
+        sb.append(", paymentPlanNo=").append(paymentPlanNo);
+        sb.append(", invoiceNo=").append(invoiceNo);
         sb.append(", invoiceFee=").append(invoiceFee);
-        sb.append(", invoiceNum=").append(invoiceNum);
-        sb.append(", invoiceDate=").append(invoiceDate);
-        sb.append(", paymentStatus=").append(paymentStatus);
-        sb.append(", paymentDate=").append(paymentDate);
-        sb.append(", paymentNo=").append(paymentNo);
-        sb.append(", projectIdMd5=").append(projectIdMd5);
-        sb.append(", define8=").append(define8);
-        sb.append(", define9=").append(define9);
+        sb.append(", companyName=").append(companyName);
+        sb.append(", creater=").append(creater);
+        sb.append(", createrName=").append(createrName);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", updateTime=").append(updateTime);
+        sb.append(", delFlag=").append(delFlag);
+        sb.append(", auditStatus=").append(auditStatus);
+        sb.append(", remarks=").append(remarks);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
