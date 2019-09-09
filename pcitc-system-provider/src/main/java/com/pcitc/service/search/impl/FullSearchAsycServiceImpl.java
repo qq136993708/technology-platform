@@ -194,9 +194,12 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
         return new AsyncResult<LayuiTableData>(data);
     }
 
-    private static ClientFactoryBuilder clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+    private static ClientFactoryBuilder clientFactoryBuilder = null;
 
     public AccessorService getAccessorService() {
+    	if (clientFactoryBuilder == null) {
+			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+		}
         AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
         return accessor;
     }
