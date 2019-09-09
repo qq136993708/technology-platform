@@ -21,13 +21,13 @@ import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectResult;
 
 public class OSSUtil {
-	public static final String	ENDPOINT		= "http://10.248.105.14";
-//	public static final String	ENDPOINT		= "http://stp-vpc1-sctepl.oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com";
+	//public static final String	ENDPOINT		= "http://10.248.105.14";
+	public static final String	ENDPOINT		= "http://stp-vpc1-sctepl.oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com";
 	public static final String	ACCESSKEYID		= "B9x4bgsYgpK0Dlgq";
 	public static final String	ACCESSKEYSECRET	= "Qr2xDxl3yxgVVU7ehw3heIgPh68ouy";
 	public static final String	BUCKET			= "stp-vpc1-sctepl";
-//	public static final String	OSSPATH			= "http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com";
-	public static final String	OSSPATH			= "http://10.248.105.14";
+	public static final String	OSSPATH			= "http://oss01-cn-beijing-sinopec-d01-a.yun-inc.sinopec.com";
+	//public static final String	OSSPATH			= "http://10.248.105.14";
 
 	public static void main(String[] args) throws Exception {
 		// deleteDoc();
