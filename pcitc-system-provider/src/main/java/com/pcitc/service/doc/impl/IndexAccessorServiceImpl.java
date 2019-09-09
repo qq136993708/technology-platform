@@ -45,14 +45,17 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
 
     private static TransportClient client;
     
-    private static ClientFactoryBuilder clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+    private static ClientFactoryBuilder clientFactoryBuilder = null;
     
     public IndexAccessorServiceImpl() {
     	
         try {
             if (client == null) {
             	System.out.println("IndexAccessorServiceImpl:初始化client " + clientFactoryBuilder);
-                client = clientFactoryBuilder.getClient();
+            	if (clientFactoryBuilder == null) {
+        			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+        		}
+            	client = clientFactoryBuilder.getClient();
             }
         } catch (Exception e) {
             System.out.println("IndexAccessorServiceImpl:连接es客户端异常 ");
@@ -284,6 +287,9 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
 
 
     public AccessorService getAccessorService() {
+    	if (clientFactoryBuilder == null) {
+			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+		}
         AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
         return accessor;
     }
@@ -320,6 +326,9 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
      */
     public List<String> selectHotWord(HotWord hotWord){
         //获取搜索日志
+    	if (clientFactoryBuilder == null) {
+			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+		}
         TransportClient client = clientFactoryBuilder.getClient();
         SearchRequestBuilder requestBuilder = client.prepareSearch(hotWord.getIndices()).setTypes(hotWord.getTypes()).setQuery(QueryBuilders.matchAllQuery());
         //聚合分析查询出现次数最多的个词汇

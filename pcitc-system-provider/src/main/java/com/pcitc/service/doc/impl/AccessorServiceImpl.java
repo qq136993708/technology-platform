@@ -45,7 +45,7 @@ public class AccessorServiceImpl implements AccessorService {
 
     private static TransportClient client;
     
-    private static ClientFactoryBuilder clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+    private static ClientFactoryBuilder clientFactoryBuilder = null;
     
     public AccessorServiceImpl() {
         try {
@@ -53,6 +53,9 @@ public class AccessorServiceImpl implements AccessorService {
             if (client == null) {
             	//new ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true);
             	System.out.println("AccessorServiceImpl:初始化client ");
+            	if (clientFactoryBuilder == null) {
+        			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+        		}
             	client = clientFactoryBuilder.getClient();
             }
             
