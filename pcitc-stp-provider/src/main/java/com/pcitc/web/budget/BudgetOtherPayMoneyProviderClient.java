@@ -166,7 +166,7 @@ public class BudgetOtherPayMoneyProviderClient
 			List<BudgetOrganEnum> organs = BudgetOrganNdEnum.getByNd(nd).getOrgans();
 			for(BudgetOrganEnum e:organs) 
 			{
-				if(!e.getCode().equals(BudgetOrganEnum.ORG_ZX.getCode()) && !e.getCode().equals(BudgetOrganEnum.ORG_JD.getCode())) 
+				if(!e.getCode().equals(BudgetOrganEnum.ORG_JD.getCode())) 
 				{
 					Map<String,Object> map = new HashMap<String,Object>();
 					map.put("code", e.getCode());
