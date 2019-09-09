@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.pcitc.base.system.*;
 import com.pcitc.mapper.system.SysUserMapper;
 import com.pcitc.service.search.FullSearchAsycService;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,6 +56,7 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.JsonUtil;
 import com.pcitc.base.util.StrUtil;
+import com.pcitc.config.SpringContextUtil;
 import com.pcitc.es.builder.BooleanCondtionBuilder;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.es.clientmanager.IndexHelperBuilder;
@@ -104,8 +106,7 @@ public class SysFileServiceImpl implements SysFileService {
 	@Autowired
 	SysFileConfigService			sysFileConfigService;
 
-	@Autowired
-	private ClientFactoryBuilder	clientFactoryBuilder;
+	private static ClientFactoryBuilder clientFactoryBuilder = null;
 
 	@Autowired
     FullSearchAsycService fullSearchAsycService;
@@ -439,6 +440,9 @@ public class SysFileServiceImpl implements SysFileService {
 
 		// AccessorService accessor = new
 		// ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true).createByConfig();
+		if (clientFactoryBuilder == null) {
+			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+		}
 		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
 		BooleanCondtionBuilder.Builder builder = new BooleanCondtionBuilder.Builder();
 		Map<String, String> queryMap = new HashMap<>();
@@ -896,6 +900,9 @@ public class SysFileServiceImpl implements SysFileService {
 	public AccessorService getAccessorService() {
 		// AccessorService accessor = new
 		// ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true).createByConfig();
+		if (clientFactoryBuilder == null) {
+			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+		}
 		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
 		return accessor;
 	}

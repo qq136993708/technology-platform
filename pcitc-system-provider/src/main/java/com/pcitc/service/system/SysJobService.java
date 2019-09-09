@@ -2,6 +2,7 @@ package com.pcitc.service.system;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysCronRecord;
 import com.pcitc.base.system.SysJob;
 
 import java.util.List;
@@ -23,6 +24,13 @@ public interface SysJobService {
 	public LayuiTableData findSysJob(LayuiTableParam param);
 
     /**
+     * 按条件查询
+     * @param map
+     * @return
+     */
+    public LayuiTableData findSysExcepJob(LayuiTableParam param);
+
+    /**
      * 按id查询
      * @param id
      * @return
@@ -34,6 +42,13 @@ public interface SysJobService {
      * @return
      */
     Integer saveSysJob(SysJob job);
+
+    /**
+     * 保存作业
+     * @param sysCronRecord
+     * @return
+     */
+    Integer saveSysExcepJob(SysCronRecord sysCronRecord);
 
     /**
      * 删除一条记录

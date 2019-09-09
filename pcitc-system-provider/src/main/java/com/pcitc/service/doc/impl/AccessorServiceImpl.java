@@ -1,5 +1,6 @@
 package com.pcitc.service.doc.impl;
 
+import com.pcitc.config.SpringContextUtil;
 import com.pcitc.es.builder.BooleanCondtionBuilder;
 import com.pcitc.es.builder.QueryBuilderCondition;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
@@ -31,6 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author:Administrator
  * @date:2018/6/23
@@ -42,15 +45,17 @@ public class AccessorServiceImpl implements AccessorService {
 
     private static TransportClient client;
     
-    @Autowired
-    private ClientFactoryBuilder clientFactoryBuilder;
-
+    private static ClientFactoryBuilder clientFactoryBuilder = null;
+    
     public AccessorServiceImpl() {
         try {
         	System.out.println("AccessorServiceImpl client get========== "+clientFactoryBuilder);
             if (client == null) {
             	//new ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true);
             	System.out.println("AccessorServiceImpl:初始化client ");
+            	if (clientFactoryBuilder == null) {
+        			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+        		}
             	client = clientFactoryBuilder.getClient();
             }
             

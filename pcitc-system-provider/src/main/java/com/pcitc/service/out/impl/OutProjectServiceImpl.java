@@ -42,6 +42,7 @@ import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyEs;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.StrUtil;
+import com.pcitc.config.SpringContextUtil;
 import com.pcitc.es.builder.BooleanCondtionBuilder;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.es.clientmanager.IndexHelperBuilder;
@@ -2343,12 +2344,14 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return data;
 	}
 
-	@Autowired
-	private ClientFactoryBuilder clientFactoryBuilder;
+	private static ClientFactoryBuilder clientFactoryBuilder = null;
 
 	public OutProjectInfo getOutProjectShowByIdFc(String dataId) {
 		OutProjectInfo outProjectInfo = outProjectInfoMapper.selectByPrimaryKey(dataId);
 		String strName = outProjectInfo.getXmmc();
+		if (clientFactoryBuilder == null) {
+			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+		}
 		TransportClient client = clientFactoryBuilder.getClient();
 
 		AnalyzeRequest analyzeRequest = new AnalyzeRequest("files").text(strName).analyzer("ik_max_word");
@@ -2370,6 +2373,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 		// 技术族->ES
 		TechFamily techFamily = new TechFamily();
 		List<TechFamily> techFamilies = techFamilyProviderClient.selectTechFamilyTypeList(techFamily);
+		if (clientFactoryBuilder == null) {
+			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+		}
 		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
 		IndexAccessorService indexAccessor = new IndexHelperBuilder.Builder().withClient(accessor.getClient()).creatAccessor();
 		indexAccessor.deleteIndex(TechFamilyEs.class);
@@ -2390,6 +2396,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 		}
 		List<TechFamilyEs> list = new ArrayList<>();
 		// List<String> strings = new ArrayList<>();
+		if (clientFactoryBuilder == null) {
+			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+		}
 		TransportClient client = clientFactoryBuilder.getClient();
 		List<OutProjectInfo> outProjectInfos = this.selectAllProjectInfo();
 		// AccessorService accessor = new
@@ -2434,6 +2443,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	}
 
 	public JSONObject getOutProjectShowCount(String dataId) {
+		if (clientFactoryBuilder == null) {
+			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+		}
 		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
 		BooleanCondtionBuilder.Builder builder = new BooleanCondtionBuilder.Builder();
 		Map<String, String> queryMap = new HashMap<>();

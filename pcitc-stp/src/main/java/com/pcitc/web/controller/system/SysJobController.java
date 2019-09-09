@@ -26,6 +26,7 @@ import com.pcitc.web.common.BaseController;
 public class SysJobController extends BaseController {
 	
 	private static final String JOB_LIST = "http://pcitc-zuul/system-proxy/job-provider/findSysJob";
+	private static final String EXCEP_JOB_LIST = "http://pcitc-zuul/system-proxy/job-provider/findSysExcepJob";
 	private static final String JOB_SAVE = "http://pcitc-zuul/system-proxy/job-provider/saveSysJob";
 	private static final String JOB_DELETE = "http://pcitc-zuul/system-proxy/job-provider/deleteSysJob/";
 	private static final String JOB_QUERY = "http://pcitc-zuul/system-proxy/job-provider/getSysJob/";
@@ -42,6 +43,14 @@ public class SysJobController extends BaseController {
 	}
 
 	/**
+	 * 跳转到定时任务异常列表页
+	 */
+	@RequestMapping(value = "/sysJobExcep_list")
+	public String toExcepList() {
+		return "/base/system/jobExcepList";
+	}
+
+	/**
 	 * 加载作业列表数据
 	 */
 	@RequestMapping(value = "/getJobs")
@@ -49,6 +58,19 @@ public class SysJobController extends BaseController {
 	public Object getJobs(@ModelAttribute("param")LayuiTableParam param) {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(JOB_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+
+		return JSON.toJSON(retJson).toString();
+	}
+
+	/**
+	 * 加载作业异常列表数据
+	 */
+	@RequestMapping(value = "/getExcepJobs")
+	@ResponseBody
+	public Object getExcepJobs(@ModelAttribute("param")LayuiTableParam param) {
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(EXCEP_JOB_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
 
 		return JSON.toJSON(retJson).toString();

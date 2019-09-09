@@ -15,21 +15,18 @@ import org.springframework.stereotype.Component;
  * @author:Administrator
  * @date:2018/6/23
  */
-@Component("clientFactoryBuilder")
+@Component
 public class ClientFactoryBuilder {
-	private ClientFactoryBuilder() {
-		System.out.println("======================ClientFactoryBuilder");
-	}
 	
-	//@Value("#{'${elasticsearch.hosts}'.split(',')}")
+	@Value("#{'${elasticsearch.hosts}'.split(',')}")
 	private List<String> HOSTS;
 
 	// elasticsearch集群名称
-	//@Value("${elasticsearch.cluster.name}")
+	@Value("${elasticsearch.cluster.name}")
 	private String CLUSTER_NAME;
 
 	// elasticsearch 端口
-	//@Value("${elasticsearch.client.port}")
+	@Value("${elasticsearch.client.port}")
 	private String CLIENT_PORT;
 	
 	public void setHOSTS(List<String> hOSTS) {

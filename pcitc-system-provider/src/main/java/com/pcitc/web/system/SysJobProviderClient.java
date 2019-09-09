@@ -1,5 +1,6 @@
 package com.pcitc.web.system;
 
+import com.pcitc.base.system.SysCronRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,17 @@ public class SysJobProviderClient {
     }
 
     /**
+     * 查询作业异常列表数据
+     * @param job
+     * @return
+     */
+    @RequestMapping(value = "/findSysExcepJob")
+    public Object findSysExcepJob(@RequestBody LayuiTableParam param){
+
+        return sysJobService.findSysExcepJob(param);
+    }
+
+    /**
      * 保存作业
      * @param job
      * @return
@@ -48,6 +60,24 @@ public class SysJobProviderClient {
         int result = 1;
         try {
             sysJobService.saveSysJob(job);
+        } catch (Exception ex) {
+            result = -1;
+            logger.error("保存失败，错误信息："+ex.getMessage());
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * 保存作业
+     * @param sysCronRecord
+     * @return
+     */
+    @RequestMapping(value = "/saveSysExcepJob", method = RequestMethod.POST)
+    public int saveSysExcepJob(@RequestBody SysCronRecord sysCronRecord){
+        int result = 1;
+        try {
+            sysJobService.saveSysExcepJob(sysCronRecord);
         } catch (Exception ex) {
             result = -1;
             logger.error("保存失败，错误信息："+ex.getMessage());

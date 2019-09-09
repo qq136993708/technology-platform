@@ -13,6 +13,7 @@ import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysFunctionExample;
 import com.pcitc.base.util.StrUtil;
+import com.pcitc.config.SpringContextUtil;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.es.clientmanager.IndexHelperBuilder;
 import com.pcitc.mapper.out.OutAppraisalMapper;
@@ -31,6 +32,7 @@ import com.pcitc.utils.GetTextFromFile;
 import com.pcitc.utils.StringUtils;
 import com.pcitc.web.feign.HomeProviderClient;
 import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -192,10 +194,12 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
         return new AsyncResult<LayuiTableData>(data);
     }
 
-    @Autowired
-    private ClientFactoryBuilder clientFactoryBuilder;
+    private static ClientFactoryBuilder clientFactoryBuilder = null;
 
     public AccessorService getAccessorService() {
+    	if (clientFactoryBuilder == null) {
+			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+		}
         AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
         return accessor;
     }
