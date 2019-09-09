@@ -1,42 +1,63 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pcitc.mapper.out.OutUnitMapper" >
-  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutUnit" >
-    <id column="data_id" property="dataId" jdbcType="VARCHAR" />
-    <result column="unit_name" property="unitName" jdbcType="VARCHAR" />
-    <result column="unit_code" property="unitCode" jdbcType="VARCHAR" />
-    <result column="unit_ali" property="unitAli" jdbcType="VARCHAR" />
-    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
-    <result column="unit_index" property="unitIndex" jdbcType="VARCHAR" />
-    <result column="unit_level" property="unitLevel" jdbcType="VARCHAR" />
-    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
-    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
-    <result column="unit_type" property="unitType" jdbcType="VARCHAR" />
-    <result column="institute_name" property="instituteName" jdbcType="VARCHAR" />
-    <result column="define1" property="define1" jdbcType="VARCHAR" />
-    <result column="define2" property="define2" jdbcType="VARCHAR" />
-    <result column="define3" property="define3" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.out.OutUnitMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutUnit">
+    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
+    <result column="unit_ali" jdbcType="VARCHAR" property="unitAli" />
+    <result column="parent_code" jdbcType="VARCHAR" property="parentCode" />
+    <result column="unit_index" jdbcType="VARCHAR" property="unitIndex" />
+    <result column="unit_level" jdbcType="VARCHAR" property="unitLevel" />
+    <result column="create_user_id" jdbcType="VARCHAR" property="createUserId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="unit_type" jdbcType="VARCHAR" property="unitType" />
+    <result column="institute_name" jdbcType="VARCHAR" property="instituteName" />
+    <result column="define1" jdbcType="VARCHAR" property="define1" />
+    <result column="define2" jdbcType="VARCHAR" property="define2" />
+    <result column="define3" jdbcType="VARCHAR" property="define3" />
+    <result column="out_unit_code" jdbcType="VARCHAR" property="outUnitCode" />
+    <result column="unit_address" jdbcType="VARCHAR" property="unitAddress" />
+    <result column="post_code" jdbcType="VARCHAR" property="postCode" />
+    <result column="super_leader_name" jdbcType="VARCHAR" property="superLeaderName" />
+    <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
+    <result column="bank_account" jdbcType="VARCHAR" property="bankAccount" />
+    <result column="out_unit_type" jdbcType="VARCHAR" property="outUnitType" />
+    <result column="project_leader_name" jdbcType="VARCHAR" property="projectLeaderName" />
+    <result column="project_leader_post" jdbcType="VARCHAR" property="projectLeaderPost" />
+    <result column="project_leader_phone" jdbcType="VARCHAR" property="projectLeaderPhone" />
+    <result column="project_leader_email" jdbcType="VARCHAR" property="projectLeaderEmail" />
+    <result column="payment_leader_name" jdbcType="VARCHAR" property="paymentLeaderName" />
+    <result column="payment_leader_post" jdbcType="VARCHAR" property="paymentLeaderPost" />
+    <result column="payment_leader_phone" jdbcType="VARCHAR" property="paymentLeaderPhone" />
+    <result column="payment_leader_email" jdbcType="VARCHAR" property="paymentLeaderEmail" />
+    <result column="define4" jdbcType="VARCHAR" property="define4" />
+    <result column="define5" jdbcType="VARCHAR" property="define5" />
+    <result column="define6" jdbcType="VARCHAR" property="define6" />
+    <result column="define7" jdbcType="VARCHAR" property="define7" />
+    <result column="define8" jdbcType="VARCHAR" property="define8" />
+    <result column="define9" jdbcType="VARCHAR" property="define9" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -47,25 +68,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -76,212 +97,426 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     data_id, unit_name, unit_code, unit_ali, parent_code, unit_index, unit_level, create_user_id, 
-    create_date, remarks, unit_type, institute_name, define1, define2, define3
+    create_date, remarks, unit_type, institute_name, define1, define2, define3, out_unit_code, 
+    unit_address, post_code, super_leader_name, bank_name, bank_account, out_unit_type, 
+    project_leader_name, project_leader_post, project_leader_phone, project_leader_email, 
+    payment_leader_name, payment_leader_post, payment_leader_phone, payment_leader_email, 
+    define4, define5, define6, define7, define8, define9
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutUnitExample" >
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.out.OutUnitExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
-    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from out_unit
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from out_unit
     where data_id = #{dataId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from out_unit
     where data_id = #{dataId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutUnitExample" >
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutUnitExample">
     delete from out_unit
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutUnit" >
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutUnit">
     insert into out_unit (data_id, unit_name, unit_code, 
       unit_ali, parent_code, unit_index, 
       unit_level, create_user_id, create_date, 
       remarks, unit_type, institute_name, 
-      define1, define2, define3
-      )
+      define1, define2, define3, 
+      out_unit_code, unit_address, post_code, 
+      super_leader_name, bank_name, bank_account, 
+      out_unit_type, project_leader_name, project_leader_post, 
+      project_leader_phone, project_leader_email, 
+      payment_leader_name, payment_leader_post, payment_leader_phone, 
+      payment_leader_email, define4, define5, 
+      define6, define7, define8, 
+      define9)
     values (#{dataId,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, 
       #{unitAli,jdbcType=VARCHAR}, #{parentCode,jdbcType=VARCHAR}, #{unitIndex,jdbcType=VARCHAR}, 
       #{unitLevel,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{unitType,jdbcType=VARCHAR}, #{instituteName,jdbcType=VARCHAR}, 
-      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}
-      )
+      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
+      #{outUnitCode,jdbcType=VARCHAR}, #{unitAddress,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, 
+      #{superLeaderName,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{bankAccount,jdbcType=VARCHAR}, 
+      #{outUnitType,jdbcType=VARCHAR}, #{projectLeaderName,jdbcType=VARCHAR}, #{projectLeaderPost,jdbcType=VARCHAR}, 
+      #{projectLeaderPhone,jdbcType=VARCHAR}, #{projectLeaderEmail,jdbcType=VARCHAR}, 
+      #{paymentLeaderName,jdbcType=VARCHAR}, #{paymentLeaderPost,jdbcType=VARCHAR}, #{paymentLeaderPhone,jdbcType=VARCHAR}, 
+      #{paymentLeaderEmail,jdbcType=VARCHAR}, #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, 
+      #{define6,jdbcType=VARCHAR}, #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, 
+      #{define9,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutUnit" >
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutUnit">
     insert into out_unit
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="dataId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
         data_id,
       </if>
-      <if test="unitName != null" >
+      <if test="unitName != null">
         unit_name,
       </if>
-      <if test="unitCode != null" >
+      <if test="unitCode != null">
         unit_code,
       </if>
-      <if test="unitAli != null" >
+      <if test="unitAli != null">
         unit_ali,
       </if>
-      <if test="parentCode != null" >
+      <if test="parentCode != null">
         parent_code,
       </if>
-      <if test="unitIndex != null" >
+      <if test="unitIndex != null">
         unit_index,
       </if>
-      <if test="unitLevel != null" >
+      <if test="unitLevel != null">
         unit_level,
       </if>
-      <if test="createUserId != null" >
+      <if test="createUserId != null">
         create_user_id,
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         create_date,
       </if>
-      <if test="remarks != null" >
+      <if test="remarks != null">
         remarks,
       </if>
-      <if test="unitType != null" >
+      <if test="unitType != null">
         unit_type,
       </if>
-      <if test="instituteName != null" >
+      <if test="instituteName != null">
         institute_name,
       </if>
-      <if test="define1 != null" >
+      <if test="define1 != null">
         define1,
       </if>
-      <if test="define2 != null" >
+      <if test="define2 != null">
         define2,
       </if>
-      <if test="define3 != null" >
+      <if test="define3 != null">
         define3,
       </if>
+      <if test="outUnitCode != null">
+        out_unit_code,
+      </if>
+      <if test="unitAddress != null">
+        unit_address,
+      </if>
+      <if test="postCode != null">
+        post_code,
+      </if>
+      <if test="superLeaderName != null">
+        super_leader_name,
+      </if>
+      <if test="bankName != null">
+        bank_name,
+      </if>
+      <if test="bankAccount != null">
+        bank_account,
+      </if>
+      <if test="outUnitType != null">
+        out_unit_type,
+      </if>
+      <if test="projectLeaderName != null">
+        project_leader_name,
+      </if>
+      <if test="projectLeaderPost != null">
+        project_leader_post,
+      </if>
+      <if test="projectLeaderPhone != null">
+        project_leader_phone,
+      </if>
+      <if test="projectLeaderEmail != null">
+        project_leader_email,
+      </if>
+      <if test="paymentLeaderName != null">
+        payment_leader_name,
+      </if>
+      <if test="paymentLeaderPost != null">
+        payment_leader_post,
+      </if>
+      <if test="paymentLeaderPhone != null">
+        payment_leader_phone,
+      </if>
+      <if test="paymentLeaderEmail != null">
+        payment_leader_email,
+      </if>
+      <if test="define4 != null">
+        define4,
+      </if>
+      <if test="define5 != null">
+        define5,
+      </if>
+      <if test="define6 != null">
+        define6,
+      </if>
+      <if test="define7 != null">
+        define7,
+      </if>
+      <if test="define8 != null">
+        define8,
+      </if>
+      <if test="define9 != null">
+        define9,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="dataId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
         #{dataId,jdbcType=VARCHAR},
       </if>
-      <if test="unitName != null" >
+      <if test="unitName != null">
         #{unitName,jdbcType=VARCHAR},
       </if>
-      <if test="unitCode != null" >
+      <if test="unitCode != null">
         #{unitCode,jdbcType=VARCHAR},
       </if>
-      <if test="unitAli != null" >
+      <if test="unitAli != null">
         #{unitAli,jdbcType=VARCHAR},
       </if>
-      <if test="parentCode != null" >
+      <if test="parentCode != null">
         #{parentCode,jdbcType=VARCHAR},
       </if>
-      <if test="unitIndex != null" >
+      <if test="unitIndex != null">
         #{unitIndex,jdbcType=VARCHAR},
       </if>
-      <if test="unitLevel != null" >
+      <if test="unitLevel != null">
         #{unitLevel,jdbcType=VARCHAR},
       </if>
-      <if test="createUserId != null" >
+      <if test="createUserId != null">
         #{createUserId,jdbcType=VARCHAR},
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="remarks != null" >
+      <if test="remarks != null">
         #{remarks,jdbcType=VARCHAR},
       </if>
-      <if test="unitType != null" >
+      <if test="unitType != null">
         #{unitType,jdbcType=VARCHAR},
       </if>
-      <if test="instituteName != null" >
+      <if test="instituteName != null">
         #{instituteName,jdbcType=VARCHAR},
       </if>
-      <if test="define1 != null" >
+      <if test="define1 != null">
         #{define1,jdbcType=VARCHAR},
       </if>
-      <if test="define2 != null" >
+      <if test="define2 != null">
         #{define2,jdbcType=VARCHAR},
       </if>
-      <if test="define3 != null" >
+      <if test="define3 != null">
         #{define3,jdbcType=VARCHAR},
+      </if>
+      <if test="outUnitCode != null">
+        #{outUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAddress != null">
+        #{unitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="superLeaderName != null">
+        #{superLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="outUnitType != null">
+        #{outUnitType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeaderName != null">
+        #{projectLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeaderPost != null">
+        #{projectLeaderPost,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeaderPhone != null">
+        #{projectLeaderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeaderEmail != null">
+        #{projectLeaderEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentLeaderName != null">
+        #{paymentLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentLeaderPost != null">
+        #{paymentLeaderPost,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentLeaderPhone != null">
+        #{paymentLeaderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentLeaderEmail != null">
+        #{paymentLeaderEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="define4 != null">
+        #{define4,jdbcType=VARCHAR},
+      </if>
+      <if test="define5 != null">
+        #{define5,jdbcType=VARCHAR},
+      </if>
+      <if test="define6 != null">
+        #{define6,jdbcType=VARCHAR},
+      </if>
+      <if test="define7 != null">
+        #{define7,jdbcType=VARCHAR},
+      </if>
+      <if test="define8 != null">
+        #{define8,jdbcType=VARCHAR},
+      </if>
+      <if test="define9 != null">
+        #{define9,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutUnitExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutUnitExample" resultType="java.lang.Integer">
     select count(*) from out_unit
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update out_unit
-    <set >
-      <if test="record.dataId != null" >
+    <set>
+      <if test="record.dataId != null">
         data_id = #{record.dataId,jdbcType=VARCHAR},
       </if>
-      <if test="record.unitName != null" >
+      <if test="record.unitName != null">
         unit_name = #{record.unitName,jdbcType=VARCHAR},
       </if>
-      <if test="record.unitCode != null" >
+      <if test="record.unitCode != null">
         unit_code = #{record.unitCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.unitAli != null" >
+      <if test="record.unitAli != null">
         unit_ali = #{record.unitAli,jdbcType=VARCHAR},
       </if>
-      <if test="record.parentCode != null" >
+      <if test="record.parentCode != null">
         parent_code = #{record.parentCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.unitIndex != null" >
+      <if test="record.unitIndex != null">
         unit_index = #{record.unitIndex,jdbcType=VARCHAR},
       </if>
-      <if test="record.unitLevel != null" >
+      <if test="record.unitLevel != null">
         unit_level = #{record.unitLevel,jdbcType=VARCHAR},
       </if>
-      <if test="record.createUserId != null" >
+      <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=VARCHAR},
       </if>
-      <if test="record.createDate != null" >
+      <if test="record.createDate != null">
         create_date = #{record.createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.remarks != null" >
+      <if test="record.remarks != null">
         remarks = #{record.remarks,jdbcType=VARCHAR},
       </if>
-      <if test="record.unitType != null" >
+      <if test="record.unitType != null">
         unit_type = #{record.unitType,jdbcType=VARCHAR},
       </if>
-      <if test="record.instituteName != null" >
+      <if test="record.instituteName != null">
         institute_name = #{record.instituteName,jdbcType=VARCHAR},
       </if>
-      <if test="record.define1 != null" >
+      <if test="record.define1 != null">
         define1 = #{record.define1,jdbcType=VARCHAR},
       </if>
-      <if test="record.define2 != null" >
+      <if test="record.define2 != null">
         define2 = #{record.define2,jdbcType=VARCHAR},
       </if>
-      <if test="record.define3 != null" >
+      <if test="record.define3 != null">
         define3 = #{record.define3,jdbcType=VARCHAR},
       </if>
+      <if test="record.outUnitCode != null">
+        out_unit_code = #{record.outUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitAddress != null">
+        unit_address = #{record.unitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postCode != null">
+        post_code = #{record.postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.superLeaderName != null">
+        super_leader_name = #{record.superLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankName != null">
+        bank_name = #{record.bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankAccount != null">
+        bank_account = #{record.bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outUnitType != null">
+        out_unit_type = #{record.outUnitType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectLeaderName != null">
+        project_leader_name = #{record.projectLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectLeaderPost != null">
+        project_leader_post = #{record.projectLeaderPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectLeaderPhone != null">
+        project_leader_phone = #{record.projectLeaderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectLeaderEmail != null">
+        project_leader_email = #{record.projectLeaderEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentLeaderName != null">
+        payment_leader_name = #{record.paymentLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentLeaderPost != null">
+        payment_leader_post = #{record.paymentLeaderPost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentLeaderPhone != null">
+        payment_leader_phone = #{record.paymentLeaderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentLeaderEmail != null">
+        payment_leader_email = #{record.paymentLeaderEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define4 != null">
+        define4 = #{record.define4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define5 != null">
+        define5 = #{record.define5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define6 != null">
+        define6 = #{record.define6,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define7 != null">
+        define7 = #{record.define7,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define8 != null">
+        define8 = #{record.define8,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define9 != null">
+        define9 = #{record.define9,jdbcType=VARCHAR},
+      </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update out_unit
     set data_id = #{record.dataId,jdbcType=VARCHAR},
       unit_name = #{record.unitName,jdbcType=VARCHAR},
@@ -297,60 +532,144 @@
       institute_name = #{record.instituteName,jdbcType=VARCHAR},
       define1 = #{record.define1,jdbcType=VARCHAR},
       define2 = #{record.define2,jdbcType=VARCHAR},
-      define3 = #{record.define3,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
+      define3 = #{record.define3,jdbcType=VARCHAR},
+      out_unit_code = #{record.outUnitCode,jdbcType=VARCHAR},
+      unit_address = #{record.unitAddress,jdbcType=VARCHAR},
+      post_code = #{record.postCode,jdbcType=VARCHAR},
+      super_leader_name = #{record.superLeaderName,jdbcType=VARCHAR},
+      bank_name = #{record.bankName,jdbcType=VARCHAR},
+      bank_account = #{record.bankAccount,jdbcType=VARCHAR},
+      out_unit_type = #{record.outUnitType,jdbcType=VARCHAR},
+      project_leader_name = #{record.projectLeaderName,jdbcType=VARCHAR},
+      project_leader_post = #{record.projectLeaderPost,jdbcType=VARCHAR},
+      project_leader_phone = #{record.projectLeaderPhone,jdbcType=VARCHAR},
+      project_leader_email = #{record.projectLeaderEmail,jdbcType=VARCHAR},
+      payment_leader_name = #{record.paymentLeaderName,jdbcType=VARCHAR},
+      payment_leader_post = #{record.paymentLeaderPost,jdbcType=VARCHAR},
+      payment_leader_phone = #{record.paymentLeaderPhone,jdbcType=VARCHAR},
+      payment_leader_email = #{record.paymentLeaderEmail,jdbcType=VARCHAR},
+      define4 = #{record.define4,jdbcType=VARCHAR},
+      define5 = #{record.define5,jdbcType=VARCHAR},
+      define6 = #{record.define6,jdbcType=VARCHAR},
+      define7 = #{record.define7,jdbcType=VARCHAR},
+      define8 = #{record.define8,jdbcType=VARCHAR},
+      define9 = #{record.define9,jdbcType=VARCHAR}
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutUnit" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutUnit">
     update out_unit
-    <set >
-      <if test="unitName != null" >
+    <set>
+      <if test="unitName != null">
         unit_name = #{unitName,jdbcType=VARCHAR},
       </if>
-      <if test="unitCode != null" >
+      <if test="unitCode != null">
         unit_code = #{unitCode,jdbcType=VARCHAR},
       </if>
-      <if test="unitAli != null" >
+      <if test="unitAli != null">
         unit_ali = #{unitAli,jdbcType=VARCHAR},
       </if>
-      <if test="parentCode != null" >
+      <if test="parentCode != null">
         parent_code = #{parentCode,jdbcType=VARCHAR},
       </if>
-      <if test="unitIndex != null" >
+      <if test="unitIndex != null">
         unit_index = #{unitIndex,jdbcType=VARCHAR},
       </if>
-      <if test="unitLevel != null" >
+      <if test="unitLevel != null">
         unit_level = #{unitLevel,jdbcType=VARCHAR},
       </if>
-      <if test="createUserId != null" >
+      <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=VARCHAR},
       </if>
-      <if test="createDate != null" >
+      <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="remarks != null" >
+      <if test="remarks != null">
         remarks = #{remarks,jdbcType=VARCHAR},
       </if>
-      <if test="unitType != null" >
+      <if test="unitType != null">
         unit_type = #{unitType,jdbcType=VARCHAR},
       </if>
-      <if test="instituteName != null" >
+      <if test="instituteName != null">
         institute_name = #{instituteName,jdbcType=VARCHAR},
       </if>
-      <if test="define1 != null" >
+      <if test="define1 != null">
         define1 = #{define1,jdbcType=VARCHAR},
       </if>
-      <if test="define2 != null" >
+      <if test="define2 != null">
         define2 = #{define2,jdbcType=VARCHAR},
       </if>
-      <if test="define3 != null" >
+      <if test="define3 != null">
         define3 = #{define3,jdbcType=VARCHAR},
+      </if>
+      <if test="outUnitCode != null">
+        out_unit_code = #{outUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitAddress != null">
+        unit_address = #{unitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        post_code = #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="superLeaderName != null">
+        super_leader_name = #{superLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        bank_account = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="outUnitType != null">
+        out_unit_type = #{outUnitType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeaderName != null">
+        project_leader_name = #{projectLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeaderPost != null">
+        project_leader_post = #{projectLeaderPost,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeaderPhone != null">
+        project_leader_phone = #{projectLeaderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeaderEmail != null">
+        project_leader_email = #{projectLeaderEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentLeaderName != null">
+        payment_leader_name = #{paymentLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentLeaderPost != null">
+        payment_leader_post = #{paymentLeaderPost,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentLeaderPhone != null">
+        payment_leader_phone = #{paymentLeaderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentLeaderEmail != null">
+        payment_leader_email = #{paymentLeaderEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="define4 != null">
+        define4 = #{define4,jdbcType=VARCHAR},
+      </if>
+      <if test="define5 != null">
+        define5 = #{define5,jdbcType=VARCHAR},
+      </if>
+      <if test="define6 != null">
+        define6 = #{define6,jdbcType=VARCHAR},
+      </if>
+      <if test="define7 != null">
+        define7 = #{define7,jdbcType=VARCHAR},
+      </if>
+      <if test="define8 != null">
+        define8 = #{define8,jdbcType=VARCHAR},
+      </if>
+      <if test="define9 != null">
+        define9 = #{define9,jdbcType=VARCHAR},
       </if>
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutUnit" >
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutUnit">
     update out_unit
     set unit_name = #{unitName,jdbcType=VARCHAR},
       unit_code = #{unitCode,jdbcType=VARCHAR},
@@ -365,10 +684,30 @@
       institute_name = #{instituteName,jdbcType=VARCHAR},
       define1 = #{define1,jdbcType=VARCHAR},
       define2 = #{define2,jdbcType=VARCHAR},
-      define3 = #{define3,jdbcType=VARCHAR}
+      define3 = #{define3,jdbcType=VARCHAR},
+      out_unit_code = #{outUnitCode,jdbcType=VARCHAR},
+      unit_address = #{unitAddress,jdbcType=VARCHAR},
+      post_code = #{postCode,jdbcType=VARCHAR},
+      super_leader_name = #{superLeaderName,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      bank_account = #{bankAccount,jdbcType=VARCHAR},
+      out_unit_type = #{outUnitType,jdbcType=VARCHAR},
+      project_leader_name = #{projectLeaderName,jdbcType=VARCHAR},
+      project_leader_post = #{projectLeaderPost,jdbcType=VARCHAR},
+      project_leader_phone = #{projectLeaderPhone,jdbcType=VARCHAR},
+      project_leader_email = #{projectLeaderEmail,jdbcType=VARCHAR},
+      payment_leader_name = #{paymentLeaderName,jdbcType=VARCHAR},
+      payment_leader_post = #{paymentLeaderPost,jdbcType=VARCHAR},
+      payment_leader_phone = #{paymentLeaderPhone,jdbcType=VARCHAR},
+      payment_leader_email = #{paymentLeaderEmail,jdbcType=VARCHAR},
+      define4 = #{define4,jdbcType=VARCHAR},
+      define5 = #{define5,jdbcType=VARCHAR},
+      define6 = #{define6,jdbcType=VARCHAR},
+      define7 = #{define7,jdbcType=VARCHAR},
+      define8 = #{define8,jdbcType=VARCHAR},
+      define9 = #{define9,jdbcType=VARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
-  
   <!-- 批量插入组织机构数据 -->
   <insert id="insertOutUnitBatch" parameterType="java.util.List">
 	  insert into out_unit (data_id, unit_name, unit_code, 
