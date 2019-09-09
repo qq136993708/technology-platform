@@ -77,9 +77,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	}
 
 	/**
-	 * 判断是否有此项目计划
-	 * 如果有的话，修改部分属性
-	 * 如果没有的话，返回-1
+	 * 判断是否有此项目计划 如果有的话，修改部分属性 如果没有的话，返回-1
 	 */
 	public int updateOutProjectPlan(OutProjectPlan opp) {
 
@@ -505,10 +503,17 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		System.out.println(">>>>>>>>>封装后-》参数：" + hashmapstr.toString());
 
 		List<OutProjectPlan> list = outProjectPlanMapper.selectProjectPlanByCond(hashmap);
+
 		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
 		PageInfo<OutProjectPlan> pageInfo = new PageInfo<OutProjectPlan>(list);
 		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
 
+		for (int i = 0; i < pageInfo.getList().size(); i++) {
+			OutProjectPlan opp = pageInfo.getList().get(i);
+			if (opp.getHth() != null && opp.getHth().contains("groupFlag")) {
+				opp.setHth(null);
+			}
+		}
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
 		Long total = pageInfo.getTotal();
