@@ -682,6 +682,16 @@ public class AdminController extends BaseController {
 		return "/instituteIndex";
 	}
 
+	@RequestMapping(value = "/instituteRedrect")
+	public String instituteRedrect(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String url = CommonUtil.getParameter(request, "url", "");
+		request.setAttribute("url", url);
+
+		url = java.net.URLDecoder.decode(request.getParameter("url"), "UTF-8");// 名称检索条件
+		return url;
+	}
+
 	public void getContractParameter(HttpServletRequest request, HttpServletResponse response) {
 		String nd = CommonUtil.getParameter(request, "nd", "");// 项目名
 		String ysnd = CommonUtil.getParameter(request, "ysnd", "");// 项目名

@@ -13,11 +13,6 @@
 </head>
 <body>
     <div class="main institute">
-        <!--<input type="hidden" id="breif">
-        <input type="hidden" id="developHistory">
-        <input type="hidden" id="organization">
-        <input type="hidden" id="personnel">
-        <input type="hidden" id="honor">-->
 
         <div class="layui-card-body">
             <div class="layui-tab">
@@ -37,14 +32,14 @@
                             <p>Company Introduction</p>
                         </div>
                         <div class="main-item">
-                            <div class="main-left">
-                                <p id="breif"></p>
+                            <div id="breif">
+                                <!--<p id="breif"></p>-->
                             </div>
-                            <div class="main-right">
+                           <!-- <div class="main-right">
                                 <img src="/layuiadmin/layui/images/icon-synopsis1.png" alt="">
                                 <img src="/layuiadmin/layui/images/icon-synopsis2.png" alt="">
                                 <img src="/layuiadmin/layui/images/icon-synopsis3.png" alt="">
-                            </div>
+                            </div>-->
                         </div>
 <!--                        <iframe src="/institute/synopsis.html?val="+$(&quot;#breif&quot;).val() class="layui-iframe"></iframe>-->
                     </div>
@@ -53,10 +48,10 @@
                         <p>Development History</p>
                     </div>
                         <div class="main-item">
-                            <div class="main-top">
-                                <p id="developHistory"></p>
+                            <div id="developHistory">
+                                <!--<p id="developHistory"></p>-->
                             </div>
-                            <div class="layui-row main-cont">
+                            <!--<div class="layui-row main-cont">
                                 <div class="layui-col-md4">
                                     <p></p>
                                     <p>石化盈科由中国石化和香港电讯盈科携手创立于2002年，是国内领先的信息化服务商。</p>
@@ -69,7 +64,7 @@
                                     <p></p>
                                     <p>石化盈科由中国石化和香港电讯盈科携手创立于2002年，是国内领先的信息化服务商。</p>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
 
 <!--                        <iframe src="/institute/history.html?val="+$(&quot;#developHistory&quot;).val() class="layui-iframe"></iframe>-->
@@ -80,15 +75,16 @@
                             <p>Organization Structure</p>
                         </div>
                         <div class="main-item structure">
-                            <div class="main-left">
+                            <!--<div class="main-left">
                                 <img src="/layuiadmin/layui/images/icon-structure.png" alt="">
-                            </div>
-                            <div class="main-right">
-                                <div class="item">
-                                    <p>
+                            </div>-->
+                            <div>
+                                <span>组织结构</span>
+                                <div class="item" id="organization">
+                                    <!--<p>
                                         <span>组织结构</span>
                                         <span id="organization"></span>
-                                    </p>
+                                    </p>-->
                                 </div>
                             </div>
                         </div>
@@ -100,40 +96,33 @@
                             <p>Structure of Personnel</p>
                         </div>
                         <div class="main-item personnel">
-                            <div class="main-top">
-                                <p id="personnel"></p>
+                            <div id="personnel">
+                                <!--<p id="personnel"></p>-->
                             </div>
-                            <div class="layui-row main-cont">
+                         <!--   <div class="layui-row main-cont">
                                 <img src="/layuiadmin/layui/images/icon-personnel1.png" alt="">
                                 <img src="/layuiadmin/layui/images/icon-personnel2.png" alt="">
                                 <img src="/layuiadmin/layui/images/icon-personnel3.png" alt="">
                                 <img src="/layuiadmin/layui/images/icon-personnel4.png" alt="">
-                            </div>
+                            </div>-->
                         </div>
 <!--                        <iframe src="/institute/personnel.html?val="+$(&quot;#personnel&quot;).val() class="layui-iframe"></iframe>-->
                     </div>
                     <div class="layui-tab-item">
-                        <div class="main-item honor">
-                            <div class="main-top">
-                                <div class="main-left">
-                                    <img src="/layuiadmin/layui/images/icon-honor.png" alt="">
-                                </div>
-                                <div class="main-right">
-                                    <div class="header">
-                                        <h4>荣誉与业绩</h4>
-                                        <p>Honor and Performance</p>
-                                    </div>
-                                    <div class="item">
-                                        <p>
-                                            <span>组织结构</span>
-                                            <span>石化盈科由中国石化和香港电讯盈科携手创立于2002年，是国内领先的信息化服务商，在境内外设有多家分支机构。</span>
-                                        </p>
-                                    </div>
-                                </div>
+                        <div class="header">
+                            <h4>荣誉与业绩</h4>
+                            <p>Honor and Performance</p>
+                        </div>
+                        <div class="main-item personnel">
+                            <div id="honor">
+                                <!--<p id="personnel"></p>-->
                             </div>
-                            <div class="main-bottom">
-                                <p id="honor"></p>
-                            </div>
+                            <!--   <div class="layui-row main-cont">
+                                   <img src="/layuiadmin/layui/images/icon-personnel1.png" alt="">
+                                   <img src="/layuiadmin/layui/images/icon-personnel2.png" alt="">
+                                   <img src="/layuiadmin/layui/images/icon-personnel3.png" alt="">
+                                   <img src="/layuiadmin/layui/images/icon-personnel4.png" alt="">
+                               </div>-->
                         </div>
 <!--                        <iframe src="/institute/honor.html?val="+$(&quot;#honor&quot;).val() class="layui-iframe"></iframe>-->
                     </div>
@@ -156,8 +145,8 @@
     <script>
         layui.use(['jquery', 'element'], function(){
             var $ = layui.jquery, element = layui.element;
-            parent.$("#LAY_app_body").css({"left":"16px","top":"107px","margin":"0","right":"16px","bottom":"46px"});
-            $(".layui-tab-content iframe").css("height",parent.$("#LAY_app_body iframe").height()-120+"px");
+           /* parent.$("#LAY_app_body").css({"left":"16px","top":"107px","margin":"0","right":"16px","bottom":"46px"});
+            $(".layui-tab-content iframe").css("height",parent.$("#LAY_app_body iframe").height()-120+"px");*/
 
             /*$(".menu-right ul li").click(function () {
                 $(".menu-right ul li").removeClass("layui-this");
@@ -176,11 +165,11 @@
                     },
                     success : function(data, status) {
                         var department = data.department;
-                        $("#breif").text(department.breif);
-                        $("#developHistory").text(department.developHistory);
-                        $("#organization").text(department.organization);
-                        $("#personnel").text(department.personnel);
-                        $("#honor").text(department.honor);
+                        $("#breif").html(department.breif);
+                        $("#developHistory").html(department.developHistory);
+                        $("#organization").html(department.organization);
+                        $("#personnel").html(department.personnel);
+                        $("#honor").html(department.honor);
                     },
                     error : function() {
                     }
