@@ -132,8 +132,6 @@
 					<span>直属研究院</span>
 				</div>
 			</#if>
-			
-			
 			<div class="dec-center-right3" id="appraisalId_div">
 				<span></span>
 				<span>成果鉴定</span>
@@ -555,6 +553,10 @@ var companyCode="${companyCode?default('')}";
 				
 				
 				var rateDate=((moneyCurrent/moneyTotal)*100).toFixed(2);
+				if(rateDate=='NaN' || rateDate=='Infinity')
+			    {
+					 rateDate="0";
+			    }
 				$("#circle").find('span').html(rateDate+"%");
 				
 				 $("#circle").circleProgress({
@@ -592,7 +594,13 @@ var companyCode="${companyCode?default('')}";
 				success : function(data) {
 					//var appraisalCount = data.appraisalCount;
 					//alert(appraisalCount);
-					$("#appraisalId").html(data.count+"个");
+					var data_count=data.count;
+					if (typeof(data_count) == "undefined")
+					{
+						data_count="-";
+					}
+					
+					$("#appraisalId").html(data_count+"个");
 				}
 			});
 
@@ -818,7 +826,13 @@ var companyCode="${companyCode?default('')}";
 						var hanaMoney = data.data[i].hanaMoney;//实际科研投入
 						count = count + parseFloat(hanaMoney);
 					}
-					$("#appropriation_sum").html((count/ 10000).toFixed(2)+"亿");
+	            	
+	            	var appropriation_sum=(count/ 10000).toFixed(2);
+	            	if(appropriation_sum=='NaN' || appropriation_sum=='Infinity')
+				    {
+	            		appropriation_sum="-";
+				    }
+					$("#appropriation_sum").html(appropriation_sum+"亿");
 	            },
 	            error: function () {
 					
@@ -907,6 +921,10 @@ var companyCode="${companyCode?default('')}";
 				success : function(data) {
 					var length = data.count
 					//alert(length);
+					if (typeof(length) == "undefined")
+					{
+						length="-";
+					}
 					$("#expert_total").html(length + "位");
 				}
 			});
