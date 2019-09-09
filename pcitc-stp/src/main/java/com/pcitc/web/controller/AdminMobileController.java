@@ -146,8 +146,8 @@ public class AdminMobileController extends BaseController {
 		headerMap.put("Content-Type", "application/json");
 		RestfulHttpClient.setDefaultHeaders(headerMap);
 
-		//String refreshOauthUrl = "https://oauth.siam.sinopec.com/oauth/interface/token";
-		String refreshOauthUrl = "https://10.246.161.212/oauth/interface/token";
+		String refreshOauthUrl = "https://oauth.siam.sinopec.com/oauth/interface/token";
+		//String refreshOauthUrl = "https://10.246.161.212/oauth/interface/token";
 		RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(refreshOauthUrl);
 		client.post();
 
@@ -157,7 +157,7 @@ public class AdminMobileController extends BaseController {
 		client.addQueryParam("client_secret", "b25ibGFrY2hoZGxsZ2VmaWxtZmdiaGRobG9mZmNvbWlvaWdobGJoYWdub2NmbmVlb21qbG5qZmhja2JlcHBlbw==");
 		client.addQueryParam("refresh_token", oauthToken);
 		client.addQueryParam("grant_type", "refresh_token");
-		client.addQueryParam("client_ip", getRemoteHost(request));
+		client.addQueryParam("client_ip", "10.246.94.11");
 		RestfulHttpClient.HttpResponse authResponse = client.request();
 
 		// 是否获取人员信息成功标识
@@ -178,8 +178,8 @@ public class AdminMobileController extends BaseController {
 				String expires_in = json.getString("expires_in");
 
 				// 获取用户信息
-				//String userUrl = "https://oauth.siam.sinopec.com/oauth/interface/getUserInfo";
-				String userUrl = "https://10.246.161.212/oauth/interface/getUserInfo";
+				String userUrl = "https://oauth.siam.sinopec.com/oauth/interface/getUserInfo";
+				//String userUrl = "https://10.246.161.212/oauth/interface/getUserInfo";
 				// 创建一个请求客户端
 				RestfulHttpClient.HttpClient userClient = RestfulHttpClient.getClient(userUrl);
 				userClient.post();
