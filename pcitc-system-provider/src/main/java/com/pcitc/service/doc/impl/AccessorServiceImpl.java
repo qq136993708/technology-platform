@@ -54,8 +54,7 @@ public class AccessorServiceImpl implements AccessorService {
             	//new ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true);
             	System.out.println("AccessorServiceImpl:初始化client ");
             	if (clientFactoryBuilder == null) {
-        			clientFactoryBuilder = new ClientFactoryBuilder();
-        			clientFactoryBuilder = new ClientFactoryBuilder();
+            		clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
         			System.out.println("IndexAccessorServiceImpl:获取ClientFactoryBuilder实例--- " + clientFactoryBuilder);
             	}
             	client = clientFactoryBuilder.getClient();

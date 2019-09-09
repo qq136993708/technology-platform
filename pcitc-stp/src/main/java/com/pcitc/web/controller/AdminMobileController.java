@@ -135,7 +135,7 @@ public class AdminMobileController extends BaseController {
 	 * 
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/mobile/index")
+	@RequestMapping(value = "/kjptmobile/index")
 	public String indexMobileStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//System.out.println("1进入indexMobileStp....");
 		System.out.println("2进入indexMobileStp...." + request.getParameter("oauth_token"));

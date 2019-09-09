@@ -28,7 +28,6 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableCaching
 @MapperScan(basePackages = { "com.pcitc.mapper.*" })
-@ComponentScan
 @EnableFeignClients
 @EnableHystrix      //方便turbine进行监控
 @PropertySource(name="EncryptedProperties", value = "classpath:application-${spring.profiles.active}.properties")
