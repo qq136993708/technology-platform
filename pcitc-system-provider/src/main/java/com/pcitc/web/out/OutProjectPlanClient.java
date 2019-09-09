@@ -799,35 +799,48 @@ public class OutProjectPlanClient {
 		List temList = outProjectPlanService.getPlanMoneyByDepartment(map);
 		if (temList == null || temList.size() == 0) {
 			temList = outProjectPlanService.getPlanMoneyByDepartmentSpecial(map);
-		} else {
-			Double ysje = 0d;
-			Double ysjzje = 0d;
-			Double ysxkje = 0d;
-			Double sjzje = 0d;
-			Double xkMoney = 0d;
-			Double jzMoney = 0d;
-			Double xkFyxMoney = 0d;
-			for (int i = 0; i < temList.size(); i++) {
-				HashMap temMap = (HashMap) temList.get(i);
-				ysje = ysje + (temMap.get("ysje") == null ? 0d : Double.parseDouble(temMap.get("ysje").toString()));
-				ysjzje = ysjzje + (temMap.get("ysjzje") == null ? 0d : Double.parseDouble(temMap.get("ysjzje").toString()));
-				ysxkje = ysxkje + (temMap.get("ysxkje") == null ? 0d : Double.parseDouble(temMap.get("ysxkje").toString()));
-				sjzje = sjzje + (temMap.get("sjzje") == null ? 0d : Double.parseDouble(temMap.get("sjzje").toString()));
-				xkMoney = xkMoney + (temMap.get("xkMoney") == null ? 0d : Double.parseDouble(temMap.get("xkMoney").toString()));
-				jzMoney = jzMoney + (temMap.get("jzMoney") == null ? 0d : Double.parseDouble(temMap.get("jzMoney").toString()));
-				xkFyxMoney = xkFyxMoney + (temMap.get("xkFyxMoney") == null ? 0d : Double.parseDouble(temMap.get("xkFyxMoney").toString()));
+		} 
+		Double ysje = 0d;
+		Double ysjzje = 0d;
+		Double ysxkje = 0d;
+		Double sjzje = 0d;
+		Double xkMoney = 0d;
+		Double jzMoney = 0d;
+		Double xkFyxMoney = 0d;
+		for (int i = 0; i < temList.size(); i++) {
+			HashMap temMap = (HashMap) temList.get(i);
+			if (temMap.get("zycmc") != null && temMap.get("zycmc").toString().contains("机动")) {
+				temMap.put("ysjzje", "0");
+				temMap.put("ysxkje", "0");
+				temMap.put("sjzje", "0");
+				temMap.put("xkMoney", "0");
+				temMap.put("jzMoney", "0");
+				temMap.put("xkFyxMoney", "0");
 			}
-			HashMap addMap = new HashMap();
-			addMap.put("zycmc", "合计");
-			addMap.put("ysje", String.format("%.2f", ysje));
-			addMap.put("ysjzje", String.format("%.2f", ysjzje));
-			addMap.put("ysxkje", String.format("%.2f", ysxkje));
-			addMap.put("sjzje", String.format("%.2f", sjzje));
-			addMap.put("xkMoney", String.format("%.2f", xkMoney));
-			addMap.put("jzMoney", String.format("%.2f", jzMoney));
-			addMap.put("xkFyxMoney", String.format("%.2f", xkFyxMoney));
-			temList.add(0, addMap);
+			// 专项的新开预算就是实际新开
+			if (temMap.get("zycmc") != null && temMap.get("zycmc").toString().contains("专项")) {
+				temMap.put("sjzje", temMap.get("ysxkje"));
+				temMap.put("xkMoney", temMap.get("ysxkje"));
+				temMap.put("xkFyxMoney", temMap.get("ysxkje"));
+			}
+			ysje = ysje + (temMap.get("ysje") == null ? 0d : Double.parseDouble(temMap.get("ysje").toString()));
+			ysjzje = ysjzje + (temMap.get("ysjzje") == null ? 0d : Double.parseDouble(temMap.get("ysjzje").toString()));
+			ysxkje = ysxkje + (temMap.get("ysxkje") == null ? 0d : Double.parseDouble(temMap.get("ysxkje").toString()));
+			sjzje = sjzje + (temMap.get("sjzje") == null ? 0d : Double.parseDouble(temMap.get("sjzje").toString()));
+			xkMoney = xkMoney + (temMap.get("xkMoney") == null ? 0d : Double.parseDouble(temMap.get("xkMoney").toString()));
+			jzMoney = jzMoney + (temMap.get("jzMoney") == null ? 0d : Double.parseDouble(temMap.get("jzMoney").toString()));
+			xkFyxMoney = xkFyxMoney + (temMap.get("xkFyxMoney") == null ? 0d : Double.parseDouble(temMap.get("xkFyxMoney").toString()));
 		}
+		HashMap addMap = new HashMap();
+		addMap.put("zycmc", "合计");
+		addMap.put("ysje", String.format("%.2f", ysje));
+		addMap.put("ysjzje", String.format("%.2f", ysjzje));
+		addMap.put("ysxkje", String.format("%.2f", ysxkje));
+		addMap.put("sjzje", String.format("%.2f", sjzje));
+		addMap.put("xkMoney", String.format("%.2f", xkMoney));
+		addMap.put("jzMoney", String.format("%.2f", jzMoney));
+		addMap.put("xkFyxMoney", String.format("%.2f", xkFyxMoney));
+		temList.add(0, addMap);
 		System.out.println("getPlanMoneyByDepartment==========" + JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;

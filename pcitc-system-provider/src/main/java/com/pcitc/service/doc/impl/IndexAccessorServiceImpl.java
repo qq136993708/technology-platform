@@ -53,8 +53,9 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
             if (client == null) {
             	System.out.println("IndexAccessorServiceImpl:初始化client " + clientFactoryBuilder);
             	if (clientFactoryBuilder == null) {
-        			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
-        		}
+        			clientFactoryBuilder = new ClientFactoryBuilder();
+        			System.out.println("IndexAccessorServiceImpl:获取ClientFactoryBuilder实例--- " + clientFactoryBuilder);
+            	}
             	client = clientFactoryBuilder.getClient();
             }
         } catch (Exception e) {
@@ -288,7 +289,7 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
 
     public AccessorService getAccessorService() {
     	if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+			clientFactoryBuilder = new ClientFactoryBuilder();
 		}
         AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
         return accessor;
@@ -327,7 +328,7 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
     public List<String> selectHotWord(HotWord hotWord){
         //获取搜索日志
     	if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+			clientFactoryBuilder = new ClientFactoryBuilder();
 		}
         TransportClient client = clientFactoryBuilder.getClient();
         SearchRequestBuilder requestBuilder = client.prepareSearch(hotWord.getIndices()).setTypes(hotWord.getTypes()).setQuery(QueryBuilders.matchAllQuery());
