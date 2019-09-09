@@ -157,7 +157,7 @@ public class AdminMobileController extends BaseController {
 		client.addQueryParam("client_secret", "b25ibGFrY2hoZGxsZ2VmaWxtZmdiaGRobG9mZmNvbWlvaWdobGJoYWdub2NmbmVlb21qbG5qZmhja2JlcHBlbw==");
 		client.addQueryParam("refresh_token", oauthToken);
 		client.addQueryParam("grant_type", "refresh_token");
-		client.addQueryParam("client_ip", getRemoteHost(request));
+		client.addQueryParam("client_ip", "10.246.94.11");
 		RestfulHttpClient.HttpResponse authResponse = client.request();
 
 		// 是否获取人员信息成功标识
