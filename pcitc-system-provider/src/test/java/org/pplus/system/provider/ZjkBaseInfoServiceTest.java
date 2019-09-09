@@ -37,7 +37,7 @@ import java.util.*;
 //@SpringBootTest(classes = SystemProviderApplication.class)// 指定spring-boot的启动类
 public class ZjkBaseInfoServiceTest {
 
-	private static ClientFactoryBuilder clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+	private static ClientFactoryBuilder clientFactoryBuilder = new ClientFactoryBuilder();
 	
     @Autowired
     private SysFileService sysFileService;

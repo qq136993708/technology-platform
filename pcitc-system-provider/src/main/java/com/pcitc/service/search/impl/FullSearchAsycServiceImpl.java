@@ -198,7 +198,7 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
 
     public AccessorService getAccessorService() {
     	if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+			clientFactoryBuilder = new ClientFactoryBuilder();
 		}
         AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
         return accessor;
