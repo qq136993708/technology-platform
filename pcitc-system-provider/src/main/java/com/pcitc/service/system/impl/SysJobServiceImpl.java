@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.pcitc.base.system.SysCronRecord;
+import com.pcitc.mapper.system.SysCronRecordMapper;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.DateBuilder;
@@ -37,6 +39,8 @@ public class SysJobServiceImpl implements SysJobService {
 
 	@Autowired
 	private SysJobMapper sysJobMapper;
+	@Autowired
+	private SysCronRecordMapper sysCronRecordMapper;
 
 	/**
 	 * 按id查询
@@ -52,7 +56,7 @@ public class SysJobServiceImpl implements SysJobService {
 	/**
 	 * 按条件查询
 	 *
-	 * @param map
+	 * @param param
 	 * @return
 	 */
 	@Override
@@ -65,6 +69,29 @@ public class SysJobServiceImpl implements SysJobService {
         List<SysJob> list = sysJobMapper.selectByCondition(map);
         
         PageInfo<SysJob> pageInfo = new PageInfo<SysJob>(list);
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+	}
+
+	/**
+	 * 按条件查询
+	 *
+	 * @param param
+	 * @return
+	 */
+	@Override
+	public LayuiTableData findSysExcepJob(LayuiTableParam param) {
+
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(param.getPage(), param.getLimit());
+		Map<String, Object> map = param.getParam();
+
+		List<SysCronRecord> list = sysCronRecordMapper.selectByExample(null);
+
+		PageInfo<SysCronRecord> pageInfo = new PageInfo<SysCronRecord>(list);
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
 		Long total = pageInfo.getTotal();
@@ -101,6 +128,22 @@ public class SysJobServiceImpl implements SysJobService {
 			return sysJobMapper.insert(job);
 		} else {
 			return sysJobMapper.updateByPrimaryKey(job);
+		}
+	}
+
+	/**
+	 * 保存作业
+	 *
+	 * @param sysCronRecord
+	 * @return
+	 */
+	@Override
+	public Integer saveSysExcepJob(SysCronRecord sysCronRecord) {
+		if (sysCronRecord.getDataId() == null || "".equals(sysCronRecord.getDataId())) {
+			sysCronRecord.setDataId(Integer.parseInt(UUID.randomUUID().toString().replace("-", "")));
+			return sysCronRecordMapper.insert(sysCronRecord);
+		} else {
+			return sysCronRecordMapper.updateByPrimaryKey(sysCronRecord);
 		}
 	}
 
