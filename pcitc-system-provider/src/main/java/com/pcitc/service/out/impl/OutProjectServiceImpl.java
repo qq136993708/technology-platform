@@ -2350,7 +2350,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		OutProjectInfo outProjectInfo = outProjectInfoMapper.selectByPrimaryKey(dataId);
 		String strName = outProjectInfo.getXmmc();
 		if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+			clientFactoryBuilder = new ClientFactoryBuilder();
 		}
 		TransportClient client = clientFactoryBuilder.getClient();
 
@@ -2374,7 +2374,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		TechFamily techFamily = new TechFamily();
 		List<TechFamily> techFamilies = techFamilyProviderClient.selectTechFamilyTypeList(techFamily);
 		if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+			clientFactoryBuilder = new ClientFactoryBuilder();
 		}
 		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
 		IndexAccessorService indexAccessor = new IndexHelperBuilder.Builder().withClient(accessor.getClient()).creatAccessor();
@@ -2397,7 +2397,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		List<TechFamilyEs> list = new ArrayList<>();
 		// List<String> strings = new ArrayList<>();
 		if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+			clientFactoryBuilder = new ClientFactoryBuilder();
 		}
 		TransportClient client = clientFactoryBuilder.getClient();
 		List<OutProjectInfo> outProjectInfos = this.selectAllProjectInfo();
@@ -2444,7 +2444,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 	public JSONObject getOutProjectShowCount(String dataId) {
 		if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+			clientFactoryBuilder = new ClientFactoryBuilder();
 		}
 		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
 		BooleanCondtionBuilder.Builder builder = new BooleanCondtionBuilder.Builder();

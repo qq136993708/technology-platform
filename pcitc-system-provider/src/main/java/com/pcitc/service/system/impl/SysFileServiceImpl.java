@@ -441,7 +441,7 @@ public class SysFileServiceImpl implements SysFileService {
 		// AccessorService accessor = new
 		// ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true).createByConfig();
 		if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+			clientFactoryBuilder = new ClientFactoryBuilder();
 		}
 		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
 		BooleanCondtionBuilder.Builder builder = new BooleanCondtionBuilder.Builder();
@@ -901,7 +901,7 @@ public class SysFileServiceImpl implements SysFileService {
 		// AccessorService accessor = new
 		// ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true).createByConfig();
 		if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+			clientFactoryBuilder = new ClientFactoryBuilder();
 		}
 		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
 		return accessor;
