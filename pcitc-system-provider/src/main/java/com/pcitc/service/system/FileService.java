@@ -9,7 +9,6 @@ import java.io.InputStream;
  * @author:Administrator
  * @date:2019/4/28
  */
-@Service("postService")
 public interface FileService {
 
     /**

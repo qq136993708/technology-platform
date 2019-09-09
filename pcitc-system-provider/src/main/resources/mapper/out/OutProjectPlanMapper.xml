@@ -1870,11 +1870,11 @@
 					GROUP BY ${groupFlag}
 				</if>
 				<if test="groupFlag == ''">
-					GROUP BY HTH
+					GROUP BY XMID
 				</if>
 			</if>
 			<if test="groupFlag == null">
-				GROUP BY HTH
+				GROUP BY XMID
 			</if>
 			<if test="orderKey != null">
 				<if test="orderType != ''">

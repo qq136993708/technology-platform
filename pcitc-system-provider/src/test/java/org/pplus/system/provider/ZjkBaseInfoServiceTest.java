@@ -11,11 +11,13 @@ import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFileExample;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.StrUtil;
+import com.pcitc.config.SpringContextUtil;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.service.doc.IndexAccessorService;
 import com.pcitc.service.system.IndexOutProjectInfoService;
 import com.pcitc.service.system.SysFileService;
 import com.pcitc.web.feign.TechFamilyProviderClient;
+
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -35,8 +37,8 @@ import java.util.*;
 //@SpringBootTest(classes = SystemProviderApplication.class)// 指定spring-boot的启动类
 public class ZjkBaseInfoServiceTest {
 
-    @Autowired
-    private ClientFactoryBuilder clientFactoryBuilder;
+	private static ClientFactoryBuilder clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
+	
     @Autowired
     private SysFileService sysFileService;
     @Autowired
