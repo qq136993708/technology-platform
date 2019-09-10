@@ -317,13 +317,13 @@ public class TaskController extends BaseController {
 		return JSON.toJSON(retJson).toString();
 	}
 
-	@RequestMapping(value = "/mobile/done_task_list")
+	@RequestMapping(value = "/kjptmobile/done_task_list")
 	public String done_task_list_mui(HttpServletRequest request) {
 
-		return "/mobile/done_task_list";
+		return "/kjptmobile/done_task_list";
 	}
 
-	@RequestMapping(value = "/mobile/done_task_list_data")
+	@RequestMapping(value = "/kjptmobile/done_task_list_data")
 	@ResponseBody
 	public Page done_task_list_data(HttpServletRequest request) {
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
@@ -434,7 +434,7 @@ public class TaskController extends BaseController {
 		return "/pplus/workflow/process-show";
 	}
 
-	@RequestMapping(value = "/mobile/process_mobile/{instanceId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/kjptmobile/process_mobile/{instanceId}", method = RequestMethod.GET)
 	public String process_mobile(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
 		return "/pplus/workflow/process_mobile";
 	}

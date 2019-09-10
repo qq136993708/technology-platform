@@ -608,12 +608,12 @@ layui.define(['jquery','form','table','laydate'],
                                 "             <p>待办督办</p>"+
                                 "              <ul>" +
                                 "                   <li>" +
-                                "                       <img src='/layuiadmin/layui/images/agencyOne.png' alt=''>" +
+                                "                       <img src='/kjptmobile/layuiadmin/layui/images/agencyOne.png' alt=''>" +
                                 "                       <span class='layui-agency-left-span'>待办事项</span>" +
                                 "                       <span class='layui-agency-span' id='agencyOne'>1</span>" +
                                 "                   </li>" +
                                 "                   <li>" +
-                                "                       <img src='/layuiadmin/layui/images/agencyFour.png' alt=''>" +
+                                "                       <img src='/kjptmobile/layuiadmin/layui/images/agencyFour.png' alt=''>" +
                                 "                       <span class='layui-agency-left-span'>任务督办</span>" +
                                 "                       <span class='layui-agency-span' id='agencyFour'>1</span>" +
                                 "                   </li>" +
@@ -624,7 +624,7 @@ layui.define(['jquery','form','table','laydate'],
                             var html="<li class='item "+data.class+"' data-power='"+data.power+"'>" +
                                 "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                                 "           <p>"+data.name+"</p>" +
-                                "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
+                                "           <img src='/kjptmobile/layuiadmin/layui/images/level-close.png' class='dele'>"
                                 "      </div></li>";
                         }
                         $("#moduleConfig").append(html);
@@ -633,14 +633,14 @@ layui.define(['jquery','form','table','laydate'],
                             var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
                                 "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                                 "           <p>"+data.name+"</p>" +
-                                "           <span id='"+data.spareId+"'><img class='loadingImg' src='/layuiadmin/layui/images/loadingImg04.gif'></span>" +
+                                "           <span id='"+data.spareId+"'><img class='loadingImg' src='/kjptmobile/layuiadmin/layui/images/loadingImg04.gif'></span>" +
                                 "      </div></li>";
                         }else {
                             var html="<li class='item "+data.class+"' data-power='"+data.power+"'>" +
                                 "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                                 "           <p>"+data.name+"</p>" +
-                                "           <span id='"+data.spareId+"'><img class='loadingImg' src='/layuiadmin/layui/images/loadingImg04.gif'></span>" +
-                                "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
+                                "           <span id='"+data.spareId+"'><img class='loadingImg' src='/kjptmobile/layuiadmin/layui/images/loadingImg04.gif'></span>" +
+                                "           <img src='/kjptmobile/layuiadmin/layui/images/level-close.png' class='dele'>"
                                 "      </div></li>";
 
                         }
@@ -650,7 +650,7 @@ layui.define(['jquery','form','table','laydate'],
                 var html="<li class='layui-col-md3'>" +
                     "           <div class='layui-col-md' id='layui-add'>" +
                     "               <div class='layui-add'>" +
-                    "                   <img src='/layuiadmin/layui/images/icon-puls.png'/>" +
+                    "                   <img src='/kjptmobile/layuiadmin/layui/images/icon-puls.png'/>" +
                     "               </div>" +
                     "           </div>" +
                     "      </li>";
@@ -684,15 +684,15 @@ layui.define(['jquery','form','table','laydate'],
                         var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
                             "       <div class='layui-text-icon "+classDiv+"' style='background:"+color+" /*url("+data.img+") center center no-repeat;*/' id='"+data.id+"'>" +
                             "           <p>"+data.name+"</p>" +
-                            "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
+                            "           <img src='/kjptmobile/layuiadmin/layui/images/level-close.png' class='dele'>"
                             "      </div></li>";
                         publicMet.moduleConfigAdd(html);
                     }else {
                         var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
                             "       <div class='layui-text-icon' style='background:"+color+" /*url("+data.img+") center center no-repeat;*/' id='"+data.id+"'>" +
                             "           <p>"+data.name+"</p>" +
-                            "           <span id='"+data.spareId+"'><img class='loadingImg' src='/layuiadmin/layui/images/loadingImg04.gif'></span>" +
-                            "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
+                            "           <span id='"+data.spareId+"'><img class='loadingImg' src='/kjptmobile/layuiadmin/layui/images/loadingImg04.gif'></span>" +
+                            "           <img src='/kjptmobile/layuiadmin/layui/images/level-close.png' class='dele'>"
                             "      </div></li>";
                         publicMet.moduleConfigAdd(html);
                     }
@@ -701,15 +701,15 @@ layui.define(['jquery','form','table','laydate'],
                         var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
                             "       <div class='layui-text-icon "+classDiv+"' style='background:"+color+"/* url("+data.img+") center center no-repeat;*/' id='"+data.id+"'>" +
                             "           <p>"+data.name+"</p>" +
-                            "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
+                            "           <img src='/kjptmobile/layuiadmin/layui/images/level-close.png' class='dele'>"
                         "      </div></li>";
                         publicMet.moduleConfigAdd(html);
                     }else {
                         var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
                             "       <div class='layui-text-icon' style='background:"+color+"/* url("+data.img+") center center no-repeat;*/' id='"+data.id+"'>" +
                             "           <p>"+data.name+"</p>" +
-                            "           <span id='"+data.spareId+"'><img class='loadingImg' src='/layuiadmin/layui/images/loadingImg04.gif'></span>" +
-                            "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
+                            "           <span id='"+data.spareId+"'><img class='loadingImg' src='/kjptmobile/layuiadmin/layui/images/loadingImg04.gif'></span>" +
+                            "           <img src='/kjptmobile/layuiadmin/layui/images/level-close.png' class='dele'>"
                         "      </div></li>";
                         publicMet.moduleConfigAdd(html);
 

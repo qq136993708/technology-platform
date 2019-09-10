@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/kjptmobile/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/kjptmobile/css/mobileNew.css">
+    <style>
+        .layui-tab-content:nth-child(1){    background: url(/kjptmobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
+        .contract .layui-tab-content .layui-tab-item ul li{height: .7rem}
+    </style>
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/kjptmobile/temIndex"><img src="/kjptmobile/images/icon-back.png"/> </a>
+        <h4>我的待办</h4>
+    </div>
+</header>
+<main class="main contract agencyM">
+    <div class="layui-tab" >
+        <div class="layui-tab-content">
+            <ul class="layui-tab-title">
+                <li class="layui-this">平台待办<label id="wait_task_list_count"></label></li>
+                <li>平台已办<label id="finished_task_list_count"></label></li>
+                <li>外部系统<label id="out_task_list_count"></label></li> 
+            </ul>
+        </div>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <ul id="wait_task_list">
+                </ul>
+            </div>
+            <div class="layui-tab-item">
+                <ul id="finished_task_list">
+                </ul>
+            </div>
+            <div class="layui-tab-item">
+                <ul id="out_task_list">
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="/kjptmobile/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/kjptmobile/layuiadmin/layui/layui.js"></script>
+<script src="/kjptmobile/layuiadmin/layui/lay/modules/laytpl.js"></script>
+<script src="/kjptmobile/js/mobile.js"></script>
+
+<script>
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        $(".more-condition").css("height",document.body.clientHeight/100+"rem");
+    });
+    
+    
+    
+    //本系统待办
+    function local_wait()
+    {
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : 'GET',
+    		url : "/kjptmobile/wait_task_list_data?pageNo=1&v_date="+v_date,
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			//console.log("本系统待办\n"+JSON.stringify(data));
+    			var count="";
+    			var dataArr=data.data;
+    			if(dataArr.length>0)
+   			    {
+   				  for(var i=0;i<dataArr.length;i++)
+       			  {
+   					 var id= dataArr[i].id;
+   					 var processDefinitionName= dataArr[i].processDefinitionName;
+   					 var auditor= dataArr[i].auditor;
+   					 var createTimeStr= dataArr[i].createTimeStr;
+   					 var auditRemarks= dataArr[i].auditRemarks;
+   					 var processInstanceId= dataArr[i].processInstanceId;
+   					 if(createTimeStr!=null && createTimeStr!='')
+  					 {
+   						createTimeStr=createTimeStr.substr(0,10);
+  					 }
+  					 
+   					
+   					 if(auditRemarks==null)
+					 {
+						auditRemarks="";
+					 }
+   					 var temp="<li onclick=\"deal('"+id+"')\">"+
+				    				"<p>"+
+				                        "<span>"+processDefinitionName+"</span>"+
+				                        "<span>"+createTimeStr+"</span>"+
+				                    "</p>"+
+				                    "<p><span>上一步处理人:</span>"+auditor+"</p>"+
+				             "</li>";
+					count=count+temp;
+		
+       			  }
+   			   }
+    		   $("#wait_task_list").html(count); 	
+    		   
+    		   $("#wait_task_list_count").html(data.count); 	
+    		   
+    		   
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+    }
+    
+    
+    //本系统已办
+    function local_finished()
+    {
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : 'GET',
+    		url : "/kjptmobile/finished_task_list_data?pageNo=1&v_date="+v_date,
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			//console.log("本系统已办\n"+JSON.stringify(data));
+    			var count="";
+    			var dataArr=data.data;
+    			if(dataArr.length>0)
+   			    {
+   				  for(var i=0;i<dataArr.length;i++)
+       			  {
+   					 var id= dataArr[i].id;
+   					 var processDefinitionName= dataArr[i].processDefinitionName;
+   					 var auditor= dataArr[i].auditor;
+   					 var endTime= dataArr[i].endTime;
+   					 var auditRemarks= dataArr[i].auditRemarks;
+   					 var processInstanceId= dataArr[i].processInstanceId;
+   					 if(auditRemarks==null)
+					 {
+						auditRemarks="ok";
+					 }
+   					 var temp="<li onclick=\"task_process_show('"+processInstanceId+"')\">"+
+				    				"<p>"+
+				                        "<span>"+processDefinitionName+"</span>"+
+				                        "<span>"+dateToString(new Date(endTime))+"</span>"+
+				                    "</p>"+
+				                    "<p><span>审批意见:</span>"+auditRemarks+"</p>"+
+				             "</li>";
+					count=count+temp;
+		
+       			  }
+   			   }
+    		   $("#finished_task_list").html(count); 
+    		   $("#finished_task_list_count").html(data.count); 	
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+    }
+    
+    
+    
+    
+    //外系统待办
+    function out_wait(url,id,type)
+    {
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : type,
+    		url : url,
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			console.log("外系统待办\n"+JSON.stringify(data));
+    			var count="";
+    			var dataArr=data.data;
+    			if(dataArr.length>0)
+   			    {
+   				  for(var i=0;i<dataArr.length;i++)
+       			  {
+   					 var id= dataArr[i].id;
+   					 var type= dataArr[i].type;//系统来源
+   					 var title= dataArr[i].title;//任务名称
+   					 var showDate= dataArr[i].showDate;
+   					 if (typeof(showDate) == "undefined")
+   					 {
+   						showDate="";
+   					 }
+   					 if(showDate!=null && showDate!='')
+   					 {
+   						showDate=showDate.substr(0,10);
+   					 }
+   					 
+   					 var type= dataArr[i].type;
+   					 var url= dataArr[i].url;
+   					 if(title==null)
+					 {
+   						title="";
+					 }
+   					 var temp="<li>"+
+				    				"<p>"+
+				                        "<span style='font-weight:bold'>"+title+"</span>"+
+				                        "<span style='color:#ccc'>"+showDate+"</span>"+
+				                    "</p>"+
+				                    "<p><span >"+type+"</span></p>"+
+				             "</li>";
+					count=count+temp;
+		
+       			  }
+   			   }
+    		   $("#out_task_list").html(count); 	
+    		   
+    		   $("#out_task_list_count").html(data.count); 	
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+    }
+    
+    
+    
+    local_wait();
+    local_finished();
+    out_wait("/kjptmobile/task/other/pending-list?v_date="+(new Date()).getTime(),"out_task_list","POST");
+    page("out_task_list","/kjptmobile/task/other/pending-list?v_date="+(new Date()).getTime(),"POST","out_wait");
+    
+    function deal(id)
+    {
+    	   var temUrl = "/kjptmobile/task/pending/deal/" + id;
+    		updateFlag = false;
+    		layer.open({
+    			title : '任务处理',
+    			skin : 'layui-layer-lan',
+    			shadeClose : true,
+    			type : 2,
+    			fixed : false,
+    			//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+    			maxmin : true,
+    			//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+    			area : [ '99%', '99%' ],
+    			content : temUrl,
+    			end : function() {
+    				if (updateFlag) {
+    					active.searchEvent();
+    					layer.msg('操作成功');
+    				}
+    			}
+    		});
+    }
+    
+    
+    //详情流程监控--已审批、待审批/流程图片
+    function task_process_show(id)
+    {
+    	   var temUrl = "/kjptmobile/task/process/" + id;
+    		updateFlag = false;
+    		layer.open({
+    			title : '待审批/流程图片',
+    			skin : 'layui-layer-lan',
+    			shadeClose : true,
+    			type : 2,
+    			fixed : false,
+    			//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+    			maxmin : true,
+    			//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+    			area : [ '99%', '99%' ],
+    			content : temUrl
+    		});
+    }
+    
+    
+    
+    function open(url,type)
+    {
+    	location.href=url;//+"?type="+type;//(url,type,"fullscreen=1");
+    }
+    
+    
+    function dateToString (date){ 
+ 	   var year = date.getFullYear(); 
+ 	   var month =(date.getMonth() + 1).toString(); 
+ 	   var day = (date.getDate()).toString();  
+ 	   if (month.length == 1) { 
+ 	       month = "0" + month; 
+ 	   } 
+ 	   if (day.length == 1) { 
+ 	       day = "0" + day; 
+ 	   }
+ 	   var dateTime = year + "-" + month + "-" + day;
+ 	   return dateTime; 
+ 	 }
+
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/kjptmobile/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/kjptmobile/css/mobileNew.css">
+    <style>
+        .layui-tab-content:nth-child(1){    background: url(/kjptmobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
+    </style>
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/kjptmobile/temIndex"><img src="/kjptmobile/images/icon-back.png"/> </a>
+        <h4>科技人才</h4>
+    </div>
+    <form action=""  name="form1" id="form1"  method="post">
+	    <div class="search">
+	        <input type="text" name="key" id="key" value="" placeholder="请输入姓名单位或专业领域" />
+	        <img src="/kjptmobile/images/icon-search.png" alt="" id="search">
+	    </div>
+    </form>
+</header>
+<main class="main contract personnel">
+    <div class="layui-row">
+        <div class="layui-tab-content">
+            <div class="layui-col-xs8"></div>
+            <div class="layui-col-xs4">
+                <button id="yMore" class="more-h">更多条件</button>
+                <button class="layui-hide" id="kMore">更多条件</button>
+            </div>
+        </div>
+    </div>
+    <div class="more-condition">
+        <div class="more-bg">
+        
+          <div class="item">
+                <p><span>& </span>专家类型</p>
+                <ul id="bak3">
+                    <#list zjlxList as vo>
+                      <li>${vo.name}</li>
+                    </#list>
+                </ul>
+            </div>
+            
+            <div class="item">
+                <p><span>& </span>职称</p>
+                <ul id="expertProfessinal">
+                   <#list zcxxList as vo>
+                      <li>${vo.name}</li>
+                    </#list>
+                </ul>
+            </div>
+            <div class="item">
+                <p><span>& </span>行业领域</p>
+                <ul id="expertProfessionalField">
+                    <#list hylyList as vo>
+                      <li>${vo.name}</li>
+                    </#list>
+                </ul>
+            </div>
+            
+        </div>
+        <div class="button-g">
+            <button id="search_ok">确定</button>
+            <button id="reset">重置</button>
+        </div>
+    </div>
+    <div id="chart"></div>
+    <div class="layui-tab">
+        <div>
+            <ul class="layui-tab-title">
+                <li class="layui-this">院士风采<label id="ys_count"></label> </li>
+                <li>科技人才<label id="other_count"></label> </li>
+            </ul>
+        </div>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="list" id="ys_list_id"></div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="list" id="all_list_id"></div>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="/kjptmobile/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/kjptmobile/layuiadmin/layui/layui.js"></script>
+<script src="/kjptmobile/js/mobile.js"></script>
+<script>
+    var layer,page1,page2;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        $(".more-condition").css("height",document.body.clientHeight/100+"rem");
+        
+        $("#reset").click(function () {
+            $(".more-bg ul li").removeClass("layui-this");
+        });
+        
+        $("#search").click(function () {
+        	search();
+        });
+        
+        
+        
+        $(".more-bg>div:nth-child(1) ul li").click(function () {
+            $(".more-bg>div:nth-child(1) ul li").each(function () {
+               $(this).removeClass("layui-this")
+            });
+            if($(this).attr("class")==undefined || $(this).attr("class")==''){
+                $(this).addClass("layui-this")
+            }else {
+                $(this).removeClass("layui-this")
+            }
+        });
+        $(".more-bg>div:nth-child(2) ul li").click(function () {
+            $(".more-bg>div:nth-child(2) ul li").each(function () {
+                $(this).removeClass("layui-this")
+            });
+            if($(this).attr("class")==undefined || $(this).attr("class")==''){
+                $(this).addClass("layui-this")
+            }else {
+                $(this).removeClass("layui-this")
+            }
+        });
+        $(".more-bg>div:nth-child(3) ul li").click(function () {
+            $(".more-bg>div:nth-child(3) ul li").each(function () {
+                $(this).removeClass("layui-this")
+            });
+            if($(this).attr("class")==undefined || $(this).attr("class")==''){
+                $(this).addClass("layui-this")
+            }else {
+                $(this).removeClass("layui-this")
+            }
+        });
+        
+        $("#search_ok").click(function () {
+        	$(".more-condition").slideToggle("slow");
+        	search();
+        });
+        
+        $("#kMore").click(function () {
+            $(".more-condition").slideToggle("slow");
+        });
+        $(".layui-tab-title li").click(function () {
+            $(".layui-col-xs4 button").addClass('layui-hide')
+            $(".layui-col-xs4 button").eq($(this).index()).removeClass("layui-hide");
+        });
+    });
+    
+    
+    
+    
+    
+    
+    //院士
+    function queryTabel(url,id,type)
+    {
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : type,
+    		url : url+"?v_date="+v_date,
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			//console.log(JSON.stringify(data));
+    			var count="";
+    			//alert(data.length);
+    			$("#ys_count").html("("+data.length+")"); 	
+    			if(data.length>0)
+   			    {
+   				  for(var i=0;i<data.length;i++)
+       			  {
+   					 var dataId= data[i].dataId;
+   					 var expertName= data[i].expertName;
+   					 var sex= data[i].sex;
+   					 var expertProfessionalFieldName= data[i].expertProfessionalFieldName;
+   					 var userDesc= data[i].userDesc;
+   					 userDesc =getClear(userDesc);
+   					 var className='';
+   					 if(sex=='ROOT_UNIVERSAL_XB_N')
+   					 {
+   						sex='男';
+   					 }else
+					 {
+						sex='女';
+                         className="lady"
+				     }
+   					 
+   					 var temp="<div class='item "+className+"' onclick=\"view('"+dataId+"')\" >"+
+			                        "<div class='item-img'>"+
+			                            "<img dataType='headImg' id='"+dataId+"'  >"+
+			                        "</div>"+
+			                        "<div class='item-cont'>"+
+			                            "<p><span>"+expertName+"</span><span>（"+expertProfessionalFieldName+"）</span></p>"+
+			                            "<p><span>简介</span><span>"+userDesc+"</span></p>"+
+			                        "</div>"+
+			                    "</div>"
+					 count=count+temp;
+       			  }
+   			   }
+    		   $("#"+id).html(count); 	
+    		   //获取图片
+               getFileResultImg();
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+    
+    //所有专家
+    function queryAllExpert(url,id,type)
+    {
+    	
+    	$.ajax({
+    		type : type,
+    		url : url,
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+                page1=Math.ceil(data.count/15);
+    			var count="";
+    			$("#other_count").html("("+data.count+")"); 	
+    			if(parseInt(data.data.length)>0)
+   			    {
+    				
+   				  for(var i=0;i<data.data.length;i++)
+       			  {
+   					 var dataId= data.data[i].dataId;
+   					 var expert_name= data.data[i].expertName;
+   					 var sex= data.data[i].sex;
+   					 var expertProfessionalFieldName= data.data[i].expertProfessionalFieldName;
+   					 var userDesc= data.data[i].userDesc;
+   					 var bak3= data.data[i].bak3;
+   					 userDesc =getClear(userDesc);
+
+                      var className='';
+   					 if(sex=='ROOT_UNIVERSAL_XB_N')
+   					 {
+   						sex='男';
+   					 }else
+					 {
+						sex='女';
+                         className="lady"
+				     }
+   					 if(expertProfessionalFieldName=="undefined" || typeof(expertProfessionalFieldName) == "undefined")
+					 {
+					  expertProfessionalFieldName="";
+					 }
+   					 var expertProfessionalFieldNameStr="";
+   					 if(expertProfessionalFieldName!='')
+  					 {
+   						expertProfessionalFieldNameStr="<span>（"+expertProfessionalFieldName+"）</span>";
+  					 }
+   	                
+   					 var temp="";
+   					 //if(bak3!='ZJK_ZJLX_ZGKXYYS' && bak3!='ZJK_ZJLX_ZGGCYYS')//中国科学院院士,中国工程院院士
+   					// {
+   						      temp="<div class='item "+className+"' onclick=\"view('"+dataId+"')\" >"+
+			                        "<div class='item-img'>"+
+			                            "<img dataType='headImg' id='"+dataId+"'  >"+
+			                        "</div>"+
+			                        "<div class='item-cont'>"+
+			                            "<p><span>"+expert_name+"</span>"+expertProfessionalFieldNameStr+
+			                            "</p>"+
+			                            "<p><span>简介</span><span>"+userDesc+"</span></p>"+
+			                        "</div>"+
+			                    "</div>";
+   					// }
+					 count=count+temp;
+       			  }
+                    $("#"+id).html(count);
+
+   			   }
+    		   //获取图片
+               getFileResultImg();
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+    
+
+    function search()
+    {
+    	
+    	
+    	var bak3=$("#bak3").find(".layui-this").html();
+    	var expertProfessinal=$("#expertProfessinal").find(".layui-this").html();
+    	var expertProfessionalField=$("#expertProfessionalField").find(".layui-this").html(); 
+    	
+    	
+    	if(typeof(bak3) == "undefined")
+    	{
+    		bak3="";
+    	}
+    	if(typeof(expertProfessinal) == "undefined")
+    	{
+    		expertProfessinal="";
+    	}
+    	if(typeof(expertProfessionalField) == "undefined")
+    	{
+    		expertProfessionalField="";
+    	}
+    	console.log("专家类型="+bak3+" 职称="+expertProfessinal+" 行业领域="+expertProfessionalField);
+    	var temp="&bak3="+bak3+"&expertProfessinal="+expertProfessinal+"&expertProfessionalField="+expertProfessionalField
+    	var v_date = (new Date()).getTime();
+   	    queryTabel("/kjptmobile/zjk-ys-list?key="+$("#key").val()+"&v_date="+v_date,"ys_list_id","POST");
+   	    queryAllExpert("/kjptmobile/getAllExpertTableData?key="+$("#key").val()+temp,"all_list_id","POST");
+   	    page("all_list_id","/kjptmobile/getAllExpertTableData?v_date="+(new Date()).getTime()+"&key="+$("#key").val()+temp,"POST","queryAllExpert");
+    }
+    
+    search();
+    
+    function getFileResultImg() 
+    {
+        //获取通用url
+        var ids = "";
+        $.each($('img[dataType="headImg"]'), function (i, d) {
+            ids=ids+","+$(this).attr("id");
+        });
+        var ret = getFileResult(ids);
+        for (var i = 0; i < ret.list.length; i++) 
+        {
+        	var filePath=ret.list[i].filePath;
+        	if(filePath==null || filePath=='')
+        	{
+        		filePath="/kjptmobile/images/icon-back.png";
+        	}
+        	
+            $("#"+ret.list[i].dataid).attr("src",filePath);
+        }
+        
+       
+    }
+    function photoContent(picId) 
+    {
+        var ret = getFileResult(picId);
+        if (ret != null && ret.list.length > 0) 
+        {
+            picId = ret.list[0].id;
+        }
+        var base64 = "";
+        $.ajax({
+            type: 'get',
+            dataType: 'text',
+            async: false,
+            url: '/kjptmobile/sysfile/viewPic/' + picId,
+            success: function (data) {
+                base64 = data;
+            },
+            error: function (e) {
+                alert("出错了");
+            }
+        });
+        return base64;
+    }
+    
+
+    ////加载图片
+    function getFileResult(fileIds) 
+    {
+        var ret = null;
+        ajaxFile("/kjptmobile/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+            ret = result;
+        });
+        //console.log("加载图片 \n"+JSON.stringify(ret));
+        return ret;
+    }
+    
+    function ajaxFile(url, data, callback) 
+    {
+        var result = null;
+        $.ajax({
+            type: 'post',
+            async: false,
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (data, status) {
+                result = data;
+                if (callback) {
+                    callback.call(this, data, status);
+                }
+            },
+            error: function (err, err1, err2) {
+                console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+            }
+        });
+        return result;
+    }
+    
+
+    function view(id) 
+    {
+    	location.href="/kjptmobile/personnel_details?expertId="+id+"&display=1";
+    }
+    
+    
+    
+    function getClear(str) 
+    {
+    	            
+    	            if (str == null || str == undefined) {
+    	                return '';
+    	            } else {
+    	                var tem = str
+    	                    .replace(/&lt;/g, "<")
+    	                    .replace(/&gt;/g, ">")
+    	                    .replace(/&quot;/g, "\"")
+    	                    .replace(/&apos;/g, "'")
+    	                    .replace(/&amp;/g, "&")
+    	                    .replace(/&nbsp;/g, '').replace(/<\/?.+?\/?>/g, '').replace(/<[^>]+>/g, "") 
+    	            
+    	                return tem;
+    	            }
+    	        }
+    	
+</script>
+</body>
+</html>

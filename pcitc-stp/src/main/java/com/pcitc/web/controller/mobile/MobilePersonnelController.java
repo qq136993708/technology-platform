@@ -70,7 +70,7 @@ public class MobilePersonnelController extends BaseController{
 	/**
 	 * ================================================科研人才
 	 */
-	@RequestMapping(value = "/mobile/personnel")
+	@RequestMapping(value = "/kjptmobile/personnel")
 	public String kytr(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
@@ -85,10 +85,10 @@ public class MobilePersonnelController extends BaseController{
 	    request.setAttribute("hylyList", hylyList);
 	    request.setAttribute("zjlxList", zjlxList);
 	    
-		return "/mobile/personnel";
+		return "/kjptmobile/personnel";
 	}
 	
-	@RequestMapping(value = "/mobile/personnel_details")
+	@RequestMapping(value = "/kjptmobile/personnel_details")
 	public String personnel_details(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		//专家详情
@@ -100,11 +100,11 @@ public class MobilePersonnelController extends BaseController{
         request.setAttribute("hyly", zjkBaseInfo.getExpertProfessionalField());
         request.setAttribute("display", request.getParameter("display"));
 		
-		return "/mobile/personnel_details";
+		return "/kjptmobile/personnel_details";
 	}
 	
 	
-	@RequestMapping(value = "/mobile/zjk-ys-list", method = RequestMethod.POST)
+	@RequestMapping(value = "/kjptmobile/zjk-ys-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getmobileYsList(HttpServletRequest request) 
 	{
@@ -121,7 +121,7 @@ public class MobilePersonnelController extends BaseController{
 	}
 	
 	
-	@RequestMapping(value = "/mobile/queryAllExpert", method = RequestMethod.GET)
+	@RequestMapping(value = "/kjptmobile/queryAllExpert", method = RequestMethod.GET)
     @ResponseBody
     public String querymobileAllExpert() {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -136,7 +136,7 @@ public class MobilePersonnelController extends BaseController{
 	
 	
 	//所有专家
-	@RequestMapping(value = "/mobile/getAllExpertTableData", method = RequestMethod.POST)
+	@RequestMapping(value = "/kjptmobile/getAllExpertTableData", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getTableData(HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -185,7 +185,7 @@ public class MobilePersonnelController extends BaseController{
 	
 	
 	
-	 @RequestMapping(value = "/mobile/sysfile/viewPic/{id}", method = RequestMethod.GET)
+	 @RequestMapping(value = "/kjptmobile/sysfile/viewPic/{id}", method = RequestMethod.GET)
 	    public String viewPic(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 	        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
 	        form.add("id", id);
@@ -206,7 +206,7 @@ public class MobilePersonnelController extends BaseController{
 	     * @param request
 	     * @return
 	     */
-	    @RequestMapping(value = "/mobile/sysfile/getFilesLayuiByFormId", method = RequestMethod.POST)
+	    @RequestMapping(value = "/kjptmobile/sysfile/getFilesLayuiByFormId", method = RequestMethod.POST)
 	    @ResponseBody
 	    public FileResult getFilesLayuiByFormId(String fileIds, HttpServletRequest request) {
 	        // this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -222,7 +222,7 @@ public class MobilePersonnelController extends BaseController{
 	    
 	    
 	    //专利
-	    @RequestMapping(value = "/mobile/queryOutPatentList", method = RequestMethod.POST)
+	    @RequestMapping(value = "/kjptmobile/queryOutPatentList", method = RequestMethod.POST)
 	    @ResponseBody
 	    public Object queryOutPatentList( HttpServletRequest request) 
 	    {
@@ -253,7 +253,7 @@ public class MobilePersonnelController extends BaseController{
 	    
 	    
 	    //课题
-	    @RequestMapping(value = "/mobile/outProjectList", method = RequestMethod.POST)
+	    @RequestMapping(value = "/kjptmobile/outProjectList", method = RequestMethod.POST)
 	    @OperationFilter(dataFlag = "true")
 	    @ResponseBody
 	    public Object outProjectList(HttpServletRequest request) {
@@ -282,7 +282,7 @@ public class MobilePersonnelController extends BaseController{
 	    }
 	    
 	    
-	    @RequestMapping(value = "/mobile/zl_details")
+	    @RequestMapping(value = "/kjptmobile/zl_details")
 		public String zl_details(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 	        String fmmc = request.getParameter("fmmc");
@@ -293,7 +293,7 @@ public class MobilePersonnelController extends BaseController{
 	        request.setAttribute("fmmc", fmmc);
 	        request.setAttribute("wxlx", wxlx);
 			
-			return "/mobile/zl_details";
+			return "/kjptmobile/zl_details";
 		}
 	    
 	    
