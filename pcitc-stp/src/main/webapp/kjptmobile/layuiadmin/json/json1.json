@@ -1,0 +1,16 @@
+{
+  "msg":"","code":0,
+  "data":[
+    {"orgName":"中国石化化学驱提高石油采收率重点实验室", "dependentUnit":"胜利油田分公司"},
+    {"orgName":"中国石化微生物采油重点实验室", "dependentUnit":"胜利油田分公司"},
+    {"orgName":"中国石化多波地震技术重点实验室", "dependentUnit":"西南油气分公司"},
+    {"orgName":"中国石化随钻测控重点实验室", "dependentUnit":"胜利油田分公司"},
+    {"orgName":"中国石化油气成藏重点实验室", "dependentUnit":"石油勘探开发研究院"},
+    {"orgName":"中国石化海相油气藏开发重点实验室", "dependentUnit":"石油勘探开发研究院"},
+    {"orgName":"中国石化页岩油气勘探开发重点实验室", "dependentUnit":"石油勘探开发研究院（牵头）、胜利油田分公司"},
+    {"orgName":"中国石化固井与完井重点实验室", "dependentUnit":"石油工程技术研究院"},
+    {"orgName":"中国石化页岩油气钻完井及压裂重点实验室", "dependentUnit":"石油工程技术研究院"},
+    {"orgName":"中国石化地球物理重点实验室", "dependentUnit":"石油物探技术研究院"},
+    {"orgName":"中国石化气驱提高石油采收率重点实验室", "dependentUnit":"胜利油田分公司"},
+    {"orgName":"中国石化缝洞型油藏提高采收率重点实验室", "dependentUnit":"西北油田分公司"}
+  ]}

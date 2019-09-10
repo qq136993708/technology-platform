@@ -5,7 +5,7 @@ body{background: #f2f2f2;font-family: "arial-black", "微软雅黑", "黑体";}
 .m_return a img{width: .28rem;height: .5rem;display: inline-block;float: left;padding: .48rem 0 0 .5rem;}
 .m_return h4{font-size: .48rem;color: #000000;display: inline-block;}
 /*banner*/
-.m_banner{background: url("/mobile/images/bg_main.png") no-repeat;width:10.8rem;height:4.81rem;
+.m_banner{background: url("/kjptmobile/images/bg_main.png") no-repeat;width:10.8rem;height:4.81rem;
     background-size: cover;}
 /*主体*/
 .main{height: auto;overflow: hidden;}
@@ -15,17 +15,17 @@ body{background: #f2f2f2;font-family: "arial-black", "微软雅黑", "黑体";}
 .main-card .main-card-body{padding-bottom:.4rem;height: auto;overflow: hidden;background: #fff; }
 .main-card-body-ul{height: auto;overflow: hidden;}
 .main-card-body-ul li span{display: inline-block;width: 100%;text-align: center;font-size: .38rem;color: #666666;}
-.main-card-body-ul li .layui-icon-agency_01{background: url("/mobile/images/icon-agency-one.png") no-repeat;}
-.main-card-body-ul li .layui-icon-agency_02{background: url("/mobile/images/icon-agency-two.png") no-repeat;}
-.main-card-body-ul li .layui-icon-agency_03{background: url("/mobile/images/icon-agency-three.png") no-repeat;}
+.main-card-body-ul li .layui-icon-agency_01{background: url("/kjptmobile/images/icon-agency-one.png") no-repeat;}
+.main-card-body-ul li .layui-icon-agency_02{background: url("/kjptmobile/images/icon-agency-two.png") no-repeat;}
+.main-card-body-ul li .layui-icon-agency_03{background: url("/kjptmobile/images/icon-agency-three.png") no-repeat;}
 .main-card-body-ul li .agency-icon{background-size: cover;width: 1.16rem;height: 1.16rem;display: block;
     margin: .4rem auto;}
-.main-card-body-ul li .icon-decision_01{background: url("/mobile/images/icon-decision-1.png") no-repeat;}
-.main-card-body-ul li .icon-decision_02{background: url("/mobile/images/icon-decision-2.png") no-repeat;}
-.main-card-body-ul li .icon-decision_03{background: url("/mobile/images/icon-decision-3.png") no-repeat;}
-.main-card-body-ul li .icon-decision_04{background: url("/mobile/images/icon-decision-4.png") no-repeat;}
-.main-card-body-ul li .icon-decision_05{background: url("/mobile/images/icon-decision-5.png") no-repeat;}
-.main-card-body-ul li .icon-decision_06{background: url("/mobile/images/icon-decision-6.png") no-repeat;}
+.main-card-body-ul li .icon-decision_01{background: url("/kjptmobile/images/icon-decision-1.png") no-repeat;}
+.main-card-body-ul li .icon-decision_02{background: url("/kjptmobile/images/icon-decision-2.png") no-repeat;}
+.main-card-body-ul li .icon-decision_03{background: url("/kjptmobile/images/icon-decision-3.png") no-repeat;}
+.main-card-body-ul li .icon-decision_04{background: url("/kjptmobile/images/icon-decision-4.png") no-repeat;}
+.main-card-body-ul li .icon-decision_05{background: url("/kjptmobile/images/icon-decision-5.png") no-repeat;}
+.main-card-body-ul li .icon-decision_06{background: url("/kjptmobile/images/icon-decision-6.png") no-repeat;}
 .main-card-body-ul li .icon-decision{background-size: cover;width: .8rem;height: .74rem;display: block;
     margin: .4rem auto;cursor: pointer;}
 .main-card-body-decision{padding: .42rem;}

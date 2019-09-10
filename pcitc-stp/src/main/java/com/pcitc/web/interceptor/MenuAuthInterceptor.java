@@ -88,7 +88,7 @@ public class MenuAuthInterceptor implements HandlerInterceptor {
 			if (authSet != null) {
 				commonKey.addAll(authSet);
 			}
-			if (path.contains("/mobile/investment_02") || path.contains("/mobile/get_Mobile_Month_Cash_Flow")) {
+			if (path.contains("/kjptmobile/investment_02") || path.contains("/kjptmobile/get_Mobile_Month_Cash_Flow")) {
 				// 移动的特殊处理
 				String mobileLeader = (String)request.getSession().getAttribute("mobileLeader");
 				if (mobileLeader != null && mobileLeader.equals("true")) {

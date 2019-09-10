@@ -377,11 +377,11 @@ layui.define(['jquery'],function (e) {
     o.contractorStatus = function(d){
         var stateData;
         if(d == 1){
-            stateData="<img src='/layuiadmin/layui/images/icon_46.png'/>"
+            stateData="<img src='/kjptmobile/layuiadmin/layui/images/icon_46.png'/>"
         }else if(d == 0){
-            stateData="<img src='/layuiadmin/layui/images/icon_74.png'/>"
+            stateData="<img src='/kjptmobile/layuiadmin/layui/images/icon_74.png'/>"
         }else{
-        	stateData="<img src='/layuiadmin/layui/images/operation_71.png'/>"
+        	stateData="<img src='/kjptmobile/layuiadmin/layui/images/operation_71.png'/>"
         }
         return stateData;
     };
@@ -418,7 +418,7 @@ layui.define(['jquery'],function (e) {
         var value = d.attachment;
         var dataId = d.dataId;
         if(value>0){
-            htmlImg= "<img src='/layuiadmin/layui/images/icon_20.png' style='cursor:pointer' class='onClickImg' id='"+d.dataId+"'/>";
+            htmlImg= "<img src='/kjptmobile/layuiadmin/layui/images/icon_20.png' style='cursor:pointer' class='onClickImg' id='"+d.dataId+"'/>";
         }else{
             htmlImg="";
         }
@@ -430,7 +430,7 @@ layui.define(['jquery'],function (e) {
             "        <a href='#'>2018年直属研究院科研<em>预算</em></a>" +
             "        <div class='c-row c-gap-top-small'>" +
             "            <a href=''>" +
-            "                <img src='/layuiadmin/layui/images/icon-seach-j.png' alt=''>" +
+            "                <img src='/kjptmobile/layuiadmin/layui/images/icon-seach-j.png' alt=''>" +
             "            </a>" +
             "            <div class='c-span18 c-span-last'>" +
             "                <p>2018年直属研究院科研<em>预算</em></p>" +
@@ -518,7 +518,7 @@ layui.define(['jquery'],function (e) {
             "        <a class='openUrl'>"+d.name+"</a>" +
             "        <div class='c-row c-gap-top-small'>" +
             "            <a class='openUrl'>" +
-            "                <img src='/layuiadmin/layui/images/icon-seach-j.png' alt=''>" +
+            "                <img src='/kjptmobile/layuiadmin/layui/images/icon-seach-j.png' alt=''>" +
             "            </a>" +
             "            <div class='c-span18 c-span-last'>" +
             "                <p>"+"</p>" +

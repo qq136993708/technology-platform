@@ -36,7 +36,7 @@ public class MobileBudgetController extends BaseController {
 	private static final String getBudgetInfo = "http://pcitc-zuul/system-proxy/out-project-provider/budget/all-level";
 
 	// 首页预算数据
-	@RequestMapping(method = RequestMethod.GET, value = "/mobile/index_budget")
+	@RequestMapping(method = RequestMethod.GET, value = "/kjptmobile/index_budget")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String index_budget(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -81,7 +81,7 @@ public class MobileBudgetController extends BaseController {
 	// 原one_level_main/investment_02
 	/*
 	 * @RequestMapping(method = RequestMethod.GET, value =
-	 * "/mobile/investment_02")
+	 * "/kjptmobile/investment_02")
 	 * 
 	 * @ResponseBody
 	 * 
@@ -119,7 +119,7 @@ public class MobileBudgetController extends BaseController {
 	 * + resultObj.toString()); return resultObj.toString(); }
 	 */
 
-	@RequestMapping(method = RequestMethod.GET, value = "/mobile/investment_02")
+	@RequestMapping(method = RequestMethod.GET, value = "/kjptmobile/investment_02")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String investment_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -167,7 +167,7 @@ public class MobileBudgetController extends BaseController {
 	/**
 	 * 获取预算总额（按照专业处进行权限获取）
 	 */
-	@RequestMapping(value = "/mobile/small_leader/budget/info")
+	@RequestMapping(value = "/kjptmobile/small_leader/budget/info")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public Object getBudgetInfo(HttpServletRequest request, HttpServletResponse response) {
@@ -199,7 +199,7 @@ public class MobileBudgetController extends BaseController {
 	}
 
 	// 原:/one_level_main/investment_03
-	@RequestMapping(value = "/mobile/investment_03")
+	@RequestMapping(value = "/kjptmobile/investment_03")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String investment_03(HttpServletRequest request, HttpServletResponse response) throws Exception {

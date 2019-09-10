@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/kjptmobile/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/kjptmobile/css/mobileNew.css">
+    <style>
+        .layui-tab-content:nth-child(1){    background: url(/kjptmobile/images/mobile-line.png) no-repeat center bottom;
+            height: auto;
+            overflow: hidden;
+            padding-bottom: .1rem;
+            background-size: 100%;
+            padding-top: .1rem;}
+    </style>
+</head>
+<body>
+<input type="hidden" name="nd" id="nd" value="${nd}">
+<header>
+    <div class="m_return child">
+        <a href="/kjptmobile/temIndex"><img src="/kjptmobile/images/icon-back.png"/> </a>
+        <h4>科研合同</h4>
+        <input id="date" type="text" value="" placeholder="">
+    </div>
+</header>
+<main class="main contract">
+    <div class="layui-row">
+        <div class="layui-tab-content">
+            <div class="layui-col-xs4">
+                <span id="plan_id">-个</span>
+                <span>计划签约</span>
+                <span></span>
+            </div>
+            <div class="layui-col-xs4">
+                <span id="finished_id">-个</span>
+                <span>已签约</span>
+                <span></span>
+            </div>
+            <div class="layui-col-xs4">
+                <span id="rate_id">-%</span>
+                <span>签约率</span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <div id="chart1" style="height:300px;width:100%"></div>
+    <div class="layui-tab">
+        <div style="padding-top: .18rem">
+            <ul class="layui-tab-title">
+                <li class="layui-this">专业处</li>
+                <li>研究院</li>
+                <li>其他</li>
+            </ul>
+        </div>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <ul id="zyc_id"></ul>
+            </div>
+            <div class="layui-tab-item">
+                <ul id="researchDepart_id">
+                </ul>
+            </div>
+            <div class="layui-tab-item">
+                <ul id="other_id">
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="/kjptmobile/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/kjptmobile/layuiadmin/layui/layui.js"></script>
+<script src="/kjptmobile/js/rolldate.min.js"></script>
+<script type="text/javascript" src="/kjptmobile/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/kjptmobile/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+
+
+<script type="text/javascript" >
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        
+        new Rolldate({
+            el: '#date',
+            format: 'YYYY',
+            beginYear: 2017,
+            endYear: $("#nd").val(),
+            value: 2019,
+            confirm: function (date) {
+              /*   if (date > 2020) {
+                    layer.alert('不能大于当前的日期',{title:"提示"});
+                    return false;
+                } */
+                $("#nd").val(date);
+                search_Event();
+            }
+        })
+        $(".layui-tab-title li").click(function () {
+           var index= $(this).index();/*获取当前点击的序号*/
+           //alert(index);
+        })
+    });
+    
+    
+    //总预览
+    function allLook()
+    {
+    	var nd = $('#nd').val();
+    	$.ajax({
+    		type : "POST",
+    		url : "/kjptmobile/contract_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd=" + nd + "",
+    		timeout : 9000,
+    		dataType : "json",
+    		cache : false,
+    		headers : {
+    			'Content-Type' : 'application/json'
+    		},
+    		success : function(data, status) {
+    			if (data.success == true || data.success == 'true') {
+    				$("#plan_id").html(data.data.zsl + "个");
+
+    				if (typeof (data.data.yqht) == "undefined") 
+    				{
+    					$("#finished_id").html("0个");
+    				} else 
+    				{
+    					$("#finished_id").html(data.data.yqht + "个");
+    				}
+    				$("#rate_id").html(data.data.qdl + "%");
+    			}
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+    
+   //按专业处分
+   function contract_zyc()
+    {
+		
+    	var v_date = (new Date()).getTime();
+    	var nd = $('#nd').val();
+    	var url = "/kjptmobile/contract_zyc?functionId=984b64b13cf54222bf57bd840759fabe&type=mobile&nd=" + nd + "&v_date=" + v_date;
+    	$.ajax({
+    		type : "GET",
+    		url : url,
+    		timeout : 9000,
+    		dataType : "json",
+    		cache : false,
+    		headers : {
+    			'Content-Type' : 'application/json'
+    		},
+    		success : function(data, status) 
+    		{
+    			 console.log("按专业处分\n "+JSON.stringify(data.data));
+    			 var count="";
+    			 if(data.data.length>0)
+    			 {
+    				 for(var i=0;i<data.data.length;i++)
+        			 {
+    					var define10= data.data[i].define10;//专业处
+    					var jhqds=data.data[i].jhqds;//计划
+    					var sjqds=data.data[i].sjqds;//实际签订数
+    					
+    					var temp="<li>"+
+			                        "<p>"+
+                                        "<span>"+define10+"</span>"+
+			                            "<span>计划"+jhqds+"个</span>"+
+			                            "<span>已签"+sjqds+"个</span>"+
+			                        "</p>"+
+			                       "</li>";
+                       if(jhqds!='0' && sjqds!='0')
+                   	   {
+                    	   count=count+temp;
+                   	   }
+    					
+        			 } 
+    			 }
+    			 //alert(count);
+    			 $("#zyc_id").html(count); 
+    			 
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+  
+   
+	//研究院
+    function researchDepart()
+    {
+		
+    	var v_date = (new Date()).getTime();
+    	var nd = $('#nd').val();
+    	var url = "/kjptmobile/contract_03?functionId=984b64b13cf54222bf57bd840759fabe&type=mobile&nd=" + nd + "&v_date=" + v_date;
+    	$.ajax({
+    		type : "GET",
+    		url : url,
+    		timeout : 9000,
+    		dataType : "json",
+    		cache : false,
+    		headers : {
+    			'Content-Type' : 'application/json'
+    		},
+    		success : function(data, status) 
+    		{
+    			 console.log(data.data);
+    			 var count="";
+    			 if(data.data.length>0)
+    			 {
+    				 for(var i=0;i<data.data.length;i++)
+        			 {
+    					var define2= data.data[i].define2;//研究院
+    					var yqhtzj=data.data[i].yqhtzj;//已签
+    					var wqhtzj=data.data[i].wqhtzj;//未签
+    					var zsl=data.data[i].zsl;//计划
+    					
+    					var temp="<li>"+
+			                        "<p>"+
+                                        "<span>"+define2+"</span>"+
+			                            "<span>计划"+zsl+"个</span>"+
+			                            "<span>已签"+yqhtzj+"个</span>"+
+			                        "</p>"+
+			                       "</li>";
+                       if(zsl!='0' && yqhtzj!='0')
+                   	   {
+                    	   count=count+temp;
+                   	   }
+    					
+        			 } 
+    			 }
+    			 //alert(count);
+    			 $("#researchDepart_id").html(count); 
+    			 
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+	
+	
+  //图形
+
+    var option = {
+        tooltip: {
+            trigger: 'axis',
+            position: function (pt) {
+                return [pt[0], '10%'];
+            }
+        },
+        legend: {
+            data:['月份']
+        },
+        title: {
+            left: 'center',
+            text: '月度分析图',
+        },
+        /* toolbox: {
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        }, */
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: []
+        },
+        yAxis: {
+            type: 'value'
+           // boundaryGap: [0, '100%']
+        },
+        dataZoom: [{
+            type: 'inside',
+            start: 0,
+            end: 130
+        }, {
+            start: 0,
+            end: 130,
+            handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+            handleSize: '80%',
+            handleStyle: {
+                color: '#fff',
+                shadowBlur: 3,
+                shadowColor: 'rgba(0, 0, 0, 0.6)',
+                shadowOffsetX: 2,
+                shadowOffsetY: 2
+            }
+        }],
+        series: [
+            {
+                name:'签订数',
+                type:'line',
+                smooth:true,
+                symbol: 'none',
+                sampling: 'average',
+                itemStyle: {
+                    color: 'rgb(255, 70, 131)'
+                },
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: 'rgb(255, 158, 68)'
+                    }, {
+                        offset: 1,
+                        color: 'rgb(255, 70, 131)'
+                    }])
+                },
+                data: []
+            }
+        ]
+    };
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    function lineSingleAjax(url, echartsobj, options) 
+    {
+    	var xAxisData = [];
+    	var series = [];
+    	$.ajax({
+    		type : "get",
+    		url : url,
+    		timeout : 9000,
+    		dataType : "json",
+    		cache : false,
+    		headers : {
+    			'Content-Type' : 'application/json'
+    		},
+    		success : function(data, status) 
+    		{
+    			console.log("lineSingleAjax\n"+JSON.stringify(data));
+    			if (data.success == true || data.success == 'true') 
+    			 {
+    				echartsobj.hideLoading();
+    				var chartList = data.data.xAxisDataList;
+    				for (var i = 0; i < chartList.length; i++) {
+    					xAxisData.push(chartList[i]);
+    				}
+
+    				var seriesDataList = data.data.seriesDataList;
+    				for (var i = 0; i < seriesDataList.length; i++) {
+
+    					series.push(seriesDataList[i]);
+    				}
+    				// 加载数据图表
+    				echartsobj.setOption({
+    					xAxis : {
+    						data : xAxisData
+    					},
+    					series : [ {
+    						data : series
+    					} ]
+    				});
+
+    			}
+    		},
+    		error : function() {
+    			layer.msg('图表加载失败');
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    			if (status == 'timeout') {
+    				layer.msg('超时');
+    			}
+    		}
+    	});
+
+    }
+    function load_line(id) 
+    {
+    	var v_date = (new Date()).getTime();
+ 	    var nd = $('#nd').val();
+ 	    var url = "/kjptmobile/small_leader/investment_data_02?functionId=984b64b13cf54222bf57bd840759fabe&nd=" + nd + "&v_date=" + v_date + "&type=2";
+    	var echartsobj = echarts.init(document.getElementById(id));
+    	echartsobj.setOption(option);
+    	echartsobj.showLoading();
+    	lineSingleAjax(url, echartsobj, line_single_option);
+    	return echartsobj;
+    }
+    
+    
+    
+	
+	
+    function search_Event()
+    {
+    	
+    	 allLook();
+    	 researchDepart();
+    	 //按专业处分
+    	 contract_zyc();
+    	 load_line("chart1");
+    }
+    search_Event();
+    
+    
+    
+	
+</script>
+</body>
+</html>

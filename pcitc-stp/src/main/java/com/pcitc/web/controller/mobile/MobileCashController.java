@@ -34,7 +34,7 @@ public class MobileCashController extends BaseController{
 		private static final String GET_DECISION_FUNDS_CHSH_FLOW_01 = "http://pcitc-zuul/hana-proxy/hana/decision/funds/cash-flow/01";
 	
 	//手机端月报表
-		@RequestMapping(method = RequestMethod.GET, value = "/mobile/get_Mobile_Month_Cash_Flow")
+		@RequestMapping(method = RequestMethod.GET, value = "/kjptmobile/get_Mobile_Month_Cash_Flow")
 		@ResponseBody
 		public String GET_Mobile_Month_Cash_Flow(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -60,7 +60,7 @@ public class MobileCashController extends BaseController{
 
 		}
 		
-		@RequestMapping(value = "/mobile/cash_details")
+		@RequestMapping(value = "/kjptmobile/cash_details")
 		public String budget(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 			String g0GSJC = CommonUtil.getParameter(request, "g0GSJC", "");
@@ -69,7 +69,7 @@ public class MobileCashController extends BaseController{
 			String companyCode=EquipmentUtils.getCompanyCodeByHanaName(g0GSJC, restTemplate, httpHeaders);
 			request.setAttribute("g0GSJC", g0GSJC);
 			request.setAttribute("companyCode", companyCode);
-			return "/mobile/cash_details";
+			return "/kjptmobile/cash_details";
 		}
 		
 		
@@ -83,7 +83,7 @@ public class MobileCashController extends BaseController{
 		 * @return
 		 * @throws Exception
 		 */
-		@RequestMapping(method = RequestMethod.GET, value = "/mobile/cash-flow-01")
+		@RequestMapping(method = RequestMethod.GET, value = "/kjptmobile/cash-flow-01")
 		@ResponseBody
 		public synchronized String cashFlowAjax(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			JSONArray array=new JSONArray();

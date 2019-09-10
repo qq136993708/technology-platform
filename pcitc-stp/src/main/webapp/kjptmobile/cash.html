@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/kjptmobile/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/kjptmobile/css/mobileNew.css">
+    <style>
+        .layui-tab-content:nth-child(1){    background: url(/kjptmobile/images/mobile-line.png) no-repeat center bottom;
+            height: auto;
+            overflow: hidden;
+            padding-bottom: .1rem;
+            background-size: 100%;
+            padding-top: .1rem;}
+        .child input{width: .8rem;}
+        
+        .cash .layui-tab-content .layui-tab-item ul li p:nth-child(1) span:nth-child(2){float:right;color:green}
+    </style>
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a href="/kjptmobile/temIndex"><img src="/kjptmobile/images/icon-back.png"/> </a>
+        <h4>研究院现金流</h4>
+        <input id="date" type="text" value="" placeholder="">
+    </div>
+</header>
+<main class="main contract cash">
+<input type="hidden" name="month" id="month" value="${month}">
+<input type="hidden" name="companyCode" id="companyCode" value="${companyCode}">
+
+    <div class="layui-row">
+        <div class="layui-tab-content">
+            <h4>总计 <span id="all_money_id">- 亿</span></h4>
+        </div>
+    </div>
+    <div id="chart"></div>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <ul id="list_id">
+            </ul>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="/kjptmobile/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/kjptmobile/layuiadmin/layui/layui.js"></script>
+<script src="/kjptmobile/js/rolldate.min.js"></script>
+<script>
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        new Rolldate({
+            el: '#date',
+            format: 'YYYY-MM',
+            beginYear: 2016,
+            endYear: $("#month").val().substr(0,4),
+            value: $("#month").val(),
+            confirm: function (date) {
+               /*  if (date.substr(0,4) > 2020) {
+                    layer.alert('不能大于当前的日期',{title:"提示"});
+                    return false;
+                } */
+                $("#month").val(date);
+                getFlow();
+            }
+        })
+    });
+    
+    
+    
+    function getFlow()
+    {
+    	var monthstr = $('#month').val();
+    	var month=monthstr.replace("-","");
+    	var companyCode=  $('#companyCode').val();
+    	console.log("参数：\n companyCode:"+companyCode+"month="+month);
+    	if(companyCode!=null && companyCode!='')
+   		{
+    		$.ajax({
+        		type : "GET",
+        		url : "/kjptmobile/get_Mobile_Month_Cash_Flow?month=" + month + "&companyCode="+companyCode,
+        		timeout : 9000,
+        		dataType : "json",
+        		cache : false,
+        		headers : {
+        			'Content-Type' : 'application/json'
+        		},
+        		success : function(data, status) 
+        		{
+        			 console.log(data);
+        			 var all=0;
+        			 var count="";
+        			 if(data.length>0)
+        			 {
+        				 for(var i=0;i<data.length;i++)
+            			 {
+        					var g0GSJC= data[i].g0GSJC;
+        					var k0BQLJJE=parseFloat(data[i].k0BQLJJE).toFixed(2);//总预算科研投入
+        					all=all+parseFloat(k0BQLJJE);
+        					
+        					var classstr="";
+        					if(k0BQLJJE<0)
+        					{
+        						classstr=" class='not' ";
+        					
+        					}
+        					var temp="<li  onclick=\"view('"+monthstr+"','"+g0GSJC+"')\" "+classstr+">"+
+    				    				"<p>"+
+    				                        "<span style='font-weight:bold'>"+g0GSJC+"</span>"+
+    				                        "<span>"+setNumStr(k0BQLJJE)+"</span>"+
+    				                    "</p>"+
+    			                       "</li>";
+        					count=count+temp;
+            			 } 
+        			 }
+        			 
+        			 $("#list_id").html(count); 
+        			 $("#all_money_id").html((all/10000).toFixed(2)+"<lable style='font-size:12px;font-weight:normal'>亿<lable>"); 
+        		},
+        		error : function() {
+        		},
+        		complete : function(XMLHttpRequest, status) {
+        		}
+        	});
+   		}else
+  			{
+  			    alert("请联系管理员配置研究院相关的数据权限");
+  			}
+    }
+    
+    getFlow();
+    
+    
+    function view(month,g0GSJC)
+    {
+    	location.href="/kjptmobile/cash_details?g0GSJC="+g0GSJC+"&month="+month;
+    }
+    
+    function setNumStr(num)
+    {
+    	
+    	var result="";
+    	
+    	if(num=='0.00')
+		{
+    		num=0;
+		}
+		if(Math.abs(parseFloat(num))>10000)//亿
+		{
+			var  temp=parseFloat(num/10000).toFixed(2);
+			var  endstr=temp.substring(temp.length-3);
+			//alert(temp);
+			if(endstr=='.00')
+			{
+				temp= temp.substring(0,temp.length-3);
+			}
+			result=temp+"<lable style='font-size:12px;font-weight:normal'>亿<lable>";
+		}else//万
+		{
+			
+			var  temp=parseFloat(num).toFixed(2);
+			var  endstr=temp.substring(temp.length-3);
+			if(endstr=='.00')
+			{
+				//temp= temp.replace(".00","")
+				temp= temp.substring(0,temp.length-3);
+			}
+			result=temp+"<lable style='font-size:12px;font-weight:normal'>万<lable>";
+		}
+		return result;
+    }
+    
+</script>
+</body>
+</html>

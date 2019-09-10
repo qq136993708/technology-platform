@@ -53,7 +53,7 @@ public class MobileContractController extends BaseController {
 	/**
 	 * 全口径新开课题合同（任务书）签订率
 	 */
-	@RequestMapping(value = "/mobile/contract_01")
+	@RequestMapping(value = "/kjptmobile/contract_01")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String mobilecontract_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -125,7 +125,7 @@ public class MobileContractController extends BaseController {
 		return resault;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/mobile/contract_03")
+	@RequestMapping(method = RequestMethod.GET, value = "/kjptmobile/contract_03")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String mobilecontract_03(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -202,7 +202,7 @@ public class MobileContractController extends BaseController {
 	}
 
 	// 按专业处分
-	@RequestMapping(method = RequestMethod.GET, value = "/mobile/contract_zyc")
+	@RequestMapping(method = RequestMethod.GET, value = "/kjptmobile/contract_zyc")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String contract_zyc(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -247,7 +247,7 @@ public class MobileContractController extends BaseController {
 	}
 
 	// 三级表格
-	@RequestMapping(method = RequestMethod.POST, value = "/mobile/common_table_data_mobile")
+	@RequestMapping(method = RequestMethod.POST, value = "/kjptmobile/common_table_data_mobile")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String common_table_data_mobile(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -325,7 +325,7 @@ public class MobileContractController extends BaseController {
 	/**
 	 * 直属研究院月度合同签订情况
 	 */
-	@RequestMapping(value = "/mobile/small_leader/investment_data_02")
+	@RequestMapping(value = "/kjptmobile/small_leader/investment_data_02")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String investment_data_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -434,7 +434,7 @@ public class MobileContractController extends BaseController {
 		return resault;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/mobile/small_leader/investment_data")
+	@RequestMapping(method = RequestMethod.GET, value = "/kjptmobile/small_leader/investment_data")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String zycInvestment(HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -1,6 +1,6 @@
 layui.define(['jquery', 'laytpl', 'layer'], function (e) {
     "use strict";
-    layui.link('/layuiadmin/style/autocomplete.css');
+    layui.link('/kjptmobile/layuiadmin/style/autocomplete.css');
     var hint = layui.hint(),
         $ = layui.jquery,
         laytpl = layui.laytpl,
