@@ -480,9 +480,10 @@ public class MobileWorkbechController extends BaseController
  	
     
     //待办任务数据
-	@RequestMapping(value = "/mobile/wait_task_list_data")
+	@RequestMapping(value = "/kjptmobile/wait_task_list_data")
 	@ResponseBody
 	public LayuiTableData wait_task_list_data(HttpServletRequest request) {
+		System.out.println("进入科技平台mobile了----");
 		int page = request.getParameter("page") == null ? 1 : Integer.parseInt((String) request.getParameter("page"));
 		LayuiTableParam param = new LayuiTableParam();
 		param.setPage(page);
