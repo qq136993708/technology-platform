@@ -29,6 +29,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.FileUtil;
@@ -50,7 +51,7 @@ public class OutProjectController extends BaseController {
 	
 	private static final String PROJECT_COMPANY_LIST = "http://pcitc-zuul/system-proxy/out-provider/project-company-list";
 	
-	private static final String GET_OUT_PROJECT_DETAIL = "http://pcitc-zuul/system-proxy/out-provider/project/info-detail/";
+	private static final String GET_OUT_PROJECT_DETAIL = "http://pcitc-zuul/system-proxy/out-project-provider/project/info-detail/";
 	
 	
 	@RequestMapping(value = "/out/ini-project-list")
@@ -208,12 +209,12 @@ public class OutProjectController extends BaseController {
 		List<OutProjectInfo> arrList = responseEntity.getBody();
 		return arrList;
 	}
-	@RequestMapping(value = "/out/project/info-detail", method = RequestMethod.POST)
+	@RequestMapping(value = "/out/project-info-detail", method = RequestMethod.POST)
 	@ResponseBody
-	public Object getProjectInfoDetail(@RequestParam(value = "dataId", required = true) String dataId) {
+	public Object getProjectInfoDetail(@ModelAttribute("info") OutProjectInfo info,HttpServletRequest request) {
 
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT_DETAIL+dataId, HttpMethod.POST, new HttpEntity<LayuiTableParam>(this.httpHeaders), LayuiTableData.class);
-		LayuiTableData retJson = responseEntity.getBody();
+		ResponseEntity<OutProjectInfo> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT_DETAIL+info.getDataId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), OutProjectInfo.class);
+		OutProjectInfo retJson = responseEntity.getBody();
 
 		return JSON.toJSON(retJson);
 	}
