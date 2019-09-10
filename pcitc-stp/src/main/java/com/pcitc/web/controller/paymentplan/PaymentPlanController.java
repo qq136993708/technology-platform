@@ -85,6 +85,8 @@ public class PaymentPlanController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/paymentplan/project_paymentplan_edit")
 	public Object toPaymentPlanProjectEdit(HttpServletRequest request) throws Exception 
 	{
+		request.setAttribute("dataId", request.getParameter("dataId"));
+		
 		return "stp/paymentplan/project_paymentplan_edit";
 	}
 	@RequestMapping(value = "/paymentplan/project-info-list-bycondition", method = RequestMethod.POST)

@@ -287,14 +287,9 @@
   	    		$("#simpleCode").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
   	    	});
 	    });
-        publicMethods.ajaxPost("/budget/get-grouptotal-item/${dataId}",null, function (data) {
+        publicMethods.ajaxPost("/out/project/info-detail",{"dataId":"${dataId}"}, function (data) {
         	console.log(data);
 			form.val("budget-form",data);
-			parentInfo = data;
-			$.each(data.groups,function(index,dt){
-				viewObj.tbData.push(dt);
-			});
-			table.reload('dataTable', {data: viewObj.tbData});
    		});
      
         //定义事件集合

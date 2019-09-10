@@ -426,7 +426,7 @@
     					console.log($(this).text());
     					
     					var index=parseInt($(this).index());
-    					console.log(index);
+    					console.log(data[index]);
     					var url = '/paymentplan/project_paymentplan_edit?dataId='+data[index].dataId;
                        	publicMethods.openBaseWinFull('经费拨付管理-经费拨付',url);
                     }); 

@@ -50,6 +50,8 @@ public class OutProjectController extends BaseController {
 	
 	private static final String PROJECT_COMPANY_LIST = "http://pcitc-zuul/system-proxy/out-provider/project-company-list";
 	
+	private static final String GET_OUT_PROJECT_DETAIL = "http://pcitc-zuul/system-proxy/out-provider/project/info-detail/";
+	
 	
 	@RequestMapping(value = "/out/ini-project-list")
 	public String iniOutProjectList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -206,4 +208,14 @@ public class OutProjectController extends BaseController {
 		List<OutProjectInfo> arrList = responseEntity.getBody();
 		return arrList;
 	}
+	@RequestMapping(value = "/out/project/info-detail", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getProjectInfoDetail(@RequestParam(value = "dataId", required = true) String dataId) {
+
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(GET_OUT_PROJECT_DETAIL+dataId, HttpMethod.POST, new HttpEntity<LayuiTableParam>(this.httpHeaders), LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+
+		return JSON.toJSON(retJson);
+	}
+	
 }
