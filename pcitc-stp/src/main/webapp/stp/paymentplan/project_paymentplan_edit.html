@@ -19,7 +19,6 @@
 </head>
 <body>
 <form action="" id="budget-form" name="budget-form" lay-filter="budget-form" class="layui-form">
-	<input type="hidden" name="budgetInfoId" value="${budgetInfoId}">
 	<input type="hidden" name="dataId" value="${dataId}">
 	<input type="hidden" name="nd" id="nd" value="${nd}">
 	
@@ -28,42 +27,23 @@
 	<input type="hidden" name="total" id="total" value="0">
     <div class="con-box">
         <div class="formBox">
-            <div class="layui-row">
+        
+        	<div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">序号<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">拨付批次<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" id="no" name="no" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
+                       		<select name="define17" id="define17" lay-verify="required"  lay-filter="define17">
+								<option value="">请选择</option>
+							</select>
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">承担单位<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">拨付状态<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="text" name="displayName" id="displayName" placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
-                        	<input type="hidden" id="displayCode" name="displayCode">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">分类<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                        		<select name="simpleCode" id="simpleCode" lay-verify="required"  lay-filter="simpleCode">
-									<option value="">请选择</option>
-								</select>
-								<input type="hidden" id="simpleName" name="simpleName"> 
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">备注<span class="must-fill"></span></label>
-                        <div class="layui-input-block">
-                            <input type="text" id="remark" name="remark"  placeholder="" autocomplete="off" class="layui-input">
+                            <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="define17" id="define17" placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -71,17 +51,36 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">项目经费结转<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">项目ID<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" id="xmjfJz" name="xmjfJz" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
+                            <input class="layui-input readOnlyBox" readonly="readonly" id="xmid" name="xmid" placeholder="" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">项目经费可新签<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">项目名称<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="xmjfXq" name="xmjfXq"  placeholder="" lay-verify="required|number" autocomplete="off" class="layui-input">
+                            <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="xmmc" id="xmmc" placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">合同号<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" id="hth" name="hth" placeholder="" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">经费来源<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" type="text" id="define11" name="define11"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -89,17 +88,136 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">重点实验室专项结转<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">部门<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" id="zxjfJz" name="zxjfJz" placeholder="" lay-verify="required|number" autocomplete="off" type="text">
+                            <input class="layui-input readOnlyBox" type="text" id="gsbmmc" name="gsbmmc"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">重点实验室专项可新签<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">处室<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="zxjfXq" name="zxjfXq"  placeholder="" lay-verify="required|number" autocomplete="off" class="layui-input">
+                            <input class="layui-input readOnlyBox" type="text" id="define10" name="define10"  placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">承担单位<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" type="text" id="define8" name="define8"  placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">项目金额<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" type="text" id="ysje" name="ysje"  placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">资本性拨付<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" type="text" id="yszbxje" name="yszbxje"  placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">费用性拨付<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" type="text" id="ysfyxje" name="ysfyxje"  placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否开具发票<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input type="radio" lay-filter="radioEvent" name="sex" value="0" title="是">
+				          	<input type="radio" lay-filter="radioEvent" name="sex" value="1" title="否" checked>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">公司名称<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" type="text" id="yszbxje" name="yszbxje"  placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">纳税人识别号<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" type="text" id="ysfyxje" name="ysfyxje"  placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">开户行名称<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" type="text" id="yszbxje" name="yszbxje"  placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">开户行账号<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" type="text" id="ysfyxje" name="ysfyxje"  placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">联系人电话<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" type="text" id="yszbxje" name="yszbxje"  placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">联系地址<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" type="text" id="ysfyxje" name="ysfyxje"  placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">联系人邮箱<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" type="text" id="yszbxje" name="yszbxje"  placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">拨付分组<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" type="text" id="ysfyxje" name="ysfyxje"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -108,9 +226,8 @@
     </div>
     <div class="form-bottom">
         <div class="form-bottom-btns">
-            <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit lay-filter="saveEvent">保存</button>
-            <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="cancel">取消
-            </button>
+            <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit lay-filter="saveEvent">拨付</button>
+            <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="cancel">关闭 </button>
         </div>
     </div>
 </form>
