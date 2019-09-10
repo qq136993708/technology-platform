@@ -396,12 +396,16 @@ var companyCode="${companyCode?default('')}";
     //设置所有页面数据
     function setAllHtmlData() 
     {
+    	alert(1);
     	var v_date = (new Date()).getTime();
+    	alert(v_date);
     	var nd = $("#nd").val();
+    	alert(nd);
     	var month = $("#month").val();
+    	alert(month);
     	//待办
     	set_wait_notice_count(v_date);
-    	
+    	alert(4);
     	
     	//工作安排
    	    set_work_count(v_date);
@@ -667,10 +671,12 @@ var companyCode="${companyCode?default('')}";
 	 //待办个数
 	 function set_wait_notice_count(v_date)
 	 {
-		 
+		 	alert(5);
 		    var all_count=0;
+		    alert(6);
 		    //本系统待办
 	    	var url="/kjptmobile/wait_task_list_data?v_date="+v_date;
+	    	alert(7);
 	        $.ajax({
 	            type: "POST",
 	            url: url,
@@ -682,14 +688,15 @@ var companyCode="${companyCode?default('')}";
 					'Content-Type' : 'application/json'
 				},
 	            success: function (data, status) {
+	            	alert(255);
 	            	all_count=all_count+parseInt(data.count);
 					
 	            },
 	            error: function () {
-					
+					alert(55);
 				},
 	            complete: function (XMLHttpRequest, status) {
-					
+	            	alert(515);
 	            }
 	        });
 	        
