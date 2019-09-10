@@ -83,6 +83,9 @@ public class TaskController extends BaseController {
 	// 获取项目管理系统的待办任务
 	private static final String XMGL_PENDING = "http://pcitc-zuul/system-proxy/out-wait-work/xmgl/page";
 
+	// 删除实例
+	private static final String PROCESS_INSTANCE_DELETE = "http://pcitc-zuul/system-proxy/task-provider/task/process-instance/delete/";
+
 	/**
 	 * 判断是否需要选择审批人
 	 */
@@ -275,8 +278,6 @@ public class TaskController extends BaseController {
 
 		return JSON.toJSON(retJson).toString();
 	}
-
-	
 
 	/**
 	 * @author zhf
@@ -508,6 +509,26 @@ public class TaskController extends BaseController {
 		jsonObj.put("count", totalCount);
 		jsonObj.put("data", auditList);
 		System.out.println("====getBusinessAuditDetail====" + jsonObj.toString());
+		return jsonObj.toString();
+	}
+
+	/**
+	 * 根据业务id删除对应流程实例
+	 * 
+	 * @author zhf
+	 * @date 2019年9月10日 下午4:40:37
+	 */
+	@RequestMapping(value = "/task/process-instance/delete/{dataId}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object deleteProcessInstanceByDataId(@PathVariable("dataId") String dataId, HttpServletRequest request) {
+
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(null, this.httpHeaders);
+
+		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(PROCESS_INSTANCE_DELETE + dataId, HttpMethod.POST, entity, JSONObject.class);
+		JSONObject retJson = responseEntity.getBody();
+
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", retJson.get("result"));
 		return jsonObj.toString();
 	}
 
