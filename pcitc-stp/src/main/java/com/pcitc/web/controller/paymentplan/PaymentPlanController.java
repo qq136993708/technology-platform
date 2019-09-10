@@ -20,12 +20,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoPaymentplan;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtils;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
 public class PaymentPlanController extends BaseController 
@@ -79,21 +82,51 @@ public class PaymentPlanController extends BaseController
 		
 		return "stp/paymentplan/project_main";
 	}
-	
+	@RequestMapping(method = RequestMethod.GET, value = "/paymentplan/project_paymentplan_edit")
+	public Object toPaymentPlanProjectEdit(HttpServletRequest request) throws Exception 
+	{
+		return "stp/paymentplan/project_paymentplan_edit";
+	}
 	@RequestMapping(value = "/paymentplan/project-info-list-bycondition", method = RequestMethod.POST)
 	@ResponseBody
 	public Object toBudgetMainTotal(@ModelAttribute("out")OutProjectInfo out,HttpServletRequest request) throws IOException 
 	{
-		out.setDefine11("C资产公司");
+		//out.setDefine11("C资产公司");
+		if (!StringUtils.isBlank(out.getGsbmbm())) {
+			SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(out.getGsbmbm(), restTemplate, httpHeaders);
+			if (sysDictionary != null) {
+				out.setGsbmbm(sysDictionary.getNumValue());
+			}
+		}
+		if (!StringUtils.isBlank(out.getZycbm())) {
+			SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(out.getZycbm(), restTemplate, httpHeaders);
+			if (sysDictionary != null) {
+				out.setZycbm(sysDictionary.getNumValue());
+			}
+		}
+		if (!StringUtils.isBlank(out.getZylbbm())) {
+			SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(out.getZylbbm(), restTemplate, httpHeaders);
+			if (sysDictionary != null) {
+				out.setZylbbm(sysDictionary.getNumValue());
+			}
+		}
 		System.out.println(JSON.toJSONString(out));
+		
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_BYCONDITION, HttpMethod.POST, new HttpEntity<OutProjectInfo>(out, this.httpHeaders), List.class);
-		/*JSONArray array = JSONArray.parseArray(JSON.toJSONString(responseEntity.getBody()));
+		JSONArray array = JSONArray.parseArray(JSON.toJSONString(responseEntity.getBody()));
 		for(int i = 0;i<array.size();i++) 
 		{
 			JSONObject obj = (JSONObject)array.get(i);
+			if(obj.getString("define17") == null) 
+			{
+				obj.put("paymentPlanStatus", "未拨付");
+			}else {
+				obj.put("paymentPlanStatus", "已拨付");
+			}
+			
 		}
-		System.out.println(array.toJSONString());*/
-		return JSON.toJSONString(responseEntity.getBody());
+		//System.out.println(array.toJSONString());
+		return JSON.toJSONString(array);
 	}
 	
 	@RequestMapping(value = "/paymentplan/project-paymentplan-list", method = RequestMethod.POST)

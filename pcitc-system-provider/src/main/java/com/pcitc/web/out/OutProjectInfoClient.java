@@ -1436,4 +1436,8 @@ public class OutProjectInfoClient {
 		}
 		map.put("zycbm", zycbm);
 	}
+	@RequestMapping(value = "/out-project-provider/project/info-detail/{dataId}", method = RequestMethod.GET)
+	public OutProjectInfo selectOutProjectInfoDetail(@PathVariable(value = "dataId", required = true) String dataId) throws Exception {
+		return outProjectService.selectOutProjectInfo(dataId);
+	}
 }
