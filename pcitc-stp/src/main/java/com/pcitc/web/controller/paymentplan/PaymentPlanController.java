@@ -26,6 +26,7 @@ import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoPaymentplan;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.DateUtils;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -85,8 +86,14 @@ public class PaymentPlanController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/paymentplan/project_paymentplan_edit")
 	public Object toPaymentPlanProjectEdit(HttpServletRequest request) throws Exception 
 	{
-		request.setAttribute("dataId", request.getParameter("dataId"));
 		
+		String nd = request.getParameter("nd");
+		if(nd == null) {
+			nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
+		}
+		request.setAttribute("nd", nd);
+		request.setAttribute("dataId", request.getParameter("dataId"));
+		System.out.println("----------"+request.getParameter("dataId"));
 		return "stp/paymentplan/project_paymentplan_edit";
 	}
 	@RequestMapping(value = "/paymentplan/project-info-list-bycondition", method = RequestMethod.POST)
