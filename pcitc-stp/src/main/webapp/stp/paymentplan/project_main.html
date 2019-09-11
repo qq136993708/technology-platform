@@ -441,10 +441,7 @@
     			table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,done:function(rs){
     				layer.close(lodingMsg);
     				$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-    					console.log($(this).text());
-    					
     					var index=parseInt($(this).index());
-    					console.log(data[index]);
     					var url = '/paymentplan/project_paymentplan_edit?dataId='+data[index].data_id;
                        	publicMethods.openBaseWinFull('经费拨付管理-经费拨付',url);
                     }); 

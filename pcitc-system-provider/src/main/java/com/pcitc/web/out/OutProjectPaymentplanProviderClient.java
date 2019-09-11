@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPaymentplan;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.service.out.OutProjectPaymentplanService;
+import com.pcitc.service.out.OutProjectService;
 import com.pcitc.service.system.SysDictionaryService;
 
 import io.swagger.annotations.Api;
@@ -30,6 +32,9 @@ public class OutProjectPaymentplanProviderClient
 
 	@Autowired
 	private OutProjectPaymentplanService outProjectPaymentplanService;
+	
+	@Autowired
+	private OutProjectService outProjectService;
 	
 	@Autowired
 	private SysDictionaryService dictionaryService;
@@ -127,7 +132,18 @@ public class OutProjectPaymentplanProviderClient
 		Result rs = new Result(false);
 		try
 		{
-			rs = outProjectPaymentplanService.saveOutProjectPaymentplan(bean);
+			OutProjectPaymentplan old = outProjectPaymentplanService.selectOutProjectPaymentplan(bean.getDataId());
+			if(old == null) {
+				rs = outProjectPaymentplanService.saveOutProjectPaymentplan(bean);
+				//更新拨付情况
+				OutProjectInfo info = outProjectService.selectOutProjectInfo(bean.getProjectId());
+				if(info != null) {
+					info.setDefine17(bean.getPaymentNo());
+					outProjectService.updateOutProject_Info(info);
+				}
+			}else {
+				rs = outProjectPaymentplanService.updateOutProjectPaymentplan(bean);
+			}
 		}
 		catch (Exception e)
 		{

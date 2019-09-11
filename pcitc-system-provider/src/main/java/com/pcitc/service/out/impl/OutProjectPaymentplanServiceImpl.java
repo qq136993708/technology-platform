@@ -192,7 +192,7 @@ public class OutProjectPaymentplanServiceImpl implements OutProjectPaymentplanSe
 	public OutProjectPaymentplan selectOutProjectPaymentplanByInfoId(String dataId) {
 		OutProjectPaymentplanExample example = new OutProjectPaymentplanExample();
 		OutProjectPaymentplanExample.Criteria c = example.createCriteria();
-		c.andProjectIdMd5EqualTo(dataId);
+		c.andProjectIdEqualTo(dataId);
 		List<OutProjectPaymentplan> ps =  mapper.selectByExample(example);
 		
 		if(ps != null && ps.size() >0) {

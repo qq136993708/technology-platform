@@ -145,9 +145,9 @@ public class OutProjectPaymentplanController extends BaseController
 	@ResponseBody
 	public Object getprojectPaymentplanByInfoId(@ModelAttribute("payment")OutProjectPaymentplan payment,HttpServletRequest request) throws IOException 
 	{
-		
-		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_BYINFOID+payment.getProjectIdMd5(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), OutProjectPaymentplan.class);
-		
+		System.out.println("project --- "+payment.getProjectId());
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_BYINFOID+payment.getProjectId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), OutProjectPaymentplan.class);
+		System.out.println("project:"+JSON.toJSONString(responseEntity.getBody()));
 		return JSON.toJSONString(responseEntity.getBody());
 	}
 	
@@ -156,8 +156,8 @@ public class OutProjectPaymentplanController extends BaseController
 	public Object saveProjectPaymentplan(@ModelAttribute("payment")OutProjectPaymentplan payment,HttpServletRequest request) throws IOException 
 	{
 		
-		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_SAVE, HttpMethod.POST, new HttpEntity<OutProjectPaymentplan>(payment,this.httpHeaders), OutProjectPaymentplan.class);
-		
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_SAVE, HttpMethod.POST, new HttpEntity<OutProjectPaymentplan>(payment,this.httpHeaders), Object.class);
+		System.out.println(JSON.toJSONString(responseEntity.getBody()));
 		return JSON.toJSONString(responseEntity.getBody());
 	}
 }

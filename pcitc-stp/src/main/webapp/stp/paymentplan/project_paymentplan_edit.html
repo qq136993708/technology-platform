@@ -26,6 +26,7 @@
 	<input type="hidden" name="dataId" id="dataId" value="${dataId}">
 	<input type="hidden" name="nd" id="nd">
 	<input type="hidden" name="ysnd" id="ysnd">
+	<input type="hidden" name="paymentNo" id="paymentNo">
     <div class="con-box">
         <div class="formBox">
         
@@ -254,16 +255,26 @@
 			form.val("budget-form",data);
 			$("#dataId").val(dataId);
 			$("#paymentStatusDesc").val(data.define17==null?'未拨付':'已拨付');
+			form.render();
 			if(data.define17!=null)
 			{
-				publicMethods.ajaxAsyncPost("/paymentplan/project-paymentplan-byinfoid",{"projectId":data.dataId}, function (dt) {
-					form.val("budget-form",dt);
+				publicMethods.ajaxAsyncPost("/paymentplan/project-paymentplan-byinfoid",{"projectId":projectId}, function (dt) {
+					if(dt != null){
+						form.val("budget-form",dt);
+						$("input[type='radio'][name='invoiceNeed'][value='"+dt.invoiceNeed+"']").prop("checked",true);
+						invoiceStatusChange(dt.invoiceNeed);
+						form.render();
+					}
 				});
 			}
    		});
        	//单选框...
         form.on('radio(radioEvent)', function(data) {
-			if(data.value=='1')
+        	invoiceStatusChange(data.value);
+		});
+        function invoiceStatusChange(val)
+        {
+        	if(val=='1')
 			{
 				$("#invoiceCompanyName").removeClass("readOnlyBox");
 				$("#invoiceCompanyCode").removeClass("readOnlyBox");
@@ -297,8 +308,7 @@
 				$("#invoiceContactPhone").attr("readonly",true);
 				$("#invoiceContactEmail").attr("readonly",true);
 			}
-		});
-        
+        }
        	
         //监听select下拉选中事件
         form.on('select(type)', function(data){
@@ -311,17 +321,13 @@
         });
         var $ = layui.$, active = {
         	createEvent: function () { 
-        		layer.confirm('确定要拨付吗？',{title:"拨付确认"},function(index){
-					layer.close(index);
-					publicMethods.ajaxAsyncPost("/project-paymentplan-save", null, function (data) {
-	                     
-	                });
-            	});
             }	
         }
         // 点击保存按钮
         form.on('submit(saveEvent)', function(data){
             //var formData = JSON.stringify(data.field);
+            data.field.paymentNo = data.field.define17;
+            data.field.projectId = projectId;
             layer.confirm('确定要拨付吗？',{title:"拨付确认"},function(index){
             	var lodingMsg = layer.msg('处理中....');
             	publicMethods.ajaxAsyncPost('/paymentplan/project-paymentplan-save', data.field, function (data, status) {
@@ -330,6 +336,7 @@
         			    parent.layer.close(index);
                     }else{
                     	parent.layer.alert(data.message, {title : '信息'});
+                    	layer.close(lodingMsg);
     					return;
                     }
                     layer.close(lodingMsg);
