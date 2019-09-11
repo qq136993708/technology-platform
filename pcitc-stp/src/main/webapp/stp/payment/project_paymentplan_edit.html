@@ -243,7 +243,7 @@
         var $ = layui.jquery,form = layui.form,table = layui.table,laydate = layui.laydate,layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
       	//报销批次
-      	publicMethods.ajaxPost("/paymentplan/project-paymentplan-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
+      	publicMethods.ajaxPost("/payment/project-paymentplan-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
    			$("#define17").html("<option value=''>--请选择--</option>");
    			$.each(data,function(index,dt){
    				$("#define17").append("<option value='"+dt.numValue+"'>"+dt.name+"</option>");
@@ -258,7 +258,7 @@
 			form.render();
 			if(data.define17!=null)
 			{
-				publicMethods.ajaxAsyncPost("/paymentplan/project-paymentplan-byinfoid",{"projectId":projectId}, function (dt) {
+				publicMethods.ajaxAsyncPost("/payment/project-paymentplan-byinfoid",{"projectId":projectId}, function (dt) {
 					if(dt != null){
 						form.val("budget-form",dt);
 						$("input[type='radio'][name='invoiceNeed'][value='"+dt.invoiceNeed+"']").prop("checked",true);
@@ -330,7 +330,7 @@
             data.field.projectId = projectId;
             layer.confirm('确定要拨付吗？',{title:"拨付确认"},function(index){
             	var lodingMsg = layer.msg('处理中....');
-            	publicMethods.ajaxAsyncPost('/paymentplan/project-paymentplan-save', data.field, function (data, status) {
+            	publicMethods.ajaxAsyncPost('/payment/project-paymentplan-save', data.field, function (data, status) {
                     if (data.success) {
                     	var index = parent.layer.getFrameIndex(window.name);
         			    parent.layer.close(index);
