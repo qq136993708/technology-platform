@@ -1,0 +1,11 @@
+{
+  "msg":"","code":0,
+  "data":[
+    {"orgName":"中国石化石油机械装备重点实验室", "dependentUnit":"石油工程机械有限公司"},
+    {"orgName":"中国石化化学品和化学反应过程安全技术重点实验室", "dependentUnit":"青岛安全工程研究院"},
+    {"orgName":"中国石化雷电静电危害控制重点实验室", "dependentUnit":"青岛安全工程研究院"},
+    {"orgName":"中国石化地热资源开发利用重点实验室", "dependentUnit":"洛阳工程有限公司"},
+    {"orgName":"中国石化炼油反应工程技术研究重点实验室", "dependentUnit":"洛阳工程有限公司"},
+    {"orgName":"中国石化等离子体技术重点实验室", "dependentUnit":"青岛安全工程研究院"},
+    {"orgName":"中国石化工业互联网重点实验室", "dependentUnit":"石化盈科信息技术有限责任公司"}
+  ]}

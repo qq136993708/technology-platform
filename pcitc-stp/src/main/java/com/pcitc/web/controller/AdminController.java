@@ -246,14 +246,14 @@ public class AdminController extends BaseController {
 		request.setAttribute("outOAIp", "10.1.4.10");
 
 		// 登录成功,保存当前用户登录的sessionId, 一个用户只能一处登录
-		String sessionID = request.getRequestedSessionId();
+		/*String sessionID = request.getRequestedSessionId();
 		String userName = rsUser.getUserName();
 		if (!SessionShare.getSessionIdSave().containsKey(userName)) {
 			SessionShare.getSessionIdSave().put(userName, sessionID);
 		} else if (SessionShare.getSessionIdSave().containsKey(userName) && !sessionID.equals(SessionShare.getSessionIdSave().get(userName))) {
 			SessionShare.getSessionIdSave().remove(userName);
 			SessionShare.getSessionIdSave().put(userName, sessionID);
-		}
+		}*/
 
 		String cFlag = request.getParameter("cFlag");
 		request.setAttribute("userId", rsUser.getUserId());
@@ -524,14 +524,14 @@ public class AdminController extends BaseController {
 			System.out.println("----------====登录成功2index....");
 			
 			// 登录成功,保存当前用户登录的sessionId, 一个用户只能一处登录
-			String sessionID = request.getRequestedSessionId();
+			/*String sessionID = request.getRequestedSessionId();
 			String userName = userDetails.getUserName();
 			if (!SessionShare.getSessionIdSave().containsKey(userName)) {
 				SessionShare.getSessionIdSave().put(userName, sessionID);
 			} else if (SessionShare.getSessionIdSave().containsKey(userName) && !sessionID.equals(SessionShare.getSessionIdSave().get(userName))) {
 				SessionShare.getSessionIdSave().remove(userName);
 				SessionShare.getSessionIdSave().put(userName, sessionID);
-			}
+			}*/
 
 			request.setAttribute("userId", userDetails.getUserId());
 			String cFlag = request.getParameter("cFlag");

@@ -68,21 +68,21 @@ public class MobileController extends BaseController {
     
     
     
-	@RequestMapping(value = "/mobile/budget")
+	@RequestMapping(value = "/kjptmobile/budget")
 	public String budget(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
-		return "/mobile/budget";
+		return "/kjptmobile/budget";
 	}
 	
 	
-	@RequestMapping(value = "/mobile/appraisal")
+	@RequestMapping(value = "/kjptmobile/appraisal")
 	public String appraisal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
-		return "/mobile/appraisal";
+		return "/kjptmobile/appraisal";
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public class MobileController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/mobile/plan/deletePlan")
+	@RequestMapping(value = "/kjptmobile/plan/deletePlan")
 	@ResponseBody
 	public int deletePlan(HttpServletRequest request) {
 		String id = request.getParameter("ids");
@@ -103,7 +103,7 @@ public class MobileController extends BaseController {
 	
 	
 	
-	@RequestMapping(value = "/mobile/institute")
+	@RequestMapping(value = "/kjptmobile/institute")
 	public String institute(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 
@@ -170,11 +170,11 @@ public class MobileController extends BaseController {
 			request.setAttribute("techOrgCount", techOrgCount);
 		}
 		request.setAttribute("year", HanaUtil.getBeforeYear());
-		return "/mobile/institute";
+		return "/kjptmobile/institute";
 	}
 
 	
-	@RequestMapping(value = "/mobile/institute_new")
+	@RequestMapping(value = "/kjptmobile/institute_new")
 	public String institute_new(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String id = CommonUtil.getParameter(request, "id", "");
@@ -183,7 +183,7 @@ public class MobileController extends BaseController {
 		logger.info("============远程返回  statusCode " + statusCode);
 		Department department = responseEntity.getBody();
 		request.setAttribute("department", department);
-		return "/mobile/institute_new";
+		return "/kjptmobile/institute_new";
 	}
 
 	@RequestMapping(value = "/getDepartment/institute_new")
@@ -204,7 +204,7 @@ public class MobileController extends BaseController {
 	 * @param request
 	 * @return 查询科技成果
 	 */
-	@RequestMapping(value = "/mobile/admin/appraisal-count", method = RequestMethod.POST)
+	@RequestMapping(value = "/kjptmobile/admin/appraisal-count", method = RequestMethod.POST)
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public Object getAppraisalCount(HttpServletRequest request) {
@@ -252,7 +252,7 @@ public class MobileController extends BaseController {
 	/**
 	 * 全口径新开课题合同（任务书）签订率
 	 */
-	@RequestMapping(value = "/mobile/index_contract")
+	@RequestMapping(value = "/kjptmobile/index_contract")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String index_contract(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -330,7 +330,7 @@ public class MobileController extends BaseController {
 	/**
 	 * 合同签订率
 	 */
-	@RequestMapping(value = "/mobile/index_contract_rate")
+	@RequestMapping(value = "/kjptmobile/index_contract_rate")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String index_contract_rate(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -432,19 +432,19 @@ public class MobileController extends BaseController {
 	 * =====================================
 	 */
 
-	@RequestMapping(value = "/mobile/contract")
+	@RequestMapping(value = "/kjptmobile/contract")
 	public String contract(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
-		return "/mobile/contract";
+		return "/kjptmobile/contract";
 	}
 	
 	/**
 	 * ================================================科研投入 begin
 	 * =====================================
 	 */
-	@RequestMapping(value = "/mobile/project")
+	@RequestMapping(value = "/kjptmobile/project")
 	public String project(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		
@@ -494,11 +494,11 @@ public class MobileController extends BaseController {
 		List<SysDictionary> yjyList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_GFGS_ZSYJY", restTemplate, httpHeaders);
 		request.setAttribute("yjyList", yjyList);
 				
-		return "/mobile/project";
+		return "/kjptmobile/project";
 	}
 	
 	
-	@RequestMapping(value = "/mobile/project_details")
+	@RequestMapping(value = "/kjptmobile/project_details")
 	public String project_details(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 
@@ -544,7 +544,7 @@ public class MobileController extends BaseController {
 		request.setAttribute("outProjectPlan", outProjectPlan);
 		
 		
-		return "/mobile/project_details";
+		return "/kjptmobile/project_details";
 	}
 	
 	
@@ -556,7 +556,7 @@ public class MobileController extends BaseController {
 	/**
 	 * ================================================现金流
 	 */
-	@RequestMapping(value = "/mobile/cash")
+	@RequestMapping(value = "/kjptmobile/cash")
 	public String cash(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String month = HanaUtil.getCurrentYear_Moth();
@@ -564,7 +564,7 @@ public class MobileController extends BaseController {
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
 		
-		return "/mobile/cash";
+		return "/kjptmobile/cash";
 	}
 	
 
@@ -586,7 +586,7 @@ public class MobileController extends BaseController {
 	 * ================================================科研装备 begin
 	 * =====================================
 	 */
-	@RequestMapping(value = "/mobile/appropriation")
+	@RequestMapping(value = "/kjptmobile/appropriation")
 	public String kyzb(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
@@ -597,7 +597,7 @@ public class MobileController extends BaseController {
 
 		String companyCode = HanaUtil.YJY_CODE_NOT_YINGKE;
 		request.setAttribute("companyCode", companyCode);
-		return "/mobile/appropriation";
+		return "/kjptmobile/appropriation";
 	}
 
 	/**
@@ -609,7 +609,7 @@ public class MobileController extends BaseController {
 	 * ================================================科研支出 begin
 	 * =====================================
 	 */
-	@RequestMapping(value = "/mobile/kyzc")
+	@RequestMapping(value = "/kjptmobile/kyzc")
 	public String kyzc(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
@@ -617,7 +617,7 @@ public class MobileController extends BaseController {
 		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
 
-		return "/mobile/kyzc";
+		return "/kjptmobile/kyzc";
 	}
 	
 	
@@ -631,7 +631,7 @@ public class MobileController extends BaseController {
 	 * ================================================现金流量 begin
 	 * =====================================
 	 */
-	@RequestMapping(value = "/mobile/xjll")
+	@RequestMapping(value = "/kjptmobile/xjll")
 	public String xjll(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
@@ -639,7 +639,7 @@ public class MobileController extends BaseController {
 		String month = HanaUtil.getCurrentYear_Moth();
 		request.setAttribute("month", month);
 
-		return "/mobile/xjll";
+		return "/kjptmobile/xjll";
 	}
 
 	/**
@@ -651,51 +651,51 @@ public class MobileController extends BaseController {
 	 * ================================================成果专利 begin
 	 * =====================================
 	 */
-	@RequestMapping(value = "/mobile/cgzl")
+	@RequestMapping(value = "/kjptmobile/cgzl")
 	public String cgzl(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 
-		return "/mobile/cgzl";
+		return "/kjptmobile/cgzl";
 	}
 	
-	@RequestMapping(value = "/mobile/zhfxChart")
+	@RequestMapping(value = "/kjptmobile/zhfxChart")
 	public String zhfxChart(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
 		request.setAttribute("nd", nd);
 
-		return "/mobile/zhfxChart";
+		return "/kjptmobile/zhfxChart";
 	}
 	
-	@RequestMapping(value = "/mobile/zhfxTable")
+	@RequestMapping(value = "/kjptmobile/zhfxTable")
 	public String zhfxTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
-		return "/mobile/zhfxTable";
+		return "/kjptmobile/zhfxTable";
 	}
 	
-	@RequestMapping(value = "/mobile/index2")
+	@RequestMapping(value = "/kjptmobile/index2")
 	public String index2(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
-		return "/mobile/index2";
+		return "/kjptmobile/index2";
 	}
 
 	
 	
-	@RequestMapping(value = "/mobile/zhfxTable3")
+	@RequestMapping(value = "/kjptmobile/zhfxTable3")
 	public String zhfxTable3(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String year = HanaUtil.getCurrentYear();
 		request.setAttribute("year", year);
 
-		return "/mobile/zhfxTable3";
+		return "/kjptmobile/zhfxTable3";
 	}
 	
 	
@@ -704,7 +704,7 @@ public class MobileController extends BaseController {
 	
 	
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/mobile/one_level_main/achievement_table_data")
+	@RequestMapping(method = RequestMethod.POST, value = "/kjptmobile/one_level_main/achievement_table_data")
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public String achievement_table_data(HttpServletRequest request, HttpServletResponse response) {
@@ -750,7 +750,7 @@ public class MobileController extends BaseController {
 	
 	
 	
-	@RequestMapping(value = "/mobile/getAppraisalInfoByjdh/{jdh}", method = RequestMethod.POST)
+	@RequestMapping(value = "/kjptmobile/getAppraisalInfoByjdh/{jdh}", method = RequestMethod.POST)
 	@ResponseBody
 	public OutAppraisal  getAppraisalInfoByjdh(@PathVariable("jdh") String jdh, HttpServletRequest request) {
 		//System.out.println("-------------------------getAppraisalInfoByjdh --------------------------------");
@@ -761,7 +761,7 @@ public class MobileController extends BaseController {
 	
 	
 	
-	@RequestMapping(value = "/mobile/appraisal_detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/kjptmobile/appraisal_detail", method = RequestMethod.GET)
 	public String get(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String jdh = CommonUtil.getParameter(request, "jdh", "");
 		
@@ -770,7 +770,7 @@ public class MobileController extends BaseController {
 		logger.info("============远程返回  statusCode " + statusCode);
 		OutAppraisal outAppraisal = responseEntity.getBody();
 		request.setAttribute("outAppraisal", outAppraisal);
-		return "/mobile/appraisal_detail";
+		return "/kjptmobile/appraisal_detail";
 	}
 	
 

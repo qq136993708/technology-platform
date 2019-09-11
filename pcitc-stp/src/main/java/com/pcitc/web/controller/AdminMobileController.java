@@ -127,7 +127,7 @@ public class AdminMobileController extends BaseController {
 		request.setAttribute("month", month);
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
-		return "/mobile/index";
+		return "/kjptmobile/index";
 	}
 
 	/**
@@ -274,7 +274,7 @@ public class AdminMobileController extends BaseController {
 		request.setAttribute("month", month);
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 		request.setAttribute("companyCode", companyCode);
-		return "/mobile/index";
+		return "/kjptmobile/index";
 	}
 
 	/**
@@ -284,7 +284,7 @@ public class AdminMobileController extends BaseController {
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/mobile/adToken", method = RequestMethod.POST)
+	@RequestMapping(value = "/kjptmobile/adToken", method = RequestMethod.POST)
 	public String adToken(HttpServletRequest request, HttpServletResponse response) {
 		String name = "";
 		String pwd = "";
@@ -334,7 +334,7 @@ public class AdminMobileController extends BaseController {
 	/**
 	 * 移动登录界面，测试专用
 	 */
-	@RequestMapping(value = "/mobile/login")
+	@RequestMapping(value = "/kjptmobile/login")
 	public String pcitcToIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("----------====进入login....");
 		Cookie[] cookies = request.getCookies();
@@ -353,7 +353,7 @@ public class AdminMobileController extends BaseController {
 		return "/mobile-login";
 	}
 
-	@RequestMapping(value = "/mobile/temIndex")
+	@RequestMapping(value = "/kjptmobile/temIndex")
 	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		SysUser userDetails = new SysUser(); // 用户信息，包含此人拥有的菜单权限等。token中放不下这些信息
@@ -379,7 +379,7 @@ public class AdminMobileController extends BaseController {
 				loginCookie.setMaxAge(TIME_OUT);// 设置有效期为一小时
 				loginCookie.setPath("/");
 				response.addCookie(loginCookie);
-				response.sendRedirect("/mobile/login");
+				response.sendRedirect("/kjptmobile/login");
 
 				return null;
 			}
@@ -410,7 +410,7 @@ public class AdminMobileController extends BaseController {
 			request.setAttribute("month", month);
 			String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 			request.setAttribute("companyCode", companyCode);
-			return "/mobile/index";
+			return "/kjptmobile/index";
 		} else {
 			if (sysUserInfo == null || sysUserInfo.getUserId() == null) {
 				System.out.println("未登录！");
@@ -460,7 +460,7 @@ public class AdminMobileController extends BaseController {
 			request.setAttribute("month", month);
 			String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 			request.setAttribute("companyCode", companyCode);
-			return "/mobile/index";
+			return "/kjptmobile/index";
 		}
 	}
 }

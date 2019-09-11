@@ -98,7 +98,7 @@ public class MobileWorkbechController extends BaseController
 	
 	
   //添加工作安排
-  	@RequestMapping(value = "/mobile/work_add")
+  	@RequestMapping(value = "/kjptmobile/work_add")
   	public String work_add(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
   		
@@ -109,20 +109,20 @@ public class MobileWorkbechController extends BaseController
           request.setAttribute("bak6", sysUserInfo.getUserId());
           request.setAttribute("bak4", sysUserInfo.getUserDisp());
   		request.setAttribute("closeType", "1");
-  		return "/mobile/work_add";
+  		return "/kjptmobile/work_add";
   	}
   	
   	
   	//选下一步处理人
-  	@RequestMapping(value = "/mobile/implement")
+  	@RequestMapping(value = "/kjptmobile/implement")
   	public String implement(HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-  		return "/mobile/implement";
+  		return "/kjptmobile/implement";
   	}
   	
   	
     //选下一步处理人
-  	@RequestMapping(value = "/mobile/user/querySysUserListByPage")
+  	@RequestMapping(value = "/kjptmobile/user/querySysUserListByPage")
 	@ResponseBody
 	public Object querySysUserListByPage(HttpServletRequest request) throws IOException 
   	{
@@ -181,19 +181,19 @@ public class MobileWorkbechController extends BaseController
 	 * @param request
 	 * @return
 	 */
-  	/*@RequestMapping(method = RequestMethod.GET, value = "/mobile/plan/pageSelectUser")
+  	/*@RequestMapping(method = RequestMethod.GET, value = "/kjptmobile/plan/pageSelectUser")
 	private String pageSelectUser(HttpServletRequest request) {
-		return "/mobile/pageSelectUser";
+		return "/kjptmobile/pageSelectUser";
 	}*/
   	
 	
 		
- 	@RequestMapping(value = "/mobile/agencyM")
+ 	@RequestMapping(value = "/kjptmobile/agencyM")
 	public String agencyM(HttpServletRequest request) throws IOException{
-		return "/mobile/agencyM";
+		return "/kjptmobile/agencyM";
 	}
  	
- 	@RequestMapping(value = "/mobile/work")
+ 	@RequestMapping(value = "/kjptmobile/work")
 	public String work(HttpServletRequest request) throws IOException{
  		
  		basePath = request.getContextPath();
@@ -202,11 +202,11 @@ public class MobileWorkbechController extends BaseController
 		// 安全设置：归档文件下载
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Cache-Control", "no-cache");
-		return "/mobile/work";
+		return "/kjptmobile/work";
 	}
  	
  	
- 	@RequestMapping(value = "/mobile/work_details")
+ 	@RequestMapping(value = "/kjptmobile/work_details")
 	public String work_details(HttpServletRequest request)throws IOException {
  		
  		String dataId = request.getParameter("dataId");
@@ -228,12 +228,12 @@ public class MobileWorkbechController extends BaseController
 		LayuiTableData layuiTableData = rs.getBody();
 		request.setAttribute("list", layuiTableData.getData());
 		
-		return "/mobile/work_details";
+		return "/kjptmobile/work_details";
 	}
  	
  	
  	//我处理的
- 	@RequestMapping(value = "/mobile/work_details_1")
+ 	@RequestMapping(value = "/kjptmobile/work_details_1")
 	public String work_details1(HttpServletRequest request) throws IOException{
  		String dataId = request.getParameter("dataId");
  		request.setAttribute("dataId", dataId);
@@ -247,11 +247,11 @@ public class MobileWorkbechController extends BaseController
 		
 		request.setAttribute("finishedList", finished.getData());
 		request.setAttribute("sendList", send.getData());
-		return "/mobile/work_details_1";
+		return "/kjptmobile/work_details_1";
 	}
  	
  	//工作处理---我处理的列表
- 	@RequestMapping(value = "/mobile/plan/queryMyBotWorkOrderMatterList")
+ 	@RequestMapping(value = "/kjptmobile/plan/queryMyBotWorkOrderMatterList")
 	@ResponseBody
 	public Object queryMyBotWorkOrderMatterList( HttpServletRequest request) {
  		
@@ -275,7 +275,7 @@ public class MobileWorkbechController extends BaseController
 
 	}
  	//工作处理---任务接收后，下发给其他人员的工作安排列表
-	@RequestMapping(value = "/mobile/plan/queryBotWorkOrderMatterList")
+	@RequestMapping(value = "/kjptmobile/plan/queryBotWorkOrderMatterList")
 	@ResponseBody
 	public Object queryBotWorkOrderMatterList( HttpServletRequest request, HttpServletResponse response) {
 		
@@ -303,7 +303,7 @@ public class MobileWorkbechController extends BaseController
  	/**
 	 * 获取工单管理信息
 	 */
-	@RequestMapping(value = "/mobile/plan/viewBotWorkOrder")
+	@RequestMapping(value = "/kjptmobile/plan/viewBotWorkOrder")
 	@ResponseBody
 	public Object viewBotWorkOrder(HttpServletRequest request) {
 		String dataId = request.getParameter("dataId");
@@ -316,7 +316,7 @@ public class MobileWorkbechController extends BaseController
  	/**
 	 * 工作安排(我安排的)
 	 */
-	@RequestMapping(value = "/mobile/plan/getTableData", method = RequestMethod.POST)
+	@RequestMapping(value = "/kjptmobile/plan/getTableData", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getTableData( HttpServletRequest request) throws IOException 
 	{
@@ -341,7 +341,7 @@ public class MobileWorkbechController extends BaseController
 	/**
 	 * 工作安排(别人安排 给我的)
 	 */
-	@RequestMapping(value = "/mobile/plan/my/getTableData", method = RequestMethod.POST)
+	@RequestMapping(value = "/kjptmobile/plan/my/getTableData", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getMyTableData( HttpServletRequest request) throws IOException {
 		
@@ -376,7 +376,7 @@ public class MobileWorkbechController extends BaseController
 	
 	
 	//处理工单
-	@RequestMapping(value = "/mobile/plan/submitMyBotWorkOrder")
+	@RequestMapping(value = "/kjptmobile/plan/submitMyBotWorkOrder")
 	@ResponseBody
 	public int submitMyBotWorkOrder(HttpServletRequest request) {
 		int result;
@@ -397,7 +397,7 @@ public class MobileWorkbechController extends BaseController
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/mobile/plan/saveMyBotWorkOrderMatterFeedBack")
+	@RequestMapping(value = "/kjptmobile/plan/saveMyBotWorkOrderMatterFeedBack")
 	@ResponseBody
 	public int saveMyBotWorkOrderMatterFeedBack(HttpServletRequest request) 
 	{
@@ -461,7 +461,7 @@ public class MobileWorkbechController extends BaseController
 
  	
  	//处理待办
- 	@RequestMapping(value = "/mobile/task/pending/deal/{taskId}")
+ 	@RequestMapping(value = "/kjptmobile/task/pending/deal/{taskId}")
 	public String iniDealTask(@PathVariable("taskId") String taskId, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//System.out.println("1=====iniDealTask====" + taskId);
 
@@ -480,7 +480,7 @@ public class MobileWorkbechController extends BaseController
  	
     
     //待办任务数据
-	@RequestMapping(value = "/mobile/wait_task_list_data")
+	@RequestMapping(value = "/kjptmobile/wait_task_list_data")
 	@ResponseBody
 	public LayuiTableData wait_task_list_data(HttpServletRequest request) {
 		int page = request.getParameter("page") == null ? 1 : Integer.parseInt((String) request.getParameter("page"));
@@ -496,7 +496,7 @@ public class MobileWorkbechController extends BaseController
 		return retJson;
 	}
 	//已办任务数据
-	@RequestMapping(value = "/mobile/finished_task_list_data")
+	@RequestMapping(value = "/kjptmobile/finished_task_list_data")
 	@ResponseBody
 	public LayuiTableData finished_task_list_data(HttpServletRequest request) {
 		int page = request.getParameter("page") == null ? 1 : Integer.parseInt((String) request.getParameter("page"));
@@ -516,7 +516,7 @@ public class MobileWorkbechController extends BaseController
 	/**
 	 * @author zhf 其它系统的待办任务列表
 	 */
-	@RequestMapping(value = "/mobile/task/other/pending-list", method = RequestMethod.POST)
+	@RequestMapping(value = "/kjptmobile/task/other/pending-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object otherPendingList(HttpServletRequest request) 
 	{
@@ -537,13 +537,13 @@ public class MobileWorkbechController extends BaseController
 	}
 	
 
-	@RequestMapping(value = "/mobile/message_list")
+	@RequestMapping(value = "/kjptmobile/message_list")
 	public String message_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		return "/mobile/message_list";
+		return "/kjptmobile/message_list";
 	}
 
-	@RequestMapping(value = "/mobile/message_list_data", method = RequestMethod.POST)
+	@RequestMapping(value = "/kjptmobile/message_list_data", method = RequestMethod.POST)
 	@ResponseBody
 	public Page message_list_data(HttpServletRequest request) {
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
@@ -561,7 +561,7 @@ public class MobileWorkbechController extends BaseController
 		return page;
 	}
 
-	@RequestMapping(value = "/mobile/message_list", method = RequestMethod.POST)
+	@RequestMapping(value = "/kjptmobile/message_list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object message_list(@ModelAttribute("param") LayuiTableParam param) {
 
@@ -572,7 +572,7 @@ public class MobileWorkbechController extends BaseController
 		LayuiTableData retJson = responseEntity.getBody();
 		// return JSON.toJSON(retJson).toString();
 
-		return "/mobile/message_list";
+		return "/kjptmobile/message_list";
 	}
     
     
@@ -588,7 +588,7 @@ public class MobileWorkbechController extends BaseController
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/mobile/sysNotice/readNotice")
+	@RequestMapping(value = "/kjptmobile/sysNotice/readNotice")
 	public String readNotice(String id, Model model) {
 		SysNoticeVo vo = new SysNoticeVo();
 		vo.setNoticeId(id);
@@ -610,7 +610,7 @@ public class MobileWorkbechController extends BaseController
 	/**
 	 * 新增、编辑工作任务单时的保存方法
 	 */
-	@RequestMapping(value = "/mobile/plan/submitBotWorkOrder")
+	@RequestMapping(value = "/kjptmobile/plan/submitBotWorkOrder")
 	@ResponseBody
 	public int submitBotWorkOrder(HttpServletRequest request) {
 		int result;
@@ -626,7 +626,7 @@ public class MobileWorkbechController extends BaseController
 		return result;
 	}
 
-	@RequestMapping(value = "/mobile/plan/saveBotWorkOrder")
+	@RequestMapping(value = "/kjptmobile/plan/saveBotWorkOrder")
 	@ResponseBody
 	public int saveBotWorkOrder(HttpServletRequest request) {
 		String code = CodeUtil.getCode("XTBM_0048", restTemplate, httpHeaders);
@@ -708,10 +708,10 @@ public class MobileWorkbechController extends BaseController
 	
 	
 	
-	@RequestMapping(value = "/mobile/task/process/{instanceId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/kjptmobile/task/process/{instanceId}", method = RequestMethod.GET)
 	public String processShow(@PathVariable("instanceId") String instanceId, HttpServletRequest request) 
 	{
-		return "/mobile/task_process_show";
+		return "/kjptmobile/task_process_show";
 	}
 	
 	
@@ -721,7 +721,7 @@ public class MobileWorkbechController extends BaseController
 	 * @author zhf
 	 * @date 2018年4月23日 下午5:19:25
 	 */
-	@RequestMapping(value = "/mobile/task/process/list/{instanceId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/kjptmobile/task/process/list/{instanceId}", method = RequestMethod.POST)
 	@ResponseBody
 	public Object processList(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
 

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/kjptmobile/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/kjptmobile/css/mobileNew.css">
+    <style>
+        .tab-top{    background: url(/kjptmobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
+    </style>
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a data-rel="back"><img src="/kjptmobile/images/icon-back.png"/> </a>
+        <h4>工作安排</h4>
+    </div>
+</header>
+<main class="main work">
+    <div class="layui-tab">
+        <div class="tab-top">
+            <ul class="layui-tab-title">
+                <li class="layui-this">
+                    <span></span>
+                    <span class="number" id="one_list_count">0</span>
+                    <span>我发起的</span>
+                </li>
+                <li>
+                    <span></span>
+                    <span class="number"  id="two_list_count">0</span>
+                    <span>待处理的</span>
+                </li>
+                <li id="add">
+                    <span></span>
+                    <span>新建任务</span>
+                </li>
+            </ul>
+        </div>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-tab">
+                    <div class="tab-b">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">全部<label id="send_count_all"></label></li>
+                            <li>未结束<label id="send_count_doing"></label></li>
+                            <li>已完成<label id="send_count_finished"></label></li>
+                        </ul>
+                    </div>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <ul class="one" id="one_list"></ul>
+                        </div>
+                        <div class="layui-tab-item">
+                            <ul class="one" id="one_wait_list"></ul>
+                        </div>
+                        <div class="layui-tab-item">
+                            <ul class="one" id="one_finished_list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+
+                <div class="layui-tab">
+                    <div class="tab-b">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this">全部<label id="deal_count_all"></label></li>
+                            <li>待处理<label id="deal_count_doing"></label></li>
+                            <li>已处理<label id="deal_count_finished"></label></li>
+                        </ul>
+                    </div>
+                    <div class="layui-tab-content tab-d">
+                        <div class="layui-tab-item layui-show">
+                            <ul class="one" id="two_list"></ul>
+                        </div>
+                        <div class="layui-tab-item">
+                              <ul class="one" id="two_wait_list"></ul>
+                        </div>
+                        <div class="layui-tab-item">
+                            <ul class="one" id="two_finished_list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="/kjptmobile/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/kjptmobile/layuiadmin/layui/layui.js"></script>
+<script src="/kjptmobile/js/jquery.mobile-1.4.5.min.js"></script>
+<script>
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        laydate.render({
+            elem: '#test-laydate-normElem'
+            ,type: 'year'
+            ,value:"2019"
+        });
+        $(".dele").click(function () {
+           
+            var id=$(this).attr("id");
+            var workOrderStatus=$(this).attr("workOrderStatus");
+            //alert(id);
+        	del(id,workOrderStatus);
+        	$(this).parents("li").remove();
+        });
+        $(".one li").on("swipeleft",function(){
+            $(this).removeClass('left');
+            $(this).addClass('right');
+            $(this).find(".dele").show()
+        });
+        $(".one li").on("swiperight",function(){
+            $(this).removeClass('right');
+            $(this).addClass('left');
+        });
+        $("#add").click(function () {
+            layer.open({
+                title : '详情',
+                skin : 'layui-layer-mobile',
+                shadeClose : false,
+                type : 2,
+                fixed : false,
+                maxmin : true,
+                area : [ '95%', '7rem' ],
+                content : '/kjptmobile/work_add'
+            });
+        });
+    });
+    
+    
+    
+    //我发起的
+    function mySend()
+    {
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : 'POST',
+    		url : "/kjptmobile/plan/getTableData?v_date="+v_date+"&parentId=1",
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			console.log("我发起的\n"+JSON.stringify(data));
+    			var dataArr=data.data;
+    			var count="";
+    			var count_wait="";
+    			var count_finished="";
+    			var send_count_all=data.count;
+    			var send_count_doing=0;
+    			var send_count_finished=0;
+    			//alert(data.length);
+    			
+    			if(dataArr.length>0)
+   			    {
+   				  for(var i=0;i<dataArr.length;i++)
+       			  {
+   					 var dataId= dataArr[i].dataId;
+  					 var workOrderName= dataArr[i].workOrderName;//工作任务名称
+  					 var createDate= dataArr[i].createDate;//安排时间
+  					 var workOrderAllotUserName= dataArr[i].workOrderAllotUserName;//工作处理人
+  					 var workOrderStatus= dataArr[i].workOrderStatus;//状态
+  					 var workOrderType= dataArr[i].workOrderType;//紧急程度
+  					 var bl= dataArr[i].bl;//紧急程度
+  					 console.log("bl\n"+bl);
+  					 
+  					 if(createDate!='')
+  					 {
+  						createDate=createDate.substr(0,10);
+  					 }
+  					 
+  					 if(bl==null || bl=="undefined" || typeof(bl) == "undefined" || bl=='')
+ 					 {
+  						bl="0";
+ 					 }
+  					 bl=parseInt(bl);
+  					 
+  					 var workOrderAllotUserName_length=workOrderAllotUserName.split(",");
+  					 var imagstr= "<img src='/kjptmobile/images/icon-by.png' alt=''>";
+  					 if(workOrderAllotUserName_length.length>1)
+  					 {
+  						imagstr=    "<img src='/kjptmobile/images/icon-by.png' alt=''>"+
+			  						"<img src='/kjptmobile/images/icon-by.png' alt=''>"+
+			                        "<img src='/kjptmobile/images/icon-by.png' alt=''>";
+  					 }
+  					 
+  					 
+  					 var temp= "<li class='list' onclick=\"view('"+dataId+"','"+workOrderName+"')\">"+
+				                     "<div class='list-img'>"+imagstr+
+				                    "</div>"+
+				                     "<div class='list-cont'>"+
+				                         "<p>"+workOrderName+"</p>"+
+				                         "<p>"+
+				                              "<span>处理人:</span><span>"+workOrderAllotUserName+"</span>"+
+				                         "</p>"+
+				                     "</div>"+
+				                    "<div class='list-d'>"+
+				                         "<span class='list-r'>"+createDate+"</span>"+
+				                         "<div class='layui-progress'>"+
+				                             "<div class='layui-progress-bar' lay-percent='"+bl+"%' style='width: "+bl+"%;'></div>"+
+				                         "</div>"+
+				                        "<span class='number-b'>"+bl+"%</span>"+
+				                    "</div>"+
+				                     "<div class='dele' id='"+dataId+"' workOrderStatus='"+workOrderStatus+"' ></div>"+
+				                "</li>";
+					 count=count+temp;
+					 
+					 if(bl!=100)
+					 {
+						 count_wait=count_wait+temp;
+						 send_count_doing++;
+					 }
+					 if(bl==100)
+					 {
+						 count_finished=count_finished+temp;
+						 send_count_finished++;
+					 }
+					 
+       			  }
+   			   }
+    			
+    		   $("#one_list_count").html(""+send_count_doing+""); 	
+    		   //列表
+    		   $("#one_list").html(count); 	
+    		   $("#one_wait_list").html(count_wait); 	
+    		   $("#one_finished_list").html(count_finished); 	
+    		   
+    		   //统计数
+    		   $("#send_count_all").html(send_count_all); 	
+    		   $("#send_count_doing").html(send_count_doing); 	
+    		   $("#send_count_finished").html(send_count_finished); 	
+    		   
+    		   
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+    
+    mySend();
+    
+    
+    //别人发给我的
+    function myReceivce()
+    {
+    	
+    	var v_date = (new Date()).getTime();
+    	$.ajax({
+    		type : 'POST',
+    		url : "/kjptmobile/plan/my/getTableData?v_date="+v_date+"&isSchedule=0&bak7=0&isChildren=1",
+    		timeout : 9000,
+    		dataType:'json', 
+    		cache : false,
+    		success : function(data, status) 
+    		{
+    			//console.log(JSON.stringify(data));
+    			var dataArr=data.data;
+    			var count="";
+    			var count_wait="";
+    			var count_finished="";
+    			
+    			var deal_count_all=data.count;
+    			var deal_count_doing=0;
+    			var deal_count_finished=0;
+    			
+    			//alert(data.length);
+    			
+    			if(dataArr.length>0)
+   			    {
+   				  for(var i=0;i<dataArr.length;i++)
+       			  {
+   					 var dataId= dataArr[i].dataId;
+   					 var workOrderName= dataArr[i].workOrderName;//工作任务名称
+   					 var createDate= dataArr[i].createDate;//安排时间
+   					 var createUserName= dataArr[i].createUserName;//安排人
+   					 var workOrderStatus= dataArr[i].workOrderStatus;//状态
+   					 var workOrderType= dataArr[i].workOrderType;//紧急程度
+   					
+   					 if(createDate!='')
+ 					 {
+ 						createDate=createDate.substr(0,10);
+ 					 }
+   					 
+   					 var createUserName_length=createUserName.split(",");
+  					 var imagstr= "<img src='/kjptmobile/images/icon-by.png' alt=''>";
+  					 if(createUserName_length.length>1)
+  					 {
+  						imagstr=    "<img src='/kjptmobile/images/icon-by.png' alt=''>"+
+			  						"<img src='/kjptmobile/images/icon-by.png' alt=''>"+
+			                        "<img src='/kjptmobile/images/icon-by.png' alt=''>";
+  					 }
+  					 
+  					 
+   					 var temp= "<li class='list' onclick=\"mydeal('"+dataId+"','"+workOrderName+"')\" >"+
+                                    "<div class='list-img'>"+imagstr+
+                                   "</div>"+
+                                    "<div class='list-cont'>"+
+                                        "<p>"+workOrderName+"</p>"+
+                                       "<p>"+
+                                           "<span>安排人:</span><span>"+createUserName+"</span>"+
+                                       "</p>"+
+                                    "</div>"+
+                                    "<div class='list-d'>"+
+                                        "<span class='list-r'>"+createDate+"</span>"+
+                                        "<span class='number-o'>"+workOrder_Status(workOrderStatus)+"</span>"+
+                                    "</div>"+
+                                    "<div class='dele'></div>"+
+                                "</li>";
+					 count=count+temp;
+					 if(workOrderStatus=='1')
+					 {
+						 count_wait=count_wait+temp;
+						 deal_count_doing++;
+					 }
+					 if(workOrderStatus=='2')
+					 {
+						 count_finished=count_finished+temp;
+						 deal_count_finished++;
+					 }
+       			  }
+   			   }
+    			
+    		   $("#two_list_count").html(""+deal_count_doing+""); 	
+    			
+    			
+    		   $("#two_list").html(count); 	
+    		   $("#two_wait_list").html(count_wait); 	
+    		   $("#two_finished_list").html(count_finished); 	
+    		   
+    		   
+    		   $("#deal_count_doing").html(deal_count_doing); 	
+    		   $("#deal_count_finished").html(deal_count_finished); 	
+    		   $("#deal_count_all").html(deal_count_all); 	
+    		   
+    		},
+    		error : function() {
+    		},
+    		complete : function(XMLHttpRequest, status) {
+    		}
+    	});
+
+    }
+    
+    myReceivce();
+    
+    
+    
+    function del(id,workOrderStatus) 
+    {
+    	if(workOrderStatus == '0' || workOrderStatus == '')
+    	{
+    		layer.confirm('确认要删除吗？', {
+    			icon : 3,
+    			btn : [ '确定', '取消' ]
+    		}, function(index) {
+    			layer.close(index);
+    			$.ajax({
+    				type : 'post',
+    				dataType : 'text',
+    				async : false,
+    				data : {
+    					"ids" : id
+    				},
+    				url : '/kjptmobile/plan/deletePlan',
+    				success : function(data) {
+    					if (data == 200) {
+    						layer.msg("删除成功");
+    					}
+    				},
+    				error : function(e) {
+    					alert("出错了");
+    					console.log(e);
+    				}
+    			});
+    		});
+    	} else 
+    	{
+			layer.msg('只能删除草稿状态的工作任务！');
+		}
+    	
+    }
+    
+    
+    function view(dataId,workOrderName) 
+    {
+    	
+    	var url='/kjptmobile/work_details?dataId=' + dataId;
+    	location.href=url;
+    	
+    }
+    
+    
+    
+    function mydeal(dataId,workOrderName) 
+    {
+    	var url='/kjptmobile/work_details_1?dataId=' + dataId;
+    	
+    	location.href=url;
+    }
+    
+    
+   function workOrder_Status(d){
+        var stateData;
+        if(d==0){
+            stateData="<span style='color:#ccc'>未提交</span>"
+        }else if(d==1){
+            stateData="<span style='color:orange'>处理中</span>"
+        }else if(d==2){
+            stateData="<span style='color:green'>完成</span>"
+        }
+        return stateData;
+    };
+</script>
+</body>
+</html>

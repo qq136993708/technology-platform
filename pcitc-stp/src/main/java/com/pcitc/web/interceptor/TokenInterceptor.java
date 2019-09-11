@@ -64,7 +64,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 			if (cookies == null || cookies.length == 0) {
 				System.out.println("cookies is null ");
 				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/login") && !request.getRequestURI().contains("/mobile/temIndex") && !request.getRequestURI().contains("/kjptmobile/index") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome") && !request.getRequestURI().equals("/")) {
+				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/kjptmobile/login") && !request.getRequestURI().contains("/kjptmobile/temIndex") && !request.getRequestURI().contains("/kjptmobile/index") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome") && !request.getRequestURI().equals("/")) {
 					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
 					resultData(request, response);
 					return false;
@@ -96,25 +96,25 @@ public class TokenInterceptor implements HandlerInterceptor {
 					baerInfo.setUserProfile(sysUser);
 				}
 				
-				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/login") && !request.getRequestURI().contains("/mobile/temIndex") && !request.getRequestURI().contains("/kjptmobile/index") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome") && !request.getRequestURI().equals("/")) {
-					HttpSession session = request.getSession();
-					String sessionId = SessionShare.getSessionIdSave().get(sysUser.getUserName());//获取全局类SessionSave保存账户的静态sessionId
+				// 一个用户只能一处登录
+				/*if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/kjptmobile/login") && !request.getRequestURI().contains("/kjptmobile/temIndex") && !request.getRequestURI().contains("/kjptmobile/index") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome") && !request.getRequestURI().equals("/")) {
+					//HttpSession session = request.getSession();
+					//String sessionId = SessionShare.getSessionIdSave().get(sysUser.getUserName());//获取全局类SessionSave保存账户的静态sessionId
 					//System.out.println("原有session--------------:"+sessionId);
-					String currentSessionId = session.getId();//获取当前的sessionId
+					//String currentSessionId = session.getId();//获取当前的sessionId
 					//System.out.println("当前session--------------:"+currentSessionId);
 					
 					//System.out.println("判断--------------:"+currentSessionId.equals(sessionId));
-					if (sessionId != null && !currentSessionId.equals(sessionId)) {//如果两个sessionId不等，则当前账户强制下线，需要重新登录
-						resultData(request, response);
-						return false;
-					} 
-				}
+					//if (sessionId != null && !currentSessionId.equals(sessionId)) {//如果两个sessionId不等，则当前账户强制下线，需要重新登录
+						//resultData(request, response);
+						//return false;
+					//} 
+				}*/
 				
 			} else {
 				System.out.println("token is null ------特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 				// login和index为了开发需要，避开统一身份认证
-				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/mobile/login") && !request.getRequestURI().contains("/mobile/temIndex") && !request.getRequestURI().contains("/kjptmobile/index") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome") && !request.getRequestURI().equals("/")) {
+				if (!request.getRequestURI().contains("/error") && !request.getRequestURI().contains("/kjptmobile/login") && !request.getRequestURI().contains("/kjptmobile/temIndex") && !request.getRequestURI().contains("/kjptmobile/index") && !request.getRequestURI().contains("/login") && !request.getRequestURI().contains("/index") && !request.getRequestURI().contains("/stpHome") && !request.getRequestURI().equals("/")) {
 					// 统一身份认证时，重定向到/stpHome, 测试环境是/login
 					resultData(request, response);
 					return false;
@@ -181,7 +181,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				PrintWriter out = response.getWriter();
 				out.println("<html>");
 				out.println("<script>");
-				if (!path.contains("/mobile/")) {
+				if (!path.contains("/kjptmobile/")) {
 			    	if (reqFlag) {
 			    		out.println("window.open ('" + request.getContextPath() + "/SSO/GLO/Redirect','_top')");
 			    	} else {
@@ -191,7 +191,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 					if (reqFlag) {
 			    		out.println("window.open ('" + request.getContextPath() + "/kjptmobile/index','_top')");
 			    	} else {
-			    		out.println("window.open ('" + request.getContextPath() + "/mobile/login','_top')");
+			    		out.println("window.open ('" + request.getContextPath() + "/kjptmobile/login','_top')");
 			    	}
 				}
 				

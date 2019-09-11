@@ -83,6 +83,9 @@ public class TaskController extends BaseController {
 	// 获取项目管理系统的待办任务
 	private static final String XMGL_PENDING = "http://pcitc-zuul/system-proxy/out-wait-work/xmgl/page";
 
+	// 删除实例
+	private static final String PROCESS_INSTANCE_DELETE = "http://pcitc-zuul/system-proxy/task-provider/task/process-instance/delete/";
+
 	/**
 	 * 判断是否需要选择审批人
 	 */
@@ -276,8 +279,6 @@ public class TaskController extends BaseController {
 		return JSON.toJSON(retJson).toString();
 	}
 
-	
-
 	/**
 	 * @author zhf
 	 * @date 2018年5月11日 上午11:28:43 初始化处理任务界面
@@ -317,13 +318,13 @@ public class TaskController extends BaseController {
 		return JSON.toJSON(retJson).toString();
 	}
 
-	@RequestMapping(value = "/mobile/done_task_list")
+	@RequestMapping(value = "/kjptmobile/done_task_list")
 	public String done_task_list_mui(HttpServletRequest request) {
 
-		return "/mobile/done_task_list";
+		return "/kjptmobile/done_task_list";
 	}
 
-	@RequestMapping(value = "/mobile/done_task_list_data")
+	@RequestMapping(value = "/kjptmobile/done_task_list_data")
 	@ResponseBody
 	public Page done_task_list_data(HttpServletRequest request) {
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
@@ -434,7 +435,7 @@ public class TaskController extends BaseController {
 		return "/pplus/workflow/process-show";
 	}
 
-	@RequestMapping(value = "/mobile/process_mobile/{instanceId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/kjptmobile/process_mobile/{instanceId}", method = RequestMethod.GET)
 	public String process_mobile(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
 		return "/pplus/workflow/process_mobile";
 	}
@@ -508,6 +509,26 @@ public class TaskController extends BaseController {
 		jsonObj.put("count", totalCount);
 		jsonObj.put("data", auditList);
 		System.out.println("====getBusinessAuditDetail====" + jsonObj.toString());
+		return jsonObj.toString();
+	}
+
+	/**
+	 * 根据业务id删除对应流程实例
+	 * 
+	 * @author zhf
+	 * @date 2019年9月10日 下午4:40:37
+	 */
+	@RequestMapping(value = "/task/process-instance/delete/{dataId}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object deleteProcessInstanceByDataId(@PathVariable("dataId") String dataId, HttpServletRequest request) {
+
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(null, this.httpHeaders);
+
+		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(PROCESS_INSTANCE_DELETE + dataId, HttpMethod.POST, entity, JSONObject.class);
+		JSONObject retJson = responseEntity.getBody();
+
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("result", retJson.get("result"));
 		return jsonObj.toString();
 	}
 

@@ -1514,6 +1514,32 @@ public class TaskProviderClient {
 		retJson.put("list", voList);
 		return retJson;
 	}
+	
+	/**
+	 * 根据业务id删除对应流程实例
+	 * 
+	 * @author zhf
+	 * @date 2019年9月10日 下午4:40:37
+	 */
+	@ApiOperation(value = "通过业务id删除对应的流程实例", notes = "")
+	@RequestMapping(value = "/task-provider/task/process-instance/delete/{dataId}", method = RequestMethod.POST)
+	public JSONObject deleteProcessInstanceByDataId(@PathVariable("dataId") String dataId) {
+		
+		// 获取任务名称（从历史流程实例中获取，因为现有流程实例可能已经结束）
+		HistoricProcessInstance instance = historyService.createHistoricProcessInstanceQuery().processInstanceBusinessKey(dataId).singleResult();
+		JSONObject retJson = new JSONObject();
+		
+		if (instance == null) {
+			retJson.put("result", "1");
+			return retJson;
+		}
+		
+		runtimeService.suspendProcessInstanceById(instance.getId());//挂起流程
+		runtimeService.deleteProcessInstance(instance.getId(),"业务单据数据物理删除");//删除流程
+		
+		retJson.put("result", "1");
+		return retJson;
+	}
 
 	/**
 	 * usertask任务列表

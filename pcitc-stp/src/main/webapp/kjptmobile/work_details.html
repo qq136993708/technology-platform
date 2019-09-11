@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/kjptmobile/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/kjptmobile/css/mobileNew.css">
+    <style>
+        .tab-top{    background: url(/kjptmobile/images/mobile-line.png) no-repeat center bottom;height: auto;overflow: hidden;padding-bottom: .1rem;background-size: 100%;padding-top: .1rem;}
+        .layui-badge-rim, .layui-colla-content, .layui-colla-item, .layui-collapse, .layui-elem-field, .layui-form-pane .layui-form-item[pane], .layui-form-pane .layui-form-label, .layui-input, .layui-layedit, .layui-layedit-tool, .layui-quote-nm,
+        .layui-select, .layui-tab-bar, .layui-tab-card, .layui-tab-title, .layui-tab-title .layui-this:after, .layui-textarea{border: none}
+    </style>
+</head>
+<body>
+<header>
+    <div class="m_return child">
+        <a data-rel="back"><img src="/kjptmobile/images/icon-back.png"/> </a>
+        <h4>我发起的（详情）</h4>
+    </div>
+</header>
+<main class="main work">
+    <div class="work-top">
+        <p class="title"><span></span>${planBase.workOrderName}</p>
+        <div class="work-cont">
+            <div class="list">
+                <div class="list-img">
+                    <img src="/kjptmobile/images/icon-by.png" alt="">
+                </div>
+                <div class="list-cont">
+                    <div class="layui-progress">
+                        <div class="layui-progress-bar" lay-percent="${planBase.bl}%" style="width: ${planBase.bl}%;"></div>
+                    </div>
+                    <span class="number-b">
+                    <#if planBase.bl ==null>0</#if> 
+                    <#if planBase.bl !=null>${planBase.bl}</#if>
+                    %</span>
+                    <p>
+                        <span class="star">${planBase.createDate}</span>
+                    </p>
+                </div>
+            </div>
+            <p>任务执行人:<span>${planBase.workOrderAllotUserName}</span></p>
+        </div>
+    </div>
+    <div class="work-main">
+        <div class="layui-collapse work-m" lay-filter="component-panel">
+            <div class="layui-colla-item layui-this">
+                <h2 class="layui-colla-title"><span></span>我</h2>
+                <div class="layui-colla-content layui-show">
+                    <h4>任务描述:</h4>
+                    <p>${planBase.remarks}</p>
+                </div>
+            </div>
+        </div>
+        
+        <#list list as vo>
+        <div class="layui-collapse <#if vo.bl != 100> work-c </#if> <#if vo.bl == 100> work-w </#if>" lay-filter="component-panel">
+            <div class="layui-colla-item layui-this">
+                <h2 class="layui-colla-title"><span></span>${vo.workOrderAllotUserName}（<#if vo.bl != 100> 处理中… </#if> <#if vo.bl == 100>已完成</#if>）</h2>
+                <div class="layui-colla-content">
+                    <h4>工作事项内容:</h4>
+                    <p>${vo.workOrderName}</p>
+                </div>
+            </div>
+        </div>
+       </#list>
+       <!--  <div class="layui-collapse work-w" lay-filter="component-panel">
+            <div class="layui-colla-item layui-this">
+                <h2 class="layui-colla-title"><span></span>徐佑铭（已完成）</h2>
+                <div class="layui-colla-content">
+                    <h4>任务回复:</h4>
+                    <p>参考一篮子货币进行调节、有管理的浮动汇率制度在机制上人民币汇率 就是由市场供求决定的不在“汇率操纵”的问题！</p>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</main>
+<script type="text/javascript" src="/kjptmobile/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/kjptmobile/layuiadmin/layui/layui.js"></script>
+<script src="/kjptmobile/js/jquery.mobile-1.4.5.min.js"></script>
+<script>
+    var layer;
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize = 100 * (clientWidth / 414) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer','element','laydate'], function(){
+        var $=layui.jquery;layer=layui.layer,element=layui.element,laydate = layui.laydate;
+        laydate.render({
+            elem: '#test-laydate-normElem'
+            ,type: 'year'
+            ,value:"2019"
+        });
+        $(".layui-collapse .layui-colla-content").each(function () {
+            if($(this).attr("class").indexOf("layui-show")!=-1){
+                $(this).prev().find("i").html("<img class='dw' src='/kjptmobile/images/icon-up.png' />")
+            }else {
+                $(this).prev().find("i").html("<img class='dw' src='/kjptmobile/images/icon-dw.png' />")
+            }
+        });
+        element.on('collapse(component-panel)', function(data){
+            console.log()
+            if(data.show==false){
+                $(data.content.context).find("i").html("<img class='dw' src='/kjptmobile/images/icon-dw.png' />")
+            }else {
+
+                $(data.content.context).find("i").html("<img class='dw' src='/kjptmobile/images/icon-up.png' />")
+            }
+        });
+    });
+</script>
+</body>
+</html>
