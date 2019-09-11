@@ -42,7 +42,6 @@ import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.stp.techFamily.TechFamilyEs;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.StrUtil;
-import com.pcitc.config.SpringContextUtil;
 import com.pcitc.es.builder.BooleanCondtionBuilder;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.es.clientmanager.IndexHelperBuilder;
@@ -72,6 +71,26 @@ public class OutProjectServiceImpl implements OutProjectService {
 	private OutRewardMapper outRewardMapper;
 
 	private final static Logger logger = LoggerFactory.getLogger(OutProjectServiceImpl.class);
+	
+	private static TransportClient client;
+	
+	private static ClientFactoryBuilder clientFactoryBuilder;
+	
+	/**
+	 * 特殊处理，初始化的时候把clientFactoryBuilder注入，
+	 * 通过@Autowired直接注入的方式，命令行启动时有问题，所以采用这种方式
+	 */
+	@Autowired
+    public OutProjectServiceImpl(ClientFactoryBuilder clientFactoryBuilder) {
+		OutProjectServiceImpl.clientFactoryBuilder = clientFactoryBuilder;
+    	try {
+            if (client == null) {
+            	client = clientFactoryBuilder.getClient();
+            }
+        } catch (Exception e) {
+            System.out.println("OutProjectServiceImpl:连接es客户端异常 ");
+        }
+    }
 
 	/**
 	 * 分页显示项目数据数据,统计的第三级展示
@@ -2344,16 +2363,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return data;
 	}
 
-	private static ClientFactoryBuilder clientFactoryBuilder = null;
-
 	public OutProjectInfo getOutProjectShowByIdFc(String dataId) {
 		OutProjectInfo outProjectInfo = outProjectInfoMapper.selectByPrimaryKey(dataId);
 		String strName = outProjectInfo.getXmmc();
-		if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = new ClientFactoryBuilder();
-		}
-		TransportClient client = clientFactoryBuilder.getClient();
-
 		AnalyzeRequest analyzeRequest = new AnalyzeRequest("files").text(strName).analyzer("ik_max_word");
 
 		List<AnalyzeResponse.AnalyzeToken> tokens = client.admin().indices().analyze(analyzeRequest).actionGet().getTokens();
@@ -2373,10 +2385,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 		// 技术族->ES
 		TechFamily techFamily = new TechFamily();
 		List<TechFamily> techFamilies = techFamilyProviderClient.selectTechFamilyTypeList(techFamily);
-		if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = new ClientFactoryBuilder();
-		}
-		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
+		AccessorService accessor = new AccessorServiceImpl();
+		
 		IndexAccessorService indexAccessor = new IndexHelperBuilder.Builder().withClient(accessor.getClient()).creatAccessor();
 		indexAccessor.deleteIndex(TechFamilyEs.class);
 		indexAccessor.deleteIndex(TfcHotEs.class);
@@ -2396,13 +2406,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		}
 		List<TechFamilyEs> list = new ArrayList<>();
 		// List<String> strings = new ArrayList<>();
-		if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = new ClientFactoryBuilder();
-		}
-		TransportClient client = clientFactoryBuilder.getClient();
 		List<OutProjectInfo> outProjectInfos = this.selectAllProjectInfo();
-		// AccessorService accessor = new
-		// AccessorServiceImpl(clientFactoryBuilder.getClient());
 		BooleanCondtionBuilder.Builder builder = new BooleanCondtionBuilder.Builder();
 		Map<String, String> queryMap = new HashMap<>();
 		for (int i = 0; i < outProjectInfos.size(); i++) {
@@ -2443,10 +2447,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 	}
 
 	public JSONObject getOutProjectShowCount(String dataId) {
-		if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = new ClientFactoryBuilder();
-		}
-		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
+		AccessorService accessor = new AccessorServiceImpl();
 		BooleanCondtionBuilder.Builder builder = new BooleanCondtionBuilder.Builder();
 		Map<String, String> queryMap = new HashMap<>();
 		builder.setQueryMap(queryMap);

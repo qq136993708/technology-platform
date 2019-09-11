@@ -21,11 +21,8 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pcitc.base.system.*;
-import com.pcitc.mapper.system.SysUserMapper;
-import com.pcitc.service.search.FullSearchAsycService;
-
 import org.apache.ibatis.annotations.Param;
+import org.elasticsearch.client.transport.TransportClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -51,27 +48,34 @@ import com.pcitc.base.common.UploadType;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileShare;
 import com.pcitc.base.doc.SysFileShareExample;
+import com.pcitc.base.system.SysFile;
+import com.pcitc.base.system.SysFileConfig;
+import com.pcitc.base.system.SysFileExample;
+import com.pcitc.base.system.SysFileVo;
+import com.pcitc.base.system.SysFunction;
+import com.pcitc.base.system.SysFunctionExample;
+import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.SysUserExample;
 import com.pcitc.base.util.DataTableInfoVo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.JsonUtil;
 import com.pcitc.base.util.StrUtil;
-import com.pcitc.config.SpringContextUtil;
 import com.pcitc.es.builder.BooleanCondtionBuilder;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.es.clientmanager.IndexHelperBuilder;
 import com.pcitc.es.common.Result;
 import com.pcitc.mapper.system.SysFileMapper;
+import com.pcitc.mapper.system.SysUserMapper;
 import com.pcitc.service.doc.AccessorService;
 import com.pcitc.service.doc.IndexAccessorService;
 import com.pcitc.service.doc.SysFileShareService;
 import com.pcitc.service.doc.impl.AccessorServiceImpl;
+import com.pcitc.service.search.FullSearchAsycService;
 import com.pcitc.service.system.FileService;
 import com.pcitc.service.system.SysFileConfigService;
 import com.pcitc.service.system.SysFileService;
 import com.pcitc.service.system.SysFunctionService;
-import com.pcitc.utils.GetTextFromFile;
-import com.pcitc.utils.ImageUtils;
 import com.pcitc.utils.OSSUtil;
 import com.pcitc.utils.StringUtils;
 
@@ -106,10 +110,28 @@ public class SysFileServiceImpl implements SysFileService {
 	@Autowired
 	SysFileConfigService			sysFileConfigService;
 
-	private static ClientFactoryBuilder clientFactoryBuilder = null;
-
 	@Autowired
     FullSearchAsycService fullSearchAsycService;
+	
+	private static TransportClient client;
+	
+	private static ClientFactoryBuilder clientFactoryBuilder;
+	
+	/**
+	 * 特殊处理，初始化的时候把clientFactoryBuilder注入，
+	 * 通过@Autowired直接注入的方式，命令行启动时有问题，所以采用这种方式
+	 */
+	@Autowired
+    public SysFileServiceImpl(ClientFactoryBuilder clientFactoryBuilder) {
+		SysFileServiceImpl.clientFactoryBuilder = clientFactoryBuilder;
+    	try {
+            if (client == null) {
+            	client = clientFactoryBuilder.getClient();
+            }
+        } catch (Exception e) {
+            System.out.println("SysFileServiceImpl:连接es客户端异常 ");
+        }
+    }
 
 	// @Autowired
 	// SysSerialService sysSerialService;
@@ -438,12 +460,7 @@ public class SysFileServiceImpl implements SysFileService {
 		// 从第多少条开始
 		int pageStart = dataTableInfoVo.getiDisplayStart();
 
-		// AccessorService accessor = new
-		// ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true).createByConfig();
-		if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = new ClientFactoryBuilder();
-		}
-		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
+		AccessorService accessor = new AccessorServiceImpl();
 		BooleanCondtionBuilder.Builder builder = new BooleanCondtionBuilder.Builder();
 		Map<String, String> queryMap = new HashMap<>();
 		Map<String, String> highLightList = new HashMap<>();
@@ -898,12 +915,7 @@ public class SysFileServiceImpl implements SysFileService {
 	}
 
 	public AccessorService getAccessorService() {
-		// AccessorService accessor = new
-		// ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true).createByConfig();
-		if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = new ClientFactoryBuilder();
-		}
-		AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
+		AccessorService accessor = new AccessorServiceImpl();
 		return accessor;
 	}
 

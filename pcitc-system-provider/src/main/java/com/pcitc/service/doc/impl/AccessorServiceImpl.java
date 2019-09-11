@@ -50,6 +50,10 @@ public class AccessorServiceImpl implements AccessorService {
     
     private static ClientFactoryBuilder clientFactoryBuilder;
     
+    /**
+	 * 特殊处理，初始化的时候把clientFactoryBuilder注入，
+	 * 通过@Autowired直接注入的方式，命令行启动时有问题，所以采用这种方式
+	 */
     @Autowired
     public AccessorServiceImpl(ClientFactoryBuilder clientFactoryBuilder) {
     	AccessorServiceImpl.clientFactoryBuilder = clientFactoryBuilder;
@@ -64,9 +68,7 @@ public class AccessorServiceImpl implements AccessorService {
         }
     }
 
-    public AccessorServiceImpl(TransportClient cv) {
-
-        client = cv;
+    public AccessorServiceImpl() {
     }
 
     public TransportClient getClient() {

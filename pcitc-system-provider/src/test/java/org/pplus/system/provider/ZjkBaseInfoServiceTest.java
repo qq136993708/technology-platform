@@ -1,33 +1,11 @@
 package org.pplus.system.provider;
 
-import com.alibaba.fastjson.JSON;
-import com.pcitc.SystemProviderApplication;
-import com.pcitc.base.common.HotWord;
-import com.pcitc.base.expert.ZjkExpertProject;
-import com.pcitc.base.expert.ZjkPatent;
-import com.pcitc.base.stp.techFamily.TechFamily;
-import com.pcitc.base.system.SearchLog;
-import com.pcitc.base.system.SysFile;
-import com.pcitc.base.system.SysFileExample;
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.StrUtil;
-import com.pcitc.config.SpringContextUtil;
-import com.pcitc.es.clientmanager.ClientFactoryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.pcitc.service.doc.IndexAccessorService;
 import com.pcitc.service.system.IndexOutProjectInfoService;
 import com.pcitc.service.system.SysFileService;
 import com.pcitc.web.feign.TechFamilyProviderClient;
-
-import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
-import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
-import org.elasticsearch.client.transport.TransportClient;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.*;
 
 /**
  * @author:Administrator
@@ -37,8 +15,6 @@ import java.util.*;
 //@SpringBootTest(classes = SystemProviderApplication.class)// 指定spring-boot的启动类
 public class ZjkBaseInfoServiceTest {
 
-	private static ClientFactoryBuilder clientFactoryBuilder = new ClientFactoryBuilder();
-	
     @Autowired
     private SysFileService sysFileService;
     @Autowired
