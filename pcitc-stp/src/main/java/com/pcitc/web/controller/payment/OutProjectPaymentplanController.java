@@ -123,7 +123,19 @@ public class OutProjectPaymentplanController extends BaseController
 		
 		return "stp/payment/project_paymentnotice_main";
 	}
-	
+	@RequestMapping(method = RequestMethod.GET, value = "/payment/project_paymentnotice_edit")
+	public Object toPaymentNoticeProjectEdit(HttpServletRequest request) throws Exception 
+	{
+		
+		String nd = request.getParameter("nd");
+		if(nd == null) {
+			nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
+		}
+		request.setAttribute("nd", nd);
+		request.setAttribute("projectId", request.getParameter("dataId"));
+		request.setAttribute("dataId", IdUtil.createIdByTime());
+		return "stp/payment/project_paymentnotice_edit";
+	}
 	@RequestMapping(value = "/payment/project-info-list-bycondition", method = RequestMethod.POST)
 	@ResponseBody
 	public Object toBudgetMainTotal(@ModelAttribute("out")OutProjectInfo out,HttpServletRequest request) throws IOException 
@@ -159,7 +171,12 @@ public class OutProjectPaymentplanController extends BaseController
 			}else {
 				obj.put("paymentPlanStatus", "已拨付");
 			}
-			
+			if(obj.getString("define18") == null) 
+			{
+				obj.put("paymentNoticeStatus", "未报销");
+			}else {
+				obj.put("paymentNoticeStatus", "已报销");
+			}
 		}
 		//System.out.println(array.toJSONString());
 		return JSON.toJSONString(array);

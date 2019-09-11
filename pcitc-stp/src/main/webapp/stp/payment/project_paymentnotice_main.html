@@ -174,7 +174,7 @@
 								<input type="text" name="unitName" id="unitName" title="单位名称" placeholder="请输入单位名称" autocomplete="off" class="layui-input">
 							</div>
 						</div>
-						<div class="layui-inline">
+						<!-- <div class="layui-inline">
 							<label class="layui-form-label">拨付状态：</label>
 							<div class="layui-input-inline">
 								<select name="paymentStatus" id="paymentStatus" lay-filter="paymentStatus">
@@ -183,7 +183,8 @@
 									<option value="1">已拨付</option>
 								</select>
 							</div>
-						</div>
+						</div> -->
+						<input type="hidden" id="paymentStatus" name="paymentStatus" value="1">
 						<div class="layui-inline">
 							<label class="layui-form-label">拨付批次：</label>
 							<div class="layui-input-inline">
@@ -234,9 +235,9 @@
 		                    <th lay-data="{field:'xmmc',align:'left'}">项目名称</th>
 		                    <th lay-data="{field:'define8',align:'left'}">承担单位</th>
 		                    <th lay-data="{field:'ysje', width: 120,align:'right',totalRow: true,templet : '#view_format'}">金额（万元）</th>
-		                    <th lay-data="{field:'paymentPlanStatus', width: 100,align:'center'}">拨付状态</th>
 		                    <th lay-data="{field:'define17', width: 100,align:'center'}">拨付批次</th>
-		                    <th lay-data="{title:'操作', width: 120,align:'center', templet:function(d){return '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg demo-delete\'>经费拨付</a>'}}">操作</th>
+		                    <th lay-data="{field:'paymentNoticeStatus', width: 100,align:'center'}">报销状态</th>
+		                    <th lay-data="{title:'操作', width: 120,align:'center', templet:function(d){return '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg demo-delete\'>经费报销</a>'}}">操作</th>
 		                </tr>
 	                </thead>
 	            </table>
@@ -354,16 +355,8 @@
 				getDicByParentCode(parentCode, 'zylbbmFlag');
 				console.log("监听处室:" + data);
 			});
-			//监听拨付状态
-			form.on('select(paymentStatus)', function(data) {
-				if(data.value==1){
-					initPaymentBatchs();
-				}else{
-					$("#define17").html("<option value=''>--请选择--</option>");
-					form.render();
-				}
-			});
-			
+			//初始化拨付批次
+			initPaymentBatchs();
 
 			//初始化经费来源
 			var define11 = $("#define11").val();
@@ -381,7 +374,7 @@
 		});
 		//拨付批次
 		function initPaymentBatchs(){
-			publicMethods.ajaxAsyncPost("/paymentplan/project-paymentplan-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
+			publicMethods.ajaxAsyncPost("/payment/project-paymentplan-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
     			$("#define17").html("<option value=''>--请选择--</option>");
     			$.each(data,function(index,dt){
     				$("#define17").append("<option value='"+dt.numValue+"'>"+dt.name+"</option>");
@@ -437,12 +430,12 @@
 					"zylb":zylb,"gsbmbm":gsbmbmFlag,"zycbm":zycbmFlag,"zylbbm":zylbbmFlag};
 			console.log(param);
 			var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
-			publicMethods.ajaxAsyncPost("/paymentplan/project-info-list-bycondition",param, function (data) {
+			publicMethods.ajaxAsyncPost("/payment/project-info-list-bycondition",param, function (data) {
     			table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,done:function(rs){
     				layer.close(lodingMsg);
     				$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
     					var index=parseInt($(this).index());
-    					var url = '/paymentplan/project_paymentplan_edit?dataId='+data[index].data_id;
+    					var url = '/payment/project_paymentnotice_edit?dataId='+data[index].data_id;
                        	publicMethods.openBaseWinFull('经费拨付管理-经费拨付',url);
                     }); 
     				
