@@ -9,7 +9,7 @@ import com.pcitc.service.doc.impl.AccessorServiceImpl;
  */
 public class Beans {
 
-    private static AccessorService accessorService = new AccessorServiceImpl();
+    private static AccessorService accessorService;
 
     public static AccessorService getAccessor()
     {

@@ -88,7 +88,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 			}
 			if (token != null) {
-				System.out.println("token is not null:"+token);
+				System.out.println("token is not null:");
 				httpHeaders.set("Authorization", "Bearer " + token);
 				sysUser = JwtTokenUtil.getUserFromTokenByValue(token);
 				// 验证当前url登录人是否有权限查看（url中不会包含ajax请求的）

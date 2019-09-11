@@ -1,12 +1,13 @@
 package com.pcitc.service.doc.impl;
 
-import com.pcitc.config.SpringContextUtil;
-import com.pcitc.es.builder.BooleanCondtionBuilder;
-import com.pcitc.es.builder.QueryBuilderCondition;
-import com.pcitc.es.clientmanager.ClientFactoryBuilder;
-import com.pcitc.es.common.Result;
-import com.pcitc.es.utils.SearchUtil;
-import com.pcitc.service.doc.AccessorService;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.logging.Logger;
 
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -29,10 +30,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-import java.util.logging.Logger;
-
-import javax.annotation.PostConstruct;
+import com.pcitc.es.builder.BooleanCondtionBuilder;
+import com.pcitc.es.builder.QueryBuilderCondition;
+import com.pcitc.es.clientmanager.ClientFactoryBuilder;
+import com.pcitc.es.common.Result;
+import com.pcitc.es.utils.SearchUtil;
+import com.pcitc.service.doc.AccessorService;
 
 /**
  * @author:Administrator
@@ -45,24 +48,19 @@ public class AccessorServiceImpl implements AccessorService {
 
     private static TransportClient client;
     
-    private static ClientFactoryBuilder clientFactoryBuilder = null;
+    private static ClientFactoryBuilder clientFactoryBuilder;
     
-    public AccessorServiceImpl() {
-        try {
-        	System.out.println("AccessorServiceImpl client get========== "+clientFactoryBuilder);
+    @Autowired
+    public AccessorServiceImpl(ClientFactoryBuilder clientFactoryBuilder) {
+    	AccessorServiceImpl.clientFactoryBuilder = clientFactoryBuilder;
+    	System.out.println("AccessorServiceImpl:初始化clientFactoryBuilder " + clientFactoryBuilder);
+    	try {
             if (client == null) {
-            	//new ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true);
-            	System.out.println("AccessorServiceImpl:初始化client ");
-            	if (clientFactoryBuilder == null) {
-            		clientFactoryBuilder = SpringContextUtil.getApplicationContext().getBean(ClientFactoryBuilder.class);
-        			System.out.println("IndexAccessorServiceImpl:获取ClientFactoryBuilder实例--- " + clientFactoryBuilder);
-            	}
+            	System.out.println("AccessorServiceImpl:初始化client " + client);
             	client = clientFactoryBuilder.getClient();
             }
-            
         } catch (Exception e) {
-            System.out.println("AccessorServiceImpl:client:null:连接异常 ");
-//            e.printStackTrace();
+            System.out.println("AccessorServiceImpl:连接es客户端异常 ");
         }
     }
 

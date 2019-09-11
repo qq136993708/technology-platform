@@ -26,13 +26,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pcitc.base.common.HotWord;
-import com.pcitc.config.SpringContextUtil;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.es.clientmanager.IndexHelperBuilder;
 import com.pcitc.es.utils.SearchUtil;
 import com.pcitc.service.doc.AccessorService;
 import com.pcitc.service.doc.IndexAccessorService;
-import com.pcitc.service.system.SysMessageService;
 
 /**
  * @author:Administrator
@@ -45,25 +43,22 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
 
     private static TransportClient client;
     
-    private static ClientFactoryBuilder clientFactoryBuilder = null;
+    private static ClientFactoryBuilder clientFactoryBuilder;
     
-    public IndexAccessorServiceImpl() {
-    	
-        try {
+    @Autowired
+    public IndexAccessorServiceImpl(ClientFactoryBuilder clientFactoryBuilder) {
+    	IndexAccessorServiceImpl.clientFactoryBuilder = clientFactoryBuilder;
+    	System.out.println("IndexAccessorServiceImpl:初始化clientFactoryBuilder " + clientFactoryBuilder);
+    	try {
             if (client == null) {
-            	System.out.println("IndexAccessorServiceImpl:初始化client " + clientFactoryBuilder);
-            	if (clientFactoryBuilder == null) {
-        			clientFactoryBuilder = new ClientFactoryBuilder();
-        			System.out.println("IndexAccessorServiceImpl:获取ClientFactoryBuilder实例--- " + clientFactoryBuilder);
-            	}
+            	System.out.println("IndexAccessorServiceImpl:初始化client " + client);
             	client = clientFactoryBuilder.getClient();
             }
         } catch (Exception e) {
             System.out.println("IndexAccessorServiceImpl:连接es客户端异常 ");
-//            e.printStackTrace();
         }
     }
-
+    
     public IndexAccessorServiceImpl(TransportClient cv) {
 
         client = cv;
@@ -288,9 +283,6 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
 
 
     public AccessorService getAccessorService() {
-    	if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = new ClientFactoryBuilder();
-		}
         AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
         return accessor;
     }
@@ -327,9 +319,6 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
      */
     public List<String> selectHotWord(HotWord hotWord){
         //获取搜索日志
-    	if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = new ClientFactoryBuilder();
-		}
         TransportClient client = clientFactoryBuilder.getClient();
         SearchRequestBuilder requestBuilder = client.prepareSearch(hotWord.getIndices()).setTypes(hotWord.getTypes()).setQuery(QueryBuilders.matchAllQuery());
         //聚合分析查询出现次数最多的个词汇
