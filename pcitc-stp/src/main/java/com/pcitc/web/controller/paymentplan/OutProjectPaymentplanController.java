@@ -42,7 +42,7 @@ public class OutProjectPaymentplanController extends BaseController
 	
 	
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/paymentplan/project_main")
+	@RequestMapping(method = RequestMethod.GET, value = "/paymentplan/project_paymentplan_main")
 	public Object toPaymentPlanProjectMain(HttpServletRequest request) throws Exception 
 	{
 		Map<String,String> dis = new HashMap<String,String>();
@@ -74,7 +74,7 @@ public class OutProjectPaymentplanController extends BaseController
 		request.setAttribute("ysnd", DateUtils.dateToStr(new Date(),DateUtils.FMT_YY));
 		// (汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2
 		
-		return "stp/paymentplan/project_main";
+		return "stp/paymentplan/project_paymentplan_main";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/paymentplan/project_paymentplan_edit")
 	public Object toPaymentPlanProjectEdit(HttpServletRequest request) throws Exception 
