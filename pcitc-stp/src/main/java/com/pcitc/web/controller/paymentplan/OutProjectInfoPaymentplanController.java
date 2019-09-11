@@ -32,7 +32,7 @@ import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
-public class PaymentPlanController extends BaseController 
+public class OutProjectInfoPaymentplanController extends BaseController 
 {
 	private static final String PROJECT_INFO_LIST_BYCONDITION = "http://pcitc-zuul/system-proxy/out-provider/project-info-list-bycondition";
 	private static final String PROJECT_PAYMENTPLANT_LIST = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-batchs/";

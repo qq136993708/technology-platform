@@ -27,4 +27,11 @@ public interface OutProjectInfoPaymentplanService
 	public List<OutProjectInfoPaymentplan> selectListOutProjectInfoPaymentplanByBean(OutProjectInfoPaymentplan bean);
 	
 	public LayuiTableData selectTableOutProjectInfoPaymentplan(LayuiTableParam param);
+	
+	/**
+	 * 根据项目dataID查询
+	 * @param dataId
+	 * @return
+	 */
+	public OutProjectInfoPaymentplan selectOutProjectInfoPaymentplanByInfoId(String dataId);
 }

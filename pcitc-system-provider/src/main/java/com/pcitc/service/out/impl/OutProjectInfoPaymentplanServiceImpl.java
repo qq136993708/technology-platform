@@ -188,6 +188,16 @@ public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPayme
 		data.setCount(total.intValue());
 		return data;
 	}
-	
-	
+	@Override
+	public OutProjectInfoPaymentplan selectOutProjectInfoPaymentplanByInfoId(String dataId) {
+		OutProjectInfoPaymentplanExample example = new OutProjectInfoPaymentplanExample();
+		OutProjectInfoPaymentplanExample.Criteria c = example.createCriteria();
+		c.andProjectIdMd5EqualTo(dataId);
+		List<OutProjectInfoPaymentplan> ps =  mapper.selectByExample(example);
+		
+		if(ps != null && ps.size() >0) {
+			return ps.get(0);
+		}
+		return null;
+	}
 }

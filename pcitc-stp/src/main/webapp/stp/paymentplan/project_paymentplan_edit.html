@@ -42,7 +42,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">拨付状态<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="define17" id="define17" placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="paymentStatus" id="paymentStatus" placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -254,6 +254,8 @@
         publicMethods.ajaxPost("/out/project-info-detail",{"dataId":dataId}, function (data) {
         	console.log(data);
 			form.val("budget-form",data);
+			$("#paymentStatus").val(data.define17==null?'未拨付':'已拨付');
+			form.render();
    		});
         //监听select下拉选中事件
         form.on('select(type)', function(data){

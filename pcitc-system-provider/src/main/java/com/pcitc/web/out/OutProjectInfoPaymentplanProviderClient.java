@@ -49,6 +49,21 @@ public class OutProjectInfoPaymentplanProviderClient
 		}
 		return organ;
 	}
+	@ApiOperation(value="报销计划项管理-检索报销计划项",notes="根据项目ID检索报销计划项!")
+	@RequestMapping(value = "/out-provider/out/project-paymentplan-byinfoid/{dataId}", method = RequestMethod.POST)
+	public Object selectOutProjectInfoPaymentplanByInfoId(@PathVariable("dataId") String dataId) 
+	{
+		OutProjectInfoPaymentplan organ = null;
+		try 
+		{
+			organ = outProjectInfoPaymentplanService.selectOutProjectInfoPaymentplanByInfoId(dataId);
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		return organ;
+	}
 	
 	@ApiOperation(value="报销批次-拨付计划批次",notes="按年度获取拨付批次号列表")
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-batchs/{nd}", method = RequestMethod.POST)
