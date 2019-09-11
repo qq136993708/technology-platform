@@ -32,24 +32,17 @@ import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
-public class OutProjectInfoPaymentplanController extends BaseController 
+public class OutProjectPaymentplanController extends BaseController 
 {
 	private static final String PROJECT_INFO_LIST_BYCONDITION = "http://pcitc-zuul/system-proxy/out-provider/project-info-list-bycondition";
 	private static final String PROJECT_PAYMENTPLANT_LIST = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-batchs/";
+	private static final String PROJECT_PAYMENTPLANT_BYINFOID = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-byinfoid/";
 
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/paymentplan/project_main")
 	public Object toPaymentPlanProjectMain(HttpServletRequest request) throws Exception 
 	{
-		
-		String ysnd = DateUtils.dateToStr(new Date(),DateUtils.FMT_YY);
-		OutProjectInfoPaymentplan plan = new OutProjectInfoPaymentplan();
-		plan.setNd(ysnd);
-		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST+ysnd, HttpMethod.POST, new HttpEntity<OutProjectInfoPaymentplan>(plan,this.httpHeaders), List.class);
-		request.setAttribute("paymentplans", responseEntity.getBody());
-		
-		
 		Map<String,String> dis = new HashMap<String,String>();
 		dis.put("fylbList", "ROOT_FZJCZX_FYLX");//费用类别
 		dis.put("ktlxList", "ROOT_FZJCZX_KTLX");//课题类型
@@ -71,14 +64,12 @@ public class OutProjectInfoPaymentplanController extends BaseController
 		String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");// 部门
 		String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");// 处室
 		String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");// 专业类别
-		/*if (gsbmbmFlag.equals("") && !zycbmFlag.equals("")) {
-			gsbmbmFlag = getGsbmbmFlagByzycbmFlag(gsbmbmFlag, zycbmFlag);
-		}*/
+		
 
 		request.setAttribute("zycbmFlag", zycbmFlag);
 		request.setAttribute("gsbmbmFlag", gsbmbmFlag);
 		request.setAttribute("zylbbmFlag", zylbbmFlag);
-		request.setAttribute("ysnd", ysnd);
+		request.setAttribute("ysnd", DateUtils.dateToStr(new Date(),DateUtils.FMT_YY));
 		// (汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2
 		
 		return "stp/paymentplan/project_main";
@@ -144,6 +135,15 @@ public class OutProjectInfoPaymentplanController extends BaseController
 			out.setYsnd(DateUtils.dateToStr(new Date(),DateUtils.FMT_YY));
 		}
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST+out.getYsnd(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
+		
+		return JSON.toJSONString(responseEntity.getBody());
+	}
+	@RequestMapping(value = "/paymentplan/project-paymentplan-byinfoid", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getprojectPaymentplanByInfoId(@ModelAttribute("payment")OutProjectInfoPaymentplan payment,HttpServletRequest request) throws IOException 
+	{
+		
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_BYINFOID+payment.getProjectIdMd5(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), OutProjectInfoPaymentplan.class);
 		
 		return JSON.toJSONString(responseEntity.getBody());
 	}

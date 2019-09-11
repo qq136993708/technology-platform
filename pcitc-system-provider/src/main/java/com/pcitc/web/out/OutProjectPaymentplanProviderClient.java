@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.stp.out.OutProjectInfoPaymentplan;
+import com.pcitc.base.stp.out.OutProjectPaymentplan;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.service.out.OutProjectInfoPaymentplanService;
+import com.pcitc.service.out.OutProjectPaymentplanService;
 import com.pcitc.service.system.SysDictionaryService;
 
 import io.swagger.annotations.Api;
@@ -25,11 +25,11 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value="报销计划-报销计划项管理",tags= {"报销计划-报销计划项管理"})
 @RestController
-public class OutProjectInfoPaymentplanProviderClient 
+public class OutProjectPaymentplanProviderClient 
 {
 
 	@Autowired
-	private OutProjectInfoPaymentplanService outProjectInfoPaymentplanService;
+	private OutProjectPaymentplanService outProjectPaymentplanService;
 	
 	@Autowired
 	private SysDictionaryService dictionaryService;
@@ -38,10 +38,10 @@ public class OutProjectInfoPaymentplanProviderClient
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-get/{dataId}", method = RequestMethod.POST)
 	public Object selectOutProjectInfoPaymentplanById(@PathVariable("dataId") String dataId) 
 	{
-		OutProjectInfoPaymentplan organ = null;
+		OutProjectPaymentplan organ = null;
 		try 
 		{
-			organ = outProjectInfoPaymentplanService.selectOutProjectInfoPaymentplan(dataId);
+			organ = outProjectPaymentplanService.selectOutProjectPaymentplan(dataId);
 		} 
 		catch (Exception e) 
 		{
@@ -53,10 +53,10 @@ public class OutProjectInfoPaymentplanProviderClient
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-byinfoid/{dataId}", method = RequestMethod.POST)
 	public Object selectOutProjectInfoPaymentplanByInfoId(@PathVariable("dataId") String dataId) 
 	{
-		OutProjectInfoPaymentplan organ = null;
+		OutProjectPaymentplan organ = null;
 		try 
 		{
-			organ = outProjectInfoPaymentplanService.selectOutProjectInfoPaymentplanByInfoId(dataId);
+			organ = outProjectPaymentplanService.selectOutProjectPaymentplanByInfoId(dataId);
 		} 
 		catch (Exception e) 
 		{
@@ -87,13 +87,13 @@ public class OutProjectInfoPaymentplanProviderClient
 	}
 	@ApiOperation(value="报销计划项管理-报销计划项列表",notes="获取报销计划项列表。")
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-list", method = RequestMethod.POST)
-	public Object selectOutProjectInfoPaymentplanList(@RequestBody OutProjectInfoPaymentplan bean) 
+	public Object selectOutProjectInfoPaymentplanList(@RequestBody OutProjectPaymentplan bean) 
 	{
 		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
 		{
-			List<OutProjectInfoPaymentplan> datalist = outProjectInfoPaymentplanService.selectListOutProjectInfoPaymentplanByBean(bean);
-			for(OutProjectInfoPaymentplan dt:datalist) {
+			List<OutProjectPaymentplan> datalist = outProjectPaymentplanService.selectListOutProjectPaymentplanByBean(bean);
+			for(OutProjectPaymentplan dt:datalist) {
 				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
 				//map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
 				rsdata.add(map);
@@ -112,7 +112,7 @@ public class OutProjectInfoPaymentplanProviderClient
 		LayuiTableData data = null;
 		try
 		{
-			data = outProjectInfoPaymentplanService.selectTableOutProjectInfoPaymentplan(param);
+			data = outProjectPaymentplanService.selectTableOutProjectPaymentplan(param);
 		}
 		catch (Exception e)
 		{
@@ -122,12 +122,12 @@ public class OutProjectInfoPaymentplanProviderClient
 	}
 	@ApiOperation(value="报销计划项管理-报销计划项保存",notes="保存报销计划项")
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-save", method = RequestMethod.POST)
-	public Object saveOutProjectInfoPaymentplan(@RequestBody OutProjectInfoPaymentplan bean) 
+	public Object saveOutProjectInfoPaymentplan(@RequestBody OutProjectPaymentplan bean) 
 	{
 		Result rs = new Result(false);
 		try
 		{
-			rs = outProjectInfoPaymentplanService.saveOutProjectInfoPaymentplan(bean);
+			rs = outProjectPaymentplanService.saveOutProjectPaymentplan(bean);
 		}
 		catch (Exception e)
 		{
@@ -137,12 +137,12 @@ public class OutProjectInfoPaymentplanProviderClient
 	}
 	@ApiOperation(value="报销计划项管理-报销计划项更新",notes="更新报销计划项")
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-upd", method = RequestMethod.POST)
-	public Object updOutProjectInfoPaymentplan(@RequestBody OutProjectInfoPaymentplan bean) 
+	public Object updOutProjectInfoPaymentplan(@RequestBody OutProjectPaymentplan bean) 
 	{
 		Result rs = new Result(false);
 		try
 		{
-			rs = outProjectInfoPaymentplanService.updateOutProjectInfoPaymentplan(bean);
+			rs = outProjectPaymentplanService.updateOutProjectPaymentplan(bean);
 		}
 		catch (Exception e)
 		{
@@ -153,12 +153,12 @@ public class OutProjectInfoPaymentplanProviderClient
 
 	@ApiOperation(value="报销计划项管理-报销计划项保存或更新",notes="报销计划项保存或更新")
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-saveorupd", method = RequestMethod.POST)
-	public Object saveOrUpdOutProjectInfoPaymentplan(@RequestBody OutProjectInfoPaymentplan bean) 
+	public Object saveOrUpdOutProjectInfoPaymentplan(@RequestBody OutProjectPaymentplan bean) 
 	{
 		Result rs = new Result(false);
 		try
 		{
-			rs = outProjectInfoPaymentplanService.saveOrUpdOutProjectInfoPaymentplan(bean);
+			rs = outProjectPaymentplanService.saveOrUpdOutProjectPaymentplan(bean);
 			
 		}
 		catch (Exception e)
@@ -175,7 +175,7 @@ public class OutProjectInfoPaymentplanProviderClient
 		Result rs = new Result(false);
 		try
 		{
-			rs = outProjectInfoPaymentplanService.deleteOutProjectInfoPaymentplan(dataId);
+			rs = outProjectPaymentplanService.deleteOutProjectPaymentplan(dataId);
 		}
 		catch (Exception e)
 		{

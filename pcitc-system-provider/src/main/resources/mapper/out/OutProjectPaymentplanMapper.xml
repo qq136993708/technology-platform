@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pcitc.mapper.out.OutProjectInfoPaymentplanMapper">
-  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutProjectInfoPaymentplan">
+<mapper namespace="com.pcitc.mapper.out.OutProjectPaymentplanMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutProjectPaymentplan">
     <id column="data_id" jdbcType="VARCHAR" property="dataId" />
     <result column="nd" jdbcType="VARCHAR" property="nd" />
     <result column="xmid" jdbcType="VARCHAR" property="xmid" />
@@ -13,20 +13,26 @@
     <result column="ysfyxje" jdbcType="VARCHAR" property="ysfyxje" />
     <result column="fzdw" jdbcType="VARCHAR" property="fzdw" />
     <result column="fzdwbm" jdbcType="VARCHAR" property="fzdwbm" />
-    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
-    <result column="invoice_status" jdbcType="INTEGER" property="invoiceStatus" />
-    <result column="invoice_fee" jdbcType="DOUBLE" property="invoiceFee" />
-    <result column="invoice_num" jdbcType="INTEGER" property="invoiceNum" />
+    <result column="invoice_need" jdbcType="INTEGER" property="invoiceNeed" />
+    <result column="invoice_company_name" jdbcType="VARCHAR" property="invoiceCompanyName" />
+    <result column="invoice_company_code" jdbcType="VARCHAR" property="invoiceCompanyCode" />
+    <result column="invoice_bank_name" jdbcType="VARCHAR" property="invoiceBankName" />
+    <result column="invoice_bank_no" jdbcType="VARCHAR" property="invoiceBankNo" />
+    <result column="invoice_contact_name" jdbcType="VARCHAR" property="invoiceContactName" />
+    <result column="invoice_contact_phone" jdbcType="VARCHAR" property="invoiceContactPhone" />
+    <result column="invoice_contact_email" jdbcType="VARCHAR" property="invoiceContactEmail" />
     <result column="pay_status" jdbcType="INTEGER" property="payStatus" />
     <result column="pay_fee" jdbcType="DOUBLE" property="payFee" />
     <result column="pay_no" jdbcType="VARCHAR" property="payNo" />
     <result column="payment_status" jdbcType="INTEGER" property="paymentStatus" />
     <result column="payment_date" jdbcType="VARCHAR" property="paymentDate" />
     <result column="payment_no" jdbcType="VARCHAR" property="paymentNo" />
-    <result column="pament_ysje" jdbcType="VARCHAR" property="pamentYsje" />
+    <result column="payment_ysje" jdbcType="VARCHAR" property="paymentYsje" />
     <result column="payment_yszbxje" jdbcType="VARCHAR" property="paymentYszbxje" />
     <result column="payment_ysfyxje" jdbcType="VARCHAR" property="paymentYsfyxje" />
     <result column="project_id_md5" jdbcType="VARCHAR" property="projectIdMd5" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
     <result column="define8" jdbcType="VARCHAR" property="define8" />
     <result column="define9" jdbcType="VARCHAR" property="define9" />
     <result column="define10" jdbcType="VARCHAR" property="define10" />
@@ -92,18 +98,19 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    data_id, nd, xmid, xmmc, hth, ysnd, ysje, yszbxje, ysfyxje, fzdw, fzdwbm, batch_no, 
-    invoice_status, invoice_fee, invoice_num, pay_status, pay_fee, pay_no, payment_status, 
-    payment_date, payment_no, pament_ysje, payment_yszbxje, payment_ysfyxje, project_id_md5, 
-    define8, define9, define10, define11, define12
+    data_id, nd, xmid, xmmc, hth, ysnd, ysje, yszbxje, ysfyxje, fzdw, fzdwbm, invoice_need, 
+    invoice_company_name, invoice_company_code, invoice_bank_name, invoice_bank_no, invoice_contact_name, 
+    invoice_contact_phone, invoice_contact_email, pay_status, pay_fee, pay_no, payment_status, 
+    payment_date, payment_no, payment_ysje, payment_yszbxje, payment_ysfyxje, project_id_md5, 
+    project_id, del_flag, define8, define9, define10, define11, define12
   </sql>
-  <select id="selectByExample" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplanExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.out.OutProjectPaymentplanExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from out_project_info_paymentplan
+    from out_project_paymentplan
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -122,43 +129,49 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from out_project_info_paymentplan
+    from out_project_paymentplan
     where data_id = #{dataId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from out_project_info_paymentplan
+    delete from out_project_paymentplan
     where data_id = #{dataId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplanExample">
-    delete from out_project_info_paymentplan
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutProjectPaymentplanExample">
+    delete from out_project_paymentplan
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplan">
-    insert into out_project_info_paymentplan (data_id, nd, xmid, 
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectPaymentplan">
+    insert into out_project_paymentplan (data_id, nd, xmid, 
       xmmc, hth, ysnd, ysje, 
       yszbxje, ysfyxje, fzdw, 
-      fzdwbm, batch_no, invoice_status, 
-      invoice_fee, invoice_num, pay_status, 
-      pay_fee, pay_no, payment_status, 
-      payment_date, payment_no, pament_ysje, 
-      payment_yszbxje, payment_ysfyxje, project_id_md5, 
-      define8, define9, define10, 
-      define11, define12)
+      fzdwbm, invoice_need, invoice_company_name, 
+      invoice_company_code, invoice_bank_name, invoice_bank_no, 
+      invoice_contact_name, invoice_contact_phone, 
+      invoice_contact_email, pay_status, pay_fee, 
+      pay_no, payment_status, payment_date, 
+      payment_no, payment_ysje, payment_yszbxje, 
+      payment_ysfyxje, project_id_md5, project_id, 
+      del_flag, define8, define9, 
+      define10, define11, define12
+      )
     values (#{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, 
       #{xmmc,jdbcType=VARCHAR}, #{hth,jdbcType=VARCHAR}, #{ysnd,jdbcType=VARCHAR}, #{ysje,jdbcType=VARCHAR}, 
       #{yszbxje,jdbcType=VARCHAR}, #{ysfyxje,jdbcType=VARCHAR}, #{fzdw,jdbcType=VARCHAR}, 
-      #{fzdwbm,jdbcType=VARCHAR}, #{batchNo,jdbcType=VARCHAR}, #{invoiceStatus,jdbcType=INTEGER}, 
-      #{invoiceFee,jdbcType=DOUBLE}, #{invoiceNum,jdbcType=INTEGER}, #{payStatus,jdbcType=INTEGER}, 
-      #{payFee,jdbcType=DOUBLE}, #{payNo,jdbcType=VARCHAR}, #{paymentStatus,jdbcType=INTEGER}, 
-      #{paymentDate,jdbcType=VARCHAR}, #{paymentNo,jdbcType=VARCHAR}, #{pamentYsje,jdbcType=VARCHAR}, 
-      #{paymentYszbxje,jdbcType=VARCHAR}, #{paymentYsfyxje,jdbcType=VARCHAR}, #{projectIdMd5,jdbcType=VARCHAR}, 
-      #{define8,jdbcType=VARCHAR}, #{define9,jdbcType=VARCHAR}, #{define10,jdbcType=VARCHAR}, 
-      #{define11,jdbcType=VARCHAR}, #{define12,jdbcType=VARCHAR})
+      #{fzdwbm,jdbcType=VARCHAR}, #{invoiceNeed,jdbcType=INTEGER}, #{invoiceCompanyName,jdbcType=VARCHAR}, 
+      #{invoiceCompanyCode,jdbcType=VARCHAR}, #{invoiceBankName,jdbcType=VARCHAR}, #{invoiceBankNo,jdbcType=VARCHAR}, 
+      #{invoiceContactName,jdbcType=VARCHAR}, #{invoiceContactPhone,jdbcType=VARCHAR}, 
+      #{invoiceContactEmail,jdbcType=VARCHAR}, #{payStatus,jdbcType=INTEGER}, #{payFee,jdbcType=DOUBLE}, 
+      #{payNo,jdbcType=VARCHAR}, #{paymentStatus,jdbcType=INTEGER}, #{paymentDate,jdbcType=VARCHAR}, 
+      #{paymentNo,jdbcType=VARCHAR}, #{paymentYsje,jdbcType=VARCHAR}, #{paymentYszbxje,jdbcType=VARCHAR}, 
+      #{paymentYsfyxje,jdbcType=VARCHAR}, #{projectIdMd5,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=INTEGER}, #{define8,jdbcType=VARCHAR}, #{define9,jdbcType=VARCHAR}, 
+      #{define10,jdbcType=VARCHAR}, #{define11,jdbcType=VARCHAR}, #{define12,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplan">
-    insert into out_project_info_paymentplan
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectPaymentplan">
+    insert into out_project_paymentplan
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="dataId != null">
         data_id,
@@ -193,17 +206,29 @@
       <if test="fzdwbm != null">
         fzdwbm,
       </if>
-      <if test="batchNo != null">
-        batch_no,
+      <if test="invoiceNeed != null">
+        invoice_need,
       </if>
-      <if test="invoiceStatus != null">
-        invoice_status,
+      <if test="invoiceCompanyName != null">
+        invoice_company_name,
       </if>
-      <if test="invoiceFee != null">
-        invoice_fee,
+      <if test="invoiceCompanyCode != null">
+        invoice_company_code,
       </if>
-      <if test="invoiceNum != null">
-        invoice_num,
+      <if test="invoiceBankName != null">
+        invoice_bank_name,
+      </if>
+      <if test="invoiceBankNo != null">
+        invoice_bank_no,
+      </if>
+      <if test="invoiceContactName != null">
+        invoice_contact_name,
+      </if>
+      <if test="invoiceContactPhone != null">
+        invoice_contact_phone,
+      </if>
+      <if test="invoiceContactEmail != null">
+        invoice_contact_email,
       </if>
       <if test="payStatus != null">
         pay_status,
@@ -223,8 +248,8 @@
       <if test="paymentNo != null">
         payment_no,
       </if>
-      <if test="pamentYsje != null">
-        pament_ysje,
+      <if test="paymentYsje != null">
+        payment_ysje,
       </if>
       <if test="paymentYszbxje != null">
         payment_yszbxje,
@@ -234,6 +259,12 @@
       </if>
       <if test="projectIdMd5 != null">
         project_id_md5,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
       </if>
       <if test="define8 != null">
         define8,
@@ -285,17 +316,29 @@
       <if test="fzdwbm != null">
         #{fzdwbm,jdbcType=VARCHAR},
       </if>
-      <if test="batchNo != null">
-        #{batchNo,jdbcType=VARCHAR},
+      <if test="invoiceNeed != null">
+        #{invoiceNeed,jdbcType=INTEGER},
       </if>
-      <if test="invoiceStatus != null">
-        #{invoiceStatus,jdbcType=INTEGER},
+      <if test="invoiceCompanyName != null">
+        #{invoiceCompanyName,jdbcType=VARCHAR},
       </if>
-      <if test="invoiceFee != null">
-        #{invoiceFee,jdbcType=DOUBLE},
+      <if test="invoiceCompanyCode != null">
+        #{invoiceCompanyCode,jdbcType=VARCHAR},
       </if>
-      <if test="invoiceNum != null">
-        #{invoiceNum,jdbcType=INTEGER},
+      <if test="invoiceBankName != null">
+        #{invoiceBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceBankNo != null">
+        #{invoiceBankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceContactName != null">
+        #{invoiceContactName,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceContactPhone != null">
+        #{invoiceContactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceContactEmail != null">
+        #{invoiceContactEmail,jdbcType=VARCHAR},
       </if>
       <if test="payStatus != null">
         #{payStatus,jdbcType=INTEGER},
@@ -315,8 +358,8 @@
       <if test="paymentNo != null">
         #{paymentNo,jdbcType=VARCHAR},
       </if>
-      <if test="pamentYsje != null">
-        #{pamentYsje,jdbcType=VARCHAR},
+      <if test="paymentYsje != null">
+        #{paymentYsje,jdbcType=VARCHAR},
       </if>
       <if test="paymentYszbxje != null">
         #{paymentYszbxje,jdbcType=VARCHAR},
@@ -326,6 +369,12 @@
       </if>
       <if test="projectIdMd5 != null">
         #{projectIdMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=INTEGER},
       </if>
       <if test="define8 != null">
         #{define8,jdbcType=VARCHAR},
@@ -344,14 +393,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplanExample" resultType="java.lang.Long">
-    select count(*) from out_project_info_paymentplan
+  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutProjectPaymentplanExample" resultType="java.lang.Long">
+    select count(*) from out_project_paymentplan
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update out_project_info_paymentplan
+    update out_project_paymentplan
     <set>
       <if test="record.dataId != null">
         data_id = #{record.dataId,jdbcType=VARCHAR},
@@ -386,17 +435,29 @@
       <if test="record.fzdwbm != null">
         fzdwbm = #{record.fzdwbm,jdbcType=VARCHAR},
       </if>
-      <if test="record.batchNo != null">
-        batch_no = #{record.batchNo,jdbcType=VARCHAR},
+      <if test="record.invoiceNeed != null">
+        invoice_need = #{record.invoiceNeed,jdbcType=INTEGER},
       </if>
-      <if test="record.invoiceStatus != null">
-        invoice_status = #{record.invoiceStatus,jdbcType=INTEGER},
+      <if test="record.invoiceCompanyName != null">
+        invoice_company_name = #{record.invoiceCompanyName,jdbcType=VARCHAR},
       </if>
-      <if test="record.invoiceFee != null">
-        invoice_fee = #{record.invoiceFee,jdbcType=DOUBLE},
+      <if test="record.invoiceCompanyCode != null">
+        invoice_company_code = #{record.invoiceCompanyCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.invoiceNum != null">
-        invoice_num = #{record.invoiceNum,jdbcType=INTEGER},
+      <if test="record.invoiceBankName != null">
+        invoice_bank_name = #{record.invoiceBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceBankNo != null">
+        invoice_bank_no = #{record.invoiceBankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceContactName != null">
+        invoice_contact_name = #{record.invoiceContactName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceContactPhone != null">
+        invoice_contact_phone = #{record.invoiceContactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceContactEmail != null">
+        invoice_contact_email = #{record.invoiceContactEmail,jdbcType=VARCHAR},
       </if>
       <if test="record.payStatus != null">
         pay_status = #{record.payStatus,jdbcType=INTEGER},
@@ -416,8 +477,8 @@
       <if test="record.paymentNo != null">
         payment_no = #{record.paymentNo,jdbcType=VARCHAR},
       </if>
-      <if test="record.pamentYsje != null">
-        pament_ysje = #{record.pamentYsje,jdbcType=VARCHAR},
+      <if test="record.paymentYsje != null">
+        payment_ysje = #{record.paymentYsje,jdbcType=VARCHAR},
       </if>
       <if test="record.paymentYszbxje != null">
         payment_yszbxje = #{record.paymentYszbxje,jdbcType=VARCHAR},
@@ -427,6 +488,12 @@
       </if>
       <if test="record.projectIdMd5 != null">
         project_id_md5 = #{record.projectIdMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
       </if>
       <if test="record.define8 != null">
         define8 = #{record.define8,jdbcType=VARCHAR},
@@ -449,7 +516,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update out_project_info_paymentplan
+    update out_project_paymentplan
     set data_id = #{record.dataId,jdbcType=VARCHAR},
       nd = #{record.nd,jdbcType=VARCHAR},
       xmid = #{record.xmid,jdbcType=VARCHAR},
@@ -461,20 +528,26 @@
       ysfyxje = #{record.ysfyxje,jdbcType=VARCHAR},
       fzdw = #{record.fzdw,jdbcType=VARCHAR},
       fzdwbm = #{record.fzdwbm,jdbcType=VARCHAR},
-      batch_no = #{record.batchNo,jdbcType=VARCHAR},
-      invoice_status = #{record.invoiceStatus,jdbcType=INTEGER},
-      invoice_fee = #{record.invoiceFee,jdbcType=DOUBLE},
-      invoice_num = #{record.invoiceNum,jdbcType=INTEGER},
+      invoice_need = #{record.invoiceNeed,jdbcType=INTEGER},
+      invoice_company_name = #{record.invoiceCompanyName,jdbcType=VARCHAR},
+      invoice_company_code = #{record.invoiceCompanyCode,jdbcType=VARCHAR},
+      invoice_bank_name = #{record.invoiceBankName,jdbcType=VARCHAR},
+      invoice_bank_no = #{record.invoiceBankNo,jdbcType=VARCHAR},
+      invoice_contact_name = #{record.invoiceContactName,jdbcType=VARCHAR},
+      invoice_contact_phone = #{record.invoiceContactPhone,jdbcType=VARCHAR},
+      invoice_contact_email = #{record.invoiceContactEmail,jdbcType=VARCHAR},
       pay_status = #{record.payStatus,jdbcType=INTEGER},
       pay_fee = #{record.payFee,jdbcType=DOUBLE},
       pay_no = #{record.payNo,jdbcType=VARCHAR},
       payment_status = #{record.paymentStatus,jdbcType=INTEGER},
       payment_date = #{record.paymentDate,jdbcType=VARCHAR},
       payment_no = #{record.paymentNo,jdbcType=VARCHAR},
-      pament_ysje = #{record.pamentYsje,jdbcType=VARCHAR},
+      payment_ysje = #{record.paymentYsje,jdbcType=VARCHAR},
       payment_yszbxje = #{record.paymentYszbxje,jdbcType=VARCHAR},
       payment_ysfyxje = #{record.paymentYsfyxje,jdbcType=VARCHAR},
       project_id_md5 = #{record.projectIdMd5,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
       define8 = #{record.define8,jdbcType=VARCHAR},
       define9 = #{record.define9,jdbcType=VARCHAR},
       define10 = #{record.define10,jdbcType=VARCHAR},
@@ -484,8 +557,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplan">
-    update out_project_info_paymentplan
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutProjectPaymentplan">
+    update out_project_paymentplan
     <set>
       <if test="nd != null">
         nd = #{nd,jdbcType=VARCHAR},
@@ -517,17 +590,29 @@
       <if test="fzdwbm != null">
         fzdwbm = #{fzdwbm,jdbcType=VARCHAR},
       </if>
-      <if test="batchNo != null">
-        batch_no = #{batchNo,jdbcType=VARCHAR},
+      <if test="invoiceNeed != null">
+        invoice_need = #{invoiceNeed,jdbcType=INTEGER},
       </if>
-      <if test="invoiceStatus != null">
-        invoice_status = #{invoiceStatus,jdbcType=INTEGER},
+      <if test="invoiceCompanyName != null">
+        invoice_company_name = #{invoiceCompanyName,jdbcType=VARCHAR},
       </if>
-      <if test="invoiceFee != null">
-        invoice_fee = #{invoiceFee,jdbcType=DOUBLE},
+      <if test="invoiceCompanyCode != null">
+        invoice_company_code = #{invoiceCompanyCode,jdbcType=VARCHAR},
       </if>
-      <if test="invoiceNum != null">
-        invoice_num = #{invoiceNum,jdbcType=INTEGER},
+      <if test="invoiceBankName != null">
+        invoice_bank_name = #{invoiceBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceBankNo != null">
+        invoice_bank_no = #{invoiceBankNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceContactName != null">
+        invoice_contact_name = #{invoiceContactName,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceContactPhone != null">
+        invoice_contact_phone = #{invoiceContactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceContactEmail != null">
+        invoice_contact_email = #{invoiceContactEmail,jdbcType=VARCHAR},
       </if>
       <if test="payStatus != null">
         pay_status = #{payStatus,jdbcType=INTEGER},
@@ -547,8 +632,8 @@
       <if test="paymentNo != null">
         payment_no = #{paymentNo,jdbcType=VARCHAR},
       </if>
-      <if test="pamentYsje != null">
-        pament_ysje = #{pamentYsje,jdbcType=VARCHAR},
+      <if test="paymentYsje != null">
+        payment_ysje = #{paymentYsje,jdbcType=VARCHAR},
       </if>
       <if test="paymentYszbxje != null">
         payment_yszbxje = #{paymentYszbxje,jdbcType=VARCHAR},
@@ -558,6 +643,12 @@
       </if>
       <if test="projectIdMd5 != null">
         project_id_md5 = #{projectIdMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=INTEGER},
       </if>
       <if test="define8 != null">
         define8 = #{define8,jdbcType=VARCHAR},
@@ -577,8 +668,8 @@
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplan">
-    update out_project_info_paymentplan
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutProjectPaymentplan">
+    update out_project_paymentplan
     set nd = #{nd,jdbcType=VARCHAR},
       xmid = #{xmid,jdbcType=VARCHAR},
       xmmc = #{xmmc,jdbcType=VARCHAR},
@@ -589,20 +680,26 @@
       ysfyxje = #{ysfyxje,jdbcType=VARCHAR},
       fzdw = #{fzdw,jdbcType=VARCHAR},
       fzdwbm = #{fzdwbm,jdbcType=VARCHAR},
-      batch_no = #{batchNo,jdbcType=VARCHAR},
-      invoice_status = #{invoiceStatus,jdbcType=INTEGER},
-      invoice_fee = #{invoiceFee,jdbcType=DOUBLE},
-      invoice_num = #{invoiceNum,jdbcType=INTEGER},
+      invoice_need = #{invoiceNeed,jdbcType=INTEGER},
+      invoice_company_name = #{invoiceCompanyName,jdbcType=VARCHAR},
+      invoice_company_code = #{invoiceCompanyCode,jdbcType=VARCHAR},
+      invoice_bank_name = #{invoiceBankName,jdbcType=VARCHAR},
+      invoice_bank_no = #{invoiceBankNo,jdbcType=VARCHAR},
+      invoice_contact_name = #{invoiceContactName,jdbcType=VARCHAR},
+      invoice_contact_phone = #{invoiceContactPhone,jdbcType=VARCHAR},
+      invoice_contact_email = #{invoiceContactEmail,jdbcType=VARCHAR},
       pay_status = #{payStatus,jdbcType=INTEGER},
       pay_fee = #{payFee,jdbcType=DOUBLE},
       pay_no = #{payNo,jdbcType=VARCHAR},
       payment_status = #{paymentStatus,jdbcType=INTEGER},
       payment_date = #{paymentDate,jdbcType=VARCHAR},
       payment_no = #{paymentNo,jdbcType=VARCHAR},
-      pament_ysje = #{pamentYsje,jdbcType=VARCHAR},
+      payment_ysje = #{paymentYsje,jdbcType=VARCHAR},
       payment_yszbxje = #{paymentYszbxje,jdbcType=VARCHAR},
       payment_ysfyxje = #{paymentYsfyxje,jdbcType=VARCHAR},
       project_id_md5 = #{projectIdMd5,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER},
       define8 = #{define8,jdbcType=VARCHAR},
       define9 = #{define9,jdbcType=VARCHAR},
       define10 = #{define10,jdbcType=VARCHAR},

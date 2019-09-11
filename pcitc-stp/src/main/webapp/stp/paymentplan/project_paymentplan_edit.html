@@ -60,7 +60,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">项目名称<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="xmmc" id="xmmc" placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" readonly="readonly" type="text" readonly="readonly" name="xmmc" id="xmmc" placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">合同号<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" id="hth" name="hth" placeholder="" autocomplete="off" type="text">
+                            <input class="layui-input readOnlyBox" readonly="readonly" id="hth" name="hth" placeholder="" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">经费来源<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" type="text" id="define11" name="define11"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" readonly="readonly" type="text" id="define11" name="define11"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">部门<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" type="text" id="gsbmmc" name="gsbmmc"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" readonly="readonly" type="text" id="gsbmmc" name="gsbmmc"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">处室<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" type="text" id="define10" name="define10"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" readonly="readonly" type="text" id="define10" name="define10"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">承担单位<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" type="text" id="define8" name="define8"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" readonly="readonly" type="text" id="define8" name="define8"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">项目金额<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" type="text" id="ysje" name="ysje"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" readonly="readonly" type="text" id="ysje" name="ysje"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">资本性拨付<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" type="text" id="yszbxje" name="yszbxje"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" readonly="readonly" type="text" id="yszbxje" name="yszbxje"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">费用性拨付<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" type="text" id="ysfyxje" name="ysfyxje"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" readonly="readonly" type="text" id="ysfyxje" name="ysfyxje"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -238,7 +238,7 @@
    layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
         var $ = layui.jquery,form = layui.form,table = layui.table,laydate = layui.laydate,layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
-      	//报销批次字典
+      	//报销批次
       	publicMethods.ajaxPost("/paymentplan/project-paymentplan-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
    			$("#define17").html("<option value=''>--请选择--</option>");
    			$.each(data,function(index,dt){
@@ -246,16 +246,18 @@
    			});
    			form.render();
    		}); 
-        /* publicMethods.ajaxPost('/dictionary/list/ROOT_YSGL_JFBFPCZD', null, function (data, status) {
-      		$.each(data,function(i,dt){
-  	    		$("#define17").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
-  	    	});
-	    }); */
-        publicMethods.ajaxPost("/out/project-info-detail",{"dataId":dataId}, function (data) {
-        	console.log(data);
+       	//项目信息，报销信息
+        publicMethods.ajaxAsyncPost("/out/project-info-detail",{"dataId":dataId}, function (data) {
 			form.val("budget-form",data);
 			$("#paymentStatus").val(data.define17==null?'未拨付':'已拨付');
-			form.render();
+			//如果已拨付
+			if(data.define17!=null)
+			{
+				publicMethods.ajaxAsyncPost("/paymentplan/project-paymentplan-byinfoid",{"projectIdMd5":data.dataId}, function (dt) {
+					console.log(dt);
+				});
+			}
+			//form.render();
    		});
         //监听select下拉选中事件
         form.on('select(type)', function(data){

@@ -15,32 +15,32 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.stp.out.OutProjectInfoPaymentplan;
-import com.pcitc.base.stp.out.OutProjectInfoPaymentplanExample;
+import com.pcitc.base.stp.out.OutProjectPaymentplan;
+import com.pcitc.base.stp.out.OutProjectPaymentplanExample;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.mapper.out.OutProjectInfoPaymentplanMapper;
-import com.pcitc.service.out.OutProjectInfoPaymentplanService;
+import com.pcitc.mapper.out.OutProjectPaymentplanMapper;
+import com.pcitc.service.out.OutProjectPaymentplanService;
 /**
  * 
  * @author uuy
  *
  */
-@Service("outProjectInfoPaymentplanService")
+@Service("outProjectPaymentplanService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPaymentplanService
+public class OutProjectPaymentplanServiceImpl implements OutProjectPaymentplanService
 {
 
 	@Autowired
-	public OutProjectInfoPaymentplanMapper mapper;
+	public OutProjectPaymentplanMapper mapper;
 	
 
 	@Override
-	public OutProjectInfoPaymentplan selectOutProjectInfoPaymentplan(String dataId) 
+	public OutProjectPaymentplan selectOutProjectPaymentplan(String dataId) 
 	{
 		return mapper.selectByPrimaryKey(dataId);
 	}
 	@Override
-	public Result saveOutProjectInfoPaymentplan(OutProjectInfoPaymentplan bean) throws Exception 
+	public Result saveOutProjectPaymentplan(OutProjectPaymentplan bean) throws Exception 
 	{
 		Boolean status = false;
 		try 
@@ -56,7 +56,7 @@ public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPayme
 		return new Result(status);
 	}
 	@Override
-	public Result updateOutProjectInfoPaymentplan(OutProjectInfoPaymentplan budgetMoneyTotal) throws Exception 
+	public Result updateOutProjectPaymentplan(OutProjectPaymentplan budgetMoneyTotal) throws Exception 
 	{
 		Boolean status = false;
 		try 
@@ -72,9 +72,9 @@ public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPayme
 		return new Result(status);
 	}
 	@Override
-	public Result deleteOutProjectInfoPaymentplan(String id) throws Exception 
+	public Result deleteOutProjectPaymentplan(String id) throws Exception 
 	{
-		OutProjectInfoPaymentplan b = mapper.selectByPrimaryKey(id);
+		OutProjectPaymentplan b = mapper.selectByPrimaryKey(id);
 		Boolean status = false;
 		try{
 			if(b != null){
@@ -93,7 +93,7 @@ public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPayme
 		return new Result(status);
 	}
 	@Override
-	public Result deleteOutProjectInfoPaymentplanReal(String id) throws Exception 
+	public Result deleteOutProjectPaymentplanReal(String id) throws Exception 
 	{
 		Boolean status = false;
 		try
@@ -109,21 +109,21 @@ public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPayme
 		return new Result(status);
 	}
 	@Override
-	public Result saveOrUpdOutProjectInfoPaymentplan(OutProjectInfoPaymentplan bean) throws Exception 
+	public Result saveOrUpdOutProjectPaymentplan(OutProjectPaymentplan bean) throws Exception 
 	{
 		Boolean status =  false;
 		try {
-			OutProjectInfoPaymentplanExample example = new OutProjectInfoPaymentplanExample();
-			OutProjectInfoPaymentplanExample.Criteria c = example.createCriteria();
+			OutProjectPaymentplanExample example = new OutProjectPaymentplanExample();
+			OutProjectPaymentplanExample.Criteria c = example.createCriteria();
 		
 			c.andNdEqualTo(bean.getNd());
-			List<OutProjectInfoPaymentplan> organs = mapper.selectByExample(example);
+			List<OutProjectPaymentplan> organs = mapper.selectByExample(example);
 			if(organs == null || organs.size()==0) 
 			{
 				//bean.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
-				return this.saveOutProjectInfoPaymentplan(bean);
+				return this.saveOutProjectPaymentplan(bean);
 			}else {
-				OutProjectInfoPaymentplan old = organs.get(0);
+				OutProjectPaymentplan old = organs.get(0);
 				MyBeanUtils.copyPropertiesIgnoreNull(bean, old);
 				//old.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 				Integer rs = mapper.updateByPrimaryKey(old);
@@ -137,16 +137,16 @@ public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPayme
 		return new Result(status);
 	}
 	@Override
-	public List<OutProjectInfoPaymentplan> selectListOutProjectInfoPaymentplan() 
+	public List<OutProjectPaymentplan> selectListOutProjectPaymentplan() 
 	{
-		OutProjectInfoPaymentplanExample example = new OutProjectInfoPaymentplanExample();
+		OutProjectPaymentplanExample example = new OutProjectPaymentplanExample();
 		return mapper.selectByExample(example);
 	}
 	@Override
-	public LayuiTableData selectTableOutProjectInfoPaymentplan(LayuiTableParam param) 
+	public LayuiTableData selectTableOutProjectPaymentplan(LayuiTableParam param) 
 	{
-		OutProjectInfoPaymentplanExample example = new OutProjectInfoPaymentplanExample();
-		OutProjectInfoPaymentplanExample.Criteria c = example.createCriteria();
+		OutProjectPaymentplanExample example = new OutProjectPaymentplanExample();
+		OutProjectPaymentplanExample.Criteria c = example.createCriteria();
 		//c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		if(!StringUtils.isBlank(param.getParam().get("nd")+"")) 
 		{
@@ -156,10 +156,10 @@ public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPayme
 		return selectTableData(param, example);
 	}
 	@Override
-	public List<OutProjectInfoPaymentplan> selectListOutProjectInfoPaymentplanByBean(OutProjectInfoPaymentplan bean) 
+	public List<OutProjectPaymentplan> selectListOutProjectPaymentplanByBean(OutProjectPaymentplan bean) 
 	{
-		OutProjectInfoPaymentplanExample example = new OutProjectInfoPaymentplanExample();
-		OutProjectInfoPaymentplanExample.Criteria c = example.createCriteria();
+		OutProjectPaymentplanExample example = new OutProjectPaymentplanExample();
+		OutProjectPaymentplanExample.Criteria c = example.createCriteria();
 		if(!StringUtils.isBlank(bean.getNd())) 
 		{
 			c.andNdEqualTo(bean.getNd());
@@ -167,7 +167,7 @@ public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPayme
 		return mapper.selectByExample(example);
 	}
 	
-	private LayuiTableData selectTableData(LayuiTableParam param,OutProjectInfoPaymentplanExample example)
+	private LayuiTableData selectTableData(LayuiTableParam param,OutProjectPaymentplanExample example)
 	{
 		//每页显示条数
 		int pageSize = param.getLimit();
@@ -178,9 +178,9 @@ public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPayme
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
 		
-		List<OutProjectInfoPaymentplan> list = mapper.selectByExample(example);
+		List<OutProjectPaymentplan> list = mapper.selectByExample(example);
 		// 3、获取分页查询后的数据
-		PageInfo<OutProjectInfoPaymentplan> pageInfo= new PageInfo<OutProjectInfoPaymentplan>(list);
+		PageInfo<OutProjectPaymentplan> pageInfo= new PageInfo<OutProjectPaymentplan>(list);
 		// 3、获取分页查询后的数据
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
@@ -189,11 +189,11 @@ public class OutProjectInfoPaymentplanServiceImpl implements OutProjectInfoPayme
 		return data;
 	}
 	@Override
-	public OutProjectInfoPaymentplan selectOutProjectInfoPaymentplanByInfoId(String dataId) {
-		OutProjectInfoPaymentplanExample example = new OutProjectInfoPaymentplanExample();
-		OutProjectInfoPaymentplanExample.Criteria c = example.createCriteria();
+	public OutProjectPaymentplan selectOutProjectPaymentplanByInfoId(String dataId) {
+		OutProjectPaymentplanExample example = new OutProjectPaymentplanExample();
+		OutProjectPaymentplanExample.Criteria c = example.createCriteria();
 		c.andProjectIdMd5EqualTo(dataId);
-		List<OutProjectInfoPaymentplan> ps =  mapper.selectByExample(example);
+		List<OutProjectPaymentplan> ps =  mapper.selectByExample(example);
 		
 		if(ps != null && ps.size() >0) {
 			return ps.get(0);
