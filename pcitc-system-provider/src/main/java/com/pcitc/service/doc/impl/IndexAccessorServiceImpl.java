@@ -45,6 +45,10 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
     
     private static ClientFactoryBuilder clientFactoryBuilder;
     
+    /**
+	 * 特殊处理，初始化的时候把clientFactoryBuilder注入，
+	 * 通过@Autowired直接注入的方式，命令行启动时有问题，所以采用这种方式
+	 */
     @Autowired
     public IndexAccessorServiceImpl(ClientFactoryBuilder clientFactoryBuilder) {
     	IndexAccessorServiceImpl.clientFactoryBuilder = clientFactoryBuilder;
@@ -283,7 +287,7 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
 
 
     public AccessorService getAccessorService() {
-        AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
+        AccessorService accessor = new AccessorServiceImpl();
         return accessor;
     }
     public IndexAccessorService getIndexAccessorService(AccessorService accessor) {
