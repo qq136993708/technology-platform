@@ -23,7 +23,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.stp.out.OutProjectInfo;
-import com.pcitc.base.stp.out.OutProjectInfoPaymentplan;
+import com.pcitc.base.stp.out.OutProjectPaymentplan;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -140,10 +140,10 @@ public class OutProjectPaymentplanController extends BaseController
 	}
 	@RequestMapping(value = "/paymentplan/project-paymentplan-byinfoid", method = RequestMethod.POST)
 	@ResponseBody
-	public Object getprojectPaymentplanByInfoId(@ModelAttribute("payment")OutProjectInfoPaymentplan payment,HttpServletRequest request) throws IOException 
+	public Object getprojectPaymentplanByInfoId(@ModelAttribute("payment")OutProjectPaymentplan payment,HttpServletRequest request) throws IOException 
 	{
 		
-		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_BYINFOID+payment.getProjectIdMd5(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), OutProjectInfoPaymentplan.class);
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_BYINFOID+payment.getProjectIdMd5(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), OutProjectPaymentplan.class);
 		
 		return JSON.toJSONString(responseEntity.getBody());
 	}
