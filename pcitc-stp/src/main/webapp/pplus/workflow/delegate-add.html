@@ -24,6 +24,7 @@
 	<div class="formBox">
 		<form class="layui-form" id="delegate-form" lay-filter="component-form-group layui-container">
 			<div class="box-body">
+				<input type="hidden" id="attorneyUserId" name="attorneyUserId" />
 				<div class="layui-row">
 					<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
@@ -48,7 +49,8 @@
 							</label>
 							<div class="layui-input-block">
 								<div class="selectTreeBox">
-									<div id="attorney" class="layui-form-select select-tree"></div>
+									<input class="layui-input" name="attorney" id="attorney" placeholder="请选择被委托人" readOnly="true" autocomplete="off" type="text">
+									<!--<div id="attorney" class="layui-form-select select-tree"></div>-->
 								</div>
 							</div>
 						</div>
@@ -110,6 +112,20 @@
 	</div>
 
 	<script>
+		function setWelder(selectData) {
+			selectData = eval(selectData);
+			var userId = "";
+			var userDisp = "";
+			for (var j = 0; j < selectData.length; j++) {
+				userDisp = userDisp + ((j == 0) ? "" : ",") + selectData[j].userDisp;
+				userId = userId + ((j == 0) ? "" : ",") + selectData[j].userId;
+			}
+			$('#attorneyUserId').val(userId);
+			$('#attorney').val(userDisp);
+		}
+
+		window.setWelder = setWelder;
+
 		layui.config({
 			base : '../../../../' //静态资源所在路径
 		}).use([
@@ -165,19 +181,32 @@
 			// 防止重置时清空
 			$("#createDate").attr("value", $("#createDate").val());
 
+			$('#attorney').click(function() {
+				layer.open({
+					title : "选择被委托人",
+					skin : 'layui-layer-lan',
+					shadeClose : false,
+					type : 2,
+					fixed : false,
+					maxmin : true,
+					area : [ '90%', '90%' ],
+					content : '/plan/pageSelectUser?flag=1'
+				});
+			});
+
 			/* 监听提交 */
 			var lodingMsg;
 			form.on('submit(form-submit)', function(data) {
-				if ($('#attorneyValue').val() == "") {
+			/*	if ($('#attorneyValue').val() == "") {
 					layer.msg('必须选择被委托人');
 					return false;
 				}
 				if ($('#attorneyType').val() != "user") {
 					layer.msg('必须选择人员，不能选择组织机构');
 					return false;
-				}
-				data.field.attorneyName = $('#attorneyShow').val();
-				data.field.attorneyCode = $('#attorneyValue').val();
+				}*/
+				data.field.attorneyName = $('#attorney').val();
+				data.field.attorneyCode = $('#attorneyUserId').val();
 				lodingMsg = layer.msg('处理中...', {shade: [0.5, '#393D49']});
 				$.ajax({
 					type : 'POST',
@@ -248,9 +277,9 @@
 			 * 参数4：是否显示图标(true或false),
 			 *
 			 */
-			initSelectTree("attorney", false, true, true);
+			//initSelectTree("attorney", false, true, true);
 
-			initHideMenu(); //不加此方法则默认打开下拉树
+			//initHideMenu(); //不加此方法则默认打开下拉树
 		});
 
 		// 重写ztree树的点击事件（selectTree.js）

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<style>
+.tree-content {
+	position: absolute;
+	z-index: 998;
+	background: #ffffff;
+	max-height: 400px;
+	width: 100%;
+	border: 1px solid #ccc;
+	overflow-y: scroll;
+}
+
+.layui-select-title input {
+	display: inline-block
+}
+
+.searchBox .layui-input {
+	width: 18%;
+	min-width: 160px;
+	display: inline-block !important;
+	font-size: 12px !important;
+	height: 24px !important;
+	line-height: 24px !important;
+	font-weight: normal !important;
+	padding-left: 6px !important;
+	padding-right: 6px !important;
+	border-radius: 2px !important;
+	vertical-align: middle;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	padding-top: -2px;
+}
+
+.tableBox {
+	width: 80.8%;
+	float: left;
+}
+
+.tableUser {
+	width: 16.2%;
+	float: left;
+}
+
+.tableBtnsL {
+	text-align: left;
+	text-indent: .5em;
+	font-size: 14px;
+}
+
+.tableUserB ul {
+	height: 417px;
+	border: 1px solid #e6e6e6;
+	border-top: 0;
+	overflow-y: scroll;
+}
+
+.tableUserB ul li {
+	height: 36px;
+	line-height: 46px;
+	text-indent: .5em;
+}
+
+.tableUserB ul li a {
+	background: url(/layuiadmin/layui/images/icon_close.png) #fff no-repeat
+		95% 3px;
+	color: #1890ff !important;
+	border: 1px solid #1890ff !important;
+	padding: 3px 16px 3px 10px;
+	border-radius: 4px;
+}
+
+.btn_submit {
+	background: none;
+	padding: 0 10px;
+}
+
+.btn_submit:hover {
+	background: #1890ff;
+}
+</style>
+</head>
+<body>
+	<div class="searchBox">
+		<label class="dateInput">
+			<span>名称</span>
+			<input type="text" name="userName" id="userName" placeholder="登录名或姓名" autocomplete="off" class="form-control">
+		</label>
+		<label class="dateInput">
+			<span>组织机构</span>
+			<input type="hidden" name="unitId" id="unitId">
+			<input type="text" name="unitName" id="unitName" autocomplete="off" class="form-control">
+		</label>
+		<div class="btnGroup">
+			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+		</div>
+	</div>
+	<div class="tableBox">
+		<div class="tableToolBox">
+			<div class="whiteLine"></div>
+			<div class="tableBtns">
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">添加</button>
+			</div>
+		</div>
+		<table id="userTable" class="layui-hide" lay-filter="userEvent"></table>
+	</div>
+	<div class="tableUser">
+		<div class="tableToolBox">
+
+			<div class="whiteLine"></div>
+			<div class="tableBtns tableBtnsL">
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg" data-type="okEvent">确定</button>
+			</div>
+		</div>
+		<div class="tableUserB">
+			<ul id="checkedUsers" style="font-size: 8px;">
+
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript">
+	var map = {};
+	var table, selectRowData, renderfunc;
+	layui.use(['jquery', 'selectTree', 'table', 'laypage', 'publicMethods'], function () {
+    var $ = layui.jquery, element = layui.element, layer = layui.layer;
+    table = layui.table;
+    var publicMethods = layui.publicMethods;
+    var selectTree = layui.selectTree;
+
+    function renderTable(where) {
+        var lodingMsg = layer.msg('数据加载中....');
+        var param = JSON.parse(window.localStorage.getItem("param"));
+        // 渲染
+        table.render({
+            elem: '#userTable',
+            url: '/user/querySysUserListByPage',
+            limit: param.selfRownum,
+            method: "POST",
+            where: where,
+            id: 'userTable',
+            height: commonDislodgeTable(),
+            page: {
+                groups: 5
+                , limits: [param.selfRownum, 15, 30, 45, 60]
+                , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] // 自定义分页布局
+                , first: '首页' // 不显示首页
+                , last: '尾页' // 不显示尾页
+                , theme: '#0F9EE0'
+            },
+            cols: [[
+                {type: 'checkbox', event: 'changeEvents' ,width : 45}
+                , {title: '序号', type: 'numbers' ,width : 45}
+                , {field: 'userName', title: '登录名', style: 'cursor: pointer;',width : '20%'}
+                , {field: 'userDisp', title: '姓名', style: 'cursor: pointer;',width : '15%'}
+                , {field: 'unitName', title: '所属机构', style: 'cursor: pointer;'}
+            ]],
+            done: function (res, curr, count) {
+                layer.close(lodingMsg);
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                });
+            }
+        });
+        renderfunc = function removeHeaderCheckbox() {
+            // $(".layui-table-header table thead th input").remove();
+			// //移除表头的复选框,去掉全选
+        }
+        renderfunc();
+    }
+
+    // 多选--开始
+    // 单击行勾选checkbox事件——多选情况
+    $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+        var index = $(this).attr('data-index');
+        var tableBox = $(this).parents('.layui-table-box');
+        // 存在固定列
+        if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+            tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+        } else {
+            tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+        }
+        var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+        if (checkCell.length > 0) {
+            checkCell.click();
+        }
+    });
+    $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+        e.stopPropagation();
+    });
+    $(document).on("click", "#checkedUsers li a", function () {
+        var keyValue=$(this).find("span").attr("value");
+        for (var key in map){
+            if(keyValue==key){
+                delete map[key];
+            }
+        }
+        $(this).parent().remove();
+    });
+    // 多选-结束
+    renderTable({
+        param: {
+            "keyWord": $("#userName").val(),
+            "unitName": $("#unitName").val(),
+            "unitId": $("#unitId").val()
+        }
+    });
+
+    // 监听表格复选框选择
+    table.on('checkbox(userEvent)', function (obj) {
+        console.log(obj)
+    });
+    // 触发不同的按钮事件
+    var $ = layui.$, active = {
+        searchEvent: function () { // 点击查询按钮
+            renderTable({
+                param: {
+                    "keyWord": $("#userName").val(),
+                    "unitName": $("#unitName").val(),
+                    "unitId": $("#unitId").val()
+                }
+            });
+        }
+        , resetEvent: function () {
+            // 点击重置按钮
+            $("#userName").val("");
+            $("#unitName").val("");
+            $("#unitId").val("");
+
+            renderTable({
+                param: {
+                	"keyWord": $("#userName").val(),
+                    "unitName": $("#unitName").val(),
+                    "unitId": $("#unitId").val()
+                }
+            });
+        }
+        , getChecked: function () {// 多选
+            var ids = "";
+            var selectedData = active.getCheckData();
+            return selectedData;
+        }, getCheckData: function () { // 获取选中数据
+            var checkStatus = table.checkStatus('userTable')
+                , data = checkStatus.data;
+            return data;
+        }, 
+        addEvent: function () {
+            selectRowData = active.getChecked();
+            for (let i = 0; i < selectRowData.length; i++) {
+                map[selectRowData[i].userId + ""] = selectRowData[i];
+            }
+            var checkedUsers = "";
+            $("#checkedUsers").html("");
+             for(var key in map){
+                 checkedUsers=(checkedUsers==""?"":(checkedUsers+","))+map[key].userDisp;
+                 var liHtml='<li class="layui-nav-item">' +
+                     '<a href="javascript:void(0);">' +
+                     '<span value="'+key+'">'+map[key].userDisp+'</span><em></em></a></li>';
+                 $("#checkedUsers").append(liHtml);
+             }
+        },dbaddEvent: function (data) {
+            selectRowData = data;
+            map[selectRowData.userId + ""] = selectRowData;
+            var checkedUsers = "";
+            $("#checkedUsers").html("");
+            for(var key in map){
+                checkedUsers=(checkedUsers==""?"":(checkedUsers+","))+map[key].userDisp;
+                var liHtml='<li class="layui-nav-item">' +
+                    '<a href="javascript:void(0);">' +
+                    '<span value="'+key+'">'+map[key].userDisp+'</span><em></em></a></li>';
+                $("#checkedUsers").append(liHtml);
+            }
+        },
+        okEvent: function () {
+			var flag = '${flag}';
+            var list = [];
+            for (var key in map) {
+                list.push(map[key]);
+            }
+            if(1==flag&&list.length>1){
+				layer.msg("只能选中一个人");
+				return false;
+			}
+            if (typeof parent.zfUserFlag != "undefined" && parent.zfUserFlag == "1" && list.length > 1) {
+            	layer.msg("转发只能选中一个人");
+            	return false;
+        	}
+            try {
+                parent.setWelder(list);
+            } catch (e) {
+                console.log(e);
+            }
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            /*if(parent.$(".layui-table-body table").find(".layui-table-none").length!=1){
+                parent.select();
+			}*/
+        },
+        
+    };
+    // 区别按钮属性
+    $('.layui-btn').on('click', function () {
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
+    
+    // 监听行双击事件
+    table.on('rowDouble(userEvent)', function(obj){
+        console.log("-----------------");
+        console.log(obj.data);
+        active.dbaddEvent(obj.data);
+    });
+    
+    $('#userName').bind('keydown',function(event)  {
+       if(event.keyCode == "13") {
+    	   active.searchEvent();
+       }
+   });
+    
+  	// 机构页面选择后回调函数
+	window.callbackUnitTreeChoose = function(unitIds, unitNames){
+		var unitName = "";
+		var unitId = "";
+		$.each(unitIds,function(i,dt){
+			unitId += ","+unitIds[i];
+			unitName += ","+unitNames[i];
+		});
+		$("#unitName").val(unitName.length>0?unitName.substring(1):"");
+		$("#unitId").val(unitId.length>0?unitId.substring(1):"");
+		
+		active.searchEvent();
+	}
+  	
+	$("#unitName").on("dblclick", function() {
+		layer.open({
+			title : "机构选择",
+			skin : 'layui-layer-lan',
+			shadeClose : true,
+			type : 2,
+			fixed : false,
+			maxmin : false,
+			area : [ '80%', '70%' ],
+			content : "/unit/chooseUnitMultiV2"
+		});
+	});
+});
+        
+</script>
+</body>
+</html>
