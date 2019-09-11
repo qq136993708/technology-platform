@@ -22,8 +22,10 @@
 </head>
 <body>
 <form action="" id="budget-form" name="budget-form" lay-filter="budget-form" class="layui-form">
-	<input type="hidden" name="dataId" value="${dataId}">
-	<input type="hidden" name="nd" id="nd" value="${nd}">
+	<input type="hidden" name="projectId" id="projectId" value="${projectId}">
+	<input type="hidden" name="dataId" id="dataId" value="${dataId}">
+	<input type="hidden" name="nd" id="nd">
+	<input type="hidden" name="ysnd" id="ysnd">
     <div class="con-box">
         <div class="formBox">
         
@@ -42,7 +44,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">拨付状态<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="paymentStatus" id="paymentStatus" placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="paymentStatusDesc" id="paymentStatusDesc" placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -143,8 +145,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否开具发票<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="radio" lay-filter="radioEvent" name="sex" value="0" title="是">
-				          	<input type="radio" lay-filter="radioEvent" name="sex" value="1" title="否" checked>
+                            <input type="radio" lay-filter="radioEvent" name="invoiceNeed" value="1" title="是">
+				          	<input type="radio" lay-filter="radioEvent" name="invoiceNeed" value="0" title="否" checked>
                         </div>
                     </div>
                 </div>
@@ -154,7 +156,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">公司名称<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" type="text" id="yszbxje" name="yszbxje"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" type="text" id="invoiceCompanyName" name="invoiceCompanyName"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -162,7 +164,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">纳税人识别号<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" type="text" id="ysfyxje" name="ysfyxje"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" type="text" id="invoiceCompanyCode" name="invoiceCompanyCode"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -172,7 +174,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">开户行名称<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" type="text" id="yszbxje" name="yszbxje"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" type="text" id="invoiceBankName" name="invoiceBankName"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -180,7 +182,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">开户行账号<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" type="text" id="ysfyxje" name="ysfyxje"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" type="text" id="invoiceBankNo" name="invoiceBankNo"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -188,17 +190,17 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">联系人电话<span class="must-fill"></span></label>
+                        <label for="" class="layui-form-label">联系人姓名<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" type="text" id="yszbxje" name="yszbxje"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox"  type="text" id="invoiceContactName" name="invoiceContactName"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">联系地址<span class="must-fill"></span></label>
+                        <label for="" class="layui-form-label">联系电话<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" type="text" id="ysfyxje" name="ysfyxje"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" type="text" id="invoiceContactPhone" name="invoiceContactPhone"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -208,18 +210,18 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">联系人邮箱<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" type="text" id="yszbxje" name="yszbxje"  placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" type="text" id="invoiceContactEmail" name="invoiceContactEmail"  placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <!-- <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">拨付分组<span class="must-fill"></span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" type="text" id="ysfyxje" name="ysfyxje"  placeholder="" autocomplete="off">
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -232,6 +234,7 @@
 </form>
 <script>
     var dataId = "${dataId}";
+    var projectId = "${projectId}";
     var nd = "${nd}";
     var parentInfo = null;
     var company_map = {};
@@ -247,18 +250,56 @@
    			form.render();
    		}); 
        	//项目信息，报销信息
-        publicMethods.ajaxAsyncPost("/out/project-info-detail",{"dataId":dataId}, function (data) {
+        publicMethods.ajaxAsyncPost("/out/project-info-detail",{"dataId":projectId}, function (data) {
 			form.val("budget-form",data);
-			$("#paymentStatus").val(data.define17==null?'未拨付':'已拨付');
-			//如果已拨付
+			$("#dataId").val(dataId);
+			$("#paymentStatusDesc").val(data.define17==null?'未拨付':'已拨付');
 			if(data.define17!=null)
 			{
-				publicMethods.ajaxAsyncPost("/paymentplan/project-paymentplan-byinfoid",{"projectIdMd5":data.dataId}, function (dt) {
-					console.log(dt);
+				publicMethods.ajaxAsyncPost("/paymentplan/project-paymentplan-byinfoid",{"projectId":data.dataId}, function (dt) {
+					form.val("budget-form",dt);
 				});
 			}
-			//form.render();
    		});
+       	//单选框...
+        form.on('radio(radioEvent)', function(data) {
+			if(data.value=='1')
+			{
+				$("#invoiceCompanyName").removeClass("readOnlyBox");
+				$("#invoiceCompanyCode").removeClass("readOnlyBox");
+				$("#invoiceBankName").removeClass("readOnlyBox");
+				$("#invoiceBankNo").removeClass("readOnlyBox");
+				$("#invoiceContactName").removeClass("readOnlyBox");
+				$("#invoiceContactPhone").removeClass("readOnlyBox");
+				$("#invoiceContactEmail").removeClass("readOnlyBox");
+				
+				$("#invoiceCompanyName").attr("readonly",false);
+				$("#invoiceCompanyCode").attr("readonly",false);
+				$("#invoiceBankName").attr("readonly",false);
+				$("#invoiceBankNo").attr("readonly",false);
+				$("#invoiceContactName").attr("readonly",false);
+				$("#invoiceContactPhone").attr("readonly",false);
+				$("#invoiceContactEmail").attr("readonly",false);
+			}else{
+				$("#invoiceCompanyName").addClass("readOnlyBox");
+				$("#invoiceCompanyCode").addClass("readOnlyBox");
+				$("#invoiceBankName").addClass("readOnlyBox");
+				$("#invoiceBankNo").addClass("readOnlyBox");
+				$("#invoiceContactName").addClass("readOnlyBox");
+				$("#invoiceContactPhone").addClass("readOnlyBox");
+				$("#invoiceContactEmail").addClass("readOnlyBox");
+				
+				$("#invoiceCompanyName").attr("readonly",true);
+				$("#invoiceCompanyCode").attr("readonly",true);
+				$("#invoiceBankName").attr("readonly",true);
+				$("#invoiceBankNo").attr("readonly",true);
+				$("#invoiceContactName").attr("readonly",true);
+				$("#invoiceContactPhone").attr("readonly",true);
+				$("#invoiceContactEmail").attr("readonly",true);
+			}
+		});
+        
+       	
         //监听select下拉选中事件
         form.on('select(type)', function(data){
             var elem = data.elem; //得到select原始DOM对象
@@ -269,35 +310,34 @@
             active[type] ? active[type].call(this) : '';
         });
         var $ = layui.$, active = {
-       		createEvent: function () { 
-                  
+        	createEvent: function () { 
+        		layer.confirm('确定要拨付吗？',{title:"拨付确认"},function(index){
+					layer.close(index);
+					publicMethods.ajaxAsyncPost("/project-paymentplan-save", null, function (data) {
+	                     
+	                });
+            	});
             }	
         }
         // 点击保存按钮
         form.on('submit(saveEvent)', function(data){
-            var formData = JSON.stringify(data.field);
-            console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
-            var lodingMsg = layer.msg('处理中....');
-            //保存预算项目
-            publicMethods.ajaxAsyncPost('/budget/save-grouptotal-item', data.field, function (data, status) {
-                if (data.success) {
-                	parent.initDataVersion("${budgetInfoId}");
-                	parentInfo = data.data;
-                	//保存预算项目子项
-                	publicMethods.ajaxAsyncPost('/budget/save-grouptotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
-                		var index = parent.layer.getFrameIndex(window.name);
-    			       	parent.layer.close(index);
-                	});
-                }else{
-                	parent.layer.alert(data.message, {title : '信息'});
-					return;
-                }
-                layer.close(lodingMsg);
-            }); 
+            //var formData = JSON.stringify(data.field);
+            layer.confirm('确定要拨付吗？',{title:"拨付确认"},function(index){
+            	var lodingMsg = layer.msg('处理中....');
+            	publicMethods.ajaxAsyncPost('/paymentplan/project-paymentplan-save', data.field, function (data, status) {
+                    if (data.success) {
+                    	var index = parent.layer.getFrameIndex(window.name);
+        			    parent.layer.close(index);
+                    }else{
+                    	parent.layer.alert(data.message, {title : '信息'});
+    					return;
+                    }
+                    layer.close(lodingMsg);
+                }); 
+            });
             //一定要加return false -- 2018.07.08
             return false;
         });
-
         /*点击取消按钮*/
         $("#cancel").click(function () {
             var index = parent.layer.getFrameIndex(window.name);

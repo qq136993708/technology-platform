@@ -28,6 +28,7 @@ import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.DateUtils;
+import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
@@ -37,7 +38,8 @@ public class OutProjectPaymentplanController extends BaseController
 	private static final String PROJECT_INFO_LIST_BYCONDITION = "http://pcitc-zuul/system-proxy/out-provider/project-info-list-bycondition";
 	private static final String PROJECT_PAYMENTPLANT_LIST = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-batchs/";
 	private static final String PROJECT_PAYMENTPLANT_BYINFOID = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-byinfoid/";
-
+	private static final String PROJECT_PAYMENTPLANT_SAVE = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-save";
+	
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/paymentplan/project_main")
@@ -83,7 +85,8 @@ public class OutProjectPaymentplanController extends BaseController
 			nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
 		}
 		request.setAttribute("nd", nd);
-		request.setAttribute("dataId", request.getParameter("dataId"));
+		request.setAttribute("projectId", request.getParameter("dataId"));
+		request.setAttribute("dataId", IdUtil.createIdByTime());
 		return "stp/paymentplan/project_paymentplan_edit";
 	}
 	@RequestMapping(value = "/paymentplan/project-info-list-bycondition", method = RequestMethod.POST)
@@ -144,6 +147,16 @@ public class OutProjectPaymentplanController extends BaseController
 	{
 		
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_BYINFOID+payment.getProjectIdMd5(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), OutProjectPaymentplan.class);
+		
+		return JSON.toJSONString(responseEntity.getBody());
+	}
+	
+	@RequestMapping(value = "/paymentplan/project-paymentplan-save", method = RequestMethod.POST)
+	@ResponseBody
+	public Object saveProjectPaymentplan(@ModelAttribute("payment")OutProjectPaymentplan payment,HttpServletRequest request) throws IOException 
+	{
+		
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_SAVE, HttpMethod.POST, new HttpEntity<OutProjectPaymentplan>(payment,this.httpHeaders), OutProjectPaymentplan.class);
 		
 		return JSON.toJSONString(responseEntity.getBody());
 	}
