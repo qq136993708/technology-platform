@@ -35,7 +35,7 @@ import com.pcitc.web.utils.EquipmentUtils;
 public class PaymentPlanController extends BaseController 
 {
 	private static final String PROJECT_INFO_LIST_BYCONDITION = "http://pcitc-zuul/system-proxy/out-provider/project-info-list-bycondition";
-	private static final String PROJECT_PAYMENTPLANT_LIST = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-list";
+	private static final String PROJECT_PAYMENTPLANT_LIST = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-batchs/";
 
 	
 	
@@ -46,7 +46,7 @@ public class PaymentPlanController extends BaseController
 		String ysnd = DateUtils.dateToStr(new Date(),DateUtils.FMT_YY);
 		OutProjectInfoPaymentplan plan = new OutProjectInfoPaymentplan();
 		plan.setNd(ysnd);
-		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST, HttpMethod.POST, new HttpEntity<OutProjectInfoPaymentplan>(plan,this.httpHeaders), List.class);
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST+ysnd, HttpMethod.POST, new HttpEntity<OutProjectInfoPaymentplan>(plan,this.httpHeaders), List.class);
 		request.setAttribute("paymentplans", responseEntity.getBody());
 		
 		
@@ -93,7 +93,6 @@ public class PaymentPlanController extends BaseController
 		}
 		request.setAttribute("nd", nd);
 		request.setAttribute("dataId", request.getParameter("dataId"));
-		System.out.println("----------"+request.getParameter("dataId"));
 		return "stp/paymentplan/project_paymentplan_edit";
 	}
 	@RequestMapping(value = "/paymentplan/project-info-list-bycondition", method = RequestMethod.POST)
@@ -119,6 +118,9 @@ public class PaymentPlanController extends BaseController
 				out.setZylbbm(sysDictionary.getNumValue());
 			}
 		}
+		String paymentStatus = request.getParameter("paymentStatus");
+		String paymentPlanNo = request.getParameter("paymentPlanNo");
+		System.out.println("paymentStatus------"+paymentStatus);
 		System.out.println(JSON.toJSONString(out));
 		
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_BYCONDITION, HttpMethod.POST, new HttpEntity<OutProjectInfo>(out, this.httpHeaders), List.class);
@@ -138,17 +140,14 @@ public class PaymentPlanController extends BaseController
 		return JSON.toJSONString(array);
 	}
 	
-	@RequestMapping(value = "/paymentplan/project-paymentplan-list", method = RequestMethod.POST)
+	@RequestMapping(value = "/paymentplan/project-paymentplan-batchs", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getprojectPaymentplanList(@ModelAttribute("out")OutProjectInfo out,HttpServletRequest request) throws IOException 
 	{
-		OutProjectInfoPaymentplan plan = new OutProjectInfoPaymentplan();
 		if(StringUtils.isBlank(out.getYsnd())) {
-			plan.setNd(DateUtils.dateToStr(new Date(),DateUtils.FMT_YY));
-		}else {
-			plan.setNd(out.getYsnd());
+			out.setYsnd(DateUtils.dateToStr(new Date(),DateUtils.FMT_YY));
 		}
-		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST, HttpMethod.POST, new HttpEntity<OutProjectInfoPaymentplan>(plan,this.httpHeaders), List.class);
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST+out.getYsnd(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		
 		return JSON.toJSONString(responseEntity.getBody());
 	}

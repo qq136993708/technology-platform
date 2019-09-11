@@ -177,7 +177,7 @@
 						<div class="layui-inline">
 							<label class="layui-form-label">拨付状态：</label>
 							<div class="layui-input-inline">
-								<select name="paymentStatus" id="paymentStatus">
+								<select name="paymentStatus" id="paymentStatus" lay-filter="paymentStatus">
 									<option value="">--请选择--</option> 
 									<option value="0">未拨付</option>
 									<option value="1">已拨付</option>
@@ -189,9 +189,6 @@
 							<div class="layui-input-inline">
 								<select name="paymentPlanNo" id="paymentPlanNo">
 									<option value="">--请选择--</option> 
-									<#list paymentplans as vo>
-										<option value="${vo.paymentPlanNo}">${vo.paymentPlanNo}</option>
-									</#list>
 								</select>
 							</div>
 						</div>
@@ -275,13 +272,6 @@
 				type : 'year',
 				done : function(value, date, endDate) {
 					$("#ysnd").val(date.year);
-					publicMethods.ajaxAsyncPost("/paymentplan/project-paymentplan-list",{"ysnd":$("#ysnd").val()}, function (data) {
-		    			$("#paymentPlanNo").html("<option value=''>--请选择--</option>");
-		    			$.each(data,function(index,dt){
-		    				$("#paymentPlanNo").append("<option value='"+dt.paymentPlanNo+"'>"+dt.paymentPlanNo+"</option>");
-		    			});
-		    			form.render();
-			   		}); 
 				}
 			});
 			//加载表格      
@@ -321,6 +311,9 @@
 					$('#gsbmbmFlag').val("");
 					$('#zycbmFlag').val("");
 					$('#zylbbmFlag').val("");
+					$('#paymentPlanNo').val("");
+					$('#paymentStatus').val("");
+					
 					form.render();
 				}
 
@@ -361,6 +354,16 @@
 				getDicByParentCode(parentCode, 'zylbbmFlag');
 				console.log("监听处室:" + data);
 			});
+			//监听拨付状态
+			form.on('select(paymentStatus)', function(data) {
+				if(data.value==1){
+					initPaymentBatchs();
+				}else{
+					$("#paymentPlanNo").html("<option value=''>--请选择--</option>");
+					form.render();
+				}
+			});
+			
 
 			//初始化经费来源
 			var define11 = $("#define11").val();
@@ -376,6 +379,17 @@
 
 			//renderTable();
 		});
+		//拨付批次
+		function initPaymentBatchs(){
+			publicMethods.ajaxAsyncPost("/paymentplan/project-paymentplan-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
+    			$("#paymentPlanNo").html("<option value=''>--请选择--</option>");
+    			$.each(data,function(index,dt){
+    				$("#paymentPlanNo").append("<option value='"+dt.numValue+"'>"+dt.name+"</option>");
+    			});
+    			form.render();
+	   		}); 
+		}
+		
 		function showCompanyName(parentCode){
 			if("ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY"==parentCode||"ROOT_FZJCZX_GSLXCW_GFGS"==parentCode||"-1"==parentCode||""==parentCode||null==parentCode){
 				$("#lay_company").html("研究院：");
@@ -402,6 +416,8 @@
 			var nd = $("#nd").val();
 			var ysnd = $("#ysnd").val();
 			var paymentStatus = $("#paymentStatus").val();
+			var paymentPlanNo = $("#paymentPlanNo").val();
+			
 			
 			define1 = (define1 == '--请选择--')?'':define1;
 			define2 = (define2 == '--请选择--')?'':define2;
@@ -415,7 +431,7 @@
 			
 			var param = {"xmmc":$("#xmmc").val(),"hth":$("#hth").val(),"nd":$("#nd").val(),"ysnd":$("#ysnd").val(),
 					"define1":define1,"define2":define2,"define5":define5,"paymentStatus":paymentStatus,
-					"define11":define11,"define12":define12,"fzdw":fzdwflag,
+					"define11":define11,"define12":define12,"fzdw":fzdwflag,"paymentPlanNo":paymentPlanNo,
 					"zylb":zylb,"gsbmbm":gsbmbmFlag,"zycbm":zycbmFlag,"zylbbm":zylbbmFlag};
 			console.log(param);
 			var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});

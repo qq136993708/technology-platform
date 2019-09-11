@@ -239,11 +239,18 @@
         var $ = layui.jquery,form = layui.form,table = layui.table,laydate = layui.laydate,layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
       	//报销批次字典
-        publicMethods.ajaxPost('/dictionary/list/ROOT_YSGL_JFBFPCZD', null, function (data, status) {
+      	publicMethods.ajaxPost("/paymentplan/project-paymentplan-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
+   			$("#define17").html("<option value=''>--请选择--</option>");
+   			$.each(data,function(index,dt){
+   				$("#define17").append("<option value='"+dt.numValue+"'>"+dt.name+"</option>");
+   			});
+   			form.render();
+   		}); 
+        /* publicMethods.ajaxPost('/dictionary/list/ROOT_YSGL_JFBFPCZD', null, function (data, status) {
       		$.each(data,function(i,dt){
   	    		$("#define17").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
   	    	});
-	    });
+	    }); */
         publicMethods.ajaxPost("/out/project-info-detail",{"dataId":dataId}, function (data) {
         	console.log(data);
 			form.val("budget-form",data);

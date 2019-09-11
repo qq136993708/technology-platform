@@ -15,8 +15,10 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.out.OutProjectInfoPaymentplan;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.service.out.OutProjectInfoPaymentplanService;
+import com.pcitc.service.system.SysDictionaryService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +30,9 @@ public class OutProjectInfoPaymentplanProviderClient
 
 	@Autowired
 	private OutProjectInfoPaymentplanService outProjectInfoPaymentplanService;
+	
+	@Autowired
+	private SysDictionaryService dictionaryService;
 	
 	@ApiOperation(value="报销计划项管理-检索报销计划项",notes="根据报销计划项ID检索报销计划项!")
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-get/{dataId}", method = RequestMethod.POST)
@@ -45,6 +50,26 @@ public class OutProjectInfoPaymentplanProviderClient
 		return organ;
 	}
 	
+	@ApiOperation(value="报销批次-拨付计划批次",notes="按年度获取拨付批次号列表")
+	@RequestMapping(value = "/out-provider/out/project-paymentplan-batchs/{nd}", method = RequestMethod.POST)
+	public Object selectOutProjectInfoPaymentplanBatchs(@PathVariable("nd") String nd) 
+	{
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
+		try
+		{
+			List<SysDictionary> dictionarys = dictionaryService.getDictionaryListByParentCode("ROOT_YSGL_JFBFPCZD");
+			for(SysDictionary dic:dictionarys) {
+				Map<String,Object> map = MyBeanUtils.transBean2Map(dic);
+				//map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
+				rsdata.add(map);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rsdata;
+	}
 	@ApiOperation(value="报销计划项管理-报销计划项列表",notes="获取报销计划项列表。")
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-list", method = RequestMethod.POST)
 	public Object selectOutProjectInfoPaymentplanList(@RequestBody OutProjectInfoPaymentplan bean) 

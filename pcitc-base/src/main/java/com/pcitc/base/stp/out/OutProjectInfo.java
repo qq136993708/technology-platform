@@ -184,13 +184,14 @@ public class OutProjectInfo {
     
     private String lay_is_open;
      
-     private String lay_icon_open;
+    private String lay_icon_open;
      
-     private String lay_icon;
+    private String lay_icon;
      
-     
-     
-     private String createDateStr;
+    private String createDateStr;
+    
+    private String paymentStatus;
+    private String paymentPlanNo;
      
     
     
@@ -884,4 +885,21 @@ public class OutProjectInfo {
     public void setDefine19(String define19) {
         this.define19 = define19;
     }
+
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
+
+	public String getPaymentPlanNo() {
+		return paymentPlanNo;
+	}
+
+	public void setPaymentPlanNo(String paymentPlanNo) {
+		this.paymentPlanNo = paymentPlanNo;
+	}
+    
 }
