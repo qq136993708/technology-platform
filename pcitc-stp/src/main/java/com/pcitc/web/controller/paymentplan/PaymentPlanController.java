@@ -118,11 +118,7 @@ public class PaymentPlanController extends BaseController
 				out.setZylbbm(sysDictionary.getNumValue());
 			}
 		}
-		String paymentStatus = request.getParameter("paymentStatus");
-		String paymentPlanNo = request.getParameter("paymentPlanNo");
-		System.out.println("paymentStatus------"+paymentStatus);
 		System.out.println(JSON.toJSONString(out));
-		
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_INFO_LIST_BYCONDITION, HttpMethod.POST, new HttpEntity<OutProjectInfo>(out, this.httpHeaders), List.class);
 		JSONArray array = JSONArray.parseArray(JSON.toJSONString(responseEntity.getBody()));
 		for(int i = 0;i<array.size();i++) 

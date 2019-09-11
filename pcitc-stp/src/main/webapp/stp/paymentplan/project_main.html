@@ -187,7 +187,7 @@
 						<div class="layui-inline">
 							<label class="layui-form-label">拨付批次：</label>
 							<div class="layui-input-inline">
-								<select name="paymentPlanNo" id="paymentPlanNo">
+								<select name="define17" id="define17">
 									<option value="">--请选择--</option> 
 								</select>
 							</div>
@@ -311,7 +311,7 @@
 					$('#gsbmbmFlag').val("");
 					$('#zycbmFlag').val("");
 					$('#zylbbmFlag').val("");
-					$('#paymentPlanNo').val("");
+					$('#define17').val("");
 					$('#paymentStatus').val("");
 					
 					form.render();
@@ -359,7 +359,7 @@
 				if(data.value==1){
 					initPaymentBatchs();
 				}else{
-					$("#paymentPlanNo").html("<option value=''>--请选择--</option>");
+					$("#define17").html("<option value=''>--请选择--</option>");
 					form.render();
 				}
 			});
@@ -382,9 +382,9 @@
 		//拨付批次
 		function initPaymentBatchs(){
 			publicMethods.ajaxAsyncPost("/paymentplan/project-paymentplan-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
-    			$("#paymentPlanNo").html("<option value=''>--请选择--</option>");
+    			$("#define17").html("<option value=''>--请选择--</option>");
     			$.each(data,function(index,dt){
-    				$("#paymentPlanNo").append("<option value='"+dt.numValue+"'>"+dt.name+"</option>");
+    				$("#define17").append("<option value='"+dt.numValue+"'>"+dt.name+"</option>");
     			});
     			form.render();
 	   		}); 
@@ -405,6 +405,7 @@
 			var define1 = $("#define1 option:selected").text();
 			var define5 = $("#define5 option:selected").text();
 			var define11 = $("#define11 option:selected").text();
+			var define17 = $("#define17 option:selected").text();
 			var fzdwflag = $("#fzdwflag option:selected").text();
 			var zylb = $("#zylb option:selected").text();
 			
@@ -416,7 +417,7 @@
 			var nd = $("#nd").val();
 			var ysnd = $("#ysnd").val();
 			var paymentStatus = $("#paymentStatus").val();
-			var paymentPlanNo = $("#paymentPlanNo").val();
+			
 			
 			
 			define1 = (define1 == '--请选择--')?'':define1;
@@ -424,14 +425,15 @@
 			define5 = (define5 == '--请选择--')?'':define5;
 			define12 = (define12 == '--请选择--')?'':define12;
 			define11 = (define11 == '--请选择--')?'':define11;
+			define17 = (define17 == '--请选择--')?'':define17;
 			zycbmFlag = (zycbmFlag == '--请选择--')?'':zycbmFlag;
 			fzdwflag = (fzdwflag == '--请选择--')?'':fzdwflag;
 			zylb = (zylb == '--请选择--')?'':zylb;
 			//groupFlag = (groupFlag == '--请选择--')?'':groupFlag;
 			
 			var param = {"xmmc":$("#xmmc").val(),"hth":$("#hth").val(),"nd":$("#nd").val(),"ysnd":$("#ysnd").val(),
-					"define1":define1,"define2":define2,"define5":define5,"paymentStatus":paymentStatus,
-					"define11":define11,"define12":define12,"fzdw":fzdwflag,"paymentPlanNo":paymentPlanNo,
+					"define1":define1,"define2":define2,"define5":define5,"define17":define17,
+					"define11":define11,"define12":define12,"fzdw":fzdwflag,"paymentStatus":paymentStatus,
 					"zylb":zylb,"gsbmbm":gsbmbmFlag,"zycbm":zycbmFlag,"zylbbm":zylbbmFlag};
 			console.log(param);
 			var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
