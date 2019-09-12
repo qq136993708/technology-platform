@@ -181,14 +181,13 @@ public class OutProjectPaymentplanProviderClient
 			OutProjectPaymentplan old = outProjectPaymentplanService.selectOutProjectPaymentplan(bean.getDataId());
 			if(old == null) {
 				rs = outProjectPaymentplanService.saveOutProjectPaymentplan(bean);
-				//更新拨付情况
-				OutProjectInfo info = outProjectService.selectOutProjectInfo(bean.getProjectId());
-				if(info != null) {
-					info.setDefine18(bean.getPayNo());
-					outProjectService.updateOutProject_Info(info);
-				}
 			}else {
 				rs = outProjectPaymentplanService.updateOutProjectPaymentplan(bean);
+			}
+			OutProjectInfo info = outProjectService.selectOutProjectInfo(bean.getProjectId());
+			if(info != null) {
+				info.setDefine18(bean.getPayNo());
+				outProjectService.updateOutProject_Info(info);
 			}
 		}
 		catch (Exception e)

@@ -26,7 +26,7 @@
 	<input type="hidden" name="dataId" id="dataId" value="${dataId}">
 	<input type="hidden" name="nd" id="nd">
 	<input type="hidden" name="ysnd" id="ysnd">
-	<input type="hidden" name="paymentNo" id="paymentNo">
+	<input type="hidden" name="payNo" id="payNo">
     <div class="con-box">
         <div class="formBox">
         	<div class="layui-row">
@@ -34,7 +34,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">报销批次<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                       		<select name="define18" id="define18" lay-verify="required"  lay-filter="define17">
+                       		<select name="define18" id="define18" lay-verify="required"  lay-filter="define18">
 								<option value="">请选择</option>
 							</select>
                         </div>
@@ -347,7 +347,7 @@
             //var formData = JSON.stringify(data.field);
             data.field.payNo = data.field.define18;
             data.field.projectId = projectId;
-            layer.confirm('确定要拨付吗？',{title:"拨付确认"},function(index){
+            layer.confirm('确定要报销吗？',{title:"报销确认"},function(index){
             	var lodingMsg = layer.msg('处理中....');
             	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-save', data.field, function (data, status) {
                     if (data.success) {
