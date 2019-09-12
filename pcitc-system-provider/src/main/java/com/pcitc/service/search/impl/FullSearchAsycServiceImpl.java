@@ -227,7 +227,9 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
             IndexAccessorService indexAccessor = getIndexAccessorService(accessor);
             System.out.println("生成indexAccessor对象---"+indexAccessor);
             indexAccessor.createIndexWithSettings(SysFile.class);
+            System.out.println("1设置indexAccessor对象---"+indexAccessor);
             indexAccessor.createMappingXContentBuilder(SysFile.class);
+            System.out.println("2设置indexAccessor对象---"+indexAccessor);
             System.out.println("sysFile对象---"+sysFile);
             sysFile.setEsId((int) (accessor.count(SysFile.class, null)));
             System.out.println("setEsId---"+sysFile.getEsId());
