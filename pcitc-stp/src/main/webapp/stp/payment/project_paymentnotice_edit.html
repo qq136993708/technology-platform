@@ -29,26 +29,7 @@
 	<input type="hidden" name="paymentNo" id="paymentNo">
     <div class="con-box">
         <div class="formBox">
-        
         	<div class="layui-row">
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">拨付批次<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-							<input class="layui-input readOnlyBox" type="text" readonly="readonly" name="define17" id="define17" placeholder="" autocomplete="off">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">拨付状态<span class="must-fill"></span></label>
-                        <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="paymentStatusDesc" id="paymentStatusDesc" placeholder="" autocomplete="off">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">报销批次<span class="must-fill">*</span></label>
@@ -63,11 +44,30 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">报销状态<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="paymentStatusDesc" id="paymentStatusDesc" placeholder="" autocomplete="off">
+                            <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="paymentNoticeStatusDesc" id="paymentNoticeStatusDesc" placeholder="" autocomplete="off">
                         </div>
                     </div>
                 </div>
             </div>
+        	<div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">拨付批次<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+							<input class="layui-input readOnlyBox" type="text" readonly="readonly" name="define17" id="define17" placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">拨付状态<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="paymentPlanStatusDesc" id="paymentPlanStatusDesc" placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
@@ -272,7 +272,8 @@
         publicMethods.ajaxAsyncPost("/out/project-info-detail",{"dataId":projectId}, function (data) {
 			form.val("budget-form",data);
 			$("#dataId").val(dataId);
-			$("#paymentStatusDesc").val(data.define17==null?'未拨付':'已拨付');
+			$("#paymentPlanStatusDesc").val(data.define17==null?'未拨付':'已拨付');
+			$("#paymentNoticeStatusDesc").val(data.define18==null?'未报销':'已报销');
 			form.render();
 			if(data.define17!=null)
 			{
@@ -344,11 +345,11 @@
         // 点击保存按钮
         form.on('submit(saveEvent)', function(data){
             //var formData = JSON.stringify(data.field);
-            data.field.paymentNo = data.field.define17;
+            data.field.payNo = data.field.define18;
             data.field.projectId = projectId;
             layer.confirm('确定要拨付吗？',{title:"拨付确认"},function(index){
             	var lodingMsg = layer.msg('处理中....');
-            	publicMethods.ajaxAsyncPost('/payment/project-paymentplan-save', data.field, function (data, status) {
+            	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-save', data.field, function (data, status) {
                     if (data.success) {
                     	var index = parent.layer.getFrameIndex(window.name);
         			    parent.layer.close(index);

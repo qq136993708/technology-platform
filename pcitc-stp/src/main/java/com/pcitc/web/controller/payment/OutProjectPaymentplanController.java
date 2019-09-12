@@ -40,7 +40,7 @@ public class OutProjectPaymentplanController extends BaseController
 	private static final String PROJECT_PAYMENTNOTICE_BATCHS = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentnotice-batchs/";
 	private static final String PROJECT_PAYMENTPLANT_BYINFOID = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-byinfoid/";
 	private static final String PROJECT_PAYMENTPLANT_SAVE = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-save";
-	
+	private static final String PROJECT_PAYMENTNOTICE_SAVE = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentnotice-save";
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/payment/project_paymentplan_main")
@@ -222,6 +222,15 @@ public class OutProjectPaymentplanController extends BaseController
 	{
 		
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_SAVE, HttpMethod.POST, new HttpEntity<OutProjectPaymentplan>(payment,this.httpHeaders), Object.class);
+		System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		return JSON.toJSONString(responseEntity.getBody());
+	}
+	@RequestMapping(value = "/payment/project-paymentnotice-save", method = RequestMethod.POST)
+	@ResponseBody
+	public Object saveProjectPaymentnotice(@ModelAttribute("payment")OutProjectPaymentplan payment,HttpServletRequest request) throws IOException 
+	{
+		
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTNOTICE_SAVE, HttpMethod.POST, new HttpEntity<OutProjectPaymentplan>(payment,this.httpHeaders), Object.class);
 		System.out.println(JSON.toJSONString(responseEntity.getBody()));
 		return JSON.toJSONString(responseEntity.getBody());
 	}

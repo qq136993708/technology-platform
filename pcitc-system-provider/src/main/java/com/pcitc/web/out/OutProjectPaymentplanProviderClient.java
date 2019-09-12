@@ -171,6 +171,32 @@ public class OutProjectPaymentplanProviderClient
 		}
 		return rs;
 	}
+	@ApiOperation(value="报销计划项管理-报销计划项保存",notes="保存报销计划项")
+	@RequestMapping(value = "/out-provider/out/project-paymentnotice-save", method = RequestMethod.POST)
+	public Object saveOutProjectInfoPaymentnotice(@RequestBody OutProjectPaymentplan bean) 
+	{
+		Result rs = new Result(false);
+		try
+		{
+			OutProjectPaymentplan old = outProjectPaymentplanService.selectOutProjectPaymentplan(bean.getDataId());
+			if(old == null) {
+				rs = outProjectPaymentplanService.saveOutProjectPaymentplan(bean);
+				//更新拨付情况
+				OutProjectInfo info = outProjectService.selectOutProjectInfo(bean.getProjectId());
+				if(info != null) {
+					info.setDefine18(bean.getPayNo());
+					outProjectService.updateOutProject_Info(info);
+				}
+			}else {
+				rs = outProjectPaymentplanService.updateOutProjectPaymentplan(bean);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
 	@ApiOperation(value="报销计划项管理-报销计划项更新",notes="更新报销计划项")
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-upd", method = RequestMethod.POST)
 	public Object updOutProjectInfoPaymentplan(@RequestBody OutProjectPaymentplan bean) 
