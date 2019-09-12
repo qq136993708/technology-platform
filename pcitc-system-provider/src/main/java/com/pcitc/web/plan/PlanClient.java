@@ -75,6 +75,9 @@ public class PlanClient {
     @RequestMapping(value = "/planClient-provider/viewBotWorkOrder/{dataId}", method = RequestMethod.POST)
     public PlanBase viewBotWorkOrder(@PathVariable(value = "dataId", required = true) String dataId) {
         PlanBase vo = null;
+        if (dataId == null) {
+        	return vo;
+        }
         try {
             vo = planBaseService.findBotWorkOrderById(dataId);
         } catch (Exception e) {
