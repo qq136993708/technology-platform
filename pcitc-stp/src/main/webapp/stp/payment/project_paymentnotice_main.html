@@ -230,7 +230,7 @@
 		                   	<th lay-data="{field:'nd', width: 80,align:'center'}">立项年度</th>
 		                    <th lay-data="{field:'ysnd', width: 80,align:'center'}">预算年度</th>
 		                    <th lay-data="{field:'define11', width: 100,align:'left'}">经费来源</th>
-		                    <th lay-data="{field:'gsbmmc', width: 100,align:'left'}">部门</th>
+		                    <th lay-data="{field:'gsbmmc', width: 100,align:'left',event:'cl'}">部门</th>
 		                    <th lay-data="{field:'define10', width: 120,align:'left'}">专业处</th>
 		                    <th lay-data="{field:'xmmc',align:'left'}">项目名称</th>
 		                    <th lay-data="{field:'define8',align:'left'}">承担单位</th>
@@ -443,6 +443,11 @@
 	   		}); 
 		}
 		
+		table.on('tool(dataTable)', function(obj){ 
+			var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+			console.log(layEvent);
+			
+		});
 		function view_pro(xmmc, projectProperty, id) {
 
 			layer.open({
