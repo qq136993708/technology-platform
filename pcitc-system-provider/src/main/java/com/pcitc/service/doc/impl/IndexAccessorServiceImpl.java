@@ -106,7 +106,9 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
     /* 创建索引 */
     @Override
     public boolean createIndexWithSettings(Class clazz) {
+    	System.out.println("createIndexWithSettings======"+clazz);
         String indexName = SearchUtil.getIndexName(clazz);
+        System.out.println("createIndexWithSettingsindexName======"+indexName);
         if(this.hasIndex(indexName)){
             return true;
         }
@@ -201,6 +203,7 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
     /* 判断索引是否存在 */
     @Override
     public boolean hasIndex(String indexName) {
+    	System.out.println("hasIndex======"+indexName);
         boolean indexExists = client.admin().indices().prepareExists(indexName).execute().actionGet().isExists();
         LOG.info("存在性检测====>索引\"" + indexName + (indexExists ? "\"存在" : "\"不存在"));
         return indexExists;
@@ -245,11 +248,11 @@ public class IndexAccessorServiceImpl implements IndexAccessorService {
     @Override
     public boolean createMappingXContentBuilder(Class clazz) {
         try {
+        	System.out.println("createMappingXContentBuilder------------mapping-------------"+clazz);
             String indexName = SearchUtil.getIndexName(clazz);
             String typeName = SearchUtil.getTypeName((clazz));
             XContentBuilder mapping = SearchUtil.getMappingXContentBuilder(clazz);
-            System.out.println("------------mapping-------------");
-            System.out.println(mapping);
+            System.out.println("createMappingXContentBuilder------------mapping-------------"+mapping);
             //创建映射
             PutMappingRequest mappingRequest =Requests.putMappingRequest(indexName).type(typeName).source(mapping);
             client.admin().indices().putMapping(mappingRequest).get();
