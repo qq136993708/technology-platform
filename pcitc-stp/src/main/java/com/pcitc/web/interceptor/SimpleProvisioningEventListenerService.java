@@ -297,7 +297,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 							sysUser.setUserPhone(vlaue);// 用户座机号
 						}
 						if ("sptitlelevel".equals(keyName.toLowerCase())) {
-							sysUser.setUserLevel(1);// 用户姓名-类型不同存储固定值
+							sysUser.setUserLevel(0);// 用户姓名-类型不同存储固定值
 						}
 
 						if ("sporgcodepath".equals(keyName.toLowerCase())) {
@@ -375,7 +375,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					}
 					
 					sysUser.setUserName(targetSubject.getSubject());// 应用账号
-					sysUser.setUserPassword("2cbb78c76ed2edecca69b7d6c0e0e578");
+					sysUser.setUserPassword("96e79218965eb72c92a549dd5a330112");
 					if (sysUser.getUserKind()==null || sysUser.getUserKind().equals("")) {
 						sysUser.setUserKind("ROOT_XTGL_YHLX_ZZNYH");// 用户类型
 					}
@@ -393,10 +393,12 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					sysUser.setUserOrder(1);
 					sysUser.setUserSign("用户签章");
 					sysUser.setIsDomain(0);
-					sysUser.setUserPost("1");
+					// 盈科下的普通岗位
+					sysUser.setUserPost("7be1f23905c1446881b757b550fc7a71");
 					sysUser.setUserRole(null);
 					sysUser.setUserDelflag(0);
 					sysUser.setLoginErrorNumber(3);
+					sysUser.setUserConfig2("职员");
 					sysUser.setLoginCheckCode(UUID.randomUUID().toString().substring(0, 4));
 					sysUser.setUserCreateTime(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
 					// 获取用户所在机构部门

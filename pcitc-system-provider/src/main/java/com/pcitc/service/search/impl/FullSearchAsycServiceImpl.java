@@ -1,19 +1,26 @@
 package com.pcitc.service.search.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Future;
+
+import org.elasticsearch.client.transport.TransportClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.TreeNode2;
-import com.pcitc.base.hana.report.H1AMKYSY100117;
-import com.pcitc.base.stp.out.*;
+import com.pcitc.base.stp.out.OutAppraisal;
+import com.pcitc.base.stp.out.OutAppraisalExample;
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutReward;
+import com.pcitc.base.stp.out.OutRewardExample;
 import com.pcitc.base.system.SysFile;
-import com.pcitc.base.system.SysFunction;
-import com.pcitc.base.system.SysFunctionExample;
 import com.pcitc.base.util.StrUtil;
-import com.pcitc.config.SpringContextUtil;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.es.clientmanager.IndexHelperBuilder;
 import com.pcitc.mapper.out.OutAppraisalMapper;
@@ -29,21 +36,8 @@ import com.pcitc.service.search.FullSearchAsycService;
 import com.pcitc.service.search.FullSearchService;
 import com.pcitc.service.system.SysFunctionService;
 import com.pcitc.utils.GetTextFromFile;
-import com.pcitc.utils.StringUtils;
 import com.pcitc.web.feign.HomeProviderClient;
 import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Service;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Future;
 
 /**
  * @author:Administrator
@@ -70,6 +64,26 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
     ZjkBaseInfoServiceClient zjkBaseInfoServiceClient;
 
     private List<String> listInfo;
+    
+    private static TransportClient client;
+	
+	private static ClientFactoryBuilder clientFactoryBuilder;
+	
+	/**
+	 * 特殊处理，初始化的时候把clientFactoryBuilder注入，
+	 * 通过@Autowired直接注入的方式，命令行启动时有问题，所以采用这种方式
+	 */
+	@Autowired
+    public FullSearchAsycServiceImpl(ClientFactoryBuilder clientFactoryBuilder) {
+		FullSearchAsycServiceImpl.clientFactoryBuilder = clientFactoryBuilder;
+    	try {
+            if (client == null) {
+            	client = clientFactoryBuilder.getClient();
+            }
+        } catch (Exception e) {
+            System.out.println("FullSearchAsycServiceImpl:连接es客户端异常 ");
+        }
+    }
 
     @Async
     public Future<LayuiTableData> getOutRewardListPage(LayuiTableParam param) {
@@ -194,13 +208,8 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
         return new AsyncResult<LayuiTableData>(data);
     }
 
-    private static ClientFactoryBuilder clientFactoryBuilder = null;
-
     public AccessorService getAccessorService() {
-    	if (clientFactoryBuilder == null) {
-			clientFactoryBuilder = new ClientFactoryBuilder();
-		}
-        AccessorService accessor = new AccessorServiceImpl(clientFactoryBuilder.getClient());
+        AccessorService accessor = new AccessorServiceImpl();
         return accessor;
     }
 
@@ -212,13 +221,23 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
     @Override
     public byte[] fileToEs(SysFile sysFile) {
         try {
+        	System.out.println("开始写入es-----fileToEs");
             AccessorService accessor = getAccessorService();
+            System.out.println("生成accessor对象---"+accessor);
             IndexAccessorService indexAccessor = getIndexAccessorService(accessor);
+            System.out.println("生成indexAccessor对象---"+indexAccessor);
             indexAccessor.createIndexWithSettings(SysFile.class);
+            System.out.println("1设置indexAccessor对象---"+indexAccessor);
             indexAccessor.createMappingXContentBuilder(SysFile.class);
+            System.out.println("2设置indexAccessor对象---"+indexAccessor);
+            System.out.println("sysFile对象---"+sysFile);
             sysFile.setEsId((int) (accessor.count(SysFile.class, null)));
+            System.out.println("setEsId---"+sysFile.getEsId());
+            System.out.println("getFilePath---"+sysFile.getFilePath());
             sysFile.setBak4(GetTextFromFile.getText(sysFile.getFilePath()));
+            System.out.println("setEsId---"+sysFile.getBak4());
             accessor.add(sysFile);
+            System.out.println("accessor.add---"+sysFile);
         } catch (Exception e) {
             System.out.println("文件写入ES异常");
 //            e.printStackTrace();

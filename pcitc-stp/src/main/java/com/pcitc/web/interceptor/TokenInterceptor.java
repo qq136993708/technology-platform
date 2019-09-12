@@ -43,6 +43,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 			 */
 			// 手动设置几个常用页面不能直接访问，在InterceptorConfig文件中也可以批量设置
 			if (path != null && (path.indexOf("index.html") > -1 || path.indexOf("login.html") > -1 || path.indexOf("error.html") > -1)) {
+				System.out.println("手动设置几个常用页面不能直接访问");
 				// 统一身份认证时，重定向到/stpHome, 测试环境是/login
 				resultData(request, response);
 				return false;
@@ -69,8 +70,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 					resultData(request, response);
 					return false;
 				}
-				//System.out.println("特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
+				System.out.println("特殊路径--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
 			} else {
+				System.out.println("cookies is not null ");
 				// 会话cookie中缺少HttpOnly属性
 				for (Cookie c : cookies) {
 					c.setHttpOnly(true);
@@ -86,7 +88,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 			}
 			if (token != null) {
-				//System.out.println("token is not null:"+token);
+				System.out.println("token is not null:");
 				httpHeaders.set("Authorization", "Bearer " + token);
 				sysUser = JwtTokenUtil.getUserFromTokenByValue(token);
 				// 验证当前url登录人是否有权限查看（url中不会包含ajax请求的）
