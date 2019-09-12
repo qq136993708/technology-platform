@@ -221,13 +221,21 @@ public class FullSearchAsycServiceImpl implements FullSearchAsycService {
     @Override
     public byte[] fileToEs(SysFile sysFile) {
         try {
+        	System.out.println("开始写入es-----fileToEs");
             AccessorService accessor = getAccessorService();
+            System.out.println("生成accessor对象---"+accessor);
             IndexAccessorService indexAccessor = getIndexAccessorService(accessor);
+            System.out.println("生成indexAccessor对象---"+indexAccessor);
             indexAccessor.createIndexWithSettings(SysFile.class);
             indexAccessor.createMappingXContentBuilder(SysFile.class);
+            System.out.println("sysFile对象---"+sysFile);
             sysFile.setEsId((int) (accessor.count(SysFile.class, null)));
+            System.out.println("setEsId---"+sysFile.getEsId());
+            System.out.println("getFilePath---"+sysFile.getFilePath());
             sysFile.setBak4(GetTextFromFile.getText(sysFile.getFilePath()));
+            System.out.println("setEsId---"+sysFile.getBak4());
             accessor.add(sysFile);
+            System.out.println("accessor.add---"+sysFile);
         } catch (Exception e) {
             System.out.println("文件写入ES异常");
 //            e.printStackTrace();
