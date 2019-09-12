@@ -35,7 +35,25 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">拨付批次<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                       		<select name="define17" id="define17" lay-verify="required"  lay-filter="define17">
+							<input class="layui-input readOnlyBox" type="text" readonly="readonly" name="define17" id="define17" placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">拨付状态<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="paymentStatusDesc" id="paymentStatusDesc" placeholder="" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">报销批次<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                       		<select name="define18" id="define18" lay-verify="required"  lay-filter="define17">
 								<option value="">请选择</option>
 							</select>
                         </div>
@@ -43,7 +61,7 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">拨付状态<span class="must-fill"></span></label>
+                        <label for="" class="layui-form-label">报销状态<span class="must-fill"></span></label>
                         <div class="layui-input-block">
                             <input class="layui-input readOnlyBox" type="text" readonly="readonly" name="paymentStatusDesc" id="paymentStatusDesc" placeholder="" autocomplete="off">
                         </div>
@@ -228,7 +246,7 @@
     </div>
     <div class="form-bottom">
         <div class="form-bottom-btns">
-            <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit lay-filter="saveEvent">拨付</button>
+            <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit lay-filter="saveEvent">报销</button>
             <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="cancel">关闭 </button>
         </div>
     </div>
@@ -243,10 +261,10 @@
         var $ = layui.jquery,form = layui.form,table = layui.table,laydate = layui.laydate,layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
       	//报销批次
-      	publicMethods.ajaxPost("/payment/project-paymentplan-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
-   			$("#define17").html("<option value=''>--请选择--</option>");
+      	publicMethods.ajaxPost("/payment/project-paymentnotice-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
+   			$("#define18").html("<option value=''>--请选择--</option>");
    			$.each(data,function(index,dt){
-   				$("#define17").append("<option value='"+dt.numValue+"'>"+dt.name+"</option>");
+   				$("#define18").append("<option value='"+dt.numValue+"'>"+dt.name+"</option>");
    			});
    			form.render();
    		}); 

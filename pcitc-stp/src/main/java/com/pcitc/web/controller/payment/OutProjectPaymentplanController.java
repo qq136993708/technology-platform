@@ -36,7 +36,8 @@ import com.pcitc.web.utils.EquipmentUtils;
 public class OutProjectPaymentplanController extends BaseController 
 {
 	private static final String PROJECT_INFO_LIST_BYCONDITION = "http://pcitc-zuul/system-proxy/out-provider/project-info-list-bycondition";
-	private static final String PROJECT_PAYMENTPLANT_LIST = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-batchs/";
+	private static final String PROJECT_PAYMENTPLANT_BATCHS = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-batchs/";
+	private static final String PROJECT_PAYMENTNOTICE_BATCHS = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentnotice-batchs/";
 	private static final String PROJECT_PAYMENTPLANT_BYINFOID = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-byinfoid/";
 	private static final String PROJECT_PAYMENTPLANT_SAVE = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-save";
 	
@@ -189,10 +190,22 @@ public class OutProjectPaymentplanController extends BaseController
 		if(StringUtils.isBlank(out.getYsnd())) {
 			out.setYsnd(DateUtils.dateToStr(new Date(),DateUtils.FMT_YY));
 		}
-		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_LIST+out.getYsnd(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTPLANT_BATCHS+out.getYsnd(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		
 		return JSON.toJSONString(responseEntity.getBody());
 	}
+	@RequestMapping(value = "/payment/project-paymentnotice-batchs", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getprojectPaymentnoticeList(@ModelAttribute("out")OutProjectInfo out,HttpServletRequest request) throws IOException 
+	{
+		if(StringUtils.isBlank(out.getYsnd())) {
+			out.setYsnd(DateUtils.dateToStr(new Date(),DateUtils.FMT_YY));
+		}
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTNOTICE_BATCHS+out.getYsnd(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
+		
+		return JSON.toJSONString(responseEntity.getBody());
+	}
+	
 	@RequestMapping(value = "/payment/project-paymentplan-byinfoid", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getprojectPaymentplanByInfoId(@ModelAttribute("payment")OutProjectPaymentplan payment,HttpServletRequest request) throws IOException 

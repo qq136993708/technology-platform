@@ -90,6 +90,26 @@ public class OutProjectPaymentplanProviderClient
 		}
 		return rsdata;
 	}
+	@ApiOperation(value="报销批次-拨付计划批次",notes="按年度获取拨付批次号列表")
+	@RequestMapping(value = "/out-provider/out/project-paymentnotice-batchs/{nd}", method = RequestMethod.POST)
+	public Object selectOutProjectInfoPaymentnoticeBatchs(@PathVariable("nd") String nd) 
+	{
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
+		try
+		{
+			List<SysDictionary> dictionarys = dictionaryService.getDictionaryListByParentCode("ROOT_YSGL_JFBXPCZD");
+			for(SysDictionary dic:dictionarys) {
+				Map<String,Object> map = MyBeanUtils.transBean2Map(dic);
+				//map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
+				rsdata.add(map);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rsdata;
+	}
 	@ApiOperation(value="报销计划项管理-报销计划项列表",notes="获取报销计划项列表。")
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-list", method = RequestMethod.POST)
 	public Object selectOutProjectInfoPaymentplanList(@RequestBody OutProjectPaymentplan bean) 
