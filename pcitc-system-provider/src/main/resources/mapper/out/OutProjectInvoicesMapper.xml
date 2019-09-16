@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pcitc.mapper.out.OutProjectInfoPaymentplanMapper">
-  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutProjectInfoPaymentplan">
+<mapper namespace="com.pcitc.mapper.out.OutProjectInvoicesMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutProjectInvoices">
     <id column="data_id" jdbcType="VARCHAR" property="dataId" />
     <result column="nd" jdbcType="VARCHAR" property="nd" />
     <result column="payment_plan_no" jdbcType="VARCHAR" property="paymentPlanNo" />
+    <result column="invoice_no" jdbcType="VARCHAR" property="invoiceNo" />
+    <result column="invoice_fee" jdbcType="DOUBLE" property="invoiceFee" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
     <result column="creater" jdbcType="VARCHAR" property="creater" />
     <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
@@ -72,16 +75,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    data_id, nd, payment_plan_no, creater, creater_name, create_time, update_time, del_flag, 
-    audit_status, remarks
+    data_id, nd, payment_plan_no, invoice_no, invoice_fee, company_name, creater, creater_name, 
+    create_time, update_time, del_flag, audit_status, remarks
   </sql>
-  <select id="selectByExample" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplanExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.out.OutProjectInvoicesExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from out_project_info_paymentplan
+    from out_project_invoices
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -100,31 +103,33 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from out_project_info_paymentplan
+    from out_project_invoices
     where data_id = #{dataId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from out_project_info_paymentplan
+    delete from out_project_invoices
     where data_id = #{dataId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplanExample">
-    delete from out_project_info_paymentplan
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutProjectInvoicesExample">
+    delete from out_project_invoices
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplan">
-    insert into out_project_info_paymentplan (data_id, nd, payment_plan_no, 
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectInvoices">
+    insert into out_project_invoices (data_id, nd, payment_plan_no, 
+      invoice_no, invoice_fee, company_name, 
       creater, creater_name, create_time, 
       update_time, del_flag, audit_status, 
       remarks)
     values (#{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{paymentPlanNo,jdbcType=VARCHAR}, 
+      #{invoiceNo,jdbcType=VARCHAR}, #{invoiceFee,jdbcType=DOUBLE}, #{companyName,jdbcType=VARCHAR}, 
       #{creater,jdbcType=VARCHAR}, #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, #{auditStatus,jdbcType=INTEGER}, 
       #{remarks,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplan">
-    insert into out_project_info_paymentplan
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectInvoices">
+    insert into out_project_invoices
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="dataId != null">
         data_id,
@@ -134,6 +139,15 @@
       </if>
       <if test="paymentPlanNo != null">
         payment_plan_no,
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no,
+      </if>
+      <if test="invoiceFee != null">
+        invoice_fee,
+      </if>
+      <if test="companyName != null">
+        company_name,
       </if>
       <if test="creater != null">
         creater,
@@ -167,6 +181,15 @@
       <if test="paymentPlanNo != null">
         #{paymentPlanNo,jdbcType=VARCHAR},
       </if>
+      <if test="invoiceNo != null">
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceFee != null">
+        #{invoiceFee,jdbcType=DOUBLE},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
       <if test="creater != null">
         #{creater,jdbcType=VARCHAR},
       </if>
@@ -190,14 +213,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplanExample" resultType="java.lang.Long">
-    select count(*) from out_project_info_paymentplan
+  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutProjectInvoicesExample" resultType="java.lang.Long">
+    select count(*) from out_project_invoices
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update out_project_info_paymentplan
+    update out_project_invoices
     <set>
       <if test="record.dataId != null">
         data_id = #{record.dataId,jdbcType=VARCHAR},
@@ -207,6 +230,15 @@
       </if>
       <if test="record.paymentPlanNo != null">
         payment_plan_no = #{record.paymentPlanNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceNo != null">
+        invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invoiceFee != null">
+        invoice_fee = #{record.invoiceFee,jdbcType=DOUBLE},
+      </if>
+      <if test="record.companyName != null">
+        company_name = #{record.companyName,jdbcType=VARCHAR},
       </if>
       <if test="record.creater != null">
         creater = #{record.creater,jdbcType=VARCHAR},
@@ -235,10 +267,13 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update out_project_info_paymentplan
+    update out_project_invoices
     set data_id = #{record.dataId,jdbcType=VARCHAR},
       nd = #{record.nd,jdbcType=VARCHAR},
       payment_plan_no = #{record.paymentPlanNo,jdbcType=VARCHAR},
+      invoice_no = #{record.invoiceNo,jdbcType=VARCHAR},
+      invoice_fee = #{record.invoiceFee,jdbcType=DOUBLE},
+      company_name = #{record.companyName,jdbcType=VARCHAR},
       creater = #{record.creater,jdbcType=VARCHAR},
       creater_name = #{record.createrName,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=VARCHAR},
@@ -250,14 +285,23 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplan">
-    update out_project_info_paymentplan
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutProjectInvoices">
+    update out_project_invoices
     <set>
       <if test="nd != null">
         nd = #{nd,jdbcType=VARCHAR},
       </if>
       <if test="paymentPlanNo != null">
         payment_plan_no = #{paymentPlanNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceNo != null">
+        invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceFee != null">
+        invoice_fee = #{invoiceFee,jdbcType=DOUBLE},
+      </if>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
       </if>
       <if test="creater != null">
         creater = #{creater,jdbcType=VARCHAR},
@@ -283,10 +327,13 @@
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutProjectInfoPaymentplan">
-    update out_project_info_paymentplan
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutProjectInvoices">
+    update out_project_invoices
     set nd = #{nd,jdbcType=VARCHAR},
       payment_plan_no = #{paymentPlanNo,jdbcType=VARCHAR},
+      invoice_no = #{invoiceNo,jdbcType=VARCHAR},
+      invoice_fee = #{invoiceFee,jdbcType=DOUBLE},
+      company_name = #{companyName,jdbcType=VARCHAR},
       creater = #{creater,jdbcType=VARCHAR},
       creater_name = #{createrName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=VARCHAR},

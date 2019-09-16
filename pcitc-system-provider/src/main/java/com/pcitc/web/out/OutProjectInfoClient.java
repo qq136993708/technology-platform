@@ -1436,4 +1436,9 @@ public class OutProjectInfoClient {
 		}
 		map.put("zycbm", zycbm);
 	}
+	@ApiOperation(value = "查询合同信息", notes = "根据ID查询合同数据")
+	@RequestMapping(value = "/out-project-provider/project/info-detail/{dataId}", method = RequestMethod.POST)
+	public OutProjectInfo selectOutProjectInfoDetail(@PathVariable(value = "dataId", required = true) String dataId) throws Exception {
+		return outProjectService.selectOutProjectInfo(dataId);
+	}
 }

@@ -13,7 +13,7 @@
 	font-size: 12px;
 }
 
-.layui-btn {
+.layuiadmin-btn-list {
 	height: 30px;
 	line-height: 30px;
 	padding: 0 15px;
@@ -103,7 +103,7 @@
 						</div>
 
 						<div class="layui-inline">
-							<label class="layui-form-label">研究院：</label>
+							<label class="layui-form-label" id="lay_company">研究院：</label>
 							<div class="layui-input-inline">
 								<select name="define2" id="define2">
 								</select>
@@ -177,33 +177,18 @@
 						<div class="layui-inline">
 							<label class="layui-form-label">拨付状态：</label>
 							<div class="layui-input-inline">
-								<select name="paymentStatus" id="paymentStatus">
+								<select name="paymentStatus" id="paymentStatus" lay-filter="paymentStatus">
 									<option value="">--请选择--</option> 
 									<option value="0">未拨付</option>
 									<option value="1">已拨付</option>
-									<option value="2">部分拨付</option>
 								</select>
 							</div>
 						</div>
 						<div class="layui-inline">
 							<label class="layui-form-label">拨付批次：</label>
 							<div class="layui-input-inline">
-								<select name="paymentPlanNo" id="paymentPlanNo">
+								<select name="define17" id="define17">
 									<option value="">--请选择--</option> 
-									<#list paymentplans as vo>
-										<option value="${vo.paymentPlanNo}">${vo.paymentPlanNo}</option>
-									</#list>
-								</select>
-							</div>
-						</div>
-						<div class="layui-inline">
-							<label class="layui-form-label">报销状态：</label>
-							<div class="layui-input-inline">
-								<select name="paymentPlanNo" id="paymentPlanNo">
-									<option value="">--请选择--</option> 
-									<#list paymentplans as vo>
-										<option value="${vo.paymentPlanNo}">${vo.paymentPlanNo}</option>
-									</#list>
 								</select>
 							</div>
 						</div>
@@ -228,32 +213,30 @@
 			</div>
 
 			<div class="layui-card-body">
-				<div class="tableToolBox">
+				<!-- <div class="tableToolBox">
 		            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-		                    data-type="addEvent">生成报销计划
+		                    data-type="addEvent">经费拨付
 		            </button>
-		            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+		           <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
 		                    data-type="editEvent">发送报销通知单
 		            </button>
-		            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
-		                    data-type="exportEvent">下载报销通知单
-		            </button>
-		        </div>
+		        </div> -->
 				<table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true,text:{none:''}}">
 	                <thead>
 		                <tr>
-		                	<th lay-data="{type:'checkbox'}"></th>
 		                	<th lay-data="{type:'numbers', width: 55,align:'center',totalRowText: '合计'}">序号</th>
 		                    <th lay-data="{field:'hth', width: 100,align:'center'}">合同号</th>
 		                   	<th lay-data="{field:'nd', width: 80,align:'center'}">立项年度</th>
 		                    <th lay-data="{field:'ysnd', width: 80,align:'center'}">预算年度</th>
 		                    <th lay-data="{field:'define11', width: 100,align:'left'}">经费来源</th>
 		                    <th lay-data="{field:'gsbmmc', width: 100,align:'left'}">部门</th>
-		                    <th lay-data="{field:'define10', width: 100,align:'left'}">专业处</th>
+		                    <th lay-data="{field:'define10', width: 120,align:'left'}">专业处</th>
 		                    <th lay-data="{field:'xmmc',align:'left'}">项目名称</th>
 		                    <th lay-data="{field:'define8',align:'left'}">承担单位</th>
-		                    <th lay-data="{field:'ysje', width: 120,align:'right',templet : '#view_format'}">金额（万元）</th>
-		                    <th lay-data="{field:'define17', width: 100,align:'left'}">拨款批次</th>
+		                    <th lay-data="{field:'ysje', width: 120,align:'right',totalRow: true,templet : '#view_format'}">金额（万元）</th>
+		                    <th lay-data="{field:'paymentPlanStatus', width: 100,align:'center'}">拨付状态</th>
+		                    <th lay-data="{field:'define17', width: 100,align:'center'}">拨付批次</th>
+		                    <th lay-data="{title:'操作', width: 120,align:'center', templet:function(d){return '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg demo-delete\'>经费拨付</a>'}}">操作</th>
 		                </tr>
 	                </thead>
 	            </table>
@@ -289,13 +272,6 @@
 				type : 'year',
 				done : function(value, date, endDate) {
 					$("#ysnd").val(date.year);
-					publicMethods.ajaxAsyncPost("/paymentplan/project-paymentplan-list",{"ysnd":$("#ysnd").val()}, function (data) {
-		    			$("#paymentPlanNo").html("<option value=''>--请选择--</option>");
-		    			$.each(data,function(index,dt){
-		    				$("#paymentPlanNo").append("<option value='"+dt.paymentPlanNo+"'>"+dt.paymentPlanNo+"</option>");
-		    			});
-		    			form.render();
-			   		}); 
 				}
 			});
 			//加载表格      
@@ -335,6 +311,9 @@
 					$('#gsbmbmFlag').val("");
 					$('#zycbmFlag').val("");
 					$('#zylbbmFlag').val("");
+					$('#define17').val("");
+					$('#paymentStatus').val("");
+					
 					form.render();
 				}
 
@@ -349,16 +328,17 @@
 			form.on('select(select_define11)', function(data) {
 				//alert(data.value);
 				var parentCode = data.value;
-				getDicByParentCode(parentCode, 'define12');
+				showCompanyName(parentCode);
+				getDicByParentCode_company(parentCode, 'define12');
 				console.log("监听经费来源:" + data);
 			});
 			//监听单位性质
 			form.on('select(select_define12)', function(data) {
 				var parentCode = data.value;
-				getDicByParentCode(parentCode, 'define2');
+				showCompanyName(parentCode);
+				getDicByParentCode_company(parentCode, 'define2');
 				console.log("监听单位性质:" + data);
 			});
-
 			//监听部门
 			form.on('select(select_gsbmbmFlag)', function(data) {
 				//alert(data.value);
@@ -374,19 +354,50 @@
 				getDicByParentCode(parentCode, 'zylbbmFlag');
 				console.log("监听处室:" + data);
 			});
+			//监听拨付状态
+			form.on('select(paymentStatus)', function(data) {
+				if(data.value==1){
+					initPaymentBatchs();
+				}else{
+					$("#define17").html("<option value=''>--请选择--</option>");
+					form.render();
+				}
+			});
+			
 
 			//初始化经费来源
 			var define11 = $("#define11").val();
+			showCompanyName(define11);
 			getDicByParentCode(define11, 'define12');
+			var define12 = $("#define12").val();
+			showCompanyName(define12);
+		
 
 			//初始部门
 			var gsbmbmFlag = $("#gsbmbmFlag").val();
 			getDicByParentCode(gsbmbmFlag, 'zycbmFlag');
 
-			renderTable();
+			//renderTable();
 		});
-
-		function renderTable() {
+		//拨付批次
+		function initPaymentBatchs(){
+			publicMethods.ajaxAsyncPost("/payment/project-paymentplan-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
+    			$("#define17").html("<option value=''>--请选择--</option>");
+    			$.each(data,function(index,dt){
+    				$("#define17").append("<option value='"+dt.numValue+"'>"+dt.name+"</option>");
+    			});
+    			form.render();
+	   		}); 
+		}
+		
+		function showCompanyName(parentCode){
+			if("ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY"==parentCode||"ROOT_FZJCZX_GSLXCW_GFGS"==parentCode||"-1"==parentCode||""==parentCode||null==parentCode){
+				$("#lay_company").html("研究院：");
+			}else{
+				$("#lay_company").html("单位名称：");
+			}
+		}
+		window.renderTable = function() {
 			//alert("dd");
 			//获取选中的option的文本值
 			var define2 = $("#define2 option:selected").text();
@@ -394,34 +405,51 @@
 			var define1 = $("#define1 option:selected").text();
 			var define5 = $("#define5 option:selected").text();
 			var define11 = $("#define11 option:selected").text();
+			var define17 = $("#define17 option:selected").text();
 			var fzdwflag = $("#fzdwflag option:selected").text();
 			var zylb = $("#zylb option:selected").text();
-
-			var groupFlag = $("#groupFlag").val();
+			
+			
+			//var groupFlag = $("#groupFlag").val();
 			var gsbmbmFlag = $("#gsbmbmFlag").val();
 			var zycbmFlag = $("#zycbmFlag").val();
 			var zylbbmFlag = $("#zylbbmFlag").val();
-
+			var nd = $("#nd").val();
+			var ysnd = $("#ysnd").val();
+			var paymentStatus = $("#paymentStatus").val();
+			
+			
 			
 			define1 = (define1 == '--请选择--')?'':define1;
 			define2 = (define2 == '--请选择--')?'':define2;
 			define5 = (define5 == '--请选择--')?'':define5;
 			define12 = (define12 == '--请选择--')?'':define12;
 			define11 = (define11 == '--请选择--')?'':define11;
+			define17 = (define17 == '--请选择--')?'':define17;
 			zycbmFlag = (zycbmFlag == '--请选择--')?'':zycbmFlag;
 			fzdwflag = (fzdwflag == '--请选择--')?'':fzdwflag;
 			zylb = (zylb == '--请选择--')?'':zylb;
-			groupFlag = (groupFlag == '--请选择--')?'':groupFlag;
+			//groupFlag = (groupFlag == '--请选择--')?'':groupFlag;
 			
-			
+			var param = {"xmmc":$("#xmmc").val(),"hth":$("#hth").val(),"nd":$("#nd").val(),"ysnd":$("#ysnd").val(),
+					"define1":define1,"define2":define2,"define5":define5,"define17":define17,
+					"define11":define11,"define12":define12,"fzdw":fzdwflag,"paymentStatus":paymentStatus,
+					"zylb":zylb,"gsbmbm":gsbmbmFlag,"zycbm":zycbmFlag,"zylbbm":zylbbmFlag};
+			console.log(param);
 			var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
-			publicMethods.ajaxAsyncPost("/paymentplan/project-info-list-bycondition",$("#paymentplan-form").serialize(), function (data) {
-    			table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,text:{none:''},done:function(rs){
+			publicMethods.ajaxAsyncPost("/payment/project-info-list-bycondition",param, function (data) {
+    			table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,done:function(rs){
     				layer.close(lodingMsg);
+    				$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+    					var index=parseInt($(this).index());
+    					var url = '/payment/project_paymentplan_edit?dataId='+data[index].data_id;
+                       	publicMethods.openBaseWinFull('经费拨付管理-经费拨付',url);
+                    }); 
+    				
     			}});
 	   		}); 
 		}
-
+		
 		function view_pro(xmmc, projectProperty, id) {
 
 			layer.open({
@@ -504,7 +532,126 @@
 			}
 			form.render();
 		}
+		//获取单位性质
+		function getDicByParentCode_company(parentCode, downId) {
+			//alert(parentCode+"--"+downId);
+			$("#" + downId).empty();
+			if (parentCode == null || parentCode == '') {
+				parentCode = '-1';
+			}
+			console.log("级联：\n parentCode=" + parentCode + " downId=" + downId);
+			var v_date = (new Date()).getTime();
+			if (parentCode != null && parentCode != '' && parentCode!="-1") {
+				if((downId=="define2"&&parentCode=="ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY")||downId=="define12"||downId=="zylbbmFlag"){
+				$.ajax({
+					url : "/sre-project-basic/getDicListByParentCode?v_date=" + v_date + "&parentCode=" + parentCode,
+					type : "post",
+					async : false,
+					dataType : "json",
+					success : function(data) {
+						$("#" + downId).append("<option value='-1'>--请选择--</option>");
+						$.each(data, function(i, el) {
+							$("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
+							if (define12 == el.name) {
+								$("#" + downId).val(el.code);
+							}
+							if (define2 == el.name) {
+								$("#" + downId).val(el.code);
+							}
+							if (zycbmFlag == el.name) {
+								$("#" + downId).val(el.code);
+							}
+							if (zycbmFlag == el.name) {
+								$("#" + downId).val(el.code);
+							}
 
+						});
+						form.render();
+					},
+					error : function() {
+						alert("发生未知错误 ,请重新操作.");
+					}
+				});
+				}else{
+					$.ajax({
+						url : "/out/project-company-list",
+						type : "post",
+						async : false,
+						dataType : "json",
+						data:{
+							"jfly":$("#define11").find("option:selected").text(),
+							"dwxz":$("#define12").find("option:selected").text()
+						},
+						success : function(data) {
+							$("#" + downId).append("<option value=''>--请选择--</option>");
+							$.each(data, function(i, el) {
+								$("#" + downId).append('<option value="'+ el.define8 +'">' + el.define8 + '</option>');
+								if (define12 == el.name) {
+									$("#" + downId).val(el.dataId);
+								}
+								if (define2 == el.name) {
+									$("#" + downId).val(el.dataId);
+								}
+								if (zycbmFlag == el.name) {
+									$("#" + downId).val(el.dataId);
+								}
+								if (zycbmFlag == el.name) {
+									$("#" + downId).val(el.dataId);
+								}
+
+							});
+							form.render();
+						},
+						error : function() {
+							alert("发生未知错误 ,请重新操作.");
+						}
+					});
+				}
+			}else if((parentCode==null||"-1"==parentCode)&&downId=="define12"){
+				if((""==$("#define11").val()||undefined==$("#define11").val())&&(""==$("#define12").val()||undefined==$("#define12").val())){
+					parentCode = "ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY";
+					downId = "define2";
+					$.ajax({
+						url : "/sre-project-basic/getDicListByParentCode?v_date=" + v_date + "&parentCode=" + parentCode,
+						type : "post",
+						async : false,
+						dataType : "json",
+						success : function(data) {
+							$("#" + downId).append("<option value='-1'>--请选择--</option>");
+							$.each(data, function(i, el) {
+								$("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
+								if (define12 == el.name) {
+									$("#" + downId).val(el.code);
+								}
+								if (define2 == el.name) {
+									$("#" + downId).val(el.code);
+								}
+								if (zycbmFlag == el.name) {
+									$("#" + downId).val(el.code);
+								}
+								if (zycbmFlag == el.name) {
+									$("#" + downId).val(el.code);
+								}
+
+							});
+							form.render();
+						},
+						error : function() {
+							alert("发生未知错误 ,请重新操作.");
+						}
+					});
+				}
+			}
+			var code_temp = $("#" + downId).val();
+			//如果ID=单位性质 ,再调用一次，形成第三级
+			if (downId == 'define12') {
+				getDicByParentCode(code_temp, 'define2');
+			}
+			if (downId == 'zycbmFlag') {
+				getDicByParentCode(code_temp, 'zylbbmFlag');
+			}
+			form.render();
+		}
 		function purchase_money(jf) {
 			return '<span style="color:red">' + jf + '</span>';
 		}
