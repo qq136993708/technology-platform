@@ -96,7 +96,9 @@ public class PlanController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/plan/pageSelectUser")
 	private String pageSelectUser(HttpServletRequest request) {
-		return "stp/plan/pageSelectUser";
+		String flag = CommonUtil.getParameter(request,"flag","");
+		request.setAttribute("flag", flag);
+		return "common/public/pageSelectUser";
 	}
 
 	/**
