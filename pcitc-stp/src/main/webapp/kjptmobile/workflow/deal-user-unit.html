@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <title>选择审批人-unit</title>
 
-<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
-<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
-<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+<link rel="stylesheet" type="text/css" href="/kjptmobile/layuiadmin/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/kjptmobile/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+<link rel="stylesheet" type="text/css" href="/kjptmobile/layuiadmin/style/common.css?+Math.random()" media="all">
 
-<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
-<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/kjptmobile/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/kjptmobile/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+<script type="text/javascript" src="/kjptmobile/layuiadmin/modules/selectTree.js"></script>
+<script src="/kjptmobile/layuiadmin/layui/layui.js"></script>
 
 </head>
 <body>
@@ -56,9 +56,9 @@
 		var temPostCodes = parent.postCodes;
 
 		$(function() {
-			var temUrl = "/unit/units-posts/part-tree";
+			var temUrl = "/kjptmobile/unit/units-posts/part-tree";
 			if (typeof (temUnitCodes) != "undefined" && temUnitCodes != '') {
-				temUrl = "/unit/units/part-tree";
+				temUrl = "/kjptmobile/unit/units/part-tree";
 			}
 			$.ajax({
 				url : temUrl,//这个就是请求地址对应sAjaxSource
