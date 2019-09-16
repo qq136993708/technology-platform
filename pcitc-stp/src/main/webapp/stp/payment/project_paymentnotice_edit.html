@@ -352,6 +352,7 @@
             	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-save', data.field, function (data, status) {
                     if (data.success) {
                     	var index = parent.layer.getFrameIndex(window.name);
+                    	parent.renderTable();
         			    parent.layer.close(index);
                     }else{
                     	parent.layer.alert(data.message, {title : '信息'});
