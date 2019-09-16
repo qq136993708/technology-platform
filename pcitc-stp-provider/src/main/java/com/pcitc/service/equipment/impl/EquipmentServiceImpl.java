@@ -353,7 +353,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String professionalDepartCode=getTableParam(param,"professionalDepartCode","");
 
 		String contractNum=getTableParam(param,"contractNum","");
-		String leadUnit=getTableParam(param,"leadname","");
 		String parentUnitPathNames = getTableParam(param, "parentUnitPathNames", "");
 
         String contractNumNotNull = getTableParam(param, "contractNumNotNull", "");
@@ -385,7 +384,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("parentUnitPathIds", parentUnitPathIds);
 
 		map.put("contractNum", contractNum);
-		map.put("leadUnitCode", leadUnit);
         map.put("contractNumNotNull", contractNumNotNull);
 
 
