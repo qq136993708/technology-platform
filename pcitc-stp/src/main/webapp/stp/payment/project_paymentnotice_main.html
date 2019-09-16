@@ -225,6 +225,7 @@
 					$('#zycbmFlag').val("");
 					$('#zylbbmFlag').val("");
 					$('#define17').val("");
+					$('#define18').val("");
 					$('#paymentStatus').val("1");
 					form.render();
 				}
@@ -312,6 +313,7 @@
 			var define5 = $("#define5 option:selected").text();
 			var define11 = $("#define11 option:selected").text();
 			var define17 = $("#define17 option:selected").text();
+			var define18 = $("#define18 option:selected").text();
 			var fzdwflag = $("#fzdwflag option:selected").text();
 			var zylb = $("#zylb option:selected").text();
 			
@@ -332,13 +334,14 @@
 			define12 = (define12 == '--请选择--')?'':define12;
 			define11 = (define11 == '--请选择--')?'':define11;
 			define17 = (define17 == '--请选择--')?'':define17;
+			define18 = (define18 == '--请选择--')?'':define18;
 			zycbmFlag = (zycbmFlag == '--请选择--')?'':zycbmFlag;
 			fzdwflag = (fzdwflag == '--请选择--')?'':fzdwflag;
 			zylb = (zylb == '--请选择--')?'':zylb;
 			//groupFlag = (groupFlag == '--请选择--')?'':groupFlag;
 			
 			var param = {"xmmc":$("#xmmc").val(),"hth":$("#hth").val(),"nd":$("#nd").val(),"ysnd":$("#ysnd").val(),
-					"define1":define1,"define2":define2,"define5":define5,"define17":define17,
+					"define1":define1,"define2":define2,"define5":define5,"define17":define17,"define18":define18,
 					"define11":define11,"define12":define12,"fzdw":fzdwflag,"paymentStatus":paymentStatus,
 					"zylb":zylb,"gsbmbm":gsbmbmFlag,"zycbm":zycbmFlag,"zylbbm":zylbbmFlag};
 			console.log(param);

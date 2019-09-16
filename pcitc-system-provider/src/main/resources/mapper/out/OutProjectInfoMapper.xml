@@ -4007,6 +4007,9 @@
 		<if test="define17 != null and define17 != ''">
 			and define17 like '%${define17}%'
 		</if>
+		<if test="define18 != null and define18 != ''">
+			and define18 like '%${define18}%'
+		</if>
 		
 		ORDER BY define16 DESC;
 	</select>
