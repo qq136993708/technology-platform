@@ -282,11 +282,15 @@
             }
         },
         okEvent: function () {
-        	
+			var flag = '${flag}';
             var list = [];
             for (var key in map) {
                 list.push(map[key]);
             }
+            if(1==flag&&list.length>1){
+				layer.msg("只能选中一个人");
+				return false;
+			}
             if (typeof parent.zfUserFlag != "undefined" && parent.zfUserFlag == "1" && list.length > 1) {
             	layer.msg("转发只能选中一个人");
             	return false;
@@ -298,9 +302,9 @@
             }
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
-            if(parent.$(".layui-table-body table").find(".layui-table-none").length!=1){
+            /*if(parent.$(".layui-table-body table").find(".layui-table-none").length!=1){
                 parent.select();
-			}
+			}*/
         },
         
     };
