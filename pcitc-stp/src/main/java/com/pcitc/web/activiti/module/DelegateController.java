@@ -134,7 +134,7 @@ public class DelegateController extends BaseController {
 	 * @author zhf
 	 * @date 2018年5月9日 上午11:35:32 保存委托
 	 */
-	@RequestMapping(value = "/delegate", method = RequestMethod.POST)
+	@RequestMapping(value = "/delegate/save", method = RequestMethod.POST)
 	@ResponseBody
 	@OperationFilter(modelName = "系统管理--工作流--委托管理", actionName = "新增委托")
 	public Result delegateInsert(@RequestBody SysDelegate delegate, HttpServletRequest request) throws Exception {
