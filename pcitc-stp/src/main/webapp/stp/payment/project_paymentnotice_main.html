@@ -193,6 +193,14 @@
 								</select>
 							</div>
 						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">报销批次：</label>
+							<div class="layui-input-inline">
+								<select name="define18" id="define18">
+									<option value="">--请选择--</option> 
+								</select>
+							</div>
+						</div>
 				</div>
 				<!-- 
 				<button  class="layui-btn layuiadmin-btn-list" id="Open" style="position: absolute;top: 4px;right: 14px; height: 27px;width: 40px;padding: 0;text-align: center;display: block;}">展开</button>
@@ -254,6 +262,8 @@
 		var selectRowData, laydate;
 		var xmmc = $('#xmmc').val();
 		var form;
+		var nd = "${nd}";
+		var ysnd = "${ysnd}";
 		layui.config({
 			base : '/layuiadmin/lib/extend/'
 		}).use(['jquery', 'form', 'laydate', 'table', 'laypage','layer','publicMethods' ], function() {
@@ -273,10 +283,19 @@
 				type : 'year',
 				done : function(value, date, endDate) {
 					$("#ysnd").val(date.year);
+					getPayBeachNo();
 				}
 			});
-			//加载表格      
-
+			//报销批次 
+			function getPayBeachNo(){
+				publicMethods.ajaxPost("/payment/project-paymentnotice-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
+		   			$("#define18").html("<option value=''>--请选择--</option>");
+		   			$.each(data,function(index,dt){
+		   				$("#define18").append("<option value='"+dt.numValue+"'>"+dt.name+"</option>");
+		   			});
+		   			form.render();
+		   		}); 
+			}
 			//移除表头的复选框,去掉全选
 			$(".layui-table-header table thead th input").remove();
            /*  $("#Open").click(function() {
@@ -295,8 +314,8 @@
 					renderTable();
 				},
 				resetEvent : function() {
-					$('#nd').val("");
-					$('#ysnd').val("");
+					$('#nd').val(nd);
+					$('#ysnd').val(ysnd);
 					$('#xmmc').val("");
 					$('#define11').val("");
 					$("#define11").trigger("change");
@@ -313,8 +332,7 @@
 					$('#zycbmFlag').val("");
 					$('#zylbbmFlag').val("");
 					$('#define17').val("");
-					$('#paymentStatus').val("");
-					
+					$('#paymentStatus').val("1");
 					form.render();
 				}
 
@@ -370,7 +388,9 @@
 			var gsbmbmFlag = $("#gsbmbmFlag").val();
 			getDicByParentCode(gsbmbmFlag, 'zycbmFlag');
 
-			//renderTable();
+			
+			getPayBeachNo();
+			renderTable();
 		});
 		//拨付批次
 		function initPaymentBatchs(){
@@ -443,11 +463,11 @@
 	   		}); 
 		}
 		
-		table.on('tool(dataTable)', function(obj){ 
+		/* table.on('tool(dataTable)', function(obj){ 
 			var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 			console.log(layEvent);
 			
-		});
+		}); */
 		function view_pro(xmmc, projectProperty, id) {
 
 			layer.open({
