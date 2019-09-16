@@ -215,6 +215,10 @@ public class TaskProviderClient {
 			System.out.println("deleteDelegate============"+i+"------"+temObj);
 			rInt = rInt + taskInstanceService.deleteDelegate(temObj);
 			System.out.println("deleteDelegate============"+i+"------"+rInt);
+			
+			// 删除当前的委托相关待办任务及流程实例（理论上审批不通过后的数据不允许删除，如果物理删除的话，这里就要调用）
+			this.deleteProcessInstanceByDataId(delegateIds[i]);
+			
 			// 当初委托时（之前）的待办任务都分配给被委托人了，现在把这些待办任务重新归到委托人名下
 			// 如果在取消委托之前，已经办理的委托任务就不处理了
 			// 获取委托时，被委托人接收的所有任务和委托后监听器分配给被委托人的任务。这些任务已经处理的不能回收，其他的取消重新指派给委托人
@@ -1534,8 +1538,13 @@ public class TaskProviderClient {
 			return retJson;
 		}
 		
-		runtimeService.suspendProcessInstanceById(instance.getId());//挂起流程
-		runtimeService.deleteProcessInstance(instance.getId(),"业务单据数据物理删除");//删除流程
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(instance.getId()).singleResult();
+		
+		if (processInstance != null) {
+			// 当前流程未结束
+			runtimeService.suspendProcessInstanceById(instance.getId());//挂起流程
+			runtimeService.deleteProcessInstance(instance.getId(),"业务单据数据物理删除");//删除流程
+		}
 		
 		retJson.put("result", "1");
 		return retJson;
@@ -1638,16 +1647,18 @@ public class TaskProviderClient {
 		// System.out.println("add-delegate=================="+delegate);
 
 		List<SysDelegate> sdList = taskInstanceService.getSysDelegate(delegate);
-
+		// 判断同一个时间段是否委托多个人
 		if (sdList.size() > 0) {
 			return -1;
 		}
-		// 判断同一个时间段是否委托多个人
+		
 		taskInstanceService.insertDelegate(delegate);
 
-		// 把当前委托人的任务都委托给被委托人
+		// 把当前委托人的任务都委托给被委托人（如果创建委托需要审批的话，应该是审批通过后，处理这个动作）
 		// System.out.println(delegate.getAttorneyCode()+"add-delegate=================="+delegate.getAssigneeCode());
 		this.delegateTasks(delegate.getAssigneeCode(), delegate.getAttorneyCode(), delegate.getModuleCode(), delegate.getDelegateId());
+		
+		
 		return 1;
 	}
 

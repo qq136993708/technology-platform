@@ -28,8 +28,29 @@ public class SysDelegate {
     private String remarks;
 
     private String createUserId;
+    
+    private String functionId;
+    
+    private String userIds;	//审批时选择的审批人
 
-    public String getDelegateId() {
+    
+    public String getFunctionId() {
+		return functionId;
+	}
+
+	public void setFunctionId(String functionId) {
+		this.functionId = functionId;
+	}
+
+	public String getUserIds() {
+		return userIds;
+	}
+
+	public void setUserIds(String userIds) {
+		this.userIds = userIds;
+	}
+
+	public String getDelegateId() {
         return delegateId;
     }
 

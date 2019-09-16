@@ -284,7 +284,8 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     	flowJson.put("authenticatedUserName", delegate.getCreateUser());
 
 		// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
-    	flowJson.put("functionId", "59d9113d-745d-4c46-bc84-c18f132ac2c1");
+    	// flowJson.put("functionId", "59d9113d-745d-4c46-bc84-c18f132ac2c1");
+    	flowJson.put("functionId", delegate.getFunctionId());
     	
     	// 待办业务详情、最终审批同意、最终审批不同意路径
     	flowJson.put("auditDetailsPath", "/task/test/details/" + uuid);
@@ -296,15 +297,15 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     	// flowJson.put("flowUnitId", "");
     	
     	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
-    	String auditor = "16622d9cfc5_94712f71,16622e3f0df_1370e873";
-    	String[] userIds = auditor.split(",");
+    	// String auditor = "16622d9cfc5_94712f71,16622e3f0df_1370e873";
+    	String[] userIds = delegate.getUserIds().split(",");
     	flowJson.put("auditor", Arrays.asList(userIds));
     	
     	// 特殊审批环节。当任务节点存在某个不确定的审批人，在流程图任务节点id设置为specialAuditor，同时提交时specialAuditor写入unit/role/post
     	// flowJson.put("specialAuditor", "ZSH_YFGCS_CJCXY");
-    	flowJson.put("specialAuditor1", "ZBGL_KTY_QYKYZG");
-		flowJson.put("specialAuditor2", "ZBGL_KTY_FZDWKJCZ");
-    	flowJson.put("specialAuditor3", "ZBGL_KTY_FZDWZGLD");
+    	// flowJson.put("specialAuditor1", "ZBGL_KTY_QYKYZG");
+		// flowJson.put("specialAuditor2", "ZBGL_KTY_FZDWKJCZ");
+    	// flowJson.put("specialAuditor3", "ZBGL_KTY_FZDWZGLD");
     	
 		// 非必填选项, 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 		// flowJson.put("involoFlag", 1); // 环节1需要用到
