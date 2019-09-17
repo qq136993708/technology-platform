@@ -227,7 +227,7 @@ public class AdminController extends BaseController {
 			return "no_access";
 		}
 
-		// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
+		// 重新登录，覆盖原cookies。cookies中信息都是后续要用的。分布式系统用户信息没放session里面
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
 		requestBody.add("username", rsUser.getUserName());
@@ -242,7 +242,7 @@ public class AdminController extends BaseController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 
-		// oa系统的服务器地址
+		// oa系统的服务器地址, 安全问题不能直接把ip写在前端
 		request.setAttribute("outOAIp", "10.1.4.10");
 
 		// 登录成功,保存当前用户登录的sessionId, 一个用户只能一处登录
@@ -255,9 +255,8 @@ public class AdminController extends BaseController {
 			SessionShare.getSessionIdSave().put(userName, sessionID);
 		}*/
 
-		String cFlag = request.getParameter("cFlag");
 		request.setAttribute("userId", rsUser.getUserId());
-		if (rsUser.getUserLevel() != null && (rsUser.getUserLevel() == 1 || rsUser.getUserLevel() == 2) && cFlag == null) {
+		if (rsUser.getUserLevel() != null && (rsUser.getUserLevel() == 1 || rsUser.getUserLevel() == 2)) {
 			String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
 			request.setAttribute("companyCode", companyCode);
 			String month = HanaUtil.getCurrentYearMoth();
