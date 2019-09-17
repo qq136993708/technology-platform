@@ -144,9 +144,7 @@ public class AdminController extends BaseController {
 				int tem = 0;
 				for (int i = 0; i < spRoleList.size(); i++) {
 					String spList = spRoleList.get(i);
-					
-					System.out.println(">>>>>>>>>应用系统spListstr: "+spList);
-					
+					System.out.println(">>>>>>>>>应用系统: "+spList);
 					boolean status = spList.contains(",");
 					if (status == false) {
 						// 只返回一个spRole
@@ -180,7 +178,11 @@ public class AdminController extends BaseController {
 					rsUser = rsEntity.getBody();
 					if (rsUser != null) {
 						// 用户有哪些菜单权限
+						JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(rsUser));
+						System.out.println(">>>>>>>>>用户基本信息: "+jsonObject.toString());
 						SysUser userDetails = this.restTemplate.exchange(USER_DETAILS_URL + rsUser.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+						JSONObject userDetailsObject = JSONObject.parseObject(JSONObject.toJSONString(userDetails));
+						System.out.println(">>>>>>>>>用户菜单权限信息: "+userDetailsObject.toString());
 						List<SysFunction> funList = userDetails.getFunList();
 						List<SysFunction> upList = new ArrayList<SysFunction>();
 
@@ -216,6 +218,19 @@ public class AdminController extends BaseController {
 						request.setAttribute("grgztList", grgztList);
 						request.setAttribute("upList", upList);
 						request.setAttribute("userInfo", rsUser);
+						
+						JSONArray jsonscList = JSONArray.parseArray(JSON.toJSONString(scList));
+						JSONArray jsonfunList= JSONArray.parseArray(JSON.toJSONString(funList));
+						JSONArray jsongrgztList = JSONArray.parseArray(JSON.toJSONString(grgztList));
+						JSONArray jsonupList = JSONArray.parseArray(JSON.toJSONString(upList));
+						
+						
+						System.out.println(">>>>>>>>>收藏信息: "+jsonscList.toString());
+						System.out.println(">>>>>>>>>所有菜单信息: "+jsonfunList.toString());
+						System.out.println(">>>>>>>>>一级菜单信息: "+jsonupList.toString());
+						System.out.println(">>>>>>>>>个人工作台菜单信息: "+jsongrgztList.toString());
+						
+						
 					} else {
 						// 返回权限不足页面
 						System.out.println("LogonController----缺少权限");
