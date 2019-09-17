@@ -144,6 +144,9 @@ public class AdminController extends BaseController {
 				int tem = 0;
 				for (int i = 0; i < spRoleList.size(); i++) {
 					String spList = spRoleList.get(i);
+					
+					System.out.println(">>>>>>>>>应用系统spListstr: "+spList);
+					
 					boolean status = spList.contains(",");
 					if (status == false) {
 						// 只返回一个spRole
