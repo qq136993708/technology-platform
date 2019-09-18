@@ -1405,6 +1405,7 @@ public class OutProjectInfoClient {
 	 */
 	public void authControl(HashMap map) {
 		String zycbm = (String) map.get("zycbm");
+		// 综合计划处的权限，可以看全部
 		if (zycbm != null && zycbm.contains("30130054")) {
 			map.put("leaderFlag", "2");
 		}
