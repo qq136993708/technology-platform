@@ -905,6 +905,10 @@ public class OutProjectInfoClient {
 		List<String> list_1 = new ArrayList<>(set);
 		vo.getUnitIds().addAll(list_1);
 		vo = budgetClient.selectBudgetInfoList(vo);
+		JSONObject voObject = JSONObject.parseObject(JSONObject.toJSONString(vo));
+		System.out.println(">>>>>>>>>>>预算selectBudgetInfoList:"+voObject.toString());
+		
+		
 		// 费用性预算金额
 		List<Map<String, Object>> budMoneyList = vo.getBudgetByAllUnit();
 
