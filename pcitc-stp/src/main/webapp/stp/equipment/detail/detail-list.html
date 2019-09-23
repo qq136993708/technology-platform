@@ -195,10 +195,10 @@ var name=$('#name').val();
                 });
             }
             ,editEvent: function(){  //点击编辑按钮
-                 var nationality= selectRowData.nationality;
+
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
-            	} else if (nationality!='30'){
+            	} else if (selectRowData.nationality!='30'){
                     layer.msg('请选择已通过总部审核的数据');
                 } else {
             		 var id=selectRowData.id;

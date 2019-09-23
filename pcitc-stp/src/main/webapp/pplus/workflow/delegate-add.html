@@ -208,32 +208,14 @@
 				data.field.attorneyName = $('#attorney').val();
 				data.field.attorneyCode = $('#attorneyUserId').val();
 				lodingMsg = layer.msg('处理中...', {shade: [0.5, '#393D49']});
-				$.ajax({
-					type : 'POST',
-					url : "/delegate",
-					data : JSON.stringify(data.field),
-					contentType : "application/json;charset=UTF-8",
-					beforeSend : function() {
-						$("#submitBtn").attr("disabled", "true");
-						$("#resetBtn").attr("disabled", "true");
-						$("#closeBtn").attr("disabled", "true");
-					},
-					error : function(data) {//请求失败处理函数  
-						layer.close(lodingMsg);
-                        layer.msg("操作失败!",{time: 2000,icon: 2}, function(){
-                            $("#submitBtn").removeAttr("disabled");
-                            $("#resetBtn").removeAttr("disabled");
-                            $("#closeBtn").removeAttr("disabled");
-                        });
-					},
-					success : function(data) { //请求成功后处理函数。
-						layer.close(lodingMsg);
-						parent.operMSG = "操作成功！数据加载中...";
-						parent.active.alertEvent();
-						var index = parent.layer.getFrameIndex(window.name);
-						parent.layer.close(index);
-					}
-				});
+				// 获取当前菜单的id值，用来判断应该是走那个工作流程
+				var param = JSON.parse(window.localStorage.getItem("param"));
+				
+				data.field.functionId = param.id;
+				//JSON.stringify(data.field)  提交信息json格式
+				//data的作用域里面涉及functionId、userIds（选择审批者）、特殊变量等
+				workflowAuditorSelectorUnify(JSON.stringify(data.field), "/delegate/save", "parent.active.alertEvent()");
+				
 				return false;
 			});
 
@@ -244,7 +226,7 @@
 			})
 		});
 
-		var zNodes;
+		/* var zNodes;
 
 		$(function() {
 			$.ajax({
@@ -265,7 +247,7 @@
 					layer.msg(msg);
 				}
 			});
-		});
+		}); */
 
 		// 下拉树初始化
 		$(document).ready(function() {

@@ -245,6 +245,7 @@
     var roleCodes = "";
 	var unitCodes = "";
 	var postCodes = "";
+	
 	// 提交审批时，判断是否下一步需要选择审批人，如果需要把选择到的审批人放到userIds中
     function workflowAuditorSelector(dataField) {
     	layui.config({
@@ -313,6 +314,105 @@
 			});
 		});
     }
+    
+    
+	var unifyUrl = "";
+	var unifyMethodFlag = "";
+	var unifyRefreshMethod = "";
+	var unifyDataField = "";
+    // 提交审批时，判断是否下一步需要选择审批人，如果需要把选择到的审批人放到userIds中
+    function workflowAuditorSelectorUnify(dataField, methodUrl, refreshMethod) {
+    	layui.config({
+			base : '../../../../' //静态资源所在路径
+		}).use([ 'jquery', 'form', 'table', 'layer', 'element' ], function() {
+			var $ = layui.jquery, element = layui.element, layer = layui.layer;
+			unifyUrl = methodUrl;
+			unifyMethodFlag = "1";
+			unifyDataField = dataField;
+			unifyRefreshMethod = refreshMethod;
+			$.ajax({
+				type : 'POST',
+				url : "/workflow/start/audit-type",
+				contentType : "application/json;charset=UTF-8",
+				data : dataField,//json类型
+				//json中有functionId（projectId、departmentId等）用来区别processDefine的属性
+				success : function(data) {
+					if (data.code == 'role') {
+						// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+						// specialRoleCodes，参数名必须一致，方便公共弹出页面调用
+						roleCodes = data.data; // 弹出页面的隐藏的查询条件
+						var temUrl = "/task/deal/users/ini";
+						layer.open({
+							title : '选择审批人',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							maxmin : false,
+							area : [ '100%', '100%' ],
+							content : temUrl
+						});
+					} else if (data.code == 'unit' || data.code == 'post') {
+						// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+						// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
+						if (data.code == 'unit') {
+							unitCodes = data.data; // 弹出页面的隐藏的查询条件
+						} else {
+							postCodes = data.data; // 弹出页面的隐藏的查询条件
+						}
+
+						var temUrl = "/task/deal/user/unit/ini";
+						layer.open({
+							title : '选择审批人',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							maxmin : false,
+							area : [ '100%', '100%' ],
+							content : temUrl
+						});
+					} else if (data.code == 'int') {
+						layer.msg('启动参数不足');
+					} else if (data.code == 'con') {
+						layer.msg('请给此功能菜单配置流程');
+					} else if (data.code == 'exist') {
+						layer.msg('工作流部署异常，请联系管理员');
+					} else {
+						// 直接处理此任务
+						handleTaskUnify('');
+					}
+				},
+				error : function(msg) {//请求失败处理函数  
+				}
+			});
+		});
+    }
+    
+	// 统一处理, 审批待办任务
+	function handleTaskUnify(userIds) {
+		var temData = JSON.parse(unifyDataField);
+		temData.userIds = userIds;
+		// 获取functionId, 如果需要不同的项目走不同的流程、不同的部门走不同的流程的，把projectId、departmentId也赋值到form表单中
+		$.ajax({
+			type : 'POST',
+			url : unifyUrl,//自己业务的保存方法，调用后台方法
+			data : JSON.stringify(temData),
+			contentType : "application/json;charset=UTF-8",
+			error : function(data) {
+				layer.msg(data.message);
+			},
+			success : function(data) {
+				layer.msg(data.message);
+				var index = parent.layer.getFrameIndex(window.name);
+				parent.layer.close(index);
+				if (typeof(unifyRefreshMethod)!="undefined" && unifyRefreshMethod!=0 && unifyRefreshMethod!="") {
+					eval(unifyRefreshMethod);
+				} 
+				
+			}
+		});
+	}
     
     
     
