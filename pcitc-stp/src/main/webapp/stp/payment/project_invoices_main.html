@@ -115,14 +115,14 @@
 			</div>
 
 			<div class="layui-card-body">
-				<div class="tableToolBox">
+				<!-- <div class="tableToolBox">
 		            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
 		                    data-type="addEvent">生成报销通知单
 		            </button>
 		           <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
 		                    data-type="editEvent">发送报销通知单
 		            </button>
-		        </div>
+		        </div> -->
 				<table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true,text:{none:''}}">
 	                <thead>
 		                <tr>
@@ -138,7 +138,7 @@
 		                    <th lay-data="{field:'ysje', width: 120,align:'right',totalRow: true,templet : '#view_format'}">金额（万元）</th>
 		                    <th lay-data="{field:'define17', width: 100,align:'center'}">拨付批次</th>
 		                    <th lay-data="{field:'define18', width: 100,align:'center'}">报销批次</th>
-		                    <th lay-data="{title:'操作', width: 120,align:'center', templet:function(d){return '<a href=\'#\' class=\'fontColor-blue\'>报销通知单</a>'}}">操作</th>
+		                    <th lay-data="{title:'操作', width: 120,align:'center', templet:function(d){return '<a href=\'#\' class=\'fontColor-blue\'>发票信息</a>'}}">操作</th>
 		                </tr>
 	                </thead>
 	            </table>
@@ -348,8 +348,8 @@
     				layer.close(lodingMsg);
     				$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
     					var index=parseInt($(this).index());
-    					var url = '/payment/project_paymentnotice_edit?dataId='+data[index].data_id;
-                       	publicMethods.openBaseWinFull('经费报销管理-经费报销',url);
+    					var url = '/payment/project_invoices_edit?dataId='+data[index].data_id;
+                       	publicMethods.openBaseWinFull('报销处理-发票信息',url);
                     }); 
     				
     			}});

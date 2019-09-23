@@ -117,10 +117,10 @@
 			<div class="layui-card-body">
 				<div class="tableToolBox">
 		            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
-		                    data-type="addEvent">生成报销通知单
+		                    data-type="createNoticeEvent">生成报销通知单
 		            </button>
 		           <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
-		                    data-type="editEvent">发送报销通知单
+		                    data-type="sentNoticeEvent">发送报销通知单
 		            </button>
 		        </div>
 				<table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true,text:{none:''}}">
@@ -228,6 +228,40 @@
 					$('#define18').val("");
 					$('#paymentStatus').val("1");
 					form.render();
+				},
+				createNoticeEvent:function(){
+					 layer.confirm('确定要生成报销通知单吗？',{title:"生成确认"},function(index){
+		            	var lodingMsg = layer.msg('处理中....');
+		            	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-create', data.field, function (data, status) {
+		                    if (data.success) {
+		                    	var index = parent.layer.getFrameIndex(window.name);
+		                    	parent.renderTable();
+		        			    parent.layer.close(index);
+		                    }else{
+		                    	parent.layer.alert(data.message, {title : '信息'});
+		                    	layer.close(lodingMsg);
+		    					return;
+		                    }
+		                    layer.close(lodingMsg);
+		                }); 
+		            });
+				},
+				sentNoticeEvent:function(){
+					layer.confirm('确定要生成报销通知单吗？',{title:"生成确认"},function(index){
+		            	var lodingMsg = layer.msg('处理中....');
+		            	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-create', data.field, function (data, status) {
+		                    if (data.success) {
+		                    	var index = parent.layer.getFrameIndex(window.name);
+		                    	parent.renderTable();
+		        			    parent.layer.close(index);
+		                    }else{
+		                    	parent.layer.alert(data.message, {title : '信息'});
+		                    	layer.close(lodingMsg);
+		    					return;
+		                    }
+		                    layer.close(lodingMsg);
+		                }); 
+		            });
 				}
 
 			};
