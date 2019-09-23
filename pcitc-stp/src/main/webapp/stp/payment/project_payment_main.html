@@ -241,11 +241,12 @@
 		                    <th lay-data="{field:'gsbmmc', width: 100,align:'left',event:'cl'}">部门</th>
 		                    <th lay-data="{field:'define10', width: 120,align:'left'}">专业处</th>
 		                    <th lay-data="{field:'xmmc',align:'left'}">项目名称</th>
+		                    <th lay-data="{field:'fzdw',align:'left'}">负责单位</th>
 		                    <th lay-data="{field:'define8',align:'left'}">承担单位</th>
 		                    <th lay-data="{field:'ysje', width: 120,align:'right',totalRow: true,templet : '#view_format'}">金额（万元）</th>
 		                    <th lay-data="{field:'define17', width: 100,align:'center'}">拨付批次</th>
 		                    <th lay-data="{field:'paymentNoticeStatus', width: 100,align:'center'}">报销状态</th>
-		                    <th lay-data="{title:'操作', width: 120,align:'center', templet:function(d){return '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg demo-delete\'>经费报销</a>'}}">操作</th>
+		                    <th lay-data="{title:'操作', width: 120,align:'center', templet:function(d){return '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg demo-delete\'>报销处理</a>'}}">操作</th>
 		                </tr>
 	                </thead>
 	            </table>
@@ -458,7 +459,7 @@
     				layer.close(lodingMsg);
     				$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
     					var index=parseInt($(this).index());
-    					var url = '/payment/project_paymentnotice_edit?dataId='+data[index].data_id;
+    					var url = '/payment/project_payment_edit?dataId='+data[index].data_id;
                        	publicMethods.openBaseWinFull('经费报销管理-经费报销',url);
                     }); 
     				
