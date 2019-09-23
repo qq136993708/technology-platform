@@ -176,7 +176,7 @@ public class OutProjectPaymentplanController extends BaseController
 			{
 				obj.put("paymentNoticeStatus", "未处理");
 			}else {
-				obj.put("paymentNoticeStatus", "报销中");
+				obj.put("paymentNoticeStatus", "处理中");
 			}
 		}
 		//System.out.println(array.toJSONString());
