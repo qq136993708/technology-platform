@@ -227,8 +227,8 @@
 				active[type] ? active[type].call(this) : '';
 			});
 			function renderTable() {
-				var where ={param:{"define17":""}};
-				//var lodingMsg = layer.msg('数据加载中....');
+				var where ={param:{"define17":"","define18":$('#define18').val()}};
+				var lodingMsg = layer.msg('数据加载中....');
 				var cols = [
 	    			{
 	    				type:'numbers',
@@ -256,6 +256,7 @@
 	    			}});
 		   		});  */
 			}
+			getPayBeachNo();
 			renderTable();
 		});
 		

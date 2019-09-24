@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -94,6 +96,21 @@ public class OutProjectPaymentNoticeProviderClient
 	@RequestMapping(value = "/out-provider/out/company-list", method = RequestMethod.POST)
 	public Object selectPaymentCompany(@RequestBody LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		return outProjectService.selectPaymentCompany(param);
+		LayuiTableData data = outProjectService.selectPaymentCompany(param);
+		List<String> define8s = new ArrayList<String>();
+		for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) 
+		{
+			JSONObject json = JSON.parseObject(JSON.toJSONString(iter.next()));
+			define8s.add(json.getString("define8"));
+		}
+		Map<String,Object> paramMap = param.getParam();
+		paramMap.put("paymentStatus", "1");
+		paramMap.put("define8s", define8s);
+		
+		System.out.println(JSON.toJSONString(paramMap));
+		
+		List<OutProjectInfo> infos = outProjectService.selectProjectInfoByCondition(paramMap);
+		data.setData(infos);
+		return data;
 	}
 }

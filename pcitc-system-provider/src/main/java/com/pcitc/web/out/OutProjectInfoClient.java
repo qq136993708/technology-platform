@@ -1401,7 +1401,8 @@ public class OutProjectInfoClient {
 	@RequestMapping(value = "/out-provider/project-info-list-bycondition", method = RequestMethod.POST)
 	public List<OutProjectInfo> selectProjectInfoByCondition(@RequestBody OutProjectInfo outProjectInfo) throws Exception {
 		logger.info("==================selectProjectInfoByCondition===========================" + JSONObject.toJSONString(outProjectInfo));
-		return outProjectService.selectProjectInfoByCondition(outProjectInfo);
+		Map<String,Object> paramMap = MyBeanUtils.transBean2Map(outProjectInfo);
+		return outProjectService.selectProjectInfoByCondition(paramMap);
 	}
 
 	/**

@@ -441,7 +441,7 @@ public interface OutProjectService {
 
 	public List<OutProjectInfo> getOutCompanyList(OutProjectInfo outProjectInfo);
 	
-	public List<OutProjectInfo> selectProjectInfoByCondition(OutProjectInfo outProjectInfo);
+	public List<OutProjectInfo> selectProjectInfoByCondition(Map<String,Object> paramMap);
 	
 	public LayuiTableData selectPaymentCompany(LayuiTableParam param);
 	
