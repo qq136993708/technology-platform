@@ -224,6 +224,7 @@ var name=$('#name').val();
             	 {
             		  var id=selectRowData.id;
            		      var url="/sre-project-basic/delete/"+id;
+           		     
            		     var auditStatus=selectRowData.auditStatus;
          		     if(auditStatus!='0')
          		     {
@@ -436,9 +437,10 @@ var name=$('#name').val();
     	
     	var specialAuditor0 =getTaskSpecialAuditor0ByProfessionalDepartName(professionalDepartName);
     	$("#specialAuditor0").val(specialAuditor0);
-    	//alert(specialAuditor0);
-    	//return;
+    	
     	var json = {functionId:functionId,specialAuditor0:specialAuditor0};
+    	console.log("处理流程\n："+JSON.stringify(json));
+    	//return;
     	 $.ajax({
              type : 'POST',
              url : "/workflow/start/audit-type",

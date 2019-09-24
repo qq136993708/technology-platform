@@ -19,9 +19,85 @@
     </style>
 </head>
 <body>
-
+ <input type="hidden" id="auditStatus" name="auditStatus" value="2">
+    <input type="hidden" id="state" name="state" value="0">
+    <input type="hidden" id="company1DivValue">
+ <!--开始-->
+ <div class="layui-fluid">
+    <div class="layui-card">
+ 
+     <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding:0px">
+        <div class="layui-form-item">
+        
+             <div class="layui-inline">
+	            <label class="layui-form-label">专家姓名：</label>
+	            <div class="layui-input-inline">
+	              <input type="text" name="expertName" title="专家姓名" placeholder="请输入专家姓名" autocomplete="off" class="layui-input" id="expertName"  >
+	            </div>
+	          </div>
+	          
+	          <div class="layui-inline">
+	            <label class="layui-form-label">所在单位：</label>
+	            <div class="layui-input-inline">
+	              <input type="text" name="companyDivs" title="所在单位" placeholder="请输入所在单位" autocomplete="off" class="layui-input" id="companyDivs"  >
+	            </div>
+	          </div>
+	          
+	          
+	          <div class="layui-inline">
+	            <label class="layui-form-label">专业领域：</label>
+	            <div class="layui-input-inline">
+	              <input type="text" name="expertProfessionalFieldsj" title="专业领域" placeholder="请输入专业领域" autocomplete="off" class="layui-input" id="expertProfessionalFieldsj"  >
+	            </div>
+	          </div>
+	          
+	          
+	          <div class="layui-inline">
+	            <label class="layui-form-label">联系电话：</label>
+	            <div class="layui-input-inline">
+	              <input type="text" name="mobile" title="联系电话" placeholder="请输入联系电话" autocomplete="off" class="layui-input" id="mobile"  >
+	            </div>
+	          </div>
+	          
+	          <div class="layui-inline">
+	            <label class="layui-form-label">联系邮箱：</label>
+	            <div class="layui-input-inline">
+	              <input type="text" name="email" title="联系邮箱" placeholder="请输入联系邮箱" autocomplete="off" class="layui-input" id="email"  >
+	            </div>
+	          </div>
+	          
+	           <div class="layui-inline" >
+		            <button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
+		                <i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
+		            </button>
+		          </div>
+          
+          
+          
+          
+         </div>
+    </div>
+    
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"
+                    data-type="viewEvent">查看
+            </button>
+        </div>
+    </div>
+    
+    
+    <div class="layui-card-body">
+		 <table id="zjkBaseInfoTableId" class="layui-hide" lay-filter="tableEvent"></table>
+	</div>
+	
+	
+	</div>
+</div>        
+<!--结束-->        
+<!-- 
 <div class="searchBox">
-    <!--查询条件-->
     <input type="hidden" id="auditStatus" name="auditStatus" value="2">
     <input type="hidden" id="state" name="state" value="0">
     <label class="dateInput">
@@ -48,15 +124,9 @@
         <input type="text" id="email" name="email" placeholder="请输入邮箱" title="邮箱" autocomplete="off" class="form-control">
     </label>
 
-    <!--<label class="selectInput">-->
-    <!--<span>所属机构</span>-->
-    <!--<select name="company" id="company" lay-filter="projectStageId">-->
-    <!--<option value="">请选择</option>-->
-    <!--</select>-->
-    <!--</label>-->
 
 
-    <!--按钮组-->
+    按钮组
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
         </button>
@@ -75,7 +145,7 @@
         </div>
     </div>
     <table id="zjkBaseInfoTableId" class="layui-hide" lay-filter="tableEvent"></table>
-</div>
+</div> -->
 <script>
     //专业领域
     ajaxPost('/dictionary/list/ZJK_ZYFL', null, function (data, status) {
