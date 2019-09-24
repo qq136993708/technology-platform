@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Api(value="报销计划-报销计划项管理",tags= {"报销计划-报销计划项管理"})
 @RestController
-public class OutProjectPaymentplanProviderClient 
+public class OutProjectPaymentPlanProviderClient 
 {
 
 	@Autowired
@@ -90,26 +90,7 @@ public class OutProjectPaymentplanProviderClient
 		}
 		return rsdata;
 	}
-	@ApiOperation(value="报销批次-拨付计划批次",notes="按年度获取拨付批次号列表")
-	@RequestMapping(value = "/out-provider/out/project-paymentnotice-batchs/{nd}", method = RequestMethod.POST)
-	public Object selectOutProjectInfoPaymentnoticeBatchs(@PathVariable("nd") String nd) 
-	{
-		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
-		try
-		{
-			List<SysDictionary> dictionarys = dictionaryService.getDictionaryListByParentCode("ROOT_YSGL_JFBXPCZD");
-			for(SysDictionary dic:dictionarys) {
-				Map<String,Object> map = MyBeanUtils.transBean2Map(dic);
-				//map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
-				rsdata.add(map);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return rsdata;
-	}
+	
 	@ApiOperation(value="报销计划项管理-报销计划项列表",notes="获取报销计划项列表。")
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-list", method = RequestMethod.POST)
 	public Object selectOutProjectInfoPaymentplanList(@RequestBody OutProjectPaymentplan bean) 
@@ -171,31 +152,7 @@ public class OutProjectPaymentplanProviderClient
 		}
 		return rs;
 	}
-	@ApiOperation(value="报销计划项管理-报销计划项保存",notes="保存报销计划项")
-	@RequestMapping(value = "/out-provider/out/project-paymentnotice-save", method = RequestMethod.POST)
-	public Object saveOutProjectInfoPaymentnotice(@RequestBody OutProjectPaymentplan bean) 
-	{
-		Result rs = new Result(false);
-		try
-		{
-			OutProjectPaymentplan old = outProjectPaymentplanService.selectOutProjectPaymentplan(bean.getDataId());
-			if(old == null) {
-				rs = outProjectPaymentplanService.saveOutProjectPaymentplan(bean);
-			}else {
-				rs = outProjectPaymentplanService.updateOutProjectPaymentplan(bean);
-			}
-			OutProjectInfo info = outProjectService.selectOutProjectInfo(bean.getProjectId());
-			if(info != null) {
-				info.setDefine18(bean.getPayNo());
-				outProjectService.updateOutProject_Info(info);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return rs;
-	}
+	
 	@ApiOperation(value="报销计划项管理-报销计划项更新",notes="更新报销计划项")
 	@RequestMapping(value = "/out-provider/out/project-paymentplan-upd", method = RequestMethod.POST)
 	public Object updOutProjectInfoPaymentplan(@RequestBody OutProjectPaymentplan bean) 

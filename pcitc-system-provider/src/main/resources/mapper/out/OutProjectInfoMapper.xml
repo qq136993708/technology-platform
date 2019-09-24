@@ -4013,4 +4013,22 @@
 		
 		ORDER BY define16 DESC;
 	</select>
+	<select id="selectPaymentCompany" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT 
+			define8
+		FROM 
+			out_project_info 
+		WHERE 
+			define3 = '项目管理系统'
+			and project_type != 1
+			and define17 is not null 
+			and define18 is not null
+		<if test="define17 != null and define17 != ''">
+			and define17 like '%${define17}%'
+		</if>
+		<if test="define18 != null and define18 != ''">
+			and define18 like '%${define18}%'
+		</if>
+		GROUP BY define8
+	</select>
 </mapper>

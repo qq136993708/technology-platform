@@ -33,6 +33,7 @@ import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.service.feign.hana.OutProjectRemoteClient;
 import com.pcitc.service.feign.stp.BudgetClient;
 import com.pcitc.service.out.OutProjectPlanService;
@@ -1446,4 +1447,5 @@ public class OutProjectInfoClient {
 	public OutProjectInfo selectOutProjectInfoDetail(@PathVariable(value = "dataId", required = true) String dataId) throws Exception {
 		return outProjectService.selectOutProjectInfo(dataId);
 	}
+	
 }

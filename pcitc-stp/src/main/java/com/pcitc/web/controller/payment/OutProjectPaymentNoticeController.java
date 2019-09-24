@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.payment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,10 +9,18 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -25,6 +34,7 @@ public class OutProjectPaymentNoticeController extends BaseController
 	
 	//private static final String PROJECT_PAYMENTNOTICE_BATCHS = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentnotice-batchs/";
 	//private static final String PROJECT_PAYMENTNOTICE_SAVE = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentnotice-save";
+	private static final String PROJECT_PAYMENTNOTICE_COMPANYLIST = "http://pcitc-zuul/system-proxy/out-provider/out/company-list";
 	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/payment/project_paymentnotice_main")
@@ -74,4 +84,15 @@ public class OutProjectPaymentNoticeController extends BaseController
 		request.setAttribute("dataId", IdUtil.createIdByTime());
 		return "stp/payment/project_paymentnotice_edit";
 	}
+	@RequestMapping(value = "/payment/company-list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getCompanyList(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
+		System.out.println(JSON.toJSONString(param));
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTNOTICE_COMPANYLIST, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
+		LayuiTableData data = responseEntity.getBody();
+		System.out.println(JSON.toJSON(data).toString());
+		return JSON.toJSON(data).toString();
+	}
+
+
 }
