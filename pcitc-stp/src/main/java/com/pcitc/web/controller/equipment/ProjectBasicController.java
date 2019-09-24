@@ -62,7 +62,8 @@ public class ProjectBasicController extends BaseController {
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
 
 	private static final String EQUIPMENT_PROJECT_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project_basic/start_project_activity/";
-
+	// 删除实例
+		private static final String PROCESS_INSTANCE_DELETE = "http://pcitc-zuul/system-proxy/task-provider/task/process-instance/delete/";
 	@RequestMapping(value = "/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -598,8 +599,13 @@ public class ProjectBasicController extends BaseController {
 		int statusCode = responseEntity.getStatusCodeValue();
 		int status = responseEntity.getBody();
 		logger.info("============远程返回  statusCode " + statusCode + "  status=" + status);
-		if (responseEntity.getBody() > 0) {
+		if (responseEntity.getBody() > 0) 
+		{
 			resultsDate = new Result(true);
+			//删除相应的任务
+			//HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(null, this.httpHeaders);
+			//ResponseEntity<JSONObject> re = this.restTemplate.exchange(PROCESS_INSTANCE_DELETE + id, HttpMethod.POST, entity, JSONObject.class);
+			//JSONObject retJson = re.getBody();
 		} else {
 			resultsDate = new Result(false, "删除失败，请联系系统管理员！");
 		}

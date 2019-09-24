@@ -1546,39 +1546,39 @@ public class EquipmentUtils {
 		String specialAuditor0="";
 		if(professionalDepartName.contains("勘探开发")==true)
 		{
-			specialAuditor0="";//关晓东
+			specialAuditor0="30130064_CZ";//关晓东
 		}
 		if(professionalDepartName.contains("石油工程")==true)
 		{
-			specialAuditor0="";//陈本池
+			specialAuditor0="30130065_CZ";//陈本池
 		}
 		if(professionalDepartName.contains("炼油")==true)
 		{
-			specialAuditor0="30130056_LYC_ZYCCZ";//潘煜
+			specialAuditor0="30130056_CZ";//潘煜
 		}
 		if(professionalDepartName.contains("化工")==true)
 		{
-			specialAuditor0="";//方志平
+			specialAuditor0="30130057_CZ";//方志平
 		}
-		if(professionalDepartName.contains("合成材料")==true)
+		if(professionalDepartName.contains("材料")==true)
 		{
-			specialAuditor0="";//庄毅
+			specialAuditor0="30130058_CZ";//庄毅
 		}
 		if(professionalDepartName.contains("装备与储运")==true)
 		{
-			specialAuditor0="";//卢衍波
+			specialAuditor0="30130059_CZ";//卢衍波
 		}
 		if(professionalDepartName.contains("知识产权")==true)
 		{
-			specialAuditor0="";//陈蓓艳
+			specialAuditor0="ZGSYHGJT_ZGSYHGGFYXGSKJB_KJBZSCQC_FCZ-CBY";//陈蓓艳
 		}
 		if(professionalDepartName.contains("三剂")==true)
 		{
-			specialAuditor0="30130062_SJC_ZYCCZ";//林雯
+			specialAuditor0="30130062_CZ";//林雯
 		}
 		if(professionalDepartName.contains("技术监督")==true)
 		{
-			specialAuditor0="30130063_JSJDC_ZYCCZ";//秦士珍
+			specialAuditor0="30130063_CZ";//秦士珍
 		}
 		return specialAuditor0;
 	}

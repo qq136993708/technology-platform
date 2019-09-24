@@ -1544,6 +1544,7 @@ public class TaskProviderClient {
 			// 当前流程未结束
 			runtimeService.suspendProcessInstanceById(instance.getId());//挂起流程
 			runtimeService.deleteProcessInstance(instance.getId(),"业务单据数据物理删除");//删除流程
+			//historyService.deleteHistoricProcessInstance(instance.getId());
 		}
 		
 		retJson.put("result", "1");
