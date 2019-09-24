@@ -1399,7 +1399,7 @@ public class OutProjectInfoClient {
 
 	@ApiOperation(value = "查询合同信息", notes = "根据条件查询合同数据")
 	@RequestMapping(value = "/out-provider/project-info-list-bycondition", method = RequestMethod.POST)
-	public List<OutProjectInfo> selectProjectInfoByCondition(@RequestBody OutProjectInfo outProjectInfo) throws Exception {
+	public Object selectProjectInfoByCondition(@RequestBody OutProjectInfo outProjectInfo) throws Exception {
 		logger.info("==================selectProjectInfoByCondition===========================" + JSONObject.toJSONString(outProjectInfo));
 		Map<String,Object> paramMap = MyBeanUtils.transBean2Map(outProjectInfo);
 		return outProjectService.selectProjectInfoByCondition(paramMap);

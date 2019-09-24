@@ -1,8 +1,10 @@
 package com.pcitc.web.out;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -106,11 +108,31 @@ public class OutProjectPaymentNoticeProviderClient
 		Map<String,Object> paramMap = param.getParam();
 		paramMap.put("paymentStatus", "1");
 		paramMap.put("define8s", define8s);
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		
-		System.out.println(JSON.toJSONString(paramMap));
-		
-		List<OutProjectInfo> infos = outProjectService.selectProjectInfoByCondition(paramMap);
-		data.setData(infos);
+		List<Map<String,Object>> infos = outProjectService.selectProjectInfoByCondition(paramMap);
+		int id = 1;
+		for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) 
+		{
+			JSONObject json = JSON.parseObject(JSON.toJSONString(iter.next()));
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("pId", "000");
+			map.put("id", id);
+			map.put("define8", json.get("define8"));
+			list.add(map);
+			
+			List<Map<String,Object>> slist = infos.stream().filter(a -> json.get("define8").equals(a.get("define8"))).collect(Collectors.toList());
+			int j = 0;
+			for(Map<String,Object> mp:slist) {
+				mp.put("id", id+100+j);
+				mp.put("pId", id);
+				j++;
+				list.add(mp);
+			}
+			id++;
+		}
+		data.setData(list);
+		System.out.println(JSON.toJSONString(data));
 		return data;
 	}
 }

@@ -2688,7 +2688,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 	}
 
 	@Override
-	public List<OutProjectInfo> selectProjectInfoByCondition(Map<String,Object> paramMap) {
+	public List<Map<String,Object>> selectProjectInfoByCondition(Map<String,Object> paramMap) {
 	
 		//Map<String,Object> paramMap = MyBeanUtils.transBean2Map(outProjectInfo);
 		

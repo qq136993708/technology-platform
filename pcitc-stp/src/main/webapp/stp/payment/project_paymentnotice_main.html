@@ -142,8 +142,8 @@
 		var ysnd = "${ysnd}";
 		layui.config({
 			base : '/layuiadmin/lib/extend/'
-		}).use(['jquery', 'form', 'laydate', 'table', 'laypage','layer','publicMethods' ], function() {
-			$ = layui.jquery,publicMethods=layui.publicMethods,table = layui.table;
+		}).use(['jquery', 'form', 'laydate', 'table', 'laypage','layer','publicMethods','treeGridCom' ], function() {
+			$ = layui.jquery,publicMethods=layui.publicMethods,table = layui.table,treeGridCom = layui.treeGridCom;
 			laydate = layui.laydate;
 			layer = layui.layer;
 			form = layui.form;
@@ -229,32 +229,59 @@
 			function renderTable() {
 				var where ={param:{"define17":"","define18":$('#define18').val()}};
 				var lodingMsg = layer.msg('数据加载中....');
-				var cols = [
-	    			{
-	    				type:'numbers',
-	                    title: "序号", event: 'setActive', style: 'cursor: pointer;',align:'center',width: 80
-	                },
-	                {
-	                    field: "define8",
-	                    title: "公司", event: 'setActive',align:'left', style: 'cursor: pointer;'
-	               	}
-	    		];
-				console.log(where);
-	    		publicMethods.tableRender("dataTable","dataTable","/payment/company-list",false,cols,where,true,function(res, curr, count){
-	    			layer.close(lodingMsg);
-	    		});
-		        $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
-				/* publicMethods.ajaxAsyncPost("/payment/project-info-list-bycondition",param, function (data) {
-	    			table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,done:function(rs){
-	    				layer.close(lodingMsg);
-	    				$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-	    					var index=parseInt($(this).index());
-	    					var url = '/payment/project_paymentnotice_edit?dataId='+data[index].data_id;
-	                       	publicMethods.openBaseWinFull('经费报销管理-经费报销',url);
-	                    }); 
-	    				
-	    			}});
-		   		});  */
+	    		var param = JSON.parse(window.localStorage.getItem("param"));
+	    		tableId = 'dataTable';
+	    		treeGridCom.render({
+	    			id:tableId
+	                ,elem: '#'+tableId
+	                ,url:'/payment/company-list'
+	                ,where:where
+	                ,cellMinWidth: 100
+	                ,idField:'id'//必須字段
+	                ,treeId:'id'//树形id字段名称
+	                ,treeUpId:'pId'//树形父id字段名称
+	                ,treeShowName:'define8'//以树形式显示的字段
+	                ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
+	                ,height: commonDislodgeTable()
+	                ,isFilter:false
+	                ,iconOpen:true//是否显示图标【默认显示】
+	                ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
+	                ,loading:true
+	                ,method:'POST'
+	                ,page:true
+		            ,page: {
+		                groups: 5
+		                ,limits : [ param.selfRownum, 15, 30, 45, 60 ]
+		                ,layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+		                ,first: '首页' //不显示首页
+		                ,last: '尾页' //不显示尾页
+		                ,theme: '#0F9EE0'
+			        },
+		            cols: [[
+		            	 {title:'序号', type:'numbers' ,width : 55}
+		            	,{field:'define8', width:'25%', title: '公司名称'}
+		            	,{field:'hth',   title:'合同号', width: '8%',  style:'cursor: pointer;',align:"center"}
+		            	,{field:'nd',   title:'年度', width: '8%',  style:'cursor: pointer;',align:"center"}
+			            ,{field:'ysnd',   title:'预算年度',      style:'cursor: pointer;'}
+			            ,{field:'define11',title:'经费来源',	width: '10%', style:'cursor: pointer;'}
+			            ,{field:'gsbmmc',title:'部门',	width: '15%',  style:'cursor: pointer;'}
+			            ,{field:'define10',title:'专业处',	width: '15%',  style:'cursor: pointer;'}
+			            ,{field:'xmmc',title:'项目名称',	width: '15%',  style:'cursor: pointer;'}
+			            ,{field:'fzdw',title:'负责单位',	width: '15%',  style:'cursor: pointer;'}
+			            ,{field:'ysje',title:'金额（万元）',	width: '15%',  style:'cursor: pointer;'}
+		            ]],
+		            done: function (res, curr, count) {
+		            	layer.close(lodingMsg);
+		            },
+		            onDblClickRow:function(index, o){
+		            	console.log(index);
+		            	console.log(o);
+		            }
+		        });
+		        renderfunc = function removeHeaderCheckbox(){
+		        	$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+		        }
+		        renderfunc();
 			}
 			getPayBeachNo();
 			renderTable();

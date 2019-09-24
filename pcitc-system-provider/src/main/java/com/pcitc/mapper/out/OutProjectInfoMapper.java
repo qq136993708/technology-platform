@@ -361,7 +361,7 @@ public interface OutProjectInfoMapper {
 	/**
 	 * 获取报销处理合同信息
 	 */
-	public List<OutProjectInfo> selectProjectInfoByCondition(Map<String, Object> map);
+	public List<Map<String,Object>> selectProjectInfoByCondition(Map<String, Object> map);
 	/**
 	 * 获取报销公司列表
 	 */
