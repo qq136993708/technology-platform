@@ -109,7 +109,9 @@ public class OutProjectPaymentNoticeProviderClient
 		paramMap.put("paymentStatus", "1");
 		paramMap.put("define8s", define8s);
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
-		
+		if(define8s.size()<=0) {
+			return data;
+		}
 		List<Map<String,Object>> infos = outProjectService.selectProjectInfoByCondition(paramMap);
 		int id = 1;
 		for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) 

@@ -192,27 +192,6 @@ public class WordReadUtil {
 		inputStream.close();
 	}
 
-	public static void readByHWPF(String modulePath, String outPath, Map<String, String> params) throws IOException {
-		File infile = new File(modulePath);
-		File outfile = new File(outPath);
-		if (!outfile.exists()) {
-			outfile.createNewFile();
-		}
-
-		InputStream inputStream = new FileInputStream(infile);
-		HWPFDocument document = new HWPFDocument(inputStream);
-		Range range = document.getRange();
-		for (java.util.Iterator<String> iter = params.keySet().iterator(); iter.hasNext();) {
-			String key = iter.next();
-			range.replaceText("${" + key + "}", params.get(key));
-		}
-		OutputStream outputStream = new FileOutputStream(outfile);
-		document.write(outputStream);
-
-		outputStream.close();
-		inputStream.close();
-	}
-
 	public static void main(String [] args) throws IOException {
 		Map<String, String> params = new HashMap<String,String>();
 		params.put("total_fee", "7450.00");

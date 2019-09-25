@@ -26,7 +26,7 @@ public class DocxUtil {
 	 * @Description: 将t中的字段转换成替换模板需要的数据${字段}-->字段值
 	 *               在word模板中变量为${valuename},为每个值建一个以‘${valuename}’为键，‘value’为值的Map集合，
 	 *               利用键去和Word模板中寻找相等的变量
-	 */
+	 *//*
 	public <T> Map<String, String> copyParamFromBean(T t, Map<String, String> params) {
 		Field[] fields = t.getClass().getDeclaredFields();
 		String key;
@@ -43,7 +43,7 @@ public class DocxUtil {
 			}
 		}
 		return params;
-	}
+	}*/
 
 	/***
 	 * 替换Word模板中的对应变量。 两种情况：1-段落中的变量。 2-表格中的变量
@@ -111,11 +111,13 @@ public class DocxUtil {
 	
 	public static void main(String [] args) throws IOException {
 		Map<String, String> params = new HashMap<String,String>();
+		//m_ysnd
 		params.put("total_fee", "7450.00");
+		params.put("create_time", "2019年9月8日");
 		
-		String filePath = "D:\\test3.docx";
-		String outPath = "D:\\sample.docx";
 		
+		String filePath = "d:\\payment_notice_template.docx";
+		String outPath = "d:\\sample.docx";
 		
 		
 		InputStream is = new FileInputStream(filePath);

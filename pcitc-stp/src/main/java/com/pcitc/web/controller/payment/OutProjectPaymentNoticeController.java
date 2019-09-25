@@ -1,6 +1,13 @@
 package com.pcitc.web.controller.payment;
 
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -94,5 +102,64 @@ public class OutProjectPaymentNoticeController extends BaseController
 		return JSON.toJSON(data).toString();
 	}
 
-
+	@RequestMapping(value = "/payment/project-paymentnotice-create")
+	public void projectPaymentnoticeCreate(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,HttpServletResponse res) throws IOException {
+		System.out.println(JSON.toJSONString(param));
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTNOTICE_COMPANYLIST, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
+		LayuiTableData data = responseEntity.getBody();
+		System.out.println(JSON.toJSON(data).toString());
+		
+		URL path = this.getClass().getResource("/");
+		File file = new File(path.getPath() + "static/payment/payment_notice_template.docx");
+		this.fileDownload(file, res);
+	}
+	@RequestMapping(value = "/payment/project-paymentnotice-sent", method = RequestMethod.POST)
+	@ResponseBody
+	public Object projectPaymentnoticeSent(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
+		System.out.println(JSON.toJSONString(param));
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTNOTICE_COMPANYLIST, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
+		LayuiTableData data = responseEntity.getBody();
+		System.out.println(JSON.toJSON(data).toString());
+		return JSON.toJSON(data).toString();
+	}
+	private void fileDownload(File file,HttpServletResponse res) 
+	{
+        OutputStream out = null;
+        InputStream in = null;
+        try 
+        {
+        	
+          res.setHeader("content-type", "application/octet-stream");
+          res.setContentType("application/octet-stream");
+          res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
+        	
+          out = res.getOutputStream();
+          in = new FileInputStream(file);
+          
+          byte[] b = new byte[1000];
+          int len;
+          while ((len = in.read(b)) > 0)
+          {
+			out.write(b, 0, len);
+          }
+          closeIO(in);
+     	  closeIO(out);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+	}
+	private void closeIO(Closeable io) 
+	{
+		if(io != null) 
+		{
+			try 
+			{
+				io.close();
+			}
+			catch(Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	}
 }

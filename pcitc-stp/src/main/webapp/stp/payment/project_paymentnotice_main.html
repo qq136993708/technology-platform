@@ -132,7 +132,6 @@
 	<!--表格数据操作js-->
 	<script src="/common/js/jquery-1.11.3.min.js"></script>
 	<script id="view_format" type="text/html"> {{purchase_money_jf(d.ysje)}} </script>
-	
 
 	<script>
 		var selectRowData, laydate;
@@ -188,24 +187,13 @@
 				createNoticeEvent:function(){
 					 layer.confirm('确定要生成报销通知单吗？',{title:"生成确认"},function(index){
 		            	var lodingMsg = layer.msg('处理中....');
-		            	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-create', data.field, function (data, status) {
-		                    if (data.success) {
-		                    	var index = parent.layer.getFrameIndex(window.name);
-		                    	parent.renderTable();
-		        			    parent.layer.close(index);
-		                    }else{
-		                    	parent.layer.alert(data.message, {title : '信息'});
-		                    	layer.close(lodingMsg);
-		    					return;
-		                    }
-		                    layer.close(lodingMsg);
-		                }); 
+		            	window.open("/payment/project-paymentnotice-create");
 		            });
 				},
 				sentNoticeEvent:function(){
-					layer.confirm('确定要生成报销通知单吗？',{title:"生成确认"},function(index){
+					layer.confirm('确定要发送报销通知单吗？',{title:"发送确认"},function(index){
 		            	var lodingMsg = layer.msg('处理中....');
-		            	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-create', data.field, function (data, status) {
+		            	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-sent', data.field, function (data, status) {
 		                    if (data.success) {
 		                    	var index = parent.layer.getFrameIndex(window.name);
 		                    	parent.renderTable();
@@ -258,20 +246,24 @@
 		                ,theme: '#0F9EE0'
 			        },
 		            cols: [[
-		            	 {title:'序号', type:'numbers' ,width : 55}
+		            	{type:'checkbox',style: 'cursor: pointer;',width: 55}
+		            	,{title:'序号', type:'numbers' ,width : 55}
 		            	,{field:'define8', width:'20%', title: '公司名称'}
-		            	,{field:'xmmc',title:'项目名称',	width: '15%',  style:'cursor: pointer;'}
+		            	,{field:'xmmc',title:'项目名称',	width: '15%',  style:'cursor: pointer;',align:'left'}
 		            	,{field:'hth',   title:'合同号', width: '8%',  style:'cursor: pointer;',align:"center"}
 		            	,{field:'nd',   title:'年度', width: '8%',  style:'cursor: pointer;',align:"center"}
-			            ,{field:'ysnd',   title:'预算年度',      style:'cursor: pointer;'}
+			            ,{field:'ysnd',   title:'预算年度',      style:'cursor: pointer;',align:"center"}
 			            ,{field:'define11',title:'经费来源',	width: '10%', style:'cursor: pointer;'}
 			            ,{field:'gsbmmc',title:'部门',	width: '10%',  style:'cursor: pointer;'}
 			            ,{field:'define10',title:'专业处',	width: '10%',  style:'cursor: pointer;'}
 			            ,{field:'fzdw',title:'负责单位',	width: '15%',  style:'cursor: pointer;'}
-			            ,{field:'ysje',title:'金额（万元）',	width: '15%',  style:'cursor: pointer;'}
+			            ,{field:'ysje',title:'金额（万元）',	width: '15%',  style:'cursor: pointer;',align:'right',templet : '#view_format'}
 		            ]],
 		            done: function (res, curr, count) {
 		            	layer.close(lodingMsg);
+		            	$.each(res.data,function(i,dt){
+			            	console.log(dt);
+			            });
 		            },
 		            onDblClickRow:function(index, o){
 		            	console.log(index);
@@ -283,6 +275,16 @@
 		        }
 		        renderfunc();
 			}
+			//监听选中
+			treeGridCom.on('checkbox(tableEvent)', function(obj){
+				if(obj.checked)
+				{
+					console.log(obj);
+				}else{
+					console.log(obj);
+				}
+	    	});
+			
 			getPayBeachNo();
 			renderTable();
 		});
@@ -299,7 +301,7 @@
 				if (h_strs == '.0000') {
 					jf = jf.replace(".0000", "");
 				}
-				return '<span style="color:green">' + jf + '</span>';
+				return '<span>' + jf + '</span>';
 			} else {
 				return "<span></span>";
 			}
