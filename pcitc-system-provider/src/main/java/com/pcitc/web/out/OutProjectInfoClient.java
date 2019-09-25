@@ -33,6 +33,7 @@ import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.service.feign.hana.OutProjectRemoteClient;
 import com.pcitc.service.feign.stp.BudgetClient;
 import com.pcitc.service.out.OutProjectPlanService;
@@ -1398,9 +1399,10 @@ public class OutProjectInfoClient {
 
 	@ApiOperation(value = "查询合同信息", notes = "根据条件查询合同数据")
 	@RequestMapping(value = "/out-provider/project-info-list-bycondition", method = RequestMethod.POST)
-	public List<OutProjectInfo> selectProjectInfoByCondition(@RequestBody OutProjectInfo outProjectInfo) throws Exception {
+	public Object selectProjectInfoByCondition(@RequestBody OutProjectInfo outProjectInfo) throws Exception {
 		logger.info("==================selectProjectInfoByCondition===========================" + JSONObject.toJSONString(outProjectInfo));
-		return outProjectService.selectProjectInfoByCondition(outProjectInfo);
+		Map<String,Object> paramMap = MyBeanUtils.transBean2Map(outProjectInfo);
+		return outProjectService.selectProjectInfoByCondition(paramMap);
 	}
 
 	/**
@@ -1446,4 +1448,5 @@ public class OutProjectInfoClient {
 	public OutProjectInfo selectOutProjectInfoDetail(@PathVariable(value = "dataId", required = true) String dataId) throws Exception {
 		return outProjectService.selectOutProjectInfo(dataId);
 	}
+	
 }

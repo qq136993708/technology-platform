@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="/layuiadmin/style/common.css">
 <link rel="stylesheet" href="/layuiadmin/style/admin.css">
 <script src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <style>
 .dateInput {
 	font-size: 12px;
@@ -123,26 +124,7 @@
 		                    data-type="sentNoticeEvent">发送报销通知单
 		            </button>
 		        </div>
-				<table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true,text:{none:''}}">
-	                <thead>
-		                <tr>
-		                	<th lay-data="{type:'numbers', width: 55,align:'center',totalRowText: '合计'}">序号</th>
-		                    <th lay-data="{field:'hth', width: 100,align:'center'}">合同号</th>
-		                   	<th lay-data="{field:'nd', width: 80,align:'center'}">立项年度</th>
-		                    <th lay-data="{field:'ysnd', width: 80,align:'center'}">预算年度</th>
-		                    <th lay-data="{field:'define11', width: 100,align:'left'}">经费来源</th>
-		                    <th lay-data="{field:'gsbmmc', width: 100,align:'left',event:'cl'}">部门</th>
-		                    <th lay-data="{field:'define10', width: 120,align:'left'}">专业处</th>
-		                    <th lay-data="{field:'xmmc',align:'left'}">项目名称</th>
-		                     <th lay-data="{field:'fzdw',align:'left'}">负责单位</th>
-		                    <th lay-data="{field:'define8',align:'left'}">承担单位</th>
-		                    <th lay-data="{field:'ysje', width: 120,align:'right',totalRow: true,templet : '#view_format'}">金额（万元）</th>
-		                    <th lay-data="{field:'define17', width: 100,align:'center'}">拨付批次</th>
-		                    <th lay-data="{field:'define18', width: 100,align:'center'}">报销批次</th>
-		                    <th lay-data="{title:'操作', width: 120,align:'center', templet:function(d){return '<a href=\'#\' class=\'fontColor-blue\'>报销通知单</a>'}}">操作</th>
-		                </tr>
-	                </thead>
-	            </table>
+		        <table id="dataTable" class="layui-hide"  lay-filter="tableEvent"></table>
 			</div>
 		</div>
 	</div>
@@ -150,7 +132,6 @@
 	<!--表格数据操作js-->
 	<script src="/common/js/jquery-1.11.3.min.js"></script>
 	<script id="view_format" type="text/html"> {{purchase_money_jf(d.ysje)}} </script>
-	
 
 	<script>
 		var selectRowData, laydate;
@@ -160,9 +141,10 @@
 		var ysnd = "${ysnd}";
 		layui.config({
 			base : '/layuiadmin/lib/extend/'
-		}).use(['jquery', 'form', 'laydate', 'table', 'laypage','layer','publicMethods' ], function() {
-			$ = layui.jquery,publicMethods=layui.publicMethods,table = layui.table;
+		}).use(['jquery', 'form', 'laydate', 'table', 'laypage','layer','publicMethods','treeGridCom' ], function() {
+			$ = layui.jquery,publicMethods=layui.publicMethods,table = layui.table,treeGridCom = layui.treeGridCom;
 			laydate = layui.laydate;
+			layer = layui.layer;
 			form = layui.form;
 			form.render();
 			laydate.render({
@@ -192,65 +174,26 @@
 			}
 			//移除表头的复选框,去掉全选
 			$(".layui-table-header table thead th input").remove();
-           /*  $("#Open").click(function() {
-                if ($(this).html() == "收起") {
-                    $(this).html("展开");
-                    $(".select").addClass("layui-hide")
-                } else {
-                    $(this).html("收起");
-                    $(".select").removeClass("layui-hide")
-
-                }
-            }); */
 			// 触发不同的按钮事件
 			var $ = layui.$, active = {
 				searchEvent : function() { //点击查询按钮
 					renderTable();
 				},
 				resetEvent : function() {
-					$('#nd').val(nd);
-					$('#ysnd').val(ysnd);
-					$('#xmmc').val("");
-					$('#define11').val("");
-					$("#define11").trigger("change");
-					$('#define2').val("");
-					$('#define1').val("");
-					$('#define5').val("");
-					$('#define12').val("");
-					$('#hth').val("");
-					$('#zylb').val("");
-					$('#ktlx').val("");
-					$('#project_property').val("");
-					$('#groupFlag').val("");
-					$('#gsbmbmFlag').val("");
-					$('#zycbmFlag').val("");
-					$('#zylbbmFlag').val("");
 					$('#define17').val("");
 					$('#define18').val("");
-					$('#paymentStatus').val("1");
 					form.render();
 				},
 				createNoticeEvent:function(){
 					 layer.confirm('确定要生成报销通知单吗？',{title:"生成确认"},function(index){
 		            	var lodingMsg = layer.msg('处理中....');
-		            	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-create', data.field, function (data, status) {
-		                    if (data.success) {
-		                    	var index = parent.layer.getFrameIndex(window.name);
-		                    	parent.renderTable();
-		        			    parent.layer.close(index);
-		                    }else{
-		                    	parent.layer.alert(data.message, {title : '信息'});
-		                    	layer.close(lodingMsg);
-		    					return;
-		                    }
-		                    layer.close(lodingMsg);
-		                }); 
+		            	window.open("/payment/project-paymentnotice-create");
 		            });
 				},
 				sentNoticeEvent:function(){
-					layer.confirm('确定要生成报销通知单吗？',{title:"生成确认"},function(index){
+					layer.confirm('确定要发送报销通知单吗？',{title:"发送确认"},function(index){
 		            	var lodingMsg = layer.msg('处理中....');
-		            	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-create', data.field, function (data, status) {
+		            	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-sent', data.field, function (data, status) {
 		                    if (data.success) {
 		                    	var index = parent.layer.getFrameIndex(window.name);
 		                    	parent.renderTable();
@@ -271,336 +214,83 @@
 				var type = $(this).data('type');
 				active[type] ? active[type].call(this) : '';
 			});
-
-			//监听经费来源
-			form.on('select(select_define11)', function(data) {
-				//alert(data.value);
-				var parentCode = data.value;
-				showCompanyName(parentCode);
-				getDicByParentCode_company(parentCode, 'define12');
-				console.log("监听经费来源:" + data);
-			});
-			//监听单位性质
-			form.on('select(select_define12)', function(data) {
-				var parentCode = data.value;
-				showCompanyName(parentCode);
-				getDicByParentCode_company(parentCode, 'define2');
-				console.log("监听单位性质:" + data);
-			});
-			//监听部门
-			form.on('select(select_gsbmbmFlag)', function(data) {
-				//alert(data.value);
-				var parentCode = data.value;
-				getDicByParentCode(parentCode, 'zycbmFlag');
-				console.log("监听部门:" + data);
-			});
-
-			//监听处室
-			form.on('select(select_zycbmFlag)', function(data) {
-				var parentCode = data.value;
-
-				getDicByParentCode(parentCode, 'zylbbmFlag');
-				console.log("监听处室:" + data);
-			});
-			//初始化拨付批次
-			initPaymentBatchs();
-
-			//初始化经费来源
-			var define11 = $("#define11").val();
-			showCompanyName(define11);
-			getDicByParentCode(define11, 'define12');
-			var define12 = $("#define12").val();
-			showCompanyName(define12);
-		
-
-			//初始部门
-			var gsbmbmFlag = $("#gsbmbmFlag").val();
-			getDicByParentCode(gsbmbmFlag, 'zycbmFlag');
-
+			function renderTable() {
+				var where ={param:{"define17":"","define18":$('#define18').val()}};
+				var lodingMsg = layer.msg('数据加载中....');
+	    		var param = JSON.parse(window.localStorage.getItem("param"));
+	    		tableId = 'dataTable';
+	    		treeGridCom.render({
+	    			id:tableId
+	                ,elem: '#'+tableId
+	                ,url:'/payment/company-list'
+	                ,where:where
+	                ,cellMinWidth: 100
+	                ,idField:'id'//必須字段
+	                ,treeId:'id'//树形id字段名称
+	                ,treeUpId:'pId'//树形父id字段名称
+	                ,treeShowName:'define8'//以树形式显示的字段
+	                ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
+	                ,height: commonDislodgeTable()
+	                ,isFilter:false
+	                ,iconOpen:true//是否显示图标【默认显示】
+	                ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
+	                ,loading:true
+	                ,method:'POST'
+	                ,page:true
+		            ,page: {
+		                groups: 5
+		                ,limits : [ param.selfRownum, 15, 30, 45, 60 ]
+		                ,layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+		                ,first: '首页' //不显示首页
+		                ,last: '尾页' //不显示尾页
+		                ,theme: '#0F9EE0'
+			        },
+		            cols: [[
+		            	{type:'checkbox',style: 'cursor: pointer;',width: 55}
+		            	,{title:'序号', type:'numbers' ,width : 55}
+		            	,{field:'define8', width:'20%', title: '公司名称'}
+		            	,{field:'xmmc',title:'项目名称',	width: '15%',  style:'cursor: pointer;',align:'left'}
+		            	,{field:'hth',   title:'合同号', width: '8%',  style:'cursor: pointer;',align:"center"}
+		            	,{field:'nd',   title:'年度', width: '8%',  style:'cursor: pointer;',align:"center"}
+			            ,{field:'ysnd',   title:'预算年度',      style:'cursor: pointer;',align:"center"}
+			            ,{field:'define11',title:'经费来源',	width: '10%', style:'cursor: pointer;'}
+			            ,{field:'gsbmmc',title:'部门',	width: '10%',  style:'cursor: pointer;'}
+			            ,{field:'define10',title:'专业处',	width: '10%',  style:'cursor: pointer;'}
+			            ,{field:'fzdw',title:'负责单位',	width: '15%',  style:'cursor: pointer;'}
+			            ,{field:'ysje',title:'金额（万元）',	width: '15%',  style:'cursor: pointer;',align:'right',templet : '#view_format'}
+		            ]],
+		            done: function (res, curr, count) {
+		            	layer.close(lodingMsg);
+		            	$.each(res.data,function(i,dt){
+			            	console.log(dt);
+			            });
+		            },
+		            onDblClickRow:function(index, o){
+		            	console.log(index);
+		            	console.log(o);
+		            }
+		        });
+		        renderfunc = function removeHeaderCheckbox(){
+		        	$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+		        }
+		        renderfunc();
+			}
+			//监听选中
+			treeGridCom.on('checkbox(tableEvent)', function(obj){
+				if(obj.checked)
+				{
+					console.log(obj);
+				}else{
+					console.log(obj);
+				}
+	    	});
 			
 			getPayBeachNo();
 			renderTable();
 		});
-		//拨付批次
-		function initPaymentBatchs(){
-			publicMethods.ajaxAsyncPost("/payment/project-paymentplan-batchs",{"ysnd":$("#ysnd").val()}, function (data) {
-    			$("#define17").html("<option value=''>--请选择--</option>");
-    			$.each(data,function(index,dt){
-    				$("#define17").append("<option value='"+dt.numValue+"'>"+dt.name+"</option>");
-    			});
-    			form.render();
-	   		}); 
-		}
 		
-		function showCompanyName(parentCode){
-			if("ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY"==parentCode||"ROOT_FZJCZX_GSLXCW_GFGS"==parentCode||"-1"==parentCode||""==parentCode||null==parentCode){
-				$("#lay_company").html("研究院：");
-			}else{
-				$("#lay_company").html("单位名称：");
-			}
-		}
-		window.renderTable = function() {
-			//alert("dd");
-			//获取选中的option的文本值
-			var define2 = $("#define2 option:selected").text();
-			var define12 = $("#define12 option:selected").text();
-			var define1 = $("#define1 option:selected").text();
-			var define5 = $("#define5 option:selected").text();
-			var define11 = $("#define11 option:selected").text();
-			var define17 = $("#define17 option:selected").text();
-			var define18 = $("#define18 option:selected").text();
-			var fzdwflag = $("#fzdwflag option:selected").text();
-			var zylb = $("#zylb option:selected").text();
-			
-			
-			//var groupFlag = $("#groupFlag").val();
-			var gsbmbmFlag = $("#gsbmbmFlag").val();
-			var zycbmFlag = $("#zycbmFlag").val();
-			var zylbbmFlag = $("#zylbbmFlag").val();
-			var nd = $("#nd").val();
-			var ysnd = $("#ysnd").val();
-			var paymentStatus = $("#paymentStatus").val();
-			
-			
-			
-			define1 = (define1 == '--请选择--')?'':define1;
-			define2 = (define2 == '--请选择--')?'':define2;
-			define5 = (define5 == '--请选择--')?'':define5;
-			define12 = (define12 == '--请选择--')?'':define12;
-			define11 = (define11 == '--请选择--')?'':define11;
-			define17 = (define17 == '--请选择--')?'':define17;
-			define18 = (define18 == '--请选择--')?'':define18;
-			zycbmFlag = (zycbmFlag == '--请选择--')?'':zycbmFlag;
-			fzdwflag = (fzdwflag == '--请选择--')?'':fzdwflag;
-			zylb = (zylb == '--请选择--')?'':zylb;
-			//groupFlag = (groupFlag == '--请选择--')?'':groupFlag;
-			
-			var param = {"xmmc":$("#xmmc").val(),"hth":$("#hth").val(),"nd":$("#nd").val(),"ysnd":$("#ysnd").val(),
-					"define1":define1,"define2":define2,"define5":define5,"define17":define17,"define18":define18,
-					"define11":define11,"define12":define12,"fzdw":fzdwflag,"paymentStatus":paymentStatus,
-					"zylb":zylb,"gsbmbm":gsbmbmFlag,"zycbm":zycbmFlag,"zylbbm":zylbbmFlag};
-			console.log(param);
-			var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
-			publicMethods.ajaxAsyncPost("/payment/project-info-list-bycondition",param, function (data) {
-    			table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,done:function(rs){
-    				layer.close(lodingMsg);
-    				$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-    					var index=parseInt($(this).index());
-    					var url = '/payment/project_paymentnotice_edit?dataId='+data[index].data_id;
-                       	publicMethods.openBaseWinFull('经费报销管理-经费报销',url);
-                    }); 
-    				
-    			}});
-	   		}); 
-		}
 		
-		/* table.on('tool(dataTable)', function(obj){ 
-			var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-			console.log(layEvent);
-			
-		}); */
-		function view_pro(xmmc, projectProperty, id) {
-
-			layer.open({
-				title : '项目进展详情',
-				skin : 'layui-layer-lan',
-				shadeClose : false,
-				type : 2,
-				id : "cycle",
-				fixed : false,
-				//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-				maxmin : true,
-				//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-				area : [ '70%', '90%' ],
-				content : "/whole-process/science/details?xmid=" + id,
-				success : function(layero, index) {
-					// var iframe = window['layui-layer-iframe' + index];
-					// var iframeH=$(layero).find("iframe");
-					//$(iframeH).contents().find(".cycle-img").css("height",$(iframe).height()+"px");
-				}
-			});
-		}
-		/**======================================联动=====================================*/
-		var define11 = "${define11?default('')}";//单位性质
-		var define12 = "${define12?default('')}";//单位性质
-		var define2 = "${define2?default('')}";//研究院
-		var zycbmFlag = "${zycbmFlag?default('')}";
-		var zylbbmFlag = "${zylbbmFlag?default('')}";
-
-		//alert(define11);
-
-		//获取单位性质
-		function getDicByParentCode(parentCode, downId) {
-			//alert(parentCode+"--"+downId);
-			$("#" + downId).empty();
-			if (parentCode == null || parentCode == '') {
-				parentCode = '-1';
-			}
-			console.log("级联：\n parentCode=" + parentCode + " downId=" + downId);
-			var v_date = (new Date()).getTime();
-			if (parentCode != null && parentCode != '') {
-
-				$.ajax({
-					url : "/sre-project-basic/getDicListByParentCode?v_date=" + v_date + "&parentCode=" + parentCode,
-					type : "post",
-					async : false,
-					dataType : "json",
-					success : function(data) {
-						$("#" + downId).append("<option value=''>--请选择--</option>");
-						$.each(data, function(i, el) {
-							$("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
-							if (define12 == el.name) {
-								$("#" + downId).val(el.code);
-							}
-							if (define2 == el.name) {
-								$("#" + downId).val(el.code);
-							}
-							if (zycbmFlag == el.name) {
-								$("#" + downId).val(el.code);
-							}
-							if (zycbmFlag == el.name) {
-								$("#" + downId).val(el.code);
-							}
-
-						});
-						form.render();
-					},
-					error : function() {
-						alert("发生未知错误 ,请重新操作.");
-					}
-				});
-
-			}
-			var code_temp = $("#" + downId).val();
-			//如果ID=单位性质 ,再调用一次，形成第三级
-			if (downId == 'define12') {
-				getDicByParentCode(code_temp, 'define2');
-			}
-			if (downId == 'zycbmFlag') {
-				getDicByParentCode(code_temp, 'zylbbmFlag');
-			}
-			form.render();
-		}
-		//获取单位性质
-		function getDicByParentCode_company(parentCode, downId) {
-			//alert(parentCode+"--"+downId);
-			$("#" + downId).empty();
-			if (parentCode == null || parentCode == '') {
-				parentCode = '-1';
-			}
-			console.log("级联：\n parentCode=" + parentCode + " downId=" + downId);
-			var v_date = (new Date()).getTime();
-			if (parentCode != null && parentCode != '' && parentCode!="-1") {
-				if((downId=="define2"&&parentCode=="ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY")||downId=="define12"||downId=="zylbbmFlag"){
-				$.ajax({
-					url : "/sre-project-basic/getDicListByParentCode?v_date=" + v_date + "&parentCode=" + parentCode,
-					type : "post",
-					async : false,
-					dataType : "json",
-					success : function(data) {
-						$("#" + downId).append("<option value='-1'>--请选择--</option>");
-						$.each(data, function(i, el) {
-							$("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
-							if (define12 == el.name) {
-								$("#" + downId).val(el.code);
-							}
-							if (define2 == el.name) {
-								$("#" + downId).val(el.code);
-							}
-							if (zycbmFlag == el.name) {
-								$("#" + downId).val(el.code);
-							}
-							if (zycbmFlag == el.name) {
-								$("#" + downId).val(el.code);
-							}
-
-						});
-						form.render();
-					},
-					error : function() {
-						alert("发生未知错误 ,请重新操作.");
-					}
-				});
-				}else{
-					$.ajax({
-						url : "/out/project-company-list",
-						type : "post",
-						async : false,
-						dataType : "json",
-						data:{
-							"jfly":$("#define11").find("option:selected").text(),
-							"dwxz":$("#define12").find("option:selected").text()
-						},
-						success : function(data) {
-							$("#" + downId).append("<option value=''>--请选择--</option>");
-							$.each(data, function(i, el) {
-								$("#" + downId).append('<option value="'+ el.define8 +'">' + el.define8 + '</option>');
-								if (define12 == el.name) {
-									$("#" + downId).val(el.dataId);
-								}
-								if (define2 == el.name) {
-									$("#" + downId).val(el.dataId);
-								}
-								if (zycbmFlag == el.name) {
-									$("#" + downId).val(el.dataId);
-								}
-								if (zycbmFlag == el.name) {
-									$("#" + downId).val(el.dataId);
-								}
-
-							});
-							form.render();
-						},
-						error : function() {
-							alert("发生未知错误 ,请重新操作.");
-						}
-					});
-				}
-			}else if((parentCode==null||"-1"==parentCode)&&downId=="define12"){
-				if((""==$("#define11").val()||undefined==$("#define11").val())&&(""==$("#define12").val()||undefined==$("#define12").val())){
-					parentCode = "ROOT_FZJCZX_GSLXCW_GFGS_ZSYJY";
-					downId = "define2";
-					$.ajax({
-						url : "/sre-project-basic/getDicListByParentCode?v_date=" + v_date + "&parentCode=" + parentCode,
-						type : "post",
-						async : false,
-						dataType : "json",
-						success : function(data) {
-							$("#" + downId).append("<option value='-1'>--请选择--</option>");
-							$.each(data, function(i, el) {
-								$("#" + downId).append('<option value="'+ el.code +'">' + el.name + '</option>');
-								if (define12 == el.name) {
-									$("#" + downId).val(el.code);
-								}
-								if (define2 == el.name) {
-									$("#" + downId).val(el.code);
-								}
-								if (zycbmFlag == el.name) {
-									$("#" + downId).val(el.code);
-								}
-								if (zycbmFlag == el.name) {
-									$("#" + downId).val(el.code);
-								}
-
-							});
-							form.render();
-						},
-						error : function() {
-							alert("发生未知错误 ,请重新操作.");
-						}
-					});
-				}
-			}
-			var code_temp = $("#" + downId).val();
-			//如果ID=单位性质 ,再调用一次，形成第三级
-			if (downId == 'define12') {
-				getDicByParentCode(code_temp, 'define2');
-			}
-			if (downId == 'zycbmFlag') {
-				getDicByParentCode(code_temp, 'zylbbmFlag');
-			}
-			form.render();
-		}
+		
 		function purchase_money(jf) {
 			return '<span style="color:red">' + jf + '</span>';
 		}
@@ -611,7 +301,7 @@
 				if (h_strs == '.0000') {
 					jf = jf.replace(".0000", "");
 				}
-				return '<span style="color:green">' + jf + '</span>';
+				return '<span>' + jf + '</span>';
 			} else {
 				return "<span></span>";
 			}
