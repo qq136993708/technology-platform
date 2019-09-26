@@ -3,6 +3,7 @@ package com.pcitc.web.controller.payment;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -17,6 +18,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,7 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.WordReadUtil;
 import com.pcitc.web.common.BaseController;
 
 @Controller
@@ -110,7 +113,21 @@ public class OutProjectPaymentNoticeController extends BaseController
 		System.out.println(JSON.toJSON(data).toString());
 		
 		URL path = this.getClass().getResource("/");
-		File file = new File(path.getPath() + "static/payment/payment_notice_template.docx");
+		String modlePath = path.getPath() + "static/payment/payment_notice_template.docx";
+		File file = new File(modlePath);
+		
+		/*InputStream is = new FileInputStream(modlePath);
+		XWPFDocument doc = new XWPFDocument(is);
+		// 替换段落里面的变量
+		WordReadUtil.replaceInPara(doc, params);
+		// 替换表格里面的变量
+		WordReadUtil.replaceInTable(doc, params);
+		OutputStream os = new FileOutputStream(outPath);
+		doc.write(os);
+		WordReadUtil.close(os);
+		WordReadUtil.close(is);*/
+		
+		
 		this.fileDownload(file, res);
 	}
 	@RequestMapping(value = "/payment/project-paymentnotice-sent", method = RequestMethod.POST)
