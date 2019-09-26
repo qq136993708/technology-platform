@@ -2,11 +2,9 @@ package com.pcitc.service.system;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysCronExceptionLog;
 import com.pcitc.base.system.SysCronRecord;
 import com.pcitc.base.system.SysJob;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * package: com.pcitc.service.system
@@ -82,4 +80,29 @@ public interface SysJobService {
      * 启动作业队列
      */
     public void startJobs();
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * 作业异常信息
+     */
+    
+    public SysCronExceptionLog selectSysCronExceptionLog(String id) throws Exception;
+
+	public Integer updateSysCronExceptionLog(SysCronExceptionLog record)throws Exception;
+
+	public int deleteSysCronExceptionLog(String id)throws Exception;
+
+	public Integer insertSysCronExceptionLog(SysCronExceptionLog record)throws Exception;
+	
+	public LayuiTableData getSysCronExceptionLogPage(LayuiTableParam param)throws Exception;
+	
 }
