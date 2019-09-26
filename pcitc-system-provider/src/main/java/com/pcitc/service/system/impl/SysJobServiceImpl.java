@@ -2,12 +2,11 @@ package com.pcitc.service.system.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.pcitc.base.system.SysCronRecord;
-import com.pcitc.mapper.system.SysCronRecordMapper;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.DateBuilder;
@@ -22,7 +21,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreTechMeeting;
+import com.pcitc.base.system.SysCronExceptionLog;
+import com.pcitc.base.system.SysCronRecord;
 import com.pcitc.base.system.SysJob;
+import com.pcitc.mapper.system.SysCronExceptionLogMapper;
+import com.pcitc.mapper.system.SysCronRecordMapper;
 import com.pcitc.mapper.system.SysJobMapper;
 import com.pcitc.service.system.SysJobService;
 import com.pcitc.service.system.TimedTask;
@@ -41,6 +45,11 @@ public class SysJobServiceImpl implements SysJobService {
 	private SysJobMapper sysJobMapper;
 	@Autowired
 	private SysCronRecordMapper sysCronRecordMapper;
+	@Autowired
+	private SysCronExceptionLogMapper sysCronExceptionLogMapper;
+	
+	
+	
 
 	/**
 	 * 按id查询
@@ -255,4 +264,99 @@ public class SysJobServiceImpl implements SysJobService {
 
 		return timedTask;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public SysCronExceptionLog selectSysCronExceptionLog(String id) throws Exception
+	{
+		return sysCronExceptionLogMapper.selectByPrimaryKey(id);
+	}
+
+	public Integer updateSysCronExceptionLog(SysCronExceptionLog record)throws Exception
+	{
+		return sysCronExceptionLogMapper.updateByPrimaryKey(record);
+	}
+
+	public int deleteSysCronExceptionLog(String id)throws Exception
+	{
+		return sysCronExceptionLogMapper.deleteByPrimaryKey(id);
+	}
+
+	public Integer insertSysCronExceptionLog(SysCronExceptionLog record)throws Exception
+	{
+		return sysCronExceptionLogMapper.insert(record);
+	}
+
+	
+	//查询作业异常列表数据
+	public LayuiTableData getSysCronExceptionLogPage(LayuiTableParam param)throws Exception
+	{
+		
+		
+		        //每页显示条数
+				int pageSize = param.getLimit();
+				//从第多少条开始
+				int pageStart = (param.getPage()-1)*pageSize;
+				//当前是第几页
+				int pageNum = pageStart/pageSize + 1;
+				// 1、设置分页信息，包括当前页数和每页显示的总计数
+				PageHelper.startPage(pageNum, pageSize);
+						
+				String jobName=getTableParam(param,"jobName","");
+				
+				Map map=new HashMap();
+				map.put("jobName", jobName);
+				
+				
+				List<SysCronExceptionLog> list = sysCronExceptionLogMapper.getList(map);
+				PageInfo<SysCronExceptionLog> pageInfo = new PageInfo<SysCronExceptionLog>(list);
+				System.out.println(">>>>>>>>查询作业异常列表数据分页结果 "+pageInfo.getList().size());
+				
+				LayuiTableData data = new LayuiTableData();
+				data.setData(pageInfo.getList());
+				Long total = pageInfo.getTotal();
+				data.setCount(total.intValue());
+				
+			    return data;
+	}
+
+	
+	
+	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
+	{
+		String resault="";
+		Object object=param.getParam().get(paramName);
+		if(object!=null)
+		{
+			resault=(String)object;
+		}
+		return resault;
+	}
+
+	
+	
+	
+	
+	
 }

@@ -3,6 +3,7 @@ package com.pcitc.web.controller.system;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
@@ -11,13 +12,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreTechMeeting;
+import com.pcitc.base.system.SysCronExceptionLog;
 import com.pcitc.base.system.SysJob;
 import com.pcitc.web.common.BaseController;
 
@@ -33,6 +39,11 @@ public class SysJobController extends BaseController {
 	private static final String JOB_PAUSE = "http://pcitc-zuul/system-proxy/job-provider/pauseJob/";
 	private static final String JOB_RESUME = "http://pcitc-zuul/system-proxy/job-provider/resumeJob/";
 	private static final String JOB_EXECUTE = "http://pcitc-zuul/system-proxy/job-provider/executeJob/";
+	private static final String sys_job_excep_list = "http://pcitc-zuul/system-proxy/job-provider/sys_job_excep_list/";
+	
+	
+	private static final String getExcep = "http://pcitc-zuul/system-proxy/job-provider/getExcep/";
+	
 
 	/**
 	 * 跳转到模块列表页
@@ -48,6 +59,37 @@ public class SysJobController extends BaseController {
 	@RequestMapping(value = "/sysJobExcep_list")
 	public String toExcepList() {
 		return "/base/system/jobExcepList";
+	}
+	
+	
+	@RequestMapping(value = "/sys_job_excep_list")
+	@ResponseBody
+	public String sys_job_excep_list(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(sys_job_excep_list, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		// 安全设置：归档文件下载
+		response.setHeader("Pragma", "no-cache");
+		response.setHeader("Cache-Control", "no-cache");
+		return result.toString();
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "/getExcep/{id}", method = RequestMethod.GET)
+	public String viewget(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ResponseEntity<SysCronExceptionLog> responseEntity = this.restTemplate.exchange(getExcep + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysCronExceptionLog.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		logger.info("============远程返回  statusCode " + statusCode);
+		SysCronExceptionLog sysCronExceptionLog = responseEntity.getBody();
+		request.setAttribute("sysCronExceptionLog", sysCronExceptionLog);
+		return "/base/system/jobExcepDetail";
 	}
 
 	/**

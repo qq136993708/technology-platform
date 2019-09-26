@@ -1,24 +1,18 @@
 package com.pcitc.service.job;
 
+import java.io.Serializable;
+
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 
-public class JobTest implements Job{
-	 /**
-     * 
-    * @Title: execute 
-    * @Description: 数据同步方法
-    * @return List<DBEntity>    返回类型 
-    * @throws
-     */
+public class JobTest implements Job, Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		System.out.println("job start======");
+		System.out.println(">>>>>>>>>>>>>>测试定时任务>>>>>>>>>>>>");
 	}
 	
-	public static void main(String[] args) {
-
-
-	}
 }
