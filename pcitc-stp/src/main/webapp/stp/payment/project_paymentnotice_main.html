@@ -134,11 +134,12 @@
 	<script id="view_format" type="text/html"> {{purchase_money_jf(d.ysje)}} </script>
 
 	<script>
-		var selectRowData, laydate;
+		var laydate;
 		var xmmc = $('#xmmc').val();
 		var form;
 		var nd = "${nd}";
 		var ysnd = "${ysnd}";
+		var selectRowData = [];
 		layui.config({
 			base : '/layuiadmin/lib/extend/'
 		}).use(['jquery', 'form', 'laydate', 'table', 'laypage','layer','publicMethods','treeGridCom' ], function() {
@@ -187,7 +188,9 @@
 				createNoticeEvent:function(){
 					 layer.confirm('确定要生成报销通知单吗？',{title:"生成确认"},function(index){
 		            	var lodingMsg = layer.msg('处理中....');
-		            	window.open("/payment/project-paymentnotice-create");
+		            	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-create', selectRowData, function (data, status) {
+		            		window.open("/payment/project-paymentnotice-create");
+		                }); 
 		            });
 				},
 				sentNoticeEvent:function(){
@@ -261,9 +264,9 @@
 		            ]],
 		            done: function (res, curr, count) {
 		            	layer.close(lodingMsg);
-		            	$.each(res.data,function(i,dt){
+		            	/* $.each(res.data,function(i,dt){
 			            	console.log(dt);
-			            });
+			            }); */
 		            },
 		            onDblClickRow:function(index, o){
 		            	console.log(index);
@@ -277,11 +280,18 @@
 			}
 			//监听选中
 			treeGridCom.on('checkbox(tableEvent)', function(obj){
-				if(obj.checked)
+				if(obj.data.lay_level == 1)
 				{
-					console.log(obj);
-				}else{
-					console.log(obj);
+					if(obj.checked)
+					{
+						console.log(obj);
+						$.each(obj.data.children,function(i,d){
+							selectRowData.push(obj.data.children[i]);
+						});
+						console.log(selectRowData);
+					}else{
+						selectRowData = [];
+					}
 				}
 	    	});
 			

@@ -3,6 +3,7 @@ package com.pcitc.web.controller.payment;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -17,6 +18,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,7 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.WordReadUtil;
 import com.pcitc.web.common.BaseController;
 
 @Controller
@@ -48,32 +51,6 @@ public class OutProjectPaymentNoticeController extends BaseController
 	@RequestMapping(method = RequestMethod.GET, value = "/payment/project_paymentnotice_main")
 	public Object toPaymentNoticeProjectMain(HttpServletRequest request) throws Exception 
 	{
-		Map<String,String> dis = new HashMap<String,String>();
-		dis.put("fylbList", "ROOT_FZJCZX_FYLX");//费用类别
-		dis.put("ktlxList", "ROOT_FZJCZX_KTLX");//课题类型
-		dis.put("jsflList", "ROOT_FZJCZX_JSFL");//技术分类
-		dis.put("jflyList", "ROOT_FZJCZX_GSLXCW");//三级级联：经费来源(公司类型财务)->单位类别->研究院
-		dis.put("zycList", "ROOT_ZGSHJT_ZBJG_KJB");//科技部二级级联： 专业处->专业类别
-		dis.put("fzdwList", "ROOT_FZJCZX_FZDW");//负责单位
-		dis.put("fzlxList", "ROOT_FZJCZX_FZLX");//分组类型
-		dis.put("gsbmbmList", "ROOT_ZGSHJT_ZBJG");//部门
-		
-		Map<String,List<SysDictionary>> map = CommonUtil.getDictionaryByParentCodes(new ArrayList<String>(dis.values()), restTemplate, httpHeaders);
-		for(java.util.Iterator<String> iter = dis.keySet().iterator();iter.hasNext();) 
-		{
-			String key = iter.next();
-			request.setAttribute(key, map.get(dis.get(key)));
-		}
-
-		// 倒推部门-各个处室(汉字)->倒推部门
-		String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");// 部门
-		String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");// 处室
-		String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");// 专业类别
-		
-
-		request.setAttribute("zycbmFlag", zycbmFlag);
-		request.setAttribute("gsbmbmFlag", gsbmbmFlag);
-		request.setAttribute("zylbbmFlag", zylbbmFlag);
 		request.setAttribute("ysnd", DateUtils.dateToStr(new Date(),DateUtils.FMT_YY));
 		// (汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2
 		
@@ -103,16 +80,39 @@ public class OutProjectPaymentNoticeController extends BaseController
 	}
 
 	@RequestMapping(value = "/payment/project-paymentnotice-create")
-	public void projectPaymentnoticeCreate(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,HttpServletResponse res) throws IOException {
+	public void projectPaymentnoticeCreate(@ModelAttribute("param") List<Map<String,Object>> param, HttpServletRequest request,HttpServletResponse res) throws IOException {
 		System.out.println(JSON.toJSONString(param));
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_PAYMENTNOTICE_COMPANYLIST, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
-		LayuiTableData data = responseEntity.getBody();
-		System.out.println(JSON.toJSON(data).toString());
 		
 		URL path = this.getClass().getResource("/");
-		File file = new File(path.getPath() + "static/payment/payment_notice_template.docx");
+		String modlePath = path.getPath() + "static/payment/payment_notice_template.docx";
+		File file = new File(modlePath);
+		
+		/*InputStream is = new FileInputStream(modlePath);
+		XWPFDocument doc = new XWPFDocument(is);
+		// 替换段落里面的变量
+		WordReadUtil.replaceInPara(doc, params);
+		// 替换表格里面的变量
+		WordReadUtil.replaceInTable(doc, params);
+		OutputStream os = new FileOutputStream(outPath);
+		doc.write(os);
+		WordReadUtil.close(os);
+		WordReadUtil.close(is);*/
+		
+		
 		this.fileDownload(file, res);
 	}
+	@RequestMapping(value = "/payment/project-paymentnotice-download/{dataId}")
+	public void donwloadPaymentnoticeCreate(@ModelAttribute("param") List<Map<String,Object>> param, HttpServletRequest request,HttpServletResponse res) throws IOException {
+		System.out.println(JSON.toJSONString(param));
+		
+		URL path = this.getClass().getResource("/");
+		String modlePath = path.getPath() + "static/payment/payment_notice_template.docx";
+		File file = new File(modlePath);
+		
+		this.fileDownload(file, res);
+	}
+	
+	
 	@RequestMapping(value = "/payment/project-paymentnotice-sent", method = RequestMethod.POST)
 	@ResponseBody
 	public Object projectPaymentnoticeSent(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {

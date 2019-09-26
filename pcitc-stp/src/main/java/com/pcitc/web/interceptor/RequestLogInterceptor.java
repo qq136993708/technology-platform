@@ -103,7 +103,7 @@ public class RequestLogInterceptor implements HandlerInterceptor {
 			bean.setServerHost(serverHost);
 
 			HttpEntity<SysReqLogs> entity = new HttpEntity<SysReqLogs>(bean, httpHeaders);
-			// restTemplate.exchange(LOG_CLIENT, HttpMethod.POST, entity, Result.class).getBody();
+			restTemplate.exchange(LOG_CLIENT, HttpMethod.POST, entity, Result.class).getBody();
 			// System.out.println("[http-log-time]:"+ctime+" uri:"+uri+" host:"+host+" methodName:"+methodName+" className:"+className+" userId:"+userId+" processTime:"+(processTime)+JSON.toJSONString(rs));
 		} catch (Exception e) {
 			System.out.println("log error...");
