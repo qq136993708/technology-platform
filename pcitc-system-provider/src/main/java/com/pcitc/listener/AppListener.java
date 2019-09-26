@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson.JSON;
 import com.pcitc.base.util.HostUtil;
 import com.pcitc.service.system.SysJobService;
 
@@ -30,14 +31,18 @@ public class AppListener implements ApplicationListener<ContextRefreshedEvent> {
     
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+    	System.out.println("+++++++++++++++++++++++++");
     	//当前主机的网络地址
     	Set<String> hostSet = HostUtil.getLocalHostAddressSet();
+    	System.out.println(JSON.toJSONString(hostSet));
     	//可执行定时任务的主机 
     	Set<String> acceptSet = new HashSet<String>(Arrays.asList(jobRunHosts.split(",")));
-    	
+    	System.out.println(JSON.toJSONString(acceptSet));
     	acceptSet.retainAll(hostSet);
     	if(acceptSet.size() > 0)
     	{
+    		
+    		System.out.println("+++++++++++++++++++++++++");
     		sysJobService.startJobs();
     	}
     }
