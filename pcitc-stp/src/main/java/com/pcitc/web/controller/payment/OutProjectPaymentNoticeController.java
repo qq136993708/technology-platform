@@ -3,22 +3,18 @@ package com.pcitc.web.controller.payment;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +27,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.DateUtils;
 import com.pcitc.base.util.IdUtil;
-import com.pcitc.base.util.WordReadUtil;
 import com.pcitc.web.common.BaseController;
 
 @Controller
@@ -80,7 +74,8 @@ public class OutProjectPaymentNoticeController extends BaseController
 	}
 
 	@RequestMapping(value = "/payment/project-paymentnotice-create")
-	public void projectPaymentnoticeCreate(@ModelAttribute("param") List<Map<String,Object>> param, HttpServletRequest request,HttpServletResponse res) throws IOException {
+	@ResponseBody
+	public Object projectPaymentnoticeCreate(@ModelAttribute("param") List<Map<String,Object>> param, HttpServletRequest request,HttpServletResponse res) throws IOException {
 		System.out.println(JSON.toJSONString(param));
 		
 		URL path = this.getClass().getResource("/");
@@ -97,9 +92,9 @@ public class OutProjectPaymentNoticeController extends BaseController
 		doc.write(os);
 		WordReadUtil.close(os);
 		WordReadUtil.close(is);*/
+		Result rs = new Result();
 		
-		
-		this.fileDownload(file, res);
+		return rs;
 	}
 	@RequestMapping(value = "/payment/project-paymentnotice-download/{dataId}")
 	public void donwloadPaymentnoticeCreate(@ModelAttribute("param") List<Map<String,Object>> param, HttpServletRequest request,HttpServletResponse res) throws IOException {
