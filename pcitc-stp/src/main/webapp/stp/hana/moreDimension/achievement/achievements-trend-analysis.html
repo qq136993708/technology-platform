@@ -139,7 +139,7 @@ function init()
 	            }
 	        ];
 
-    	var chart1_url="/more-dimension/achievements_trend_analysis_01?type=1&nd="+year+"&v_date="+v_date;
+    	var chart1_url="/more-dimension/achievements_trend_analysis_01?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd="+year+"&v_date="+v_date;
     	var color=["#D5A769","#8B8DB9"]
     	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis,'',color);
     	echart1.on('click', function (params) {
@@ -162,7 +162,7 @@ function init()
     		parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?zy=" + xName + "&nd=" +nd + "&groupFlag=jdh,sqjddw", "科技成果详情");
         });
     	
-    	var url_8="/more-dimension/achievements_trend_analysis_01?type=2&nd="+year+"&v_date="+v_date;
+    	var url_8="/more-dimension/achievements_trend_analysis_01?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd="+year+"&v_date="+v_date;
     	var echart8=loadPie_02(url_8,"topic_chart2","","");
     	echart8.on('click', function (params) {
     		var xName=params.name;
@@ -173,7 +173,7 @@ function init()
     	
     	
 
-    	var chart1_url="/more-dimension/achievements_trend_analysis_02?type=1&nd="+year+"&v_date="+v_date;
+    	var chart1_url="/more-dimension/achievements_trend_analysis_02?functionId=984b64b13cf54222bf57bd840759fabe&type=1&nd="+year+"&v_date="+v_date;
     	var echart1=load_mutl_bar_down(chart1_url,"topic_chart3","","",yAxis,'',color);
     	echart1.on('click', function (params) {
     		var xName=params.name;
@@ -181,7 +181,7 @@ function init()
     		parent.layui.index.openTabsPage("/one_level_main/achievement_table_new?define1=" + xName + "&nd=" + $('#year').val() + "&define3=直属研究院&define11=股份公司&groupFlag=jdh,sqjddw", "科技成果详情");
         });
     	
-    	var url_8="/more-dimension/achievements_trend_analysis_02?type=2&nd="+year+"&v_date="+v_date;
+    	var url_8="/more-dimension/achievements_trend_analysis_02?functionId=984b64b13cf54222bf57bd840759fabe&type=2&nd="+year+"&v_date="+v_date;
     	var echart8=loadPie_02(url_8,"topic_chart4","","");
     	echart8.on('click', function (params) {
     		var xName=params.name;
