@@ -9,8 +9,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +18,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,12 +74,12 @@ public class OutProjectPaymentNoticeController extends BaseController
 
 	@RequestMapping(value = "/payment/project-paymentnotice-create")
 	@ResponseBody
-	public Object projectPaymentnoticeCreate(@ModelAttribute("param") List<Map<String,Object>> param, HttpServletRequest request,HttpServletResponse res) throws IOException {
-		System.out.println(JSON.toJSONString(param));
+	public Object projectPaymentnoticeCreate(@ModelAttribute("items") String items, HttpServletRequest request,HttpServletResponse res) throws IOException {
+		System.out.println(items);
 		
-		URL path = this.getClass().getResource("/");
-		String modlePath = path.getPath() + "static/payment/payment_notice_template.docx";
-		File file = new File(modlePath);
+		//URL path = this.getClass().getResource("/");
+		//String modlePath = path.getPath() + "static/payment/payment_notice_template.docx";
+		//File file = new File(modlePath);
 		
 		/*InputStream is = new FileInputStream(modlePath);
 		XWPFDocument doc = new XWPFDocument(is);
@@ -93,12 +92,13 @@ public class OutProjectPaymentNoticeController extends BaseController
 		WordReadUtil.close(os);
 		WordReadUtil.close(is);*/
 		Result rs = new Result();
+		rs.setData(IdUtil.createIdByTime());
 		
 		return rs;
 	}
 	@RequestMapping(value = "/payment/project-paymentnotice-download/{dataId}")
-	public void donwloadPaymentnoticeCreate(@ModelAttribute("param") List<Map<String,Object>> param, HttpServletRequest request,HttpServletResponse res) throws IOException {
-		System.out.println(JSON.toJSONString(param));
+	public void donwloadPaymentnoticeCreate(@PathVariable("dataId") String dataId, HttpServletRequest request,HttpServletResponse res) throws IOException {
+		System.out.println(dataId);
 		
 		URL path = this.getClass().getResource("/");
 		String modlePath = path.getPath() + "static/payment/payment_notice_template.docx";
