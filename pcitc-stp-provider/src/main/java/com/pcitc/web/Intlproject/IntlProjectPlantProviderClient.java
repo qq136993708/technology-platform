@@ -75,6 +75,10 @@ public class IntlProjectPlantProviderClient
 		boolean status = projectPlantService.startWorkFlow(workflowVo.getBusinessId(), workflowVo.getFunctionId(), workflowVo.getProcessDefinitionName(), workflowVo.getAuthenticatedUserId(), workflowVo.getAuthenticatedUserName());
 		if(status) 
 		{
+			//临时放开审批，直接通过20191009
+			plant.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
+			projectPlantService.updProjectPlant(plant);
+			
 			return new Result(true,"操作成功!");
 		}else {
 			return new Result(false,"操作失败!");

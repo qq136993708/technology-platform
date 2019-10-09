@@ -97,6 +97,11 @@ public class IntlProjectApplyProviderClient
 		boolean status = projectApplyService.startWorkFlow(workflowVo.getBusinessId(), workflowVo.getFunctionId(), workflowVo.getProcessDefinitionName(), workflowVo.getAuthenticatedUserId(), workflowVo.getAuthenticatedUserName());
 		if(status) 
 		{
+			//临时放开审批，直接通过20191009
+			apply.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
+			apply.setFlowEndStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
+			projectApplyService.updProjectApply(apply);
+			
 			return new Result(true,"操作成功!");
 		}else {
 			return new Result(false,"操作失败!");
