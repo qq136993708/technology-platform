@@ -250,6 +250,32 @@ public class DateUtil {
 		
 		return dateCalendar.getTime();
 	}
+	/**
+	 * 获得昨天
+	 * @param currentDate
+	 * @return
+	 */
+	public static Date getYesterDay(Date currentDate)
+	{
+		Calendar dateCalendar = Calendar.getInstance();
+		dateCalendar.setTime(currentDate);
+		
+		dateCalendar.set(Calendar.DAY_OF_MONTH, dateCalendar.get(Calendar.DAY_OF_MONTH)-1);
+		return dateCalendar.getTime();
+	}
+	/**
+	 * 获得明天
+	 * @param currentDate
+	 * @return
+	 */
+	public static Date getTomorrowDay(Date currentDate) 
+	{
+		Calendar dateCalendar = Calendar.getInstance();
+		dateCalendar.setTime(currentDate);
+		
+		dateCalendar.set(Calendar.DAY_OF_MONTH, dateCalendar.get(Calendar.DAY_OF_MONTH)+1);
+		return dateCalendar.getTime();
+	}
 	
 	public static int getDayCountOfMonth(int year, int month)
 	{

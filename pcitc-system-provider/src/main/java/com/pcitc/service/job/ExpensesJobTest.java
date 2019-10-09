@@ -56,16 +56,38 @@ public class ExpensesJobTest {
 	public static void main(String[] args) throws IOException 
 	{
 		
-		Date startDate = DateUtil.strToDate("20191105", "yyyyMMdd");
 		
-		Date monthDay = DateUtil.getNextMonth(startDate);
+		Date startDate =DateUtil.getTomorrowDay(DateUtil.strToDate("20181007", DateUtil.FMT_YYYY_DD));
+		Date endDate = DateUtil.getYesterDay(DateUtil.strToDate(DateUtil.format(new Date(), DateUtil.FMT_YYYY_DD), DateUtil.FMT_YYYY_DD));
+		
+		
+		List<DateSegment> dtlist = DateUtil.getMonthList(startDate, endDate);
+		for(DateSegment s:dtlist) 
+		{
+			
+			Date start = (s.getStartDate().getTime()<=startDate.getTime()?startDate:s.getStartDate());
+			Date end = (s.getEndDate().getTime()>=endDate.getTime()?endDate:s.getEndDate());
+			
+			
+			String realStartDate = DateUtil.format(start, DateUtil.FMT_YYYY_DD);
+			String realEndDate = DateUtil.format(end, DateUtil.FMT_YYYY_DD);
+			
+			System.out.println(realStartDate);
+			System.out.println(realEndDate);
+			
+			//String rs = testGetData(realStartDate,realEndDate);
+			//System.out.println(rs);
+		}
+		
+		
+	/*	Date monthDay = DateUtil.getNextMonth(startDate);
 		List<DateSegment> ds = DateUtil.getMonthList(monthDay, monthDay);
 		
 		String realStartDate = DateUtil.format(ds.get(0).getStartDate(), DateUtil.FMT_YYYY_DD);
 		String realEndDate = DateUtil.format(ds.get(0).getEndDate(), DateUtil.FMT_YYYY_DD);
 		
 		String rs = testGetData(realStartDate,realEndDate);
-		System.out.println(rs);
+		System.out.println(rs);*/
 	}
 
 }
