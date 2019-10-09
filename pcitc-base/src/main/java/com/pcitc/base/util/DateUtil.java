@@ -1,13 +1,16 @@
 package com.pcitc.base.util;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class DateUtil {
 
@@ -194,5 +197,109 @@ public class DateUtil {
 		date.set(Calendar.SECOND, 0);
 		date.set(Calendar.MILLISECOND, 0);
 		return date.getTime();
+	}
+	/**
+	 * 获得日期之间的月份
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public static List<DateSegment> getMonthList(Date startDate, Date endDate)
+	{
+		List<DateSegment> monthList = new ArrayList<DateSegment>();
+
+		Calendar startDateCalendar = Calendar.getInstance();
+		startDateCalendar.setTime(startDate);
+		startDateCalendar.set(Calendar.DAY_OF_MONTH, 1);
+		long startTime = startDateCalendar.getTimeInMillis();
+
+		Calendar endDateCalendar = Calendar.getInstance();
+		endDateCalendar.setTime(endDate);
+		int endMonthDayCount = getDayCountOfMonth(endDateCalendar.get(Calendar.YEAR), endDateCalendar.get(Calendar.MONTH) + 1);
+		endDateCalendar.set(Calendar.DAY_OF_MONTH, endMonthDayCount);
+		long endTime = endDateCalendar.getTimeInMillis();
+
+		Calendar dateCalendar = Calendar.getInstance();
+		dateCalendar.setTime(startDateCalendar.getTime());
+
+		while (dateCalendar.getTimeInMillis() >= startTime && dateCalendar.getTimeInMillis() <= endTime)
+		{
+			Date sDate = dateCalendar.getTime();
+			int endMonthDay = getDayCountOfMonth(dateCalendar.get(Calendar.YEAR), dateCalendar.get(Calendar.MONTH) + 1);
+			dateCalendar.set(Calendar.DAY_OF_MONTH, endMonthDay);
+			Date eDate = dateCalendar.getTime();
+			monthList.add(new DateSegment(clearHMSForDate(sDate), setFullHMSForDate(eDate), DateSegment.MONTHLY_TYPE));
+			dateCalendar.set(Calendar.DAY_OF_MONTH, 1);
+			dateCalendar.set(Calendar.MONTH, dateCalendar.get(Calendar.MONTH) + 1);
+		}
+
+		return monthList;
+	}
+	/**
+	 * 获得下个月的第一天
+	 * @param currentDate
+	 * @return
+	 */
+	public static Date getNextMonth(Date currentDate)
+	{
+		Calendar dateCalendar = Calendar.getInstance();
+		dateCalendar.setTime(currentDate);
+		
+		dateCalendar.set(Calendar.DAY_OF_MONTH, 1);
+		dateCalendar.set(Calendar.MONTH, dateCalendar.get(Calendar.MONTH)+1);
+		
+		return dateCalendar.getTime();
+	}
+	
+	public static int getDayCountOfMonth(int year, int month)
+	{
+		GregorianCalendar calendar = new GregorianCalendar();
+		boolean leapYear = calendar.isLeapYear(year);
+
+		int daysCountOfMonth = 31;
+
+		switch (month)
+		{
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+			daysCountOfMonth = 30;
+			break;
+		case 2:
+			if (leapYear)
+			{
+				daysCountOfMonth = 29;
+			}
+			else
+			{
+				daysCountOfMonth = 28;
+			}
+		}
+
+		return daysCountOfMonth;
+	}
+	public static Date clearHMSForDate(Date date)
+	{
+		Calendar dateCalendar = Calendar.getInstance();
+		dateCalendar.setTime(date);
+		dateCalendar.set(Calendar.HOUR_OF_DAY, 0);
+		dateCalendar.set(Calendar.MINUTE, 0);
+		dateCalendar.set(Calendar.SECOND, 0);
+		dateCalendar.set(Calendar.MILLISECOND, 0);
+
+		return dateCalendar.getTime();
+	}
+	
+	public static Date setFullHMSForDate(Date date)
+	{
+		Calendar dateCalendar = Calendar.getInstance();
+		dateCalendar.setTime(date);
+		dateCalendar.set(Calendar.HOUR_OF_DAY, 23);
+		dateCalendar.set(Calendar.MINUTE, 59);
+		dateCalendar.set(Calendar.SECOND, 59);
+		dateCalendar.set(Calendar.MILLISECOND, 0);
+
+		return dateCalendar.getTime();
 	}
 }
