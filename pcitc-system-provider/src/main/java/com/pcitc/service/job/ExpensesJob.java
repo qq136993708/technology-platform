@@ -1,22 +1,21 @@
 package com.pcitc.service.job;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.quartz.Job;
-import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.JobKey;
-import org.quartz.TriggerKey;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.JsonObject;
 import com.pcitc.base.system.SysCronExceptionLog;
+import com.pcitc.base.util.DateSegment;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.config.SpringContextUtil;
@@ -56,19 +55,16 @@ public class ExpensesJob implements Job, Serializable {
 			String str=expenseJobClient.selectMaxUpdate();
 			
 			// 查询最大值，+一个月作为本次的查询条件
-			String startDate = null;
-			if (str== null) 
-			{
-				startDate = "2018-02-28";
-			} else 
-			{
-				String temD = str;
-				startDate = temD.substring(0,4)+"-"+temD.substring(4,6)+"-"+temD.substring(6,8);
-			}
+			String startDate = (str == null?"20180201":str);
+			Date temStartDate = DateUtil.strToDate(startDate, DateUtil.FMT_YYYY_DD);
 			
-			Date temStartDate = DateUtil.strToDate(startDate, DateUtil.FMT_DD);
+			Date monthDay = DateUtil.getNextMonth(temStartDate);
 			
-			Calendar rightNow1 = Calendar.getInstance();
+			List<DateSegment> ds = DateUtil.getMonthList(monthDay, monthDay);
+			String realStartDate = DateUtil.format(ds.get(0).getStartDate(), DateUtil.FMT_YYYY_DD);
+			String realEndDate = DateUtil.format(ds.get(0).getEndDate(), DateUtil.FMT_YYYY_DD);
+			
+			/*Calendar rightNow1 = Calendar.getInstance();
 			rightNow1.setTime(temStartDate);
 			rightNow1.add(Calendar.DAY_OF_YEAR, 1);// 日期加1天
 			Date temDate1 = rightNow1.getTime();
@@ -79,7 +75,7 @@ public class ExpensesJob implements Job, Serializable {
 			rightNow.add(Calendar.DAY_OF_YEAR, -1);// 日期加1天
 			Date temDate = rightNow.getTime();
 			String realStartDate = DateUtil.dateToStr(temDate1, DateUtil.FMT_YYYY_DD);
-			String realEndDate = DateUtil.dateToStr(temDate, DateUtil.FMT_YYYY_DD);
+			String realEndDate = DateUtil.dateToStr(temDate, DateUtil.FMT_YYYY_DD);*/
 			
 
 			jo.addProperty("executeKey", "sysnPubPaymentBillInfo");

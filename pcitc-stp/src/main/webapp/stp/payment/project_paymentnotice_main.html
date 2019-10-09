@@ -62,19 +62,19 @@
 					</div> -->
 
 
-					<!-- <div class="layui-inline">
+					<div class="layui-inline">
 						<label class="layui-form-label">立项年度：</label>
 						<div class="layui-input-inline">
 							<input type="text" name="nd" readonly="readonly" style="cursor: pointer" placeholder="请选择立项年度" title="立项年度" value="${nd}" autocomplete="off" class="layui-input" id="nd" width="100px">
 						</div>
-					</div> -->
+					</div>
 					<!-- <div class="layui-inline">
 						<label class="layui-form-label">拨款年度：</label>
 						<div class="layui-input-inline">
 							<input type="text" name="ysnd" readonly="readonly" style="cursor: pointer" placeholder="请选择拨款年度"  title="拨款年度" value="${ysnd}" autocomplete="off" class="layui-input" id="ysnd" width="100px">
 						</div>
 					</div> -->
-					<div class="select">
+					<div class="layui-inline select">
 						<input type="hidden" id="paymentStatus" name="paymentStatus" value="1">
 						<!-- <div class="layui-inline">
 							<label class="layui-form-label">拨付批次：</label>
@@ -186,10 +186,14 @@
 					form.render();
 				},
 				createNoticeEvent:function(){
-					 layer.confirm('确定要生成报销通知单吗？',{title:"生成确认"},function(index){
+					if(selectRowData.length<=0){
+						layer.msg('请选择公司！');
+						return;
+					}
+					layer.confirm('确定要生成报销通知单吗？',{title:"生成确认"},function(index){
 		            	var lodingMsg = layer.msg('处理中....');
-		            	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-create', selectRowData, function (data, status) {
-		            		window.open("/payment/project-paymentnotice-create");
+		            	publicMethods.ajaxAsyncPost('/payment/project-paymentnotice-create', {"items":JSON.stringify(selectRowData)}, function (dt, status) {
+		            		window.open("/payment/project-paymentnotice-download/"+dt.data);
 		                }); 
 		            });
 				},
@@ -251,16 +255,16 @@
 		            cols: [[
 		            	{type:'checkbox',style: 'cursor: pointer;',width: 55}
 		            	,{title:'序号', type:'numbers' ,width : 55}
-		            	,{field:'define8', width:'20%', title: '公司名称'}
-		            	,{field:'xmmc',title:'项目名称',	width: '15%',  style:'cursor: pointer;',align:'left'}
-		            	,{field:'hth',   title:'合同号', width: '8%',  style:'cursor: pointer;',align:"center"}
-		            	,{field:'nd',   title:'年度', width: '8%',  style:'cursor: pointer;',align:"center"}
-			            ,{field:'ysnd',   title:'预算年度',      style:'cursor: pointer;',align:"center"}
-			            ,{field:'define11',title:'经费来源',	width: '10%', style:'cursor: pointer;'}
-			            ,{field:'gsbmmc',title:'部门',	width: '10%',  style:'cursor: pointer;'}
-			            ,{field:'define10',title:'专业处',	width: '10%',  style:'cursor: pointer;'}
+		            	,{field:'define8', width:'15%', title: '公司名称'}
+		            	,{field:'xmmc',title:'项目名称',style:'cursor: pointer;',align:'left'}
+		            	,{field:'hth',   title:'合同号', width: '5%',  style:'cursor: pointer;',align:"center"}
+		            	,{field:'nd',   title:'年度', width: '5%',  style:'cursor: pointer;',align:"center"}
+			            ,{field:'ysnd',   title:'预算年度', width: '5%',style:'cursor: pointer;',align:"center"}
+			            ,{field:'define11',title:'经费来源',	width: '5%', style:'cursor: pointer;'}
+			            ,{field:'gsbmmc',title:'部门',	width: '5%',  style:'cursor: pointer;'}
+			            ,{field:'define10',title:'专业处',	width: '5%',  style:'cursor: pointer;'}
 			            ,{field:'fzdw',title:'负责单位',	width: '15%',  style:'cursor: pointer;'}
-			            ,{field:'ysje',title:'金额（万元）',	width: '15%',  style:'cursor: pointer;',align:'right',templet : '#view_format'}
+			            ,{field:'ysje',title:'金额（万元）',	width: '8%',  style:'cursor: pointer;',align:'right',templet : '#view_format'}
 		            ]],
 		            done: function (res, curr, count) {
 		            	layer.close(lodingMsg);
