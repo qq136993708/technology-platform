@@ -128,6 +128,9 @@ public class OutProjectPaymentNoticeProviderClient
 			for(Map<String,Object> mp:slist) {
 				mp.put("id", id+100+j);
 				mp.put("pId", id);
+				//公司名称地方显示合同号
+				mp.put("define8", mp.get("hth"));
+				
 				j++;
 				list.add(mp);
 			}

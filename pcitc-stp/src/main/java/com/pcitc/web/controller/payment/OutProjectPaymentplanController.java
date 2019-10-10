@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPaymentplan;
 import com.pcitc.base.system.SysDictionary;
@@ -36,6 +39,7 @@ import com.pcitc.web.utils.EquipmentUtils;
 public class OutProjectPaymentplanController extends BaseController 
 {
 	private static final String PROJECT_INFO_LIST_BYCONDITION = "http://pcitc-zuul/system-proxy/out-provider/project-info-list-bycondition";
+	private static final String PROJECT_INFO_TABLE_BYCONDITION = "http://pcitc-zuul/system-proxy/out-provider/project-info-table-bycondition";
 	private static final String PROJECT_PAYMENTPLANT_BATCHS = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-batchs/";
 	private static final String PROJECT_PAYMENTNOTICE_BATCHS = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentnotice-batchs/";
 	private static final String PROJECT_PAYMENTPLANT_BYINFOID = "http://pcitc-zuul/system-proxy/out-provider/out/project-paymentplan-byinfoid/";
@@ -139,7 +143,7 @@ public class OutProjectPaymentplanController extends BaseController
 	}
 	@RequestMapping(value = "/payment/project-info-list-bycondition", method = RequestMethod.POST)
 	@ResponseBody
-	public Object toBudgetMainTotal(@ModelAttribute("out")OutProjectInfo out,HttpServletRequest request) throws IOException 
+	public Object projectInfoListBycondition(@ModelAttribute("out")OutProjectInfo out,HttpServletRequest request) throws IOException 
 	{
 		//out.setDefine11("C资产公司");
 		if (!StringUtils.isBlank(out.getGsbmbm())) {
@@ -182,7 +186,52 @@ public class OutProjectPaymentplanController extends BaseController
 		//System.out.println(array.toJSONString());
 		return JSON.toJSONString(array);
 	}
-	
+	@RequestMapping(method = RequestMethod.POST, value = "/payment/project-info-table-bycondition")
+	@ResponseBody
+	public Object projectInfoTableBycondition(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) throws IOException 
+	{
+		if (!StringUtils.isBlank((String)param.getParam().get("gsbmbm"))) {
+			SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(param.getParam().get("gsbmbm").toString(), restTemplate, httpHeaders);
+			if (sysDictionary != null) {
+				param.getParam().put("gsbmbm", sysDictionary.getNumValue());
+			}
+		}
+		if (!StringUtils.isBlank((String)param.getParam().get("zycbm"))) {
+			SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(param.getParam().get("zycbm").toString(), restTemplate, httpHeaders);
+			if (sysDictionary != null) {
+				param.getParam().put("zycbm", sysDictionary.getNumValue());
+			}
+		}
+		if (!StringUtils.isBlank((String)param.getParam().get("zylbbm"))) {
+			SysDictionary sysDictionary = EquipmentUtils.getDictionaryByCode(param.getParam().get("zylbbm").toString(), restTemplate, httpHeaders);
+			if (sysDictionary != null) {
+				param.getParam().put("zylbbm", sysDictionary.getNumValue());
+			}
+		}
+		System.out.println(JSON.toJSONString(param));
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_INFO_TABLE_BYCONDITION, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
+		LayuiTableData table = responseEntity.getBody();
+		JSONArray array = JSONArray.parseArray(JSON.toJSONString(table.getData()));
+		for(int i = 0;i<array.size();i++) 
+		{
+			JSONObject obj = (JSONObject)array.get(i);
+			if(obj.getString("define17") == null) 
+			{
+				obj.put("paymentPlanStatus", "未拨付");
+			}else {
+				obj.put("paymentPlanStatus", "已拨付");
+			}
+			if(obj.getString("define18") == null) 
+			{
+				obj.put("paymentNoticeStatus", "未处理");
+			}else {
+				obj.put("paymentNoticeStatus", "处理中");
+			}
+		}
+		table.setData(array);
+		//System.out.println(array.toJSONString());
+		return JSON.toJSONString(table);
+	}
 	@RequestMapping(value = "/payment/project-paymentplan-batchs", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getprojectPaymentplanList(@ModelAttribute("out")OutProjectInfo out,HttpServletRequest request) throws IOException 

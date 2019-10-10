@@ -2696,6 +2696,27 @@ public class OutProjectServiceImpl implements OutProjectService {
 	}
 
 	@Override
+	public LayuiTableData selectProjectInfoByCondition(LayuiTableParam param) {
+		//每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		
+		List<Map<String,Object>> list = outProjectInfoMapper.selectProjectInfoByCondition(param.getParam());
+		// 3、获取分页查询后的数据
+		PageInfo<Map<String,Object>> pageInfo= new PageInfo<Map<String,Object>>(list);
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+	}
+	
+	@Override
 	public LayuiTableData selectPaymentCompany(LayuiTableParam param) {
 		//每页显示条数
 		int pageSize = param.getLimit();
@@ -2715,5 +2736,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		data.setCount(total.intValue());
 		return data;
 	}
+
+	
 
 }
