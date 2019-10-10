@@ -84,106 +84,110 @@ public class SupplierAppraiseServiceImpl implements SupplierAppraiseService {
                 String equipmentId = equipmentIds[i];
                 //通过equipmentId获取装备数据拿到当前供应商,拿到装备金额
                 SreEquipment sreEquipment = sreEquipmentMapper.selectByPrimaryKey(equipmentId);
-                SreSupplierAppraise sreSupplierAppraise = sreSupplierAppraiseMapper.selectEquipmentId(equipmentId);//根据装备ID获取供应商评价信息
-                String supplierAppraise ="";//供应商评价
-                if (sreSupplierAppraise!=null){
-                    supplierAppraise = sreSupplierAppraise.getSupplierAppraise();//供应商评价
-                }
+                SreSupplierAppraise sreSupplierAppraise =null;
+                if (sreEquipment!=null){
+                    sreSupplierAppraise = sreSupplierAppraiseMapper.selectEquipmentId(equipmentId);//根据装备ID获取供应商评价信息
 
-                //2.获取供应商名称,订单数放入创建的对象集合中
-                String supplierName ="";
-                if(StringUtils.isNotBlank(sreEquipment.getSupplierStr())){
-                    supplierName = sreEquipment.getSupplierStr().substring(0, sreEquipment.getSupplierStr().indexOf("#"));
-                }
+                    String supplierAppraise ="";//供应商评价
+                    if (sreSupplierAppraise!=null){
+                        supplierAppraise = sreSupplierAppraise.getSupplierAppraise();//供应商评价
+                    }
 
-
-                BigDecimal allPrice = sreEquipment.getAllPrice();//装备总金额
-                //3.遍历创建的对象集合,为了过滤采购订单,存在同一个供应商,如果一个采购订单是同一个供应商提供的,只为此供应商几数一次
-                if(list.size()!=0){
-                    for (SupplierAppraiseResults supplierAppraiseResults : list) {
-                        SupplierAppraiseResults appraiseResults = new SupplierAppraiseResults();
-                        String supplierNameResults = supplierAppraiseResults.getSupplierName();
-                        if (supplierNameResults.equals(supplierName)){//如果该供应商之前就存在,那么就在之前的信息追加
-                            supplierAppraiseResults.setPurchaseSum(supplierAppraiseResults.getPurchaseSum()+1);//如果供应商相同,采购订单数量+1
-                            supplierAppraiseResults.setPurchaseMoneySum(supplierAppraiseResults.getPurchaseMoneySum().add(allPrice));//如果供应商相同,该供应商下的所有装备金额相加
-                            if (supplierAppraise.equals("A")){//判断评价等级来给对应的等级数量+1
-                                supplierAppraiseResults.set_A(supplierAppraiseResults.get_A()+1);
-                            }else if (supplierAppraise.equals("B")){
-                                supplierAppraiseResults.set_B(supplierAppraiseResults.get_B()+1);
-                            }else if (supplierAppraise.equals("C")){
-                                supplierAppraiseResults.set_C(supplierAppraiseResults.get_C()+1);
-                            }else if (supplierAppraise.equals("D")){
-                                supplierAppraiseResults.set_D(supplierAppraiseResults.get_D()+1);
-                            }
-                        }else{
-                            appraiseResults.setSupplierName(supplierName);
-                            appraiseResults.setPurchaseSum(1);
-                            appraiseResults.setPurchaseMoneySum(allPrice);
-                            if (supplierAppraise.equals("A")){
-                                appraiseResults.set_A(1);
-                                appraiseResults.set_B(0);
-                                appraiseResults.set_C(0);
-                                appraiseResults.set_D(0);
-                            }else if (supplierAppraise.equals("B")){
-                                appraiseResults.set_A(0);
-                                appraiseResults.set_B(1);
-                                appraiseResults.set_C(0);
-                                appraiseResults.set_D(0);
-                            }else if (supplierAppraise.equals("C")){
-                                appraiseResults.set_A(0);
-                                appraiseResults.set_B(0);
-                                appraiseResults.set_C(1);
-                                appraiseResults.set_D(0);
-                            }else if (supplierAppraise.equals("D")){
-                                appraiseResults.set_A(0);
-                                appraiseResults.set_B(0);
-                                appraiseResults.set_C(0);
-                                appraiseResults.set_D(1);
-                            }else if (supplierAppraise.equals("")){
-                                appraiseResults.set_A(0);
-                                appraiseResults.set_B(0);
-                                appraiseResults.set_C(0);
-                                appraiseResults.set_D(0);
-                            }
-                             list.add(appraiseResults);
-                             break;
+                    //2.获取供应商名称,订单数放入创建的对象集合中
+                    String supplierName ="";
+                        if(StringUtils.isNotBlank(sreEquipment.getSupplierStr())){
+                            supplierName = sreEquipment.getSupplierStr().substring(0, sreEquipment.getSupplierStr().indexOf("#"));
                         }
-                    }
-                }else{
-                    SupplierAppraiseResults appraiseResults = new SupplierAppraiseResults();
-                    appraiseResults.setSupplierName(supplierName);
-                    appraiseResults.setPurchaseSum(1);
-                    appraiseResults.setPurchaseMoneySum(allPrice);
-                    if (supplierAppraise.equals("A")){
-                        appraiseResults.set_A(1);
-                        appraiseResults.set_B(0);
-                        appraiseResults.set_C(0);
-                        appraiseResults.set_D(0);
-                    }else if (supplierAppraise.equals("B")){
-                        appraiseResults.set_A(0);
-                        appraiseResults.set_B(1);
-                        appraiseResults.set_C(0);
-                        appraiseResults.set_D(0);
-                    }else if (supplierAppraise.equals("C")){
-                        appraiseResults.set_A(0);
-                        appraiseResults.set_B(0);
-                        appraiseResults.set_C(1);
-                        appraiseResults.set_D(0);
-                    }else if (supplierAppraise.equals("D")){
-                        appraiseResults.set_A(0);
-                        appraiseResults.set_B(0);
-                        appraiseResults.set_C(0);
-                        appraiseResults.set_D(1);
-                    }else if (supplierAppraise.equals("")){
-                        appraiseResults.set_A(0);
-                        appraiseResults.set_B(0);
-                        appraiseResults.set_C(0);
-                        appraiseResults.set_D(0);
-                    }
-                    list.add(appraiseResults);
-                }
 
-                System.out.println("===========================================================================");
+
+                    BigDecimal allPrice = sreEquipment.getAllPrice();//装备总金额
+                    //3.遍历创建的对象集合,为了过滤采购订单,存在同一个供应商,如果一个采购订单是同一个供应商提供的,只为此供应商几数一次
+                    if(list.size()!=0){
+                        for (SupplierAppraiseResults supplierAppraiseResults : list) {
+                            SupplierAppraiseResults appraiseResults = new SupplierAppraiseResults();
+                            String supplierNameResults = supplierAppraiseResults.getSupplierName();
+                            if (supplierNameResults.equals(supplierName)){//如果该供应商之前就存在,那么就在之前的信息追加
+                                supplierAppraiseResults.setPurchaseSum(supplierAppraiseResults.getPurchaseSum()+1);//如果供应商相同,采购订单数量+1
+                                supplierAppraiseResults.setPurchaseMoneySum(supplierAppraiseResults.getPurchaseMoneySum().add(allPrice));//如果供应商相同,该供应商下的所有装备金额相加
+                                if (supplierAppraise.equals("A")){//判断评价等级来给对应的等级数量+1
+                                    supplierAppraiseResults.set_A(supplierAppraiseResults.get_A()+1);
+                                }else if (supplierAppraise.equals("B")){
+                                    supplierAppraiseResults.set_B(supplierAppraiseResults.get_B()+1);
+                                }else if (supplierAppraise.equals("C")){
+                                    supplierAppraiseResults.set_C(supplierAppraiseResults.get_C()+1);
+                                }else if (supplierAppraise.equals("D")){
+                                    supplierAppraiseResults.set_D(supplierAppraiseResults.get_D()+1);
+                                }
+                            }else{
+                                appraiseResults.setSupplierName(supplierName);
+                                appraiseResults.setPurchaseSum(1);
+                                appraiseResults.setPurchaseMoneySum(allPrice);
+                                if (supplierAppraise.equals("A")){
+                                    appraiseResults.set_A(1);
+                                    appraiseResults.set_B(0);
+                                    appraiseResults.set_C(0);
+                                    appraiseResults.set_D(0);
+                                }else if (supplierAppraise.equals("B")){
+                                    appraiseResults.set_A(0);
+                                    appraiseResults.set_B(1);
+                                    appraiseResults.set_C(0);
+                                    appraiseResults.set_D(0);
+                                }else if (supplierAppraise.equals("C")){
+                                    appraiseResults.set_A(0);
+                                    appraiseResults.set_B(0);
+                                    appraiseResults.set_C(1);
+                                    appraiseResults.set_D(0);
+                                }else if (supplierAppraise.equals("D")){
+                                    appraiseResults.set_A(0);
+                                    appraiseResults.set_B(0);
+                                    appraiseResults.set_C(0);
+                                    appraiseResults.set_D(1);
+                                }else if (supplierAppraise.equals("")){
+                                    appraiseResults.set_A(0);
+                                    appraiseResults.set_B(0);
+                                    appraiseResults.set_C(0);
+                                    appraiseResults.set_D(0);
+                                }
+                                 list.add(appraiseResults);
+                                 break;
+                            }
+                        }
+                    }else{
+                        SupplierAppraiseResults appraiseResults = new SupplierAppraiseResults();
+                        appraiseResults.setSupplierName(supplierName);
+                        appraiseResults.setPurchaseSum(1);
+                        appraiseResults.setPurchaseMoneySum(allPrice);
+                        if (supplierAppraise.equals("A")){
+                            appraiseResults.set_A(1);
+                            appraiseResults.set_B(0);
+                            appraiseResults.set_C(0);
+                            appraiseResults.set_D(0);
+                        }else if (supplierAppraise.equals("B")){
+                            appraiseResults.set_A(0);
+                            appraiseResults.set_B(1);
+                            appraiseResults.set_C(0);
+                            appraiseResults.set_D(0);
+                        }else if (supplierAppraise.equals("C")){
+                            appraiseResults.set_A(0);
+                            appraiseResults.set_B(0);
+                            appraiseResults.set_C(1);
+                            appraiseResults.set_D(0);
+                        }else if (supplierAppraise.equals("D")){
+                            appraiseResults.set_A(0);
+                            appraiseResults.set_B(0);
+                            appraiseResults.set_C(0);
+                            appraiseResults.set_D(1);
+                        }else if (supplierAppraise.equals("")){
+                            appraiseResults.set_A(0);
+                            appraiseResults.set_B(0);
+                            appraiseResults.set_C(0);
+                            appraiseResults.set_D(0);
+                        }
+                        list.add(appraiseResults);
+                    }
+
+                    System.out.println("===========================================================================");
+                }
             }
         }
 
