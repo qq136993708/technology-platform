@@ -57,6 +57,10 @@ public class IntlProjectNoticeProviderClient
 		boolean status = intlProjectService.startWorkFlow(workflowVo.getBusinessId(), workflowVo.getFunctionId(), workflowVo.getProcessDefinitionName(), workflowVo.getAuthenticatedUserId(), workflowVo.getAuthenticatedUserName());
 		if(status) 
 		{
+			//临时放开审批，直接通过20191009
+			notice.setFlowStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
+			intlProjectService.updProjectNotice(notice);
+			
 			return new Result(true,"操作成功!");
 		}else {
 			return new Result(false,"操作失败!");

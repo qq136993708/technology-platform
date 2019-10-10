@@ -10,14 +10,17 @@ import java.util.UUID;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.JobKey;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
+import com.pcitc.base.system.SysCronExceptionLog;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.config.SpringContextUtil;
 import com.pcitc.service.out.OutProjectService;
+import com.pcitc.service.system.SysJobService;
 import com.pcitc.utils.DataServiceUtil;
 
 /**
@@ -27,7 +30,12 @@ public class StpProjectJob implements Job, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public void execute(JobExecutionContext job) throws JobExecutionException {
+	public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+		
+		SysJobService sysJobService = SpringContextUtil.getApplicationContext().getBean(SysJobService.class);
+		Date jobBiginTime=new Date();
+		
+		
 
 		OutProjectService outProjectService = SpringContextUtil.getApplicationContext().getBean(OutProjectService.class);
 		
@@ -49,7 +57,7 @@ public class StpProjectJob implements Job, Serializable {
 				// 先删除年度为nd的本地数据（备份一份到临时表中，防止意外）
 				List<OutProjectInfoWithBLOBs> insertData = new ArrayList<OutProjectInfoWithBLOBs>();
 				JSONArray jSONArray = JSONArray.parseArray(str);
-				
+				System.out.println(">>>>>>>>>>>>>>>>获取项目主数据: "+jSONArray.size()+" 条");
 				// 批量新增处理
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
@@ -213,6 +221,25 @@ public class StpProjectJob implements Job, Serializable {
 			Date date2 = new Date();
 			System.out.println("========feign========调用时间*************====="+(date2.getTime()-date1.getTime()));*/
 		} catch (Exception e) {
+			System.out.println(">>>>>>>>>>>>>获取项目主数据  调用异常>>>>>>>>>>>>>>>>");
+			
+			JobKey key = jobExecutionContext.getJobDetail().getKey();
+			SysCronExceptionLog record=new SysCronExceptionLog();
+			record.setCreateTime(new Date());
+			record.setJobBiginTime(jobBiginTime);
+			record.setJobName(key.getName());
+			record.setJobClass("com.pcitc.service.job.StpProjectJob");
+			record.setContent(e.getMessage());
+			String id = UUID.randomUUID().toString().replaceAll("-", "");
+			record.setId(id);
+			try 
+			{
+				sysJobService.insertSysCronExceptionLog(record);
+			} catch (Exception e1) 
+			{
+				e1.printStackTrace();
+			}
+			
 			e.printStackTrace();
 		}
 	}

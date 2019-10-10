@@ -3934,7 +3934,7 @@
 	
 	<select id="selectProjectInfoByCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
 		SELECT 
-			data_id,xmid,nd,ysnd,gsbmmc,zycmc,zycbm,zylbbm,hth,xmmc,fzdwunit,ysje,define1,define2,define5,define8,define9,define10,define11,define12,define17,define18,define19
+			data_id,xmid,nd,ysnd,gsbmmc,zycmc,zycbm,zylbbm,hth,xmmc,fzdw,fzdwunit,ysje,define1,define2,define5,define8,define9,define10,define11,define12,define17,define18,define19
 		FROM 
 			out_project_info 
 		WHERE 
@@ -3991,6 +3991,9 @@
 		<if test="define5 != null and define5 != ''">
 			and define5 like '%${define5}%'
 		</if>
+		<if test="define8 != null and define8 != ''">
+			and define8 like '%${define8}%'
+		</if>
 		<if test="define11 != null and define11 != ''">
 			and define11 like '%${define11}%'
 		</if>
@@ -4010,7 +4013,30 @@
 		<if test="define18 != null and define18 != ''">
 			and define18 like '%${define18}%'
 		</if>
-		
+		<if test="define8s != null">
+			and define8 in 
+			<foreach collection="define8s" item="d8" open="(" close=")" separator="," >
+	         #{d8}
+	       </foreach>
+		</if>
 		ORDER BY define16 DESC;
+	</select>
+	<select id="selectPaymentCompany" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT 
+			define8
+		FROM 
+			out_project_info 
+		WHERE 
+			define3 = '项目管理系统'
+			and project_type != 1
+			and define17 is not null 
+			and define18 is not null
+		<if test="define17 != null and define17 != ''">
+			and define17 like '%${define17}%'
+		</if>
+		<if test="define18 != null and define18 != ''">
+			and define18 like '%${define18}%'
+		</if>
+		GROUP BY define8
 	</select>
 </mapper>

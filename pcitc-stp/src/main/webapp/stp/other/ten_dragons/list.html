@@ -5,16 +5,133 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+<link rel="stylesheet" href="/layuiadmin/style/common.css">
+<link rel="stylesheet" href="/layuiadmin/style/admin.css">
     <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
+ <!--开始-->
+ <div class="layui-fluid">
+    <div class="layui-card">
+ 
+     <div class="layui-form layui-card-header layuiadmin-card-header-auto" style="padding:0px">
+        <div class="layui-form-item">
+            
+             <div class="layui-inline">
+	            <label class="layui-form-label">立项年度：</label>
+	            <div class="layui-input-inline">
+	              <input type="text" name="nd" title="立项年度" placeholder="请输入立项年度" autocomplete="off" class="layui-input" id="nd"  >
+	            </div>
+	          </div>
+	          
+              <div class="layui-inline">
+	            <label class="layui-form-label">项目名称：</label>
+	            <div class="layui-input-inline">
+	              <input type="text" name="xmmc" title="项目名称" placeholder="请输入项目名称" autocomplete="off" class="layui-input" id="xmmc"  >
+	            </div>
+	          </div>
+        
+             <div class="layui-inline">
+	            <label class="layui-form-label">合同号：</label>
+	            <div class="layui-input-inline">
+	              <input type="text" name="hth" title="合同号" placeholder="请输入合同号" autocomplete="off" class="layui-input" id="hth"  >
+	            </div>
+	          </div>
+	          
+	           <div class="layui-inline">
+		            <label class="layui-form-label">专业处：</label>
+		            <div class="layui-input-inline">
+		               <select name="zycmc" id="zycmc" >
+		                      <option value="" >--请选择--</option>
+				              <#list zycmcList as vo> 
+						         <option value="${vo.name}"  >${vo.name}</option>
+						      </#list>
+		              </select>
+		            </div>
+		          </div>
+		          
+		    <div class="layui-inline">
+		            <label class="layui-form-label">单位类型：</label>
+		            <div class="layui-input-inline">
+		               <select name="define6" id="define6" >
+		                      <option value="" >--请选择--</option>
+				              <#list define6List as vo> 
+						        <option value="${vo.numValue}"  >${vo.name}</option>
+						      </#list>
+		              </select>
+		            </div>
+		          </div>     
+		          
+		          
+		          
+	           <div class="layui-inline">
+		            <label class="layui-form-label">项目状态：</label>
+		            <div class="layui-input-inline">
+		               <select name="status" id="status" >
+		                      <option value="" >--请选择--</option>
+				              <#list statusList as vo> 
+						        <option value="${vo.name}"  >${vo.name}</option>
+						      </#list>
+		              </select>
+		            </div>
+		          </div>   
+		          
+		          
+		          <div class="layui-inline" >
+		            <button class="layui-btn layuiadmin-btn-list" data-type="searchEvent">
+		                <i class="layui-icon layui-icon-search layuiadmin-button-btn">查询</i>
+		            </button>
+		          </div>
+          
+          
+          
+            
+        
+          </div>
+      </div>
+     <!--查询条件结束-->
+     
+     
+     <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+       
+            
+          <div style="float: left">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="rudongEvent">申请入龙</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detadilEvent">在研项目</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detadilEvent">申请延期</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detadilEvent">申请休眠</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detadilEvent">申请出龙</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detadilEvent">申请出龙</button>
+           </div>  
+           
+           
+            <div style="float: right">
+	            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增项目</button>
+	            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent">编辑</button>
+	            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addSubEvent">添加子课题</button>
+	            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
+	        </div>
+        
+                                   
+        </div>
+    </div>
+    <div class="layui-card-body">
+		<table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
+	</div>
+	
+	
+	</div>
+</div> 
+<!--结束--> 
+      
+ <!-- 
  
 <div class="searchBox">
-    <!--查询条件-->
     
     <label class="dateInput">
         <span>立项年度</span>
@@ -67,7 +184,7 @@
 	     
 	     
     
-    <!--按钮组-->
+    按钮组
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
     </div>
@@ -103,7 +220,7 @@
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
  
-
+ -->
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script id="view_projectType"  type="text/html"> {{view_projectType(d.projectType)}} </script>

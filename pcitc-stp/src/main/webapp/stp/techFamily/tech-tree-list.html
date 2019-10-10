@@ -252,23 +252,42 @@
             	}
             },
             deleteEvent: function(){ //点击删除按钮
+            	var alterFlag = "false";
+            	var typeIds=selectRowData.tfmTypeId;
+            	var temParentId=selectRowData.parentId;
+            	var temTypeIndex=selectRowData.typeIndex;
+            	if (temParentId == '1') {
+        			alterFlag = "true";
+        		}
+            
+               /*  alert(typeIds);
             	var data = table.checkStatus('showTable').data;
-            	//layer.msg(JSON.stringify(data[0].id));
-            	var typeIds = "";
+            	console.log("data"+JSON.stringify(data));
             	var temParentId = "";
             	var temTypeIndex = "";
             	var alterFlag = "false";
-            	for (var i=0; i < data.length; i++) {
-            		typeIds = typeIds + data[i].typeIds + ",";
+            	
+            	typeIds = data.tfmTypeId;
+            	temParentId = data.parentId;
+            	temTypeIndex =  data.typeIndex ;
+            	if (data.isParent == '1') {
+        			alterFlag = "true";
+        		}
+            	 */
+            	/* for (var i=0; i < data.length; i++) {
+            		typeIds = typeIds + data[i].tfmTypeId + ",";
             		temParentId = data[i].parentId;
             		temTypeIndex = temTypeIndex + data[i].typeIndex + ",";
             		if (data[i].isParent == '1') {
             			alterFlag = "true";
             		}
-            	}
+            	} */
             	
             	var jsonstr = {"tfmTypeId":typeIds, "typeIndex":temTypeIndex, "parentId":temParentId};
-                if (data.length == 0) {
+            	console.log("jsonstr"+JSON.stringify(jsonstr));
+            	//return;
+               if (typeof(selectRowData) == "undefined") 
+            	{
             		layer.msg('请点击选择要删除的数据!');
             	} else {
             		var alterStr = "确定要删除吗？";

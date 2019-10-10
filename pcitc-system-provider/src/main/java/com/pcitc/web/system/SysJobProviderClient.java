@@ -1,6 +1,5 @@
 package com.pcitc.web.system;
 
-import com.pcitc.base.system.SysCronRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysCronExceptionLog;
+import com.pcitc.base.system.SysCronRecord;
 import com.pcitc.base.system.SysJob;
 import com.pcitc.service.system.SysJobService;
 
@@ -49,6 +51,28 @@ public class SysJobProviderClient {
 
         return sysJobService.findSysExcepJob(param);
     }
+    /**
+     * 查询作业异常列表数据
+     * @param job
+     * @return
+     */
+    
+    @RequestMapping(value = "/sys_job_excep_list", method = RequestMethod.POST)
+	public LayuiTableData sys_job_excep_list(@RequestBody LayuiTableParam param)throws Exception
+	{
+		
+		logger.info("=== sys_job_excep_list paramsJson============"+param);
+		return sysJobService.getSysCronExceptionLogPage(param);
+		
+	}
+    
+    
+    @RequestMapping(value = "/getExcep/{id}", method = RequestMethod.GET)
+	public SysCronExceptionLog selectSysCronExceptionLogById(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get selectSysCronExceptionLogById id "+id+"===========");
+		return sysJobService.selectSysCronExceptionLog(id);
+	}
+	
 
     /**
      * 保存作业

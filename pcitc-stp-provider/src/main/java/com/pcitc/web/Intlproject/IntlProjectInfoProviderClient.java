@@ -20,6 +20,7 @@ import com.pcitc.base.common.enums.IntlExternalCheckStatusEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
+import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.service.intlproject.IntlProjectInfoService;
 
 import io.swagger.annotations.Api;
@@ -100,6 +101,15 @@ public class IntlProjectInfoProviderClient
 		workflowVo.setBusinessId(projectId);
 		//boolean status = intlProjectInfoService.startWorkFlow(workflowVo.getBusinessId(), workflowVo.getFunctionId(), workflowVo.getProcessDefinitionName(), workflowVo.getAuthenticatedUserId(), workflowVo.getAuthenticatedUserName());
 		Result status = intlProjectInfoService.startWorkFlow(workflowVo);
+		if(status.isSuccess()) 
+		{
+			//临时放开审批，直接通过20191009
+			IntlProjectInfo info = intlProjectInfoService.findById(projectId);
+			if(info != null) {
+				info.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
+				intlProjectInfoService.saveOrUpdate(info);
+			}
+		}
 		return status;
 	}
 	@ApiOperation(value="审批流程回调通知",notes="审批结果回调通知")
