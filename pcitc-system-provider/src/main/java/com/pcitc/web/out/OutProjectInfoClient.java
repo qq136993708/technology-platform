@@ -1404,7 +1404,12 @@ public class OutProjectInfoClient {
 		Map<String,Object> paramMap = MyBeanUtils.transBean2Map(outProjectInfo);
 		return outProjectService.selectProjectInfoByCondition(paramMap);
 	}
-
+	@ApiOperation(value = "查询合同信息", notes = "根据条件查询合同数据")
+	@RequestMapping(value = "/out-provider/project-info-table-bycondition", method = RequestMethod.POST)
+	public Object selectProjectInfoTableByCondition(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================selectProjectInfoTableByCondition===========================" + JSONObject.toJSONString(param));
+		return outProjectService.selectProjectInfoByCondition(param);
+	}
 	/**
 	 * 访问权限处理，集中控制
 	 * authFlag 资本性权利
