@@ -480,7 +480,7 @@
    </select>
   <!--获取每年的装备总金额-->
   <select id="getMoneyYear" resultMap="BaseResultMap" parameterType="Map" >
-      select  left (t.create_date,4)  as year,sum( t.all_price) as  allMoney  from sre_equipment  t GROUP BY `year`   ORDER BY `year` asc
+      SELECT  left (t.setup_year,4)  as `year`,sum( t.project_money) as  allMoney  from sre_project_task  t GROUP BY `year`   ORDER BY `year` asc
   </select>
      
      
