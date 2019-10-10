@@ -230,7 +230,7 @@
 		                    data-type="editEvent">发送报销通知单
 		            </button>
 		        </div> -->
-				<table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true,text:{none:''}}">
+				<table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:15, url:'/payment/project-info-table-bycondition',totalRow: true,text:{none:''}}">
 	                <thead>
 		                <tr>
 		                	<th lay-data="{type:'numbers', width: 55,align:'center',totalRowText: '合计'}">序号</th>
@@ -448,23 +448,46 @@
 			zylb = (zylb == '--请选择--')?'':zylb;
 			//groupFlag = (groupFlag == '--请选择--')?'':groupFlag;
 			
-			var param = {"xmmc":$("#xmmc").val(),"hth":$("#hth").val(),"nd":$("#nd").val(),"ysnd":$("#ysnd").val(),
+			var where = {param:{"xmmc":$("#xmmc").val(),"hth":$("#hth").val(),"nd":$("#nd").val(),"ysnd":$("#ysnd").val(),
 					"define1":define1,"define2":define2,"define5":define5,"define17":define17,"define18":define18,
 					"define11":define11,"define12":define12,"fzdw":fzdwflag,"paymentStatus":paymentStatus,
-					"zylb":zylb,"gsbmbm":gsbmbmFlag,"zycbm":zycbmFlag,"zylbbm":zylbbmFlag};
-			console.log(param);
-			var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
-			publicMethods.ajaxAsyncPost("/payment/project-info-list-bycondition",param, function (data) {
-    			table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,done:function(rs){
-    				layer.close(lodingMsg);
-    				$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+					"zylb":zylb,"gsbmbm":gsbmbmFlag,"zycbm":zycbmFlag,"zylbbm":zylbbmFlag}};
+			console.log(where);
+			
+			table.init('dataTable', {
+				url : '/payment/project-info-table-bycondition',
+				height : commonDislodgeTable() - 80,
+				method : "POST",
+				limit : 30,
+				page : {
+					groups : 5,
+					limits : [ 15, 30, 45, 60 ],
+					layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+					first : '首页', //不显示首页
+					last : '尾页', //不显示尾页
+					theme : '#0F9EE0'
+				},
+				where : where,
+				done : function(res, curr, count) {
+					$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
     					var index=parseInt($(this).index());
     					var url = '/payment/project_payment_edit?dataId='+data[index].data_id;
                        	publicMethods.openBaseWinFull('经费报销管理-经费报销',url);
                     }); 
+				}
+			});
+			//var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
+			//publicMethods.ajaxAsyncPost("/payment/project-info-list-bycondition",param, function (data) {
+    			//table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,done:function(rs){
+    				//layer.close(lodingMsg);
+    				//$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+    					//var index=parseInt($(this).index());
+    					//var url = '/payment/project_payment_edit?dataId='+data[index].data_id;
+                       //	publicMethods.openBaseWinFull('经费报销管理-经费报销',url);
+                    //}); 
     				
-    			}});
-	   		}); 
+    			//}});
+	   		//}); 
 		}
 		
 		/* table.on('tool(dataTable)', function(obj){ 
