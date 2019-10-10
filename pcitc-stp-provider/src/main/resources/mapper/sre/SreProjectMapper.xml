@@ -859,7 +859,7 @@
 	     <if test="professionalDepartName != null    and professionalDepartName  !='' ">    AND t.professional_depart_name like CONCAT('%',#{professionalDepartName},'%')</if>
 	     <if test="leadUnitCode != null              and leadUnitCode !=''  ">              AND t.lead_unit_code = #{leadUnitCode}</if>
 	     <if test="joinUnitCode != null              and joinUnitCode !=''  ">              AND t.join_unit_code = #{joinUnitCode}</if>
-	     <if test="entrustUnitCode != null           and entrustUnitCode !=''  ">           AND t.entrust_unit_code = #{entrustUnitCode}</if>
+	     <if test="entrustUnitCode != null           and entrustUnitCode !=''  ">           AND t.entrust_unit_code  = #{entrustUnitCode}</if>
 	     <if test="professionalDepartCode != null    and professionalDepartCode !=''  ">    AND t.professional_depart_code = #{professionalDepartCode}</if>
 	     <if test="belongDepartmentCode != null      and belongDepartmentCode !=''  ">      AND t.belong_department_code = #{belongDepartmentCode}</if>
 	     <if test="erpNum != null               and erpNum !=''  ">              			 AND t.erp_num  like CONCAT('%',#{erpNum},'%') </if>
