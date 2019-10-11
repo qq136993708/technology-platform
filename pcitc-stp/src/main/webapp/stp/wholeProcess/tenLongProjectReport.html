@@ -17,7 +17,7 @@
 		<!--查询条件-->
 		<label class="dateInput">
 			<span>年度</span>
-			<input type="text" id="ysnd" name="ysnd" placeholder="请输入年度" title="年度" class="form-control">
+			<input type="text" id="ysnd" name="ysnd" readonly="readonly" placeholder="请输入年度" title="年度" class="form-control">
 		</label>
 		<label class="dateInput">
 			<span>合同号</span>
@@ -50,7 +50,7 @@
 		var table, active, dateId, xmid, erpProjectCode, publicMethods,selectRowData = '',files={};
 		layui.use([ 'jquery', 'table', 'laydate', 'form', 'laypage', 'laytpl','publicMethods' ], function() {
 			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, form = layui.form,publicMethods=layui.publicMethods;
-			
+			laydate.render({elem: '#ysnd',value: new Date(),type: 'year'});
 			window.downloadFile = function(filename){
 				window.open(encodeURI("/out/report_download?fileName="+filename,"UTF-8"));
 			}
@@ -161,8 +161,10 @@
 					renderTable();
 				},
 				resetEvent : function() { //点击重置按钮
-					$('#projectName').val("");
+					$('#hth').val("");
+					$('#xmmc').val("");
 					$('.tableBtns').children('button').removeClass('active');
+					laydate.render({elem: '#ysnd',value: new Date(),type: 'year'});
 					active.searchEvent();
 				},
 				handleEvent : function() { //点击关联匹配按钮
