@@ -271,6 +271,15 @@
 			            ,{field:'define10',title:'专业处',	width: '5%',  style:'cursor: pointer;'}
 			            /* ,{field:'fzdw',title:'负责单位',	width: '15%',  style:'cursor: pointer;'} */
 			            ,{field:'ysje',title:'金额（万元）',	width: '8%',  style:'cursor: pointer;',align:'right',templet : '#view_format'}
+			            ,{
+			            	title : '操作',style : 'cursor: pointer;', align: 'center',width: 200, templet:function(d){
+			            		if(d.lay_level ==2){
+			                  		return '<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg demo-delete" target="_top" onclick="modifyBudget(\''+d.nd+'\','+d.budgetType+',\''+d.dataId+'\')">发票报销</a>'
+			            		}else{
+			            			return "";
+			            		}
+		                  	}
+			            }
 		            ]],
 		            done: function (res, curr, count) {
 		            	layer.close(lodingMsg);
