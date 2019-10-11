@@ -500,7 +500,7 @@ var name=$('#name').val();
             {field : 'name',     title : '报废名称', style : 'cursor: pointer;',sort : true,  align : 'left', width : '25%',templet:function(d){return '<span onclick="view(\''+d.id+'\')" style="color:#1890ff">'+d.name+'</span>'}},
             {field : 'status', title : '状态', style : 'cursor: pointer;', align : 'center',sort : true, width : '24.9%',templet:'#status_buttonTpl'},
             {field : 'documentdoc', title : '上传', style : 'cursor: pointer;', align: 'left',width : '14.5%',sort : true,templet : '#documentdoc_temp',templet:function(d){return '<span onclick="view_tender(\''+d.id+'\')" style="color:#1890ff">上传</span>'}},
-            {field : 'remarks',     title : '申请部门', sort : true, style : 'cursor: pointer;', align : 'left', width : '25%' }
+            {field : 'remarks',     title : '申请部门', sort : true, style : 'cursor: pointer;', align : 'left' }
            ]],
            done: function (res, curr, count) {
             $("[data-field='id']").css('display','none');

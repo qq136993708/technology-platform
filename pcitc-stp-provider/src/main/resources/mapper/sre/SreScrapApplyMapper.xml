@@ -24,6 +24,7 @@
    </select>
       <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	   	 <if test="id != null     and id!=''  ">   AND t.id = #{id}</if>
 	     <if test="ApplyName != null and ApplyName!='' ">AND  t.name like CONCAT('%',#{ApplyName},'%')</if>
 	 </trim>
 	</sql>
