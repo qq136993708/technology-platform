@@ -98,9 +98,9 @@ public class IntlProjectApplyProviderClient
 		if(status) 
 		{
 			//临时放开审批，直接通过20191009
-			apply.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
-			apply.setFlowEndStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
-			projectApplyService.updProjectApply(apply);
+			//apply.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
+			//apply.setFlowEndStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
+			//projectApplyService.updProjectApply(apply);
 			
 			return new Result(true,"操作成功!");
 		}else {

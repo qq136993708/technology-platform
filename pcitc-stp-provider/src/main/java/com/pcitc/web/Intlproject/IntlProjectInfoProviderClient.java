@@ -104,11 +104,11 @@ public class IntlProjectInfoProviderClient
 		if(status.isSuccess()) 
 		{
 			//临时放开审批，直接通过20191009
-			IntlProjectInfo info = intlProjectInfoService.findById(projectId);
-			if(info != null) {
-				info.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
-				intlProjectInfoService.saveOrUpdate(info);
-			}
+			//IntlProjectInfo info = intlProjectInfoService.findById(projectId);
+			//if(info != null) {
+				//info.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
+				//intlProjectInfoService.saveOrUpdate(info);
+			//}
 		}
 		return status;
 	}
