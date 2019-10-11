@@ -58,10 +58,11 @@ public class IntlProjectNoticeController extends BaseController {
 	
 	@RequestMapping(value = "/project/notice-list", method = RequestMethod.POST)
 	public Object getNoticeTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
+		System.out.println("start....notice-list.....");
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_NOTICE_LIST_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
-		//System.out.println(JSON.toJSON(data).toString());
+		System.out.println(JSON.toJSON(data).toString());
 		return JSON.toJSON(data).toString();
 	}
 
