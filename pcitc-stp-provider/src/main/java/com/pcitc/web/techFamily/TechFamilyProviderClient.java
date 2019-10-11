@@ -245,6 +245,41 @@ public class TechFamilyProviderClient {
 		}
 		return 1;
 	}
+	@ApiOperation(value = "删除技术族分类", notes = "删除技术族分类")
+	@RequestMapping(value = "/tech-family-provider/type-del", method = RequestMethod.POST)
+	public Integer delTechFamilyType(@RequestBody TechFamily techType) {
+		System.out.println("deleteTechFamilyType==================" + techType);
+
+		String[] typeIds = techType.getTfmTypeId().split(",");
+		String[] typeIndex = techType.getTypeIndex().split(",");
+		for (int i = 0; i < typeIds.length; i++) {
+			// 删除当前节点及其孩子
+			TechFamily temTF = new TechFamily();
+			temTF.setStatus("0");
+			temTF.setTypeIndex(typeIndex[i]);
+			techFamilyService.deleteTechFamilyType(temTF);
+
+			// 判断其父亲节点是否还有孩子
+			TechFamily parentTF = new TechFamily();
+			parentTF.setParentId(techType.getParentId());
+			parentTF.setStatus("1");
+			List<TechFamily> parentList = techFamilyService.selectTechFamilyTypeList(parentTF);
+			if (parentList == null || parentList.size() <= 0) {// 已经没有其他孩子,
+																// 修改父亲节点的isparent
+				// 先获取父节点信息
+				TechFamily tf = new TechFamily();
+				tf.setTfmTypeId(techType.getParentId());
+				List<TechFamily> tfList = techFamilyService.selectTechFamilyTypeList(tf);
+
+				if (tfList != null && tfList.size() > 0) {
+					TechFamily oldParentTF = tfList.get(0);
+					oldParentTF.setIsParent("0");
+					techFamilyService.updateTechFamilyType(oldParentTF);
+				}
+			}
+		}
+		return 1;
+	}
 
 	@ApiOperation(value = "获取当前节点孩子的最大编码", notes = "新增数据时，编码+1")
 	@RequestMapping(value = "/tech-family-provider/max-type-code", method = RequestMethod.POST)
