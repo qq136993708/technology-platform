@@ -296,11 +296,11 @@
             		}
             		layer.confirm(alterStr, function(){
             			$.ajax({
-                			type : "DELETE",
+                			type : "POST",
                             contentType : "application/json",
                             dataType : "json",
                             data : JSON.stringify(jsonstr),
-                            url : "/tech-family/type",
+                            url : "/tech-family/type/del",
                             error : function(data) {
                             	renderTable();
                             	ztreeAsyncChildNodes();
