@@ -76,8 +76,8 @@ public class IntlProjectPlantProviderClient
 		if(status) 
 		{
 			//临时放开审批，直接通过20191009
-			plant.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
-			projectPlantService.updProjectPlant(plant);
+			//plant.setFlowCurrentStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
+			//projectPlantService.updProjectPlant(plant);
 			
 			return new Result(true,"操作成功!");
 		}else {

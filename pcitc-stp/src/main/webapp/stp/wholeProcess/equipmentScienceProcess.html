@@ -154,6 +154,10 @@
 			searchEvent : function() { //点击查询按钮
 				selectRowData = '';
 				renderTable();
+			},
+			resetEvent:function(){
+				$('#xmmc').val("");
+				renderTable();
 			}
 		}
 		

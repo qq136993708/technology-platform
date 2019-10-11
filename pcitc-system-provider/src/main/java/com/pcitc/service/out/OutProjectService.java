@@ -443,6 +443,8 @@ public interface OutProjectService {
 	
 	public List<Map<String,Object>> selectProjectInfoByCondition(Map<String,Object> paramMap);
 	
+	public LayuiTableData selectProjectInfoByCondition(LayuiTableParam param);
+	
 	public LayuiTableData selectPaymentCompany(LayuiTableParam param);
 	
 	

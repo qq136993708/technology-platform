@@ -51,7 +51,7 @@
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">年度<span class="must-fill">*</span></label>
 							<div class="layui-input-block">
-								<input type="text" class="layui-input" id="nd" name="nd" lay-verify="required" placeholder="请输入年度" autocomplete="off">
+								<input type="text" class="layui-input" readonly="readonly" id="nd" name="nd" lay-verify="required" placeholder="请输入年度" autocomplete="off">
 							</div>
 						</div>
 					</div>
@@ -103,7 +103,7 @@
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">申报日期<span class="must-fill">*</span></label>
 							<div class="layui-input-block">
-								<input type="text" class="layui-input" lay-verify="required" placeholder="请输入申报日期" id="sbrq" name="sbrq">
+								<input type="text" class="layui-input" readonly="readonly" lay-verify="required" placeholder="请输入申报日期" id="sbrq" name="sbrq">
 							</div>
 						</div>
 					</div>
@@ -123,7 +123,7 @@
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">开始时间<span class="must-fill"></span></label>
 							<div class="layui-input-block">
-								<input type="text" class="layui-input" lay-verify="required" id="kssj" name="kssj" placeholder="请输入开始时间">
+								<input type="text" class="layui-input" readonly="readonly" lay-verify="required" id="kssj" name="kssj" placeholder="请输入开始时间">
 							</div>
 						</div>
 					</div>
@@ -131,7 +131,7 @@
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">结束时间<span class="must-fill"></span></label>
 							<div class="layui-input-block">
-								<input type="text" class="layui-input" id="jssj" lay-verify="required" name="jssj" placeholder="请输入结束时间">
+								<input type="text" class="layui-input" readonly="readonly" id="jssj" lay-verify="required" name="jssj" placeholder="请输入结束时间">
 							</div>
 						</div>
 					</div>
@@ -295,6 +295,8 @@
 		function() {
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,publicMethods=layui.publicMethods,
 			form = layui.form;
+			
+			
 			form.render();
 			//初始赋值 component-form-group 当前form的lay-filter
 			 if(dataId != 0)
@@ -314,7 +316,17 @@
 					$("#kssj").attr("value",data.kssj);
 					$("#jssj").attr("value",data.jssj);
 					$("#dataId").attr("value",data.dataId);
+					
+					laydate.render({elem: '#nd',type: 'year',value: data.nd});
+			    	laydate.render({elem: '#sbrq',type: 'date',format:'yyyyMMdd',value: data.sbrq});
+			    	laydate.render({elem: '#kssj',type: 'date',format:'yyyyMMdd',value:	data.kssj});
+			    	laydate.render({elem: '#jssj',type: 'date',format:'yyyyMMdd',value: data.jssj});
 	            });    	
+		     }else{
+		    	 laydate.render({elem: '#nd',type: 'year',value: new Date()});
+		    	 laydate.render({elem: '#sbrq',type: 'date',format:'yyyyMMdd',value: new Date()});
+		    	 laydate.render({elem: '#kssj',type: 'date',format:'yyyyMMdd',value: new Date()});
+		    	 laydate.render({elem: '#jssj',type: 'date',format:'yyyyMMdd',value: new Date()});
 		     }
 				/* 监听提交 */
 				form.on('submit(submitBtn)', function(data) {

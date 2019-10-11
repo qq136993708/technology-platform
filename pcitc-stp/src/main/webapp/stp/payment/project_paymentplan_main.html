@@ -68,7 +68,7 @@
 						</div>
 					</div>
 					<div class="layui-inline">
-						<label class="layui-form-label">拨款年度：</label>
+						<label class="layui-form-label">预算年度：</label>
 						<div class="layui-input-inline">
 							<input type="text" name="ysnd" readonly="readonly" style="cursor: pointer" placeholder="请选择拨款年度"  title="拨款年度" value="${ysnd}" autocomplete="off" class="layui-input" id="ysnd" width="100px">
 						</div>
@@ -221,10 +221,10 @@
 		                    data-type="editEvent">发送报销通知单
 		            </button>
 		        </div> -->
-				<table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true,text:{none:''}}">
+				<table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:15,text:{none:''}}">
 	                <thead>
 		                <tr>
-		                	<th lay-data="{type:'numbers', width: 55,align:'center',totalRowText: '合计'}">序号</th>
+		                	<th lay-data="{type:'numbers', width: 55,align:'center'}">序号</th>
 		                    <th lay-data="{field:'hth', width: 100,align:'center'}">合同号</th>
 		                   	<th lay-data="{field:'nd', width: 80,align:'center'}">立项年度</th>
 		                    <th lay-data="{field:'ysnd', width: 80,align:'center'}">预算年度</th>
@@ -378,7 +378,7 @@
 			var gsbmbmFlag = $("#gsbmbmFlag").val();
 			getDicByParentCode(gsbmbmFlag, 'zycbmFlag');
 
-			//renderTable();
+			renderTable();
 		});
 		//拨付批次
 		function initPaymentBatchs(){
@@ -432,23 +432,49 @@
 			zylb = (zylb == '--请选择--')?'':zylb;
 			//groupFlag = (groupFlag == '--请选择--')?'':groupFlag;
 			
-			var param = {"xmmc":$("#xmmc").val(),"hth":$("#hth").val(),"nd":$("#nd").val(),"ysnd":$("#ysnd").val(),
+			var where ={param:{"xmmc":$("#xmmc").val(),"hth":$("#hth").val(),"nd":$("#nd").val(),"ysnd":$("#ysnd").val(),
 					"define1":define1,"define2":define2,"define5":define5,"define17":define17,
 					"define11":define11,"define12":define12,"fzdw":fzdwflag,"paymentStatus":paymentStatus,
-					"zylb":zylb,"gsbmbm":gsbmbmFlag,"zycbm":zycbmFlag,"zylbbm":zylbbmFlag};
-			console.log(param);
-			var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
-			publicMethods.ajaxAsyncPost("/payment/project-info-list-bycondition",param, function (data) {
-    			table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,done:function(rs){
-    				layer.close(lodingMsg);
-    				$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+					"zylb":zylb,"gsbmbm":gsbmbmFlag,"zycbm":zycbmFlag,"zylbbm":zylbbmFlag}};
+			console.log(where);
+			//var lodingMsg = layer.msg('数据加载中....',{time: 15*1000});
+			
+			table.init('dataTable', {
+				url : '/payment/project-info-table-bycondition',
+				height : commonDislodgeTable() - 80,
+				method : "POST",
+				limit : 30,
+				page : {
+					groups : 5,
+					limits : [ 15, 30, 45, 60 ],
+					layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+					first : '首页', //不显示首页
+					last : '尾页', //不显示尾页
+					theme : '#0F9EE0'
+				},
+				where : where,
+				done : function(res, curr, count) {
+					$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
     					var index=parseInt($(this).index());
-    					var url = '/payment/project_paymentplan_edit?dataId='+data[index].data_id;
+    					var url = '/payment/project_paymentplan_edit?dataId='+res.data[index].data_id;
                        	publicMethods.openBaseWinFull('经费拨付管理-经费拨付',url);
                     }); 
+				}
+			});
+			
+			//publicMethods.tableRender(elem,id,url,toolbar,cols,where,page,done);
+			
+			//publicMethods.ajaxAsyncPost("/payment/project-info-list-bycondition",param, function (data) {
+    			//table.reload('dataTable', {data: data,height:commonDislodgeTable()-200,page:false,even: true,limit:data.length,done:function(rs){
+    				//layer.close(lodingMsg);
+    				//$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+    					//var index=parseInt($(this).index());
+    					//var url = '/payment/project_paymentplan_edit?dataId='+data[index].data_id;
+                       	//publicMethods.openBaseWinFull('经费拨付管理-经费拨付',url);
+                    //}); 
     				
-    			}});
-	   		}); 
+    			//}});
+	   		//});  
 		}
 		
 		function view_pro(xmmc, projectProperty, id) {

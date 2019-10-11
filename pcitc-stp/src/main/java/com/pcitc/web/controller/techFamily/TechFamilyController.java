@@ -43,6 +43,7 @@ public class TechFamilyController extends BaseController {
 	private static final String TECH_TYPE_COND = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-tree/cond";
 	private static final String TECH_TYPE_LIST = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-list";
 	private static final String TECH_TYPE_ADD = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-insert";
+	private static final String TECH_TYPE_DEL = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-del";
 	private static final String TECH_TYPE_DELETE = "http://pcitc-zuul/stp-proxy/tech-family-provider/type-delete";
 
 	@RequestMapping(value = "/tech-family/type/tree-list/ini")
@@ -178,6 +179,28 @@ public class TechFamilyController extends BaseController {
 	 * @return 删除对功能菜单配置的某个工作流
 	 */
 	@OperationFilter(modelName = "技术族", actionName = "删除技术族分类")
+	@RequestMapping(value = "/tech-family/type/del", method = RequestMethod.POST)
+	@ResponseBody
+	public Result delTechFamilyType(@RequestBody TechFamily techFamily) {
+
+		HttpEntity<TechFamily> entity = new HttpEntity<TechFamily>(techFamily, this.httpHeaders);
+
+		Integer retI = this.restTemplate.exchange(TECH_TYPE_DEL, HttpMethod.POST, entity, Integer.class).getBody();
+
+		System.out.println("=================-----------" + retI);
+		if (retI != null && retI >= 1) {
+			System.out.println("=================操作成功");
+			return new Result(true, "操作成功");
+		} else {
+			System.out.println("=================操作失败");
+			return new Result(true, "操作失败");
+		}
+	}
+	/**
+	 * @param jsonStr
+	 * @return 删除对功能菜单配置的某个工作流
+	 */
+	@OperationFilter(modelName = "技术族", actionName = "删除技术族分类")
 	@RequestMapping(value = "/tech-family/type", method = RequestMethod.DELETE)
 	public Result deleteTechFamilyType(@RequestBody TechFamily techFamily) {
 
@@ -194,7 +217,6 @@ public class TechFamilyController extends BaseController {
 			return new Result(true, "操作失败");
 		}
 	}
-	
 	/**
 	 * 初始化技术族树形结构
 	 * @param request

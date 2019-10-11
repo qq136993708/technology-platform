@@ -4019,7 +4019,7 @@
 	         #{d8}
 	       </foreach>
 		</if>
-		ORDER BY define16 DESC;
+		ORDER BY define16 DESC 
 	</select>
 	<select id="selectPaymentCompany" resultType="java.util.Map" parameterType="java.util.HashMap">
 		SELECT 

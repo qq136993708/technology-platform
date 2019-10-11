@@ -58,10 +58,11 @@ public class IntlProjectNoticeController extends BaseController {
 	
 	@RequestMapping(value = "/project/notice-list", method = RequestMethod.POST)
 	public Object getNoticeTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
+		System.out.println("start....notice-list.....");
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_NOTICE_LIST_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
-		//System.out.println(JSON.toJSON(data).toString());
+		System.out.println(JSON.toJSON(data).toString());
 		return JSON.toJSON(data).toString();
 	}
 
@@ -69,7 +70,7 @@ public class IntlProjectNoticeController extends BaseController {
 	public Object saveNoticeInfo(@ModelAttribute(value = "notice") IntlProjectNotice notice, HttpServletRequest request) throws IOException {
 		notice.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 		notice.setCreater(sysUserInfo.getUserId());
-		notice = (IntlProjectNotice)InputCheckUtil.processObjectTag(notice);
+		//notice = (IntlProjectNotice)InputCheckUtil.processObjectTag(notice);
 		ResponseEntity<Result> status = this.restTemplate.exchange(PROJECT_NOTICE_ADDORUPD, HttpMethod.POST, new HttpEntity<IntlProjectNotice>(notice, this.httpHeaders), Result.class);
 		return status.getBody();
 	}

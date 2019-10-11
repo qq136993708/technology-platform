@@ -62,12 +62,18 @@
 					</div> -->
 
 
-					<div class="layui-inline">
+					<!-- <div class="layui-inline">
 						<label class="layui-form-label">立项年度：</label>
 						<div class="layui-input-inline">
 							<input type="text" name="nd" readonly="readonly" style="cursor: pointer" placeholder="请选择立项年度" title="立项年度" value="${nd}" autocomplete="off" class="layui-input" id="nd" width="100px">
 						</div>
 					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">预算年度：</label>
+						<div class="layui-input-inline">
+							<input type="text" name="ysnd" readonly="readonly" style="cursor: pointer" placeholder="请选择预算年度" title="预算年度" value="${ysnd}" autocomplete="off" class="layui-input" id="nd" width="100px">
+						</div>
+					</div> -->
 					<!-- <div class="layui-inline">
 						<label class="layui-form-label">拨款年度：</label>
 						<div class="layui-input-inline">
@@ -221,6 +227,11 @@
 				var type = $(this).data('type');
 				active[type] ? active[type].call(this) : '';
 			});
+			window.openWin=function(dataId){
+				var url = '/payment/project_paymentnotice_edit?dataId='+dataId;
+               	publicMethods.openBaseWinFull('经费拨付管理-发票报销',url);
+			}
+			
 			function renderTable() {
 				var where ={param:{"define17":"","define18":$('#define18').val()}};
 				var lodingMsg = layer.msg('数据加载中....');
@@ -257,14 +268,23 @@
 		            	,{title:'序号', type:'numbers' ,width : 55}
 		            	,{field:'define8', width:'15%', title: '公司名称'}
 		            	,{field:'xmmc',title:'项目名称',style:'cursor: pointer;',align:'left'}
-		            	,{field:'hth',   title:'合同号', width: '5%',  style:'cursor: pointer;',align:"center"}
+		            	/* ,{field:'hth',   title:'合同号', width: '5%',  style:'cursor: pointer;',align:"center"} */
 		            	,{field:'nd',   title:'年度', width: '5%',  style:'cursor: pointer;',align:"center"}
 			            ,{field:'ysnd',   title:'预算年度', width: '5%',style:'cursor: pointer;',align:"center"}
 			            ,{field:'define11',title:'经费来源',	width: '5%', style:'cursor: pointer;'}
 			            ,{field:'gsbmmc',title:'部门',	width: '5%',  style:'cursor: pointer;'}
 			            ,{field:'define10',title:'专业处',	width: '5%',  style:'cursor: pointer;'}
-			            ,{field:'fzdw',title:'负责单位',	width: '15%',  style:'cursor: pointer;'}
+			            /* ,{field:'fzdw',title:'负责单位',	width: '15%',  style:'cursor: pointer;'} */
 			            ,{field:'ysje',title:'金额（万元）',	width: '8%',  style:'cursor: pointer;',align:'right',templet : '#view_format'}
+			            ,{
+			            	title : '操作',style : 'cursor: pointer;', align: 'center',width: 200, templet:function(d){
+			            		if(d.lay_level ==2){
+			                  		return '<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg demo-delete" target="_top" onclick="openWin(\''+d.dataId+'\')">发票报销</a>'
+			            		}else{
+			            			return "";
+			            		}
+		                  	}
+			            }
 		            ]],
 		            done: function (res, curr, count) {
 		            	layer.close(lodingMsg);
@@ -281,6 +301,8 @@
 		        	$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
 		        }
 		        renderfunc();
+		        
+		        
 			}
 			//监听选中
 			treeGridCom.on('checkbox(tableEvent)', function(obj){
