@@ -58,8 +58,8 @@ public class IntlProjectNoticeProviderClient
 		if(status) 
 		{
 			//临时放开审批，直接通过20191009
-			notice.setFlowStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
-			intlProjectService.updProjectNotice(notice);
+			//notice.setFlowStatus(WorkFlowStatusEnum.STATUS_PASS.getCode());
+			//intlProjectService.updProjectNotice(notice);
 			
 			return new Result(true,"操作成功!");
 		}else {
