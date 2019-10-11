@@ -252,8 +252,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 						projectMoney.setId(id);
 						projectMoney.setProjectId(record.getId());
 						projectMoney.setYear(arrYear[0]);
-						projectMoney.setFyMoney(Integer.valueOf(arrYear[1]));
-						projectMoney.setZbMoney(Integer.valueOf(arrYear[2]));
+						projectMoney.setFyMoney(new BigDecimal(arrYear[1]));
+						projectMoney.setZbMoney(new BigDecimal(arrYear[2]));
 						projectMoney.setUnitCode(record.getLeadUnitCode());
 						projectMoney.setUnitName(record.getLeadUnitName());
 						projectMoneyMapper.insert(projectMoney);
@@ -290,8 +290,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 						projectMoney.setId(id);
 						projectMoney.setProjectId(record.getId());
 						projectMoney.setYear(arrYear[0]);
-						projectMoney.setFyMoney(Integer.valueOf(arrYear[1]));
-						projectMoney.setZbMoney(Integer.valueOf(arrYear[2]));
+
+
+						projectMoney.setFyMoney(new BigDecimal(arrYear[1]));
+						projectMoney.setZbMoney(new BigDecimal(arrYear[2]));
+						/*projectMoney.setFyMoney(Integer.valueOf(arrYear[1]));
+						projectMoney.setZbMoney(Integer.valueOf(arrYear[2]));*/
+
 						projectMoney.setUnitCode(record.getLeadUnitCode());
 						projectMoney.setUnitName(record.getLeadUnitName());
 						projectMoneyMapper.insert(projectMoney);
