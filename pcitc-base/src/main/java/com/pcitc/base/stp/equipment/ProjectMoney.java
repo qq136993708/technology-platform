@@ -1,5 +1,7 @@
 package com.pcitc.base.stp.equipment;
 
+import java.math.BigDecimal;
+
 public class ProjectMoney {
     private String id;
 
@@ -7,9 +9,9 @@ public class ProjectMoney {
 
     private String year;
 
-    private Integer zbMoney;
+    private BigDecimal zbMoney;
 
-    private Integer fyMoney;
+    private BigDecimal fyMoney;
 
     private String unitName;
 
@@ -39,19 +41,19 @@ public class ProjectMoney {
         this.year = year;
     }
 
-    public Integer getZbMoney() {
+    public BigDecimal getZbMoney() {
         return zbMoney;
     }
 
-    public void setZbMoney(Integer zbMoney) {
+    public void setZbMoney(BigDecimal zbMoney) {
         this.zbMoney = zbMoney;
     }
 
-    public Integer getFyMoney() {
+    public BigDecimal getFyMoney() {
         return fyMoney;
     }
 
-    public void setFyMoney(Integer fyMoney) {
+    public void setFyMoney(BigDecimal fyMoney) {
         this.fyMoney = fyMoney;
     }
 
