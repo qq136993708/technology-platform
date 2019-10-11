@@ -70,7 +70,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">评价内容<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <textarea name="evalDesc" id="evalDesc" class="ckeditor"></textarea>
+                            <textarea name="evalDesc" id="evalDesc" class="layui-textarea"></textarea>
                         </div>
                     </div>
                 </div>
@@ -107,6 +107,7 @@
         $("#xmId").val(parent.childData.xmId);
         $("#zjkName").val(parent.childData.zjkName);
         $("#xmSteps").val(parent.childData.xmSteps);
+        $("#zjkId").val(parent.childData.zjkId);
     }
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
         function () {
@@ -117,7 +118,7 @@
                 , position: 'fixed'
             });
             var evalDesc = null;
-            ClassicEditor
+           /*  ClassicEditor
                 .create( document.querySelector( '#evalDesc' ), {
                     language:"zh-cn"
                     ,image: {
@@ -127,17 +128,15 @@
                     ckfinder: {
                         uploadUrl: '/sysfile/ckupload5?type=Image'
                     }
-                })
-                .then( editor => {
+                }).then(editor => {
                     evalDesc = editor;
-                } )
-                .catch( error => {
-                    console.error( error );
-                } );
+                }).catch(error => {
+                    console.error(error);
+                });  */
 
-            // ClassicEditor.create(document.querySelector('#evalDesc'),{}).then(editor => {
-            //     evalDesc = editor;
-            // });
+           // ClassicEditor.create(document.querySelector('#evalDesc'),{}).then(editor => {
+           //     evalDesc = editor;
+           // });
             form.render(null, 'zjkEvaluate-form');
             //初始赋值 component-form-group 当前form的lay-filter
             console.log("----------");
@@ -180,7 +179,7 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                data.field.evalDesc=evalDesc.getData();
+                //data.field.evalDesc=evalDesc.getData();
                 ajaxPost("/zjkEvaluate/saveZjkEvaluate", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     setTimeout(function (){
