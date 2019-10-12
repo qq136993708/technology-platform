@@ -109,6 +109,9 @@ var publicMethods;
 	    		searchEvent: function() { 
                     table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
                 },
+                resetEvent: function() { //点击重置按钮
+                	$('#name').val("");
+                },
                 addEvent:function(){
                 	var check = table.checkStatus('notjoin_apply_table');
                 	if(check.data.length == 0){
