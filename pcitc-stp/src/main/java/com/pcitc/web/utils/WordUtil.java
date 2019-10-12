@@ -84,21 +84,22 @@ public class WordUtil {
 		try {
 			
 			String realPath=request.getSession().getServletContext().getRealPath("/");
-			System.out.println("-------------- 获得项目工程的绝对路径:"+realPath+" 获取当前项目路径的地址:"+System.getProperty("user.dir"));
-			System.out.println("---------------文件生成的目标路径:"+filePath);
+			System.out.println("---------------文件生成的目标路径:"+filePath+"fileName="+fileName);
 			
 			//获取classes目录绝对路径
 			String path = ResourceUtils.getURL("classpath:").getPath();
 			System.out.println("--------------获取classes目录绝对路径:"+filePath+"  ==:"+ClassUtils.getDefaultClassLoader().getResource("").getPath());
 			// 创建配置实例
 			Configuration configuration = new Configuration();
+			String resourcePath=ClassUtils.getDefaultClassLoader().getResource("").getPath();
 
 			// 设置编码
 			configuration.setDefaultEncoding("UTF-8");
 			configuration.setClassicCompatible(true);
 
 			// ftl模板文件
-			File file = new File("src/main/resources/tem/ftl");
+			//File file = new File("src/main/resources/tem/ftl");
+			File file = new File(resourcePath,"tem/ftl");
 			System.out.println("--------------ftl模板文件路径:"+file.getPath());
 			// configuration.setClassForTemplateLoading(WordUtil.class, "ftl");
 			configuration.setDirectoryForTemplateLoading(file);
@@ -107,7 +108,8 @@ public class WordUtil {
 			Template template = configuration.getTemplate(templateName);
 
 			// 输出文件
-			File outFile = new File(filePath+fileName);
+			//File outFile = new File(filePath+fileName);
+			File outFile = new File(resourcePath,"tem/"+fileName);
 			System.out.println("-------------输出文件路径:"+filePath+fileName+" outFile.getPath"+outFile.getPath());
 			// 如果输出目标文件夹不存在，则创建
 			if (!outFile.getParentFile().exists()) {

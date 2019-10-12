@@ -24,6 +24,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -1200,11 +1201,11 @@ public class ProjectTaskController extends BaseController {
 	public String createQianEvent(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		Result resultsDate = new Result();
-		String fileName=createTaskSignWord( id,"task_sign.ftl",  response);
+		String fileName=createTaskSignWord( request,id,"task_sign.ftl",  response);
 		if (!fileName.equals("")) 
 		{
 			resultsDate = new Result(true);
-			download(TEMP_FILE_PATH+fileName, response);
+			download_new(TEMP_FILE_PATH+fileName, response);
 			deleteFile(TEMP_FILE_PATH+fileName);
 		} else {
 			resultsDate = new Result(false, "生成文件失败！");
@@ -1212,7 +1213,7 @@ public class ProjectTaskController extends BaseController {
 		return null;
 	}
 	 //生成word文档--任务书签字盖章页
-	private String  createTaskSignWord(String id,String ftlName, HttpServletResponse response)
+	private String  createTaskSignWord(HttpServletRequest request,String id,String ftlName, HttpServletResponse response)
 	{
 		
 		String  resutl="";
@@ -1242,7 +1243,7 @@ public class ProjectTaskController extends BaseController {
 			dataMap.put("contractNum", contractNum);//合同号
 			dataMap.put("dateMonthDay", dateMonthDay);
 			/** 生成word */
-			boolean flage=WordUtil.createWord(dataMap, ftlName, filePath, fileName);
+			boolean flage=WordUtil.createWord_new(request,dataMap, ftlName, filePath, fileName);
 			if(flage==true)
 			{
 				resutl=fileName;
@@ -1265,7 +1266,7 @@ public class ProjectTaskController extends BaseController {
 		if (!fileName.equals("")) 
 		{
 			resultsDate = new Result(true);
-			download(TEMP_FILE_PATH+fileName, response);
+			download_new(fileName, response);
 			deleteFile(TEMP_FILE_PATH+fileName);
 		} else {
 			resultsDate = new Result(false, "生成文件失败！");
@@ -1289,11 +1290,11 @@ public class ProjectTaskController extends BaseController {
 		SreProjectSetup sreProjectSetup=EquipmentUtils.getSreProjectSetup(id, restTemplate, httpHeaders);
 		SreProject sreProject=EquipmentUtils.getSreProject(sreProjectSetup.getTopicId(), restTemplate, httpHeaders);
 		SreProjectTask sreProjectTask=EquipmentUtils.getSreProjectTask(sreProjectSetup.getTaskId(), restTemplate, httpHeaders);
-		String fileName=EquipmentUtils.createWord_setup(id, TEMP_FILE_PATH, sreProject, sreProjectTask, sreProjectSetup, response) ;
+		String fileName=EquipmentUtils.createWord_setup(request,id, TEMP_FILE_PATH, sreProject, sreProjectTask, sreProjectSetup, response) ;
 		if (!fileName.equals("")) 
 		{
 			resultsDate = new Result(true);
-			download(TEMP_FILE_PATH+fileName, response);
+			download_new(TEMP_FILE_PATH+fileName, response);
 			deleteFile(TEMP_FILE_PATH+fileName);
 		} else {
 			resultsDate = new Result(false, "生成文件失败！");
@@ -1599,7 +1600,9 @@ public class ProjectTaskController extends BaseController {
 	{
         try {
             // path是指欲下载的文件的路径。
-            File file = new File(path);
+             File file = new File(path);
+        	
+            
             // 取得文件名。
             String filename = file.getName();
             // 取得文件的后缀名。
@@ -1627,6 +1630,40 @@ public class ProjectTaskController extends BaseController {
         return response;
     }
 	
+	
+	public HttpServletResponse download_new(String fileName, HttpServletResponse response) 
+	{
+        try {
+            // path是指欲下载的文件的路径。
+        	String resourcePath=ClassUtils.getDefaultClassLoader().getResource("").getPath();
+            File file = new File(resourcePath,"tem/"+fileName);
+            
+            // 取得文件名。
+            String filename = file.getName();
+            // 取得文件的后缀名。
+            String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+
+            // 以流的形式下载文件。
+            InputStream fis = new BufferedInputStream(new FileInputStream(resourcePath+"tem/"+fileName));
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            fis.close();
+            // 清空response
+            response.reset();
+            // 设置response的Header
+            response.setCharacterEncoding("UTF-8");
+            response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
+            response.addHeader("Content-Length", "" + file.length());
+            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            response.setContentType("application/octet-stream");
+            toClient.write(buffer);
+            toClient.flush();
+            toClient.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return response;
+    }
 	
 	
 	
