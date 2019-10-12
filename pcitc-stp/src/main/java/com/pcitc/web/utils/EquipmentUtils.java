@@ -1183,6 +1183,39 @@ public class EquipmentUtils {
 	}
 	
 	
+	
+	
+	
+	public static String getJoinUnitCodesByUnitId(String joinUnitIds,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
+	{
+		StringBuffer unitCodes=new StringBuffer();
+		if(joinUnitIds!=null && !joinUnitIds.equals(""))
+		{
+			String arr[]=joinUnitIds.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				String unitId=arr[i];
+				if(unitId!=null)
+				{
+					   SysUnit sysUnit=getUnitByUnitId( unitId, restTemplate, httpHeaders);
+					   String unitCode=sysUnit.getUnitCode();
+						if(unitCode!=null)
+						{
+							if(i>0)
+							{
+								unitCodes.append(",");
+							}
+							unitCodes.append(unitCode);
+						}
+					}
+					
+			}
+		}
+		return unitCodes.toString();
+	}
+	
+	
+	
 
 	public static String  createWord_setup(String setupId,String filePath,SreProject sreProject ,SreProjectTask sreProjectTask ,SreProjectSetup sreProjectSetup,  HttpServletResponse response)
 	{
