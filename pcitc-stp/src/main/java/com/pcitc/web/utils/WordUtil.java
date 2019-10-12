@@ -84,11 +84,11 @@ public class WordUtil {
 		try {
 			
 			String realPath=request.getSession().getServletContext().getRealPath("/");
-			System.out.println("---------------文件生成的目标路径:"+filePath+"fileName="+fileName);
+			System.out.println("---------------目标文件生成的fileName="+fileName);
 			
 			//获取classes目录绝对路径
 			String path = ResourceUtils.getURL("classpath:").getPath();
-			System.out.println("--------------获取classes目录绝对路径:"+filePath+"  ==:"+ClassUtils.getDefaultClassLoader().getResource("").getPath());
+			System.out.println("--------------classes目录绝对路径:"+ClassUtils.getDefaultClassLoader().getResource("").getPath());
 			// 创建配置实例
 			Configuration configuration = new Configuration();
 			String resourcePath=ClassUtils.getDefaultClassLoader().getResource("").getPath();
@@ -110,7 +110,7 @@ public class WordUtil {
 			// 输出文件
 			//File outFile = new File(filePath+fileName);
 			File outFile = new File(resourcePath,"tem/"+fileName);
-			System.out.println("-------------输出文件路径:"+filePath+fileName+" outFile.getPath"+outFile.getPath());
+			System.out.println("-------------输出文件路径:"+outFile.getPath());
 			// 如果输出目标文件夹不存在，则创建
 			if (!outFile.getParentFile().exists()) {
 				outFile.getParentFile().mkdirs();

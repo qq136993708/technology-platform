@@ -1641,10 +1641,11 @@ public class ProjectTaskController extends BaseController {
             // 取得文件名。
             String filename = file.getName();
             // 取得文件的后缀名。
-            String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
-
+          
+            System.out.println("--------------以流的形式下载文件:"+filename);
+            System.out.println("--------------以流的形式下载文件222222:"+resourcePath+"tem/"+filename);
             // 以流的形式下载文件。
-            InputStream fis = new BufferedInputStream(new FileInputStream(resourcePath+"tem/"+fileName));
+            InputStream fis = new BufferedInputStream(new FileInputStream(resourcePath+"tem/"+filename));
             byte[] buffer = new byte[fis.available()];
             fis.read(buffer);
             fis.close();
@@ -1669,7 +1670,9 @@ public class ProjectTaskController extends BaseController {
 	
 	 public  boolean deleteFile(String fileName)
 	 {
-	        File file = new File(fileName);
+	        //File file = new File(fileName);
+		    String resourcePath=ClassUtils.getDefaultClassLoader().getResource("").getPath();
+	        File file = new File(resourcePath,"tem/"+fileName);
 	        // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
 	        if (file.exists() && file.isFile())
 	        {
