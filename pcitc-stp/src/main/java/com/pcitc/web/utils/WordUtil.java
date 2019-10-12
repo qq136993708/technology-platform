@@ -12,6 +12,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.util.ClassUtils;
+import org.springframework.util.ResourceUtils;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -81,9 +84,12 @@ public class WordUtil {
 		try {
 			
 			String realPath=request.getSession().getServletContext().getRealPath("/");
-			System.out.println("-------------- 获得项目工程的绝对路径:"+realPath);
+			System.out.println("-------------- 获得项目工程的绝对路径:"+realPath+" 获取当前项目路径的地址:"+System.getProperty("user.dir"));
 			System.out.println("---------------文件生成的目标路径:"+filePath);
 			
+			//获取classes目录绝对路径
+			String path = ResourceUtils.getURL("classpath:").getPath();
+			System.out.println("--------------获取classes目录绝对路径:"+filePath+"  ==:"+ClassUtils.getDefaultClassLoader().getResource("").getPath());
 			// 创建配置实例
 			Configuration configuration = new Configuration();
 
