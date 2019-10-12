@@ -1812,7 +1812,7 @@ public class EquipmentUtils {
 			}
 			str=prix+year+endStr;
 		}
-		if(name.contains("油气勘探"))//30130055,30130064
+		if(name.contains("勘探开发"))//30130055,30130064
 		{
 			str="P"+year+endStr;
 		}
