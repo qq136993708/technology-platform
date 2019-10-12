@@ -1,5 +1,7 @@
 package com.pcitc.web.controller.wholeProcess;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 
 /**
@@ -75,7 +78,7 @@ public class WholeReportController extends BaseController
 	//重大项目
 	@RequestMapping(value = "/whole-process/report/major_project")
 	public String toMajorProjectReportPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		request.setAttribute("ysnd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		return "/stp/wholeProcess/majorProjectReport";
 	}
 	

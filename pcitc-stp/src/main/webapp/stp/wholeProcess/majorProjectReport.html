@@ -62,7 +62,10 @@
 		layui.use([ 'jquery', 'table', 'laydate', 'form', 'laypage', 'laytpl' ], function() {
 			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, form = layui.form;
 
+			var ysnd = "${ysnd}"
 			laydate.render({elem: '#ysnd',value: new Date(),type: 'year'});
+			$("#ysnd").val(ysnd);
+			
 			function renderTable() {
 				var param = JSON.parse(window.localStorage.getItem("param"));
 				var lodingMsg = layer.msg('数据加载中....');
