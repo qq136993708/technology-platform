@@ -10,6 +10,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -28,6 +30,9 @@ public class WordUtil {
 	public static boolean createWord(Map dataMap, String templateName, String filePath, String fileName) {
 		boolean flag=true;
 		try {
+			
+			System.out.println("---------------文件生成的目标路径:"+filePath);
+			
 			// 创建配置实例
 			Configuration configuration = new Configuration();
 
@@ -37,6 +42,7 @@ public class WordUtil {
 
 			// ftl模板文件
 			File file = new File("src/main/resources/tem/ftl");
+			System.out.println("--------------ftl模板文件路径:"+file.getPath());
 			// configuration.setClassForTemplateLoading(WordUtil.class, "ftl");
 			configuration.setDirectoryForTemplateLoading(file);
 
@@ -66,6 +72,58 @@ public class WordUtil {
 		}
         return flag;
 	}
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	public static boolean createWord_new(HttpServletRequest request,Map dataMap, String templateName, String filePath, String fileName) {
+		boolean flag=true;
+		try {
+			
+			String realPath=request.getSession().getServletContext().getRealPath("/");
+			System.out.println("-------------- 获得项目工程的绝对路径:"+realPath);
+			System.out.println("---------------文件生成的目标路径:"+filePath);
+			
+			// 创建配置实例
+			Configuration configuration = new Configuration();
+
+			// 设置编码
+			configuration.setDefaultEncoding("UTF-8");
+			configuration.setClassicCompatible(true);
+
+			// ftl模板文件
+			File file = new File("src/main/resources/tem/ftl");
+			System.out.println("--------------ftl模板文件路径:"+file.getPath());
+			// configuration.setClassForTemplateLoading(WordUtil.class, "ftl");
+			configuration.setDirectoryForTemplateLoading(file);
+
+			// 获取模板
+			Template template = configuration.getTemplate(templateName);
+
+			// 输出文件
+			File outFile = new File(filePath+fileName);
+			System.out.println("-------------输出文件路径:"+filePath+fileName+" outFile.getPath"+outFile.getPath());
+			// 如果输出目标文件夹不存在，则创建
+			if (!outFile.getParentFile().exists()) {
+				outFile.getParentFile().mkdirs();
+			}
+
+			// 将模板和数据模型合并生成文件
+			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "UTF-8"));
+
+			// 生成文件
+			template.process(dataMap, out);
+
+			// 关闭流
+			out.flush();
+			out.close();
+		} catch (Exception e) {
+			flag=false;
+			e.printStackTrace();
+		}
+        return flag;
+	}
+
 
 	/**
 	 * 将图片转换为BASE64为字符串
