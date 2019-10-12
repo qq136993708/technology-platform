@@ -274,12 +274,19 @@
     							$.each(data, function(i, el)
     							{
     								var content='<option value="'+ el.code +'" ';
+    								var name=el.name;
     								if(professionalDepartCode==el.code)
     								{
     									content+=' selected="selected" ';
     								}
     								content+=' >' + el.name+ '</option>';
-    								$("#professionalDepartCode").append(content);
+    								var name=el.name;
+    								if(name!='综合计划处')
+    								{
+    									$("#professionalDepartCode").append(content);
+    								}
+    								
+    								
 
     							});
     							
@@ -301,7 +308,6 @@
 
 			function getProfessionalNameListByParentCode(parentCode)
 			{
-				
 				if(parentCode==null || parentCode=='')
 				{
 					parentCode='-1';
@@ -326,6 +332,7 @@
 								}
 								content+=' >' + el.name+ '</option>';
 								$("#professionalFieldCode").append(content);
+								
 							});
 						},
 						error : function() 
@@ -534,7 +541,7 @@
             var belongDepartmentCode = $("#belongDepartmentCode").val();
             var professionalDepartCode = $("#professionalDepartCode").val();
             var professionalFieldCode = $("#professionalFieldCode").val();
-            
+            console.log("专业处:"+professionalDepartCode);
             
             var equipmentIds = $("#equipmentIds").val();
             if (equipmentIds == null || equipmentIds == '')
@@ -664,9 +671,9 @@
 
     //参加单位--多个
     function choose_joinUnitName_callback(unitIds, unitNames,unitCode) {
-    	//alert("joinUnitCode="+unitIds+" joinUnitName="+unitNames);
+    	console.log("joinUnitCode="+unitIds+" joinUnitName="+unitNames+" unitCode="+unitCode);
         $("#joinUnitName").val(unitNames);
-        $("#joinUnitCode").val(unitCode);
+        $("#joinUnitCode").val("");
         $("#joinUnitIds").val(unitIds);
     }
 
