@@ -60,6 +60,10 @@ public class ZjkEvaluateController extends BaseController {
      * 根据ID获取对象信息
      */
     private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/zjkevaluate-provider/zjkevaluate/get-zjkevaluate/";
+    
+    private static final String GET_INFO_BYZJKID = "http://pcitc-zuul/stp-proxy/zjkevaluate-provider/zjkevaluate/get-zjkevaluate-byzjkid/";
+    
+   
     /**
      * 树形
      */
@@ -229,6 +233,24 @@ public class ZjkEvaluateController extends BaseController {
         String id = request.getParameter("id");
         ResponseEntity<ZjkEvaluate> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkEvaluate.class);
         ZjkEvaluate news = responseEntity.getBody();
+        System.out.println(JSON.toJSONString(news));
+        return news;
+    }
+    /**
+     * 根据ID查询对象信息
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/getZjkEvaluateInfoByZjkId")
+    @OperationFilter(modelName = "专家库-专家评价", actionName = "根据ID查询对象信息getzjkEvaluateInfo")
+    @ResponseBody
+    public Object getzjkEvaluateInfoByZjkId(HttpServletRequest request) {
+        String zjkId = request.getParameter("zjkId");
+        System.out.println("================="+zjkId);
+        ResponseEntity<ZjkEvaluate> responseEntity = this.restTemplate.exchange(GET_INFO_BYZJKID + zjkId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkEvaluate.class);
+        ZjkEvaluate news = responseEntity.getBody();
+        System.out.println(JSON.toJSONString(news));
         return news;
     }
 
