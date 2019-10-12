@@ -31,7 +31,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label">年度<span class="must-fill"></span></label>
           <div class="layui-input-block">
-	          <input class="layui-input readOnlyBox" id="nd"  lay-verify="text" name="nd" type="text" autocomplete="off" disabled>
+	          <input class="layui-input readOnlyBox" id="ysnd"  lay-verify="text" name="ysnd" type="text" autocomplete="off" disabled>
 	          <input id="dataId" name="dataId" type="hidden">
 	      </div>
         </div>
@@ -292,7 +292,7 @@
                 },
                 url : '/out/getOutProjectShow/' + dataId,
                 success : function(data) {
-                    $("input[name=nd]").val(data.nd);
+                    $("input[name=ysnd]").val(data.ysnd);
                     $("input[name=hth]").val(data.hth);
                     $("input[name=xmmc]").val(data.xmmc);
                     $("input[name=jf]").val(data.jf);
