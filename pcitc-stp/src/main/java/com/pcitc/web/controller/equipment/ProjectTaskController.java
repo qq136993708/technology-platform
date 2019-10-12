@@ -1261,7 +1261,7 @@ public class ProjectTaskController extends BaseController {
 	public String createWordTask(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		Result resultsDate = new Result();
-		String fileName=createWord_task(id,response);
+		String fileName=createWord_task(request,id,response);
 		if (!fileName.equals("")) 
 		{
 			resultsDate = new Result(true);
@@ -1307,7 +1307,7 @@ public class ProjectTaskController extends BaseController {
 	
 	
 	//生成word文档
-	private String  createWord_task(String id, HttpServletResponse response)
+	private String  createWord_task(HttpServletRequest request,String id, HttpServletResponse response)
 	{
 		
 		String  resutl="";
@@ -1577,7 +1577,7 @@ public class ProjectTaskController extends BaseController {
 			
 			fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
 			/** 生成word */
-			boolean flage=WordUtil.createWord(dataMap, "task.ftl", filePath, fileName);
+			boolean flage=WordUtil.createWord_new(request,dataMap, "task.ftl", filePath, fileName);
 			if(flage==true)
 			{
 				resutl=fileName;
