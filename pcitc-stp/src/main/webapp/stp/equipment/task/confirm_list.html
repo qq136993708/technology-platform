@@ -474,6 +474,7 @@ var name=$('#name').val();
 
     function dealFlow(id,joinUnitCodes) 
     {
+    	//alert(joinUnitCodes);
     	var nunits="";
     	var branchFlag="";
     	if(joinUnitCodes!=null && joinUnitCodes!='')
@@ -534,7 +535,7 @@ var name=$('#name').val();
     	          		{
     	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
     	          		}
-              		
+              		console.log("隐藏的查询条件\n"+data.data);
               		   var temUrl="/task/deal/user/unit/ini";
                        layer.open({
                           title:'选择审批人',

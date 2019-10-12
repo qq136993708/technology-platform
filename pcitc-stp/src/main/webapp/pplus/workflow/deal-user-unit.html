@@ -54,7 +54,9 @@
 		var temFunctionName;
 		var temUnitCodes = parent.unitCodes;
 		var temPostCodes = parent.postCodes;
-
+		
+		console.log("temUnitCodes=\n"+temUnitCodes);
+		console.log("temPostCodes=\n"+temPostCodes);
 		$(function() {
 			var temUrl = "/unit/units-posts/part-tree";
 			if (typeof (temUnitCodes) != "undefined" && temUnitCodes != '') {

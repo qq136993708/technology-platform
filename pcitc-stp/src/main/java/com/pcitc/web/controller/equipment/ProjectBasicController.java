@@ -369,7 +369,9 @@ public class ProjectBasicController extends BaseController {
 			Map map = EquipmentUtils.getJoinUnitParentNamesByUnitId(joinUnitIds, restTemplate, httpHeaders);
 			joinUnitParentCodes = (String) map.get("joinUnitParentCodes");
 			joinUnitParentNames = (String) map.get("joinUnitParentNames");
+			joinUnitCode=EquipmentUtils.getJoinUnitCodesByUnitId(joinUnitIds, restTemplate, httpHeaders);
 		}
+		
 
 		System.out.println("============joinUnitParentNames=" + joinUnitParentNames + "     joinUnitIds=" + joinUnitIds
 				+ " joinUnitCode=" + joinUnitCode + " joinUnitParentCodes=" + joinUnitParentCodes);
