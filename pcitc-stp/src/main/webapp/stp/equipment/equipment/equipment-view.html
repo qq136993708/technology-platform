@@ -238,7 +238,7 @@ layui.config({
        publicMethods = layui.publicMethods;
        //添加到form.render()之后
 	 	$("#file_div").load('/common/public/uploadlayuiload.html');
-       
+
 	   var type = "${sreEquipment.type?default('')}";
        var dicMap = ['ROOT_ZBGL_ZBFL'];
 		publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
