@@ -137,7 +137,7 @@ public class OSSUtil {
 
 			// 连接oss
 			OSSClient ossClient = new OSSClient(ENDPOINT, ACCESSKEYID, ACCESSKEYSECRET);
-			
+			System.out.println("》》》》》》》》文件类型==="+getContentType(uuidFileName));
 			metadata.setContentType(getContentType(uuidFileName));
 			metadata.setContentDisposition("filename/filesize="+uuidFileName+"/"+fileSize+"Byte.");
 			ossClient.putObject(BUCKET, directory+uuidFileName, inputStream, metadata);
@@ -193,6 +193,9 @@ public class OSSUtil {
 		if ("ppt".equalsIgnoreCase(fileExtension)||"pptx".equalsIgnoreCase(fileExtension)) return "application/vnd.ms-powerpoint";
 		if ("doc".equalsIgnoreCase(fileExtension)||"docx".equalsIgnoreCase(fileExtension)) return "application/msword";
 		if ("xml".equalsIgnoreCase(fileExtension)) return "text/xml";
+		if ("xls".equalsIgnoreCase(fileExtension)||"xlsx".equalsIgnoreCase(fileExtension)) return "application/vnd.ms-excel";
+		if ("pdf".equalsIgnoreCase(fileExtension)) return "application/pdf";
+		if ("zip".equalsIgnoreCase(fileExtension)) return "application/zip";
 		return "text/html";
 	}
 
