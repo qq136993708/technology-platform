@@ -46,6 +46,8 @@
         var table = layui.table, util = layui.laytpl, form = layui.form, laydate = layui.laydate, $ = layui.jquery,
             laytpl = layui.laytpl, publicMethods = layui.publicMethods;
         
+        var startDate = '${startDate}';
+        var endDate = '${endDate}';
         //开始日期
         var insStart = laydate.render({
             elem: '#startDate',
@@ -158,6 +160,8 @@
 			},
 			resetEvent:function(){
 				$('#xmmc').val("");
+				$('#startDate').val(startDate);
+				$('#endDate').val(endDate);
 				renderTable();
 			}
 		}
