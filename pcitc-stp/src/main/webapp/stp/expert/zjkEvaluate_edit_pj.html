@@ -109,9 +109,15 @@
         $("#xmSteps").val(parent.childData.xmSteps);
         $("#zjkId").val(parent.childData.zjkId);
     }
-    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
-        function () {
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods"],function () {
+    	
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+    		var publicMethods=layui.publicMethods;
+    		/* alert($("#zjkId").val());
+    		publicMethods.ajaxGet("/zjkEvaluate/getZjkEvaluateInfo?id="+$("#zjkId").val(),null, function (data) {
+    			console.log("//////");
+    	   	});
+    		 */
             laydate.render({
                 elem: '#createDate'
                 , value: new Date()//必须遵循format参数设定的格式
@@ -140,12 +146,13 @@
             form.render(null, 'zjkEvaluate-form');
             //初始赋值 component-form-group 当前form的lay-filter
             console.log("----------");
-            console.log(id);
+            console.log(parent.childData);
             if (id != "0") {
-                ajaxPost("/zjkEvaluate/getZjkEvaluateInfo", {"id": id}, function (data) {
+                ajaxPost("/zjkEvaluate/getZjkEvaluateInfoByZjkId", {"zjkId": $("#zjkId").val()}, function (data) {
+                	console.log("++++++++");
                     console.log(data);
                     form.val("zjkEvaluate-form", data);
-                    evalDesc.setData(data.evalDesc);
+                    //evalDesc.setData(data.evalDesc);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/

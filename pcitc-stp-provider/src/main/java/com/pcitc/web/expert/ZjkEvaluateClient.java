@@ -6,6 +6,7 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.expert.ZjkEvaluate;
 import com.pcitc.base.expert.ZjkEvaluateExample;
 import com.pcitc.service.expert.ZjkEvaluateService;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,13 +66,33 @@ public class ZjkEvaluateClient {
     @RequestMapping(value = "/zjkevaluate-provider/zjkevaluate/get-zjkevaluate/{id}", method = RequestMethod.POST)
     public ZjkEvaluate getZjkEvaluateInfo(@PathVariable(value = "id", required = true) String id) {
         try {
-            return zjkEvaluateService.getZjkEvaluateInfo(id);
+        	ZjkEvaluate zjk = zjkEvaluateService.getZjkEvaluateInfo(id);
+        	//System.out.println(JSON.toJSONString(zjk));
+        	return zjk;
         } catch (Exception e) {
             logger.error("[初始化信息失败：]", e);
         }
         return null;
     }
-
+    @ApiOperation(value = "查询专家库-专家评价树形详情信息", notes = "按ID查询专家库-专家评价详情信息(带父ID),操作成功返回SysFileKind对象")
+    @RequestMapping(value = "/zjkevaluate-provider/zjkevaluate/get-zjkevaluate-byzjkid/{zjkid}", method = RequestMethod.POST)
+    public ZjkEvaluate getZjkEvaluateInfoByZjkId(@PathVariable(value = "zjkid", required = true) String zjkid) {
+        try {
+        	ZjkEvaluateExample example = new ZjkEvaluateExample();
+        	ZjkEvaluateExample.Criteria c = example.createCriteria();
+        	c.andZjkIdEqualTo(zjkid);
+        	
+        	ZjkEvaluate zjk = null;
+        	List<ZjkEvaluate> zjkevaluatelist =  zjkEvaluateService.selectByExample(example);
+        	if(zjkevaluatelist != null && zjkevaluatelist.size() >0) {
+        		zjk = zjkevaluatelist.get(zjkevaluatelist.size()-1);
+        	}
+        	return zjk;
+        } catch (Exception e) {
+            logger.error("[初始化信息失败：]", e);
+        }
+        return null;
+    }
     /**
      * 树形展示
      *
