@@ -1217,7 +1217,7 @@ public class EquipmentUtils {
 	
 	
 
-	public static String  createWord_setup(String setupId,String filePath,SreProject sreProject ,SreProjectTask sreProjectTask ,SreProjectSetup sreProjectSetup,  HttpServletResponse response)
+	public static String  createWord_setup(HttpServletRequest request,String setupId,String filePath,SreProject sreProject ,SreProjectTask sreProjectTask ,SreProjectSetup sreProjectSetup,  HttpServletResponse response)
 	{
 		
 		String  resutl="";
@@ -1264,7 +1264,7 @@ public class EquipmentUtils {
 			
 			fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
 			/** 生成word */
-			boolean flage=WordUtil.createWord(dataMap, "setup.ftl", filePath, fileName);
+			boolean flage=WordUtil.createWord_new(request,dataMap, "setup.ftl", filePath, fileName);
 			if(flage==true)
 			{
 				resutl=fileName;
