@@ -235,9 +235,14 @@ public class OutRewardServiceImpl implements OutRewardService {
 
 	@Override
 	public Integer addReward(OutReward outReward) {
+		
 		OutReward newoOutReward = (OutReward) MyBeanUtils.createBean(OutReward.class);
 		MyBeanUtils.copyPropertiesIgnoreNull(outReward, newoOutReward);
-		return outRewardMapper.insert(newoOutReward);
+		newoOutReward.setSbzt("已上报");
+		Integer rs = outRewardMapper.insert(newoOutReward);
+		System.out.println("========rs======"+rs);
+		
+		return rs;
 	}
 
 	@Override
