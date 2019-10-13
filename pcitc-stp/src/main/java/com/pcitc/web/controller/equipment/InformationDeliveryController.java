@@ -146,8 +146,8 @@ public class InformationDeliveryController extends BaseController {
 		informationDelivery.setInformationPublisher(publisher);//发布人
 		informationDelivery.setInformationText(content);//发布内容
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		publicDate = publicDate +" 00:00:00";
-		informationDelivery.setInformationMonth(formatter.parse(publicDate));//发布时间
+		//publicDate = publicDate +" 00:00:00";
+		informationDelivery.setInformationMonth(publicDate);//发布时间
 		informationDelivery.setInformationState(publicationState);//发布状态
 		informationDelivery.setSonId(unitPathIds);//子ID
 		informationDelivery.setLevelId(parentUnitPathIds);//父ID
@@ -219,8 +219,8 @@ public class InformationDeliveryController extends BaseController {
 		logger.info("============远程返回  statusCode " + statusCode);
 		SreInformationDelivery informationDelivery = responseEntity.getBody();
 		request.setAttribute("srePlanImplement", informationDelivery);
-		String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(informationDelivery.getInformationMonth());
-		request.setAttribute("dateStr", dateStr);
+		//String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(informationDelivery.getInformationMonth());
+		request.setAttribute("dateStr", informationDelivery.getInformationMonth());
 		request.setAttribute("researchInstitute", informationDelivery.getResearchinstitute());
 		return "/stp/equipment/informationDelivery/informationDelivery-informationDeliveryView";
 	}
@@ -244,8 +244,8 @@ public class InformationDeliveryController extends BaseController {
 		logger.info("============远程返回  statusCode " + statusCode);
 		SreInformationDelivery informationDelivery =  responseEntity.getBody();
 		request.setAttribute("srePlanImplement", informationDelivery);
-		String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(informationDelivery.getInformationMonth());
-		request.setAttribute("dateStr", dateStr);
+		//String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(informationDelivery.getInformationMonth());
+		request.setAttribute("dateStr", informationDelivery.getInformationMonth());
 		request.setAttribute("researchInstitute", informationDelivery.getResearchinstitute());
 		if(informationDelivery.getInformationType().equals("1")){
 			strtype="科研装备能力";
@@ -289,8 +289,8 @@ public class InformationDeliveryController extends BaseController {
 		logger.info("============远程返回  statusCode " + statusCode);
 		SreInformationDelivery informationDelivery =  responseEntity.getBody();
 		request.setAttribute("srePlanImplement", informationDelivery);
-		String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(informationDelivery.getInformationMonth());
-		request.setAttribute("dateStr", dateStr);
+		//String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(informationDelivery.getInformationMonth());
+		request.setAttribute("dateStr", informationDelivery.getInformationMonth());
 		request.setAttribute("researchInstitute", informationDelivery.getResearchinstitute());
 		return "/stp/equipment/informationDelivery/informationDelivery-edit";
 	}
@@ -317,8 +317,8 @@ public class InformationDeliveryController extends BaseController {
 		informationDelivery.setInformationPublisher(publisher);//发布人
 		informationDelivery.setInformationText(content);//发布内容
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		publicDate = publicDate +" 00:00:00";
-		informationDelivery.setInformationMonth(formatter.parse(publicDate));//发布时间
+		//publicDate = publicDate +" 00:00:00";
+		informationDelivery.setInformationMonth(publicDate);//发布时间
 		informationDelivery.setInformationState(publicationState);//发布状态
 		informationDelivery.setSonId(unitPathIds);//子ID
 		informationDelivery.setLevelId(parentUnitPathIds);//父ID
