@@ -849,9 +849,11 @@ public class PurchaseController extends BaseController {
 		String fileName = createPurchaseWord(id, "purchase.ftl", response);
 		if (!fileName.equals("")) {
 			resultsDate = new Result(true);
-			download(TEMP_FILE_PATH + fileName, response);
-			deleteFile(TEMP_FILE_PATH + fileName);
-		} else {
+			//download(TEMP_FILE_PATH + fileName, response);
+			//deleteFile(TEMP_FILE_PATH + fileName);
+            WordUtil.download_new(fileName, response);
+            WordUtil.deleteFile_new( fileName);
+        } else {
 			resultsDate = new Result(false, "生成文件失败！");
 		}
 		return null;
@@ -911,7 +913,8 @@ public class PurchaseController extends BaseController {
 				dataMap.put("purchaseEquipmentList", purchaseEquipmentList);
 			}
 			/** 生成word */
-			boolean flage = WordUtil.createWord(dataMap, ftlName, filePath, fileName);
+			boolean flage = WordUtil.createWord_new( request,dataMap, ftlName, fileName);
+
 			if (flage == true) {
 				resutl = fileName;
 			}
@@ -929,8 +932,10 @@ public class PurchaseController extends BaseController {
 		String fileName = exportDataArriveGoods(id, "arriveGoods.ftl", response);
 		if (!fileName.equals("")) {
 			resultsDate = new Result(true);
-			download(TEMP_FILE_PATH + fileName, response);
-			deleteFile(TEMP_FILE_PATH + fileName);
+			//download(TEMP_FILE_PATH + fileName, response);
+			//deleteFile(TEMP_FILE_PATH + fileName);
+			WordUtil.download_new(  fileName, response);
+			WordUtil.deleteFile_new( fileName);
 		} else {
 			resultsDate = new Result(false, "生成文件失败！");
 		}
@@ -980,7 +985,8 @@ public class PurchaseController extends BaseController {
 
 			}
 			/** 生成word */
-			boolean flage = WordUtil.createWord(dataMap, ftlName, filePath, fileName);
+			//boolean flage = WordUtil.createWord(dataMap, ftlName, filePath, fileName);
+			boolean flage = WordUtil.createWord_new( request,dataMap, ftlName, fileName);
 			if (flage == true) {
 				resutl = fileName;
 			}
