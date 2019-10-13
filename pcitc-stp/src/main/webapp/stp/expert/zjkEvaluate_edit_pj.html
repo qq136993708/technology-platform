@@ -70,7 +70,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">评价内容<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <textarea name="evalDesc" id="evalDesc" class="layui-textarea"></textarea>
+                            <textarea name="evalDesc" id="evalDesc" class="ckeditor"></textarea>
                         </div>
                     </div>
                 </div>
@@ -88,43 +88,28 @@
 
 <script>
     var xmjd = "${xmjd}";
-    var id = "${id?default(0)}";
     ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
         $.each(data, function (i, dt) {
-        	if (id != "0") {
-        		xmjd = parent.childData.xmSteps;
-        	}
             if(xmjd==data[i].code){
                 $("#xmSteps").append("<option value='" + data[i].code + "' selected>" + data[i].name + "</option>");
             }else {
                 // $("#xmSteps").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
             }        });
     });
-   
+    var id = "${id?default(0)}";
     if (id != "0") {
         $("#id").val(id);
-        $("#xmName").val(parent.childData.parentName);
-        $("#xmId").val(parent.childData.xmId);
-        $("#zjkName").val(parent.childData.zjkName);
-        $("#xmSteps").val(parent.childData.xmSteps);
-        $("#zjkId").val(parent.childData.zjkId);
     }
-    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods"],function () {
-    	
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
+        function () {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
-    		var publicMethods=layui.publicMethods;
-    		/* alert($("#zjkId").val());
-    		publicMethods.ajaxGet("/zjkEvaluate/getZjkEvaluateInfo?id="+$("#zjkId").val(),null, function (data) {
-    			console.log("//////");
-    	   	});
-    		 */
             laydate.render({
                 elem: '#createDate'
                 , value: new Date()//必须遵循format参数设定的格式
                 , position: 'fixed'
             });
             var evalDesc = null;
-           /*  ClassicEditor
+            ClassicEditor
                 .create( document.querySelector( '#evalDesc' ), {
                     language:"zh-cn"
                     ,image: {
@@ -134,25 +119,26 @@
                     ckfinder: {
                         uploadUrl: '/sysfile/ckupload5?type=Image'
                     }
-                }).then(editor => {
+                })
+                .then( editor => {
                     evalDesc = editor;
-                }).catch(error => {
-                    console.error(error);
-                });  */
+                } )
+                .catch( error => {
+                    console.error( error );
+                } );
 
-           // ClassicEditor.create(document.querySelector('#evalDesc'),{}).then(editor => {
-           //     evalDesc = editor;
-           // });
+            // ClassicEditor.create(document.querySelector('#evalDesc'),{}).then(editor => {
+            //     evalDesc = editor;
+            // });
             form.render(null, 'zjkEvaluate-form');
             //初始赋值 component-form-group 当前form的lay-filter
             console.log("----------");
-            console.log(parent.childData);
+            console.log(id);
             if (id != "0") {
-                ajaxPost("/zjkEvaluate/getZjkEvaluateInfoByZjkId", {"zjkId": $("#zjkId").val()}, function (data) {
-                	console.log("++++++++");
+                ajaxPost("/zjkEvaluate/getZjkEvaluateInfo", {"id": id}, function (data) {
                     console.log(data);
                     form.val("zjkEvaluate-form", data);
-                    //evalDesc.setData(data.evalDesc);
+                    evalDesc.setData(data.evalDesc);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -186,7 +172,7 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                //data.field.evalDesc=evalDesc.getData();
+                data.field.evalDesc=evalDesc.getData();
                 ajaxPost("/zjkEvaluate/saveZjkEvaluate", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     setTimeout(function (){
