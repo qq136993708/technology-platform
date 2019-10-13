@@ -34,7 +34,7 @@ public class OutRewardClient {
 	@ApiOperation(value = "分页显示奖励数据", notes = "分页显示奖励数据")
 	@RequestMapping(value = "/out-provider/reward-list", method = RequestMethod.POST)
 	public LayuiTableData getOutRewardListPage(@RequestBody LayuiTableParam param) throws Exception {
-		logger.info("==================page getOutRewardListPage==================" + param);
+		logger.info("==================page getOutRewardListPage==================" + JSON.toJSONString(param));
 		return outRewardService.getOutRewardListPage(param);
 	}
 
@@ -85,7 +85,7 @@ public class OutRewardClient {
 	@ApiOperation(value = "添加奖励数据", notes = "添加奖励数据")
 	@RequestMapping(value = "/out-provider/outReward/add-reward", method = RequestMethod.POST)
 	public Integer addReward(@RequestBody OutReward outReward) throws Exception {
-		logger.info("==================page addReward==================" + outReward);
+		logger.info("==================page addReward==================" + JSON.toJSONString(outReward));
 		return outRewardService.addReward(outReward);
 	}
 	
