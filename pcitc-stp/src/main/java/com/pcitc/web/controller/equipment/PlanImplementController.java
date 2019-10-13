@@ -144,8 +144,8 @@ public class PlanImplementController extends BaseController {
 		mplement.setPublisher(publisher);//发布人
 		mplement.setPublicationText(content);//发布内容
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		publicDate = publicDate +" 00:00:00";
-		mplement.setPublicationMonth(formatter.parse(publicDate));//发布时间
+		//publicDate = publicDate +" 00:00:00";
+		mplement.setPublicationMonth(publicDate);//发布时间
 		mplement.setPublicationState(publicationState);//发布状态
 		mplement.setSonId(unitPathIds);//子ID
 		mplement.setLevelId(parentUnitPathIds);//父ID
@@ -187,8 +187,8 @@ public class PlanImplementController extends BaseController {
 		logger.info("============远程返回  statusCode " + statusCode);
 		SrePlanImplement srePlanImplement =  responseEntity.getBody();
 		request.setAttribute("srePlanImplement", srePlanImplement);
-		String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(srePlanImplement.getPublicationMonth());
-		request.setAttribute("dateStr", dateStr);
+		//String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(srePlanImplement.getPublicationMonth());
+		request.setAttribute("dateStr", srePlanImplement.getPublicationMonth());
 		request.setAttribute("researchInstitute", srePlanImplement.getResearchinstitute());
 		return "/stp/equipment/planImplement/planImplement-edit";
 	}
@@ -214,8 +214,8 @@ public class PlanImplementController extends BaseController {
 		mplement.setPublicationType(publicationType);//发布类型
 		mplement.setPublisher(publisher);//发布人
 		mplement.setPublicationText(content);//发布内容
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		mplement.setPublicationMonth(formatter.parse(publicDate));//发布时间
+		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		mplement.setPublicationMonth(publicDate);//发布时间
 		mplement.setPublicationState(publicationState);//发布状态
 		mplement.setSonId(unitPathIds);//子ID
 		mplement.setLevelId(parentUnitPathIds);//父ID
@@ -288,8 +288,8 @@ public class PlanImplementController extends BaseController {
 		logger.info("============远程返回  statusCode " + statusCode);
 		SrePlanImplement srePlanImplement =  responseEntity.getBody();
 		request.setAttribute("srePlanImplement", srePlanImplement);
-		String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(srePlanImplement.getPublicationMonth());
-		request.setAttribute("dateStr", dateStr);
+		//String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(srePlanImplement.getPublicationMonth());
+		request.setAttribute("dateStr", srePlanImplement.getPublicationMonth());
 		request.setAttribute("researchInstitute", srePlanImplement.getResearchinstitute());
 		if(srePlanImplement.getPublicationType().equals("1")){
 			strtype="研究院中长期规划";
@@ -332,8 +332,7 @@ public class PlanImplementController extends BaseController {
 		logger.info("============远程返回  statusCode " + statusCode);
 		SrePlanImplement srePlanImplement =  responseEntity.getBody();
 		request.setAttribute("srePlanImplement", srePlanImplement);
-		String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(srePlanImplement.getPublicationMonth());
-		request.setAttribute("dateStr", dateStr);
+		request.setAttribute("dateStr", srePlanImplement.getPublicationMonth());
 		request.setAttribute("researchInstitute", srePlanImplement.getResearchinstitute());
 		return "/stp/equipment/planImplement/planImplement-planImplementView";
 	}
