@@ -342,7 +342,9 @@ public class SreScrapApplyController extends BaseController {
 	            resultsDate = new Result(true);
 	            download(TEMP_FILE_PATH+fileName, response);
 	            deleteFile(TEMP_FILE_PATH+fileName);
-	        } else {
+				WordUtil.download_new(fileName, response);
+				WordUtil.deleteFile_new(fileName);
+			} else {
 	            resultsDate = new Result(false, "生成文件失败！");
 	        }
 	        return null;
@@ -396,7 +398,8 @@ public class SreScrapApplyController extends BaseController {
 	                dataMap.put("purchaseEquipmentList",purchaseEquipmentList);
 	            }
 	            /** 生成word */
-	            boolean flage= WordUtil.createWord(dataMap, ftlName, filePath, fileName);
+	            //boolean flage= WordUtil.createWord(dataMap, ftlName, filePath, fileName);
+				boolean flage = WordUtil.createWord_new( request,dataMap, ftlName, fileName);
 	            if(flage==true)
 	            {
 	                resutl=fileName;
