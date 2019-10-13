@@ -1205,8 +1205,8 @@ public class ProjectTaskController extends BaseController {
 		if (!fileName.equals("")) 
 		{
 			resultsDate = new Result(true);
-			download_new(TEMP_FILE_PATH+fileName, response);
-			deleteFile(TEMP_FILE_PATH+fileName);
+			WordUtil.download_new(fileName, response);
+			WordUtil.deleteFile_new(fileName);
 		} else {
 			resultsDate = new Result(false, "生成文件失败！");
 		}
@@ -1243,7 +1243,7 @@ public class ProjectTaskController extends BaseController {
 			dataMap.put("contractNum", contractNum);//合同号
 			dataMap.put("dateMonthDay", dateMonthDay);
 			/** 生成word */
-			boolean flage=WordUtil.createWord_new(request,dataMap, ftlName, filePath, fileName);
+			boolean flage=WordUtil.createWord_new(request,dataMap, ftlName,  fileName);
 			if(flage==true)
 			{
 				resutl=fileName;
@@ -1266,8 +1266,8 @@ public class ProjectTaskController extends BaseController {
 		if (!fileName.equals("")) 
 		{
 			resultsDate = new Result(true);
-			download_new(fileName, response);
-			deleteFile(TEMP_FILE_PATH+fileName);
+			WordUtil.download_new(fileName, response);
+			WordUtil.deleteFile_new(fileName);
 		} else {
 			resultsDate = new Result(false, "生成文件失败！");
 		}
@@ -1294,8 +1294,8 @@ public class ProjectTaskController extends BaseController {
 		if (!fileName.equals("")) 
 		{
 			resultsDate = new Result(true);
-			download_new(TEMP_FILE_PATH+fileName, response);
-			deleteFile(TEMP_FILE_PATH+fileName);
+			WordUtil.download_new(fileName, response);
+			WordUtil.deleteFile_new(fileName);
 		} else {
 			resultsDate = new Result(false, "生成文件失败！");
 		}
@@ -1578,7 +1578,7 @@ public class ProjectTaskController extends BaseController {
 			
 			fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
 			/** 生成word */
-			boolean flage=WordUtil.createWord_new(request,dataMap, "task.ftl", filePath, fileName);
+			boolean flage=WordUtil.createWord_new(request,dataMap, "task.ftl",  fileName);
 			if(flage==true)
 			{
 				resutl=fileName;
@@ -1631,65 +1631,10 @@ public class ProjectTaskController extends BaseController {
     }
 	
 	
-	public HttpServletResponse download_new(String fileName, HttpServletResponse response) 
-	{
-        try {
-            // path是指欲下载的文件的路径。
-        	String resourcePath=ClassUtils.getDefaultClassLoader().getResource("").getPath();
-            File file = new File(resourcePath,"tem/"+fileName);
-            
-            // 取得文件名。
-            String filename = file.getName();
-            // 取得文件的后缀名。
-          
-            System.out.println("--------------以流的形式下载文件:"+filename);
-            System.out.println("--------------以流的形式下载文件222222:"+resourcePath+"tem/"+filename);
-            // 以流的形式下载文件。
-            InputStream fis = new BufferedInputStream(new FileInputStream(resourcePath+"tem/"+filename));
-            byte[] buffer = new byte[fis.available()];
-            fis.read(buffer);
-            fis.close();
-            // 清空response
-            response.reset();
-            // 设置response的Header
-            response.setCharacterEncoding("UTF-8");
-            response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
-            response.addHeader("Content-Length", "" + file.length());
-            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType("application/octet-stream");
-            toClient.write(buffer);
-            toClient.flush();
-            toClient.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return response;
-    }
 	
 	
 	
-	 public  boolean deleteFile(String fileName)
-	 {
-	        //File file = new File(fileName);
-		    String resourcePath=ClassUtils.getDefaultClassLoader().getResource("").getPath();
-	        File file = new File(resourcePath,"tem/"+fileName);
-	        // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
-	        if (file.exists() && file.isFile())
-	        {
-	            if (file.delete())
-	            {
-	                System.out.println("删除单个文件" + fileName + "成功！");
-	                return true;
-	            } else 
-	            {
-	                System.out.println("删除单个文件" + fileName + "失败！");
-	                return false;
-	            }
-	        } else 
-	        {
-	            System.out.println("删除单个文件失败：" + fileName + "不存在！");
-	            return false;
-	        }
-	    }
+	
+	
 
 }

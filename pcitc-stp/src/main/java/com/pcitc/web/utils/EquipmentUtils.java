@@ -1272,7 +1272,7 @@ public class EquipmentUtils {
 			
 			fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
 			/** 生成word */
-			boolean flage=WordUtil.createWord_new(request,dataMap, "setup.ftl", filePath, fileName);
+			boolean flage=WordUtil.createWord_new(request,dataMap, "setup.ftl",  fileName);
 			if(flage==true)
 			{
 				resutl=fileName;
