@@ -152,6 +152,14 @@
             		layer.msg('请点击选择一行数据!');
             		return;
             	}
+            	if(selectRowData.flowStatus<2){
+            		layer.msg('审批未完成不能发送!');
+            		return;
+            	}
+            	if(selectRowData.noticeStatus==1){
+            		layer.msg('通知已发送，不可重复发送!');
+            		return;
+            	}
             	layer.confirm('确定要发送吗？',{title:"发送确认"},function(index){
 					layer.close(index);
 					layer.msg('处理中....',{time: 15*1000});
