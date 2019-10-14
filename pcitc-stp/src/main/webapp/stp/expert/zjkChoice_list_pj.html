@@ -326,13 +326,17 @@
                         selData = sel.children[i];
                     }
                 }
-                openBaseWin("评价", "/zjkEvaluate/editts?id=" + ids + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
+                childData = selData;
+                openBaseWin("评价", "/zjkEvaluate/editts?id="+ids);
+                //openBaseWin("评价", "/zjkEvaluate/editts?id=" + ids + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
             }
         });
         treeGridComCg.on('tool(zjkMsgTableIdCg)', function (obj) {
             if (obj.event === 'pj') {
                 var selData = obj.data;
-                openBaseWin("评价", "/zjkEvaluate/editts?id=" + selData.dataId + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
+                childData = selData;
+                openBaseWin("评价", "/zjkEvaluate/editts?id="+selData.dataId);
+                //openBaseWin("评价", "/zjkEvaluate/editts?id=" + selData.dataId + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
             }
             if (obj.event === 'plpj') {
                 var sel = obj.data;
@@ -344,13 +348,17 @@
                         selData = sel.children[i];
                     }
                 }
-                openBaseWin("评价", "/zjkEvaluate/editts?id=" + ids + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
+                childData = selData;
+                openBaseWin("评价", "/zjkEvaluate/editts?id="+ids);
+                //openBaseWin("评价", "/zjkEvaluate/editts?id=" + ids + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
             }
         });
         treeGridComJl.on('tool(zjkMsgTableIdJl)', function (obj) {
             if (obj.event === 'pj') {
                 var selData = obj.data;
-                openBaseWin("评价", "/zjkEvaluate/editts?id=" + selData.dataId + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
+                childData = selData;
+                openBaseWin("评价", "/zjkEvaluate/editts?id="+selData.dataId);
+                //openBaseWin("评价", "/zjkEvaluate/editts?id=" + selData.dataId + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
             }
             if (obj.event === 'plpj') {
                 var sel = obj.data;
@@ -362,7 +370,9 @@
                         selData = sel.children[i];
                     }
                 }
-                openBaseWin("评价", "/zjkEvaluate/editts?id=" + ids + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
+                childData = selData;
+                openBaseWin("评价", "/zjkEvaluate/editts?id="+ids);
+                //openBaseWin("评价", "/zjkEvaluate/editts?id=" + ids + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
             }
         });
 
@@ -712,7 +722,9 @@
                     layer.msg('请选择一条数据');
                     return;
                 } else {
-                    openBaseWin("评价", "/zjkEvaluate/editts?id=" + ids + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
+                	childData = selData;
+                    openBaseWin("评价", "/zjkEvaluate/editts?id="+ids);
+                    //openBaseWin("评价", "/zjkEvaluate/editts?id=" + ids + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
                 }
                 // } else {
                 //     layer.msg('请选择一条数据');
