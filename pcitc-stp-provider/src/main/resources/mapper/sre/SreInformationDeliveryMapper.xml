@@ -197,6 +197,30 @@
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
    
+   <select id="getCountset" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_information_delivery  <include refid="selectCountset" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  information_month desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   <sql id="selectCountset">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	   	 <if test="sonId != null and sonId !='' ">      AND son_id =  #{parentUnitPathIds}</if>
+	   	 <if test="researchInstitute != null and researchInstitute !='' ">      AND researchInstitute =  #{parentUnitPathNames}</if>
+	   	 <if test="informationType != null and informationType !='' ">      AND information_type =  #{informationType}</if>
+	   	 <if test="informationPublisher != null and informationPublisher  !='' ">     AND information_publisher like CONCAT('%',#{informationPublisher},'%')</if>
+	   	 <if test="informationTitle != null and informationTitle  !='' ">     AND information_title like CONCAT('%',#{informationTitle},'%')</if>
+	   	 <if test="informationMonth != null and informationMonth  !='' ">     AND information_month like CONCAT('%',#{informationMonth},'%')</if>
+	   	 <if test="levelId != null and levelId  !='' ">     AND level_id like CONCAT('%',#{levelId},'%')</if>
+	   	 <if test="informationState != null and informationState !='' ">      AND information_state =  #{informationState}</if>
+	 </trim>
+	</sql>
+   
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	   	 <if test="sonId != null and sonId !='' ">      AND son_id =  #{parentUnitPathIds}</if>

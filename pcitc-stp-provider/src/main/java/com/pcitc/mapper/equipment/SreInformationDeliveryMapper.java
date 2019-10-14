@@ -21,4 +21,6 @@ public interface SreInformationDeliveryMapper {
 
 	List<SreInformationDelivery> getList(Map map);
 
+	List<SreInformationDelivery> getCountset(Map map);
+
 }

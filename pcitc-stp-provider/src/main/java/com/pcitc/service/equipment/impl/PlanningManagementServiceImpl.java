@@ -133,20 +133,26 @@ public class PlanningManagementServiceImpl implements PlanImplementService {
 			String informationMonth=getTableParam(param,"publicationMonth","");//发布时间
 			String leadUnitCode=getTableParam(param,"leadUnitCode","");//研究院
 			String stateid=getTableParam(param,"stateid","");//研究院
-			
+			String countset =  getTableParam(param,"countset","");
+			List<SreInformationDelivery> sreInformationDelivery = new ArrayList<SreInformationDelivery>();
 			Map map=new HashMap();
 			if(leadUnitCode.equals("")) {
 				map.put("levelId", parentUnitPathIds);
 			}else {
 				map.put("levelId", leadUnitCode);
 			}
+			map.put("informationState", countset);
 			map.put("parentUnitPathNames", parentUnitPathNames);
 			map.put("informationType", informationType);
 			map.put("informationTitle", informationTitle);
 			map.put("informationPublisher", informationPublisher);
 			map.put("informationMonth", informationMonth);
 			List<SreInformationDelivery> srlivery = new ArrayList<SreInformationDelivery>();
-			List<SreInformationDelivery> sreInformationDelivery = sreInformationDeliveryMapper.getList(map);
+			if(countset.equals("1")) {
+				 sreInformationDelivery = sreInformationDeliveryMapper.getCountset(map);
+			}else {
+				sreInformationDelivery = sreInformationDeliveryMapper.getList(map);
+			}
 			if(stateid.equals("1")) {
 			for(SreInformationDelivery sid : sreInformationDelivery) {
 				if(sid.getInformationType().equals("1")){
@@ -164,8 +170,8 @@ public class PlanningManagementServiceImpl implements PlanImplementService {
 				}else if(sid.getInformationType().equals("7")) {
 					sid.setStrType("故障诊断及排除");
 				}
-				String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(sid.getInformationMonth());
-				sid.setStrDate(dateStr);
+				//String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(sid.getInformationMonth());
+				sid.setStrDate(sid.getInformationMonth());
 				srlivery.add(sid);
 			}
 			PageInfo<SreInformationDelivery> pageInfo = new PageInfo<SreInformationDelivery>(srlivery);

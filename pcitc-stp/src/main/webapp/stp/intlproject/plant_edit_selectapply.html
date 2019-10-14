@@ -88,6 +88,21 @@
                     	}
                     });
                 },
+                resetEvent:function(){
+                	$("#applyTitle").val("");
+                	$("#reportYear").val("");
+                	$("#ROOT_ZGSHJT_GFGS_ZSYJY").val("");
+                	table.reload("notjoin_apply_table",{
+                    	where:{
+                    		param:{
+                    			"plantId":$("#plantId").val(),
+                    			"reportYear":$("#reportYear").val(),
+                    			"applyTitle":$("#applyTitle").val(),
+                    			"unitId":$("#ROOT_ZGSHJT_GFGS_ZSYJY").val()
+                    		}
+                    	}
+                    });
+                },
                 addEvent:function(){
                 	var check = table.checkStatus('notjoin_apply_table');
                 	if(check.data.length == 0){

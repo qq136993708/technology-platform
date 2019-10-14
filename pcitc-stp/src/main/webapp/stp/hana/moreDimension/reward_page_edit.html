@@ -136,7 +136,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="layui-row">
+				<!-- <div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">上报状态<span class="must-fill">*</span></label>
@@ -145,22 +145,23 @@
 							</div>
 						</div>
 					</div>
-					<!-- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">用户签章</label>
 							<div class="layui-input-block">
 								<input type="text" class="layui-input" id="userSign" name="userSign">
 							</div>
 						</div>
-					</div> -->
-				</div>
+					</div> 
+				</div> -->
+				<input type="hidden" class="layui-input" lay-verify="required" value="已上报" id="sbzt" name="sbzt" placeholder="请输入上报状态">
 			</div>
 		</div>
 
 		<div class="layui-form-item">
 	      	 <label class="layui-form-label">备注</label>
 	         <div class="layui-input-block">
-	         	   <textarea class="layui-textarea" id="userComment" name="userComment" placeholder="备注"></textarea>
+	         	   <textarea class="layui-textarea" id="remarks" name="remarks" placeholder="备注"></textarea>
 	         </div>
        </div>
 	</div>
@@ -316,6 +317,7 @@
 					$("#kssj").attr("value",data.kssj);
 					$("#jssj").attr("value",data.jssj);
 					$("#dataId").attr("value",data.dataId);
+					$("#remarks").val(data.remarks);
 					
 					laydate.render({elem: '#nd',type: 'year',value: data.nd});
 			    	laydate.render({elem: '#sbrq',type: 'date',format:'yyyyMMdd',value: data.sbrq});

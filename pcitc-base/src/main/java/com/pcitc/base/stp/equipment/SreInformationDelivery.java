@@ -15,7 +15,7 @@ public class SreInformationDelivery {
 
     private String informationText;
 
-    private Date informationMonth;
+    private String informationMonth;
 
     private String informationState;
 
@@ -97,11 +97,11 @@ public class SreInformationDelivery {
         this.informationText = informationText;
     }
 
-    public Date getInformationMonth() {
+    public String getInformationMonth() {
         return informationMonth;
     }
 
-    public void setInformationMonth(Date informationMonth) {
+    public void setInformationMonth(String informationMonth) {
         this.informationMonth = informationMonth;
     }
 

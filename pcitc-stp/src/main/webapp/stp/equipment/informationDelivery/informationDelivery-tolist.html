@@ -45,6 +45,7 @@
 <input type="hidden" name="stateid" id="stateid" value="1">
 <input type="hidden" name="applicationState" id="applicationState" value="${applicationState}">
 <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
+<input type="hidden" name="countset" id="countset" value="1">
 <input  name="str"     id="str"      value="${str}"    type="hidden">
     <!--查询条件-->
     <label class="dateInput">
@@ -81,8 +82,8 @@
      </label>
      <label class="dateInput">
             <span>发布时间</span>
-            <input type="text" name="publicationMonth"  title="时间" placeholder="请输发布入时间"  id="publicationMonth">
-            <i class="layui-icon layui-icon-date" style="margin-left:-25px"></i>
+            <input type="text" name="publicationMonth"  title="时间" placeholder="请输发布入时间"  id="publicationMonth" class="form-control">
+            <i class="layui-icon layui-icon-date" style="margin-left:-29px"></i>
      </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -128,6 +129,7 @@ function myFunction(){
                 method: "POST",
                 where: {
                     param: {
+                    	"countset":$("#countset").val(),
                     	"leadUnitCode":$("#leadUnitCode").val(),
                     	"stateid":$("#stateid").val(),
                     	"unitPathIds":$("#unitPathIds").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"publicationTitle":$("#publicationTitle").val(),"publisher":$("#publisher").val(),"publicationType":$("#publicationType").val(),"publicationMonth":$("#publicationMonth").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()

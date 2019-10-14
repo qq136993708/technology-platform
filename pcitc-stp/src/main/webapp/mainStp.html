@@ -672,6 +672,20 @@
 					$("#equipment").on("click", function() {
 						parent.layui.index.openTabsPage("/home_device_02/zyc/equipment?userLevel=0", "新开装备课题");
 					});
+					
+					
+					
+					
+					
+					var $ = layui.$;
+					active = {
+						alertEvent : function() { //点击重置按钮
+							location.href=location.href;
+							layer.msg("操作成功！");
+						}
+					};
+					
+					
 
 					//新闻
 					publicMethods.ajaxAsyncPost('/out/news-workdynamics-list', null, function(data, status) {

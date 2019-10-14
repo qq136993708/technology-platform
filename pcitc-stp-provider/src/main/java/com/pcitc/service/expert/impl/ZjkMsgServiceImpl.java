@@ -1,5 +1,6 @@
 package com.pcitc.service.expert.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -318,6 +319,8 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
         data.setData(pageInfo.getList());
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
+        
+        System.out.println(JSON.toJSONString(data));
         return data;
     }
     @Autowired

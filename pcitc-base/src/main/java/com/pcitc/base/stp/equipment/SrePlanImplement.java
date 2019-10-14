@@ -15,7 +15,7 @@ public class SrePlanImplement {
 
     private String publicationText;
 
-    private Date publicationMonth;
+    private String publicationMonth;
 
     private String publicationState;
 
@@ -75,11 +75,11 @@ public class SrePlanImplement {
         this.publicationText = publicationText;
     }
 
-    public Date getPublicationMonth() {
+    public String getPublicationMonth() {
         return publicationMonth;
     }
 
-    public void setPublicationMonth(Date publicationMonth) {
+    public void setPublicationMonth(String publicationMonth) {
         this.publicationMonth = publicationMonth;
     }
 
