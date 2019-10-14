@@ -386,19 +386,19 @@
 					}
 					$(".layui-header .layui-layout-left li a").on("click", function() {
 						var id = $(this).attr("id")
-						if ($("#" + id).text() == "科研项目管理") {
+						if ($(this).text() == "科研项目系统") {
 							window.open("http://10.1.19.130:8008/index.aspx");
 							return false;
 						}
-						if ($("#" + id).text() == "知识产权管理") {
+						if ($(this).text() == "知识产权系统") {
 							window.open("http://10.1.19.130/zshzlgl/");
 							return false;
 						}
-						if ($("#" + id).text() == "成果鉴定管理") {
+						if ($(this).text() == "成果鉴定系统") {
 							window.open("http://10.1.19.130/zshjdgl/");
 							return false;
 						}
-						if ($("#" + id).text() == "科技奖励管理") {
+						if ($(this).text() == "科技奖励系统") {
 							window.open("http://10.1.19.130/zshkjjl/");
 							return false;
 						}
