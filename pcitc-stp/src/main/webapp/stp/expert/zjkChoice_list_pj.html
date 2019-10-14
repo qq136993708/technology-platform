@@ -163,6 +163,7 @@
     var treeGridCom;
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus;
+    var childData;
     layui.config({
         base: '/layuiadmin/lib/extend/'
     }).extend({
@@ -311,7 +312,9 @@
         treeGridCom.on('tool(zjkMsgTableId)', function (obj) {
             if (obj.event === 'pj') {
                 var selData = obj.data;
-                openBaseWin("评价", "/zjkEvaluate/editts?id=" + selData.dataId + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
+                childData = selData;
+                openBaseWin("评价", "/zjkEvaluate/editts?id="+selData.dataId);
+                //openBaseWin("评价", "/zjkEvaluate/editts?id=" + selData.dataId + "&xmmc=" + ((selData.parentName)) + "&xmid=" + selData.xmId + "&zjid=" + selData.zjkId + "&zjmc=" + (selData.zjkName) + "&xmjd=" + selData.xmSteps);
             }
             if (obj.event === 'plpj') {
                 var sel = obj.data;
