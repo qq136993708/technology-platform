@@ -193,6 +193,31 @@ public class ZjkEvaluateController extends BaseController {
         model.addAttribute("zjid", request.getParameter("zjid"));
         model.addAttribute("zjmc", request.getParameter("zjmc"));
         model.addAttribute("xmjd", request.getParameter("xmjd"));
+        
+        /*System.out.println("id------"+id);
+        System.out.println("opt------"+opt);
+        System.out.println("xmid------"+request.getParameter("xmid"));
+        System.out.println("xmmc------"+request.getParameter("xmmc"));
+        System.out.println("zjid------"+request.getParameter("zjid"));
+        System.out.println("zjmc------"+request.getParameter("zjmc")); 
+        System.out.println("xmjd------"+request.getParameter("xmjd"));
+        System.out.println(JSON.toJSONString(model));
+        id------16d4d29cc49_f26111e1
+        opt------null
+        xmid------119118
+        xmmc------聚丙烯催化剂研究开发及后处理工艺优化
+        zjid------00561cd21f90494f99a8420fcd57161a
+        zjmc------武恒志
+        xmjd------ROOT_XTGL_XMJD_XMLX*/
+        /*{
+            "id": "16d4d29cc49_f26111e1", 
+            "xmid": "119118", 
+            "xmmc": "聚丙烯催化剂研究开发及后处理工艺优化", 
+            "zjid": "00561cd21f90494f99a8420fcd57161a", 
+            "zjmc": "武恒志", 
+            "xmjd": "ROOT_XTGL_XMJD_XMLX"
+        }
+        */
         return "stp/expert/zjkEvaluate_edit_pj";
     }
 
