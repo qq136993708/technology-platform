@@ -74,7 +74,10 @@ public class SupplierAppraiseController extends BaseController {
                 SreProject sreProject = EquipmentUtils.getSreProject(specification, restTemplate, httpHeaders);
                 String supplierName ="";//供应商名称
                 if (StringUtils.isNotBlank(sreEquipment.getSupplierStr())){
-                    supplierName = sreEquipment.getSupplierStr().substring(0, sreEquipment.getSupplierStr().indexOf("#"));
+                    String[] arr = sreEquipment.getSupplierStr().split("#");
+                    for (int j = 0; j < arr.length; j++) {
+                        supplierName = arr[1];
+                    }
                 }
 
 

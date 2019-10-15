@@ -96,7 +96,13 @@ public class SupplierAppraiseServiceImpl implements SupplierAppraiseService {
                     //2.获取供应商名称,订单数放入创建的对象集合中
                     String supplierName ="";
                         if(StringUtils.isNotBlank(sreEquipment.getSupplierStr())){
-                            supplierName = sreEquipment.getSupplierStr().substring(0, sreEquipment.getSupplierStr().indexOf("#"));
+
+                            String[] arr = sreEquipment.getSupplierStr().split("#");
+                            for (int j = 0; j < arr.length; j++) {
+                                supplierName = arr[1];
+
+                            }
+                            //supplierName = sreEquipment.getSupplierStr().substring(0, sreEquipment.getSupplierStr().indexOf("#"));
                         }
 
 
