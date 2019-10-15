@@ -103,23 +103,23 @@ public class BaseController implements ErrorController
 //			}
 //        });
 //    }
-	public void addReqLog(Object obj,String reqStr) 
+	public void addReqLog(Object obj,String data,String desc) 
 	{
 		try 
 		{
 			String uri = request.getRequestURI();
 			String reqType = request.getMethod();
 			String host = request.getRemoteHost();
-			String className = obj.getClass().getName();
+			
 			String userId = sysUserInfo == null ? null : sysUserInfo.getUserId();
 			String ctime = DateUtil.format(new Date(), DateUtil.FMT_SSS);
 			
 			
 			
 			SysReqLogs bean = new SysReqLogs();
-			bean.setClassName(className);
+			bean.setClassName(data);
 			bean.setHost(host);
-			bean.setMethodName(reqStr);
+			bean.setMethodName(desc);
 			bean.setUri(uri);
 			bean.setUserId(userId);
 			bean.setLogTime(ctime);
