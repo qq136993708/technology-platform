@@ -125,6 +125,7 @@ public class AdminController extends BaseController {
 		System.out.println(JSON.toJSONString(ssoPrincipal));
 		String uAccount = "";
 
+		this.addReqLog(this, JSON.toJSONString(ssoPrincipal));
 		SysUser rsUser = new SysUser();
 		if (ssoPrincipal != null) {
 			// 没有此系统的权限
