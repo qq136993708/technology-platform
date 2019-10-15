@@ -167,7 +167,7 @@
                     </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">专业领域</label>
+                            <label for="" class="layui-form-label"><span class="must-fill">*</span>专业领域</label>
                             <div class="layui-input-block">
                               <select id="professionalFieldCode" name="professionalFieldCode"   style="width:200px"></select>
                             </div>
@@ -557,6 +557,8 @@
             }else if (professionalDepartCode == null || professionalDepartCode == '')
             {
                 layer.alert("请选择专业处");
+            }else if (professionalFieldCode == null || professionalFieldCode == ''){
+            	 layer.alert("请选择专业领域");
             }else if(equipmentT!=qcT)
            	{
            	   layer.alert("所选装备总金额("+equipmentT+"万元)与建设年限总金额("+qcT+"万元)不相等，请重新调整");
