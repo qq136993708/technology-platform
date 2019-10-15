@@ -125,12 +125,13 @@ public class AdminController extends BaseController {
 		System.out.println(JSON.toJSONString(ssoPrincipal));
 		String uAccount = "";
 
-		this.addReqLog(this, JSON.toJSONString(ssoPrincipal));
+		this.addReqLog(this, JSON.toJSONString(ssoPrincipal),"开始登录");
 		SysUser rsUser = new SysUser();
 		if (ssoPrincipal != null) {
 			// 没有此系统的权限
 			if (ssoPrincipal.getAppAccount() == null || "".equals(ssoPrincipal.getAppAccount())) {
 				System.out.println(ssoPrincipal.getUid() + "---------" + ssoPrincipal.getAppAccount());
+				this.addReqLog(this, ssoPrincipal.getUid(),"权限不足");
 				// 返回权限不足页面
 				return "no_access";
 			}
@@ -140,12 +141,14 @@ public class AdminController extends BaseController {
 			if (spRoleList == null || spRoleList.size() == 0) {
 				// 返回权限不足页面
 				System.out.println("spRoleList=null---------应用系统权限为空 ");
+				this.addReqLog(this, "spRoleList is null","应用系统权限不足");
 				return "no_access";
 			} else {
 				int tem = 0;
 				for (int i = 0; i < spRoleList.size(); i++) {
 					String spList = spRoleList.get(i);
 					System.out.println(">>>>>>>>>应用系统: "+spList);
+					this.addReqLog(this, spList,"进入应用系统");
 					boolean status = spList.contains(",");
 					if (status == false) {
 						// 只返回一个spRole
@@ -171,6 +174,7 @@ public class AdminController extends BaseController {
 				if (tem == 0) {
 					// 返回权限不足页面
 					System.out.println("tem = 0---------返回权限不足页面 ");
+					this.addReqLog(this, "tem =0 ","应用系统权限不足");
 					return "no_access";
 				} else {
 					uAccount = ssoPrincipal.getAppAccount()[0];
@@ -209,6 +213,7 @@ public class AdminController extends BaseController {
 							System.out.println("查询菜单权限----------" + funList.size());
 						} else {
 							System.out.println("无菜单权限----------");
+							this.addReqLog(this, "funList is null","无菜单权限");
 							return "no_access";
 						}
 
@@ -235,6 +240,7 @@ public class AdminController extends BaseController {
 					} else {
 						// 返回权限不足页面
 						System.out.println("LogonController----缺少权限");
+						this.addReqLog(this, "rsUser is null","缺少权限");
 						return "no_access";
 					}
 				}
@@ -243,6 +249,7 @@ public class AdminController extends BaseController {
 		} else {
 			// 登录异常
 			System.out.println("LogonController----登录异常");
+			this.addReqLog(this, "ssoPrincipal is null","登录异常");
 			return "no_access";
 		}
 
