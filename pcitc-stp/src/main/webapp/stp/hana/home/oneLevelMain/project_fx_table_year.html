@@ -209,7 +209,7 @@
 							<th lay-data="{field : 'realIndex',align : 'center',width : '45', fixed: 'left'}" rowspan="2">序号</th>
 							<th lay-data="{field : 'hth',align : 'center',width : '100',sort : true, fixed: 'left'}" rowspan="2">合同号</th>
 							<th lay-data="{field : 'xmmc',align : 'left',width : '250',sort : true, fixed: 'left'}" rowspan="2">项目名称</th>
-							<th lay-data="{field : 'ktmc',align : 'left',width : '200', fixed: 'left'}" rowspan="2">课题名称</th>
+							<th lay-data="{field : 'ktmc',align : 'left',width : '200', fixed: 'left',templet : '#view_detail'}" rowspan="2">课题名称</th>
 							<th lay-data="{field : 'nd',align : 'center',width : '80'}" rowspan="2">立项年度</th>
 							<th lay-data="{field : 'define10',align : 'left',width : '80'}" rowspan="2">专业处</th>
 							
@@ -231,7 +231,6 @@
 							<th lay-data="{field : 'jdjg',align : 'left',width : '130'}" rowspan="2">鉴定结果</th>
 							<th lay-data="{field : 'psdj',align : 'left',width : '130'}" rowspan="2">奖励等级</th>
 							<th lay-data="{field : 'xkfl',align : 'left',width : '130'}" rowspan="2">奖励学科分类</th>
-							
 						</tr>
 						<tr>
 							<th lay-data="{field:'ysfyxje',templet : '#ysfyxje', width : '100',align:'center'}">费用性</th>
@@ -269,7 +268,36 @@
 	<script id="ysfyxjeAfterNextYear" type="text/html"> {{purchase_money(d.realIndex, d.ysfyxjeAfterNextYear)}} </script>
 
 	<script id="showDefine8" type="text/html"> {{showName(d.define8)}} </script>
-
+    <script id="view_detail" type="text/html"> {{view_detail(d)}} </script>
+    <script type="text/javascript">
+    function view_detail(d) 
+    {
+    	    var ktmc=d.ktmc;
+    	    var xmid=d.xmid;
+    	    
+    	    if (typeof(ktmc) == "undefined")
+    	    {
+    	    	ktmc="";
+    	    }
+    		return '<span onclick="view(\''+d.xmid+'\')" title='+ktmc+' style="cursor:pointer;color:#1890ff">'+ktmc+'</span>';
+    }
+    
+    
+    function view(xmid) 
+    {
+	    var temUrl = "/whole-process/science/details?xmid=" + xmid;
+		layer.open({
+			title : '项目进展详情',
+			skin : 'layui-layer-lan',
+			shadeClose : true,
+			type : 2,
+			fixed : false,
+			maxmin : true,
+			area : [ '70%', '90%' ],
+			content : temUrl
+		});
+    }
+    </script>
 	<script>
 		var table, selectRowData, laydate;
 		var xmmc = $('#xmmc').val();
@@ -638,7 +666,7 @@
 			});
 			
 			//监听行双击事件
-			table.on('rowDouble(showTable)', function(obj) {
+			/* table.on('rowDouble(showTable)', function(obj) {
 				var temUrl = "/whole-process/science/details?xmid=" + obj.data.xmid;
 				layer.open({
 					title : '项目进展详情',
@@ -650,7 +678,7 @@
 					area : [ '70%', '90%' ],
 					content : temUrl
 				});
-			});
+			}); */
 
 		}
 

@@ -1,14 +1,31 @@
 package com.pcitc.service.expert.impl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.expert.*;
+import com.pcitc.base.expert.ZjkEvaluate;
+import com.pcitc.base.expert.ZjkEvaluateExample;
+import com.pcitc.base.expert.ZjkMsg;
 import com.pcitc.base.expert.ZjkMsgExample;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.StrUtil;
@@ -16,16 +33,6 @@ import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.expert.ZjkMsgMapper;
 import com.pcitc.service.expert.ZjkEvaluateService;
 import com.pcitc.service.expert.ZjkMsgService;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * <p>接口实现类</p>
@@ -240,7 +247,7 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
         if (!StrUtil.isObjectEmpty(xmName)) {
             map.put("xmName",xmName.toString());
         }
-        String type = param.getParam().get("type").toString();
+        //String type = param.getParam().get("type").toString();
 
         Object xmSteps = param.getParam().get("xmSteps");
         if (!StrUtil.isObjectEmpty(xmSteps)) {
@@ -309,8 +316,8 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
                 list_son.get(j).setId(UUID.randomUUID().toString());
                 list_son.get(j).setProjectName(zjk_son.getZjkName());
                 list_son.get(j).setParentName(zjkMsg.getProjectName());
+                
                 zjkMsg.setXmSteps(list_son.get(j).getXmSteps());
-
                 list_son.get(j).setXmSteps("");
             }
             list_return.add(zjkMsg);
@@ -322,7 +329,6 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
         
-        System.out.println(JSON.toJSONString(data));
         return data;
     }
     @Autowired
@@ -395,21 +401,18 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
                 list_son.get(j).setId(UUID.randomUUID().toString());
                 list_son.get(j).setProjectName(zjk_son.getZjkName());
                 list_son.get(j).setParentName(zjkMsg.getProjectName());
-                //list_son.get(j).setXmSteps("");
+                
                 zjkMsg.setXmSteps(list_son.get(j).getXmSteps());
-
                 list_son.get(j).setXmSteps("");
             }
             list_return.add(zjkMsg);
             list_return.addAll(list_son);
-            System.out.println(JSON.toJSONString(list_son));
         }
         pageInfo.setList(list_return);
         LayuiTableData data = new LayuiTableData();
         data.setData(pageInfo.getList());
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
-        System.out.println(JSON.toJSONString(data));
         return data;
     }
 
@@ -480,6 +483,9 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
                 list_son.get(j).setId(UUID.randomUUID().toString());
                 list_son.get(j).setProjectName(zjk_son.getZjkName());
                 list_son.get(j).setParentName(zjkMsg.getProjectName());
+                
+                zjkMsg.setXmSteps(list_son.get(j).getXmSteps());
+                list_son.get(j).setXmSteps("");
             }
             list_return.add(zjkMsg);
             list_return.addAll(list_son);
@@ -489,6 +495,7 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
         data.setData(pageInfo.getList());
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
+        System.out.println(JSON.toJSONString(data));
         return data;
     }
 }

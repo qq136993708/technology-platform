@@ -153,17 +153,20 @@
     <a class="layui-btn layui-btn-xs" lay-event="pj">评价</a>
 </script>
 <script>
+    
+    var treeGridCom;
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var table, selectRowData, workOrderStatus;
+    var childData;
+    var xmStepsMap={};
     ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
         $.each(data, function (i, dt) {
+        	xmStepsMap[data[i].code]=data[i].name;
             $("#xmSteps").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
             $("#xmStepsCg").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
             $("#xmStepsJl").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
         });
     });
-    var treeGridCom;
-    var param = JSON.parse(window.localStorage.getItem("param"));
-    var table, selectRowData, workOrderStatus;
-    var childData;
     layui.config({
         base: '/layuiadmin/lib/extend/'
     }).extend({
@@ -218,18 +221,12 @@
                 cols: [[{
                     type: 'checkbox',
                     event: 'changeEvents',
-                    width: '55',
-                }
-                    // , {
-                    //     field : 'realIndex',
-                    //     title : '序号',
-                    //     style : 'cursor: pointer;',
-                    //     align : 'center',
-                    //     width : '45'
-                    // }
-                    , {
+                    width: '5%',
+                } , {
                         field: 'projectName',
                         title: '项目名称',
+                        style: 'cursor: pointer;',
+                        align: 'left',
                         templet: function (d) {
                             if (d.dataIndex == "1") {
                                 return '<span   onclick="showDetail(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
@@ -240,39 +237,40 @@
                                     return '<span >' + d.projectName + '</span>'
                                 }
                             }
-                        },
-                        style: 'cursor: pointer;',
-                        align: 'left',
-                        width: '41%',
+                        }
                     }, {
                         field: 'updateUser',
                         title: '合同号',
                         style: 'cursor: pointer;',
                         align: 'center',
-                        width: '10%',
+                        width: '10%'
                     }, {
                         field: 'createUserDisp',
                         title: '立项年度',
                         style: 'cursor: pointer;',
                         align: 'center',
-                        width: '9%',
+                        width: '9%'
                     }, {
                         field: 'modifyUserDisp',
                         title: '预算年度',
                         style: 'cursor: pointer;',
                         align: 'center',
-                        width: '9%',
+                        width: '9%'
                     }, {
                         field: 'formCode',
                         title: '负责单位',
-                        width: '18%'
+                        width: '20%'
+                    }, {
+                        field: 'xmSteps',
+                        title: '项目阶段',
+                        width: '10%'
                     }
                     , {
-                        title: '评价', width: '9%',
+                        title: '评价', 
+                        width: '10%',
                         templet: function (d) {
                             if (d.dataIndex == "1") {
                                 return "";
-                                // return "<a class=\"layui-btn layui-btn-xs\" lay-event=\"plpj\">批量评价</a>";
                             } else {
                                 return "<a class=\"layui-btn layui-btn-xs\" lay-event=\"pj\">评价</a>";
                             }
@@ -291,6 +289,10 @@
                             $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                         }
                     });
+                  	//处理字典
+                    $.each(res.data,function(i,dt){
+		            	$(".zjkMsgTableIdDiv tr[data-index='"+i+"'] td[data-field='xmSteps'] div").html(xmStepsMap[res.data[i].xmSteps]);
+	                });
                     // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     //     var index = parseInt($(this).index() + 1);
                     //     $('tr').removeClass('layui-table-click');
@@ -414,7 +416,7 @@
                 cols: [[{
                     type: 'checkbox',
                     event: 'changeEvents',
-                    width: '55',
+                    width: '5%',
                 }
                     // , {
                     //     field : 'realIndex',
@@ -439,11 +441,14 @@
                         },
                         style: 'cursor: pointer;',
                         align: 'left',
-                        width: '50%',
                     }, {
                         field: "formCode",
                         title: "申请单位", event: 'setActive', style: 'cursor: pointer;',
                         width: '35%',
+                    }, {
+                        field: 'xmSteps',
+                        title: '项目阶段',
+                        width: '10%'
                     },
                     {
                         title: '评价', width: '9%',
@@ -476,6 +481,9 @@
                             $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                         }
                     });
+                    $.each(res.data,function(i,dt){
+		            	$(".zjkMsgTableIdCgDiv tr[data-index='"+i+"'] td[data-field='xmSteps'] div").html(xmStepsMap[res.data[i].xmSteps]);
+	                });
                 },
                 onClickRow: function (index, o) {
                     console.log(index, o, "单击！");
@@ -524,7 +532,7 @@
                 cols: [[{
                     type: 'checkbox',
                     event: 'changeEvents',
-                    width: '55',
+                    width: '5%',
                 }
                     // , {
                     //     field : 'realIndex',
@@ -549,7 +557,6 @@
                         },
                         style: 'cursor: pointer;',
                         align: 'left',
-                        width: '50%',
                     }, {
                         field: 'updateUser',
                         title: '评审等级',
@@ -562,6 +569,10 @@
                         style: 'cursor: pointer;',
                         align: 'center',
                         width: '15%',
+                    }, {
+                        field: 'xmSteps',
+                        title: '项目阶段',
+                        width: '10%'
                     },{
                         title: '评价', width: '9%',
                         templet: function (d) {
@@ -585,6 +596,9 @@
                             $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                         }
                     });
+                    $.each(res.data,function(i,dt){
+		            	$(".zjkMsgTableIdJlDiv tr[data-index='"+i+"'] td[data-field='xmSteps'] div").html(xmStepsMap[res.data[i].xmSteps]);
+	                }); 
                     // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     //     var index = parseInt($(this).index() + 1);
                     //     $('tr').removeClass('layui-table-click');
