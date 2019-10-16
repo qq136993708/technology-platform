@@ -149,6 +149,18 @@
             		layer.msg('请点击选择一行数据!');
             		return;
             	}
+            	if(selectRowData.flowCurrentStatus==1){
+            		layer.msg('审批中不可编辑!');
+            		return;
+            	}
+            	if(selectRowData.flowCurrentStatus==2){
+            		layer.msg('审批完成不可编辑!');
+            		return;
+            	}
+            	if(selectRowData.flowCurrentStatus==-1){
+            		layer.msg('驳回不可编辑!');
+            		return;
+            	}
             	var temUrl = '/intl_project/plant_edit?plantId='+selectRowData.plantId;
             	openFullWin("编辑",temUrl);
             },detailEvent:function(){
@@ -165,6 +177,22 @@
             	}
             	window.open("/intl_project/report_download/plant/"+selectRowData.plantId);
             },commitEvent:function(){
+            	if(!selectRowData){
+            		layer.msg('请点击选择一行数据!');
+            		return;
+            	}
+            	if(selectRowData.flowCurrentStatus==1){
+            		layer.msg('审批中不可再提交!');
+            		return;
+            	}
+            	if(selectRowData.flowCurrentStatus==2){
+            		layer.msg('审批完成不可再提交!');
+            		return;
+            	}
+            	if(selectRowData.flowCurrentStatus==-1){
+            		layer.msg('审批驳回不可再提交!');
+            		return;
+            	}
             	layer.confirm('提交后将不可再编辑，确定要提交吗？',{title:"提交确认"},function(index){
 					layer.close(index);
 					publicMethods.ajaxPost("/project/plant-start-workflow", {plantId:selectRowData.plantId,functionId:param.id}, function (data) {

@@ -7,12 +7,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
+import com.pcitc.base.common.Result;
+import com.pcitc.base.system.SysReqLogs;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.DateUtil;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -97,4 +103,39 @@ public class BaseController implements ErrorController
 //			}
 //        });
 //    }
+	public void addReqLog(Object obj,String data,String desc) 
+	{
+		try 
+		{
+			String uri = request.getRequestURI();
+			String reqType = request.getMethod();
+			String host = request.getRemoteHost();
+			
+			String userId = sysUserInfo == null ? null : sysUserInfo.getUserId();
+			String ctime = DateUtil.format(new Date(), DateUtil.FMT_SSS);
+			
+			
+			
+			SysReqLogs bean = new SysReqLogs();
+			bean.setClassName(data);
+			bean.setHost(host);
+			bean.setMethodName(desc);
+			bean.setUri(uri);
+			bean.setUserId(userId);
+			bean.setLogTime(ctime);
+			bean.setProcessTime(0);
+			bean.setStartTime("0");
+			bean.setEndTime("0");
+			bean.setReqType(reqType);
+			bean.setServerHost("");
+
+			HttpEntity<SysReqLogs> entity = new HttpEntity<SysReqLogs>(bean, httpHeaders);
+			String LOG_CLIENT = "http://pcitc-zuul/system-proxy/sys-provider/processlogs/process-logs-save";
+			restTemplate.exchange(LOG_CLIENT, HttpMethod.POST, entity, Result.class).getBody();
+		}catch(Exception e) 
+		{
+			
+		}
+		
+	}
 }
