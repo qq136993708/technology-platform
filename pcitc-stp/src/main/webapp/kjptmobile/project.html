@@ -434,13 +434,13 @@
     	}
     	 var url="/kjptmobile/common_table_data_mobile?functionId=984b64b13cf54222bf57bd840759fabe&key="+$("#key").val()+"&v_date="+v_date+"&nd="+nd+"&define2="+define2+"&gsbmbmFlag="+gsbmbmFlag+"&zycbmFlag="+zycbmFlag+"&fzdwflag="+fzdwflag+"&groupFlag="+groupFlag+"&functionId="+functionId;
     	
-    	 queryTabel(url+"&qdbz=已签订","qdbz_ed_id","POST");
+    	 //queryTabel(url+"&qdbz=已签订","qdbz_ed_id","POST");
     	 queryTabel(url+"&qdbz=未签订","qdbz_not_id","POST");
-    	 queryTabel(url+"&qdbz=",    "qdbz_all_id","POST");
+    	 //queryTabel(url+"&qdbz=",    "qdbz_all_id","POST");
     	 
-    	 page("qdbz_ed_id", url+"&qdbz=已签订","POST","queryTabel");
+    	 //page("qdbz_ed_id", url+"&qdbz=已签订","POST","queryTabel");
     	 page("qdbz_not_id",url+"&qdbz=未签订","POST","queryTabel");
-    	 page("qdbz_all_id",url+"&qdbz=","POST","queryTabel"); 
+    	// page("qdbz_all_id",url+"&qdbz=","POST","queryTabel"); 
     	 
     	 
     	 

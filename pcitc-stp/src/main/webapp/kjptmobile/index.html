@@ -13,7 +13,6 @@
 <input type="hidden" name="month"         id="month"           value="${month}" >
 <input type="hidden" name="isZHJHCPerson" id="isZHJHCPerson"   value="${isZHJHCPerson}" >
 <input type="hidden" name="companyCode" id="companyCode" value="${companyCode}">
-
 	<div class="main-card banner">
 	    <div class="layui-carousel" id="test1" lay-filter="test1">
 			<div carousel-item="">
@@ -399,6 +398,8 @@ var companyCode="${companyCode?default('')}";
     	var v_date = (new Date()).getTime();
     	var nd = $("#nd").val();
     	var month = $("#month").val();
+    	
+    	kjptmobile_log();
     	//待办
     	set_wait_notice_count(v_date);
     	
@@ -433,7 +434,33 @@ var companyCode="${companyCode?default('')}";
     setAllHtmlData();
     
     
+    //身份认证移动首页 log
+    function kjptmobile_log() 
+    {  
+    	
+    	var v_date = (new Date()).getTime();
+		    $.ajax({
+		        type: "POST",
+		    	url : "/kjptmobile/kjptmobile_log?v_date="+v_date,
+		        dataType: "json",
+		        timeout: 11000,
+		        async: false,
+		        cache: false,
+		        headers : {
+					'Content-Type' : 'application/json'
+				},
+		        success: function (data, status) {
+					
+		        },
+		        error: function () {
+					
+				},
+		        complete: function (XMLHttpRequest, status) {
+					
+		        }
+		    });
     
+    }
     
     
     

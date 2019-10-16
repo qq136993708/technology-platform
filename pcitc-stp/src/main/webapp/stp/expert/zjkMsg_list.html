@@ -167,16 +167,19 @@
 </div>
 
 <script>
+    
+    var treeGridCom;
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var table, selectRowData, workOrderStatus;
+    var xmStepsMap={};
     ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
         $.each(data, function (i, dt) {
+        	xmStepsMap[data[i].code]=data[i].name;
             $("#xmSteps").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
             $("#xmStepsCg").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
             $("#xmStepsJl").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
         });
     });
-    var treeGridCom;
-    var param = JSON.parse(window.localStorage.getItem("param"));
-    var table, selectRowData, workOrderStatus;
     layui.config({
         base: '/layuiadmin/lib/extend/'
     }).extend({
@@ -231,7 +234,7 @@
                 cols: [[{
                     type: 'checkbox',
                     event: 'changeEvents',
-                    width: '55',
+                    width: '5%',
                 }
                     // , {
                     //     field : 'realIndex',
@@ -259,7 +262,6 @@
                         },
                         style: 'cursor: pointer;',
                         align: 'left',
-                        width: '35.2%',
                     }, {
                         field: 'updateUser',
                         title: '合同号',
@@ -359,7 +361,7 @@
                 cols: [[{
                     type: 'checkbox',
                     event: 'changeEvents',
-                    width: '55',
+                    width: '5%',
                 }
                     // , {
                     //     field : 'realIndex',
@@ -386,17 +388,16 @@
                         },
                         style: 'cursor: pointer;',
                         align: 'left',
-                        width: '55%',
                     }, {
                         field: "formCode",
                         title: "申请单位", event: 'setActive', style: 'cursor: pointer;',
                         width: '39%',
-                    }/*,
-                    {
-                        field: "xmSteps",
-                        title: "阶段", event: 'setActive', style: 'cursor: pointer;',
-                        width: '29%',
-                    }*/]],
+                    }, {
+                        field: 'xmSteps',
+                        title: '项目阶段',
+                        width: '10%'
+                    }
+                    ]],
                 isPage: true,
                 parseData: function (res) {
                     return res;
@@ -409,7 +410,11 @@
                              $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                          }
                      });
-                    var param = {
+                 	//处理字典
+                     $.each(res.data,function(i,dt){
+ 		            	$(".zjkMsgTableIdCg tr[data-index='"+i+"'] td[data-field='xmSteps'] div").html(xmStepsMap[res.data[i].xmSteps]);
+ 	                });
+                   /*  var param = {
                         data: res.data,//数据
                         element: ".layui-table-body",// 当前的表格元素
                         column: 3,//列数 从0开始
@@ -417,7 +422,7 @@
                         url: "/pageCommon/dic/ROOT_XTGL_XMJD"//接口
                     };
                     console.info("=============")
-                    console.info(param);
+                    console.info(param); */
                     //console.info(res.data);//param.data[i][param.field];
                     //publicMethods.dataDictionary(param);
 
@@ -468,7 +473,7 @@
                 cols: [[{
                     type: 'checkbox',
                     event: 'changeEvents',
-                    width: '55',
+                    width: '5%',
                 }
                     // , {
                     //     field : 'realIndex',
@@ -479,7 +484,7 @@
                     // }
                     , {
                         field: 'projectName',
-                        title: '奖励名称',
+                        title: '项目名称',
                         templet: function (d) {
                             if (d.dataIndex == "1") {
                                 return '<span   onclick="showDetailJl(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
@@ -495,7 +500,6 @@
                         },
                         style: 'cursor: pointer;',
                         align: 'left',
-                        width: '50%',
                     }, {
                         field: 'updateUser',
                         title: '评审等级',
@@ -508,7 +512,12 @@
                         style: 'cursor: pointer;',
                         align: 'center',
                         width: '15%',
-                    }]],
+                    }, {
+                        field: 'xmSteps',
+                        title: '项目阶段',
+                        width: '10%'
+                    }
+                    ]],
                 isPage: true,
                 parseData: function (res) {
                     return res;
@@ -521,7 +530,10 @@
                              $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                          }
                     });
-
+                   //处理字典
+                     $.each(res.data,function(i,dt){
+ 		            	$(".zjkMsgTableIdJl tr[data-index='"+i+"'] td[data-field='xmSteps'] div").html(xmStepsMap[res.data[i].xmSteps]);
+ 	                });
                 },
                 onClickRow: function (index, o) {
                     console.log(index, o, "单击！");

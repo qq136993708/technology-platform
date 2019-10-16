@@ -68,7 +68,17 @@ public class MobileController extends BaseController {
     
     
     
+	@RequestMapping(value = "/kjptmobile/kjptmobile_log")
+	@OperationFilter(modelName = "移动端", actionName = "移动首页访问")
+	@ResponseBody
+	public String kjptmobile_log(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return null;
+	}
+    
+    
+    
 	@RequestMapping(value = "/kjptmobile/budget")
+	@OperationFilter(modelName = "移动端", actionName = "科研预算模块")
 	public String budget(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
@@ -78,6 +88,7 @@ public class MobileController extends BaseController {
 	
 	
 	@RequestMapping(value = "/kjptmobile/appraisal")
+	@OperationFilter(modelName = "移动端", actionName = "成果鉴定模块")
 	public String appraisal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
@@ -433,6 +444,7 @@ public class MobileController extends BaseController {
 	 */
 
 	@RequestMapping(value = "/kjptmobile/contract")
+	@OperationFilter(modelName = "移动端", actionName = "科研合同模块 ")
 	public String contract(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
@@ -445,6 +457,7 @@ public class MobileController extends BaseController {
 	 * =====================================
 	 */
 	@RequestMapping(value = "/kjptmobile/project")
+	@OperationFilter(modelName = "移动端", actionName = "科研项目模块")
 	public String project(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		
@@ -557,6 +570,7 @@ public class MobileController extends BaseController {
 	 * ================================================现金流
 	 */
 	@RequestMapping(value = "/kjptmobile/cash")
+	@OperationFilter(modelName = "移动端", actionName = "现金流模块")
 	public String cash(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String month = HanaUtil.getCurrentYear_Moth();
@@ -583,10 +597,10 @@ public class MobileController extends BaseController {
 	 */
 
 	/**
-	 * ================================================科研装备 begin
-	 * =====================================
+	 * 科研拨款
 	 */
 	@RequestMapping(value = "/kjptmobile/appropriation")
+	@OperationFilter(modelName = "移动端", actionName = "科研拨款模块")
 	public String kyzb(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
