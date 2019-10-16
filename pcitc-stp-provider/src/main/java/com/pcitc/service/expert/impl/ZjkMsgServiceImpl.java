@@ -238,98 +238,106 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
 
     @Override
     public LayuiTableData selectMsgTree(LayuiTableParam param) {
-        int pageSize = param.getLimit();
-        int pageStart = (param.getPage() - 1) * pageSize;
-        int pageNum = pageStart / pageSize + 1;
-        Map<String, String> map = new HashMap<>();
-        map.put("createUser",param.getParam().get("createUserId").toString());
-        Object xmName = param.getParam().get("xmName");
-        if (!StrUtil.isObjectEmpty(xmName)) {
-            map.put("xmName",xmName.toString());
-        }
-        //String type = param.getParam().get("type").toString();
-
-        Object xmSteps = param.getParam().get("xmSteps");
-        if (!StrUtil.isObjectEmpty(xmSteps)) {
-            map.put("xmSteps",xmSteps.toString());
-        }
-
-
-
-        PageHelper.startPage(pageNum, pageSize);
-        List<ZjkMsg> list = new ArrayList<>();
-//        if ("xm".equals(type)){
-            list = zjkMsgMapper.selectMsgTree(map);
-//        }else if ("cg".equals(type)){
-//            list = zjkMsgMapper.selectMsgTreeCg(map);
-//        }else if ("jl".equals(type)){
-//            list = zjkMsgMapper.selectMsgTreeJl(map);
-//        }
-        PageInfo<ZjkMsg> pageInfo = new PageInfo<ZjkMsg>(list);
-
-        //项目评价
-        if (!StrUtil.isNullEmpty(param.getParam().get("xmpj"))){
-            ZjkEvaluateExample e = new ZjkEvaluateExample();
-            List<String> xmidList = pageInfo.getList().stream().map(ZjkMsg::getXmId).collect(Collectors.toList());
-            List<String> zjidList = pageInfo.getList().stream().map(ZjkMsg::getZjkId).collect(Collectors.toList());
-            if (xmidList != null && xmidList.size() > 0) {
-                e.createCriteria().andXmIdIn(xmidList);
-            }
-            if (zjidList != null && zjidList.size() > 0) {
-                e.createCriteria().andZjkIdIn(zjidList);
-            }
-            List<ZjkEvaluate> zjkEvaluates = zjkEvaluateService.selectByExample(e);
-            for (int i = 0; i < pageInfo.getList().size(); i++) {
-                ZjkMsg msg = pageInfo.getList().get(i);
-                List<ZjkEvaluate> collect = zjkEvaluates.stream().filter(obj -> obj.getXmId().equals(msg.getXmId()) && obj.getXmSteps().equals(msg.getXmSteps()) && obj.getZjkId().equals(msg.getZjkId())).collect(Collectors.toList());
-                msg.setSysFlag((collect != null && collect.size() > 0) ? "1" : "");//判断
-                pageInfo.getList().set(i,msg);
-            }
-        }
-
-
-        List<ZjkMsg> list_return = new ArrayList<>();
-        //分组
-        Map<String, List<ZjkMsg>> collect = list.stream().collect(Collectors.groupingBy(ZjkMsg::getXmId));
-        //设置父子关系
-        for(Map.Entry<String,List<ZjkMsg>> m:collect.entrySet()){
-            ZjkMsg zjkMsg = new ZjkMsg();
-            String pid = UUID.randomUUID().toString();
-            zjkMsg.setId(pid);
-            List<ZjkMsg> list_son = m.getValue().stream().sorted(Comparator.comparing(ZjkMsg::getSysFlag).reversed()).collect(Collectors.toList());
-            for (int j = 0; j < list_son.size(); j++) {
-                //设置父节点值
-                ZjkMsg zjk_son = list_son.get(j);
-                if (j==0){
-                    zjkMsg.setXmId(zjk_son.getXmId());
-                    zjkMsg.setProjectName(zjk_son.getProjectName());
-                    zjkMsg.setFormCode(zjk_son.getFormCode());
-                    zjkMsg.setCreateUserDisp(zjk_son.getCreateUserDisp());
-                    zjkMsg.setModifyUserDisp(zjk_son.getModifyUserDisp());
-                    zjkMsg.setUpdateUser(zjk_son.getUpdateUser());
-                    zjkMsg.setDataIndex("1");
-                    zjkMsg.setModifyUser(zjk_son.getModifyUser());
-                    zjkMsg.setIsComplete("");
-                }
-                //清空子节点值
-                list_son.get(j).setParentId(pid);
-                list_son.get(j).setId(UUID.randomUUID().toString());
-                list_son.get(j).setProjectName(zjk_son.getZjkName());
-                list_son.get(j).setParentName(zjkMsg.getProjectName());
-                
-                zjkMsg.setXmSteps(list_son.get(j).getXmSteps());
-                list_son.get(j).setXmSteps("");
-            }
-            list_return.add(zjkMsg);
-            list_return.addAll(list_son);
-        }
-        pageInfo.setList(list_return);
-        LayuiTableData data = new LayuiTableData();
-        data.setData(pageInfo.getList());
-        Long total = pageInfo.getTotal();
-        data.setCount(total.intValue());
-        
-        return data;
+    	try 
+    	{
+    		
+    	
+	        int pageSize = param.getLimit();
+	        int pageStart = (param.getPage() - 1) * pageSize;
+	        int pageNum = pageStart / pageSize + 1;
+	        Map<String, String> map = new HashMap<>();
+	        map.put("createUser",param.getParam().get("createUserId").toString());
+	        Object xmName = param.getParam().get("xmName");
+	        if (!StrUtil.isObjectEmpty(xmName)) {
+	            map.put("xmName",xmName.toString());
+	        }
+	        //String type = param.getParam().get("type").toString();
+	
+	        Object xmSteps = param.getParam().get("xmSteps");
+	        if (!StrUtil.isObjectEmpty(xmSteps)) {
+	            map.put("xmSteps",xmSteps.toString());
+	        }
+	
+	
+	
+	        PageHelper.startPage(pageNum, pageSize);
+	        List<ZjkMsg> list = new ArrayList<>();
+	//        if ("xm".equals(type)){
+	            list = zjkMsgMapper.selectMsgTree(map);
+	//        }else if ("cg".equals(type)){
+	//            list = zjkMsgMapper.selectMsgTreeCg(map);
+	//        }else if ("jl".equals(type)){
+	//            list = zjkMsgMapper.selectMsgTreeJl(map);
+	//        }
+	        PageInfo<ZjkMsg> pageInfo = new PageInfo<ZjkMsg>(list);
+	
+	        //项目评价
+	        if (!StrUtil.isNullEmpty(param.getParam().get("xmpj"))){
+	            ZjkEvaluateExample e = new ZjkEvaluateExample();
+	            List<String> xmidList = pageInfo.getList().stream().map(ZjkMsg::getXmId).collect(Collectors.toList());
+	            List<String> zjidList = pageInfo.getList().stream().map(ZjkMsg::getZjkId).collect(Collectors.toList());
+	            if (xmidList != null && xmidList.size() > 0) {
+	                e.createCriteria().andXmIdIn(xmidList);
+	            }
+	            if (zjidList != null && zjidList.size() > 0) {
+	                e.createCriteria().andZjkIdIn(zjidList);
+	            }
+	            List<ZjkEvaluate> zjkEvaluates = zjkEvaluateService.selectByExample(e);
+	            for (int i = 0; i < pageInfo.getList().size(); i++) {
+	                ZjkMsg msg = pageInfo.getList().get(i);
+	                List<ZjkEvaluate> collect = zjkEvaluates.stream().filter(obj -> obj.getXmId().equals(msg.getXmId()) && obj.getXmSteps().equals(msg.getXmSteps()) && obj.getZjkId().equals(msg.getZjkId())).collect(Collectors.toList());
+	                msg.setSysFlag((collect != null && collect.size() > 0) ? "1" : "");//判断
+	                pageInfo.getList().set(i,msg);
+	            }
+	        }
+	
+	
+	        List<ZjkMsg> list_return = new ArrayList<>();
+	        //分组
+	        Map<String, List<ZjkMsg>> collect = list.stream().collect(Collectors.groupingBy(ZjkMsg::getXmId));
+	        //设置父子关系
+	        for(Map.Entry<String,List<ZjkMsg>> m:collect.entrySet()){
+	            ZjkMsg zjkMsg = new ZjkMsg();
+	            String pid = UUID.randomUUID().toString();
+	            zjkMsg.setId(pid);
+	            List<ZjkMsg> list_son = m.getValue().stream().sorted(Comparator.comparing(ZjkMsg::getSysFlag).reversed()).collect(Collectors.toList());
+	            for (int j = 0; j < list_son.size(); j++) {
+	                //设置父节点值
+	                ZjkMsg zjk_son = list_son.get(j);
+	                if (j==0){
+	                    zjkMsg.setXmId(zjk_son.getXmId());
+	                    zjkMsg.setProjectName(zjk_son.getProjectName());
+	                    zjkMsg.setFormCode(zjk_son.getFormCode());
+	                    zjkMsg.setCreateUserDisp(zjk_son.getCreateUserDisp());
+	                    zjkMsg.setModifyUserDisp(zjk_son.getModifyUserDisp());
+	                    zjkMsg.setUpdateUser(zjk_son.getUpdateUser());
+	                    zjkMsg.setDataIndex("1");
+	                    zjkMsg.setModifyUser(zjk_son.getModifyUser());
+	                    zjkMsg.setIsComplete("");
+	                }
+	                //清空子节点值
+	                list_son.get(j).setParentId(pid);
+	                list_son.get(j).setId(UUID.randomUUID().toString());
+	                list_son.get(j).setProjectName(zjk_son.getZjkName());
+	                list_son.get(j).setParentName(zjkMsg.getProjectName());
+	                
+	                zjkMsg.setXmSteps(list_son.get(j).getXmSteps());
+	                //list_son.get(j).setXmSteps("");
+	            }
+	            list_return.add(zjkMsg);
+	            list_return.addAll(list_son);
+	        }
+	        pageInfo.setList(list_return);
+	        LayuiTableData data = new LayuiTableData();
+	        data.setData(pageInfo.getList());
+	        Long total = pageInfo.getTotal();
+	        data.setCount(total.intValue());
+	        
+	        return data;
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    		return null;
+    	}
     }
     @Autowired
     private ZjkEvaluateService zjkEvaluateService;
@@ -403,7 +411,7 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
                 list_son.get(j).setParentName(zjkMsg.getProjectName());
                 
                 zjkMsg.setXmSteps(list_son.get(j).getXmSteps());
-                list_son.get(j).setXmSteps("");
+                //list_son.get(j).setXmSteps("");
             }
             list_return.add(zjkMsg);
             list_return.addAll(list_son);
@@ -485,7 +493,7 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
                 list_son.get(j).setParentName(zjkMsg.getProjectName());
                 
                 zjkMsg.setXmSteps(list_son.get(j).getXmSteps());
-                list_son.get(j).setXmSteps("");
+                //list_son.get(j).setXmSteps("");
             }
             list_return.add(zjkMsg);
             list_return.addAll(list_son);
