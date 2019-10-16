@@ -78,6 +78,7 @@ public class MobileController extends BaseController {
     
     
 	@RequestMapping(value = "/kjptmobile/budget")
+	@OperationFilter(modelName = "移动端", actionName = "科研预算模块")
 	public String budget(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
@@ -87,6 +88,7 @@ public class MobileController extends BaseController {
 	
 	
 	@RequestMapping(value = "/kjptmobile/appraisal")
+	@OperationFilter(modelName = "移动端", actionName = "成果鉴定模块")
 	public String appraisal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
@@ -774,7 +776,6 @@ public class MobileController extends BaseController {
 	
 	
 	@RequestMapping(value = "/kjptmobile/appraisal_detail", method = RequestMethod.GET)
-	@OperationFilter(modelName = "移动端", actionName = "成果鉴定模块")
 	public String get(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String jdh = CommonUtil.getParameter(request, "jdh", "");
 		
