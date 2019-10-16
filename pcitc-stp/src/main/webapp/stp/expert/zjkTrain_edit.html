@@ -79,7 +79,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">培训内容<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <textarea name="trainDesc" id="trainDesc" class="ckeditor"></textarea>
+                            <textarea name="trainDesc"  lay-verify="required" id="trainDesc" class="ckeditor"></textarea>
                         </div>
                     </div>
                 </div>
@@ -180,6 +180,10 @@
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
                 data.field.trainDesc = myEditor.getData();
+                if(data.field.trainDesc == null || data.field.trainDesc==''){
+                	 layer.msg("培训内容不能为空!");
+                	 return false;
+                }
                 ajaxPost("/zjkTrain/saveZjkTrain", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     parent.selectRowData="";
