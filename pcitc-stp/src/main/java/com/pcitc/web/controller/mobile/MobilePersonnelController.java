@@ -71,6 +71,7 @@ public class MobilePersonnelController extends BaseController{
 	 * ================================================科研人才
 	 */
 	@RequestMapping(value = "/kjptmobile/personnel")
+	@OperationFilter(modelName = "移动端", actionName = "科研人才模块")
 	public String kytr(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String nd = HanaUtil.getCurrentYear();
