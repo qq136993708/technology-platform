@@ -1,8 +1,5 @@
 package com.pcitc.web.workflow;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -26,6 +23,7 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.history.HistoricIdentityLink;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.history.HistoricTaskInstance;
@@ -94,6 +92,9 @@ import com.pcitc.mapper.system.SysUserMapper;
 import com.pcitc.service.system.UserService;
 import com.pcitc.service.workflow.TaskInstanceService;
 import com.pcitc.service.workflow.WorkflowInstanceService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(value = "Task-API", description = "任务相关的接口")
 @RestController
@@ -476,7 +477,12 @@ public class TaskProviderClient {
 		long count = query.count();
 		List<TaskDoneVo> voList = new ArrayList<TaskDoneVo>();
 		for (HistoricTaskInstance taskInstance : taskInstances) {
+			
 			TaskDoneVo vo = new TaskDoneVo();
+			//3.使用流程实例，查询
+			ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(taskInstance.getProcessInstanceId()).singleResult();
+			
+			
 			BeanUtils.copyProperties(taskInstance, vo);
 			// String str = JSONObject.toJSONString(taskInstance);
 			String pdi = taskInstance.getProcessDefinitionId();
@@ -494,6 +500,15 @@ public class TaskProviderClient {
 				}
 			}
 			vo.setEndTimeStr(DateUtil.dateToStr(vo.getEndTime(), DateUtil.FMT_SS));
+			
+			//4.使用流程实例对象获取BusinessKey
+			if(pi!=null)
+			{
+				String taskName = pi.getName();
+				System.out.println("------  taskName:"+taskName);
+				vo.setTaskName(taskName);
+			}
+			
 			voList.add(vo);
 		}
 
