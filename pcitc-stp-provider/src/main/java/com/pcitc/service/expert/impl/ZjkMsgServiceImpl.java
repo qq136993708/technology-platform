@@ -309,7 +309,9 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
                 list_son.get(j).setId(UUID.randomUUID().toString());
                 list_son.get(j).setProjectName(zjk_son.getZjkName());
                 list_son.get(j).setParentName(zjkMsg.getProjectName());
+                zjkMsg.setXmSteps(list_son.get(j).getXmSteps());
 
+                list_son.get(j).setXmSteps("");
             }
             list_return.add(zjkMsg);
             list_return.addAll(list_son);
@@ -372,6 +374,7 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
             ZjkMsg zjkMsg = new ZjkMsg();
             String pid = UUID.randomUUID().toString();
             zjkMsg.setId(pid);
+
             List<ZjkMsg> list_son = m.getValue().stream().sorted(Comparator.comparing(ZjkMsg::getSysFlag).reversed()).collect(Collectors.toList());
             for (int j = 0; j < list_son.size(); j++) {
                 //设置父节点值
@@ -392,15 +395,21 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
                 list_son.get(j).setId(UUID.randomUUID().toString());
                 list_son.get(j).setProjectName(zjk_son.getZjkName());
                 list_son.get(j).setParentName(zjkMsg.getProjectName());
+                //list_son.get(j).setXmSteps("");
+                zjkMsg.setXmSteps(list_son.get(j).getXmSteps());
+
+                list_son.get(j).setXmSteps("");
             }
             list_return.add(zjkMsg);
             list_return.addAll(list_son);
+            System.out.println(JSON.toJSONString(list_son));
         }
         pageInfo.setList(list_return);
         LayuiTableData data = new LayuiTableData();
         data.setData(pageInfo.getList());
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
+        System.out.println(JSON.toJSONString(data));
         return data;
     }
 

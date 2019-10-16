@@ -181,7 +181,7 @@
         base: '/layuiadmin/lib/extend/'
     }).extend({
         treeGridCom: 'treeGridCom'
-    }).use(['jquery', 'form', 'laydate', 'table', 'element', 'laypage', 'treeGridCom'], function () {
+    }).use(['jquery', 'form', 'laydate', 'table', 'element', 'publicMethods', 'laypage', 'treeGridCom'], function () {
         table = layui.table,
             tableCg = layui.table,
             tableJl = layui.table,
@@ -192,6 +192,7 @@
             treeGridCom = layui.treeGridCom;
         treeGridComCg = layui.treeGridCom;
         treeGridComJl = layui.treeGridCom;
+
 
         function renderTable() {
             table = treeGridCom.render({
@@ -258,7 +259,7 @@
                         },
                         style: 'cursor: pointer;',
                         align: 'left',
-                        width: '51%',
+                        width: '35.2%',
                     }, {
                         field: 'updateUser',
                         title: '合同号',
@@ -281,6 +282,12 @@
                         field: 'formCode',
                         title: '负责单位',
                         width: '18%'
+                    }, {
+                        field: 'xmSteps',
+                        title: '项目阶段',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '15%',
                     }]],
                 isPage: true,
                 parseData: function (res) {
@@ -294,8 +301,17 @@
                         }else {
                             $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                         }
-                        // selectRowData = res.data[index - 1];
+                        //selectRowData = res.data[index - 1];
                     });
+                    var param = {
+                        data: res.data,//数据
+                        element: ".layui-table-body",// 当前的表格元素
+                        column: 6,//列数 从0开始
+                        field: "xmSteps",//当前数据的字段
+                        url: "/pageCommon/dic/ROOT_XTGL_XMJD"//接口
+                    };
+
+                    publicMethods.dataDictionary(param);
                 },
                 onClickRow: function (index, o) {
                     console.log(index, o, "单击！");
@@ -370,12 +386,17 @@
                         },
                         style: 'cursor: pointer;',
                         align: 'left',
-                        width: '50%',
+                        width: '55%',
                     }, {
                         field: "formCode",
                         title: "申请单位", event: 'setActive', style: 'cursor: pointer;',
-                        width: '45%',
-                    },]],
+                        width: '39%',
+                    }/*,
+                    {
+                        field: "xmSteps",
+                        title: "阶段", event: 'setActive', style: 'cursor: pointer;',
+                        width: '29%',
+                    }*/]],
                 isPage: true,
                 parseData: function (res) {
                     return res;
@@ -388,6 +409,17 @@
                              $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                          }
                      });
+                    var param = {
+                        data: res.data,//数据
+                        element: ".layui-table-body",// 当前的表格元素
+                        column: 3,//列数 从0开始
+                        field: "xmSteps",//当前数据的字段
+                        url: "/pageCommon/dic/ROOT_XTGL_XMJD"//接口
+                    };
+                    console.info("=============")
+                    console.info(param);
+                    //console.info(res.data);//param.data[i][param.field];
+                    //publicMethods.dataDictionary(param);
 
                 },
                 onClickRow: function (index, o) {
@@ -447,7 +479,7 @@
                     // }
                     , {
                         field: 'projectName',
-                        title: '项目名称',
+                        title: '奖励名称',
                         templet: function (d) {
                             if (d.dataIndex == "1") {
                                 return '<span   onclick="showDetailJl(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
