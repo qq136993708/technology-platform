@@ -13,6 +13,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.stp.equipment.SrePurchase;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -596,6 +598,24 @@ public class ProjectBasicController extends BaseController {
 	public String delete(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		Result resultsDate = new Result();
+
+		if (StringUtils.isNotBlank(id)) {
+			SreProject sreProject = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class).getBody();
+			if (sreProject != null) {
+				String equipmentIds = sreProject.getEquipmentIds();
+				if (StringUtils.isNotBlank(equipmentIds)){
+					String[] arr = equipmentIds.split(",");
+					for (int i = 0; i < arr.length; i++) {
+						SreEquipment sreEquipment = EquipmentUtils.getSreEquipment(arr[i], restTemplate, httpHeaders);
+						if (sreEquipment!=null){
+							sreEquipment.setIsLinkedProject("0");
+							EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+						}
+					}
+				}
+			}
+		}
+
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_URL + id, HttpMethod.POST,
 				new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
