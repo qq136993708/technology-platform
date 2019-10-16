@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -482,6 +483,9 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
                 list_son.get(j).setId(UUID.randomUUID().toString());
                 list_son.get(j).setProjectName(zjk_son.getZjkName());
                 list_son.get(j).setParentName(zjkMsg.getProjectName());
+                
+                zjkMsg.setXmSteps(list_son.get(j).getXmSteps());
+                list_son.get(j).setXmSteps("");
             }
             list_return.add(zjkMsg);
             list_return.addAll(list_son);
@@ -491,6 +495,7 @@ public class ZjkMsgServiceImpl implements ZjkMsgService {
         data.setData(pageInfo.getList());
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
+        System.out.println(JSON.toJSONString(data));
         return data;
     }
 }
