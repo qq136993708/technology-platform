@@ -385,7 +385,7 @@ public class EquipmentUtils {
 	
 	
 
-	public static Map getDepartInfoBySysUser(SysUser sysUserInfo,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
+	/*public static Map getDepartInfoBySysUser(SysUser sysUserInfo,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
 	{
 		Map<String ,String> map=new HashMap<String ,String>();
 		String unitName = "";//申报单位
@@ -464,6 +464,89 @@ public class EquipmentUtils {
 		return map;
 		
 	}
+	*/
+	
+	public static Map getDepartInfoBySysUser(SysUser sysUserInfo,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
+	{
+		Map<String ,String> map=new HashMap<String ,String>();
+		String unitName = "";//申报单位
+		String unitCode = "";//申报单位
+		String applyDepartName = "";//具体部门
+		String applyDepartCode = "";//具体部门
+		String applyUnitId="";
+		String applyUnitPath="";
+		
+		String unitCodes = sysUserInfo.getUnitCode();//00000,108811,108811002
+		String unitNames = sysUserInfo.getUnitName();//中国石油化工集团,中国石油化工股份有限公司石油勘探开发研究院,油气勘探研究所
+		System.out.println(">>>>>>>>>>>登录用户：unitNames="+unitNames+" unitCodes:"+unitCodes);
+		
+		
+		String arr[]=unitCodes.split(",");
+		if(arr!=null && arr.length>0)
+		{
+			if(arr.length==1)
+			{
+				applyDepartCode=arr[0];
+				SysUnit sysUnit= getUnitByUnitCode(applyDepartCode, restTemplate, httpHeaders);
+				if(sysUnit!=null)
+				{
+					applyDepartName=sysUnit.getUnitName();
+					applyDepartCode=sysUnit.getUnitCode();
+					applyUnitId=sysUnit.getUnitId();
+					applyUnitPath=sysUnit.getUnitPath();
+					String parentId=sysUnit.getUnitRelation();
+					SysUnit parent=getUnitByUnitId(parentId, restTemplate, httpHeaders);
+					if(parent!=null)
+					{
+						unitName=parent.getUnitName();
+						unitCode=parent.getUnitCode();
+					}
+					
+				}
+			}else
+			{
+				
+				List<String> resultList= new ArrayList<>(Arrays.asList(arr));
+				String str_max=Collections.max(resultList);
+				SysUnit sysUnit= getUnitByUnitCode(str_max, restTemplate, httpHeaders);
+				if(sysUnit!=null)
+				{
+					applyDepartName=sysUnit.getUnitName();
+					applyDepartCode=sysUnit.getUnitCode();
+					applyUnitId=sysUnit.getUnitId();
+					applyUnitPath=sysUnit.getUnitPath();
+					
+					String parentId=sysUnit.getUnitRelation();
+					SysUnit parent=getUnitByUnitId(parentId, restTemplate, httpHeaders);
+					if(parent!=null)
+					{
+						unitName=parent.getUnitName();
+						unitCode=parent.getUnitCode();
+					}
+					
+					
+				}
+				
+			}
+			
+		}
+		
+		
+		map.put("unitName", unitName);
+		map.put("unitCode", unitCode);
+		map.put("applyDepartName", applyDepartName);
+		map.put("applyDepartCode", applyDepartCode);
+		map.put("applyUnitId", applyUnitId);
+		map.put("applyUnitPath", applyUnitPath);
+		
+		System.out.println(">>>>>>>>上级单位："+unitName+"： unitCode="+unitCode);
+		System.out.println(">>>>>>>>本人单位 ："+applyDepartName+"： applyDepartCode="+applyDepartCode);
+		//System.out.println("==========部门 applyUnitId="+applyUnitId+"  applyUnitPath="+applyUnitPath);
+		
+		return map;
+		
+	}
+	
 	
 	
 	//取得当前人的单位代码
