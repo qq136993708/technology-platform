@@ -474,7 +474,11 @@
                 	 var value=$("#sources_table table tbody tr").eq(i).find("td:eq(5)").text();
                 	 sources_value+=parseInt(value);
                 }
-                
+                if(sources_value>=0){
+            		
+            	}else{
+            		sources_value=0;
+            	}
 	                layer.confirm('立项报告：主要图表总金额='+equipment_value+"万,来源总金额="+sources_value+"万,确定提交吗？", { btn: ['确定','取消']},  function(){
 	                	var url="/sre_project_setup/save?v_date="+v_date+"&status=0";
 	                    var backurl="/sre_project_task/write_list?v_date="+v_date;

@@ -862,9 +862,9 @@
                     sources_value += parseInt(value);
                 }
                 /*资金概算表总值*/
-                var budget_value = $("#budget_tableNew table tbody tr:eq(12) td:eq(3)").text() + $("#budget_tableNew table tbody tr:eq(12) td:eq(19)").text();
-
-
+                var budget_value = $("#budget_tableNew table tbody tr:eq(20) td:eq(4)").text()
+               // var  budget = $("#budget_tableNew table tbody tr:eq(19) td:eq(4)").text();
+                //budget_value = budget_value + budget;
                 var topicId = $('#topicId').val();
                 var flag = checkSaveTaskVersion(topicId)
                 var taskId = $('#taskId').val();
@@ -873,6 +873,14 @@
                 /*if (flag == false && (taskId == null || taskId == '')) {
                     layer.alert("该课题计划的主任务合同号未成生，请联系科技部相关人员，然后再增加补充合同");
                 } else {*/
+                	if(sources_value>=0){
+                		
+                	}else{
+                		sources_value=0;
+                	}
+                	if(budget_value==""){
+                		budget_value=0;
+                	}
                     layer.confirm('任务书：主要图表总金额=' + equipment_value + "万,资金概算表总金额=" + budget_value + "万,来源总金额=" + sources_value + "万,确定提交吗？", {btn: ['确定', '取消']}, function () {
                         $("#taskContent").val(task_content)
                         $("#taskAssessmentContent").val(task_assessment_content)

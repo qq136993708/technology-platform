@@ -194,6 +194,7 @@ public class MobileWorkbechController extends BaseController {
 	 */
 
 	@RequestMapping(value = "/kjptmobile/agencyM")
+	@OperationFilter(modelName = "移动端", actionName = "待办任务模块")
 	public String agencyM(HttpServletRequest request) throws IOException {
 		return "/kjptmobile/agencyM";
 	}
