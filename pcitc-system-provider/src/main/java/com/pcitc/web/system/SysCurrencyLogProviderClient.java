@@ -1,9 +1,11 @@
 package com.pcitc.web.system;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,8 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysCurrencyLog;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.service.system.SysCurrencyLogService;
 
@@ -72,6 +76,10 @@ public class SysCurrencyLogProviderClient
 		Result rs = new Result(false);
 		try
 		{
+			if(StringUtils.isBlank(bean.getDataId())) {
+				bean.setDataId(IdUtil.createIdByTime());
+				bean.setLogTime(DateUtil.dateToStr(new Date(),DateUtil.FMT_SS));
+			}
 			rs = sysCurrencyLogService.saveSysCurrencyLog(bean);
 		}
 		catch (Exception e)
