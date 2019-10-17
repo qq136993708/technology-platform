@@ -282,7 +282,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 							String keyName = attribute.getName();
 							List valueList = attribute.getValues();
 							System.out.println("attribute============="+JSONObject.toJSONString(attribute));
-							addLog("统一身份认证消息接口 创建账号attribute ",attribute);
+							//addLog("统一身份认证消息接口 创建账号attribute ",attribute);
 							if (valueList!=null&&valueList.size()>0) {
 								vlaue = attribute.getValues().get(0).toString();
 							} else {
