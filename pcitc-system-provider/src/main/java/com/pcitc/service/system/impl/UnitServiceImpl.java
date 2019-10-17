@@ -514,5 +514,13 @@ public class UnitServiceImpl implements UnitService {
 		cri.andUnitIdIn(new ArrayList<String>(ids));
 		return unitMapper.selectByExample(example);
 	}
+	
+	
+	
+	
+	public  List<SysUnit> getChildscUnitBycodes(List list)throws Exception
+	{
+		return unitMapper.getChildscUnitBycodes(list);
+	}
 
 }

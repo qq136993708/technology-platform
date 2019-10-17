@@ -64,7 +64,7 @@ var publicMethods;
 	            url: '/sre-equipment/list',
 	            limit: 15,
 	            method:"POST",
-	            where: {param:{"equipmentIds":$("#equipmentIds").val(),"applyName":$("#applyName").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"isLinkedProject":$("#isLinkedProject").val()}},
+	            where: {param:{"equipmentIds":$("#equipmentIds").val(),"applyName":$("#applyName").val(),"applyDepartCode":$("#applyDepartCode").val(),"unitCodes":$("#unitCodes").val(),"isLinkedProject":$("#isLinkedProject").val()}},
 	        	id: 'notjoin_apply_table',
 	        	height: 360,
 	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
@@ -77,7 +77,6 @@ var publicMethods;
 	                {field : 'unitPrice',   title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
 	                {field : 'applyAcount', title : '申请数量',    style : 'cursor: pointer;', align : 'center', width : '10%'},
 	                {field : 'allPrice',    title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
-	                {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '30%'},
 	                {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%'},
 	                {field : 'firstApplyUser',  title : '申报人', style : 'cursor: pointer;', align : 'left', width : '10%'},
 	                {field : 'createDate',  title : '申报时间', style : 'cursor: pointer;', align : 'left', width : '15%', templet : '#dateTpl'}
@@ -167,9 +166,8 @@ var publicMethods;
 <div class="formBox">
 	<input type="hidden" name="equipmentIds" id="equipmentIds" value="${equipmentIds}">
 	<input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
-	<input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+	<input type="hidden" name="unitCodes" id="unitCodes" value="${unitCodes}">
 	<input type="hidden" name="isLinkedProject" id="isLinkedProject" value="${isLinkedProject}">
-	
 	
 	<div class="searchBox">
 		<label class="dateInput">

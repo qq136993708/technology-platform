@@ -18,6 +18,10 @@
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
  <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
+  <input type="hidden" name="unitCodes" id="unitCodes" value="${unitCodes}">
+ 
+ 
+ 
     <!--查询条件-->
     <label class="dateInput">
         <span>装备名称</span>
@@ -280,7 +284,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/sre-equipment/list',
            method:"POST",
-           where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
+           where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartCode":$("#applyDepartCode").val(),"unitCodes":$("#unitCodes").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
@@ -301,8 +305,8 @@ var name=$('#name').val();
                {field : 'unitPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '8%',sort : true},
                {field : 'applyAcount', title : '申请数量', style : 'cursor: pointer;', align : 'center', width : '7%',sort : true},
                {field : 'allPrice', title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '8%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'},sort : true},
-               {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '20%',sort : true},
-               {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%',sort : true},
+               {field : 'parentUnitPathNames', title : '上级单位', style : 'cursor: pointer;', align : 'left', width : '20%',sort : true},
+               {field : 'applyDepartName', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '20%',sort : true},
                {field : 'firstApplyUser', title : '申报人', style : 'cursor: pointer;', align : 'left', width : '8%',sort : true},
                {field : 'createDate', title : '申请时间', style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl',sort : true},
                

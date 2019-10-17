@@ -1,7 +1,10 @@
 package com.pcitc.base.stp.equipment;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class SreEquipment {
     private String equipmentId;
@@ -70,8 +73,30 @@ public class SreEquipment {
     private String  year;
 
     private String  allMoney;
+    
+    private String  unitCodes;
+    
+    private List  unitCodesList=new ArrayList();
+    
 
-    public String getYear() {
+
+	public List getUnitCodesList() {
+		return unitCodesList;
+	}
+
+	public void setUnitCodesList(List unitCodesList) {
+		this.unitCodesList = unitCodesList;
+	}
+
+	public String getUnitCodes() {
+		return unitCodes;
+	}
+
+	public void setUnitCodes(String unitCodes) {
+		this.unitCodes = unitCodes;
+	}
+
+	public String getYear() {
         return year;
     }
 

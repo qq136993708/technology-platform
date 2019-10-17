@@ -934,6 +934,15 @@
 	     <if test="closeStatus != null       and closeStatus !=''  ">                           AND t.close_status = #{closeStatus}</if>
 	     <if test="isCheck != null       and isCheck !=''  ">                           AND t.is_check = #{isCheck}</if>
 	     <if test="sqlStr != null       and sqlStr !='' ">                            AND ${sqlStr}</if>
+	     
+	     <if test="unitCodes != null   and unitCodes !='' ">    
+	          AND t.`create_unit_code` IN 
+	         <foreach collection="unitCodesList" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+             </foreach>
+	     </if>
+	     
+	     
 	 </trim>
 	</sql>
     
