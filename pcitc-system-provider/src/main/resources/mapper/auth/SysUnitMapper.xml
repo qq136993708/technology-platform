@@ -731,5 +731,18 @@
 		  )
 	  ) as tableA
 	  order by bak1
+	  
   </select>
+  
+  
+   <select id="getChildscUnitBycodes" resultMap="BaseResultMap"  >
+	    SELECT * FROM sys_unit t WHERE t.`unit_relation` IN
+		(
+		   SELECT tt.`unit_id` FROM sys_unit tt WHERE tt.`unit_code` IN 
+		   
+		   <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+           </foreach>
+		)
+     </select>
 </mapper>

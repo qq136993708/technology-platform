@@ -177,4 +177,6 @@ public interface UnitService
 	 */
 	public List<SysUnit> selectUnitByIds(Set<String> ids);
 	
+	public  List<SysUnit> getChildscUnitBycodes(List list)throws Exception;
+	
 }

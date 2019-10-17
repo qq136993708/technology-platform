@@ -27,6 +27,7 @@
 <input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
 <input  name="branchFlag"  id="branchFlag"           type="hidden" >
 <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
+<input type="hidden" name="unitCodes" id="unitCodes" value="${unitCodes}">
 </form>
     <!--查询条件-->
     <label class="dateInput">
@@ -337,7 +338,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"auditStatus":$("#auditStatus").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"leadUnitCode":$("#leadUnitCode").val(),"contractNum":$("#contractNum").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"auditStatus":$("#auditStatus").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"unitCodes":$("#unitCodes").val(),"contractNum":$("#contractNum").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

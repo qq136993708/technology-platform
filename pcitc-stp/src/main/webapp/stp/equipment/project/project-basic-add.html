@@ -41,7 +41,7 @@
                 <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
                 <input name="functionId" id="functionId" type="hidden">
                 <input name="userIds" id="userIds" type="hidden">
-                <input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="hidden">
+                <input name="leadUnitCode" id="leadUnitCode" value="${sreProjectBasic.leadUnitCode}" type="hidden">
                 <input name="joinUnitCode" id="joinUnitCode" value="${sreProjectBasic.joinUnitCode}" type="hidden">
                 <input name="entrustUnitCode" id="entrustUnitCode" value="${sreProjectBasic.entrustUnitCode}" type="hidden">
                 <!-- <input name="belongDepartmentCode" id="belongDepartmentCode" value="${sreProjectBasic.belongDepartmentCode}"
@@ -112,7 +112,7 @@
                         <div class="layui-form-item">
                             <label for="" class="layui-form-label">牵头单位<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" readonly="readonly"  name="leadUnitName" id="leadUnitName" value="${leadUnitName}"
+                                <input class="layui-input" readonly="readonly" onclick="chooseUnitRaio('setCompanyData')" style="cursor:pointer"  name="leadUnitName" id="leadUnitName" value="${sreProjectBasic.leadUnitName}"
                                        lay-verify="required" autocomplete="off" type="text">
                             </div>
                         </div>
@@ -757,7 +757,31 @@
 
     
     
+    function chooseUnitRaio(callback_funcName) 
+    {
+    	 var v_date=(new Date()).getTime();
+	    layer.open({
+	        title: '选择单位'
+	        , skin: 'layui-layer-lan'
+	        , shadeClose: true
+	        , type: 2
+	        , fixed: false
+	        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	        , maxmin: false
+	        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	        , area: ['80%', '90%']
+	        , content: "/unit_select_radio?v_date="+v_date+"&funcName="+callback_funcName
+	    }); 
     
+    }
+    
+    
+    
+    function setCompanyData(leadUnitCode,leadUnitName) 
+    {
+    	$("#leadUnitName").val(leadUnitName);
+    	$("#leadUnitCode").val(leadUnitCode);
+    }
 
 
 </script>
