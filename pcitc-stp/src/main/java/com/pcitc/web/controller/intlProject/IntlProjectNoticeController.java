@@ -20,9 +20,9 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectNotice;
+import com.pcitc.base.system.SysCurrencyLog;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
-import com.pcitc.web.utils.InputCheckUtil;
 
 @RestController
 public class IntlProjectNoticeController extends BaseController {
@@ -36,7 +36,8 @@ public class IntlProjectNoticeController extends BaseController {
 	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/start-notice-activity/";
 	private static final String PROJECT_WORKFLOW_CHECK = "http://pcitc-zuul/stp-proxy/stp-provider/project/notice-flow-check/";
 
-	
+	private static final String LOGTEST = "http://pcitc-zuul/system-proxy/sys-provider/currencylog/process-logs-save";
+
 	
 	@RequestMapping(value = "/project/notice-start-workflow")
 	public Object startProjectPlantWorkflow(@RequestParam(value = "noticeId", required = true) String noticeId,
@@ -63,6 +64,14 @@ public class IntlProjectNoticeController extends BaseController {
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_NOTICE_LIST_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
 		System.out.println(JSON.toJSON(data).toString());
+		
+		
+		SysCurrencyLog log = new SysCurrencyLog();
+		log.setDataT1("测试日志");
+		log.setDataT2(JSON.toJSONString(data));
+		this.restTemplate.exchange(LOGTEST, HttpMethod.POST, new HttpEntity<SysCurrencyLog>(log, this.httpHeaders), Result.class).getBody();
+		
+		
 		return JSON.toJSON(data).toString();
 	}
 
