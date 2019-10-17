@@ -33,7 +33,7 @@
     <result column="supplier_will_str" property="supplierWillStr" jdbcType="VARCHAR" />
     <result column="purchase_status" property="purchaseStatus" jdbcType="VARCHAR" />
     <result column="for_status" property="forStatus" jdbcType="VARCHAR" />
-    
+    <result column="unitCodes"  property="unitCodes" jdbcType="VARCHAR" />
     
     
     
@@ -436,9 +436,15 @@
 	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
 	     <if test="isLinkedProject != null             and isLinkedProject !=''  ">           AND t.is_linked_project = #{isLinkedProject}</if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
-	      <if test="purchaseStatus != null       and purchaseStatus !=''  ">     AND t.purchase_status = #{purchaseStatus}</if>
-	       <if test="forStatus != null       and forStatus !=''  ">     AND t.for_status = #{forStatus}</if>
+	     <if test="purchaseStatus != null       and purchaseStatus !=''  ">     AND t.purchase_status = #{purchaseStatus}</if>
+	     <if test="forStatus != null       and forStatus !=''  ">     AND t.for_status = #{forStatus}</if>
 	     <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
+	     <if test="unitCodes != null   and unitCodes !='' ">    
+	          AND t.`apply_depart_code` IN 
+	         <foreach collection="unitCodesList" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+             </foreach>
+	     </if>
          <if test="parentUnitPathNames != null and parentUnitPathNames  !='' ">   AND t.parent_unit_path_names like CONCAT('%',#{parentUnitPathNames},'%')</if>
 	 </trim>
 	</sql>

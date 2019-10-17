@@ -72,8 +72,8 @@ public class ProjectBasicController extends BaseController {
 		String unitPathIds = sysUserInfo.getUnitPath();
 		
 		
-        String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
-		request.setAttribute("leadUnitCode", leadUnitCode);
+        /*String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
+		request.setAttribute("leadUnitCode", leadUnitCode);*/
 		
 		//归属部门--维度维护->总部机关
 		List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
@@ -89,8 +89,17 @@ public class ProjectBasicController extends BaseController {
 		
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
 		request.setAttribute("isKJBPerson", isKJBPerson);
+		
+		
+
+        String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+		request.setAttribute("unitCodes", unitCodes);
+		
 		return "/stp/equipment/project/project-basic-list";
 	}
+	
+	
+	
 
 	@RequestMapping(value = "/project-list-kjb")
 	public String kjb(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -107,11 +116,11 @@ public class ProjectBasicController extends BaseController {
 		request.setAttribute("fieldList", fieldList);
 		
 		//流程状态
-				List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
-				request.setAttribute("auditStatusList", auditStatusList);
+		List<SysDictionary> auditStatusList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("auditStatusList", auditStatusList);
 		List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
 						httpHeaders);
-				request.setAttribute("dicList", dicList);
+		request.setAttribute("dicList", dicList);
 				if(isKJBPerson == true) {
 			    	//获取研究院
 					request.setAttribute("dictonary", dicList);

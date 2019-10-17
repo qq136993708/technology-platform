@@ -26,6 +26,8 @@
 <input  name="parentUnitPathIds"   id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
 <input type="hidden" name="specialAuditor0" id="specialAuditor0" value="">
 <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
+<input type="hidden" name="unitCodes" id="unitCodes" value="${unitCodes}">
+
 </form>
 <div class="searchBox">
     <!--查询条件-->
@@ -106,7 +108,6 @@
 <script id="view_taskVersion" type="text/html"> {{view_taskVersion(d.taskVersion)}} </script>
 <script id="getErpOrderlist_tlp_id" type="text/html"> {{getErpOrderlist_tlp(d.erpNum)}} </script>
 <script type="text/javascript">
-
 
 function getErpOrderlist_tlp(d) 
 {
@@ -252,10 +253,6 @@ var name=$('#name').val();
             	$('#professionalDepartCode').val("");
             	$('#professionalFieldCode').val("");
                 $('#contractNum').val("");
-
-            	
-            	
-            	
             	
             },
             applyEvent: function(){ //新增计划
@@ -433,7 +430,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"auditStatus":$("#auditStatus").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"leadUnitCode":$("#leadUnitCode").val(),"contractNum":$("#contractNum").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"auditStatus":$("#auditStatus").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentCode":$("#belongDepartmentCode").val(),"professionalDepartCode":$("#professionalDepartCode").val(),"professionalFieldCode":$("#professionalFieldCode").val(),"unitCodes":$("#unitCodes").val(),"contractNum":$("#contractNum").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: tableHeight,

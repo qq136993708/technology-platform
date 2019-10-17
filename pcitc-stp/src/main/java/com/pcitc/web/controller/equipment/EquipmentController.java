@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysUnit;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -311,16 +313,19 @@ public class EquipmentController extends BaseController {
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String unitPathIds = sysUserInfo.getUnitPath();
-		String parentUnitPathIds = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
+		//String parentUnitPathIds = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
 
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		//request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
 		request.setAttribute("isKJBPerson", isKJBPerson);
 
 		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
 		request.setAttribute("leaddicList", leaddicList);
-
+		
+		String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+		request.setAttribute("unitCodes", unitCodes);
+		
 		return "/stp/equipment/equipment/equipment-list";
 	}
 
@@ -350,14 +355,18 @@ public class EquipmentController extends BaseController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/sre-equipment/chooseEquipmentByUser")
-	private String chooseEquipmentByUser(HttpServletRequest request) {
+	private String chooseEquipmentByUser(HttpServletRequest request) throws Exception{
 		String equipmentIds = request.getParameter("equipmentIds");
 		request.setAttribute("equipmentIds", equipmentIds);
 		String isLinkedProject = request.getParameter("isLinkedProject");
 		request.setAttribute("isLinkedProject", isLinkedProject);
 
-		String parentUnitPathIds = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		//String parentUnitPathIds = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
+		//request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		
+		
+		String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+		request.setAttribute("unitCodes", unitCodes);
 
 		return "/stp/equipment/equipment/chooseEquipment";
 

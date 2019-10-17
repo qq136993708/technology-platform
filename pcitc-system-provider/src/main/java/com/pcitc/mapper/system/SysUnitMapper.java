@@ -147,4 +147,15 @@ public interface SysUnitMapper {
 	 * @throws Exception
 	 */
 	public List<TreeNode> getUnitPostTree(HashMap<String,Object> paramMap);
+	
+	
+	
+	/**
+	 * 查询子机构
+	 * @param unit
+	 * @return
+	 * @throws Exception
+	 */
+	public List<SysUnit> getChildscUnitBycodes(List list);
+	  
 }

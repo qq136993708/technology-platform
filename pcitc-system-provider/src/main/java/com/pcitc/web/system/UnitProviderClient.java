@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
@@ -207,6 +209,21 @@ public class UnitProviderClient
 	{
 		return unitService.seletUnitByCode(unitCode);
 	}
+	
+	
+	
+	@ApiOperation(value="根据编码检索子机构",notes="根据机构编码检索子机构信息。")
+	@RequestMapping(value = "/unit-provider/unit/gethildscUnitBycodes/{unitCodes}", method = RequestMethod.POST)
+	public JSONArray getChildscUnitycode(@PathVariable(value = "unitCodes", required = true) String unitCodes) throws Exception
+	{
+		String []arr=unitCodes.split(",");
+		List list = java.util.Arrays.asList(arr);
+		List<SysUnit> result= unitService.getChildscUnitBycodes(list);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(result));
+		return json;
+	}
+	
+	
 	
 	
 	@ApiOperation(value="根据unitPath编码检索机构",notes="根据机构unitPath编码检索机构信息。")

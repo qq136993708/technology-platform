@@ -32,6 +32,7 @@ import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreSupplier;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.mapper.equipment.ProjectMoneyMapper;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreProjectAssessMapper;
@@ -185,7 +186,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	public LayuiTableData getEquipmentPage(LayuiTableParam param)throws Exception
 	{
-		
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+		System.out.println(">>>>>>>>>> getEquipmentPage 入口参数: "+parmamss.toJSONString());
 		//每页显示条数
 		int pageSize = param.getLimit();
 		//从第多少条开始
@@ -203,7 +205,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String isLinkedProject=getTableParam(param,"isLinkedProject","");
         String parentUnitPathNames = getTableParam(param, "parentUnitPathNames", "");
-
+        String unitCodes = getTableParam(param, "unitCodes", "");
+        
+        List<String>  unitCodesList=new ArrayList<String> ();
+        if(!unitCodes.equals(""))
+        {
+        	String []arr=unitCodes.split(",");
+        	unitCodesList = java.util.Arrays.asList(arr);
+        }
         Map map=new HashMap();
 		map.put("name", name);
 		map.put("equipmentIds", equipmentIds);
@@ -213,6 +222,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("isLinkedProject", isLinkedProject);
         map.put("parentUnitPathNames", parentUnitPathNames);
+        map.put("unitCodes", unitCodes);
+        map.put("unitCodesList", unitCodesList);
 		List<SreEquipment> list = sreEquipmentMapper.getList(map);
 		PageInfo<SreEquipment> pageInfo = new PageInfo<SreEquipment>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
@@ -358,8 +369,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String professionalDepartCode=getTableParam(param,"professionalDepartCode","");
 
 		String contractNum=getTableParam(param,"contractNum","");
-		String parentUnitPathNames = getTableParam(param, "parentUnitPathNames", "");
-
+		String unitCodes = getTableParam(param, "unitCodes", "");
+		 List<String>  unitCodesList=new ArrayList<String> ();
+	        if(!unitCodes.equals(""))
+	        {
+	        	String []arr=unitCodes.split(",");
+	        	unitCodesList = java.util.Arrays.asList(arr);
+	        }
+	        
         String contractNumNotNull = getTableParam(param, "contractNumNotNull", "");
 
         Map map=new HashMap();
@@ -390,8 +407,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 		map.put("contractNum", contractNum);
         map.put("contractNumNotNull", contractNumNotNull);
-
-
+        map.put("unitCodes", unitCodes);
+        map.put("unitCodesList", unitCodesList);
 		List<SreProject> list = sreProjectMapper.getList(map);
 		if (list.size()!=0){
             if (!contractNumNotNull.equals("")) {
@@ -914,7 +931,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String isCheck=getTableParam(param,"isCheck","");
 		String belongDepartmentCode=getTableParam(param,"belongDepartmentCode","");
 		String professionalDepartCode=getTableParam(param,"professionalDepartCode","");
-		
+		String unitCodes=getTableParam(param,"unitCodes","");
 		
 		Map map=new HashMap();
 		map.put("belongDepartmentName", belongDepartmentName);
@@ -944,6 +961,16 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("closeStatus", closeStatus);
 		map.put("isCheck", isCheck);
+		map.put("unitCodes", unitCodes);
+		List<String>  unitCodesList=new ArrayList<String> ();
+        if(!unitCodes.equals(""))
+        {
+        	String []arr=unitCodes.split(",");
+        	unitCodesList = java.util.Arrays.asList(arr);
+        }
+        
+         map.put("unitCodesList", unitCodesList);
+         
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
 		
 		return map;

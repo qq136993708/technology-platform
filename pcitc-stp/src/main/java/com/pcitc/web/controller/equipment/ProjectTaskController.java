@@ -154,9 +154,12 @@ public class ProjectTaskController extends BaseController {
 	public String arrange_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		
-	   String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
-	   request.setAttribute("leadUnitCode", leadUnitCode);
+	   /*String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
+	   request.setAttribute("leadUnitCode", leadUnitCode);*/
 			
+	   
+	    String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+		request.setAttribute("unitCodes", unitCodes);
 
 		//归属部门
 		List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
@@ -212,7 +215,8 @@ public class ProjectTaskController extends BaseController {
 		String unitPathIds = sysUserInfo.getUnitPath();
 		//String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
 		//request.setAttribute("leadUnitCode", leadUnitCode);
-		
+		String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+		request.setAttribute("unitCodes", unitCodes);
 		
 		//归属部门
 		List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
@@ -355,8 +359,11 @@ public class ProjectTaskController extends BaseController {
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
 		
-		String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
-		request.setAttribute("leadUnitCode", leadUnitCode);
+		//String leadUnitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);// .getParentUnitPathId(unitPathIds);
+		//request.setAttribute("leadUnitCode", leadUnitCode);
+		
+		String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+		request.setAttribute("unitCodes", unitCodes);
 		   
 		//归属部门
 		List<SysDictionary> departmentList=	EquipmentUtils.getSysDictionaryListByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
@@ -646,6 +653,10 @@ public class ProjectTaskController extends BaseController {
 		sreProjectBasic.setUnitPathNames(createUnitName);
 		sreProjectBasic.setParentUnitPathIds(leadUnitCode);
 		sreProjectBasic.setParentUnitPathNames(leadUnitName);
+		
+		
+		sreProjectBasic.setApplyUnitCode(createUnitCode);
+		sreProjectBasic.setApplyUnitName(createUnitName);
 		
 		sreProjectBasic.setTopicId(topicId); 
 		sreProjectBasic.setContractNum(contractNum);
