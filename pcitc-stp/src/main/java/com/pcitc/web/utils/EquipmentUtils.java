@@ -1180,9 +1180,22 @@ public class EquipmentUtils {
 	//根据机构编码检索子机构信息
 	public static String getChildscUnitBycodes(String unitCodes,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
 	{
+		String arr[]=unitCodes.split(",");
+		if(arr.length>1)
+		{
+			List<String> resultList= new ArrayList<>(Arrays.asList(arr));
+			String str_max=Collections.max(resultList);
+			unitCodes=str_max;
+		}
+		System.out.println("-------------子机构名称"+unitCodes);
+		
 		 String UNIT_GET_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/gethildscUnitBycodes/";
 		 JSONArray jSONArray = restTemplate.exchange(UNIT_GET_UNIT + unitCodes, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), JSONArray.class).getBody();
 		 List<SysUnit> sysUnitlist = JSONObject.parseArray(jSONArray.toJSONString(), SysUnit.class);
+		 
+		 
+		 
+		 
 		 StringBuffer sb=new StringBuffer();
 		 sb.append(unitCodes);
 		 if(sysUnitlist!=null)
