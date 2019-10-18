@@ -77,14 +77,29 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 		String applyDepartCode=getTableParam(param,"applyDepartCode","");
 		String unitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String applyDepartName=getTableParam(param,"applyDepartName","");
+		//String leadUnitCode=getTableParam(param,"leadUnitCode","");
+		String unitCodes = getTableParam(param, "unitCodes", "");
+		List<String>  unitCodesList=new ArrayList<String> ();
+		String kjb = getTableParam(param,"str","");
 		Map map=new HashMap();
+		if(kjb.equals("0")) {
+			map.put("unitCodes", "");
+		    map.put("unitCodesList", "");
+		}else {
+	        if(!unitCodes.equals(""))
+	        {
+	        	String []arr=unitCodes.split(",");
+	        	unitCodesList = java.util.Arrays.asList(arr);
+	        }
+		map.put("unitCodes", unitCodes);
+	    map.put("unitCodesList", unitCodesList);
+		}
 		map.put("applicationId", applicationId);
 		map.put("applicationState", applicationState);
 		map.put("applicationName", applicationName);
 		map.put("applicationUserName", applicationUserName);
 		map.put("applicationTime", applicationTime);
 		map.put("applicationMoney", applicationMoney);
-		map.put("firstApplyUser", unitPathIds);
 		map.put("applyDepartName", applyDepartName);
 		
 		System.out.println(">>>>>>>>applicationState="+applicationState);
@@ -172,18 +187,30 @@ public  class ForApplicationServiceImpl implements ForApplicationService {
 		String equipmentIds=getTableParam(param,"equipmentIds","");
 		String auditStatus=getTableParam(param,"auditStatus","");
 		String applyDepartName=getTableParam(param,"applyDepartName","");
-		String unitPathIds=getTableParam(param,"applyDepartCode","");
+		//String unitPathIds=getTableParam(param,"applyDepartCode","");
 		//String unitPathIds=getTableParam(param,"unitPathIds","");
-		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
+		//String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String isLinkedProject=getTableParam(param,"isLinkedProject","");
 		Map map=new HashMap();
 		map.put("name", name);
 		map.put("equipmentIds", equipmentIds);
 		map.put("auditStatus", auditStatus);
 		map.put("applyDepartName", applyDepartName);
-		map.put("parentUnitPathIds", parentUnitPathIds);
-		map.put("unitPathIds", unitPathIds);
+		/*
+		 * map.put("parentUnitPathIds", parentUnitPathIds); map.put("unitPathIds",
+		 * unitPathIds);
+		 */
 		map.put("isLinkedProject", isLinkedProject);
+		String unitCodes = getTableParam(param, "unitCodes", "");
+        
+        List<String>  unitCodesList=new ArrayList<String> ();
+        if(!unitCodes.equals(""))
+        {
+        	String []arr=unitCodes.split(",");
+        	unitCodesList = java.util.Arrays.asList(arr);
+        }
+        map.put("unitCodes", unitCodes);
+        map.put("unitCodesList", unitCodesList);
 		///System.out.println(">>>>>>>>applyDepartCode="+applyDepartCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 //		if(!applyDepartCode.equals(""))

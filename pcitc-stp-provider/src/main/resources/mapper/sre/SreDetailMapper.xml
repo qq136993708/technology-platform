@@ -26,6 +26,7 @@
      <result column="isscrap" property="isscrap" jdbcType="VARCHAR" />
      <result column="unitPathIds" property="unitPathIds" jdbcType="VARCHAR" />
      <result column="parentUnitPathIds" property="parentUnitPathIds" jdbcType="VARCHAR" />
+     <result column="unitCodes"  property="unitCodes" jdbcType="VARCHAR" />
      
      <result column="G0SCHRW" property="g0schrw" jdbcType="VARCHAR" />
   </resultMap>
@@ -369,6 +370,12 @@
 	     <if test="parentUnitPathIds!= null and parentUnitPathIds!='' "> AND t.parentUnitPathIds    like CONCAT('%',#{parentUnitPathIds},'%')</if>
 	     <if test="placePeople!= null and placePeople!='' "> AND t.place_people    like CONCAT('%',#{placePeople},'%')</if>
 	 	 <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
+	 	  <if test="unitCodes != null   and unitCodes !='' ">    
+	          AND t.`parentUnitPathIds` IN 
+	         <foreach collection="unitCodesList" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+             </foreach>
+	     </if>
 	 </trim>
 	</sql>
 	

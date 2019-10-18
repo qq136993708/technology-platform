@@ -67,12 +67,14 @@ public class EquipmentLedgerServiceImpl implements EquipmentLedgerService {
 		String g0gsdm=getTableParam(param,"g0gsdm","");
 		String g0gsjc=getTableParam(param,"g0gsjc","");
 		String leadUnitCode=getTableParam(param,"leadUnitCode","");
+		String g0kostlt=getTableParam(param,"g0kostlt","");
 		Map map=new HashMap();
 		map.put("g0txt50", g0txt50);
 		map.put("g0anln1", g0anln1);
 		map.put("g0cald", month);
 		map.put("g0gsdm", g0gsdm);
 		map.put("g0gsjc", g0gsjc);
+		map.put("g0kostlt", g0kostlt);
 		if(!leadUnitCode.equals("")) {
 			map.put("g0gsjc", leadUnitCode);
 		}

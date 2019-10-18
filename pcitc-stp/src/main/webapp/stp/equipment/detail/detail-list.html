@@ -19,6 +19,7 @@
  <input type="hidden" name="unitPathIds" id="unitPathIds" value="${unitPathIds}">
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
  <input  name="str"     id="str"      value="${str}"    type="hidden">
+ <input  name="unitCodes"     id="unitCodes"      value="${unitCodes}"    type="hidden">
  
     <!--查询条件-->
     <label class="dateInput">
@@ -327,7 +328,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/sre-detail/list',
            method:"POST",
-           where: {param: {"leadUnitCode":$("#leadUnitCode").val(),"contractNum":$("#contractNum").val(),"equipmentName":$("#name").val(),"auditStatus":$("#auditStatus").val(),"unitPathIds":$("#unitPathIds").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+           where: {param: {"str":$("#str").val(),"unitCodes":$("#unitCodes").val(),"leadUnitCode":$("#leadUnitCode").val(),"contractNum":$("#contractNum").val(),"equipmentName":$("#name").val(),"auditStatus":$("#auditStatus").val(),"unitPathIds":$("#unitPathIds").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
