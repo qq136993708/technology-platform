@@ -2,7 +2,9 @@ package com.pcitc.web.interceptor;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.HttpEntity;
@@ -20,6 +22,8 @@ import com.pcitc.base.system.SysCurrencyLog;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.web.config.SpringContextUtil;
 import com.sinopec.siam.provisioning.entity.Attribute;
 import com.sinopec.siam.provisioning.entity.EventType;
@@ -44,7 +48,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 	private static final String	UNIT_GET_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit/";
 	private static final String	UNIT_ADD_UNIT		= "http://pcitc-zuul/system-proxy/unit-provider/unit/add-unit";
 	private static final String	UNIT_UPDATE_UNIT	= "http://pcitc-zuul/system-proxy/unit-provider/unit/upd-unit";
-	private static final String	GET_UNIT_CODE		= "http://pcitc-zuul/system-proxy/unit-provider/unit/unit-code";
+	//private static final String	GET_UNIT_CODE		= "http://pcitc-zuul/system-proxy/unit-provider/unit/unit-code";
 	private static final String	GET_USER_INFO		= "http://pcitc-zuul/system-proxy/user-provider/user/get-user-byname/";
 	private static final String	USER_ADD_URL		= "http://pcitc-zuul/system-proxy/user-provider/user/add-user";
 	private static final String	USER_UPDATE_URL		= "http://pcitc-zuul/system-proxy/user-provider/user/update-user";
@@ -76,9 +80,9 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 
 	@Override
 	public void process(ProvisioningEvents events) {
-		try 
-			{
-				
+		Long uid = System.currentTimeMillis();
+		try
+		{
 			
 			System.out.println("统一身份认证消息接口");
 			System.out.println("统一身份认证消息接口=========="+httpHeaders);
@@ -93,14 +97,14 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 			if (restTemplate==null) {
 				restTemplate = SpringContextUtil.getApplicationContext().getBean(RestTemplate.class);
 			}
-			addLog("统一身份认证消息接口",null);
-			// RestTemplate restTemplate = new RestTemplate();
+			addSysCurrencyLog("统一身份认证消息接口",uid);
 			List<ProvisioningEvent> list = events.getEvent();
+			addSysCurrencyLog("统一身份认证消息接口",uid,list);
 			String vlaue;
 			for (int i = 0; i<list.size(); i++) {
-				ProvisioningEvent event = new ProvisioningEvent();
-				event = list.get(i);
+				ProvisioningEvent event = list.get(i);
 				SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				
 				System.out.println("监听到事件内容如下:");
 				System.out.println("事件流水号:"+event.getEventId());
 				if (event.getOccuredTimestamp()==null) {
@@ -110,12 +114,14 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 				}
 				System.out.println("事件类型:"+event.getEventType());
 				
-				addLog("统一身份认证消息接口 ProvisioningEvent ",event);
+				addSysCurrencyLog("统一身份认证消息接口 ",uid,event);
 				/**
 				 * 组织机构创建
 				 */
 				if (EventType.ORGUNIT_CREATED.equals(event.getEventType())) {
 					TargetEntity originalEntity = event.getTargetEntity();// getOriginalEntity();
+					addSysCurrencyLog("统一身份认证消息接口 ",uid,"创建组织机构",originalEntity);
+					
 					if (originalEntity!=null) {
 						SysUnit sysUnit = new SysUnit();
 						TargetSubject originalSubject = originalEntity.getSubject();
@@ -124,10 +130,11 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						List<Attribute> originalAttributes = originalEntity.getAttributes();
 						System.out.println("组织机构属性集合:");
 						System.out.println("originalEntity============="+JSONObject.toJSONString(originalEntity));
-						addLog("统一身份认证消息接口 originalAttributes ",originalAttributes);
+						
+						addSysCurrencyLog("统一身份认证消息接口 ",uid,"创建组织机构",originalAttributes);
 						for (Attribute attribute : originalAttributes) {
 							String keyName = attribute.getName();
-							List valueList = attribute.getValues();
+							List<?> valueList = attribute.getValues();
 							//System.out.println("attribute============="+JSONObject.toJSONString(attribute));
 							//addLog("统一身份认证消息接口 attribute ",attribute);
 							if (valueList!=null&&valueList.size()>0) {
@@ -182,6 +189,8 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						sysUnit.setUnitAccount("机构账户");
 						// sysUnit.setUnitCode("ABC");
 						HttpEntity<Object> entit = new HttpEntity<Object>(sysUnit, httpHeaders);
+						
+						addSysCurrencyLog("统一身份认证消息接口 ",uid,"创建组织机构",sysUnit);
 						this.restTemplate.exchange(UNIT_ADD_UNIT, HttpMethod.POST, entit, Object.class);
 					}
 				}
@@ -191,6 +200,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 				System.out.println(EventType.ORGUNIT_MODIFIED+"====="+event.getEventType());
 				if (EventType.ORGUNIT_MODIFIED.equals(event.getEventType())) {
 					TargetEntity originalEntity = event.getTargetEntity();
+					addSysCurrencyLog("统一身份认证消息接口 ",uid,"修改组织机构",originalEntity);
 					if (originalEntity!=null) {
 						TargetSubject originalSubject = originalEntity.getSubject();
 						System.out.println("组织机构主题:"+originalSubject);
@@ -198,11 +208,12 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						@SuppressWarnings("unchecked")
 						List<Attribute> originalAttributes = originalEntity.getAttributes();
 						System.out.println("组织机构属性集合:");
+						
+						addSysCurrencyLog("统一身份认证消息接口 ",uid,"修改组织机构",originalAttributes);
 						for (Attribute attribute : originalAttributes) {
 							System.out.println(attribute);
-							addLog("统一身份认证消息接口 组织机构 ",attribute);
 							String keyName = attribute.getName();
-							List valueList = attribute.getValues();
+							List<?> valueList = attribute.getValues();
 							if (valueList!=null&&valueList.size()>0) {
 								vlaue = attribute.getValues().get(0).toString();
 							} else {
@@ -245,6 +256,8 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 							}
 						}
 						HttpEntity<Object> entit = new HttpEntity<Object>(sysUnit, httpHeaders);
+						
+						addSysCurrencyLog("统一身份认证消息接口 ",uid,"修改组织机构",sysUnit);
 						this.restTemplate.exchange(UNIT_UPDATE_UNIT, HttpMethod.POST, entit, Object.class);
 					}
 				}
@@ -256,7 +269,8 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 					if (originalEntity!=null) {
 						TargetSubject originalSubject = originalEntity.getSubject();
 						System.out.println("组织机构主题:"+originalSubject);
-						addLog("统一身份认证消息接口 删除组织机构 ",originalSubject);
+						addSysCurrencyLog("统一身份认证消息接口 ",uid,"删除组织机构",originalSubject);
+						
 						SysUnit sysUnit = this.restTemplate.exchange(UNIT_GET_UNIT+originalSubject.getSubject(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
 						sysUnit.setUnitDelflag(1);
 						HttpEntity<Object> entit = new HttpEntity<Object>(sysUnit, httpHeaders);
@@ -268,6 +282,7 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 				 */
 				if (EventType.ACCOUNT_CREATED.equals(event.getEventType())) {
 					TargetEntity targetEntity = event.getTargetEntity();
+					addSysCurrencyLog("统一身份认证消息接口 ",uid,"应用账号创建",targetEntity);
 					if (targetEntity!=null) {
 						TargetSubject targetSubject = targetEntity.getSubject();
 						System.out.println("应用账号主题:"+targetSubject);
@@ -276,11 +291,12 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						@SuppressWarnings("unchecked")
 						List<Attribute> attributes = targetEntity.getAttributes();
 						System.out.println("targetEntity============="+JSONObject.toJSONString(targetEntity));
-						addLog("统一身份认证消息接口 创建账号 ",targetEntity);
+						addSysCurrencyLog("统一身份认证消息接口 ",uid,"应用账号创建",attributes);
+						
 						SysUser sysUser = new SysUser();
 						for (Attribute attribute : attributes) {
 							String keyName = attribute.getName();
-							List valueList = attribute.getValues();
+							List<?> valueList = attribute.getValues();
 							System.out.println("attribute============="+JSONObject.toJSONString(attribute));
 							//addLog("统一身份认证消息接口 创建账号attribute ",attribute);
 							if (valueList!=null&&valueList.size()>0) {
@@ -451,6 +467,8 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 						
 						System.out.println("用户保存前信息==========="+JSONObject.toJSONString(sysUser));
 						// 插入用户数据
+						
+						addSysCurrencyLog("统一身份认证消息接口 ",uid,"应用账号创建",sysUser);
 						this.restTemplate.exchange(USER_ADD_URL, HttpMethod.POST, new HttpEntity<SysUser>(sysUser, httpHeaders), Integer.class);
 						
 					}
@@ -461,11 +479,12 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 				if (EventType.ACCOUNT_DISABLED.equals(event.getEventType())) {
 					String username = "";
 					TargetEntity targetEntity = event.getTargetEntity();
+					addSysCurrencyLog("统一身份认证消息接口 ",uid,"应用账号禁用",targetEntity);
 					if (targetEntity!=null) {
 						TargetSubject targetSubject = targetEntity.getSubject();
 						System.out.println("应用账号主题:"+targetSubject);
 						System.out.println("应用账号属性集合:");
-						addLog("统一身份认证消息接口 删除账号attribute ",targetSubject);
+						addSysCurrencyLog("统一身份认证消息接口 ",uid,"应用账号禁用",targetSubject);
 						/*
 						 * @SuppressWarnings("unchecked") List<Attribute> attributes
 						 * = targetEntity.getAttributes(); for (Attribute attribute
@@ -493,11 +512,13 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 				if (EventType.ACCOUNT_ENABLED.equals(event.getEventType())) {
 					String username = "";
 					TargetEntity targetEntity = event.getTargetEntity();
+					addSysCurrencyLog("统一身份认证消息接口 ",uid,"应用账号启用",targetEntity);
 					if (targetEntity!=null) {
 						TargetSubject targetSubject = targetEntity.getSubject();
 						System.out.println("应用账号主题:"+targetSubject);
 						System.out.println("应用账号属性集合:");
-						addLog("统一身份认证消息接口 启用账号attribute ",targetSubject);
+						
+						addSysCurrencyLog("统一身份认证消息接口 ",uid,"应用账号启用",targetSubject);
 						/*
 						 * @SuppressWarnings("unchecked") List<Attribute> attributes
 						 * = targetEntity.getAttributes(); for (Attribute attribute
@@ -526,11 +547,13 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 				if (EventType.ACCOUNT_DELETED.equals(event.getEventType())) {
 					String username = "";
 					TargetEntity targetEntity = event.getTargetEntity();
+					addSysCurrencyLog("统一身份认证消息接口 ",uid,"应用账号删除",targetEntity);
 					if (targetEntity!=null) {
 						TargetSubject targetSubject = targetEntity.getSubject();
 						System.out.println("应用账号主题:"+targetSubject);
 						System.out.println("应用账号属性集合:");
-						addLog("统一身份认证消息接口 应用账号删除",targetSubject);
+						
+						addSysCurrencyLog("统一身份认证消息接口 ",uid,"应用账号删除",targetSubject);
 						/*
 						 * @SuppressWarnings("unchecked") List<Attribute> attributes
 						 * = targetEntity.getAttributes(); for (Attribute attribute
@@ -555,19 +578,27 @@ public class SimpleProvisioningEventListenerService implements ProvisioningEvent
 			}
 			
 		}catch(Exception e) {
-			addLog("==出现异常==",null);
+			addSysCurrencyLog("统一身份认证消息接口 ",uid,"操作异常");
 		}
 	}
 	
-	private void addLog(String desc,Object data) 
+	private void addSysCurrencyLog(String logName,Object ... datas) 
 	{
 		try 
 		{
-			SysCurrencyLog log = new SysCurrencyLog();
-			log.setLogName(desc);
-			if(data != null) {
-				log.setDataT1(JSON.toJSONString(data));
+			Map<String,Object> map = new HashMap<String,Object>();
+			if(datas != null && datas.length>0) {
+				for(int i= 0;i<datas.length;i++) 
+				{
+					map.put("dataT"+(i+1), JSON.toJSONString(datas[i]));
+				}
 			}
+			map.put("dataId", IdUtil.createIdByTime());
+			map.put("logName", logName);
+			map.put("logTime", DateUtil.dateToStr(new Date(),DateUtil.FMT_SS));
+			SysCurrencyLog log = new SysCurrencyLog();
+			MyBeanUtils.transMap2Bean(map, log);
+			
 			this.restTemplate.exchange(LOGTEST, HttpMethod.POST, new HttpEntity<SysCurrencyLog>(log, this.httpHeaders), Result.class).getBody();
 		}
 		catch(Exception e) 
