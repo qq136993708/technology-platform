@@ -47,7 +47,7 @@ public class UserProviderClient {
 	@ApiOperation(value="根据用户名检索用户",notes="根据用户名获取用户信息，返回用户实体数据。")
 	@RequestMapping(value = "/user-provider/user/get-user-byname/{username:.*}", method = RequestMethod.GET)
 	public SysUser selectUserByUserName(@PathVariable(value = "username", required = true) String username) throws Exception {
-		return userService.selectUserByUserName(username);
+		return userService.selectAllStatusUserByUserName(username);
 	}
 	
 	@ApiOperation(value="根据岗位检索用户列表",notes="根据岗位代号获取用户列表，返回用户实体列表数据。")
