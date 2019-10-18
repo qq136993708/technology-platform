@@ -29,6 +29,13 @@ public interface UserService {
 	public List<SysUser> getAllUsers();
 	
 	public SysUser selectUserByUserName(String username);
+	
+	/**
+	 *  不区分状态查询用户
+	 * @param username
+	 * @return
+	 */
+	public SysUser selectAllStatusUserByUserName(String username);
 
 	/**
 	 * 条件查询列表
