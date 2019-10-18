@@ -113,6 +113,19 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Integer insertUser(SysUser user) {
+		SysUser olduser = this.selectAllStatusUserByUserName(user.getUserName());
+		if(olduser != null && DelFlagEnum.STATUS_NORMAL.getCode().equals(olduser.getUserDelflag())) 
+		{
+			return 0;
+		}
+		if(olduser != null && DelFlagEnum.STATUS_DEL.getCode().equals(olduser.getUserDelflag())) 
+		{
+			String data_id = olduser.getUserId();
+			MyBeanUtils.copyPropertiesIgnoreNull(user, olduser);
+			olduser.setUserId(data_id);
+			olduser.setUserDelflag( DelFlagEnum.STATUS_NORMAL.getCode());
+			return userMapper.updateByPrimaryKey(olduser);
+		}
 		SysUser newuser = (SysUser) MyBeanUtils.createBean(SysUser.class);
 		MyBeanUtils.copyPropertiesIgnoreNull(user, newuser);
 		// 处理岗位、角色、权限(如果有变化 先删除后保存)
@@ -524,6 +537,20 @@ public class UserServiceImpl implements UserService {
 		}
 		return null;
 	}
+
+	@Override
+	public SysUser selectAllStatusUserByUserName(String username) {
+		SysUserExample example = new SysUserExample();
+		SysUserExample.Criteria suc = example.createCriteria();
+		suc.andUserNameEqualTo(username);
+
+		List<SysUser> us = userMapper.selectByExample(example);
+		if (us != null && us.size() > 0) {
+			return us.get(0);
+		}
+		return null;
+	}
+	
 
 	@Override
 	public Integer insertUserUnit(SysUserUnit user) {
