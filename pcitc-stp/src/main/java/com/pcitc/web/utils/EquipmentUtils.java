@@ -585,7 +585,7 @@ public class EquipmentUtils {
 		System.out.println("==========当前人的单位代码 "+unitCode);
 		return unitCode;
 	}
-	
+
 	
 	
 	

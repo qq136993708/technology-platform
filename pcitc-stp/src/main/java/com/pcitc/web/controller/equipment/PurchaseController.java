@@ -85,15 +85,20 @@ public class PurchaseController extends BaseController {
 	@RequestMapping(value = "/sre-purchase/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		/*Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
 		String parentUnitPathNames = map.get("unitName");// 申报单位
 		String parentUnitPathIds = map.get("unitCode");// 申报单位
 		String applyDepartName = map.get("applyDepartName");// 申报部门
-		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门*/
+
+		/*EquipmentUtils.getEquipmentUnitCode();*/
+		String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+		request.setAttribute("departCode", unitCodes);
 
 
-		request.setAttribute("departCode", applyDepartCode);
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+
+		/*request.setAttribute("departCode", applyDepartCode);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);*/
 		//获取八大院数据字典
 		List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
 		request.setAttribute("leaddicList", leaddicList);

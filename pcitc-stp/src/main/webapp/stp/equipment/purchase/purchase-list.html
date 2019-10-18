@@ -386,7 +386,7 @@ var name=$('#name').val();
             url: '/sre-purchase/list',
             method:"POST",
 		//查询条件            
-            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"departCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"isKJBPerson":$("#isKJBPerson"),"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"departCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),

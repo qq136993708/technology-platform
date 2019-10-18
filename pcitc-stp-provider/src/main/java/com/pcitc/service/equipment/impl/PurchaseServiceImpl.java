@@ -79,8 +79,9 @@ public class PurchaseServiceImpl implements PurchaseService {
         String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String createDate=getTableParam(param,"createDate","");
         String purchaseCode = getTableParam(param, "purchaseCode", "");
+        String isKJBPerson = getTableParam(param, "isKJBPerson", "");
 
-            Map map=new HashMap();
+        Map map=new HashMap();
             map.put("purchaseName", purchaseName);
             map.put("departName", departName);
             map.put("stage", stage);
@@ -91,9 +92,31 @@ public class PurchaseServiceImpl implements PurchaseService {
             map.put("createDate", createDate);
             map.put("purchaseCode", purchaseCode);
 
+            if (isKJBPerson.equals("true")){//查出八大院的所有数据
+                if (departCode.equals("")){
+                    map.put("parentUnitPathIds",departCode);//查询某一个院的数据
+                }
+            }else{
+                if (departCode.length()>7){
+                    map.put("parentUnitPathIds",departCode);//查询某个院
+                }else{
+                    map.put("departCode",departCode);//查某个所的数据
+                }
+            }
 
 
-            System.out.println(">>>>>>>>applyDepartCode="+departCode);
+            /*List<String>  unitCodesList=new ArrayList<String> ();
+            if(!unitCodes.equals(""))
+            {
+                String []arr=unitCodes.split(",");
+                unitCodesList = java.util.Arrays.asList(arr);
+            }
+
+
+            map.put("unitCodes", unitCodes);
+            map.put("unitCodesList", unitCodesList);*/
+
+            /*System.out.println(">>>>>>>>applyDepartCode="+departCode);
             StringBuffer applyUnitCodeStr=new StringBuffer();
             if(!departCode.equals("")) {
                 applyUnitCodeStr.append(" (");
@@ -108,7 +131,7 @@ public class PurchaseServiceImpl implements PurchaseService {
                 applyUnitCodeStr.append(" )");
             }
 
-            map.put("sqlStr", applyUnitCodeStr.toString());
+            map.put("sqlStr", applyUnitCodeStr.toString());*/
 
 
             list = srePurchaseMapper.getList(map);
