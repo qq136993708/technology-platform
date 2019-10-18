@@ -26,13 +26,13 @@
  <input type="hidden" name="applicationState" id="applicationState" value="${applicationState}">
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+ <input  name="str"     id="str"      value="${str}"    type="hidden">
+ <input  name="unitCodes"     id="unitCodes"      value="${unitCodes}"    type="hidden">
     <!--查询条件-->
     <label class="dateInput">
         <span>转资名称</span>
         <input type="text" name="name" id="name" placeholder="请输入转资名称" title="装备名称" autocomplete="off" class="form-control" >
     </label>
-    
-    
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -178,6 +178,7 @@ var name=$('#name').val();
             resetEvent: function() { //点击重置按钮
             	$('#name').val("");
             	$('#auditStatus').val("");
+            	$('#leadUnitCode').val("");
             },
             upQianEvent: function(){ //上传转资对接告单
                 if (typeof(selectRowData) == "undefined")
@@ -418,13 +419,13 @@ var name=$('#name').val();
     
     function renderTable()
     { 
-    	
+
        //渲染
        table.render({
            elem: '#processdef-table',
            url: '/sre-forapplication/list',
            method:"POST",
-           where: {param: {"applicationName":$("#name").val(),"applicationState":$("#applicationState").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+           where: {param: {"str":$("#str").val(),"unitCodes":$("#unitCodes").val(),"leadUnitCode":$("#leadUnitCode").val(),"applicationName":$("#name").val(),"applicationState":$("#applicationState").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),

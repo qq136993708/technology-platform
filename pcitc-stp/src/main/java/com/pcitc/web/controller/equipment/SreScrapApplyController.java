@@ -48,6 +48,7 @@ import com.pcitc.base.stp.equipment.SreProjectAudit;
 import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.stp.equipment.SreScrapApply;
 import com.pcitc.base.stp.equipment.sre_scrap_apply_item;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -121,19 +122,30 @@ public class SreScrapApplyController extends BaseController {
 		return "/stp/equipment/scrapapply/upload";
 	}
 	@RequestMapping(value = "/sre-sreScrapApply/to-list")
-	public String list(HttpServletRequest request, HttpServletResponse response) {
-
-		String	parentUnitPathIds="";
-		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
-		{
-			if(unitPathIds.length()>4)
-			{
-				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
-				
-			}
-		}
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
+		String parentUnitPathNames = map.get("unitName");// 申报单位
+		String parentUnitPathIds = map.get("unitCode");// 申报单位
+		String applyDepartName = map.get("applyDepartName");// 申报部门
+		String applyDepartCode = map.get("applyDepartCode");// 申报部门
+		String unitPathIds= map.get("applyDepartCode");
+		String unitPathNames= map.get("applyDepartName");
+		String unitPathId = sysUserInfo.getUnitPath();
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+	    request.setAttribute("isKJBPerson", isKJBPerson);
+	    List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
+				httpHeaders);
+	    if(isKJBPerson == true) {
+	    	//获取研究院
+			request.setAttribute("dictonary", dicList);
+			request.setAttribute("str","0");
+	    }else {
+	    	request.setAttribute("str","1");
+	    }
+	    String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+	    request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		request.setAttribute("applyDepartCode", applyDepartCode);
+		request.setAttribute("unitCodes", unitCodes);
 		return "/stp/equipment/scrapapply/scrapapply_list";
 	}
     	//启动采购管理-采购申请 确认流程
@@ -185,11 +197,27 @@ public class SreScrapApplyController extends BaseController {
 		String applyDepartCode = map.get("applyDepartCode");// 申报部门
 		String unitPathIds= map.get("applyDepartCode");
 		String unitPathNames= map.get("applyDepartName");
+		String unitPathId = sysUserInfo.getUnitPath();
+		String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
 		request.setAttribute("applyDepartName", applyDepartName);
 		
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		String id = CommonUtil.getParameter(request, "id", "");
 		request.setAttribute("id",id);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		request.setAttribute("applyDepartCode", applyDepartCode);
+		request.setAttribute("unitCodes", unitCodes);
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+	    request.setAttribute("isKJBPerson", isKJBPerson);
+	    List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
+				httpHeaders);
+	    if(isKJBPerson == true) {
+	    	//获取研究院
+			request.setAttribute("dictonary", dicList);
+			request.setAttribute("str","0");
+	    }else {
+	    	request.setAttribute("str","1");
+	    }
 		if(id=="")
 		{
 			return "/stp/equipment/scrapapply/scrapapply_add";
@@ -209,6 +237,9 @@ public class SreScrapApplyController extends BaseController {
 			List<FindAppltid> list = selectByAppltidList.getBody();
 			JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(list));
 			request.setAttribute("getList",jsonObject.toString());
+			request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+			request.setAttribute("applyDepartCode", applyDepartCode);
+			request.setAttribute("unitCodes", unitCodes);
 			return "/stp/equipment/scrapapply/scrapapply_edit";
 		}
 	}
@@ -500,6 +531,8 @@ public class SreScrapApplyController extends BaseController {
 			srescrapply.setRemarks(applyDepartName);//申请单位
 			srescrapply.setAuditStatus(Constant.EQUME_ZERO);//添加状态
 			srescrapply.setCreateUserId(ids);//装备ID
+			srescrapply.setApplicationNumber(applyDepartCode);
+			srescrapply.setUpdateUser(parentUnitPathIds);
 			respo = this.restTemplate.exchange(ANOUNCE_URL, HttpMethod.POST, new HttpEntity<SreScrapApply>(srescrapply, this.httpHeaders), Integer.class);
 			int statusCode = respo.getStatusCodeValue();
 			if(statusCode == 200) {

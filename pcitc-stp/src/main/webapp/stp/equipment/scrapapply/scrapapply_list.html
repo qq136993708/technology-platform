@@ -21,6 +21,8 @@
  <input type="hidden" name="id" id="id" value="">
  <input  name="functionId"     id="functionId"      type="hidden">
  <input  name="userIds"     id="userIds"      type="hidden">
+  <input  name="unitCodes"     id="unitCodes"      value="${unitCodes}"    type="hidden">
+    <input  name="str"     id="str"      value="${str}"    type="hidden">
  </form>
     <!--查询条件-->
     <label class="dateInput">
@@ -482,7 +484,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/sre-sreScrapApply/list',
            method:"POST",
-           where: {param: {"name":$("#name").val()}},
+           where: {param: {"str":$("#str").val(),"unitCodes":$("#unitCodes").val(),"name":$("#name").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),

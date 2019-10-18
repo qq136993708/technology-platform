@@ -28,6 +28,10 @@
         <span>资产描述</span>
         <input type="text" name="g0txt50"  title="资产描述" placeholder="请输入资产描述"  autocomplete="off" class="form-control" id="g0txt50">
     </label>
+    <label class="dateInput">
+        <span>使用部门</span>
+        <input type="text" name="g0kostlt"  title="使用部门" placeholder="请输入使用部门" autocomplete="off" class="form-control" id="g0kostlt">
+    </label>
     <#if test="${str==0}">
 	     <label class="dateInput">
 	         <span>研究院</span>
@@ -191,6 +195,7 @@ var name=$('#name').val();
             	$('#leadUnitCode').val("");
             	$('#month').val("");
             	$('#g0txt50').val("");
+            	$('#g0kostlt').val("");
             },
              exportEvent:function(){
                  var ny = window.ny
@@ -268,10 +273,10 @@ var name=$('#name').val();
        }
     	//渲染leadUnitCode
         table.render({
-            elem: '#processdef-table',
+            elem: '#processdef-table',  
             url: '/sre_equipment_ledger/company_list_data',
             method:"POST",
-            where: {param: {"leadUnitCode":$("#leadUnitCode").val(),"month":month,"g0anln1":$("#g0anln1").val(),"g0gsjc":$("#g0gsjc").val(),"g0txt50":$("#g0txt50").val()}},
+            where: {param: {"g0kostlt":$("#g0kostlt").val(),"leadUnitCode":$("#leadUnitCode").val(),"month":month,"g0anln1":$("#g0anln1").val(),"g0gsjc":$("#g0gsjc").val(),"g0txt50":$("#g0txt50").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
