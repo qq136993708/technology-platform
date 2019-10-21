@@ -51,8 +51,8 @@ $(document).ready(function() {
 					});
 			   	});
 				//日期
-				laydate.render({elem: '#startDate',type: 'date',value: new Date()});
-	    		laydate.render({elem: '#endDate',type: 'date',value: new Date()});
+				laydate.render({elem: '#startDate',type: 'year',value: new Date()});
+	    		laydate.render({elem: '#endDate',type: 'year',value: new Date()});
 			 	if(applyId != 0)
 		        {
 			 		$("#applyId").val(applyId);
@@ -251,17 +251,17 @@ $(document).ready(function() {
 		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">计划开始日期<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">计划开始年度<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input" readonly="readonly" lay-verify="required" id="startDate" name="startDate" placeholder="计划开始日期">
+						<input type="text" class="layui-input" readonly="readonly" lay-verify="required" id="startDate" name="startDate" placeholder="计划开始年度">
 					</div>
 				</div>
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">计划结束日期<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">计划结束年度<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input" id="endDate" readonly="readonly" lay-verify="required" lay-filter="checkDate" name="endDate" placeholder="计划结束日期">
+						<input type="text" class="layui-input" id="endDate" readonly="readonly" lay-verify="required" lay-filter="checkDate" name="endDate" placeholder="计划结束年度">
 					</div>
 				</div>
 			</div>
@@ -279,7 +279,7 @@ $(document).ready(function() {
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">中方合作单位名称<span class="must-fill">*</span></label>
+					<label for="" class="layui-form-label">中方合作单位<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
 						<input type="text" class="layui-input" lay-verify="required" id="outerCompanyName" name="outerCompanyName" placeholder="请输入合作方单位名">
 					</div>
@@ -297,9 +297,9 @@ $(document).ready(function() {
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-					<label for="" class="layui-form-label">研究院负责人电话</label>
+					<label for="" class="layui-form-label">负责人手机号<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input" id="managerPhone" name="managerPhone"  placeholder="请输入联系电话">
+						<input type="text" class="layui-input" lay-verify="required|phone" id="managerPhone" name="managerPhone"  placeholder="请输研究院负责人手机号码">
 					</div>
 				</div>
 			</div>
@@ -361,33 +361,33 @@ $(document).ready(function() {
 	         </div>
        </div> -->
        		<div class="layui-form-item">
-		      	 <label class="layui-form-label">项目研究优势</label>
+		      	 <label class="layui-form-label">合作必要性</label>
 		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea" id="projectAdvantage" name="projectAdvantage" placeholder=""></textarea>
+		         	   <textarea class="layui-textarea" id="projectAdvantage" name="projectAdvantage" placeholder="请填写合作必要性及合作方优势"></textarea>
 		         </div>
 	       	</div>
 	       	<div class="layui-form-item">
 		      	 <label class="layui-form-label">合作目的</label>
 		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea" id="projectTarget" name="projectTarget" placeholder=""></textarea>
+		         	   <textarea class="layui-textarea" id="projectTarget" name="projectTarget" placeholder="请填写合作目的"></textarea>
 		         </div>
 	       	</div>
 	       	<div class="layui-form-item">
 		      	 <label class="layui-form-label">研究内容</label>
 		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea" id="projectResearchContent" name="projectResearchContent" placeholder=""></textarea>
+		         	   <textarea class="layui-textarea" id="projectResearchContent" name="projectResearchContent" placeholder="请填写研究内容"></textarea>
 		         </div>
 	       	</div>
 	       	<div class="layui-form-item">
-		      	 <label class="layui-form-label layui-form-labelH">预期成果含人员培训情况</label>
+		      	 <label class="layui-form-label layui-form-labelH">人员培训情况</label>
 		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea" id="projectResult" name="projectResult" placeholder=""></textarea>
+		         	   <textarea class="layui-textarea" id="projectResult" name="projectResult" placeholder="请填写预期成果含人员培训情况"></textarea>
 		         </div>
 	       	</div>
 	       	<div class="layui-form-item">
-		      	 <label class="layui-form-label layui-form-labelH">成果及知识产权状态</label>
+		      	 <label class="layui-form-label layui-form-labelH">知识产权状态</label>
 		         <div class="layui-input-block">
-		         	   <textarea class="layui-textarea" id="projectRight" name="projectRight" placeholder=""></textarea>
+		         	   <textarea class="layui-textarea" id="projectRight" name="projectRight" placeholder="请填写知识产权状态"></textarea>
 		         </div>
 	       	</div>
        
@@ -396,7 +396,7 @@ $(document).ready(function() {
        
        <div class="layui-form-item">
 	      	 <label class="layui-form-label">附件</label>
-	         <div id="file_div" class="layui-input-block"></div>
+	         <div id="file_div" class="layui-input-block">特帅他</div>
        </div>
 	</div>
 	<div class="form-bottom">
