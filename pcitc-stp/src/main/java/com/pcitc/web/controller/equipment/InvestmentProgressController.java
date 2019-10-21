@@ -71,15 +71,15 @@ public class InvestmentProgressController extends BaseController {
 	    request.setAttribute("isKJBPerson", isKJBPerson);
 	    List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
 				httpHeaders);
-	    String str ="1";
 	    if(isKJBPerson == true) {
 	    	//获取研究院
 			request.setAttribute("dictonary", dicList);
-			request.setAttribute("str", "1");
+			request.setAttribute("str","0");
 	    }else {
-	    	request.setAttribute("dictonary", dicList);
-	    	request.setAttribute("str", "0");
+	    	request.setAttribute("str","1");
 	    }
+	    String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+	    request.setAttribute("unitCodes", unitCodes);
 		request.setAttribute("applyDepartCode", applyDepartCode);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/Investmentrogress/Investmentrogress-list";

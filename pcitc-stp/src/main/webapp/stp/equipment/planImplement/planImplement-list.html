@@ -22,6 +22,9 @@
  <input type="hidden" name="applicationState" id="applicationState" value="${applicationState}">
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
  <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+ 
+ <input type="hidden" name="str" id="str" value="${str}">
+ <input type="hidden" name="unitCodes" id="unitCodes" value="${unitCodes}">
     <!--查询条件-->
     <label class="dateInput">
         <span>规划标题</span>
@@ -286,8 +289,8 @@ var name=$('#name').val();
        table.render({
            elem: '#planningmanagement-table',
            url: '/sre-planImplement/list',
-           method:"POST",
-           where: {param: {"unitPathIds":$("#unitPathIds").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"publicationTitle":$("#publicationTitle").val(),"publisher":$("#publisher").val(),"publicationType":$("#publicationType").val(),"publicationMonth":$("#publicationMonth").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
+           method:"POST", 
+           where: {param: {"unitCodes":$("#unitCodes").val(),"str":$("#str").val(),"unitPathIds":$("#unitPathIds").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"publicationTitle":$("#publicationTitle").val(),"publisher":$("#publisher").val(),"publicationType":$("#publicationType").val(),"publicationMonth":$("#publicationMonth").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
            limit: 15,
            id: 'planningmanagement-table',
            height: commonDislodgeTable(),

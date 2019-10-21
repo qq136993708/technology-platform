@@ -32,17 +32,11 @@
         <input type="text" name="contractNum" id="contractNum" placeholder="请输入合同号" title="合同号" autocomplete="off" class="form-control" >
     </label>
     
-    <#if test="${str==0}">
-	     <label class="dateInput">
-	         <span>研究院</span>
-	         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
-	             <option value="" >--请选择--</option>
-	             <#list dictonary as vo> 
-			         <option value="${vo.numValue}"  >${vo.remark}</option>
-			      </#list>
-			 </select>
-	     </label>
-   </#if>
+    <label class="dateInput" style="margin-left:10px;" id="bodyId">
+        <span>公司名称</span>
+        <input type="text" name="leadUnitCode"  title="公司名称" autocomplete="off" placeholder="请输入公司名称" class="form-control" id="leadUnitCode">
+        </select>
+    </label>
     
     <!--按钮组-->
     <div class="btnGroup">
@@ -62,7 +56,16 @@
     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
     
 </div>
-
+<script type="text/javascript">
+    $(function(){
+    	var str = $("#str").val();
+        if(str=="0"){
+            document.getElementById("bodyId").style.display = "inline";
+        }else{
+            document.getElementById("bodyId").style.display = "none";
+        }
+    })
+</script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.declareTime)}} </script>
 <script type="text/javascript">
     // 时间格式化

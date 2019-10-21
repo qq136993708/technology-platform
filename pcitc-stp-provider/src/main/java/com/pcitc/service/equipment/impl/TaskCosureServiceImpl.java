@@ -1,5 +1,6 @@
 package com.pcitc.service.equipment.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,19 +61,36 @@ public  class TaskCosureServiceImpl implements TaskCosureService {
 		String topicName = getTableParam(param, "topicName", "");
 		String applyDepartCode=getTableParam(param,"applyDepartCode","");
 		String unitPathIds=getTableParam(param,"parentUnitPathIds","");
-		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
+		//String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String topicConten = getTableParam(param, "topicConten", "");
-		
+		String kjb = getTableParam(param,"str","");
 		String leadUnitCode = getTableParam(param, "leadUnitCode", "");
+		String unitCodes = getTableParam(param, "unitCodes", "");
+		List<String>  unitCodesList=new ArrayList<String> ();
 		Map map = new HashMap();
 		map.put("closeStatus", closeStatus);
 		map.put("topicName", topicName);
 		map.put("setupYear", setupYear);
 		map.put("firstApplyUser", unitPathIds);
-		map.put("parentUnitPathIds", parentUnitPathIds);
+		//map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("contractNum", topicConten);
-		map.put("leadUnitCode", leadUnitCode);
+		//map.put("leadUnitCode", leadUnitCode);
+		
+		map.put("unitPathNames", leadUnitCode);
+	    map.put("parentUnitPathNames", leadUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
+		if(kjb.equals("0")) {
+			map.put("unitCodes", "");
+		    map.put("unitCodesList", "");
+		}else {
+	        if(!unitCodes.equals(""))
+	        {
+	        	String []arr=unitCodes.split(",");
+	        	unitCodesList = java.util.Arrays.asList(arr);
+	        }
+	        map.put("unitCodes", unitCodes);
+		    map.put("unitCodesList", unitCodesList);
+		}
 //		if(!applyDepartCode.equals(""))
 //		{
 //			applyUnitCodeStr.append(" (");

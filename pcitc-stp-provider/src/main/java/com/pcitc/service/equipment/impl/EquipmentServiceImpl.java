@@ -378,7 +378,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	        }
 	        
         String contractNumNotNull = getTableParam(param, "contractNumNotNull", "");
-
+        String kjb = getTableParam(param,"str","");//判断是否为科技部 
         Map map=new HashMap();
 		map.put("belongDepartmentName", belongDepartmentName);
 		map.put("belongDepartmentCode", belongDepartmentCode);
@@ -391,7 +391,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("keyWord", keyWord);
 		map.put("leadUnitName", leadUnitName);
 		map.put("leadUnitCode", leadUnitCode);
-		map.put("applyUnitName", applyUnitName);
+		map.put("applyUnitName", leadUnitCode);
 		map.put("joinUnitName", joinUnitName);
 		map.put("joinUnitCode", joinUnitCode);
 		map.put("taskWriteUsersIds", taskWriteUsersIds);
@@ -403,12 +403,16 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("setupId", setupId);
 		map.put("taskId", taskId);
 		map.put("unitPathIds", unitPathIds);
-		map.put("parentUnitPathIds", parentUnitPathIds);
+		//map.put("parentUnitPathIds", parentUnitPathIds);
 
 		map.put("contractNum", contractNum);
         map.put("contractNumNotNull", contractNumNotNull);
         map.put("unitCodes", unitCodes);
-        map.put("unitCodesList", unitCodesList);
+	    map.put("unitCodesList", unitCodesList);
+		if(kjb.equals("0")) {
+			map.put("unitCodes", "");
+		    map.put("unitCodesList", "");
+		}
 		List<SreProject> list = sreProjectMapper.getList(map);
 		if (list.size()!=0){
             if (!contractNumNotNull.equals("")) {
@@ -1527,10 +1531,28 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("topicName", topicName);
 		map.put("setupYear", setupYear);
 		map.put("unitPathIds", unitPathIds);
-		map.put("parentUnitPathIds", parentUnitPathIds);
+		//map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("contractNum", topicConten);
-		map.put("leadUnitCode", leadUnitCode);
+		//map.put("leadUnitCode", leadUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
+		
+		String kjb = getTableParam(param,"str","");
+		String unitCodes = getTableParam(param, "unitCodes", "");
+		List<String>  unitCodesList=new ArrayList<String> ();
+		map.put("unitPathNames", leadUnitCode);
+	    map.put("parentUnitPathNames", leadUnitCode);
+		if(kjb.equals("0")) {
+			map.put("unitCodes", "");
+		    map.put("unitCodesList", "");
+		}else {
+	        if(!unitCodes.equals(""))
+	        {
+	        	String []arr=unitCodes.split(",");
+	        	unitCodesList = java.util.Arrays.asList(arr);
+	        }
+	        map.put("unitCodes", unitCodes);
+		    map.put("unitCodesList", unitCodesList);
+		}
 //		if(!applyDepartCode.equals(""))
 //		{
 //			applyUnitCodeStr.append(" (");

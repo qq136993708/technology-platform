@@ -65,15 +65,30 @@ public class PlanningManagementServiceImpl implements PlanImplementService {
 			String leadUnitCode=getTableParam(param,"leadUnitCode","");//研究院
 			Map map=new HashMap();
 			if(leadUnitCode.equals("")) {
-				map.put("levelId", parentUnitPathIds);
+				//map.put("levelId", parentUnitPathIds);
 			}else {
-				map.put("levelId", leadUnitCode);
+				//map.put("levelId", leadUnitCode);
 			}
 			map.put("parentUnitPathNames", parentUnitPathNames);
 			map.put("publicationType", publicationType);
 			map.put("publicationTitle", publicationTitle);
 			map.put("publisher", publisher);
 			map.put("publicationMonth", publicationMonth);
+			String unitCodes = getTableParam(param, "unitCodes", "");
+			List<String>  unitCodesList=new ArrayList<String> ();
+			String kjb = getTableParam(param,"str","");
+			if(kjb.equals("0")) {
+				map.put("unitCodes", "");
+			    map.put("unitCodesList", "");
+			}else {
+		        if(!unitCodes.equals(""))
+		        {
+		        	String []arr=unitCodes.split(",");
+		        	unitCodesList = java.util.Arrays.asList(arr);
+		        }
+			map.put("unitCodes", unitCodes);
+		    map.put("unitCodesList", unitCodesList);
+			}
 			List<SrePlanImplement> srePlanningManagement = srePlanningManagementMapper.getList(map);
 			PageInfo<SrePlanImplement> pageInfo = new PageInfo<SrePlanImplement>(srePlanningManagement);
 			System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
