@@ -74,15 +74,15 @@ public class TaskClosureController extends BaseController {
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 	    request.setAttribute("isKJBPerson", isKJBPerson);
 	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
-	    String str ="1";
+	    String str  ="0";
 	    if(isKJBPerson == true) {
 	    	//获取研究院
-			request.setAttribute("dictonary", dictonary);
-			request.setAttribute("str", "1");
 	    }else {
-	    	request.setAttribute("dictonary", dictonary);
-	    	request.setAttribute("str", "0");
+	    	str="1";
 	    }
+	    String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+	    request.setAttribute("unitCodes", unitCodes);
+	    request.setAttribute("str",str);
 		request.setAttribute("unitPathIds", unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/taskclosure/task_closure_list";
@@ -183,15 +183,15 @@ public class TaskClosureController extends BaseController {
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 	    request.setAttribute("isKJBPerson", isKJBPerson);
 	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
-	    String str ="1";
+	    String str  ="0";
 	    if(isKJBPerson == true) {
 	    	//获取研究院
-			request.setAttribute("dictonary", dictonary);
-			request.setAttribute("str", "1");
 	    }else {
-	    	request.setAttribute("dictonary", dictonary);
-	    	request.setAttribute("str", "0");
+	    	str="1";
 	    }
+	    String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+	    request.setAttribute("unitCodes", unitCodes);
+	    request.setAttribute("str",str);
 		request.setAttribute("unitPathIds", unitPathIds);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/taskclosure/closure_list";

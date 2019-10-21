@@ -46,22 +46,22 @@ public class EquipmentLedgerController extends BaseController{
 	@RequestMapping(value = "/sre_equipment_ledger/company_list")
 	public String company_list(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-		String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
-		//String unitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);
-		String g0gsjc = EquipmentUtils.getHanaUnitNameByUnitCode(unitCodes, restTemplate, httpHeaders);
+		//String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+		String unitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);
+		String g0gsjc = EquipmentUtils.getHanaUnitNameByUnitCode(unitCode, restTemplate, httpHeaders);
 		String unitPathIds = sysUserInfo.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
 	    request.setAttribute("isKJBPerson", isKJBPerson);
-	    List<SysDictionary>  dictonary= CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_YS", restTemplate, httpHeaders);
-	    String str ="1";
+	    List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
+				httpHeaders);
+	    String str  ="0";
 	    if(isKJBPerson == true) {
 	    	//获取研究院
-			request.setAttribute("dictonary", dictonary);
-			request.setAttribute("str", "1");
+			request.setAttribute("dictonary", dicList);
 	    }else {
-	    	request.setAttribute("dictonary", dictonary);
-	    	request.setAttribute("str", "0");
+	    	str="1";
 	    }
+	    request.setAttribute("str",str);
 		request.setAttribute("g0gsjc", g0gsjc);
 		return "/stp/equipment/ledger/company_list";
 	}

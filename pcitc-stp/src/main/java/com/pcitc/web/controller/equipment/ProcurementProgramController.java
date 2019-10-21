@@ -69,15 +69,14 @@ public class ProcurementProgramController extends BaseController {
 		    request.setAttribute("isKJBPerson", isKJBPerson);
 		    List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
 					httpHeaders);
-		    String str ="1";
+		    String str ="true";
 		    if(isKJBPerson == true) {
-		    	//获取研究院
-				request.setAttribute("dictonary", dicList);
-				request.setAttribute("str", "1");
 		    }else {
-		    	request.setAttribute("dictonary", dicList);
-		    	request.setAttribute("str", "0");
+		    	str = "flase";
 		    }
+		    request.setAttribute("str", str);
+		    String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+		    request.setAttribute("unitCodes", unitCodes);
 		return "/stp/equipment/procurementprogram/procurementprogram-list";
 	}
 	

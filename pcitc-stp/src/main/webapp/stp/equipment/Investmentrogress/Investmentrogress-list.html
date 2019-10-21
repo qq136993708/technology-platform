@@ -24,6 +24,7 @@
 <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
 <input type="hidden" name="specialAuditor0" id="specialAuditor0" value="">
 <input  name="str"     id="str"      value="${str}"    type="hidden">
+<input  name="unitCodes"     id="unitCodes"      value="${unitCodes}"    type="hidden">
 </form>
 
     <!--查询条件-->
@@ -43,15 +44,10 @@
         <input type="text" name="contractNum"  title="合同号" autocomplete="off" placeholder="请输入合同号" class="form-control" id="contractNum">
     </label>
     
-    <#if test="${str==0}">
+    <#if test="${str==1}">
 	     <label class="dateInput">
-	         <span>研究院</span>
-	         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
-	             <option value="" >--请选择--</option>
-	             <#list dictonary as vo> 
-			          <option value="${vo.numValue}"  >${vo.remark}</option>
-			      </#list>
-			 </select>
+	         <span>公司名称</span>
+	         <input type="text" name="leadUnitCode"  title="公司名称" autocomplete="off" placeholder="请输入公司名称" class="form-control" id="leadUnitCode">
 	     </label>
    </#if>
     <!--按钮组-->
@@ -329,7 +325,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"leadUnitCode":$("#leadUnitCode").val(),"name":$("#name").val(),"contractNum":$("#contractNum").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"unitCodes":$("#unitCodes").val(),"str":$("#str").val(),"leadUnitCode":$("#leadUnitCode").val(),"name":$("#name").val(),"contractNum":$("#contractNum").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

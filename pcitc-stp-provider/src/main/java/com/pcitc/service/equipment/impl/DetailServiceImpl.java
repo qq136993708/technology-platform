@@ -132,9 +132,9 @@ public class DetailServiceImpl implements DetailService {
 		 * map.put("unitPathIds", parentUnitPathIds); map.put("parentUnitPathIds",
 		 * unitPathIds);
 		 */
-		map.put("unitPathIds", leadUnitCode);
 		map.put("placePeople", contractNum);
-		
+		map.put("declareUnit", leadUnitCode);
+		map.put("declareDepartment", leadUnitCode);
 		Date dBefore = new Date();
 		Calendar   calendar= Calendar.getInstance();
         calendar.setTime(dBefore);

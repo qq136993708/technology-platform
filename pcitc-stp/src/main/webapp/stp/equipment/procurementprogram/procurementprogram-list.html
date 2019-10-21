@@ -19,9 +19,8 @@
 <input type="hidden" name="departCode" id="departCode" value="${departCode}">
 <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
  <input  name="str"     id="str"      value="${str}"    type="hidden">
-
+<input  name="unitCodes"     id="unitCodes"      value="${unitCodes}"    type="hidden">
 </form>
-
     <!--查询条件-->
     <input type="hidden" name="state" id="state" value="${state}">
     <label class="dateInput">
@@ -32,17 +31,11 @@
         <span>采购名称</span>
         <input type="text" name="purchaseName" value="" placeholder="请输入采购名称" title="采购名称" autocomplete="off" class="form-control" id="purchaseName">
     </label>
-    <#if test="${str==0}">
-	     <label class="dateInput">
-	         <span>研究院</span>
-	         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
-	             <option value="" >--请选择--</option>
-	             <#list dictonary as vo> 
-			           <option value="${vo.numValue}"  >${vo.remark}</option>
-			      </#list>
-			 </select>
-	     </label>
-   </#if>
+    <label class="dateInput" style="margin-left:10px;" id="bodyId">
+        <span>研究院</span>
+        <input type="text" name="leadUnitCode"  title="研究院" autocomplete="off" placeholder="请输入研究院" class="form-control" id="leadUnitCode">
+        </select>
+    </label>
   <!--  <label class="dateInput">
         <span>立项年度</span>
         <input type="text" name="createDate" value="" placeholder="请输入立项年度" title="申请开始时间" autocomplete="off" class="form-control" id="createDate">
@@ -62,6 +55,16 @@
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
 </div>
+<script type="text/javascript">
+    $(function(){
+    	var str = $("#str").val();
+        if(str=="true"){
+            document.getElementById("bodyId").style.display = "inline";
+        }else{
+            document.getElementById("bodyId").style.display = "none";
+        }
+    })
+</script>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript"> 
 function view_purchaseName(id) 
@@ -396,8 +399,8 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-procurementprogram/list',
             method:"POST",
-		//查询条件            
-            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"applyDepartCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"parentUnitPathIds":$("#leadUnitCode").val()}},
+		//查询条件            leadUnitCode isKJBPerson unitCodes
+            where: {param: {"departCode":$("#unitCodes").val(),"isKJBPerson":$("#str").val(),"parentUnitPathNames":$("#leadUnitCode").val(),"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"applyDepartCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"parentUnitPathIds":$("#leadUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

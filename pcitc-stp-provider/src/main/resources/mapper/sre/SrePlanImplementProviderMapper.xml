@@ -14,6 +14,7 @@
     <result column="level_id" jdbcType="VARCHAR" property="levelId" />
     <result column="creation_time" jdbcType="TIMESTAMP" property="creationTime" />
     <result column="level_name" jdbcType="VARCHAR" property="levelName" />
+    <result column="unitCodes"  property="unitCodes" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List">
     id, researchInstitute, publication_title, publication_type, publisher, publication_text, 
@@ -188,13 +189,19 @@
    
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	   	 <if test="sonId != null and sonId !='' ">      AND son_id =  #{parentUnitPathIds}</if>
 	   	 <if test="researchInstitute != null and researchInstitute !='' ">      AND researchInstitute =  #{parentUnitPathNames}</if>
 	   	 <if test="publicationType != null and publicationType !='' ">      AND publication_type =  #{publicationType}</if>
 	   	  <if test="publisher != null and publisher  !='' ">     AND publisher like CONCAT('%',#{publisher},'%')</if>
 	   	 <if test="publicationTitle != null and publicationTitle  !='' ">     AND publication_title like CONCAT('%',#{publicationTitle},'%')</if>
 	   	 <if test="publicationMonth != null and publicationMonth  !='' ">     AND publication_month like CONCAT('%',#{publicationMonth},'%')</if>
 	   	 <if test="levelId != null and levelId  !='' ">     AND level_id like CONCAT('%',#{levelId},'%')</if>
+	   	 
+	   	 <if test="unitCodes != null   and unitCodes !='' ">    
+	          AND `son_id` IN 
+	         <foreach collection="unitCodesList" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+             </foreach>
+	     </if>
 	 </trim>
 	</sql>
 </mapper>

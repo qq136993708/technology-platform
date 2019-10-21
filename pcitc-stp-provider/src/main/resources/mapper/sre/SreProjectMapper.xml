@@ -71,7 +71,7 @@
     <result column="project_background"  property="projectBackground"  jdbcType="VARCHAR" />
     <result column="search_content"      property="searchContent"  jdbcType="VARCHAR" />
     <result column="chief_man"           property="chiefMan"       jdbcType="VARCHAR" />
-    
+    <result column="unitCodes"  property="unitCodes" jdbcType="VARCHAR" />
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -857,7 +857,8 @@
 	     <if test="entrustUnitName != null           and entrustUnitName  !='' ">         AND t.entrust_unit_name like CONCAT('%',#{entrustUnitName},'%')</if>
 	     <if test="belongDepartmentName != null      and belongDepartmentName  !='' ">    AND t.belong_department_name like CONCAT('%',#{belongDepartmentName},'%')</if>
 	     <if test="professionalDepartName != null    and professionalDepartName  !='' ">    AND t.professional_depart_name like CONCAT('%',#{professionalDepartName},'%')</if>
-	     <if test="leadUnitCode != null              and leadUnitCode !=''  ">              AND t.lead_unit_code = #{leadUnitCode}</if>
+	     <if test="leadUnitCode != null              and leadUnitCode !=''  ">              AND t.lead_unit_name like CONCAT('%',#{leadUnitCode},'%')  </if>
+		 <if test="applyUnitName != null              and applyUnitName !=''  ">              OR  t.apply_unit_name like CONCAT('%',#{applyUnitName},'%')  </if>
 	     <if test="joinUnitCode != null              and joinUnitCode !=''  ">              AND t.join_unit_code = #{joinUnitCode}</if>
 	     <if test="entrustUnitCode != null           and entrustUnitCode !=''  ">           AND t.entrust_unit_code  = #{entrustUnitCode}</if>
 	     <if test="professionalDepartCode != null    and professionalDepartCode !=''  ">    AND t.professional_depart_code = #{professionalDepartCode}</if>

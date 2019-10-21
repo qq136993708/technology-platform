@@ -91,7 +91,15 @@ public class PlanImplementController extends BaseController {
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);//子id
 		request.setAttribute("parentUnitPathNames", parentUnitPathNames);//研究院
 		request.setAttribute("applyDepartName", applyDepartName);//当前部门
-	    request.setAttribute("isKJBPerson", isKJBPerson);
+		String str  ="0";
+	    if(isKJBPerson == true) {
+	    	//获取研究院
+	    }else {
+	    	str="1";
+	    }
+	    request.setAttribute("str",str);
+	    String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+	    request.setAttribute("unitCodes", unitCodes);
 		return "/stp/equipment/planImplement/planImplement-list";
 	}
 	

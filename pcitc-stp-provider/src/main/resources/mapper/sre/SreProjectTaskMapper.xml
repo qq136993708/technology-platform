@@ -72,7 +72,7 @@
     <result column="link_mail"           property="linkMail"  jdbcType="VARCHAR" />
     <result column="chief_man"           property="chiefMan"       jdbcType="VARCHAR" />
     <result column="purchase_money"      jdbcType="DECIMAL" property="purchaseMoney" />
-    
+    <result column="unitCodes"  property="unitCodes" jdbcType="VARCHAR" />
     
     
     
@@ -999,7 +999,15 @@
 	     <if test="setupYear != null and setupYear !=''  "> AND t.setup_year = #{setupYear}</if>
    		 <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.lead_unit_code = #{parentUnitPathIds}</if>
-   		  <if test="contractNum != null              and contractNum !=''  ">     AND t.contract_num = #{contractNum}</if>
+   		 <if test="contractNum != null              and contractNum !=''  ">     AND t.contract_num = #{contractNum}</if>
+   		 <if test="unitPathNames != null       and unitPathNames !=''  ">     AND t.unit_path_names  like CONCAT('%',#{unitPathNames},'%')</if>
+   		 <if test="parentUnitPathNames != null              and parentUnitPathNames !=''  ">     OR t.parent_unit_path_names like CONCAT('%',#{parentUnitPathNames},'%')</if>
+   		 <if test="unitCodes != null   and unitCodes !='' ">    
+	          AND t.`create_unit_code` IN 
+	         <foreach collection="unitCodesList" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+             </foreach>
+	     </if>
    			 ORDER BY  setup_year DESC, create_date desc
    </select>
    
@@ -1010,7 +1018,15 @@
 	     <if test="setupYear != null and setupYear !=''  "> AND t.setup_year = #{setupYear}</if>
 	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{firstApplyUser}</if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.lead_unit_code = #{parentUnitPathIds}</if>
-   		  <if test="contractNum != null              and contractNum !=''  ">     AND t.contract_num = #{contractNum}</if>
+   		 <if test="contractNum != null              and contractNum !=''  ">     AND t.contract_num = #{contractNum}</if>
+   		 <if test="unitPathNames != null       and unitPathNames !=''  ">     AND t.unit_path_names  like CONCAT('%',#{unitPathNames},'%')</if>
+   		 <if test="parentUnitPathNames != null              and parentUnitPathNames !=''  ">     OR t.parent_unit_path_names like CONCAT('%',#{parentUnitPathNames},'%')</if>
+   		 <if test="unitCodes != null   and unitCodes !='' ">    
+	          AND t.`create_unit_code` IN 
+	         <foreach collection="unitCodesList" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+             </foreach>
+	     </if>
    			 ORDER BY  setup_year DESC, create_date desc
    </select>
   
