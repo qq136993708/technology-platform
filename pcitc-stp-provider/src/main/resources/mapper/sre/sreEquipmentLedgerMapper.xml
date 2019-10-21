@@ -485,6 +485,7 @@
 	   	 <if test="g0cald != null and g0cald !='' ">      AND t.G0CALD =  #{g0cald}</if>
 	   	 <if test="g0txt50 != null and g0txt50 !='' ">    AND t.G0TXT50 = #{g0txt50}</if>
 	   	 <if test="g0gsjc != null and g0gsjc  !='' ">     AND t.G0GSJC like CONCAT('%',#{g0gsjc},'%')</if>
+	   	 <if test="g0kostlt != null and g0kostlt !='' ">      AND t.G0KOSTLT =  #{g0kostlt}</if>
     </select>
 
   <select id="getListMap" resultMap="BaseResultMap" parameterType="map" >
@@ -495,6 +496,7 @@
     <if test="g0cald != null and g0cald !='' ">      AND t.G0CALD =  #{g0cald}</if>
     <if test="g0txt50 != null and g0txt50 !='' ">    AND t.G0TXT50 like CONCAT('%',#{g0txt50},'%')</if>
     <if test="g0gsjc != null and g0gsjc  !='' ">     AND t.G0GSJC like CONCAT('%',#{g0gsjc},'%')</if>
+    <if test="g0kostlt != null and g0kostlt !='' ">      AND t.G0KOSTLT like CONCAT('%',#{g0kostlt},'%')</if>
   </select>
    
 

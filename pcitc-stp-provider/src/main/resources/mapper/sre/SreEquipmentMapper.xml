@@ -481,6 +481,12 @@
          <if test="applyDepartCode != null        and applyDepartCode !=''  ">       AND t.apply_depart_code = #{applyDepartCode}</if>
 	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
 	     <if test="isLinkedProject != null             and isLinkedProject !=''  ">           AND t.is_linked_project = #{isLinkedProject}</if>
+	     <if test="unitCodes != null   and unitCodes !='' ">    
+	          AND t.`apply_depart_code` IN 
+	         <foreach collection="unitCodesList" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+             </foreach>
+	     </if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
          <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>

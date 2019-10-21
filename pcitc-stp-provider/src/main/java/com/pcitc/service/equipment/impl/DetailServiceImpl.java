@@ -94,7 +94,22 @@ public class DetailServiceImpl implements DetailService {
 		
 		String contractNum=getTableParam(param,"contractNum","");
 		String leadUnitCode=getTableParam(param,"leadUnitCode","");
+		String unitCodes = getTableParam(param, "unitCodes", "");
+		List<String>  unitCodesList=new ArrayList<String> ();
+		String kjb = getTableParam(param,"str","");
 		Map map=new HashMap();
+		if(kjb.equals("0")) {
+			map.put("unitCodes", "");
+		    map.put("unitCodesList", "");
+		}else {
+	        if(!unitCodes.equals(""))
+	        {
+	        	String []arr=unitCodes.split(",");
+	        	unitCodesList = java.util.Arrays.asList(arr);
+	        }
+		map.put("unitCodes", unitCodes);
+	    map.put("unitCodesList", unitCodesList);
+		}
 		map.put("equipmentName", equipmentName);
 		map.put("equipmentType", equipmentType);
 		map.put("equipmentId", equipmentId);
@@ -113,8 +128,10 @@ public class DetailServiceImpl implements DetailService {
 		map.put("placePeople", placePeople);
 		map.put("receivePeople", receivePeople);
 	
-		map.put("unitPathIds", parentUnitPathIds);
-		map.put("parentUnitPathIds", unitPathIds);
+		/*
+		 * map.put("unitPathIds", parentUnitPathIds); map.put("parentUnitPathIds",
+		 * unitPathIds);
+		 */
 		map.put("unitPathIds", leadUnitCode);
 		map.put("placePeople", contractNum);
 		

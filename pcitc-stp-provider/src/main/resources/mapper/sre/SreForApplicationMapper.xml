@@ -15,6 +15,7 @@
     <result column="first_apply_user" property="firstApplyUser" jdbcType="VARCHAR" />
     <result column="company_Code" property="companyCode" jdbcType="VARCHAR" />
     <result column="application_Upload" property="applicationUpload" jdbcType="VARCHAR" />
+     <result column="unitCodes"  property="unitCodes" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     application_id, application_name, application_time, application_account, application_user_name, 
@@ -220,6 +221,12 @@
 	     <if test="applicationId!= null        and applicationId!=''  ">       AND t.application_id = #{applicationId!=}</if>
 	     <if test="applyDepartName!= null        and applyDepartName!=''  ">       AND t.apply_depart_name like CONCAT('%',#{applyDepartName},'%')</if>
 	 	 <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
+	 	 <if test="unitCodes != null   and unitCodes !='' ">    
+	          AND t.`apply_depart_code` IN 
+	         <foreach collection="unitCodesList" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+             </foreach>
+	     </if>
 	 </trim>
 	</sql>
 	

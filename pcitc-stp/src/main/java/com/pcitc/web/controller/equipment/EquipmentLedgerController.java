@@ -46,8 +46,9 @@ public class EquipmentLedgerController extends BaseController{
 	@RequestMapping(value = "/sre_equipment_ledger/company_list")
 	public String company_list(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-		String unitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);
-		String g0gsjc = EquipmentUtils.getHanaUnitNameByUnitCode(unitCode, restTemplate, httpHeaders);
+		String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+		//String unitCode = EquipmentUtils.getEquipmentUnitCode(sysUserInfo, restTemplate, httpHeaders);
+		String g0gsjc = EquipmentUtils.getHanaUnitNameByUnitCode(unitCodes, restTemplate, httpHeaders);
 		String unitPathIds = sysUserInfo.getUnitPath();
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
 	    request.setAttribute("isKJBPerson", isKJBPerson);

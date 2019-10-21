@@ -47,6 +47,7 @@ import com.pcitc.base.stp.equipment.SreForApplication;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.stp.equipment.UnitField;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -104,9 +105,22 @@ public class ForApplicationController extends BaseController {
 		String applyDepartCode = map.get("applyDepartCode");// 申报部门
 		String unitPathIds= map.get("applyDepartCode");
 		String unitPathNames= map.get("applyDepartName");
-		
+		String unitPathId = sysUserInfo.getUnitPath();
+		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
+	    request.setAttribute("isKJBPerson", isKJBPerson);
+	    List<SysDictionary> dicList = CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate,
+				httpHeaders);
+	    if(isKJBPerson == true) {
+	    	//获取研究院
+			request.setAttribute("dictonary", dicList);
+			request.setAttribute("str","0");
+	    }else {
+	    	request.setAttribute("str","1");
+	    }
+	    String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
 		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		request.setAttribute("applyDepartCode", applyDepartCode);
+		request.setAttribute("unitCodes", unitCodes);
  		return "/stp/equipment/forapplication/application-list";
 	}
 	
@@ -208,7 +222,8 @@ public class ForApplicationController extends BaseController {
 		request.setAttribute("applyDepartName", applyDepartName);
 		request.setAttribute("applyDepartCode", applyDepartCode);
 		request.setAttribute("firstApplyUser", firstApplyUser);
-		
+	    String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+		request.setAttribute("unitCodes", unitCodes);
 		//List<SrePurchase>  purchaseList= CommonUtil.getPurchaseNameIDList(restTemplate, httpHeaders);
 		//request.setAttribute("purchaseList", purchaseList);
 //		List<>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);

@@ -70,14 +70,23 @@ public class SreScrapApplyServiceImpl implements SreScrapApplyService {
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
 		String ApplyName=getTableParam(param,"name","");
+		String unitCodes = getTableParam(param, "unitCodes", "");
 //		String applicationId=getTableParam(param,"applicationId","");
 //		String applicationName=getTableParam(param,"applicationName","");
 //		String applicationUserName=getTableParam(param,"applicationUserName","");
 //		String applicationTime=getTableParam(param,"applicationTime","");
 //		String applicationMoney=getTableParam(param,"applicationMoney","");
 //		
+		List<String>  unitCodesList=new ArrayList<String> ();
 		Map map=new HashMap();
 		map.put("ApplyName", ApplyName);
+		 if(!unitCodes.equals(""))
+	        {
+	        	String []arr=unitCodes.split(",");
+	        	unitCodesList = java.util.Arrays.asList(arr);
+	        }
+		map.put("unitCodes", unitCodes);
+	    map.put("unitCodesList", unitCodesList);
 //		map.put("applicationState", applicationState);
 //		map.put("applicationName", applicationName);
 //		map.put("applicationUserName", applicationUserName);

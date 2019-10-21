@@ -15,6 +15,7 @@
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="documentdoc" property="documentdoc" jdbcType="VARCHAR" />
+     <result column="unitCodes"  property="unitCodes" jdbcType="VARCHAR" />
   </resultMap>
     <select id="getlist" resultMap="BaseResultMap" >
      select * from sre_scrap_apply t  <include refid="selectCondition" />    
@@ -26,6 +27,12 @@
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	   	 <if test="id != null     and id!=''  ">   AND t.id = #{id}</if>
 	     <if test="ApplyName != null and ApplyName!='' ">AND  t.name like CONCAT('%',#{ApplyName},'%')</if>
+	     <if test="unitCodes != null   and unitCodes !='' ">    
+	          AND t.`application_number` IN 
+	         <foreach collection="unitCodesList" index="index" item="item" open="(" separator="," close=")">
+	            #{item}
+             </foreach>
+	     </if>
 	 </trim>
 	</sql>
   <sql id="Base_Column_List" >
