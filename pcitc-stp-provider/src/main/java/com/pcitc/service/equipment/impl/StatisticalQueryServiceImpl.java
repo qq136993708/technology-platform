@@ -70,6 +70,7 @@ public class StatisticalQueryServiceImpl implements StatisticalQueryService {
         String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
         String createDate=getTableParam(param,"createDate","");
         String isKJBPerson = getTableParam(param, "isKJBPerson", "");
+
         Map map=new HashMap();
         PageInfo<SrePurchase> pageInfo = null;
         map.put("purchaseName", purchaseName);
@@ -77,34 +78,32 @@ public class StatisticalQueryServiceImpl implements StatisticalQueryService {
         map.put("stage", stage);
         map.put("state", state);
         map.put("proposerName", proposerName);
-        map.put("parentUnitPathNames", parentUnitPathNames);
         map.put("parentUnitPathIds", parentUnitPathIds);
         map.put("createDate", createDate);
+        map.put("departCode", departCode);
 
-        System.out.println(">>>>>>>>applyDepartCode="+departCode);
-        StringBuffer applyUnitCodeStr=new StringBuffer();
-        if(!departCode.equals("")) {
-            applyUnitCodeStr.append(" ("); String arr[]=departCode.split(",");
-            for(int i=0;i<arr.length;i++) {
-                if(i>0) {
-                    applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]
-                            +"', t.`depart_code`)");
-                }else {
-                    applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`depart_code`)");
-                }
+
+        List<String>  departCodeList=new ArrayList<String> ();
+        if (isKJBPerson.equals("true")){//该用户是科技部人员
+            if (parentUnitPathNames.equals("")){//首次查询八大院所有信息
+                departCode="";
+            }else{//条件查询,查询某个院的信息
+                departCode="";
+                //map.put("parentUnitPathIds", parentUnitPathIds);
+                map.put("parentUnitPathNames", parentUnitPathNames);
             }
-            applyUnitCodeStr.append(" )");
-        }
 
-        map.put("sqlStr", applyUnitCodeStr.toString());
+        }else{//该用户不是科技部人员
+            if(!departCode.equals(""))
+            {
+                String []arr=departCode.split(",");
+                departCodeList = java.util.Arrays.asList(arr);
+            }
+        }
+        map.put("departCode", departCode);
+        map.put("departCodeList", departCodeList);
+
         list = srePurchaseMapper.getList(map);
-        /*if(isKJBPerson.equals("true")){
-            pageInfo = new PageInfo<SrePurchase>(list);
-        }else{
-             list = new ArrayList<SrePurchase>();
-            pageInfo = new PageInfo<SrePurchase>(list);
-            System.err.println("此用户不是科技部人员");
-        }*/
         pageInfo = new PageInfo<SrePurchase>(list);
         System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
         LayuiTableData data = new LayuiTableData();

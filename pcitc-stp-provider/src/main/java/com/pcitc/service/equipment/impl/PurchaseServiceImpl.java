@@ -87,54 +87,33 @@ public class PurchaseServiceImpl implements PurchaseService {
             map.put("stage", stage);
             map.put("state", state);
             map.put("proposerName", proposerName);
-            map.put("parentUnitPathNames", parentUnitPathNames);
-            map.put("parentUnitPathIds", parentUnitPathIds);
+            //map.put("parentUnitPathNames", parentUnitPathNames);
             map.put("createDate", createDate);
             map.put("purchaseCode", purchaseCode);
 
-            if (isKJBPerson.equals("true")){//查出八大院的所有数据
-                if (departCode.equals("")){
-                    map.put("parentUnitPathIds",departCode);//查询某一个院的数据
-                }
-            }else{
-                if (departCode.length()>7){
-                    map.put("parentUnitPathIds",departCode);//查询某个院
-                }else{
-                    map.put("departCode",departCode);//查某个所的数据
-                }
+
+        List<String>  departCodeList=new ArrayList<String> ();
+        if (isKJBPerson.equals("true")){//该用户是科技部人员
+            if (parentUnitPathNames.equals("")){//首次查询八大院所有信息
+                departCode="";
+            }else{//条件查询,查询某个院的信息
+                departCode="";
+                //map.put("parentUnitPathIds", parentUnitPathIds);
+                map.put("parentUnitPathNames", parentUnitPathNames);
             }
 
-
-            /*List<String>  unitCodesList=new ArrayList<String> ();
-            if(!unitCodes.equals(""))
+        }else{//该用户不是科技部人员
+            if(!departCode.equals(""))
             {
-                String []arr=unitCodes.split(",");
-                unitCodesList = java.util.Arrays.asList(arr);
+                String []arr=departCode.split(",");
+                departCodeList = java.util.Arrays.asList(arr);
             }
+        }
+        map.put("departCode", departCode);
+        map.put("departCodeList", departCodeList);
 
 
-            map.put("unitCodes", unitCodes);
-            map.put("unitCodesList", unitCodesList);*/
-
-            /*System.out.println(">>>>>>>>applyDepartCode="+departCode);
-            StringBuffer applyUnitCodeStr=new StringBuffer();
-            if(!departCode.equals("")) {
-                applyUnitCodeStr.append(" (");
-                String arr[]=departCode.split(",");
-                for(int i=0;i<arr.length;i++) {
-                    if(i>0) {
-                        applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`depart_code`)");
-                    }else {
-                        applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`depart_code`)");
-                    }
-                }
-                applyUnitCodeStr.append(" )");
-            }
-
-            map.put("sqlStr", applyUnitCodeStr.toString());*/
-
-
-            list = srePurchaseMapper.getList(map);
+        list = srePurchaseMapper.getList(map);
 
 		PageInfo<SrePurchase> pageInfo = new PageInfo<SrePurchase>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());

@@ -34,12 +34,13 @@
     </label>
     <label class="dateInput" style="margin-left:10px;" id="bodyId">
         <span>研究院</span>
-        <select name="parentUnitPathIds" id="parentUnitPathIds"  class="form-control"  >
-            <option value="" >--请选择--</option>
+        <input type="text" name="parentUnitPathNames" value="" placeholder="请输入研究院名称" title="研究院名称" autocomplete="off" class="form-control" id="parentUnitPathNames">
+        <!--<select name="parentUnitPathIds" id="parentUnitPathIds"  class="form-control"  >
+            <option value="" >&#45;&#45;请选择&#45;&#45;</option>
             <#list leaddicList as vo>
             <option value="${vo.numValue}"  >${vo.remark}</option>
         </#list>
-        </select>
+        </select>-->
     </label>
     <div class="btnGroup" style="margin-right:10px">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -194,7 +195,7 @@
             resetEvent: function() { //点击重置按钮
 
                 $('#purchaseName').val("");
-                $('#parentUnitPathIds').val("");
+                $('#parentUnitPathNames').val("");
             },
             upQianEvent: function(){ //上传采购合同
                 if (typeof(selectRowData) == "undefined")
@@ -319,7 +320,7 @@
             elem: '#processdef-table',
             url: '/sre-purchase/list',
             method:"POST",
-            where: {param: {/*"state":"20",*/"stage":"2","parentUnitPathIds":$("#parentUnitPathIds").val(),"departCode":$("#departCode").val(),"purchaseName":$("#purchaseName").val()}},
+            where: {param: {"isKJBPerson":$("#isKJBPerson").val(),"stage":"2","parentUnitPathNames":$("#parentUnitPathNames").val(),"departCode":$("#departCode").val(),"purchaseName":$("#purchaseName").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),
