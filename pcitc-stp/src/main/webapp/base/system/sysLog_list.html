@@ -12,6 +12,11 @@
 <div class="searchBox">
 	<!--查询条件-->
 	<label class="dateInput">
+		<span>操作人</span>
+		<input type="text" name="logPerson" placeholder="请输入操作人"  title="操作人" autocomplete="off" class="form-control" id="logPerson">
+	</label>
+	
+	<label class="dateInput">
 		<span>日志名称</span>
 		<input type="text" name="logActionName" placeholder="请输入日志名称"
 			   title="日志名称" autocomplete="off"
@@ -61,6 +66,9 @@
             var logAction = $('#logAction').val();
             var logActionName = $('#logActionName').val();
             var logTime = $('#logTime').val();
+            var logPerson = $('#logPerson').val();
+            
+            
             table.render({
                 id:'logTable' //唯一即可
                 ,elem: '#logTable'
@@ -68,7 +76,7 @@
                 ,limit: 15
                 ,height: commonDislodgeTable()
                 ,method: 'POST'
-                ,where: {logAction:logAction,logActionName:logActionName,logTime:logTime}
+                ,where: {logAction:logAction,logActionName:logActionName,logTime:logTime,logPerson:logPerson}
                 ,page: {
                     count: 500, //数据总数，从服务端得到
                     groups: 5,

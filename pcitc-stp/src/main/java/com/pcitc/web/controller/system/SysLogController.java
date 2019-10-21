@@ -72,11 +72,13 @@ public class SysLogController extends BaseController {
 		String logAction = request.getParameter("logAction");
 		String logActionName = request.getParameter("logActionName");
 		String logsTime = request.getParameter("logTime");
+		String logPerson = request.getParameter("logPerson");
 		sysLog.setPage(page);
 		sysLog.setLimit(limit);
 		sysLog.setLogAction(logAction);
 		sysLog.setLogActionName(logActionName);
 		sysLog.setLogsTime(logsTime);
+		sysLog.setLogPerson(logPerson);
 		HttpEntity<SysLog> entity = new HttpEntity<SysLog>(sysLog, this.httpHeaders);
 		ResponseEntity<String> responseEntity = this.restTemplate.exchange(FUNCTION_LIST, HttpMethod.POST, entity, String.class);
 		String result = responseEntity.getBody();
