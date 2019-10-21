@@ -33,12 +33,13 @@
     </label>
     <label class="dateInput" style="margin-left:10px;" id="bodyId">
         <span>研究院</span>
-        <select name="parentUnitPathIds" id="parentUnitPathIds"  class="form-control"  >
-            <option value="" >--请选择--</option>
+        <input type="text" name="parentUnitPathNames" value="" placeholder="请输入研究院名称" title="研究院名称" autocomplete="off" class="form-control" id="parentUnitPathNames">
+        <!--<select name="parentUnitPathIds" id="parentUnitPathIds"  class="form-control"  >
+            <option value="" >&#45;&#45;请选择&#45;&#45;</option>
             <#list leaddicList as vo>
             <option value="${vo.numValue}"  >${vo.remark}</option>
         </#list>
-        </select>
+        </select>-->
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -175,7 +176,7 @@ var name=$('#name').val();
             	$('#purchaseName').val("");
             	$('#createDate').val("");
             	$('#proposerName').val("");
-                $('#parentUnitPathIds').val("");
+                $('#parentUnitPathNames').val("");
             },
             
             addEvent: function(){ //点击新增按钮
@@ -379,14 +380,14 @@ var name=$('#name').val();
     
     
     function renderTable()
-	{    
+	{
     	//渲染
         table.render({
             elem: '#processdef-table',
             url: '/sre-purchase/list',
             method:"POST",
 		//查询条件            
-            where: {param: {"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"departCode":$("#departCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+            where: {param: {"isKJBPerson":$("#isKJBPerson").val(),"proposerName":$("#proposerName").val(),"purchaseName":$("#purchaseName").val(),"state":$("#state").val(),"createDate":$("#createDate").val(),"departCode":$("#departCode").val(),"parentUnitPathNames":$("#parentUnitPathNames").val()}},
             limit: 15,
             id: 'processdef-table',
             height: commonDislodgeTable(),

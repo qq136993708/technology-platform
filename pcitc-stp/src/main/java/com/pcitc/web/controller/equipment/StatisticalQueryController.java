@@ -29,11 +29,10 @@ public class StatisticalQueryController extends BaseController {
     //跳转到  科研装备采购查询
     @RequestMapping(value = "/sre-statisticalQuery/to-purchaseEquipment-list")
     public String purchaseEquipmentList(HttpServletRequest request, HttpServletResponse response)throws Exception {
-        Map<String, String> map = EquipmentUtils.getDepartInfoBySysUser(sysUserInfo, restTemplate, httpHeaders);
-        String parentUnitPathNames = map.get("unitName");// 申报单位
-        String parentUnitPathIds = map.get("unitCode");// 申报单位
-        String applyDepartName = map.get("applyDepartName");// 申报部门
-        String applyDepartCode = map.get("applyDepartCode");// 申报部门
+
+        String unitCodes =EquipmentUtils.getChildscUnitBycodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+        request.setAttribute("departCode", unitCodes);
+        request.setAttribute("departCode", unitCodes);
 
         //获取八大院数据字典
         List<SysDictionary>  leaddicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_BDYJY", restTemplate, httpHeaders);
@@ -42,9 +41,6 @@ public class StatisticalQueryController extends BaseController {
         String unitPathIds = sysUserInfo.getUnitPath();
         boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathIds);
         request.setAttribute("isKJBPerson", isKJBPerson);
-
-        request.setAttribute("departCode", applyDepartCode);
-        request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 
         return "/stp/equipment/statisticalQuery/purchaseEquipment-list";
     }
