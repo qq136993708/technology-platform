@@ -40,6 +40,11 @@ public class SysLogServiceImpl implements SysLogService {
 				or.andLogActionNameLike("%"+obj.getLogActionName()+"%");
 				//or.andLogActionNameEqualTo(obj.getLogActionName());
 			}
+			
+			if (StringUtils.isNotEmpty(obj.getLogPerson())) {
+				or.andLogPersonLike("%"+obj.getLogPerson()+"%");
+			}
+			
 			if (StringUtils.isNotEmpty(obj.getLogAction())) {
 				or.andLogActionLike("%"+obj.getLogAction()+"%");
 			}
@@ -87,6 +92,14 @@ public class SysLogServiceImpl implements SysLogService {
 		if (StringUtils.isNotEmpty(obj.getLogAction())) {
 			or.andLogActionLike("%"+obj.getLogAction()+"%");
 		}
+		
+		
+
+		if (StringUtils.isNotEmpty(obj.getLogPerson())) {
+			or.andLogPersonLike("%"+obj.getLogPerson()+"%");
+		}
+		
+		
         if (StringUtils.isNotEmpty(obj.getLogsTime())) {
             String logsTime = obj.getLogsTime();
             String beginDate = logsTime.split(" - ")[0];

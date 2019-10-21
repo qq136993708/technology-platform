@@ -1741,6 +1741,10 @@ public class EquipmentUtils {
 		{
 			specialAuditor0="30130063_CZ";//秦士珍
 		}
+		if(professionalDepartName.indexOf("综合")!= -1)
+		{
+			specialAuditor0="30130054_CZ";//袁霞光
+		}
 		return specialAuditor0;
 	}
 	
