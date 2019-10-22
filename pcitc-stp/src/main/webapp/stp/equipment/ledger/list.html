@@ -24,13 +24,8 @@
         &nbsp;&nbsp;&nbsp;
 	   <#if test="${str==0}">
 		     <label class="dateInput">
-		         <span>研究院</span>
-		         <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
-		             <option value="" >--请选择--</option>
-		             <#list dictonary as vo> 
-				          <option value="${vo.numValue}"  >${vo.name}</option>
-				      </#list>
-				 </select>
+                 <span>公司名称</span>
+                 <input type="text" name="leadUnitCode"  title="公司名称" autocomplete="off" placeholder="请输入公司名称" class="form-control" id="leadUnitCode">
 		     </label>
 	   </#if>         
     <label class="dateInput">

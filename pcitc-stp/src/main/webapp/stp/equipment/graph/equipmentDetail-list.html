@@ -20,6 +20,7 @@
     <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
     <input  name="str"     id="str"      value="${str}"    type="hidden">
     <input type="hidden" name="isKJBPerson" id="isKJBPerson" value="${isKJBPerson}">
+    <input  name="unitCodes"     id="unitCodes"      value="${unitCodes}"    type="hidden">
 
     <!--查询条件-->
     <label class="dateInput">
@@ -34,12 +35,8 @@
 
     <#if test="${str==0}">
     <label class="dateInput">
-        <span>研究院</span>
-        <select name="leadUnitCode" id="leadUnitCode"  class="form-control"  >
-            <option value="" >--请选择--</option>
-            <#list dictonary as vo>
-            <option value="${vo.numValue}"  >${vo.remark}</option>
-        </#list>
+        <span>公司名称</span>
+        <input type="text" name="leadUnitCode"  title="公司名称" autocomplete="off" placeholder="请输入公司名称" class="form-control" id="leadUnitCode">
         </select>
     </label>
 </#if>
