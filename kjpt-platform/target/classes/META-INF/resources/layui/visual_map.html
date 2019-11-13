@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全流程可视化图</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico"/>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+    <!--<div class="vm">
+        <div class="vm-single vm-node">
+            <span class="vm-name vm-start">开始</span>
+            <i class="vm-i"></i>
+        </div>
+        <div class="vm-single vm-node">
+            <span class="vm-name vm-start">节点1</span>
+            <i class="vm-i"></i>
+        </div>
+        <div class="vm-single vm-node">
+            <span class="vm-name vm-name-f vm-start">节点2</span>
+            <i class="vm-i-l vm-i-start"></i>
+            <div class="vm-complex vm-node">
+                <div class="vm-single">
+                    <i class="vm-i-u"></i>
+                    <span class="vm-name vm-start">节点2.1</span>
+                    <i class="vm-i-d"></i>
+                </div>
+                <div class="vm-single">
+                    <i class="vm-i-u"></i>
+                    <span class="vm-name vm-start">点节点节点点节点节点节点</span>
+                    <i class="vm-i-d"></i>
+                </div>
+                <div class="vm-single">
+                    <i class="vm-i-u"></i>
+                    <span class="vm-name vm-start">节点2.3</span>
+                    <i class="vm-i-d"></i>
+                </div>
+            </div>
+        </div>
+        <i class="vm-i vm-i-w"></i>
+        <div class="vm-single vm-node">
+            <span class="vm-name vm-name-f vm-start">节点3</span>
+            <i class="vm-i vm-i-start"></i>
+            <div class="vm-complex vm-node vm-d">
+                <div class="vm-single">
+                    <i class="vm-i-u"></i>
+                    <span class="vm-name vm-start">节点2.1</span>
+                    <i class="vm-dw"></i>
+                </div>
+                <div class="vm-single">
+                    <i class="vm-i-u"></i>
+                    <span class="vm-name vm-start">点节点节点点节点节点节点</span>
+                    <i class="vm-i"></i>
+                    <span class="vm-name vm-end">结束</span>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div class="vm" id="vm">
+
+    </div>
+    <script>
+        layui.use(['jquery','layer'], function () {
+            var $ = layui.jquery,layer = layui.layer;;
+            var jsonData={
+                "data":[
+                    {"name":"开始","id":"1"},
+                    {"name":"节点1","state":"draft","id":"2","prev":"1"},
+                    {"name":"节点2","state":"","nodes":3,"id":"3","prev":"2"},
+                    {"name":"节点2.1","state":"","form":"3"},
+                    {"name":"节点2.2","state":"","form":"3"},
+                    {"name":"节点2.3","state":"","form":"3"},
+                    {"name":"节点3","state":"","id":"4","prev":"3"},
+                    {"name":"节点5","state":"adopt","nodes":2,"id":"5","prev":"4"},
+                    {"name":"节点5.1","state":"","form":"5","prev":"51"},
+                    {"name":"节点5.2","state":"","form":"5","id":"51"},
+                    {"name":"节点6","state":"","id":"6","prev":"5"},
+                    {"name":"结束"}
+                ]
+            };
+            var  data=jsonData.data;
+            for(var i in data ){
+                if(data[i].name=="开始"){
+                    var html='<div class="vm-single vm-node" id="'+data[i].id+'">' +
+                        '            <span class="vm-name vm-start">开始</span>' +
+                        '            <i class="vm-i"></i>' +
+                        '        </div>';
+                    $("#vm").append(html);
+                }
+                if(data[i].prev!==undefined) {
+                    if (data[i].nodes !== undefined) {
+                        var numberT=-((data[i].nodes*10)+8)+"px";
+                        var html = '<div class="vm-single vm-node" id="' + data[i].id + '">' +
+                            '            <span class="vm-name vm-name-f vm-start vm-'+data[i].state+'">'+data[i].name+'</span>' +
+                            '            <i class="vm-i-l vm-i-start"></i>' +
+                            '            <div class="vm-complex vm-node" style="margin-top:'+numberT+'"></div></div>';
+                    }else {
+                        var  html = '<div class="vm-single vm-node" id="' + data[i].id + '">' +
+                            '            <span class="vm-name vm-start vm-'+data[i].state+'">' + data[i].name + '</span>' +
+                            '            <i class="vm-i"></i>' +
+                            '        </div>';
+                    }
+                    $("#" + data[i].prev).after(html);
+                }
+                if(data[i].form!== undefined && data[i].id!== undefined ){
+                    $("#" + data[i].form+" .vm-complex").addClass("vm-d");
+                    var html='<div class="vm-single">' +
+                        '                    <i class="vm-i-u"></i>' +
+                        '                    <span class="vm-name vm-start vm-'+data[i].state+'">'+data[i].name+'</span>' +
+                        '                    <i class="vm-i-x"></i>'+
+                        '                </div>';
+                    $("#" + data[i].form+" .vm-complex").append(html);
+                }else if(data[i].form!== undefined && data[i].prev!== undefined ){
+                    var html='<div class="vm-single">' +
+                        '                    <i class="vm-i-u"></i>' +
+                        '                    <span class="vm-name vm-start vm-'+data[i].state+'">'+data[i].name+'</span>' +
+                        '                    <i class="vm-dw"></i>' +
+                        '                </div>';
+                    $("#" + data[i].form+" .vm-complex").append(html);
+                }else if(data[i].form!== undefined){
+                    var html='<div class="vm-single">' +
+                        '                    <i class="vm-i-u"></i>' +
+                        '                    <span class="vm-name vm-start vm-'+data[i].state+'">'+data[i].name+'</span>' +
+                        '                    <i class="vm-i-d"></i>' +
+                        '                </div>';
+                    $("#" + data[i].form+" .vm-complex").append(html);
+                }
+                if(data[i].name=="结束"){
+                    var html='<div class="vm-single vm-node" style="padding-right: 10px;">' +
+                        '            <span class="vm-name vm-end">结束</span>' +
+                        '        </div>';
+                    $("#vm").append(html);
+                }
+            }
+            var vmWidth=56;
+            $(".vm>div").each(function () {
+                vmWidth+=$(this).width()
+            });
+            $(".vm").css("width",vmWidth+"px");
+            //alert(vmWidth)
+            $(".vm-name").click(function () {
+                var nameVal=$(this).text();
+                layer.open({
+                    title:'详情'
+                    ,skin: 'layui-layer-lan'
+                    ,shadeClose: true
+                    ,type: 2
+                    ,fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    ,maxmin: false
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    ,area: ['80%', '80%'],
+                    content: "visual_map_d.html",
+                    success: function (layero, index) {
+                        // 获取子页面的iframe
+                        var iframe = window['layui-layer-iframe' + index];
+                        // 向子页面的全局函数child传参
+                        iframe.showData(nameVal);
+                    }
+                });
+
+            })
+
+        });
+    </script>
+</body>
+</html>

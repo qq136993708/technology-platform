@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<!-- 新增窗口 -->
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" style="width: 850px;">
+		    <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	            <h4 class="modal-title" id="myModalLabel">模块信息</h4>
+	        </div>
+        	<div class="modal-content">
+				<form id="dataForm" name="dataForm" class="form-horizontal bv-form" novalidate="novalidate">
+					<input type="hidden" id="id" name="id"/>
+   					<div class="box-body">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="moduleName" class="col-sm-3 control-label">模块名称:</label>
+								<div class="col-sm-8">
+					           		<input type="text" class="form-control" id="moduleName" name="moduleName" placeholder="模块名称"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="moduleCode" class="col-sm-3 control-label">模块编码:</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control" id="moduleCode" name="moduleCode" placeholder="模块编码"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="moduleWidth" class="col-sm-3 control-label">宽:</label>
+								<div class="col-sm-8">
+					                <input type="text" class="form-control" id="moduleWidth" name="moduleWidth" placeholder="宽"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="moduleHeight" class="col-sm-3 control-label">高:</label>
+								<div class="col-sm-8">
+					                <input type="text" class="form-control" id="moduleHeight" name="moduleHeight" placeholder="高"/>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group cmRadio">
+								<label class="col-sm-3 control-label">是否可用:</label>
+								<label class="col-sm-8">
+			                        <input id="ra1" type="radio" value="1" name="isVariable"/>
+			                        <label class="radio" name="isVariable" for="ra1">是</label>
+			                        <input id="ra2" type="radio" value="0" name="isVariable"/>
+			                        <label class="radio" name="isVariable" for="ra2">否</label>
+			                    </label>
+							</div>
+							<div class="form-group">
+								<label for="moduleColor" class="col-sm-3 control-label">背景颜色:</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control" id="moduleColor" name="moduleColor" placeholder="背景颜色">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="moduleImage" class="col-sm-3 control-label">背景图片:</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control" id="moduleImage" name="moduleImage" placeholder="背景图片">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="moduleSort" class="col-sm-3 control-label">排序:</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control" id="moduleSort" name="moduleSort" placeholder="排序">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="box-footer text-right">
+                		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                		<button type="button" id="btn-save" class="btn btn-primary">保存</button>
+            		</div>
+				</form>
+        	</div>
+	    </div>
+	</div>
+
+	<!-- Main content -->
+	<section class="content">
+		<!--查询条件-->
+        <div class="content-searcXh">
+			<div class="dataTables_filter" id="searchDiv">
+				<label>
+                       <span>模型名称</span>
+                       <input type="search" placeholder="请输入模块名称" title="模块名称" name="sysModuleName" 
+                   		class="form-control" id="sysModuleName">
+                  	</label>
+                  	<label>
+                       <span>模块编码</span>
+                       <input type="search" placeholder="请输入模块编码" title="模块编码" name="sysModuleCode" 
+                   		class="form-control" id="sysModuleCode">
+                  	</label>
+                   
+                   <div class="btn-group">
+                       <button type="button" class="btn btn-primary search" data-btn-type="search" id="search_btn">查询</button>
+                       <button type="button" class="btn btn-default reset" data-btn-type="reset" id="reset_btn">重置</button>
+                   </div>
+               </div>
+			<!-- /.box-header -->
+		</div>
+		<div class="content-body">
+			<div class="btn-group">
+            	<button type="button" class="btn btn-default add" data-btn-type="add">新增</button>
+            	<button type="button" class="btn btn-default edit" data-btn-type="edit">修改</button>
+            	<button type="button" class="btn btn-default delete" data-btn-type="delete">删除</button>
+            </div>
+			<table id="dataTable" class="table table-bordered table-striped"></table>
+		</div>
+	</section>
+	<div class="control-sidebar-bg"></div>
+	<!-- ./wrapper -->
+
+	<!-- page script -->
+	<script>
+	var dataTable;
+	var getTableDataUrl = "/sysModule/getTableData";
+    var columnDefs = 
+    	[
+		  { "title": "序号", "targets":0, "data":null, "orderable": false,"width" : 30},
+	      { "title": "模块名称", "targets":1,"data":"moduleName","width" : 80},
+	      { "title": "模块编码", "targets":2,"data":"moduleCode","width" : 80},
+	      { "title": "宽", "targets":3,"data":"moduleWidth","width" : 30},
+	      { "title": "高", "targets":4,"data":"moduleHeight","width" : 30},
+	      { "title": "背景颜色","targets":5,"data":"moduleColor","width" : 50},
+	      { "title": "背景图片","targets":6,"data":"moduleImage","width" : 80},
+	      { "title": "排序", "targets":7 ,"data":"moduleSort","width" : 30},
+	      {
+				"title" : "是否可用",
+				"width" : 50,
+				"targets" : 8,
+				"data" : "isVariable",
+				"render": function (data,type,row,meta) {
+                    if (data == "1") {
+                        return "是";
+                    } else if (data == "0") {
+                        return "否";
+                    }
+                }
+		  },
+		  {
+			   	"title" : "操作",
+			   	"orderable" : false,
+			   	"width" : 80,
+				"targets" : 9,
+				"data" : null,
+				"render": function (data, type, row, meta) {
+					return "<a href=\"javascript:showEditModule('" + data.id + "')\" id=\"_edit\">修改</a>&nbsp;&nbsp;" +
+                        "<a href=\"javascript:deleteSysModuleById('" + data.id + "')\" id=\"_del\">删除</a>";
+				}
+		  }
+	    ];
+    
+    var dataTablesSettings = {
+   		"bPaginate" : true,//分页工具条显示
+		"sPaginationType" : "full_numbers",//分页工具条样式
+		"bStateSave" : true, //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态  
+		"bScrollCollapse" : true, //当显示的数据不足以支撑表格的默认的高度
+		"bLengthChange" : true, //每页显示的记录数
+		"bFilter" : false, //搜索栏   默认是true
+		"bSort" : true, //是否支持排序功能
+		"bInfo" : true, //显示表格信息
+		"bAutoWidth" : false, //自适应宽度
+		"bJQueryUI" : false,//是否开启主题
+		"bDestroy" : true,
+		"bProcessing" : true, //开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
+		"bServerSide" : true,//服务器处理分页，默认是false，需要服务器处理，必须true
+		//"sAjaxDataProp" : "aData",//是服务器分页的标志，必须有 
+		"sAjaxSource" : getTableDataUrl,//通过ajax实现分页的url路径。
+		"fnServerData": retrieveData, // 获取数据的处理函数
+		 //"aoColumnDefs": [{ "bSortable": false, "aTargets": [0]}],//设置某列不排序
+		//初始化要显示的列
+		"columnDefs": columnDefs,
+	    "fnDrawCallback": function(){
+		   	var api = this.api();
+            var startIndex= api.context[0]._iDisplayStart;//获取到本页开始的条数
+            api.column(0).nodes().each(function(cell, i) {
+                cell.innerHTML =startIndex+i + 1;
+            });
+        },
+		"oLanguage" : {//语言设置
+			"sProcessing" : "处理中...",
+			"sLengthMenu" : "显示 _MENU_ 项结果",
+			"sZeroRecords" : "没有匹配结果",
+			"sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+			"sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+			"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+			"sInfoPostFix" : "",
+			"sSearch" : "搜索:",
+			"sUrl" : "",
+			"sEmptyTable" : "表中数据为空",
+			"sLoadingRecords" : "载入中...",
+			"sInfoThousands" : ",",
+			"oPaginate" : {
+				"sFirst" : "首页",
+				"sPrevious" : "上页",
+				"sNext" : "下页",
+				"sLast" : "末页"
+			},
+			"oAria" : {
+				"sSortAscending" : ": 以升序排列此列",
+				"sSortDescending" : ": 以降序排列此列"
+			}
+    	},
+        "dom": 'rt<"#pBottom"><"pTop"lp><"top"i>' ,
+		"fnInitComplete":function(){
+			var $pObj = $("#pBottom > div[id $=_paginate]").addClass('left') ;
+		}
+    }
+    
+	function formValidator() {
+		$("#dataForm").bootstrapValidator({
+            live: 'disabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证
+            excluded: [':disabled', ':hidden', ':not(:visible)'],//排除无需验证的控件，比如被禁用的或者被隐藏的
+            //submitButtons: '#btn-save',//指定提交按钮，如果验证失败则变成disabled，但我没试成功，反而加了这句话非submit按钮也会提交到action指定页面
+            //message: '通用的验证失败消息',//好像从来没出现过
+            feedbackIcons: {//根据验证结果显示的各种图标
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+            	moduleName: {
+                    validators: {
+                        notEmpty: {
+                            message: '模块名称不能为空'
+                        }
+                    }
+                },
+                moduleCode: {
+                    validators: {
+                        notEmpty: {
+                            message: '模块编码不能为空'
+                        }
+                    }
+                },
+                isVariable: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择是否可用'
+                        }
+                    }
+                },
+                moduleSort: {
+                    validators: {
+                        notEmpty: {
+                            message: '排序不能为空'
+                        }
+                    }
+                },
+            }
+	    });
+	}
+		
+    function getTableContent(){
+        var nTrs = dataTable.fnGetNodes();//fnGetNodes获取表格所有行，nTrs[i]表示第i行tr对象
+        for(var i = 0; i < nTrs.length; i++){
+            if($(nTrs[i]).hasClass('selected')){
+                 //console.log('[获取数据]' + dataTable.fnGetData(nTrs[i]));//fnGetData获取一行的数据
+                 return dataTable.fnGetData(nTrs[i]).id;
+            }
+        }
+    }
+       
+	function retrieveData(sSource, aoData, fnCallback) {
+		aoData = getSearchConditions(aoData);
+		//console.log(aoData);
+		var token = getCookie("token");
+        $.ajax({
+            url : sSource,//这个就是请求地址对应sAjaxSource
+            data : JSON.stringify(aoData),//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
+            type : 'post',
+            headers: {
+            	'Content-Type' : 'application/json',
+            	'access-token' : token
+            },
+            dataType : 'json',
+            async : false,
+            success : fnCallback,
+            error : function(msg) {
+            }
+        });
+    }
+	
+	function saveSysModule(){
+		//console.log($("#dataForm").serialize());
+		$.ajax({
+			type : 'post',
+			dataType : 'text',
+			async : false,
+            data : $("#dataForm").serialize(),
+            url : '/sysModule/saveSysModule',
+            success : function(data) {
+            	if(data==200){
+            		modals.info("数据保存成功");
+            		//刷新dataTable;
+            		dataTable._fnAjaxUpdate(); 
+            		//关闭模态窗口
+            		$('#addModal').modal("hide") ;
+            	}	            	
+            },
+            error : function(e) {
+                alert("出错了");
+                console.log(e);
+            }
+        }); 
+	}
+	
+	function deleteSysModuleById(id){
+		modals.confirm("是否要删除该行数据？", function () {
+			$.ajax({
+				type : 'post',
+				dataType : 'text',
+				async : false,
+	            data : {"id":id},
+	            url : '/sysModule/deleteSysModule?i='+Math.random(),
+	            success : function(data) {
+	            	if(data==200){
+	            		modals.info("数据删除成功");
+	            	}
+	            	//刷新dataTable;
+            		dataTable._fnAjaxUpdate(); 
+	            },
+	            error : function(e) {
+	                alert("出错了");
+	                console.log(e);
+	            }
+            });
+		});
+	}
+	
+    function showAddModule(){
+    	formReset();
+        $('#addModal').modal({
+	        keyboard: true,
+		});
+    }
+	
+    function showEditModule(id){
+   		formReset();
+   		$('#addModal').modal({
+       		keyboard: true,
+		});
+        $.ajax({
+			type : 'post',
+			dataType : 'json',
+			async : false,
+			data :{"id":id},
+			url : basePath + 'sysModule/getSysModule?i='+Math.random(),
+			success : function(data) {
+				$("input[name=id]").val(data.id);
+	        	$("input[name=moduleName]").val(data.moduleName);
+				$("input[name=moduleCode]").val(data.moduleCode);
+				$("input[name=moduleWidth]").val(data.moduleWidth);
+				$("input[name=moduleHeight]").val(data.moduleHeight);
+				$("input[name=moduleColor]").val(data.moduleColor);
+				$("input[name=moduleImage]").val(data.moduleImage);
+				$("input[name=moduleSort]").val(data.moduleSort);
+				$("input[name=isVariable][value='" + data.isVariable + "']").prop("checked", "checked");
+			},
+			error : function(e) {
+				alertError("出错了！",e);
+			}
+		});
+    }
+       
+    // 查询条件
+    var search_sysModuleName = $("div#searchDiv input[name='sysModuleName']");
+    var search_sysModuleCode = $("div#searchDiv input[name='sysModuleCode']");
+   	function getSearchConditions(aoData){
+   		if(search_sysModuleName.val()) aoData.push({ "name": "sysModuleName", "value": search_sysModuleName.val()});
+   		if(search_sysModuleCode.val()) aoData.push({ "name": "sysModuleCode", "value": search_sysModuleCode.val()});
+   		return aoData;
+   	};
+    
+   	function doSearch() {
+ 		dataTable.fnDestroy(false);
+       	dataTable = $('#dataTable').dataTable(dataTablesSettings);
+       	//跳转到第一页
+       	dataTable.fnPageChange(0);
+	}
+   	
+   	function formReset() {
+   		$("input[name=id]").val('');
+       	$("input[name=moduleName]").val('');
+		$("input[name=moduleCode]").val('');
+		$("input[name=moduleWidth]").val('');
+		$("input[name=moduleHeight]").val('');
+		$("input[name=moduleColor]").val('');
+		$("input[name=moduleImage]").val('');
+		$("input[name=moduleSort]").val('');
+	   	if($("#dataForm").data('bootstrapValidator')){
+        	$("#dataForm").data('bootstrapValidator').resetForm();
+   		}
+	  	//document.getElementById("dataForm").reset();
+	   	$("#dataForm")[0].reset();
+	}
+   	
+   	$(function() {
+		//初始化表格
+		dataTable = $('#dataTable').dataTable(dataTablesSettings);
+		//选择行事件
+		$('#dataTable tbody').on('click', 'tr', function (selector) {
+	      	$("#dataTable tbody tr").removeClass('selected');
+	        $(this).addClass('selected');
+	    });
+		//按钮点击事件
+        $('button[data-btn-type]').click(function () {
+        	var action = $(this).attr('data-btn-type');
+            var rowId = getTableContent();
+            switch (action) {
+	            case 'add':
+	            	showAddModule();
+	                break;
+		        case 'edit':
+		        	if (!rowId) {
+                        modals.info('请选择要修改的行');
+                        return false;
+                    }
+		        	showEditModule(rowId);
+		            break;
+                case 'delete':
+                    if (!rowId) {
+                        modals.info('请选择要删除的行');
+                        return false;
+                    }
+                    deleteSysModuleById(rowId);
+                    break;
+	        }
+	    });
+   		// 保存操作
+        $("#btn-save").click(function () {//非submit按钮点击后进行验证，如果是submit则无需此句直接验证
+        	formValidator();
+            $("#dataForm").bootstrapValidator('validate');//提交验证
+            if ($("#dataForm").data('bootstrapValidator').isValid()) {//获取验证结果，如果成功，执行下面代码
+            	saveSysModule();//验证成功后的操作
+            }
+        });
+        // 查询操作
+      	$("#search_btn").click(function(){
+      		doSearch();
+   	 	});
+    	// 重置操作
+      	$("#reset_btn").click(function(){
+      		search_sysModuleName.val("");
+      		search_sysModuleCode.val("");
+      		doSearch();
+   	 	});
+		//关闭Modal重置表单验证
+	    $('#addModal').on('hidden.bs.modal', function() {
+	    	formReset();
+	    });
+	});
+	</script>
+</body>
+</html>

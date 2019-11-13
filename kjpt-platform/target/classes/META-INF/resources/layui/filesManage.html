@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>文件管理 - layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="formBox">
+
+    <div class="tableBox">
+        <div class="tableToolBox">
+            <div class="tableBtns">
+                <div class="tableTitle">
+                    基本信息<span class="red">（标*号为必填项）</span>
+                </div>
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                        data-type="addEvent">新增
+                </button>
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+                        data-type="editEvent">编辑
+                </button>
+            </div>
+        </div>
+        <form class="layui-form" action="" lay-filter="component-form-group layui-container">
+            <div class="rowForm twoForm">
+            <div class="box-body">
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">标题1<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" name="title" lay-verify="title1" placeholder="请输入标题" autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">标题2<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <input type="text" name="date" lay-verify="title4" placeholder="请输入" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">标题3<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" name="title" lay-verify="title1" placeholder="请输入标题" autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">标题4<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <input type="text" name="date" lay-verify="title4" placeholder="请输入" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">标题5<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" name="title" lay-verify="title1" placeholder="请输入标题" autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">标题6<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <input type="text" name="date" lay-verify="title4" placeholder="请输入" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+
+    <div class="layui-upload" id="fileBox"></div>
+</div>
+<!--tab切换-->
+<script>
+
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['jquery','element'], function(){
+        var $ = layui.jquery,
+            element = layui.element;
+
+        $("#fileBox").load("uploadlayui.html",function(responseTxt,statusTxt,xhr){
+            if(statusTxt=="success")
+
+            if(statusTxt=="error")
+                alert("Error: "+xhr.status+": "+xhr.statusText);
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

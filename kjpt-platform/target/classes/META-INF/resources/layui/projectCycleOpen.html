@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/joint/css/joint.min.css"/>
+
+    <script src="/layuiadmin/joint/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/layuiadmin/joint/js/template.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/layuiadmin/joint/js/lodash.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/layuiadmin/joint/js/backbone.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/layuiadmin/joint/js/joint.js" type="text/javascript" charset="utf-8"></script>
+
+    <style>
+        .clear {
+            clear: both;
+        }
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .box {
+            width: 100%;
+            height: 100%;
+            margin-top:20px;
+        }
+
+        .department {
+            float: left;
+            width: 200px;
+            height: 800px;
+            position: relative;
+        }
+
+
+        .departmentnr {
+            text-align: center;
+
+        }
+        .departmentnr p{color: #999;}
+        .departmentnr a {
+            width: 100px;
+            height: 30px;
+            display: inline-block;
+            text-align: center;
+            line-height: 30px;
+            text-decoration: none;
+            margin-top: 20px;
+            font-size: 20px;
+            border-radius: 10px;
+            opacity: 0;
+        }
+        .blue a{background: #5dbdff;color: white;}
+        .gray a{background: #e3e3e3;color: #666666}
+        #paper {
+            position: absolute;
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+<div class="box"></div>
+<div id="paper"></div>
+<script type="text/javascript">
+    var json = {
+        "item": [{
+            "navigatItem": [{
+                "id": "66f48322cf334263a8b392ff14919781",
+                "name": "打样",
+                "colorFlag":"blue",
+                "url": "/q/mpic/20170731omsproofingnewhead",
+                "display": "款式打样",
+                "childs": [
+                    {
+                        "id": "8081fa7b8ff24a5cb5a3c2d8ee3eb877",
+                        "name": "储运",
+                        "url": "",
+                        "display": "",
+                        "childs": [
+
+                        ]
+                    }
+                ]
+            }]
+        }, {
+            "navigatItem": [{
+                "id": "8081fa7b8ff24a5cb5a3c2d8ee3eb877",
+                "name": "储运",
+                "url": "",
+                "display": "",
+                "colorFlag":"blue",
+                "childs": [{
+                    "id": "7ac835496b1946bcbe46d5727a68a172",
+                    "name": "付款",
+                    "url": "",
+                    "colorFlag":"gray",
+                    "display": "",
+                    "childs": []
+                },{
+                    "id": "0b1281ca43634d1e87ccf1c803570a24",
+                    "name": "付款申请",
+                    "url": "",
+                    "display": "",
+                    "childs": []
+                }]
+            }, {
+                "id": "0b1281ca43634d1e87ccf1c803570a24",
+                "name": "付款申请",
+                "url": "",
+                "display": "",
+                "colorFlag":"blue",
+                "childs": [{
+                    "id": "7ac835496b1946bcbe46d5727a68a172",
+                    "name": "付款",
+                    "url": "",
+                    "colorFlag":"gray",
+                    "display": "",
+                    "childs": []
+                }]
+            },]
+        }, {
+            "navigatItem": [{
+                "id": "7ac835496b1946bcbe46d5727a68a172",
+                "name": "付款",
+                "url": "",
+                "colorFlag":"gray",
+                "display": "",
+                "childs": []
+            }]
+        }]
+    }
+    var graph = new joint.dia.Graph;
+
+    var paper = new joint.dia.Paper({
+        el: $('#paper'),
+        width: $(document).width(),
+        height: $(document).height(),
+        gridSize: 1,
+        model: graph
+    });
+    //定义模块形状
+    function state(color,x, y, label, a, b) {
+        //alert(color)
+        if(color=="blue"){
+            var colorArr=["#5dbdff","#fff"];
+        }else {
+            var colorArr=["#e3e3e3","#666666"];
+        }
+        /*alert(colorArr[0])
+        alert(label)*/
+        var cell = new joint.shapes.basic.Rect({
+            position: {
+                x: x,
+                y: y
+            }, //坐标
+            size: {
+                width: 100,
+                height: 40
+            }, //宽高
+            attrs: {
+                rect: {
+                    fill: colorArr[0],
+                    rx: 5,
+                    ry: 5,
+                    'stroke-width': 0
+                },
+                text: {
+                    text: label,
+                    fill: colorArr[1]
+                },
+            }
+            //rect为方形,circle为圆形，还有stroke：边框颜色
+        });
+        graph.addCell(cell);
+        $(a).click(function() {
+            window.open(b);//点击事件
+        });
+        cell.toBack();//改变z-index
+        return cell;
+    };
+
+    function link(source, target, label, vertices){
+
+        var cell = new joint.shapes.fsa.Arrow({
+            source: {
+                id: source.id
+            },
+            target: {
+                id: target.id
+            },
+            labels: [{
+                position: 0.5,
+                attrs: {
+                    text: {
+                        text: label || '',
+                        'font-weight': 'bold'
+                    }
+                }
+            }],
+            router: {
+                name: 'orthogonal'
+            },
+            connector: {
+                name: 'jumpover'
+            },
+            vertices: vertices || [],
+            attrs: ({
+                '.marker-target': {
+                    fill: '#000',
+                    d: 'M 10 0 L 0 5 L 10 10 z'
+                }
+            })
+        });
+        graph.addCell(cell);
+
+        cell.toBack()
+
+        return cell;
+    }
+    paper.$el.css('pointer-events', 'none')
+</script>
+<script>
+    var html = ""
+    for(var i = 0; i < json.item.length; i++) {
+        //debugger
+        var html2 = ""
+        html += "<div class='department''>"
+        for(var o = 0; o < json.item[i].navigatItem.length; o++) {
+            console.log(json.item[i].navigatItem[o])
+            html2 += "<div class='departmentnr "+json.item[i].navigatItem[o].colorFlag+"'><a target='_blank'  id=" + json.item[i].navigatItem[o].id + " title=" + json.item[i].navigatItem[o].display + ">" + json.item[i].navigatItem[o].name + "</a><p>"+json.item[i].navigatItem[o].name +"</p></div>"
+        }
+        html += html2 + "</div>"
+    }
+    $(".box").html(html)
+    var num = 100 / json.item.length - 1 + '%'
+    var arraylist = [];
+    $(".department").css("width", num);
+    $.each(json.item, function(index, item) {
+        var name = item;
+        $.each(item.navigatItem, function(index, item2) {
+
+            var id2 = item2.id;
+            var name2 = item2.name;
+            var y2 = $("#" + id2).offset().top;
+            var x2 = $("#" + id2).offset().left;
+            //debugger
+            var arrValue2 = arraylist[id2];
+            if(arrValue2 == undefined) {
+                arraylist[id2] = state(item2.colorFlag,x2, y2, name2);
+            }
+            var color=item2.colorFlag;
+            if(item2.childs.length > 0) {
+                //alert(color)
+                $.each(item2.childs, function(index, item3) {
+                    var id3 = item3.id;
+                    var name3 = item3.name;
+                    var y3 = $("#" + id3).offset().top;
+                    var x3 = $("#" + id3).offset().left;
+                    var arrValue3 = arraylist[id3];
+                    if(arrValue3 == undefined) {
+                        if(item3.colorFlag==undefined){
+                            arraylist[id3] = state(color,x3, y3, name3);
+                        }else {
+                            arraylist[id3] = state(item3.colorFlag,x3, y3, name3);
+                        }
+                    }
+                    link(arraylist[id2], arraylist[id3]);
+                })
+            } else {
+                	//state(item2.colorFlag,x2, y2, name2);
+            }
+
+        })
+    })
+</script>
+</body>
+
+</html>

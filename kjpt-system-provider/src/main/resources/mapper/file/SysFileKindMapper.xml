@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.doc.SysFileKindMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.doc.SysFileKind" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_person_id" property="createPersonId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="ramarks" property="ramarks" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="update_person_id" property="updatePersonId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="VARCHAR" />
+    <result column="update_person_name" property="updatePersonName" jdbcType="VARCHAR" />
+    <result column="create_person_name" property="createPersonName" jdbcType="VARCHAR" />
+    <result column="kind_name" property="kindName" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <result column="del" property="del" jdbcType="VARCHAR" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+    <result column="kind_path" property="kindPath" jdbcType="VARCHAR" />
+    <result column="kind_level" property="kindLevel" jdbcType="VARCHAR" />
+    <result column="kind_leaf" property="kindLeaf" jdbcType="VARCHAR" />
+    <result column="kind_code" property="kindCode" jdbcType="VARCHAR" />
+    <result column="bak9" property="bak9" jdbcType="VARCHAR" />
+    <result column="bak10" property="bak10" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="iniId" property="iniid" jdbcType="VARCHAR" />
+    <result column="bak1" property="bak1" jdbcType="VARCHAR" />
+    <result column="bak2" property="bak2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, create_person_id, create_date, ramarks, status, audit_status, update_person_id, 
+    update_date, update_person_name, create_person_name, kind_name, parent_id, del, other, 
+    kind_path, kind_level, kind_leaf, kind_code, bak9, bak10, version, iniId, bak1, bak2
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.doc.SysFileKindExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_file_kind
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_file_kind
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_file_kind
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.doc.SysFileKindExample" >
+    delete from sys_file_kind
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.doc.SysFileKind" >
+    insert into sys_file_kind (id, create_person_id, create_date, 
+      ramarks, status, audit_status, 
+      update_person_id, update_date, update_person_name, 
+      create_person_name, kind_name, parent_id, 
+      del, other, kind_path, 
+      kind_level, kind_leaf, kind_code, 
+      bak9, bak10, version, 
+      iniId, bak1, bak2)
+    values (#{id,jdbcType=VARCHAR}, #{createPersonId,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, 
+      #{ramarks,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, 
+      #{updatePersonId,jdbcType=VARCHAR}, #{updateDate,jdbcType=VARCHAR}, #{updatePersonName,jdbcType=VARCHAR}, 
+      #{createPersonName,jdbcType=VARCHAR}, #{kindName,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{del,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR}, #{kindPath,jdbcType=VARCHAR}, 
+      #{kindLevel,jdbcType=VARCHAR}, #{kindLeaf,jdbcType=VARCHAR}, #{kindCode,jdbcType=VARCHAR}, 
+      #{bak9,jdbcType=VARCHAR}, #{bak10,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, 
+      #{iniid,jdbcType=VARCHAR}, #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.doc.SysFileKind" >
+    insert into sys_file_kind
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createPersonId != null" >
+        create_person_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="ramarks != null" >
+        ramarks,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+      <if test="updatePersonId != null" >
+        update_person_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updatePersonName != null" >
+        update_person_name,
+      </if>
+      <if test="createPersonName != null" >
+        create_person_name,
+      </if>
+      <if test="kindName != null" >
+        kind_name,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="del != null" >
+        del,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="kindPath != null" >
+        kind_path,
+      </if>
+      <if test="kindLevel != null" >
+        kind_level,
+      </if>
+      <if test="kindLeaf != null" >
+        kind_leaf,
+      </if>
+      <if test="kindCode != null" >
+        kind_code,
+      </if>
+      <if test="bak9 != null" >
+        bak9,
+      </if>
+      <if test="bak10 != null" >
+        bak10,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="iniid != null" >
+        iniId,
+      </if>
+      <if test="bak1 != null" >
+        bak1,
+      </if>
+      <if test="bak2 != null" >
+        bak2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createPersonId != null" >
+        #{createPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="ramarks != null" >
+        #{ramarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="updatePersonId != null" >
+        #{updatePersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updatePersonName != null" >
+        #{updatePersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="createPersonName != null" >
+        #{createPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="kindName != null" >
+        #{kindName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="del != null" >
+        #{del,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="kindPath != null" >
+        #{kindPath,jdbcType=VARCHAR},
+      </if>
+      <if test="kindLevel != null" >
+        #{kindLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="kindLeaf != null" >
+        #{kindLeaf,jdbcType=VARCHAR},
+      </if>
+      <if test="kindCode != null" >
+        #{kindCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bak9 != null" >
+        #{bak9,jdbcType=VARCHAR},
+      </if>
+      <if test="bak10 != null" >
+        #{bak10,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="iniid != null" >
+        #{iniid,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.doc.SysFileKindExample" resultType="java.lang.Integer" >
+    select count(*) from sys_file_kind
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_file_kind
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createPersonId != null" >
+        create_person_id = #{record.createPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ramarks != null" >
+        ramarks = #{record.ramarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditStatus != null" >
+        audit_status = #{record.auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatePersonId != null" >
+        update_person_id = #{record.updatePersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatePersonName != null" >
+        update_person_name = #{record.updatePersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createPersonName != null" >
+        create_person_name = #{record.createPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kindName != null" >
+        kind_name = #{record.kindName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.del != null" >
+        del = #{record.del,jdbcType=VARCHAR},
+      </if>
+      <if test="record.other != null" >
+        other = #{record.other,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kindPath != null" >
+        kind_path = #{record.kindPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kindLevel != null" >
+        kind_level = #{record.kindLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kindLeaf != null" >
+        kind_leaf = #{record.kindLeaf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kindCode != null" >
+        kind_code = #{record.kindCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak9 != null" >
+        bak9 = #{record.bak9,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak10 != null" >
+        bak10 = #{record.bak10,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null" >
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iniid != null" >
+        iniId = #{record.iniid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak1 != null" >
+        bak1 = #{record.bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak2 != null" >
+        bak2 = #{record.bak2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_file_kind
+    set id = #{record.id,jdbcType=VARCHAR},
+      create_person_id = #{record.createPersonId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      ramarks = #{record.ramarks,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      audit_status = #{record.auditStatus,jdbcType=VARCHAR},
+      update_person_id = #{record.updatePersonId,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=VARCHAR},
+      update_person_name = #{record.updatePersonName,jdbcType=VARCHAR},
+      create_person_name = #{record.createPersonName,jdbcType=VARCHAR},
+      kind_name = #{record.kindName,jdbcType=VARCHAR},
+      parent_id = #{record.parentId,jdbcType=VARCHAR},
+      del = #{record.del,jdbcType=VARCHAR},
+      other = #{record.other,jdbcType=VARCHAR},
+      kind_path = #{record.kindPath,jdbcType=VARCHAR},
+      kind_level = #{record.kindLevel,jdbcType=VARCHAR},
+      kind_leaf = #{record.kindLeaf,jdbcType=VARCHAR},
+      kind_code = #{record.kindCode,jdbcType=VARCHAR},
+      bak9 = #{record.bak9,jdbcType=VARCHAR},
+      bak10 = #{record.bak10,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=VARCHAR},
+      iniId = #{record.iniid,jdbcType=VARCHAR},
+      bak1 = #{record.bak1,jdbcType=VARCHAR},
+      bak2 = #{record.bak2,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.doc.SysFileKind" >
+    update sys_file_kind
+    <set >
+      <if test="createPersonId != null" >
+        create_person_id = #{createPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="ramarks != null" >
+        ramarks = #{ramarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="updatePersonId != null" >
+        update_person_id = #{updatePersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updatePersonName != null" >
+        update_person_name = #{updatePersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="createPersonName != null" >
+        create_person_name = #{createPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="kindName != null" >
+        kind_name = #{kindName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="del != null" >
+        del = #{del,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="kindPath != null" >
+        kind_path = #{kindPath,jdbcType=VARCHAR},
+      </if>
+      <if test="kindLevel != null" >
+        kind_level = #{kindLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="kindLeaf != null" >
+        kind_leaf = #{kindLeaf,jdbcType=VARCHAR},
+      </if>
+      <if test="kindCode != null" >
+        kind_code = #{kindCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bak9 != null" >
+        bak9 = #{bak9,jdbcType=VARCHAR},
+      </if>
+      <if test="bak10 != null" >
+        bak10 = #{bak10,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="iniid != null" >
+        iniId = #{iniid,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.doc.SysFileKind" >
+    update sys_file_kind
+    set create_person_id = #{createPersonId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      ramarks = #{ramarks,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      update_person_id = #{updatePersonId,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=VARCHAR},
+      update_person_name = #{updatePersonName,jdbcType=VARCHAR},
+      create_person_name = #{createPersonName,jdbcType=VARCHAR},
+      kind_name = #{kindName,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=VARCHAR},
+      del = #{del,jdbcType=VARCHAR},
+      other = #{other,jdbcType=VARCHAR},
+      kind_path = #{kindPath,jdbcType=VARCHAR},
+      kind_level = #{kindLevel,jdbcType=VARCHAR},
+      kind_leaf = #{kindLeaf,jdbcType=VARCHAR},
+      kind_code = #{kindCode,jdbcType=VARCHAR},
+      bak9 = #{bak9,jdbcType=VARCHAR},
+      bak10 = #{bak10,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      iniId = #{iniid,jdbcType=VARCHAR},
+      bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="java.util.Map"  resultMap="BaseResultMap">
+        select
+        id,
+        create_person_id,
+        create_date,
+        ramarks,
+        status,
+        audit_status,
+        update_person_id,
+        update_date,
+        update_person_name,
+        create_person_name,
+        kind_name,
+        parent_id,
+        del,
+        other,
+        bak1,
+        bak2
+        from sys_file_kind
+        where 1=1
+        <if test="id!=null and id!=''.toString()">
+            and id like '%${id}%'
+        </if>
+        <if test="createPersonId!=null and createPersonId!=''.toString()">
+            and create_person_id like '%${createPersonId}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and create_date like '%${createDate}%'
+        </if>
+        <if test="ramarks!=null and ramarks!=''.toString()">
+            and ramarks like '%${ramarks}%'
+        </if>
+            and status = '1'
+        <if test="auditStatus!=null and auditStatus!=''.toString()">
+            and audit_status like '%${auditStatus}%'
+        </if>
+        <if test="updatePersonId!=null and updatePersonId!=''.toString()">
+            and update_person_id like '%${updatePersonId}%'
+        </if>
+        <if test="updateDate!=null and updateDate!=''.toString()">
+            and update_date like '%${updateDate}%'
+        </if>
+        <if test="updatePersonName!=null and updatePersonName!=''.toString()">
+            and update_person_name like '%${updatePersonName}%'
+        </if>
+        <if test="createPersonName!=null and createPersonName!=''.toString()">
+            and create_person_name like '%${createPersonName}%'
+        </if>
+        <if test="kindName!=null and kindName!=''.toString()">
+            and kind_name like '%${kindName}%'
+        </if>
+        <if test="parentId!=null and parentId!=''.toString()">
+            and ( parent_id = '${parentId}' or id = '${parentId}')
+        </if>
+        <if test="del!=null and del!=''.toString()">
+            and del like '%${del}%'
+        </if>
+        <if test="other!=null and other!=''.toString()">
+            and other like '%${other}%'
+        </if>
+        <if test="bak1!=null and bak1!=''.toString()">
+            and bak1 like '%${bak1}%'
+        </if>
+        <if test="bak2!=null and bak2!=''.toString()">
+            and bak2 like '%${bak2}%'
+        </if>
+
+        order by create_date, kind_name
+    </select>
+    <!-- 查询列表 -->
+    <select id="findSysFileKindList" parameterType="com.pcitc.base.doc.SysFileKind" resultMap="BaseResultMap">
+        select
+        id,
+        create_person_id,
+        create_date,
+        ramarks,
+        status,
+        audit_status,
+        update_person_id,
+        update_date,
+        update_person_name,
+        create_person_name,
+        kind_name,
+        parent_id,
+        del,
+        other,
+        bak1,
+        bak2
+        from sys_file_kind
+        where 1=1
+        <if test="id!=null">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="createPersonId!=null">
+            and create_person_id = #{createPersonId,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and create_date = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="ramarks!=null">
+            and ramarks = #{ramarks,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="auditStatus!=null">
+            and audit_status = #{auditStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="updatePersonId!=null">
+            and update_person_id = #{updatePersonId,jdbcType=VARCHAR}
+        </if>
+        <if test="updateDate!=null">
+            and update_date = #{updateDate,jdbcType=VARCHAR}
+        </if>
+        <if test="updatePersonName!=null">
+            and update_person_name = #{updatePersonName,jdbcType=VARCHAR}
+        </if>
+        <if test="createPersonName!=null">
+            and create_person_name = #{createPersonName,jdbcType=VARCHAR}
+        </if>
+        <if test="kindName!=null">
+            and kind_name = #{kindName,jdbcType=VARCHAR}
+        </if>
+        <if test="parentId!=null">
+            and parent_id = #{parentId,jdbcType=VARCHAR}
+        </if>
+        <if test="del!=null">
+            and del = #{del,jdbcType=VARCHAR}
+        </if>
+        <if test="other!=null">
+            and other = #{other,jdbcType=VARCHAR}
+        </if>
+        <if test="bak1!=null">
+            and bak1 = #{bak1,jdbcType=VARCHAR}
+        </if>
+        <if test="bak2!=null">
+            and bak2 = #{bak2,jdbcType=VARCHAR}
+        </if>
+
+        order by create_date, kind_name
+    </select>
+    <!-- 查询文档分类树 -->
+    <select id="selectTrees" resultType="com.pcitc.base.common.TreeNode" parameterType="java.util.HashMap">
+	  select id,parent_id as pid,parent_id as parentId,kind_name as name,
+	  		 kind_name as text,id as code,kind_path as nodePath,kind_leaf as isLeaf
+      from sys_file_kind
+      where 
+      	status = 1
+      	<if test="other != null">
+			and sys_file_kind.other = '${other}'
+		</if>
+		<if test="createPersonId != null">
+			and sys_file_kind.create_person_id = '${createPersonId}'
+		</if>
+		<if test="parentId != null">
+			and sys_file_kind.parent_id = '${parentId}'
+		</if>
+		<if test="kindLevel != null">
+			and cast(sys_file_kind.kind_level as signed) &lt;= '${kindLevel}'
+		</if>
+		order by create_date, kind_name
+    </select>
+    
+    <!--文档分类权限分配查询-用户-->
+    <select id="getSysFileKindUserListData" resultType="com.pcitc.base.system.SysUser" parameterType="java.util.HashMap">
+      select sys_user.user_id as userId,sys_user.user_name as userName,sys_user.user_disp as userDisp,
+			 GROUP_CONCAT(DISTINCT sys_unit.unit_name) as unitName,sys_file_kind_auth.user_id as userConfig1
+	  from sys_user_unit,sys_unit,sys_user left join sys_file_kind_auth on (sys_user.user_id = sys_file_kind_auth.user_id and sys_file_kind_auth.file_kind_id = #{fileKindId})
+	  where 
+	  	sys_user_unit.unit_id = sys_unit.unit_id and 
+	  	sys_user_unit.user_id = sys_user.user_id and
+		sys_user.user_delflag = '0'
+		<if test="userName != null">
+			and sys_user.user_disp like '%${userName}%'
+		</if>
+	  group by sys_user.user_id
+  	</select>
+</mapper>

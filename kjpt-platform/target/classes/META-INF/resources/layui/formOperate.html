@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单操作</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+</head>
+<body>
+
+<div class="tableToolBox">
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg formAdd" data-method="addInput">新增</button>
+</div>
+<div class="formBox">
+    <form class="layui-form" action="" lay-filter="component-form-group layui-container">
+        <div class="box-body" id="form-container">
+            <!--行有两个的情况 长版文本框-->
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">项目<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="name" lay-verify="title" placeholder="请输入项目名" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">
+                            <select name="city" lay-verify=""  lay-filter="test">
+                                <option value="">请选择一个城市</option>
+                                <option value="010">北京</option>
+                                <option value="021">上海</option>
+                                <option value="0571">杭州</option>
+                            </select>
+                        </div>
+                        <div class="layui-col-xs2 layui-col-sm2 layui-col-md2 layui-col-lg-offset1">
+                            <div class="formOperate">
+                                <i class="layui-icon formadd" data-method="addInput">&#xe61f;</i>
+                                <i class="layui-icon formdel" data-method="delInput">&#xe640;</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '/layuiadmin/lib/extend/ckeditor/' //静态资源所在路径
+    }).extend({
+        ckeditor: 'ckeditor' //主入口模块
+    }).use([ 'jquery','form','layer','element','selectTree'], function(){
+        var $ = layui.jquery
+            ,element = layui.element
+            ,layer = layui.layer
+            ,laydate = layui.laydate
+            ,selectTree=layui.selectTree
+            ,form = layui.form
+        var newFormEle = '';
+
+        var active = {
+            addInput: function (othis) {
+                newFormEle = "<div class=\"layui-row\">\n" +
+                    "                <div class=\"layui-col-xs6 layui-col-sm6 layui-col-md6\">\n" +
+                    "                    <div class=\"layui-form-item\">\n" +
+                    "                        <label for=\"\" class=\"layui-form-label\">项目<span class=\"must-fill\">*</span></label>\n" +
+                    "                        <div class=\"layui-input-block\">\n" +
+                    "                            <input class=\"layui-input\" name=\"name\" lay-verify=\"title\" placeholder=\"请输入项目名\" autocomplete=\"off\" type=\"text\">\n" +
+                    "                        </div>\n" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "                <div class=\"layui-col-xs6 layui-col-sm6 layui-col-md6\">\n" +
+                    "                    <div class=\"layui-form-item\">\n" +
+                    "                            <div class=\"layui-col-xs9 layui-col-sm9 layui-col-md9\">\n" +
+                    "                                <select name=\"city\" lay-verify=\"\"  lay-filter=\"test\">\n" +
+                    "                                    <option value=\"\">请选择一个城市</option>\n" +
+                    "                                    <option value=\"010\">北京</option>\n" +
+                    "                                    <option value=\"021\">上海</option>\n" +
+                    "                                    <option value=\"0571\">杭州</option>\n" +
+                    "                                </select>\n" +
+                    "                            </div>\n" +
+                    "                            <div class=\"layui-col-xs2 layui-col-sm2 layui-col-md2 layui-col-lg-offset1\">\n" +
+                    "                                <div class=\"formOperate\">\n" +
+                    "                                    <i class=\"layui-icon formadd\" data-method=\"addInput\">&#xe61f;</i>\n" +
+                    "                                    <i class=\"layui-icon formdel\" data-method=\"delInput\">&#xe640;</i>\n" +
+                    "                                </div>\n" +
+                    "                            </div>\n" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "            </div>";
+                othis.parents('.layui-row').after(newFormEle);
+                form.render();
+            },
+            delInput: function (othis) {
+                othis.parents('.layui-row').remove();
+                form.render();
+            }
+        };
+
+        /*$('.formAdd').on('click', function () {
+            var othis = $(this), method = othis.data('method');
+            active[method].call(this, othis);
+        });*/
+        //动态添加元素
+        $('#form-container').on('click','.formadd', function () {
+            var othis = $(this), method = othis.data('method');
+            active[method].call(this, othis);
+        });
+        //动态删除元素
+        $('#form-container').on('click','.formdel', function () {
+            var othis = $(this), method = othis.data('method');
+            active[method].call(this, othis);
+        });
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<#include "/common/public/publicImportIndex.html"/>
+</head>
+<style>
+.box-body label .radio{ background: url("/common/images/radio.png") no-repeat 10px; display: inline-block;
+    padding:0;position: relative;left: -28px;width: 55px;text-align: right;line-height: 25px;}
+</style>
+<body class="hold-transition skin-blue sidebar-mini" style="background:#fff">
+	<!-- Main content -->
+	<section class="content">
+		<!-- <div class="content-searcXh">
+			<div class="dataTables_filter" id="searchDiv">
+				查询条件
+				<label>
+                   <span>菜单名称</span>
+                   <input type="search" placeholder="请输入菜单名称" title="菜单名称" name="functionName" class="form-control" id="name" operator="like" likeOption="true">
+               </label>
+				<div class="btn-group">
+					<button type="button" class="btn btn-primary search" data-btn-type="search">查询</button>
+					<button type="button" class="btn btn-default reset" data-btn-type="reset">重置</button>
+					<button type="button" class="btn btn-default add" data-btn-type="add" id="btn_add">新增</button>
+				</div>
+			</div>
+		</div> -->
+		
+		<div class="content-body">
+		
+		 <div class="col-md-3">
+			 <div class="treeTitle">功能树</div>
+        	 <div id="tree" style="height :500px;"> </div>
+     	 </div>
+     	 <div class="col-md-9">
+			<div class="content-searcXh">
+			<div class="dataTables_filter" id="searchDiv">
+				<!--查询条件-->
+				<label>
+                   <span>菜单名称</span>
+                   <input type="search" placeholder="请输入菜单名称" title="菜单名称" name="functionName" class="form-control" id="name" operator="like" likeOption="true">
+					<button type="button" class="btn btn-primary search" data-btn-type="search">查询</button>
+					<button type="button" class="btn btn-default reset" data-btn-type="reset">重置</button>
+               </label>
+			</div>
+			</div>
+			 <div class="content-body">
+				 <div class="btn-group">
+					 <button type="button" class="btn btn-default add" data-btn-type="add" id="btn_add">新增</button>
+					 <button type="button" class="btn btn-default edit" data-btn-type="edit" id="btn_edit">编辑</button>
+					 <button type="button" class="btn btn-default delete" data-btn-type="delete" id="btn_delete">删除</button>
+				 </div>
+			 </div>
+			<div class="content-table">
+				<div class="ct-table">
+				<table id="functionTable" class="table table-bordered table-striped dataTable no-footer" style="width:100%;" role="grid">
+					
+				</table>
+				</div>
+			</div>
+		</div>
+		</div>
+	
+	</section>
+	<div class="control-sidebar-bg"></div>
+	
+
+	
+	<script>
+		var functionTable ;
+		$(function() {
+			initTable();
+			parentId = '';
+			//选择行事件
+			$('#functionTable tbody').on('click', 'tr', function (selector) {
+		      	$("#functionTable tbody tr").removeClass('selected');
+		        $(this).addClass('selected');
+		        nodeId = getTableContent();
+		    });
+			
+			$('button[data-btn-type]').click(function() {
+	            var action = $(this).attr('data-btn-type');
+	            
+	            switch (action) {
+	                case 'search':
+	                	functionTable.fnClearTable();
+	                	doSearch();
+	                    break;
+	                case 'add':
+	                	addFunctionTreeNode();
+	                	break;
+	                case 'edit':
+	                	if (!nodeId) {
+	                        modals.info('请选择要修改的树节点或行');
+	                        return false;
+	                    }
+	                	if(nodeId == '10001'){
+	                		modals.info('根节点不允许修改');
+	                	}else{
+	                		editFunction(nodeId);
+	                	}
+	                	break;
+	                case 'reset':
+	                	reset();
+	                	break;
+	                case 'delete':
+	                	deleteFunctionTreeNode();
+	                	break;
+	            }
+	        });
+
+
+
+
+		});
+		
+		function initTable (){
+			functionTable = $('#functionTable').dataTable({
+				"bPaginate" : true,//分页工具条显示
+				//"sPaginationType" : "full_numbers",//分页工具条样式
+				"bStateSave" : true, //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态  
+				"bScrollCollapse" : true, //当显示的数据不足以支撑表格的默认的高度
+				"bLengthChange" : true, //每页显示的记录数
+				"aLengthMenu":[[15, 30, 45, 60, -1], [15, 30, 45, 60, "All"]],//每页显示15条数据
+				"bFilter" : true, //搜索栏   默认是true
+				"bSort" : true, //是否支持排序功能
+				"bInfo" : true, //显示表格信息
+				"bAutoWidth" : true, //自适应宽度
+				"bJQueryUI" : false,//是否开启主题
+				"bDestroy" : true,
+				"bProcessing" : true, //开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
+				"bServerSide" : true,//服务器处理分页，默认是false，需要服务器处理，必须true
+				//"sAjaxDataProp" : "aData",//是服务器分页的标志，必须有 
+				"sAjaxSource" : "/function/getTableData",//通过ajax实现分页的url路径。
+				"fnServerData": retrieveData, // 获取数据的处理函数
+				 //"aoColumnDefs": [{ "bSortable": false, "aTargets": [0]}],//设置某列不排序
+				//初始化要显示的列
+				"columnDefs": [
+				 /*  {"orderable": false, "title":"操作","targets":0, "data":null,  "defaultContent": "<a class='editBtn'>编辑</a> <a class='deleteBtn'> 删除</a>"}, */
+			      { "title": "菜单编码", "targets":0,"data":"code"},
+			      { "title": "菜单名称", "targets":1 ,"data":"name"},
+			      { "title": "菜单url", "targets":2 ,"data":"url"},
+			      { "title": "状态", "targets":3 ,"data":"status",
+		    	  "render": function (data,type,row,meta) {
+	                    if (data == "1") {
+	                        return "生效";
+	                    } else if (data == "0") {
+	                        return "失效";
+	                    }
+	                }
+			      },
+			      { "title": "排序号", "targets":4 ,"data":"weight" },
+			      { "title": "描述", "targets":5 ,"data":"remark"}
+			    ],
+			  /*   "drawCallback": function( settings ) {
+			    	//编辑
+			        $(".editBtn").click(function(obj){
+			    	   //console.log(settings)
+			    	   //console.log(settings.aoData[1]._aData.id)
+			    	   //console.log($(this).parent().parent());
+			    	   var index = $(this).parent().parent()[0].rowIndex -1// 点击的行号
+			    	   updateFunction(settings.aoData[index]._aData.id);
+			         
+			       }); 
+			       //删除
+			       $(".deleteBtn").click(function(){
+			    	   var index = $(this).parent().parent()[0].rowIndex -1// 点击的行号
+			    	   deleteFunction(settings.aoData[index]._aData.id);
+			       });
+			      
+			    }, */
+				"oLanguage" : {//语言设置
+					"sProcessing" : "处理中...",
+					"sLengthMenu" : "显示 _MENU_ 项结果",
+					"sZeroRecords" : "没有匹配结果",
+					"sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+					"sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+					"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+					"sInfoPostFix" : "",
+					"sSearch" : "搜索:",
+					"sUrl" : "",
+					"sEmptyTable" : "表中数据为空",
+					"sLoadingRecords" : "载入中...",
+					"sInfoThousands" : ",",
+					"oPaginate" : {
+						"sFirst" : "首页",
+						"sPrevious" : "上页",
+						"sNext" : "下页",
+						"sLast" : "末页"
+					},
+					"oAria" : {
+						"sSortAscending" : ": 以升序排列此列",
+						"sSortDescending" : ": 以降序排列此列"
+					}
+				},
+				"dom": 'rt<"#pBottom"><"pTop"lp><"top"i>' ,
+				"fnInitComplete":function(){
+					//给每个td添加hover显示完整数据
+					$(".ct-table>div table td").each(function () {
+						$(this).attr("title", $(this).text());
+						$(this).css("cursor", 'pointer');
+					});
+					//分页在默认行数的底部
+					var selectVal=$(".ct-table>div select").val();
+					var tableThTdHeight=$(".ct-table>div table tr").height();
+					var tableTrTdHeight=$(".ct-table>div table tbody tr").height();
+					var ctHeight=(tableTrTdHeight*(parseInt(selectVal)))+tableThTdHeight+$(".pTop").height();
+					$(".ct-table>div").css("height",ctHeight);
+				},
+				"createdRow": function ( row, data, index ) {
+					$('td', row).css("height","16px");
+					$('td', row).click(function(){
+						$(".ct-table>div table tr").removeClass("selected");
+						$('td', row).parent().addClass("selected");
+
+					})
+                    var selectVal=$(".ct-table>div select").val();
+                    var tableThTdHeight=$(".ct-table>div table tr").height();
+                    var tableTrTdHeight=$(".ct-table>div table tbody tr").height();
+                    var ctHeight=(tableTrTdHeight*(parseInt(selectVal)))+tableThTdHeight+$(".pTop").height();
+                    $(".ct-table>div").css("height",ctHeight);
+				}
+
+			});
+		}
+		
+		function getTableContent(){
+	        var nTrs = functionTable.fnGetNodes();//fnGetNodes获取表格所有行，nTrs[i]表示第i行tr对象
+	        for(var i = 0; i < nTrs.length; i++){
+	            if($(nTrs[i]).hasClass('selected')){
+	                 //console.log('[获取数据]' + dataTable.fnGetData(nTrs[i]));//fnGetData获取一行的数据
+	                 return functionTable.fnGetData(nTrs[i]).id;
+	            }
+	        }
+	    }
+		function retrieveData(sSource,aoData, fnCallback) {
+			//将用户名称加入参数数组
+			aoData = getSearchConditions(aoData);
+			if(isBlank(parentCode)){
+				parentCode = '1';
+			}
+			if(isBlank(parentId)){
+				parentId = '10001';
+			}
+			aoData.push( { "name": "parentCode", "value": parentCode} );
+			aoData.push( { "name": "parentId", "value": parentId} );
+			// console.log(aoData)
+			var token = getCookie("token");
+	        $.ajax({
+	            url : sSource,//这个就是请求地址对应sAjaxSource
+	            data : JSON.stringify(aoData),//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
+	            type : 'post',
+	            headers: {
+	            	'Content-Type' : 'application/json',
+	            	'access-token' : token
+	            },
+	            dataType : 'json',
+	            async : false,
+	            success : fnCallback,
+	            error : function(msg) {
+	            }
+	        });
+			
+	    }
+	
+		
+		/* function saveFunction(){
+			console.log($("#functionForm").serialize());
+			$.ajax({
+				type : 'post',
+				dataType : 'text',
+	            //data : { "id":id,"name":name,"url":url,"code":code,"weight":weight,"status":status}, 
+	            data : $("#functionForm").serialize(),
+	            url : '/function/saveFunction?i='+Math.random(),
+	            success : function(data) {
+	            	if(data==200){
+	            		modals.info("保存成功");
+	            		//关闭模态窗口
+	            		$('#functionModal').modal("hide") ;
+	            		//刷新dataTable;
+	            		$('#functionTable').dataTable()._fnAjaxUpdate(); 
+	            		
+	            		initLevelTree();
+	            	}	            	
+	            },
+	            error : function(e) {
+	            	modals.info("出错了");
+	                console.log(e);
+	            }
+            }); 
+		} */
+
+		
+        function doSearch(){
+        	//functionTable.fnDestroy(false);
+        	//functionTable = $('#dataTable').dataTable(dataTablesSettings);
+	       	//跳转到第一页
+	       	//functionTable.fnPageChange(0);
+	       	$('#functionTable').dataTable()._fnAjaxUpdate(); 
+        }
+        
+        function updaTable(){
+	       	$('#functionTable').dataTable()._fnAjaxUpdate(); 
+        }
+        
+        
+    	function getSearchConditions(aoData){
+    		aoData.push( { "name": "name", "value": $("input[name=functionName]").val() } );
+	   		return aoData;
+	   	};
+	   	
+	    function reset(){
+	    	$("input[name=functionName]").val('') 
+	    	initLevelTree('0');
+	    	initTable();
+	    }
+	    
+	    
+	    function isBlank(str) {
+		    if (str == null || typeof str == "undefined" || str == "" || trim(str) == "") {
+		        return true;
+		    }
+		    return false;
+		}
+		
+		function trim(str) {
+		    if (str == null || typeof str == "undefined") {
+		        return "";
+		    }
+		    return str.toString().replace(/(^\s+)|(\s+$)/g, "");
+		}
+        
+        
+	</script>
+	
+	<script type="text/javascript">
+	
+	$(function() {
+		
+		initLevelTree('0');
+	});
+	function initLevelTree(levelCode) {
+		var token = getCookie("token");
+		//alert(levelCode)
+		//获取后台数据（封装好的树实体Json数组）
+		$.ajax({
+         type : 'post',
+         dataType : 'json',
+         data :  {"levelCode" : levelCode },
+         headers: {
+         	'access-token' : token
+         },
+         url : '/function/getCommonFunctionTree?i='+Math.random(),
+         success : function(data) {
+         	levelTreeNodes = data;
+         	//$.parseJSON(data);
+         	// console.log(levelTreeNodes);
+         	showTree(levelTreeNodes);
+         	
+         },
+         error : function(e) {
+        	 modals.info("出错了");
+             // console.log(e);
+         }
+     });
+	   
+	} 
+	
+	
+	function showTree(levelTreeNodes){
+		$('#tree').treeview({
+			icon:"glyphicon glyphicon-home",
+        	selectedIcon:"glyphicon glyphicon-home",
+        	color:"#000000",
+        	backColor:"#FFFFFF",
+			selectedColor:"#3cb45d",
+			selectedBackColor:"#edfef4",
+        	levels : 10 ,
+			selectable:true,
+			showCheckbox : false,
+			showBorder : false,
+			state: {
+        	    checked:true,
+        	    disabled:false,
+        	    expanded:true,
+        	    selected:false
+        	},
+			data: levelTreeNodes,
+			onNodeSelected:function(event,data){
+				// alert("选中"+data.id+","+data.levelCode);
+				parentId = data.id;
+				nodeId = data.id;
+				parentCode = data.code;
+				levelCode = data.levelCode;
+				console.log("parentCode:"+parentCode)
+				$("input[name=parentId]").val(data.id);
+				//点击新增后给父编码赋值
+				$("input[name=parentCode]").val(data.code);
+				$("input[name=levelCode]").val(data.levelCode);
+				$("#functionTable tbody tr").removeClass('selected');
+
+				//alert(data.isparent)
+				$("input[name=levelCode]").val(data.levelCode);
+				initTable(parentCode);
+
+			},
+			onNodeChecked:function(event,data){
+				nodeChecked(event, data);
+			},
+			onNodeUnchecked :function(event,data){
+				nodeUnchecked(event,data);
+			}
+			
+		});    
+	}
+	
+	
+	var Id;
+	var nodeId;
+	var parentId;   
+	var parentCode
+	var treenodes ;
+	var levelCode;
+	var levelTreeNodes;
+	
+
+	function addFunctionTreeNode(){
+		if(!isBlank(parentId)){
+			/*  modals.openWin({
+	               	winId:new Date().getTime(),
+	               	title:'新增菜单',
+	               	width:'900px',
+	               	url: "/function/edit?parentCode="+parentCode+"&parentId="+parentId+"&levelCode="+levelCode,
+	           });   */
+			var url="/function/edit?parentCode="+parentCode+"&parentId="+parentId+"&levelCode="+levelCode;
+			index.addFrom("新增菜单",url);
+		}else{
+			modals.info("请选择树节点");
+		}
+		
+	}
+	
+	function editFunction(nodeId){
+		if(!isBlank(nodeId)){
+			/*  modals.openWin({
+             	winId:new Date().getTime(),
+             	title:'菜单信息',
+             	width:'900px',
+             	url: "/function/edit?id="+nodeId,
+         	});  */ 
+			var url="/function/edit?id="+nodeId;
+			index.addFrom("编辑菜单",url);
+		}else{
+			modals.info("请选择要修改的树节点");
+		}
+     	
+	}
+	
+	
+	
+	
+	function deleteFunctionTreeNode(){
+		if(!isBlank(nodeId)){
+
+			modals.confirm("确认要删除吗？", function () {
+				$.ajax({
+					type : 'post',
+					dataType : 'text',
+		            data : { "id":nodeId},
+		            url : '/function/deleteFunction?i='+Math.random(),
+		            success : function(data) {
+		            	if(data==200){
+		            		parent.$("#modal-tips-div").remove()
+		            		parent.$(".modal-backdrop").remove()
+		            		modals.info("删除成功");
+		            	}else if(data==101){
+		            		parent.$("#modal-tips-div").remove()
+		            		parent.$(".modal-backdrop").remove()
+		            		modals.info("请先删除子节点");
+		            	}
+		            	//initTree();
+		            	//刷新列表
+		            	$('#functionTable').dataTable()._fnAjaxUpdate(); 
+		            	initLevelTree();
+		            },
+		            error : function(e) {
+		                alert("出错了");
+		                // console.log(e);
+		            }
+	            });
+			});
+		}else{
+			modals.info("请选择要删除的树节点");
+		}
+		
+	}
+	
+	function isBlank(str) {
+	    if (str == null || typeof str == "undefined" || str == "" || trim(str) == "") {
+	        return true;
+	    }
+	    return false;
+	}
+	
+	function trim(str) {
+	    if (str == null || typeof str == "undefined") {
+	        return "";
+	    }
+	    return str.toString().replace(/(^\s+)|(\s+$)/g, "");
+	}
+	
+
+	
+	</script>
+</body>
+</html>

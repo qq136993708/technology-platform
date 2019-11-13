@@ -1,0 +1,452 @@
+<#include "/common/public/publicImportIndex.html"/>
+<body style="background:#fff">
+<form id="dataForm" name="dataForm" class="form-horizontal bv-form"
+	novalidate="novalidate">
+	<input type="hidden" id="id" name="id"/>
+	<input type="hidden" id="parentId" name="parentId"/>
+	<input type="hidden" id="parentCode" name="parentCode"/>
+	<input type="hidden" id="levelCode" name="levelCode"/>
+	<div class="box-body">
+		<div class="col-md-12">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">菜单名称:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="name"
+						name="name" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">菜单编码:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="code"
+						name="code" placeholder="不填可自动生成" disabled="disabled"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">菜单Url:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="url"
+						name="url" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label  class="col-sm-3 control-label">排序号:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="weight"
+						name="weight" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="form-group cmRadio">
+				<label class="col-sm-3 control-label">状态:</label> 
+				<label class="col-sm-8"> 
+				<input id="ra1" type="radio" value="1" name="status" />
+				<label class="radio"  for="ra1">启用</label> 
+				<input id="ra2" type="radio" value="0" name="status" /> 
+				<label class="radio"  for="ra2">禁用</label>
+				</label>
+				</div>
+			</div>
+			
+			<div class="form-group" id="selectDiv" style="display:none">
+				<label  class="col-sm-3 control-label">设置父节点:</label>
+				<div class="col-sm-8">
+					<select id="select" class="countrypicker cb-select" data-live-search="true" data-flag="false" name="parentName">
+					<option value="">请选择 </option> 
+                     <#if list?exists>
+		               <#list list as item>
+		               		<#if item_index == 0>
+		               			<option value="${item.id}">${item.name} </option> 
+		               		</#if>
+		               		<#if item_index != 0>
+		               			<option value="${item.id}">${item.name} </option> 
+		               		</#if>
+		               </#list>
+	                </#if> 
+                    
+                	</select>
+				</div>
+			</div>
+			
+			 
+		</div>
+	</div>
+	<button type="button" id="btn-save" class="btn btn-primary">保存</button>
+	
+	<button type="button" id="add-button" class="btn btn-primary">新增按钮</button>
+	<button type="button" id="edit-button" class="btn btn-primary">编辑按钮</button>
+	<button type="button" id="delete-button" class="btn btn-primary">删除按钮</button>
+	<div class="content-table">
+				<div class="ct-table">
+				<table id="buttonTable" class="table table-bordered table-striped dataTable no-footer" style="width:100%;" role="grid">
+					
+				</table>
+				</div>
+	</div>
+	
+<!-- 	<div class="box-footer text-right">
+		<button type="button" class="btn btn-default" data-dismiss="modal" data-btn-type="cancel">关闭</button>
+		<button type="button" id="btn-save" class="btn btn-primary">保存</button>
+		
+	</div> -->
+	<input type="hidden" id="functionId" value="${id}"/>
+</form>
+</body>
+<script>
+	var buttonId ='';
+	$(function() {
+		var id = "${id}";
+		$("input[name='parentId']").val("${parentId}");
+		$("input[name='parentCode']").val("${parentCode}");
+		$("input[name='levelCode']").val("${levelCode}");
+		//var id = $("#functionId").val();
+		console.log("id:"+id);
+		if(id){
+			fillData(id);
+			$("#selectDiv").show() ;
+			initTable();
+			
+			 $('#buttonTable tbody').on('click', 'tr', function (selector) {
+			      	$("#buttonTable tbody tr").removeClass('selected');
+			        $(this).addClass('selected');
+			        buttonId = getTableContent();
+			        console.log("buttonId:  "+buttonId)
+			 });
+		}
+		// 保存操作
+		$("#btn-save").click(function() {//非submit按钮点击后进行验证，如果是submit则无需此句直接验证
+			formValidator();
+			$("#dataForm").bootstrapValidator('validate');//提交验证
+			if ($("#dataForm").data('bootstrapValidator').isValid()) {//获取验证结果，如果成功，执行下面代码
+				saveFunction();//验证成功后的操作
+			}
+		});
+		
+		$("#add-button").click(function() {
+			 modals.openWin({
+	            	winId:new Date().getTime(),
+	            	title:'新增按钮',
+	            	width:'900px',
+	            	url: "/function/editBtn?functionId="+id,
+	        });
+		});
+		
+		$("#edit-button").click(function() {
+			 if(!isBlank(buttonId)){
+				 modals.openWin({
+		            	winId:new Date().getTime(),
+		            	title:'编辑按钮',
+		            	width:'900px',
+		            	url: "/function/editBtn?id="+buttonId,
+		        });
+			 }else{
+				 modals.info("请选择要编辑的按钮");
+			 }
+			
+		});
+		
+		$("#delete-button").click(function() {
+			deleteButton();
+		});
+		
+	});
+	function formValidator() {
+		$("#dataForm").bootstrapValidator({
+			live : 'disabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证
+			excluded : [ ':disabled', ':hidden', ':not(:visible)' ],//排除无需验证的控件，比如被禁用的或者被隐藏的
+			//submitButtons : '#btn-save',//指定提交按钮，如果验证失败则变成disabled，但我没试成功，反而加了这句话非submit按钮也会提交到action指定页面
+			//message : '通用的验证失败消息',//好像从来没出现过
+			feedbackIcons : {//根据验证结果显示的各种图标
+				valid : 'glyphicon glyphicon-ok',
+				invalid : 'glyphicon glyphicon-remove',
+				validating : 'glyphicon glyphicon-refresh'
+			},
+			fields : {
+				name : {
+					validators : {
+						notEmpty : {
+							message : '名称不能为空'
+						}
+					}
+				},
+				url : {
+					validators : {
+						notEmpty : {
+							message : 'url不能为空'
+						}
+					}
+				},
+				weight : {
+					validators : {
+						notEmpty : {
+							message : '排序不能为空'
+						}
+					}
+				},
+			}
+		});
+	}
+	
+	function saveFunction(){
+		console.log($("#dataForm").serialize());
+		$.ajax({
+			type : 'post',
+			dataType : 'text',
+            //data : { "id":id,"name":name,"url":url,"code":code,"weight":weight,"status":status}, 
+            data : $("#dataForm").serialize(),
+            url : '/function/saveFunction?i='+Math.random(),
+            success : function(data) {
+            	if(data==200){
+            		modals.info("保存成功");
+            		//刷新dataTable;
+            		/*$('#functionModal').modal("hide") ;*/
+                    var modalId="";
+					if($(".modal").css("display")=="block"){
+                        modalId=$(".modal").attr("id")
+					}
+                    parent.$('#'+modalId).remove()
+                    //$("#"+index.pageOnlyId).contents().find('#functionTable').dataTable()._fnAjaxUpdate();
+                    $("#"+index.pageOnlyId)[0].contentWindow.updaTable();
+                    $("#"+index.pageOnlyId)[0].contentWindow.initLevelTree();
+            	}	            	
+            },
+            error : function(e) {
+            	modals.info("出错了");
+                console.log(e);
+            }
+        }); 
+	}
+	
+
+	function fillData(id) {
+		$("#dataForm")[0].reset();
+		 $.ajax({
+				type : 'post',
+				dataType : 'json',
+				data :{"id":id},
+				url : basePath + 'function/getFunction?i='+Math.random(),
+				success : function(data) {
+					console.log(data)
+					//alert(data.id)
+					$("input[name='id']").val(data.id);
+					$("input[name='name']").val(data.name);
+					$("input[name='url']").val(data.url);
+					$("input[name='code']").val(data.code);
+					$("input[name='weight']").val(data.weight);
+					$("input[name='parentId']").val(data.parentId);
+					$("input[name='parentCode']").val(data.parentCode);
+					$("input[name='levelCode']").val(data.levelCode);
+					$("input[name=status][value=" + data.status + "]").prop("checked", "checked");
+				},
+				error : function(e) {
+					modals.info("出错了！",e);
+				}
+			});
+	}
+
+	 $('.countrypicker').select2({
+         language: 'zh-CN',
+         width: '60%',
+         placeholder: '请选择',
+     });
+	 
+	 $('#select').change(function () {
+	    var text = $(this).find(':selected').text();
+	    var id = $(this).find(':selected').attr('value');
+	    console.log(text+"   "+id)
+	});
+	 
+	 $('button[data-btn-type="cancel"]').click(function () { 
+		 var modalId="";            
+		 if($(".modal").css("display")=="block"){     
+	          modalId=$(".modal").attr("id")    
+       	 }       
+		 parent.$('#'+modalId).remove();
+	}); 
+	 
+	 
+	 var buttonTable;
+	 function initTable (){
+		 buttonTable = $('#buttonTable').dataTable({
+				"bPaginate" : true,//分页工具条显示
+				//"sPaginationType" : "full_numbers",//分页工具条样式
+				"bStateSave" : true, //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态  
+				"bScrollCollapse" : true, //当显示的数据不足以支撑表格的默认的高度
+				"bLengthChange" : true, //每页显示的记录数
+				"aLengthMenu":[[15, 30, 45, 60, -1], [15, 30, 45, 60, "All"]],//每页显示15条数据
+				"bFilter" : true, //搜索栏   默认是true
+				"bSort" : true, //是否支持排序功能
+				"bInfo" : true, //显示表格信息
+				"bAutoWidth" : true, //自适应宽度
+				"bJQueryUI" : false,//是否开启主题
+				"bDestroy" : true,
+				"bProcessing" : true, //开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
+				"bServerSide" : true,//服务器处理分页，默认是false，需要服务器处理，必须true
+				//"sAjaxDataProp" : "aData",//是服务器分页的标志，必须有 
+				"sAjaxSource" : "/function/getButtonTableData",//通过ajax实现分页的url路径。
+				"fnServerData": retrieveData, // 获取数据的处理函数
+				 //"aoColumnDefs": [{ "bSortable": false, "aTargets": [0]}],//设置某列不排序
+				//初始化要显示的列
+				"columnDefs": [
+				 /*  {"orderable": false, "title":"操作","targets":0, "data":null,  "defaultContent": "<a class='editBtn'>编辑</a> <a class='deleteBtn'> 删除</a>"}, */
+			      { "title": "按钮编码", "targets":0,"data":"code"},
+			      { "title": "按钮名称", "targets":1 ,"data":"name"},
+			      { "title": "作用域", "targets":2 ,"data":"area"},
+			      { "title": "状态", "targets":3 ,"data":"status",
+		    	  "render": function (data,type,row,meta) {
+	                    if (data == "1") {
+	                        return "生效";
+	                    } else if (data == "0") {
+	                        return "失效";
+	                    }
+	                }
+			      },
+			      { "title": "描述", "targets":4 ,"data":"remark"}
+			    ],
+				"oLanguage" : {//语言设置
+					"sProcessing" : "处理中...",
+					"sLengthMenu" : "显示 _MENU_ 项结果",
+					"sZeroRecords" : "没有匹配结果",
+					"sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+					"sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+					"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+					"sInfoPostFix" : "",
+					"sSearch" : "搜索:",
+					"sUrl" : "",
+					"sEmptyTable" : "表中数据为空",
+					"sLoadingRecords" : "载入中...",
+					"sInfoThousands" : ",",
+					"oPaginate" : {
+						"sFirst" : "首页",
+						"sPrevious" : "上页",
+						"sNext" : "下页",
+						"sLast" : "末页"
+					},
+					"oAria" : {
+						"sSortAscending" : ": 以升序排列此列",
+						"sSortDescending" : ": 以降序排列此列"
+					}
+				},
+				"dom": 'rt<"#pBottom"><"pTop"lp><"top"i>' ,
+				"fnInitComplete":function(){
+					//给每个td添加hover显示完整数据
+					$(".ct-table>div table td").each(function () {
+						$(this).attr("title", $(this).text());
+						$(this).css("cursor", 'pointer');
+					});
+					//分页在默认行数的底部
+					var selectVal=$(".ct-table>div select").val();
+					var tableThTdHeight=$(".ct-table>div table tr").height();
+					var tableTrTdHeight=$(".ct-table>div table tbody tr").height();
+					var ctHeight=(tableTrTdHeight*(parseInt(selectVal)))+tableThTdHeight+$(".pTop").height();
+					$(".ct-table>div").css("height",ctHeight);
+				},
+				"createdRow": function ( row, data, index ) {
+					$('td', row).css("height","16px");
+					$('td', row).click(function(){
+						$(".ct-table>div table tr").removeClass("selected");
+						$('td', row).parent().addClass("selected");
+
+					})
+                 var selectVal=$(".ct-table>div select").val();
+                 var tableThTdHeight=$(".ct-table>div table tr").height();
+                 var tableTrTdHeight=$(".ct-table>div table tbody tr").height();
+                 var ctHeight=(tableTrTdHeight*(parseInt(selectVal)))+tableThTdHeight+$(".pTop").height();
+                 $(".ct-table>div").css("height",ctHeight);
+				}
+
+			});
+		}
+	 
+	 function retrieveData(sSource,aoData, fnCallback) {
+			//将用户名称加入参数数组
+			//aoData = getSearchConditions(aoData);
+			var functionId = $("#functionId").val();
+			if(!functionId){
+				functionId = '1';
+			}
+
+			aoData.push( { "name": "param0", "value": functionId} );
+			var token = getCookie("token");
+	        $.ajax({
+	            url : sSource,//这个就是请求地址对应sAjaxSource
+	            data : JSON.stringify(aoData),//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
+	            type : 'post',
+	            headers: {
+	            	'Content-Type' : 'application/json',
+	            	'access-token' : token
+	            }, 
+	            dataType : 'json',
+	            async : false,
+	            success : fnCallback,
+	            error : function(msg) {
+	            }
+	        });
+			
+	    }
+	 
+	 function updaTable(){
+	       $('#buttonTable').dataTable()._fnAjaxUpdate(); 
+     }
+	 
+	 
+	
+	 
+	 function getTableContent(){
+	        var nTrs = buttonTable.fnGetNodes();//fnGetNodes获取表格所有行，nTrs[i]表示第i行tr对象
+	        for(var i = 0; i < nTrs.length; i++){
+	            if($(nTrs[i]).hasClass('selected')){
+	                 //console.log('[获取数据]' + dataTable.fnGetData(nTrs[i]));//fnGetData获取一行的数据
+	                 return buttonTable.fnGetData(nTrs[i]).id;
+	            }
+	        }
+	    }
+	 
+	 
+	 
+	 function deleteButton(){
+			if(!isBlank(buttonId)){  
+
+				modals.confirm("确认要删除吗？", function () {
+					$.ajax({
+						type : 'post',
+						dataType : 'text',
+			            data : { "id":buttonId},
+			            url : '/function/deleteButton?i='+Math.random(),
+			            success : function(data) {
+			            	if(data==200){
+			            		parent.$("#modal-tips-div").remove()
+			            		parent.$(".modal-backdrop").remove()
+			            		modals.info("删除成功");
+			            	}
+			            	//initTree();
+			            	//刷新列表
+			            	$('#buttonTable').dataTable()._fnAjaxUpdate(); 
+			            },
+			            error : function(e) {
+			                alert("出错了");
+			                console.log(e);
+			            }
+		            });
+				});
+			}else{
+				modals.info("请选择要删除的按钮");
+			}
+			
+		}
+	 
+	 function isBlank(str) {
+		    if (str == null || typeof str == "undefined" || str == "" || trim(str) == "") {
+		        return true;
+		    }
+		    return false;
+		}
+		
+		function trim(str) {
+		    if (str == null || typeof str == "undefined") {
+		        return "";
+		    }
+		    return str.toString().replace(/(^\s+)|(\s+$)/g, "");
+		}
+		
+</script>

@@ -1,0 +1,741 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.doc.SysFileShareMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.doc.SysFileShare">
+
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="file_id" jdbcType="VARCHAR" property="fileId"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="stype" jdbcType="VARCHAR" property="stype"/>
+        <result column="area" jdbcType="VARCHAR" property="area"/>
+        <result column="create_person_id" jdbcType="VARCHAR" property="createPersonId"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
+        <result column="ramarks" jdbcType="VARCHAR" property="ramarks"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="audit_status" jdbcType="VARCHAR" property="auditStatus"/>
+        <result column="update_person_id" jdbcType="VARCHAR" property="updatePersonId"/>
+        <result column="update_date" jdbcType="VARCHAR" property="updateDate"/>
+        <result column="update_person_name" jdbcType="VARCHAR" property="updatePersonName"/>
+        <result column="create_person_name" jdbcType="VARCHAR" property="createPersonName"/>
+        <result column="bak1" jdbcType="VARCHAR" property="bak1"/>
+        <result column="bak2" jdbcType="VARCHAR" property="bak2"/>
+        <result column="bak3" jdbcType="VARCHAR" property="bak3"/>
+        <result column="bak4" jdbcType="VARCHAR" property="bak4"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id,
+        file_id,
+        user_id,
+        stype,
+        area,
+        create_person_id,
+        create_date,
+        ramarks,
+        status,
+        audit_status,
+        update_person_id,
+        update_date,
+        update_person_name,
+        create_person_name,
+        bak1,
+        bak2,
+        bak3,
+        bak4
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.doc.SysFileShare" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from sys_file_share
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_file_share
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from sys_file_share
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.doc.SysFileShare">
+        delete from sys_file_share
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.doc.SysFileShare">
+        insert into sys_file_share (
+            id,
+            file_id,
+            user_id,
+            stype,
+            area,
+            create_person_id,
+            create_date,
+            ramarks,
+            status,
+            audit_status,
+            update_person_id,
+            update_date,
+            update_person_name,
+            create_person_name,
+            bak1,
+            bak2,
+            bak3,
+            bak4
+        )
+        values (
+
+    #{id,jdbcType=VARCHAR},
+    #{fileId,jdbcType=VARCHAR},
+    #{userId,jdbcType=VARCHAR},
+    #{stype,jdbcType=VARCHAR},
+    #{area,jdbcType=VARCHAR},
+    #{createPersonId,jdbcType=VARCHAR},
+    #{createDate,jdbcType=VARCHAR},
+    #{ramarks,jdbcType=VARCHAR},
+    #{status,jdbcType=VARCHAR},
+    #{auditStatus,jdbcType=VARCHAR},
+    #{updatePersonId,jdbcType=VARCHAR},
+    #{updateDate,jdbcType=VARCHAR},
+    #{updatePersonName,jdbcType=VARCHAR},
+    #{createPersonName,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR},
+    #{bak4,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.doc.SysFileShare">
+        insert into sys_file_share
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="id != null">
+                id,
+            </if>
+            <if test="fileId != null">
+                file_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="stype != null">
+                stype,
+            </if>
+            <if test="area != null">
+                area,
+            </if>
+            <if test="createPersonId != null">
+                create_person_id,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="ramarks != null">
+                ramarks,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="auditStatus != null">
+                audit_status,
+            </if>
+            <if test="updatePersonId != null">
+                update_person_id,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="updatePersonName != null">
+                update_person_name,
+            </if>
+            <if test="createPersonName != null">
+                create_person_name,
+            </if>
+            <if test="bak1 != null">
+                bak1,
+            </if>
+            <if test="bak2 != null">
+                bak2,
+            </if>
+            <if test="bak3 != null">
+                bak3,
+            </if>
+            <if test="bak4 != null">
+                bak4
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="id != null">
+                #{id ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileId != null">
+                #{fileId ,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="stype != null">
+                #{stype ,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                #{area ,jdbcType=VARCHAR},
+            </if>
+            <if test="createPersonId != null">
+                #{createPersonId ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="ramarks != null">
+                #{ramarks ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null">
+                #{auditStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="updatePersonId != null">
+                #{updatePersonId ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="updatePersonName != null">
+                #{updatePersonName ,jdbcType=VARCHAR},
+            </if>
+            <if test="createPersonName != null">
+                #{createPersonName ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                #{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                #{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                #{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                #{bak4 ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.doc.SysFileShare" resultType="java.lang.Long">
+        select count(*) from sys_file_share
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update sys_file_share
+        <set>
+
+            <if test="record.id != null">
+                id=#{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileId != null">
+                file_id=#{record.fileId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userId != null">
+                user_id=#{record.userId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stype != null">
+                stype=#{record.stype,jdbcType=VARCHAR},
+            </if>
+            <if test="record.area != null">
+                area=#{record.area,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createPersonId != null">
+                create_person_id=#{record.createPersonId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createDate != null">
+                create_date=#{record.createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ramarks != null">
+                ramarks=#{record.ramarks,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                status=#{record.status,jdbcType=VARCHAR},
+            </if>
+            <if test="record.auditStatus != null">
+                audit_status=#{record.auditStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updatePersonId != null">
+                update_person_id=#{record.updatePersonId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateDate != null">
+                update_date=#{record.updateDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updatePersonName != null">
+                update_person_name=#{record.updatePersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createPersonName != null">
+                create_person_name=#{record.createPersonName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak1 != null">
+                bak1=#{record.bak1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak2 != null">
+                bak2=#{record.bak2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak3 != null">
+                bak3=#{record.bak3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak4 != null">
+                bak4=#{record.bak4,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update sys_file_share
+        set
+        id=#{record.id,jdbcType=VARCHAR},
+        file_id=#{record.fileId,jdbcType=VARCHAR},
+        user_id=#{record.userId,jdbcType=VARCHAR},
+        stype=#{record.stype,jdbcType=VARCHAR},
+        area=#{record.area,jdbcType=VARCHAR},
+        create_person_id=#{record.createPersonId,jdbcType=VARCHAR},
+        create_date=#{record.createDate,jdbcType=VARCHAR},
+        ramarks=#{record.ramarks,jdbcType=VARCHAR},
+        status=#{record.status,jdbcType=VARCHAR},
+        audit_status=#{record.auditStatus,jdbcType=VARCHAR},
+        update_person_id=#{record.updatePersonId,jdbcType=VARCHAR},
+        update_date=#{record.updateDate,jdbcType=VARCHAR},
+        update_person_name=#{record.updatePersonName,jdbcType=VARCHAR},
+        create_person_name=#{record.createPersonName,jdbcType=VARCHAR},
+        bak1=#{record.bak1,jdbcType=VARCHAR},
+        bak2=#{record.bak2,jdbcType=VARCHAR},
+        bak3=#{record.bak3,jdbcType=VARCHAR},
+        bak4=#{record.bak4,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.doc.SysFileShare">
+        update sys_file_share
+        <set>
+
+            <if test="fileId != null">
+                file_id=#{fileId ,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id=#{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="stype != null">
+                stype=#{stype ,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                area=#{area ,jdbcType=VARCHAR},
+            </if>
+            <if test="createPersonId != null">
+                create_person_id=#{createPersonId ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date=#{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="ramarks != null">
+                ramarks=#{ramarks ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status=#{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null">
+                audit_status=#{auditStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="updatePersonId != null">
+                update_person_id=#{updatePersonId ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date=#{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="updatePersonName != null">
+                update_person_name=#{updatePersonName ,jdbcType=VARCHAR},
+            </if>
+            <if test="createPersonName != null">
+                create_person_name=#{createPersonName ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                bak1=#{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                bak2=#{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                bak3=#{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                bak4=#{bak4 ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.doc.SysFileShare">
+        update sys_file_share
+        set
+            file_id=#{fileId,jdbcType=VARCHAR},
+            user_id=#{userId,jdbcType=VARCHAR},
+            stype=#{stype,jdbcType=VARCHAR},
+            area=#{area,jdbcType=VARCHAR},
+            create_person_id=#{createPersonId,jdbcType=VARCHAR},
+            create_date=#{createDate,jdbcType=VARCHAR},
+            ramarks=#{ramarks,jdbcType=VARCHAR},
+            status=#{status,jdbcType=VARCHAR},
+            audit_status=#{auditStatus,jdbcType=VARCHAR},
+            update_person_id=#{updatePersonId,jdbcType=VARCHAR},
+            update_date=#{updateDate,jdbcType=VARCHAR},
+            update_person_name=#{updatePersonName,jdbcType=VARCHAR},
+            create_person_name=#{createPersonName,jdbcType=VARCHAR},
+            bak1=#{bak1,jdbcType=VARCHAR},
+            bak2=#{bak2,jdbcType=VARCHAR},
+            bak3=#{bak3,jdbcType=VARCHAR},
+            bak4=#{bak4,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.doc.SysFileShare" resultMap="BaseResultMap">
+
+        select
+        id,
+        file_id,
+        user_id,
+        stype,
+        area,
+        create_person_id,
+        create_date,
+        ramarks,
+        status,
+        audit_status,
+        update_person_id,
+        update_date,
+        update_person_name,
+        create_person_name,
+        bak1,
+        bak2,
+        bak3,
+        bak4
+        from sys_file_share
+        where 1=1
+        <if test="id!=null and id!=''.toString()">
+            and id like '%${id}%'
+        </if>
+        <if test="fileId!=null and fileId!=''.toString()">
+            and file_id like '%${fileId}%'
+        </if>
+        <if test="userId!=null and userId!=''.toString()">
+            and user_id like '%${userId}%'
+        </if>
+        <if test="stype!=null and stype!=''.toString()">
+            and stype like '%${stype}%'
+        </if>
+        <if test="area!=null and area!=''.toString()">
+            and area like '%${area}%'
+        </if>
+        <if test="createPersonId!=null and createPersonId!=''.toString()">
+            and create_person_id like '%${createPersonId}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and create_date like '%${createDate}%'
+        </if>
+        <if test="ramarks!=null and ramarks!=''.toString()">
+            and ramarks like '%${ramarks}%'
+        </if>
+        <if test="status!=null and status!=''.toString()">
+            and status like '%${status}%'
+        </if>
+        <if test="auditStatus!=null and auditStatus!=''.toString()">
+            and audit_status like '%${auditStatus}%'
+        </if>
+        <if test="updatePersonId!=null and updatePersonId!=''.toString()">
+            and update_person_id like '%${updatePersonId}%'
+        </if>
+        <if test="updateDate!=null and updateDate!=''.toString()">
+            and update_date like '%${updateDate}%'
+        </if>
+        <if test="updatePersonName!=null and updatePersonName!=''.toString()">
+            and update_person_name like '%${updatePersonName}%'
+        </if>
+        <if test="createPersonName!=null and createPersonName!=''.toString()">
+            and create_person_name like '%${createPersonName}%'
+        </if>
+        <if test="bak1!=null and bak1!=''.toString()">
+            and bak1 like '%${bak1}%'
+        </if>
+        <if test="bak2!=null and bak2!=''.toString()">
+            and bak2 like '%${bak2}%'
+        </if>
+        <if test="bak3!=null and bak3!=''.toString()">
+            and bak3 like '%${bak3}%'
+        </if>
+        <if test="bak4!=null and bak4!=''.toString()">
+            and bak4 like '%${bak4}%'
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findSysFileShareList" parameterType="com.pcitc.base.doc.SysFileShare" resultMap="BaseResultMap">
+        select
+        id,
+        file_id,
+        user_id,
+        stype,
+        area,
+        create_person_id,
+        create_date,
+        ramarks,
+        status,
+        audit_status,
+        update_person_id,
+        update_date,
+        update_person_name,
+        create_person_name,
+        bak1,
+        bak2,
+        bak3,
+        bak4
+        from sys_file_share
+        where 1=1
+        <if test="id!=null">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="fileId!=null">
+            and file_id = #{fileId,jdbcType=VARCHAR}
+        </if>
+        <if test="userId!=null">
+            and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="stype!=null">
+            and stype = #{stype,jdbcType=VARCHAR}
+        </if>
+        <if test="area!=null">
+            and area = #{area,jdbcType=VARCHAR}
+        </if>
+        <if test="createPersonId!=null">
+            and create_person_id = #{createPersonId,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and create_date = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="ramarks!=null">
+            and ramarks = #{ramarks,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="auditStatus!=null">
+            and audit_status = #{auditStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="updatePersonId!=null">
+            and update_person_id = #{updatePersonId,jdbcType=VARCHAR}
+        </if>
+        <if test="updateDate!=null">
+            and update_date = #{updateDate,jdbcType=VARCHAR}
+        </if>
+        <if test="updatePersonName!=null">
+            and update_person_name = #{updatePersonName,jdbcType=VARCHAR}
+        </if>
+        <if test="createPersonName!=null">
+            and create_person_name = #{createPersonName,jdbcType=VARCHAR}
+        </if>
+        <if test="bak1!=null">
+            and bak1 = #{bak1,jdbcType=VARCHAR}
+        </if>
+        <if test="bak2!=null">
+            and bak2 = #{bak2,jdbcType=VARCHAR}
+        </if>
+        <if test="bak3!=null">
+            and bak3 = #{bak3,jdbcType=VARCHAR}
+        </if>
+        <if test="bak4!=null">
+            and bak4 = #{bak4,jdbcType=VARCHAR}
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!--删除-->
+    <delete id="deleteObj" parameterType="com.pcitc.base.doc.SysFileShare">
+        delete from sys_file_share
+        where 1=1
+        <if test="id!=null">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="fileId!=null">
+            and file_id = #{fileId,jdbcType=VARCHAR}
+        </if>
+        <if test="userId!=null">
+            and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="stype!=null">
+            and stype = #{stype,jdbcType=VARCHAR}
+        </if>
+        <if test="area!=null">
+            and area = #{area,jdbcType=VARCHAR}
+        </if>
+        <if test="createPersonId!=null">
+            and create_person_id = #{createPersonId,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and create_date = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="ramarks!=null">
+            and ramarks = #{ramarks,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="auditStatus!=null">
+            and audit_status = #{auditStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="updatePersonId!=null">
+            and update_person_id = #{updatePersonId,jdbcType=VARCHAR}
+        </if>
+        <if test="updateDate!=null">
+            and update_date = #{updateDate,jdbcType=VARCHAR}
+        </if>
+        <if test="updatePersonName!=null">
+            and update_person_name = #{updatePersonName,jdbcType=VARCHAR}
+        </if>
+        <if test="createPersonName!=null">
+            and create_person_name = #{createPersonName,jdbcType=VARCHAR}
+        </if>
+        <if test="bak1!=null">
+            and bak1 = #{bak1,jdbcType=VARCHAR}
+        </if>
+        <if test="bak2!=null">
+            and bak2 = #{bak2,jdbcType=VARCHAR}
+        </if>
+        <if test="bak3!=null">
+            and bak3 = #{bak3,jdbcType=VARCHAR}
+        </if>
+        <if test="bak4!=null">
+            and bak4 = #{bak4,jdbcType=VARCHAR}
+        </if>
+    </delete>
+    <!--根据文件ID删除-->
+    <delete id="deleteObjByParam" parameterType="java.lang.String">
+        delete from sys_file_share
+        where 1=1
+           and file_id =  #{fileId,jdbcType=VARCHAR}
+    </delete>
+    
+    <!-- 组织机构树所有节点, 有组织机构和人员、岗位 -->
+    <select id="getUnitTreeAndPostAndUserCond" parameterType="com.pcitc.base.system.SysUnit" resultType="com.pcitc.base.common.TreeNode">
+		  select u.unit_id as id, u.unit_name as name,u.unit_relation as pid,u.unit_code as code, u.unit_level as levelCode, 'unit' as nodeType, '1' as bak1
+		  from sys_unit u 
+		  where unit_delflag = 0 
+		  union all 
+		  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_post.post_id as pid, sys_user.user_name as code, 100, 'user' as nodeType, isnull(sys_file_share.area) as bak1
+		  from sys_user_unit,sys_user_post,sys_user left join sys_file_share on 
+		  													(sys_user.user_id = sys_file_share.area and
+		  													 sys_file_share.file_id = #{sSearch,jdbcType=VARCHAR})
+		  where sys_user.user_delflag = 0 and sys_user.user_id = sys_user_post.user_id
+						and sys_user.user_id=sys_user_unit.user_id 
+		        and sys_user_unit.unit_id in (
+		  		  select t.unit_id
+				  from sys_unit t 
+				  where t.unit_delflag = 0 
+		  )
+		  GROUP BY sys_user.user_id
+		  
+		  union all 
+		  select post_id as id, post_name as name, post_unit as pid, post_code as code, sys_post.post_level as nodeLevel, 'post' as nodeType, '1' as bak1
+		  from sys_post 
+		  where post_delflag = 0 and post_unit in (
+		  		  select t.unit_id
+				  from sys_unit t 
+				  where unit_delflag = 0 
+		  )
+    </select>
+</mapper>

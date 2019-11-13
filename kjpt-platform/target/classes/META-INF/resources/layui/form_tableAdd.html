@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<style>
+    .keyVal{display: none;}
+</style>
+<body>
+<div class="form_tableAdd_container">
+    <div class="formBox">
+        <form class="layui-form" action="" lay-filter="component-form-group layui-container">
+            <div class="tableToolBox">
+                <div class="tableBtns">
+                    <div class="tableTitle">
+                        基本信息
+                        <span class="red">（标*号为必填项）</span>
+                    </div>
+                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增
+                    </button>
+                    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">单位名称
+                                <span class="must-fill">*</span>
+                            </label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" name="title" lay-verify="title1" placeholder="请输入单位名称" autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">组织机构代码证号
+                                <span class="must-fill">*</span>
+                            </label>
+                            <div class="layui-input-block">
+                                <input type="text" name="date" lay-verify="title4" placeholder="请输入组织机构代码证号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">法人姓名
+                                <span class="must-fill">*</span>
+                            </label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" name="title" lay-verify="title2" placeholder="请输入法人姓名" autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">承包商类型
+                                <span class="must-fill">*</span>
+                            </label>
+                            <div class="layui-input-block">
+                                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                                    <select name="city" lay-verify="" lay-filter="test">
+                                        <option value="">请选择承包商类型</option>
+                                        <option value="010">一级承包商</option>
+                                        <option value="021">二级承包商</option>
+                                        <option value="031">三级承包商</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">公司地址
+                                <span class="must-fill">*</span>
+                            </label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" name="title" lay-verify="title2" placeholder="请输入公司地址" autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <!--下拉树 可以用树装结构也可以不用 可单选/多选-->
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">承包商编码
+                                <span class="must-fill">*</span>
+                            </label>
+                            <div class="layui-input-block" style="position: relative;">
+                                <input class="layui-input" name="title" lay-verify="title2" placeholder="请输入承包商编码" autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- 表格1 -->
+    <div class="tableBox">
+        <form class="layui-form"  action="">
+            <div class="tableToolBox">
+                <div class="tableTitle">
+                    企业资质证书
+                </div>
+                <div class="tableBtns">
+                    <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent" id="addBtn1">新建资质证书
+                    </a>
+                    <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" onclick="getTableContent1('table1')">获取表格数据</a>
+                    <span class="pullBtn active"></span>
+                </div>
+            </div>
+            <div style="display: block;" class="panel">
+                <table class="layui-table" lay-filter="tableData" id="table1">
+                <thead>
+                <th style="width: 4%;">序号<span class="keyVal">key1-1</span></th>
+                    <th>资质类别<span class="keyVal">key1-2</span></th>
+                    <th>资质编号证书<span class="keyVal">key1-3</span></th>
+                    <th>资质名称<span class="keyVal">key1-4</span></th>
+                    <th>发证日期<span class="keyVal">key1-5</span></th>
+                    <th>证书有效期<span class="keyVal">key1-6</span></th>
+                    <th>发证机关<span class="keyVal">key1-7</span></th>
+                    <th>证书附件</th>
+                    <th>操作</th>
+                </thead>
+                <tbody id="tableContent1">
+                    <tr>
+                        <td>1</td>
+                        <td>建筑企业资质</td>
+                        <td>D12323326678</td>
+                        <td>建筑工程施工总承包三级</td>
+                        <td>2018-07-30</td>
+                        <td>证书有效期</td>
+                        <td>发证机关</td>
+                        <td><p class="file-name">xxxxxx证书.pdf</p><p class="file-delete"></p></td>
+                        <td>
+                            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="editEvent" onclick="delEvent(this)">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>建筑企业资质</td>
+                        <td>D12323326678</td>
+                        <td>建筑工程施工总承包三级</td>
+                        <td>2018-07-30</td>
+                        <td>证书有效期</td>
+                        <td>发证机关</td>
+                        <td><p class="file-name">xxxxxx证书.pdf</p><p class="file-delete"></p></td>
+                        <td>
+                            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="editEvent" onclick="delEvent(this)">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>建筑企业资质</td>
+                        <td>D12323326678</td>
+                        <td>建筑工程施工总承包三级</td>
+                        <td>2018-07-30</td>
+                        <td>证书有效期</td>
+                        <td>发证机关</td>
+                        <td><p class="file-name">xxxxxx证书.pdf</p><p class="file-delete"></p></td>
+                        <td>
+                            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="editEvent" onclick="delEvent(this)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </form>
+    </div>
+    <!-- 表格2 -->
+    <div class="tableBox">
+         <div class="tableToolBox">
+            <div class="tableTitle">
+                企业其他证书
+            </div>
+            <div class="tableBtns">
+                <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent" id="addBtn2">新建其他证书
+                </a>
+                <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" onclick="getTableContent2('table2')">获取表格数据</a>
+                <span class="pullBtn active"></span>
+            </div>
+         </div>
+         <div style="display: block;" class="panel">
+            <table id="table2" class="layui-table" lay-filter="tableData">
+                <thead>
+                    <!--<th style="width: 4%;"><input name="layTableCheckbox" type="checkbox" lay-filter="layTableAllChoose" lay-skin="primary"></th>-->
+                    <th style="width: 4%;">序号<span class="keyVal">key2-1</span></th>
+                    <th>资质类别<span class="keyVal">key2-2</span></th>
+                    <th>资质编号证书<span class="keyVal">key2-3</span></th>
+                    <th>资质名称<span class="keyVal">key2-4</span></th>
+                    <th>发证日期<span class="keyVal">key2-5</span></th>
+                    <th>证书有效期<span class="keyVal">key2-6</span></th>
+                    <th>发证机关<span class="keyVal">key2-7</span></th>
+                    <th>证书附件</th>
+                    <th>操作</th>
+                </thead>
+                <form action="">
+                    <tbody id="tableContent2">
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <select name="comType" class="inputVal">
+                                    <option value="01" select="">建筑企业资质</option>
+                                    <option value="02" select="">化工企业资质</option>
+                                    <option value="03" select="">交通企业资质</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input name="numBook" type="text" placeholder="手动填写" class="inputVal">
+                            </td>
+                            <td>
+                                <input name="comName" type="text" placeholder="手动填写" class="inputVal">
+                            </td>
+                            <td><input name="issuerDate" type="text" class="layui-input datetime inputVal" placeholder="yyyy-MM-dd"></td>
+                            <td><input name="periodOfVal" type="text" class="layui-input datetime inputVal" placeholder="yyyy-MM-dd"></td>
+                            <td>
+                                <input name="issuer" type="text" placeholder="手动填写">
+                            </td>
+                            <td><p class="file-name" title="xxxxxxzhekfjksj证书.pdf">xxxxxxzhekfjksj证书.pdf <p class="file-delete"></p></p></td>
+                            <td>
+                                <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" onclick="delEvent(this)">删除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </form>
+            </table>
+         </div>
+    </div>
+    <!-- 表格3 -->
+    <div class="tableBox">
+        <form class="layui-form" action="">
+            <div class="tableToolBox">
+                <div class="tableTitle">
+                    其他材料
+                </div>
+                <div class="tableBtns">
+                    <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent" id="addBtn3">新建其他材料</a>
+                    <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" onclick="getTableContent('table3')">获取表格数据</a>
+                    <span class="pullBtn active"></span>
+                </div>
+            </div>
+            <div style="display: block;" class="panel">
+                <table id="table3" class="layui-table" lay-filter="tableData">
+                <thead>
+                <!--<th style="width: 4%;"><input name="layTableCheckbox" type="checkbox" lay-filter="layTableAllChoose" lay-skin="primary"></th>-->
+                <th style="width: 4%;">序号</th>
+                <th>材料名称</th>
+                <th>材料说明</th>
+                <th>证书附件</th>
+                <th>操作</th>
+                </thead>
+                <tbody id="tableContent3">
+                    <tr>
+                        <!--<td><input name="layTableCheckbox" type="checkbox" lay-filter="layTableAllChoose" lay-skin="primary"></td>-->
+                        <td>1</td>
+                        <td><input type="text" placeholder="手动填写"></td>
+                        <td><input type="text" placeholder="手动填写"></td>
+                        <td><p class="file-name">xxxxxx证书.pdf</p><p class="file-delete"></p></td>
+                        <td>
+                            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="editEvent" onclick="delEvent(this)">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!--<td><input name="layTableCheckbox" type="checkbox" lay-filter="layTableAllChoose" lay-skin="primary"></td>-->
+                        <td>2</td>
+                        <td><input type="text" placeholder="手动填写"></td>
+                        <td><input type="text" placeholder="手动填写"></td>
+                        <td><p class="file-name add-file">添加附件</p></td>
+                        <td>
+                            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="editEvent" onclick="delEvent(this)">删除</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!--<td><input name="layTableCheckbox" type="checkbox" lay-filter="layTableAllChoose" lay-skin="primary"></td>-->
+                        <td>3</td>
+                        <td><input type="text" placeholder="手动填写"></td>
+                        <td><input type="text" placeholder="手动填写"></td>
+                        <td><p class="file-name add-file">添加附件</p></td>
+                        <td>
+                            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="editEvent" onclick="delEvent(this)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    var $;
+    layui.config({
+        base: '/layuiadmin/lib/extend/' //静态资源所在路径
+    }).extend({
+        enhanceform: 'enhanceform'
+    }).use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'], function () {
+            $ = layui.jquery;
+            var admin = layui.admin
+            , element = layui.element
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , table = layui.table
+            , form = layui.form;
+
+        /* 监听提交 */
+        form.on('submit(component-form-demo1)', function (data) {
+            //JSON.stringify(data.field)  提交信息json格式
+            parent.layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            //一定要在最底下加return false -- 2018.07.08
+            return false;
+        });
+
+        var num1;
+        var num2;
+        var num3;
+        var tableHtml1 = "";
+        var tableHtml2 = "";
+        var tableHtml3 = "";
+        function timeAdd(){
+            lay('.datetime').each(function() {
+                laydate.render({
+                    elem : this,
+                    trigger : 'click'
+                });
+            });
+        }
+        timeAdd();
+        $('#addBtn1').click(function(){
+            num1 =  $('#tableContent1 > tr').length + 1
+            tableHtml1 = "<tr>\n"  +
+                "                <td>"+ num1++  +"</td>\n" +
+                "                <td>建筑企业资质</td>\n" +
+                "                <td>D12323326678</td>\n" +
+                "                <td>建筑工程施工总承包三级</td>\n" +
+                "                <td>2018-07-30</td>\n" +
+                "                <td>证书有效期</td>\n" +
+                "                <td>发证机关</td>\n" +
+                "                <td><p class=\"file-name add-file\">添加附件</p></td>\n" +
+                "                <td>\n" +
+                "                    <a class=\"layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg\" onclick=\"delEvent(this)\">删除</a>\n" +
+                "                </td>" +
+                "            </tr>";
+            $('#tableContent1').append(tableHtml1)
+        })
+
+        $('#addBtn2').click(function(){
+            num2 =  $('#tableContent2 > tr').length + 1
+            tableHtml2 = "<tr>\n" +
+                "                <td>"+ num2++  +"</td>\n" +
+                "                <td>\n" +
+                "                <select name=\"comType\" id=\"\" class=\"inputVal\">\n" +
+                "                <option value=\"\">建筑企业资质</option>\n" +
+                "                <option value=\"\">化工企业资质</option>\n" +
+                "                <option value=\"\">交通企业资质</option>\n" +
+                "                </select>\n" +
+                "                </td>\n" +
+                "                <td>\n" +
+                "                <input type=\"text\" name=\"numBook\" placeholder=\"手动填写\" class=\"inputVal\">\n" +
+                "                </td>\n" +
+                "                <td>\n" +
+                "                <input type=\"text\" name=\"comName\" placeholder=\"手动填写\" class=\"inputVal\">\n" +
+                "                </td>\n" +
+                "                <td><input type=\"text\" name=\"issuerDate\" class=\"layui-input datetime inputVal\"  placeholder=\"yyyy-MM-dd\"></td>\n" +
+                "                <td><input type=\"text\" name=\"periodOfVal\" class=\"layui-input datetime inputVal\"   placeholder=\"yyyy-MM-dd\"></td>\n" +
+                "                <td>\n" +
+                "                <input type=\"text\" name=\"issuer\" placeholder=\"手动填写\" class=\"inputVal\">\n" +
+                "                </td>\n" +
+                "                <td><p class=\"file-name add-file\">添加附件</p></td>\n" +
+                "            <td>\n" +
+                "            <a class=\"layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg\" onclick=\"delEvent(this)\">删除</a>\n" +
+                "                </td>\n" +
+                "                </tr>";
+
+            $('#tableContent2').append(tableHtml2)
+            form.render('select'); //刷新select选择框渲染
+            timeAdd()
+        })
+
+        $('#addBtn3').click(function(){
+            num3 =  $('#tableContent3 > tr').length + 1
+            tableHtml3 = "<tr>\n" +
+                "                <td>"+ num3++  +"</td>\n" +
+                "                <td><input type=\"text\" placeholder=\"手动填写\"></td>\n" +
+                "                <td><input type=\"text\" placeholder=\"手动填写\"></td>\n" +
+                "                <td><p class=\"file-name add-file\">添加附件</p></td>\n" +
+                "            <td>\n" +
+                "            <a class=\"layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg\" data-type=\"editEvent\" onclick=\"delEvent(this)\">删除</a>\n" +
+                "                </td>\n" +
+                "                </tr>";
+            $('#tableContent3').append(tableHtml3)
+        })
+
+        // 展开-折叠
+        $(document).ready(function(){
+            $('.pullBtn').on('click',function() {
+                $(this).parent().parent().parent().find('.panel').slideToggle("normal");
+                $(this).toggleClass("active"); return false;
+            })
+        });
+    });
+    function delEvent(a){
+        $(a).parent().parent().remove();
+    }
+
+    // 遍历表格table1中内容并返回数组
+    function getTableContent1(id){
+        var mytable1 = document.getElementById(id);
+        var data1 = [];
+        for(var i=0,rows=mytable1.rows.length; i<rows; i++){
+            for(var j=0,cells=mytable1.rows[i].cells.length-2; j<cells; j++){
+                if(!data1[i]){
+                    data1[i] = new Array();
+                }
+                data1[i][j] = mytable1.rows[i].cells[j].innerText;
+            }
+        }
+        console.log(data1)
+        return data1;
+    }
+
+    // 遍历表格table2中的数据并转化成数组
+    function getTableContent2(id){
+        var title_name = [];
+        var mytable2 = document.getElementById(id);
+        var data2 = [];
+        var keys = $('#'+id).find('.keyVal');
+        var inputVal = $('#'+id).find('.inputVal');
+        var t = $('#'+id).find('form').serializeArray();
+        var d = {};
+
+        $.each(t, function() {
+            d[this.name] = this.value;
+        });
+
+        for(var k = 0,len = keys.length; k < len; k++){
+            title_name.push(keys[k].innerText)
+        }
+
+        for(var i=0,rows = mytable2.rows.length; i<rows; i++){
+            for(var j=0,cells = mytable2.rows[i].cells.length-2; j<cells; j++){
+                if(!data2[i]){
+                    data2[i] = new Array();
+                }else{
+                    data2[i][j] = mytable2.rows[i].cells[j].innerText;
+                }
+            }
+        }
+
+        data2.shift();
+    }
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>科技管理平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="/layuiadmin/style/common.css">
+  <script src="/layuiadmin/layui/layui.js"></script>
+  <style>
+      .layui-layout-admin .layui-body{bottom: 0;}
+      .layui-tab-content {padding-bottom: 20px;}
+      .larry-iframe {height: 100%; padding-bottom: 20px;}
+  </style>
+</head>
+<body class="layui-layout-body">
+  <!--header-->
+  <div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+      <!--logo-->
+      <div class="layui-logo"><img src="/layuiadmin/images/logo.png"/> </div>
+      <!-- 头部区域（可配合layui已有的水平导航） -->
+      <!--导航-->
+      <ul class="layui-nav layui-layout-left">
+        <li class="layui-nav-item active"><a href="">系统管理</a></li>
+        <li class="layui-nav-item"><a href="">国际合作项目</a></li>
+        <li class="layui-nav-item"><a href="">装备管理</a></li>
+        <li class="layui-nav-item"><a href="">辅助决策</a></li>
+        <li class="layui-nav-item"><a href="">工程项目</a></li>
+      </ul>
+      <!--提示、人员信息-->
+      <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item"><a href="">通知</a></li>
+        <li class="layui-nav-item"><a href="">公告</a></li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">
+            <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+            李工
+          </a>
+          <dl class="layui-nav-child">
+            <dd><a href="">基本资料</a></dd>
+            <dd><a href="">安全设置</a></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+    <!--左侧-->
+    <div class="layui-side layui-bg-black" id="larry-side">
+      <div class="layui-side-scroll" id="larry-nav-side" lay-filter="side">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+          <li class="layui-nav-item layadmin-flexible">
+              系统管理<img src="/layuiadmin/images/flexible.png">
+          </li>
+          <li class="layui-nav-item layui-nav-itemed">
+            <a class="" href="javascript:;">装备</a>
+            <dl class="layui-nav-child">
+                <dd><a href="javascript:;" data-url="/demo/from.html"><cite>demo</cite></a></dd>
+              <dd><a href="javascript:;">计划统计</a></dd>
+              <dd><a href="javascript:;">装备列表</a></dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item layui-nav-itemed">
+            <a href="javascript:;">工作流管理</a>
+            <dl class="layui-nav-child">
+              <dd><a href="javascript:;">工作流模型</a></dd>
+              <dd><a href="javascript:;">工作流定义</a></dd>
+              <dd><a href="javascript:;">待办任务</a></dd>
+              <dd><a href="javascript:;">已办任务</a></dd>
+              <dd><a href="javascript:;">参与流程</a></dd>
+              <dd><a href="javascript:;">委托管理</a></dd>
+              <dd><a href="javascript:;">发起工作流程</a></dd>
+              <dd><a href="javascript:;">功能流程配置</a></dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item layui-nav-itemed">
+              <a href="javascript:;">权限控制</a>
+              <dl class="layui-nav-child">
+                  <dd><a href="javascript:;">用户管理</a></dd>
+                  <dd><a href="javascript:;">角色管理</a></dd>
+                  <dd><a href="javascript:;">机构管理</a></dd>
+                  <dd><a href="javascript:;">菜单管理</a></dd>
+                  <dd><a href="javascript:;">菜单分组</a></dd>
+                  <dd><a href="javascript:;">岗位授权</a></dd>
+              </dl>
+          </li>
+          <li class="layui-nav-item layui-nav-itemed">
+              <a href="javascript:;">附件管理</a>
+              <dl class="layui-nav-child">
+                  <dd><a href="javascript:;">文档管理</a></dd>
+                  <dd><a href="javascript:;">私有文件</a></dd>
+                  <dd><a href="javascript:;">公有文件</a></dd>
+                  <dd><a href="javascript:;">文件种类</a></dd>
+                  <dd><a href="javascript:;">共享文件</a></dd>
+                  <dd><a href="javascript:;">首页</a></dd>
+                  <dd><a href="javascript:;">文件搜索</a></dd>
+                  <dd><a href="javascript:;">表单样例</a></dd>
+                  <dd><a href="javascript:;">附件配置</a></dd>
+                  <dd><a href="javascript:;">附件上传</a></dd>
+                  <dd><a href="javascript:;">附件查看</a></dd>
+              </dl>
+          </li>
+          <li class="layui-nav-item layui-nav-itemed">
+              <a href="javascript:;">系统设置</a>
+              <dl class="layui-nav-child">
+                  <dd><a href="javascript:;">数据字典</a></dd>
+                  <dd><a href="javascript:;">公告管理</a></dd>
+                  <dd><a href="javascript:;">模块管理(科技)</a></dd>
+                  <dd><a href="javascript:;">新闻管理</a></dd>
+                  <dd><a href="javascript:;">日志管理</a></dd>
+                  <dd><a href="javascript:;">编码管理</a></dd>
+                  <dd><a href="javascript:;">定时任务管理</a></dd>
+              </dl>
+          </li>
+          <li class="layui-nav-item layui-nav-itemed">
+              <a href="javascript:;">数据控制配置</a>
+              <dl class="layui-nav-child">
+                  <dd><a href="javascript:;">数据项配置管理</a></dd>
+                  <dd><a href="javascript:;">用户配置管理</a></dd>
+              </dl>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!--右侧-->
+
+      <div class="layui-body" id="larry-body">
+          <div class="layui-tab layui-tab-card larry-tab-box" id="larry-tab" lay-filter="demo" lay-allowclose="true">
+              <div class="go-left key-press pressKey" id="titleLeft" title="滚动至最右侧"><i class="larry-icon larry-weibiaoti6-copy"></i> </div>
+              <ul class="layui-tab-title">
+                  <li class="layui-this" id="admin-home"><i class="iconfont icon-diannao1"></i>首页</li>
+              </ul>
+              <div class="go-right key-press pressKey" id="titleRight" title="滚动至最左侧"><i class="larry-icon larry-right"></i></div>
+              <!--<ul class="layui-nav closeBox">
+                  <li class="layui-nav-item">
+                      <a href="javascript:;"><i class="iconfont icon-caozuo"></i> 页面操作</a>
+                      <dl class="layui-nav-child">
+                          <dd><a href="javascript:;" class="refresh refreshThis"><i class="layui-icon">&#x1002;</i> 刷新当前</a></dd>
+                          <dd><a href="javascript:;" class="closePageOther"><i class="iconfont icon-prohibit"></i> 关闭其他</a></dd>
+                          <dd><a href="javascript:;" class="closePageAll"><i class="iconfont icon-guanbi"></i> 关闭全部</a></dd>
+                      </dl>
+                  </li>
+              </ul>-->
+              <div class="layui-tab-content" style="min-height: 150px; ">
+                  <div class="layui-tab-item layui-show">
+                      <iframe class="larry-iframe" data-id='0' src="/layui/tableDemo.html"></iframe>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <script src="/layuiadmin/layui/layui.js"></script>
+  <script type="text/javascript" src="/layuiadmin/js/larry.js"></script>
+  <script>
+    //JavaScript代码区域
+    layui.use(['jquery','element'], function(){
+      var element = layui.element,
+            $ = layui.jquery;
+        // $(function(){
+        //     $('.larry-iframe').css('height',) += $('.larry-iframe')
+        // })
+    });
+  </script>
+</body>
+</html>

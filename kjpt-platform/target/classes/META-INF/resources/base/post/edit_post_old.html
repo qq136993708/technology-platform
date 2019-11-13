@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>岗位添加/编辑</title>
+<script type="text/javascript">
+var postform;
+var postId="${postId?default(0)}";
+var unitId="${unitId?default(0)}";
+var process = "/post/upd-or-add";
+var pageOneId=parent.$("#content iframe.active").attr("id");
+$(function() {
+	//初始化控件
+	console.log($("#post-form"))
+	this.postform=$("#post-form").form();
+	$("#postId").val(postId);
+	$("#postUnit").val(unitId);
+	if(postId !=0)
+	{
+		 ajaxPost(basePath + "post/get/" + postId, null, function (data) {
+            $("#post-form").form().initFormData(data);
+         });
+	}
+	//数据校验
+	$("#post-form").bootstrapValidator({
+		message : '请输入有效值',
+		feedbackIcons : {
+			valid : 'glyphicon glyphicon-ok',
+			invalid : 'glyphicon glyphicon-remove',
+			validating : 'glyphicon glyphicon-refresh'
+		},
+		submitHandler : function(validator,postform, submitButton) {
+			//modals.confirm('确认保存？', function() {
+				//Save Data，对应'submit-提交'
+				var params =$("#post-form").serialize() ;
+				ajaxPost(process, params, function(data, status) {
+					if(data.success){
+						var modalId="";
+                    	if($(".modal").css("display")=="block"){
+                    	     modalId=$(".modal").attr("id")
+                    	}
+                    	parent.$('#'+modalId).remove();
+                    	modals.info("操作成功");
+                    	$("#"+pageOneId)[0].contentWindow.updaTable();    
+					}				 
+				});
+			//});
+		},
+		fields : {
+			postName : {
+				validators : {
+					notEmpty : {
+						message : '请输入岗位名称'
+					}
+				}
+			}
+		}
+	});
+    $(".close,button[data-btn-type='cancel']").click(function () {
+        var modalId="";
+		if($(".modal").css("display")=="block"){
+		   	modalId=$(".modal").attr("id")
+		}
+		parent.$('#'+modalId).remove()
+        parent.$(".modal-backdrop").remove();
+     });
+	
+	$("#postName").blur(function(){
+    	var param = $("#post-form").serialize();
+    	ajaxPost(basePath + 'post/post-code', param, function (data) {
+        	$("#postCode").val(data.message);
+        });
+	});
+	this.postform.initComponent();
+});
+</script>
+</head>
+<body>
+<div class="modal-body">
+	<form id="post-form" name="post-form" class="form-horizontal">
+		<input type="hidden" name="postId" id="postId">
+		<input type="hidden" name="postUnit" id="postUnit">
+		<div class="box-body">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label for="postName" class="col-sm-2 control-label">岗位名称</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="postName" name="postName" placeholder="岗位名称">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="code" class="col-sm-2 control-label">岗位编码</label>
+					<div class="col-sm-9">
+						<input type="text" readonly="readonly" class="form-control" id="postCode" name="postCode" placeholder="系统标识自动生成">
+					</div>
+				</div>
+				<div class="form-group">
+                    <label for="remark" class="col-sm-2 control-label">岗位类型</label>
+                    <div class="col-sm-9">
+                       	<select name="postKind" id="postKind" data-src="/dictionary/list/GWLX" data-flag="urlSelector"
+                        data-placeholder="请选择机构类型" class="form-control select2" data-text="name"
+                        data-value="code" style="width:100%"
+                        data-blank="true"></select>
+                       </div>
+                </div>
+				<div class="form-group">
+					<label for="remark" class="col-sm-2 control-label">说明</label>
+					<div class="col-sm-9">
+						<textarea class="form-control" id="postComment" name="postComment" placeholder="说明"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box-footer text-right">
+			<button type="button" class="btn btn-default" data-btn-type="cancel" data-dismiss="modal">取消</button>
+			<button type="submit" class="btn btn-primary" data-btn-type="save">提交</button>
+		</div>
+	</form>
+</div>
+</body>
+</html>

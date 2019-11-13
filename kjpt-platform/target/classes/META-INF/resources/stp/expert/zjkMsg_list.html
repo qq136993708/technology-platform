@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+    <style>
+        .layui-tab-content{padding-bottom: 8px;}
+    </style>
+</head>
+<body>
+<div class="tableBox" style="margin-top: 8px">
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            <li class="layui-this">项目</li>
+            <li>成果</li>
+            <li>奖励</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="searchBox">
+                    <!--查询条件-->
+                    <label class="dateInput selectInput">
+                        <span>项目名称</span>
+
+                        <input type="text" name="xmName"
+                               placeholder="请输入项目名称"
+                               title="项目名称" autocomplete="off"
+                               class="form-control" id="xmNameName">
+
+                        <span>项目阶段</span>
+
+                        <select name="xmSteps" id="xmSteps" lay-filter="xmSteps">
+                            <option value="">请选择</option>
+                        </select>
+                    </label>
+                    <!--按钮组-->
+                    <div class="btnGroup">
+                        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+                        </button>
+                        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                                data-type="resetEvent">重置
+                        </button>
+                    </div>
+                </div>
+                <div class="tableBox">
+                    <div class="tableToolBox">
+                        <div class="whiteLine"></div>
+                        <div class="tableBtns">
+                            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"-->
+                            <!--data-type="addEvent">新增-->
+                            <!--</button>-->
+                            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"-->
+                            <!--data-type="editEvent">编辑-->
+                            <!--</button>-->
+                            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                            <!--data-type="deleteEvent">删除-->
+                            <!--</button>-->
+                            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                                    data-type="batEventXm">回复
+                            </button>
+                        </div>
+                    </div>
+                    <div class="zjkMsgTableId">
+                        <table id="zjkMsgTableId" class="layui-hide" lay-filter="zjkMsgTableId"></table>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="searchBox">
+                    <!--查询条件-->
+                    <label class="dateInput selectInput">
+                        <span>成果名称</span>
+
+                        <input type="text" name="xmNameCg"
+                               placeholder="请输入成果名称"
+                               title="成果名称" autocomplete="off"
+                               class="form-control" id="xmNameNameCg">
+
+                        <span>阶段</span>
+
+                        <select name="xmStepsCg" id="xmStepsCg" lay-filter="xmStepsCg">
+                            <option value="">请选择</option>
+                        </select>
+                    </label>
+                    <!--按钮组-->
+                    <div class="btnGroup">
+                        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEventCg">查询
+                        </button>
+                        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                                data-type="resetEventCg">重置
+                        </button>
+                    </div>
+                </div>
+                <div class="tableBox">
+                    <div class="tableToolBox">
+                        <div class="whiteLine"></div>
+                        <div class="tableBtns">
+                            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                            <!--data-type="deleteEvent">删除-->
+                            <!--</button>-->
+                            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                                    data-type="batEventCg">回复
+                            </button>
+                        </div>
+                    </div>
+                    <div class="zjkMsgTableIdCg">
+                        <table id="zjkMsgTableIdCg" class="layui-hide" lay-filter="zjkMsgTableIdCg"></table>
+                    </div>
+
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="searchBox">
+                    <!--查询条件-->
+                    <label class="dateInput selectInput">
+                        <span>奖励名称</span>
+
+                        <input type="text" name="xmNameJl"
+                               placeholder="请输入奖励名称"
+                               title="奖励名称" autocomplete="off"
+                               class="form-control" id="xmNameNameJl">
+
+                        <span>阶段</span>
+
+                        <select name="xmStepsJl" id="xmStepsJl" lay-filter="xmSteps">
+                            <option value="">请选择</option>
+                        </select>
+                    </label>
+                    <!--按钮组-->
+                    <div class="btnGroup">
+                        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEventJl">查询
+                        </button>
+                        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                                data-type="resetEventJl">重置
+                        </button>
+                    </div>
+                </div>
+                <div class="tableBox">
+                    <div class="tableToolBox">
+                        <div class="whiteLine"></div>
+                        <div class="tableBtns">
+                            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                            <!--data-type="deleteEvent">删除-->
+                            <!--</button>-->
+                            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                                    data-type="batEventJl">回复
+                            </button>
+                        </div>
+                    </div>
+                    <div class="zjkMsgTableIdJl">
+                        <table id="zjkMsgTableIdJl" class="layui-hide" lay-filter="zjkMsgTableIdJl"></table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    var treeGridCom;
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var table, selectRowData, workOrderStatus;
+    var xmStepsMap={};
+    ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
+        $.each(data, function (i, dt) {
+        	xmStepsMap[data[i].code]=data[i].name;
+            $("#xmSteps").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+            $("#xmStepsCg").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+            $("#xmStepsJl").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+        });
+    });
+    layui.config({
+        base: '/layuiadmin/lib/extend/'
+    }).extend({
+        treeGridCom: 'treeGridCom'
+    }).use(['jquery', 'form', 'laydate', 'table', 'element', 'publicMethods', 'laypage', 'treeGridCom'], function () {
+        table = layui.table,
+            tableCg = layui.table,
+            tableJl = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            publicMethods = layui.publicMethods,
+            laypage = layui.laypage,
+            treeGridCom = layui.treeGridCom;
+        treeGridComCg = layui.treeGridCom;
+        treeGridComJl = layui.treeGridCom;
+
+
+        function renderTable() {
+            table = treeGridCom.render({
+                id: 'zjkMsgTableId',
+                elem: '#zjkMsgTableId',
+                url: '/zjkMsg/getTableDataTrees',
+                cellMinWidth: 200,
+                idField: 'id',//必須字段
+                treeId: 'id',//树形id字段名称
+                treeUpId: 'parentId',//树形父id字段名称
+                treeShowName: 'projectName',//以树形式显示的字段
+                height: commonDislodgeTable(),
+                heightRemove: [".dHead", 10],//不计算的高度,表格设定的是固定高度，此项不生效
+                isFilter: false,
+                iconOpen: false,//是否显示图标【默认显示】
+                isOpenDefault: true,//节点默认是展开还是折叠【默认展开】
+                loading: false,
+                limit: 15,
+                where: {
+                    param: {
+                        "xmName": $("input[name=xmName]").val(),
+                        "type": "xm",
+                        "xmSteps": $("#xmSteps").val()
+                    }
+                },
+                method: 'POST',
+                page: {
+                    groups: 5,
+                    limits: [15, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'],
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                // 立项年度、预算年度、合同号、项目名称，承担单位
+                cols: [[{
+                    type: 'checkbox',
+                    event: 'changeEvents',
+                    width: '5%',
+                }
+                    // , {
+                    //     field : 'realIndex',
+                    //     title : '序号',
+                    //     style : 'cursor: pointer;',
+                    //     align : 'center',
+                    //     width : '45'
+                    // }
+                    , {
+                        field: 'projectName',
+                        title: '项目名称',
+                        templet: function (d) {
+                            console.log(d);
+                            if (d.dataIndex == "1") {
+                                return '<span   onclick="showDetail(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
+                            } else {
+                                if (d.sysFlag == "ROOT_UNIVERSAL_WEHTHER_YES" && d.isComplete == "ROOT_UNIVERSAL_WEHTHER_YES") {//同意
+                                    return '<span style="color:#00B83F">' + d.projectName + '</span>'
+                                } else if (d.sysFlag == "ROOT_UNIVERSAL_WEHTHER_NO" && d.isComplete == "ROOT_UNIVERSAL_WEHTHER_YES") {//已回复不同意
+                                    return '<span style="color: red">' + d.projectName + '</span>'
+                                } else {
+                                    return '<span >' + d.projectName + '</span>'
+                                }
+                            }
+                        },
+                        style: 'cursor: pointer;',
+                        align: 'left',
+                    }, {
+                        field: 'updateUser',
+                        title: '合同号',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '10%',
+                    }, {
+                        field: 'createUserDisp',
+                        title: '立项年度',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '9%',
+                    }, {
+                        field: 'modifyUserDisp',
+                        title: '预算年度',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '9%',
+                    }, {
+                        field: 'formCode',
+                        title: '负责单位',
+                        width: '18%'
+                    }, {
+                        field: 'xmSteps',
+                        title: '项目阶段',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '15%',
+                    }]],
+                isPage: true,
+                parseData: function (res) {
+                    return res;
+                },
+                done: function (res) {
+                    $('.zjkMsgTableId .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
+                            $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
+                        }else {
+                            $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        }
+                        //selectRowData = res.data[index - 1];
+                    });
+                    var param = {
+                        data: res.data,//数据
+                        element: ".layui-table-body",// 当前的表格元素
+                        column: 6,//列数 从0开始
+                        field: "xmSteps",//当前数据的字段
+                        url: "/pageCommon/dic/ROOT_XTGL_XMJD"//接口
+                    };
+
+                    publicMethods.dataDictionary(param);
+                },
+                onClickRow: function (index, o) {
+                    console.log(index, o, "单击！");
+                },
+                onDblClickRow: function (index, o) {
+                    console.log(index, o, "双击");
+                }
+            });
+        }
+
+        function renderTableCg() {
+            tableCg = treeGridComCg.render({
+                id: 'zjkMsgTableIdCg',
+                elem: '#zjkMsgTableIdCg',
+                url: '/zjkMsg/getTableDataTreesCg',
+                cellMinWidth: 200,
+                idField: 'id',//必須字段
+                treeId: 'id',//树形id字段名称
+                treeUpId: 'parentId',//树形父id字段名称
+                treeShowName: 'projectName',//以树形式显示的字段
+                height: commonDislodgeTable(),
+                heightRemove: [".dHead", 10],//不计算的高度,表格设定的是固定高度，此项不生效
+                isFilter: false,
+                iconOpen: false,//是否显示图标【默认显示】
+                isOpenDefault: true,//节点默认是展开还是折叠【默认展开】
+                loading: false,
+                limit: 15,
+                where: {
+                    param: {
+                        "xmName": $("input[name=xmNameCg]").val(),
+                        "type": "cg",
+                        "xmSteps": $("#xmStepsCg").val()
+                    }
+                },
+                method: 'POST',
+                page: {
+                    groups: 5,
+                    limits: [15, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'],
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                // 立项年度、预算年度、合同号、项目名称，承担单位
+                cols: [[{
+                    type: 'checkbox',
+                    event: 'changeEvents',
+                    width: '5%',
+                }
+                    // , {
+                    //     field : 'realIndex',
+                    //     title : '序号',
+                    //     style : 'cursor: pointer;',
+                    //     align : 'center',
+                    //     width : '45'
+                    // }
+                    , {
+                        field: 'projectName',
+                        title: '成果名称',
+                        templet: function (d) {
+                            if (d.dataIndex == "1") {
+                                return '<span   onclick="showDetailCg(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
+                            } else {
+                                if (d.sysFlag == "ROOT_UNIVERSAL_WEHTHER_YES" && d.isComplete == "ROOT_UNIVERSAL_WEHTHER_YES") {//同意
+                                    return '<span style="color:#00B83F">' + d.projectName + '</span>'
+                                } else if (d.sysFlag == "ROOT_UNIVERSAL_WEHTHER_NO" && d.isComplete == "ROOT_UNIVERSAL_WEHTHER_YES") {//已回复不同意
+                                    return '<span style="color: red">' + d.projectName + '</span>'
+                                } else {
+                                    return '<span >' + d.projectName + '</span>'
+                                }
+                            }
+                        },
+                        style: 'cursor: pointer;',
+                        align: 'left',
+                    }, {
+                        field: "formCode",
+                        title: "申请单位", event: 'setActive', style: 'cursor: pointer;',
+                        width: '39%',
+                    }, {
+                        field: 'xmSteps',
+                        title: '项目阶段',
+                        width: '10%'
+                    }
+                    ]],
+                isPage: true,
+                parseData: function (res) {
+                    return res;
+                },
+                done: function (res) {
+                     $('.zjkMsgTableIdCg .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                         if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
+                             $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
+                         }else {
+                             $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                         }
+                     });
+                 	//处理字典
+                     $.each(res.data,function(i,dt){
+ 		            	$(".zjkMsgTableIdCg tr[data-index='"+i+"'] td[data-field='xmSteps'] div").html(xmStepsMap[res.data[i].xmSteps]);
+ 	                });
+                   /*  var param = {
+                        data: res.data,//数据
+                        element: ".layui-table-body",// 当前的表格元素
+                        column: 3,//列数 从0开始
+                        field: "xmSteps",//当前数据的字段
+                        url: "/pageCommon/dic/ROOT_XTGL_XMJD"//接口
+                    };
+                    console.info("=============")
+                    console.info(param); */
+                    //console.info(res.data);//param.data[i][param.field];
+                    //publicMethods.dataDictionary(param);
+
+                },
+                onClickRow: function (index, o) {
+                    console.log(index, o, "单击！");
+                },
+                onDblClickRow: function (index, o) {
+                    console.log(index, o, "双击");
+                }
+            });
+        }
+
+        function renderTableJl() {
+            tableJl = treeGridComJl.render({
+                id: 'zjkMsgTableIdJl',
+                elem: '#zjkMsgTableIdJl',
+                url: '/zjkMsg/getTableDataTreesJl',
+                cellMinWidth: 200,
+                idField: 'id',//必須字段
+                treeId: 'id',//树形id字段名称
+                treeUpId: 'parentId',//树形父id字段名称
+                treeShowName: 'projectName',//以树形式显示的字段
+                height: commonDislodgeTable(),
+                heightRemove: [".dHead", 10],//不计算的高度,表格设定的是固定高度，此项不生效
+                isFilter: false,
+                iconOpen: false,//是否显示图标【默认显示】
+                isOpenDefault: true,//节点默认是展开还是折叠【默认展开】
+                loading: false,
+                limit: 15,
+                where: {
+                    param: {
+                        "xmName": $("input[name=xmNameJl]").val(),
+                        "type": "jl",
+                        "xmSteps": $("#xmStepsJl").val()
+                    }
+                },
+                method: 'POST',
+                page: {
+                    groups: 5,
+                    limits: [15, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'],
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                // 立项年度、预算年度、合同号、项目名称，承担单位
+                cols: [[{
+                    type: 'checkbox',
+                    event: 'changeEvents',
+                    width: '5%',
+                }
+                    // , {
+                    //     field : 'realIndex',
+                    //     title : '序号',
+                    //     style : 'cursor: pointer;',
+                    //     align : 'center',
+                    //     width : '45'
+                    // }
+                    , {
+                        field: 'projectName',
+                        title: '项目名称',
+                        templet: function (d) {
+                            if (d.dataIndex == "1") {
+                                return '<span   onclick="showDetailJl(\'' + d.modifyUser + '\')">' + d.projectName + '</span>'
+                            } else {
+                                if (d.sysFlag == "ROOT_UNIVERSAL_WEHTHER_YES" && d.isComplete == "ROOT_UNIVERSAL_WEHTHER_YES") {//同意
+                                    return '<span style="color:#00B83F">' + d.projectName + '</span>'
+                                } else if (d.sysFlag == "ROOT_UNIVERSAL_WEHTHER_NO" && d.isComplete == "ROOT_UNIVERSAL_WEHTHER_YES") {//已回复不同意
+                                    return '<span style="color: red">' + d.projectName + '</span>'
+                                } else {
+                                    return '<span >' + d.projectName + '</span>'
+                                }
+                            }
+                        },
+                        style: 'cursor: pointer;',
+                        align: 'left',
+                    }, {
+                        field: 'updateUser',
+                        title: '评审等级',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '30%',
+                    }, {
+                        field: 'modifyUserDisp',
+                        title: '专业领域',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '15%',
+                    }, {
+                        field: 'xmSteps',
+                        title: '项目阶段',
+                        width: '10%'
+                    }
+                    ]],
+                isPage: true,
+                parseData: function (res) {
+                    return res;
+                },
+                done: function (res) {
+                     $('.zjkMsgTableIdJl .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                         if($(this).find("td").eq(0).find(".layui-unselect").attr("class").indexOf("layui-form-checked")!=-1){
+                             $(this).find("td").eq(0).find(".layui-unselect").removeClass("layui-form-checked");
+                         }else {
+                             $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                         }
+                    });
+                   //处理字典
+                     $.each(res.data,function(i,dt){
+ 		            	$(".zjkMsgTableIdJl tr[data-index='"+i+"'] td[data-field='xmSteps'] div").html(xmStepsMap[res.data[i].xmSteps]);
+ 	                });
+                },
+                onClickRow: function (index, o) {
+                    console.log(index, o, "单击！");
+                },
+                onDblClickRow: function (index, o) {
+                    console.log(index, o, "双击");
+                }
+            });
+        }
+
+        function showDetailCg(data_id) {
+            var temUrl = "/out/appraisal-detail/" + data_id;
+            layer.open({
+                title: '详情',
+                skin: 'layui-layer-lan',
+                shadeClose: false,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['70%', '90%'],
+                content: temUrl
+            });
+        }
+
+        function showDetailJl(data_id) {
+            var temUrl = "/out/reward-detail/" + data_id;
+            layer.open({
+                title: '详情',
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['90%', '80%'],
+                content: temUrl
+            });
+        }
+
+        function showDetail(data_id) {
+            // $.ajax({
+            //             type : 'post',
+            //             dataType : 'json',
+            //             async : false,
+            //             data : {
+            //                 "dataId" : data_id
+            //             },
+            //             url : "/out/getOutProjectShowSearch?data_id=" + data_id+"&functionId=984b64b13cf54222bf57bd840759fabe",
+            //             success : function(data) {
+            //                 if(data.fzrxm=="0"){
+            //                     layer.msg("权限不够,请联系系统管理员");
+            //                 }else {
+            var temUrl = "/out/project-detail/" + data_id;
+            layer.open({
+                title: '详情',
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['90%', '80%'],
+                content: temUrl
+            });
+            //     },
+            //     error : function(e) {
+            //         alertError("出错了！", e);
+            //     }
+            // });
+        }
+
+        renderTable();
+        renderTableJl();
+        renderTableCg();
+        $(".layui-table-header table thead th input").remove();
+        window.renderTable = renderTable;
+        window.renderTableJl = renderTableJl;
+        window.renderTableCg = renderTableCg;
+        window.showDetail = showDetail;
+        window.showDetailCg = showDetailCg;
+        window.showDetailJl = showDetailJl;
+        // $(function () {
+        //     //propertychange监听input里面的字符变化,属性改变事件
+        //     $('.form-control').bind('input propertychange', function () {
+        //         var $this = $(this);
+        //         var text_length = $this.val().length;//获取当前文本框的长度
+        //         var current_width = parseInt(text_length) * 12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+        //         $this.css("width", current_width + "px");
+        //     });
+        // })
+
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+                renderTable();
+            },
+            searchEventCg: function () { //点击查询按钮
+                renderTableCg();
+            },
+            searchEventJl: function () { //点击查询按钮
+                renderTableJl();
+            },
+            allEvent: function () { //点击查询按钮
+                workOrderStatus = '';
+                renderTable();
+            },
+            draftEvent: function () { //点击查询按钮
+                workOrderStatus = '0';
+                renderTable();
+            },
+            approvalEvent: function () { //点击查询按钮
+                workOrderStatus = '1';
+                renderTable();
+            },
+            approvedEvent: function () { //点击查询按钮
+                workOrderStatus = '2';
+                renderTable();
+            },
+            resetEvent: function () { //点击重置按钮
+                $('#xmNameName').val("");
+                $('#xmSteps').val("");
+                renderTable();
+            },
+            resetEventCg: function () { //点击重置按钮
+                $('#xmNameNameCg').val("");
+                $('#xmStepsCg').val("");
+                renderTableCg();
+            }, resetEventJl: function () { //点击重置按钮
+                $('#xmNameNameJl').val("");
+                $('#xmStepsJl').val("");
+                renderTableJl();
+            },
+            addEvent: function () { //点击新增按钮
+                layer.open({
+                    title: param.name + '-新增',
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['70%', '90%'],
+                    content: "/zjkMsg/edit"
+                });
+            },
+            editEvent: function () {  //点击编辑按钮
+                var id;
+                if (selectRowData) {
+                    // if (selectRowData.workOrderStatus == '0') {
+                    id = selectRowData.dataId;
+                    layer.open({
+                        title: param.name + '-编辑',
+                        skin: 'layui-layer-lan',
+                        shadeClose: false,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['70%', '90%'],
+                        content: "/zjkMsg/edit?id=" + selectRowData.dataId
+                    });
+                    // } else {
+                    //     layer.msg('只可操作未下发的数据');
+                    //     return;
+                    // }
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            }, batEventXm: function () {
+                active.batEvent("zjkMsgTableId");
+            }, batEventCg: function () {
+                active.batEvent("zjkMsgTableIdCg");
+            }, batEventJl: function () {
+                active.batEvent("zjkMsgTableIdJl");
+            }, batEvent: function (tableId) {
+                var ids = "";
+                selectRowData = active.getCheckData(tableId);
+                if (selectRowData.length > 0) {
+                    for (var i = 0; i < selectRowData.length; i++) {
+                        if (selectRowData[i].dataIndex != "1") {
+                            ids = (ids == "" ? "" : (ids + ",")) + selectRowData[i].dataId;
+                        }
+                    }
+                    layer.open({
+                        title: param.name + '-批量',
+                        skin: 'layui-layer-lan',
+                        shadeClose: false,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['60%', '60%'],
+                        content: "/zjkMsgConfig/zjkMsg_bat?ids=" + ids
+                    });
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            detailEvent: function () {  //点击详情按钮
+                var dataId;
+                selectRowData = active.getCheckData();
+                if (selectRowData.length == 1) {
+                    dataId = selectRowData[0].dataId;
+                    layer.open({
+                        title: param.name + '-查看',
+                        skin: 'layui-layer-lan',
+                        shadeClose: false,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['70%', '90%'],
+                        content: "/zjkMsg/view?id=" + selectRowData[0].dataId
+                        // content: '/plan/viewPlanPage?dataId='+dataId
+                    });
+                    // }
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            deleteEvent: function () { //点击删除按钮
+                var id;
+                selectRowData = active.getCheckData();
+                if (selectRowData.length == 1) {                    // if (selectRowData.workOrderStatus == '0') {
+                    id = selectRowData[0].dataId;
+                    layer.confirm('确认要删除选中的数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
+                        layer.close(index);
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'text',
+                            async: false,
+                            data: {"id": selectRowData[0].dataId},
+                            url: '/zjkMsg/del-real',
+                            success: function (data) {
+                                // if(data==200){
+                                layer.msg("删除成功");
+                                active.searchEvent();
+                                // }
+                            },
+                            error: function (e) {
+                                alert("出错了");
+                                console.log(e);
+                            }
+                        });
+                    });
+                    // } else {
+                    //     layer.msg('当前记录已经提交,不能进行删除操作！');
+                    //     return;
+                    // }
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            getCheckData: function (tableId) { //获取选中数据
+                var checkStatus = treeGridCom.checkStatus(tableId)
+                    , data = checkStatus.data;
+                console.log(data)
+                return data;
+            },
+            getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('zjkMsgTableId')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            },
+            isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('zjkMsgTableId');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+        };
+
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全流程可视化图</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico"/>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="tableBox">
+    <table id="test" class="layui-hide" lay-filter="tableData"></table>
+</div>
+    <script>
+        layui.use(['jquery','layer','table'], function () {
+            var $ = layui.jquery,layer = layui.layer,table=layui.table;
+            table.render({
+                elem: '#test' //表格容器
+                , url: '/layuiadmin/json/table/demo1.json' //请求的url地址
+                , limit: 15 //每页默认显示的数量
+                , id: 'idTest'
+                , height: commonDislodgeTable()
+                , page: {
+                    count: 500 //数据总数，从服务端得到
+                    , groups: 5
+                    , limits: [15, 30, 45, 60]
+                    , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    , first: '首页' //不显示首页
+                    , last: '尾页' //不显示尾页
+                    , theme: '#0F9EE0'
+                }
+                /*列显示隐藏、打印、导出功能*/
+                ,toolbar:{
+                    toolbar:"#test"
+                }
+                , cols: [[
+                    {type: 'checkbox', event: 'changeEvents'}
+                    , {field: 'id', title: '序号', style: 'cursor: pointer;', width: 54, unresize: true}
+                    , {field: 'username', title: '名称', style: 'cursor: pointer;'}
+
+                ]]
+                , done: function (res, curr, count) {
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        var index=parseInt($(this).index()+1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    })
+
+                }
+            });
+            table.on('row(tableData)', function(obj){
+                layer.open({
+                    title:'流程图片'
+                    ,skin: 'layui-layer-lan'
+                    ,shadeClose: true
+                    ,type: 2
+                    ,fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    ,maxmin: false
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    ,area: ['70%', '60%'],
+                    content: "visual_map.html",
+                    success: function (layero, index) {
+
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

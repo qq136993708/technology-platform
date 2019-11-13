@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini" style="background:#fff;">
+<div class="treeTableContainer">
+    <div class="left-tree-box">
+        <!--加标题-->
+        <div class="title-box">
+            <span>省市结构</span>
+            <!--加操作按钮时去掉标题-->
+            <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>-->
+        </div>
+        <div class="left-side-tree">
+            <div class="layui-side-scroll">
+                <ul id="unitTree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="twoTree-tableBox">
+        <div class="postTable"><table id="postTable" class="layui-hide" lay-filter="postTableEvent"></table></div>
+        <!--<div class="funcGroupTable"><table id="funcGroupTable" class="layui-hide" lay-filter="groupTableEvent"></table></div>-->
+        <div class="funcGroupTable2"><table id="demoTable3" class="layui-hide" lay-filter="groupTableEvent"></table></div>
+    </div>
+
+    <div class="right-side-tree-box">
+        <div class="title-box">
+            <select name="" id="">
+                <option value="">--快速选择--</option>
+                <option value="管理员功能组">管理员功能组</option>
+                <option value="管理员功能组">系统管理功能组</option>
+                <option value="管理员功能组">全部菜单组</option>
+            </select>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="addEvent">保存</button>
+        </div>
+        <div class="right-side-tree">
+            <div class="layui-side-scroll" style="width: 100%;">
+                <ul id="funcTree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var table,unitNodes,funcNodes,unitTree,funcTree,unitId,selectRowData;
+    var unitTreeSetting = {data: {simpleData: {enable: true}},
+        callback: {onClick: unitTreeMenueOnClick}
+    };
+    var funcTreeSetting = {
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        callback: {
+            onClick: funcTreeMenueOnClick
+        },
+        check: {
+            enable: true,
+            chkboxType: {"Y": "ps", "N": "s"}
+        }
+    };
+    function unitTreeMenueOnClick(event,treeId,treeNode,clickFlag) {
+        unitId = treeNode.id;
+        selectRowData=null;
+        table.reload('postTable', {
+            where: {
+                param: {"unitId":unitId}
+            }
+        });
+        $(".layui-table-header table thead th input").remove();
+    }
+    function funcTreeMenueOnClick(event,treeId,treeNode,clickFlag)
+    {
+        console.log("选中复选框");
+    }
+    $(document).ready(function () {
+        ajaxPost("/unit/ztree-unit-list",null,function(data){
+            unitNodes = data;
+        });
+        ajaxPost("/function/getCommonFunctionTree",null,function(data){
+            funcNodes = data;
+        });
+        //初始化树
+        unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, unitNodes);
+        funcTree = $.fn.zTree.init($("#funcTree"), funcTreeSetting, funcNodes);
+
+        //展开树
+        unitTree.expandAll(true);
+        funcTree.expandAll(true);
+    });
+    layui.use(['jquery','form','laydate','table', 'layer', 'element'], function () {
+        var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+        table = layui.table;
+        function renderPostTable(){
+            table.render({
+                elem: '#postTable',
+                url: '/post/get-post-by-unit',
+                method:"POST",
+                where: {param: {"unitId":"00"}},
+                limit: 150,
+                id: 'postTable',
+                height: 198,
+                cols: [[
+                    {type:'checkbox', event:'postTableEvent'},
+                    {title:'序号', type:'numbers', width: '6%'},
+                    {field:'postName',   title:'岗位名称',  style:'cursor: pointer;'},
+                    {field:'postCode',      title:'岗位编码', style:'cursor: pointer;'},
+                    {field:'postKind',   title:'岗位类型',  style:'cursor: pointer;'},
+                    {field:'postComment',      title:'岗位描述', style:'cursor: pointer;'}
+                ]],
+                done: function (res, curr, count) {
+                    // 点击行联动选择框--单选
+                    $(".postTable").find('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        console.log("start post select............");
+                        var index=parseInt($(this).index()+1);
+                        $(this).parent().find('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        //显示岗位对应的权限
+                        selectRowData=res.data[index-1];
+                        funcTree.checkAllNodes(false);
+                        ajaxPost("/post/get-function-list/" + res.data[index-1].postId, null, function (dt) {
+                            $.each(dt,function(index,d){
+                                var node = funcTree.getNodeByParam("id",this.id);
+                                if(node){
+                                    funcTree.checkNode(node,true,false);
+                                }
+                            });
+                        });
+                    });
+                }
+            });
+            $(".layui-table-header table thead th input").remove();
+        }
+        /*function renderGroupTable(){
+            table.render({
+                elem: '#funcGroupTable',
+                url: '/functiongroup/functiongroup-list',
+                method:"POST",
+                limit: 15,
+                id: 'funcGroupTable',
+                height: 198,
+                cols: [[
+                    {type:'checkbox',width: '6%',event:'groupTableEvent'},
+                    {title:'序号', type:'numbers', width: '6%'},
+                    {field:'groupName',   title:'分组名称',  style:'cursor: pointer;'},
+                    {field:'createDate',      title:'创建日期', style:'cursor: pointer;'},
+                    {field:'createPersonName',   title:'创建人',  style:'cursor: pointer;'}
+                ]],
+                done: function (res, curr, count) {
+                    // 点击行联动选择框--单选
+                    $(".funcGroupTable").find('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        console.log("start functiongroup select............");
+                        var index=parseInt($(this).index()+1);
+                        $(this).parent().find('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        //selectRowData=res.data[index-1];
+                        funcTree.checkAllNodes(false);
+                        ajaxPost("/functiongroup/functiongroup-functions", {"groupId":res.data[index-1].groupId}, function (dt) {
+                            $.each(dt,function(index,d){
+                                var node = funcTree.getNodeByParam("id",this.id);
+                                if(node){
+                                    funcTree.checkNode(node,true,false);
+                                }
+                            });
+                        });
+                        funcTree.refresh();
+                    });
+                }
+            });
+            $(".layui-table-header table thead th input").remove();
+        }*/
+        function renderDemoTable3(){
+            table.render({
+                elem: '#demoTable3',
+                url: '/layuiadmin/json/table/demo1.json',
+                method:"get",
+                limit: 15,
+                id: 'funcGroupTable',
+                height: "full-220",
+                cols: [[
+                    {type: 'checkbox', event: 'changeEvents'}
+                    , {field: 'id', title: '序号', style: 'cursor: pointer;', width: 68, unresize: true}
+                    , {field: 'username', title: '模型ID', style: 'cursor: pointer;'}
+                    , {field: 'email', title: '模型名称', style: 'cursor: pointer;'}
+                    , {field: 'sex', title: '模型Key', style: 'cursor: pointer;'}
+                    , {field: 'city', title: '模型类别', style: 'cursor: pointer;'}
+                    , {field: 'sign', title: '模型版本号', style: 'cursor: pointer;'}
+                    , {field: 'createTime', title: '创建时间', style: 'cursor: pointer;', templet:  '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>'}
+                    , {field: 'ip', title: '部署ID', style: 'cursor: pointer;', event: 'setActive'}
+                ]],
+                done: function (res, curr, count) {
+                    // 点击行联动选择框--单选
+                    $(".funcGroupTable").find('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        console.log("start functiongroup select............");
+                        var index=parseInt($(this).index()+1);
+                        $(this).parent().find('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        //selectRowData=res.data[index-1];
+                        funcTree.checkAllNodes(false);
+                        ajaxPost("/functiongroup/functiongroup-functions", {"groupId":res.data[index-1].groupId}, function (dt) {
+                            $.each(dt,function(index,d){
+                                var node = funcTree.getNodeByParam("id",this.id);
+                                if(node){
+                                    funcTree.checkNode(node,true,false);
+                                }
+                            });
+                        });
+                        funcTree.refresh();
+                    });
+                }
+            });
+            $(".layui-table-header table thead th input").remove();
+        };
+        renderPostTable();
+        // renderGroupTable();
+        renderDemoTable3();
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            //点击保存按钮
+            addEvent: function(){
+                var nodes = funcTree.getCheckedNodes();
+                //var checkStatus = table.checkStatus('postTable');
+                if(!selectRowData){
+                    layer.msg('请点击选择岗位数据!');
+                    return;
+                }
+                var functionIds = [];
+                for (var i = 0; i < nodes.length; i++) {
+                    functionIds.push(nodes[i].id);
+                }
+                //批量保存选中节点
+                var param = {"postId": selectRowData.postId,"functionIds": JSON.stringify(functionIds)  };
+                ajaxPost("/post/save-post-functions",param,function (data, status) {
+                    if(data.success){
+                        layer.alert("操作成功");
+                    }else{
+                        layer.alert("操作失败请重试");
+                    }
+                });
+            }
+        };
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/oneLevel.css" media="all">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        html{background: #fff;}
+    </style>
+</head>
+<body>
+<div class="module">
+    <p>已选功能</p>
+    <div class="selected selectOption">
+        <div class="selectedProject">
+            <p class="title">项目管理</p>
+            <div class="option">
+                <!--<p>重大项目及十条龙<span></span></p>-->
+                <p>科研合同<span></span></p>
+                <p>重点实验室<span></span></p>
+                <p>国际合作<span></span></p>
+                <p>科研投入<span></span></p>
+                <p>科研装备<span></span></p>
+            </div>
+        </div>
+        <div class="selectedTechnical">
+            <p class="title">经费管理</p>
+            <div class="option">
+                <p>科研投入<span></span></p>
+            </div>
+        </div>
+        <div class="selectedTechnical">
+            <p class="title">技术管理</p>
+            <div class="option">
+                <p>标准化<span></span></p>
+            </div>
+        </div>
+        <div class="selectedItegrated">
+            <p class="title">综合管理</p>
+            <div class="option">
+                <p>领导讲话<span></span></p>
+                <p>科研人才<span></span></p>
+                <p>直属研究院<span></span></p>
+                <!--<p>待办督办<span></span></p>-->
+                <p>科技成果<span></span></p>
+                <p>知识产权<span></span></p>
+            </div>
+        </div>
+    </div>
+    <p>未选功能</p>
+    <div class="unselected selectOption">
+        <div class="unselectedProject">
+            <p class="title">项目管理</p>
+            <div class="option">
+                <p>全流程可视化</p>
+                <p>装备全生命周期管理</p>
+                <p>国际合作项目</p>
+            </div>
+        </div>
+        <div class="unselectedTechnical">
+            <p class="title">经费管理</p>
+            <div class="option">
+                <p>预算编制</p>
+                <p>拨款管理</p>
+                <p>过程监控</p>
+                <p>成本核算</p>
+                <p>科技投入视同利润还原</p>
+                <p>加计扣除</p>
+                <p>经费统计</p>
+                <p>研究院支出</p>
+                <p>到款查询</p>
+                <p>横向收入</p>
+                <p>直属研究院概况</p>
+            </div>
+        </div>
+        <div class="unselectedTechnical">
+            <p class="title">技术管理</p>
+            <div class="option">
+                <p>技术族</p>
+                <p>技术热点图</p>
+                <p>技术领域分析</p>
+            </div>
+        </div>
+        <div class="unselectedIntegrated">
+            <p class="title">综合管理</p>
+            <div class="option">
+                <p>科研辅助决策中心</p>
+                <p>专家库</p>
+                <p>多维分析</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-bottom moduleB">
+    <div class="form-bottom-btns">
+        <button type="button" class="layui-btn-c"  id="cancel">取消</button>
+        <button class="layui-btn-d" id="confirm">确定</button>
+    </div>
+</div>
+<script>
+    layui.use([ 'jquery','publicMethods'], function(){
+        var $=layui.jquery,publicMethods=layui.publicMethods;
+       /* $("#leader").click(function () {
+            var data={"power":"1", "name":"领导讲话","color":"#f10033","img":"/layuiadmin/layui/images/icon-party.png","class":"layui-col-md3","id":"","spareId":null};
+            publicMethods.moduleConfig(data);
+        });
+        $("#home_budget").click(function () {
+            var data=
+                {"power":"3", "name":"科研装备","color":"#488c34","img":"/layuiadmin/layui/images/textTopThree.png","class":"layui-col-md3","id":"equipment","spareId":"K0BNGLFPHJECB_t"};
+            publicMethods.moduleConfig(data);
+        });*/
+
+        dele();
+       $(".module").css("height",parent.$(".layui-layer-content").height()-61+"px");
+        $(".unselected .option p").click(function () {
+            if($(this).attr("class")!="layui-this"){
+                var index=$(this).parent().parent().index();
+                var html=$(this).html();
+                $(this).addClass("layui-this");
+                $(".selected>div").eq(index).find(".option").append("<p>"+html+"<span></span></p>");
+                dele();
+            }
+        });
+        $("#confirm").click(function () {
+            //获取选中项
+            var selectedOP=[];
+            $(".selected .option p").each(function () {
+                selectedOP.push($(this).text())
+            });
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8',
+                },
+                url: "/layuiadmin/json/data1.json",
+                success: function (data, status) {
+                    $.each(selectedOP,function (index,d) {
+                        $.each(data.data,function (index,dt) {
+                            if(dt.name==d){
+                                publicMethods.moduleConfig(dt);
+                            }
+                        });
+                    })
+                    if(parent.$("#moduleConfig li").length<16){
+                        var htmlA="<li class='layui-col-md3'>" +
+                            "           <div class='layui-col-md' id='layui-add'>" +
+                            "               <div class='layui-add'>" +
+                            "                   <img src='/layuiadmin/layui/images/icon-puls.png'/>" +
+                            "               </div>" +
+                            "           </div>" +
+                            "      </li>";
+                        parent.$("#moduleConfig").append(htmlA);
+                    }else {
+                        var htmlA="<li class='layui-col-md3'>" +
+                            "           <div class='layui-col-md' id='layui-add'>" +
+                            "               <div class='layui-add'>" +
+                            "                   <img src='/layuiadmin/layui/images/icon-puls.png'/>" +
+                            "               </div>" +
+                            "           </div>" +
+                            "      </li>";
+                        parent.$(".layui-row-special ul").append(htmlA);
+                    }
+                    parent.addLast();
+                    //publicMethods.moduleConfigs(data.data);
+                },
+                error : function(err, err1, err2) {
+                    console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+                }
+            });
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+        $("#cancel").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+        function dele() {
+            $(".option p span").click(function () {
+                var indexS=$(this).parents(".option").parent().index();
+                var htmlS=$(this).parent().text();
+                $(this).parent().remove();
+                $(".unselected>div").eq(indexS).find(".option p").each(function () {
+                    if(htmlS.indexOf($(this).html())!= -1){
+                        $(this).removeClass("layui-this");
+                    }
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>

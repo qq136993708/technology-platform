@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.pcitc</groupId>
-	<artifactId>pcitc-parent</artifactId>
+	<groupId>com.kjpt</groupId>
+	<artifactId>kjpt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>pcitc-parent</name>
+	<name>kjpt</name>
 
 	<!-- <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -372,13 +372,11 @@
 		</dependencies>
 	</dependencyManagement>
 	<modules>
-		<module>pcitc-base</module>
-		<module>pcitc-registration-center</module>
-		<module>pcitc-system-provider</module>
-		<module>pcitc-zuul</module>
-		<module>pcitc-stp</module>
-		<module>pcitc-stp-provider</module>
-		<!-- <module>pplus-tx-manager</module>  -->
-		<module>pcitc-hana-provider</module>
+		<module>kjpt-base</module>
+		<module>kjpt-registration-center</module>
+		<module>kjpt-system-provider</module>
+		<module>kjpt-zuul</module>
+		<module>kjpt-platform</module>
+		<module>kjpt-business-provider</module>
 	</modules>
 </project>

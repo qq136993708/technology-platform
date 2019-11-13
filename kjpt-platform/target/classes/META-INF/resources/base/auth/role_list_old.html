@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>科技管理平台</title>
+	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+	<#include "/common/public/publicImportIndex.html"/>
+	<style>
+		.trRight{
+			text-align: right;
+		}
+	</style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini" style="background: #ffffff">
+<section class="content">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="box box-primary">
+				<div class="dataTables_filter" id="searchDiv">
+					<input placeholder="请输入角色名" name="roleName" class="form-control" type="search" likeOption="true" style="height: 26px;" />
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary search" 	data-btn-type="rsearch">查询</button>
+					</div>
+				</div>
+				<div class="content-body">
+
+					<div class="content-table">
+
+						<div class="ct-table">
+							<table id="role_table" class="table table-bordered table-striped table-hover">
+								<thead>
+								<tr class="trRight">
+									<td colspan="3" class="table-btn-group">
+										<button type="button" class="btn btn-default add" data-btn-type="add" >新增</button>
+										<button type="button" class="btn btn-default edit" data-btn-type="edit" >编辑</button>
+										<button type="button" class="btn btn-default delete" data-btn-type="delete" style="background: #EBEBEB; border-color: #CCCCCA; color: #514E48;">删除</button>
+									</td>
+								</tr>
+								<tr>
+									<th>序号</th>
+									<th>名称</th>
+									<th>备注</th>
+								</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="box box-primary">
+				<div class="dataTables_filter" id="searchDiv_userRole">
+					<input placeholder="请输入用户名" name="userName" class="form-control" type="search" likeOption="true" />
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary search" 	data-btn-type="usearch">查询</button>
+					</div>
+				</div>
+				<div class="content-body">
+					<div class="content-table">
+						<div class="ct-table">
+							<table id="userRole_table" class="table table-bordered table-striped table-hover">
+								<thead>
+								<tr class="trRight">
+									<td colspan="3" class="table-btn-group">
+										<button type="button" class="btn btn-default add" data-btn-type="selectUserRole">选择</button>
+										<button type="button" class="btn btn-default delete" data-btn-type="deleteUserRole" style="background: #EBEBEB; border-color: #CCCCCA; color: #514E48;">删除</button>
+									</td>
+								</tr>
+								<tr>
+									<th>序号</th>
+									<th>用户名</th>
+									<th>登录名</th>
+								</tr>
+								</thead>
+								<input type="hidden"  name="roleId" value="-1" id="roleId"/>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</body>
+<script>
+    //tableId,queryId,conditionContainer
+    var roleTable,userRoleTable;
+    var winId="roleWin";
+    $(function() {
+        $('button[data-btn-type]').click(function() {
+            var action = $(this).attr('data-btn-type');
+            switch (action) {
+                case 'rsearch':
+                    roleTable.fnClearTable();
+                    break;
+                case 'usearch':
+                    userRoleTable.fnClearTable();
+                    break;
+            }
+        });
+        initRoleTable();
+        initUserRoleTable();
+        //选中角色加载角色下的用户
+        /* $('#role_table tbody').on('click', 'tr', function (selector) {
+              $("#role_table tbody tr").removeClass('selected');
+            $(this).addClass('selected');
+            $("#roleId").val(getRoleTableId());
+            initUserRoleTable();
+        });
+        $('#userRole_table tbody').on('click', 'tr', function (selector) {
+              $("#userRole_table tbody tr").removeClass('selected');
+            $(this).addClass('selected');
+        }); */
+        var config={
+            lengthChange:false,
+            pagingType:'simple_numbers'
+        }
+        //init userrole table
+        //userRoleTable=new CommonTable("userRole_table","userRole_selected_list","searchDiv_userRole",config);
+
+        //默认选中第一行
+        //setTimeout(function(){roleTable.selectFirstRow(true)},10);
+        //make right table button on the same row
+
+        //button event
+        $('button[data-btn-type]').click(function() {
+            var action = $(this).attr('data-btn-type');
+            var rowId= getRoleTableId();
+            switch (action) {
+                case 'add':
+                    modals.openWin({
+                    	winId:new Date().getTime(),
+                    	backdrop:"static",
+                        title:'新增角色',
+                        width:'600px',
+                        url:basePath+"role/edit"
+                    });
+                    break;
+                case 'edit':
+                    if(!rowId){
+                        modals.info('请选择要编辑的行');
+                        return false;
+                    }
+                    modals.openWin({
+                    	winId:new Date().getTime(),
+                    	backdrop:"static",
+                        title:'编辑角色',
+                        width:'600px',
+                        url:basePath+"role/edit?id="+rowId
+                    });
+                    break;
+                case 'delete':
+                    if(!rowId){
+                        modals.info('请选择要删除的行');
+                        return false;
+                    }
+                    modals.confirm("是否要删除该行数据？",function(){
+                        ajaxPost(basePath+"role/del-role/"+rowId,null,function(data){
+                            if(data.success){
+                                //modals.correct("已删除该数据");
+                                roleTable.fnClearTable();
+                            }else{
+                                //setTimeout(function(){modals.info(data.message)},2000);
+                                modals.info(data.message);
+                            }
+                        });
+                    })
+                    break;
+                case 'selectUserRole':
+                    if(!rowId){
+                        modals.info('请选择角色');
+                        return;
+                    }
+                    modals.openWin({
+                    	winId:new Date().getTime(),
+                    	backdrop:"static",
+                        width:1000,
+                        title:'角色绑定用户',
+                        url:basePath+'role/user_role_rel?roleId='+rowId,
+                        hideFunc:function(){
+                            //
+                        }
+                    })
+                    break;
+                case 'deleteUserRole':
+                    var userId=getUserTableId();
+                    var roleId= getRoleTableId();
+                    var userIds=[];
+                    if(!userId){
+                        modals.info("请选择要删除的用户");
+                        return false;
+                    }
+                    userIds.push(userId);
+                    modals.confirm("是否要删除该行数据",function(){
+                        ajaxPost(basePath+"role/user-role-del",{"roleId":roleId,"userIds":JSON.stringify(userIds)},function(data){
+                            if(data.success){
+                                userRoleTable.fnClearTable();
+                            }else{
+                                modals.info(data.message);
+                            }
+                        })
+                    });
+                    break;
+            }
+
+        });
+        //form_init();
+    });
+    function retrieveData(sSource,aoData, fnCallback) {
+        //将用户名称加入参数数组
+        aoData.push( { "name": "userName", "value": $("input[name='userName']").val() } );
+        aoData.push( { "name": "roleName", "value": $("input[name='roleName']").val() } );
+        $.ajax({
+            url : sSource,//这个就是请求地址对应sAjaxSource
+            data : JSON.stringify(aoData),//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
+            type : 'post',
+            contentType : 'application/json',
+            dataType : 'json',
+            async : false,
+            success : fnCallback,
+            error : function(msg) {
+            }
+        });
+    }
+    //获得选中的角色行ID
+    function getRoleTableId(){
+        var nTrs = roleTable.fnGetNodes();//fnGetNodes获取表格所有行，nTrs[i]表示第i行tr对象
+        for(var i = 0; i < nTrs.length; i++){
+            if($(nTrs[i]).hasClass('selected')){
+                //console.log('[获取数据]' + table.fnGetData(nTrs[i]));//fnGetData获取一行的数据
+                return roleTable.fnGetData(nTrs[i]).roleId;
+            }
+        }
+    }
+
+    function getUserTableId(){
+        var nTrs = userRoleTable.fnGetNodes();//fnGetNodes获取表格所有行，nTrs[i]表示第i行tr对象
+        for(var i = 0; i < nTrs.length; i++){
+            if($(nTrs[i]).hasClass('selected')){
+                //console.log('[获取数据]' + table.fnGetData(nTrs[i]));//fnGetData获取一行的数据
+                return userRoleTable.fnGetData(nTrs[i]).userId;
+            }
+        }
+    }
+
+    function delRole(roleId){
+        modals.confirm("是否要删除该行数据？",function(){
+            ajaxPost(basePath+"role/del-role/"+roleId,null,function(data){
+                if(data.success){
+                    //modals.correct("已删除该数据");
+                    roleTable.fnClearTable();
+                }else{
+                    //setTimeout(function(){modals.info(data.message)},2000);
+                    modals.info(data.message);
+                }
+            });
+        })
+    }
+    function updRole(roleId){
+        modals.openWin({
+            winId:winId,
+            title:'编辑角色',
+            width:'600px',
+            url:basePath+"role/edit?id="+roleId
+        });
+    }
+    function initRoleTable()
+    {
+        roleTable = $("#role_table").dataTable({
+            "bPaginate" : true,//分页工具条显示
+            //"sPaginationType" : "full_numbers",//分页工具条样式
+            "bStateSave" : true, //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态
+            "bScrollCollapse" : true, //当显示的数据不足以支撑表格的默认的高度
+            "bLengthChange" : false, //每页显示的记录数
+            "bFilter" : false, //搜索栏
+            "bSort" : true, //是否支持排序功能
+            "bInfo" : true, //显示表格信息
+            "bAutoWidth" : true, //自适应宽度
+            "bJQueryUI" : false,//是否开启主题
+            "bDestroy" : true,
+            "bProcessing" : true, //开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
+            "bServerSide" : true,//服务器处理分页，默认是false，需要服务器处理，必须true
+            //"sAjaxDataProp" : "aData",//是服务器分页的标志，必须有
+            "sAjaxSource" : "/role/role-list",//通过ajax实现分页的url路径。
+            "fnServerData": retrieveData, // 获取数据的处理函数
+            //初始化要显示的列
+            "aoColumns" : [{"mData" : function(){return "";}},
+                {"mData" : "roleName"},
+                {"mData" : "roleComment"}
+            ],
+            "fnDrawCallback": function(){
+                var api = this.api();
+                var startIndex= api.context[0]._iDisplayStart;//获取到本页开始的条数
+                api.column(0).nodes().each(function(cell, i) {
+                    cell.innerHTML =startIndex+i + 1;
+                });
+            },
+            "oLanguage" : {//语言设置
+                "sProcessing" : "处理中...",
+                "sLengthMenu" : "显示 _MENU_ 项结果",
+                "sZeroRecords" : "没有匹配结果",
+                "sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix" : "",
+                "sSearch" : "搜索:",
+                "sUrl" : "",
+                "sEmptyTable" : "表中数据为空",
+                "sLoadingRecords" : "载入中...",
+                "sInfoThousands" : ",",
+                "oPaginate" : {
+                    "sFirst" : "首页",
+                    "sPrevious" : "上页",
+                    "sNext" : "下页",
+                    "sLast" : "末页"
+                },
+                "oAria" : {
+                    "sSortAscending" : ": 以升序排列此列",
+                    "sSortDescending" : ": 以降序排列此列"
+                }
+            },
+            "dom": 'rt<"#pBottom"><"pTop"lp><"top"i>' ,
+            "fnInitComplete":function(){
+                var $pObj = $("#pBottom > div[id $=_paginate]").addClass('left') ;
+                if($(".ct-table table tbody tr td").is(".dataTables_empty")==true){
+                    var ctHeight=(30*(parseInt(15)+2.5))+39;
+                }
+                $(".ct-table>div").css("height",ctHeight);
+            },
+            /*分页在默认行数的底部*/
+            "createdRow": function ( row, data, index ) {
+                $('td', row).css("height","16px");
+                var selectVal=$(".ct-table>div select").val();
+                var ctHeight=(30*(parseInt(selectVal)+2.5))+39;
+                $(".ct-table>div").css("height",ctHeight);
+                $('td', row).click(function(){
+                    $(".ct-table>div table tr").removeClass("selected");
+                    $(".ct-table>div").css("height",ctHeight);
+                    $('td', row).parent().addClass("selected");
+                    $("#roleId").val(getRoleTableId());
+                    initUserRoleTable();
+                })
+            }
+        });
+    }
+    function initUserRoleTable(){
+        userRoleTable = $('#userRole_table').dataTable({
+            "bPaginate" : true,//分页工具条显示
+            //"sPaginationType" : "full_numbers",//分页工具条样式
+            "bStateSave" : true, //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态
+            "bScrollCollapse" : true, //当显示的数据不足以支撑表格的默认的高度
+            "bLengthChange" : false, //每页显示的记录数
+            "bFilter" : false, //搜索栏
+            "bSort" : true, //是否支持排序功能
+            "bInfo" : true, //显示表格信息
+            "bAutoWidth" : true, //自适应宽度
+            "bJQueryUI" : false,//是否开启主题
+            "bDestroy" : true,
+            "bProcessing" : true, //开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
+            "bServerSide" : true,//服务器处理分页，默认是false，需要服务器处理，必须true
+            //"sAjaxDataProp" : "aData",//是服务器分页的标志，必须有
+            //"oSearch" : "{\"roleId\":\""+$("#roleId").val()+"\"}",
+            "sAjaxSource" : "/user/user-in-role?roleId="+$("#roleId").val(),//通过ajax实现分页的url路径。
+            "fnServerData": retrieveData, // 获取数据的处理函数
+            //初始化要显示的列
+            "aoColumns" : [{"mData" : function(){return "";}},
+                {"mData" : "userName"},
+                {"mData" : "userDisp"}
+            ],
+            "fnDrawCallback": function(){
+                var api = this.api();
+                var startIndex= api.context[0]._iDisplayStart;//获取到本页开始的条数
+                api.column(0).nodes().each(function(cell, i) {
+                    cell.innerHTML =startIndex+i + 1;
+                });
+            },
+            "oLanguage" : {//语言设置
+                "sProcessing" : "处理中...",
+                "sLengthMenu" : "显示 _MENU_ 项结果",
+                "sZeroRecords" : "没有匹配结果",
+                "sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix" : "",
+                "sSearch" : "搜索:",
+                "sUrl" : "",
+                "sEmptyTable" : "没有关联任何用户",
+                "sLoadingRecords" : "载入中...",
+                "sInfoThousands" : ",",
+                "oPaginate" : {
+                    "sFirst" : "首页",
+                    "sPrevious" : "上页",
+                    "sNext" : "下页",
+                    "sLast" : "末页"
+                },
+                "oAria" : {
+                    "sSortAscending" : ": 以升序排列此列",
+                    "sSortDescending" : ": 以降序排列此列"
+                }
+            },
+            "dom": 'rt<"#pBottom"><"pTop"lp><"top"i>' ,
+            "fnInitComplete":function(){
+                var $pObj = $("#pBottom > div[id $=_paginate]").addClass('left') ;
+                if($(".ct-table table tbody tr td").is(".dataTables_empty")==true){
+                    var ctHeight=(30*(parseInt(15)+2.5))+39;
+                }
+                $(".ct-table>div").css("height",ctHeight);
+            },
+            /*分页在默认行数的底部*/
+            "createdRow": function ( row, data, index ) {
+                $('td', row).css("height","16px");
+                var selectVal=$(".ct-table>div select").val();
+                var ctHeight=(30*(parseInt(selectVal)+2.5))+39;
+                $(".ct-table>div").css("height",ctHeight);
+                $('td', row).click(function(){
+                    $(".ct-table>div table tr").removeClass("selected");
+                    $(".ct-table>div").css("height",ctHeight);
+                    $('td', row).parent().addClass("selected");
+                })
+            }
+        });
+    }
+</script>
+</html>

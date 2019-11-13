@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        body{padding-left:20px;}
+        div{margin-bottom: 10px;}
+    </style>
+</head>
+
+<body>
+<div>
+    <h3>操作类按钮</h3>
+</div>
+
+<div>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_look btnMyBgImg"
+            data-type="lookEvent">查看
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg"
+            data-type="codeReset">密码重置
+    </button>
+    <!--按钮分割-->
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg"
+            data-type="saveEvent">保存
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg"
+            data-type="printEvent">打印
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+            data-type="addEvent">新增
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+            data-type="editEvent">编辑
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+            data-type="deployEvent">部署
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+            data-type="deployEvent">共享
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
+            data-type="exportEvent">导出
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg"
+            data-type="importEvent">导入
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"
+            data-type="detailEvent">详情
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"
+            data-type="deleteEvent">选择文件
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+            data-type="deleteEvent">删除
+    </button>
+    <!--这是承包商专用的“删除”按钮样式-->
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete2 btnMyBgImg"
+            data-type="deleteEvent">删除
+    </button>
+
+</div>
+
+<div>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_issue btnMyBgImg"
+            data-type="deleteEvent">下发
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_assignRole btnMyBgImg"
+            data-type="deleteEvent">赋角色
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_verify btnMyBgImg"
+            data-type="deleteEvent">验证
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_verify btnMyBgImg"
+            data-type="deleteEvent">授权
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg"
+            data-type="deleteEvent">发布
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg"
+            data-type="deleteEvent">提交
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_maintain btnMyBgImg"
+            data-type="deleteEvent">维护
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_history btnMyBgImg"
+            data-type="deleteEvent">历史记录
+    </button>
+
+    <button class="layui-btn layui-btn-disabled layui-btn-sm btn_forbidden btnMyBgImg"
+            data-type="deleteEvent">禁用
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_activate btnMyBgImg"
+            data-type="deleteEvent">激活
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_hangUp btnMyBgImg"
+            data-type="deleteEvent">挂起
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_enabled btnMyBgImg"
+            data-type="deleteEvent">启用
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_pause btnMyBgImg"
+            data-type="deleteEvent">暂停
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_execute btnMyBgImg"
+            data-type="deleteEvent">执行
+    </button>
+</div>
+
+<div>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_copy btnMyBgImg"
+            data-type="deleteEvent">复制
+    </button>
+
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_exeState btnMyBgImg"
+            data-type="deleteEvent">设置执行状态
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_forward btnMyBgImg"
+            data-type="deleteEvent">转发
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_frozen btnMyBgImg"
+            data-type="deleteEvent">冻结
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_thaw btnMyBgImg"
+            data-type="deleteEvent">解冻
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_download btnMyBgImg"
+            data-type="deleteEvent">下载
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_accept btnMyBgImg"
+            data-type="deleteEvent">验收处理
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_evaluate btnMyBgImg"
+            data-type="deleteEvent">评论
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_withdraw btnMyBgImg"
+            data-type="deleteEvent">撤回
+    </button>
+</div>
+<div>
+    <h3>决策中心按钮</h3>
+</div>
+<div>
+    <button class="layui-btn layui-btn-sm btn-decision">办公费</button>
+    <button class="layui-btn layui-btn-sm btn-decision active">办公费</button>
+</div>
+<div>
+    <h3>状态类按钮</h3>
+</div>
+<div class="stateBox">
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="all">
+        <span class="btn-state btn-all"></span>全部
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="draft">
+        <span class="btn-state btn-yellow"></span>草稿
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="approval">
+        <span class="btn-state btn-green"></span>审批中
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="approved">
+        <span class="btn-state btn-blue"></span>已审批
+    </button>
+    <br>
+</div>
+<div class="stateBox">
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="all">
+        <span class="btn-state btn-two"></span>全部
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="draft">
+        <span class="btn-state btn-yellow"></span>草稿
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="approved">
+        <span class="btn-state btn-blue"></span>已审批
+    </button>
+    <br>
+</div>
+<div class="stateBox">
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="all">
+        <span class="btn-state btn-level"></span>层数
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="all">
+        <span class="btn-state btn-level"></span>一层
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="all">
+        <span class="btn-state btn-level"></span>二层
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="all">
+        <span class="btn-state btn-level"></span>三层
+    </button>
+</div>
+</body>
+</html>

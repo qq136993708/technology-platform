@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.system.SysDataModelMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysDataModel" >
+    <result column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="data_code" property="dataCode" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="model_name" property="modelName" jdbcType="VARCHAR" />
+    <result column="pro_code" property="proCode" jdbcType="VARCHAR" />
+    <result column="sts" property="sts" jdbcType="VARCHAR" />
+    <result column="audit_sts" property="auditSts" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="model_data_id" property="modelDataId" jdbcType="VARCHAR" />
+    <result column="model_data_name" property="modelDataName" jdbcType="VARCHAR" />
+    <result column="model_parent_id" property="modelParentId" jdbcType="VARCHAR" />
+    <result column="model_parent_path" property="modelParentPath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    data_id, data_code, create_user, create_date, model_name, pro_code, sts, audit_sts, 
+    remarks, model_data_id, model_data_name, model_parent_id, model_parent_path
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.system.SysDataModelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_data_model
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.system.SysDataModelExample" >
+    delete from sys_data_model
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.system.SysDataModel" >
+    insert into sys_data_model (data_id, data_code, create_user, 
+      create_date, model_name, pro_code, 
+      sts, audit_sts, remarks, 
+      model_data_id, model_data_name, model_parent_id, 
+      model_parent_path)
+    values (#{dataId,jdbcType=VARCHAR}, #{dataCode,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=VARCHAR}, #{modelName,jdbcType=VARCHAR}, #{proCode,jdbcType=VARCHAR}, 
+      #{sts,jdbcType=VARCHAR}, #{auditSts,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{modelDataId,jdbcType=VARCHAR}, #{modelDataName,jdbcType=VARCHAR}, #{modelParentId,jdbcType=VARCHAR}, 
+      #{modelParentPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysDataModel" >
+    insert into sys_data_model
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="dataCode != null" >
+        data_code,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="modelName != null" >
+        model_name,
+      </if>
+      <if test="proCode != null" >
+        pro_code,
+      </if>
+      <if test="sts != null" >
+        sts,
+      </if>
+      <if test="auditSts != null" >
+        audit_sts,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="modelDataId != null" >
+        model_data_id,
+      </if>
+      <if test="modelDataName != null" >
+        model_data_name,
+      </if>
+      <if test="modelParentId != null" >
+        model_parent_id,
+      </if>
+      <if test="modelParentPath != null" >
+        model_parent_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCode != null" >
+        #{dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="modelName != null" >
+        #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="proCode != null" >
+        #{proCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="auditSts != null" >
+        #{auditSts,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="modelDataId != null" >
+        #{modelDataId,jdbcType=VARCHAR},
+      </if>
+      <if test="modelDataName != null" >
+        #{modelDataName,jdbcType=VARCHAR},
+      </if>
+      <if test="modelParentId != null" >
+        #{modelParentId,jdbcType=VARCHAR},
+      </if>
+      <if test="modelParentPath != null" >
+        #{modelParentPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.system.SysDataModelExample" resultType="java.lang.Integer" >
+    select count(*) from sys_data_model
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_data_model
+    <set >
+      <if test="record.dataId != null" >
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataCode != null" >
+        data_code = #{record.dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelName != null" >
+        model_name = #{record.modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proCode != null" >
+        pro_code = #{record.proCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sts != null" >
+        sts = #{record.sts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditSts != null" >
+        audit_sts = #{record.auditSts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelDataId != null" >
+        model_data_id = #{record.modelDataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelDataName != null" >
+        model_data_name = #{record.modelDataName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelParentId != null" >
+        model_parent_id = #{record.modelParentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelParentPath != null" >
+        model_parent_path = #{record.modelParentPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_data_model
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      data_code = #{record.dataCode,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      model_name = #{record.modelName,jdbcType=VARCHAR},
+      pro_code = #{record.proCode,jdbcType=VARCHAR},
+      sts = #{record.sts,jdbcType=VARCHAR},
+      audit_sts = #{record.auditSts,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      model_data_id = #{record.modelDataId,jdbcType=VARCHAR},
+      model_data_name = #{record.modelDataName,jdbcType=VARCHAR},
+      model_parent_id = #{record.modelParentId,jdbcType=VARCHAR},
+      model_parent_path = #{record.modelParentPath,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  <!--数据控制模型数据-->
+  <select id="selectDataModeWithGroup" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    select *
+ 	from sys_data_model
+ 	where 
+	 	sys_data_model.sts = '1'
+		<if test="proCode != null">
+			and sys_data_model.pro_code = '${proCode}'
+		</if>
+ 	group by sys_data_model.model_name
+ 	order by model_name desc
+  </select>
+  
+  <!--数据控制模型数据批量插入-->
+  <insert id="batchInsertSysDataModel" parameterType="java.util.ArrayList">
+	INSERT INTO sys_data_model
+	(data_id, data_code, create_user, create_date, model_name, pro_code, sts, model_data_id)
+	VALUES
+	<foreach collection="list" item="item" index="index" separator=",">
+		(#{item.dataId}, #{item.dataCode}, #{item.createUser}, #{item.createDate}, 
+		 #{item.modelName}, #{item.proCode}, #{item.sts}, 
+		 #{item.modelDataId})
+	</foreach>
+  </insert>
+</mapper>

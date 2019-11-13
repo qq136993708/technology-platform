@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>新增数据模板</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+
+</head>
+<body>
+	<div class="formBox">
+		<form class="layui-form" id="delegate-form" lay-filter="component-form-group layui-container">
+			<div class="box-body">
+				<div class="layui-row">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label class="layui-form-label">
+								模板名称
+								<span class="must-fill">*</span>
+							</label>
+							<div class="layui-input-block">
+								<input id="proCode" name="proCode" type="hidden">
+								<input id="modelDataId" name="modelDataId" type="hidden">
+								<input class="layui-input" id="modelName" name="modelName" lay-verify="required" type="text">
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label class="layui-form-label">
+								创建时间
+								<span class="must-fill">*</span>
+							</label>
+							<div class="layui-input-block">
+								<input class="layui-input readOnlyBox" id="createDate" name="createDate" lay-verify="required" type="text" disabled>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label">说明</label>
+					<div class="layui-input-block">
+						<textarea placeholder="请输入说明" class="layui-textarea" name="remarks" id="remarks"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="form-bottom">
+				<div class="form-bottom-btns">
+					<button id="submitBtn" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="form-submit">保存</button>
+					<button id="closeBtn" type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">取消</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<script>
+		layui.config({
+			base : '../../../../' //静态资源所在路径
+		}).use([
+				'jquery', 'form', 'laydate', 'table', 'layer', 'element'
+		], function() {
+			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+
+			form.render(null, 'component-form-group');
+
+			/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+			form.verify({
+			// 下拉
+			/* attorneyCode: function (value) {
+			    if (value == "") {
+			        return "必须选择被委托人";
+			    }
+			} */
+			});
+
+
+			laydate.render({
+				elem : '#createDate',
+				type : 'datetime',
+				value : new Date()
+			});
+
+			// 防止重置时清空
+			$("#createDate").attr("value", $("#createDate").val());
+
+			/* 监听提交 */
+			var lodingMsg;
+			form.on('submit(form-submit)', function(data) {
+				data.field.proCode = parent.configProCode;
+				data.field.modelDataId = parent.configSelectUnitIds.join(',');
+				lodingMsg = layer.msg('处理中...', {shade: [0.5, '#393D49']});
+				
+				$.ajax({
+					type : 'POST',
+					url : "/functionProperty/data/model/save",
+					data : JSON.stringify(data.field),
+	                dataType : 'json',
+	                headers : {
+	                    'Content-Type' : 'application/json',
+	                },
+					beforeSend : function() {
+						$("#submitBtn").attr("disabled", "true");
+						$("#closeBtn").attr("disabled", "true");
+					},
+					error : function(data) {//请求失败处理函数  
+						layer.close(lodingMsg);
+                        layer.msg("操作失败!",{time: 2000,icon: 2}, function(){
+                            $("#submitBtn").removeAttr("disabled");
+                            $("#closeBtn").removeAttr("disabled");
+                        });
+					},
+					success : function(data) { //请求成功后处理函数。
+						layer.close(lodingMsg);
+						var index = parent.layer.getFrameIndex(window.name);
+						parent.layer.close(index);
+						parent.configUnitFresh();
+					}
+				});
+				return false;
+			});
+
+			$("#closeBtn").click(function() {
+				var index = parent.layer.getFrameIndex(window.name);
+				parent.layer.close(index);
+				return false;
+			})
+		});
+
+	</script>
+</body>
+</html>

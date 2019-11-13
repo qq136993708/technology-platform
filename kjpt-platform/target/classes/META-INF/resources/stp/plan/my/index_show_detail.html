@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css">
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        #sonlist{min-height: 490px;overflow-y: scroll;}
+        .ztree li a{width: 93%;overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;}
+        .ztree li a .node_name{width: 93%;overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;}
+    </style>
+</head>
+<body>
+<div class="task-view layui-row">
+    <div class="task-view-cont layui-col-md4">
+        <p>任务进度</p>
+        <div id="sonlist">
+            <ul id="funTree" class="ztree"></ul>
+        </div>
+    </div>
+    <div class="task-view-cont layui-col-md8">
+        <p>任务基本信息</p>
+        <div class="layui-row">
+            <div class="layui-col-md9">
+                <div class="item">
+                    <div class="layui-col-sm12">
+                        <span>任务名称:</span>
+                        <span id="workOrderName"></span>
+                    </div>
+
+                </div>
+                <div class="item">
+                    <div class="layui-col-sm5">
+                        <span>重要程度:</span>
+                        <span id="workOrderType" class="red"></span>
+                    </div>
+                    <div class="layui-col-sm5">
+                        <span>任务负责人:</span>
+                        <span id="workOrderAllotUserName"></span>
+                    </div>
+                </div>
+                <div class="item remarks">
+                    <div class="layui-col-md12">
+                        <span>任务描述:</span>
+                        <span id="remarks"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
+                <div class="chart">
+                    <div class="chartX" id="chart"><span></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <table id="matterFeedBackTalbe" class="layui-table" lay-filter="tableData"></table>
+    </div>
+</div>
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/javascript/circle-progress.min.js"></script>
+<script>
+    var dataId = '${dataId}';
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var $;
+    var publicMethods;
+    layui.config({
+        base: '/layuiadmin/lib/extend/' //静态资源所在路径
+    }).extend({
+        enhanceform: 'enhanceform'
+    }).use(['form', 'laydate', 'table', 'jquery', 'layer', 'element', 'enhanceform', 'publicMethods'], function () {
+        $ = layui.jquery;
+        var admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, table = layui.table, form = layui.form, enhanceForm = layui.enhanceform;
+        // var enhance = new enhanceForm({
+        //     elem: '#workOrderForm' //表单选择器
+        // });
+        publicMethods = layui.publicMethods, form.render(null, 'component-form-group');
+        //关闭事件
+        $("#closeBtn").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+
+        //添加修改取值
+        showPlanBase();
+        showPlanBaseDetail();
+        function showPlanBase() {
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                async: false,
+                url: '/plan/viewBotWorkOrder?dataId=' + dataId,
+                success: function (data) {
+                    console.log(data);
+                    dataJson = JSON.parse(JSON.stringify(data));
+                    selectData = data;
+                    $("#workOrderName").html(selectData.workOrderName);
+                    $("#unitName").html(selectData.unitName);
+                    $("#workOrderAllotUserName").html(selectData.workOrderAllotUserName);
+                    $("#bl").html(selectData.bl + "%");
+                    $("#bak3").html(selectData.bak3);
+                    $("#announcements").html(selectData.announcements);
+                    $("#remarks").html(selectData.remarks);
+                    circle("chart", selectData.bl,  selectData.bl + "%<br/>总体完成情况");
+                    $.ajax({
+                        url: '/pageCommon/dic/ROOT_RWGL_RWLX',
+                        dataType: 'json',
+                        type: 'post',
+                        success: function (data) {
+                            $.each(data, function (index, item) {
+                                if (dataJson.workOrderType == item.code) {
+                                    $("#workOrderType").html(item.name);
+                                }
+                            })
+                            // form.render();
+                        }
+                    });
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+        window.showPlanBase = showPlanBase;
+        window.showPlanBaseDetail = showPlanBaseDetail;
+        function showPlanBaseDetail() {
+            //TO:安-----不要删除-------如果张总需要显示子项内容放开此选项----样式需要调整
+            // 工作的处理内容
+            // table.render({
+            //     elem: '#matterFeedBackTalbe',
+            //     url: '/plan/queryMyBotWorkOrderMatterList',
+            //     limit: 15,
+            //     method: "POST",
+            //     where: {
+            //         param: {
+            //             "workOrderId": dataId
+            //         }
+            //     },
+            //     cols: [[{
+            //         type: 'checkbox',
+            //         event: 'changeEvents',
+            //         width: 45
+            //     }, {
+            //         title: '序号',
+            //         type: 'numbers',
+            //         width: 45
+            //     }, {
+            //         field: 'remarks',
+            //         title: '处理内容',
+            //         event: 'setActive',
+            //         style: 'cursor: pointer;',
+            //         templet: function (d) {
+            //             var t = "<input type='text' value='" + d.remarks + "' >";
+            //             return t;
+            //         }
+            //     }, {
+            //         field: 'workOrderEndDatatime',
+            //         title: '处理日期',
+            //         event: 'setActive',
+            //         style: 'cursor: pointer;',
+            //         width: 140,
+            //         templet: function (d) {
+            //             var t = "<input style='margin-left: 1px;margin-top: 3px;' type='text' value='" + d.workOrderEndDatatime + "' class='layui-input datetime inputVal' >";
+            //             return t;
+            //         }
+            //     }, {
+            //         field: 'dataId',
+            //         title: 'id'
+            //     }]],
+            //     done: function (res, curr, count) {
+            //         console.log("子项");
+            //         console.log(res.data);
+            //         lay('.datetime').each(function () {
+            //             laydate.render({
+            //                 elem: this,
+            //                 trigger: 'click'
+            //             });
+            //         });
+            //     }
+            // });
+        }
+
+
+        // $.ajax({
+        //     type: 'get',
+        //     // dataType: 'json',
+        //     async: false,
+        //     // url: '/plan/tree-datas-list?dataId=8e222d5e6408404694e8dd20b15f186b',
+        //     // url: '/plan/tree-datas?dataId=d3d68f5a2fd5405591fd05393f9497fa',
+        //     url: '/plan/tree-datas?dataId=' + dataId,
+        //     success: function (data) {
+        //         data = eval(data);
+        //         console.log("tree");
+        //         console.log(data.length);
+        //         console.log(data);
+        //         var html = "";
+        //         // for (let i = 0; i < data.length; i++) {
+        //         //     var obj = data[i];
+        //         //     var d = obj.name.split("|");
+        //         //     html = html+"       <div class=\"item\">\n" +
+        //         //         "                <div class=\"layui-col-sm5\">\n" +
+        //         //         "                    <span>事项内容:</span>\n" +
+        //         //         "                    <span>"+d[0]+"</span>\n" +
+        //         //         "                </div>\n" +
+        //         //         "                <div class=\"layui-col-sm7\">\n" +
+        //         //         "                    <span>当前处理人:</span>\n" +
+        //         //         "                    <span>"+d[1]+d[2]+"</span>\n" +
+        //         //         "                </div>\n" +
+        //         //         "            </div>";
+        //         //
+        //         // }
+        //         // $("#sonlist").html(html);
+        //     }
+        // });
+        function circle(id, value, number) {
+            $("#" + id).circleProgress({
+                value: value/100,
+                size: 140,
+                startAngle: -Math.PI / 2,
+                thickness: '20',
+                emptyFill: "#fff",
+                fill: {
+                    gradient: ["#79dcd5"]
+                }
+            }).on('circle-animation-progress', function (event, progress, stepValue) {
+                $(this).find('span').html(number);
+            });
+        }
+    });
+</script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+<script>
+    $(function () {
+        function initTree() {
+            var zNodes;
+            $.ajax({
+                url: '/plan/tree-datas?dataId=' + dataId,
+                type: 'get',
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    zNodes = data;
+                    console.log(zNodes);
+                    for (let i = 0; i < zNodes.length; i++) {
+                        zNodes[i].open = true;
+                    }
+                },
+                error: function (msg) {
+                }
+            });
+            var setting = {
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                callback: {
+                    onClick: onClickMenu
+                }
+            };
+            $.fn.zTree.init($("#funTree"), setting, zNodes);
+        }
+        initTree();
+        function onClickMenu(event, treeId, treeNode, clickFlag) {
+            dataId = treeNode.id;
+            showPlanBase();
+            showPlanBaseDetail();
+        }
+    })
+
+</script>
+
+</body>
+</html>

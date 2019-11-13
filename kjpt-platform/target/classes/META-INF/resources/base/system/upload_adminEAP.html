@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <#include "/common/public/publicImportIndex.html"/>
+
+
+
+
+</head>
+<body>
+<section class="content">
+<div class="form-group" id="file_container">
+    <input type="file" name="file" class="file" id="attachment">
+</div>
+<input type="text" name="fileIds"  id="fileIds" value="">
+
+</section>
+<script>
+    var filedflag="1638bb9aecf_48ca8867";
+    var str_showType="edit";//显示文件类型 edit=可编辑  detail=明细 默认为明细
+
+//    var fileIds="";//编辑页面传此参数'b0792a7d-1fb2-43ff-8a80-10a96a4e3010'
+    $("#attachment").file({
+        title: "请上传附件",
+        fileinput: {
+            theme: "explorer"//,
+        },
+        //如果已经有部分文件(编辑)，在此传文件ids
+        fileIds:$("#fileIds").val(),
+        fileIdContainer: "[name='fileIds']",
+        //showContainer:'#attachment',
+        //显示文件类型 edit=可编辑  detail=明细 默认为明细
+        showType:str_showType,
+        window: false
+    });
+</script>
+</body>
+</html>

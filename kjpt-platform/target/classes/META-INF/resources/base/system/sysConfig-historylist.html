@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+
+<body>
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>配置编码</span>
+        <input type="text" name="configCode" placeholder="请输入配置编码" title="配置编码" autocomplete="off" class="form-control" id="configCode">
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+    </div>
+</div>
+
+<div class="tableBox">
+	<div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+        </div>
+    </div>
+    <table id="showTable" class="layui-hide" lay-filter="tableData"></table>
+</div>
+<script>
+	var table,active,showMessage;
+	
+    layui.use(['jquery','table','laypage','laytpl'], function(){
+    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+    	table = layui.table;
+    	
+        function renderTable(){
+        	var configCode=$('#configCode').val();
+        	var param=JSON.parse(window.localStorage.getItem("param"));
+        	var lodingMsg = layer.msg('数据加载中....');
+            //渲染
+            table.render({
+                elem: '#showTable',
+                url: '/sysconfig/history/list',
+                method:"POST",
+                where: /* {param: {"configCode":configCode,"functionCode":param.code}}, */{"configCode" : configCode},
+                limit: 15,
+                id: 'showTable',
+                height: commonDislodgeTable(), 
+                page: {
+                    groups: 5,
+                    limits: [15,30,45,60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+					{title:'序号', type:'numbers', width: '5%'},
+					{field:'configName',title:'配置名称',width: '15%', style:'cursor: pointer;'},
+					{field:'configCode',title:'配置编码',width: '15%', style:'cursor: pointer;'},
+					{field:'configValue',title:'数值',width: '15%', style:'cursor: pointer;'},
+					{field:'remarks',title:'配置描述',width: '40%', style:'cursor: pointer;'},
+                    {field:'status',title:'状态',width: '10%', style:'cursor: pointer;'}
+                ]],
+                done: function (res, curr, count) {
+                	// 关闭等待刷新
+                	layer.close(lodingMsg);
+                	
+                	$(document).on("click",".layui-table-body table.layui-table tbody tr", function () {
+                        var index = $(this).attr('data-index');
+                        var tableBox = $(this).parents('.layui-table-box');
+                        //存在固定列
+                        if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length>0) {
+                            tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+                        } else {
+                            tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+                        }
+                        var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                        if (checkCell.length>0) {
+                            checkCell.click();
+                        }
+                    });
+                    $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+                        e.stopPropagation();
+                    });
+                    
+                    $("[data-field='status']").children().each(function(){
+    					if($(this).text()=='1'){
+    					   $(this).text("生效");
+    					   // 对单元格背景色控制
+    					   $(this).css('color','#0F9EE0');
+    					}else if($(this).text()=='0'){
+    					   $(this).text("已删除");
+    					   
+    					   $(this).css('color','red');
+    					}
+    				});
+                }
+            });
+        }
+
+        renderTable();
+        
+        // 触发不同的按钮事件
+        var $ = layui.$; 
+        active = {
+            searchEvent: function() { //点击查询按钮
+            	renderTable();
+            },
+            resetEvent: function() { //点击重置按钮
+            	$('#attorneyName').val("");
+            }
+        };
+
+        table.on('tool(tableData)', function(obj){
+            selectRowData = obj.data;
+            console.log(selectRowData)
+        });
+        
+        //监听排序
+        table.on('sort(showTable)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('showTable', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        
+    });
+
+</script>
+
+</body>
+</html>

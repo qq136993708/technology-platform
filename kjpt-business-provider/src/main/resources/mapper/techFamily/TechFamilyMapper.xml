@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.techFamily.TechFamilyMapper">
+	<resultMap id="BaseResultMap" type="com.pcitc.base.stp.techFamily.TechFamily">
+		<id column="tfm_type_id" property="tfmTypeId" jdbcType="VARCHAR" />
+		<result column="type_code" property="typeCode" jdbcType="VARCHAR" />
+		<result column="type_name" property="typeName" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+		<result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+		<result column="is_parent" property="isParent" jdbcType="VARCHAR" />
+		<result column="type_index" property="typeIndex" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="level_code" property="levelCode" jdbcType="VARCHAR" />
+		<result column="data_order" property="dataOrder" jdbcType="VARCHAR" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="type_scope" property="typeScope" jdbcType="VARCHAR" />
+		<result column="create_user" property="createUser" jdbcType="VARCHAR" />
+		<result column="create_user_id" property="createUserId"
+			jdbcType="VARCHAR" />
+		<result column="create_date" property="createDate" jdbcType="VARCHAR" />
+		<result column="update_date" property="updateDate" jdbcType="VARCHAR" />
+		<result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+		<result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+		<result column="is_hot" property="isHot" jdbcType="VARCHAR" />
+		<result column="develop_info" property="developInfo" jdbcType="VARCHAR" />
+		<result column="direction_info" property="directionInfo"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		tfm_type_id, type_code, type_name, parent_id, parent_code,
+		is_parent, type_index,
+		status, level_code, data_order, remarks,
+		type_scope, create_user,
+		create_user_id,
+		create_date, update_date,
+		update_user, audit_status, is_hot, develop_info,
+		direction_info
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.pcitc.base.stp.techFamily.TechFamilyExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from tfm_type
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tfm_type
+		where tfm_type_id = #{tfmTypeId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		tfm_type
+		where tfm_type_id = #{tfmTypeId,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.pcitc.base.stp.techFamily.TechFamilyExample">
+		delete from tfm_type
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.pcitc.base.stp.techFamily.TechFamily">
+		insert into tfm_type
+		(tfm_type_id, type_code, type_name,
+		parent_id, parent_code, is_parent,
+		type_index, status, level_code,
+		data_order, remarks, type_scope,
+		create_user, create_user_id, create_date,
+		update_date, update_user,
+		audit_status,
+		is_hot, develop_info, direction_info
+		)
+		values
+		(#{tfmTypeId,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR},
+		#{typeName,jdbcType=VARCHAR},
+		#{parentId,jdbcType=VARCHAR},
+		#{parentCode,jdbcType=VARCHAR}, #{isParent,jdbcType=VARCHAR},
+		#{typeIndex,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+		#{levelCode,jdbcType=VARCHAR},
+		#{dataOrder,jdbcType=VARCHAR},
+		#{remarks,jdbcType=VARCHAR}, #{typeScope,jdbcType=VARCHAR},
+		#{createUser,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR},
+		#{createDate,jdbcType=VARCHAR},
+		#{updateDate,jdbcType=VARCHAR},
+		#{updateUser,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR},
+		#{isHot,jdbcType=VARCHAR}, #{developInfo,jdbcType=VARCHAR},
+		#{directionInfo,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.pcitc.base.stp.techFamily.TechFamily">
+		insert into tfm_type
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="tfmTypeId != null">
+				tfm_type_id,
+			</if>
+			<if test="typeCode != null">
+				type_code,
+			</if>
+			<if test="typeName != null">
+				type_name,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="parentCode != null">
+				parent_code,
+			</if>
+			<if test="isParent != null">
+				is_parent,
+			</if>
+			<if test="typeIndex != null">
+				type_index,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="levelCode != null">
+				level_code,
+			</if>
+			<if test="dataOrder != null">
+				data_order,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+			<if test="typeScope != null">
+				type_scope,
+			</if>
+			<if test="createUser != null">
+				create_user,
+			</if>
+			<if test="createUserId != null">
+				create_user_id,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="updateUser != null">
+				update_user,
+			</if>
+			<if test="auditStatus != null">
+				audit_status,
+			</if>
+			<if test="isHot != null">
+				is_hot,
+			</if>
+			<if test="developInfo != null">
+				develop_info,
+			</if>
+			<if test="directionInfo != null">
+				direction_info,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="tfmTypeId != null">
+				#{tfmTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="typeCode != null">
+				#{typeCode,jdbcType=VARCHAR},
+			</if>
+			<if test="typeName != null">
+				#{typeName,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="parentCode != null">
+				#{parentCode,jdbcType=VARCHAR},
+			</if>
+			<if test="isParent != null">
+				#{isParent,jdbcType=VARCHAR},
+			</if>
+			<if test="typeIndex != null">
+				#{typeIndex,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="levelCode != null">
+				#{levelCode,jdbcType=VARCHAR},
+			</if>
+			<if test="dataOrder != null">
+				#{dataOrder,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="typeScope != null">
+				#{typeScope,jdbcType=VARCHAR},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createUserId != null">
+				#{createUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=VARCHAR},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="auditStatus != null">
+				#{auditStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="isHot != null">
+				#{isHot,jdbcType=VARCHAR},
+			</if>
+			<if test="developInfo != null">
+				#{developInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="directionInfo != null">
+				#{directionInfo,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.pcitc.base.stp.techFamily.TechFamilyExample"
+		resultType="java.lang.Integer">
+		select count(*) from tfm_type
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update tfm_type
+		<set>
+			<if test="record.tfmTypeId != null">
+				tfm_type_id = #{record.tfmTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.typeCode != null">
+				type_code = #{record.typeCode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.typeName != null">
+				type_name = #{record.typeName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.parentId != null">
+				parent_id = #{record.parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.parentCode != null">
+				parent_code = #{record.parentCode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.isParent != null">
+				is_parent = #{record.isParent,jdbcType=VARCHAR},
+			</if>
+			<if test="record.typeIndex != null">
+				type_index = #{record.typeIndex,jdbcType=VARCHAR},
+			</if>
+			<if test="record.status != null">
+				status = #{record.status,jdbcType=VARCHAR},
+			</if>
+			<if test="record.levelCode != null">
+				level_code = #{record.levelCode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.dataOrder != null">
+				data_order = #{record.dataOrder,jdbcType=VARCHAR},
+			</if>
+			<if test="record.remarks != null">
+				remarks = #{record.remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="record.typeScope != null">
+				type_scope = #{record.typeScope,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createUser != null">
+				create_user = #{record.createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createUserId != null">
+				create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createDate != null">
+				create_date = #{record.createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="record.updateDate != null">
+				update_date = #{record.updateDate,jdbcType=VARCHAR},
+			</if>
+			<if test="record.updateUser != null">
+				update_user = #{record.updateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="record.auditStatus != null">
+				audit_status = #{record.auditStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="record.isHot != null">
+				is_hot = #{record.isHot,jdbcType=VARCHAR},
+			</if>
+			<if test="record.developInfo != null">
+				develop_info = #{record.developInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="record.directionInfo != null">
+				direction_info =
+				#{record.directionInfo,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update tfm_type
+		set tfm_type_id = #{record.tfmTypeId,jdbcType=VARCHAR},
+		type_code = #{record.typeCode,jdbcType=VARCHAR},
+		type_name =
+		#{record.typeName,jdbcType=VARCHAR},
+		parent_id =
+		#{record.parentId,jdbcType=VARCHAR},
+		parent_code =
+		#{record.parentCode,jdbcType=VARCHAR},
+		is_parent =
+		#{record.isParent,jdbcType=VARCHAR},
+		type_index =
+		#{record.typeIndex,jdbcType=VARCHAR},
+		status =
+		#{record.status,jdbcType=VARCHAR},
+		level_code =
+		#{record.levelCode,jdbcType=VARCHAR},
+		data_order =
+		#{record.dataOrder,jdbcType=VARCHAR},
+		remarks =
+		#{record.remarks,jdbcType=VARCHAR},
+		type_scope =
+		#{record.typeScope,jdbcType=VARCHAR},
+		create_user =
+		#{record.createUser,jdbcType=VARCHAR},
+		create_user_id =
+		#{record.createUserId,jdbcType=VARCHAR},
+		create_date =
+		#{record.createDate,jdbcType=VARCHAR},
+		update_date =
+		#{record.updateDate,jdbcType=VARCHAR},
+		update_user =
+		#{record.updateUser,jdbcType=VARCHAR},
+		audit_status =
+		#{record.auditStatus,jdbcType=VARCHAR},
+		is_hot =
+		#{record.isHot,jdbcType=VARCHAR},
+		develop_info =
+		#{record.developInfo,jdbcType=VARCHAR},
+		direction_info =
+		#{record.directionInfo,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.techFamily.TechFamily">
+		update tfm_type
+		<set>
+			<if test="typeCode != null">
+				type_code = #{typeCode,jdbcType=VARCHAR},
+			</if>
+			<if test="typeName != null">
+				type_name = #{typeName,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="parentCode != null">
+				parent_code = #{parentCode,jdbcType=VARCHAR},
+			</if>
+			<if test="isParent != null">
+				is_parent = #{isParent,jdbcType=VARCHAR},
+			</if>
+			<if test="typeIndex != null">
+				type_index = #{typeIndex,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="levelCode != null">
+				level_code = #{levelCode,jdbcType=VARCHAR},
+			</if>
+			<if test="dataOrder != null">
+				data_order = #{dataOrder,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null">
+				remarks = #{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="typeScope != null">
+				type_scope = #{typeScope,jdbcType=VARCHAR},
+			</if>
+			<if test="createUser != null">
+				create_user = #{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createUserId != null">
+				create_user_id = #{createUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=VARCHAR},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="auditStatus != null">
+				audit_status = #{auditStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="isHot != null">
+				is_hot = #{isHot,jdbcType=VARCHAR},
+			</if>
+			<if test="developInfo != null">
+				develop_info = #{developInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="directionInfo != null">
+				direction_info = #{directionInfo,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where tfm_type_id = #{tfmTypeId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.techFamily.TechFamily">
+		update tfm_type
+		set type_code = #{typeCode,jdbcType=VARCHAR},
+		type_name =
+		#{typeName,jdbcType=VARCHAR},
+		parent_id = #{parentId,jdbcType=VARCHAR},
+		parent_code = #{parentCode,jdbcType=VARCHAR},
+		is_parent =
+		#{isParent,jdbcType=VARCHAR},
+		type_index =
+		#{typeIndex,jdbcType=VARCHAR},
+		status = #{status,jdbcType=VARCHAR},
+		level_code = #{levelCode,jdbcType=VARCHAR},
+		data_order =
+		#{dataOrder,jdbcType=VARCHAR},
+		remarks = #{remarks,jdbcType=VARCHAR},
+		type_scope = #{typeScope,jdbcType=VARCHAR},
+		create_user =
+		#{createUser,jdbcType=VARCHAR},
+		create_user_id =
+		#{createUserId,jdbcType=VARCHAR},
+		create_date =
+		#{createDate,jdbcType=VARCHAR},
+		update_date =
+		#{updateDate,jdbcType=VARCHAR},
+		update_user =
+		#{updateUser,jdbcType=VARCHAR},
+		audit_status =
+		#{auditStatus,jdbcType=VARCHAR},
+		is_hot = #{isHot,jdbcType=VARCHAR},
+		develop_info = #{developInfo,jdbcType=VARCHAR},
+		direction_info =
+		#{directionInfo,jdbcType=VARCHAR}
+		where tfm_type_id =
+		#{tfmTypeId,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 根据层级条件 显示树 -->
+	<select id="selectTreeNodeByLevel" resultType="com.pcitc.base.common.TreeNode">
+		select tfm_type_id as id,parent_id as pId,type_name as name,level_code
+		as levelCode, type_code as code, is_parent as parentFlag, type_index as nodePath
+		from tfm_type
+		where status = '1' and type_index is not null
+		<if test="parentCode != null and parentCode !=''.toString">
+			and parent_code = '${parentCode}'
+		</if>
+		<if test="typeCode != null and typeCode !=''.toString">
+			and type_code = '${typeCode}'
+		</if>
+		<if test="typeIndex != null and typeIndex !=''.toString">
+			and type_index like '%@${typeIndex}@%'
+		</if>
+		<if test="typeIndex != null and typeIndex !=''.toString">
+			and type_code != '${typeIndex}'
+		</if>
+		<if test="levelCode != null and levelCode !=''.toString">
+			and level_code &lt;= #{levelCode}
+		</if>
+		<if test="typeName != null and typeName !=''.toString">
+			and type_name like '%${typeName}%'
+		</if>
+		order by level_code, type_index asc
+	</select>
+
+	<!-- 根据层级条件 显示树 -->
+	<select id="selectTreeNodeByLevelCond" resultType="com.pcitc.base.common.TreeNode">
+		select tfm_type_id as id,parent_id as pId,type_name as name,level_code as levelCode,
+		type_code as code, is_parent as parentFlag
+		from tfm_type
+		where
+		(
+		type_code in
+		<foreach collection="typeCodeCond" item="typeCode" index="index"
+			open="(" close=")" separator=",">
+			#{typeCode}
+		</foreach>
+		or parent_code = '${parentCode}' or level_code &lt;= #{levelCode}
+		)
+		and status = '1' and type_index is not null
+		and type_code != '10'
+		order by
+		level_code, type_index asc
+	</select>
+
+	<update id="updateTechTypeCondition" parameterType="com.pcitc.base.stp.techFamily.TechFamily">
+		update
+		tfm_type
+		set status = '${status}'
+		where type_index like '${typeIndex}%'
+	</update>
+
+	<!-- 查询最大的分类编码 -->
+	<select id="getMaxTechTypeCode" resultType="java.lang.String"
+		parameterType="java.util.HashMap">
+		select max(type_code)
+		from tfm_type
+		where status = '1'
+		<if test="parentId != null and parentId !=''.toString">
+			and parent_id = '${parentId}'
+		</if>
+		group by parent_id
+	</select>
+</mapper>

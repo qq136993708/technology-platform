@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>树状表-完整版</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<style>
+    .dHead {
+        height:40px;
+        width:100%;
+        position: fixed;
+        z-index:5;
+        top:0;
+        overflow-x: auto;
+        padding: 10px;
+    }
+    .dBody {
+        width:100%;
+        overflow:auto;
+        top:50px;
+        position:absolute;
+        z-index:10;
+        bottom:5px;
+    }
+</style>
+<body>
+<div style="width: 100%;">
+    <div class="dHead">
+        <div class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg"  onclick="window.location.href='/layui/treeGrid_Complete.html';">刷新</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg"  onclick="reload()">reload</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg"  onclick="query()">query</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"  onclick="add(null);">新增一行</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_look btnMyBgImg"  onclick="openorclose();">隐藏/打开香蕉节点</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"  onclick="getCheckData();">获取选中行数据</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"  onclick="getCheckLength();">获取选中数目</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg"  onclick="print();">打印缓存对象</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"  onclick="openAll();">展开或折叠全部</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"  onclick="radioStatus();">获取单选数据</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"  onclick="test();">test</button>
+        </div>
+    </div>
+    <div class="dBody">
+        <table class="layui-hidden" id="treeTable" lay-filter="treeTable"></table>
+    </div>
+</div>
+<script>
+    var editObj=null,ptable=null,treeGridCom=null,tableId='treeTable',layer=null;
+
+    var selectObj=null;
+    layui.config({
+        base: '/layuiadmin/lib/extend/'
+    }).extend({
+        treeGridCom:'treeGridCom'
+    }).use(['jquery','treeGridCom','layer'], function(){
+        var $=layui.jquery;
+        treeGridCom = layui.treeGridCom;//很重要
+        layer=layui.layer;
+        ptable=treeGridCom.render({
+            id:tableId
+            ,elem: '#'+tableId
+            ,url:'/layuiadmin/json/table/treeGridData.json'
+            ,cellMinWidth: 100
+            ,idField:'id'//必須字段
+            ,treeId:'id'//树形id字段名称
+            ,treeUpId:'pId'//树形父id字段名称
+            ,treeShowName:'name'//以树形式显示的字段
+            ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
+            ,height:'100%'
+            ,isFilter:false
+            ,iconOpen:true//是否显示图标【默认显示】
+            ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
+            ,loading:true
+            ,method:'get'
+            ,cols: [[
+                {type:'numbers'}
+                // ,{type:'radio'}
+                ,{type:'checkbox'}
+                ,{field:'name', width:300, title: '水果名称',edit:'text'}
+                ,{field:'id',width:100, title: 'id'}
+                ,{field:'pId', title: 'pid'}
+                ,{field:'num', width:100, title: '水果数量'}
+                /*,{width:100,title: '操作', align:'center'/!*toolbar: '#barDemo'*!/
+                    ,templet: function(d){
+                        var html='';
+                        var addBtn='<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="add">添加</a>';
+                        var delBtn='<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
+                        return addBtn+delBtn;
+                    }
+                }*/
+            ]]
+            ,isPage:true
+            ,parseData:function (res) {//数据加载后回调
+                return res;
+            }
+            ,onClickRow:function (index, o) {
+                selectObj = o;
+            }
+            ,onDblClickRow:function (index, o) {
+                console.log(index,o,"双击");
+            }
+        });
+
+        treeGridCom.on('tool('+tableId+')',function (obj) {
+            if(obj.event === 'del'){//删除行
+                del(obj);
+            }else if(obj.event==="add"){//添加行
+                add(obj);
+            }
+        });
+    });
+
+    function del(obj) {
+        layer.confirm("你确定删除数据吗？如果存在下级节点则一并删除，此操作不能撤销！", {icon: 3, title:'提示'},
+            function(index){//确定回调
+                obj.del();
+                layer.close(index);
+            },function (index) {//取消回调
+                layer.close(index);
+            }
+        );
+    }
+
+
+    var i=1000000;
+    //添加
+    function add(pObj) {
+        var pdata=selectObj?selectObj:null;
+        var param={};
+        param.name='水果'+Math.random();
+        param.id=++i;
+        param.pId=pdata?pdata.id:null;
+
+        var param1={};
+        param1.name='11水果'+Math.random();
+        param1.id=++i;
+        param1.pId=param.id;
+
+        var temIndex = pdata[treeGridCom.config.indexName]+1;
+        var temIndex1 = pdata[treeGridCom.config.indexName]+2;
+        //table.getClass(tableId).config.isTree = true;
+        treeGridCom.addRow(tableId,pdata?pdata[treeGridCom.config.indexName]+1:0,param);
+
+        //treeGridCom.addRowPcitc(tableId,temIndex1,param1, false);
+    }
+
+    function print() {
+        console.log(treeGridCom.cache[tableId]);
+        var loadIndex=layer.msg("对象已打印，按F12，在控制台查看！", {
+            time:3000
+            ,offset: 'auto'//顶部
+            ,shade: 0
+        });
+    }
+
+    function openorclose() {
+        var map=treeGridCom.getDataMap(tableId);
+        var o= map['102'];
+        treeGridCom.treeNodeOpen(tableId,o,!o[treeGridCom.config.cols.isOpen]);
+    }
+
+
+    function openAll() {
+        var treedata=treeGridCom.getDataTreeList(tableId);
+        treeGridCom.treeOpenAll(tableId,!treedata[0][treeGridCom.config.cols.isOpen]);
+    }
+
+    function getCheckData() {
+        var checkStatus = treeGridCom.checkStatus(tableId)
+            ,data = checkStatus.data;
+        layer.alert(JSON.stringify(data));
+    }
+    function radioStatus() {
+        var data = treeGridCom.radioStatus(tableId)
+        layer.alert(JSON.stringify(data));
+    }
+    function getCheckLength() {
+        var checkStatus = treeGridCom.checkStatus(tableId)
+            ,data = checkStatus.data;
+        layer.msg('选中了：'+ data.length + ' 个');
+    }
+
+    function reload() {
+        treeGridCom.reload(tableId,{
+            page:{
+                curr:1
+            }
+        });
+    }
+    function query() {
+        treeGridCom.query(tableId,{
+            where:{
+                name:'sdfsdfsdf'
+            }
+        });
+    }
+
+    function test() {
+        console.log(treeGridCom.cache[tableId],treeGridCom.getClass(tableId));
+
+
+        /*var map=treeGridCom.getDataMap(tableId);
+        var o= map['102'];
+        o.name="更新";
+        treeGridCom.updateRow(tableId,o);*/
+    }
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?e2af8415b6ffbaeb52de4d080cb4ba85";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+</body>
+</html>

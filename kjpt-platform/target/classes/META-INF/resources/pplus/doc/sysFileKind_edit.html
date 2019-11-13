@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+<body>
+<div class="formBox">
+    <form id="fileKind-form" name="fileKind-form" lay-filter="fileKind-form" class="form-horizontal layui-form">
+        <input type="hidden" name="groupId">
+        <div class="box-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label">名称<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                    <input type="hidden"  name="parentId" id="parentId" />
+                    <input type="hidden"  name="other" id="other" />
+                    <input type="hidden"  name="id" id="id" />
+                    <input type="text" id="kindName" name="kindName" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+                 <div class="layui-row">
+	        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+	           <div class="layui-form-item">
+	                <label class="layui-form-label">创建人<span class="must-fill">*</span></label>
+	                <div class="layui-input-block">
+	                    <input class="layui-input readOnlyBox" id="createPersonName" lay-verify="required" name="createPersonName"  type="text" value="${userInfo.userName}" disabled>
+	                </div>
+	           </div>
+	         </div>
+	        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6" >
+	            <div class="layui-form-item">
+	                <label class="layui-form-label">创建时间<span class="must-fill">*</span></label>
+	                <div class="layui-input-block">
+	                     <input class="layui-input readOnlyBox" id="createDate" lay-verify="required" name="createDate" type="text" value="${createDate}" disabled>
+	                </div>
+	            </div>
+       		</div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+	      <label class="layui-form-label">说明</label>
+	      <div class="layui-input-block">
+	        <textarea placeholder="请输入说明" class="layui-textarea" name="ramarks" id="ramarks">${ramarks}</textarea>
+	      </div>
+    	</div> 
+
+        <div class="form-bottom">
+            <div class="form-bottom-btns">
+                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+                <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="closeBtn">取消</button>
+            </div>
+        </div>
+        </div>
+    </form>
+</div>
+<script>
+    var id="${id?default(0)}";
+    var parentId = "${parentId?default(0)}";
+    if(parentId!=0){
+        $("#parentId").val(parentId);
+    }
+    $("#other").val("${other?default('public')}");
+    layui.use(['jquery','form','laydate','table', 'layer', 'element'],
+        function() {
+            var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+            form.render(null, 'fileKind-form');
+            //初始赋值 component-form-group 当前form的lay-filter
+            if(id!="0"){
+                ajaxPost("/sysfilekind/getsysFileKindInfo",{"id":id},function(data){
+                    form.val("fileKind-form", data);
+                });
+            }
+            /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+            /* form.verify({
+                groupName : function(value,item) {
+                    if (value.length < 5) {
+                        return '标题至少得5个字符啊';
+                    }
+                },
+                orderNum : function(value){
+
+                },
+                content : function(value) {
+                    layedit.sync(editIndex);
+                }
+            }); */
+            /* 监听提交 */
+            form.on('submit(submitBtn)', function(data) {
+                ajaxPost("/sysfilekind/savesysFileKind", data.field, function(dt, status) {
+                	parent.active.refresh();
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                });
+                return false;
+            });
+            $("#closeBtn").click(function () {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            })
+        });
+</script>
+</body>
+</html>

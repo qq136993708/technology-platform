@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>错误提示页面</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+
+<body>
+<div style="text-align: center; padding:11% 0;">
+    <p><i class="layui-icon layui-icon-unlink" style="font-size: 100px;color: #999999;"></i></p>
+    <p style="font-size: 30px;color: #999999; font-weight: 600;">出错啦，Error: <i id="error-code" style="color: #c00;"></i></p>
+    <p style="font-size: 30px; font-weight: 600; color: #999999;height: 50px;line-height: 50px;" id="error">
+        请联系管理员
+    </p>
+</div>
+
+<script>
+    layui.use(['jquery'], function () {
+        var $ = layui.jquery;
+        var message = JSON.parse('${errorcode}');
+        var errorCode = message.errorCode;
+        var errormessage = message.errorMessage;
+        $("#error").html('抱歉...'+errormessage+'，请联系管理员');
+        if(errorCode == 404){
+            $("#error-code").text('404')
+        }else if(errorCode == 500){
+            $("#error-code").text('500')
+        }
+    })
+</script>
+</body>
+</html>

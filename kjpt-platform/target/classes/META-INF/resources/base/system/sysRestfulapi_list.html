@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+ 	
+ 	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+
+<body>
+
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>名称</span>
+        <input type="text" name="modelName" placeholder="请输入名称" title="名称" autocomplete="off" class="form-control" id="modelName">
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+    </div>
+</div>
+
+<div class="tableBox">
+	<div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</ button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent" >编辑</ button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" >详情</ button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent" >删除</ button>
+        </div>
+    </div>
+    <table id="model-table" class="layui-hide" lay-filter="tableEvent"></table>
+</div>
+
+<!--表格数据操作js-->
+<script>
+	var table,selectRowData;
+    layui.use(['jquery','table','laypage','laytpl'], function(){
+        table = layui.table,
+            $ = layui.jquery,
+            laypage = layui.laypage;
+        
+        function renderTable(){
+        	var modelName=$('#modelName').val();
+	        //渲染
+	        table.render({
+	            elem: '#model-table',
+	            url: '/restfulapi/sys_restfulapi/show-list',
+	            method:"POST",
+	            where: {modelName: modelName},
+	            limit: 15,
+	            id: 'model-table',
+	            height: commonDislodgeTable(),
+	            page: {
+	                groups: 5,
+	                limits: [15,30,45,60],
+	                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+	                first: '首页', //不显示首页
+	                last: '尾页', //不显示尾页
+	                theme: '#0F9EE0'
+	            },
+	            cols: [[
+					{type:'checkbox',event: 'changeEvents'},
+	                {title:'序号', type:'numbers' ,width : 55},
+	                {field:'restfulapiUser',   title:'名称',    width: '12%', style:'cursor: pointer;',sort: true},
+	                {field:'createUser',      title:'创建人',   width: '10%', style:'cursor: pointer;',sort: true},
+	                {field:'createDate',        title:'创建时间',    width: '12%', style:'cursor: pointer;',sort: true},
+	                {field:'restfulapiAddress',      title:'IP地址',   width: '10%', style:'cursor: pointer;',sort: true},
+	                {field:'restfulapiPort',      title:'端口',   width: '10%', style:'cursor: pointer;',sort: true},
+	                {field:'updateUser',       title:'修改人',   width: '8%', style:'cursor: pointer;',sort: true},
+	                {field:'updateDate',       title:'修改时间', width: '12%', style:'cursor: pointer;',sort: true},
+	                {field:'remarks',title:'说明',  style:'cursor: pointer;',sort: true}
+	            ]],
+	            done: function (res, curr, count) {
+	                // 点击行联动选择框--单选
+	                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	                	var index=parseInt($(this).index()+1);
+	                    $('tr').removeClass('layui-table-click');
+	                    $(this).addClass('layui-table-click');
+	                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	                    selectRowData=res.data[index-1];
+	                });
+	            }
+	        });
+        }
+        
+        renderTable();
+        
+        $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+            	renderTable();
+            },
+            addEvent: function(){ //点击新增按钮
+        		var temUrl="/restfulapi/sys_restfulapi/savepage";
+                layer.open({
+                    title:'新增',
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['70%', '90%'],
+                    content:  temUrl,
+                    end: function () {
+                    	active.searchEvent();
+                    }
+                });
+        },
+            deleteEvent: function(){ //点击删除按钮
+            	var data = table.checkStatus('model-table').data;
+            	var restfulapiId = selectRowData.restfulapiId;
+            	var jsonstr = {"restfulapiId":restfulapiId};
+            	var checkData = '';
+            	checkData = selectRowData;
+            	if(checkData){
+            		$.ajax({
+            			type : "POST",
+                        contentType : "application/json",
+                        dataType : "json",
+                        data : JSON.stringify(jsonstr),
+                        url : "/restfulapi/sys_restfulapi/delete",
+                        error : function(data) {
+                        	layer.msg('操作失败!');
+                        },
+                        success : function(data) {
+                        	layer.msg('操作成功!');
+                        	active.searchEvent();
+                        }
+        	        });
+            	} else {
+            		layer.msg('请选择一条数据');
+	            	return;
+            	}
+            },
+            resetEvent: function() { //点击重置按钮
+            	$('#modelName').val("");
+            	active.searchEvent();
+            },
+            editEvent: function() {  //点击编辑按钮
+            	var checkData = '';
+            	checkData = selectRowData;
+            	if(checkData){
+            		layer.open({
+	                    title:'编辑'
+	                    ,skin: 'layui-layer-lan'
+	                    ,shadeClose: false
+	                    ,type: 2
+	                    ,fixed: false
+	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	                    ,maxmin: true
+	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	                    ,area: ['70%', '90%']
+	                    ,content: '/restfulapi/sys_restfulapi/showById?restfulapiId='+selectRowData.restfulapiId
+	                    ,end: function () {
+                        	$(".layui-laypage-btn").click();
+                        }
+	                });
+	            } else {
+	            	layer.msg('请选择一条数据');
+	            	return;
+	            }
+            },
+            detailEvent: function(){  //点击详情按钮
+            	var checkData = '';
+            	checkData = selectRowData;
+            	if(checkData){
+            		var url="http://"+selectRowData.restfulapiAddress+":"+selectRowData.restfulapiPort+"/swagger-ui.html";
+	            	window.open(url,"_blank");
+	            } else {
+	            	layer.msg('请选择一条数据');
+	            	return;
+	            }
+            }
+            
+        };
+
+        //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

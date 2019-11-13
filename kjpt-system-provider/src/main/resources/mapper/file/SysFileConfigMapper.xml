@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.system.SysFileConfigMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysFileConfig">
+
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="menu_id" jdbcType="VARCHAR" property="menuId"/>
+        <result column="position" jdbcType="VARCHAR" property="position"/>
+        <result column="file_size" jdbcType="VARCHAR" property="fileSize"/>
+        <result column="file_count" jdbcType="VARCHAR" property="fileCount"/>
+        <result column="file_height" jdbcType="VARCHAR" property="fileHeight"/>
+        <result column="file_width" jdbcType="VARCHAR" property="fileWidth"/>
+        <result column="file_key" jdbcType="VARCHAR" property="fileKey"/>
+        <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="state" jdbcType="VARCHAR" property="state"/>
+        <result column="file_type" jdbcType="VARCHAR" property="fileType"/>
+        <result column="file_theme" jdbcType="VARCHAR" property="fileTheme"/>
+        <result column="bz" jdbcType="VARCHAR" property="bz"/>
+        <result column="img_type" jdbcType="VARCHAR" property="imgType"/>
+        <result column="img_desc" jdbcType="VARCHAR" property="imgDesc"/>
+        <result column="img_quality" jdbcType="VARCHAR" property="imgQuality"/>
+        <result column="bak1" jdbcType="VARCHAR" property="bak1"/>
+        <result column="bak2" jdbcType="VARCHAR" property="bak2"/>
+        <result column="bak3" jdbcType="VARCHAR" property="bak3"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id,
+        menu_id,
+        position,
+        file_size,
+        file_count,
+        file_height,
+        file_width,
+        file_key,
+        create_time,
+        create_user,
+        state,
+        file_type,
+        file_theme,
+        bz,
+        img_type,
+        img_desc,
+        img_quality,
+        bak1,
+        bak2,
+        bak3
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.system.SysFileConfigExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from sys_file_config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_file_config
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from sys_file_config
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.system.SysFileConfigExample">
+        delete from sys_file_config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.system.SysFileConfig">
+        insert into sys_file_config (
+            id,
+            menu_id,
+            position,
+            file_size,
+            file_count,
+            file_height,
+            file_width,
+            file_key,
+            create_time,
+            create_user,
+            state,
+            file_type,
+            file_theme,
+            bz,
+            img_type,
+            img_desc,
+            img_quality,
+            bak1,
+            bak2,
+            bak3
+        )
+        values (
+
+    #{id,jdbcType=VARCHAR},
+    #{menuId,jdbcType=VARCHAR},
+    #{position,jdbcType=VARCHAR},
+    #{fileSize,jdbcType=VARCHAR},
+    #{fileCount,jdbcType=VARCHAR},
+    #{fileHeight,jdbcType=VARCHAR},
+    #{fileWidth,jdbcType=VARCHAR},
+    #{fileKey,jdbcType=VARCHAR},
+    #{createTime,jdbcType=VARCHAR},
+    #{createUser,jdbcType=VARCHAR},
+    #{state,jdbcType=VARCHAR},
+    #{fileType,jdbcType=VARCHAR},
+    #{fileTheme,jdbcType=VARCHAR},
+    #{bz,jdbcType=VARCHAR},
+    #{imgType,jdbcType=VARCHAR},
+    #{imgDesc,jdbcType=VARCHAR},
+    #{imgQuality,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.system.SysFileConfig">
+        insert into sys_file_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="id != null">
+                id,
+            </if>
+            <if test="menuId != null">
+                menu_id,
+            </if>
+            <if test="position != null">
+                position,
+            </if>
+            <if test="fileSize != null">
+                file_size,
+            </if>
+            <if test="fileCount != null">
+                file_count,
+            </if>
+            <if test="fileHeight != null">
+                file_height,
+            </if>
+            <if test="fileWidth != null">
+                file_width,
+            </if>
+            <if test="fileKey != null">
+                file_key,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="fileType != null">
+                file_type,
+            </if>
+            <if test="fileTheme != null">
+                file_theme,
+            </if>
+            <if test="bz != null">
+                bz,
+            </if>
+            <if test="imgType != null">
+                img_type,
+            </if>
+            <if test="imgDesc != null">
+                img_desc,
+            </if>
+            <if test="imgQuality != null">
+                img_quality,
+            </if>
+            <if test="bak1 != null">
+                bak1,
+            </if>
+            <if test="bak2 != null">
+                bak2,
+            </if>
+            <if test="bak3 != null">
+                bak3
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="id != null">
+                #{id ,jdbcType=VARCHAR},
+            </if>
+            <if test="menuId != null">
+                #{menuId ,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                #{position ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                #{fileSize ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileCount != null">
+                #{fileCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileHeight != null">
+                #{fileHeight ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileWidth != null">
+                #{fileWidth ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileKey != null">
+                #{fileKey ,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileType != null">
+                #{fileType ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileTheme != null">
+                #{fileTheme ,jdbcType=VARCHAR},
+            </if>
+            <if test="bz != null">
+                #{bz ,jdbcType=VARCHAR},
+            </if>
+            <if test="imgType != null">
+                #{imgType ,jdbcType=VARCHAR},
+            </if>
+            <if test="imgDesc != null">
+                #{imgDesc ,jdbcType=VARCHAR},
+            </if>
+            <if test="imgQuality != null">
+                #{imgQuality ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                #{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                #{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                #{bak3 ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.system.SysFileConfigExample" resultType="java.lang.Long">
+        select count(*) from sys_file_config
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update sys_file_config
+        <set>
+
+            <if test="record.id != null">
+                id=#{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.menuId != null">
+                menu_id=#{record.menuId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.position != null">
+                position=#{record.position,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileSize != null">
+                file_size=#{record.fileSize,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileCount != null">
+                file_count=#{record.fileCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileHeight != null">
+                file_height=#{record.fileHeight,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileWidth != null">
+                file_width=#{record.fileWidth,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileKey != null">
+                file_key=#{record.fileKey,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                create_time=#{record.createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUser != null">
+                create_user=#{record.createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.state != null">
+                state=#{record.state,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileType != null">
+                file_type=#{record.fileType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileTheme != null">
+                file_theme=#{record.fileTheme,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bz != null">
+                bz=#{record.bz,jdbcType=VARCHAR},
+            </if>
+            <if test="record.imgType != null">
+                img_type=#{record.imgType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.imgDesc != null">
+                img_desc=#{record.imgDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.imgQuality != null">
+                img_quality=#{record.imgQuality,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak1 != null">
+                bak1=#{record.bak1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak2 != null">
+                bak2=#{record.bak2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak3 != null">
+                bak3=#{record.bak3,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update sys_file_config
+        set
+        id=#{record.id,jdbcType=VARCHAR},
+        menu_id=#{record.menuId,jdbcType=VARCHAR},
+        position=#{record.position,jdbcType=VARCHAR},
+        file_size=#{record.fileSize,jdbcType=VARCHAR},
+        file_count=#{record.fileCount,jdbcType=VARCHAR},
+        file_height=#{record.fileHeight,jdbcType=VARCHAR},
+        file_width=#{record.fileWidth,jdbcType=VARCHAR},
+        file_key=#{record.fileKey,jdbcType=VARCHAR},
+        create_time=#{record.createTime,jdbcType=VARCHAR},
+        create_user=#{record.createUser,jdbcType=VARCHAR},
+        state=#{record.state,jdbcType=VARCHAR},
+        file_type=#{record.fileType,jdbcType=VARCHAR},
+        file_theme=#{record.fileTheme,jdbcType=VARCHAR},
+        bz=#{record.bz,jdbcType=VARCHAR},
+        img_type=#{record.imgType,jdbcType=VARCHAR},
+        img_desc=#{record.imgDesc,jdbcType=VARCHAR},
+        img_quality=#{record.imgQuality,jdbcType=VARCHAR},
+        bak1=#{record.bak1,jdbcType=VARCHAR},
+        bak2=#{record.bak2,jdbcType=VARCHAR},
+        bak3=#{record.bak3,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysFileConfig">
+        update sys_file_config
+        <set>
+
+            <if test="menuId != null">
+                menu_id=#{menuId ,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                position=#{position ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                file_size=#{fileSize ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileCount != null">
+                file_count=#{fileCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileHeight != null">
+                file_height=#{fileHeight ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileWidth != null">
+                file_width=#{fileWidth ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileKey != null">
+                file_key=#{fileKey ,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                create_user=#{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                state=#{state ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileType != null">
+                file_type=#{fileType ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileTheme != null">
+                file_theme=#{fileTheme ,jdbcType=VARCHAR},
+            </if>
+            <if test="bz != null">
+                bz=#{bz ,jdbcType=VARCHAR},
+            </if>
+            <if test="imgType != null">
+                img_type=#{imgType ,jdbcType=VARCHAR},
+            </if>
+            <if test="imgDesc != null">
+                img_desc=#{imgDesc ,jdbcType=VARCHAR},
+            </if>
+            <if test="imgQuality != null">
+                img_quality=#{imgQuality ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                bak1=#{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                bak2=#{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                bak3=#{bak3 ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysFileConfig">
+        update sys_file_config
+        set
+            menu_id=#{menuId,jdbcType=VARCHAR},
+            position=#{position,jdbcType=VARCHAR},
+            file_size=#{fileSize,jdbcType=VARCHAR},
+            file_count=#{fileCount,jdbcType=VARCHAR},
+            file_height=#{fileHeight,jdbcType=VARCHAR},
+            file_width=#{fileWidth,jdbcType=VARCHAR},
+            file_key=#{fileKey,jdbcType=VARCHAR},
+            create_time=#{createTime,jdbcType=VARCHAR},
+            create_user=#{createUser,jdbcType=VARCHAR},
+            state=#{state,jdbcType=VARCHAR},
+            file_type=#{fileType,jdbcType=VARCHAR},
+            file_theme=#{fileTheme,jdbcType=VARCHAR},
+            bz=#{bz,jdbcType=VARCHAR},
+            img_type=#{imgType,jdbcType=VARCHAR},
+            img_desc=#{imgDesc,jdbcType=VARCHAR},
+            img_quality=#{imgQuality,jdbcType=VARCHAR},
+            bak1=#{bak1,jdbcType=VARCHAR},
+            bak2=#{bak2,jdbcType=VARCHAR},
+            bak3=#{bak3,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.system.SysFileConfig" resultMap="BaseResultMap">
+
+        select
+        id,
+        menu_id,
+        position,
+        file_size,
+        file_count,
+        file_height,
+        file_width,
+        file_key,
+        create_time,
+        create_user,
+        state,
+        file_type,
+        file_theme,
+        bz,
+        img_type,
+        img_desc,
+        img_quality,
+        bak1,
+        bak2,
+        bak3
+        from sys_file_config
+        where 1=1
+        <if test="id!=null and id!=''.toString()">
+            and id like '%${id}%'
+        </if>
+        <if test="menuId!=null and menuId!=''.toString()">
+            and menu_id like '%${menuId}%'
+        </if>
+        <if test="position!=null and position!=''.toString()">
+            and position like '%${position}%'
+        </if>
+        <if test="fileSize!=null and fileSize!=''.toString()">
+            and file_size like '%${fileSize}%'
+        </if>
+        <if test="fileCount!=null and fileCount!=''.toString()">
+            and file_count like '%${fileCount}%'
+        </if>
+        <if test="fileHeight!=null and fileHeight!=''.toString()">
+            and file_height like '%${fileHeight}%'
+        </if>
+        <if test="fileWidth!=null and fileWidth!=''.toString()">
+            and file_width like '%${fileWidth}%'
+        </if>
+        <if test="fileKey!=null and fileKey!=''.toString()">
+            and file_key like '%${fileKey}%'
+        </if>
+        <if test="createTime!=null and createTime!=''.toString()">
+            and create_time like '%${createTime}%'
+        </if>
+        <if test="createUser!=null and createUser!=''.toString()">
+            and create_user like '%${createUser}%'
+        </if>
+        <if test="state!=null and state!=''.toString()">
+            and state like '%${state}%'
+        </if>
+        <if test="fileType!=null and fileType!=''.toString()">
+            and file_type like '%${fileType}%'
+        </if>
+        <if test="fileTheme!=null and fileTheme!=''.toString()">
+            and file_theme like '%${fileTheme}%'
+        </if>
+        <if test="bz!=null and bz!=''.toString()">
+            and bz like '%${bz}%'
+        </if>
+        <if test="imgType!=null and imgType!=''.toString()">
+            and img_type like '%${imgType}%'
+        </if>
+        <if test="imgDesc!=null and imgDesc!=''.toString()">
+            and img_desc like '%${imgDesc}%'
+        </if>
+        <if test="imgQuality!=null and imgQuality!=''.toString()">
+            and img_quality like '%${imgQuality}%'
+        </if>
+        <if test="bak1!=null and bak1!=''.toString()">
+            and bak1 like '%${bak1}%'
+        </if>
+        <if test="bak2!=null and bak2!=''.toString()">
+            and bak2 like '%${bak2}%'
+        </if>
+        <if test="bak3!=null and bak3!=''.toString()">
+            and bak3 like '%${bak3}%'
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findSysFileConfigList" parameterType="com.pcitc.base.system.SysFileConfig" resultMap="BaseResultMap">
+        select
+        id,
+        menu_id,
+        position,
+        file_size,
+        file_count,
+        file_height,
+        file_width,
+        file_key,
+        create_time,
+        create_user,
+        state,
+        file_type,
+        file_theme,
+        bz,
+        img_type,
+        img_desc,
+        img_quality,
+        bak1,
+        bak2,
+        bak3
+        from sys_file_config
+        where 1=1
+        <if test="id!=null">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="menuId!=null">
+            and menu_id = #{menuId,jdbcType=VARCHAR}
+        </if>
+        <if test="position!=null">
+            and position = #{position,jdbcType=VARCHAR}
+        </if>
+        <if test="fileSize!=null">
+            and file_size = #{fileSize,jdbcType=VARCHAR}
+        </if>
+        <if test="fileCount!=null">
+            and file_count = #{fileCount,jdbcType=VARCHAR}
+        </if>
+        <if test="fileHeight!=null">
+            and file_height = #{fileHeight,jdbcType=VARCHAR}
+        </if>
+        <if test="fileWidth!=null">
+            and file_width = #{fileWidth,jdbcType=VARCHAR}
+        </if>
+        <if test="fileKey!=null">
+            and file_key = #{fileKey,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime!=null">
+            and create_time = #{createTime,jdbcType=VARCHAR}
+        </if>
+        <if test="createUser!=null">
+            and create_user = #{createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="state!=null">
+            and state = #{state,jdbcType=VARCHAR}
+        </if>
+        <if test="fileType!=null">
+            and file_type = #{fileType,jdbcType=VARCHAR}
+        </if>
+        <if test="fileTheme!=null">
+            and file_theme = #{fileTheme,jdbcType=VARCHAR}
+        </if>
+        <if test="bz!=null">
+            and bz = #{bz,jdbcType=VARCHAR}
+        </if>
+        <if test="imgType!=null">
+            and img_type = #{imgType,jdbcType=VARCHAR}
+        </if>
+        <if test="imgDesc!=null">
+            and img_desc = #{imgDesc,jdbcType=VARCHAR}
+        </if>
+        <if test="imgQuality!=null">
+            and img_quality = #{imgQuality,jdbcType=VARCHAR}
+        </if>
+        <if test="bak1!=null">
+            and bak1 = #{bak1,jdbcType=VARCHAR}
+        </if>
+        <if test="bak2!=null">
+            and bak2 = #{bak2,jdbcType=VARCHAR}
+        </if>
+        <if test="bak3!=null">
+            and bak3 = #{bak3,jdbcType=VARCHAR}
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+</mapper>

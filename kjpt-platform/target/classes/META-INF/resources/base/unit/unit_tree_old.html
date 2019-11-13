@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<#include "/common/public/publicImportIndex.html"/>
+</head>
+<body class="hold-transition skin-blue sidebar-mini" style="background:#fff;">
+<form class="form-horizontal" id="unit-form">
+<section class="content">
+    <div class="row">
+        <div class="col-md-3 header-tree">
+        	<div id="tree"></div>
+      	</div>
+        <div class="col-md-9">
+            <div class="col-md-12 box-tree">
+		 		 <div class="content-body">
+			  		<div class="btn-group">
+                        <!-- <button type="button" class="btn btn-default" data-btn-type="addRoot">
+                            <li class="fa fa-plus">&nbsp;新增根机构</li>
+                        </button> -->
+                        <button type="button" class="btn btn-default" data-btn-type="add">
+                            <li class="fa fa-plus">&nbsp;新增下级机构</li>
+                        </button>
+                        <button type="button" class="btn btn-default" data-btn-type="edit">
+                            <li class="fa fa-edit">&nbsp;编辑当前机构</li>
+                        </button>
+                        <button type="button" class="btn btn-default" data-btn-type="delete">
+                            <li class="fa fa-remove">&nbsp;删除当前机构</li>
+                        </button>
+                    </div>
+                </div>
+                <div class="">
+                    
+                    	<input type="hidden" name="unitOrder" id="unitOrder" value="0">
+                        <input type="hidden" name="unitRelation"/>
+                        <input type="hidden" name="unitId" id="unitId">
+                        <input type="hidden" name="unitLevel" id="unitLevel" value="0">
+                        
+                        <div class="col-md-6">
+	                        <div class="form-group">
+	                            <label for="name" class="col-sm-3 control-label">机构名称</label>
+	                            <div class="col-sm-8">
+	                                <input type="text" class="form-control" id="unitName" name="unitName" placeholder="名称">
+	                            </div>
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="code" class="col-sm-3 control-label">机构编码</label>
+	                            <div class="col-sm-8">
+	                                <input type="text" class="form-control"  readonly="true" id="unitCode" name="unitCode" placeholder="编码">
+	                            </div>
+	                        </div>
+	                    </div>
+                        <div class="col-md-6">
+	                        <div class="form-group">
+	                            <label class="col-sm-3 control-label">机构简称</label>
+	                            <div class="col-sm-8">
+	                            	<input type="text" class="form-control" id="unitAbbr" name="unitAbbr" placeholder="简称">
+	                            </label>
+	                            </div>
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="remark" class="col-sm-3 control-label">机构类型</label>
+	                            <div class="col-sm-8">
+                                	<select name="unitKind" id="unitKind" data-src="/dictionary/list/JGLX" data-flag="urlSelector"
+	                                data-placeholder="请选择机构类型" class="form-control select2" data-text="name"
+	                                data-value="code" style="width:100%"
+	                                data-blank="true"></select>
+                                </div>
+	                        </div>
+                        </div>
+                        <div class="col-md-6">
+                         	<div class="form-group">
+	                            <label for="remark" class="col-sm-3 control-label">备注</label>
+                        		<div class="col-sm-8">
+	                                <textarea class="form-control" id="unitComment" name="unitComment" placeholder="说明"></textarea>
+	                            </div>
+	                    	</div>
+	                    </div>
+                        <div class="col-md-12">
+	                        <div class="box-footer" style="display:none">
+	                            <div class="text-center">
+	                                <button type="button" class="btn btn-default" data-btn-type="cancel">
+	                                    	取消
+	                                </button>
+	                                <button type="submit" class="btn btn-primary">
+	                                    	保存
+	                                </button>
+	                            </div>
+	                        </div>
+                        </div>
+                    
+                </div>
+            </div>
+            <!-- table -->
+            <div class="col-md-12 content-body">
+	            <div class="content-table">
+	            	<div class="btn-group">
+						<button type="button" class="btn btn-primary add" data-btn-type="addPost">新增</button>
+			            <button type="button" class="btn btn-primary edit" data-btn-type="editPost">编辑</button>
+			            <button type="button" class="btn btn-primary delete" data-btn-type="delPost">删除</button>
+					</div>
+					<div class="content-table">
+						<div class="ct-table">
+							<table id="postTable" class="table table-bordered table-striped dataTable no-footer" style="width:100%;" role="grid">
+								<thead>
+									<tr role="row">
+										<th>序号</th>
+										<th>岗位名称</th>
+										<th>岗位编码</th>										
+										<th>岗位类型</th>
+										<th>岗位描述</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+        </div>
+    </div>
+    
+</section>
+</form>
+<script type="text/javascript">
+    //封装改写
+    var currentUnitId;
+    var winId = "postEditWin";
+    var postTable;
+    var postType = {};
+    var orgCtrl = {
+        form: null,
+        initForm: function () {
+            var self = this;
+            this.form = $("#unit-form").form();
+            //初始化菜单树
+            this.initTree(0);
+            $("#unit-form").bootstrapValidator({
+                message: '请输入有效值',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                submitHandler: function (validator, form, submitButton) {
+                    modals.confirm('确认保存？', function () {
+                        //Save Data，对应'submit-提交'
+                        var params = $("#unit-form").serialize();
+                        ajaxPost(basePath + 'unit/add-unit', params, function (data, status) {
+                            if (data.success) {
+                            	parent.$("#modal-tips-div").remove()
+                                parent.$(".modal-backdrop").remove()
+                                modals.correct('保存成功');
+                            	
+                                //var id=$("input[name='id']").val();
+                                var selectedArr = $("#tree").data("treeview").getSelected();
+                                var selectedNodeId = selectedArr.length > 0 ? selectedArr[0].nodeId : 0;
+                                self.initTree(selectedNodeId);
+                                //隐藏按钮
+                                $("#unit-form .box-footer").hide();
+                            }
+                        });
+                    });
+                },
+                fields: {
+                    unitName: {
+                        validators: {
+                            notEmpty: {
+                                message: '请输入名称'
+                            }
+                        }
+                    },
+                    unitCode: {
+                        validators: {
+                            notEmpty: {
+                                message: '请输入编码'
+                            }
+                        }
+                    },
+                    unitLevel: {
+                        validators: {
+                            notEmpty: {
+                                message: '请选择层级'
+                            }
+                        }
+                    },
+                    unitDelflag: {
+                        validators: {
+                            notEmpty: {
+                                message: '请选择是否可用'
+                            }
+                        }
+                    }
+                }
+            });
+            //this.form.initComponent();
+        },
+        btntype: null,
+        initBtnEvent: function () {
+            var self = this;
+            $('button[data-btn-type]').click(function () {
+                var action = $(this).attr('data-btn-type');
+                var selectedArr = $("#tree").data("treeview").getSelected();
+                var selectedNode = selectedArr.length > 0 ? selectedArr[0] : null;
+                switch (action) {
+                    case 'addRoot':
+                        self.addRoot(action);
+                        break;
+                    case 'add':
+                        self.add(action, selectedNode);
+                        break;
+                    case 'edit':
+                        self.edit(action, selectedNode);
+                        break;
+                    case 'delete':
+                        self.delete(selectedNode);
+                        break;
+                    case 'cancel':
+                        self.cancel(selectedNode);
+                        break;
+                    case 'addPost':
+                    	self.addPost(selectedNode);
+                    	break;
+                    case 'editPost':
+                    	self.editPost(selectedNode);
+                    	break;
+                    case 'delPost':
+                    	self.delPost(selectedNode);
+                    	break;
+                }
+            });
+        },
+		//关闭根节点添加功能
+        addRoot: function (action) {
+            this.formWritable(action);
+            clearForm(this.form);
+            //填充上级机构和层级编码
+            this.fillParentAndLevelCode(null);
+            this.btntype = 'add';
+        },
+        add: function (action, selectedNode) {
+            if (!selectedNode) {
+                modals.info('请先选择上级机构');
+                return false;
+            }
+            this.formWritable(action);
+            clearForm(this.form);
+            //填充上级机构和层级编码
+            this.fillParentAndLevelCode(selectedNode);
+            this.btntype = 'add';
+        },
+        edit: function (action, selectedNode) {
+            if (!selectedNode) {
+                modals.info('请先选择要编辑的节点');
+                return false;
+            }
+            this.fillOrgForm(selectedNode);
+            this.formWritable(action);
+            this.btntype = 'edit';
+        },
+        delete: function (selectedNode) {
+            var self = this;
+            if (!selectedNode) {
+                modals.info('请先选择要删除的节点');
+                return false;
+            }
+            if (this.btntype == 'add')
+                this.fillOrgForm(selectedNode);
+            this.formReadonly();
+            $(".box-header button[data-btn-type='delete']").removeClass("btn-default").addClass("btn-primary");
+            if (selectedNode.nodes && selectedNode.nodes.length >0) {
+                modals.info('该节点含有子节点，请先删除子节点');
+                return false;
+            }
+            modals.confirm('是否删除该节点', function () {
+                ajaxPost(basePath + "unit/del-unit/" + selectedNode.id, null, function (data) {
+                	
+                    if (data.success) {
+                    	console.log($("#modal-tips-div"))
+                    	$("#modal-tips-div").remove()
+                    	$(".modal-backdrop").remove()
+                        modals.correct('删除成功');
+                    } else {
+                        modals.info(data.message);
+                    }
+                    //定位
+                    var brothers = $("#tree").data("treeview").getSiblings(selectedNode);
+                    if (brothers.length > 0)
+                        self.initTree(brothers[brothers.length - 1].nodeId);
+                    else {
+                        var parent = $("#tree").data("treeview").getParent(selectedNode);
+                        self.initTree(parent ? parent.nodeId : 0);
+                    }
+                });
+            });
+        },
+        cancel: function (selectedNode) {
+            if (this.btntype == 'add')
+                this.fillOrgForm(selectedNode);
+            this.formReadonly();
+        },
+        initTree: function (selectNodeId) {
+            var self = this;
+            var treeData = null;
+            ajaxPost(basePath + "unit/tree-data", null, function (data) {
+                treeData = data;
+            });
+            showTree(treeData);
+            if (treeData.length == 0)
+                return;
+            //默认选中第一个节点
+            selectNodeId = selectNodeId || 0;
+            $("#tree").data('treeview').selectNode(selectNodeId);
+            $("#tree").data('treeview').expandNode(selectNodeId);
+            $("#tree").data('treeview').revealNode(selectNodeId);
+            //设置只读
+            this.formReadonly();
+        },
+        addPost:function(selectNodeId){
+         	//添加岗位信息
+       	 	modals.openWin({
+                winId: new Date().getTime(),
+                width: 600,
+                backdrop:"static",
+                title: '添加/编辑岗位信息',
+                url: basePath + 'post/edit-post?unitId='+currentUnitId,
+                hideFunc: function () {
+                	postTable.fnClearTable();
+                }
+            });
+        },
+        editPost:function(selectNodeId){
+         	//编辑岗位信息
+         	var row = getTableContent();
+         	if (!row) {
+                modals.info('请选择要编辑的行');
+                return false;
+            }
+       	 	modals.openWin({
+       	 		winId: new Date().getTime(),
+            	width: 600,
+            	backdrop:"static",
+                title: '添加/编辑岗位信息',
+                url: basePath + 'post/edit-post?unitId='+currentUnitId+"&postId="+row.postId,
+                hideFunc: function () {
+                	postTable.fnClearTable();
+                }
+            });
+        },
+        delPost:function(selectNodeId){
+         	var row = getTableContent();
+         	if (!row) {
+                modals.info('请选择要删除的行');
+                return false;
+            }
+         	modals.confirm('是否删除选中岗位', function () {
+                ajaxPost(basePath + 'post/del-post?postId='+row.postId, null, function (data) {
+                	parent.$("#modal-tips-div").remove();
+                	parent.$(".modal-backdrop").remove();
+                    if (data.success) 
+                    {
+                        modals.correct('删除成功');
+                    }
+                    postTable.fnClearTable();
+                });
+            });
+        },
+        //新增时，带入父级机构名称id,自动生成levelcode
+        fillParentAndLevelCode: function (selectedNode) {
+            $("input[name='unitRelation']").val(selectedNode ? selectedNode.unitRelation : '0');
+            $("input[name='deleted'][value='0']").prop("checked", "checked");
+            if (selectedNode) {
+                $("input[name='unitRelation']").val(selectedNode.id);
+                //var nodes = selectedNode.nodes;
+                //var levelCode = nodes ? nodes[nodes.length - 1].levelCode : null;
+                //$("input[name='levelCode']").val(getNextCode(selectedNode.levelCode, levelCode, 6));
+            } else {
+                var parentNode = $("#tree").data("treeview").getNode(0);
+                $("input[name='unitRelation']").val(0);
+               //  var levelCode = "000000";
+               // if (parentNode) {
+               //     var brothers = $("#tree").data("treeview").getSiblings(0);
+               //     levelCode = brothers[brothers.length - 1].levelCode;
+               // } 
+              //$("input[name='levelCode']").val(getNextCode("", levelCode, 6));
+            }
+        },
+        //填充form
+        fillOrgForm: function (node) {
+            var self = this;
+            clearForm(this.form);
+            ajaxPost(basePath + "unit/get-unit/" + node.id, null, function (data) {
+                //this.form.initFormData(data);
+            	initFormData($("#unit-form"),data);
+            })
+        },
+        //设置form为只读
+        formReadonly: function () {
+            //所有文本框只读
+            $("input[name],textarea[name]").attr("readonly", "readonly");
+            //下拉框背景灰色
+            $("#select2-unitKind-container").css("background","#eee");
+            $("#select2-unitKind-container").parent().css("background","#eee");
+            //隐藏取消、保存按钮
+            $("#unit-form .box-footer").hide();
+            //还原新增、编辑、删除按钮样式
+           	$(".box-header button").removeClass("btn-primary").addClass("btn-default");
+            //还原校验框
+            if ($("#unit-form").data('bootstrapValidator'))
+                $("#unit-form").data('bootstrapValidator').resetForm();
+        },
+        formWritable: function (action) {
+           	$("input[name],textarea[name]").removeAttr("readonly");
+          	//下拉框背景白色
+            $("#select2-unitKind-container").css("background","#fff");
+            $("#select2-unitKind-container").parent().css("background","#fff");
+            //机构编码永远只读
+            $("#unitCode").attr("readonly", "readonly");
+            
+            $("#unit-form .box-footer").show();
+            $(".box-header button").removeClass("btn-primary").addClass("btn-default");
+            if (action)
+                $(".box-header button[data-btn-type='" + action + "']").removeClass("btn-default").addClass("btn-primary");
+        }
+    };
+
+    $(function () {
+    	//初始化岗位类型
+        ajaxPost(basePath + "dictionary/list/GWLX", null, function (data) {
+            $.each(data,function(index){
+            	console.log(data);
+            	postType[data[index].code] = data[index].name;
+            });
+            console.log(postType);
+        });
+        //初始化表单及校验
+        orgCtrl.initForm();
+        //初始化按钮事件
+        orgCtrl.initBtnEvent();
+    });
+    function showTree(treeNodes){
+			var slimSHeight=$(document).height()-(48+53);
+			$("#tree").slimScroll({
+				//width:"174px",
+				height: slimSHeight,
+				size: '7px',
+				position: 'right',
+				color: '#ccc',
+				alwaysVisible: true,
+				distance: '0',
+				start: "top",
+				railVisible: true,
+				railColor: '#f1f1f1',
+				railOpacity: 0,
+				wheelStep: 7,
+				allowPageScroll: false,
+				disableFadeOut: true
+			});
+			$('#tree').treeview({
+				icon:"glyphicon glyphicon-home",
+            	selectedIcon:"glyphicon glyphicon-home",
+            	color:"#000000",
+            	backColor:"#FFFFFF",
+				selectedColor:"#3cb45d",
+				selectedBackColor:"#edfef4",
+            	levels : 10 ,
+				selectable:true,
+				showCheckbox : false,
+				showBorder : false,
+				state: {
+            	    checked:true,
+            	    disabled:false,
+            	    expanded:true,
+            	    selected:false
+            	},
+				data: treeNodes,
+				onNodeSelected:function(event,data){
+					console.log(data)
+					currentUnitId = data.id;
+					//加载当前机构下的岗位
+					ajaxPost(basePath + "unit/get-unit/" + data.id, null, function (data) {
+		                //this.form.initFormData(data);
+		            	initFormData($("#unit-form"),data);
+		            })
+					loadPostByUnit(currentUnitId);
+				},
+				onNodeChecked:function(event,data){
+					nodeChecked(event, data);
+				},
+				onNodeUnchecked :function(event,data){
+					nodeUnchecked(event,data);
+				}
+				
+			});    
+		}
+    function loadPostByUnit(unitId)
+    {
+    	postTable = $('#postTable').dataTable({
+			"bPaginate" : true,//分页工具条显示
+			//"sPaginationType" : "full_numbers",//分页工具条样式
+			"bStateSave" : true, //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态
+			"bScrollCollapse" : true, //当显示的数据不足以支撑表格的默认的高度
+			"bLengthChange" : true, //每页显示的记录数
+			"aLengthMenu":[[15, 30, 45, 60, -1], [15, 30, 45, 60, "All"]],//每页显示15条数据
+			"iDisplayLength" : 15,
+			"bFilter" : false, //搜索栏
+			"bSort" : true, //是否支持排序功能
+			"bInfo" : true, //显示表格信息
+			"bAutoWidth" : false, //自适应宽度
+			"bJQueryUI" : false,//是否开启主题
+			"bDestroy" : true,
+			"bProcessing" : true, //开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
+			"bServerSide" : true,//服务器处理分页，默认是false，需要服务器处理，必须true
+			//"sAjaxDataProp" : "aData",//是服务器分页的标志，必须有
+			"sAjaxSource" : "/post/get-post-by-unit",//通过ajax实现分页的url路径。
+			"fnServerData": retrieveData, // 获取数据的处理函数
+			//初始化要显示的列
+			"aoColumns" : [
+						   {"mData" : null},
+						   {"mData" : "postName"},
+						   {"mData" : "postCode"},
+						   {"mData" : "postKind"},
+						   {"mData" : "postComment"}
+						  ],
+            "fnRowCallback" : function(nRow, aData, iDisplayIndex){
+                $("td:first", nRow).html(iDisplayIndex +1);//设置序号位于第一列，并顺次加一
+                $("td:eq(3)", nRow).html(postType[aData.postKind]);
+               	return nRow;
+            },
+			"oLanguage" : {//语言设置
+				"sProcessing" : "处理中...",
+				"sLengthMenu" : "显示 _MENU_ 项结果",
+				"sZeroRecords" : "没有匹配结果",
+				"sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+				"sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+				"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+				"sInfoPostFix" : "",
+				"sSearch" : "搜索:",
+				"sUrl" : "",
+				"sEmptyTable" : "表中数据为空",
+				"sLoadingRecords" : "载入中...",
+				"sInfoThousands" : ",",
+				"oPaginate" : {
+					"sFirst" : "首页",
+					"sPrevious" : "上页",
+					"sNext" : "下页",
+					"sLast" : "末页"
+				},
+				"oAria" : {
+					"sSortAscending" : ": 以升序排列此列",
+					"sSortDescending" : ": 以降序排列此列"
+				}
+			},
+			"dom": 'rt<"#pBottom"><"pTop"lp><"top"i>' ,
+			"fnInitComplete":function(){
+			      //给每个td添加hover显示完整数据
+			      $(".ct-table>div table td").each(function () {
+			         $(this).attr("title", $(this).text());
+			         $(this).css("cursor", 'pointer');
+			      });
+			      //分页在默认行数的底部
+			      var selectVal=$(".ct-table>div select").val();
+			      var tableThTdHeight=$(".ct-table>div table tr").height();
+			      var tableTrTdHeight=$(".ct-table>div table tbody tr").height();
+			      var ctHeight=(tableTrTdHeight*(parseInt(selectVal)))+tableThTdHeight+$(".pTop").height();
+			      $(".ct-table>div").css("height",ctHeight);
+			   },
+		   "createdRow": function ( row, data, index ) {
+		      $('td', row).css("height","16px");
+		      $('td', row).click(function(){
+		         $(".ct-table>div table tr").removeClass("selected");
+		         $('td', row).parent().addClass("selected");
+
+		      });
+                 var selectVal=$(".ct-table>div select").val();
+                 var tableThTdHeight=$(".ct-table>div table tr").height();
+                 var tableTrTdHeight=$(".ct-table>div table tbody tr").height();
+                 var ctHeight=(tableTrTdHeight*(parseInt(selectVal)))+tableThTdHeight+$(".pTop").height();
+                 $(".ct-table>div").css("height",ctHeight);
+		   }
+		});
+    }
+    function retrieveData(sSource, aoData, fnCallback) {
+		aoData.push({"name":"params","value":{"unitId":currentUnitId}});
+		console.log(aoData);
+		//console.log(JSON.stringify(aoData))
+		$.ajax({
+			url : sSource+"?st="+(new Date().getTime()),//这个就是请求地址对应sAjaxSource,为避免缓存请求加上时间戳
+            data : JSON.stringify(aoData),//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
+            type : 'post',
+            headers: {
+            	'Content-Type' : 'application/json',
+            	'access-token':getCookie("token")
+            },
+            dataType : 'json',
+            async : false,
+            success : fnCallback,
+            error : function(msg) {
+            }
+        });
+    }
+    function getTableContent(){
+        var nTrs = postTable.fnGetNodes();//fnGetNodes获取表格所有行，nTrs[i]表示第i行tr对象
+        for(var i = 0; i < nTrs.length; i++){
+            if($(nTrs[i]).hasClass('selected')){
+                 return postTable.fnGetData(nTrs[i]);
+            }
+        }
+    }
+    function clearForm(from){        
+    	 $(':input[name]:not(:radio)').val('');
+         $(':radio').removeAttr('checked');
+         $(':radio[data-flag]').iCheck('update');
+         $(':checkbox').removeAttr('checked');
+         $(':checkbox[data-flag]').iCheck('update');
+         $('label[name]').text('');
+         $('select:not(.select2)').val("");
+    }
+    /**
+     *    表单数据回填
+     * @param json_data 回填的数据
+     */
+    function initFormData(form,json_data) {
+        if (!json_data)
+            return;        
+        if (form.length == 0)
+            return;
+        form.find('input[name], select[name], textarea[name], label[name]').not(":file").each(function (ind, elem) {
+            var obj = $(elem), el_name = obj.attr('name'), value;
+            try {
+                value = eval('json_data.' + el_name);
+            } catch (e) {
+                value = null;
+            }
+            if (value != undefined && value != null && $.trim(value) != '') {
+                var is_radio = elem.type == 'radio', is_ckbox = elem.type == 'checkbox';
+                var is_date = $(elem).data("flag") == "datepicker" || $(elem).data("flag") == "date" || $(elem).data("flag") == "datetimepicker";
+                var date_format = $(elem).data("format") || "yyyy-mm-dd";
+                if (is_date)
+                    value = formatDate(value, date_format);
+                if (is_radio) {
+                    //icheck
+                    if ($(elem).data("flag") == "icheck") {
+                        $(elem).iCheck(elem.value == value ? 'check' : 'uncheck');
+                        var validator = form.data('bootstrapValidator');
+                        if (validator && validator.options.fields[el_name])
+                            validator.updateStatus(el_name, 'NOT_VALIDATED', null);
+                    } else {
+                        //原生radio
+                        elem.checked = elem.value == value;
+                    }
+                } else if (is_ckbox) {
+                    //icheck
+                    if ($(elem).data("flag") == "icheck") {
+                        $(elem).iCheck($.inArray(elem.value, value.split(',')) > -1 ? 'check' : 'uncheck');
+                        var validator = form.data('bootstrapValidator');
+                        if (validator && validator.options.fields[el_name])
+                            validator.updateStatus(el_name, 'NOT_VALIDATED', null);
+                    } else {
+                        //原生checkbox
+                        elem.checked = $.inArray(elem.value, value.split(',')) > -1 ? true : false;
+                    }
+                } else if (elem.tagName.toUpperCase() == 'LABEL') {
+                    elem.innerText = value;
+                } else if (elem.tagName.toUpperCase() == 'SELECT') {
+                    var is_select2 = $(elem).hasClass("select2");
+                    if (is_select2) {
+                        $(elem).select2({
+                            minimumResultsForSearch: Infinity
+                        }).val(value).trigger("change");
+                        var validator = form.data('bootstrapValidator');
+                        if (validator && validator.options.fields[el_name])
+                            validator.updateStatus(el_name, 'NOT_VALIDATED', null);
+                    }
+                    else
+                        $(elem).val(value);
+
+                } else {
+                    elem.value = value;
+                }
+            }
+        });
+    }
+    function updaTable(){
+    	//functionTable table 的id
+    	$('#postTable').dataTable()._fnAjaxUpdate();
+    }
+    $("#unitName").blur(function(){
+    	var param = $("#unit-form").serialize();
+    	ajaxPost(basePath + 'unit/unit-code', param, function (data) {
+        	$("#unitCode").val(data.message);
+        });
+    });
+    
+</script>
+</body>
+</html>

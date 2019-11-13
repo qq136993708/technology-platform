@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.system.SysFunctionProdefMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.workflow.SysFunctionProdef" >
+    <id column="function_prodef_id" property="functionProdefId" jdbcType="VARCHAR" />
+    <result column="function_name" property="functionName" jdbcType="VARCHAR" />
+    <result column="function_id" property="functionId" jdbcType="VARCHAR" />
+    <result column="prodef_name" property="prodefName" jdbcType="VARCHAR" />
+    <result column="prodef_id" property="prodefId" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="unit_id" property="unitId" jdbcType="VARCHAR" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="unit_name" property="unitName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="create_person_id" property="createPersonId" jdbcType="VARCHAR" />
+    <result column="deployment_id" property="deploymentId" jdbcType="VARCHAR" />
+    <result column="bak1" property="bak1" jdbcType="VARCHAR" />
+    <result column="bak2" property="bak2" jdbcType="VARCHAR" />
+    <result column="bak3" property="bak3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    function_prodef_id, function_name, function_id, prodef_name, prodef_id, project_id, 
+    unit_id, project_name, unit_name, status, create_date, remarks, create_person_id, 
+    deployment_id, bak1, bak2, bak3
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.workflow.SysFunctionProdefExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_function_prodef
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_function_prodef
+    where function_prodef_id = #{functionProdefId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_function_prodef
+    where function_prodef_id = #{functionProdefId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.workflow.SysFunctionProdefExample" >
+    delete from sys_function_prodef
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.workflow.SysFunctionProdef" >
+    insert into sys_function_prodef (function_prodef_id, function_name, function_id, 
+      prodef_name, prodef_id, project_id, 
+      unit_id, project_name, unit_name, 
+      status, create_date, remarks, 
+      create_person_id, deployment_id, bak1, 
+      bak2, bak3)
+    values (#{functionProdefId,jdbcType=VARCHAR}, #{functionName,jdbcType=VARCHAR}, #{functionId,jdbcType=VARCHAR}, 
+      #{prodefName,jdbcType=VARCHAR}, #{prodefId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{unitId,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{createPersonId,jdbcType=VARCHAR}, #{deploymentId,jdbcType=VARCHAR}, #{bak1,jdbcType=VARCHAR}, 
+      #{bak2,jdbcType=VARCHAR}, #{bak3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.workflow.SysFunctionProdef" >
+    insert into sys_function_prodef
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="functionProdefId != null" >
+        function_prodef_id,
+      </if>
+      <if test="functionName != null" >
+        function_name,
+      </if>
+      <if test="functionId != null" >
+        function_id,
+      </if>
+      <if test="prodefName != null" >
+        prodef_name,
+      </if>
+      <if test="prodefId != null" >
+        prodef_id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="unitId != null" >
+        unit_id,
+      </if>
+      <if test="projectName != null" >
+        project_name,
+      </if>
+      <if test="unitName != null" >
+        unit_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="createPersonId != null" >
+        create_person_id,
+      </if>
+      <if test="deploymentId != null" >
+        deployment_id,
+      </if>
+      <if test="bak1 != null" >
+        bak1,
+      </if>
+      <if test="bak2 != null" >
+        bak2,
+      </if>
+      <if test="bak3 != null" >
+        bak3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="functionProdefId != null" >
+        #{functionProdefId,jdbcType=VARCHAR},
+      </if>
+      <if test="functionName != null" >
+        #{functionName,jdbcType=VARCHAR},
+      </if>
+      <if test="functionId != null" >
+        #{functionId,jdbcType=VARCHAR},
+      </if>
+      <if test="prodefName != null" >
+        #{prodefName,jdbcType=VARCHAR},
+      </if>
+      <if test="prodefId != null" >
+        #{prodefId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null" >
+        #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null" >
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createPersonId != null" >
+        #{createPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="deploymentId != null" >
+        #{deploymentId,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.workflow.SysFunctionProdefExample" resultType="java.lang.Integer" >
+    select count(*) from sys_function_prodef
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_function_prodef
+    <set >
+      <if test="record.functionProdefId != null" >
+        function_prodef_id = #{record.functionProdefId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.functionName != null" >
+        function_name = #{record.functionName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.functionId != null" >
+        function_id = #{record.functionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prodefName != null" >
+        prodef_name = #{record.prodefName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prodefId != null" >
+        prodef_id = #{record.prodefId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitId != null" >
+        unit_id = #{record.unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectName != null" >
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitName != null" >
+        unit_name = #{record.unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createPersonId != null" >
+        create_person_id = #{record.createPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deploymentId != null" >
+        deployment_id = #{record.deploymentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak1 != null" >
+        bak1 = #{record.bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak2 != null" >
+        bak2 = #{record.bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bak3 != null" >
+        bak3 = #{record.bak3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_function_prodef
+    set function_prodef_id = #{record.functionProdefId,jdbcType=VARCHAR},
+      function_name = #{record.functionName,jdbcType=VARCHAR},
+      function_id = #{record.functionId,jdbcType=VARCHAR},
+      prodef_name = #{record.prodefName,jdbcType=VARCHAR},
+      prodef_id = #{record.prodefId,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      unit_id = #{record.unitId,jdbcType=VARCHAR},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      unit_name = #{record.unitName,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      create_person_id = #{record.createPersonId,jdbcType=VARCHAR},
+      deployment_id = #{record.deploymentId,jdbcType=VARCHAR},
+      bak1 = #{record.bak1,jdbcType=VARCHAR},
+      bak2 = #{record.bak2,jdbcType=VARCHAR},
+      bak3 = #{record.bak3,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.workflow.SysFunctionProdef" >
+    update sys_function_prodef
+    <set >
+      <if test="functionName != null" >
+        function_name = #{functionName,jdbcType=VARCHAR},
+      </if>
+      <if test="functionId != null" >
+        function_id = #{functionId,jdbcType=VARCHAR},
+      </if>
+      <if test="prodefName != null" >
+        prodef_name = #{prodefName,jdbcType=VARCHAR},
+      </if>
+      <if test="prodefId != null" >
+        prodef_id = #{prodefId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null" >
+        unit_id = #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null" >
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null" >
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createPersonId != null" >
+        create_person_id = #{createPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="deploymentId != null" >
+        deployment_id = #{deploymentId,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where function_prodef_id = #{functionProdefId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.workflow.SysFunctionProdef" >
+    update sys_function_prodef
+    set function_name = #{functionName,jdbcType=VARCHAR},
+      function_id = #{functionId,jdbcType=VARCHAR},
+      prodef_name = #{prodefName,jdbcType=VARCHAR},
+      prodef_id = #{prodefId,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      unit_id = #{unitId,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      create_person_id = #{createPersonId,jdbcType=VARCHAR},
+      deployment_id = #{deploymentId,jdbcType=VARCHAR},
+      bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR},
+      bak3 = #{bak3,jdbcType=VARCHAR}
+    where function_prodef_id = #{functionProdefId,jdbcType=VARCHAR}
+  </update>
+</mapper>

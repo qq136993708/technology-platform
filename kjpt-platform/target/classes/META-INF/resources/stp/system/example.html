@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+</head>
+<body>
+<div class="layui-form-item">
+    <label class="layui-form-label">地址</label>
+    <div class="layui_input">
+        <div class="layui-input-inline">
+            <select name="province" id="province" onchange="cityAddress('')">
+                <option value="" selected>请选择</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="city" id="city" onchange="countryAddress('')">
+                <option value="" selected>请选择</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="county" id="county">
+                <option value="">请选择</option>
+            </select>
+            <!--<select name="country_id" class="country_select" lay-filter="country">-->
+                <!--<option value="" selected>请选择县/乡</option>-->
+            <!--</select>-->
+        </div>
+        <!--<div class="layui-input-inline">-->
+            <!--<select name="town_id" class="town_select" lay-filter="town">-->
+                <!--<option value="" selected>请选择镇</option>-->
+
+            <!--</select>-->
+        <!--</div>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<select name="village_id" class="village_select" lay-filter="village">-->
+                <!--<option value="" selected>请选择村委会</option>-->
+            <!--</select>-->
+        <!--</div>-->
+    </div>
+</div>
+
+
+<script>
+    var global_hos = {};
+    var global_hos = {"province":"650000","city":"653200","county":"653221"};
+    // var global_hos = {"province":"province","city":"city","county":"county"};
+    // var global_hos = {"province":"650000","city":"653200","county":"653221"};
+
+    //获取省份信息
+    function takeAddress() {
+        $.ajax({
+            contentType: 'application/json;charset=utf-8',
+            async: false,
+            type: "POST",
+            url: "/sysAddress/list",
+            data: JSON.stringify({"depth":"1"}),
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    if (global_hos.province == data[i].dataId&&global_hos!='') {
+                        $("#province").append('<option value="' + data[i].dataId + '" selected>' + data[i].cityname + '</option>');
+                        console.log('<option value="' + data[i].dataId + '" selected>' + data[i].cityname + '</option>');
+                        cityAddress(global_hos.province);//通过省id获取市列表
+                    } else {
+                        $("#province").append('<option value="' + data[i].dataId + '">' + data[i].cityname + '</option>');
+                    }
+                }
+                //select监听选择
+                // tools1();
+                // layui.use('form', function () {
+                //     form = layui.form;
+                //     form.render();
+                // });
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+    takeAddress();
+    //通过省id获取市
+    function cityAddress(id) {
+        $("#city").html("");
+        $("#city").append("<option value=\"\" selected>请选择</option>");
+        if (id==""){
+            id = $("#province").val();
+        }
+
+        $("#county").html("");
+        $("#county").append("<option value=\"\" selected>请选择</option>");
+
+        if(id==""){
+            return;
+        }
+
+        $.ajax({
+            contentType: 'application/json;charset=utf-8',
+            async: false,
+            type: "POST",
+            url: "/sysAddress/list",
+            data: JSON.stringify({"parentid":id}),
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    if (global_hos.city == data[i].dataId) {
+                        $("#city").append('<option value="' + data[i].dataId + '" selected>' + data[i].cityname + '</option>');
+                        countryAddress(global_hos.city);//通过省id获取市列表
+                    } else {
+                        $("#city").append('<option value="' + data[i].dataId + '">' + data[i].cityname + '</option>');
+                    }
+                }
+                //select监听选择
+                // tools2();
+                // layui.use('form', function () {
+                //     form = layui.form;
+                //     form.render();
+                // });
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        });
+    }
+
+    //通过市id获取县
+    function countryAddress(location_id) {
+        $("#county").html("");
+        $("#county").append("<option value=\"\" selected>请选择</option>");
+        if (location_id==""){
+            location_id = $("#city").val();
+        }
+        $.ajax({
+            contentType: 'application/json;charset=utf-8',
+            async: false,
+            type: "POST",
+            url: "/sysAddress/list",
+            data: JSON.stringify({"parentid":location_id}),
+            dataType: "json",
+            success: function (data) {
+                console.log("县");
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    if (global_hos.county == data[i].dataId) {
+                        $("#county").append('<option value="' + data[i].dataId + '" selected>' + data[i].cityname + '</option>');
+                    } else {
+                        $("#county").append('<option value="' + data[i].dataId + '">' + data[i].cityname + '</option>');
+                    }
+                }
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        });
+    }
+
+    //下拉框绑定监听事件，在dom文件中写入<select lay-filter="province">
+    function tools1() {
+        layui.use('form', function () {
+            form = layui.form;
+            form.on('select(province)', function (data) {
+                console.log(data.elem); //得到select原始DOM对象
+                console.log(data.value); //得到被选中的值(省份id值)
+                console.log(data.othis); //得到美化后的DOM对象
+                var id = data.value;
+                resetSelect(4);
+                cityAddress(id);//取出省份id值传给市cityAddress
+            });
+        });
+    }
+
+    function tools2() {
+        layui.use('form', function () {
+            form = layui.form;
+            form.on('select(city)', function (data) {
+                console.log(data.elem); //得到select原始DOM对象
+                console.log(data.value); //得到被选中的值(市的id值)
+                console.log(data.othis); //得到美化后的DOM对象
+                resetSelect(3)
+                countryAddress(data.value);//取出市的id值传给县/乡countryAddress
+            });
+        });
+    }
+
+    function tools3() {
+        layui.use('form', function () {
+            form = layui.form;
+            form.on('select(country)', function (data) {
+                console.log(data.elem); //得到select原始DOM对象
+                console.log(data.value); //得到被选中的值(县/乡的id值)
+                console.log(data.othis); //得到美化后的DOM对象
+                resetSelect(2)
+                // townAddress(data.value);
+            });
+        });
+
+    }
+
+    //重置下拉框选项
+    function resetSelect(index) {
+        console.log(index)
+        var resArray = ['select_village', 'select_town', 'select_country', 'select_city'];
+        for (var i = index - 1; i >= 0; i--) {
+            var classname = resArray[i];
+            console.log(classname)
+            $('.' + classname).remove();
+        }
+    }
+
+</script>
+</body>
+</html>

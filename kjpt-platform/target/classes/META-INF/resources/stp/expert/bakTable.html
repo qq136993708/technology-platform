@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/second.css">
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+</head>
+<body>
+<div class="layui-main-oil layui-search">
+
+    <div class="search">
+        <!--<a data-type="searchEvent" id="searchEvent">查询</a>-->
+        <a class="add" href="javascript:;" id="okDb">确定</a>
+    </div>
+    <table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>
+</div>
+
+
+<script type="text/html" id="showDetail">
+    <a class="details" lay-event="showDetail">查看详情</a>
+</script>
+<script>
+
+</script>
+<script>
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var table, selectRowData, workOrderStatus;
+    layui.config({
+        base: '../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'jquery', 'table', 'laypage', 'publicMethods', 'form'], function () {
+        table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            publicMethods = layui.publicMethods,
+            laypage = layui.laypage;
+        var form = layui.form;
+        console.log("---------where--------------");
+        var cols = [
+            {type: 'checkbox', event: 'changeEvents', width: 55},
+            {title: '序号', type: 'numbers', width: 55},
+            {
+                field: 'expertName',
+                title: '姓名',
+                event: 'setActive',
+                align: 'left',
+                style: 'cursor: pointer;',
+                width: 120
+            },
+            {
+                field: "sex",
+                title: "性别", event: 'setActive', style: 'cursor: pointer;'
+            },
+            {
+                field: "age",
+                title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
+            },
+            {
+                field: 'email',
+                title: '邮箱',
+                event: 'setActive',
+                align: 'left',
+                style: 'cursor: pointer;',
+                width: 150,
+            },
+            {
+                field: "mobile",
+                title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
+            }, {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}
+        ];
+
+        function renderTable() {
+            var where = {
+                param: {
+                    "status": "0"
+                    , "addUserId": "${addUserId}"
+                }
+            };
+            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/bakTableData', false, cols, where, false, function (res, curr, count) {
+                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    var index = parseInt($(this).index() + 1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData = res.data[index - 1];
+                });
+                var param = {
+                    data: res.data,//数据
+                    element: ".layui-table-body table",// 当前的表格元素
+                    column: 3,//列数 从0开始
+                    field: "sex",//当前数据的字段
+                    url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
+                };
+                publicMethods.dataDictionary(param);
+            });
+        }
+
+        renderTable();
+        window.renderTable = renderTable;
+        // ** 搜索框宽度随着内容自适应 加到公用js中
+        $(function () {
+            //propertychange监听input里面的字符变化,属性改变事件
+            $('.form-control').bind('input propertychange', function () {
+                var $this = $(this);
+                console.log($this);
+                var text_length = $this.val().length;//获取当前文本框的长度
+                var current_width = parseInt(text_length) * 12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+                console.log(current_width)
+                $this.css("width", current_width + "px");
+            });
+        })
+        //** 搜索框宽度随着内容自适应End
+        $("#searchEvent").click(function () {
+            renderTable();
+
+        });
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+                renderTable();
+            },
+            resetEvent: function () { //点击重置按钮
+                $('#workOrderName').val("");
+            },
+            getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('tableList')
+                    , data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            },
+            getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('tableList')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            },
+            isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('tableList');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+        };
+        //监听行工具事件
+        table.on('tool(tableEvent)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'showDetail') {
+                parent.layui.index.openTabsPage("/expertController/expertDetail?expertId=" + data.dataId, "专家详情");
+                //window.open("/expertController/expertDetail?expertId="+data.id);
+            }
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        $(".layui-table-header table thead th input").remove();
+        /*加入备选*/
+
+        //选择
+        $("#okDb").click(function () {
+            if (typeof (selectRowData) == "undefined") {
+                layer.msg("请选择一条数据");
+                return
+            }
+            var record = {};
+            // record.companyId = selectRowData.company;
+            // record.companyName = selectRowData.companyName;
+            record.zjId = selectRowData.dataId;
+            publicMethods.ajaxPost("/expertController/addChoice", record, function (data) {
+                console.log(data);
+                layer.msg("操作成功");
+            });
+        });
+    });
+</script>
+</body>
+
+</html>

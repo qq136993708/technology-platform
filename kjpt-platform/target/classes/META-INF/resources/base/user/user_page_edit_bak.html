@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>用户信息新增/编辑</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<style>
+	.tree-content {
+	  position: absolute;
+	  z-index: 998;
+	  background: #ffffff;
+	  max-height: 800px;
+	  width: 100%;
+	  border: 1px solid #ccc;
+	  overflow-y: scroll;
+	}
+</style>
+</head>
+<body>
+<div class="formBox">
+	<form id="user-form" name="user-form" lay-filter="user-form" class="form-horizontal layui-form">
+	<input type="hidden" id="userUnitValue" name="userUnitValue" value="${userUnitValue}">
+	<div class="box-body">
+		<input type="hidden" name="userId" id="userId">
+		<input type="hidden" name="userExtend" id="userExtend">
+		<div class="layui-row">
+			<div class="layui-col-xs10 layui-col-sm10 layui-col-md10">
+				<div class="layui-row">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label">登录名称<span class="must-fill">*</span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" id="userName" name="userName" lay-verify="required" placeholder="请输入登录名" autocomplete="off">
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item"  id="password" >
+							<label for="" class="layui-form-label">密码<span class="must-fill">*</span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" id="userPassword" name="userPassword" lay-verify="required" placeholder="请输入密码" value ="000000" autocomplete="off">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-row">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label">显示名称<span class="must-fill">*</span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" id="userDisp" name="userDisp" lay-verify="required" placeholder="请输入显示姓名" autocomplete="off">
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label">域用户<span class="must-fill"></span></label>
+							<div class="layui-input-block">
+								<select name="isDomain" id="isDomain" lay-verify="required"  lay-filter="isDomain">
+									<option value="">请选择</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-row">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						 <div class="layui-form-item">
+							  <label class="layui-form-label">所属机构<span class="must-fill">*</span></label>
+							  <div class="layui-input-block">
+							  
+							  <input type="text" class="layui-input" id="userUnit" name="userUnit"  onclick="chooseUnitMulti()" placeholder="所属机构" autocomplete="off">
+							  
+							  <!--  <input  id="userUnit" value="" onclick="chooseUnitMulti()">  -->
+							   
+							  <!--  <div id="userUnit" class="" onclick="chooseUnitMulti()">dd</div> -->
+							   
+								 <!--  <div class="selectTreeBox" onclick="chooseUnitMulti('choose_joinUnitName_callback')">
+									<div id="userUnit" class="layui-form-select select-tree"></div>
+								  </div> -->
+							  </div>
+						 </div>
+					</div>
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							  <label class="layui-form-label">所属岗位<span class="must-fill">*</span></label>
+							  <div class="layui-input-block">
+								  <div class="selectTreeBox">
+									<div id="userPost" class="layui-form-select select-tree"></div>
+								  </div>
+							  </div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-row">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label">用户类型<span class="must-fill">*</span></label>
+							<div class="layui-input-block">
+								<select name="userKind" id="userKind" lay-verify="required"  lay-filter="userKind">
+									<option value="">请选择</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label class="layui-form-label">所属角色<span class="must-fill">*</span></label>
+							<div class="layui-input-block">
+								<div class="selectTreeBox">
+									<div id="userRole" class="layui-form-select select-tree"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-row">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label">手机号<span class="must-fill"></span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" lay-verify="" id="userMobile" name="userMobile" placeholder="请输入手机号">
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label">座机号<span class="must-fill"></span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" id="userPhone" lay-verify="" name="userPhone" placeholder="请输入座机号">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-row">
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label">邮箱<span class="must-fill">*</span></label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" lay-verify="email|required" id="userMail" name="userMail" placeholder="请输入邮箱">
+							</div>
+						</div>
+					</div>
+					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+						<div class="layui-form-item">
+							<label for="" class="layui-form-label">用户签章</label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" id="userSign" name="userSign">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs2 layui-col-sm2 layui-col-md2">
+				<div class="layui-form-item layui-row">
+					<div class="photo_box" style="margin-left: 80px;"></div>
+				</div>
+				<div class="layui-form-item layui-row">
+					<label for="" class="layui-form-label" style="width: 200px;">照片(尺寸:2.5cm*3.5cm)<span class="must-fill">*</span></label>
+				</div>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+	      	 <label class="layui-form-label">备注</label>
+	         <div class="layui-input-block">
+	         	   <textarea class="layui-textarea" id="userComment" name="userComment" placeholder="备注"></textarea>
+	         </div>
+       </div>
+	</div>
+	<div class="form-bottom">
+      <div class="form-bottom-btns">
+      	<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+      	<!-- <button type="reset" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">重置</button> -->
+      	<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">取消</button>
+      </div>
+    </div>
+</form>
+<form class="form-horizontal " action="${pageContext.request.contextPath}/sysfile/uploadMultipleFile" method="post" enctype="multipart/form-data" id="fileUploadForm" style="display:none;">
+	<p class="pt20">
+    	<input type="file" name="file" class="dn" id="file"/>
+        <input type="hidden" id="fileId" name="fileId" value="4c20bd28057543839c0db8754f417c6a"/>
+        <input type="hidden" id="extraInfo" name="extraInfo" value=""/>
+    </p>
+</form>
+</div>
+<script type="text/javascript">
+	var zNodes,form,roleMap={},unitMap={},postMap={},unitListNodes=[],roleListNodes=[],unitSelectTree,postSelectTree,roleSelectTree;
+	var userId = "${userId?default(0)}";
+	$(document).on("click",".photo_box", function(event) {
+		$("#file").click();
+    });
+	$(document).on("change", "#file", function(event){
+		$.ajax({  
+	        type : "POST",  
+	        url : "/sysfile/uploadSignMultipleFile",  
+	        data : new FormData($("#fileUploadForm")[0]),
+	        async: false,  
+	        cache: false,  
+	        contentType: false,  
+	        processData: false,
+	        success : function(msg) {
+	        	$("#userExtend").val("/sysfile/viewPicByte/"+msg.fileIds);
+	        	$(".photo_box").html('<img src="/sysfile/viewPicByte/'+msg.fileIds+'" style="width: 140px;height: 173px" />');
+	        }  
+		}); 			
+	});
+	//根据机构列表初始化岗位树（岗位树是一棵两级结构的树）
+	function inintPostSelectTree(unitList)
+	{
+		//移除岗位下拉树元素
+		$("#userPost").unbind();
+		$("div[id='userPost'] .layui-select-title").remove();
+		$("div[id='userPost']").parent().find(".tree-content").remove();
+		
+		//init unitListTree
+		zNodes = unitList;//显示机构下拉树(list)
+		//参数： 参数1：div的id，参数2：isMultiple 是否多选(true或false), 参数3：不用动,参数4：setting
+		postSelectTree = initSelectTree("userPost",true, true, false,{ "Y": "", "N": "" }) 
+		initHideMenu();  //不加此方法则默认打开下拉树
+		//禁用机构可选框（本身构建的是一棵复选框的树，因为只能选择岗位，所以要禁用机构选择框）
+		var nodes = postSelectTree.getNodes();
+		for(var i=0;i<nodes.length;i++){
+			nodes[i].nocheck = true;
+		}
+		//把岗位添加到所有已加载的机构下
+		for(var postId in postMap)
+		{
+			var pnode = postSelectTree.getNodeByParam("id",postMap[postId].postUnit);
+			if(pnode){
+				var node = new zTreeNode(postMap[postId].postId,postMap[postId].postUnit,postMap[postId].postName,true,false);
+				postSelectTree.addNodes(pnode, node, true);
+			}
+		}
+		//展开树型结构
+		postSelectTree.expandAll(true);
+		//刷新树
+		postSelectTree.refresh();
+	}
+	$(document).ready(function() {
+		//编辑页面隐藏密码框
+		if(userId != 0){
+			$('#userPassword').attr("lay-verify","");
+			$('#password').attr("disabled",true);
+			$('#password').hide();
+		}
+		
+		//用户类别
+		ajaxPost('/dictionary/list/ROOT_XTGL_YHLX', null, function (data, status) { 
+	    	$.each(data,function(i,dt){
+	    		$("#userKind").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+	    	});
+	    });
+		//域用户
+		ajaxPost('/dictionary/list/ROOT_XTGL_YYH', null, function (data, status) { 
+	    	$.each(data,function(i,dt){
+	    		$("#isDomain").append("<option value='"+data[i].numValue+"'>"+data[i].name+"</option>");
+	    	});
+	    });
+		//填充角色下拉复选框
+		ajaxPost('/role/role-list-all', null, function (data, status) { 
+	    	$.each(data,function(i,dt){
+	    		roleMap[data[i].roleId] = data[i];
+	    		roleListNodes.push(new zTreeNode(data[i].roleId,0,data[i].roleName));
+	    	});
+	    	zNodes = roleListNodes;//显示角色下拉树
+			//参数： 参数1：div的id，参数2：isMultiple 是否多选(true或false), 参数3：不用动,参数4：setting
+			roleSelectTree = initSelectTree("userRole",true, true, false,{ "Y": "", "N": "" }) 
+			initHideMenu();  //不加此方法则默认打开下拉树
+	   	});
+		//获得机构信息
+		 ajaxPost('/unit/list-data', null, function (data, status) { 
+	    	$.each(data,function(i,dt){
+	    		unitMap[data[i].unitId]=data[i];
+	    	});
+	   	}); 
+		//获取岗位信息
+		ajaxPost('/post/list-data', null, function (data, status) { 
+	    	$.each(data,function(i,dt){
+	    		postMap[data[i].postId]=data[i];
+	    	});
+	   	});
+		//加载机构下拉树数据
+		 /* ajaxPost('/unit/ztree-unit-list', null, function(data,status) {
+			zNodes = data;//机构下拉树的数据
+			//参数： 参数1：div的id，参数2：isMultiple 是否多选(true或false), 参数3：不用动,参数4：setting
+			//unitSelectTree = initSelectTree("userUnit",true, true, false,{ "Y": "ps", "N": "p" }) 
+			//应需求20190320调整为，之父节点互不影响
+			unitSelectTree = initSelectTree("userUnit",true, true, false,{ "Y": "", "N": "" }) 
+			initHideMenu();  //不加此方法则默认打开下拉树
+			
+			//处理机构数据，将机构数据中的父级关系去掉，树是一颗一级树
+			$.each(data,function(i,dt){
+				data[i].pId = 0;//指定一个不存在的父ID，把所有节点都变成根节点
+				
+				unitListNodes.push(data[i]);
+			});
+			//初始化岗位树
+			//alert(unitListNodes);
+			//inintPostSelectTree(unitListNodes);
+		});  */
+		inintPostSelectTree("");
+	});
+	
+ 
+	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element' ,'publicMethods'],
+		function() {
+			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,publicMethods=layui.publicMethods,
+			form = layui.form;
+			form.render();
+			//初始赋值 component-form-group 当前form的lay-filter
+			 if(userId != 0)
+		     {
+				//加载用户信息
+				publicMethods.ajaxPost('/user/get-user', {"userId":userId}, function (data, status) {
+					//回显角色、机构、岗位
+					var roleText=unitText=postText= "";
+					var roleArray = data.userRole.split(","),unitArray= data.userUnit.split(","),postArray=data.userPost.split(",");
+					$.each(roleArray,function(i,dt){
+						if(roleMap[roleArray[i]]){
+							roleText += ","+roleMap[roleArray[i]].roleName;
+						}
+						var node = roleSelectTree.getNodeByParam("id",roleArray[i]);
+						if(node){
+							roleSelectTree.checkNode(node,true,false);
+							roleSelectTree.refresh();	
+						}
+					});
+					 //机构树
+					var unitTreeData=[];
+					$.each(unitArray,function(i,dt){
+						if(unitMap[unitArray[i]]){
+							unitText += ","+unitMap[unitArray[i]].unitName;
+							unitTreeData.push(new zTreeNode(unitMap[unitArray[i]].unitId,0,unitMap[unitArray[i]].unitName));
+						}
+						/* var node = unitSelectTree.getNodeByParam("id",unitArray[i]);
+						if(node){
+							unitSelectTree.checkNode(node,true,false);
+							unitSelectTree.refresh();	
+						} */
+					});
+					//根据机构从新初始化岗位
+					initPostData(unitTreeData); 
+					
+					$.each(postArray,function(i,dt){
+						if(postMap[postArray[i]]){
+							postText += ","+postMap[postArray[i]].postName;
+						}
+						var node = postSelectTree.getNodeByParam("id",postArray[i]);
+						if(node){
+							postSelectTree.checkNode(node,true,false);
+							postSelectTree.refresh();	
+						}
+					});
+					$("#userRoleShow").attr("title",roleText.length>0?roleText.substring(1):"");
+					$("#userRoleShow").attr("value",roleText.length>0?roleText.substring(1):"");
+	        		$("#userUnitShow").attr("title",unitText.length>0?unitText.substring(1):"");
+	        		$("#userUnitShow").attr("value",unitText.length>0?unitText.substring(1):"");
+	        		$("#userPostShow").attr("title",postText.length>0?postText.substring(1):"");
+	        		$("#userPostShow").attr("value",postText.length>0?postText.substring(1):"");
+	        		
+	        		form.val("user-form",data);
+	        		//头像
+	        		if($("#userExtend").val() != null && $("#userExtend").val() == ""){
+	        	     	$(".photo_box").html('<img src="'+data.userExtend+'" style="width: 140px;height: 173px" />');
+	        		}
+	           	 
+	            });
+		        $("#userPassword").val("");        	
+		     }
+			/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+			form.verify({
+				userKind:function(value,item){
+					if(value=='' || value==null || value == "undefined")
+					{
+						return "请选择用户类别!";
+					}
+				},
+				userPost:function(value,item){
+					if(value=='' || value==null || value == "undefined")
+					{
+						return "请选择岗位!";
+					}
+				},
+				userUnit:function(value,item){
+					if(value=='' || value==null || value == "undefined")
+					{
+						return "请选择机构!";
+					}
+				},
+				userRole:function(value,item){
+					if(value=='' || value==null || value == "undefined")
+					{
+						return "请选择角色!";
+					}
+				},
+				isDomain:function(value,item){
+					if(value=='' || value==null || value == "undefined")
+					{
+						return "请选择域用户!";
+					}
+				},
+				//新增用户时必须输入密码，编辑时可输入可不输入密码
+				<#if !userId??> 
+					pass : [/(.+){6,30}$/, '密码长度6到30位']
+				<#else>
+					pass : function(value,item)
+					{
+						if(value && (value.length < 6 || value.length > 30))
+						{
+			            	return '密码长度6到30位！';
+			            }
+					}
+				</#if>
+				
+			});
+			/* 监听提交 */
+			form.on('submit(submitBtn)', function(data) {
+				//编辑时设置机构、岗位、角色值
+				data.field.userUnit = $("#userUnitValue").val();
+				data.field.userPost = $("#userPostValue").val();
+				data.field.userRole = $("#userRoleValue").val();
+				ajaxPost("/user/user-saveorupdate", data.field, function(dt, status) {
+					if(dt.success){
+				       	parent.layui.table.reload('userTable',null);
+				       	parent.renderfunc();//隐藏全选按钮
+				       	var index = parent.layer.getFrameIndex(window.name);
+				       	parent.layer.close(index);
+					}else{
+						parent.layer.alert(dt.message, {
+							title : '信息'
+						});
+						return;
+					}
+				});
+				return false;
+			});
+			$("#cancel").click(function() {
+				layer.close();
+			})
+			
+	});
+	function initPostData(unitNodes) 
+	{
+		var unitList = [];
+		$.each(unitNodes,function(i,dt){
+			unitList.push(new zTreeNode(unitNodes[i].id,0,unitNodes[i].name));
+		});
+		//构建新的UnitTree下拉树
+		inintPostSelectTree(unitList);
+	}
+	$("#cancel").click(function () {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    })
+    
+    
+    
+function chooseUnitMulti() 
+{
+	v_date=(new Date()).getTime();
+	var temUrl="/unit/chooseUnitMulti_UserEdit?v_date="+v_date;//funcName(unitId,unitName) 选择机构后的回调方法名(自定义 ),回调方法里面有两个参数，unitId是机构ID,unitName是机构名
+	layer.open({
+	   title:'选择机构',
+	   skin: 'layui-layer-lan',
+	   shadeClose: true,
+	   type: 2,
+	   fixed: false,
+	   //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	   maxmin: true,
+	   //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	   area: ['500px', '500px'],
+	   content:  temUrl
+	});
+}
+	
+	
+function getuserNodes(userNodes)
+{
+	 var ids = "";
+	 var names = "";
+	for(var i=0;i<userNodes.length;i++)
+	{
+		var name=userNodes[i].name;
+		var id=userNodes[i].id;
+		ids += id + ",";
+		names += name + ",";
+	}
+	if(ids!='')
+	{
+		   ids = ids.substr(0, ids.length - 1);  
+		   names = names.substr(0, names.length - 1);  
+	}
+	$("#userUnitValue").val(ids);
+	$("#userUnit").val(names);
+	
+	inintPostSelectTree(userNodes);
+}
+		
+	
+</script>
+</body>
+</html>

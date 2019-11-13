@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>统一身份集成</title>
+<script type="text/javascript">
+var time = 10;
+var timer = setInterval('tiaozhuan()', 1000);
+function tiaozhuan() {
+	var t = document.getElementById("id8");
+	if(time > 0) {
+		t.innerHTML = time;
+		time--;
+	} else {
+		clearInterval(timer);
+		javascript:window.opener=null;window.open('','_self');window.close();
+		//window.location = "./SSO/GLO/Redirect"; 
+	}
+}
+function closeWin(){
+	window.close();
+}
+</script>
+<style type="text/css">
+		.body {
+			font-family: "Microsoft YaHei", "微软雅黑";
+			color: #666666;
+			background: #ffffff;
+			font-size: 14px;
+			width: 100%;
+		}
+		
+		a {
+			text-decoration: none;
+			color: #333333;
+		}
+		
+		.jumpbox {
+			padding: 10px;
+			height: 520px;
+		}
+		
+		.hintbox_writbox {
+			background: #f9f9f9;
+			border: 1px solid #dfdfdf;
+			border-radius: 1px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			padding-top: 30px;
+			position: relative;
+			width: 900px;
+			height: 330px;
+			margin: 0 auto;
+			margin-top: 10%;
+		}
+		
+		.errorbox {
+			width: 800px;
+			height: 200px;
+			margin: 0 auto;
+			margin-top: 150px;
+		}
+		
+		.hintboxwrite {
+			font-family: "微软雅黑";
+			color: #333;
+			font-size: 18px;
+			text-align: center;
+			padding-top: 60px;
+		}
+		
+		.Errorb {
+			text-align: center;
+			padding: 80px;
+		}
+		
+		a.chaxunBt {
+			display: inline-block;
+			width: 110px;
+			height: 30px;
+			border-radius: 3px;
+			overflow: hidden;
+			line-height: 30px;
+			text-align: center;
+			margin-left: 10px;
+			color: #ffffff;
+			background: #208ad6;
+		}
+		
+		.chaxunBt {
+			border: #208ad6 1px solid;
+		}
+		
+		.white {
+			color: #FFFFFF;
+		}
+</style>
+</head>
+<body>
+	<div class="jumpbox">
+		<div class="hintbox_writbox">
+			<p class="hintboxwrite">您未能开通【科技管理平台】登录权限，请向相关部门申请，谢谢！ </p>
+			<div style="margin: 0 auto; margin-left: 37%; margin-top: 5%;font-size:16px;color: #333333;">
+				本系统将于
+				<font id="id8" size="6" color="#f4622e">10</font>秒后自动关闭！
+			</div>
+			<div class="Errorb">
+				<a href="javascript:void(0)" onclick="closeWin()" class="chaxunBt white">关闭</a>
+				<a href="javascript:void(0)" onclick="closeWin()" class="chaxunBt white">退出</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <#include "/common/public/publicDetails.html"/>
+
+    <script>
+        var basePath = "/";
+    </script>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/plugins/highcharts/highcharts.js"></script>
+    <script type="text/javascript" src="/plugins/highcharts/exporting.js"></script>
+    <script type="text/javascript" src="/plugins/highcharts/highcharts-zh_CN.js"></script>
+
+
+</head>
+<body>
+
+
+
+<div id="container" style="width: 600px;"></div>
+<div id="projectshow" style="font-size: 20px;"></div>
+    <#if list?exists>
+    <#list list as item>
+    <div onclick="showProject('${item.id}')" style="cursor: pointer;">${item.projectName}</div>
+</#list>
+</#if>
+
+
+<script>
+    var strname="科技部";
+    function showProject(pid) {
+        ajaxPostHeader("projectinfo/list?projectTypeId="+pid, null, function (data, status) {
+            for(var i=0,j=data.length;i<j;i++){
+                strname=data[i].projectName;
+                console.log(data[i].projectName);
+            }
+            chart = Highcharts.chart('container',options);
+            // if(pid=="1"){
+            //     $("#container").css("display","");
+            // }else {
+            //     $("#container").css("display","none");
+            // }
+        },"");
+        $("#projectshow").html("查询最新项目信息:"+strname);
+        // ajaxPostHeader("projecttype/list", JSON.stringify({id:"1"}), function (data, status) {
+        //     for(var i=0,j=data.length;i<j;i++){
+        //         console.log(data[i].projectName);
+        //     }
+        // },"");
+    }
+    var options = {      chart: {
+            backgroundColor: 'white',
+            events: {
+                load: function () {
+                    var ren = this.renderer,
+                        colors = Highcharts.getOptions().colors,
+                        rightArrow = ['M', 0, 0, 'L', 100, 0, 'L', 95, 5, 'M', 100, 0, 'L', 95, -5],
+                        leftArrow = ['M', 100, 0, 'L', 0, 0, 'L', 5, 5, 'M', 0, 0, 'L', 5, -5];
+                    // Headers
+                    ren.label(strname, 15, 110)
+                        .css({
+                            fontWeight: 'bold'
+                        }).add();
+                    ren.label('各专业公司', 190, 70)
+                        .css({
+                            fontWeight: 'bold'
+                        }).add();
+                    // SaaS client label
+                    ren.label('发起流程', 10, 130)
+                        .attr({
+                            fill: colors[0],
+                            stroke: 'white',
+                            'stroke-width': 2,
+                            padding: 5,
+                            r: 5
+                        }).css({
+                        color: 'white'
+                    }).add().shadow(true);
+                    // Arrow from Browser to Batik
+                    // Script label
+                    ren.label('申报专利申请', 180, 90)
+                        .attr({
+                            fill: colors[2],
+                            stroke: 'white',
+                            'stroke-width': 2,
+                            padding: 5,
+                            r: 5
+                        }).css({
+                        color: 'white',
+                        width: '100px'
+                    }).add().shadow(true);
+                    ren.label('申报专利申请', 180, 170)
+                        .attr({
+                            fill: colors[2],
+                            stroke: 'white',
+                            'stroke-width': 2,
+                            padding: 5,
+                            r: 5
+                        }).css({
+                        color: 'white',
+                        width: '100px'
+                    }).add().shadow(true);
+                    // Arrow from Script to PhantomJS
+                    ren.label('审批结束', 300, 85)
+                        .css({
+                            color: colors[2],
+                            fontSize: '10px'
+                        }).add();
+                    // Arrow from PhantomJS to Script
+                    ren.path(rightArrow)
+                        .attr({
+                            'stroke-width': 2,
+                            stroke: colors[2]
+                        }).translate(265, 105).add();
+                    ren.label('审批通过', 295, 165)
+                        .css({
+                            color: colors[2],
+                            fontSize: '10px'
+                        }).add();
+                    // Arrow from PhantomJS to Script
+                    ren.path(rightArrow)
+                        .attr({
+                            'stroke-width': 2,
+                            stroke: colors[2]
+                        }).translate(265, 185).add();
+                    ren.circle(385,105,20).css({
+                        color: colors[2],
+                        fontSize: '10px'
+                    }).add();
+                    ren.label('结束', 372, 96)
+                        .css({
+                            color: colors[3],
+                            fontSize: '10px'
+                        }).add();
+                    ren.circle(385,185,20).css({
+                        color: colors[2],
+                        fontSize: '10px'
+                    }).add();
+                    ren.label('结束', 372, 175)
+                        .css({
+                            color: colors[3],
+                            fontSize: '10px'
+                        }).add();
+                    ren.image('/common/images/highchart-arrow.png', 70, 95, 110, 100)
+                        .add();
+                }
+            }
+        },
+        title: {
+            text: '科技项目流程可视化流程-动态改变项目名称',
+            style: {
+                color: 'black'
+            }
+        }
+    };
+    var chart = Highcharts.chart('container',options);
+</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<section class="content">
+	<!-- Main content -->
+	<div class="box-body">
+		<div id="tree" style="height: 500px"></div>
+	</div>
+	<div class="box-footer text-right">
+		<button type="button" id="_cancel"
+			style="background: #42b663; color: white;" class="btn btn-default"
+			data-dismiss="modal" data-btn-type="cancel">关闭</button>
+		<button type="button" id="_select" class="btn btn-primary"
+			data-btn-type="select">选择</button>
+	</div>
+	<div class="control-sidebar-bg"></div>
+</section>
+<script type="text/javascript">
+	var units;
+
+	function initLevelTree() {
+		var token = getCookie("token");
+		//alert(levelCode);
+		//获取后台数据（封装好的树实体Json数组）
+		$.ajax({
+			type : 'post',
+			dataType : 'json',
+			headers : {
+				'access-token' : token
+			},
+			url : '/unit/getUnitTree?i=' + Math.random(),
+			success : function(data) {
+				levelTreeNodes = data;
+				//$.parseJSON(data);
+				showTreeCheckbox(levelTreeNodes);
+			},
+			error : function(e) {
+				modals.info("出错了");
+				console.log(e);
+			}
+		});
+	}
+
+	function showTreeCheckbox(levelTreeNodes) {
+		$('#tree').treeview({
+			icon : "glyphicon glyphicon-home",
+			//selectedIcon : "glyphicon glyphicon-home",
+			color : "#000000",
+			backColor : "#FFFFFF",
+			selectedColor : "#3cb45d",
+			selectedBackColor : "#edfef4",
+			levels : 10,
+			//selectable : false,
+			showCheckbox : true,
+			showBorder : false,
+			state : {
+				checked : true,
+				disabled : false,
+				expanded : true,
+				selected : false
+			},
+			data : levelTreeNodes,
+			/* onNodeSelected : function(event, data) {
+				alert("回传id："+data.id+",name:"+data.text+",code:"+data.code);
+			}, */
+			onNodeChecked : function(event, data) {
+				nodeChecked(event, data);
+			},
+			onNodeUnchecked : function(event, data) {
+				nodeUnchecked(event, data);
+			}
+		});
+	}
+
+	//以下两个方法  根据具体需求 进行 注释和放开
+	var nodeCheckedSilent = false;
+	function nodeChecked(event, node) {
+		units.push({
+			"id" : node.id,
+			"name" : node.text,
+			"code" : node.code
+		});
+		if (nodeCheckedSilent) {
+			return;
+		}
+		nodeCheckedSilent = true;
+		checkAllSon(node);
+		nodeCheckedSilent = false;
+	}
+
+	//级联选中所有子节点  
+	function checkAllSon(node) {
+		$('#tree').treeview('checkNode', node.nodeId, {
+			silent : true
+		});
+		if (node.nodes != null && node.nodes.length > 0) {
+			for ( var i in node.nodes) {
+				checkAllSon(node.nodes[i]);
+			}
+		}
+	}
+
+	var nodeUncheckedSilent = false;
+	function nodeUnchecked(event, node) {
+		if (nodeUncheckedSilent)
+			return;
+		nodeUncheckedSilent = true;
+		uncheckAllSon(node);
+		nodeUncheckedSilent = false;
+		var unit = {
+			"id" : node.id,
+			"name" : node.text,
+			"code" : node.code
+		};
+		//console.log(unit);
+		$.each(units, function(i, item) {
+			//console.log(item.id.indexOf(unit.id));
+			if (item != undefined) {
+				if (item.id.indexOf(unit.id) != -1) {
+					units.splice($.inArray(item, units), 1);
+				}
+			}
+		});
+	}
+
+	//级联取消所有子节点  
+	function uncheckAllSon(node) {
+		$('#tree').treeview('uncheckNode', node.nodeId, {
+			silent : true
+		});
+		if (node.nodes != null && node.nodes.length > 0) {
+			for ( var i in node.nodes) {
+				uncheckAllSon(node.nodes[i]);
+				var unit = {
+					"id" : node.nodes[i].id,
+					"name" : node.nodes[i].text,
+					"code" : node.nodes[i].code
+				};
+				$.each(units, function(i, item) {
+					if (item != undefined) {
+						if (item.id.indexOf(unit.id) != -1) {
+							units.splice($.inArray(item, units), 1);
+						}
+					}
+				});
+			}
+		}
+	}
+
+	$(function() {
+		units = new Array();
+		initLevelTree();
+		$("#_select").click(function() {
+			var unitNames = new Array();
+			var unitCodes = new Array();
+			$.each(units, function(i, item) {
+				if (item != undefined) {
+					unitNames.push(item.name);
+					unitCodes.push(item.id);
+				}
+			});
+			//console.log(unitCodes.join(","));
+			$("#noticeReceiver").val(unitCodes.join(","));
+			$("#noticeReceivernames").val(unitNames.join(","));
+			parent.$('#unitSelectWin').remove();
+            parent.$(".modal-backdrop").remove();
+			if($('#noticeForm').data('bootstrapValidator'))
+				$('#noticeForm').data('bootstrapValidator').updateStatus(
+						'noticeReceivernames', 'NOT_VALIDATED', null)
+						.validateField('noticeReceivernames');
+		});
+		
+		$("#_cancel").click(function() {
+			parent.$('#unitSelectWin').remove();
+            parent.$(".modal-backdrop").remove();
+		})
+	});
+</script>

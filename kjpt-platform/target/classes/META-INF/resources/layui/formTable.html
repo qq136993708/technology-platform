@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>表单模块 - layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <link rel="stylesheet" href="/layuiadmin/style/common.css">
+  <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+
+</head>
+<body>
+<div class="layer-box">
+    <div class="formBox">
+      <div class="tableToolBox">
+        <div class="tableBtns">
+          <div class="tableTitle">
+            基本信息<span class="red">（标*号为必填项）</span>
+          </div>
+          <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                  data-type="addEvent">新增
+          </button>
+          <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+                  data-type="editEvent">编辑
+          </button>
+        </div>
+      </div>
+
+      <div class="box-body">
+          <form class="layui-form" action="" lay-filter="component-form-group layui-container">
+            <div class="layui-row">
+              <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                  <label for="" class="layui-form-label">标题1<span class="must-fill">*</span></label>
+                  <div class="layui-input-block">
+                    <input class="layui-input" name="title" lay-verify="title1" placeholder="请输入标题" autocomplete="off" type="text">
+                  </div>
+                </div>
+              </div>
+              <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                  <label for="" class="layui-form-label">标题2<span class="must-fill">*</span></label>
+                  <div class="layui-input-block">
+                    <input type="text" name="date" lay-verify="title4" placeholder="请输入" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layui-row">
+              <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                <label for="" class="layui-form-label">标题3<span class="must-fill">*</span></label>
+                <div class="layui-input-block">
+                  <input class="layui-input" name="title" lay-verify="title2" placeholder="请输入标题" autocomplete="off" type="text">
+                </div>
+              </div>
+              </div>
+              <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                  <label for="" class="layui-form-label">标题4<span class="must-fill">*</span></label>
+                  <div class="layui-input-block">
+                    <textarea type="text" name="date" lay-verify="title3" placeholder="请输入" autocomplete="off" class="layui-input"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layui-row">
+              <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                  <label for="" class="layui-form-label">城市(单选)</label>
+                  <div class="layui-input-block">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                      <select name="city" lay-verify=""  lay-filter="test">
+                        <option value="">请选择一个城市</option>
+                        <option value="010">北京</option>
+                        <option value="021">上海</option>
+                        <option value="0571">杭州</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <!--下拉树 可以用树装结构也可以不用 可单选/多选-->
+                <div class="layui-form-item">
+                  <label class="layui-form-label">城市(多选)</label>
+                  <div class="layui-input-block" style="position: relative;">
+
+                    <div id="selectTree" class="layui-form-select select-tree"></div>
+                    <!--<select id="selectTree" name="city" lay-verify=""  lay-filter="test" class=""></select>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layui-row">
+              <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+              <!--文本域-->
+              <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">请填写描述</label>
+                <div class="layui-input-block">
+                  <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+              </div>
+            </div>
+            </div>
+          </form>
+      </div>
+    </div>
+    <div class="tableBox">
+    <div class="tableToolBox">
+      <div class="tableBtns">
+        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+           data-type="addEvent">新增
+        </a>
+        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+           data-type="editEvent">编辑
+        </a>
+      </div>
+    </div>
+    <!--
+      下边是表格的使用table
+      下边是表单的使用rowForm
+  -->
+    <!--<div class="rowForm">
+    <div class="layui-row">
+      <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+        <div class="layui-form-item">
+          <label for="" class="layui-form-label">标题<span class="must-fill">*</span></label>
+          <div class="layui-input-block">
+            <input class="layui-input" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" type="text">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label for="" class="layui-form-label">标题<span class="must-fill">*</span></label>
+          <div class="layui-input-block">
+            <input class="layui-input" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" type="text">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label for="" class="layui-form-label">出生日期<span class="must-fill">*</span></label>
+          <div class="layui-input-block">
+            <textarea type="text" name="date" id="LAY-component-form-group-date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+        <div class="layui-form-item">
+          <label for="" class="layui-form-label">出生日期<span class="must-fill">*</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="date" id="LAY-component-form-group-date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label for="" class="layui-form-label">出生日期<span class="must-fill">*</span></label>
+          <div class="layui-input-block">
+            <input type="text" name="date" id="LAY-component-form-group-date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+    <table id="test" class="layui-hide" lay-filter="tableData"></table>
+  </div>
+</div>
+    <div class="form-bottom">
+      <div class="form-bottom-btns">
+        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-demo1">保存</button>
+        <button type="reset" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">重置</button>
+        <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">取消</button>
+      </div>
+    </div>
+
+
+<script src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
+<script>
+    /*下拉树数据格式 —— 将返回的数据赋给 zNodes */
+    var zNodes = [
+        {id: 1, pId: 0, name: "北京"},
+        {id: 2, pId: 0, name: "天津"},
+        {id: 3, pId: 0, name: "上海"},
+        {id: 6, pId: 0, name: "重庆"},
+        {id: 4, pId: 0, name: "河北省", open: false},
+        {id: 41, pId: 4, name: "石家庄"},
+        {id: 42, pId: 4, name: "保定"},
+        {id: 43, pId: 4, name: "邯郸"},
+        {id: 44, pId: 4, name: "承德"},
+        {id: 5, pId: 0, name: "广东省", open: false},
+        {id: 51, pId: 5, name: "广州"},
+        {id: 52, pId: 5, name: "深圳"},
+        {id: 53, pId: 5, name: "东莞"},
+        {id: 54, pId: 5, name: "佛山"},
+        {id: 6, pId: 0, name: "福建省", open: false},
+        {id: 61, pId: 6, name: "福州"},
+        {id: 62, pId: 6, name: "厦门"},
+        {id: 63, pId: 6, name: "泉州"},
+        {id: 64, pId: 6, name: "三明"}
+    ];
+
+    layui.config({
+        base: '../../../../' //静态资源所在路径
+    }).extend({
+        index: 'layui/tableDemo' //主入口模块
+    }).use([ 'jquery','form', 'laydate','table','layer','element','table'], function(){
+        var $ = layui.jquery
+            ,admin = layui.admin
+            ,element = layui.element
+            ,layer = layui.layer
+            ,laydate = layui.laydate
+            ,table=layui.table
+            ,form = layui.form;
+        function renderTable(){
+            //渲染
+            console.log("3333")
+            table.render({
+                elem: '#test' //表格容器
+                , url: '../layuiadmin/json/table/demo1.json' //请求的url地址
+                , limit: 10 //每页默认显示的数量
+                , id: 'idTest'
+                , height: 'full-400'
+                , page: {
+                    count: 500 //数据总数，从服务端得到
+                    , groups: 5
+                    , limits: [15, 30, 45, 60]
+                    , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    , first: '首页' //不显示首页
+                    , last: '尾页' //不显示尾页
+                    , theme: '#0F9EE0'
+                }
+                //,loading: false //请求数据时，是否显示loading
+                /*
+                * 常用的cols里面的属性说明：
+                * checkbox —— 复选框
+                * fixed    —— 固定列(值为true就会固定列)
+                * field    —— 字段(用于绑定后端传过来的json字段)
+                * title    —— 显示标题的文字
+                * width    —— 列宽
+                * sort     —— 是否排序
+                * edit     —— 是否可以编辑
+                * toolbar  —— 工具栏(内嵌，可以选择需要用到的操作按钮)
+                * style    —— 鼠标移上的形状
+                * */
+                , cols: [[
+                    {type: 'checkbox', event: 'changeEvents'}
+                    , {field: 'id', title: '序号', type:'numbers', style: 'cursor: pointer;', unresize: true}
+                    , {field: 'username', title: '模型ID', style: 'cursor: pointer;'}
+                    , {field: 'email', title: '模型名称', style: 'cursor: pointer;'}
+                    , {field: 'sex', title: '模型Key', style: 'cursor: pointer;'}
+                    , {field: 'city', title: '模型类别', style: 'cursor: pointer;'}
+                    , {field: 'sign', title: '模型版本号', style: 'cursor: pointer;'}
+                    , {field: 'createTime', title: '创建时间', style: 'cursor: pointer;', templet:  '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>'}
+                    , {field: 'ip', title: '部署ID', style: 'cursor: pointer;', event: 'setActive'}
+                ]]
+                , done: function (res, curr, count) {
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        var index=parseInt($(this).index()+1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData=res.data[index-1];
+                    })
+
+                    //单击行勾选checkbox事件——多选情况
+                    // $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+                    //     var index = $(this).attr('data-index');
+                    //     var tableBox = $(this).parents('.layui-table-box');
+                    //     //存在固定列
+                    //     if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+                    //         tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+                    //     } else {
+                    //         tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+                    //     }
+                    //     var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                    //     if (checkCell.length > 0) {
+                    //         checkCell.click();
+                    //     }
+                    // });
+                    // $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+                    //     e.stopPropagation();
+                    // });
+                    //单击行勾选checkbox事件——多选情况end
+                }
+            });
+        }
+        renderTable();
+        /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+        form.verify({
+            title: function(value){
+                if(value.length < 5){
+                    return '标题至少得5个字符啊';
+                }
+            }
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+            ,content: function(value){
+                layedit.sync(editIndex);
+            }
+        });
+
+        //开始日期
+        var insStart = laydate.render({
+            elem: '#test-laydate-start'
+            ,min: 0
+            ,done: function(value, date){
+                //更新结束日期的最小日期
+                insEnd.config.min = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+
+                //自动弹出结束日期的选择器
+                insEnd.config.elem[0].focus();
+            }
+        });
+
+        //结束日期
+        var insEnd = laydate.render({
+            elem: '#test-laydate-end'
+            ,min: 0
+            ,done: function(value, date){
+                //更新开始日期的最大日期
+                insStart.config.max = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+            }
+        });
+        //日期范围
+        laydate.render({
+            elem: '#test-laydate-range-date'
+            ,range: true
+            ,theme: '#0F9EE0'
+        });
+
+        //请选择日期1
+        laydate.render({
+            elem: '#test-laydate-format-date1'
+            ,format: 'yyyy年MM月dd日'
+        });
+        //请选择日期2
+        laydate.render({
+            elem: '#test-laydate-format-date2'
+            ,format: 'dd/MM/yyyy'
+        });
+        //日期时间选择器
+        laydate.render({
+            elem: '#test-laydate-type-datetime'
+            ,type: 'datetime'
+        });
+
+        // 初始化表单设置单选按钮的默认值
+        var res = {"res":0};
+        $('[name=sex]').each(function(i,item){
+            if($(item).val()==res.sex){
+                $(item).prop('checked',true);
+                layui.use('form',function(){
+                    var form = layui.form();
+                    form.render();
+                });
+            }
+        });
+        var val = $('[name=sex]:checked').val();
+        // 单选监听
+        form.on('radio(radioEvent)', function (data) {
+            alert(data.value);//判断单选框的选中值
+        });
+
+        /* 监听指定开关 */
+        form.on('switch(component-form-switchTest)', function(data){
+            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        /*监听select框*/
+        var categoryName = '';
+        form.on('select(test)', function(data){
+            // 获取到选中的内容
+            categoryName = data.elem[data.elem.selectedIndex].text;
+            form.render('select', 'test'); //更新 lay-filter="test" 所在容器内的全部 select 状态
+            alert(categoryName)
+        });
+
+        /* 监听提交 */
+        form.on('submit(component-form-demo1)', function(data){
+            //JSON.stringify(data.field)  提交信息json格式
+            parent.layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            //一定要在最底下加return false -- 2018.07.08
+            return false;
+        });
+
+        /*点击取消按钮*/
+        $("#cancel").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+
+
+        // 下拉树初始化
+        $(document).ready(function () {
+            /*
+             * initSelectTree参数：
+             * 参数1：div的id，
+             * 参数2：isMultiple 是否多选(true或false),
+             * 参数3：是否显示连接线(true或false),
+             * 参数4：是否显示图标(true或false),
+             *
+            */
+            initSelectTree("selectTree", true, false, false)
+            initHideMenu();  //不加此方法则默认打开下拉树
+        })
+        //下拉树end
+    });
+
+</script>
+</body>
+</html>

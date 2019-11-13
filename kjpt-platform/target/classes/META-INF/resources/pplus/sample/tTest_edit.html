@@ -1,0 +1,278 @@
+<div class="container">
+    <div class="row">
+        <section>
+            <form id="defaultForm" class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">email</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="ramarks" placeholder="email"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">单选(试试type="icheck-radio")</label>
+                    <div class="col-sm-4">
+                        <div class="radio">
+                                <input type="radio" name="sex"  data-flag="urlSelector" data-src="/dictionary/list/function-property">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">爱好</label>
+                    <div class="col-sm-4">
+                        <select name="aiHao" id="aiHao" data-src="/dictionary/list/USER_TYPE" data-flag="urlSelector"
+                                data-placeholder="名称" class="form-control select2" data-text="name"
+                                data-value="code" style="width:100%"
+                                required data-bv-notempty-message="密码不能为空"
+                                data-blank="true"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">日期</label>
+                    <div class="col-sm-4">
+                        <i class="fa fa-calendar"></i></span>
+                        <input type="text" placeholder="请填写国家" name="guoJia" id="guoJia" data-flag="datepicker" class="form-control" data-format="yyyy-mm-dd" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">简介</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" onclick="showdialog();" name="personDesc" placeholder="简介"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">密码</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" name="password" placeholder="密码"
+                               required data-bv-notempty-message="密码不能为空"
+                               data-bv-identical="true" data-bv-identical-field="confirmPassword" data-bv-identical-message="两次密码不一致"
+                               data-bv-different="true" data-bv-different-field="name" data-bv-different-message="密码和姓名不能相同"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">重复密码</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" name="confirmPassword" placeholder="密码"
+                               required data-bv-notempty-message="密码不能为空"
+                               data-bv-identical="true" data-bv-identical-field="password" data-bv-identical-message="两次密码不一致"
+                               data-bv-different="true" data-bv-different-field="name" data-bv-different-message="密码和姓名不能相同"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">多选(试试type="icheck-checkbox")</label>
+                    <div class="col-sm-4">
+                        <div class="checkbox">
+                                <input type="checkbox" name="ziDian" id="ziDian" data-flag="urlSelector" data-src="/dictionary/list/GJXMGL">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="file_container">
+                    <input type="file" name="file" class="file" id="attachment">
+                    <div class="col-sm-4">
+                        <input type="hidden" name="fileIds"  id="fileIds" value="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="box-footer text-right">
+                        <button type="submit" class="btn btn-primary" data-btn-type="save">提交</button>
+                        <button type="button" class="btn btn-default" data-btn-type="cancel" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    function showdialog() {
+        modals.openWin({
+            winId: "ttestWin1",
+            title: "选择",
+            width: '800px',
+            backdrop: "static",
+            url: "/ttest/toListPage2",
+            ok:true
+        });
+    }
+    
+    var form = null;
+    var id = "${id?default(0)}";
+    var opt = "${opt?default()}";
+    $(function () {
+        form = $('#defaultForm').form();
+        //初始化校验
+        $('#defaultForm').bootstrapValidator({
+            message: '请输入有效值',
+            container: 'tooltip',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            submitHandler: function (validator, functionform, submitButton) {
+                modals.confirm('确认保存？', function () {
+                    var params = form.getFormSimpleData();
+                    console.log("表单提交数据");
+                    console.log(params);
+                    ajaxPost('/ttest/savetTest', params, function (data, status) {
+                        if (data == '200') {
+                            modals.info("数据保存成功");
+                            $('#ttestWin').modal("hide");
+                            ttestTable._fnAjaxUpdate();
+                        }
+                    });
+                    // modals.closeWin("ttestWin1");
+                });
+            },
+            fields: {
+                ramarks: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入email'
+                        },
+                        emailAddress: {
+                            message: '请输入正确的email'
+                        },
+                        threshold: 4,//只有4个字符以上才发送ajax请求
+                        remote: {
+                            url: "/ttest/validemail",
+                            type:"POST",
+                            header:{
+                                'Content-Type':'application/json;charset=UTF-8',
+                                'access-token':getCookie("token")
+                            },
+                            data: function (validator) {
+                                return {
+                                    ramarks: $("#ramarks").val(),
+                                    id:id
+                                };
+                            },
+                            message: '该eamil已被使用，请使用其他登录名bootstrap的remote验证器需要的返回结果一定是json格式的数据',
+                            delay:2000
+                        }
+                    }
+                }
+                // name: {
+                //     validators: {
+                //         notEmpty: {
+                //             message: '姓名不能为空'
+                //         },
+                //         stringLength: {
+                //             min: 6,
+                //             max: 30,
+                //             message: '姓名 长度6到30'
+                //         },
+                //     remote: {
+                //         url: '/ttest/validate_saame',
+                //         message: '重复验证'
+                //     },
+                //     regexp: {
+                //             regexp: /^[a-zA-Z0-9_\.]+$/,
+                //             message: '姓名格式:字母、数字、点和下划线\n'
+                //         }
+                //     }
+                // },
+                // sex: {
+                //     validators: {
+                //         notEmpty: {
+                //             message: '请输入性别'
+                //         }
+                //     }
+                // },
+                // aiHao: {
+                //     validators: {
+                //         notEmpty: {
+                //             message: '请输入爱好'
+                //         }
+                //     }
+                // },
+                // guoJia: {
+                //     validators: {
+                //         notEmpty: {
+                //             message: '请输入国家'
+                //         }
+                //     }
+                // },
+                // personDesc: {
+                //     validators: {
+                //         notEmpty: {
+                //             message: '请输入简介'
+                //         }
+                //     }
+                // },
+                // others: {
+                //     validators: {
+                //         notEmpty: {
+                //             message: '请输入其他'
+                //         }
+                //     }
+                // },
+                // ziDian: {
+                //     validators: {
+                //         notEmpty: {
+                //             message: '请输入字典'
+                //         }
+                //     }
+                // }
+            }
+        });
+        form.initComponent();
+        if (id != "0") {
+            ajaxPost("/ttest/gettTestInfo", {id: id}, function (data) {
+                form.initFormData(data);
+            })
+        }
+    });
+
+    function resetForm() {
+        form.clearForm();
+        $("#sysModule-form").data('bootstrapValidator').resetForm();
+    }
+    //设置只读
+    function formReadonly(){
+        //所有文本框只读
+        $("input,textarea").attr("readonly","readonly");
+
+        //隐藏取消、保存按钮
+        $("#defaultForm .box-footer").hide();
+        //还原新增、编辑、删除按钮样式
+        $(".box-header button").removeClass("btn-primary").addClass("btn-default");
+        //选择图标按钮只读
+        $("#selectIcon").addClass("disabled");
+        //还原校验框
+        if($("defaultForm").data('bootstrapValidator'))
+            $("defaultForm").data('bootstrapValidator').resetForm();
+    }
+    if(opt=="detail"){
+        formReadonly();
+    }
+</script>
+
+<script>
+    console.log(opt);
+    if(opt=="detail"){
+        str_showType = "detail";
+        formReadonly();
+    }else {
+        str_showType="edit";//显示文件类型 edit=可编辑  detail=明细 默认为明细
+    }
+    //文件上传
+    var filedflag="163a4441b00_b958e652";
+    //    var fileIds="";//编辑页面传此参数'b0792a7d-1fb2-43ff-8a80-10a96a4e3010'
+    $("#attachment").file({
+        title: "请上传附件",
+        fileinput: {
+            theme: "explorer"//,
+        },
+        //如果已经有部分文件(编辑)，在此传文件ids
+        fileIds:$("#fileIds").val(),
+        fileIdContainer: "[name='fileIds']",
+        //showContainer:'#attachment',
+        //显示文件类型 edit=可编辑  detail=明细 默认为明细
+        showType:str_showType,
+        window: false
+    });
+</script>
+

@@ -1,0 +1,27 @@
+/* body{background: #f2f2f2;} */
+.container{padding-right:10px;padding-left:10px;}
+.searchBox {background: none;height: 36px;}
+.echarts{height: 400px;width: 100%;box-sizing: border-box; box-shadow: 0 0 1px #ccc, 0 1px 3px #666;border-radius: .25rem;background: #fff;}
+.one-chart-box,.two-charts-box,.two-one-box, .three-charts-box{ margin-bottom: 8px;}
+.three-charts-box .echarts{height: 400px;width: 33%; margin-right: 0.5%; box-sizing: border-box;}
+.two-charts-box .echarts{width: 49.7%; margin-right: 0.6%;}
+.two-charts-box .echarts:last-child{margin-right: 0;}
+.two-one-box .twoBox{width: 66.5%;  margin-right: 0.5%;}
+.two-one-box .oneBox{width: 33%; margin-right: 0;}
+.three-charts-box .echarts:last-child{margin-right: 0;}
+.layui-form1{display: inline-block;padding-left: 10px;width: auto;margin:10px}
+.layui-fluid .layui-main-box .layui-box-icon{height: 64px;}
+@media screen and (max-width: 1366px){
+    .layui-fluid .layui-main-box .layui-box-icon{height: 44px;}
+}
+
+  /* .echarts{height: 400px;width: 100%;box-sizing: border-box;border: 1px solid #cccccc;}
+    .one-chart-box, .three-charts-box{ margin-bottom: 8px;}
+    .three-charts-box .echarts{height: 400px;width: 33%; margin-right: 0.5%; box-sizing: border-box;border: 1px solid #cccccc;}
+    .three-charts-box .echarts:last-child{margin-right: 0;}
+     .two-charts-box .echarts{width: 49.7%; margin-right: 0.6%;margin-top:10px;}
+    .two-charts-box .echarts:last-child{margin-right: 0;}
+    .two-one-box .twoBox{width: 66.5%;  margin-right: 0.5%;}
+    .two-one-box .oneBox{width: 33%; margin-right: 0;}
+    .three-charts-box .echarts:last-child{margin-right: 0;}
+    .layui-form1{display: inline-block;padding-left: 10px;width: auto;} */

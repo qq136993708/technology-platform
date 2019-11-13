@@ -1,0 +1,1287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.system.SysFileMapper">
+    <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysFile">
+
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="create_date_time" jdbcType="VARCHAR" property="createDateTime"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="update_date_time" jdbcType="VARCHAR" property="updateDateTime"/>
+        <result column="version" jdbcType="VARCHAR" property="version"/>
+        <result column="create_user_id" jdbcType="VARCHAR" property="createUserId"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+        <result column="file_path" jdbcType="VARCHAR" property="filePath"/>
+        <result column="file_size" jdbcType="VARCHAR" property="fileSize"/>
+        <result column="form_id" jdbcType="VARCHAR" property="formId"/>
+        <result column="saved_name" jdbcType="VARCHAR" property="savedName"/>
+        <result column="file_md" jdbcType="VARCHAR" property="fileMd"/>
+        <result column="file_suffix" jdbcType="VARCHAR" property="fileSuffix"/>
+        <result column="start_time" jdbcType="VARCHAR" property="startTime"/>
+        <result column="end_time" jdbcType="VARCHAR" property="endTime"/>
+        <result column="file_publish" jdbcType="VARCHAR" property="filePublish"/>
+        <result column="file_pwd" jdbcType="VARCHAR" property="filePwd"/>
+        <result column="bak1" jdbcType="VARCHAR" property="bak1"/>
+        <result column="bak2" jdbcType="VARCHAR" property="bak2"/>
+        <result column="bak3" jdbcType="VARCHAR" property="bak3"/>
+        <result column="bak4" jdbcType="VARCHAR" property="bak4"/>
+        <result column="file_kind" jdbcType="VARCHAR" property="fileKind"/>
+        <result column="es_id" jdbcType="INTEGER" property="esId"/>
+        <result column="is_del" jdbcType="VARCHAR" property="isDel"/>
+        <result column="exp_date" jdbcType="VARCHAR" property="expDate"/>
+        <result column="dataId" jdbcType="VARCHAR" property="dataid"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="bak5" jdbcType="VARCHAR" property="bak5"/>
+        <result column="bak6" jdbcType="VARCHAR" property="bak6"/>
+        <result column="bak7" jdbcType="VARCHAR" property="bak7"/>
+        <result column="bak8" jdbcType="VARCHAR" property="bak8"/>
+        <result column="part_img_path" jdbcType="VARCHAR" property="partImgPath"/>
+        <result column="bak9" jdbcType="VARCHAR" property="bak9"/>
+        <result column="bak10" jdbcType="VARCHAR" property="bak10"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id,
+        create_date_time,
+        deleted,
+        update_date_time,
+        version,
+        create_user_id,
+        file_name,
+        file_path,
+        file_size,
+        form_id,
+        saved_name,
+        file_md,
+        file_suffix,
+        start_time,
+        end_time,
+        file_publish,
+        file_pwd,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        file_kind,
+        es_id,
+        is_del,
+        exp_date,
+        dataId,
+        flag,
+        bak5,
+        bak6,
+        bak7,
+        bak8,
+        part_img_path,
+        bak9,
+        bak10
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.system.SysFileExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from sys_file
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_file
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from sys_file
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.system.SysFileExample">
+        delete from sys_file
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.system.SysFile">
+        insert into sys_file (
+            id,
+            create_date_time,
+            deleted,
+            update_date_time,
+            version,
+            create_user_id,
+            file_name,
+            file_path,
+            file_size,
+            form_id,
+            saved_name,
+            file_md,
+            file_suffix,
+            start_time,
+            end_time,
+            file_publish,
+            file_pwd,
+            bak1,
+            bak2,
+            bak3,
+            bak4,
+            file_kind,
+            es_id,
+            is_del,
+            exp_date,
+            dataId,
+            flag,
+            bak5,
+            bak6,
+            bak7,
+            bak8,
+            part_img_path,
+            bak9,
+            bak10
+        )
+        values (
+
+    #{id,jdbcType=VARCHAR},
+    #{createDateTime,jdbcType=VARCHAR},
+    #{deleted,jdbcType=VARCHAR},
+    #{updateDateTime,jdbcType=VARCHAR},
+    #{version,jdbcType=VARCHAR},
+    #{createUserId,jdbcType=VARCHAR},
+    #{fileName,jdbcType=VARCHAR},
+    #{filePath,jdbcType=VARCHAR},
+    #{fileSize,jdbcType=VARCHAR},
+    #{formId,jdbcType=VARCHAR},
+    #{savedName,jdbcType=VARCHAR},
+    #{fileMd,jdbcType=VARCHAR},
+    #{fileSuffix,jdbcType=VARCHAR},
+    #{startTime,jdbcType=VARCHAR},
+    #{endTime,jdbcType=VARCHAR},
+    #{filePublish,jdbcType=VARCHAR},
+    #{filePwd,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR},
+    #{bak4,jdbcType=VARCHAR},
+    #{fileKind,jdbcType=VARCHAR},
+    #{esId,jdbcType=INTEGER},
+    #{isDel,jdbcType=VARCHAR},
+    #{expDate,jdbcType=VARCHAR},
+    #{dataid,jdbcType=VARCHAR},
+    #{flag,jdbcType=VARCHAR},
+    #{bak5,jdbcType=VARCHAR},
+    #{bak6,jdbcType=VARCHAR},
+    #{bak7,jdbcType=VARCHAR},
+    #{bak8,jdbcType=VARCHAR},
+    #{partImgPath,jdbcType=VARCHAR},
+    #{bak9,jdbcType=VARCHAR},
+    #{bak10,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.system.SysFile">
+        insert into sys_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createDateTime != null">
+                create_date_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="updateDateTime != null">
+                update_date_time,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="fileName != null">
+                file_name,
+            </if>
+            <if test="filePath != null">
+                file_path,
+            </if>
+            <if test="fileSize != null">
+                file_size,
+            </if>
+            <if test="formId != null">
+                form_id,
+            </if>
+            <if test="savedName != null">
+                saved_name,
+            </if>
+            <if test="fileMd != null">
+                file_md,
+            </if>
+            <if test="fileSuffix != null">
+                file_suffix,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="filePublish != null">
+                file_publish,
+            </if>
+            <if test="filePwd != null">
+                file_pwd,
+            </if>
+            <if test="bak1 != null">
+                bak1,
+            </if>
+            <if test="bak2 != null">
+                bak2,
+            </if>
+            <if test="bak3 != null">
+                bak3,
+            </if>
+            <if test="bak4 != null">
+                bak4,
+            </if>
+            <if test="fileKind != null">
+                file_kind,
+            </if>
+            <if test="esId != null">
+                es_id,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+            <if test="expDate != null">
+                exp_date,
+            </if>
+            <if test="dataid != null">
+                dataId,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="bak5 != null">
+                bak5,
+            </if>
+            <if test="bak6 != null">
+                bak6,
+            </if>
+            <if test="bak7 != null">
+                bak7,
+            </if>
+            <if test="bak8 != null">
+                bak8,
+            </if>
+            <if test="partImgPath != null">
+                part_img_path,
+            </if>
+            <if test="bak9 != null">
+                bak9,
+            </if>
+            <if test="bak10 != null">
+                bak10
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="id != null">
+                #{id ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDateTime != null">
+                #{createDateTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                #{deleted ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDateTime != null">
+                #{updateDateTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                #{version ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                #{fileName ,jdbcType=VARCHAR},
+            </if>
+            <if test="filePath != null">
+                #{filePath ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                #{fileSize ,jdbcType=VARCHAR},
+            </if>
+            <if test="formId != null">
+                #{formId ,jdbcType=VARCHAR},
+            </if>
+            <if test="savedName != null">
+                #{savedName ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileMd != null">
+                #{fileMd ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSuffix != null">
+                #{fileSuffix ,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                #{startTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null">
+                #{endTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="filePublish != null">
+                #{filePublish ,jdbcType=VARCHAR},
+            </if>
+            <if test="filePwd != null">
+                #{filePwd ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                #{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                #{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                #{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                #{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileKind != null">
+                #{fileKind ,jdbcType=VARCHAR},
+            </if>
+            <if test="esId != null">
+                #{esId ,jdbcType=INTEGER},
+            </if>
+            <if test="isDel != null">
+                #{isDel ,jdbcType=VARCHAR},
+            </if>
+            <if test="expDate != null">
+                #{expDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataid != null">
+                #{dataid ,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                #{flag ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+                #{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+                #{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak7 != null">
+                #{bak7 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak8 != null">
+                #{bak8 ,jdbcType=VARCHAR},
+            </if>
+            <if test="partImgPath != null">
+                #{partImgPath ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak9 != null">
+                #{bak9 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak10 != null">
+                #{bak10 ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.system.SysFileExample" resultType="java.lang.Long">
+        select count(*) from sys_file
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update sys_file
+        <set>
+
+            <if test="record.id != null">
+                id=#{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createDateTime != null">
+                create_date_time=#{record.createDateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.deleted != null">
+                deleted=#{record.deleted,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateDateTime != null">
+                update_date_time=#{record.updateDateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.version != null">
+                version=#{record.version,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserId != null">
+                create_user_id=#{record.createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileName != null">
+                file_name=#{record.fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.filePath != null">
+                file_path=#{record.filePath,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileSize != null">
+                file_size=#{record.fileSize,jdbcType=VARCHAR},
+            </if>
+            <if test="record.formId != null">
+                form_id=#{record.formId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.savedName != null">
+                saved_name=#{record.savedName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileMd != null">
+                file_md=#{record.fileMd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileSuffix != null">
+                file_suffix=#{record.fileSuffix,jdbcType=VARCHAR},
+            </if>
+            <if test="record.startTime != null">
+                start_time=#{record.startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.endTime != null">
+                end_time=#{record.endTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.filePublish != null">
+                file_publish=#{record.filePublish,jdbcType=VARCHAR},
+            </if>
+            <if test="record.filePwd != null">
+                file_pwd=#{record.filePwd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak1 != null">
+                bak1=#{record.bak1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak2 != null">
+                bak2=#{record.bak2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak3 != null">
+                bak3=#{record.bak3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak4 != null">
+                bak4=#{record.bak4,jdbcType=VARCHAR},
+            </if>
+            <if test="record.fileKind != null">
+                file_kind=#{record.fileKind,jdbcType=VARCHAR},
+            </if>
+            <if test="record.esId != null">
+                es_id=#{record.esId,jdbcType=INTEGER},
+            </if>
+            <if test="record.isDel != null">
+                is_del=#{record.isDel,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expDate != null">
+                exp_date=#{record.expDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dataid != null">
+                dataId=#{record.dataid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.flag != null">
+                flag=#{record.flag,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak5 != null">
+                bak5=#{record.bak5,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak6 != null">
+                bak6=#{record.bak6,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak7 != null">
+                bak7=#{record.bak7,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak8 != null">
+                bak8=#{record.bak8,jdbcType=VARCHAR},
+            </if>
+            <if test="record.partImgPath != null">
+                part_img_path=#{record.partImgPath,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak9 != null">
+                bak9=#{record.bak9,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak10 != null">
+                bak10=#{record.bak10,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update sys_file
+        set
+        id=#{record.id,jdbcType=VARCHAR},
+        create_date_time=#{record.createDateTime,jdbcType=VARCHAR},
+        deleted=#{record.deleted,jdbcType=VARCHAR},
+        update_date_time=#{record.updateDateTime,jdbcType=VARCHAR},
+        version=#{record.version,jdbcType=VARCHAR},
+        create_user_id=#{record.createUserId,jdbcType=VARCHAR},
+        file_name=#{record.fileName,jdbcType=VARCHAR},
+        file_path=#{record.filePath,jdbcType=VARCHAR},
+        file_size=#{record.fileSize,jdbcType=VARCHAR},
+        form_id=#{record.formId,jdbcType=VARCHAR},
+        saved_name=#{record.savedName,jdbcType=VARCHAR},
+        file_md=#{record.fileMd,jdbcType=VARCHAR},
+        file_suffix=#{record.fileSuffix,jdbcType=VARCHAR},
+        start_time=#{record.startTime,jdbcType=VARCHAR},
+        end_time=#{record.endTime,jdbcType=VARCHAR},
+        file_publish=#{record.filePublish,jdbcType=VARCHAR},
+        file_pwd=#{record.filePwd,jdbcType=VARCHAR},
+        bak1=#{record.bak1,jdbcType=VARCHAR},
+        bak2=#{record.bak2,jdbcType=VARCHAR},
+        bak3=#{record.bak3,jdbcType=VARCHAR},
+        bak4=#{record.bak4,jdbcType=VARCHAR},
+        file_kind=#{record.fileKind,jdbcType=VARCHAR},
+        es_id=#{record.esId,jdbcType=INTEGER},
+        is_del=#{record.isDel,jdbcType=VARCHAR},
+        exp_date=#{record.expDate,jdbcType=VARCHAR},
+        dataId=#{record.dataid,jdbcType=VARCHAR},
+        flag=#{record.flag,jdbcType=VARCHAR},
+        bak5=#{record.bak5,jdbcType=VARCHAR},
+        bak6=#{record.bak6,jdbcType=VARCHAR},
+        bak7=#{record.bak7,jdbcType=VARCHAR},
+        bak8=#{record.bak8,jdbcType=VARCHAR},
+        part_img_path=#{record.partImgPath,jdbcType=VARCHAR},
+        bak9=#{record.bak9,jdbcType=VARCHAR},
+        bak10=#{record.bak10,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysFile">
+        update sys_file
+        <set>
+
+            <if test="createDateTime != null">
+                create_date_time=#{createDateTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                deleted=#{deleted ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDateTime != null">
+                update_date_time=#{updateDateTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                version=#{version ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id=#{createUserId ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                file_name=#{fileName ,jdbcType=VARCHAR},
+            </if>
+            <if test="filePath != null">
+                file_path=#{filePath ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                file_size=#{fileSize ,jdbcType=VARCHAR},
+            </if>
+            <if test="formId != null">
+                form_id=#{formId ,jdbcType=VARCHAR},
+            </if>
+            <if test="savedName != null">
+                saved_name=#{savedName ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileMd != null">
+                file_md=#{fileMd ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSuffix != null">
+                file_suffix=#{fileSuffix ,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time=#{startTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null">
+                end_time=#{endTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="filePublish != null">
+                file_publish=#{filePublish ,jdbcType=VARCHAR},
+            </if>
+            <if test="filePwd != null">
+                file_pwd=#{filePwd ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                bak1=#{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                bak2=#{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                bak3=#{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                bak4=#{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileKind != null">
+                file_kind=#{fileKind ,jdbcType=VARCHAR},
+            </if>
+            <if test="esId != null">
+                es_id=#{esId ,jdbcType=INTEGER},
+            </if>
+            <if test="isDel != null">
+                is_del=#{isDel ,jdbcType=VARCHAR},
+            </if>
+            <if test="expDate != null">
+                exp_date=#{expDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataid != null">
+                dataId=#{dataid ,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                flag=#{flag ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+                bak5=#{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+                bak6=#{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak7 != null">
+                bak7=#{bak7 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak8 != null">
+                bak8=#{bak8 ,jdbcType=VARCHAR},
+            </if>
+            <if test="partImgPath != null">
+                part_img_path=#{partImgPath ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak9 != null">
+                bak9=#{bak9 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak10 != null">
+                bak10=#{bak10 ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysFile">
+        update sys_file
+        set
+            create_date_time=#{createDateTime,jdbcType=VARCHAR},
+            deleted=#{deleted,jdbcType=VARCHAR},
+            update_date_time=#{updateDateTime,jdbcType=VARCHAR},
+            version=#{version,jdbcType=VARCHAR},
+            create_user_id=#{createUserId,jdbcType=VARCHAR},
+            file_name=#{fileName,jdbcType=VARCHAR},
+            file_path=#{filePath,jdbcType=VARCHAR},
+            file_size=#{fileSize,jdbcType=VARCHAR},
+            form_id=#{formId,jdbcType=VARCHAR},
+            saved_name=#{savedName,jdbcType=VARCHAR},
+            file_md=#{fileMd,jdbcType=VARCHAR},
+            file_suffix=#{fileSuffix,jdbcType=VARCHAR},
+            start_time=#{startTime,jdbcType=VARCHAR},
+            end_time=#{endTime,jdbcType=VARCHAR},
+            file_publish=#{filePublish,jdbcType=VARCHAR},
+            file_pwd=#{filePwd,jdbcType=VARCHAR},
+            bak1=#{bak1,jdbcType=VARCHAR},
+            bak2=#{bak2,jdbcType=VARCHAR},
+            bak3=#{bak3,jdbcType=VARCHAR},
+            bak4=#{bak4,jdbcType=VARCHAR},
+            file_kind=#{fileKind,jdbcType=VARCHAR},
+            es_id=#{esId,jdbcType=INTEGER},
+            is_del=#{isDel,jdbcType=VARCHAR},
+            exp_date=#{expDate,jdbcType=VARCHAR},
+            dataId=#{dataid,jdbcType=VARCHAR},
+            flag=#{flag,jdbcType=VARCHAR},
+            bak5=#{bak5,jdbcType=VARCHAR},
+            bak6=#{bak6,jdbcType=VARCHAR},
+            bak7=#{bak7,jdbcType=VARCHAR},
+            bak8=#{bak8,jdbcType=VARCHAR},
+            part_img_path=#{partImgPath,jdbcType=VARCHAR},
+            bak9=#{bak9,jdbcType=VARCHAR},
+            bak10=#{bak10,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.system.SysFile" resultMap="BaseResultMap">
+
+        select
+        id,
+        create_date_time,
+        deleted,
+        update_date_time,
+        version,
+        create_user_id,
+        file_name,
+        file_path,
+        file_size,
+        form_id,
+        saved_name,
+        file_md,
+        file_suffix,
+        start_time,
+        end_time,
+        file_publish,
+        file_pwd,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        file_kind,
+        es_id,
+        is_del,
+        exp_date,
+        dataId,
+        flag,
+        bak5,
+        bak6,
+        bak7,
+        bak8,
+        part_img_path,
+        bak9,
+        bak10
+        from sys_file
+        where 1=1
+        <if test="id!=null and id!=''.toString()">
+            and id like '%${id}%'
+        </if>
+        <if test="createDateTime!=null and createDateTime!=''.toString()">
+            and create_date_time like '%${createDateTime}%'
+        </if>
+        <if test="deleted!=null and deleted!=''.toString()">
+            and deleted like '%${deleted}%'
+        </if>
+        <if test="updateDateTime!=null and updateDateTime!=''.toString()">
+            and update_date_time like '%${updateDateTime}%'
+        </if>
+        <if test="version!=null and version!=''.toString()">
+            and version like '%${version}%'
+        </if>
+        <if test="createUserId!=null and createUserId!=''.toString()">
+            and create_user_id like '%${createUserId}%'
+        </if>
+        <if test="fileName!=null and fileName!=''.toString()">
+            and file_name like '%${fileName}%'
+        </if>
+        <if test="filePath!=null and filePath!=''.toString()">
+            and file_path like '%${filePath}%'
+        </if>
+        <if test="fileSize!=null and fileSize!=''.toString()">
+            and file_size like '%${fileSize}%'
+        </if>
+        <if test="formId!=null and formId!=''.toString()">
+            and form_id like '%${formId}%'
+        </if>
+        <if test="savedName!=null and savedName!=''.toString()">
+            and saved_name like '%${savedName}%'
+        </if>
+        <if test="fileMd!=null and fileMd!=''.toString()">
+            and file_md like '%${fileMd}%'
+        </if>
+        <if test="fileSuffix!=null and fileSuffix!=''.toString()">
+            and file_suffix like '%${fileSuffix}%'
+        </if>
+        <if test="startTime!=null and startTime!=''.toString()">
+            and start_time like '%${startTime}%'
+        </if>
+        <if test="endTime!=null and endTime!=''.toString()">
+            and end_time like '%${endTime}%'
+        </if>
+        <if test="filePublish!=null and filePublish!=''.toString()">
+            and file_publish like '%${filePublish}%'
+        </if>
+        <if test="filePwd!=null and filePwd!=''.toString()">
+            and file_pwd like '%${filePwd}%'
+        </if>
+        <if test="bak1!=null and bak1!=''.toString()">
+            and bak1 like '%${bak1}%'
+        </if>
+        <if test="bak2!=null and bak2!=''.toString()">
+            and bak2 like '%${bak2}%'
+        </if>
+        <if test="bak3!=null and bak3!=''.toString()">
+            and bak3 like '%${bak3}%'
+        </if>
+        <if test="bak4!=null and bak4!=''.toString()">
+            and bak4 like '%${bak4}%'
+        </if>
+        <if test="fileKind!=null and fileKind!=''.toString()">
+            and file_kind like '%${fileKind}%'
+        </if>
+        <if test="esId!=null and esId!=''.toString()">
+            and es_id like '%${esId}%'
+        </if>
+        <if test="isDel!=null and isDel!=''.toString()">
+            and is_del like '%${isDel}%'
+        </if>
+        <if test="expDate!=null and expDate!=''.toString()">
+            and exp_date like '%${expDate}%'
+        </if>
+        <if test="dataid!=null and dataid!=''.toString()">
+            and dataId like '%${dataid}%'
+        </if>
+        <if test="flag!=null and flag!=''.toString()">
+            and flag like '%${flag}%'
+        </if>
+        <if test="bak5!=null and bak5!=''.toString()">
+            and bak5 like '%${bak5}%'
+        </if>
+        <if test="bak6!=null and bak6!=''.toString()">
+            and bak6 like '%${bak6}%'
+        </if>
+        <if test="bak7!=null and bak7!=''.toString()">
+            and bak7 like '%${bak7}%'
+        </if>
+        <if test="bak8!=null and bak8!=''.toString()">
+            and bak8 like '%${bak8}%'
+        </if>
+        <if test="partImgPath!=null and partImgPath!=''.toString()">
+            and part_img_path like '%${partImgPath}%'
+        </if>
+        <if test="bak9!=null and bak9!=''.toString()">
+            and bak9 like '%${bak9}%'
+        </if>
+        <if test="bak10!=null and bak10!=''.toString()">
+            and bak10 like '%${bak10}%'
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findSysFileList" parameterType="com.pcitc.base.system.SysFile" resultMap="BaseResultMap">
+        select
+        id,
+        create_date_time,
+        deleted,
+        update_date_time,
+        version,
+        create_user_id,
+        file_name,
+        file_path,
+        file_size,
+        form_id,
+        saved_name,
+        file_md,
+        file_suffix,
+        start_time,
+        end_time,
+        file_publish,
+        file_pwd,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        file_kind,
+        es_id,
+        is_del,
+        exp_date,
+        dataId,
+        flag,
+        bak5,
+        bak6,
+        bak7,
+        bak8,
+        part_img_path,
+        bak9,
+        bak10
+        from sys_file
+        where 1=1
+        <if test="id!=null">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="createDateTime!=null">
+            and create_date_time = #{createDateTime,jdbcType=VARCHAR}
+        </if>
+        <if test="deleted!=null">
+            and deleted = #{deleted,jdbcType=VARCHAR}
+        </if>
+        <if test="updateDateTime!=null">
+            and update_date_time = #{updateDateTime,jdbcType=VARCHAR}
+        </if>
+        <if test="version!=null">
+            and version = #{version,jdbcType=VARCHAR}
+        </if>
+        <if test="createUserId!=null">
+            and create_user_id = #{createUserId,jdbcType=VARCHAR}
+        </if>
+        <if test="fileName!=null">
+            and file_name = #{fileName,jdbcType=VARCHAR}
+        </if>
+        <if test="filePath!=null">
+            and file_path = #{filePath,jdbcType=VARCHAR}
+        </if>
+        <if test="fileSize!=null">
+            and file_size = #{fileSize,jdbcType=VARCHAR}
+        </if>
+        <if test="formId!=null">
+            and form_id = #{formId,jdbcType=VARCHAR}
+        </if>
+        <if test="savedName!=null">
+            and saved_name = #{savedName,jdbcType=VARCHAR}
+        </if>
+        <if test="fileMd!=null">
+            and file_md = #{fileMd,jdbcType=VARCHAR}
+        </if>
+        <if test="fileSuffix!=null">
+            and file_suffix = #{fileSuffix,jdbcType=VARCHAR}
+        </if>
+        <if test="startTime!=null">
+            and start_time = #{startTime,jdbcType=VARCHAR}
+        </if>
+        <if test="endTime!=null">
+            and end_time = #{endTime,jdbcType=VARCHAR}
+        </if>
+        <if test="filePublish!=null">
+            and file_publish = #{filePublish,jdbcType=VARCHAR}
+        </if>
+        <if test="filePwd!=null">
+            and file_pwd = #{filePwd,jdbcType=VARCHAR}
+        </if>
+        <if test="bak1!=null">
+            and bak1 = #{bak1,jdbcType=VARCHAR}
+        </if>
+        <if test="bak2!=null">
+            and bak2 = #{bak2,jdbcType=VARCHAR}
+        </if>
+        <if test="bak3!=null">
+            and bak3 = #{bak3,jdbcType=VARCHAR}
+        </if>
+        <if test="bak4!=null">
+            and bak4 = #{bak4,jdbcType=VARCHAR}
+        </if>
+        <if test="fileKind!=null">
+            and file_kind = #{fileKind,jdbcType=VARCHAR}
+        </if>
+        <if test="esId!=null">
+            and es_id = #{esId,jdbcType=VARCHAR}
+        </if>
+        <if test="isDel!=null">
+            and is_del = #{isDel,jdbcType=VARCHAR}
+        </if>
+        <if test="expDate!=null">
+            and exp_date = #{expDate,jdbcType=VARCHAR}
+        </if>
+        <if test="dataid!=null">
+            and dataId = #{dataid,jdbcType=VARCHAR}
+        </if>
+        <if test="flag!=null">
+            and flag = #{flag,jdbcType=VARCHAR}
+        </if>
+        <if test="bak5!=null">
+            and bak5 = #{bak5,jdbcType=VARCHAR}
+        </if>
+        <if test="bak6!=null">
+            and bak6 = #{bak6,jdbcType=VARCHAR}
+        </if>
+        <if test="bak7!=null">
+            and bak7 = #{bak7,jdbcType=VARCHAR}
+        </if>
+        <if test="bak8!=null">
+            and bak8 = #{bak8,jdbcType=VARCHAR}
+        </if>
+        <if test="partImgPath!=null">
+            and part_img_path = #{partImgPath,jdbcType=VARCHAR}
+        </if>
+        <if test="bak9!=null">
+            and bak9 = #{bak9,jdbcType=VARCHAR}
+        </if>
+        <if test="bak10!=null">
+            and bak10 = #{bak10,jdbcType=VARCHAR}
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!--查询最大值-->
+    <select id="selectMaxEsId" resultType="java.lang.String">
+      select max(es_id) as scount from sys_file;
+  	</select>
+    <update id="updateSysFileFlag" parameterType="map">
+        update sys_file set flag='1' where dataId in ('${formid}');
+    </update>
+
+    <delete id="deleteSysFileByDataId" parameterType="map">
+        delete from sys_file
+        where dataId = '${formid}'
+    </delete>
+    
+    <!--文档管理的查询方法，查询公共的和分享给自己文件，（后续添加岗位、部门）-->
+    <select id="selectFileListForPublic" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+      select * from (
+		select sys_file.id,sys_file.file_name,sys_file.create_date_time,sys_file.file_size,sys_file.bak1,
+			   sys_file.version,sys_file.create_user_id as bak3,sys_file.file_suffix,
+			   sys_user.user_disp as create_user_id,
+			   sys_file_kind.kind_name as file_kind,
+			   GROUP_CONCAT(DISTINCT tableA.area) as userIds,
+			   GROUP_CONCAT(DISTINCT tableB.user_id) as authUserIds,
+			   GROUP_CONCAT(DISTINCT tableC.bak1) as bak4
+		from sys_user,sys_file_kind,sys_file left join sys_file_share tableA on (sys_file.id = tableA.file_id and tableA.status = '1')
+							   				 left join sys_file_kind_auth tableB on (sys_file.file_kind = tableB.file_kind_id)
+							   				 left join sys_file_collect tableC on (sys_file.id = tableC.file_id and tableC.create_person_id = '${userId}')
+		where 
+			sys_file.is_del = '0'
+			and sys_user.user_id = sys_file.file_publish
+			and sys_file_kind.id = sys_file.file_kind
+			<if test="fileKind != null">
+				and sys_file.file_kind = #{fileKind}
+			</if>
+			<if test="fileMd5 != null">
+				and sys_file.file_md = #{fileMd5}
+			</if>
+			<if test="fileName != null">
+				and sys_file.file_name like '%${fileName}%'
+			</if>
+			<if test="fileKindPath!=null and fileKindPath!=''.toString()">
+	            and sys_file_kind.kind_path like '${fileKindPath}%'
+	        </if>
+			group by sys_file.id
+		) temTable 
+	  where 
+	    (bak1 = 'public' or 
+		(bak1 = 'private' and userIds like '%${userId}%') or 
+		(bak1 = 'private' and bak3 like '%${userId}%') or 
+		authUserIds like '%${userId}%')
+	  order by create_date_time desc
+		
+  	</select>
+  	
+  	<!--文档收藏的查询方法-->
+    <select id="selectFileListForCollect" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select sys_file_collect.file_id as id,
+			   sys_file_collect.bak2 as file_name,
+			   sys_file_kind.kind_name as file_kind,
+			   sys_file_kind.create_date as create_date_time,
+			   GROUP_CONCAT(DISTINCT sys_file.id) as bak4
+		from sys_file_kind,sys_file_collect left join sys_file on (sys_file_collect.file_id = sys_file.id)
+		where 
+			sys_file_kind.id = sys_file_collect.file_kind
+			and sys_file_collect.create_person_id = '${userId}'
+			and sys_file_kind.other = 'self'
+			<if test="fileKind != null">
+				and sys_file_collect.file_kind = #{fileKind}
+			</if>
+			<if test="fileName != null">
+				and sys_file_collect.bak2 like '%${fileName}%'
+			</if>
+			group by sys_file_collect.file_id
+  	</select>
+  	
+  	<!--复制文件数据到sys_file_version中-->
+  	<insert id="copySysFile" parameterType="com.pcitc.base.system.SysFile">
+        insert into sys_file_version (
+            id,
+            create_date_time,
+            deleted,
+            update_date_time,
+            version,
+            create_user_id,
+            file_name,
+            file_path,
+            file_size,
+            form_id,
+            saved_name,
+            file_md,
+            file_suffix,
+            start_time,
+            end_time,
+            file_publish,
+            file_pwd,
+            bak1,
+            bak2,
+            bak3,
+            bak4,
+            file_kind,
+            es_id,
+            is_del,
+            exp_date,
+            dataId,
+            flag,
+            bak5,
+            bak6,
+            bak7,
+            bak8,
+            part_img_path,
+            bak9,
+            bak10
+        )
+        values (
+
+    #{id,jdbcType=VARCHAR},
+    #{createDateTime,jdbcType=VARCHAR},
+    #{deleted,jdbcType=VARCHAR},
+    #{updateDateTime,jdbcType=VARCHAR},
+    #{version,jdbcType=VARCHAR},
+    #{createUserId,jdbcType=VARCHAR},
+    #{fileName,jdbcType=VARCHAR},
+    #{filePath,jdbcType=VARCHAR},
+    #{fileSize,jdbcType=VARCHAR},
+    #{formId,jdbcType=VARCHAR},
+    #{savedName,jdbcType=VARCHAR},
+    #{fileMd,jdbcType=VARCHAR},
+    #{fileSuffix,jdbcType=VARCHAR},
+    #{startTime,jdbcType=VARCHAR},
+    #{endTime,jdbcType=VARCHAR},
+    #{filePublish,jdbcType=VARCHAR},
+    #{filePwd,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR},
+    #{bak4,jdbcType=VARCHAR},
+    #{fileKind,jdbcType=VARCHAR},
+    #{esId,jdbcType=INTEGER},
+    #{isDel,jdbcType=VARCHAR},
+    #{expDate,jdbcType=VARCHAR},
+    #{dataid,jdbcType=VARCHAR},
+    #{flag,jdbcType=VARCHAR},
+    #{bak5,jdbcType=VARCHAR},
+    #{bak6,jdbcType=VARCHAR},
+    #{bak7,jdbcType=VARCHAR},
+    #{bak8,jdbcType=VARCHAR},
+    #{partImgPath,jdbcType=VARCHAR},
+    #{bak9,jdbcType=VARCHAR},
+    #{bak10,jdbcType=VARCHAR}
+        )
+    </insert>
+  	
+  	<!--获取文件历史版本信息-->
+    <select id="selectFileHistoryList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+      select * from sys_file_version
+      where 
+      	1 = 1
+      		<if test="fileId != null">
+				and sys_file_version.id = #{fileId}
+			</if>
+			<if test="bak3 != null">
+				and sys_file_version.bak3 = #{bak3}
+			</if>
+		
+  	</select>
+  	
+  	<!--替换历史文件中的错误文件-->
+  	<update id="updateSysFileHistoryErrorVersion" parameterType="com.pcitc.base.system.SysFile">
+        update sys_file_version
+        <set>
+            <if test="updateDateTime != null">
+                update_date_time=#{updateDateTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                file_name=#{fileName ,jdbcType=VARCHAR},
+            </if>
+            <if test="filePath != null">
+                file_path=#{filePath ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                file_size=#{fileSize ,jdbcType=VARCHAR},
+            </if>
+            <if test="savedName != null">
+                saved_name=#{savedName ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileMd != null">
+                file_md=#{fileMd ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSuffix != null">
+                file_suffix=#{fileSuffix ,jdbcType=VARCHAR},
+            </if>
+            <if test="filePwd != null">
+                file_pwd=#{filePwd ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataid != null">
+                dataId=#{dataid ,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where bak3 = #{bak3,jdbcType=VARCHAR}
+    </update>
+	
+	<!-- 文档查询，和sys_file_kind关联查询 -->
+    <select id="selectFileInfoList" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        select sys_file.*
+        from sys_file,sys_file_kind
+        where 
+        	sys_file.deleted = '0' and 
+        	sys_file.file_kind = sys_file_kind.id
+	        <if test="fileId!=null and fileId!=''.toString()">
+	            and sys_file.id = '${fileId}'
+	        </if>
+	        <if test="fileKindId!=null and fileKindId!=''.toString()">
+	            and sys_file_kind.id = '${fileKindId}'
+	        </if>
+	        <if test="fileName!=null and fileName!=''.toString()">
+	            and sys_file.file_name like '%${fileName}%'
+	        </if>
+	        <if test="fileKindPath!=null and fileKindPath!=''.toString()">
+	            and sys_file_kind.kind_path like '${fileKindPath}%'
+	        </if>
+	        <if test="createUserId!=null and createUserId!=''.toString()">
+	            and sys_file.create_user_id like '${createUserId}'
+	        </if>
+        order by sys_file.file_name
+    </select>
+
+</mapper>

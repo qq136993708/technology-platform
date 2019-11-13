@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/lib/extend/imgViewer/css/viewer.css">
+<link rel="stylesheet" href="/layuiadmin/style/common.css">
+<title>imgViewer</title>
+</head>
+<body>
+	<!-- Content -->
+	<ul class="docs-pictures" style="position: absolute; top: 0; left: -9999999px;">
+		<!--data-original 和 src 都要写 alt默认为图片名-->
+		<li><img data-original="${currentUrl}" src="${currentUrl}" id="pic01" alt=" "></li>
+	</ul>
+
+	<!-- Scripts -->
+	<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+	<!-- 默认不显示控件的关闭按钮 -->
+	<script src="/layuiadmin/lib/extend/imgViewer/js/viewerClose.js"></script>
+	<script src="/layuiadmin/lib/extend/imgViewer/js/main.js"></script>
+
+	<script>
+		$(function() {
+			$('#pic01').trigger('click');
+		})
+	</script>
+</body>
+</html>

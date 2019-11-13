@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/common/libs/fileinput/css/fileinput.min.css">
+    <link rel="import" href="/common/public/publicImportIndex.html">
+    <script src="/common/libs/fileinput/js/fileinput.js"></script>
+    <script src="/common/libs/fileinput/js/locales/zh.js"></script>
+
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="/plugins/bootstrap-validator/js/bootstrap-validator.js"></script>
+    <script type="text/javascript" src="/plugins/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+    <script type="text/javascript" src="/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="/plugins/fastclick/fastclick.js"></script>
+    <script type="text/javascript" src="/plugins/select2/select2.min.js"></script>
+    <script type="text/javascript" src="/dist/js/jquery.validationEngine.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <script type="text/javascript" src="/common/js/base-modal.js"></script>
+    <script type="text/javascript" src="/common/js/base-form.js"></script>
+    <script type="text/javascript" src="/common/js/base-datasource.js"></script>
+    <script type="text/javascript" src="/common/js/base-org.js"></script>
+
+    <!--BaseFile组件-->
+    <script src="/common/js/base-file.js"></script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Content Header (Page header) -->
+<section class="content-header">
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <div class="btn-group">
+                    </div>
+                </div>
+                <div class="box-body">
+                    <form class="form-horizontal" id="function-form">
+                        <input type="hidden" name="menuId" id="menuId"/>
+                        <div class="form-group">
+                            <label for="fileCount" class="col-sm-2 control-label">文件数量</label>
+
+                            <div class="col-sm-9">
+                                <!--disabled="disabled"-->
+                                <input type="text" class="form-control" id="fileCount" name="fileCount" placeholder="允许上传的文件数量">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">First name</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="firstName" placeholder="First name" />
+                            </div>
+                        </div>
+
+                        <div class="box-footer" style="">
+                            <div class="text-center">
+                                <button type="button" class="btn btn-default" data-btn-type="cancel">
+                                    <i class="fa fa-reply">&nbsp;取消</i>
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save">&nbsp;保存</i>
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /. box -->
+        </div>
+    </div>
+        </div>
+</section>
+<script>
+    //初始化form表单
+    var form = null;
+    $(function () {
+        form = $('#function-form').form();
+        //初始化校验
+        $('#function-form').bootstrapValidator({
+            message: '请输入有效值',
+            container: 'tooltip',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            submitHandler: function (validator, functionform, submitButton) {
+                modals.confirm('确认保存？', function () {
+                    alert("*");
+                });
+            },
+            fields: {
+                fileCount: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入fileCount'
+                        }
+                    }
+                },
+                firstName: {
+                    validators: {
+                        notEmpty: {
+                            message: '请输入firstName'
+                        }
+                    }
+                },
+                functype: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择菜单类型'
+                        }
+                    }
+                },
+                menuType: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择是否可用'
+                        }
+                    }
+                }
+            }
+        });
+        form.initComponent();
+    });
+        //设置form为只读
+        function formReadonly() {
+            //所有文本框只读
+            $("input,textarea").attr("readonly", "readonly");
+
+//				$("input[name=menuName]").attr("readonly","readonly");
+            //隐藏取消、保存按钮
+            $("#function-form .box-footer").hide();
+            //还原新增、编辑、删除按钮样式
+            $(".box-header button").removeClass("btn-primary").addClass("btn-default");
+            //选择图标按钮只读
+            $("#selectIcon").addClass("disabled");
+            //还原校验框
+            if ($("function-form").data('bootstrapValidator'))
+                $("function-form").data('bootstrapValidator').resetForm();
+        }
+
+</script>
+</body>
+</html>

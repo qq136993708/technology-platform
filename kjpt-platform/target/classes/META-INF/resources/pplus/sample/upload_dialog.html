@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/common/libs/fileinput/css/fileinput.min.css">
+    <link rel="import" href="/pplus/public/publicImport.html">
+
+
+    <script src="/common/libs/fileinput/js/plugins/sortable.js"></script>
+    <script src="/common/libs/fileinput/js/fileinput.js"></script>
+    <script src="/common/libs/fileinput/js/locales/zh.js"></script>
+    <script src="/common/libs/fileinput/themes/explorer/theme.js"></script>
+    <link rel="stylesheet" href="/common/libs/fileinput/css/fileinput.min.css">
+    <link rel="stylesheet" href="/common/libs/fileinput/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css"/>
+    <!--BaseFile组件-->
+    <script src="/common/js/base-file.js"></script>
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+
+
+<div class="box-body" style="height: 1000px;">
+<div class="form-group">
+    <div class="btn btn-default btn-file" id="uploadFile">
+        <i class="fa fa-paperclip"></i> 上传附件(Max. 10MB)
+    </div>
+</div>
+
+<input type="text" name="fileIds"  id="fileIds" value="">
+</div>
+
+<script>
+
+    $("#uploadFile").file({
+        title: "请上传附件",
+        fileinput: {
+            maxFileSize: 10240,
+            //theme: "explorer",
+            maxFileCount:3
+        },
+        //如果已经有部分文件(编辑)，在此传文件ids
+        //fileIds:'8a8a84995aabe7aa015aac5d222b0018,8a8a84995aabe7aa015aac5d22340019',
+        fileIdContainer:"[name='fileIds']",
+        showContainer:'#attachment',
+        //显示文件类型 edit=可编辑  detail=明细 默认为明细
+        showType:'edit',
+        //弹出窗口 执行上传附件后的回调函数(window:false不调用此方法)
+        callback:function(fileIds,oldfileIds){
+            //更新fileIds
+            console.log(fileIds);
+            //$("#filecontainer").edit(fileIds);
+            this.showFiles({
+                fileIds:fileIds
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

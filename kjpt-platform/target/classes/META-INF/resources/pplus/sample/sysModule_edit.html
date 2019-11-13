@@ -1,0 +1,171 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><li class="fa fa-remove"></li></button>
+	<h5 class="modal-title">新增模块</h5>
+</div>
+
+<div class="modal-body">
+
+	<form id="sysModule-form" name="sysModule-form" class="form-horizontal">
+		<div class="box-body">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="moduleName" class="col-sm-3 control-label">模块名称</label>
+					<div class="col-sm-8">
+		           		<input type="text" class="form-control" id="moduleName" name="moduleName" placeholder="模块名称"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="moduleCode" class="col-sm-3 control-label">模块编码</label>
+					<div class="input-group col-sm-8">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input type="text" class="form-control" id="moduleCode" name="moduleCode" placeholder="模块编码"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="moduleWidth" class="col-sm-3 control-label">宽</label>
+					<div class="col-sm-8">
+		                <input type="text" class="form-control" id="moduleWidth" name="moduleWidth" placeholder="宽"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="moduleHeight" class="col-sm-3 control-label">高</label>
+					<div class="col-sm-8">
+		                <input type="text" class="form-control" id="moduleHeight" name="moduleHeight" placeholder="高"/>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label class="col-sm-3 control-label">是否可用</label>
+					<div class="col-sm-8">
+						<label class="control-label"> <input type="radio" name="isVariable" data-flag="icheck" class="square-green" value="1"> 是
+						</label> &nbsp; <label class="control-label"> <input type="radio" name="isVariable" data-flag="icheck" class="square-green" value="0"> 否
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="moduleColor" class="col-sm-3 control-label">背景颜色</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="moduleColor" name="moduleColor" placeholder="背景颜色">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="moduleImage" class="col-sm-3 control-label">背景图片</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="moduleImage" name="moduleImage" placeholder="背景图片">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="moduleSort" class="col-sm-3 control-label">排序</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="moduleSort" name="moduleSort" placeholder="排序">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.box-body -->
+		<div class="box-footer text-right">
+			<!--以下两种方式提交验证,根据所需选择-->
+			<button type="button" class="btn btn-default" data-btn-type="cancel" data-dismiss="modal">取消</button>
+			<button type="submit" class="btn btn-primary" data-btn-type="save">提交</button>
+		</div>
+		<!-- /.box-footer -->
+	</form>
+
+</div>
+<script>
+	//tableId,queryId,conditionContainer
+	var form =null;
+	var id="${id?default(0)}";
+	$(function() {
+		//初始化控件
+		form=$("#sysModule-form").form();
+        var winId=$(".modal").attr("id");
+
+		//数据校验
+		$("#sysModule-form").bootstrapValidator({
+			message : '请输入有效值',
+			feedbackIcons : {
+				valid : 'glyphicon glyphicon-ok',
+				invalid : 'glyphicon glyphicon-remove',
+				validating : 'glyphicon glyphicon-refresh'
+			},
+			submitHandler : function(validator, userform, submitButton) {
+				modals.confirm('确认保存？', function() {
+					//Save Data，对应'submit-提交'
+					var params = form.getFormSimpleData();
+					ajaxPost(basePath+'/user/save', params, function(data, status) {
+						if(data.success){
+							if(id!="0"){//更新
+								modals.hideWin(winId);
+							    userTable.reloadRowData(id);
+							}else{//新增
+								 //modals.info("数据保存成功");
+								 modals.hideWin(winId); 
+								 userTable.reloadData(); 
+							}
+						}				 
+					});
+				});
+			},
+			fields : {
+				name : {
+					validators : {
+						notEmpty : {
+							message : '请输入姓名'
+						}
+					}
+				},
+				sex : {
+					validators : {
+						notEmpty : {
+							message : '请选择性别'
+						}
+					}
+				},
+				birthday : {
+					validators : {
+						notEmpty : {
+							message : '请输入出生日期'
+						},
+						date : {
+							format : $(this).data("format"),
+							message : '请输入有效日期'
+						} 
+					}
+				},
+				loginName : {
+					validators : {
+						notEmpty : {
+							message : '请输入登录名'
+						}
+					}
+				},
+				email:{
+					validators:{
+						notEmpty:{
+							message:'请输入邮件',
+						},
+						emailAddress:{
+							message:'非法的邮件格式',
+						}
+				     
+					}
+				}
+			}
+		});
+		form.initComponent();
+		//回填id		
+		if(id!="0"){
+			ajaxPost(basePath+"/user/get",{id:id},function(data){
+				form.initFormData(data);
+			})
+		} 
+	});
+	
+	
+	function resetForm(){
+		form.clearForm();
+		$("#sysModule-form").data('bootstrapValidator').resetForm();
+	}
+</script>

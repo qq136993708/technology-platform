@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>layTpl</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp_.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+
+<div class="workNews">
+    <div class="layui-card-body">
+        <div class="layui-tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">工作总结</li>
+                <li>会议纪要</li>
+               
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <ul id="ROOT_XTGL_XWLX_GCDT">
+                        <li><a href="#">xiazai1</a></li>
+                    </ul>
+                </div>
+                <div class="layui-tab-item">
+                    <ul id="ROOT_XTGL_XWLX_GCSY"></ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods','element'], function () {
+        var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer, element = layui.element,publicMethods=layui.publicMethods;
+
+    });
+
+</script>
+
+</body>
+</html>
