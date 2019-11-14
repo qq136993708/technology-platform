@@ -17,6 +17,40 @@
 *.iml
 *.ipr
 
+# eclipse #
+*.settings
+*.project
+*.classpath
+*.log
+
+# activiti #
+*.model.png
+*.model.bpmn
+
+
+# compression file
+*.jar
+*.rar
+*.zip
+*.7z
+*.tmp
+
+# windows #
+Thumbs.db
+
+# Mac #
+*.DS_Store
+
+### STS ###
+*.apt_generated
+*.classpath
+*.factorypath
+*.project
+*.settings
+*.springBeans
+*.sts4-cache
+
+
 ### NetBeans ###
 /nbproject/private/
 /build/
