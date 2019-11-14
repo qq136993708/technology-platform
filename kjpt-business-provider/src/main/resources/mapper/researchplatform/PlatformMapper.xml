@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.researchplatform.PlatformServiceMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.researchPlatform.PlatformInfoModel">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="platform_name" jdbcType="VARCHAR" property="platformName"/>
+        <result column="research_field" jdbcType="VARCHAR" property="researchField"/>
+        <result column="supporting_institutions" jdbcType="VARCHAR" property="supportingInstitutions"/>
+        <result column="research_funds" jdbcType="DECIMAL" property="researchFunds"/>
+        <result column="platform_introduction" jdbcType="VARCHAR" property="platformIntroduction"/>
+        <result column="person_liable" jdbcType="VARCHAR" property="personLiable"/>
+        <result column="platform_type" jdbcType="VARCHAR" property="type"/>
+        <result column="team_Introduction" jdbcType="VARCHAR" property="teamIntroduction"/>
+        <result column="overall_situation" jdbcType="VARCHAR" property="overallSituation"/>
+        <result column="platform_scoring" jdbcType="INTEGER" property="platformScoring"/>
+        <result column="level" jdbcType="VARCHAR" property="level"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="updator" jdbcType="VARCHAR" property="updator"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id,
+        platform_name,
+        research_field,
+        supporting_institutions,
+        research_funds,
+        platform_introduction,
+        person_liable,
+        platform_type,
+        team_Introduction,
+        overall_situation,
+        platform_scoring,
+        level,
+        creator,
+        create_date,
+        update_date,
+        updator,
+        deleted
+       </sql>
+
+    <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"/> from kypt_info where id = #{id}
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"/> from kypt_info
+        <where>
+
+        </where>
+    </select>
+
+
+    <insert id="add" parameterType="com.pcitc.base.researchPlatform.PlatformInfoModel">
+        insert into kypt_info(id,platform_name,research_field,supporting_institutions,research_funds,platform_introduction,person_liable,platform_type,team_Introduction,
+        overall_situation,platform_scoring,level,creator,create_date,updator,deleted)
+         values(#{id},#{platformName},#{researchField},#{supportingInstitutions},#{researchFunds},#{platformIntroduction},#{personLiable},#{type},#{teamIntroduction},#{overallSituation},#{platformScoring},
+         #{level},#{creator},#{createDate},#{updateDate},#{updator},#{deleted} )
+    </insert>
+
+    <update id="update" parameterType="com.pcitc.base.researchPlatform.PlatformInfoModel">
+        update kypt_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="platformName != null and platformName != '' " >
+                platform_name = #{platformName},
+            </if>
+            <if test="researchField != null and researchField != '' " >
+                research_field = #{researchField},
+            </if>
+            <if test="supportingInstitutions != null and supportingInstitutions != ''" >
+                supporting_institutions = #{supportingInstitutions},
+            </if>
+            <if test="researchFunds != null and researchFunds != ''" >
+                research_funds = #{researchFunds},
+            </if>
+            <if test="platformIntroduction != null and platformIntroduction != ''" >
+                platform_introduction = #{platformIntroduction},
+            </if>
+            <if test="personLiable != null and personLiable != ''" >
+                person_liable = #{personLiable},
+            </if>
+            <if test="type != null and type != ''" >
+                platform_type = #{type},
+            </if>
+            <if test="teamIntroduction != null and teamIntroduction != ''" >
+                team_Introduction = #{teamIntroduction},
+            </if>
+            <if test="overallSituation != null and overallSituation != ''" >
+                overall_situation = #{overallSituation},
+            </if>
+            <if test="platformScoring != null and platformScoring != ''" >
+                platform_scoring = #{platformScoring},
+            </if>
+            <if test="level != null and level != ''" >
+                level = #{level},
+            </if>
+            <if test="updateDate != null and updateDate != ''" >
+                update_date = #{updateDate},
+            </if>
+            <if test="updator != null and updator != ''" >
+                updator = #{updator,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null and deleted != ''" >
+                deleted = #{deleted,jdbcType=VARCHAR}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+</mapper>
