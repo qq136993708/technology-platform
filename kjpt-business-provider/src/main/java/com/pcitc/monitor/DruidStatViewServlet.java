@@ -21,7 +21,7 @@ initParams={
 public class DruidStatViewServlet extends StatViewServlet  {
 
 	/**
-	 * checkin test
+	 * test
 	 */
 	private static final long serialVersionUID = 4399151602192714213L;
 
