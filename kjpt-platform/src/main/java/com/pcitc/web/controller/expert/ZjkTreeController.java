@@ -7,6 +7,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkTree;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.ReverseSqlResult;
 import com.pcitc.web.utils.UserProfileAware;
 import com.pcitc.base.common.TreeNode;
@@ -151,6 +152,7 @@ public class ZjkTreeController extends BaseController {
     @ResponseBody
     @OperationFilter(modelName = "专家库-树", actionName = "保存saveRecord")
     public int saveRecord(ZjkTree record) {
+        SysUser sysUserInfo = getUserProfile();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (record.getDataId() == null || "".equals(record.getDataId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));

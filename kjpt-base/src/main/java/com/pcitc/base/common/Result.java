@@ -26,6 +26,16 @@ public class Result {
      */
     private String code;
 
+    /**
+     * 成功返回编码
+     */
+    public static final String RESPONSE_SUCC_CODE = "0";
+
+    /**
+     * 默认消息
+     */
+    public static final String RESPONSE_SUCC_MSG = "success";
+
     public Result() {
 
         this.success = true;

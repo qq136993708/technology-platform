@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pcitc.base.system.SysUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -167,6 +168,7 @@ public class SysUserPropertyController extends BaseController {
 	public int saveFunctionConfigPost(SysFunctionProperty sysFunctionProperty) throws Exception {
 		System.out.println("sysFunctionProperty------"+sysFunctionProperty);
 		System.out.println("sysFunctionProperty------"+sysFunctionProperty.getPostId());
+		SysUser sysUserInfo = getUserProfile();
 		sysFunctionProperty.setCreateUserId(sysUserInfo.getUserId());
 		HttpEntity<SysFunctionProperty> entity = new HttpEntity<SysFunctionProperty>(sysFunctionProperty, this.httpHeaders);
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE_FUN_CONFIG, HttpMethod.POST, entity, Integer.class);

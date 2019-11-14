@@ -7,6 +7,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.system.StandardBase;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.web.utils.UserProfileAware;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -145,6 +146,7 @@ public class StandardBaseController extends BaseController {
     @OperationFilter(modelName = "标准化", actionName = "保存saveRecord")
     public int saveRecord(StandardBase record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        SysUser sysUserInfo = getUserProfile();
         if (record.getDataId() == null || "".equals(record.getDataId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setCreateUser(sysUserInfo.getUserId());

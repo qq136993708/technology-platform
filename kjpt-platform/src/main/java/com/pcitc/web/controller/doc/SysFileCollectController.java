@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pcitc.base.system.SysUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -88,6 +89,7 @@ public class SysFileCollectController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "文档管理", actionName = "文档收藏")
 	public int saveRecord(SysFileCollect record) {
+		SysUser sysUserInfo = getUserProfile();
 		record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
 		record.setCreatePersonId(sysUserInfo.getUserId());
 		record.setCreatePersonName(sysUserInfo.getUserName());
@@ -165,6 +167,7 @@ public class SysFileCollectController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "文件收藏", actionName = "删除本人此文件收藏")
 	public int deleteObject(HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if (request.getParameter("fileIds")!= null) {
 			map.put("fileIds", request.getParameter("fileIds"));

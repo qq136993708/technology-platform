@@ -8,6 +8,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkMsg;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.web.utils.UserProfileAware;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -110,6 +111,7 @@ public class ZjkMsgController extends BaseController {
     @ResponseBody
     @OperationFilter(modelName = "专家回复消息配置表", actionName = "批量保存saveZjkMsgBat")
     public int saveZjkMsgBat(ZjkMsg record) {
+        SysUser sysUserInfo = getUserProfile();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (record.getDataId() == null || "".equals(record.getDataId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -166,6 +168,7 @@ public class ZjkMsgController extends BaseController {
     @RequestMapping(value = "/getTableData", method = RequestMethod.POST)
     @ResponseBody
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
+        SysUser sysUserInfo = getUserProfile();
         param.getParam().put("createUserId",sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
@@ -176,6 +179,7 @@ public class ZjkMsgController extends BaseController {
     @RequestMapping(value = "/getTableDataTrees", method = RequestMethod.POST)
     @ResponseBody
     public Object getTableDataTrees(@ModelAttribute("param") LayuiTableParam param) {
+        SysUser sysUserInfo = getUserProfile();
         param.getParam().put("createUserId",sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(getTableDataTrees, HttpMethod.POST, entity, LayuiTableData.class);
@@ -186,6 +190,7 @@ public class ZjkMsgController extends BaseController {
     @RequestMapping(value = "/getTableDataTreesJl", method = RequestMethod.POST)
     @ResponseBody
     public Object getTableDataTreesJl(@ModelAttribute("param") LayuiTableParam param) {
+        SysUser sysUserInfo = getUserProfile();
         param.getParam().put("createUserId",sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(getTableDataTreesJl, HttpMethod.POST, entity, LayuiTableData.class);
@@ -195,6 +200,7 @@ public class ZjkMsgController extends BaseController {
     @RequestMapping(value = "/getTableDataTreesCg", method = RequestMethod.POST)
     @ResponseBody
     public Object getTableDataTreesCg(@ModelAttribute("param") LayuiTableParam param) {
+        SysUser sysUserInfo = getUserProfile();
         param.getParam().put("createUserId",sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(getTableDataTreesCg, HttpMethod.POST, entity, LayuiTableData.class);
@@ -212,6 +218,7 @@ public class ZjkMsgController extends BaseController {
     @ResponseBody
     @OperationFilter(modelName = "专家-回复管理", actionName = "保存saveRecord")
     public int saveRecord(ZjkMsg record) {
+        SysUser sysUserInfo = getUserProfile();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (record.getId() == null || "".equals(record.getId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));

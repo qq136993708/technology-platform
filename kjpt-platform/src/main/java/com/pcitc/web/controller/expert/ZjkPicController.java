@@ -7,6 +7,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkPic;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.web.utils.UserProfileAware;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -147,6 +148,7 @@ public class ZjkPicController extends BaseController {
     @OperationFilter(modelName = "", actionName = "保存saveRecord")
     public int saveRecord(ZjkPic record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        SysUser sysUserInfo = getUserProfile();
         if (record.getId() == null || "".equals(record.getId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setCreateUser(sysUserInfo.getUserId());

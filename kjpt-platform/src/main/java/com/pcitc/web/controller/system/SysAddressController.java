@@ -7,6 +7,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysAddress;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.web.utils.UserProfileAware;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -162,6 +163,7 @@ public class SysAddressController extends BaseController {
     @ResponseBody
     @OperationFilter(modelName = "省市县地址表", actionName = "保存saveRecord")
     public int saveRecord(SysAddress record) {
+        SysUser sysUserInfo = getUserProfile();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (record.getId() == null || "".equals(record.getId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));

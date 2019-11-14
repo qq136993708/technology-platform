@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -166,6 +167,7 @@ public class SysFileKindController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "", actionName = "保存saveRecord")
 	public int saveRecord(SysFileKind record) {
+		SysUser sysUserInfo = getUserProfile();
 		if (record.getId() == null || "".equals(record.getId())) {
 			record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
 			record.setCreatePersonId(sysUserInfo.getUserId());
@@ -206,6 +208,7 @@ public class SysFileKindController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/edit")
 	public String pageEdit(String id, Model model, String opt, String other, String parentId) {
+		SysUser sysUserInfo = getUserProfile();
 		request.setAttribute("userInfo", sysUserInfo);
 		request.setAttribute("createDate", DateUtil.format(new Date(), DateUtil.FMT_SS));
 		model.addAttribute("id", id);
@@ -300,6 +303,7 @@ public class SysFileKindController extends BaseController {
 	@RequestMapping(value = "/collect/tree-data")
 	@ResponseBody
 	public String getFileKindCollectTree() throws Exception {
+		SysUser sysUserInfo = getUserProfile();
 		SysFileKind sysFileKind = new SysFileKind();
 		sysFileKind.setOther("self");
 		sysFileKind.setCreatePersonId(sysUserInfo.getUserId());
@@ -479,6 +483,7 @@ public class SysFileKindController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "", actionName = "保存saveRecordUpload")
 	public int saveRecordUpload(SysFileKind record) {
+		SysUser sysUserInfo = getUserProfile();
 		record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
 		record.setUpdatePersonId(sysUserInfo.getUserId());
 		record.setUpdatePersonName(sysUserInfo.getUserName());
@@ -496,7 +501,7 @@ public class SysFileKindController extends BaseController {
 	@RequestMapping(value = "/auth/ini-config")
 	public String iniSysFileKindAuthConfig(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("=====iniAddDelegate");
-
+		SysUser sysUserInfo = getUserProfile();
 		request.setAttribute("userInfo", sysUserInfo);
 		request.setAttribute("sysFileKindId", request.getParameter("sysFileKindId"));
 
@@ -522,6 +527,7 @@ public class SysFileKindController extends BaseController {
 	@RequestMapping(value = "/auth/user/save")
 	@ResponseBody
 	public int saveFileKindAuthUser(SysFileKindAuth sysFileKindAuth) {
+		SysUser sysUserInfo = getUserProfile();
 		sysFileKindAuth.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
 		sysFileKindAuth.setUpdateUser(sysUserInfo.getUserId());
 		sysFileKindAuth.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
