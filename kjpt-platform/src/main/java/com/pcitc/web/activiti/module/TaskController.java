@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -137,7 +138,7 @@ public class TaskController extends BaseController {
 	@RequestMapping(value = "/task/message/list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getMessageListData(@ModelAttribute("param") LayuiTableParam param) {
-
+		SysUser sysUserInfo = getUserProfile();
 		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -158,7 +159,7 @@ public class TaskController extends BaseController {
 
 	/**
 	 * 查询所有的下一个节点需要处理的人（角色用列表）
-	 * 
+	 *
 	 * @param param
 	 * @param request
 	 * @return
@@ -214,6 +215,7 @@ public class TaskController extends BaseController {
 	@RequestMapping(value = "/task/pending-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object pendingList(@ModelAttribute("param") LayuiTableParam param) {
+		SysUser sysUserInfo = getUserProfile();
 		System.out.println("====待办param-->" + JSON.toJSON(param).toString());
 		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
@@ -230,6 +232,7 @@ public class TaskController extends BaseController {
 	@RequestMapping(value = "/task/pending/union/show", method = RequestMethod.POST)
 	@ResponseBody
 	public Object pendingUnionShow(@ModelAttribute("param") LayuiTableParam param) {
+		SysUser sysUserInfo = getUserProfile();
 		System.out.println("====待办param-->" + JSON.toJSON(param).toString());
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 		param.setPage(1);
@@ -269,6 +272,7 @@ public class TaskController extends BaseController {
 	@RequestMapping(value = "/task/other/pending-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object otherPendingList(@ModelAttribute("param") LayuiTableParam param) {
+		SysUser sysUserInfo = getUserProfile();
 		System.out.println("====待办param-->" + JSON.toJSON(param).toString());
 		// 获取当前登录人信息, 统一身份名作为用户id
 		param.getParam().put("userId", sysUserInfo.getUserName());
@@ -285,6 +289,7 @@ public class TaskController extends BaseController {
 	 */
 	@RequestMapping(value = "/task/pending/deal/{taskId}")
 	public String iniDealTask(@PathVariable("taskId") String taskId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		SysUser sysUserInfo = getUserProfile();
 		System.out.println("1=====iniDealTask====" + taskId);
 
 		WorkflowVo workflowVo = new WorkflowVo();
@@ -308,6 +313,7 @@ public class TaskController extends BaseController {
 	@RequestMapping(value = "/task/done-task-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object doneTaskList(@ModelAttribute("param") LayuiTableParam param) {
+		SysUser sysUserInfo = getUserProfile();
 		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
 
@@ -327,6 +333,7 @@ public class TaskController extends BaseController {
 	@RequestMapping(value = "/kjptmobile/done_task_list_data")
 	@ResponseBody
 	public Page done_task_list_data(HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		int pageNo = request.getParameter("pageNo") == null ? 1 : Integer.parseInt((String) request.getParameter("pageNo"));
 		LayuiTableParam param = new LayuiTableParam();
 		param.setPage(pageNo);
@@ -350,6 +357,7 @@ public class TaskController extends BaseController {
 	@RequestMapping(value = "/task/done-instance-list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object doneInstanceList(@ModelAttribute("param") LayuiTableParam param) {
+		SysUser sysUserInfo = getUserProfile();
 		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
 
@@ -362,7 +370,7 @@ public class TaskController extends BaseController {
 
 	/**
 	 * 任务办理
-	 * 
+	 *
 	 * @author zhf
 	 * @date 2018年4月23日 下午5:23:00
 	 */
@@ -370,6 +378,7 @@ public class TaskController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "系统管理", actionName = "处理待办任务")
 	public Result completeTask(@PathVariable("taskId") String taskId, @RequestBody String param, HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		System.out.println("动态获取的前台页面审批意见======" + param);
 		JSONArray jsArr = JSONObject.parseArray(param);
 		System.out.println("动态获取的前台页面审批意见======" + jsArr.getJSONObject(0));
@@ -415,7 +424,7 @@ public class TaskController extends BaseController {
 
 	/**
 	 * 通过业务id，查看此单据的审批信息
-	 * 
+	 *
 	 * @author zhf
 	 * @date 2019年4月23日 下午5:19:28
 	 */
@@ -426,7 +435,7 @@ public class TaskController extends BaseController {
 
 	/**
 	 * 流程监控--已审批、待审批/流程图片
-	 * 
+	 *
 	 * @author zhf
 	 * @date 2018年4月23日 下午5:19:28
 	 */
@@ -442,7 +451,7 @@ public class TaskController extends BaseController {
 
 	/**
 	 * 显示流程的列表
-	 * 
+	 *
 	 * @author zhf
 	 * @date 2018年4月23日 下午5:19:25
 	 */
@@ -479,7 +488,7 @@ public class TaskController extends BaseController {
 
 	/**
 	 * 显示流程的列表
-	 * 
+	 *
 	 * @author zhf
 	 * @date 2018年4月23日 下午5:19:25
 	 */
@@ -514,7 +523,7 @@ public class TaskController extends BaseController {
 
 	/**
 	 * 根据业务id删除对应流程实例
-	 * 
+	 *
 	 * @author zhf
 	 * @date 2019年9月10日 下午4:40:37
 	 */
@@ -541,7 +550,7 @@ public class TaskController extends BaseController {
 	 * RequestMethod.GET) public String showResoure(@PathVariable("instanceId")
 	 * String instanceId, HttpServletRequest request) {
 	 * System.out.println("====task/show/image" + instanceId);
-	 * 
+	 *
 	 * Result image = generateImage(instanceId, request);
 	 * request.setAttribute("image", image.getData()); return
 	 * "/pplus/workflow/process-show"; }
@@ -549,7 +558,7 @@ public class TaskController extends BaseController {
 
 	/**
 	 * 生成流程实例的流程图片，并重点高亮当前节点，高亮已经执行的链路
-	 * 
+	 *
 	 * @author zhf
 	 * @date 2018年4月23日 下午5:42:11
 	 */
@@ -578,7 +587,7 @@ public class TaskController extends BaseController {
 
 	/**
 	 * 生成流程实例的流程图片，并重点高亮当前节点，高亮已经执行的链路
-	 * 
+	 *
 	 * @author zhf
 	 * @date 2018年4月23日 下午5:42:11
 	 */

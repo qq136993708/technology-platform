@@ -68,6 +68,7 @@ public class SysNoticeController extends BaseController {
 	 */
 	@RequestMapping(value = "/sysNotice_list")
 	public String toList(String userNoticeStatus, Model model,HttpServletRequest request, HttpServletResponse response) {
+		SysUser sysUserInfo = getUserProfile();
 		if (StringUtils.isEmpty(userNoticeStatus))
 			userNoticeStatus = "";
 		model.addAttribute("userNoticeStatus", userNoticeStatus);
@@ -76,6 +77,7 @@ public class SysNoticeController extends BaseController {
 	}
 	@RequestMapping(value = "/my_notice_list")
 	public String toMyNoticeList(String userNoticeStatus, Model model,HttpServletRequest request, HttpServletResponse response) {
+		SysUser sysUserInfo = getUserProfile();
 		if (StringUtils.isEmpty(userNoticeStatus))
 			userNoticeStatus = "";
 		model.addAttribute("userNoticeStatus", userNoticeStatus);
@@ -95,6 +97,7 @@ public class SysNoticeController extends BaseController {
 	 */
 	@RequestMapping(value = "/sysNotice_info")
 	public String toInfo(String id, Model model) {
+		SysUser sysUserInfo = getUserProfile();
 		if (StringUtils.isEmpty(id))
 			id = "";
 		model.addAttribute("id", id);
@@ -118,6 +121,7 @@ public class SysNoticeController extends BaseController {
 	@RequestMapping(value = "/getTableData", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getTableData(@RequestBody List<Object> aoData, HttpServletRequest request) throws IOException {
+		SysUser sysUserInfo = getUserProfile();
 		String exchangeUrl = NOTICE_LIST;
 		DataTableInfoVo dataTableInfoVo = DateTableUtil.getAllParam(aoData);
 		SysNoticeVo vo = new SysNoticeVo();
@@ -160,6 +164,7 @@ public class SysNoticeController extends BaseController {
 	@RequestMapping(value = "/getSysNoticeList", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getSysNoticeList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		SysUser sysUserInfo = getUserProfile();
 		SysNoticeVo vo = new SysNoticeVo();
 		String page = request.getParameter("page"); // 起始索引
 		String limit = request.getParameter("limit"); // 每页显示的行数
@@ -197,6 +202,7 @@ public class SysNoticeController extends BaseController {
 	public Object getMyNoticeList(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		SysUser sysUserInfo = getUserProfile();
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(MY_NOTICE, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData data = responseEntity.getBody();
@@ -256,6 +262,7 @@ public class SysNoticeController extends BaseController {
 	@RequestMapping(value = "/noticeListShow", method = RequestMethod.POST)
 	@ResponseBody
 	public Object noticeListShow(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		SysUser sysUserInfo = getUserProfile();
 		SysNoticeVo vo = new SysNoticeVo();
 		String page = "1";
 		String limit = "5";
@@ -311,6 +318,7 @@ public class SysNoticeController extends BaseController {
 	 */
 	@RequestMapping(value = "/readNotice")
 	public String readNotice(String id, Model model) {
+		SysUser sysUserInfo = getUserProfile();
 		SysNoticeVo vo = new SysNoticeVo();
 		vo.setNoticeId(id);
 		SysUser currentUser = sysUserInfo;
@@ -335,6 +343,7 @@ public class SysNoticeController extends BaseController {
 	@RequestMapping(value = "/getUserNoticeCount")
 	@ResponseBody
 	public Long getUserNoticeCount(HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		SysNoticeVo vo = new SysNoticeVo();
 		SysUser currentUser = sysUserInfo;
 		vo.setUserId(currentUser.getUserId());

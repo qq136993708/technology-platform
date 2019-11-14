@@ -12,6 +12,7 @@ import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.system.StandardBase;
 import com.pcitc.base.system.SysFile;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
@@ -281,6 +282,7 @@ public class StandardBaseExpertController extends BaseController {
         String msg = "";
         String success = "true";
         String strReturn = "";
+        SysUser sysUserInfo = getUserProfile();
         try {
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
             if (record.getDataId() == null || "".equals(record.getDataId())) {

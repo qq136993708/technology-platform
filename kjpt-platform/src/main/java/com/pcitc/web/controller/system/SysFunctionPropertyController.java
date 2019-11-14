@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysUser;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -176,6 +177,7 @@ public class SysFunctionPropertyController extends BaseController {
 	@RequestMapping(value = "/functionProperty/data/model", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONArray getDataModelList(HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if (request.getParameter("proCode")!= null) {
 			map.put("proCode", request.getParameter("proCode"));
@@ -193,6 +195,7 @@ public class SysFunctionPropertyController extends BaseController {
 	@RequestMapping(value = "/functionProperty/data/model/value", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONArray getDataModelValueList(HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if (request.getParameter("proCode")!= null) {
 			map.put("proCode", request.getParameter("proCode"));
@@ -226,7 +229,7 @@ public class SysFunctionPropertyController extends BaseController {
 	@RequestMapping(value = "/functionProperty/data/model/save")
 	@ResponseBody
 	public Result saveSysDataModel(@RequestBody SysDataModel sysDataModel) {
-
+		SysUser sysUserInfo = getUserProfile();
 		sysDataModel.setCreateUser(sysUserInfo.getUserDisp());
 		Integer retI = this.restTemplate.exchange(SAVE_DATA_MODEL, HttpMethod.POST, new HttpEntity<SysDataModel>(sysDataModel, this.httpHeaders), Integer.class).getBody();
 		System.out.println("------"+retI);
@@ -243,6 +246,7 @@ public class SysFunctionPropertyController extends BaseController {
 	@RequestMapping(value = "/functionProperty/dictionary/data/control/list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object selectInstituteData(HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		if (request.getParameter("proCode")!= null) {
 			map.put("proCode", request.getParameter("proCode"));

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,7 @@ public class TechFamilyController extends BaseController {
 
 		return "/stp/techFamily/tech-tree-list";
 	}
-	
+
 	@RequestMapping(value = "/tech-family/type/tree-map/ini")
 	public String iniTechFamilyTypeMap(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -75,22 +76,22 @@ public class TechFamilyController extends BaseController {
 		} else {
 			techType.setTypeIndex(request.getParameter("code"));
 		}
-		
+
 		ResponseEntity<List> responseEntity = this.restTemplate.exchange(TECH_TYPE_TREE, HttpMethod.POST, new HttpEntity<TechFamily>(techType, this.httpHeaders), List.class);
-		
+
 		List<TreeNode> treeNodes = responseEntity.getBody();
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(treeNodes));
-		
+
 		//System.out.println(json.toJSONString());
-		
+
 		//JSONObject treeJson = new JSONObject();
-		
+
 		//treeJson = getChlidrenData(treeJson, json, "10", 1, "技术族");
-		
+
 		//System.out.println("----"+treeJson.toString().replaceAll("\\\\", ""));
 		return JSONUtils.toJSONString(treeNodes);
 	}
-	
+
 	public JSONObject getChlidrenData(JSONObject treeJson, JSONArray treeNodes, String parentId, int levelCount, String name) {
 		treeJson.put("name", name);
 		JSONArray array = new JSONArray();
@@ -98,20 +99,20 @@ public class TechFamilyController extends BaseController {
 			JSONObject temNode = treeNodes.getJSONObject(i);
 			int temLevel = Integer.parseInt(temNode.get("levelCode").toString());
 			if (temLevel == levelCount && temNode.get("pId").toString().equals(parentId)) {
-				
+
 				JSONObject childTree = new JSONObject();
-				
+
 				JSONObject childData = getChlidrenData(childTree, treeNodes, temNode.get("id").toString(), levelCount + 1, temNode.get("name").toString());
 				if (childData != null) {
 					array.add(childTree);
-				} 
-				
+				}
+
 			}
 		}
 		if (array.size() == 0) {
 			return treeJson;
 		}
-		
+
 		treeJson.put("children", array.toString());
 		treeJson.put("name", name);
 		return treeJson;
@@ -133,7 +134,7 @@ public class TechFamilyController extends BaseController {
 
 	/**
 	 * 初始化节点编码值，保证唯一
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -141,6 +142,7 @@ public class TechFamilyController extends BaseController {
 	 */
 	@RequestMapping(value = "/tech-family/type/ini-add")
 	public String iniAddTechFamilyType(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		SysUser sysUserInfo = getUserProfile();
 		System.out.println("========/tech-family/type/ini-add=========");
 		request.setAttribute("userInfo", sysUserInfo);
 
@@ -227,12 +229,13 @@ public class TechFamilyController extends BaseController {
 	@RequestMapping(value = "/tech-family/type/ini-chart")
 	public String iniTechFamilyTree(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("========/tech-family/type/ini-chart=========");
+		SysUser sysUserInfo = getUserProfile();
 		request.setAttribute("userInfo", sysUserInfo);
 
-		
+
 		return "/stp/techFamily/iniTechTypeTree";
 	}
-	
+
 	/**
 	 * 获取技术族树形结构数据
 	 * @param request
@@ -247,24 +250,24 @@ public class TechFamilyController extends BaseController {
 		TechFamily techType = new TechFamily();
 		techType.setLevelCode("5");
 		techType.setTypeIndex("10");
-		
+
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(TECH_TYPE_TREE1, HttpMethod.POST, new HttpEntity<TechFamily>(techType, this.httpHeaders), JSONArray.class);
-		
+
 		JSONArray treeNodes = responseEntity.getBody();
-		
+
 		return treeNodes;
 	}
-	
+
 	@RequestMapping(value = "/tech-family/type/chart/data/cond", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONArray getTechFamilyTreeDataCond(@RequestBody TechFamily techFamily) throws Exception {
 		techFamily.setLevelCode("5");
 		techFamily.setTypeIndex("10");
-		
+
 		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(TECH_TYPE_COND, HttpMethod.POST, new HttpEntity<TechFamily>(techFamily, this.httpHeaders), JSONArray.class);
-		
+
 		JSONArray treeNodes = responseEntity.getBody();
-		
+
 		System.out.println(treeNodes+"------222-------");
 		return treeNodes;
 	}

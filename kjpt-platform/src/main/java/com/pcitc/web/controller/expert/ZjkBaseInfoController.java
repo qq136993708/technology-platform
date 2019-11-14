@@ -7,6 +7,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkExpert;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.utils.UserProfileAware;
@@ -197,6 +198,7 @@ public class ZjkBaseInfoController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "专家-基本信息", actionName = "保存专家信息")
 	public int saveRecord(ZjkExpert record) {
+		SysUser sysUserInfo = getUserProfile();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		if (record.getId() == null || "".equals(record.getId())) {
 			record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -217,6 +219,7 @@ public class ZjkBaseInfoController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "系统管理", actionName = "启动工作流程（测试）")
 	public Result startFlow2(@RequestBody String param, HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		System.out.println("=====/workflow/start-flow2");
 		JSONObject json = JSONObject.parseObject(param);
 		String businessId = json.getString("dataId");

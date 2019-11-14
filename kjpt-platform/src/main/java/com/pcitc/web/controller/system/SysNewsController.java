@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -176,6 +177,7 @@ public class SysNewsController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "系统新闻表", actionName = "保存saveRecord")
 	public int saveRecord(SysNews record) {
+		SysUser sysUserInfo = getUserProfile();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		if (record.getDataId() == null || "".equals(record.getDataId())) {
 			record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));

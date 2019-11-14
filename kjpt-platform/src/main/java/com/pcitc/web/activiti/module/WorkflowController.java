@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -54,7 +55,7 @@ public class WorkflowController extends BaseController {
 	private static final String AUDIT_FLAG_URL = "http://kjpt-zuul/system-proxy/task-provider/workflow/start/audit-type";
 
 	private static final String PROJECT_LIST = "http://kjpt-zuul/epms-proxy/engin/preparation/Project-provider/project_list";
-	
+
 	/**
 	 * 判断是否需要选择审批人,判断流程图的第一个审批节点的类型（通过id来区分）
 	 */
@@ -130,7 +131,7 @@ public class WorkflowController extends BaseController {
 
 		// 必须设置，统一流程待办任务中需要的业务详情
 		variables.put("auditDetailsPath", "/task/test/details/" + businessId);
-		
+
 		// 流程完全审批通过时，调用的方法
 		variables.put("auditAgreeMethod", "http://kjpt-zuul/system-proxy/workflow-provider/task/agree/" + businessId);
 
@@ -141,13 +142,13 @@ public class WorkflowController extends BaseController {
 		//variables.put("money", 50); // 环节1需要用到
 		//variables.put("departmentCode", "1005"); // 环节2需要用到
 		//variables.put("specialAuditor0", "ZSH_YFGCS_CJCXY"); // 环节n需要用到
-		
+
 		//variables.put("specialAuditor1", "role--ZBGL_KJB_ZYCCZ");
 		//variables.put("specialAuditor2", "role--ZBGL_KJB_JHCCZ");
 		//variables.put("specialAuditor3", "role--ZBGL_KJB_ZGZR");
 		//variables.put("specialAuditor4", "role--ZBGL_KJB_ZR");
 		// 会签时需要的属性，会签里所有的人，同意率（double类型）
-		//variables.put("signAuditRate", 1d); 
+		//variables.put("signAuditRate", 1d);
 
 		workflowVo.setVariables(variables);
 		ResponseEntity<String> status = this.restTemplate.exchange(START_WORKFLOW_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), String.class);
@@ -182,7 +183,6 @@ public class WorkflowController extends BaseController {
 	}
 
 	/**
-	 * @param param
 	 * @param request
 	 * @return 获取某个菜单中，已经配置工作流定义、项目、部门等信息
 	 */
@@ -243,11 +243,9 @@ public class WorkflowController extends BaseController {
 
 	/**
 	 * 批量删除某一个菜单的工作流配置。如果通过某一个值进行删除可以用：@PathVariable
-	 * 
-	 * @param functionProdefId
-	 * @param request
+	 *
 	 * @return
-	 * 
+	 *
 	 */
 	@RequestMapping(value = "/workflow/function/configures", method = RequestMethod.POST)
 	@ResponseBody
@@ -270,7 +268,7 @@ public class WorkflowController extends BaseController {
 
 	/**
 	 * 初始化界面：给某个菜单配置部门、项目等信息
-	 * 
+	 *
 	 * @param functionId
 	 * @param request
 	 * @param response
@@ -279,12 +277,13 @@ public class WorkflowController extends BaseController {
 	 */
 	@RequestMapping(value = "/workflow/function/add/{functionId}")
 	public String iniFunctionProcessDefine(@PathVariable("functionId") String functionId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		SysUser sysUserInfo = getUserProfile();
 		System.out.println("1========/workflow/function/add=========" + functionId);
 		request.setAttribute("userInfo", sysUserInfo);
-		
+
 		return "/pplus/workflow/prodef-add";
 	}
-	
+
 	/**
 	 * 跳转到选择工作流定义页面
 	 */
@@ -293,7 +292,7 @@ public class WorkflowController extends BaseController {
 
 		return "/pplus/workflow/workflow-define-list";
 	}
-	
+
 	/**
 	 * 选择生效的工作流定义
 	 * @param param
@@ -308,7 +307,7 @@ public class WorkflowController extends BaseController {
 		LayuiTableData retJson = responseEntity.getBody();
 		return JSON.toJSON(retJson).toString();
 	}
-	
+
 	/**
 	 * 跳转到选择工程项目页面
 	 */
@@ -317,7 +316,7 @@ public class WorkflowController extends BaseController {
 
 		return "/pplus/workflow/project-list";
 	}
-	
+
 	/**
 	 * 选择生效的项目
 	 * @param param
@@ -330,17 +329,17 @@ public class WorkflowController extends BaseController {
 		map.put("projectCondition", "0");
 		param.setParam(map);
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-	    ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_LIST, HttpMethod.POST, entity, LayuiTableData.class);
-	    LayuiTableData result = responseEntity.getBody();
-	    CommonUtil.addAttachmentField(result, restTemplate, httpHeaders);
-	    JSONObject retJson = (JSONObject) JSON.toJSON(result);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData result = responseEntity.getBody();
+		CommonUtil.addAttachmentField(result, restTemplate, httpHeaders);
+		JSONObject retJson = (JSONObject) JSON.toJSON(result);
 		return retJson;
 	}
-	
+
 
 	/**
 	 * 保存配置,同一个菜单同一种配置只能有一个配置
-	 * 
+	 *
 	 * @param param
 	 * @param request
 	 * @return

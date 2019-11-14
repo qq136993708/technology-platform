@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pcitc.base.system.SysUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -95,7 +96,7 @@ public class SysFunctionGroupController extends BaseController {
 	@ResponseBody
 	public Object saveFunctionGroupInfo(@ModelAttribute("group") SysFunctionGroup group, HttpServletRequest request)
 			throws IOException {
-		
+		SysUser sysUserInfo = getUserProfile();
 		group.setCreatePersonId(sysUserInfo.getUserId());
 		group.setCreatePersonName(sysUserInfo.getUserName());
 		group.setStatus(DelFlagEnum.STATUS_NORMAL.getCode());

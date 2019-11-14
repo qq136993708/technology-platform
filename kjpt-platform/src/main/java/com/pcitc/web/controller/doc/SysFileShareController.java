@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.pcitc.base.system.SysUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -151,6 +152,7 @@ public class SysFileShareController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "文件分享信息", actionName = "保存saveRecord")
 	public int saveRecord(SysFileShare record) {
+		SysUser sysUserInfo = getUserProfile();
 		record.setUserId(sysUserInfo.getUserId());
 		if (record.getId() == null || "".equals(record.getId())) {
 			record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -177,6 +179,7 @@ public class SysFileShareController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "文件分享信息", actionName = "保存savesysFileShareFile")
 	public int saveRecordFile(SysFileShare record) {
+		SysUser sysUserInfo = getUserProfile();
 		record.setUserId(sysUserInfo.getUserId());
 		if (record.getId() == null || "".equals(record.getId())) {
 			record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));

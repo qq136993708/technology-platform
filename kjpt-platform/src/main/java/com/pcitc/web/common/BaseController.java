@@ -43,7 +43,7 @@ public class BaseController implements ErrorController
     
     public Logger logger = LoggerFactory.getLogger(getClass());
     
-    public SysUser sysUserInfo;
+    private SysUser sysUserInfo;
 
 	public void setUserProfile(SysUser sysUser) {
 		this.sysUserInfo = sysUser;

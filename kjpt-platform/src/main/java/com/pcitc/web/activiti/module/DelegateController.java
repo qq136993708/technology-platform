@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -68,6 +69,7 @@ public class DelegateController extends BaseController {
 	@OperationFilter(dataFlag = "true")
 	public Object getDelegateListForTable(@ModelAttribute("param") LayuiTableParam param) {
 		System.out.println("====--------/delegate/list---"+param.getParam().toString());
+		SysUser sysUserInfo = getUserProfile();
 		param.getParam().put("assigneeCode", sysUserInfo.getUserId());
 		param.getParam().put("status", "1");
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -86,6 +88,7 @@ public class DelegateController extends BaseController {
 	@OperationFilter(dataFlag = "true")
 	public Object getDelegateHistoryListForTable(@ModelAttribute("param") LayuiTableParam param) {
 		System.out.println("====--------/delegate/history/list");
+		SysUser sysUserInfo = getUserProfile();
 		// 获取当前登录人信息
 		param.getParam().put("assigneeCode", sysUserInfo.getUserId());
 
@@ -103,7 +106,7 @@ public class DelegateController extends BaseController {
 	@RequestMapping(value = "/delegate/ini-add")
 	public String iniAddDelegate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("=====iniAddDelegate");
-
+		SysUser sysUserInfo = getUserProfile();
 		request.setAttribute("userInfo", sysUserInfo);
 
 		return "/pplus/workflow/delegate-add";
@@ -140,6 +143,7 @@ public class DelegateController extends BaseController {
 	public Result delegateInsert(@RequestBody SysDelegate delegate, HttpServletRequest request) throws Exception {
 		delegate.setDelegateId(UUID.randomUUID().toString().replaceAll("-", ""));
 		delegate.setStatus("1");
+		SysUser sysUserInfo = getUserProfile();
 		delegate.setCreateUserId(sysUserInfo.getUserId());
 		delegate.setCreateUser(sysUserInfo.getUserDisp());
 		Integer retI = this.restTemplate.exchange(DELEGATE_ADD_URL, HttpMethod.POST, new HttpEntity<SysDelegate>(delegate, this.httpHeaders), Integer.class).getBody();

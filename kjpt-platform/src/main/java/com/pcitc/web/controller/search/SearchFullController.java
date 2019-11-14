@@ -51,6 +51,7 @@ public class SearchFullController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchEquipment")
     public String searchEquipment(HttpServletRequest request) throws Exception {
+        SysUser sysUserInfo = getUserProfile();
         request.setAttribute("keyword", request.getParameter("keyword"));
         String hotKeyWord = request.getParameter("hotKeyWord");
         request.setAttribute("hotKeyWord", (hotKeyWord == null || "".equals(hotKeyWord)) ? "" : java.net.URLDecoder.decode(hotKeyWord, "utf-8"));
@@ -104,6 +105,7 @@ public class SearchFullController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/searchFile")
     public String searchFile(HttpServletRequest request) throws Exception {
+        SysUser sysUserInfo = getUserProfile();
         String keyword = request.getParameter("keyword");
         request.setAttribute("keyword", (keyword == null || "undefined".equals(keyword)) ? "" : keyword);
         String hotKeyWord = request.getParameter("hotKeyWord");
@@ -145,6 +147,7 @@ public class SearchFullController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/search")
     public String search(HttpServletRequest request) {
+        SysUser sysUserInfo = getUserProfile();
         try {
             InputCheckUtil.processRequestTag(request);
             String keyword = request.getParameter("keyword");
@@ -242,6 +245,7 @@ public class SearchFullController extends BaseController {
     @RequestMapping(method = RequestMethod.GET, value = "/fullSearch/getEquipmentIsShow")
     @ResponseBody
     public String getEquipmentIsShow(HttpServletRequest request) {
+        SysUser sysUserInfo = getUserProfile();
         String flag = "0";
         if (sysUserInfo.getUserLevel()!=2) {
             //同一个院

@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -49,7 +50,7 @@ public class FileController extends BaseController {
 	@RequestMapping(value = "/file/common/data-list", method = RequestMethod.POST)
 	@ResponseBody
 	public String getFileCommonList(@ModelAttribute("param") LayuiTableParam param) throws IOException {
-		
+		SysUser sysUserInfo = getUserProfile();
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -70,7 +71,7 @@ public class FileController extends BaseController {
 	@RequestMapping(value = "/file/collect/data-list", method = RequestMethod.POST)
 	@ResponseBody
 	public String getFileCollectList(@ModelAttribute("param") LayuiTableParam param) throws IOException {
-		
+		SysUser sysUserInfo = getUserProfile();
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -91,7 +92,7 @@ public class FileController extends BaseController {
 	@RequestMapping(value = "/file/kind/list", method = RequestMethod.POST)
 	@ResponseBody
 	public String selectFileInfoList(@ModelAttribute("param") LayuiTableParam param) throws IOException {
-		
+		SysUser sysUserInfo = getUserProfile();
 		LayuiTableData layuiTableData = new LayuiTableData();
 		Map<String,Object> paraMap = param.getParam();
 		if (paraMap.get("createUserId") != null && !paraMap.get("createUserId").equals("")) {

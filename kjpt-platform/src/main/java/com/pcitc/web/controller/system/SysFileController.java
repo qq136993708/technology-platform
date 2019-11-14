@@ -151,7 +151,7 @@ public class SysFileController extends BaseController {
     @RequestMapping(value = "/sysfile/uploadMultipleFileLayuiCroppers", method = RequestMethod.POST)
     @ResponseBody
     public FileResult uploadMultipleFileLayuiCroppers(@RequestParam(value = "file", required = false) MultipartFile[] files) throws IOException {
-
+        SysUser sysUserInfo = getUserProfile();
         String filedflag = request.getParameter("filedflag");//值
         String formId = request.getParameter("formId");//菜单ID
         String flag = "0";//标志
@@ -186,6 +186,7 @@ public class SysFileController extends BaseController {
     @ResponseBody
     public FileResult uploadMultipleFileLayui(@RequestParam(value = "file", required = false) MultipartFile[] files, HttpServletRequest request, HttpServletResponse response) throws IOException {
         FileResult result = null;
+        SysUser sysUserInfo = getUserProfile();
         try {
             List<SysFile> fileList = new ArrayList<>();
             for (int i = 0; i < files.length; i++) {
@@ -257,6 +258,7 @@ public class SysFileController extends BaseController {
     @ResponseBody
     public FileResult uploadMultipleFileLayuiIE(@RequestParam(value = "file", required = false) MultipartFile[] files, HttpServletRequest request, HttpServletResponse response) throws IOException {
         FileResult result = null;
+        SysUser sysUserInfo = getUserProfile();
         try {
             List<SysFile> fileList = new ArrayList<>();
             for (int i = 0; i < files.length; i++) {
@@ -391,6 +393,7 @@ public class SysFileController extends BaseController {
     @RequestMapping(value = "/sysfile/md5/download/{fileMd5}")
     public Result downloadFileByMd5(@PathVariable("fileMd5") String fileMd5, HttpServletRequest request, HttpServletResponse response) {
         LayuiTableParam param = new LayuiTableParam();
+        SysUser sysUserInfo = getUserProfile();
         param.getParam().put("userId", sysUserInfo.getUserId());
         param.getParam().put("fileMd5", fileMd5);
 
@@ -649,7 +652,7 @@ public class SysFileController extends BaseController {
     public SysFile uploadSignMultipleFile(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 单个文件上传
         String uuid = IdUtil.createIdByTime();
-
+        SysUser sysUserInfo = getUserProfile();
         String rsStr = sysFileFeignClient.uploadFileSavetest(file, request, response, file.getOriginalFilename(), request.getParameter("fileId"), sysUserInfo.getUserId(), uuid);
         JSONArray array = JSON.parseArray(rsStr);
 
@@ -675,6 +678,7 @@ public class SysFileController extends BaseController {
         // 返回
         // 异步调用
         FileResult rs = null;
+        SysUser sysUserInfo = getUserProfile();
         try {
             List<SysFile> fileList = new ArrayList<>();
             for (int i = 0; i < files.length; i++) {
@@ -817,6 +821,7 @@ public class SysFileController extends BaseController {
     @RequestMapping(value = "/sysfile/getTableData", method = RequestMethod.POST)
     @ResponseBody
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) throws IOException {
+        SysUser sysUserInfo = getUserProfile();
         DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
         dataTableInfoVo.setiDisplayLength(param.getLimit());
         dataTableInfoVo.setiDisplayStart((param.getPage() - 1) * param.getLimit());
@@ -1069,7 +1074,7 @@ public class SysFileController extends BaseController {
 
 //            File upload = new File(serverPath+imageUrl);
 //            if(!upload.exists()) upload.mkdirs();
-
+            SysUser sysUserInfo = getUserProfile();
             String date = sysUserInfo.getUserId();
             strFilePath = ckfilepath + imageUrl + File.separator + date + File.separator;
             File filePath = new File(strFilePath);
@@ -1123,6 +1128,7 @@ public class SysFileController extends BaseController {
     @ResponseBody
     public String ckupload5(@RequestParam(value = "upload", required = false) MultipartFile[] files, HttpServletRequest request) {
         JSONObject r = new JSONObject();
+        SysUser sysUserInfo = getUserProfile();
         SysFile sysFile = null;
         String tempFileName = "";
         try {
