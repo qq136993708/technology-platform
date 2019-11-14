@@ -7,6 +7,7 @@ import com.pcitc.base.common.*;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.ReverseSqlResult;
@@ -287,7 +288,7 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/queryExpert", method = RequestMethod.GET)
     public String queryExpert() {
-
+        SysUser sysUserInfo = getUserProfile();
         request.setAttribute("hyly", request.getParameter("hyly"));
         request.setAttribute("jg", request.getParameter("jg"));
         request.setAttribute("jgshow", request.getParameter("jgshow"));
@@ -310,6 +311,7 @@ public class ExpertController extends BaseController {
     @RequestMapping(value = "/bakTablePage", method = RequestMethod.GET)
     @OperationFilter(modelName = "专家-备选跳转", actionName = "查询跳转bakTablePage")
     public String bakTablePage() {
+        SysUser sysUserInfo = getUserProfile();
         request.setAttribute("addUserId", sysUserInfo.getUserId());
         return "stp/expert/bakTable";
     }
@@ -555,6 +557,7 @@ public class ExpertController extends BaseController {
     @RequestMapping(value = "/saveBak")
     @ResponseBody
     public int saveChoice(ZjkChoice record) {
+        SysUser sysUserInfo = getUserProfile();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (record.getId() == null || "".equals(record.getId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -586,6 +589,7 @@ public class ExpertController extends BaseController {
     @ResponseBody
     public int addCompare(ZjkChoice record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        SysUser sysUserInfo = getUserProfile();
         if (record.getId() == null || "".equals(record.getId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setCreateUser(sysUserInfo.getUserId());
@@ -611,6 +615,7 @@ public class ExpertController extends BaseController {
     @ResponseBody
     @OperationFilter(modelName = "专家-人员选择", actionName = "保存addChoice")
     public int addChoice(ZjkChoice record) {
+        SysUser sysUserInfo = getUserProfile();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (record.getId() == null || "".equals(record.getId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -636,6 +641,7 @@ public class ExpertController extends BaseController {
     @RequestMapping(value = "/addChoiceList")
     @ResponseBody
     public int addChoiceList() {
+        SysUser sysUserInfo = getUserProfile();
         String param = request.getParameter("param");
         JSONArray array = JSON.parseArray(param);
         String fileIds = "";
@@ -680,6 +686,7 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/selectBakList", method = RequestMethod.GET)
     public String selectBakList() {
+        SysUser sysUserInfo = getUserProfile();
         String status = request.getParameter("status");
         String addUserId = request.getParameter("addUserId");
 
@@ -710,6 +717,7 @@ public class ExpertController extends BaseController {
     @RequestMapping(value = "/delBak", method = RequestMethod.POST)
     @ResponseBody
     public Object delBak() {
+        SysUser sysUserInfo = getUserProfile();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("addUserId", sysUserInfo.getUserId());//操作人ＩＤ
         jsonObject.put("expertId", request.getParameter("expertId"));//专家ｉｄ
@@ -727,6 +735,7 @@ public class ExpertController extends BaseController {
     @ResponseBody
     @OperationFilter(modelName = "专家-基本信息", actionName = "保存saveRecord")
     public int saveRecord(ZjkExpert record) {
+        SysUser sysUserInfo = getUserProfile();
         if (record.getId() == null || "".equals(record.getId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setCreateUser(sysUserInfo.getUserId());
@@ -809,7 +818,7 @@ public class ExpertController extends BaseController {
 
     @RequestMapping(value = "/zjkOutProjectList")
     public String iniOutProjectList() throws Exception {
-
+        SysUser sysUserInfo = getUserProfile();
         String nd = CommonUtil.getParameter(request, "nd", "");// 年度
         String ysnd = CommonUtil.getParameter(request, "ysnd", "");// 预算年磁
         String xmmc = CommonUtil.getParameter(request, "xmmc", "");// 项目名
@@ -942,6 +951,7 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/zjkOutProjectListPublic")
     public String iniOutProjectListPublic() throws Exception {
+        SysUser sysUserInfo = getUserProfile();
         //获取项目ID
         LayuiTableParam param = new LayuiTableParam();
         param.setLimit(100000000);
@@ -1058,6 +1068,7 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/zjkAchievementListPublic")
     public String zjkAchievementListPublic() throws Exception {
+        SysUser sysUserInfo = getUserProfile();
         //获取项目ID
         LayuiTableParam param = new LayuiTableParam();
         param.setLimit(100000000);
@@ -1087,6 +1098,7 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/zjkPatentListPublic")
     public String zjkPatentListPublic() throws Exception {
+        SysUser sysUserInfo = getUserProfile();
         //获取项目ID
         LayuiTableParam param = new LayuiTableParam();
         param.setLimit(100000000);
@@ -1176,7 +1188,7 @@ public class ExpertController extends BaseController {
     @OperationFilter(dataFlag = "true")
     @ResponseBody
     public Object outProjectList(@ModelAttribute("param") LayuiTableParam param) {
-
+        SysUser sysUserInfo = getUserProfile();
         System.out.println("====expertController");
         // 数据控制属性
 //        String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();

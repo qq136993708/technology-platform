@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.*;
 import com.pcitc.base.search.ZjkSearchLog;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.web.utils.UserProfileAware;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.util.DateUtil;
@@ -161,6 +162,7 @@ public class ZjkSearchLogController extends BaseController {
     @OperationFilter(modelName = "专家库-搜索关键字日志", actionName = "保存saveRecord")
     public int saveRecord(ZjkSearchLog record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        SysUser sysUserInfo = getUserProfile();
         if (record.getDataId() == null || "".equals(record.getDataId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setCreateUser(sysUserInfo.getUserId());

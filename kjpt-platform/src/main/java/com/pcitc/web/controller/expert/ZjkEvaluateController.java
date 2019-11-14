@@ -7,6 +7,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkEvaluate;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.web.utils.UserProfileAware;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -132,6 +133,7 @@ public class ZjkEvaluateController extends BaseController {
     @RequestMapping(value = "/getTableData", method = RequestMethod.POST)
     @ResponseBody
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
+        SysUser sysUserInfo = getUserProfile();
         param.getParam().put("createUserId",sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
@@ -149,6 +151,7 @@ public class ZjkEvaluateController extends BaseController {
     @ResponseBody
     @OperationFilter(modelName = "专家库-专家评价", actionName = "保存saveRecord")
     public int saveRecord(ZjkEvaluate record) {
+        SysUser sysUserInfo = getUserProfile();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         if(record.getCreateDate()==null||"".equals(record.getCreateDate())){
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_DD));

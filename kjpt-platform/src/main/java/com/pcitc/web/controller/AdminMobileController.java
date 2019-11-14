@@ -59,6 +59,7 @@ public class AdminMobileController extends BaseController {
 	 */
 	@RequestMapping(value = "/mobile-tem/index")
 	public String indexMobileStpTem(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		SysUser sysUserInfo = getUserProfile();
 		System.out.println("1进入indexMobileStp....");
 		String token = request.getParameter("Identity_Token");
 		DES3Utils desUtils = new DES3Utils("01qaz2wsx3edc4rfv5tgb6yhn");
@@ -356,7 +357,7 @@ public class AdminMobileController extends BaseController {
 
 	@RequestMapping(value = "/kjptmobile/temIndex")
 	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		SysUser sysUserInfo = getUserProfile();
 		SysUser userDetails = new SysUser(); // 用户信息，包含此人拥有的菜单权限等。token中放不下这些信息
 		SysUser tokenUser = new SysUser();
 		if (request.getParameter("username") != null && request.getParameter("password") != null) {

@@ -7,6 +7,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.system.EmailTemplate;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.web.utils.UserProfileAware;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -127,6 +128,7 @@ public class EmailTemplateController extends BaseController {
     @RequestMapping(value = "/emailTemplate/getTableData", method = RequestMethod.POST)
     @ResponseBody
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
+        SysUser sysUserInfo = getUserProfile();
         param.getParam().put("createUserId",sysUserInfo.getUserId());
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
@@ -145,6 +147,7 @@ public class EmailTemplateController extends BaseController {
     @OperationFilter(modelName = "邮件模板", actionName = "保存saveRecord")
     public int saveRecord(EmailTemplate record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        SysUser sysUserInfo = getUserProfile();
         if (record.getDataId() == null || "".equals(record.getDataId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setCreateUser(sysUserInfo.getUserId());

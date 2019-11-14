@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.system.SysUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -58,6 +59,7 @@ public class ActivitiModelPlatController extends BaseController {
 	@ResponseBody
 	public Object getModelList(@ModelAttribute("param") LayuiTableParam param) {
 		// 获取当前登录人信息
+		SysUser sysUserInfo = getUserProfile();
 		param.getParam().put("userId", sysUserInfo.getUserId());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(MODEL_LIST, HttpMethod.POST, entity, LayuiTableData.class);

@@ -415,6 +415,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public Object userInfoDisplay() throws IOException {
 		// 获取当前用户信息
+		SysUser sysUserInfo = getUserProfile();
 		return sysUserInfo;
 	}
 
@@ -422,6 +423,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/user/upd-pass", method = RequestMethod.POST)
 	@ResponseBody
 	public Object updateCurrentUserPassword(@RequestParam(value = "oldPass", required = false) String oldPass, @RequestParam(value = "newPass", required = false) String newPass) throws IOException {
+		SysUser sysUserInfo = getUserProfile();
 		SysUser user = this.restTemplate.exchange(USER_GET_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
 		if (user == null) {
 			return new Result(false, "用户不存在！");
@@ -440,6 +442,7 @@ public class UserController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/user/ini-self-config")
 	private String toUpdatePassPage(HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		SysUser user = this.restTemplate.exchange(USER_GET_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
 		request.setAttribute("userInfo", user);
 		return "base/user/user_config";
@@ -450,6 +453,7 @@ public class UserController extends BaseController {
 	@ResponseBody
 	public Object updateSelfConfig(@RequestBody String params) throws IOException {
 		// 获取个人原有信息
+		SysUser sysUserInfo = getUserProfile();
 		SysUser user = this.restTemplate.exchange(USER_GET_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
 
 		if (user == null) {
@@ -470,6 +474,7 @@ public class UserController extends BaseController {
 	@RequestMapping(value = "/user/upd-headimg", method = RequestMethod.POST)
 	@ResponseBody
 	public Object updateCurrentUserHeadImg(@RequestParam(value = "userExtend", required = false) String userExtend) throws IOException {
+		SysUser sysUserInfo = getUserProfile();
 		SysUser user = this.restTemplate.exchange(USER_GET_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
 		if (user == null) {
 			return new Result(false, "用户不存在！");

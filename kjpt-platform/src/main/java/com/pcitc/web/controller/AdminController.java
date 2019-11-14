@@ -457,6 +457,7 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/index")
 	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("toIndexPage----------====....");
+		SysUser sysUserInfo = getUserProfile();
 		SysUser userDetails = new SysUser(); // 用户信息，包含此人拥有的菜单权限等。token中放不下这些信息
 		SysUser tokenUser = new SysUser();
 		if (request.getParameter("username") != null && request.getParameter("password") != null) {
@@ -662,6 +663,7 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/instituteIndex")
 	public String instituteIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		SysUser sysUserInfo = getUserProfile();
 		String url = CommonUtil.getParameter(request, "url", "");
 		request.setAttribute("url", url);
 
@@ -760,7 +762,7 @@ public class AdminController extends BaseController {
 	 */
 	@RequestMapping(value = "/mainStp")
 	public String toMainStp(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		SysUser sysUserInfo = getUserProfile();
 		// 获取通知
 		request.setAttribute("taskCount", request.getParameter("taskCount"));
 		String companyCode = EquipmentUtils.getVirtualDirDeparetCode(EquipmentUtils.SYS_FUNCTION_FICTITIOUS, restTemplate, httpHeaders);
@@ -871,7 +873,7 @@ public class AdminController extends BaseController {
 	 */
 	@RequestMapping(value = "/mainLeader")
 	public String toMainLeader(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		SysUser sysUserInfo = getUserProfile();
 		// 获取通知
 		request.setAttribute("taskCount", request.getParameter("taskCount"));
 
@@ -890,6 +892,7 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/admin/done-task-count", method = RequestMethod.POST)
 	@ResponseBody
 	public synchronized Object getDoneTaskCount(HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		System.out.println("1====/admin/done-task-count" + sysUserInfo.getUserId());
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("userId", sysUserInfo.getUserId());
@@ -912,6 +915,7 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/admin/pending-task-count", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getPendingTaskCount(HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		System.out.println("1====/admin/pending-task-count" + sysUserInfo.getUserId());
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("userId", sysUserInfo.getUserId());
@@ -963,6 +967,7 @@ public class AdminController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "系统管理", actionName = "收藏操作")
 	public Object saveCollectFunction(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		SysUser sysUserInfo = getUserProfile();
 		SysCollect sysCollect = new SysCollect();
 		sysCollect.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 		sysCollect.setCollectUrl(request.getParameter("functionCode"));
@@ -1080,6 +1085,7 @@ public class AdminController extends BaseController {
 	@ResponseBody
 	@OperationFilter(dataFlag = "true")
 	public Object getAppraisalCount(HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		HashMap<String, String> map = new HashMap<String, String>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 		Date date = new Date();
@@ -1125,6 +1131,7 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/admin/project-count", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getProjectCount(HttpServletRequest request) {
+		SysUser sysUserInfo = getUserProfile();
 		System.out.println("1====/admin/project-count" + sysUserInfo.getUserId());
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (request.getParameter("define2") != null && !request.getParameter("define2").equals("")) {
@@ -1185,6 +1192,7 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/user/show/config")
 	public String iniUserShowConfig(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("进入iniUserShowConfig....");
+		SysUser sysUserInfo = getUserProfile();
 		// 查询已配置的显示功能模块，空的时候，默认给所有的统计模块
 		ResponseEntity<JSONArray> showEntity = this.restTemplate.exchange(USER_SHOW_LIST + sysUserInfo.getUserId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), JSONArray.class);
 		JSONArray showJson = showEntity.getBody();
@@ -1266,6 +1274,7 @@ public class AdminController extends BaseController {
 	public String workorderStat(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result result = new Result();
 		HashMap<String, String> paramsMap = new HashMap<String, String>();
+		SysUser sysUserInfo = getUserProfile();
 		paramsMap.put("lastWeekStart", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 2, -1), DateUtil.FMT_DD));
 		paramsMap.put("lastWeekEnd", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 1, -1), DateUtil.FMT_DD));
 		paramsMap.put("thisWeekStart", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 2, 0), DateUtil.FMT_DD));
@@ -1313,6 +1322,7 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/admin/workorder/ld/stat")
 	@ResponseBody
 	public Object workorderStatLD(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws Exception {
+		SysUser sysUserInfo = getUserProfile();
 		// 只查询本人创建的
 		param.getParam().put("createUser", sysUserInfo.getUserId());
 
