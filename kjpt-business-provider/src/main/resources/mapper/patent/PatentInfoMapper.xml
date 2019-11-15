@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.patent.PatentInfoMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.patent.PatentInfo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="applicant" jdbcType="VARCHAR" property="applicant" />
+    <result column="patent_name" jdbcType="VARCHAR" property="patentName" />
+    <result column="inventor" jdbcType="VARCHAR" property="inventor" />
+    <result column="application_type" jdbcType="VARCHAR" property="applicationType" />
+    <result column="patent_type" jdbcType="VARCHAR" property="patentType" />
+    <result column="legal_status" jdbcType="VARCHAR" property="legalStatus" />
+    <result column="date" jdbcType="TIMESTAMP" property="date" />
+    <result column="application_number" jdbcType="VARCHAR" property="applicationNumber" />
+    <result column="patent_range" jdbcType="VARCHAR" property="patentRange" />
+    <result column="agency" jdbcType="VARCHAR" property="agency" />
+    <result column="entry_person" jdbcType="VARCHAR" property="entryPerson" />
+    <result column="application_date" jdbcType="TIMESTAMP" property="applicationDate" />
+    <result column="entry_date" jdbcType="TIMESTAMP" property="entryDate" />
+    <result column="application_cost" jdbcType="DECIMAL" property="applicationCost" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="application_of_patent_transformation" jdbcType="VARCHAR" property="applicationOfPatentTransformation" />
+    <result column="major_application" jdbcType="VARCHAR" property="majorApplication" />
+    <result column="unenforced_reason" jdbcType="VARCHAR" property="unenforcedReason" />
+    <result column="licensee" jdbcType="VARCHAR" property="licensee" />
+    <result column="licensee_mode" jdbcType="VARCHAR" property="licenseeMode" />
+    <result column="licensee_profit" jdbcType="DECIMAL" property="licenseeProfit" />
+    <result column="assignor" jdbcType="VARCHAR" property="assignor" />
+    <result column="assign_profit" jdbcType="DECIMAL" property="assignProfit" />
+    <result column="file" jdbcType="VARCHAR" property="file" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="updator" jdbcType="VARCHAR" property="updator" />
+    <result column="deleted" jdbcType="VARCHAR" property="deleted" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, unit_name, applicant, patent_name, inventor, application_type, patent_type, 
+    legal_status, date, application_number, patent_range, agency, entry_person, application_date, 
+    entry_date, application_cost, remark, summary, application_of_patent_transformation, 
+    major_application, unenforced_reason, licensee, licensee_mode, licensee_profit, assignor, 
+    assign_profit, file, creator, create_date, update_date, updator, deleted
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from patent_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from patent_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from patent_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.patent.PatentInfoExample">
+    delete from patent_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.patent.PatentInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into patent_info (user_id, unit_name, applicant, 
+      patent_name, inventor, application_type, 
+      patent_type, legal_status, date, 
+      application_number, patent_range, agency, 
+      entry_person, application_date, entry_date, 
+      application_cost, remark, summary, 
+      application_of_patent_transformation, major_application, 
+      unenforced_reason, licensee, licensee_mode, 
+      licensee_profit, assignor, assign_profit, 
+      file, creator, create_date, 
+      update_date, updator, deleted
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{applicant,jdbcType=VARCHAR}, 
+      #{patentName,jdbcType=VARCHAR}, #{inventor,jdbcType=VARCHAR}, #{applicationType,jdbcType=VARCHAR}, 
+      #{patentType,jdbcType=VARCHAR}, #{legalStatus,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP}, 
+      #{applicationNumber,jdbcType=VARCHAR}, #{patentRange,jdbcType=VARCHAR}, #{agency,jdbcType=VARCHAR}, 
+      #{entryPerson,jdbcType=VARCHAR}, #{applicationDate,jdbcType=TIMESTAMP}, #{entryDate,jdbcType=TIMESTAMP}, 
+      #{applicationCost,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
+      #{applicationOfPatentTransformation,jdbcType=VARCHAR}, #{majorApplication,jdbcType=VARCHAR}, 
+      #{unenforcedReason,jdbcType=VARCHAR}, #{licensee,jdbcType=VARCHAR}, #{licenseeMode,jdbcType=VARCHAR}, 
+      #{licenseeProfit,jdbcType=DECIMAL}, #{assignor,jdbcType=VARCHAR}, #{assignProfit,jdbcType=DECIMAL}, 
+      #{file,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, #{deleted,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.patent.PatentInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into patent_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="unitName != null">
+        unit_name,
+      </if>
+      <if test="applicant != null">
+        applicant,
+      </if>
+      <if test="patentName != null">
+        patent_name,
+      </if>
+      <if test="inventor != null">
+        inventor,
+      </if>
+      <if test="applicationType != null">
+        application_type,
+      </if>
+      <if test="patentType != null">
+        patent_type,
+      </if>
+      <if test="legalStatus != null">
+        legal_status,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="applicationNumber != null">
+        application_number,
+      </if>
+      <if test="patentRange != null">
+        patent_range,
+      </if>
+      <if test="agency != null">
+        agency,
+      </if>
+      <if test="entryPerson != null">
+        entry_person,
+      </if>
+      <if test="applicationDate != null">
+        application_date,
+      </if>
+      <if test="entryDate != null">
+        entry_date,
+      </if>
+      <if test="applicationCost != null">
+        application_cost,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="applicationOfPatentTransformation != null">
+        application_of_patent_transformation,
+      </if>
+      <if test="majorApplication != null">
+        major_application,
+      </if>
+      <if test="unenforcedReason != null">
+        unenforced_reason,
+      </if>
+      <if test="licensee != null">
+        licensee,
+      </if>
+      <if test="licenseeMode != null">
+        licensee_mode,
+      </if>
+      <if test="licenseeProfit != null">
+        licensee_profit,
+      </if>
+      <if test="assignor != null">
+        assignor,
+      </if>
+      <if test="assignProfit != null">
+        assign_profit,
+      </if>
+      <if test="file != null">
+        file,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="updator != null">
+        updator,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicant != null">
+        #{applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="patentName != null">
+        #{patentName,jdbcType=VARCHAR},
+      </if>
+      <if test="inventor != null">
+        #{inventor,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationType != null">
+        #{applicationType,jdbcType=VARCHAR},
+      </if>
+      <if test="patentType != null">
+        #{patentType,jdbcType=VARCHAR},
+      </if>
+      <if test="legalStatus != null">
+        #{legalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicationNumber != null">
+        #{applicationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="patentRange != null">
+        #{patentRange,jdbcType=VARCHAR},
+      </if>
+      <if test="agency != null">
+        #{agency,jdbcType=VARCHAR},
+      </if>
+      <if test="entryPerson != null">
+        #{entryPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationDate != null">
+        #{applicationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entryDate != null">
+        #{entryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicationCost != null">
+        #{applicationCost,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationOfPatentTransformation != null">
+        #{applicationOfPatentTransformation,jdbcType=VARCHAR},
+      </if>
+      <if test="majorApplication != null">
+        #{majorApplication,jdbcType=VARCHAR},
+      </if>
+      <if test="unenforcedReason != null">
+        #{unenforcedReason,jdbcType=VARCHAR},
+      </if>
+      <if test="licensee != null">
+        #{licensee,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseeMode != null">
+        #{licenseeMode,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseeProfit != null">
+        #{licenseeProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="assignor != null">
+        #{assignor,jdbcType=VARCHAR},
+      </if>
+      <if test="assignProfit != null">
+        #{assignProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="file != null">
+        #{file,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultType="java.lang.Long">
+    select count(*) from patent_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update patent_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitName != null">
+        unit_name = #{record.unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applicant != null">
+        applicant = #{record.applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="record.patentName != null">
+        patent_name = #{record.patentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inventor != null">
+        inventor = #{record.inventor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applicationType != null">
+        application_type = #{record.applicationType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.patentType != null">
+        patent_type = #{record.patentType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalStatus != null">
+        legal_status = #{record.legalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.date != null">
+        date = #{record.date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.applicationNumber != null">
+        application_number = #{record.applicationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.patentRange != null">
+        patent_range = #{record.patentRange,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agency != null">
+        agency = #{record.agency,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entryPerson != null">
+        entry_person = #{record.entryPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applicationDate != null">
+        application_date = #{record.applicationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.entryDate != null">
+        entry_date = #{record.entryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.applicationCost != null">
+        application_cost = #{record.applicationCost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.summary != null">
+        summary = #{record.summary,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applicationOfPatentTransformation != null">
+        application_of_patent_transformation = #{record.applicationOfPatentTransformation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.majorApplication != null">
+        major_application = #{record.majorApplication,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unenforcedReason != null">
+        unenforced_reason = #{record.unenforcedReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.licensee != null">
+        licensee = #{record.licensee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.licenseeMode != null">
+        licensee_mode = #{record.licenseeMode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.licenseeProfit != null">
+        licensee_profit = #{record.licenseeProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.assignor != null">
+        assignor = #{record.assignor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assignProfit != null">
+        assign_profit = #{record.assignProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.file != null">
+        file = #{record.file,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updator != null">
+        updator = #{record.updator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update patent_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      unit_name = #{record.unitName,jdbcType=VARCHAR},
+      applicant = #{record.applicant,jdbcType=VARCHAR},
+      patent_name = #{record.patentName,jdbcType=VARCHAR},
+      inventor = #{record.inventor,jdbcType=VARCHAR},
+      application_type = #{record.applicationType,jdbcType=VARCHAR},
+      patent_type = #{record.patentType,jdbcType=VARCHAR},
+      legal_status = #{record.legalStatus,jdbcType=VARCHAR},
+      date = #{record.date,jdbcType=TIMESTAMP},
+      application_number = #{record.applicationNumber,jdbcType=VARCHAR},
+      patent_range = #{record.patentRange,jdbcType=VARCHAR},
+      agency = #{record.agency,jdbcType=VARCHAR},
+      entry_person = #{record.entryPerson,jdbcType=VARCHAR},
+      application_date = #{record.applicationDate,jdbcType=TIMESTAMP},
+      entry_date = #{record.entryDate,jdbcType=TIMESTAMP},
+      application_cost = #{record.applicationCost,jdbcType=DECIMAL},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      summary = #{record.summary,jdbcType=VARCHAR},
+      application_of_patent_transformation = #{record.applicationOfPatentTransformation,jdbcType=VARCHAR},
+      major_application = #{record.majorApplication,jdbcType=VARCHAR},
+      unenforced_reason = #{record.unenforcedReason,jdbcType=VARCHAR},
+      licensee = #{record.licensee,jdbcType=VARCHAR},
+      licensee_mode = #{record.licenseeMode,jdbcType=VARCHAR},
+      licensee_profit = #{record.licenseeProfit,jdbcType=DECIMAL},
+      assignor = #{record.assignor,jdbcType=VARCHAR},
+      assign_profit = #{record.assignProfit,jdbcType=DECIMAL},
+      file = #{record.file,jdbcType=VARCHAR},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      updator = #{record.updator,jdbcType=VARCHAR},
+      deleted = #{record.deleted,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.patent.PatentInfo">
+    update patent_info
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicant != null">
+        applicant = #{applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="patentName != null">
+        patent_name = #{patentName,jdbcType=VARCHAR},
+      </if>
+      <if test="inventor != null">
+        inventor = #{inventor,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationType != null">
+        application_type = #{applicationType,jdbcType=VARCHAR},
+      </if>
+      <if test="patentType != null">
+        patent_type = #{patentType,jdbcType=VARCHAR},
+      </if>
+      <if test="legalStatus != null">
+        legal_status = #{legalStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicationNumber != null">
+        application_number = #{applicationNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="patentRange != null">
+        patent_range = #{patentRange,jdbcType=VARCHAR},
+      </if>
+      <if test="agency != null">
+        agency = #{agency,jdbcType=VARCHAR},
+      </if>
+      <if test="entryPerson != null">
+        entry_person = #{entryPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationDate != null">
+        application_date = #{applicationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entryDate != null">
+        entry_date = #{entryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicationCost != null">
+        application_cost = #{applicationCost,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationOfPatentTransformation != null">
+        application_of_patent_transformation = #{applicationOfPatentTransformation,jdbcType=VARCHAR},
+      </if>
+      <if test="majorApplication != null">
+        major_application = #{majorApplication,jdbcType=VARCHAR},
+      </if>
+      <if test="unenforcedReason != null">
+        unenforced_reason = #{unenforcedReason,jdbcType=VARCHAR},
+      </if>
+      <if test="licensee != null">
+        licensee = #{licensee,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseeMode != null">
+        licensee_mode = #{licenseeMode,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseeProfit != null">
+        licensee_profit = #{licenseeProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="assignor != null">
+        assignor = #{assignor,jdbcType=VARCHAR},
+      </if>
+      <if test="assignProfit != null">
+        assign_profit = #{assignProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="file != null">
+        file = #{file,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updator != null">
+        updator = #{updator,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.patent.PatentInfo">
+    update patent_info
+    set user_id = #{userId,jdbcType=VARCHAR},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      applicant = #{applicant,jdbcType=VARCHAR},
+      patent_name = #{patentName,jdbcType=VARCHAR},
+      inventor = #{inventor,jdbcType=VARCHAR},
+      application_type = #{applicationType,jdbcType=VARCHAR},
+      patent_type = #{patentType,jdbcType=VARCHAR},
+      legal_status = #{legalStatus,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP},
+      application_number = #{applicationNumber,jdbcType=VARCHAR},
+      patent_range = #{patentRange,jdbcType=VARCHAR},
+      agency = #{agency,jdbcType=VARCHAR},
+      entry_person = #{entryPerson,jdbcType=VARCHAR},
+      application_date = #{applicationDate,jdbcType=TIMESTAMP},
+      entry_date = #{entryDate,jdbcType=TIMESTAMP},
+      application_cost = #{applicationCost,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      application_of_patent_transformation = #{applicationOfPatentTransformation,jdbcType=VARCHAR},
+      major_application = #{majorApplication,jdbcType=VARCHAR},
+      unenforced_reason = #{unenforcedReason,jdbcType=VARCHAR},
+      licensee = #{licensee,jdbcType=VARCHAR},
+      licensee_mode = #{licenseeMode,jdbcType=VARCHAR},
+      licensee_profit = #{licenseeProfit,jdbcType=DECIMAL},
+      assignor = #{assignor,jdbcType=VARCHAR},
+      assign_profit = #{assignProfit,jdbcType=DECIMAL},
+      file = #{file,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      updator = #{updator,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
