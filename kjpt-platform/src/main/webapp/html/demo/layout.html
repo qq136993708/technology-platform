@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>中科科技平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+  
+<link rel="stylesheet" href="prism.css">
+</head>
+<body>
+<div class="layout-view-content">
+<pre><code class="language-html">&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;meta charset="utf-8">
+  &lt;meta name="renderer" content="webkit">
+  &lt;meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  &lt;title>中科科技平台&lt;/title>
+  &lt;link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  &lt;!-- 多选下拉框样式，根据需求添加 -->
+  &lt;!-- &lt;link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+  &lt;link rel="stylesheet" href="/css/layui-common.css">
+  &lt;link rel="stylesheet" href="/css/common.css">
+  
+  &lt;!-- 更多样式在此引入 -->
+&lt;/head>
+&lt;body>
+&lt;div class="layout-view-content">
+	&lt;!-- 页面内容放置此处 用 class="layout-view-content"的DIV包裹 -->
+&lt;/div>
+&lt;script src="/layuiadmin/layui/layui.js">&lt;/script>
+&lt;script src="/layuiadmin/js/common.js">&lt;/script>
+&lt;!-- 更多JS在此引入 -->
+&lt;/body>
+&lt;/html>
+
+&lt;script></code><code class="language-javascript">
+// layui 使用说明 ----- 多个模块同时引用
+layui.use(['element', 'form', 'jquery', ...], function(){
+	var element = layui.element;
+	var $ = layui.jquery;
+	var form = layui.form;
+	
+	function addItem(data) {
+		console.log(data);
+	}
+	
+	// 更多JS，请自由发挥
+	...
+});</code><code class="language-html">
+&lt;/script></code></pre>
+</div>
+
+<script src="prism.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script>
+layui.use(['element'], function(){
+	var element = layui.element;
+// 监听tab切换事件
+	element.on('tab(tabDemo)', function(data) {
+		console.log(data);
+	})
+});
+</script>
+</body>
+</html>

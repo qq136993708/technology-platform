@@ -1,0 +1,108 @@
+/* 科研平台详情 */
+.item-banner-view {
+  min-height: 220px;
+  padding-bottom: 30px;
+}
+.item-banner-view::after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+  font-size: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.item-banner-view .item-details-img,
+.item-banner-view .item-details-list{
+  float: left;
+  position: relative;
+  min-height: 220px;
+}
+.item-banner-view .item-details-img {
+  width: 60%;
+}
+.item-banner-view .item-details-list {
+  width: 40%;
+  padding-top: 30px;
+}
+.item-details-img .img-box{
+  width: 258px;
+  min-height: 280px;
+  border: 1px #e7e7e7 solid;
+  background: #fff url('/images/icon-synopsis2.png') no-repeat center center;
+  background-size: 100% 100%;
+}
+.item-details-img .text-box {
+  max-width: calc(100% - 258px);
+  padding-left: 20px;
+}
+.item-details-img .text-box .title {
+  font-size: 32px;
+  line-height: 32px;
+  color: #333;
+  padding-bottom: 28px;
+}
+.item-details-img .text-box .text-list li{
+  line-height: 16px;
+  padding-bottom: 12px;
+  color: #46484B;
+}
+.item-details-img .text-box .text-list li:last-child {
+  padding-bottom: 0;
+}
+.item-banner-view .item-details-list{
+  white-space: normal;
+}
+.item-details-list .item-box-list {
+  display: inline-block;
+  vertical-align: middle;
+  width: 40%;
+  margin-left: 10%;
+  height: 76px;
+}
+.item-details-list .item-box-list .icon-item {
+  width: 32px;
+  height: 32px;
+  background: #fff url('/images/icon001.png') no-repeat center center;
+  background-size: 100% auto;
+  margin-right: 10px;
+}
+.item-details-list .item-box-list .icon-item.icon001{
+  background-image: url('/images/icon001.png');;
+}
+.item-details-list .item-box-list .icon-item.icon002{
+  background-image: url('/images/icon002.png');;
+}
+.item-details-list .item-box-list .icon-item.icon003{
+  background-image: url('/images/icon003.png');;
+}
+.item-details-list .item-box-list .icon-item.icon004{
+  background-image: url('/images/icon004.png');;
+}
+.item-details-list .item-box-list .icon-item.icon005{
+  background-image: url('/images/icon005.png');;
+}
+
+.bg-blue-box {
+  background-color: #F7FBFD;
+  border: 1px #E7EBEC solid;
+  padding: 9px 0 24px 0;
+  font-size: 0;
+  margin: 15px -10px 0 -10px;
+  border-radius: 3px;
+}
+.bg-blue-box .bg-blue-title {
+  padding: 15px 0;
+  padding-left: 24px;
+}
+.bg-blue-box .bg-blue-p {
+  display: inline-block;
+  vertical-align: top;
+  padding-bottom: 15px;
+  line-height: 20px;
+  width: 50%;
+  padding-left: 24px;
+  padding-right: 24px;
+  font-size: 14px;
+}

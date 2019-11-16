@@ -1,0 +1,275 @@
+* {
+  box-sizing: border-box;
+}
+/** 开关 */
+.layui-form-onswitch {
+  border-color: #1890FF;
+  background-color: #1890FF;
+}
+
+/** 分页插件 */
+.layui-laypage .layui-laypage-curr .layui-laypage-em {
+  background-color: #1890FF;
+}
+
+.layui-table-page .layui-laypage input:focus {
+  border-color: #1890FF !important;
+}
+
+.layui-table-view select:focus {
+  border-color: #1890FF !important;
+}
+
+.layui-table-page .layui-laypage a:hover {
+  color: #1890FF;
+}
+
+/** 单选按钮 */
+.layui-form-radio > i:hover, .layui-form-radioed > i {
+  color: #1890FF;
+}
+
+/** 下拉条目选中 */
+.layui-form-select dl dd.layui-this {
+  background-color: #1890FF;
+}
+
+/** 选项卡 */
+.layui-tab-brief > .layui-tab-title .layui-this {
+  color: #1890FF;
+}
+
+.layui-tab-brief > .layui-tab-more li.layui-this:after, .layui-tab-brief > .layui-tab-title .layui-this:after {
+  border-color: #1890FF !important;
+}
+
+/** 面包屑导航 */
+.layui-breadcrumb a:hover {
+  color: #1890FF !important;
+}
+.layui-col-xs1, .layui-col-xs10, .layui-col-xs11, .layui-col-xs12, .layui-col-xs2, .layui-col-xs3, .layui-col-xs4, .layui-col-xs5, .layui-col-xs6, .layui-col-xs7, .layui-col-xs8, .layui-col-xs9 {
+  float: none;
+  display: inline-block;
+  vertical-align: top;
+  font-size: 14px;
+}
+@media screen and (min-width: 992px) {
+  .layui-col-md1, .layui-col-md10, .layui-col-md11, .layui-col-md12, .layui-col-md2, .layui-col-md3, .layui-col-md4, .layui-col-md5, .layui-col-md6, .layui-col-md7, .layui-col-md8, .layui-col-md9 {
+    float: none;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+@media screen and (min-width: 768px) {
+  .layui-col-sm1, .layui-col-sm10, .layui-col-sm11, .layui-col-sm12, .layui-col-sm2, .layui-col-sm3, .layui-col-sm4, .layui-col-sm5, .layui-col-sm6, .layui-col-sm7, .layui-col-sm8, .layui-col-sm9 {
+    float: none;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+
+.layui-row {
+  font-size: 0;
+}
+.layui-input-block{
+  min-height: 30px;
+  margin-left: 144px;
+}
+.layui-form-label{
+  padding: 5px 5px 5px 0;
+  width: 144px;
+}
+.layui-form-mid {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+.layui-input, .layui-textarea{
+  height: 30px;
+  border-color: #AAAAAA;
+  border-radius: 5px;
+}
+.layui-form-select dl{
+  top: 32px;
+}
+.layui-form-selectup dl{
+  top: auto;
+}
+.layui-form-switch{
+  margin-top: 3px;
+}
+.layui-form-radio {
+  margin-top: 1px;
+}
+.layui-col-space20 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.layui-col-space20 .layui-form-item{
+  margin-bottom: 0;
+}
+.layui-col-space0 .layui-form-item,
+.layui-form-item{
+  margin-bottom: 20px;
+}
+.laydate-input{
+  outline: 0;
+  -webkit-appearance: none;
+  transition: all .3s;
+  -webkit-transition: all .3s;
+  line-height: 1.3;
+  line-height: 30px\9;
+  display: block;
+  width: 100%;
+  padding-left: 10px;
+  height: 30px;
+  border:1px #aaa solid;
+  border-radius: 5px;
+  background: #fff url('../images/date.png') no-repeat;
+  background-size: 16px 16px;
+  background-position: calc(100% - 8px) 6px;
+}
+.layui-input:not(:disabled):hover,
+.layui-input:not(:disabled):active,
+.laydate-input:not(:disabled):hover,
+.laydate-input:not(:disabled):active,
+.layui-textarea:not(:disabled):hover,
+.layui-textarea:not(:disabled):active {
+  border-color: #0AA1FF !important;
+  box-shadow: 0 0 7px -3px #0AA1FF;
+  -ms-box-shadow: 0 0 7px -3px #0AA1FF;
+}
+.layui-btn{
+  height: 30px;
+  line-height: 30px;
+  min-width: 72px;
+  padding: 0 11px;
+  text-align: center;
+  border-radius: 3px;
+  background-color: #fff;
+  border: 1px #C9C9C9 solid;
+  transition: all .24s ease-out;
+}
+.layui-btn:not(.border-blue):not(.border-red):not(.layui-btn-normal):hover {
+  border-color: #1890FF;
+  color: #1890FF;
+}
+.layui-btn.layui-btn-normal{
+  background-color: #1890FF;
+  border-color: #1890FF;
+  color: #fff;
+}
+.layui-btn.border-blue {
+  border-color: #1890FF;
+  color: #1890FF;
+}
+.layui-btn.border-red {
+  border-color: #FF2626;
+  color: #FF2626;
+}
+.layui-btn:not(:disabled):not(.border-red):active,
+.layui-btn:not(:disabled):not(.border-red):hover {
+  box-shadow: 0 0 3px #1890FF;
+  -ms-box-shadow: 0 0 3px #1890FF;
+}
+.layui-btn.border-red:not(:disabled):active,
+.layui-btn.border-red:not(:disabled):hover {
+  box-shadow: 0 0 3px #FF2626;
+  -ms-box-shadow: 0 0 3px #FF2626;
+}
+.label-required::before{
+  content: '*';
+  display: inline;
+  color: #FF2626;
+  margin-right: 3px;
+}
+.layui-btn[disabled], .layui-btn:disabled,
+.layui-btn[disabled]:hover,
+.layui-btn[disabled]:active,
+.layui-btn[disabled]:focus{
+  border-color: #ccc !important;
+  color: #fff !important;
+  background-color: #ccc !important;
+  opacity: .6 !important;
+  cursor: no-drop !important;
+}
+
+.let-input-search .search-icon{
+  position: absolute;
+  right: 8px;
+  top: 1px;
+  display: block;
+  width: 16px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 28px;
+  overflow: hidden;
+  background-color: #ffffff;
+  color: #555555;
+}
+.let-input-search .search-icon:hover {
+  color: #0AA1FF;
+}
+.layui-table, .layui-table-view {
+  margin: 0;
+}
+.layui-table tbody tr:hover,
+.layui-table thead tr,
+.layui-table-click,
+.layui-table-header,
+.layui-table-hover,
+.layui-table-mend,
+.layui-table-patch,
+.layui-table-tool,
+.layui-table-total,
+.layui-table-total tr,
+.layui-table[lay-even] tr:nth-child(even) {
+  background-color: #ECF0F4;
+}
+.layui-table thead th {}
+
+.layui-tab-title.tab-btn-layout {
+  height: auto;
+  border-bottom-color: #E7EBEC;
+  min-height: 34px;
+}
+.layui-tab-title.tab-btn-layout > li {
+  margin-right: 8px;
+  background-color: #ECF0F4;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  color: #95999F;
+  border-radius: 3px 3px 0 0;
+}
+.layui-tab-title.tab-btn-layout > li:hover {
+  color: #1890FF;
+}
+.layui-tab-title.tab-btn-layout li.layui-this {
+  background-color: #0AA1FF;
+  color: #fff;
+}
+.layui-tab-title.tab-btn-layout .layui-this:after{
+  display: none;
+}
+/* 多选下拉框样式 */
+.xm-select-parent .xm-select{
+	padding-top: 2px;
+	min-height: 30px;
+}
+.xm-select-parent .xm-select-title{
+	min-height: 30px;
+}
+.xm-select-parent .xm-select--suffix input{
+	height: 30px;
+}
+.xm-select-parent .xm-select-title div.xm-select-label>span {
+	padding-top: 0;
+	padding-bottom: 0;
+	padding-left: 3px;
+	padding-right: 23px;
+}
+.xm-select-parent .xm-select-title div.xm-select-label>span i {
+	line-height:18px;
+}
