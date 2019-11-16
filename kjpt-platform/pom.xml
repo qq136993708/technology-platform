@@ -198,7 +198,7 @@
 		</dependency>
 
 		<!-- 统一身份认证 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.sinopec.siam</groupId>
 			<artifactId>siam-am-agent-simple</artifactId>
 			<version>3.2.RELEASE</version>
@@ -212,7 +212,9 @@
 			<version>3.2.RELEASE</version>
 			<scope>system</scope>
 			<systemPath>${pom.basedir}/lib/siam-provisioning-subscriber-clients-3.2.RELEASE.jar</systemPath>
-		</dependency>
+		</dependency> -->
+		
+		
 		<dependency>
 			<groupId>com.github.penggle</groupId>
 			<artifactId>kaptcha</artifactId>

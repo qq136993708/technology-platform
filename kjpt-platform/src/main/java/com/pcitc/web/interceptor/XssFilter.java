@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Component;
 
-import com.sinopec.siam.apache.log4j.Logger;
 
 /**
  * @author zhf
@@ -21,7 +20,6 @@ import com.sinopec.siam.apache.log4j.Logger;
  */
 //@Component
 public class XssFilter implements Filter {
-	private final Logger log = Logger.getLogger(XssFilter.class);
 
 	public void init(FilterConfig filterConfig) throws ServletException {
 	}
