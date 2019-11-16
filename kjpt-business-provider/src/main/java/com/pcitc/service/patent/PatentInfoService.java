@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.expert.ZjkExpert;
-import com.pcitc.base.expert.ZjkExpertExample;
 import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.system.SysDictionary;
 import org.apache.ibatis.annotations.Param;
