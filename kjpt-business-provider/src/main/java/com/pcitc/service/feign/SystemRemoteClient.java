@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.expert.ZjkExtractConfig;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysMeeting;
@@ -36,8 +35,6 @@ public interface SystemRemoteClient {
     public List<SysDictionary> getDictionaryListByParentCode(@PathVariable(value = "parentCode", required = false) String parentCode);
     
 
-    @RequestMapping(value = "/zjkextractconfig-provider/zjkextractconfig/get-zjkextractconfig/{id}", method = RequestMethod.POST)
-    public ZjkExtractConfig getZjkExtractConfigInfo(@PathVariable(value = "id", required = true) String id);
    
 	/**
 	 * 获取项目计划数据
