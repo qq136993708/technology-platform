@@ -280,13 +280,13 @@
 				</includes>
 			</resource>
 
-			<resource>
+			<!-- <resource>
 				<directory>src/main/java/com/sinopec</directory>
 				<filtering>false</filtering>
 				<includes>
 					<include>**/**</include>
 				</includes>
-			</resource>
+			</resource> -->
 		</resources>
 
 		<pluginManagement>
@@ -316,14 +316,14 @@
 							</resource>
 
 							<!-- 统一身份认证其中一个配置文件硬性引入 -->
-							<resource>
+							<!-- <resource>
 								<directory>src/main/java/com/sinopec</directory>
 								<targetPath>WEB-INF/classes/com/sinopec</targetPath>
 								<includes>
 									<include>**/*.properties</include>
 									<include>**/keystore</include>
 								</includes>
-							</resource>
+							</resource> -->
 						</webResources>
 					</configuration>
 				</plugin>
