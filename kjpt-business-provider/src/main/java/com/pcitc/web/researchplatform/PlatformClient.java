@@ -28,14 +28,14 @@ public class PlatformClient {
     @ApiOperation(value = "根据主键获取一个平台的信息", notes = "根据主键获取一个平台的信息")
     @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
     public PlatformInfoModel load(@PathVariable String id){
-        return null;
+        return ps.load(id);
     }
 
     @ApiOperation(value = "科研平台信息保存", notes = "科研平台信息保存")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public PlatformInfoModel save(@RequestBody PlatformInfoModel platformInfoModel){
 
-        return null;
+        return ps.save(platformInfoModel);
     }
 
     /*@ApiOperation(value = "初始化一个科研平台对象", notes = "初始化一个科研平台对象")
@@ -54,7 +54,7 @@ public class PlatformClient {
 
     @ApiOperation(value = "科研平台删除", notes = "科研平台删除")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable String id){
-
+    public Integer delete(@PathVariable String id){
+        return ps.delete(id);
     }
 }

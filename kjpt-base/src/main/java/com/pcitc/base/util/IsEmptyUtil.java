@@ -12,8 +12,10 @@ public class IsEmptyUtil {
 
     //验证为空
     public static <T> void isEmpty(T obj) {
-        if(isNotEmpty(obj)){
-            throw new SysException("argument is null");
+        if(!isNotEmpty(obj)){
+            SysException s = new SysException("argument is null");
+            s.setCode("101");
+            throw s;
         }
     }
 

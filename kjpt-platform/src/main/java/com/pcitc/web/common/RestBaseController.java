@@ -3,5 +3,5 @@ package com.pcitc.web.common;
 /**
  * @author ty
  */
-public class RestBaseController {
+public class RestBaseController extends BaseController{
 }

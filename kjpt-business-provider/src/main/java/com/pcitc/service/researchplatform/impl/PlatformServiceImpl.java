@@ -30,7 +30,10 @@ public class PlatformServiceImpl implements PlatformService {
     @Override
     public PlatformInfoModel save(PlatformInfoModel platformInfoModel) {
         IsEmptyUtil.isEmpty(platformInfoModel.getId());
-        platformServiceMapper.save(platformInfoModel);
+        if(load(platformInfoModel.getId()) ==null)
+            platformServiceMapper.add(platformInfoModel);
+        else
+            platformServiceMapper.update(platformInfoModel);
         return platformInfoModel;
     }
 
@@ -54,7 +57,7 @@ public class PlatformServiceImpl implements PlatformService {
     }
 
     @Override
-    public void delete(String id) {
-
+    public Integer delete(String id) {
+        return platformServiceMapper.delete(id);
     }
 }

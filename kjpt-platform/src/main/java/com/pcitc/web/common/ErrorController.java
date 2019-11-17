@@ -27,6 +27,7 @@ public class ErrorController extends BaseController{
 	@ExceptionHandler(value = { SysException.class })
     public Result handleException(SysException ex) {
 		Result result = new Result();
+		result.setSuccess(false);
 		result.setCode(ex.getCode());
 		result.setMessage(ex.getMessage());
         return result;
@@ -42,6 +43,7 @@ public class ErrorController extends BaseController{
     public Result handleException(Exception ex) {
 		ex.printStackTrace();
 		Result result = new Result();
+		result.setSuccess(false);
 		result.setCode("-1");
 		result.setMessage("服务器错误=" + ex.getMessage());
         return result;

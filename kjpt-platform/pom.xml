@@ -267,6 +267,7 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 		</dependency>
 		
+		
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
@@ -311,9 +312,9 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
 					<configuration>
-						<source>1.8</source>
+						<!--<source>1.8</source>
 						<target>1.8</target>
-						<encoding>UTF-8</encoding>
+						<encoding>UTF-8</encoding>-->
 						<warSourceExcludes>src/main/resources/**</warSourceExcludes>
 						<warName>stp</warName>
 

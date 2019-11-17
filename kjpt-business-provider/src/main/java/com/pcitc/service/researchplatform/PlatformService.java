@@ -28,6 +28,6 @@ public interface PlatformService {
     /**
      * 科研平台删除
      */
-    void delete(String id);
+    Integer delete(String id);
 
 }
