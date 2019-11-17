@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>layout 后台大布局 - Layui</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/scientificPlatform.css">
+</head>
+<body>
+  <div class="layout-view-content">
+    <div class="item-banner-view">
+      <div class="item-details-img middle-block">
+        <div class="img-box ib-block"></div>
+        <div class="text-box ib-block">
+          <div class="title">北京科学与技术中心</div>
+          <ul class="text-list">
+            <li class="font16"><span class="label-text">主要负责人：</span><span class="label-value">张三</span></li>
+            <li class="font16"><span class="label-text">平台类型：</span><span class="label-value">类型-1 </span></li>
+            <li class="font16"><span class="label-text">研究领域：</span><span class="label-value">22</span></li>
+            <li class="font16"><span class="label-text">平台得分：</span><span class="label-value">5</span></li>
+            <li class="font16"><span class="label-text">依托单位：</span><span class="label-value">中核科技有限公司</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="item-details-list middle-block">
+        <div class="item-box-list middle-block">
+          <div class="icon-item ib-block icon001"></div>
+          <div class="item-text  ib-block font16">相关项目<span class="font20">0</span>个</div>
+        </div>
+        <div class="item-box-list middle-block">
+          <div class="icon-item  ib-block icon002"></div>
+          <div class="item-text  ib-block font16">参与项目评审<span class="font20">0</span>个</div>
+        </div>
+        <div class="item-box-list middle-block">
+          <div class="icon-item  ib-block icon003"></div>
+          <div class="item-text  ib-block font16">相关成果<span class="font20">0</span>个</div>
+        </div>
+        <div class="item-box-list middle-block">
+          <div class="icon-item  ib-block icon003"></div>
+          <div class="item-text  ib-block font16">相关奖励<span class="font20">0</span>个</div>
+        </div>
+        <div class="item-box-list middle-block">
+          <div class="icon-item  ib-block icon004"></div>
+          <div class="item-text  ib-block font16">专利数量<span class="font20">0</span>个</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layui-tab" lay-filter="gjj_kyxq">
+      <ul class="layui-tab-title tab-btn-layout">
+        <li class="layui-this">平台简介</li>
+        <li>科研项目</li>
+        <li>领军人物</li>
+        <li>论文</li>
+        <li>团队成员</li>
+        <li>主要成果</li>
+      </ul>
+      <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+          <!-- 平台简介 -->
+          <div class="bg-blue-box">
+            <div class="bg-blue-title font20">北京科学与技术中心</div>
+            <div class="bg-blue-p">平台一切围绕让客户“找到你、信任你、选择你”的品牌营销生态而服务，为企业提供“建站通，确权宝，摩比小程序，优词宝，上词宝，网证宝，媒体宝，知汇通，采编通，公关宝，海推社、流量通，红人推”等十几款产品和服务，充分满足企业一站式网络品牌营销的需求，为品牌解忧，为营销助力。</div>
+            <div class="bg-blue-p">2019年，铸剑八载，匠心八载，拓宽科技迎来新起点，迈入新征程，依托一搜百应互联网整合营销生态服务平台，公司从“技术+资源”的两驾马车向“生态+平台”双轮驱动转型，全面发展生态合作伙伴，让中国企业享受互联网营销红利，助力企业的品牌价值变现为商业价值。 </div>
+            <div class="bg-blue-p">一搜百应是深圳拓宽科技有限公司（简称拓宽科技）旗下的互联网整合营销生态服务平台，平台创造性提出了“建品牌、塑口碑、获客户”的互联网营销路径，助力企业实现品牌商业价值。依托拓宽科技八年资源与技术沉淀，一搜百应深度融合营销建站、搜索引擎营销、新闻营销、知识营销、精准营销、自媒体营销、媒体邀约、官网信用认证等在内的数十大营销环节，让你的品牌一搜百应。</div>
+          </div>
+        </div>
+        <div class="layui-tab-item">
+          <!-- 科研项目 -->
+          <div class="view-title-layout">
+            <div class="right">
+              <button class="layui-btn border-blue addItem" data-id="1">新增</button>
+              <button class="layui-btn border-blue" id="editItem">编辑</button>
+              <button class="layui-btn border-red" id="delItem">删除</button>
+              <button class="layui-btn border-blue" id="exportData">导入</button>
+            </div>
+          </div>
+          <table id="tableProject"></table>
+        </div>
+        <div class="layui-tab-item">
+          <!-- 领军人物 -->
+          <div class="view-title-layout">
+            <div class="right">
+              <button class="layui-btn border-blue addItem" data-id="2">新增</button>
+              <button class="layui-btn border-blue" id="editItem">编辑</button>
+              <button class="layui-btn border-red" id="delItem">删除</button>
+              <button class="layui-btn border-blue" id="exportData">导入</button>
+            </div>
+          </div>
+          <table id="leadingFigure"></table>
+        </div>
+        <div class="layui-tab-item">
+          <!-- 论文 -->
+          <div class="view-title-layout">
+            <div class="right">
+              <button class="layui-btn border-blue addItem" data-id="3">新增</button>
+              <button class="layui-btn border-blue" id="editItem">编辑</button>
+              <button class="layui-btn border-red" id="delItem">删除</button>
+              <button class="layui-btn border-blue" id="exportData">导入</button>
+            </div>
+          </div>
+          <table id="tablePaper"></table>
+        </div>
+        <div class="layui-tab-item">
+          <!-- 团队成员 -->
+          <div class="view-title-layout">
+            <div class="right">
+              <button class="layui-btn border-blue addItem" data-id="4">新增</button>
+              <button class="layui-btn border-blue" id="editItem">编辑</button>
+              <button class="layui-btn border-red" id="delItem">删除</button>
+              <button class="layui-btn border-blue" id="exportData">导入</button>
+            </div>
+          </div>
+          <table id="teamMembers"></table>
+        </div>
+        <div class="layui-tab-item">
+          <!-- 主要成果 -->
+          <div class="view-title-layout">
+            <div class="right">
+              <button class="layui-btn border-blue addItem" data-id="5">新增</button>
+              <button class="layui-btn border-blue" id="editItem">编辑</button>
+              <button class="layui-btn border-red" id="delItem">删除</button>
+              <button class="layui-btn border-blue" id="exportData">导入</button>
+            </div>
+          </div>
+          <table id="mainAchievements"></table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="dilog-block" id="dialogProject">
+    <form class="layui-form" action="" lay-filter="formProject">
+      <div class="layui-row layui-col-space20">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required">项目名称：</label>
+            <div class="layui-input-block">
+              <input type="text" name="projectName" lay-verify="required"
+                placeholder="" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required">专业类别：</label>
+            <div class="layui-input-block">
+              <select name="majorType" lay-verify="required">
+                <option value=""></option>
+                <option value="0">北京</option>
+                <option value="1">上海</option>
+                <option value="2">广州</option>
+                <option value="3">深圳</option>
+                <option value="4">杭州</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required">负责单位：</label>
+            <div class="layui-input-block let-input-search">
+              <input type="text" name="responsibleCom" lay-verify="required"
+                placeholder="请填写..." autocomplete="off" class="layui-input">
+              <span class="search-icon">
+                <i class="layui-icon layui-icon-search"></i> 
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label">立项年度：</label>
+            <div class="layui-input-block">
+              <input type="text" name="companyName" lay-verify="number"
+                placeholder="请填写..." autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-dialog-box">
+        <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="projectSubmit">提交</button>
+        <button type="button" class="layui-btn layui-btn-primary close-dialog">关闭</button>
+      </div>
+    </form>
+  </div>
+
+<script src="/layuiadmin/layui/layui.all.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script src="gjj_kyxq.js"></script>
+</body>
+</html>
