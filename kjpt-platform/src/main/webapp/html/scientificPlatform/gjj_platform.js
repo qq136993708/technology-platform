@@ -52,28 +52,14 @@ layui.use(['form', 'table', 'layer'], function(){
 	  }
 	  
 	  // 打开弹窗
-	  layer.open({
-	      type: 1,
+	  top.layer.open({
+	      type: 2,
 	      title: dialogTitle,
-	      area: ['880px', '500px'],
-		  content: $('#dialogPlatform'),
-		  btn: ['提交', '关闭'],
-		  yes: function(i, lay) {
-			  $('#formSubmitBtn').click();
-			  return false;
-		  },
-		  btn2: function() {
-			// 关闭全部弹窗
-			layer.closeAll();
-		  }
+	      area: ['880px', '70%'],
+		  content: '/html/scientificPlatform/addPlatformDialog.html?id='+type,
+		  btn: null
 	});
   }
-  //新增、编辑 确定提交
-  form.on('submit(newSubmit)', function(data){
-    console.log(data);
-    return false;
-  })
-  
   
   // 新增平台
   $('#addItem').on('click', function(e) {

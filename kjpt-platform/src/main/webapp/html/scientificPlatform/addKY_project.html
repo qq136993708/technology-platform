@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>中核科技管理平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <!-- 多选下拉框样式，根据需求添加 -->
+  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/pageHtml.css">
+  <!-- 更多样式在此引入 -->
+</head>
+<body class="addKY_project">
+<div class="layout-view-content dialog">
+	<div class="layui-form radio-tab-box">
+		<input type="radio" name="optionType" checked value="unInput" title="关联添加" lay-filter="optionType" />
+		<input type="radio" name="optionType" value="input" title="手动录入" lay-filter="optionType" />
+	</div>
+	<!-- 关联添加 -->
+	<div class="unInput-layout-box">
+		<div class="layui-form-item">
+			<label class="layui-form-label label-required"><span class="text">项目名称：</span></label>
+			<div class="layui-input-inline">
+				<input type="text" id="projectName" autocomplete="off" class="layui-input">
+			</div>
+			<button class="layui-btn layui-btn-normal" id="getProjectData">查询</button>
+			<button class="layui-btn layui-btn-primary" id="restProjectNameValue">重置</button>
+		</div>
+		<table id="unInputTable" lay-filter="unInputTable"></table>
+	</div>
+	<!-- 手动录入 -->
+	<div class="input-layout-box">
+		<form class="layui-form" action="" lay-filter="formProject">
+	      <div class="layui-row layui-col-space20">
+	        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+	          <div class="layui-form-item">
+	            <label class="layui-form-label label-required"><span class="text">项目名称：</span></label>
+	            <div class="layui-input-block">
+	              <input type="text" name="projectName" lay-verify="required"
+	                placeholder="" autocomplete="off" class="layui-input">
+	            </div>
+	          </div>
+	        </div>
+	
+	        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+	          <div class="layui-form-item">
+	            <label class="layui-form-label label-required"><span class="text">专业类别：</span></label>
+	            <div class="layui-input-block">
+	              <select name="majorType" lay-verify="required">
+	                <option value=""></option>
+	                <option value="0">北京</option>
+	                <option value="1">上海</option>
+	                <option value="2">广州</option>
+	                <option value="3">深圳</option>
+	                <option value="4">杭州</option>
+	              </select>
+	            </div>
+	          </div>
+	        </div>
+	        
+	        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+	          <div class="layui-form-item">
+	            <label class="layui-form-label label-required"><span class="text">负责单位：</span></label>
+	            <div class="layui-input-block let-input-search">
+	              <input type="text" name="responsibleCom" lay-verify="required"
+	                placeholder="请填写..." autocomplete="off" class="layui-input">
+	              <span class="search-icon">
+	                <i class="layui-icon layui-icon-search"></i> 
+	              </span>
+	            </div>
+	          </div>
+	        </div>
+	
+	        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+	          <div class="layui-form-item">
+	            <label class="layui-form-label"><span class="text">立项年度：</span></label>
+	            <div class="layui-input-block">
+	              <input type="text" name="companyName" lay-verify="number"
+	                placeholder="请填写..." autocomplete="off" class="layui-input">
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	      
+	      <button class="hide-block" lay-submit="" id="InputSubmit" lay-filter="InputSubmit">提交</button>
+	    </form>
+	</div>
+	
+	
+	<div class="dialog-footer-btn">
+      <button class="layui-btn layui-btn-normal" id="projectSubmit">提交</button>
+      <button type="button" class="layui-btn layui-btn-primary close-all-dialog">关闭</button>
+    </div>
+</div>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+</body>
+</html>
+
+<script>
+layui.use(['form', 'jquery', 'table', 'layer'], function(){
+	var $ = layui.jquery;
+	var form = layui.form;
+	var table = layui.table;
+	var layer = layui.layer;
+	
+	// 获取地址栏传递过来的参数
+	var variable = getQueryVariable();
+	
+	var submitType = '';
+	function switchItem(type) {
+		submitType = type;
+		if (type === 'unInput') {
+			$('.unInput-layout-box').show();
+			$('.input-layout-box').hide();
+		} else if (type === 'input') {
+			$('.unInput-layout-box').hide();
+			$('.input-layout-box').show();
+		}	
+	}
+	// 默认显示关联录入
+	switchItem('unInput');
+	// 监听录入方式变化
+	form.on('radio(optionType)', function(data) {
+		switchItem(data.value);
+	})
+	
+	// 重置搜索框的值
+	$('#restProjectNameValue').click(function() {
+		$('#projectName').val('');
+	})
+	
+	var tablePageData = null;
+	function getTableData() {
+		var searchData = $('#projectName').val();
+		searchData = searchData ? searchData.trim() : '';
+
+		table.render({
+		  elem: '#unInputTable' // 表格元素ID
+		  ,url: '/data/datalist.json' //数据接口
+		  ,page: true //开启分页
+		  ,where: { name: searchData }
+		  ,cols: [[ // 表头
+		    {type: 'checkbox' } // 表格多选
+		    ,{field: 'username', title: '项目名称' } // 模版配置列
+		    ,{field: 'sex', title: '专业类别', sort: true}
+		    ,{field: 'city', title: '负责单位'} 
+		    ,{field: 'sign', title: '立项年度'}
+		  ]]
+		  ,done: function(data) {
+			  // 获取当前分页表格数据
+			  tablePageData = data.data;
+			  if (tableCheckedData) {
+				  tableCheckedData = [];
+			  }
+		  }
+		  ,parseData: function(res) { return layuiParseData(res, null, 5); }
+		});
+	}
+
+	getTableData();
+	
+	$('#getProjectData').click(function() {
+		getTableData();
+	})
+	
+	form.on('submit(InputSubmit)', function(data) {
+		// 手工录入提交
+		console.log(data.field);
+		return false;
+	})
+	
+	// 关联录入数据
+	var tableCheckedData = [];
+	table.on('checkbox(unInputTable)', function(RowData) {
+		// tablePageData
+		if (RowData.type === 'all') {
+			if (RowData.checked) {
+				tableCheckedData = tablePageData || [];
+			} else {
+				tableCheckedData = [];
+			}
+		} else {
+			if (RowData.checked) {
+				tableCheckedData.push(RowData.data);
+			} else {
+				tableCheckedData = tableCheckedData.filter(function(item) {
+					if (item.id !== RowData.data.id) {
+						return item;
+					}
+				});
+			}
+		}
+	})
+	
+	// 提交项目
+	$('#projectSubmit').on('click', function(e) {
+		if (submitType === 'input') {
+			$('#InputSubmit').click();
+		} else if (submitType === 'unInput') {
+			if (!tableCheckedData.length) {
+				layer.msg('您没有选择任何项目', {icon: 2});
+				return false;
+			}
+			dialogData(tableCheckedData)
+			console.log(tableCheckedData);
+		}
+	})
+});
+</script>

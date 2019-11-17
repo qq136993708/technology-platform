@@ -20,7 +20,7 @@
       <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 	  	<div class="layui-form-item">
-	       <label class="layui-form-label">申请类型：</label>
+	       <label class="layui-form-label"><span class="text">申请类型：</span></label>
 	       <div class="layui-input-block">
 	         <select name="applaType" lay-filter="applaType">
 	           <option value=""></option>
@@ -36,7 +36,7 @@
 	   
 	   <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 	  	<div class="layui-form-item">
-	       <label class="layui-form-label">多选下拉框：</label>
+	       <label class="layui-form-label"><span class="text">多选下拉框：</span></label>
 	       <div class="layui-input-block">
 	         <select name="applaType" xm-select="applaType2" xm-select-skin="normal">
 	           <option value=""></option>
@@ -55,7 +55,7 @@
 
 <pre class="line-numbers"><code class="language-html">
 &lt;div class="layui-form-item">
-   &lt;label class="layui-form-label">申请类型：&lt;/label>
+   &lt;label class="layui-form-label">&lt;span class="text">申请类型：&lt;/span>&lt;/label>
    &lt;div class="layui-input-block">
      &lt;select name="applicationType" lay-filter="applicationType">
        &lt;option value="">&lt;/option>
@@ -87,7 +87,7 @@ layui.use(['form'], function(){
 &lt;!-- 需要单独引用css -->
 &lt;link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
 &lt;div class="layui-form-item">
-   &lt;label class="layui-form-label">多选下拉框：</label>
+   &lt;label class="layui-form-label">&lt;span class="text">多选下拉框：&lt;/span>&lt;/label>
    &lt;div class="layui-input-block">
    &lt;!-- select标签上必须添加 属性 ”xm-select“ -->
     &lt;select name="applaType" xm-select="applicationType2" xm-select-skin="normal"&gt;

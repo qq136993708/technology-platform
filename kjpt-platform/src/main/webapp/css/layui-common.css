@@ -77,8 +77,43 @@
   margin-left: 144px;
 }
 .layui-form-label{
-  padding: 5px 5px 5px 0;
+  padding: 0 !important;
   width: 144px;
+  max-width: 144px;
+  font-size: 0;
+  white-space: nowrap;
+}
+.layui-form-label.auto {
+	width: auto !important;
+}
+.layui-form-label > .text{
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 14px;
+	font-size: 14px;
+	max-width: 99.8%;
+	white-space: normal;
+	padding-right: 8px;
+	text-align: right;
+}
+.layui-form-label.auto > .text {
+	white-space: nowrap;
+}
+.layui-form-label:before {
+	content: '';
+	display: inline-block;
+	vertical-align: middle;
+	width:0;
+	float: none;
+	padding:0;
+	margin:0;
+	height: 30px;
+}
+.label-required > .text::before{
+  content: '*';
+  display: inline;
+  color: #FF2626;
+  margin-right: 3px;
 }
 .layui-form-mid {
   padding-top: 5px !important;
@@ -177,12 +212,6 @@
   box-shadow: 0 0 3px #FF2626;
   -ms-box-shadow: 0 0 3px #FF2626;
 }
-.label-required::before{
-  content: '*';
-  display: inline;
-  color: #FF2626;
-  margin-right: 3px;
-}
 .layui-btn[disabled], .layui-btn:disabled,
 .layui-btn[disabled]:hover,
 .layui-btn[disabled]:active,
@@ -253,6 +282,16 @@
 .layui-tab-title.tab-btn-layout .layui-this:after{
   display: none;
 }
+.layui-table-page {
+	text-align: right;
+}
+.layui-form-item .layui-input-inline{
+	float: none;
+}
+.layui-form-item .layui-input-inline.margin0 {
+	margin-right: 0;
+}
+
 /* 多选下拉框样式 */
 .xm-select-parent .xm-select{
 	padding-top: 2px;

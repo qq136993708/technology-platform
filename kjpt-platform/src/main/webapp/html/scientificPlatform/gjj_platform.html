@@ -12,22 +12,71 @@
   <link rel="stylesheet" href="/css/scientificPlatform.css">
 </head>
 <body>
-  <div class="layout-view-content">
+  <div class="layout-view-content dialog">
     <form class="layui-form" action="" lay-filter="patentFormDemo">
       <div class="layui-row layui-col-space20">
         <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
-        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
           <div class="layui-form-item">
-            <label class="layui-form-label">平台名称：</label>
-            <div class="layui-input-inline">
+            <label class="layui-form-label"><span class="text">平台名称：</span></label>
+            <div class="layui-input-block">
               <input type="text" name="companyName" placeholder="请输入" autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-input-inline">
-              <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
-              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
           </div>
         </div>
+        
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">依托单位：</span></label>
+            <div class="layui-input-block let-input-search">
+              <input type="text" name="supportingCompany" placeholder="请输入" autocomplete="off" class="layui-input">
+              <span class="search-icon">
+			      <i class="layui-icon layui-icon-search"></i> 
+			    </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">工作负责人：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="rersonLiable" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+        
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">研究领域：</span></label>
+            <div class="layui-input-block">
+              <select name="ResearchCode">
+			      <option value=""></option>
+			      <option value="0">北京</option>
+			      <option value="1">上海</option>
+			      <option value="2">广州</option>
+			      <option value="3">深圳</option>
+			      <option value="4">杭州</option>
+			    </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">平台得分：</span></label>
+            <div class="layui-input-inline margin0" style="width: 160px">
+              <input type="text" name="minNumber" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+            <span class="ib-block">-</span>
+            <div class="layui-input-inline" style="width: 160px">
+              <input type="text" name="maxNumber" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+        </div>
+        
       </div>
     </form>
   
@@ -43,130 +92,6 @@
     
     <table id="tableDemo"  lay-filter="tableDemo"></table>
   </div>
-
-
-<div class="dilog-block" id="dialogPlatform">
-   <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
-     <div class="layui-row layui-col-space20">
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required">平台名称：</label>
-           <div class="layui-input-block">
-             <input type="text" name="palformName" lay-verify="required"
-               placeholder="" autocomplete="off" class="layui-input">
-           </div>
-         </div>
-       </div>
-
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required">研究领域：</label>
-           <div class="layui-input-block">
-             <select name="majorType" lay-verify="required">
-               <option value=""></option>
-               <option value="0">北京</option>
-               <option value="1">上海</option>
-               <option value="2">广州</option>
-               <option value="3">深圳</option>
-               <option value="4">杭州</option>
-             </select>
-           </div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required">依托单位：</label>
-           <div class="layui-input-block">
-             <select name="supportingCompany" lay-verify="required">
-               <option value=""></option>
-               <option value="0">北京</option>
-               <option value="1">上海</option>
-               <option value="2">广州</option>
-               <option value="3">深圳</option>
-               <option value="4">杭州</option>
-             </select>
-           </div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label">科研经费：</label>
-           <div class="layui-input-block">
-             <input type="text" name="researchFunds" lay-verify="number"
-               placeholder="请填写..." autocomplete="off" class="layui-input">
-           </div>
-         </div>
-       </div>
-
-       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-         <div class="layui-form-item">
-           <label class="layui-form-label">平台介绍：</label>
-           <div class="layui-input-block">
-             <textarea name="platformDesc" placeholder="请输入内容" class="layui-textarea"></textarea>
-           </div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required">主要负责人：</label>
-           <div class="layui-input-block">
-             <input type="text" name="ResponsiblePerson" lay-verify="required"
-               placeholder="请填写..." autocomplete="off" class="layui-input">
-           </div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label">平台类型：</label>
-           <div class="layui-input-block">
-             <select name="platformType">
-               <option value=""></option>
-               <option value="0">北京</option>
-               <option value="1">上海</option>
-               <option value="2">广州</option>
-               <option value="3">深圳</option>
-               <option value="4">杭州</option>
-             </select>
-           </div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-         <div class="layui-form-item">
-           <label class="layui-form-label">科研团队介绍：</label>
-           <div class="layui-input-block">
-             <textarea name="platformDesc2" placeholder="请输入内容" class="layui-textarea"></textarea>
-           </div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-         <div class="layui-form-item">
-           <label class="layui-form-label">科研整体情况：</label>
-           <div class="layui-input-block">
-             <textarea name="platformDesc3" placeholder="请输入内容" class="layui-textarea"></textarea>
-           </div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-         <div class="layui-form-item">
-           <label class="layui-form-label">平台评分：</label>
-           <div class="layui-input-block">
-             <input type="text" name="palformName" lay-verify="number"
-               placeholder="" autocomplete="off" class="layui-input">
-           </div>
-         </div>
-       </div>
-       
-       <div class="elementHide"><button class="layui-btn layui-btn-normal" id="formSubmitBtn" lay-submit="" lay-filter="newSubmit">提交</button></div>
-     </div>
-   </form>
-</div>
   
 <script type="text/html" id="detailsTpl">
 	<a href="./gjj_kyxq.html?id={{d.id}}" class="layui-table-link">{{d.username}}</a>

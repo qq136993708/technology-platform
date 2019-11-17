@@ -18,7 +18,7 @@ function getQueryVariable(key) {
   return variable;
 }
 
-// layui 返回结果转换可识别
+// layui 表格http请求返回结果转换可识别
 function layuiParseData(RelData, callback, number) {
   var codeData = {
     "code": '0', //解析接口状态
@@ -27,20 +27,12 @@ function layuiParseData(RelData, callback, number) {
     "data": RelData.tableList //解析数据列表
   };
 
-  /*
-  .filter(function(item, i) {
-    if (i < 2) {
-      return item;
-    }
-  })
-  */
-
   if (callback) {
     callback(codeData);
   } else {
     if (number) {
       codeData.data = codeData.data.filter(function(item, i) {
-        if (i < 2) {
+        if (i < number) {
           return item;
         }
       })
@@ -48,3 +40,46 @@ function layuiParseData(RelData, callback, number) {
     return codeData;
   }
 }
+
+// 会话窗口临时数据传递
+var timeout = 'dialog-data';
+function dialogData(data, key) {
+	// data 为字符串时获取sessionStorage的值；
+	// data 为一个JSON 或者 Array 对象时 设置sessionStorage的值；不能传递 HTML元素
+	// key 则为存储的key, 可以为空值， 空值时 使用默认的key 'dialog-data';
+	if (typeof(data) === 'string') {
+		var tempData = null;
+		var str = sessionStorage.getItem(data);
+		if (str) {
+			try {
+				tempData = JSON.parse(str);
+				// 数据获取完成后删除临时数据，避免重复
+				sessionStorage.removeItem(data);
+				return tempData;
+			} catch (error) {
+				sessionStorage.removeItem(data);
+				return tempData;
+			}
+		} else {
+			return tempData;
+		}
+	} else if (typeof(data) === 'object') {
+		if (key && typeof(key) === 'string') {
+			timeout = key;
+			sessionStorage.setItem(key, JSON.stringify(data))
+		} else {
+			sessionStorage.setItem('dialog-data', JSON.stringify(data))
+		}
+	}
+}
+
+
+// 
+layui.use(['jquery'], function() {
+	var $ = layui.jquery;
+	
+	// 关闭 top层 所有弹窗
+	$('.close-all-dialog').click(function() {
+		top.layer.closeAll();
+	})
+})

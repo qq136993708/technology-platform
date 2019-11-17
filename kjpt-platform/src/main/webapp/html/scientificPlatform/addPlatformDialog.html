@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>中核科技管理平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <!-- 多选下拉框样式，根据需求添加 -->
+  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+  
+  <!-- 更多样式在此引入 -->
+</head>
+<body class="addPlatformDialog">
+<div class="layout-view-content dialog">
+	<form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+     <div class="layui-row layui-col-space20">
+       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+         <div class="layui-form-item">
+           <label class="layui-form-label label-required"><span class="text">平台名称：</span></label>
+           <div class="layui-input-block">
+             <input type="text" name="palformName" lay-verify="required"
+               placeholder="" autocomplete="off" class="layui-input">
+           </div>
+         </div>
+       </div>
+
+       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+         <div class="layui-form-item">
+           <label class="layui-form-label label-required"><span class="text">研究领域：</span></label>
+           <div class="layui-input-block">
+             <select name="majorType" lay-verify="required">
+               <option value=""></option>
+               <option value="0">北京</option>
+               <option value="1">上海</option>
+               <option value="2">广州</option>
+               <option value="3">深圳</option>
+               <option value="4">杭州</option>
+             </select>
+           </div>
+         </div>
+       </div>
+       
+       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+         <div class="layui-form-item">
+           <label class="layui-form-label label-required"><span class="text">依托单位：</span></label>
+           <div class="layui-input-block">
+             <select name="supportingCompany" lay-verify="required">
+               <option value=""></option>
+               <option value="0">北京</option>
+               <option value="1">上海</option>
+               <option value="2">广州</option>
+               <option value="3">深圳</option>
+               <option value="4">杭州</option>
+             </select>
+           </div>
+         </div>
+       </div>
+       
+       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+         <div class="layui-form-item">
+           <label class="layui-form-label"><span class="text">科研经费：</span></label>
+           <div class="layui-input-block">
+             <input type="text" name="researchFunds" lay-verify="number"
+               placeholder="请填写..." autocomplete="off" class="layui-input">
+           </div>
+         </div>
+       </div>
+
+       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+         <div class="layui-form-item">
+           <label class="layui-form-label"><span class="text">平台介绍：</span></label>
+           <div class="layui-input-block">
+             <textarea name="platformDesc" placeholder="请输入内容" class="layui-textarea"></textarea>
+           </div>
+         </div>
+       </div>
+       
+       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+         <div class="layui-form-item">
+           <label class="layui-form-label label-required"><span class="text">主要负责人：</span></label>
+           <div class="layui-input-block">
+             <input type="text" name="ResponsiblePerson" lay-verify="required"
+               placeholder="请填写..." autocomplete="off" class="layui-input">
+           </div>
+         </div>
+       </div>
+       
+       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+         <div class="layui-form-item">
+           <label class="layui-form-label"><span class="text">平台类型：</span></label>
+           <div class="layui-input-block">
+             <select name="platformType">
+               <option value=""></option>
+               <option value="0">北京</option>
+               <option value="1">上海</option>
+               <option value="2">广州</option>
+               <option value="3">深圳</option>
+               <option value="4">杭州</option>
+             </select>
+           </div>
+         </div>
+       </div>
+       
+       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+         <div class="layui-form-item">
+           <label class="layui-form-label"><span class="text">科研团队介绍：</span></label>
+           <div class="layui-input-block">
+             <textarea name="platformDesc2" placeholder="请输入内容" class="layui-textarea"></textarea>
+           </div>
+         </div>
+       </div>
+       
+       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+         <div class="layui-form-item">
+           <label class="layui-form-label"><span class="text">科研整体情况：</span></label>
+           <div class="layui-input-block">
+             <textarea name="platformDesc3" placeholder="请输入内容" class="layui-textarea"></textarea>
+           </div>
+         </div>
+       </div>
+       
+       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+         <div class="layui-form-item">
+           <label class="layui-form-label"><span class="text">平台评分：</span></label>
+           <div class="layui-input-block">
+             <input type="text" name="palformName" lay-verify="number"
+               placeholder="" autocomplete="off" class="layui-input">
+           </div>
+         </div>
+       </div>
+       
+       <div class="dialog-footer-btn">
+      		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="newSubmit">提交</button>
+      		<button class="layui-btn layui-btn-primary close-all-dialog" type="button">关闭</button>
+       </div>
+     </div>
+   </form>
+</div>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+</body>
+</html>
+
+<script>
+layui.use(['form', 'jquery'], function(){
+	var $ = layui.jquery;
+	var form = layui.form;
+	
+	// 获取地址栏传递过来的参数
+	var variable = getQueryVariable();
+	
+	console.log('variable => ', variable);
+	
+});
+</script>
