@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="/layuiadmin/style/adminStp_.css?+Math.random()" media="all">
 
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
 
 </head>
 <body class="layui-layout-body">
@@ -134,6 +135,47 @@
 							</dl></li>
 						</#if>
 						
+						<li class="layui-nav-item">
+							<a href="javascript:void(0);" title="科研平台">
+								<span>科研平台</span>
+								<span class="arrow"></span>
+								<i class="fa fa-angle-left pull-right"></i>
+								<span class="layui-nav-more"></span>
+							</a>  
+							<dl class="layui-nav-child">
+								<dd class="">
+								 <!-- lay-text="待办任务"  data-id="9be9ca820e884b0f8cbdefe4175e1e7d" data-code="10010103" -->
+									<a lay-href="/html/scientificPlatform/gjj_platform.html"
+										lay-text="国家级科研平台" 
+										data-functionbuttons="ALL">国家级科研平台</a>
+								</dd>
+							</dl>    
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:void(0);" title="Demo规范">
+								<span>Demo规范</span>
+								<span class="arrow"></span>
+								<i class="fa fa-angle-left pull-right"></i>
+								<span class="layui-nav-more"></span>
+							</a>  
+							<dl class="layui-nav-child">
+								<dd class=""><a lay-href="/html/demo/layout.html" lay-text="页面排版说明" 
+									data-functionbuttons="ALL">页面排版</a>
+								</dd>
+								<dd class=""><a lay-href="/html/demo/form.html" lay-text="Form 表单" 
+									data-functionbuttons="ALL">Form 表单</a>
+								</dd>
+								<dd class=""><a lay-href="/html/demo/select.html" lay-text="selected 下拉框" 
+									data-functionbuttons="ALL">selected 下拉框</a>
+								</dd>
+								<dd class=""><a lay-href="/html/demo/button.html" lay-text="Button 按钮" 
+									data-functionbuttons="ALL">Button 与 Tab</a>
+								</dd>
+								<dd class=""><a lay-href="/html/demo/table.html" lay-text="Table 表格" 
+									data-functionbuttons="ALL">Table 表格</a>
+								</dd>
+							</dl>    
+						</li>
 					</ul>
 
 					<#if upList?exists> <#list upList as p>
