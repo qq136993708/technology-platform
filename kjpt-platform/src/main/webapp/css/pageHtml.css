@@ -1,0 +1,11 @@
+.addKY_project .radio-tab-box{
+	padding-bottom: 10px;
+	padding-left: 20px;
+}
+.addKY_project .radio-tab-box .layui-form-radio{
+	margin-right: 40px;
+	line-height: 20px;
+}
+.addKY_project .unInput-layout-box{
+	padding-top: 10px;
+}

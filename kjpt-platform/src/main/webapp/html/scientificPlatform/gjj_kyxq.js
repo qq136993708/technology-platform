@@ -97,11 +97,11 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
 
   // 新增
   $('.addItem').on('click', function(e) {
-	console.log(e.target.dataset.id);
-    layer.open({
-      type: 1,
-      area: ['720px', '360px'],
-      content: $('#dialogProject'),
+    top.layer.open({
+      type: 2,
+      title: '添加科研项目',
+      area: ['780px', '520px'],
+      content: '/html/scientificPlatform/addKY_project.html?id='+e.target.dataset.id,
       btn: null
     });
     
