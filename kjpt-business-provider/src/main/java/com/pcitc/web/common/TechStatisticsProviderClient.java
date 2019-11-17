@@ -1,4 +1,4 @@
-package com.pcitc.web.hana;
+package com.pcitc.web.common;
 
 import java.util.Map;
 

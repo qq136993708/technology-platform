@@ -1,8 +1,14 @@
 package com.pcitc.web.config;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -23,10 +29,16 @@ public class SwaggerConfig {
 
     @Bean
     public Docket createRestApi() {
+
+        Predicate<RequestHandler> restfulApi = Predicates.or(
+                RequestHandlerSelectors.withClassAnnotation(RestController.class),
+                RequestHandlerSelectors.withClassAnnotation(Controller.class)
+                );
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com"))//扫描com路径下的api文档
+                .apis(restfulApi)//扫描RestController的api文档
                 .paths(PathSelectors.any())//路径判断
                 .build();
     }
