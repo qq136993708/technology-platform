@@ -30,7 +30,7 @@ public class HttpConnectionUtils {
      * @return
      */
 
-    public static Object post(final Object param, final String URL,MediaType mediaType,Class<?> className) {
+    public static Object post(final Object param, final String URL,MediaType mediaType,Class<?> className,RestTemplate restTemplate) {
 
         if (!StringUtils.isNotBlank(URL)) {
             return null;
@@ -39,8 +39,6 @@ public class HttpConnectionUtils {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(mediaType);
         HttpEntity<Object> entity = new HttpEntity<>(param,headers);
-        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-        RestTemplate restTemplate = new RestTemplate(requestFactory);
         ResponseEntity<?> response = restTemplate.exchange(URL, HttpMethod.POST, entity, className);
         Integer code = response.getStatusCode().value();
         if (200 != code) {
@@ -61,16 +59,12 @@ public class HttpConnectionUtils {
      * @return
      */
 
-    public static Object get(String url,Class<?> className) {
+    public static Object get(String url,Class<?> className,RestTemplate restTemplate) {
 
         if (null == url) {
             return null;
         }
 
-        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-        requestFactory.setReadTimeout(5000);
-        requestFactory.setConnectTimeout(5000);
-        RestTemplate restTemplate = new RestTemplate(requestFactory);
         URI uri = URI.create(url);
         //log.info(uri.toString());
         ResponseEntity<?> response = restTemplate.getForEntity(uri, className);

@@ -5,6 +5,7 @@ import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.RequestHandler;
@@ -30,7 +31,9 @@ public class SwaggerConfig {
     public Docket createRestApi() {
 
         Predicate<RequestHandler> restfulApi = Predicates.or(
-                RequestHandlerSelectors.withClassAnnotation(RestController.class));
+                RequestHandlerSelectors.withClassAnnotation(RestController.class),
+                RequestHandlerSelectors.withClassAnnotation(Controller.class)
+                );
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())

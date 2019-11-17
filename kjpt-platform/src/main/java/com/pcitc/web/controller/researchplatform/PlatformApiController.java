@@ -2,17 +2,26 @@ package com.pcitc.web.controller.researchplatform;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.Page;
+import com.pcitc.base.expert.ZjkBase;
+import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.researchPlatform.PlatformInfoModel;
 import com.pcitc.base.util.HttpConnectionUtils;
 import com.pcitc.web.common.ApiResponseBody;
+import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * <p>服务接口</p>
@@ -20,9 +29,9 @@ import java.util.Map;
  * @author ty
  */
 @Api(value = "researchPlatform-api", description = "国家科研平台接口")
-@RestController
+@Controller
 @RequestMapping("/platform-api")
-public class PlatformApiController extends ApiResponseBody {
+public class PlatformApiController extends RestBaseController {
     /**
      * 根据ID获取对象信息
      */
@@ -31,14 +40,22 @@ public class PlatformApiController extends ApiResponseBody {
      * 查询平台列表
      */
     private static final String query = "http://kjpt-zuul/stp-proxy/researchPlatform-api/query";
-   // private static final String query = "http://localhost:8765/researchPlatform-api/query";
+    /**
+     * 保存平台
+     */
+    private static final String save = "http://kjpt-zuul/stp-proxy/researchPlatform-api/save";
+    /**
+     * 删除
+     */
+    private static final String delete = "http://kjpt-zuul/stp-proxy/researchPlatform-api/delete/";
 
 
-    @ApiOperation(value="读取一个平台信息")
+    @ApiOperation(value="读取")
     @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Object loadOne(@PathVariable String id) {
-        return HttpConnectionUtils.get(load+id,PlatformInfoModel.class);
+    public PlatformInfoModel loadOne(@PathVariable String id) {
+        ResponseEntity<PlatformInfoModel> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), PlatformInfoModel.class);
+        return responseEntity.getBody();
     }
 
 
@@ -46,14 +63,14 @@ public class PlatformApiController extends ApiResponseBody {
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ResponseBody
     public PageInfo getList(
-                          @RequestParam(required = false,value = "页码") Integer pageNum,
-                          @RequestParam(required = false) Integer pageSize,
-                          @RequestParam(required = false) String platformName,
-                          @RequestParam(required = false) String supportingInstitutions,
-                          @RequestParam(required = false) String personLiable,
-                          @RequestParam(required = false) String researchField,
-                          @RequestParam(required = false) String platformScorinHigh,
-                          @RequestParam(required = false) String platformScorinLow
+            @RequestParam(required = false,value = "页码") Integer pageNum,
+            @RequestParam(required = false,value = "每页显示条数") Integer pageSize,
+            @RequestParam(required = false,value = "平台名称") String platformName,
+            @RequestParam(required = false,value = "依托单位") String supportingInstitutions,
+            @RequestParam(required = false,value = "主要负责人") String personLiable,
+            @RequestParam(required = false,value = "科研经费") String researchField,
+            @RequestParam(required = false,value = "平台评分区间高") String platformScorinHigh,
+            @RequestParam(required = false,value = "平台评分区间低") String platformScorinLow
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -85,8 +102,40 @@ public class PlatformApiController extends ApiResponseBody {
         if (!StringUtils.isEmpty(platformScorinLow)) {
             this.setParam(condition, "platformScorinLow", platformScorinLow);
         }
-        return (PageInfo)HttpConnectionUtils.post(condition,query, MediaType.APPLICATION_JSON, PageInfo.class);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
+        return responseEntity.getBody();
+    }
 
+    @ApiOperation(value="保存")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @ResponseBody
+    public PlatformInfoModel save(@RequestBody PlatformInfoModel pm) {
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<PlatformInfoModel> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<PlatformInfoModel>(pm, this.httpHeaders), PlatformInfoModel.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value="删除")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Integer delete(@PathVariable String id) {
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(delete+id, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value="初始化")
+    @RequestMapping(value = "/newInit", method = RequestMethod.GET)
+    @ResponseBody
+    public PlatformInfoModel newInit() {
+        PlatformInfoModel p = new PlatformInfoModel();
+        p.setId(UUID.randomUUID().toString().replace("-",""));
+        p.setCreateDate(new Date());
+        p.setCreator(this.getUserProfile().getUserName());
+        p.setPlatformScoring("0");
+        p.setResearchFunds("0");
+        p.setDeleted("0");
+        return p;
     }
 
 }

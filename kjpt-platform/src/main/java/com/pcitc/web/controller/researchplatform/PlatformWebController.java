@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * <p>服务接口</p>
- * <p>Table: zjk_achievement - 科研平台-基本信息</p>
+ * <p>Table:  - 科研平台-基本信息</p>
  * @author ty
  */
 
