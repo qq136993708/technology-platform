@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.expert.ZjkProjectMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkProject">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="expert_id" jdbcType="VARCHAR" property="expertId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="charge_unit" jdbcType="VARCHAR" property="chargeUnit" />
+    <result column="research_target" jdbcType="VARCHAR" property="researchTarget" />
+    <result column="setup_yeat" jdbcType="VARCHAR" property="setupYeat" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="del_status" jdbcType="VARCHAR" property="delStatus" />
+    <result column="source_type" jdbcType="VARCHAR" property="sourceType" />
+    <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, expert_id, project_name, charge_unit, research_target, setup_yeat, create_time, 
+    del_status, source_type, out_system_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zjk_project
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from zjk_project
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkProject" useGeneratedKeys="true">
+    insert into zjk_project (expert_id, project_name, charge_unit, 
+      research_target, setup_yeat, create_time, 
+      del_status, source_type, out_system_id
+      )
+    values (#{expertId,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{chargeUnit,jdbcType=VARCHAR}, 
+      #{researchTarget,jdbcType=VARCHAR}, #{setupYeat,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{delStatus,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkProject" useGeneratedKeys="true">
+    insert into zjk_project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="expertId != null">
+        expert_id,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="chargeUnit != null">
+        charge_unit,
+      </if>
+      <if test="researchTarget != null">
+        research_target,
+      </if>
+      <if test="setupYeat != null">
+        setup_yeat,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="sourceType != null">
+        source_type,
+      </if>
+      <if test="outSystemId != null">
+        out_system_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeUnit != null">
+        #{chargeUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="researchTarget != null">
+        #{researchTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="setupYeat != null">
+        #{setupYeat,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null">
+        #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="outSystemId != null">
+        #{outSystemId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkProject">
+    update zjk_project
+    <set>
+      <if test="expertId != null">
+        expert_id = #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeUnit != null">
+        charge_unit = #{chargeUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="researchTarget != null">
+        research_target = #{researchTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="setupYeat != null">
+        setup_yeat = #{setupYeat,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null">
+        source_type = #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="outSystemId != null">
+        out_system_id = #{outSystemId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkProject">
+    update zjk_project
+    set expert_id = #{expertId,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      charge_unit = #{chargeUnit,jdbcType=VARCHAR},
+      research_target = #{researchTarget,jdbcType=VARCHAR},
+      setup_yeat = #{setupYeat,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      del_status = #{delStatus,jdbcType=VARCHAR},
+      source_type = #{sourceType,jdbcType=VARCHAR},
+      out_system_id = #{outSystemId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+  
+  
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="projectName != null and projectName  !='' ">               AND t.project_name like CONCAT('%',#{projectName},'%')</if>
+	     <if test="sourceType != null      and sourceType !=''  ">     AND t.source_type = #{sourceType}</if>
+	     <if test="delStatus != null       and delStatus !=''  ">      AND t.del_status = #{delStatus}</if>
+	     <if test="outSystemId != null     and outSystemId !=''  ">    AND t.out_system_id = #{outSystemId}</if>
+	     <if test="expertId != null        and expertId !=''  ">       AND t.expert_id = #{expertId}</if>
+	 </trim>
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from zjk_project t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_time desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM zjk_project t <include refid="selectCondition"/>
+    </select>
+  
+  
+  
+  
+  <!-- 根据专家ID逻辑删除项目信息-->
+   <update id="deleteLogicZjkProjectByExpertId" parameterType="string">
+    update zjk_project  set del_status = '1' where expert_id = #{expertId,jdbcType=VARCHAR}
+  </update>
+  
+  
+   <update id="deleteLogicZjkProjectById" parameterType="string">
+    update zjk_project  set del_status = '1' where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <delete id="deleteZjkProjectByExpertId" parameterType="java.lang.String">
+    delete from zjk_project where  where expert_id = #{expertId,jdbcType=VARCHAR}
+  </delete>
+  
+  
+  
+</mapper>

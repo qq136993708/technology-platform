@@ -4,6 +4,7 @@ package com.pcitc.base.common;
  * @author bill
  *
  */
+
 public class Result {
 
     /**

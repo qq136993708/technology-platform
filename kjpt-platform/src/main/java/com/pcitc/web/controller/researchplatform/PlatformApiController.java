@@ -30,6 +30,7 @@ public class PlatformApiController extends ApiResponseBody {
     /**
      * 查询平台列表
      */
+   // private static final String query = "http://kjpt-zuul/stp-proxy/expert/page";
     private static final String query = "http://kjpt-zuul/stp-proxy/researchPlatform-api/query";
    // private static final String query = "http://localhost:8765/researchPlatform-api/query";
 

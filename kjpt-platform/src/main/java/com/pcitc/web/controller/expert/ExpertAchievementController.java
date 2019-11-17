@@ -19,77 +19,66 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.expert.ZjkBase;
+import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
-import com.pcitc.web.utils.RestMessage;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 
-@Api(value = "Expert-API",tags = {"专家库-专家接口"})
+@Api(value = "ExpertAchievement-API",tags = {"专家库-成果接口"})
 @RestController
-public class ExpertController extends BaseController {
+public class ExpertAchievementController extends BaseController {
 	
 	
 	/**
-	 * 获取专家（分页）
+	 * 获取专家成果（分页）
 	 */
-	private static final String PAGE_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/page";
+	private static final String PAGE_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert_achievement/page";
 	/**
 	 * 根据ID获取对象信息
 	 */
-	public static final String ADD_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/add";
+	public static final String ADD_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert_achievement/add";
 
 	/**
 	 * 根据ID获取对象信息
 	 */
-	public static final String UPDATE_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/update";
+	public static final String UPDATE_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert_achievement/update";
 
 	/**
 	 * 根据ID逻辑删除
 	 */
-	private static final String DEL_EXPERT_LOGIC_URL = "http://kjpt-zuul/stp-proxy/expert/logic_delete/";
+	private static final String DEL_EXPERT_LOGIC_URL = "http://kjpt-zuul/stp-proxy/expert_achievement/logic_delete/";
 	
 	
 	/**
 	 * 根据ID删除
 	 */
-	private static final String DEL_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/delete/";
+	private static final String DEL_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert_achievement/delete/";
 	
 	
 	/**
 	 * 根据ID获取对象信息
 	 */
-	public static final String GET_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/get/";
+	public static final String GET_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert_achievement/get/";
 
     
 	
 	
 	
 	/**
-	  * 获取专家（分页）
+	  * 获取专家成果（分页）
 	 */
-	
-	
-    @ApiOperation(value = "获取专家列表（分页）", notes = "获取专家列表（分页）")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "num", value = "专家编号", dataType = "string", paramType = "query"),
-        @ApiImplicitParam(name = "idCardNo", value = "身份证号码", dataType = "string", paramType = "query")
-    })
-    @RequestMapping(value = "/expert-api/list", method = RequestMethod.POST)
+    @ApiOperation(value = "获取专家成果列表（分页）", notes = "获取专家成果列表（分页）")
+    @RequestMapping(value = "/expert-achievement-api/list", method = RequestMethod.POST)
 	public String getExpertPage(
 			
 			@RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer limit,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String num,
-            @RequestParam(required = false) String idCardNo,
+            @RequestParam(required = false,value="姓名") String name,
+            @RequestParam(required = false,value="专家成果编号") String num,
+            @RequestParam(required = false,value="身份证号码") String idCardNo,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
@@ -106,26 +95,26 @@ public class ExpertController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============获取专家列表（分页） " + result.toString());
+		logger.info("============获取专家成果列表（分页） " + result.toString());
 		return result.toString();
 	}
 
     
     /**
-	  * 删除专家
+	  * 删除专家成果
 	 */
-    @ApiOperation(value = "根据ID删除专家信息", notes = "根据ID删除专家信息")
-	@RequestMapping(value = "/expert-api/delete/{id}", method = RequestMethod.DELETE)
+    @ApiOperation(value = "根据ID删除专家成果信息", notes = "根据ID删除专家成果信息")
+	@RequestMapping(value = "/expert-achievement-api/delete/{id}", method = RequestMethod.DELETE)
 	public String deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	RestMessage resultsDate = new RestMessage();
+		Result resultsDate = new Result();
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_EXPERT_LOGIC_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		int status = responseEntity.getBody();
 		logger.info("============远程返回  statusCode " + statusCode + "  status=" + status);
 		if (statusCode == 200) {
-			resultsDate = new RestMessage(true,RequestProcessStatusEnum.OK.getStatusDesc());
+			resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
 		} else {
-			resultsDate = new RestMessage(false, "删除失败");
+			resultsDate = new Result(false, "删除失败");
 		}
 		response.setContentType("text/html;charset=UTF-8");
 		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
@@ -134,69 +123,69 @@ public class ExpertController extends BaseController {
     
     
     /**
-	  *根据ID获取专家信息详情
+	  *根据ID获取专家成果信息详情
 	 */
-    @ApiOperation(value = "根据ID获取专家信息详情", notes = "根据ID获取专家信息详情")
-	@RequestMapping(value = "/expert-api/get/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "根据ID获取专家成果信息详情", notes = "根据ID获取专家成果信息详情")
+	@RequestMapping(value = "/expert-achievement-api/get/{id}", method = RequestMethod.GET)
 	public String getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	Result resultsDate = new Result();
-    	ResponseEntity<ZjkBase> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
+    	ResponseEntity<ZjkAchievement> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkAchievement.class);
 		int statusCode = responseEntity.getStatusCodeValue();
-		ZjkBase zjkBase = responseEntity.getBody();
+		ZjkAchievement ZjkAchievement = responseEntity.getBody();
 		logger.info("============远程返回  statusCode " + statusCode);
 		if (statusCode == 200) {
 			resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
-			resultsDate.setData(zjkBase);
+			resultsDate.setData(ZjkAchievement);
 		} else {
-			resultsDate = new Result(false, "根据ID获取专家信息详情失败");
+			resultsDate = new Result(false, "根据ID获取专家成果信息详情失败");
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		return result.toString();
 	}
     
     
-    @ApiOperation(value = "保存专家信息", notes = "保存专家信息")
-    @RequestMapping(method = RequestMethod.POST, value = "/expert-api/save")
+    @ApiOperation(value = "保存专家成果信息", notes = "保存专家成果信息")
+    @RequestMapping(method = RequestMethod.POST, value = "/expert-achievement-api/save")
 	public String saveExpert(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
     	Result resultsDate = new Result();
-    	ZjkBase zjkBase = new ZjkBase();
+    	ZjkAchievement zjkAchievement = new ZjkAchievement();
     	String id = UUID.randomUUID().toString().replaceAll("-", "");
-		String name = CommonUtil.getParameter(request, "name", "");
-		zjkBase.setName(name);
-		zjkBase.setId(id);
+		String achieveName = CommonUtil.getParameter(request, "achieveName", "");
+		zjkAchievement.setAchieveName(achieveName);
+		zjkAchievement.setId(id);
 		
-		ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), String.class);
+		ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkAchievement>(zjkAchievement, this.httpHeaders), String.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		String dataId = responseEntity.getBody();
 		// 返回结果代码
 		if (statusCode == 200) {
 			resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
 		} else {
-			resultsDate = new Result(false, "保存专家信息失败");
+			resultsDate = new Result(false, "保存专家成果信息失败");
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		return result.toString();
     }
     
     
-    @ApiOperation(value = "修改专家信息", notes = "修改专家信息")
-    @RequestMapping(method = RequestMethod.POST, value = "/expert-api/update")
+    @ApiOperation(value = "修改专家成果信息", notes = "修改专家成果信息")
+    @RequestMapping(method = RequestMethod.POST, value = "/expert-achievement-api/update")
 	public String updateExpert(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
     	
     	Result resultsDate = new Result();
     	String id = CommonUtil.getParameter(request, "id", "");
-    	String name = CommonUtil.getParameter(request, "name", "");
+    	String achieveName = CommonUtil.getParameter(request, "achieveName", "");
     	//根据ID获取详情
-    	ResponseEntity<ZjkBase> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
+    	ResponseEntity<ZjkAchievement> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkAchievement.class);
     	int statusCode = responseEntity.getStatusCodeValue();
     	if (statusCode == 200)
     	{
-    		ZjkBase zjkBase = responseEntity.getBody();
+    		ZjkAchievement zjkAchievement = responseEntity.getBody();
     		//修改相应信息
-    		zjkBase.setName(name);
-    		ResponseEntity<Integer> response_entity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), Integer.class);
+    		zjkAchievement.setAchieveName(achieveName);
+    		ResponseEntity<Integer> response_entity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkAchievement>(zjkAchievement, this.httpHeaders), Integer.class);
 			int status_code = response_entity.getStatusCodeValue();
 			Integer dataId = response_entity.getBody();
 			// 返回结果代码
@@ -205,7 +194,7 @@ public class ExpertController extends BaseController {
 				resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
 			} else 
 			{
-				resultsDate = new Result(false, "修改专家信息失败");
+				resultsDate = new Result(false, "修改专家成果信息失败");
 			}
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));

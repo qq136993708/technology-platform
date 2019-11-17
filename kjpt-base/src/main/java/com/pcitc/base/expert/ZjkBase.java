@@ -1,6 +1,7 @@
 package com.pcitc.base.expert;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * zjk_base
@@ -9,6 +10,9 @@ import java.io.Serializable;
 public class ZjkBase implements Serializable {
     private String id;
 
+    /**
+     * 删除状态（0未删除，1删除）
+     */
     private String delStatus;
 
     /**
@@ -26,10 +30,19 @@ public class ZjkBase implements Serializable {
      */
     private String sourceType;
 
+    /**
+     * 姓名
+     */
     private String name;
 
+    /**
+     * 性别
+     */
     private String sex;
 
+    /**
+     * 年龄
+     */
     private Integer age;
 
     /**
@@ -91,6 +104,31 @@ public class ZjkBase implements Serializable {
      * 头像
      */
     private String headPic;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 创建人
+     */
+    private String createUser;
+
+    /**
+     * 修改时间
+     */
+    private Date updateTime;
+
+    /**
+     * 修改人
+     */
+    private String updateUser;
+
+    /**
+     * 外系统ID
+     */
+    private String outSystemId;
 
     private static final long serialVersionUID = 1L;
 
@@ -254,95 +292,43 @@ public class ZjkBase implements Serializable {
         this.headPic = headPic;
     }
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        ZjkBase other = (ZjkBase) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getDelStatus() == null ? other.getDelStatus() == null : this.getDelStatus().equals(other.getDelStatus()))
-            && (this.getNum() == null ? other.getNum() == null : this.getNum().equals(other.getNum()))
-            && (this.getPersonnelNum() == null ? other.getPersonnelNum() == null : this.getPersonnelNum().equals(other.getPersonnelNum()))
-            && (this.getSourceType() == null ? other.getSourceType() == null : this.getSourceType().equals(other.getSourceType()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getSex() == null ? other.getSex() == null : this.getSex().equals(other.getSex()))
-            && (this.getAge() == null ? other.getAge() == null : this.getAge().equals(other.getAge()))
-            && (this.getIdCardNo() == null ? other.getIdCardNo() == null : this.getIdCardNo().equals(other.getIdCardNo()))
-            && (this.getEducation() == null ? other.getEducation() == null : this.getEducation().equals(other.getEducation()))
-            && (this.getTechnicalField() == null ? other.getTechnicalField() == null : this.getTechnicalField().equals(other.getTechnicalField()))
-            && (this.getBelongUnit() == null ? other.getBelongUnit() == null : this.getBelongUnit().equals(other.getBelongUnit()))
-            && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
-            && (this.getPost() == null ? other.getPost() == null : this.getPost().equals(other.getPost()))
-            && (this.getWorkExperience() == null ? other.getWorkExperience() == null : this.getWorkExperience().equals(other.getWorkExperience()))
-            && (this.getContactWay() == null ? other.getContactWay() == null : this.getContactWay().equals(other.getContactWay()))
-            && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
-            && (this.getBrief() == null ? other.getBrief() == null : this.getBrief().equals(other.getBrief()))
-            && (this.getAchievement() == null ? other.getAchievement() == null : this.getAchievement().equals(other.getAchievement()))
-            && (this.getHeadPic() == null ? other.getHeadPic() == null : this.getHeadPic().equals(other.getHeadPic()));
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getDelStatus() == null) ? 0 : getDelStatus().hashCode());
-        result = prime * result + ((getNum() == null) ? 0 : getNum().hashCode());
-        result = prime * result + ((getPersonnelNum() == null) ? 0 : getPersonnelNum().hashCode());
-        result = prime * result + ((getSourceType() == null) ? 0 : getSourceType().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getSex() == null) ? 0 : getSex().hashCode());
-        result = prime * result + ((getAge() == null) ? 0 : getAge().hashCode());
-        result = prime * result + ((getIdCardNo() == null) ? 0 : getIdCardNo().hashCode());
-        result = prime * result + ((getEducation() == null) ? 0 : getEducation().hashCode());
-        result = prime * result + ((getTechnicalField() == null) ? 0 : getTechnicalField().hashCode());
-        result = prime * result + ((getBelongUnit() == null) ? 0 : getBelongUnit().hashCode());
-        result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
-        result = prime * result + ((getPost() == null) ? 0 : getPost().hashCode());
-        result = prime * result + ((getWorkExperience() == null) ? 0 : getWorkExperience().hashCode());
-        result = prime * result + ((getContactWay() == null) ? 0 : getContactWay().hashCode());
-        result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
-        result = prime * result + ((getBrief() == null) ? 0 : getBrief().hashCode());
-        result = prime * result + ((getAchievement() == null) ? 0 : getAchievement().hashCode());
-        result = prime * result + ((getHeadPic() == null) ? 0 : getHeadPic().hashCode());
-        return result;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", delStatus=").append(delStatus);
-        sb.append(", num=").append(num);
-        sb.append(", personnelNum=").append(personnelNum);
-        sb.append(", sourceType=").append(sourceType);
-        sb.append(", name=").append(name);
-        sb.append(", sex=").append(sex);
-        sb.append(", age=").append(age);
-        sb.append(", idCardNo=").append(idCardNo);
-        sb.append(", education=").append(education);
-        sb.append(", technicalField=").append(technicalField);
-        sb.append(", belongUnit=").append(belongUnit);
-        sb.append(", title=").append(title);
-        sb.append(", post=").append(post);
-        sb.append(", workExperience=").append(workExperience);
-        sb.append(", contactWay=").append(contactWay);
-        sb.append(", email=").append(email);
-        sb.append(", brief=").append(brief);
-        sb.append(", achievement=").append(achievement);
-        sb.append(", headPic=").append(headPic);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public String getOutSystemId() {
+        return outSystemId;
+    }
+
+    public void setOutSystemId(String outSystemId) {
+        this.outSystemId = outSystemId;
     }
 }
