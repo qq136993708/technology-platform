@@ -1,8 +1,10 @@
 package com.pcitc.service.researchplatform;
 
+import com.github.pagehelper.PageInfo;
 import com.pcitc.base.researchPlatform.PlatformInfoModel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 科研平台的增删改查
@@ -21,5 +23,11 @@ public interface PlatformService {
     /**
      * 查询科研平台列表
      */
-    List<PlatformInfoModel> query();
+    PageInfo query(Map paramMap);
+
+    /**
+     * 科研平台删除
+     */
+    void delete(String id);
+
 }

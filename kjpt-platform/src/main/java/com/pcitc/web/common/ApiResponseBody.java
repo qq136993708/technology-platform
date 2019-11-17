@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @author ty
  */
 @ControllerAdvice
-public class ApiResponseBody  implements ResponseBodyAdvice<Object> {
+public class ApiResponseBody extends BaseController  implements ResponseBodyAdvice<Object>  {
 
 
     @Override
@@ -36,6 +36,7 @@ public class ApiResponseBody  implements ResponseBodyAdvice<Object> {
         Result result = new Result();
         result.setCode(Result.RESPONSE_SUCC_CODE);
         result.setMessage(Result.RESPONSE_SUCC_MSG);
+        result.setSuccess(true);
         result.setData(o);
         return result;
     }

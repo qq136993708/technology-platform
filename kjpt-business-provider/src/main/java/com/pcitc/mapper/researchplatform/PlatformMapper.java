@@ -3,8 +3,9 @@ package com.pcitc.mapper.researchplatform;
 import com.pcitc.base.researchPlatform.PlatformInfoModel;
 
 import java.util.List;
+import java.util.Map;
 
-public interface PlatformServiceMapper {
+public interface PlatformMapper {
 
     /**
      * 根据主键获取一个平台的信息
@@ -17,6 +18,6 @@ public interface PlatformServiceMapper {
     /**
      * 查询科研平台列表
      */
-    List<PlatformInfoModel> query();
+    List<PlatformInfoModel> query(Map paramMap);
 
 }
