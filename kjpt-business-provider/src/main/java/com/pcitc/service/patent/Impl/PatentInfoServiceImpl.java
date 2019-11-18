@@ -53,7 +53,7 @@ public class PatentInfoServiceImpl implements PatentInfoService {
     private PatentInfoMapper patentInfoMapper;
 
     @Override
-    public int updateOrInsertPatentInfo(PatentInfo patentInfo) {
+    public PatentInfo updateOrInsertPatentInfo(PatentInfo patentInfo) {
         if(Objects.nonNull(patentInfo.getId())&&!"".equals(patentInfo.getId())){
             return patentInfoMapper.updateByPrimaryKey(patentInfo);
         }else{
@@ -62,68 +62,14 @@ public class PatentInfoServiceImpl implements PatentInfoService {
     }
 
     @Override
-    public LayuiTableData queryPatentList(LayuiTableParam param) {
-        PatentInfoExample example = new PatentInfoExample();
-        PatentInfoExample.Criteria c = example.createCriteria();
+    public PageInfo queryPatentList(Map param) {
+        int pageNum = (int)param.get("pageNum");
+        int pageSize = (int)param.get("pageSize");
+        PageHelper.startPage(pageNum, pageSize);
+        List dataList = patentInfoMapper.queryPatentList(param);
+        PageInfo pageInfo = new PageInfo(dataList);
 
-        //条件查询设置条件
-       /* c.andStatusEqualTo("0");
-        c.andDelFlagEqualTo("0");
-        Object expertName = param.getParam().get("expertName");
-        if (!StrUtil.isObjectEmpty(expertName)) {
-            c.andExpertNameLike("%" + expertName + "%");
-        }
-
-        Object auditStatus = param.getParam().get("auditStatus");
-        if (!StrUtil.isObjectEmpty(auditStatus)) {
-            c.andAuditStatusEqualTo(auditStatus.toString());
-        }
-
-        Object sysFlag = param.getParam().get("sysFlag");
-        if (!StrUtil.isObjectEmpty(sysFlag)) {
-            c.andSysFlagEqualTo(sysFlag.toString());
-        } else {
-            c.andSysFlagEqualTo("0");
-        }
-        Object email = param.getParam().get("email");
-        if (!StrUtil.isObjectEmpty(email)) {
-            c.andEmailLike("%" + email + "%");
-        }
-        Object company = param.getParam().get("company");
-        if (!StrUtil.isObjectEmpty(company)) {
-            c.andCompanyEqualTo(company.toString());
-        }
-
-        LayuiTableData data = new LayuiTableData();
-        Object keywords = param.getParam().get("keyword");
-        if (keywords != null && !"".equals(keywords)) {
-            c.andExpertNameLike("%" + keywords + "%");
-        }
-
-
-        Object key = param.getParam().get("key");
-        if (key != null && !"".equals(key)) {
-            example.setKey(key.toString());
-        }
-
-
-        Object expertProfessinal = param.getParam().get("expertProfessinal");
-        if (expertProfessinal != null && !"".equals(expertProfessinal)) {
-            c.andExpertProfessinalEqualTo(expertProfessinal.toString());
-        }
-        Object expertProfessionalField = param.getParam().get("expertProfessionalField");
-        if (expertProfessionalField != null && !"".equals(expertProfessionalField)) {
-            c.andExpertProfessionalFieldEqualTo(expertProfessionalField.toString());
-        }
-        Object bak3 = param.getParam().get("bak3");
-        if (bak3 != null && !"".equals(bak3)) {
-            c.andBak3EqualTo(bak3.toString());
-        }*/
-
-
-        example.setOrderByClause("create_date desc");
-        return this.findByExample(param, example);
-
+        return pageInfo;
     }
 
     public List<Map<String, Object>> setKeyWordCss(PageInfo<?> pageInfo, String keywords) {
@@ -184,7 +130,7 @@ public class PatentInfoServiceImpl implements PatentInfoService {
         return data;
     }
 
-    public PatentInfo getPatentInfo(String id) throws Exception {
+    public PatentInfo getPatentInfo(String id){
         return patentInfoMapper.selectByPrimaryKey(id);
     }
 
