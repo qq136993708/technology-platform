@@ -1,5 +1,6 @@
 package com.pcitc.web.trademark;
 
+import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.patent.PatentInfo;
@@ -12,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * <p>服务接口</p>
@@ -34,15 +37,10 @@ public class TrademarkInfoClient {
      * @param trademarkInfo
      * @return
      */
-    @ApiOperation(value = "新增或者更新专利信息", notes = "新增或者更新专利信息,操作成功返回500")
+    @ApiOperation(value = "新增或者更新专利信息", notes = "新增或者更新专利信息,操作成功返回商标对象")
     @RequestMapping(value = "/trademark-provider/trademarkInfo/trademarkInfo_save", method = RequestMethod.POST)
-    public int updateOrInsertTrademarkInfo(@RequestBody TrademarkInfo trademarkInfo) {
-        try {
-            return trademarkInfoService.updateOrInsertTrademarkInfo(trademarkInfo);
-        } catch (Exception e) {
-            logger.error("[保存信息失败：]", e);
-        }
-        return 500;
+    public TrademarkInfo updateOrInsertTrademarkInfo(@RequestBody TrademarkInfo trademarkInfo) {
+        return trademarkInfoService.updateOrInsertTrademarkInfo(trademarkInfo);
     }
 
     /**
@@ -53,7 +51,7 @@ public class TrademarkInfoClient {
      */
     @ApiOperation(value = "商标列表-分页查询", notes = "商标列表-分页查询,Object")
     @RequestMapping(value = "/trademark-provider/trademarkInfo/trademarkInfo-query")
-    public LayuiTableData queryTrademarkListByPage(@RequestBody LayuiTableParam param) {
+    public PageInfo queryTrademarkListByPage(@RequestBody Map param) {
         return trademarkInfoService.queryTrademarkList(param);
     }
 

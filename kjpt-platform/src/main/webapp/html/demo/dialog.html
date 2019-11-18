@@ -33,7 +33,7 @@ $('#openDialog').click(function(e) {
     btn: null,
     end: function(lay, index) {
       // 弹窗销毁时获取弹窗返回数据
-      var diaData = dialogData('dialog-data');
+      var diaData = getDialogData('dialog-data');
       if (diaData.code === 'close') {
         layer.msg('这是关闭按钮返回参数！');
       } else {
@@ -44,14 +44,14 @@ $('#openDialog').click(function(e) {
   });
 
   // 弹窗向底层页面传递参数；必须传递 json
-  dialogData({code: '0', msg: '你好啊'});
+  setDialogData({code: '0', msg: '你好啊'});
   // => 取值方式
-  dialogData('dialog-data');
+  getDialogData('dialog-data');
 
   // 传参方式 2；
-  dialogData({code: '0', msg: '你好啊'}, 'dialogID991');
+  setDialogData({code: '0', msg: '你好啊'}, 'dialogID991');
   // 取值方式2
-  dialogData('dialogID991');
+  getDialogData('dialogID991');
 
   不管取值方式1或者2；但凡值被取后，原存储位置将会被清空；
 </code></pre>
@@ -77,7 +77,7 @@ $('#openDialog').click(function(e) {
           btn: null,
           end: function(lay, index) {
             // 弹窗销毁时获取弹窗返回数据
-            var diaData = dialogData('dialog-data');
+            var diaData = getDialogData('dialog-data');
             if (diaData.code === 'close') {
               layer.msg('这是关闭按钮返回参数！');
             } else {

@@ -1,6 +1,7 @@
 package com.pcitc.service.patent;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
@@ -25,14 +26,14 @@ public interface PatentInfoService {
      * @param patentInfo
      * @return
      */
-    int updateOrInsertPatentInfo(PatentInfo patentInfo);
+    PatentInfo updateOrInsertPatentInfo(PatentInfo patentInfo);
 
     /**
      * 专利列表分页查询
      * @param param
      * @return
      */
-    LayuiTableData queryPatentList(LayuiTableParam param);
+    PageInfo queryPatentList(Map param);
 
     /**
      * 根据id查询专利信息
@@ -41,7 +42,7 @@ public interface PatentInfoService {
      * @return
      * @throws Exception
      */
-    PatentInfo getPatentInfo(String id) throws Exception;
+    PatentInfo getPatentInfo(String id);
 
     /**
      * 根据id删除专利

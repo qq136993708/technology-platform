@@ -5,6 +5,7 @@ import com.pcitc.base.patent.PatentInfoExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PatentInfoMapper {
     long countByExample(PatentInfoExample example);
@@ -15,7 +16,7 @@ public interface PatentInfoMapper {
 
     int insert(PatentInfo record);
 
-    int insertSelective(PatentInfo record);
+    PatentInfo insertSelective(PatentInfo record);
 
     List<PatentInfo> selectByExample(PatentInfoExample example);
 
@@ -27,5 +28,7 @@ public interface PatentInfoMapper {
 
     int updateByPrimaryKeySelective(PatentInfo record);
 
-    int updateByPrimaryKey(PatentInfo record);
+    PatentInfo updateByPrimaryKey(PatentInfo record);
+
+    List<PatentInfo> queryPatentList(Map param);
 }
