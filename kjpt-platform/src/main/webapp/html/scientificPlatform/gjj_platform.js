@@ -68,7 +68,7 @@ layui.use(['form', 'table', 'layer'], function(){
 		  btn: null,
 		  end: function() {
         var relData = getDialogData('dialog-data');
-			  if (relData.code !== 'close') {
+			  if (relData) {
 				  if (relData.code === '0') {
             layer.msg(dialogTitle+'成功!', {icon: 1});
             $('[lay-filter="formDemo"]').click();

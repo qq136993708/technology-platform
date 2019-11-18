@@ -113,8 +113,8 @@ function httpModule(config) {
 		} else if (httpType === 'post') {
 			httpType = 'POST';
 		}
-		// 调用 $.ajax;
-		$.ajax({
+
+		var options = {
 			url: config.url,
 			type: httpType,
 			data: (function() {
@@ -160,7 +160,16 @@ function httpModule(config) {
 					return data;
 				}
 			}
-		});
+		}
+
+		for (var key in config) {
+			if (!options.hasOwnProperty(key)) {
+				options[key] = options[key];
+			}
+		}
+
+		// 调用 $.ajax;
+		$.ajax(options);
 		
 	} else {
 		top.layer.msg('HTTP请求配置有误！', {icon: 2});
@@ -174,7 +183,6 @@ layui.use(['jquery'], function() {
 	
 	// 关闭 top层 所有弹窗
 	$('.close-all-dialog').click(function() {
-		dialogData({code: 'close'});
 		top.layer.closeAll();
 	})
 })
