@@ -67,7 +67,7 @@ layui.use(['form', 'table', 'layer'], function(){
 		  content: '/html/scientificPlatform/addPlatformDialog.html?id='+type,
 		  btn: null,
 		  end: function() {
-        var relData = top.dialogData('dialog-data');
+        var relData = getDialogData('dialog-data');
 			  if (relData.code !== 'close') {
 				  if (relData.code === '0') {
             layer.msg(dialogTitle+'成功!', {icon: 1});

@@ -41,27 +41,10 @@ function layuiParseData(RelData, callback) {
 }
 
 // 会话窗口临时数据传递
-function dialogData(data, key) {
-	// data 为字符串时获取sessionStorage的值；
+function setDialogData(data, key) {
 	// data 为一个JSON 或者 Array 对象时 设置sessionStorage的值；不能传递 HTML元素
 	// key 则为存储的key, 可以为空值， 空值时 使用默认的key 'dialog-data';
-	if (typeof(data) === 'string') {
-		var tempData = null;
-		var str = sessionStorage.getItem(data);
-		if (str) {
-			try {
-				tempData = JSON.parse(str);
-				// 数据获取完成后删除临时数据，避免重复
-				sessionStorage.removeItem(data);
-				return tempData;
-			} catch (error) {
-				sessionStorage.removeItem(data);
-				return tempData;
-			}
-		} else {
-			return tempData;
-		}
-	} else if (typeof(data) === 'object') {
+	if (typeof(data) === 'object') {
 		if (key && typeof(key) === 'string') {
 			sessionStorage.setItem(key, JSON.stringify(data))
 		} else {
@@ -69,6 +52,26 @@ function dialogData(data, key) {
 		}
 	}
 }
+
+// 获取弹窗传递的参数
+function getDialogData(id) {
+	var tempData = null;
+	if (id && typeof(id) !== 'object') {
+		var tempData = sessionStorage.getItem(id);
+		try {
+			tempData = JSON.parse(tempData);
+			// 数据获取完成后删除临时数据，避免重复
+			sessionStorage.removeItem(id);
+			return tempData;
+		} catch (error) {
+			sessionStorage.removeItem(id);
+			return tempData;
+		}
+	}
+	return tempData;
+}
+
+// 转换HTTP请求数据
 function switchHttpData(dataJson) {
 	if (dataJson != null && typeof(dataJson) === 'object') {
 		var tempData = null;

@@ -188,7 +188,7 @@ layui.use(['form', 'jquery'], function(){
 			data: data.field,
 			type: "POST",
 			success: function(e) {
-				top.dialogData(e); // 通知上层页面状态 - 弹窗中使用
+				setDialogData(e); // 通知上层页面状态 - 弹窗中使用
 				top.layer.closeAll(); // 关闭弹窗
 			}
 		});
