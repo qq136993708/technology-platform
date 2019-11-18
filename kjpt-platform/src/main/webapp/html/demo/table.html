@@ -56,7 +56,8 @@ layui.use(['table'], function(){
   table.render({
     elem: '#tableProject' // 表格元素ID
     // ,height: 382 // 设置固定高度，超出滚动条
-    ,url: '/data/datalist.json' //数据接口
+    // 数据接口 所有 表格请求 请添加公共API => webKJQTApi如下所示, webKJQTApi 定义在common.js中，
+    ,url: webKJQTApi + '/data/datalist.json'
     ,cols: [[ //表头
       {type: 'checkbox' } // 表格多选
       ,{field: 'id', title: '序号' }
