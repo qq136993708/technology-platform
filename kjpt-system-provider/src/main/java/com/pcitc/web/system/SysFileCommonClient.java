@@ -47,8 +47,6 @@ public class SysFileCommonClient {
 	SysFileShareService sysFileShareService;
 
 
-	//@Autowired
-	//private AccessorService accessorService = new ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true).createByConfig();
 
 	// 文件上传路径
 	@Value("${uploaderPath}")
