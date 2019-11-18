@@ -68,7 +68,7 @@
             <if test="platformScorinLow != null and platformScorinLow != '' " >
                 and platform_scoring &gt;= #{platformScorinLow}
             </if>
-            where deleted != '1'
+            and deleted != '1'
     </select>
 
 

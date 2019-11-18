@@ -55,7 +55,7 @@ public class PlatformApiController extends RestBaseController {
     @ApiOperation(value="读取")
     @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public PlatformInfoModel loadOne(@PathVariable String id) {
+    public PlatformInfoModel load(@PathVariable String id) {
         ResponseEntity<PlatformInfoModel> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), PlatformInfoModel.class);
         return responseEntity.getBody();
     }
@@ -74,7 +74,7 @@ public class PlatformApiController extends RestBaseController {
     })
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ResponseBody
-    public PageInfo getList(
+    public PageInfo query(
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
             @RequestParam(required = false,value = "platformName") String platformName,
