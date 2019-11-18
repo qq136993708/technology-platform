@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>中核科技管理平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <!-- 多选下拉框样式，根据需求添加 -->
+  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+  
+  <link rel="stylesheet" href="prism.css">
+</head>
+<body>
+<div class="layout-view-content">
+  <div class="layui-row">
+    <div class="layui-col-xs2"><button class="layui-btn border-blue" id="openDialog">打开全局弹窗</button></div>
+  </div>
+
+<pre>
+<code class="language-html">
+  &lt;button class="layui-btn border-blue" id="openDialog">打开全局弹窗&lt;/button>
+</code><code class="language-javascript">
+$('#openDialog').click(function(e) {
+  // 打开全局弹窗方式
+  top.layer.open({
+    type: 2,
+    title: 'DEMO页面弹窗 title',
+    content: '/html/scientificPlatform/addPlatformDialog.html', // 全局弹窗页面地址
+    btn: null,
+    end: function(lay, index) {
+      // 弹窗销毁时获取弹窗返回数据
+      var diaData = dialogData('dialog-data');
+      if (diaData.code === 'close') {
+        layer.msg('这是关闭按钮返回参数！');
+      } else {
+        layer.msg('其他操作返回参数');
+      }
+      console.log(diaData);
+    }
+  });
+
+  // 弹窗向底层页面传递参数；必须传递 json
+  dialogData({code: '0', msg: '你好啊'});
+  // => 取值方式
+  dialogData('dialog-data');
+
+  // 传参方式 2；
+  dialogData({code: '0', msg: '你好啊'}, 'dialogID991');
+  // 取值方式2
+  dialogData('dialogID991');
+
+  不管取值方式1或者2；但凡值被取后，原存储位置将会被清空；
+</code></pre>
+</div>
+
+<script src="prism.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script>
+    // layui 使用说明 ----- 多个模块同时引用
+    layui.use(['element', 'form', 'jquery', 'layer'], function(){
+      var element = layui.element;
+      var $ = layui.jquery;
+      var form = layui.form;
+      var layer = layui.layer;
+      
+      $('#openDialog').click(function(e) {
+        top.layer.open({
+          type: 2,
+          area: ['880px', '70%'],
+          title: 'DEMO页面弹窗 title',
+          content: '/html/scientificPlatform/addPlatformDialog.html',
+          btn: null,
+          end: function(lay, index) {
+            // 弹窗销毁时获取弹窗返回数据
+            var diaData = dialogData('dialog-data');
+            if (diaData.code === 'close') {
+              layer.msg('这是关闭按钮返回参数！');
+            } else {
+              layer.msg('其他操作返回参数');
+            }
+            console.log(diaData);
+          }
+        });
+      })
+    });
+    </script>
+</body>
+</html>

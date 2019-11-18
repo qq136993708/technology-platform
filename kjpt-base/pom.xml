@@ -183,11 +183,11 @@
 			<version>3.2.1</version>
 		</dependency>
 
-		<dependency>
+		<!--<dependency>
 			<groupId>org.hyperic</groupId>
 			<artifactId>sigar</artifactId>
 			<optional>true</optional>
-		</dependency>
+		</dependency>-->
 		<!--文档在线查看结束 -->
 	</dependencies>
 

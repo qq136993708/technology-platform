@@ -1,40 +1,33 @@
 package com.pcitc.mapper.expert;
 
 import com.pcitc.base.expert.ZjkAchievement;
-import com.pcitc.base.expert.ZjkAchievementExample;
 
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ZjkAchievementMapper {
-    long countByExample(ZjkAchievementExample example);
-
-    int deleteByExample(ZjkAchievementExample example);
-
-    int deleteByPrimaryKey(String menuId);
+	
+    int deleteByPrimaryKey(String id);
 
     int insert(ZjkAchievement record);
 
     int insertSelective(ZjkAchievement record);
 
-    List<ZjkAchievement> selectByExample(ZjkAchievementExample example);
-
-    ZjkAchievement selectByPrimaryKey(String menuId);
-
-    int updateByExampleSelective(@Param("record") ZjkAchievement record, @Param("example") ZjkAchievementExample example);
-
-    int updateByExample(@Param("record") ZjkAchievement record, @Param("example") ZjkAchievementExample example);
+    ZjkAchievement selectByPrimaryKey(String id);
 
     int updateByPrimaryKeySelective(ZjkAchievement record);
 
     int updateByPrimaryKey(ZjkAchievement record);
-
-    int updateByPrimaryKeyWithBLOBs(ZjkAchievement record);
-
-    List<ZjkAchievement> findZjkAchievementByPage(Map<String, Object> map);
-
-    List<ZjkAchievement> findZjkAchievementList(ZjkAchievement record);
-
+    
+    List getList(Map map);
+    
+    int getCount(Map map);
+    
+    int deleteLogicZjkAchievementByExpertId(String expertId);
+    int deleteLogicZjkAchievementById(String expertId);
+    int deleteZjkAchievementByExpertId(String expertId);
+    
 }

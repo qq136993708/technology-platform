@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.expert.ZjkBaseMapper">
+ <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkBase">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="del_status" jdbcType="VARCHAR" property="delStatus" />
+    <result column="num" jdbcType="VARCHAR" property="num" />
+    <result column="personnel_num" jdbcType="VARCHAR" property="personnelNum" />
+    <result column="source_type" jdbcType="VARCHAR" property="sourceType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="id_card_no" jdbcType="VARCHAR" property="idCardNo" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="technical_field" jdbcType="VARCHAR" property="technicalField" />
+    <result column="belong_unit" jdbcType="VARCHAR" property="belongUnit" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="work_experience" jdbcType="VARCHAR" property="workExperience" />
+    <result column="contact_way" jdbcType="VARCHAR" property="contactWay" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="achievement" jdbcType="VARCHAR" property="achievement" />
+    <result column="head_pic" jdbcType="VARCHAR" property="headPic" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, del_status, num, personnel_num, source_type, `name`, sex, age, id_card_no, education, 
+    technical_field, belong_unit, title, post, work_experience, contact_way, email, brief, 
+    achievement, head_pic, create_time, create_user, update_time, update_user, out_system_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zjk_base
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from zjk_base
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
+    insert into zjk_base (del_status, num, personnel_num, 
+      source_type, `name`, sex, 
+      age, id_card_no, education, 
+      technical_field, belong_unit, title, 
+      post, work_experience, contact_way, 
+      email, brief, achievement, 
+      head_pic, create_time, create_user, 
+      update_time, update_user, out_system_id
+      )
+    values (#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
+      #{sourceType,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{age,jdbcType=INTEGER}, #{idCardNo,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+      #{technicalField,jdbcType=VARCHAR}, #{belongUnit,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{post,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, #{contactWay,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, #{achievement,jdbcType=VARCHAR}, 
+      #{headPic,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
+    insert into zjk_base
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="personnelNum != null">
+        personnel_num,
+      </if>
+      <if test="sourceType != null">
+        source_type,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="idCardNo != null">
+        id_card_no,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="technicalField != null">
+        technical_field,
+      </if>
+      <if test="belongUnit != null">
+        belong_unit,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="post != null">
+        post,
+      </if>
+      <if test="workExperience != null">
+        work_experience,
+      </if>
+      <if test="contactWay != null">
+        contact_way,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="brief != null">
+        brief,
+      </if>
+      <if test="achievement != null">
+        achievement,
+      </if>
+      <if test="headPic != null">
+        head_pic,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="outSystemId != null">
+        out_system_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="personnelNum != null">
+        #{personnelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null">
+        #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="idCardNo != null">
+        #{idCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalField != null">
+        #{technicalField,jdbcType=VARCHAR},
+      </if>
+      <if test="belongUnit != null">
+        #{belongUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="workExperience != null">
+        #{workExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null">
+        #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null">
+        #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="achievement != null">
+        #{achievement,jdbcType=VARCHAR},
+      </if>
+      <if test="headPic != null">
+        #{headPic,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="outSystemId != null">
+        #{outSystemId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkBase">
+    update zjk_base
+    <set>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="personnelNum != null">
+        personnel_num = #{personnelNum,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null">
+        source_type = #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="idCardNo != null">
+        id_card_no = #{idCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalField != null">
+        technical_field = #{technicalField,jdbcType=VARCHAR},
+      </if>
+      <if test="belongUnit != null">
+        belong_unit = #{belongUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        post = #{post,jdbcType=VARCHAR},
+      </if>
+      <if test="workExperience != null">
+        work_experience = #{workExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null">
+        contact_way = #{contactWay,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null">
+        brief = #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="achievement != null">
+        achievement = #{achievement,jdbcType=VARCHAR},
+      </if>
+      <if test="headPic != null">
+        head_pic = #{headPic,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="outSystemId != null">
+        out_system_id = #{outSystemId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkBase">
+    update zjk_base
+    set del_status = #{delStatus,jdbcType=VARCHAR},
+      num = #{num,jdbcType=VARCHAR},
+      personnel_num = #{personnelNum,jdbcType=VARCHAR},
+      source_type = #{sourceType,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      id_card_no = #{idCardNo,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      technical_field = #{technicalField,jdbcType=VARCHAR},
+      belong_unit = #{belongUnit,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      post = #{post,jdbcType=VARCHAR},
+      work_experience = #{workExperience,jdbcType=VARCHAR},
+      contact_way = #{contactWay,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      brief = #{brief,jdbcType=VARCHAR},
+      achievement = #{achievement,jdbcType=VARCHAR},
+      head_pic = #{headPic,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      out_system_id = #{outSystemId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+   
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="name != null and name  !='' ">               AND t.name like CONCAT('%',#{name},'%')</if>
+	 </trim>
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from zjk_base t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_time desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM zjk_base t <include refid="selectCondition"/>
+    </select>
+  
+  
+</mapper>

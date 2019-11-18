@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.expert.ZjkExtractConfig;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysMeeting;
@@ -42,11 +41,6 @@ public class SystemHystric implements SystemRemoteClient {
 	}
 
 
-    @Override
-    public ZjkExtractConfig getZjkExtractConfigInfo(String id) {
-    	System.out.println("执行断路器。。。。。。。。");
-    	throw new RuntimeException("调用失败.");
-    }
 
 	@Override
 	public LayuiTableData selectProjectPlanByCond(LayuiTableParam param) {

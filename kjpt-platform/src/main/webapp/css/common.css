@@ -1,0 +1,156 @@
+* {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  box-sizing: border-box;
+}
+* {
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+  width: 100%;
+  font-size: 14px;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+body:not(.layui-layout-body) {
+  overflow: auto;
+  padding-top: 1px;
+}
+body > .layui-layout{
+  height: 100%;
+}
+.layui-layout-admin .layui-body{
+  position: relative;
+  height: calc(100% - 104px);
+  width: calc(100% - 200px);
+  top: auto;
+  bottom: auto;
+  font-size: 0;
+}
+.layout-view-content {
+  padding: 20px;
+  background-color: #ffffff;
+  min-height: calc(100% - 19px);
+}
+.layout-view-content.auto {
+  min-height: auto;
+}
+.layout-view-content.dialog{
+	min-height: auto;
+	height: calc(100% - 61px);
+	overflow: auto;
+}
+.layout-view-content .dialog-footer-btn{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: #fff;
+	border-top: 1px #e8e8e8 solid;
+	padding: 15px 40px 15px 20px;
+	text-align: right;
+}
+
+.layout-view-content.dialog .layui-form-label {
+	width: 120px;
+	max-width: 120px;
+}
+.layout-view-content.dialog .layui-input-block{
+	margin-left: 120px;
+}
+
+.hide-block {
+	display: none !important;
+}
+.ib-block {
+  display: inline-block;
+  vertical-align: middle;
+}
+.middle-block {
+  font-size: 0;
+  white-space: nowrap;
+}
+.middle-block::before{
+  content: '';
+  height: 100%;
+  width: 0;
+  float: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.view-title-layout {
+  padding: 9px 0;
+  font-size: 0;
+  height: 48px;
+}
+.view-title-layout > .right {
+  float: right;
+  height: 30px;
+  white-space: nowrap;
+}
+.view-title-layout > .right::before {
+  display: inline-block;
+  vertical-align: middle;
+  content: '';
+  width: 0;
+  height: 100%;
+}
+.view-title-layout > .right > button,
+.view-title-layout > .right > .layui-btn{
+  display: inline-block;
+  vertical-align: middle;
+}
+.view-title-layout > .text,
+.view-title-layout > .sub-text{
+  font-size: 16px;
+  color: #333;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 30px;
+  margin-right: 10px;
+}
+.view-title-layout > .sub-text {
+  font-size: 14px;
+}
+
+.button-dialog-box {
+  padding: 15px 20px;
+  border-top: 1px #e8e8e8 solid;
+  text-align: right;
+}
+.dilog-block{
+  display: none;
+  position: relative;
+  min-height: 100%;
+}
+.dilog-block > .layui-form {
+  display: block;
+  padding: 10px 20px;
+}
+.dilog-block .button-dialog-box{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.elementHide {
+	display: none !important;
+}
+
+.font14 { font-size: 14px; }
+.font16 { font-size: 16px; }
+.font18 { font-size: 18px; }
+.font20 { font-size: 20px; }
+.font24 { font-size: 24px; }
+
+
+
+
+

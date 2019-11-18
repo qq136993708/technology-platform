@@ -1,1283 +1,219 @@
 package com.pcitc.web.controller.expert;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.*;
-import com.pcitc.base.expert.*;
-import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysUnit;
-import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.CommonUtil;
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.ReverseSqlResult;
-import com.pcitc.base.util.StrUtil;
-import com.pcitc.web.common.BaseController;
-import com.pcitc.web.common.OperationFilter;
-import com.pcitc.web.utils.HanaUtil;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.UnsupportedEncodingException;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.expert.ZjkBase;
+import com.pcitc.base.util.CommonUtil;
+import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.RestMessage;
 
-/**
- * <p>控制类</p>
- * <p>Table: zjk_base_info - 专家-基本信息</p>
- *
- * @since 2018-12-08 04:10:36
- */
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
-@Controller
-@RequestMapping("expertController")
+
+@Api(value = "Expert-API",tags = {"专家库-专家接口"})
+@RestController
 public class ExpertController extends BaseController {
+	
+	
+	/**
+	 * 获取专家（分页）
+	 */
+	private static final String PAGE_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/page";
+	/**
+	 * 根据ID获取对象信息
+	 */
+	public static final String ADD_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/add";
+
+	/**
+	 * 根据ID获取对象信息
+	 */
+	public static final String UPDATE_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/update";
+
+	/**
+	 * 根据ID逻辑删除
+	 */
+	private static final String DEL_EXPERT_LOGIC_URL = "http://kjpt-zuul/stp-proxy/expert/logic_delete/";
+	
+	
+	/**
+	 * 根据ID删除
+	 */
+	private static final String DEL_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/delete/";
+	
+	
+	/**
+	 * 根据ID获取对象信息
+	 */
+	public static final String GET_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/get/";
+
+    
+	
+	
+	
+	/**
+	  * 获取专家（分页）
+	 */
+	
+	
+    @ApiOperation(value = "获取专家列表（分页）", notes = "获取专家列表（分页）")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "page", value = "页码", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "num", value = "专家编号", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "idCardNo", value = "身份证号码", dataType = "string", paramType = "query")
+    })
+    @RequestMapping(value = "/expert-api/list", method = RequestMethod.POST)
+	public String getExpertPage(
+			
+			@RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String num,
+            @RequestParam(required = false) String idCardNo,
+			HttpServletRequest request, HttpServletResponse response)throws Exception 
+     {
+
+    	LayuiTableParam param =new LayuiTableParam();
+    	param.getParam().put("name", name);
+    	param.getParam().put("num", num);
+    	param.setLimit(limit);
+    	param.setPage(page);
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_EXPERT_URL, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		logger.info("============获取专家列表（分页） " + result.toString());
+		return result.toString();
+	}
+
+    
     /**
-     * 根据ID获取对象信息
-     */
-    private static final String GET_INFO = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/get-zjkbaseinfo/";
-    /**
-     * 树形
-     */
-    private static final String TREE_DATA = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/tree-data";
-    /**
-     * 逻辑删除
-     */
-    private static final String DEL = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/del-zjkbaseinfo/";
-    /**
-     * 物理删除
-     */
-    private static final String DEL_REAL = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/del-zjkbaseinfo-real/";
-
-    /**
-     * 查询列表
-     */
-    private static final String LIST = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list";
-    //查询所有人员列表,姓名&ID
-    private static final String queryAllExpert = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/queryAllExpert";
-
-    private static final String LIST_RANDOM = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_random";
-    private static final String LIST_RANDOM_IMG = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_img";
-    //首页详情专家画像
-    private static final String picExpertDetail = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/picExpertDetail";
-
-    private static final String LIST_index = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_index";
-
-    private static final String LIST_EXAMPLE = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_example";
-    /**
-     * 参数查询
-     */
-    private static final String LISTPARAM = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_param";
-    /**
-     * 分页查询
-     */
-    private static final String LISTPAGE = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page";
-    //首页查询
-    private static final String LISTPAGEINDEX = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-pageIndex";
-    /**
-     * 保存
-     */
-    private static final String SAVE = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/save_zjkbaseinfo";
-
-    //成果列表
-    private static final String LISTCG = "http://kjpt-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/zjkchengguo_list";
-    //专利
-    private static final String LISTZL = "http://kjpt-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli_list";
-
-    private static final String LIST_OUT_PATENT = "http://kjpt-zuul/system-proxy/out-patent-provider/outpatent_list";
-
-    private static final String LIST_CG_TABLE = "http://kjpt-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/zjkchengguo-page";
-
-    private static final String LIST_ZL_TABLE = "http://kjpt-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli-page";
-
-    private static final String SAVECHOICE = "http://kjpt-zuul/stp-proxy/zjkchoice-provider/zjkchoice/save_zjkchoice_update";
-
-    private static final String SAVECHOICE_BAT = "http://kjpt-zuul/stp-proxy/zjkchoice-provider/zjkchoice/save_zjkchoice_bat";
-
-    //备选查询
-    private static final String LISTBAK = "http://kjpt-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice_list";
-    //备选移除
-    private static final String DEL_BAK = "http://kjpt-zuul/stp-proxy/zjkchoice-provider/zjkchoice/del-zjkchoice-real/";
-    private static final String DEL_BAK_USERID = "http://kjpt-zuul/stp-proxy/zjkchoice-provider/zjkchoice/del-zjkchoice-zjid";
-
-    //备选查询-table
-    private static final String LISTBAKTABLE = "http://kjpt-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page";
-    //选择专家
-    private static final String select_expert = "http://kjpt-zuul/stp-proxy/zjkchoice-provider/zjkchoice/select_expert";
-
-    //人员选择项目信息
-    private static final String expert_selected_project = "http://kjpt-zuul/stp-proxy/zjkchoice-provider/zjkchoice/selectByExample";
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String test() {
-        return "stp/expert/eee";
-    }
-
-    @RequestMapping(value = "/queryAllExpert", method = RequestMethod.GET)
-    @ResponseBody
-    public String queryAllExpert() {
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ZjkExpert expert = new ZjkExpert();
-        expert.setiSortCol("expert_name");
-        expert.setsSortDir_0("asc");
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(queryAllExpert, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
-        JSONObject retJson = responseEntity.getBody();
-        List<Map<String, Object>> list = (List<Map<String, Object>>) retJson.get("expert");
-        return JSON.toJSONString(list);
-    }
-
+	  * 删除专家
+	 */
+    @ApiOperation(value = "根据ID删除专家信息", notes = "根据ID删除专家信息")
+	@RequestMapping(value = "/expert-api/delete/{id}", method = RequestMethod.DELETE)
+	public String deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	RestMessage resultsDate = new RestMessage();
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_EXPERT_LOGIC_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		int status = responseEntity.getBody();
+		logger.info("============远程返回  statusCode " + statusCode + "  status=" + status);
+		if (statusCode == 200) {
+			resultsDate = new RestMessage(true,RequestProcessStatusEnum.OK.getStatusDesc());
+		} else {
+			resultsDate = new RestMessage(false, "删除失败");
+		}
+		response.setContentType("text/html;charset=UTF-8");
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return ob.toString();
+	}
     
     
     /**
-     * 查询专家总数量
-     *
-     * @return
-     */
-    @RequestMapping(value = "/expertIndex", method = RequestMethod.GET)
-    public String pageExpertIndex() {
-        //人员总数
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<ZjkExpert>(new ZjkExpert(), this.httpHeaders), JSONObject.class);
-        JSONObject retJson = responseEntity.getBody();
-        List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
-        request.setAttribute("expertCount", list.size());//人员总数
+	  *根据ID获取专家信息详情
+	 */
+    @ApiOperation(value = "根据ID获取专家信息详情", notes = "根据ID获取专家信息详情")
+	@RequestMapping(value = "/expert-api/get/{id}", method = RequestMethod.GET)
+	public String getExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	Result resultsDate = new Result();
+    	ResponseEntity<ZjkBase> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		ZjkBase zjkBase = responseEntity.getBody();
+		logger.info("============远程返回  statusCode " + statusCode);
+		if (statusCode == 200) {
+			resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
+			resultsDate.setData(zjkBase);
+		} else {
+			resultsDate = new Result(false, "根据ID获取专家信息详情失败");
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toString();
+	}
+    
+    
+    @ApiOperation(value = "保存专家信息", notes = "保存专家信息")
+    @RequestMapping(method = RequestMethod.POST, value = "/expert-api/save")
+	public String saveExpert(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        //成果总数
-        ResponseEntity<JSONObject> responseCgEntity = this.restTemplate.exchange(LISTCG, HttpMethod.POST, new HttpEntity<ZjkAchievement>(new ZjkAchievement(), this.httpHeaders), JSONObject.class);
-        JSONObject retJsonCg = responseCgEntity.getBody();
-        List<ZjkAchievement> listCg = (List<ZjkAchievement>) retJsonCg.get("list");
-        request.setAttribute("cgCount", listCg.size());//成果总数
-
-        //专利总数
-        ResponseEntity<JSONObject> responseZlEntity = this.restTemplate.exchange(LISTZL, HttpMethod.POST, new HttpEntity<ZjkPatent>(new ZjkPatent(), this.httpHeaders), JSONObject.class);
-        JSONObject retJsonZl = responseZlEntity.getBody();
-        List<ZjkPatent> listZl = (List<ZjkPatent>) retJsonZl.get("list");
-        request.setAttribute("zlCount", listZl.size());//专利总数
-
-        request.setAttribute("cgzlCount", listCg.size() + listZl.size());
-
-        //机构总数
-        ZjkChoice zjkChoice = new ZjkChoice();
-        zjkChoice.setStatus("2");//2选中数量
-        zjkChoice.setUserId("xm");
-        ResponseEntity<JSONObject> responseEntityJG = this.restTemplate.exchange(LISTBAK, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
-
-        JSONObject retJsonJG = responseEntityJG.getBody();
-        List<ZjkChoice> listJg = JSONArray.parseArray(retJsonJG.get("list").toString(), ZjkChoice.class);
-        List setjg = listJg.stream().map(ZjkChoice::getCompanyId).distinct().collect(Collectors.toList());
-//        List<ZjkChoice> listJG = (List<ZjkChoice>) responseEntityJG.getBody().get("list");
-//        List<ZjkChoice> unique = listJG.stream().collect(
-//                Collectors.collectingAndThen(
-//                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(ZjkChoice::getCompanyId))), ArrayList::new)
-//        );
-//        unique.forEach(p -> System.out.println(p));
-        request.setAttribute("jlCount", setjg.size());//机构总数
-
-        return "stp/expert/pageExpertIndex";
+    	Result resultsDate = new Result();
+    	ZjkBase zjkBase = new ZjkBase();
+    	String id = UUID.randomUUID().toString().replaceAll("-", "");
+		String name = CommonUtil.getParameter(request, "name", "");
+		zjkBase.setName(name);
+		zjkBase.setId(id);
+		
+		ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), String.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		String dataId = responseEntity.getBody();
+		// 返回结果代码
+		if (statusCode == 200) {
+			resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
+		} else {
+			resultsDate = new Result(false, "保存专家信息失败");
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toString();
     }
+    
+    
+    @ApiOperation(value = "修改专家信息", notes = "修改专家信息")
+    @RequestMapping(method = RequestMethod.POST, value = "/expert-api/update")
+	public String updateExpert(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-    //图表
-    @RequestMapping(value = "/picExpertDetail", method = RequestMethod.GET)
-    @ResponseBody
-    public Object picExpertDetail() {
-        ZjkExpert expert = new ZjkExpert();
-        expert.setDataId(request.getParameter("expertId"));
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(picExpertDetail, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
-        return JSONArray.toJSONString(responseEntity.getBody().get("results"));
+    	
+    	Result resultsDate = new Result();
+    	String id = CommonUtil.getParameter(request, "id", "");
+    	String name = CommonUtil.getParameter(request, "name", "");
+    	//根据ID获取详情
+    	ResponseEntity<ZjkBase> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
+    	int statusCode = responseEntity.getStatusCodeValue();
+    	if (statusCode == 200)
+    	{
+    		ZjkBase zjkBase = responseEntity.getBody();
+    		//修改相应信息
+    		zjkBase.setName(name);
+    		ResponseEntity<Integer> response_entity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), Integer.class);
+			int status_code = response_entity.getStatusCodeValue();
+			Integer dataId = response_entity.getBody();
+			// 返回结果代码
+			if (status_code == 200)
+			{
+				resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+			} else 
+			{
+				resultsDate = new Result(false, "修改专家信息失败");
+			}
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toString();
     }
+    
+    
+    
+    
 
-    @RequestMapping(value = "/picIndexImg", method = RequestMethod.GET)
-    @ResponseBody
-    public Object indexPicImg() {
-        ZjkExpert expert = new ZjkExpert();
-        String hyly = request.getParameter("hyly");
-        if (hyly != null && !"".equals(hyly)) {
-            expert.setExpertProfessionalField(hyly);
-        }
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM_IMG, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
-        return JSONArray.toJSONString(responseEntity.getBody().get("results"));
-    }
-
-    /**
-     * 专家画像
-     *
-     * @return
-     */
-    @RequestMapping(value = "/expertIndexNewImg", method = RequestMethod.GET)
-    public String expertIndexNewImg() {
-        //根据条件查询
-        //调用
-        //放入request
-        //获取专家列表10条
-        //ajax获取专家数据
-//        ZjkExpert expert = new ZjkExpert();
-////        expert.setSelect_type("ZJK_XYLY");
-//        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM_IMG, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
-//
-//        JSONObject retJson = responseEntity.getBody();
-//        Result result = (Result) retJson.get("results");
-//        request.setAttribute("results", result.getData());
-
-        //机构
-        ResponseEntity<String> responseEntityJg = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>("", this.httpHeaders), String.class);
-        System.out.println(responseEntityJg.getBody());
-        request.setAttribute("agent", responseEntityJg.getBody());
-
-        //行业领域
-        List<SysDictionary> dictionarys = this.restTemplate.exchange(DICTIONARY_LIST + "ZJK_XYLY", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
-
-        request.setAttribute("dictionarys", dictionarys);
-
-        return "stp/expert/expertIndexNewImg";
-    }
-
-    @RequestMapping(value = "/expertIndexNew", method = RequestMethod.GET)
-    public String pageExpertIndexNew() {
-        //获取专家列表10条
-//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-//        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(new ZjkExpert(), this.httpHeaders), JSONObject.class);
-//        JSONObject retJson = responseEntity.getBody();
-//        List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
-//        request.setAttribute("list", list);
-
-        //ajax获取专家数据
-        ZjkExpert expert = new ZjkExpert();
-        expert.setSelect_type("ZJK_XYLY");
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
-        JSONObject retJson = responseEntity.getBody();
-        //List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
-        request.setAttribute("expert", retJson.get("list"));
-
-        //机构
-        //ResponseEntity<String> responseEntityJg = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>("", this.httpHeaders), String.class);
-        //System.out.println(responseEntityJg.getBody());
-        //request.setAttribute("agent", responseEntityJg.getBody());
-
-        //行业领域
-        //List<?> dictionarys = this.restTemplate.exchange(DICTIONARY_LIST + "ZJK_XYLY", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
-
-        //request.setAttribute("dictionarys", dictionarys);
-//        request.setAttribute("dictionarys",JSON.toJSONString(dictionarys));
-        return "stp/expert/pageExpertIndexNew";
-    }
-
-    private static final String DICTIONARY_LIST = "http://kjpt-zuul/system-proxy/dictionary-provider/dictionary/";
-    private static final String UNIT_LIST_ZTREE_DATA = "http://kjpt-zuul/system-proxy/unit-provider/unit/ztree-unit-list";
-
-    @RequestMapping(value = "/expertIndexData", method = RequestMethod.POST)
-    @ResponseBody
-    public Object expertIndexData() {
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(new ZjkExpert(), this.httpHeaders), JSONObject.class);
-        JSONObject retJson = responseEntity.getBody();
-        List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
-        return list;
-    }
-
-    /**
-     * 跳转到查询页面
-     *
-     * @return
-     */
-    @RequestMapping(value = "/queryExpert", method = RequestMethod.GET)
-    public String queryExpert() {
-        SysUser sysUserInfo = getUserProfile();
-        request.setAttribute("hyly", request.getParameter("hyly"));
-        request.setAttribute("jg", request.getParameter("jg"));
-        request.setAttribute("jgshow", request.getParameter("jgshow"));
-        request.setAttribute("zjmc", request.getParameter("zjmc"));
-        request.setAttribute("key", request.getParameter("key"));
-        request.setAttribute("nld", request.getParameter("nld"));
-        request.setAttribute("zc", request.getParameter("zc"));
-        request.setAttribute("gb", request.getParameter("gb"));
-        List<String> gbcode = sysUserInfo.getInstituteCodes();
-        request.setAttribute("gbcode", (gbcode == null || gbcode.size() == 0) ? "" : org.apache.commons.lang3.StringUtils.join(gbcode, ","));
-        System.out.println(request.getParameter("gbcode"));
-        return "stp/expert/queryExpert";
-    }
-
-    /**
-     * 跳转到备选
-     *
-     * @return
-     */
-    @RequestMapping(value = "/bakTablePage", method = RequestMethod.GET)
-    @OperationFilter(modelName = "专家-备选跳转", actionName = "查询跳转bakTablePage")
-    public String bakTablePage() {
-        SysUser sysUserInfo = getUserProfile();
-        request.setAttribute("addUserId", sysUserInfo.getUserId());
-        return "stp/expert/bakTable";
-    }
-
-    /**
-     * 备选信息分页查询
-     *
-     * @param param
-     * @return
-     */
-    @RequestMapping(value = "/bakTableData", method = RequestMethod.POST)
-    @ResponseBody
-    public Object bakTableData(@ModelAttribute("param") LayuiTableParam param) {
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTBAKTABLE, HttpMethod.POST, entity, LayuiTableData.class);
-        LayuiTableData data = responseEntity.getBody();
-        return JSON.toJSON(data).toString();
-    }
-
-    /**
-     * 专家信息分页查询
-     *
-     * @param param
-     * @return
-     */
-    @RequestMapping(value = "/queryIndex", method = RequestMethod.POST)
-    @ResponseBody
-    public Object queryIndex(@ModelAttribute("param") LayuiTableParam param) {
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGEINDEX, HttpMethod.POST, entity, LayuiTableData.class);
-        LayuiTableData data = responseEntity.getBody();
-        return JSON.toJSON(data).toString();
-    }
-
-    /**
-     * @param param
-     * @return
-     */
-    @RequestMapping(value = "/queryOutPatentList", method = RequestMethod.POST)
-    @ResponseBody
-    public Object queryOutPatentList(@ModelAttribute("param") LayuiTableParam param) {
-
-        LayuiTableData data = new LayuiTableData();
-        if (StrUtil.isNullLayuiTableParam(param)) {
-            data.setCount(0);
-            return JSONObject.toJSONString(data);
-        } else {
-            HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-            ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LIST_OUT_PATENT, HttpMethod.POST, entity, LayuiTableData.class);
-            data = responseEntity.getBody();
-            return JSON.toJSON(data).toString();
-        }
-    }
-
-    /**
-     * 专家详情
-     *
-     * @return
-     */
-    @RequestMapping(value = "/expertDetail", method = RequestMethod.GET)
-    public String pageExpertDetail() {
-        //专家详情
-        String expertId = request.getParameter("expertId");
-        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + expertId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
-        ZjkExpert zjkBaseInfo = responseEntity.getBody();
-        request.setAttribute("zjkBaseInfo", zjkBaseInfo);
-        request.setAttribute("hylyName", zjkBaseInfo.getExpertProfessionalFieldName());
-        request.setAttribute("hyly", zjkBaseInfo.getExpertProfessionalField());
-        request.setAttribute("display", request.getParameter("display"));
-        //成果
-//        ZjkAchievement zjkChengguo = new ZjkAchievement();
-//        zjkChengguo.setExpertId(expertId);
-//        ResponseEntity<JSONObject> responseEntityCg = this.restTemplate.exchange(LISTCG, HttpMethod.POST, new HttpEntity<ZjkAchievement>(zjkChengguo, this.httpHeaders), JSONObject.class);
-//        JSONObject retJsonCg = responseEntityCg.getBody();
-//        List<ZjkAchievement> list = (List<ZjkAchievement>) retJsonCg.get("list");
-//        request.setAttribute("listCg", list);
-//        request.setAttribute("listCgCount", list.size());
-        //专利
-//        ZjkPatent zjkZhuanli = new ZjkPatent();
-//        zjkZhuanli.setExpertId(expertId);
-//        ResponseEntity<JSONObject> responseZlEntity = this.restTemplate.exchange(LISTZL, HttpMethod.POST, new HttpEntity<ZjkPatent>(zjkZhuanli, this.httpHeaders), JSONObject.class);
-//        JSONObject retJsonZl = responseZlEntity.getBody();
-//        List<ZjkPatent> listZl = (List<ZjkPatent>) retJsonZl.get("list");
-//        request.setAttribute("listZl", listZl);
-//        request.setAttribute("listZlCount", listZl.size());
-
-        //查询OutPatent专利数量
-//        OutPatent outPatent = new OutPatent();
-//        outPatent.setFmr(zjkBaseInfo.getExpertName());
-//        ResponseEntity<JSONObject> responseZlEntity = this.restTemplate.exchange(LIST_OUT_PATENT, HttpMethod.POST, new HttpEntity<OutPatent>(outPatent, this.httpHeaders), JSONObject.class);
-//        JSONObject retJsonZl = responseZlEntity.getBody();
-//        List<OutPatent> listZl = (List<OutPatent>) retJsonZl.get("list");
-//        request.setAttribute("listZl", listZl);//专利总数
-//        request.setAttribute("zlCount", listZl.size());//专利总数
-
-//        request.setAttribute("cgzlCount", listCg.size() + listZl.size());
-
-        // 行业领域count
-        String strHyly = zjkBaseInfo.getExpertProfessionalField();
-        if (strHyly == null || "".equals(strHyly)) {
-            request.setAttribute("hylyCount", "0");
-        } else {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("strHyly", strHyly);
-            ResponseEntity<JSONObject> responseEntityHyly = this.restTemplate.exchange(LIST_EXAMPLE, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
-            JSONObject retJson = responseEntityHyly.getBody();
-            List<ZjkExpert> listHyly = (List<ZjkExpert>) retJson.get("list");
-            request.setAttribute("hylyCount", listHyly == null ? "0" : listHyly.size());
-        }
-        //评标机构
-        ZjkChoice zjkChoice = new ZjkChoice();
-        zjkChoice.setStatus("2");
-        zjkChoice.setUserId("xm");
-        zjkChoice.setZjId(expertId);
-        ResponseEntity<JSONObject> expert = this.restTemplate.exchange(LISTBAK, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
-        JSONObject retJson = expert.getBody();
-        List<ZjkChoice> listJg = JSONArray.parseArray(retJson.get("list").toString(), ZjkChoice.class);
-        if (listJg == null || listJg.size() == 0) {
-            request.setAttribute("jgCount", 0);
-            request.setAttribute("xmCount", 0);
-        } else {
-            List setjg = listJg.stream().map(ZjkChoice::getCompanyId).distinct().collect(Collectors.toList());
-            List setxm = listJg.stream().map(ZjkChoice::getXmId).distinct().collect(Collectors.toList());
-            request.setAttribute("jgCount", setjg.size());
-            request.setAttribute("xmCount", setxm.size());
-        }
-        //项目数量
-
-        return "stp/expert/expertDetail";
-    }
-
-    /**
-     * 专家详情-领导页
-     *
-     * @return
-     */
-    @RequestMapping(value = "/expertDetailLeader", method = RequestMethod.GET)
-    public String expertDetailLeader() {
-        //专家详情
-        String expertId = request.getParameter("expertId");
-        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + expertId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
-        ZjkExpert zjkBaseInfo = responseEntity.getBody();
-        request.setAttribute("zjkBaseInfo", zjkBaseInfo);
-        request.setAttribute("hylyName", zjkBaseInfo.getExpertProfessionalFieldName());
-        request.setAttribute("hyly", zjkBaseInfo.getExpertProfessionalField());
-        //成果
-//        ZjkAchievement zjkChengguo = new ZjkAchievement();
-//        zjkChengguo.setExpertId(expertId);
-//        ResponseEntity<JSONObject> responseEntityCg = this.restTemplate.exchange(LISTCG, HttpMethod.POST, new HttpEntity<ZjkAchievement>(zjkChengguo, this.httpHeaders), JSONObject.class);
-//        JSONObject retJsonCg = responseEntityCg.getBody();
-//        List<ZjkAchievement> list = (List<ZjkAchievement>) retJsonCg.get("list");
-//        request.setAttribute("listCg", list);
-//        request.setAttribute("listCgCount", list.size());
-        //专利
-//        ZjkPatent zjkZhuanli = new ZjkPatent();
-//        zjkZhuanli.setExpertId(expertId);
-//        ResponseEntity<JSONObject> responseZlEntity = this.restTemplate.exchange(LISTZL, HttpMethod.POST, new HttpEntity<ZjkPatent>(zjkZhuanli, this.httpHeaders), JSONObject.class);
-//        JSONObject retJsonZl = responseZlEntity.getBody();
-//        List<ZjkPatent> listZl = (List<ZjkPatent>) retJsonZl.get("list");
-//        request.setAttribute("listZl", listZl);
-//        request.setAttribute("listZlCount", listZl.size());
-
-        //查询OutPatent专利数量
-//        OutPatent outPatent = new OutPatent();
-//        outPatent.setFmr(zjkBaseInfo.getExpertName());
-//        ResponseEntity<JSONObject> responseZlEntity = this.restTemplate.exchange(LIST_OUT_PATENT, HttpMethod.POST, new HttpEntity<OutPatent>(outPatent, this.httpHeaders), JSONObject.class);
-//        JSONObject retJsonZl = responseZlEntity.getBody();
-//        List<OutPatent> listZl = (List<OutPatent>) retJsonZl.get("list");
-//        request.setAttribute("listZl", listZl);//专利总数
-//        request.setAttribute("zlCount", listZl.size());//专利总数
-
-//        request.setAttribute("cgzlCount", listCg.size() + listZl.size());
-
-        // 行业领域count
-        String strHyly = zjkBaseInfo.getExpertProfessionalField();
-        if (strHyly == null || "".equals(strHyly)) {
-            request.setAttribute("hylyCount", "0");
-        } else {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("strHyly", strHyly);
-            ResponseEntity<JSONObject> responseEntityHyly = this.restTemplate.exchange(LIST_EXAMPLE, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
-            JSONObject retJson = responseEntityHyly.getBody();
-            List<ZjkExpert> listHyly = (List<ZjkExpert>) retJson.get("list");
-            request.setAttribute("hylyCount", listHyly == null ? "0" : listHyly.size());
-        }
-        //评标机构
-        ZjkChoice zjkChoice = new ZjkChoice();
-        zjkChoice.setStatus("2");
-        zjkChoice.setZjId(expertId);
-        ResponseEntity<JSONObject> expert = this.restTemplate.exchange(LISTBAK, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
-        JSONObject retJson = expert.getBody();
-        List<ZjkChoice> listJg = JSONArray.parseArray(retJson.get("list").toString(), ZjkChoice.class);
-        if (listJg == null || listJg.size() == 0) {
-            request.setAttribute("jgCount", 0);
-            request.setAttribute("xmCount", 0);
-        } else {
-            List setjg = listJg.stream().map(ZjkChoice::getCompanyId).distinct().collect(Collectors.toList());
-            List setxm = listJg.stream().map(ZjkChoice::getXmId).distinct().collect(Collectors.toList());
-            request.setAttribute("jgCount", setjg.size());
-            request.setAttribute("xmCount", setxm.size());
-        }
-        return "stp/expert/expertDetailLeader";
-    }
-
-    /**
-     * 成果信息分页查询
-     *
-     * @param param
-     * @return
-     */
-    @RequestMapping(value = "/queryCgList", method = RequestMethod.POST)
-    @ResponseBody
-    public Object queryCgList(@ModelAttribute("param") LayuiTableParam param) {
-        param.setLimit(10000);
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LIST_CG_TABLE, HttpMethod.POST, entity, LayuiTableData.class);
-        LayuiTableData data = responseEntity.getBody();
-        return JSON.toJSON(data).toString();
-    }
-
-    /**
-     * 专利信息分页查询
-     *
-     * @param param
-     * @return
-     */
-    @RequestMapping(value = "/queryZlList", method = RequestMethod.POST)
-    @ResponseBody
-    public Object queryZlList(@ModelAttribute("param") LayuiTableParam param) {
-        param.setLimit(10000);
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LIST_ZL_TABLE, HttpMethod.POST, entity, LayuiTableData.class);
-        LayuiTableData data = responseEntity.getBody();
-        return JSON.toJSON(data).toString();
-    }
-
-    /**
-     * 加入备选
-     *
-     * @param record
-     * @return
-     */
-    @RequestMapping(value = "/saveBak")
-    @ResponseBody
-    public int saveChoice(ZjkChoice record) {
-        SysUser sysUserInfo = getUserProfile();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        if (record.getId() == null || "".equals(record.getId())) {
-            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setCreateUser(sysUserInfo.getUserId());
-            record.setCreateUserName(sysUserInfo.getUserName());
-        } else {
-            record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setUpdateUser(sysUserInfo.getUserId());
-        }
-        //添加当前人的机构,机构id
-        record.setCompanyId(sysUserInfo.getUnitId());
-        record.setCompanyName(sysUserInfo.getUnitName());
-
-        record.setAddUserId(sysUserInfo.getUserId());
-        record.setStatus("0");
-        record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE, HttpMethod.POST, new HttpEntity<ZjkChoice>(record, this.httpHeaders), Integer.class);
-        Integer result = responseEntity.getBody();
-        return result;
-    }
-
-    /**
-     * 加入对比
-     *
-     * @param record
-     * @return
-     */
-    @RequestMapping(value = "/addCompare")
-    @ResponseBody
-    public int addCompare(ZjkChoice record) {
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        SysUser sysUserInfo = getUserProfile();
-        if (record.getId() == null || "".equals(record.getId())) {
-            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setCreateUser(sysUserInfo.getUserId());
-            record.setCreateUserName(sysUserInfo.getUserName());
-        } else {
-            record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setUpdateUser(sysUserInfo.getUserId());
-        }
-
-        //添加当前人的机构,机构id
-        record.setCompanyId(sysUserInfo.getUnitId());
-        record.setCompanyName(sysUserInfo.getUnitName());
-
-        record.setAddUserId(sysUserInfo.getUserId());
-        record.setStatus("1");
-        record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE, HttpMethod.POST, new HttpEntity<ZjkChoice>(record, this.httpHeaders), Integer.class);
-        Integer result = responseEntity.getBody();
-        return result;
-    }
-
-    @RequestMapping(value = "/addChoice")
-    @ResponseBody
-    @OperationFilter(modelName = "专家-人员选择", actionName = "保存addChoice")
-    public int addChoice(ZjkChoice record) {
-        SysUser sysUserInfo = getUserProfile();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        if (record.getId() == null || "".equals(record.getId())) {
-            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setCreateUser(sysUserInfo.getUserId());
-            record.setCreateUserName(sysUserInfo.getUserName());
-        } else {
-            record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setUpdateUser(sysUserInfo.getUserId());
-        }
-
-        //添加当前人的机构,机构id
-        record.setCompanyId(sysUserInfo.getUnitId());
-        record.setCompanyName(sysUserInfo.getUnitName());
-
-        record.setAddUserId(sysUserInfo.getUserId());
-        record.setStatus("2");
-        record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE, HttpMethod.POST, new HttpEntity<ZjkChoice>(record, this.httpHeaders), Integer.class);
-        Integer result = responseEntity.getBody();
-        return result;
-    }
-
-    @RequestMapping(value = "/addChoiceList")
-    @ResponseBody
-    public int addChoiceList() {
-        SysUser sysUserInfo = getUserProfile();
-        String param = request.getParameter("param");
-        JSONArray array = JSON.parseArray(param);
-        String fileIds = "";
-        List<ZjkChoice> zjkChoices = new ArrayList<>();
-        for (int i = 0, j = array.size(); i < j; i++) {
-            ZjkChoice record = JSONObject.toJavaObject((JSON) array.get(i), ZjkChoice.class);
-            record.setAddUserId(sysUserInfo.getUserId());
-            record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
-            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setCreateUser(sysUserInfo.getUserId());
-            record.setCreateUserName(sysUserInfo.getUserName());
-            record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setUpdateUser(sysUserInfo.getUserId());
-            fileIds = record.getBak6();
-            zjkChoices.add(record);
-        }
-
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        JSONObject object = new JSONObject();
-        object.put("list", JSONArray.toJSONString(zjkChoices));
-        //获取文件信息
-        this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
-        form.add("fileIds", fileIds);
-        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, httpHeaders);
-        ResponseEntity<FileResult> responseEntityFiles = this.restTemplate.postForEntity(getFilesLayuiByFormId, httpEntity, FileResult.class);
-        FileResult body = responseEntityFiles.getBody();
-
-        object.put("files", JSONArray.toJSONString(body.getList()));
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE_BAT, HttpMethod.POST, new HttpEntity<JSONObject>(object, this.httpHeaders), Integer.class);
-        Integer result = responseEntity.getBody();
-        return result;
-    }
-
-    private static final String getFilesLayuiByFormId = "http://kjpt-zuul/system-proxy/sysfile-provider/sysfile/getFilesLayuiByFormId";
-
-    /**
-     * 备选查询
-     *
-     * @return
-     */
-    @RequestMapping(value = "/selectBakList", method = RequestMethod.GET)
-    public String selectBakList() {
-        SysUser sysUserInfo = getUserProfile();
-        String status = request.getParameter("status");
-        String addUserId = request.getParameter("addUserId");
-
-        ZjkChoice zjkChoice = new ZjkChoice();
-        if (status != null && !"".equals(status)) {
-            zjkChoice.setStatus(status);
-        }
-        if (addUserId != null && !"".equals(addUserId)) {
-            zjkChoice.setAddUserId(sysUserInfo.getUserId());
-        }
-
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTBAK, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
-        JSONObject retJson = responseEntity.getBody();
-        List<ZjkChoice> list = JSONArray.parseArray(retJson.get("list").toString(), ZjkChoice.class);
-        List<ZjkExpert> baseList = JSONArray.parseArray(retJson.get("baseList").toString(), ZjkExpert.class);
-        request.setAttribute("bakList", list);
-        request.setAttribute("baseList", baseList);
-        return "stp/expert/bakList";
-    }
-
-    /**
-     * 备选删除
-     *
-     * @return
-     * @throws Exception
-     */
-    @OperationFilter(modelName = "备选专家-删除备选", actionName = "根据ID删除专家-删除备选专家")
-    @RequestMapping(value = "/delBak", method = RequestMethod.POST)
-    @ResponseBody
-    public Object delBak() {
-        SysUser sysUserInfo = getUserProfile();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("addUserId", sysUserInfo.getUserId());//操作人ＩＤ
-        jsonObject.put("expertId", request.getParameter("expertId"));//专家ｉｄ
-        this.restTemplate.exchange(DEL_BAK_USERID, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
-        return new Result(true, "操作成功！");
-    }
-
-    /**
-     * 修改-专家-基本信息
-     *
-     * @param record
-     * @return
-     */
-    @RequestMapping(value = "/saveZjkBaseInfo")
-    @ResponseBody
-    @OperationFilter(modelName = "专家-基本信息", actionName = "保存saveRecord")
-    public int saveRecord(ZjkExpert record) {
-        SysUser sysUserInfo = getUserProfile();
-        if (record.getId() == null || "".equals(record.getId())) {
-            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setCreateUser(sysUserInfo.getUserId());
-            record.setCreateUserDisp(sysUserInfo.getUserName());
-        } else {
-            record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setUpdatePersonName(sysUserInfo.getUserId());
-        }
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<ZjkExpert>(record, this.httpHeaders), Integer.class);
-        Integer result = responseEntity.getBody();
-        return result;
-    }
-
-    //---------------------------------pic--------------------------
-    private static final String Echart = "http://kjpt-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/echarts";
-
-    /**
-     * 首页图形展示
-     *
-     * @return
-     */
-    @RequestMapping(value = "/picIndex", method = RequestMethod.GET)
-    @ResponseBody
-    @OperationFilter(modelName = "首页图形展示", actionName = "首页图形展示indexPicTwo")
-    public Object indexPicTwo() {
-        String type = request.getParameter("type");
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("type", type);
-        jsonObject.put("id", request.getParameter("id"));
-
-//        if ("force".equals(type)){
-//            //添加自定义中心字段
-//            String expertId = request.getParameter("expertId");
-//            ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + expertId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
-//            ZjkExpert zjkBaseInfo = responseEntity.getBody();
-//            jsonObject.put(ChartForceResultData.name,zjkBaseInfo.getName());
-//            jsonObject.put(ChartForceResultData.value,zjkBaseInfo.getId());
-//        }
-
-        try {
-            jsonObject.put("param", ReverseSqlResult.getParameterMap(request));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(Echart, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
-        JSONObject object = responseEntity.getBody();
-//        System.out.println(object);
-
-//        return object.get("result");
-        return JSONObject.parseObject(JSONObject.toJSONString(object.get("result"))).toString();
-    }
-
-    /*--------------------------------------项目开始-----------------------------*/
-    private static final String PROJECT_LIST_PAGE = "http://kjpt-zuul/system-proxy/out-provider/project-list-expert";
-    //机构查询
-    private static final String UNIT_GET_UNIT = "http://kjpt-zuul/system-proxy/unit-provider/unit/get-unit/";
-
-    /**
-     * 已选专家页面跳转
-     *
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/showExpertPage")
-    public String showExpertPage() throws Exception {
-        request.setAttribute("projectId", request.getParameter("projectId"));
-        return "/stp/expert/showExpertPage";
-    }
-
-    /**
-     * 项目列表
-     *
-     * @return
-     * @throws Exception
-     */
-//    @RequestMapping(value = "/zjkOutProjectList")
-//    public String iniOutProjectList() throws Exception {
-//        return "/stp/expert/zjkOutProjectList";
-//    }
-
-    @RequestMapping(value = "/zjkOutProjectList")
-    public String iniOutProjectList() throws Exception {
-        SysUser sysUserInfo = getUserProfile();
-        String nd = CommonUtil.getParameter(request, "nd", "");// 年度
-        String ysnd = CommonUtil.getParameter(request, "ysnd", "");// 预算年磁
-        String xmmc = CommonUtil.getParameter(request, "xmmc", "");// 项目名
-        String hth = CommonUtil.getParameter(request, "hth", "");// 合同号
-        String define1 = CommonUtil.getParameter(request, "define1", "");// 费用类别->资本性、费用性
-        String define2 = CommonUtil.getParameter(request, "define2", "");// 8大院研究院
-        String type_flag = CommonUtil.getParameter(request, "type_flag", "");// 直属研究院、分子公司、集团等9种类型
-        String project_property = CommonUtil.getParameter(request, "project_property", "");// 国家项目、重大专项、重点项目、其他项目
-        String project_scope = CommonUtil.getParameter(request, "project_scope", "");// 新开项目、续建项目、完工项目
-        String zylb = CommonUtil.getParameter(request, "zylb", "");// 装备的各种技术类型
-        String define10 = CommonUtil.getParameter(request, "define10", "");// 各个处室
-        String define5 = CommonUtil.getParameter(request, "define5", "");// 技术分布
-        String ktlx = CommonUtil.getParameter(request, "ktlx", "");
-        String define11 = CommonUtil.getParameter(request, "define11", "");// 费用来源
-        String define12 = CommonUtil.getParameter(request, "define12", "");// 单位类别
-        String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
-        String fzdwflag = CommonUtil.getParameter(request, "fzdwflag", "承担单位");
-        request.setAttribute("fzdwflag", fzdwflag);
-        request.setAttribute("define12", define12);
-        request.setAttribute("define11", define11);
-        request.setAttribute("ktlx", ktlx);
-        request.setAttribute("define5", define5);
-        request.setAttribute("nd", nd);
-        request.setAttribute("ysnd", ysnd);
-        request.setAttribute("define10", define10);
-        request.setAttribute("xmmc", xmmc);
-        request.setAttribute("hth", hth);
-        request.setAttribute("define1", define1);
-        request.setAttribute("define2", define2);
-        request.setAttribute("type_flag", type_flag);
-        request.setAttribute("project_property", project_property);
-        request.setAttribute("project_scope", project_scope);
-        request.setAttribute("zylb", zylb);
-        request.setAttribute("groupFlag", groupFlag);
-        String projectId = CommonUtil.getParameter(request, "projectId", "");
-        request.setAttribute("projectId", projectId);
-
-        Map<String, Object> paramsMap = new HashMap<String, Object>();
-        paramsMap.put("nd", nd);
-        // 领导标识
-        paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-
-        if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-            request.setAttribute("leaderFlag", "1");
-        }
-
-        // 费用类别
-        List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
-        request.setAttribute("fylbList", fylbList);
-        // 课题类型
-        List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
-        request.setAttribute("ktlxList", ktlxList);
-        // 技术分类
-        List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
-        request.setAttribute("jsflList", jsflList);
-        // 三级级联：经费来源(公司类型财务)->单位类别->研究院
-        List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
-        request.setAttribute("jflyList", jflyList);
-        // 科技部二级级联： 专业处->专业类别
-        List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
-        request.setAttribute("zycList", zycList);
-        // 负责单位
-        List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
-        request.setAttribute("fzdwList", fzdwList);
-        // 分组类型
-        List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
-        request.setAttribute("fzlxList", fzlxList);
-
-        // 部门
-        List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
-        request.setAttribute("gsbmbmList", gsbmbmList);
-
-        // 倒推部门-各个处室(汉字)->倒推部门
-        String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");// 部门
-        String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");// 处室
-        String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");// 专业类别
-        if (gsbmbmFlag.equals("") && !zycbmFlag.equals("")) {
-           // gsbmbmFlag = new OneLevelMainController().getGsbmbmFlagByzycbmFlag(gsbmbmFlag, zycbmFlag);
-        }
-
-        request.setAttribute("zycbmFlag", zycbmFlag);
-        request.setAttribute("gsbmbmFlag", gsbmbmFlag);
-        request.setAttribute("zylbbmFlag", zylbbmFlag);
-        request.setAttribute("nd", HanaUtil.getCurrentYear());
-        // (汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2
-        return "/stp/expert/zjkOutProjectList";
-    }
-
-    /**
-     * 成果列表-非专家关联
-     *
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/zjkAchievementList")
-    public String zjkAchievementList() throws Exception {
-        return "/stp/expert/zjkAchievementList";
-    }
-
-    /**
-     * 成果列表-统计展示
-     *
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/zjkAchievementListCount")
-    public String zjkAchievementListCount() throws Exception {
-        request.setAttribute("expertName", request.getParameter("expertName"));
-        return "/stp/expert/zjkAchievementList_count";
-    }
-
-    /**
-     * 专利列表-专家关联
-     *
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/zjkPatentList")
-    public String zjkPatentList() throws Exception {
-        return "/stp/expert/zjkPatentList";
-    }
-
-    private static final String LISTPAGE_choice = "http://kjpt-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page-choice";
-
-    /**
-     * 项目列表-已发布
-     *
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/zjkOutProjectListPublic")
-    public String iniOutProjectListPublic() throws Exception {
-        SysUser sysUserInfo = getUserProfile();
-        //获取项目ID
-        LayuiTableParam param = new LayuiTableParam();
-        param.setLimit(100000000);
-        param.getParam().put("status", "2");
-        param.getParam().put("userId", "xm");
-        param.getParam().put("addUserId", sysUserInfo.getUserId());
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
-        LayuiTableData data = responseEntity.getBody();
-        List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
-        List<String> list = new ArrayList<>();
-        for (int i = 0, j = data.getData().size(); i < j; i++) {
-            Map m = (Map) data.getData().get(i);
-            list.add(m.get("xmId") + "");
-        }
-        if (list==null||list.size()==0){
-            list.add("-");
-        }
-        request.setAttribute("xmid", org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
-
-        String nd = CommonUtil.getParameter(request, "nd", "");// 年度
-        String ysnd = CommonUtil.getParameter(request, "ysnd", "");// 预算年磁
-        String xmmc = CommonUtil.getParameter(request, "xmmc", "");// 项目名
-        String hth = CommonUtil.getParameter(request, "hth", "");// 合同号
-        String define1 = CommonUtil.getParameter(request, "define1", "");// 费用类别->资本性、费用性
-        String define2 = CommonUtil.getParameter(request, "define2", "");// 8大院研究院
-        String type_flag = CommonUtil.getParameter(request, "type_flag", "");// 直属研究院、分子公司、集团等9种类型
-        String project_property = CommonUtil.getParameter(request, "project_property", "");// 国家项目、重大专项、重点项目、其他项目
-        String project_scope = CommonUtil.getParameter(request, "project_scope", "");// 新开项目、续建项目、完工项目
-        String zylb = CommonUtil.getParameter(request, "zylb", "");// 装备的各种技术类型
-        String define10 = CommonUtil.getParameter(request, "define10", "");// 各个处室
-        String define5 = CommonUtil.getParameter(request, "define5", "");// 技术分布
-        String ktlx = CommonUtil.getParameter(request, "ktlx", "");
-        String define11 = CommonUtil.getParameter(request, "define11", "");// 费用来源
-        String define12 = CommonUtil.getParameter(request, "define12", "");// 单位类别
-        String groupFlag = CommonUtil.getParameter(request, "groupFlag", "");// 后台查询分组类别
-        String fzdwflag = CommonUtil.getParameter(request, "fzdwflag", "承担单位");
-        request.setAttribute("fzdwflag", fzdwflag);
-        request.setAttribute("define12", define12);
-        request.setAttribute("define11", define11);
-        request.setAttribute("ktlx", ktlx);
-        request.setAttribute("define5", define5);
-        request.setAttribute("nd", nd);
-        request.setAttribute("ysnd", ysnd);
-        request.setAttribute("define10", define10);
-        request.setAttribute("xmmc", xmmc);
-        request.setAttribute("hth", hth);
-        request.setAttribute("define1", define1);
-        request.setAttribute("define2", define2);
-        request.setAttribute("type_flag", type_flag);
-        request.setAttribute("project_property", project_property);
-        request.setAttribute("project_scope", project_scope);
-        request.setAttribute("zylb", zylb);
-        request.setAttribute("groupFlag", groupFlag);
-        String projectId = CommonUtil.getParameter(request, "projectId", "");
-        request.setAttribute("projectId", projectId);
-
-        Map<String, Object> paramsMap = new HashMap<String, Object>();
-        paramsMap.put("nd", nd);
-        // 领导标识
-        paramsMap.put("leaderFlag", sysUserInfo.getUserLevel());
-
-        if (sysUserInfo.getUserLevel() != null && sysUserInfo.getUserLevel() == 1) {
-            request.setAttribute("leaderFlag", "1");
-        }
-
-        // 费用类别
-        List<SysDictionary> fylbList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FYLX", restTemplate, httpHeaders);
-        request.setAttribute("fylbList", fylbList);
-        // 课题类型
-        List<SysDictionary> ktlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_KTLX", restTemplate, httpHeaders);
-        request.setAttribute("ktlxList", ktlxList);
-        // 技术分类
-        List<SysDictionary> jsflList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_JSFL", restTemplate, httpHeaders);
-        request.setAttribute("jsflList", jsflList);
-        // 三级级联：经费来源(公司类型财务)->单位类别->研究院
-        List<SysDictionary> jflyList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_GSLXCW", restTemplate, httpHeaders);
-        request.setAttribute("jflyList", jflyList);
-        // 科技部二级级联： 专业处->专业类别
-        List<SysDictionary> zycList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG_KJB", restTemplate, httpHeaders);
-        request.setAttribute("zycList", zycList);
-        // 负责单位
-        List<SysDictionary> fzdwList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZDW", restTemplate, httpHeaders);
-        request.setAttribute("fzdwList", fzdwList);
-        // 分组类型
-        List<SysDictionary> fzlxList = CommonUtil.getDictionaryByParentCode("ROOT_FZJCZX_FZLX", restTemplate, httpHeaders);
-        request.setAttribute("fzlxList", fzlxList);
-
-        // 部门
-        List<SysDictionary> gsbmbmList = CommonUtil.getDictionaryByParentCode("ROOT_ZGSHJT_ZBJG", restTemplate, httpHeaders);
-        request.setAttribute("gsbmbmList", gsbmbmList);
-
-        // 倒推部门-各个处室(汉字)->倒推部门
-        String gsbmbmFlag = CommonUtil.getParameter(request, "gsbmbmFlag", "");// 部门
-        String zycbmFlag = CommonUtil.getParameter(request, "zycbmFlag", "");// 处室
-        String zylbbmFlag = CommonUtil.getParameter(request, "zylbbmFlag", "");// 专业类别
-        if (gsbmbmFlag.equals("") && !zycbmFlag.equals("")) {
-          //  gsbmbmFlag = new OneLevelMainController().getGsbmbmFlagByzycbmFlag(gsbmbmFlag, zycbmFlag);
-        }
-
-        request.setAttribute("zycbmFlag", zycbmFlag);
-        request.setAttribute("gsbmbmFlag", gsbmbmFlag);
-        request.setAttribute("zylbbmFlag", zylbbmFlag);
-        request.setAttribute("nd", HanaUtil.getCurrentYear());
-        // (汉字反查CODE),用于级联: 费用来源define11-单位类别define12-研究院define2
-        return "/stp/expert/zjkOutProjectListPublic";
-    }
-
-    /**
-     * 成果列表-非专家关联-已发布
-     *
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/zjkAchievementListPublic")
-    public String zjkAchievementListPublic() throws Exception {
-        SysUser sysUserInfo = getUserProfile();
-        //获取项目ID
-        LayuiTableParam param = new LayuiTableParam();
-        param.setLimit(100000000);
-        param.getParam().put("status", "2");
-        param.getParam().put("userId", "cg");
-        param.getParam().put("addUserId", sysUserInfo.getUserId());
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
-        LayuiTableData data = responseEntity.getBody();
-        List<String> list = new ArrayList<>();
-        for (int i = 0, j = data.getData().size(); i < j; i++) {
-            Map m = (Map) data.getData().get(i);
-            list.add(m.get("xmId") + "");
-        }
-        if (list==null||list.size()==0){
-            list.add("-");
-        }
-        request.setAttribute("xmid", org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
-        return "/stp/expert/zjkAchievementListPublic";
-    }
-
-    /**
-     * 专利列表-专家关联-已发布
-     *
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/zjkPatentListPublic")
-    public String zjkPatentListPublic() throws Exception {
-        SysUser sysUserInfo = getUserProfile();
-        //获取项目ID
-        LayuiTableParam param = new LayuiTableParam();
-        param.setLimit(100000000);
-        param.getParam().put("status", "2");
-        param.getParam().put("userId", "zl");
-        param.getParam().put("addUserId", sysUserInfo.getUserId());
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
-        LayuiTableData data = responseEntity.getBody();
-        List<ZjkChoice> zjkChoices = (List<ZjkChoice>) data.getData();
-        List<String> list = new ArrayList<>();
-        for (int i = 0, j = data.getData().size(); i < j; i++) {
-            Map m = (Map) data.getData().get(i);
-            list.add(m.get("xmId") + "");
-        }
-        if (list==null||list.size()==0){
-            list.add("-");
-        }
-        request.setAttribute("xmid", org.apache.commons.lang.StringUtils.join(list.toArray(), ","));
-        return "/stp/expert/zjkPatentListPublic";
-    }
-
-    /**
-     * 获取专家统计-专利信息
-     *
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/zjkPatentListPublicCount")
-    public String zjkPatentListPublicCount() throws Exception {
-        String id = request.getParameter("expertId");
-        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
-        ZjkExpert news = responseEntity.getBody();
-        request.setAttribute("expertName", news.getExpertName());
-        return "/stp/expert/zjkPatentListPublic_count";
-    }
-
-    /**
-     * 获取专家统计-课题
-     *
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/zjkOutProjectListPublicCount")
-    public String zjkOutProjectListPublicCount() throws Exception {
-        String id = request.getParameter("expertId");
-        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
-        ZjkExpert news = responseEntity.getBody();
-        request.setAttribute("expertName", news.getExpertName());
-        return "/stp/expert/zjkOutProjectListPublicCount";
-    }
-
-    /**
-     * 获取专家统计-奖励
-     *
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/zjkOutRewardListPublicCount")
-    public String zjkOutRewardListPublicCount() throws Exception {
-        String id = request.getParameter("expertId");
-        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
-        ZjkExpert news = responseEntity.getBody();
-        request.setAttribute("expertName", news.getExpertName());
-        return "/stp/expert/zjkOutRewardListPublicCount";
-    }
-
-    @RequestMapping(value = "/zjkOutProjectList_tfc")
-    public String zjkOutProjectList_tfc() throws Exception {
-        request.setAttribute("typeName", request.getParameter("typeName"));
-        request.setAttribute("pYear", request.getParameter("pYear"));
-        return "/stp/expert/zjkOutProjectList_tfc";
-    }
-
-    /**
-     * 项目列表-研究院
-     *
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/zjkOutProjectListOwner")
-    public String zjkOutProjectListOwner() throws Exception {
-        return "/stp/expert/zjkOutProjectListOwner";
-    }
-
-    @RequestMapping(value = "/outProjectList", method = RequestMethod.POST)
-    @OperationFilter(dataFlag = "true")
-    @ResponseBody
-    public Object outProjectList(@ModelAttribute("param") LayuiTableParam param) {
-        SysUser sysUserInfo = getUserProfile();
-        System.out.println("====expertController");
-        // 数据控制属性
-//        String zycbm = request.getAttribute("zycbm") == null ? "" : request.getAttribute("zycbm").toString();
-//        String zylbbm = request.getAttribute("zylbbm") == null ? "" : request.getAttribute("zylbbm").toString();
-//        param.getParam().put("zycbm", zycbm);
-//        param.getParam().put("zylbbm", zylbbm);
-        param.getParam().put("leaderFlag", sysUserInfo.getUserLevel());
-        param.getParam().put("username", sysUserInfo.getUserName());
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_LIST_PAGE, HttpMethod.POST, entity, LayuiTableData.class);
-        LayuiTableData retJson = responseEntity.getBody();
-
-        return JSON.toJSON(retJson).toString();
-    }
-
-    /**
-     * 页面跳转
-     *
-     * @return
-     */
-    @RequestMapping(value = "/getUserChoicePage", method = RequestMethod.GET)
-    public String getUserChoicePage() {
-        String projectName = request.getParameter("projectName");
-        try {
-            projectName = java.net.URLDecoder.decode(projectName, "UTF-8");
-            System.out.println("projectNameprojectNameprojectNameprojectNameprojectNameprojectNameproject" + projectName);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        request.setAttribute("projectId", request.getParameter("projectId"));
-        request.setAttribute("projectName", projectName);
-        request.setAttribute("unitCode", request.getParameter("unitCode"));
-        request.setAttribute("flag", request.getParameter("flag"));
-        request.setAttribute("bak6", UUID.randomUUID().toString().replace("-", ""));
-        SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT + request.getParameter("unitId"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysUnit.class).getBody();
-        String strFlag = request.getParameter("flag");
-        if ("xm".equals(strFlag)) {
-            return "stp/expert/expert_choice";
-        } else if ("zl".equals(strFlag)) {
-            return "stp/expert/expert_choice_patent";
-        } else {
-            return "stp/expert/expert_choice_achiement";
-        }
-    }
-
-    /**
-     * 专家查询：随机
-     *
-     * @return
-     */
-    @RequestMapping(value = "/getUserChoiceTableData", method = RequestMethod.POST)
-    @ResponseBody
-    public String getUserChoiceTableData(@ModelAttribute("param") LayuiTableParam param) {
-        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(select_expert, HttpMethod.POST, entity, LayuiTableData.class);
-        LayuiTableData data = responseEntity.getBody();
-        return JSON.toJSON(data).toString();
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/expertDetailIndex")
-    public String expertDetailIndex() {
-        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + request.getParameter("dataId"), HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
-        request.setAttribute("expert", responseEntity.getBody());
-        return "chart/detail";
-    }
-
-    /**
-     * 科研人才页面跳转
-     *
-     * @return
-     */
-    @RequestMapping(value = "/personnel", method = RequestMethod.GET)
-    public String personnel() {
-        return "chart/personnel";
-    }
-
-    /**
-     * 新闻跳转
-     *
-     * @return
-     */
-    @RequestMapping(value = "/leader_speech", method = RequestMethod.GET)
-    public String leader_speech() {
-        return "layui/leader_speech";
-    }
-
-    public static void main(String[] args) {
-        for (int i = 0; i < 300; i++) {
-            System.out.println(UUID.randomUUID().toString().replace("-", ""));
-        }
-    }
 }

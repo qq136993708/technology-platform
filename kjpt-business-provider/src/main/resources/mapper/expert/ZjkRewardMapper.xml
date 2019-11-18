@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.expert.ZjkRewardMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkReward">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="expert_id" jdbcType="VARCHAR" property="expertId" />
+    <result column="del_status" jdbcType="VARCHAR" property="delStatus" />
+    <result column="source_type" jdbcType="VARCHAR" property="sourceType" />
+    <result column="rewark_level" jdbcType="VARCHAR" property="rewarkLevel" />
+    <result column="notes" jdbcType="VARCHAR" property="notes" />
+    <result column="awarding_unit" jdbcType="VARCHAR" property="awardingUnit" />
+    <result column="awarding_time" jdbcType="TIMESTAMP" property="awardingTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, expert_id, del_status, source_type, rewark_level, notes, awarding_unit, awarding_time, 
+    create_time, out_system_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zjk_reward
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from zjk_reward
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkReward" useGeneratedKeys="true">
+    insert into zjk_reward (expert_id, del_status, source_type, 
+      rewark_level, notes, awarding_unit, 
+      awarding_time, create_time, out_system_id
+      )
+    values (#{expertId,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, 
+      #{rewarkLevel,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{awardingUnit,jdbcType=VARCHAR}, 
+      #{awardingTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkReward" useGeneratedKeys="true">
+    insert into zjk_reward
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="expertId != null">
+        expert_id,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="sourceType != null">
+        source_type,
+      </if>
+      <if test="rewarkLevel != null">
+        rewark_level,
+      </if>
+      <if test="notes != null">
+        notes,
+      </if>
+      <if test="awardingUnit != null">
+        awarding_unit,
+      </if>
+      <if test="awardingTime != null">
+        awarding_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="outSystemId != null">
+        out_system_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null">
+        #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="rewarkLevel != null">
+        #{rewarkLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null">
+        #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="awardingUnit != null">
+        #{awardingUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="awardingTime != null">
+        #{awardingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outSystemId != null">
+        #{outSystemId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkReward">
+    update zjk_reward
+    <set>
+      <if test="expertId != null">
+        expert_id = #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null">
+        source_type = #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="rewarkLevel != null">
+        rewark_level = #{rewarkLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null">
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="awardingUnit != null">
+        awarding_unit = #{awardingUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="awardingTime != null">
+        awarding_time = #{awardingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outSystemId != null">
+        out_system_id = #{outSystemId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkReward">
+    update zjk_reward
+    set expert_id = #{expertId,jdbcType=VARCHAR},
+      del_status = #{delStatus,jdbcType=VARCHAR},
+      source_type = #{sourceType,jdbcType=VARCHAR},
+      rewark_level = #{rewarkLevel,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR},
+      awarding_unit = #{awardingUnit,jdbcType=VARCHAR},
+      awarding_time = #{awardingTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      out_system_id = #{outSystemId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+  
+  
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="awardingUnit != null and awardingUnit  !='' ">               AND t.awarding_unit like CONCAT('%',#{awardingUnit},'%')</if>
+	     <if test="sourceType != null      and sourceType !=''  ">     AND t.source_type = #{sourceType}</if>
+	     <if test="delStatus != null       and delStatus !=''  ">      AND t.del_status = #{delStatus}</if>
+	     <if test="outSystemId != null     and outSystemId !=''  ">    AND t.out_system_id = #{outSystemId}</if>
+	     <if test="expertId != null        and expertId !=''  ">       AND t.expert_id = #{expertId}</if>
+	 </trim>
+	</sql>
+	
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from zjk_reward t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_time desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM zjk_reward t <include refid="selectCondition"/>
+    </select>
+  
+  
+  
+  <!-- 根据专家ID逻辑删除奖励信息-->
+   <update id="deleteLogicZjkRewardByExpertId" parameterType="string">
+    update zjk_reward  set del_status = '1' where expert_id = #{expertId,jdbcType=VARCHAR}
+  </update>
+  
+   <update id="deleteLogicZjkRewardById" parameterType="string">
+    update zjk_reward  set del_status = '1' where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+    <delete id="deleteZjkRewardByExpertId" parameterType="java.lang.String">
+    delete from zjk_reward  where expert_id = #{expertId,jdbcType=VARCHAR}
+  </delete>
+  
+  
+  
+</mapper>

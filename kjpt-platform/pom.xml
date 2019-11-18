@@ -198,7 +198,7 @@
 		</dependency>
 
 		<!-- 统一身份认证 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.sinopec.siam</groupId>
 			<artifactId>siam-am-agent-simple</artifactId>
 			<version>3.2.RELEASE</version>
@@ -212,7 +212,9 @@
 			<version>3.2.RELEASE</version>
 			<scope>system</scope>
 			<systemPath>${pom.basedir}/lib/siam-provisioning-subscriber-clients-3.2.RELEASE.jar</systemPath>
-		</dependency>
+		</dependency> -->
+		
+		
 		<dependency>
 			<groupId>com.github.penggle</groupId>
 			<artifactId>kaptcha</artifactId>
@@ -253,6 +255,23 @@
 			<artifactId>jchardet</artifactId>
 			<version>1.0</version>
 		</dependency>
+		
+		
+		<!--swagger -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+		</dependency>
 
 	</dependencies>
 
@@ -278,13 +297,13 @@
 				</includes>
 			</resource>
 
-			<resource>
+			<!-- <resource>
 				<directory>src/main/java/com/sinopec</directory>
 				<filtering>false</filtering>
 				<includes>
 					<include>**/**</include>
 				</includes>
-			</resource>
+			</resource> -->
 		</resources>
 
 		<pluginManagement>
@@ -293,9 +312,9 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
 					<configuration>
-						<source>1.8</source>
+						<!--<source>1.8</source>
 						<target>1.8</target>
-						<encoding>UTF-8</encoding>
+						<encoding>UTF-8</encoding>-->
 						<warSourceExcludes>src/main/resources/**</warSourceExcludes>
 						<warName>stp</warName>
 
@@ -314,14 +333,14 @@
 							</resource>
 
 							<!-- 统一身份认证其中一个配置文件硬性引入 -->
-							<resource>
+							<!-- <resource>
 								<directory>src/main/java/com/sinopec</directory>
 								<targetPath>WEB-INF/classes/com/sinopec</targetPath>
 								<includes>
 									<include>**/*.properties</include>
 									<include>**/keystore</include>
 								</includes>
-							</resource>
+							</resource> -->
 						</webResources>
 					</configuration>
 				</plugin>

@@ -7,6 +7,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 
@@ -15,7 +16,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @author ty
  */
 @ControllerAdvice
-public class ApiResponseBody  implements ResponseBodyAdvice<Object> {
+@RestControllerAdvice
+public class ApiResponseBody implements ResponseBodyAdvice<Object>  {
 
 
     @Override
@@ -36,6 +38,7 @@ public class ApiResponseBody  implements ResponseBodyAdvice<Object> {
         Result result = new Result();
         result.setCode(Result.RESPONSE_SUCC_CODE);
         result.setMessage(Result.RESPONSE_SUCC_MSG);
+        result.setSuccess(true);
         result.setData(o);
         return result;
     }

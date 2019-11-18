@@ -17,8 +17,11 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysReqLogs;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -51,6 +54,35 @@ public class BaseController implements ErrorController
 	
 	public SysUser getUserProfile() {
 		return sysUserInfo;
+	}
+
+
+	/**
+	 * 返回当前Request对象
+	 * @return
+	 */
+	protected HttpServletRequest getCurrentRequest()
+	{
+		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+	}
+
+	/**
+	 * 返回当前Response对象
+	 * @return
+	 */
+	protected HttpServletResponse getCurrentResponse()
+	{
+		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+	}
+
+	protected void setParam(Map<String, Object> params, String key, Object value) {
+		this.setParam(params, key, value, false);
+	}
+
+	protected void setParam(Map<String, Object> params, String key, Object value, boolean like) {
+		if (value != null) {
+			params.put(key, like ? "?" + value : value);
+		}
 	}
 
 	@Override

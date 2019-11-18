@@ -1,4 +1,4 @@
-﻿/**
+/**
 
  @Name：layuiAdmin
  @Author：贤心
@@ -6,10 +6,15 @@
  @License：LPPL
 
  */
-*{font-family: "arial-black", "微软雅黑", "黑体"}
+ *{font-family: "arial-black", "微软雅黑", "黑体"}
 html #layuicss-layuiAdmin{display: none; position: absolute; width: 1989px;}
 
-
+html, body {
+	margin:0;
+	padding:0;
+	height: 100%;
+	width: 100%;
+}
 
 
 /* 系统 */
@@ -25,9 +30,9 @@ html #layuicss-layuiAdmin{display: none; position: absolute; width: 1989px;}
 
 
 /* 全局 */
-html{background-color: #f2f2f2; color: #666;}
+html{ background-color: #F9F9F9; color: #666;}
 *[template],
-.layadmin-tabsbody-item{display: none;}
+.layadmin-tabsbody-item{display: none; height: 100%; margin-right: 10px; font-size: 0;}
 *[lay-href],
 *[lay-tips],
 *[layadmin-event]{cursor: pointer;}
@@ -41,7 +46,7 @@ html{background-color: #f2f2f2; color: #666;}
 */
 #nav li dl dd a img{position: absolute;top:10px;right: 10px;}
 .layui-layout-admin .layui-header .layui-nav .layui-nav-child a{color: #333;}
-.layui-layout-admin .layui-side{width: 210px;top:80px; z-index: 1001;}
+.layui-layout-admin .layui-side{width: 250px;top:80px; z-index: 1001; box-shadow: 0 1px 6px rgba(213, 217, 220, 0.5); }
 .layui-layout-admin .layui-logo,
 .layui-layout-admin .layui-header .layui-nav .layui-nav-item{height: 79px; line-height: 79px;}
 .layui-nav-itemnew {width: 40px;}
@@ -49,10 +54,10 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-layout-left,
 .layadmin-pagetabs,
 .layui-layout-admin .layui-body,
-.layui-layout-admin .layui-footer{left: 220px;}
-.layadmin-pagetabs{position: fixed; top: 121px; right: 0px; z-index: 999;}
+.layui-layout-admin .layui-footer{left: 260px;}
+.layadmin-pagetabs{position: fixed; top: 100px; right: 0px; z-index: 999;}
 .layadmin-pagetabs .layui-breadcrumb{padding: 0 15px;}
-.layui-layout-admin .layui-body{top: 160px; bottom: 40px;right: 0px;}
+.layui-layout-admin .layui-body{top: 150px; bottom: 40px;right: 0px; margin: 0;}
 .layui-leader-admin .layui-body{top: 50px;}
 .layui-body{ margin: 10px 0 0 0px;}
 .layui-layout-admin .layui-header .layui-nav-img{width: 26px; height: 26px;}
@@ -228,7 +233,7 @@ html{background-color: #f2f2f2; color: #666;}
 
 /* 侧边菜单 */
 .layui-side-menu .layui-side-scroll{width: 230px;}
-.layui-side-menu .layui-nav{width: 210px; margin-top: 12px; background: none;}
+.layui-side-menu .layui-nav{width: 250px; padding-top: 50px; background: none;}
 .layui-side-menu .layui-nav .layui-nav-item a{height: 40px; line-height: 40px; padding-left: 30px;
     color:#000;padding-right: 30px;font-size: 12px;}
 .layui-side-menu .layui-nav .layui-nav-item dl a{text-indent: 1em;color: #212529;width: 60%;}
@@ -284,11 +289,11 @@ html{background-color: #f2f2f2; color: #666;}
 
 .layui-nav-child dd > a{ width: 60%;margin: 0 auto; border-radius: 6px;}
 .layui-nav-child dd>a:hover{  }
-.layui-side .layui-nav .layadmin-flexible{position: fixed;width: 210px;z-index: 9999;top: 79px;
+.layui-side .layui-nav .layadmin-flexible{position: fixed;width: 250px;z-index: 9999;top: 79px;
     color: #000; font-size: 16px;font-weight: bold;text-indent: 14px;height: 44px;
-    line-height: 44px;background-color: #f3f3f3;border-bottom: 1px solid #eee;}
+    line-height: 44px;background-color: #fff;}
 .layui-side .layui-nav .layadmin-flexible img{position: absolute;right: 20px;top: 31%;cursor: pointer;}
-.layui-nav-tree .layui-nav-item{top: 50px;}
+
 .layui-leader-admin .layui-nav-tree .layui-nav-item:nth-child(1){
     background: url("/layuiadmin/layui/images/tree_03.png") 22px 14px  no-repeat;}
 .layui-leader-admin  .layui-nav-tree .layui-nav-item:nth-child(1)>a:hover,
@@ -395,7 +400,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layadmin-side-shrink .layui-layout-admin .layui-layout-left,
 .layadmin-side-shrink .layadmin-pagetabs,
 .layadmin-side-shrink .layui-layout-admin .layui-body,
-.layadmin-side-shrink .layui-layout-admin .layui-footer{left: 60px;}
+.layadmin-side-shrink .layui-layout-admin .layui-footer{left: 70px;}
 .layadmin-side-shrink .layui-side-menu .layui-nav{position: static; width: 60px;}
 .layadmin-side-shrink .layui-side-menu .layui-nav-item{position: static;}
 .layadmin-side-shrink .layui-side-menu .layui-nav-item>a{padding: 0;width: 45px;}
@@ -412,16 +417,16 @@ html{background-color: #f2f2f2; color: #666;}
 .layadmin-side-spread-sm .layui-layout-admin .layui-layout-left,
 .layadmin-side-spread-sm .layadmin-pagetabs,
 .layadmin-side-spread-sm .layui-layout-admin .layui-body,
-.layadmin-side-spread-sm .layui-layout-admin .layui-footer{left: 0; transform: translate3d(220px, 0, 0); -webkit-transform: translate3d(220px, 0, 0);}
+.layadmin-side-spread-sm .layui-layout-admin .layui-footer{left: 0; transform: translate3d(260px, 0, 0); -webkit-transform: translate3d(260px, 0, 0);}
 .layadmin-side-spread-sm .layui-layout-admin .layui-layout-right{transform: translate3d(220px, 0, 0); -webkit-transform: translate3d(220px, 0, 0);}
 .layadmin-side-spread-sm .layui-side{transform: translate3d(0, 0, 0); -webkit-transform: translate3d(0, 0, 0);}
 .layadmin-side-spread-sm .layadmin-body-shade{display: block; }
 
 
 /* 页面标签 */
-.layadmin-pagetabs{height: 40px; line-height: 40px; padding: 0 120px 0 0px; border: 1px solid #dfdfdf;
-    background-color: #fff; box-sizing: border-box;
-    margin-right: 19px;}
+.layadmin-pagetabs{height: 40px; line-height: 40px; padding: 0 120px 0 0px; border: 1px solid #E5E7EA;
+    background-color: #fff; box-sizing: border-box; border-radius: 4px;
+    margin-right: 10px;}
 .layadmin-pagetabs .layadmin-tabs-control{position: absolute; top: 0; width: 40px; height: 100%; text-align: center; cursor: pointer; transition: all .3s; -webkit-transition: all .3s; box-sizing: border-box; border-left: 1px solid #f6f6f6;}
 .layadmin-pagetabs .layadmin-tabs-control:hover{background-color: #f6f6f6;}
 .layadmin-pagetabs .layui-icon-prev{right: 80px; border-left: 1px solid #f6f6f6; border-right: none;}
@@ -445,7 +450,7 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-nav-tree .layui-nav-item>a:hover .layui-nav-more{background: url("/layuiadmin/layui/images/icon-r-w.png") no-repeat;}
 .layui-header .layui-icon-prev{position: absolute;right: 0px;top: 30px;cursor: pointer;width: 70px;}
 .layui-header .layui-icon-next{position: absolute;right: 250px;top: 18px;cursor: pointer;}
-.layui-header .layui-icon-prev:before{content: "其他业务"; font-size: 14px;     color: rgba(255,255,255,0.9);
+.layui-header .layui-icon-prev:before{content: "����ҵ��"; font-size: 14px;     color: rgba(255,255,255,0.9);
     font-weight: bold;}
 .layui-header .layui-icon-next:before{content: "\e65b";}
 .layadmin-pagetabs .layui-icon-next{right: 40px;}
@@ -527,9 +532,8 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-card{box-shadow:0 0 3px #dadcde;border-radius:6px;margin-bottom: 10px;}
 /*.layui-card:last-child{margin-bottom: 10px}*/
 .layui-card-header .layui-icon{line-height: initial; position: absolute; right: 15px; top: 50%; margin-top: -7px;}
-.layui-body .layadmin-iframe{position: absolute; width: 98.5%; height: 100%; left: 0; top: 0;
-    right: 0; bottom: 0;background: #fff;}
-.layui-body .layadmin-tabsbody-item:nth-child(1) .layadmin-iframe{background: none;width: 100%;}
+.layui-body .layadmin-iframe{width: 100%; height: 100%; background-color:#fff;border-radius: 3px; box-shadow:0px 2px 4px 0px rgba(203,205,207,0.5);}
+.layui-body .layadmin-tabsbody-item:nth-child(1) .layadmin-iframe{background: none;width: 100%; box-shadow: none;}
 
 /*
 
@@ -946,7 +950,7 @@ html{background-color: #f2f2f2; color: #666;}
     background: url("/layuiadmin/layui/images/icon-f-b.png") no-repeat 46px center !important;
     text-indent: 25px !important;}
 .layui-side-menu .layui-nav .layui-nav-item a.thirdChild:hover{line-height: 41px !important;height: 41px !important;}
-.news{position: fixed;top: 94px;right: 40px;z-index: 999;left: 210px;}
+.news{position: fixed;top: 80px;right: 40px;z-index: 999;left: 260px;}
 .news a{margin: 0 15px;display: inline-block;z-index: 9999;}
 .layui-side-menu .layui-nav-tree .layui-nav-item.layui-this>a{color: white !important;
     background: url(/layuiadmin/layui/images/tree_w_m.png) 10px 14px no-repeat #1890ff;}
@@ -982,12 +986,19 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-leader .deal{background: url("/layuiadmin/layui/images/stpicon_02.png")  0px 22px no-repeat;}
 .layui-leader .notify{background: url("/layuiadmin/layui/images/stpicon_03.png")  0px 22px no-repeat;}
 .layui-leader .QRCode{margin-top: 6px;}
-@media (min-width: 1673px) {
-    .layui-body .layadmin-iframe{    width: 98.8%;}
-}
 @media (min-width: 1033px) {
     .layui-header-nav ul li {
         margin: 0 12px;
     }
     .layui-header-nav{width: 40%;}
 }
+
+/* 弹窗样式 */
+.layui-layer-iframe .layui-layer-content{
+	border-radius: 0 0 3px 3px;
+	overflow: hidden;
+}
+.layui-layer-iframe .layui-layer-title{
+	border-radius: 3px 3px 0 0;
+}
+
