@@ -83,6 +83,7 @@ layui.use(['table'], function(){
       page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
       limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
     }
+    ,parseData: function(res) {return layuiParseData(res);} // 返回数据转换为插件可识别，公共方法
     ,page: true //开启分页
     limit: 10, // 每页数据条数,
     limits: [5, 10, 15, 20], // 配置分页数据条数
