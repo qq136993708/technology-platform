@@ -25,9 +25,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.stp.equipment.JoinUnitWord;
-import com.pcitc.base.stp.report.TechCost;
-import com.pcitc.base.stp.report.TechOrgCount;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysPost;
@@ -112,31 +109,7 @@ public class EquipmentUtils {
 	
 	
 	
-	public static TechCost getTechCost(String id,RestTemplate restTemplate,HttpHeaders httpHeaders)
-	{
-		TechCost	techCost = null;
-		ResponseEntity<TechCost> responseEntity = restTemplate.exchange(GET_COST_URL + id, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), TechCost.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200)
-		{
-			techCost = responseEntity.getBody();
-		}
-		return techCost;
-	}
 	
-	
-	
-	public static TechOrgCount getTechOrgCount(String id,RestTemplate restTemplate,HttpHeaders httpHeaders)
-	{
-		TechOrgCount	techCost = null;
-		ResponseEntity<TechOrgCount> responseEntity = restTemplate.exchange(GET_ORG_URL + id, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), TechOrgCount.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200)
-		{
-			techCost = responseEntity.getBody();
-		}
-		return techCost;
-	}
 	
 	
 	
@@ -1362,134 +1335,6 @@ public class EquipmentUtils {
 	}
 	
 	
-	
-	//项目资金安排--参与单位
-	//2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,0,66,66.00#2020,0,666,666.00;2019-2020,中国石化上海石油化工股份有限公司,0175a09e3fac45e994e446957b714b1e#2019,0,66,66.00#2020,0,666,666.00
-	public  static List<JoinUnitWord> getJoinUnitWordList(String yearFeeStrJoinUnit)
-	{
-		
-		
-		List<JoinUnitWord> joinUnitWordlist=new ArrayList<JoinUnitWord>();
-		if(yearFeeStrJoinUnit!=null && !yearFeeStrJoinUnit.equals(""))
-		{
-			String yearFeeStrJoinUnit_arr[]=yearFeeStrJoinUnit.split(";");//多行
-			if(yearFeeStrJoinUnit_arr!=null && yearFeeStrJoinUnit_arr.length>0)
-			{
-			   for(int i=0;i<yearFeeStrJoinUnit_arr.length;i++)
-			   {
-				   String str=yearFeeStrJoinUnit_arr[i];//2019-2020,中国石化上海石油化工股份有限公司,0175a09e3fac45e994e446957b714b1e#2019,0,100,100#2020,0,200,200
-				   if(str!=null && !str.equals(""))
-				   {
-					   JoinUnitWord joinUnitWord=new JoinUnitWord();
-					   String unitNamestr= str.split("#")[0].split(",")[1];//中国石化上海石油化工股份有限公司
-					   joinUnitWord.setNuitName(unitNamestr);
-					   String arr[]=str.split("#");
-					   if(arr!=null && arr.length>0)
-					   {
-						   List<Map<String, Object>> nuitList = new ArrayList<Map<String, Object>>();
-						   double hj_pt3=0l;
-						   double hj_pt4=0l;
-						   double hj_pt5=0l;
-						   for(int j=1;j<arr.length;j++)
-						   {
-							   String str_value_str=arr[j];//2019,0,100,100
-							   String [] arr_unit_str_temp=str_value_str.split(",");
-							   String ept2=arr_unit_str_temp[0].trim();
-							   String ept3=arr_unit_str_temp[1].trim();
-							   String ept4=arr_unit_str_temp[2].trim();
-							   String ept5=arr_unit_str_temp[3].trim();
-							   Map<String, Object> map_value = new HashMap<String, Object>();
-							   map_value.put("ept2", ept2);
-							   map_value.put("ept3", ept3);
-							   map_value.put("ept4", ept4);
-							   map_value.put("ept5", ept5);
-							   nuitList.add(map_value);
-							   double pt2_double= Double.valueOf(ept3).doubleValue();
-							   hj_pt3=hj_pt3+pt2_double;
-							   
-							   double pt3_double= Double.valueOf(ept4).doubleValue();
-							   hj_pt4=hj_pt4+pt3_double;
-							   
-							   double pt4_double= Double.valueOf(ept5).doubleValue();
-							   hj_pt5=hj_pt5+pt4_double;
-						   }
-						   
-							Map<String, Object> map_temp_pt = new HashMap<String, Object>();
-							map_temp_pt.put("ept2", "合  计");
-							map_temp_pt.put("ept3", hj_pt3);
-							map_temp_pt.put("ept4", hj_pt4);
-							map_temp_pt.put("ept5", hj_pt5);
-							nuitList.add(map_temp_pt);
-							
-						   joinUnitWord.setNuitList(nuitList);
-					   }
-					   joinUnitWordlist.add(joinUnitWord);
-					   
-				   }
-			   }
-			}
-		}
-		
-		return joinUnitWordlist;
-		
-	}
-	
-	//资金概算表
-	public  static Map getBudgetTableList(String budgetTableStr)
-	{
-		System.out.println("---------资金概算表----  源: "+budgetTableStr);
-		Map resultMap=new HashMap();
-		List<Map<String, Object>> budgetTableStrList_zb = new ArrayList<Map<String, Object>>();
-		List<Map<String, Object>> budgetTableStrList_fy= new ArrayList<Map<String, Object>>();
-		String budgetTableStrList_arr[]=budgetTableStr.split("\\|");//多行
-		Float budgetTable_hj=0f;
-		if(budgetTableStrList_arr!=null && budgetTableStrList_arr.length>0)
-		{
-		   for(int i=0;i<budgetTableStrList_arr.length;i++)
-		   {
-			   String str=budgetTableStrList_arr[i];
-			   if(str!=null && !str.equals(""))
-			   {
-				   String temp[]=str.split("#");
-				   Map<String, Object> map = new HashMap<String, Object>();
-				   String content1=temp[0];
-				   
-				   String zj1=temp[1].trim();
-				   String zj2=temp[2].trim();
-				   String zj3=temp[3].trim();
-				   String zj4=temp[4].trim();
-				   map.put("zj1", zj1);
-				   map.put("zj2", zj2);
-				   map.put("zj3", zj3);
-				   map.put("zj4", zj4);
-				  
-				   if(content1.equals("资本性支出"))
-				   {
-					   budgetTableStrList_zb.add(map);
-				   }
-				   if(content1.equals("费用性支出"))
-				   {
-					   budgetTableStrList_fy.add(map);
-				   }
-				   if(zj1.equals("小计"))
-				   {
-					   Float fp3faot= Float.parseFloat(zj3);
-					   budgetTable_hj=budgetTable_hj.floatValue()+fp3faot.floatValue();
-				   }
-			   }
-		   }
-		}
-		
-		JSONArray budgetTableStrList_zb_jSONArray= JSONArray.parseArray(JSON.toJSONString(budgetTableStrList_zb));
-		System.out.println("---------资金概算表--资本性  FTL: "+budgetTableStrList_zb_jSONArray.toString());
-		JSONArray budgetTableStrList_fy_jSONArray= JSONArray.parseArray(JSON.toJSONString(budgetTableStrList_fy));
-		System.out.println("---------资金概算表--费用性   FTL: "+budgetTableStrList_fy_jSONArray.toString());
-		
-		resultMap.put("budgetTable_hj", budgetTable_hj);
-		resultMap.put("budgetTableStrList_zb", budgetTableStrList_zb);
-		resultMap.put("budgetTableStrList_fy", budgetTableStrList_fy);
-		return resultMap;
-	}
 	
 	
 	

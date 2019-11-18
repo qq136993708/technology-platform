@@ -129,8 +129,66 @@ public class ZjkBase implements Serializable {
      * 外系统ID
      */
     private String outSystemId;
+    
+    
+    /**
+              * 启用状态（1启用，0未启用）
+     */
+    private String useStatus;
+    
+    private String zjkAchievementJsonList;
+    private String zjkPatentJsonList;
+    private String zjkProjectJsonList;
+    private String zjkRewardJsonList;
+    
+    
+    
+    
+    
+    
 
-    private static final long serialVersionUID = 1L;
+
+	public String getZjkAchievementJsonList() {
+		return zjkAchievementJsonList;
+	}
+
+	public void setZjkAchievementJsonList(String zjkAchievementJsonList) {
+		this.zjkAchievementJsonList = zjkAchievementJsonList;
+	}
+
+	public String getZjkPatentJsonList() {
+		return zjkPatentJsonList;
+	}
+
+	public void setZjkPatentJsonList(String zjkPatentJsonList) {
+		this.zjkPatentJsonList = zjkPatentJsonList;
+	}
+
+	public String getZjkProjectJsonList() {
+		return zjkProjectJsonList;
+	}
+
+	public void setZjkProjectJsonList(String zjkProjectJsonList) {
+		this.zjkProjectJsonList = zjkProjectJsonList;
+	}
+
+	public String getZjkRewardJsonList() {
+		return zjkRewardJsonList;
+	}
+
+	public void setZjkRewardJsonList(String zjkRewardJsonList) {
+		this.zjkRewardJsonList = zjkRewardJsonList;
+	}
+
+	public String getUseStatus() {
+		return useStatus;
+	}
+
+	public void setUseStatus(String useStatus) {
+		this.useStatus = useStatus;
+	}
+
+	private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;
