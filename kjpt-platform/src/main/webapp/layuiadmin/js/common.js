@@ -1,3 +1,6 @@
+// 公共API
+var webKJQTApi = "/webKJQTApi"
+
 // 获取地址参数
 function getQueryVariable(key) {
   var variable = null;
@@ -42,7 +45,6 @@ function layuiParseData(RelData, callback, number) {
 }
 
 // 会话窗口临时数据传递
-var timeout = 'dialog-data';
 function dialogData(data, key) {
 	// data 为字符串时获取sessionStorage的值；
 	// data 为一个JSON 或者 Array 对象时 设置sessionStorage的值；不能传递 HTML元素
@@ -65,7 +67,6 @@ function dialogData(data, key) {
 		}
 	} else if (typeof(data) === 'object') {
 		if (key && typeof(key) === 'string') {
-			timeout = key;
 			sessionStorage.setItem(key, JSON.stringify(data))
 		} else {
 			sessionStorage.setItem('dialog-data', JSON.stringify(data))
@@ -115,7 +116,7 @@ function httpModule(config) {
 		}
 		// 调用 $.ajax;
 		$.ajax({
-			url: '/webKJQTApi'+config.url,
+			url: webKJQTApi + config.url,
 			type: httpType,
 			data: (function() {
 				if (config.hasOwnProperty('data')) {
