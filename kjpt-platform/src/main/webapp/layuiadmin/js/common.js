@@ -72,6 +72,100 @@ function dialogData(data, key) {
 		}
 	}
 }
+function switchHttpData(dataJson) {
+	if (dataJson != null && typeof(dataJson) === 'object') {
+		var tempData = null;
+		if (dataJson.length) {
+			tempData = [];
+			for (var i = 0; i < dataJson.length; i++) {
+				if (typeof(dataJson[i]) === 'object') {
+					tempData[i] = switchHttpData(dataJson[i]);
+				} else if (dataJson[i] === null) {
+					tempData[i] = '';
+				} else {
+					tempData[i] = dataJson[i];
+				}
+			}
+		} else {
+			tempData = {};
+			for (var key in dataJson) {
+				if (typeof(dataJson[key]) === 'object') {
+					tempData[key] = switchHttpData(dataJson[key]);
+				} else if (dataJson[key] === null) {
+					tempData[key] = '';
+				} else {
+					tempData[key] = dataJson[key];
+				}
+			}
+		}
+		
+		return tempData;
+	} else {
+		return dataJson;
+	}
+}
+// 统一HTTP请求方法调用， 配置项与 $.ajax 参数一样；
+function httpModule(config) {
+	if (config && typeof(config) === 'object') {
+		var httpType = config.type || 'GET';
+		if (httpType === 'get') {
+			httpType = 'GET';
+		} else if (httpType === 'post') {
+			httpType = 'POST';
+		}
+		// 调用 $.ajax;
+		$.ajax({
+			url: '/webKJQTApi'+config.url,
+			type: httpType,
+			data: (function() {
+				if (config.hasOwnProperty('data')) {
+					return JSON.stringify(config.data);
+				}
+			})(),
+			dataType: config.dataType || "json",
+			contentType: config.contentType || 'application/json',
+			async: (function() {
+				if (config.hasOwnProperty('async')) {
+					return config.async;
+				} else {
+					return true;
+				}
+			})(),
+			beforeSend: function(xmlhr) {
+				if (config.hasOwnProperty('beforeSend')) {
+					return config.beforeSend(xmlhr);
+				} else {
+					return true;
+				}
+			},
+			success: function(reldata) {
+				if (config.hasOwnProperty('success')) {
+					return config.success(reldata);
+				}
+			},
+			error: function(err) {
+				if (config.hasOwnProperty('error')) {
+					config.error(err);
+				}
+			},
+			complete: function(XHR, TS) {
+				if (config.hasOwnProperty('complete')) {
+					config.complete(XHR, TS);
+				}
+			},
+			dataFilter: function(data, dataType) {
+				if (dataType === 'json') {
+					return JSON.stringify(switchHttpData(JSON.parse(data)));
+				} else {
+					return data;
+				}
+			}
+		});
+		
+	} else {
+		top.layer.msg('HTTP请求配置有误！', {icon: 2});
+	}
+}
 
 
 // 
@@ -80,6 +174,7 @@ layui.use(['jquery'], function() {
 	
 	// 关闭 top层 所有弹窗
 	$('.close-all-dialog').click(function() {
+		dialogData({code: 'close'});
 		top.layer.closeAll();
 	})
 })
