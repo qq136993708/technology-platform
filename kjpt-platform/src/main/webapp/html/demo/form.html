@@ -29,7 +29,7 @@
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label">申请类型：</label>
+          <label class="layui-form-label"><span class="text">申请类型：</span></label>
           <div class="layui-input-block">
             <select name="applicationType">
               <option value=""></option>
@@ -44,7 +44,7 @@
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label">日期：</label>
+          <label class="layui-form-label"><span class="text">日期：</span></label>
           <div class="layui-input-block">
             <input type="text" name="appDateTime" id="appDateTime" autocomplete="off" placeholder="请选择" class="laydate-input">
           </div>
@@ -52,7 +52,7 @@
       </div>
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
         <div class="layui-form-item">
-          <label class="layui-form-label">申请费用：</label>
+          <label class="layui-form-label"><span class="text">申请费用：</span></label>
           <div class="layui-input-inline">
             <input type="text" name="applicationFee" lay-verify="number" placeholder="请填写..." autocomplete="off" class="layui-input">
           </div>
@@ -60,7 +60,7 @@
       </div>
       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
         <div class="layui-form-item">
-          <label class="layui-form-label">摘要：</label>
+          <label class="layui-form-label"><span class="text">摘要：</span></label>
           <div class="layui-input-block">
             <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
           </div>
@@ -150,7 +150,7 @@ layui.use(['form'], function(){
 &lt;!-- 输入框 - 必填required 不要搜索按钮直接删掉 let-input-search类名与 &lt;span class="search-icon"> 标签 -->
 // &lt;i class="layui-icon layui-icon-search">&lt;/i> 标签可根据需要换成其他图标
 &lt;div class="layui-form-item">
-  &lt;label class="layui-form-label label-required">单位名称：&lt;/label>
+  &lt;label class="layui-form-label label-required">&lt;span class="text">单位名称：&lt;/span>&lt;/label>
   &lt;div class="layui-input-block let-input-search">
     &lt;input type="text" name="companyName" lay-verify="required" placeholder="请填写..." autocomplete="off" class="layui-input">
     &lt;span class="search-icon">
@@ -160,14 +160,14 @@ layui.use(['form'], function(){
 &lt;/div>
 &lt;!-- 文本域 -->
 &lt;div class="layui-form-item">
-  &lt;label class="layui-form-label">摘要：&lt;/label>
+  &lt;label class="layui-form-label">&lt;span class="text">摘要：&lt;/span>&lt;/label>
   &lt;div class="layui-input-block">
     &lt;textarea name="desc" placeholder="请输入内容" class="layui-textarea">&lt;/textarea>
   &lt;/div>
 &lt;/div>
 &lt;!-- 下拉框 -->
 &lt;div class="layui-form-item">
-  &lt;label class="layui-form-label">国别组织：&lt;/label>
+  &lt;label class="layui-form-label">&lt;span class="text">国别组织：&lt;/span>&lt;/label>
   &lt;div class="layui-input-block">
     &lt;select name="countryGroup">
       &lt;option value="">&lt;/option>
@@ -183,7 +183,7 @@ layui.use(['form'], function(){
 &lt;!-- 日期选择控件 start -->
 &lt;div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
   &lt;div class="layui-form-item">
-    &lt;label class="layui-form-label">申请日期：&lt;/label>
+    &lt;label class="layui-form-label">&lt;span class="text">申请日期：&lt;/span>&lt;/label>
     &lt;div class="layui-input-block">
       &lt;input type="text" name="appDate" id="appDate" autocomplete="off" placeholder="请选择" class="laydate-input">
     &lt;/div>

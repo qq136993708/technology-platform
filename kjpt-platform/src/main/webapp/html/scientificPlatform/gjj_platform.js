@@ -57,7 +57,17 @@ layui.use(['form', 'table', 'layer'], function(){
 	      title: dialogTitle,
 	      area: ['880px', '70%'],
 		  content: '/html/scientificPlatform/addPlatformDialog.html?id='+type,
-		  btn: null
+		  btn: null,
+		  end: function() {
+			  var relData = top.dialogData('dialog-data');
+			  if (relData.code !== 'colse') {
+				  if (relData.code === '0') {
+					  layer.msg(relData.message);
+				  } else {
+					  layer.msg(relData.message);
+				  }
+			  }
+		  }
 	});
   }
   
