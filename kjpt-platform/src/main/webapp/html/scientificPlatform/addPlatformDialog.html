@@ -93,7 +93,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">平台类型：</span></label>
            <div class="layui-input-block">
-             <select name="platformType">
+             <select name="type">
                <option value=""></option>
                <option value="0">北京</option>
                <option value="1">上海</option>
@@ -155,33 +155,40 @@
 
 <script>
 layui.use(['form', 'jquery'], function(){
-	var $ = layui.jquery;
-	var form = layui.form;
-	
-	// 获取地址栏传递过来的参数
-	var variable = getQueryVariable();
-	console.log('variable => ', variable);
+  var $ = layui.jquery;
+  var form = layui.form;
+  
 
-	httpModule({
-		url: '/platform-api/newInit',
-		type: 'GET',
-		success: function(relData) {
-			if (relData.code === '0') {
-				// 给form表单赋初始值
-				form.val('formPlatform', relData.data);
-			}
-		},
-		dataType: "json",
-		contentType: 'application/json'
-	});
-	
+  function getItemInitData(item) {
+    var httpUrl = '/platform-api/newInit';
+    if (item && item.id) {
+      httpUrl = '/platform-api/load/' + item.id;
+    }
+    httpModule({
+      url: httpUrl,
+      type: 'GET',
+      success: function(relData) {
+        if (relData.code === '0') {
+          // 给form表单赋初始值
+          form.val('formPlatform', relData.data);
+          // 更新表单数据
+          form.render();
+        }
+      }
+    });
+  }
+  
+	// 获取地址栏传递过来的参数
+  var variable = getQueryVariable();
+  getItemInitData(variable);
+
 	form.on('submit(newSubmit)', function(data) {
 		httpModule({
 			url: '/platform-api/save',
 			data: data.field,
 			type: "POST",
 			success: function(e) {
-				top.dialogData({code: e.code, message: e.message}); // 通知上层页面状态 - 弹窗中使用
+				setDialogData(e); // 通知上层页面状态 - 弹窗中使用
 				top.layer.closeAll(); // 关闭弹窗
 			}
 		});
