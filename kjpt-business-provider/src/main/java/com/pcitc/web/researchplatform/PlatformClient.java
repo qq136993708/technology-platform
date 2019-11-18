@@ -20,6 +20,7 @@ import java.util.Map;
 
 @Api(value = "researchPlatform-api", description = "国家科研平台接口")
 @RestController
+@RequestMapping(value = "/researchPlatform-api")
 public class PlatformClient {
 
     @Autowired
@@ -46,7 +47,7 @@ public class PlatformClient {
     }*/
 
     @ApiOperation(value = "查询科研平台列表", notes = "查询科研平台列表")
-    @RequestMapping(value = "/researchPlatform-api/query", method = RequestMethod.POST)
+    @RequestMapping(value = "/query", method = RequestMethod.POST)
     public PageInfo query(@RequestBody(required = false) Map param){
         return ps.query(param);
     }
