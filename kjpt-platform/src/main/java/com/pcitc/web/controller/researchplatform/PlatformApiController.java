@@ -41,6 +41,7 @@ public class PlatformApiController extends RestBaseController {
     /**
      * 查询平台列表
      */
+   // private static final String query = "http://kjpt-zuul/stp-proxy/expert/page";
     private static final String query = "http://kjpt-zuul/stp-proxy/researchPlatform-api/query";
     /**
      * 保存平台

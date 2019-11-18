@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcitc.mapper.expert.ZjkBaseMapper">
-  <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkBase">
+ <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkBase">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="del_status" jdbcType="VARCHAR" property="delStatus" />
     <result column="num" jdbcType="VARCHAR" property="num" />
@@ -22,11 +22,16 @@
     <result column="brief" jdbcType="VARCHAR" property="brief" />
     <result column="achievement" jdbcType="VARCHAR" property="achievement" />
     <result column="head_pic" jdbcType="VARCHAR" property="headPic" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
   </resultMap>
   <sql id="Base_Column_List">
     id, del_status, num, personnel_num, source_type, `name`, sex, age, id_card_no, education, 
     technical_field, belong_unit, title, post, work_experience, contact_way, email, brief, 
-    achievement, head_pic
+    achievement, head_pic, create_time, create_user, update_time, update_user, out_system_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -45,14 +50,18 @@
       technical_field, belong_unit, title, 
       post, work_experience, contact_way, 
       email, brief, achievement, 
-      head_pic)
+      head_pic, create_time, create_user, 
+      update_time, update_user, out_system_id
+      )
     values (#{delStatus,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, #{personnelNum,jdbcType=VARCHAR}, 
       #{sourceType,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{age,jdbcType=INTEGER}, #{idCardNo,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
       #{technicalField,jdbcType=VARCHAR}, #{belongUnit,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
       #{post,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, #{contactWay,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, #{achievement,jdbcType=VARCHAR}, 
-      #{headPic,jdbcType=VARCHAR})
+      #{headPic,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{outSystemId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkBase" useGeneratedKeys="true">
     insert into zjk_base
@@ -114,6 +123,21 @@
       <if test="headPic != null">
         head_pic,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="outSystemId != null">
+        out_system_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="delStatus != null">
@@ -172,6 +196,21 @@
       </if>
       <if test="headPic != null">
         #{headPic,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="outSystemId != null">
+        #{outSystemId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -235,6 +274,21 @@
       <if test="headPic != null">
         head_pic = #{headPic,jdbcType=VARCHAR},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="outSystemId != null">
+        out_system_id = #{outSystemId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -258,31 +312,29 @@
       email = #{email,jdbcType=VARCHAR},
       brief = #{brief,jdbcType=VARCHAR},
       achievement = #{achievement,jdbcType=VARCHAR},
-      head_pic = #{headPic,jdbcType=VARCHAR}
+      head_pic = #{headPic,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      out_system_id = #{outSystemId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
   
-  
-  
-  
-  
-  
    
-     <sql id="selectCondition">
+   <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="name != null and name  !='' ">               AND t.name like CONCAT('%',#{name},'%')</if>
 	 </trim>
 	</sql>
 	
-	 
-    
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
      select * from zjk_base t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
-        ORDER BY  create_date desc
+        ORDER BY  create_time desc
       </otherwise>
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
@@ -291,7 +343,6 @@
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
       SELECT count(*) FROM zjk_base t <include refid="selectCondition"/>
     </select>
-  
   
   
 </mapper>

@@ -10,7 +10,7 @@ import com.pcitc.base.expert.ZjkBase;
 @Repository
 public interface ZjkBaseMapper  {
 	
-	 int deleteByPrimaryKey(String id);
+	    int deleteByPrimaryKey(String id);
 
 	    int insert(ZjkBase record);
 
@@ -23,5 +23,6 @@ public interface ZjkBaseMapper  {
 	    int updateByPrimaryKey(ZjkBase record);
 	    
 	    List getList(Map map);
+	    
 	    int getCount(Map map);
 }
