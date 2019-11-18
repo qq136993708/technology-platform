@@ -138,10 +138,10 @@
 		</dependency>
 
 		<!-- redis缓存 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
+		</dependency> -->
 
 		<!-- 解决事务问题，引入mq -->
 		<dependency>
@@ -264,7 +264,7 @@
 		<!-- Activiti end -->
 
 		<!--ES -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.elasticsearch</groupId>
 			<artifactId>elasticsearch</artifactId>
 		</dependency>
@@ -275,7 +275,7 @@
 		<dependency>
 			<groupId>org.elasticsearch.client</groupId>
 			<artifactId>elasticsearch-rest-high-level-client</artifactId>
-		</dependency>
+		</dependency> -->
 		<!--doc -->
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>

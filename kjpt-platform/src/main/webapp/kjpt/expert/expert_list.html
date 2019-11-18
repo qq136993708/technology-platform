@@ -111,7 +111,7 @@ var table,selectRowData;
                     maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                    area: ['70%', '90%'],
-                    content:  '/kjpt/expert/expert_add.html'
+                    content:  '/kjpt/expert/expert_add'
                 });
             }
             ,editEvent: function(){  //点击编辑按钮
@@ -119,8 +119,8 @@ var table,selectRowData;
             	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            		 var meetingId=selectRowData.meetingId;
-           		     var url="/sre-meeting/update?meetingId="+meetingId;
+            		 var id=selectRowData.id;
+           		     var url="/kjpt/expert/expert_edit?id="+id;
            		     
            		  layer.open({
                       name:'新增',

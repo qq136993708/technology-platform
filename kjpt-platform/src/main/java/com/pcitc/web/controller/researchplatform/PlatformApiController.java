@@ -9,6 +9,8 @@ import com.pcitc.base.util.HttpConnectionUtils;
 import com.pcitc.web.common.ApiResponseBody;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
@@ -54,24 +56,34 @@ public class PlatformApiController extends RestBaseController {
     @ApiOperation(value="读取")
     @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public PlatformInfoModel loadOne(@PathVariable String id) {
+    public PlatformInfoModel load(@PathVariable String id) {
         ResponseEntity<PlatformInfoModel> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), PlatformInfoModel.class);
         return responseEntity.getBody();
     }
 
 
     @ApiOperation(value = "查询科研平台列表", notes = "查询科研平台列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
+            @ApiImplicitParam(name = "platformName", value = "平台名称", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "supportingInstitutions", value = "依托单位", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "personLiable", value = "主要负责人", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "researchField", value = "科研经费", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "platformScorinHigh", value = "平台评分区间高", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "platformScorinLow", value = "平台评分区间低", dataType = "string", paramType = "query")
+    })
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ResponseBody
-    public PageInfo getList(
-            @RequestParam(required = false,value = "页码") Integer pageNum,
-            @RequestParam(required = false,value = "每页显示条数") Integer pageSize,
-            @RequestParam(required = false,value = "平台名称") String platformName,
-            @RequestParam(required = false,value = "依托单位") String supportingInstitutions,
-            @RequestParam(required = false,value = "主要负责人") String personLiable,
-            @RequestParam(required = false,value = "科研经费") String researchField,
-            @RequestParam(required = false,value = "平台评分区间高") String platformScorinHigh,
-            @RequestParam(required = false,value = "平台评分区间低") String platformScorinLow
+    public PageInfo query(
+            @RequestParam(required = false,value = "pageNum") Integer pageNum,
+            @RequestParam(required = false,value = "pageSize") Integer pageSize,
+            @RequestParam(required = false,value = "platformName") String platformName,
+            @RequestParam(required = false,value = "supportingInstitutions") String supportingInstitutions,
+            @RequestParam(required = false,value = "personLiable") String personLiable,
+            @RequestParam(required = false,value = "researchField") String researchField,
+            @RequestParam(required = false,value = "platformScorinHigh") String platformScorinHigh,
+            @RequestParam(required = false,value = "platformScorinLow") String platformScorinLow
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);

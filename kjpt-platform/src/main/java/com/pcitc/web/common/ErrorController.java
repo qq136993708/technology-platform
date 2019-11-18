@@ -2,10 +2,9 @@ package com.pcitc.web.common;
 
 import com.pcitc.base.common.Result;
 import com.pcitc.base.exception.SysException;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 /**
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @author ty
  */
 
-@RestControllerAdvice
+@ControllerAdvice
 @CrossOrigin(allowCredentials = "true")
 public class ErrorController extends BaseController{
 

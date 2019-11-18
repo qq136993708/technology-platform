@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.annotations.Param;
-import org.elasticsearch.client.transport.TransportClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -104,7 +103,6 @@ public class SysFileServiceImpl implements SysFileService {
 	SysFileConfigService			sysFileConfigService;
 
 	
-	private static TransportClient client;
 	
 	
 

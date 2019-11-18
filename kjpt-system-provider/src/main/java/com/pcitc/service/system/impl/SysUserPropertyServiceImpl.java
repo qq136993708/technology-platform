@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +34,6 @@ import com.pcitc.service.system.SysUserPropertyService;
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 
-	@Autowired
-	private RedisTemplate redisTemplate;
 
 	@Autowired
 	private SysUserPropertyMapper userPropertyDao;
