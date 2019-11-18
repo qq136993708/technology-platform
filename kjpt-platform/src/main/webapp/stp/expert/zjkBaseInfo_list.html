@@ -329,12 +329,12 @@
                     return;
                 }
                 layer.confirm('确定要执行冻结吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
-                        layer.close(index);
-                        ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId,"bak1":"1","sysFlag":"1"}, function (data) {
-                            layer.msg("操作成功");
-                            loadtable();
-                        });
-                    });
+                      layer.close(index);
+                      ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId,"bak1":"1","sysFlag":"1"}, function (data) {
+                          layer.msg("操作成功");
+                          loadtable();
+                      });
+                  });
             }
             ,
             jdEvent: function () { //解冻
