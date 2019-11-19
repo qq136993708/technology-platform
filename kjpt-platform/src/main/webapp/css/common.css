@@ -151,6 +151,10 @@ body > .layui-layout{
 .font24 { font-size: 24px; }
 
 /* 下拉目录树 */
+.xm-select-parent .xm-input {
+  border-color: #aaa;
+  border-radius: 5px;
+}
 .xm-select-parent dl dd > i.icon-expand{
   visibility: hidden !important;
 }

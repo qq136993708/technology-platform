@@ -190,17 +190,23 @@ layui.use(['formSelects'], function(){
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script>
-layui.use(['form', 'formSelects', 'jqZtreeCore', 'tree', 'jquery'], function(){
+layui.use(['form', 'jquery', 'formSelects'], function(){
   var form = layui.form;
   var $ = layui.jquery;
   var tree = layui.tree;
-  var jqZtreeCore = layui.jqZtreeCore;
+  var selectData = [
+    {value:'0', name: '北京'},
+    {value: '1', name: '上海'},
+    {value: '2', name: '广州'},
+    {value: '3', name: '深圳'},
+    {value: '4', name: '杭州'}
+  ];
 	
   var formSelects = layui.formSelects;
   formSelects.value('applaType2', ['0', '1']);
   
   form.render('select');
-  //监听表单下属性 lay-filter="applicationType" 的select下拉框选中事件；
+  // //监听表单下属性 lay-filter="applicationType" 的select下拉框选中事件；
   form.on('select(applaType)', function(data) {
   	console.log('select事件 => change', data);
   })
