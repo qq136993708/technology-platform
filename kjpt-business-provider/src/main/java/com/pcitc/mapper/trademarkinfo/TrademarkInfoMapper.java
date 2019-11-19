@@ -17,7 +17,7 @@ public interface TrademarkInfoMapper {
 
     int insert(TrademarkInfo record);
 
-    TrademarkInfo insertSelective(TrademarkInfo record);
+    int insertSelective(TrademarkInfo record);
 
     List<TrademarkInfo> selectByExample(TrademarkInfoExample example);
 
@@ -29,7 +29,7 @@ public interface TrademarkInfoMapper {
 
     int updateByPrimaryKeySelective(TrademarkInfo record);
 
-    TrademarkInfo updateByPrimaryKey(TrademarkInfo record);
+    int updateByPrimaryKey(TrademarkInfo record);
 
     List<TrademarkInfo> queryTrademarkList(Map param);
 }

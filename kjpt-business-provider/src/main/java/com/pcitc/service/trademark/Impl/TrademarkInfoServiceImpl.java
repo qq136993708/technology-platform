@@ -8,6 +8,7 @@ import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.patent.PatentInfoExample;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfoExample;
+import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.mapper.patent.PatentInfoMapper;
@@ -40,11 +41,13 @@ public class TrademarkInfoServiceImpl implements TrademarkInfoService {
     private TrademarkInfoMapper trademarkInfoMapper;
 
     public TrademarkInfo updateOrInsertTrademarkInfo(TrademarkInfo trademarkInfo) {
-        if(Objects.nonNull(trademarkInfo.getId())&&!"".equals(trademarkInfo.getId())){
-            return trademarkInfoMapper.updateByPrimaryKey(trademarkInfo);
+        IsEmptyUtil.isEmpty(trademarkInfo.getId());
+        if(this.getTrademarkInfo(trademarkInfo.getId()) != null){
+            trademarkInfoMapper.updateByPrimaryKey(trademarkInfo);
         }else{
-            return trademarkInfoMapper.insertSelective(trademarkInfo);
+            trademarkInfoMapper.insertSelective(trademarkInfo);
         }
+        return trademarkInfo;
     }
 
     public PageInfo queryTrademarkList(Map param) {
@@ -58,7 +61,7 @@ public class TrademarkInfoServiceImpl implements TrademarkInfoService {
     }
 
 
-    public TrademarkInfo getTrademarkInfo(String id) throws Exception {
+    public TrademarkInfo getTrademarkInfo(String id){
         return trademarkInfoMapper.selectByPrimaryKey(id);
     }
 
