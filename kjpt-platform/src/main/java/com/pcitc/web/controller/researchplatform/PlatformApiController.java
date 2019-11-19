@@ -62,7 +62,7 @@ public class PlatformApiController extends RestBaseController {
     }
 
 
-    
+
     @ApiOperation(value="读取")
     @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
     @ResponseBody
