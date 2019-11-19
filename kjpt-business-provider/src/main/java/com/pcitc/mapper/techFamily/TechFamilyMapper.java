@@ -71,5 +71,5 @@ public interface TechFamilyMapper {
 	public String getMaxTechTypeCode(HashMap<String, String> map);
 	
 	
-	 List getTechFamilyListByCodes(List list);
+	public List<TechFamily> getTechFamilyListByCodes(List list);
 }

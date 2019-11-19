@@ -8,12 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
@@ -35,12 +36,11 @@ public class SysDictionaryApiController extends BaseController {
         @ApiImplicitParam(name = "code", value = "字典编号", dataType = "string", paramType = "query",required=true)
     })
 	@RequestMapping(value = "/sysDictionary-api/getChildsListByCode/{code}", method = RequestMethod.GET)
-	public String getChildsListByCode(@PathVariable("code") String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
-   	    
+	public String getChildsListByCode( @PathVariable("code") String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	Result resultsDate = new Result();
    	    List<SysDictionary> list=	EquipmentUtils.getSysDictionaryListByParentCode(code, restTemplate, httpHeaders);
    	    resultsDate.setData(list);
-   	    resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
+   	   
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		return result.toString();
 	}
@@ -62,7 +62,7 @@ public class SysDictionaryApiController extends BaseController {
       	Result resultsDate = new Result();
      	SysDictionary sysDictionary=	EquipmentUtils.getDictionaryByCode(code, restTemplate, httpHeaders);
      	resultsDate.setData(sysDictionary);
-  	    resultsDate = new Result(true,RequestProcessStatusEnum.OK.getStatusDesc());
+  	   
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		return result.toString();
 	}

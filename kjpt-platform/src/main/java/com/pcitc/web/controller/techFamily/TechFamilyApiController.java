@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.web.common.BaseController;
 
@@ -86,8 +86,8 @@ public class TechFamilyApiController extends BaseController{
 			}
 		}
 		resultsDate.setData(returnlist);
-		resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		SimplePropertyPreFilter filter = new SimplePropertyPreFilter(TechFamily.class, "createDate","typeIndex");  
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate,filter));
 		return result.toString();
 	}
 	
