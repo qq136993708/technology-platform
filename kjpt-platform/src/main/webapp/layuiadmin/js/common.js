@@ -218,7 +218,7 @@ function _commonLoadDic(dicKindCode) {
   
 
   
-  function bindDic(selector, dicKindCode, form, filter) {
+  function bindSelectorDic(selector, dicKindCode, form, filter) {
    
 	var __dicData = _getDicStore();
 	var dic = __dicData[dicKindCode];
@@ -246,9 +246,45 @@ function _commonLoadDic(dicKindCode) {
   }
   
   
+  function transInputDic(input, dicKindCode) {
+	
+	var code = input.val();
+ 
+	var __dicData = _getDicStore();
+	var dic = __dicData[dicKindCode];
+	if (dic != null && dic.length) {
+		for(var i=0;i<dic.length;i++) {
+			if(dic[i].numValue === code) {
+				input.val(dic[i].name) ; 
+			}
+		}
+ 		
+	} else {
+		$(document).on('dicLoad_' + dicKindCode, function(event, param) {
+
+			var data = param.data;
+			var text = code;
+			for(var i=0;i<data.length;i++) {
+				if(data[i].numValue === code) {
+					text = data[i].name;
+					break;
+				}
+			}
+
+			input.val(text) ; 
+		});
+  
+		if (dic !== 0) {
+			_commonLoadDic(dicKindCode);
+		}
+   
+	}
+  
+  }
+
   
   
-  function transDic(dicKindCode, code) {
+  function transFieldDic(dicKindCode, code) {
 	
 	if (code == null) {
 		return '';

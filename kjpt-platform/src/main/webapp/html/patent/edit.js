@@ -26,6 +26,10 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           // 更新表单数据
           form.render();
 
+          
+            transInputDic($("#applicationType"), 'ROOT_KJPT_ZLFW');
+            transInputDic($("#patentType"), 'ROOT_KJPT_ZLZL');
+
           setRadioShow();
         }
       }

@@ -158,8 +158,8 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 
 
 
-  bindDic($("#applicationType"), 'ROOT_KJPT_ZLFW', form);
-  bindDic($("#patentType"), 'ROOT_KJPT_ZLZL', form);
+  bindSelectorDic($("#applicationType"), 'ROOT_KJPT_ZLFW', form);
+  bindSelectorDic($("#patentType"), 'ROOT_KJPT_ZLZL', form);
   
  
 });
