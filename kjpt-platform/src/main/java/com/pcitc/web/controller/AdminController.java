@@ -1,6 +1,5 @@
 package com.pcitc.web.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -24,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,19 +30,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.ChartBarLineResultData;
-import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.constant.SysConstant;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
-import com.pcitc.base.system.SysModule;
 import com.pcitc.base.system.SysNews;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.system.SysUserShowConfig;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.HostUtil;
@@ -66,7 +60,6 @@ public class AdminController extends BaseController {
 
 	// 访问zuul中的登录方法
 	private static final String LOGIN_URL = "http://kjpt-zuul/auth/login";
-	private static final String GET_USER_INFO_IP = "http://kjpt-zuul/system-proxy/user-provider/user/get-user-byname/";
 	private static final String USER_DETAILS_URL = "http://kjpt-zuul/system-proxy/user-provider/user/user-details/";
 	private static final String GET_USER_INFO = "http://kjpt-zuul/system-proxy/user-provider/user/get-user-byname/";
 	private static final String UPD_USER_INFO = "http://kjpt-zuul/system-proxy/user-provider/user/update-user";
@@ -76,36 +69,12 @@ public class AdminController extends BaseController {
 	// 待办任务数
 	private static final String PENDING_TASK_COUNT = "http://kjpt-zuul/system-proxy/task-provider/pending-task-count";
 
-	// 专利数量（研究院）
-	private static final String PATENT_COUNT = "http://kjpt-zuul/system-proxy/out-patent-provider/patent-count";
-	// 科技奖励数量（研究院）
-	private static final String APPRAISAL_COUNT = "http://kjpt-zuul/system-proxy/out-provider/appraisal-count";
-	// 科研项目数量、科研装备项目数量、新开项目金额、新开和结转的总金额（研究院）
-	private static final String PROJECT_COUNT = "http://kjpt-zuul/system-proxy/out-provider/project-count";
-	// 新开的国家项目、重点项目、重大项目、其他项目的统计
-	private static final String NEW_PROJECT_COUNT = "http://kjpt-zuul/system-proxy/out-project-provider/type/new";
-	// 新开的国家项目、重点项目、重大项目、其他项目和去年比
-	private static final String NEW_PROJECT_RATE = "http://kjpt-zuul/system-proxy/out-project-provider/type/last-year/rate";
+	
 	// 收藏菜单
 	private static final String COLLECT_FUNCTION = "http://kjpt-zuul/system-proxy/syscollect-provider/sys_collect/add";
 
-	// 系统统计功能模块列表
-	private static final String MODULE_LIST = "http://kjpt-zuul/system-proxy/sysModule-provider/sysModule_list";
 
-	// 系统统计功能模块列表
-	private static final String USER_SHOW_LIST = "http://kjpt-zuul/system-proxy/sysconfig-provider/user/show/config/";
 
-	// 工作完成情况统计
-	private static final String WORKORDER_STAT = "http://kjpt-zuul/system-proxy/planbase-provider/workorder/stat";
-
-	// 项目管理系统通知公告
-	private static final String PROJECT_NOTICE = "http://kjpt-zuul/system-proxy/out-notice/type/page";
-	private static final String PROJECT_NOTICE_DETAILS = "http://kjpt-zuul/system-proxy/out-notice/type/notice/";
-
-	// 获取项目管理系统的待办任务
-	private static final String XMGL_PENDING = "http://kjpt-zuul/system-proxy/out-wait-work/xmgl/page";
-
-	private static final String LEADER_WORK = "http://kjpt-zuul/system-proxy/planClient-provider/leader/work/list";
 
 	private Integer TIME_OUT = 1 * 60 * 60;
 
@@ -336,51 +305,7 @@ public class AdminController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/instituteIndex")
-	public String instituteIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		SysUser sysUserInfo = getUserProfile();
-		String url = CommonUtil.getParameter(request, "url", "");
-		request.setAttribute("url", url);
-
-		url = java.net.URLDecoder.decode(request.getParameter("url"), "UTF-8");// 名称检索条件
-
-		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-
-		SysUser userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-
-		// 收藏的菜单
-		List<SysCollect> scList = userDetails.getScList();
-		request.setAttribute("scList", scList);
-
-		List<SysFunction> funList = userDetails.getFunList();
-		List<SysFunction> upList = new ArrayList<SysFunction>();
-		// 个人工作台菜单
-		List<SysFunction> grgztList = new ArrayList<SysFunction>();
-		HashSet authSet = new HashSet();
-		for (SysFunction sysfun : funList) {
-			if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台") && !sysfun.getName().contains("权限")) {
-				upList.add(sysfun);
-			}
-
-			if (sysfun.getParentCode() != null && sysfun.getParentCode().startsWith("1027") && !sysfun.getName().equals("个人工作台")) {
-				// System.out.println("个人工作台================"+sysfun.getName());
-				grgztList.add(sysfun);
-			}
-			if (sysfun.getUrl() != null && !sysfun.getUrl().contains("#") && sysfun.getUrl().split("/").length > 1) {
-				authSet.add(sysfun.getUrl().split("/")[1]);
-			}
-		}
-		request.getSession().setAttribute("authSet", authSet);
-		request.setAttribute("funList", funList);
-		request.setAttribute("grgztList", grgztList);
-		request.setAttribute("upList", upList);
-		request.setAttribute("userInfo", userDetails);
-
-		getContractParameter(request, response);
-		request.setAttribute("userId", userDetails.getUserId());
-		return "/instituteIndex";
-	}
+	
 
 	@RequestMapping(value = "/instituteRedrect")
 	public String instituteRedrect(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -392,41 +317,7 @@ public class AdminController extends BaseController {
 		return url;
 	}
 
-	public void getContractParameter(HttpServletRequest request, HttpServletResponse response) {
-		String nd = CommonUtil.getParameter(request, "nd", "");// 项目名
-		String ysnd = CommonUtil.getParameter(request, "ysnd", "");// 项目名
-		String xmmc = CommonUtil.getParameter(request, "xmmc", "");// 项目名
-		String hth = CommonUtil.getParameter(request, "hth", "");// 合同号
-		String define1 = CommonUtil.getParameter(request, "define1", "");// 资本性、费用性
-		String define2 = CommonUtil.getParameter(request, "define2", "");// 8大院等细分结构
-		String define3 = CommonUtil.getParameter(request, "define3", "");// 直属研究院、分子公司、集团等9种类型
-		String project_property = CommonUtil.getParameter(request, "project_property", "");// 国家项目、重大专项、重点项目、其他项目
-		String project_scope = CommonUtil.getParameter(request, "project_scope", "");// 新开项目、续建项目、完工项目
-		String zylb = CommonUtil.getParameter(request, "zylb", "");// 装备的各种技术类型
-		String zycmc = CommonUtil.getParameter(request, "zycmc", "");// 各个处室
-
-		request.setAttribute("nd", nd);
-		request.setAttribute("ysnd", ysnd);
-
-		request.setAttribute("zycmc", zycmc);
-		request.setAttribute("xmmc", xmmc);
-		request.setAttribute("hth", hth);
-		request.setAttribute("define1", define1);
-		request.setAttribute("define2", define2);
-		request.setAttribute("define3", define3);
-		request.setAttribute("project_property", project_property);
-		request.setAttribute("project_scope", project_scope);
-		request.setAttribute("zylb", zylb);
-
-		String projectId = CommonUtil.getParameter(request, "projectId", "");
-		request.setAttribute("projectId", projectId);
-
-	}
-
-	private static final String MY_BOT_WORK_ORDER_LIST = "http://kjpt-zuul/system-proxy/planClient-provider/my/botWorkOrder_list";
-	private static final String BOT_WORK_ORDER_LIST = "http://kjpt-zuul/system-proxy/planClient-provider/botWorkOrder_list";
-
-	private static final String selectSonPlanBasesByCreateUserId = "http://kjpt-zuul/system-proxy/planClient-provider/selectSonPlanBasesByCreateUserId";
+	
 
 	/**
 	 * 首页的具体内容
@@ -450,36 +341,7 @@ public class AdminController extends BaseController {
 		String unitCode = sysUserInfo.getUnitCode();
 		request.setAttribute("unitCode", unitCode);
 
-		// 获取任务
-		LayuiTableParam param = new LayuiTableParam();
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("createUserId", sysUserInfo.getUserId());
-		HttpEntity<JSONObject> entity = new HttpEntity<JSONObject>(jsonObject, this.httpHeaders);
-		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(selectSonPlanBasesByCreateUserId, HttpMethod.POST, entity, JSONObject.class);
-		JSONObject result = responseEntity.getBody();
-		List<Map<String, Object>> planBases = (List<Map<String, Object>>) result.get("list");
-		for (int i = 0, j = planBases.size(); i < j; i++) {
-			Map<String, Object> base = planBases.get(i);
-			String[] workOrderName = base.get("workOrderAllotUserName").toString().split(",");
-			if (workOrderName.length > 1) {
-				planBases.get(i).put("workOrderAllotUserName", workOrderName[0] + "等" + workOrderName.length + "人正在处理");
-			}
-		}
-		request.setAttribute("taskList", planBases);
 
-		param = new LayuiTableParam();
-		Map<String, Object> map = param.getParam();
-		map.put("workOrderAllotUserId", sysUserInfo.getUserId());
-		map.put("workOrderStatus", "1");
-		map.put("isSchedule", "0"); // 只显示未定时的
-		map.put("isChildren", "1");
-		map.put("bak7", "0");
-		param.setParam(map);
-		param.setLimit(10); // 首页不能过多显示
-		HttpEntity<LayuiTableParam> entityMy = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntityMy = this.restTemplate.exchange(MY_BOT_WORK_ORDER_LIST, HttpMethod.POST, entityMy, LayuiTableData.class);
-		LayuiTableData resultMy = responseEntityMy.getBody();
-		request.setAttribute("taskListMy", resultMy.getData());
 
 		SysUser sysUser = EquipmentUtils.getSysUserByUserId(sysUserInfo.getUserId(), restTemplate, httpHeaders);
 		List<SysCollect> scList = sysUser.getScList();
@@ -497,16 +359,7 @@ public class AdminController extends BaseController {
 		boolean isKJBPerson = EquipmentUtils.isKJBPerson(unitPathId);
 		request.setAttribute("isKJBPerson", isKJBPerson);
 
-		// oa系统的服务器地址
-		request.setAttribute("outOAIp", "10.1.4.10");
 
-		// 获取其他系统的通知公告
-		LayuiTableParam noticePara = new LayuiTableParam();
-		noticePara.setLimit(10);
-		HttpEntity<LayuiTableParam> noticeEntity = new HttpEntity<LayuiTableParam>(noticePara, this.httpHeaders);
-		ResponseEntity<LayuiTableData> noticeRes = this.restTemplate.exchange(PROJECT_NOTICE, HttpMethod.POST, noticeEntity, LayuiTableData.class);
-		LayuiTableData noticeJTD = noticeRes.getBody();
-		request.setAttribute("noticeList", noticeJTD.getData());
 		
 		// 获取登录人员职务
 		request.setAttribute("userPosition", sysUserInfo.getUserConfig2());
@@ -585,39 +438,6 @@ public class AdminController extends BaseController {
 		return jsonObj.toString();
 	}
 
-	/**
-	 * 待办任务数量，包括科技管理平台和其他系统
-	 */
-	@RequestMapping(value = "/admin/pending-task-count", method = RequestMethod.POST)
-	@ResponseBody
-	public Object getPendingTaskCount(HttpServletRequest request) {
-		SysUser sysUserInfo = getUserProfile();
-		System.out.println("1====/admin/pending-task-count" + sysUserInfo.getUserId());
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("userId", sysUserInfo.getUserId());
-		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
-
-		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(PENDING_TASK_COUNT, HttpMethod.POST, entity, JSONObject.class);
-		JSONObject retJson = responseEntity.getBody();
-
-		Long doneTaskCount = retJson.get("pendingTaskCount") != null ? Long.parseLong(retJson.get("pendingTaskCount").toString()) : 0l;
-
-		// 获取其他系统的待办任务数量
-		// 获取当前登录人信息, 统一身份名作为用户id
-		LayuiTableParam param = new LayuiTableParam();
-		param.getParam().put("userId", sysUserInfo.getUserName());
-		param.setLimit(100);
-		param.setPage(1);
-		HttpEntity<LayuiTableParam> entity1 = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity1 = this.restTemplate.exchange(XMGL_PENDING, HttpMethod.POST, entity1, LayuiTableData.class);
-		LayuiTableData retJson1 = responseEntity1.getBody();
-		int otherCount = retJson1.getCount();
-
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("pendingTaskCount", doneTaskCount + otherCount);
-
-		return jsonObj.toString();
-	}
 
 	@RequestMapping(value = "/logout")
 	@ResponseBody
@@ -718,296 +538,8 @@ public class AdminController extends BaseController {
 		return new Result(true, retJson.get("token"));
 	}
 
-	/**
-	 * @param request
-	 * @return 查询专利数量
-	 */
-	@RequestMapping(value = "/admin/patent-count", method = RequestMethod.POST)
-	@ResponseBody
-	public synchronized Object getPatentCount(HttpServletRequest request) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-		Date date = new Date();
-		map.put("nd", sdf.format(date));
+	
 
-		System.out.println("1====/admin/patent-count" + String.valueOf(Integer.parseInt(sdf.format(date)) - 1));
-		if (request.getParameter("lastYearFlag") != null && !request.getParameter("lastYearFlag").equals("")) {
-			map.put("nd", String.valueOf(Integer.parseInt(sdf.format(date)) - 1));
-		}
-		if (request.getParameter("nd") != null && !request.getParameter("nd").equals("")) {
-			map.put("nd", request.getParameter("nd"));
-		}
-		if (request.getParameter("define3") != null && !request.getParameter("define3").equals("")) {
-			map.put("define3", request.getParameter("define3"));
-		}
-		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
-
-		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(PATENT_COUNT, HttpMethod.POST, entity, JSONObject.class);
-		JSONObject retJson = responseEntity.getBody();
-
-		Long patentCount = retJson.get("patentCount") != null ? Long.parseLong(retJson.get("patentCount").toString()) : 0l;
-
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("patentCount", patentCount);
-
-		return jsonObj.toString();
-	}
-
-	/**
-	 * @param request
-	 * @return 查询科技成果
-	 */
-	@RequestMapping(value = "/admin/appraisal-count", method = RequestMethod.POST)
-	@ResponseBody
-	@OperationFilter(dataFlag = "true")
-	public Object getAppraisalCount(HttpServletRequest request) {
-		SysUser sysUserInfo = getUserProfile();
-		HashMap<String, String> map = new HashMap<String, String>();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-		Date date = new Date();
-
-		System.out.println("1====getAppraisalCount" + request.getParameter("nd"));
-		if (request.getParameter("lastYearFlag") != null && !request.getParameter("lastYearFlag").equals("")) {
-			map.put("nd", String.valueOf(Integer.parseInt(sdf.format(date)) - 1));
-		}
-		if (request.getParameter("nd") != null && !request.getParameter("nd").equals("")) {
-			map.put("nd", request.getParameter("nd"));
-		}
-		if (request.getParameter("define3") != null && !request.getParameter("define3").equals("")) {
-			map.put("define3", request.getParameter("define3"));
-		}
-		if (request.getParameter("define1") != null && !request.getParameter("define1").equals("")) {
-			map.put("define1", request.getParameter("define1"));
-		}
-
-		map.put("leaderFlag", String.valueOf(sysUserInfo.getUserLevel()));
-
-		String cgjszy = request.getAttribute("cgjszy") == null ? "" : request.getAttribute("cgjszy").toString();
-		System.out.println("1====cgjszy" + cgjszy);
-
-		map.put("cgjszy", cgjszy);
-
-		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
-
-		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(APPRAISAL_COUNT, HttpMethod.POST, entity, JSONObject.class);
-		JSONObject retJson = responseEntity.getBody();
-
-		Long appraisalCount = retJson.get("appraisalCount") != null ? Long.parseLong(retJson.get("appraisalCount").toString()) : 0l;
-
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("appraisalCount", appraisalCount);
-
-		return jsonObj.toString();
-	}
-
-	/**
-	 * @param request
-	 * @return 查询项目数量
-	 */
-	@RequestMapping(value = "/admin/project-count", method = RequestMethod.POST)
-	@ResponseBody
-	public Object getProjectCount(HttpServletRequest request) {
-		SysUser sysUserInfo = getUserProfile();
-		System.out.println("1====/admin/project-count" + sysUserInfo.getUserId());
-		HashMap<String, String> map = new HashMap<String, String>();
-		if (request.getParameter("define2") != null && !request.getParameter("define2").equals("")) {
-			map.put("define2", request.getParameter("define2"));
-		}
-		if (request.getParameter("typeFlag") != null && !request.getParameter("typeFlag").equals("")) {
-			map.put("typeFlag", request.getParameter("typeFlag"));
-		}
-		map.put("nd", "2018");
-		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
-
-		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(PROJECT_COUNT, HttpMethod.POST, entity, JSONObject.class);
-		JSONObject retJson = responseEntity.getBody();
-		System.out.println("2====/admin/project-count" + retJson);
-		return retJson.toString();
-	}
-
-	/**
-	 * @param request
-	 * @return 首页查询新开的国家项目、重点项目、重大项目、其他项目的统计
-	 */
-	@RequestMapping(value = "/admin/project/type/new", method = RequestMethod.POST)
-	@ResponseBody
-	public Object getProjectTotalInfoByNew(HttpServletRequest request) {
-		System.out.println("1====/admin/project/type/new");
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("nd", "2018");
-		map.put("typeFlag", "研究院");
-		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
-
-		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(NEW_PROJECT_COUNT, HttpMethod.POST, entity, JSONObject.class);
-		JSONObject retJson = responseEntity.getBody();
-
-		return retJson.toString();
-	}
-
-	/**
-	 * @param request
-	 * @return 首页查询新开的国家项目、重点项目、重大项目、其他项目和去年比
-	 */
-	@RequestMapping(value = "/admin/project/last-year/rate", method = RequestMethod.POST)
-	@ResponseBody
-	public Object getProjectTotalCountYearAndLastYear(HttpServletRequest request) {
-		System.out.println("1====/admin/project/type/new");
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("nd", "2017");
-		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
-
-		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(NEW_PROJECT_RATE, HttpMethod.POST, entity, JSONObject.class);
-		JSONObject retJson = responseEntity.getBody();
-
-		return retJson.toString();
-	}
-
-	/**
-	 * 领导页面初始化配置功能
-	 */
-	@RequestMapping(value = "/user/show/config")
-	public String iniUserShowConfig(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("进入iniUserShowConfig....");
-		SysUser sysUserInfo = getUserProfile();
-		// 查询已配置的显示功能模块，空的时候，默认给所有的统计模块
-		ResponseEntity<JSONArray> showEntity = this.restTemplate.exchange(USER_SHOW_LIST + sysUserInfo.getUserId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), JSONArray.class);
-		JSONArray showJson = showEntity.getBody();
-		List<SysUserShowConfig> showList = JSONObject.parseArray(showJson.toJSONString(), SysUserShowConfig.class);
-
-		List<SysUserShowConfig> show1List = new ArrayList<SysUserShowConfig>();
-		List<SysUserShowConfig> show2List = new ArrayList<SysUserShowConfig>();
-
-		for (SysUserShowConfig sysUserShowConfig : showList) {
-			if (sysUserShowConfig.getModuleId() != null && !sysUserShowConfig.getModuleId().equals("")) {
-				show1List.add(sysUserShowConfig);
-			}
-
-			if (sysUserShowConfig.getFunctionId() != null && !sysUserShowConfig.getFunctionId().equals("")) {
-				show2List.add(sysUserShowConfig);
-			}
-		}
-
-		// 查询本人已有的统计模块(系统级原有)
-		SysModule vo = new SysModule();
-		vo.setPage("1");
-		vo.setLimit("100");
-		HttpEntity<SysModule> entity = new HttpEntity<SysModule>(vo, this.httpHeaders);
-		ResponseEntity<String> responseEntity = this.restTemplate.exchange(MODULE_LIST, HttpMethod.POST, entity, String.class);
-		String result = responseEntity.getBody();
-		JSONObject config1Json = JSONObject.parseObject(result);
-		List<SysModule> config1List = new ArrayList<SysModule>();
-		if (config1Json != null) {
-			config1List = JSONObject.parseArray(config1Json.getJSONArray("list").toJSONString(), SysModule.class);
-			// 去除已经配置统计模块
-			for (int i = 0; i < config1List.size(); i++) {
-				for (SysUserShowConfig sysUserShowConfig : show1List) {
-					if (sysUserShowConfig.getModuleId() != null && sysUserShowConfig.getModuleId().equals(config1List.get(i).getId())) {
-						config1List.remove(i);
-						i--;
-						break;
-					}
-				}
-			}
-		}
-
-		// 查询本人已有的业务功能模块
-		SysUser userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
-		List<SysFunction> funList = userDetails.getFunList();
-
-		List<SysFunction> config2List = new ArrayList<SysFunction>();
-		if (funList != null) {
-			for (SysFunction sysfun : funList) {
-				if (sysfun.getUrl() != null && !sysfun.getUrl().equals("#")) {
-					config2List.add(sysfun);
-				}
-			}
-		}
-		// 去除已经配置业务功能模块
-		for (int i = 0; i < config2List.size(); i++) {
-			for (SysUserShowConfig sysUserShowConfig : show2List) {
-				if (sysUserShowConfig.getFunctionId() != null && sysUserShowConfig.getFunctionId().equals(config2List.get(i).getId())) {
-					config2List.remove(i);
-					i--;
-					break;
-				}
-			}
-		}
-
-		request.setAttribute("show1List", show1List);
-		request.setAttribute("show2List", show2List);
-
-		request.setAttribute("config1List", config1List);
-		request.setAttribute("config2List", config2List);
-
-		return "/base/system/user_show_config";
-	}
-
-	/**
-	 * 统计首页中上周、本周的工作任务情况
-	 */
-	@RequestMapping(value = "/admin/workorder/stat")
-	@ResponseBody
-	public String workorderStat(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		Result result = new Result();
-		HashMap<String, String> paramsMap = new HashMap<String, String>();
-		SysUser sysUserInfo = getUserProfile();
-		paramsMap.put("lastWeekStart", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 2, -1), DateUtil.FMT_DD));
-		paramsMap.put("lastWeekEnd", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 1, -1), DateUtil.FMT_DD));
-		paramsMap.put("thisWeekStart", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 2, 0), DateUtil.FMT_DD));
-		paramsMap.put("thisWeekEnd", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 1, 0), DateUtil.FMT_DD));
-		paramsMap.put("workOrderAllotUserId", sysUserInfo.getUserId());
-		paramsMap.put("createUserId", sysUserInfo.getUserId());
-		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-
-		ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(WORKORDER_STAT, HttpMethod.POST, entity, JSONObject.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) {
-
-			JSONObject jSONObject = responseEntity.getBody();
-			result.setSuccess(true);
-			result.setData(jSONObject);
-
-		}
-		return JSONObject.toJSONString(result);
-	}
-
-	/**
-	 * 跳转至任务列表页，本周安排
-	 */
-	@RequestMapping(value = "/admin/plan/listPlanPage")
-	private String pagePlanList(HttpServletRequest request) {
-		request.setAttribute("startTime", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 2, 0), DateUtil.FMT_DD));
-		request.setAttribute("endTime", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 1, 0), DateUtil.FMT_DD));
-		return "/stp/plan/listPlanPage";
-	}
-
-	/**
-	 * 跳转至任务列表页，上周完成
-	 */
-	@RequestMapping(value = "/admin/plan/my/listMyPlan")
-	private String listMyPlan(HttpServletRequest request) {
-		request.setAttribute("startTime", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 2, -1), DateUtil.FMT_DD));
-		request.setAttribute("endTime", DateUtil.dateToStr(DateUtil.getDayOfWeek(Calendar.MONDAY, 1, -1), DateUtil.FMT_DD));
-		return "/stp/plan/my/listMyPlan";
-	}
-
-	/**
-	 * 领导，统计任务督办
-	 */
-	@RequestMapping(value = "/admin/workorder/ld/stat")
-	@ResponseBody
-	public Object workorderStatLD(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws Exception {
-		SysUser sysUserInfo = getUserProfile();
-		// 只查询本人创建的
-		param.getParam().put("createUser", sysUserInfo.getUserId());
-
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LEADER_WORK, HttpMethod.POST, entity, LayuiTableData.class);
-		LayuiTableData result = responseEntity.getBody();
-		JSONObject retJson = (JSONObject) JSON.toJSON(result);
-		return retJson;
-	}
 
 	
 

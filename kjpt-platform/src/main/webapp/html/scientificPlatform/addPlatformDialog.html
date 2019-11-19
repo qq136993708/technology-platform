@@ -14,7 +14,7 @@
   
   <!-- 更多样式在此引入 -->
 </head>
-<body class="addPlatformDialog">
+<body class="">
 <div class="layout-view-content dialog">
 	<form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
      <div class="layui-row layui-col-space20">
@@ -22,7 +22,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label label-required"><span class="text">平台名称：</span></label>
            <div class="layui-input-block">
-             <input type="text" name="palformName" lay-verify="required"
+             <input type="text" name="platformName" lay-verify="required"
                placeholder="" autocomplete="off" class="layui-input">
            </div>
          </div>
@@ -32,7 +32,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label label-required"><span class="text">研究领域：</span></label>
            <div class="layui-input-block">
-             <select name="majorType" lay-verify="required">
+             <select name="researchField" lay-verify="required">
                <option value=""></option>
                <option value="0">北京</option>
                <option value="1">上海</option>
@@ -48,7 +48,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label label-required"><span class="text">依托单位：</span></label>
            <div class="layui-input-block">
-             <select name="supportingCompany" lay-verify="required">
+             <select name="supportingInstitutions" lay-verify="required">
                <option value=""></option>
                <option value="0">北京</option>
                <option value="1">上海</option>
@@ -74,7 +74,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">平台介绍：</span></label>
            <div class="layui-input-block">
-             <textarea name="platformDesc" placeholder="请输入内容" class="layui-textarea"></textarea>
+             <textarea name="platformIntroduction" placeholder="请输入内容" class="layui-textarea"></textarea>
            </div>
          </div>
        </div>
@@ -83,7 +83,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label label-required"><span class="text">主要负责人：</span></label>
            <div class="layui-input-block">
-             <input type="text" name="ResponsiblePerson" lay-verify="required"
+             <input type="text" name="personLiable" lay-verify="required"
                placeholder="请填写..." autocomplete="off" class="layui-input">
            </div>
          </div>
@@ -93,7 +93,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">平台类型：</span></label>
            <div class="layui-input-block">
-             <select name="platformType">
+             <select name="type">
                <option value=""></option>
                <option value="0">北京</option>
                <option value="1">上海</option>
@@ -109,7 +109,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">科研团队介绍：</span></label>
            <div class="layui-input-block">
-             <textarea name="platformDesc2" placeholder="请输入内容" class="layui-textarea"></textarea>
+             <textarea name="teamIntroduction" placeholder="请输入内容" class="layui-textarea"></textarea>
            </div>
          </div>
        </div>
@@ -118,7 +118,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">科研整体情况：</span></label>
            <div class="layui-input-block">
-             <textarea name="platformDesc3" placeholder="请输入内容" class="layui-textarea"></textarea>
+             <textarea name="overallSituation" placeholder="请输入内容" class="layui-textarea"></textarea>
            </div>
          </div>
        </div>
@@ -127,7 +127,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">平台评分：</span></label>
            <div class="layui-input-block">
-             <input type="text" name="palformName" lay-verify="number"
+             <input type="text" name="platformScoring" lay-verify="number"
                placeholder="" autocomplete="off" class="layui-input">
            </div>
          </div>
@@ -138,8 +138,16 @@
       		<button class="layui-btn layui-btn-primary close-all-dialog" type="button">关闭</button>
        </div>
      </div>
+     <input type="hidden" name="id">
+     <input type="hidden" name="creator">
+     <input type="hidden" name="createDate">
+     <input type="hidden" name="updateDate">
+     <input type="hidden" name="updator">
+     <input type="hidden" name="deleted">
+     <input type="hidden" name="level">
    </form>
 </div>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 </body>
@@ -147,13 +155,45 @@
 
 <script>
 layui.use(['form', 'jquery'], function(){
-	var $ = layui.jquery;
-	var form = layui.form;
-	
+  var $ = layui.jquery;
+  var form = layui.form;
+  
+
+  function getItemInitData(item) {
+    var httpUrl = '/platform-api/newInit';
+    if (item && item.id) {
+      httpUrl = '/platform-api/load/' + item.id;
+    }
+    httpModule({
+      url: httpUrl,
+      type: 'GET',
+      success: function(relData) {
+        if (relData.code === '0') {
+          // 给form表单赋初始值
+          form.val('formPlatform', relData.data);
+          // 更新表单数据
+          form.render();
+        }
+      }
+    });
+  }
+  
 	// 获取地址栏传递过来的参数
-	var variable = getQueryVariable();
-	
-	console.log('variable => ', variable);
+  var variable = getQueryVariable();
+  getItemInitData(variable);
+
+	form.on('submit(newSubmit)', function(data) {
+		httpModule({
+			url: '/platform-api/save',
+			data: data.field,
+			type: "POST",
+			success: function(e) {
+				setDialogData(e); // 通知上层页面状态 - 弹窗中使用
+				top.layer.closeAll(); // 关闭弹窗
+			}
+		});
+		return false;
+	})
 	
 });
 </script>

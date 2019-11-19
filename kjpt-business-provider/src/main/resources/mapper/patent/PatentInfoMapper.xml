@@ -660,4 +660,36 @@
       deleted = #{deleted,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <select id="queryPatentList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List"/> from patent_info where 1=1
+    <if test="unitName != null and unitName != '' " >
+      and unit_name = #{unitName}
+    </if>
+    <if test="applicationType != null and applicationType != '' " >
+      and application_type = #{applicationType}
+    </if>
+    <if test="patentType != null and patentType != '' " >
+      and patent_type = #{patentType}
+    </if>
+    <if test="applicationNumber != null and applicationNumber != '' " >
+      and application_number = #{applicationNumber}
+    </if>
+    <if test="patentName != null and patentName != '' " >
+      and patent_name = #{patentName}
+    </if>
+    <if test="applicant != null and applicant != '' " >
+      and applicant = #{applicant}
+    </if>
+    <if test="inventor != null and inventor != '' " >
+      and inventor = #{inventor}
+    </if>
+    <if test="applicationDateStart != null and applicationDateStart != '' " >
+      and applicationDate &gt;= #{applicationDateStart}
+    </if>
+    <if test="applicationDateEnd != null and applicationDateEnd != '' " >
+      and applicationDate &lt;= #{applicationDateEnd}
+    </if>
+    and deleted != '1'
+  </select>
 </mapper>

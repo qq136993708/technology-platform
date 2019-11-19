@@ -20,7 +20,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">平台名称：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="companyName" placeholder="请输入" autocomplete="off" class="layui-input">
+              <input type="text" name="platformName" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">依托单位：</span></label>
             <div class="layui-input-block let-input-search">
-              <input type="text" name="supportingCompany" placeholder="请输入" autocomplete="off" class="layui-input">
+              <input type="text" name="supportingInstitutions" placeholder="请输入" autocomplete="off" class="layui-input">
               <span class="search-icon">
 			      <i class="layui-icon layui-icon-search"></i> 
 			    </span>
@@ -39,9 +39,9 @@
         
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">工作负责人：</span></label>
+            <label class="layui-form-label"><span class="text">主要负责人：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="rersonLiable" placeholder="请输入" autocomplete="off" class="layui-input">
+              <input type="text" name="personLiable" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
@@ -50,27 +50,27 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">研究领域：</span></label>
             <div class="layui-input-block">
-              <select name="ResearchCode">
-			      <option value=""></option>
-			      <option value="0">北京</option>
-			      <option value="1">上海</option>
-			      <option value="2">广州</option>
-			      <option value="3">深圳</option>
-			      <option value="4">杭州</option>
-			    </select>
+              <select name="researchField">
+                <option value=""></option>
+                <option value="0">北京</option>
+                <option value="1">上海</option>
+                <option value="2">广州</option>
+                <option value="3">深圳</option>
+                <option value="4">杭州</option>
+              </select>
             </div>
           </div>
         </div>
         
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md8">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md8">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">平台得分：</span></label>
             <div class="layui-input-inline margin0" style="width: 160px">
-              <input type="text" name="minNumber" placeholder="请输入" autocomplete="off" class="layui-input">
+              <input type="text" name="platformScorinLow" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
             <span class="ib-block">-</span>
             <div class="layui-input-inline" style="width: 160px">
-              <input type="text" name="maxNumber" placeholder="请输入" autocomplete="off" class="layui-input">
+              <input type="text" name="platformScorinHigh" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -94,10 +94,11 @@
   </div>
   
 <script type="text/html" id="detailsTpl">
-	<a href="./gjj_kyxq.html?id={{d.id}}" class="layui-table-link">{{d.username}}</a>
+	<a href="./gjj_kyxq.html?id={{d.id}}" class="layui-table-link">{{d.platformName}}</a>
 </script>
 
-<script src="/layuiadmin/layui/layui.all.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script src="gjj_platform.js"></script>
 </body>
