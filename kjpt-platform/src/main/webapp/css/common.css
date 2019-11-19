@@ -150,7 +150,50 @@ body > .layui-layout{
 .font20 { font-size: 20px; }
 .font24 { font-size: 24px; }
 
-
-
+/* 下拉目录树 */
+.xm-select-parent .xm-input {
+  border-color: #aaa;
+  border-radius: 5px;
+}
+.xm-select-parent dl dd > i.icon-expand{
+  visibility: hidden !important;
+}
+.x-tree-item-parent > .x-tree-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  border: 1px #1E9FFF solid;
+  border-radius: 2px;
+  line-height: 14px;
+  text-align: center;
+  font-size: 18px;
+  color: #1E9FFF;
+  overflow: hidden;
+}
+.x-tree-item-parent > .x-tree-icon::before {
+  content: '-';
+  display: inline;
+}
+.x-tree-item-parent > i {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  left: auto !important;
+  top: auto !important;
+  margin: 0;
+  margin-left: 6px;
+  border: 1px #1E9FFF solid !important;
+}
+.x-tree-item-parent > span {
+  display: inline-block;
+  vertical-align: middle;
+  width: calc(100% - 44px);
+  padding-left: 10px;
+}
+dd[xm-tree-hidn] > .x-tree-item-parent > .x-tree-icon::before {
+  content: '+';
+}
+/* 下拉目录树end */
 
 

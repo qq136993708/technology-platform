@@ -52,27 +52,27 @@ public class PatentInfoClient {
      * @return
      */
     @ApiOperation(value = "查利列表-分页查询", notes = "查利列表-分页查询")
-    @RequestMapping(value = "/patent-provider/patentInfo/patentInfo-query")
+    @RequestMapping(value = "/patent-provider/patentInfo/patentInfo_query", method = RequestMethod.POST)
     public PageInfo queryPatentListByPage(@RequestBody(required = false) Map param) {
         return patentInfoService.queryPatentList(param);
     }
 
     @ApiOperation(value = "查询专利详细信息", notes = "按ID查询查询专利详细信息详情信息,操作成功返回PatentInfo对象")
-    @RequestMapping(value = "/patent-provider/patentInfo/patentInfo_load/{id}", method = RequestMethod.POST)
-    public PatentInfo getPatentInfo(@PathVariable(value = "id", required = true) String id) {
+    @RequestMapping(value = "/patent-provider/patentInfo/patentInfo_load/{id}", method = RequestMethod.GET)
+    public PatentInfo getPatentInfo(@PathVariable String id) {
         return patentInfoService.getPatentInfo(id);
     }
 
     /**
      * 逻辑删除专利信息
      *
-     * @param patentId
+     * @param id
      * @return
      */
     @ApiOperation(value = "逻辑删除专利信息", notes = "逻辑删除专利信息")
-    @RequestMapping(value = "/patent-provider/patentInfo/patentInfo_delete/{id}")
-    public Integer deletePatent(@PathVariable("id") String patentId) {
-        return patentInfoService.deletePatent(patentId);
+    @RequestMapping(value = "/patent-provider/patentInfo/patentInfo_delete/{id}", method = RequestMethod.DELETE)
+    public Integer deletePatent(@PathVariable String id) {
+        return patentInfoService.deletePatent(id);
     }
 
 }

@@ -589,4 +589,15 @@
 		</if>
 		group by parent_id
 	</select>
+	
+	
+	
+	 <select id="getTechFamilyListByCodes" resultMap="BaseResultMap"  >
+      select * from tfm_type t where  t.type_code in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+       </foreach>
+     </select>
+     
+     
 </mapper>

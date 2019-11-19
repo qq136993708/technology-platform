@@ -28,11 +28,13 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkAchievement" useGeneratedKeys="true">
-    insert into zjk_achievement (expert_id, source_type, del_status, 
+    insert into zjk_achievement (id,expert_id, source_type, del_status, 
       achieve_name, apply_year, apply_unit, 
       achieve_type, create_time, out_system_id
       )
-    values (#{expertId,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, 
+    values (
+      #{id,jdbcType=VARCHAR},
+      #{expertId,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, 
       #{achieveName,jdbcType=VARCHAR}, #{applyYear,jdbcType=VARCHAR}, #{applyUnit,jdbcType=VARCHAR}, 
       #{achieveType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR}
       )

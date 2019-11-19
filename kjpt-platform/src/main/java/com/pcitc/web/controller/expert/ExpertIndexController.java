@@ -13,11 +13,19 @@ import io.swagger.annotations.ApiOperation;
 public class ExpertIndexController {
 	
 	
-	    // 专家列表
+	    // 专家管理
 		@RequestMapping(value = "/kjpt/expert/expert_list")
 		public String expert_list(HttpServletRequest request, HttpServletResponse response) 
 		{
 			return "/kjpt/expert/expert_list";
+		}
+		
+		
+		// 专家查询
+		@RequestMapping(value = "/kjpt/expert/expert_query")
+		public String expert_query(HttpServletRequest request, HttpServletResponse response) 
+		{
+			return "/kjpt/expert/expert_query";
 		}
 		
 		// 专家增加

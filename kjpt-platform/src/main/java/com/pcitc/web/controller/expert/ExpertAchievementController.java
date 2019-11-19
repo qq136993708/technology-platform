@@ -104,7 +104,7 @@ public class ExpertAchievementController extends BaseController {
 	  * 删除专家成果
 	 */
     @ApiOperation(value = "根据ID删除专家成果信息", notes = "根据ID删除专家成果信息")
-	@RequestMapping(value = "/expert-achievement-api/delete/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/expert-achievement-api/delete/{id}", method = RequestMethod.GET)
 	public String deleteExpert(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Result resultsDate = new Result();
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DEL_EXPERT_LOGIC_URL + id, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);

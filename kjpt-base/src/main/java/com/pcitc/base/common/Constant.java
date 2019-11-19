@@ -15,6 +15,14 @@ public class Constant {
     public static String AUDIT_STATUS_SUBMIT = "1";
     public static String AUDIT_STATUS_PASS = "2";
     public static String AUDIT_STATUS_REJECT = "3";
+    
+    
+    public static String DEL_STATUS_NOT = "0";//删除状态（0未删除，1删除）
+    public static String DEL_STATUS_ED = "1";
+    
+    public static String SOURCE_TYPE_LOCATION = "1";//数据来源（1本系统，2外系统）
+    public static String SOURCE_TYPE_OUTER = "2";
+    
 
     //采购管理状态
     public static String PURCHASE_STATUS_DRAFT = "10";//10未审批  11审批中(已提交)  20审批通过 13审批不通过    30 合同系统对接通过   40到货验收通过

@@ -16,7 +16,7 @@ public interface PatentInfoMapper {
 
     int insert(PatentInfo record);
 
-    PatentInfo insertSelective(PatentInfo record);
+    int insertSelective(PatentInfo record);
 
     List<PatentInfo> selectByExample(PatentInfoExample example);
 
@@ -28,7 +28,7 @@ public interface PatentInfoMapper {
 
     int updateByPrimaryKeySelective(PatentInfo record);
 
-    PatentInfo updateByPrimaryKey(PatentInfo record);
+    int updateByPrimaryKey(PatentInfo record);
 
     List<PatentInfo> queryPatentList(Map param);
 }

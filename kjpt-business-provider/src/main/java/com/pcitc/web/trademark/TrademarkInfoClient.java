@@ -50,14 +50,14 @@ public class TrademarkInfoClient {
      * @return
      */
     @ApiOperation(value = "商标列表-分页查询", notes = "商标列表-分页查询,Object")
-    @RequestMapping(value = "/trademark-provider/trademarkInfo/trademarkInfo-query")
+    @RequestMapping(value = "/trademark-provider/trademarkInfo/trademarkInfo_query")
     public PageInfo queryTrademarkListByPage(@RequestBody Map param) {
         return trademarkInfoService.queryTrademarkList(param);
     }
 
     @ApiOperation(value = "查询商标详细信息", notes = "按ID查询查询商标详细信息,操作成功返回SysFileKind对象")
-    @RequestMapping(value = "/trademark-provider/trademarkInfo/trademarkInfo_load/{id}", method = RequestMethod.POST)
-    public TrademarkInfo getTrademarkInfo(@PathVariable(value = "id", required = true) String id) {
+    @RequestMapping(value = "/trademark-provider/trademarkInfo/trademarkInfo_load/{id}", method = RequestMethod.GET)
+    public TrademarkInfo getTrademarkInfo(@PathVariable String id) {
         try {
             return trademarkInfoService.getTrademarkInfo(id);
         } catch (Exception e) {
@@ -69,13 +69,13 @@ public class TrademarkInfoClient {
     /**
      * 逻辑删除商标信息
      *
-     * @param trademarkId
+     * @param id
      * @return
      */
     @ApiOperation(value = "逻辑删除商标信息", notes = "逻辑删除商标信息")
-    @RequestMapping(value = "/trademark-provider/trademarkInfo/trademarkInfo_delete/{id}")
-    public Object deleteTrademark(@PathVariable("id") String trademarkId) {
-        return trademarkInfoService.deleteTrademark(trademarkId);
+    @RequestMapping(value = "/trademark-provider/trademarkInfo/trademarkInfo_delete/{id}",method=RequestMethod.DELETE)
+    public Object deleteTrademark(@PathVariable String id) {
+        return trademarkInfoService.deleteTrademark(id);
     }
 
 }
