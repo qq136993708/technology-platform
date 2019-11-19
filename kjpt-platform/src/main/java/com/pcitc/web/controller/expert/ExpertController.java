@@ -1,30 +1,42 @@
 package com.pcitc.web.controller.expert;
 
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.ExcelException;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.PoiExcelExportUitl;
 import com.pcitc.web.utils.RestMessage;
 
 import io.swagger.annotations.Api;
@@ -69,7 +81,7 @@ public class ExpertController extends BaseController {
 	 */
 	public static final String GET_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/get/";
 
-    
+	private static final String EXPERT_EXCEL_OUT = "http://kjpt-zuul/stp-proxy/expert/list";
 	
 	
 	
@@ -311,6 +323,93 @@ public class ExpertController extends BaseController {
 		return result.toString();
     }
     
+    
+    
+    
+    
+    
+    
+    
+  	   	
+  	   	
+  	   	
+  	    @ApiOperation(value = "根据ID获取专家信息详情", notes = "根据ID获取专家信息详情")
+  	    @ApiImplicitParams({
+          @ApiImplicitParam(name = "name",           value = "专家名称", dataType = "string", paramType = "query"),
+          @ApiImplicitParam(name = "belongUnit",     value = "所在单位", dataType = "string", paramType = "query"),
+          @ApiImplicitParam(name = "useStatus",      value = "状态", dataType = "string", paramType = "query"),
+          @ApiImplicitParam(name = "post",           value = "职务", dataType = "string", paramType = "query"),
+          @ApiImplicitParam(name = "title",          value = "职称", dataType = "string", paramType = "query"),
+          @ApiImplicitParam(name = "technicalField", value = "技术领域", dataType = "string", paramType = "query"),
+          
+      })
+  		@RequestMapping(value = "/expert-api/exput_excel", method = RequestMethod.GET)
+  	   	public String jsgztj_data_exput_excel(
+  	   			
+  	   		 @RequestParam(required = false) String name,
+             @RequestParam(required = false) String belongUnit,
+             @RequestParam(required = false) String useStatus,
+             @RequestParam(required = false) String post,
+             @RequestParam(required = false) String title,
+             @RequestParam(required = false) String technicalField,
+  	   		 HttpServletRequest request, HttpServletResponse response) throws Exception
+  	   	{
+  	   		
+  	   		
+  	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+  	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+  	   		paramMap.put("name", name);
+  	   	    paramMap.put("belongUnit", belongUnit);
+  	        paramMap.put("useStatus", useStatus);
+  	        paramMap.put("post", post);
+  	        paramMap.put("title", title);
+  	        paramMap.put("technicalField", technicalField);
+  	   		//System.out.println(">jsgztj_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month);
+  	   		
+  	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+  	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(EXPERT_EXCEL_OUT, HttpMethod.POST, httpEntity, JSONArray.class);
+  	   		int statusCode = responseEntity.getStatusCodeValue();
+  	   		List<ZjkBase> list =new ArrayList();
+  	   		JSONArray jSONArray=null;
+  	   		if (statusCode == 200)
+  	   		{
+  	   			jSONArray = responseEntity.getBody();
+  	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ZjkBase.class);
+  	   		}
+  	   		
+  	   		    String[] headers = { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,  "职称"  ,  "职务",  "联系方式" };
+  	   		    String[] cols =    {"name",    "idCardNo","sex",  "age",     "title",   "post","contactWay"};
+  	   		   
+  	   	        // 文件名默认设置为当前时间：年月日时分秒
+  	   	        String fileName = "专家表__"+DateFormatUtils.format(new Date(), "ddhhmmss");
+  	   	        // 设置response头信息
+  	   	        response.reset();
+  	   	        response.setCharacterEncoding("UTF-8");
+  		        response.setContentType("application/vnd.ms-excel");
+  		        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
+  	   	        try {
+  	   		        OutputStream os = response.getOutputStream();
+  	   		        PoiExcelExportUitl<ZjkBase>  pee = new PoiExcelExportUitl<ZjkBase>(fileName, headers, cols, list,os);
+  	   		        pee.exportExcel();
+  	   	            
+  	   	        } catch (Exception e)
+  	   	        {
+  	   	            e.printStackTrace();
+  	   	            // 如果是ExcelException,则直接抛出
+  	   	            if (e instanceof ExcelException) 
+  	   	            {
+  	   	                throw (ExcelException) e;
+  	   	            } else 
+  	   	            {
+  	   	                // 否则将其他异常包装成ExcelException再抛出
+  	   	                throw new ExcelException("导出excel失败");
+  	   	            }
+  	   	        }
+  	   		   return null;
+  	   	}
+  	    
+  	    
+  	    
     
 	/*
 	 * @ApiOperation(value = "修改专家信息", notes = "修改专家信息")

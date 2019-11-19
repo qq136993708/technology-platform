@@ -1,5 +1,8 @@
 package com.pcitc.web.expert;
 
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkAchievement;
@@ -42,6 +47,18 @@ public class ExpertProviderClient {
 		logger.info("=== ZjkBase param============"+param);
 		return expertService.getZjkBasePage(param) ;
 	}
+	
+	
+	@ApiOperation(value = "获取专家", notes = "获取专家")
+	@RequestMapping(value = "/expert/list", method = RequestMethod.POST)
+	public JSONArray getZjkBase_List(@RequestBody Map param)throws Exception
+	{
+		logger.info("=== ZjkBase param============"+param);
+		List list=expertService.getZjkBaseList(param);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	
 	
 	@ApiOperation(value = "增加专家信息", notes = "增加专家信息")
 	@RequestMapping(value = "/expert/add", method = RequestMethod.POST)

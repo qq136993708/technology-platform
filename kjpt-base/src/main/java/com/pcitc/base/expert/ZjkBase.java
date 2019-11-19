@@ -148,6 +148,10 @@ public class ZjkBase implements Serializable {
     
 
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public String getZjkAchievementJsonList() {
 		return zjkAchievementJsonList;
 	}

@@ -143,7 +143,31 @@ public class ExpertServiceImpl implements IExpertService {
 	
 	
 	
-	
+	public List getZjkBaseList(Map map)throws Exception
+	{
+		/*
+		 * String name=getTableParam(param,"name",""); String
+		 * sourceType=getTableParam(param,"sourceType",""); String
+		 * delStatus=getTableParam(param,"delStatus",""); String
+		 * outSystemId=getTableParam(param,"outSystemId",""); String
+		 * belongUnit=getTableParam(param,"belongUnit",""); String
+		 * useStatus=getTableParam(param,"useStatus",""); String
+		 * post=getTableParam(param,"post",""); String
+		 * title=getTableParam(param,"title",""); String
+		 * technicalField=getTableParam(param,"technicalField","");
+		 * 
+		 * Map map=new HashMap(); map.put("name", name); map.put("sourceType",
+		 * sourceType); map.put("delStatus", delStatus); map.put("outSystemId",
+		 * outSystemId); map.put("belongUnit", belongUnit); map.put("useStatus",
+		 * useStatus); map.put("post", post); map.put("title", title);
+		 * map.put("technicalField", technicalField);
+		 */
+		
+		List<ZjkBase> list = zjkBaseMapper.getList(map);
+		System.out.println(">>>>>>>>>专家查询分页结果 "+list.size());
+		
+	    return list;
+	}
 	
 	
 	
