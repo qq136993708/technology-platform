@@ -7,7 +7,7 @@ import java.util.Date;
  * zjk_base
  * @author 
  */
-public class ZjkBase implements Serializable {
+public class ZjkBase  {
     private String id;
 
     /**
@@ -148,10 +148,6 @@ public class ZjkBase implements Serializable {
     
 
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public String getZjkAchievementJsonList() {
 		return zjkAchievementJsonList;
 	}
@@ -192,7 +188,6 @@ public class ZjkBase implements Serializable {
 		this.useStatus = useStatus;
 	}
 
-	private static final long serialVersionUID = 1L;
 
     public String getId() {
         return id;

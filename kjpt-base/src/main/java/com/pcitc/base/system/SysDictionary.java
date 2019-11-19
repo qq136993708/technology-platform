@@ -1,7 +1,9 @@
 package com.pcitc.base.system;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.pcitc.base.util.SearchInfo;
 
@@ -51,10 +53,18 @@ public class SysDictionary extends SearchInfo implements Serializable {
     //分类
     private String menuType;
     
-    
+    private List childNodes = new ArrayList();
     
 
-    public String getMenuType() {
+    public List getChildNodes() {
+		return childNodes;
+	}
+
+	public void setChildNodes(List childNodes) {
+		this.childNodes = childNodes;
+	}
+
+	public String getMenuType() {
 		return menuType;
 	}
 

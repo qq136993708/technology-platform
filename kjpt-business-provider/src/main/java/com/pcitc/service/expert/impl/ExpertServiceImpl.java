@@ -3,12 +3,15 @@ package com.pcitc.service.expert.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkAchievement;
@@ -51,12 +54,46 @@ public class ExpertServiceImpl implements IExpertService {
 	*/
 	public Integer updateZjkBase(ZjkBase record)throws Exception
 	{
+		
+		
+		
+		 zjkAchievementMapper.deleteZjkAchievementByExpertId(record.getId());
+		 String achievementStr=record.getZjkAchievementJsonList();
+		 String patentStr=record.getZjkPatentJsonList();
+		 String projectStr=record.getZjkProjectJsonList();
+		 String rewardStr=record.getZjkRewardJsonList();
+		 List<ZjkAchievement> achievementList = JSONObject.parseArray(achievementStr, ZjkAchievement.class);
+		 if(achievementList!=null)
+		 {
+			 for(int i=0;i<achievementList.size();i++)
+			 {
+				 ZjkAchievement zjkAchievement= achievementList.get(i);
+				 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkAchievement.setExpertId(record.getId());
+				 String outSystemId=zjkAchievement.getOutSystemId();
+				 String uuid=UUID.randomUUID().toString().replaceAll("-", "");
+				 if(!outSystemId.equals(""))
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 zjkAchievement.setId(uuid);
+				 zjkAchievementMapper.insert(zjkAchievement);
+				 
+			 }
+		 }
+		 
+		 
+		
+		 
 		return zjkBaseMapper.updateByPrimaryKey(record);
 	}
 
 	
 	 /**
-     *根据ID物理删除专家信息
+                  *根据ID物理删除专家信息
      */
 	public int deleteZjkBase(String id)throws Exception
 	{
@@ -90,6 +127,34 @@ public class ExpertServiceImpl implements IExpertService {
 	 */
 	public Integer insertZjkBase(ZjkBase record)throws Exception
 	{
+		
+		 String achievementStr=record.getZjkAchievementJsonList();
+		 String patentStr=record.getZjkPatentJsonList();
+		 String projectStr=record.getZjkProjectJsonList();
+		 String rewardStr=record.getZjkRewardJsonList();
+		 List<ZjkAchievement> achievementList = JSONObject.parseArray(achievementStr, ZjkAchievement.class);
+		 if(achievementList!=null)
+		 {
+			 for(int i=0;i<achievementList.size();i++)
+			 {
+				 ZjkAchievement zjkAchievement= achievementList.get(i);
+				 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkAchievement.setExpertId(record.getId());
+				 String outSystemId=zjkAchievement.getOutSystemId();
+				 if(!outSystemId.equals(""))
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 zjkAchievementMapper.insert(zjkAchievement);
+				 
+			 }
+		 }
+		 
+		
+		 
 		return zjkBaseMapper.insert(record);
 	}
 	

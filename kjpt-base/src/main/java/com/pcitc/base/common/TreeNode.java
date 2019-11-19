@@ -1,8 +1,10 @@
 package com.pcitc.base.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.pcitc.base.stp.techFamily.TechFamily;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -78,6 +80,18 @@ public class TreeNode implements Serializable {
     
     private String bak3;
     
+    
+    private List<TreeNode> childNodes = new ArrayList<TreeNode>();
+    
+    
+	public List<TreeNode> getChildNodes() {
+		return childNodes;
+	}
+
+	public void setChildNodes(List<TreeNode> childNodes) {
+		this.childNodes = childNodes;
+	}
+
 	public String getBak1() {
 		return bak1;
 	}
