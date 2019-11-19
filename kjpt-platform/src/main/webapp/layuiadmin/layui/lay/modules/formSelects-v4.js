@@ -631,7 +631,8 @@
 		pid ? (pid = JSON.parse(pid)) : (pid = [-1]);
 		let attr = pid[0] == -1 ? '' : `tree-id="${pid.join('-')}" tree-folder="${!!item['XM_TREE_FOLDER']}"`;
 		return `<dd lay-value="${item.value}" class="${item.disabled ? DISABLED : ''} ${clz ? clz : ''}" ${attr}>
-					<div class="xm-unselect xm-form-checkbox ${item.disabled ? DISABLED : ''}"  style="margin-left: ${(pid.length - 1) * 30}px">
+					<div class="xm-unselect xm-form-checkbox ${item.disabled ? DISABLED : ''} ${(item.children && item.children.length) ? 'x-tree-item-parent':''}"  style="margin-left: ${(pid.length - 1) * 30}px">
+					${(item.children && item.children.length) ? '<div class="x-tree-icon"></div>' : ''}	
 						<i class="${CHECKBOX_YES}"></i>
 						<span name="${name}">${template}</span>
 					</div>
