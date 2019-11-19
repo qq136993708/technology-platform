@@ -186,3 +186,114 @@ layui.use(['jquery'], function() {
 		top.layer.closeAll();
 	})
 })
+
+
+
+  
+var __page_dic_store = {};
+
+function _getDicStore() {
+	var store = top._getBaseDicStore();
+	return store;  //|| __page_dic_store;
+}
+
+ 
+function _commonLoadDic(dicKindCode) {
+
+	var __dicData = _getDicStore();
+	__dicData[dicKindCode] = 0;
+	var httpUrl = '/sysDictionary-api/getChildsListByCode/' + dicKindCode;
+	httpModule({
+	  url: httpUrl,
+	  type: 'GET',
+	  success: function(relData) {
+  
+		if (relData.success) { 
+			__dicData[dicKindCode] = relData.data;
+			$(document).trigger('dicLoad_' + dicKindCode, {data: relData.data});
+		}
+	  }
+	});
+  }
+  
+
+  
+  function bindDic(selector, dicKindCode, form, filter) {
+   
+	var __dicData = _getDicStore();
+	var dic = __dicData[dicKindCode];
+  
+	if (dic != null && dic.length) {
+		$.each(dic, function(i, item){
+			selector.append(new Option(item.name, item.numValue));
+		});
+		form.render('select', filter);
+	} else {
+	  $(document).on('dicLoad_' + dicKindCode, function(event, param) {
+  
+		   var data = param.data;
+			 $.each(data, function(i, item){
+				selector.append(new Option(item.name, item.numValue));
+			});
+			form.render('select', filter);
+		});
+  
+		if (dic !== 0) {
+			_commonLoadDic(dicKindCode);
+		}
+	   
+	}
+  }
+  
+  
+  
+  
+  function transDic(dicKindCode, code) {
+	
+	if (code == null) {
+		return '';
+	}
+
+	var __dicData = _getDicStore();
+	var dic = __dicData[dicKindCode];
+	if (dic != null && dic.length) {
+		for(var i=0;i<dic.length;i++) {
+			if(dic[i].numValue === code) {
+				return dic[i].name; 
+			}
+		}
+ 
+		return code;
+	} else {
+		var attr = "trans-dic-" + dicKindCode + "='" + code + "'";
+
+		$(document).on('dicLoad_' + dicKindCode, function(event, param) {
+
+			var data = param.data;
+			var text = code;
+			for(var i=0;i<data.length;i++) {
+				if(data[i].numValue === code) {
+					text = data[i].name;
+					break;
+				}
+			}
+
+			$("span[" + attr + "]").text(text);
+		});
+  
+		if (dic !== 0) {
+			_commonLoadDic(dicKindCode);
+		}
+  
+		return "<span " + attr + ">" + code + "</span>";
+	   
+	}
+  
+  }
+
+
+  function dateFormatText(d) {
+	 var d = new Date(d);
+	 return d.toLocaleDateString();
+  }
+  

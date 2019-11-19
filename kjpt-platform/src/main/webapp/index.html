@@ -149,6 +149,24 @@
 								</dd>
 							</dl>    
 						</li>
+
+						<li class="layui-nav-item">
+							<a href="javascript:void(0);" title="专利管理">
+								<span>专利管理</span>
+								<span class="arrow"></span>
+								<i class="fa fa-angle-left pull-right"></i>
+								<span class="layui-nav-more"></span>
+							</a>  
+							<dl class="layui-nav-child">
+								<dd class="">
+								 <!-- lay-text="待办任务"  data-id="9be9ca820e884b0f8cbdefe4175e1e7d" data-code="10010103" -->
+									<a lay-href="/html/patent/query.html"
+										lay-text="专利查询" 
+										data-functionbuttons="ALL">专利查询</a>
+								</dd>
+							</dl>    
+						</li>
+
 						<li class="layui-nav-item">
 							<a href="javascript:void(0);" title="Demo规范">
 								<span>Demo规范</span>
@@ -311,6 +329,11 @@
 	<script src="/layuiadmin/layui/layui.js"></script>
 	<script src="/layuiadmin/js/common.js"></script>
 	<script>
+
+		var __base_dic_store = {};
+		function _getBaseDicStore() { return __base_dic_store; }
+
+
 		layui.config({
 			base : '../layuiadmin/' //静态资源所在路径
 		}).extend({
