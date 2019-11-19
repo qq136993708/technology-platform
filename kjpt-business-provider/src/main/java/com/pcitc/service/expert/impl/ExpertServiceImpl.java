@@ -3,12 +3,15 @@ package com.pcitc.service.expert.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkAchievement;
@@ -51,12 +54,46 @@ public class ExpertServiceImpl implements IExpertService {
 	*/
 	public Integer updateZjkBase(ZjkBase record)throws Exception
 	{
+		
+		
+		
+		 zjkAchievementMapper.deleteZjkAchievementByExpertId(record.getId());
+		 String achievementStr=record.getZjkAchievementJsonList();
+		 String patentStr=record.getZjkPatentJsonList();
+		 String projectStr=record.getZjkProjectJsonList();
+		 String rewardStr=record.getZjkRewardJsonList();
+		 List<ZjkAchievement> achievementList = JSONObject.parseArray(achievementStr, ZjkAchievement.class);
+		 if(achievementList!=null)
+		 {
+			 for(int i=0;i<achievementList.size();i++)
+			 {
+				 ZjkAchievement zjkAchievement= achievementList.get(i);
+				 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkAchievement.setExpertId(record.getId());
+				 String outSystemId=zjkAchievement.getOutSystemId();
+				 String uuid=UUID.randomUUID().toString().replaceAll("-", "");
+				 if(!outSystemId.equals(""))
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 zjkAchievement.setId(uuid);
+				 zjkAchievementMapper.insert(zjkAchievement);
+				 
+			 }
+		 }
+		 
+		 
+		
+		 
 		return zjkBaseMapper.updateByPrimaryKey(record);
 	}
 
 	
 	 /**
-     *根据ID物理删除专家信息
+                  *根据ID物理删除专家信息
      */
 	public int deleteZjkBase(String id)throws Exception
 	{
@@ -90,6 +127,34 @@ public class ExpertServiceImpl implements IExpertService {
 	 */
 	public Integer insertZjkBase(ZjkBase record)throws Exception
 	{
+		
+		 String achievementStr=record.getZjkAchievementJsonList();
+		 String patentStr=record.getZjkPatentJsonList();
+		 String projectStr=record.getZjkProjectJsonList();
+		 String rewardStr=record.getZjkRewardJsonList();
+		 List<ZjkAchievement> achievementList = JSONObject.parseArray(achievementStr, ZjkAchievement.class);
+		 if(achievementList!=null)
+		 {
+			 for(int i=0;i<achievementList.size();i++)
+			 {
+				 ZjkAchievement zjkAchievement= achievementList.get(i);
+				 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkAchievement.setExpertId(record.getId());
+				 String outSystemId=zjkAchievement.getOutSystemId();
+				 if(!outSystemId.equals(""))
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 zjkAchievementMapper.insert(zjkAchievement);
+				 
+			 }
+		 }
+		 
+		
+		 
 		return zjkBaseMapper.insert(record);
 	}
 	
@@ -108,15 +173,26 @@ public class ExpertServiceImpl implements IExpertService {
 			int pageNum = pageStart/pageSize + 1;
 			// 1、设置分页信息，包括当前页数和每页显示的总计数
 			PageHelper.startPage(pageNum, pageSize);
-			String title=getTableParam(param,"name","");
+			String name=getTableParam(param,"name","");
 			String sourceType=getTableParam(param,"sourceType","");
 			String delStatus=getTableParam(param,"delStatus","");
 			String outSystemId=getTableParam(param,"outSystemId","");
+			String belongUnit=getTableParam(param,"belongUnit","");
+			String useStatus=getTableParam(param,"useStatus","");
+			String post=getTableParam(param,"post","");
+			String title=getTableParam(param,"title","");
+			String technicalField=getTableParam(param,"technicalField","");
+	    	
 			Map map=new HashMap();
-			map.put("name", title);
+			map.put("name", name);
 			map.put("sourceType", sourceType);
 			map.put("delStatus", delStatus);
 			map.put("outSystemId", outSystemId);
+			map.put("belongUnit", belongUnit);
+			map.put("useStatus", useStatus);
+			map.put("post", post);
+			map.put("title", title);
+			map.put("technicalField", technicalField);
 			
 			List<ZjkBase> list = zjkBaseMapper.getList(map);
 			PageInfo<ZjkBase> pageInfo = new PageInfo<ZjkBase>(list);
@@ -132,7 +208,31 @@ public class ExpertServiceImpl implements IExpertService {
 	
 	
 	
-	
+	public List getZjkBaseList(Map map)throws Exception
+	{
+		/*
+		 * String name=getTableParam(param,"name",""); String
+		 * sourceType=getTableParam(param,"sourceType",""); String
+		 * delStatus=getTableParam(param,"delStatus",""); String
+		 * outSystemId=getTableParam(param,"outSystemId",""); String
+		 * belongUnit=getTableParam(param,"belongUnit",""); String
+		 * useStatus=getTableParam(param,"useStatus",""); String
+		 * post=getTableParam(param,"post",""); String
+		 * title=getTableParam(param,"title",""); String
+		 * technicalField=getTableParam(param,"technicalField","");
+		 * 
+		 * Map map=new HashMap(); map.put("name", name); map.put("sourceType",
+		 * sourceType); map.put("delStatus", delStatus); map.put("outSystemId",
+		 * outSystemId); map.put("belongUnit", belongUnit); map.put("useStatus",
+		 * useStatus); map.put("post", post); map.put("title", title);
+		 * map.put("technicalField", technicalField);
+		 */
+		
+		List<ZjkBase> list = zjkBaseMapper.getList(map);
+		System.out.println(">>>>>>>>>专家查询分页结果 "+list.size());
+		
+	    return list;
+	}
 	
 	
 	

@@ -69,4 +69,7 @@ public interface TechFamilyMapper {
 	 * @return
 	 */
 	public String getMaxTechTypeCode(HashMap<String, String> map);
+	
+	
+	public List<TechFamily> getTechFamilyListByCodes(List list);
 }

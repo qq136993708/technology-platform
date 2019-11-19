@@ -3,7 +3,6 @@ package com.pcitc.web.controller.trademark;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -24,16 +23,16 @@ import java.util.UUID;
 
 @Api(value = "trademark-api", description = "商标接口")
 @Controller
-@RequestMapping("trademarkController")
+@RequestMapping("/trademarkController")
 public class TrademarkController extends RestBaseController {
 
     private static final String SAVE = "http://kjpt-zuul/stp-proxy/trademark-provider/trademarkInfo/trademarkInfo_save";
 
     private static final String QUERY = "http://kjpt-zuul/stp-proxy/trademark-provider/trademarkInfo/trademarkInfo_query";
 
-    private static final String LOAD = "http://kjpt-zuul/stp-proxy/trademark-provider/trademarkInfo/trademarkInfo_load";
+    private static final String LOAD = "http://kjpt-zuul/stp-proxy/trademark-provider/trademarkInfo/trademarkInfo_load/";
 
-    private static final String DELETE = "http://kjpt-zuul/stp-proxy/trademark-provider/trademarkInfo/trademarkInfo_delete";
+    private static final String DELETE = "http://kjpt-zuul/stp-proxy/trademark-provider/trademarkInfo/trademarkInfo_delete/";
 
     /**
      * 保存-商标信息
@@ -44,7 +43,7 @@ public class TrademarkController extends RestBaseController {
     @ApiOperation(value="保存商标信息")
     @RequestMapping(value = "/save",method=RequestMethod.POST)
     @ResponseBody
-    public TrademarkInfo save(TrademarkInfo trademarkInfo) {
+    public TrademarkInfo save(@RequestBody TrademarkInfo trademarkInfo) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<TrademarkInfo> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<TrademarkInfo>(trademarkInfo, this.httpHeaders), TrademarkInfo.class);
         return responseEntity.getBody();
@@ -68,14 +67,14 @@ public class TrademarkController extends RestBaseController {
     })
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     @ResponseBody
-    public PageInfo query(@RequestParam(required = false,value = "页码") Integer pageNum,
-                        @RequestParam(required = false,value = "每页显示条数") Integer pageSize,
-                        @RequestParam(required = false,value = "单位名称") String unitName,
-                        @RequestParam(required = false,value = "注册日期开始") Date registerDateStart,
-                        @RequestParam(required = false,value = "注册日期结束") Date registerDateEnd,
-                        @RequestParam(required = false,value = "注册商标名称") String trademarkName,
-                        @RequestParam(required = false,value = "法律状态") String lawStatus,
-                        @RequestParam(required = false,value = "申请人") String applicant
+    public PageInfo query(@RequestParam(required = false) Integer pageNum,
+                        @RequestParam(required = false) Integer pageSize,
+                        @RequestParam(required = false) String unitName,
+                        @RequestParam(required = false) Date registerDateStart,
+                        @RequestParam(required = false) Date registerDateEnd,
+                        @RequestParam(required = false) String trademarkName,
+                        @RequestParam(required = false) String lawStatus,
+                        @RequestParam(required = false) String applicant
     ){
         Map<String, Object> condition = new HashMap<>(6);
             if (pageNum == null) {
@@ -118,7 +117,7 @@ public class TrademarkController extends RestBaseController {
      * @return TrademarkInfo
      */
     @ApiOperation(value="根据ID查询商标信息")
-    @RequestMapping(value = "/load",method = RequestMethod.GET)
+    @RequestMapping(value = "/load/{id}",method = RequestMethod.GET)
     @ResponseBody
     public TrademarkInfo load(@PathVariable String id) {
         ResponseEntity<TrademarkInfo> responseEntity = this.restTemplate.exchange(LOAD+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), TrademarkInfo.class);

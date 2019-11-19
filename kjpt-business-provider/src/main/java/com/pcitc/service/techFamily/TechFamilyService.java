@@ -57,4 +57,12 @@ public interface TechFamilyService {
 	public String getMaxTechTypeCode(HashMap<String, String> map);
 
     public JSONObject getTfcProject(JSONObject jsonObject);
+    
+    
+    
+    
+    public List<TechFamily> getTechFamilyListByCodes(List<String> list)throws Exception;    
+    
+    
+    
 }
