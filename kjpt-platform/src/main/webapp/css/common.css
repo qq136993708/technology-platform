@@ -7,6 +7,18 @@
 * {
   box-sizing: border-box;
 }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background-color: #e2e2e2;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0,0,0,.3);
+}
 html, body {
   height: 100%;
   width: 100%;
@@ -149,6 +161,20 @@ body > .layui-layout{
 .font18 { font-size: 18px; }
 .font20 { font-size: 20px; }
 .font24 { font-size: 24px; }
+
+.link-text {
+  color: #0AA1FF;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  transition: opacity .24s ease-out;
+}
+.link-text:hover {
+  opacity: .8;
+}
+a.link-text:hover {
+  text-decoration: underline;
+}
 
 /* 下拉目录树 */
 .xm-select-parent .xm-input {
