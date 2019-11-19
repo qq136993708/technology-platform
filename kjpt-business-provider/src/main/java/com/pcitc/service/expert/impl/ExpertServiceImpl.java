@@ -3,10 +3,12 @@ package com.pcitc.service.expert.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.Constant;
@@ -23,8 +25,6 @@ import com.pcitc.mapper.expert.ZjkPatentMapper;
 import com.pcitc.mapper.expert.ZjkProjectMapper;
 import com.pcitc.mapper.expert.ZjkRewardMapper;
 import com.pcitc.service.expert.IExpertService;
-
-import io.swagger.annotations.ApiImplicitParam;
 
 
 @Service
@@ -62,48 +62,31 @@ public class ExpertServiceImpl implements IExpertService {
 		 String patentStr=record.getZjkPatentJsonList();
 		 String projectStr=record.getZjkProjectJsonList();
 		 String rewardStr=record.getZjkRewardJsonList();
-		 //外系统ID#成果名称# 申请单位#申请年度#成果类别$外系统ID#成果名称#申请单位#申请年度#成果类别 
-		 if(achievementStr!=null && !achievementStr.equals(""))
+		 List<ZjkAchievement> achievementList = JSONObject.parseArray(achievementStr, ZjkAchievement.class);
+		 if(achievementList!=null)
 		 {
-			 String arr[]=achievementStr.split("\\$");
-			 if(arr!=null)
+			 for(int i=0;i<achievementList.size();i++)
 			 {
-				 for(int i=0;i<arr.length;i++)
+				 ZjkAchievement zjkAchievement= achievementList.get(i);
+				 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkAchievement.setExpertId(record.getId());
+				 String outSystemId=zjkAchievement.getOutSystemId();
+				 String uuid=UUID.randomUUID().toString().replaceAll("-", "");
+				 if(!outSystemId.equals(""))
 				 {
-					String linestr= arr[i];
-					
-					if(linestr!=null)
-					 {
-						 ZjkAchievement zjkAchievement=new ZjkAchievement();
-						 String array[]=linestr.split("#");
-						 if(array!=null)
-						 {
-							 String outSystemId= array[0];
-							 String achieveName= array[1];
-							 String applyUnit= array[2];
-							 String applyYear= array[3];
-							 String achieveType= array[4];
-							 zjkAchievement.setOutSystemId(outSystemId);
-							 zjkAchievement.setApplyYear(applyYear);
-							 zjkAchievement.setAchieveName(achieveName);
-							 zjkAchievement.setApplyUnit(applyUnit);
-							 zjkAchievement.setAchieveType(achieveType);
-							 zjkAchievement.setExpertId(record.getId());
-							 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
-							 if(!outSystemId.equals(""))
-							 {
-								 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
-							 }else
-							 {
-								 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
-							 }
-							 zjkAchievementMapper.insert(zjkAchievement);
-						 }
-						 
-					 }
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
 				 }
+				 zjkAchievement.setId(uuid);
+				 zjkAchievementMapper.insert(zjkAchievement);
+				 
 			 }
 		 }
+		 
+		 
+		
 		 
 		return zjkBaseMapper.updateByPrimaryKey(record);
 	}
@@ -149,48 +132,28 @@ public class ExpertServiceImpl implements IExpertService {
 		 String patentStr=record.getZjkPatentJsonList();
 		 String projectStr=record.getZjkProjectJsonList();
 		 String rewardStr=record.getZjkRewardJsonList();
-		 //外系统ID#成果名称# 申请单位#申请年度#成果类别$外系统ID#成果名称#申请单位#申请年度#成果类别 
-		 if(achievementStr!=null && !achievementStr.equals(""))
+		 List<ZjkAchievement> achievementList = JSONObject.parseArray(achievementStr, ZjkAchievement.class);
+		 if(achievementList!=null)
 		 {
-			 String arr[]=achievementStr.split("\\$");
-			 if(arr!=null)
+			 for(int i=0;i<achievementList.size();i++)
 			 {
-				 for(int i=0;i<arr.length;i++)
+				 ZjkAchievement zjkAchievement= achievementList.get(i);
+				 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkAchievement.setExpertId(record.getId());
+				 String outSystemId=zjkAchievement.getOutSystemId();
+				 if(!outSystemId.equals(""))
 				 {
-					String linestr= arr[i];
-					
-					if(linestr!=null)
-					 {
-						 ZjkAchievement zjkAchievement=new ZjkAchievement();
-						 String array[]=linestr.split("#");
-						 if(array!=null)
-						 {
-							 String outSystemId= array[0];
-							 String achieveName= array[1];
-							 String applyUnit= array[2];
-							 String applyYear= array[3];
-							 String achieveType= array[4];
-							 zjkAchievement.setOutSystemId(outSystemId);
-							 zjkAchievement.setApplyYear(applyYear);
-							 zjkAchievement.setAchieveName(achieveName);
-							 zjkAchievement.setApplyUnit(applyUnit);
-							 zjkAchievement.setAchieveType(achieveType);
-							 zjkAchievement.setExpertId(record.getId());
-							 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
-							 if(!outSystemId.equals(""))
-							 {
-								 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
-							 }else
-							 {
-								 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
-							 }
-							 zjkAchievementMapper.insert(zjkAchievement);
-						 }
-						 
-					 }
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
 				 }
+				 zjkAchievementMapper.insert(zjkAchievement);
+				 
 			 }
 		 }
+		 
+		
 		 
 		return zjkBaseMapper.insert(record);
 	}

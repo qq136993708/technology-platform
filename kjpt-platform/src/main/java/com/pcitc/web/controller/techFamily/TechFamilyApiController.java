@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.stp.techFamily.TechFamily;
@@ -43,6 +44,29 @@ public class TechFamilyApiController extends BaseController{
 	/**
 	  *查询技术族列表
 	 */
+	@ApiOperation(value = "查询技术族-树形结构", notes = "查询技术-族树形结构")
+	@RequestMapping(value = "/techFamily-api/getTreeList", method = RequestMethod.GET)
+	public String getChildsListByCodeTree(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		TechFamily techType = new TechFamily();
+		ResponseEntity<List> responseEntity = this.restTemplate.exchange(TECH_TYPE_TREE, HttpMethod.POST,
+				new HttpEntity<TechFamily>(techType, this.httpHeaders), List.class);
+		List<TreeNode> treeNodes = responseEntity.getBody();
+		JSONArray temparray= JSONArray.parseArray(JSON.toJSONString(treeNodes));
+		List<TreeNode> alllist = JSONObject.parseArray(temparray.toJSONString(), TreeNode.class);		
+		System.out.println(">>>>>>>>>条数:"+alllist.size());	
+		JSONObject trreeJson = JSONObject.parseObject(JSONObject.toJSONString(recursiveTree(Constant.TECHFAMILY_ROOT_ID,alllist)));
+		System.out.println("-----------------树形结构："+trreeJson.toString());
+		return trreeJson.toString();
+	}
+	
+	
+	
+	
+	
+	/**
+	  *查询技术族列表
+	 */
 	@ApiOperation(value = "查询技术族列表（前2级）", notes = "查询技术族列表（前2级）")
 	@RequestMapping(value = "/techFamily-api/getList", method = RequestMethod.GET)
 	public String getChildsListByCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -52,9 +76,12 @@ public class TechFamilyApiController extends BaseController{
 		ResponseEntity<List> responseEntity = this.restTemplate.exchange(TECH_TYPE_TREE, HttpMethod.POST,
 				new HttpEntity<TechFamily>(techType, this.httpHeaders), List.class);
 		List<TreeNode> treeNodes = responseEntity.getBody();
-		System.out.println("treeNodes:"+treeNodes.size());
+		
 		resultsDate.setData(treeNodes);
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		
+		System.out.println("---------------技术族列表："+result.toString());
+		
 		return result.toString();
 	}
 	
@@ -95,7 +122,56 @@ public class TechFamilyApiController extends BaseController{
 	
 	
 	
-	
+
+	   /**
+	        *    递归算法解析成树形结构
+	   */
+		public TreeNode recursiveTree(String cid, List<TreeNode> allList)
+		{
+			TreeNode node = getSysDictionary(cid,  allList);
+			// 查询cid下的所有子节点(SELECT * FROM tb_tree t WHERE t.pid=?)
+			List<TreeNode> childTreeNodes = getChlids(cid,  allList);
+			// 遍历子节点
+			for (TreeNode child : childTreeNodes)
+			{
+				TreeNode n = recursiveTree(child.getId(), allList); // 递归
+				node.getChildNodes().add(n);
+			}
+			return node;
+		}
+		public TreeNode getSysDictionary(String id, List<TreeNode> allList)
+		{
+			TreeNode sd=null;
+			for(int i=0;i<allList.size();i++)
+			{
+				TreeNode sysDictionary=allList.get(i);
+				if(sysDictionary.getId().equals(id))
+				{
+					sd=sysDictionary;
+				}
+			}
+			return sd;
+		}
+		
+		public List<TreeNode>  getChlids(String id, List<TreeNode> allList)
+		{
+			List<TreeNode>  list=new ArrayList<TreeNode>();
+			for(int i=0;i<allList.size();i++)
+			{
+				TreeNode sysDictionary=allList.get(i);
+				String parentId=sysDictionary.getpId();
+				if(parentId!=null)
+				{
+					if(parentId.equals(id))
+					{
+						list.add(sysDictionary);
+					}
+				}
+				
+			}
+			return list;
+		}
+		
 	
 	
 

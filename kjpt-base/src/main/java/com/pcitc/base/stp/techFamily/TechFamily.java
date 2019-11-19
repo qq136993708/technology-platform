@@ -1,5 +1,6 @@
 package com.pcitc.base.stp.techFamily;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TechFamily {
@@ -47,8 +48,18 @@ public class TechFamily {
     
     private List<String> typeCodeCond;
     
+    private List<TechFamily> childNodes = new ArrayList<TechFamily>();
     
-    public List<String> getTypeCodeCond() {
+    
+    public List<TechFamily> getChildNodes() {
+		return childNodes;
+	}
+
+	public void setChildNodes(List<TechFamily> childNodes) {
+		this.childNodes = childNodes;
+	}
+
+	public List<String> getTypeCodeCond() {
 		return typeCodeCond;
 	}
 

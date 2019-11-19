@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.expert;
 
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -33,9 +34,10 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.expert.ZjkBase;
-import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.system.SysLog;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.ImportExcelUtil;
 import com.pcitc.web.utils.PoiExcelExportUitl;
 import com.pcitc.web.utils.RestMessage;
 
@@ -83,6 +85,7 @@ public class ExpertController extends BaseController {
 
 	private static final String EXPERT_EXCEL_OUT = "http://kjpt-zuul/stp-proxy/expert/list";
 	
+	private static final String EXPERT_EXCEL_INPUT = "http://kjpt-zuul/stp-proxy/expert/excel_input";
 	
 	
 	/**
@@ -301,8 +304,8 @@ public class ExpertController extends BaseController {
 			String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 			zjkBase.setId(dateid);
 			zjkBase.setCreateUser(sysUserInfo.getUserId());
-			zjkBase.setNum(UUID.randomUUID().toString().replaceAll("-", ""));//专家编号-自动生成
-			zjkBase.setPersonnelNum(UUID.randomUUID().toString().replaceAll("-", ""));//人事系统编号-自动生成
+			//zjkBase.setNum(UUID.randomUUID().toString().replaceAll("-", ""));//专家编号-通过身份证从人事库取
+			//zjkBase.setPersonnelNum(UUID.randomUUID().toString().replaceAll("-", ""));//人事系统编号--通过身份证从人事库取
 			
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
@@ -409,6 +412,44 @@ public class ExpertController extends BaseController {
   	   	}
   	    
   	    
+  	    
+  	    
+  	    
+  	    
+  	    
+  	@ApiOperation(value = "根据模板导入专家信息（EXCEL）", notes = "根据模板导入专家信息（EXCEL）")
+  	@RequestMapping(value = "/expert-api/input_excel")
+  	public Object newImportData(HttpServletRequest req, HttpServletResponse resp,MultipartFile file) throws Exception 
+  	{
+  		
+  		
+  	   // { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,  "职称"  ,  "职务",  "联系方式" };
+	   // {"name",    "idCardNo","sex",  "age",     "title",   "post","contactWay"};
+  		if (file.isEmpty()) 
+  		{
+  			return new Result(false,"上传异常，请重试!");
+  		}
+  		InputStream in = file.getInputStream();
+  		List<List<Object>> listob = new ImportExcelUtil().getBankListByExcel(in, file.getOriginalFilename());
+  		List<ZjkBase> list = new ArrayList<ZjkBase>();
+  		for (int i = 0; i < listob.size(); i++) 
+  		{
+  			List<Object> lo = listob.get(i);
+  			ZjkBase obj = new ZjkBase();
+  			obj.setName(String.valueOf(lo.get(0)));
+  			obj.setIdCardNo(String.valueOf(lo.get(1)));
+  			obj.setSex(String.valueOf(lo.get(2)));
+  			obj.setAge(Integer.valueOf(String.valueOf(lo.get(3))));
+  			obj.setTitle(String.valueOf(lo.get(4)));
+  			obj.setPost(String.valueOf(lo.get(5)));
+  			obj.setContactWay(String.valueOf(lo.get(6)));
+  			
+  			list.add(obj);
+  		}
+  		Integer rscount = this.restTemplate.exchange(EXPERT_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Integer.class).getBody();
+  		return new Result(true,rscount);
+  	}
+  	  
   	    
     
 	/*
