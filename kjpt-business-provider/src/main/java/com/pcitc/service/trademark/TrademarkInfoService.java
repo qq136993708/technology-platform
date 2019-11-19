@@ -1,9 +1,12 @@
 package com.pcitc.service.trademark;
 
+import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
+
+import java.util.Map;
 
 /**
  * <p>接口类</p>
@@ -19,7 +22,7 @@ public interface TrademarkInfoService {
      * @param trademarkInfo
      * @return
      */
-    int updateOrInsertTrademarkInfo(TrademarkInfo trademarkInfo);
+    TrademarkInfo updateOrInsertTrademarkInfo(TrademarkInfo trademarkInfo);
 
     /**
      * 商标列表分页查询
@@ -27,7 +30,7 @@ public interface TrademarkInfoService {
      * @param param
      * @return
      */
-    LayuiTableData queryTrademarkList(LayuiTableParam param);
+    PageInfo queryTrademarkList(Map param);
 
     /**
      * 根据id查询商标信息

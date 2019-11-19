@@ -27,7 +27,7 @@ import java.util.UUID;
 
 /**
  * <p>服务接口</p>
- * <p>Table: zjk_achievement - 科研平台-基本信息</p>
+ * <p>Table:  kypt-info 科研平台-基本信息</p>
  * @author ty
  */
 @Api(value = "researchPlatform-api", description = "国家科研平台接口")
@@ -41,7 +41,6 @@ public class PlatformApiController extends RestBaseController {
     /**
      * 查询平台列表
      */
-   // private static final String query = "http://kjpt-zuul/stp-proxy/expert/page";
     private static final String query = "http://kjpt-zuul/stp-proxy/researchPlatform-api/query";
     /**
      * 保存平台
@@ -51,6 +50,17 @@ public class PlatformApiController extends RestBaseController {
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/researchPlatform-api/delete/";
+
+    @RequestMapping(value = "/view")
+    public String view() {
+        return "/kjpt/researchplatform/researchplatform_view";
+    }
+
+    @RequestMapping(value = "/add")
+    public String add() {
+        return "/kjpt/researchplatform/researchplatform_add";
+    }
+
 
 
     @ApiOperation(value="读取")

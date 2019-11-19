@@ -1,10 +1,12 @@
 package com.pcitc.mapper.trademarkinfo;
 
+import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfoExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TrademarkInfoMapper {
     long countByExample(TrademarkInfoExample example);
@@ -28,4 +30,6 @@ public interface TrademarkInfoMapper {
     int updateByPrimaryKeySelective(TrademarkInfo record);
 
     int updateByPrimaryKey(TrademarkInfo record);
+
+    List<TrademarkInfo> queryTrademarkList(Map param);
 }

@@ -109,7 +109,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from trademark_info
+    update trademark_info set deleted = '1'
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfoExample">
@@ -133,12 +133,12 @@
       #{registerDate,jdbcType=TIMESTAMP}, #{lawStatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{entryDate,jdbcType=TIMESTAMP}, #{file,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfo">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.pcitc.base.trademarkinfo.TrademarkInfo">
     insert into trademark_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="unitName != null">
         unit_name,
       </if>
@@ -180,6 +180,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
       <if test="unitName != null">
         #{unitName,jdbcType=VARCHAR},
       </if>
@@ -359,4 +362,26 @@
       file = #{file,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="queryTrademarkList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List"/> from trademark_info where 1=1
+    <if test="unitName != null and unitName != '' " >
+      and unit_name = #{unitName}
+    </if>
+    <if test="trademarkName != null and trademarkName != '' " >
+      and trademark_name = #{trademarkName}
+    </if>
+    <if test="lawStatus != null and lawStatus != '' " >
+      and law_status = #{lawStatus}
+    </if>
+    <if test="applicant != null and applicant != '' " >
+      and applicant = #{applicant}
+    </if>
+    <if test="registerDateStart != null and registerDateStart != '' " >
+      and registerDate &gt;= #{registerDateStart}
+    </if>
+    <if test="registerDateEnd != null and registerDateEnd != '' " >
+      and registerDate &lt;= #{registerDateEnd}
+    </if>
+    and deleted != '1'
+  </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.pcitc.web.patent;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.patent.PatentInfo;
@@ -38,15 +39,10 @@ public class PatentInfoClient {
      * @param patentInfo
      * @return
      */
-    @ApiOperation(value = "新增或者更新专利信息", notes = "新增或者更新专利信息,操作成功返回500")
+    @ApiOperation(value = "新增或者更新专利信息", notes = "新增或者更新专利信息,操作成功返回专利对象")
     @RequestMapping(value = "/patent-provider/patentInfo/patentInfo_save", method = RequestMethod.POST)
-    public int updateOrInsertPatentInfo(@RequestBody PatentInfo patentInfo) {
-        try {
-            return patentInfoService.updateOrInsertPatentInfo(patentInfo);
-        } catch (Exception e) {
-            logger.error("[保存信息失败：]", e);
-        }
-        return 500;
+    public PatentInfo updateOrInsertPatentInfo(@RequestBody PatentInfo patentInfo) {
+        return patentInfoService.updateOrInsertPatentInfo(patentInfo);
     }
 
     /**
@@ -55,33 +51,28 @@ public class PatentInfoClient {
      * @param param
      * @return
      */
-    @ApiOperation(value = "查利列表-分页查询", notes = "查利列表-分页查询,Object")
-    @RequestMapping(value = "/patent-provider/patentInfo/patentInfo-query")
-    public LayuiTableData queryPatentListByPage(@RequestBody LayuiTableParam param) {
+    @ApiOperation(value = "查利列表-分页查询", notes = "查利列表-分页查询")
+    @RequestMapping(value = "/patent-provider/patentInfo/patentInfo_query", method = RequestMethod.POST)
+    public PageInfo queryPatentListByPage(@RequestBody(required = false) Map param) {
         return patentInfoService.queryPatentList(param);
     }
 
-    @ApiOperation(value = "查询专利详细信息", notes = "按ID查询查询专利详细信息详情信息,操作成功返回SysFileKind对象")
-    @RequestMapping(value = "/patent-provider/patentInfo/patentInfo_load/{id}", method = RequestMethod.POST)
-    public PatentInfo getPatentInfo(@PathVariable(value = "id", required = true) String id) {
-        try {
-            return patentInfoService.getPatentInfo(id);
-        } catch (Exception e) {
-            logger.error("[初始化信息失败：]", e);
-        }
-        return null;
+    @ApiOperation(value = "查询专利详细信息", notes = "按ID查询查询专利详细信息详情信息,操作成功返回PatentInfo对象")
+    @RequestMapping(value = "/patent-provider/patentInfo/patentInfo_load/{id}", method = RequestMethod.GET)
+    public PatentInfo getPatentInfo(@PathVariable String id) {
+        return patentInfoService.getPatentInfo(id);
     }
 
     /**
      * 逻辑删除专利信息
      *
-     * @param patentId
+     * @param id
      * @return
      */
     @ApiOperation(value = "逻辑删除专利信息", notes = "逻辑删除专利信息")
-    @RequestMapping(value = "/patent-provider/patentInfo/patentInfo_delete/{id}")
-    public Object deletePatent(@PathVariable("id") String patentId) {
-        return patentInfoService.deletePatent(patentId);
+    @RequestMapping(value = "/patent-provider/patentInfo/patentInfo_delete/{id}", method = RequestMethod.DELETE)
+    public Integer deletePatent(@PathVariable String id) {
+        return patentInfoService.deletePatent(id);
     }
 
 }

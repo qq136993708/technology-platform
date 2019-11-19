@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
-	
 <link rel="stylesheet" href="prism.css">
 </head>
 <body>
@@ -19,7 +18,7 @@
   	<div class="layui-row layui-col-space20">
       <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-	  	<div class="layui-form-item">
+	  	  <div class="layui-form-item">
 	       <label class="layui-form-label"><span class="text">申请类型：</span></label>
 	       <div class="layui-input-block">
 	         <select name="applaType" lay-filter="applaType">
@@ -38,7 +37,7 @@
 	  	<div class="layui-form-item">
 	       <label class="layui-form-label"><span class="text">多选下拉框：</span></label>
 	       <div class="layui-input-block">
-	         <select name="applaType" xm-select="applaType2" xm-select-skin="normal">
+	         <select name="applaType2" xm-select="applaType2" xm-select-skin="normal">
 	           <option value=""></option>
 	           <option value="0">北京</option>
 	           <option value="1">上海</option>
@@ -48,7 +47,23 @@
 	         </select>
 	       </div>
 	     </div>
-	   </div>
+     </div>
+     <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">树形结构下拉多选:</span></label>
+          <div class="layui-input-block">
+            <select name="applaType3" xm-select="applaType3" xm-select-skin="normal"></select>
+          </div>
+        </div>
+     </div>
+     <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">树形结构下拉单选:</span></label>
+          <div class="layui-input-block">
+            <select name="applaType4" xm-select="applaType4" xm-select-radio xm-select-skin="normal"></select>
+          </div>
+        </div>
+     </div>
 	 </div>
   </form>
 </div>
@@ -127,6 +142,45 @@ layui.use(['formSelects'], function(){
   formSelects.value('applicationType2');
   // 给下拉多选框赋值
   formSelects.value('applicationType2', ['0', '1']);
+
+  // 不显示全选，反选，清除按钮
+  formSelects.btns('applicationType2', []);
+
+  // 更新操作请查看官方文档
+  https://hnzzmsf.github.io/example/example_v4.html
+});
+</code><code class="language-html">
+&lt;!-- 树形结构下拉多选、单选 -->
+&lt;div class="layui-form-item">
+  &lt;label class="layui-form-label">&lt;span class="text">树形结构下拉多选:&lt;/span>&lt;/label>
+  &lt;div class="layui-input-block">
+    &lt;select name="applicationType3" xm-select="applicationType3" xm-select-skin="normal">&lt;/select>
+  &lt;/div>
+&lt;/div>
+</code><code class="language-javascript">
+// layui js引用
+layui.use(['formSelects'], function(){
+  var formSelects = layui.formSelects;
+  var treeSelectData = [
+    { name: '常用文件夹', value: 1, children: [
+      {name: '所有未读', value: 11},
+      {name: '置顶邮件', value: 12},
+      {name: '标签邮件', value: 13}
+    ]},
+    { name: '我的邮箱', value: 2, children: [
+      { name: 'QQ邮箱', value: 21, children: [
+        { name: '收件箱', value: 211 },
+        { name: '阿里云邮', value: 22}
+      ]}
+    ]}
+  ]
+  // 渲染多选树形结构下拉框
+  formSelects.data('applicationType3', 'local', { arr: treeData });
+  formSelects.btns('applicationType3', ['remove']); // 只显示清除按钮
+  // 取值及其其他操作方式与下拉多选框一致
+</code><code class="language-html">
+  单选模式只需要在 &lt;select xm-select-radio>&lt;/select> 标签上添加 xm-select-radio 树形即可；
+</code><code class="language-javascript">
   // 更新操作请查看官方文档
   https://hnzzmsf.github.io/example/example_v4.html
 });
@@ -136,9 +190,11 @@ layui.use(['formSelects'], function(){
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script>
-layui.use(['form', 'formSelects'], function(){
+layui.use(['form', 'formSelects', 'jqZtreeCore', 'tree', 'jquery'], function(){
   var form = layui.form;
-  var $ = layui.$;
+  var $ = layui.jquery;
+  var tree = layui.tree;
+  var jqZtreeCore = layui.jqZtreeCore;
 	
   var formSelects = layui.formSelects;
   formSelects.value('applaType2', ['0', '1']);
@@ -148,6 +204,41 @@ layui.use(['form', 'formSelects'], function(){
   form.on('select(applaType)', function(data) {
   	console.log('select事件 => change', data);
   })
+
+  /* ------------------------------ */
+  var treeData = [{
+        name: '常用文件夹',
+        value: 1,
+        children: [{name: '所有未读', value: 11}, {
+          name: '置顶邮件',
+          value: 12
+        }, {name: '标签邮件', value: 13}]
+      }, {
+        name: '我的邮箱',
+        value: 2,
+        children: [{
+            name: 'QQ邮箱',
+            value: 21,
+            children: [{
+              name: '收件箱',
+              value: 211,
+              children: [{name: '所有未读', value: 2111}, {name: '置顶邮件', value: 2112}, {name: '标签邮件', value: 2113}]
+            }, {name: '已发出的邮件', value: 212}, {name: '垃圾邮件', value: 213}]
+        }, {
+            name: '阿里云邮',
+            value: 22,
+            children: [{name: '收件箱', value: 221}, {name: '已发出的邮件', value: 222}, {name: '垃圾邮件', value: 223}]
+        }]
+    }]
+    // treeData
+    formSelects.data('applaType3', 'local', { arr: treeData });
+    formSelects.btns('applaType3', ['remove']);
+
+    // treeData
+    formSelects.data('applaType4', 'local', { arr: treeData });
+    formSelects.btns('applaType4', ['remove']);
+
+  /* ------------------------------ */
 });
 </script>
 </body>

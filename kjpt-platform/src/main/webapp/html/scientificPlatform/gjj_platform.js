@@ -5,46 +5,54 @@ layui.use(['form', 'table', 'layer'], function(){
   var table = layui.table;
   var layer = layui.layer;
 
-  //监听提交
-  form.on('submit(formDemo)', function(data){
-    console.log(data);
-    // layer.msg(JSON.stringify(data.field));
+  //表格渲染
+  var itemRowData = null; // 选中行的数据
+  var tableRender = false;
+  function queryTable(searchData) {
+
+    if (!tableRender) {
+      tableRender = true;
+      table.render({
+        elem: '#tableDemo'
+        ,url: '/platform-api/query' //数据接口
+        ,cols: [[ //表头
+          {type: 'radio', field: 'id'}
+          ,{field: 'platformName', title: '平台名称', templet: '#detailsTpl'}
+          ,{field: 'supportingInstitutions', title: '依托单位', sort: true }
+          ,{field: 'personLiable', title: '主要负责人', sort: true}
+          ,{field: 'type', title: '平台类型'} 
+          ,{field: 'researchField', title: '研究领域'}
+          ,{field: 'experience', title: '主要项目', sort: true}
+          ,{field: 'overallSituation', title: '科研整体情况', sort: true}
+          ,{field: 'researchFunds', title: '科研经费'}
+          ,{field: 'platformScoring', title: '平台评分', sort: true}
+        ]],
+        parseData: function(res) {return layuiParseData(res);},
+        request: {
+          page: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
+          limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+        },
+        page: true, //开启分页
+        limit: 10, // 每页数据条数,
+        limits: [5, 10, 15, 20], // 配置分页数据条数
+        done: function() {
+          itemRowData = null;
+        },
+        where: searchData
+      });
+    } else {
+      table.reload('tableDemo', {where: searchData});
+    }
+  }
+
+  form.on('submit(formDemo)', function(data) {
+    queryTable(data.field);
     return false;
   });
 
-  //表格渲染
-  var itemRowData = null; // 选中行的数据
-  table.render({
-    elem: '#tableDemo'
-    ,height: 382
-    ,url: '/data/datalist.json' //数据接口
-    ,page: true //开启分页
-    ,cols: [[ //表头
-      {type: 'radio', field: 'id'}
-      ,{field: 'username', title: '平台名称', templet: '#detailsTpl'}
-      ,{field: 'id', title: '依托单位', sort: true }
-      ,{field: 'sex', title: '主要负责人', sort: true}
-      ,{field: 'city', title: '平台类型'} 
-      ,{field: 'sign', title: '研究领域'}
-      ,{field: 'experience', title: '主要项目', sort: true}
-      ,{field: 'score', title: '科研整体情况', sort: true}
-      ,{field: 'classify', title: '科研经费'}
-      ,{field: 'wealth', title: '平台评分', sort: true}
-    ]],
-    parseData: function(res) {
-      return {
-        "code": '0', //解析接口状态
-        "msg": 'res.message', //解析提示文本
-        "count": res.tableList.length, //解析数据长度
-        "data": res.tableList //解析数据列表
-      };
-    },
-    done: function() {
-    	itemRowData = null;
-    }
-  });
-  
-  
+  $('[lay-filter="formDemo"]').click();
+
+
   function openDataDilog(type) {
 	  var dialogTitle = '添加平台';
 	  if (type === 'edit') {
@@ -53,18 +61,19 @@ layui.use(['form', 'table', 'layer'], function(){
 	  
 	  // 打开弹窗
 	  top.layer.open({
-	      type: 2,
-	      title: dialogTitle,
-	      area: ['880px', '70%'],
+      type: 2,
+      title: dialogTitle,
+      area: ['880px', '70%'],
 		  content: '/html/scientificPlatform/addPlatformDialog.html?id='+type,
 		  btn: null,
 		  end: function() {
-			  var relData = top.dialogData('dialog-data');
-			  if (relData.code !== 'colse') {
+        var relData = getDialogData('dialog-data');
+			  if (relData) {
 				  if (relData.code === '0') {
-					  layer.msg(relData.message);
+            layer.msg(dialogTitle+'成功!', {icon: 1});
+            $('[lay-filter="formDemo"]').click();
 				  } else {
-					  layer.msg(relData.message);
+					  layer.msg(relData.message, {icon: 2});
 				  }
 			  }
 		  }
@@ -73,18 +82,18 @@ layui.use(['form', 'table', 'layer'], function(){
   
   // 新增平台
   $('#addItem').on('click', function(e) {
-	  openDataDilog('add');
+	  openDataDilog();
   })
   
   // 表格行被选中
   table.on('radio(tableDemo)', function(obj){
-	itemRowData = obj.data;
+	  itemRowData = obj.data;
     console.log(obj)
   });
   // 编辑平台
   $('#editItem').on('click', function(e) {
 	if (itemRowData) {
-		openDataDilog('edit');
+		openDataDilog(itemRowData.id);
     } else {
     	layer.msg('请选择需要编辑的平台！');
     }
@@ -92,9 +101,21 @@ layui.use(['form', 'table', 'layer'], function(){
   // 删除平台
   $('#delItem').on('click', function(e) {
     if (itemRowData) {
-		layer.confirm('您确定要删除”'+itemRowData.username+'“吗？', {icon: 3, title:'删除提示'}, function(index){
+		layer.confirm('您确定要删除”'+itemRowData.platformName+'“吗？', {icon: 3, title:'删除提示'}, function(index){
 		  layer.close(index);
-		  // 确认删除
+      // 确认删除
+      httpModule({
+        url: '/platform-api/delete/' + itemRowData.id,
+        type: 'DELETE',
+        success: function(relData) {
+          if (relData.code === '0') {
+            layer.msg('删除成功!', {icon: 1});
+            $('[lay-filter="formDemo"]').click();
+          } else {
+            layer.msg('删除失败', {icon: 2});
+          }
+        }
+      });
 		});
     } else {
     	layer.msg('请选择需要删除的平台！');

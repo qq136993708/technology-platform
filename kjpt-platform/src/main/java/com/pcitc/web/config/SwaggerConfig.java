@@ -33,7 +33,7 @@ public class SwaggerConfig {
         Predicate<RequestHandler> restfulApi = Predicates.or(
                 RequestHandlerSelectors.withClassAnnotation(RestController.class),
                 RequestHandlerSelectors.withClassAnnotation(Controller.class)
-                );
+        );
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
