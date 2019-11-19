@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.patent.KgjImportMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.patent.KgjImportModel">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="batch_id" jdbcType="VARCHAR" property="batchId"/>
+        <result column="unit_name" jdbcType="VARCHAR" property="unitName"/>
+        <result column="applicant" jdbcType="VARCHAR" property="applicant"/>
+        <result column="patent_name" jdbcType="VARCHAR" property="patentName"/>
+        <result column="inventor" jdbcType="VARCHAR" property="inventor"/>
+        <result column="application_type" jdbcType="VARCHAR" property="applicationType"/>
+        <result column="patent_type" jdbcType="VARCHAR" property="patentType"/>
+        <result column="legal_status" jdbcType="VARCHAR" property="legalStatus"/>
+        <result column="date" jdbcType="TIMESTAMP" property="date"/>
+        <result column="application_number" jdbcType="VARCHAR" property="applicationNumber"/>
+        <result column="patent_range" jdbcType="VARCHAR" property="patentRange"/>
+        <result column="agency" jdbcType="VARCHAR" property="agency"/>
+        <result column="entry_person" jdbcType="VARCHAR" property="entryPerson"/>
+        <result column="application_date" jdbcType="TIMESTAMP" property="applicationDate"/>
+        <result column="entry_date" jdbcType="TIMESTAMP" property="entryDate"/>
+        <result column="application_cost" jdbcType="DECIMAL" property="applicationCost"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="summary" jdbcType="VARCHAR" property="summary"/>
+        <result column="application_of_patent_transformation" jdbcType="VARCHAR" property="applicationOfPatentTransformation"/>
+        <result column="major_application" jdbcType="VARCHAR" property="majorApplication"/>
+        <result column="unenforced_reason" jdbcType="VARCHAR" property="unenforcedReason"/>
+        <result column="licensee" jdbcType="VARCHAR" property="licensee"/>
+        <result column="licensee_mode" jdbcType="VARCHAR" property="licenseeMode"/>
+        <result column="licensee_profit" jdbcType="VARCHAR" property="licenseeProfit"/>
+        <result column="assignor" jdbcType="VARCHAR" property="assignor"/>
+        <result column="assign_profit" jdbcType="DECIMAL" property="assignProfit"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+    </resultMap>
+
+
+
+    <insert id="kgjData2Db" parameterType="java.util.List">
+        insert into kgj_import_memory(
+            id,
+			batch_id,
+			unit_name,
+			applicant,
+			patent_name,
+			inventor,
+			application_type,
+			patent_type,
+			legal_status,
+			date,
+			application_number,
+			patent_range,
+			agency,
+			entry_person,
+			application_date,
+			entry_date,
+			application_cost,
+			remark,
+			summary,
+			application_of_patent_transformation,
+			major_application,
+			unenforced_reason,
+			licensee,
+			licensee_mode,
+			licensee_profit,
+			assignor,
+			assign_profit,
+			create_date,
+			create_user
+        )values
+        <foreach collection="list" item="kgj" separator=",">
+        (
+            #{kgj.id},
+            #{kgj.batchId},
+            #{kgj.unitName},
+            #{kgj.applicant},
+            #{kgj.patentName},
+            #{kgj.inventor},
+            #{kgj.applicationType},
+            #{kgj.patentType},
+            #{kgj.legalStatus},
+            #{kgj.date},
+            #{kgj.applicationNumber},
+            #{kgj.patentRange},
+            #{kgj.agency},
+            #{kgj.entryPerson},
+            #{kgj.applicationDate},
+            #{kgj.entryDate},
+            #{kgj.applicationCost},
+            #{kgj.remark},
+            #{kgj.summary},
+            #{kgj.applicationOfPatentTransformation},
+            #{kgj.majorApplication},
+            #{kgj.unenforcedReason},
+            #{kgj.licensee},
+            #{kgj.licenseeMode},
+            #{kgj.licenseeProfit},
+            #{kgj.assignor},
+            #{kgj.assignProfit},
+            #{kgj.createDate},
+            #{kgj.creator}
+        )
+        </foreach>
+    </insert>
+
+    <select id="handlerKgjImport" parameterType="java.lang.String" resultMap="BaseResultMap">
+        call hadler_kgj_import(#{batchId})
+    </select>
+</mapper>
