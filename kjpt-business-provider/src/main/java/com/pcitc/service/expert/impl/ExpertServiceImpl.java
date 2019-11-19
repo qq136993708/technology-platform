@@ -108,15 +108,26 @@ public class ExpertServiceImpl implements IExpertService {
 			int pageNum = pageStart/pageSize + 1;
 			// 1、设置分页信息，包括当前页数和每页显示的总计数
 			PageHelper.startPage(pageNum, pageSize);
-			String title=getTableParam(param,"name","");
+			String name=getTableParam(param,"name","");
 			String sourceType=getTableParam(param,"sourceType","");
 			String delStatus=getTableParam(param,"delStatus","");
 			String outSystemId=getTableParam(param,"outSystemId","");
+			String belongUnit=getTableParam(param,"belongUnit","");
+			String useStatus=getTableParam(param,"useStatus","");
+			String post=getTableParam(param,"post","");
+			String title=getTableParam(param,"title","");
+			String technicalField=getTableParam(param,"technicalField","");
+	    	
 			Map map=new HashMap();
-			map.put("name", title);
+			map.put("name", name);
 			map.put("sourceType", sourceType);
 			map.put("delStatus", delStatus);
 			map.put("outSystemId", outSystemId);
+			map.put("belongUnit", belongUnit);
+			map.put("useStatus", useStatus);
+			map.put("post", post);
+			map.put("title", title);
+			map.put("technicalField", technicalField);
 			
 			List<ZjkBase> list = zjkBaseMapper.getList(map);
 			PageInfo<ZjkBase> pageInfo = new PageInfo<ZjkBase>(list);

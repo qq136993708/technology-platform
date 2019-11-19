@@ -392,4 +392,17 @@ public class TechFamilyProviderClient {
         }
         return rt;
     }
+    
+    
+    
+    
+    
+    
+    @ApiOperation(value = "根据编码（多个）查询技术族列表", notes = "根据编码（多个）查询技术族列表，返回LIST")
+    @RequestMapping(value = "/tech-family-provider/getListByCodes", method = RequestMethod.POST)
+	public List<TechFamily> getTechFamilyListByCodes(@RequestBody List<String> list)throws Exception{
+		logger.info("=============================list-by-ids Equipemnt =================");
+		return techFamilyService.getTechFamilyListByCodes(list);
+	}
+    
 }

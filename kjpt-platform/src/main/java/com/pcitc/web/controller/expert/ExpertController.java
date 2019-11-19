@@ -95,6 +95,7 @@ public class ExpertController extends BaseController {
 
     	LayuiTableParam param =new LayuiTableParam();
     	param.getParam().put("name", name);
+    	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
     	param.setLimit(limit);
     	param.setPage(page);
 		LayuiTableData layuiTableData = new LayuiTableData();
@@ -114,9 +115,17 @@ public class ExpertController extends BaseController {
     
     @ApiOperation(value = "专家查询（分页）", notes = "专家查询（分页）")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "page", value = "页码", dataType = "string", paramType = "query",required=true),
-        @ApiImplicitParam(name = "limit", value = "每页显示条数", dataType = "string", paramType = "query",required=true),
-        @ApiImplicitParam(name = "name", value = "专家名称", dataType = "string", paramType = "query")
+        @ApiImplicitParam(name = "page",           value = "页码", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "limit",          value = "每页显示条数", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "name",           value = "专家名称", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "belongUnit",     value = "所在单位", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "useStatus",      value = "状态", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "post",           value = "职务", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "title",          value = "职称", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "technicalField", value = "技术领域", dataType = "string", paramType = "query"),
+        
+        
+        
     })
     @RequestMapping(value = "/expert-api/query", method = RequestMethod.POST)
 	public String queryExpertPage(
@@ -124,13 +133,26 @@ public class ExpertController extends BaseController {
 			@RequestParam(required = true) Integer page,
             @RequestParam(required = true) Integer limit,
             @RequestParam(required = false) String name,
+            @RequestParam(required = false) String belongUnit,
+            @RequestParam(required = false) String useStatus,
+            @RequestParam(required = false) String post,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String technicalField,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
     	LayuiTableParam param =new LayuiTableParam();
     	param.getParam().put("name", name);
+    	param.getParam().put("delStatus", Constant.DEL_STATUS_NOT);
     	param.setLimit(limit);
     	param.setPage(page);
+    	
+    	param.getParam().put("belongUnit", belongUnit);
+    	param.getParam().put("useStatus", useStatus);
+    	param.getParam().put("post", post);
+    	param.getParam().put("title", title);
+    	param.getParam().put("technicalField", technicalField);
+    	
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_EXPERT_URL, HttpMethod.POST, entity, LayuiTableData.class);
@@ -290,38 +312,32 @@ public class ExpertController extends BaseController {
     }
     
     
-    @ApiOperation(value = "修改专家信息", notes = "修改专家信息")
-    @RequestMapping(method = RequestMethod.POST, value = "/expert-api/update")
-	public String updateExpert(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-    	
-    	Result resultsDate = new Result();
-    	String id = CommonUtil.getParameter(request, "id", "");
-    	String name = CommonUtil.getParameter(request, "name", "");
-    	//根据ID获取详情
-    	ResponseEntity<ZjkBase> responseEntity = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
-    	int statusCode = responseEntity.getStatusCodeValue();
-    	if (statusCode == 200)
-    	{
-    		ZjkBase zjkBase = responseEntity.getBody();
-    		//修改相应信息
-    		zjkBase.setName(name);
-    		ResponseEntity<Integer> response_entity = this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), Integer.class);
-			int status_code = response_entity.getStatusCodeValue();
-			Integer dataId = response_entity.getBody();
-			// 返回结果代码
-			if (status_code == 200)
-			{
-				resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
-			} else 
-			{
-				resultsDate = new Result(false, "修改专家信息失败");
-			}
-		}
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		return result.toString();
-    }
-    
+	/*
+	 * @ApiOperation(value = "修改专家信息", notes = "修改专家信息")
+	 * 
+	 * @RequestMapping(method = RequestMethod.POST, value = "/expert-api/update")
+	 * public String updateExpert(HttpServletRequest request, HttpServletResponse
+	 * response) throws Exception {
+	 * 
+	 * 
+	 * Result resultsDate = new Result(); String id =
+	 * CommonUtil.getParameter(request, "id", ""); String name =
+	 * CommonUtil.getParameter(request, "name", ""); //根据ID获取详情
+	 * ResponseEntity<ZjkBase> responseEntity =
+	 * this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new
+	 * HttpEntity<Object>(this.httpHeaders), ZjkBase.class); int statusCode =
+	 * responseEntity.getStatusCodeValue(); if (statusCode == 200) { ZjkBase zjkBase
+	 * = responseEntity.getBody(); //修改相应信息 zjkBase.setName(name);
+	 * ResponseEntity<Integer> response_entity =
+	 * this.restTemplate.exchange(UPDATE_EXPERT_URL, HttpMethod.POST, new
+	 * HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), Integer.class); int
+	 * status_code = response_entity.getStatusCodeValue(); Integer dataId =
+	 * response_entity.getBody(); // 返回结果代码 if (status_code == 200) { resultsDate =
+	 * new Result(true, RequestProcessStatusEnum.OK.getStatusDesc()); } else {
+	 * resultsDate = new Result(false, "修改专家信息失败"); } } JSONObject result =
+	 * JSONObject.parseObject(JSONObject.toJSONString(resultsDate)); return
+	 * result.toString(); }
+	 */
     
     
     
