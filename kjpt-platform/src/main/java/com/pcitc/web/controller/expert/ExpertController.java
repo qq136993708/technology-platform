@@ -246,7 +246,7 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "email", value = "邮箱", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "brief", value = "人物简介", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "achievement", value = "人物成就", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "zjkAchievementJsonList", value = "相关成果信息", dataType = "string", paramType = "form"),
+        @ApiImplicitParam(name = "zjkAchievementJsonList", value = "相关成果信息(外系统ID#成果名称# 申请单位#申请年度#成果类别$外系统ID#成果名称#申请单位#申请年度#成果类别 )", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkPatentJsonList", value = "相关专利信息", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkProjectJsonList", value = "相关项目信息", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkRewardJsonList", value = "相关奖励信息", dataType = "string", paramType = "form")
@@ -333,7 +333,7 @@ public class ExpertController extends BaseController {
   	   	
   	   	
   	   	
-  	    @ApiOperation(value = "根据ID获取专家信息详情", notes = "根据ID获取专家信息详情")
+  	    @ApiOperation(value = "导出EXCEL-专家信息", notes = "导出EXCEL-专家信息")
   	    @ApiImplicitParams({
           @ApiImplicitParam(name = "name",           value = "专家名称", dataType = "string", paramType = "query"),
           @ApiImplicitParam(name = "belongUnit",     value = "所在单位", dataType = "string", paramType = "query"),
