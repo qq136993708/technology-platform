@@ -35,6 +35,7 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="updator" jdbcType="VARCHAR" property="updator" />
     <result column="deleted" jdbcType="VARCHAR" property="deleted" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -99,7 +100,7 @@
     legal_status, date, application_number, patent_range, agency, entry_person, application_date, 
     entry_date, application_cost, remark, summary, application_of_patent_transformation, 
     major_application, unenforced_reason, licensee, licensee_mode, licensee_profit, assignor, 
-    assign_profit, file, creator, create_date, update_date, updator, deleted
+    assign_profit, file, creator, create_date, update_date, updator, deleted,country
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultMap="BaseResultMap">
     select
@@ -153,7 +154,7 @@
       unenforced_reason, licensee, licensee_mode, 
       licensee_profit, assignor, assign_profit, 
       file, creator, create_date, 
-      update_date, updator, deleted
+      update_date, updator, deleted,country
       )
     values (#{userId,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{applicant,jdbcType=VARCHAR}, 
       #{patentName,jdbcType=VARCHAR}, #{inventor,jdbcType=VARCHAR}, #{applicationType,jdbcType=VARCHAR}, 
@@ -165,7 +166,8 @@
       #{unenforcedReason,jdbcType=VARCHAR}, #{licensee,jdbcType=VARCHAR}, #{licenseeMode,jdbcType=VARCHAR}, 
       #{licenseeProfit,jdbcType=DECIMAL}, #{assignor,jdbcType=VARCHAR}, #{assignProfit,jdbcType=DECIMAL}, 
       #{file,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, #{deleted,jdbcType=VARCHAR}
+      #{updateDate,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, #{deleted,jdbcType=VARCHAR},
+      #{country,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.pcitc.base.patent.PatentInfo">
@@ -270,6 +272,9 @@
       <if test="deleted != null">
         deleted,
       </if>
+      <if test="country != null">
+        country,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -369,7 +374,10 @@
         #{updator,jdbcType=VARCHAR},
       </if>
       <if test="deleted != null">
-        #{deleted,jdbcType=VARCHAR},
+      #{deleted,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -520,7 +528,8 @@
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       updator = #{record.updator,jdbcType=VARCHAR},
-      deleted = #{record.deleted,jdbcType=VARCHAR}
+      deleted = #{record.deleted,jdbcType=VARCHAR},
+      country = #{record.country,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -660,7 +669,8 @@
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       updator = #{updator,jdbcType=VARCHAR},
-      deleted = #{deleted,jdbcType=VARCHAR}
+      deleted = #{deleted,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 

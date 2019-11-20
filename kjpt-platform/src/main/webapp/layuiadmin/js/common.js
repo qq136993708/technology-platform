@@ -1,3 +1,12 @@
+//拓展Array map方法
+if(!Array.prototype.map){Array.prototype.map=function(i,h){var b,a,c,e=Object(this),f=e.length>>>0;if(h){b=h}a=new Array(f);c=0;while(c<f){var d,g;if(c in e){d=e[c];g=i.call(b,d,c,e);a[c]=g}c++}return a}};
+		
+//拓展Array foreach方法
+if(!Array.prototype.forEach){Array.prototype.forEach=function forEach(g,b){var d,c;if(this==null){throw new TypeError("this is null or not defined")}var f=Object(this);var a=f.length>>>0;if(typeof g!=="function"){throw new TypeError(g+" is not a function")}if(arguments.length>1){d=b}c=0;while(c<a){var e;if(c in f){e=f[c];g.call(d,e,c,f)}c++}}};
+
+//拓展Array filter方法
+if(!Array.prototype.filter){Array.prototype.filter=function(b){if(this===void 0||this===null){throw new TypeError()}var f=Object(this);var a=f.length>>>0;if(typeof b!=="function"){throw new TypeError()}var e=[];var d=arguments[1];for(var c=0;c<a;c++){if(c in f){var g=f[c];if(b.call(d,g,c,f)){e.push(g)}}}return e}};
+
 // 获取地址参数
 function getQueryVariable(key) {
   var variable = null;
@@ -181,85 +190,110 @@ function closeTabsPage(){
     parent.$("#LAY_app_tabsheader li").eq(index).find('.layui-tab-close').trigger('click')
 }
 
-// 
-layui.use(['jquery'], function() {
-	var $ = layui.jquery;
-	
-	// 关闭 top层 所有弹窗
-	$('.close-all-dialog').click(function() {
-		top.layer.closeAll();
-	})
-})
 
-
-
-  
-var __page_dic_store = {};
-
-function _getDicStore() {
-	var store = top._getBaseDicStore();
-	return store;  //|| __page_dic_store;
+// 获取字典总数据
+function _getDicStore(key, callback) {
+	var store = null;
+	if (key && typeof(key) !== 'object') {
+		if (!top.__base_dic_store[key]) {
+			top.__base_dic_store[key] = {
+				data: []
+			};
+			_commonLoadDic(key, function(relData) {
+				$(document).trigger('dicLoad_' + key, {data: relData});
+			});
+		}
+		store = top.__base_dic_store[key].data.map(function(item, i) { return item });
+	}
+	if (callback) {
+		callback(store);
+	} else {
+		return store;
+	}
 }
 
- 
-function _commonLoadDic(dicKindCode) {
+// 设置总字典数据
+function _commonLoadDic(dicKindCode, callback) {
+	if (dicKindCode && typeof(dicKindCode) !== 'object') {
+		var httpUrl = '/sysDictionary-api/getChildsListByCode/' + dicKindCode;
+		httpModule({
+			url: httpUrl,
+			type: 'GET',
+			success: function(relData) {
+				var success = false;
+				if (relData.hasOwnProperty('code')) {
+					if (relData.code === '0') {
+						success = true;
+					}
+				} else if (relData.success) {
+					success = true;
+				}
 
-	var __dicData = _getDicStore();
-	__dicData[dicKindCode] = 0;
-	var httpUrl = '/sysDictionary-api/getChildsListByCode/' + dicKindCode;
-	httpModule({
-	  url: httpUrl,
-	  type: 'GET',
-	  success: function(relData) {
-  
-		if (relData.success) { 
-			__dicData[dicKindCode] = relData.data;
-			$(document).trigger('dicLoad_' + dicKindCode, {data: relData.data});
-		}
-	  }
-	});
-  }
-  
+				if (success) {
+					var __dicData = null;
+					if (!relData.data) {
+						__dicData = [];
+					} else {
+						__dicData = relData.data.map(function(item, i) { return item });
+					}
+					top.__base_dic_store[dicKindCode].data = relData.data;
 
-  
-  function bindSelectorDic(selector, dicKindCode, form, filter) {
-   
-	var __dicData = _getDicStore();
-	var dic = __dicData[dicKindCode];
-  
-	if (dic != null && dic.length) {
-		$.each(dic, function(i, item){
-			selector.append(new Option(item.name, item.numValue));
+					if (callback) {
+						callback(__dicData);
+					}
+				}
+			}
 		});
-		form.render('select', filter);
-	} else {
-	  $(document).on('dicLoad_' + dicKindCode, function(event, param) {
+  }
+}
   
-		   var data = param.data;
-			 $.each(data, function(i, item){
-				selector.append(new Option(item.name, item.numValue));
+function bindSelectorDic(selector, dicKindCode, form, filter, type) {
+	var __dicData = _getDicStore(dicKindCode);
+	if (type === 'xm-select') {
+		if (__dicData.length) {
+			form.data(filter, 'local', {arr: __dicData});
+		} else {
+			$(document).on('dicLoad_' + dicKindCode, function(event, param) {
+				form.data(filter, 'local', {arr: param.data});
 			});
-			form.render('select', filter);
-		});
-  
-		if (dic !== 0) {
-			_commonLoadDic(dicKindCode);
 		}
-	   
+	} else if (type === 'select') {
+		if (selector.attr('placeholder')) {
+			selector.append('<option value=""></option>');
+		}
+		if (__dicData.length) {
+			$.each(__dicData, function(i, item){
+				selector.append(new Option(item.name, (item.numValue || item.value)));
+			});
+			form.render('select');
+		} else {
+			$(document).on('dicLoad_' + dicKindCode, function(event, param) {
+				var data = param.data;
+				$.each(data, function(i, item){
+					selector.append(new Option(item.name, (item.numValue || item.value)));
+				});
+				form.render('select');
+			});
+		
+			// if (__dicData !== 0) {
+			// 	_commonLoadDic(dicKindCode);
+			// }
+		}
+		
 	}
-  }
+}
   
   
-  function transInputDic(input, dicKindCode) {
+function transInputDic(input, dicKindCode) {
 	
 	var code = input.val();
  
-	var __dicData = _getDicStore();
-	var dic = __dicData[dicKindCode];
-	if (dic != null && dic.length) {
-		for(var i=0;i<dic.length;i++) {
-			if(dic[i].numValue === code) {
-				input.val(dic[i].name) ; 
+	var __dicData = _getDicStore(dicKindCode);
+
+	if (__dicData != null && __dicData.length) {
+		for(var i = 0; i<__dicData.length; i++) {
+			if(__dicData[i].numValue === code) {
+				input.val(__dicData[i].name) ; 
 			}
 		}
  		
@@ -278,28 +312,26 @@ function _commonLoadDic(dicKindCode) {
 			input.val(text) ; 
 		});
   
-		if (dic !== 0) {
-			_commonLoadDic(dicKindCode);
-		}
-   
+		// if (__dicData !== 0) {
+		// 	_commonLoadDic(dicKindCode);
+		// }
 	}
   
-  }
+}
 
   
   
-  function transFieldDic(dicKindCode, code) {
-	
+function transFieldDic(dicKindCode, code) {
+
 	if (code == null) {
 		return '';
 	}
+	var __dicData = _getDicStore(dicKindCode);
 
-	var __dicData = _getDicStore();
-	var dic = __dicData[dicKindCode];
-	if (dic != null && dic.length) {
-		for(var i=0;i<dic.length;i++) {
-			if(dic[i].numValue === code) {
-				return dic[i].name; 
+	if (__dicData != null && __dicData.length) {
+		for(var i=0;i<__dicData.length;i++) {
+			if(__dicData[i].numValue === code) {
+				return __dicData[i].name; 
 			}
 		}
  
@@ -321,19 +353,40 @@ function _commonLoadDic(dicKindCode) {
 			$("span[" + attr + "]").text(text);
 		});
   
-		if (dic !== 0) {
-			_commonLoadDic(dicKindCode);
-		}
+		// if (__dicData !== 0) {
+		// 	_commonLoadDic(dicKindCode);
+		// }
   
 		return "<span " + attr + ">" + code + "</span>";
-	   
 	}
-  
-  }
+}
 
 
-  function dateFormatText(d) {
-	 var d = new Date(d);
-	 return d.toLocaleDateString();
-  }
+function dateFormatText(d) {
+	var d = new Date(d);
+	return d.toLocaleDateString();
+}
+	
+
+// 渲染字典
+layui.use(['jquery', 'form', 'formSelects'], function() {
+	var $ = layui.jquery;
+	
+	// 关闭 top层 所有弹窗
+	$('.close-all-dialog').click(function() {
+		top.layer.closeAll();
+	})
+
+	// 自动渲染下拉框
+	$('select[dic-base-data]').each(function() {
+		if ($(this).attr('dic-base-data')) {
+			$(this).empty();
+			if ($(this).attr('xm-select')) {
+				bindSelectorDic($(this), $(this).attr('dic-base-data'), layui.formSelects, $(this).attr('xm-select'), 'xm-select');
+			} else {
+				bindSelectorDic($(this), $(this).attr('dic-base-data'), layui.form, $(this).attr('lay-filter'), 'select');
+			}
+		}
+	});
+})
   
