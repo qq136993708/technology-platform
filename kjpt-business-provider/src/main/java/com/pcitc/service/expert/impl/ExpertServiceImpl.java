@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -130,6 +131,8 @@ public class ExpertServiceImpl implements IExpertService {
 				 zjkAchievement.setExpertId(record.getId());
 				 String outSystemId=zjkAchievement.getOutSystemId();
 				 zjkAchievement.setCreateTime(new Date());
+				 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				 zjkAchievement.setId(dateid);
 				 if(!outSystemId.equals(""))
 				 {
 					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
@@ -161,7 +164,8 @@ public class ExpertServiceImpl implements IExpertService {
 				 }
 				 zjkReward.setCreateTime(new Date());
 				 
-				 
+				 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				 zjkReward.setId(dateid);
 				 String datestr= zjkReward.getAwardingTimeStr();
 				 Date awardingTime=DateUtil.strToDate(datestr, DateUtil.FMT_DD);
 				 zjkReward.setAwardingTime(awardingTime);
@@ -190,6 +194,9 @@ public class ExpertServiceImpl implements IExpertService {
 					 zjkProject.setSourceType(Constant.SOURCE_TYPE_LOCATION);
 				 }
 				 zjkProject.setCreateTime(new Date());
+				 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				 zjkProject.setId(dateid);
+				 
 				 zjkProjectMapper.insert(zjkProject);
 				 
 			 }
@@ -217,6 +224,9 @@ public class ExpertServiceImpl implements IExpertService {
 				 String datestr= patent.getGetPatentTimeStr();
 				 Date getPatentTime=DateUtil.strToDate(datestr, DateUtil.FMT_DD);
 				 patent.setGetPatentTime(getPatentTime);
+				 
+				 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				 patent.setId(dateid);
 				 zjkPatentMapper.insert(patent);
 				 
 			 }
