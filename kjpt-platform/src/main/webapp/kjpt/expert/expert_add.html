@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="/css/common.css">
     <style>
         .layui-form-item{margin-top: 20px;}
+        .layui-add-button .layui-input{width: 85%;float: left;border-radius: 5px 0 0 5px;}
+        .layui-add-button .layui-button{width: 15%;float: left;height: 30px;line-height: 30px;border-radius: 0 5px 5px 0;
+            background: #fff;border: 1px solid #AAAAAA;border-left: 0;color: #0AA1FF;cursor: pointer;}
     </style>
 </head>
 <body class="">
@@ -32,7 +35,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required"><span class="text">身份证号码:</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="idCardNo" lay-verify="required"
+                        <input type="text" name="idCardNo" lay-verify="required|identity"
                                placeholder="" autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -46,17 +49,18 @@
                 <!--性别-->
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required"><span class="text">性别:</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="sex" lay-verify="required"
-                               placeholder="" autocomplete="off" class="layui-input">
+                    <div class="layui-input-block" id="sex">
+
                     </div>
                 </div>
-                <!--年龄-->
+                <!--出生年-->
                 <div class="layui-form-item">
-                    <label class="layui-form-label label-required"><span class="text">年龄:</span></label>
+                    <label class="layui-form-label label-required"><span class="text">出生年:</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="age" lay-verify="required"
-                               placeholder="" autocomplete="off" class="layui-input">
+                        <input type="text" name="age"
+                               lay-verify="required" id="appDate" autocomplete="off" placeholder="请选择出生年!" class="layui-input laydate-input">
+                        <!--<input type="text" name="age"
+                               placeholder="" autocomplete="off" class="layui-input">-->
                     </div>
                 </div>
                 <!--职称-->
@@ -70,17 +74,16 @@
                 <!--状态-->
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">状态:</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="useStatus"
-                               placeholder="" autocomplete="off" class="layui-input">
+                    <div class="layui-input-block" id="useStatus">
                     </div>
                 </div>
                 <!--学历-->
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">学历:</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="education"
-                               placeholder="" autocomplete="off" class="layui-input">
+                        <select name="education" id="education">
+                            <option value=""></option>
+                        </select>
                     </div>
                 </div>
                 <!--邮箱-->
@@ -103,18 +106,19 @@
                 <!--<div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">主要项目:</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="platformName"
+                        <input type="text" name="zjkProjectJsonList"
                                placeholder="" autocomplete="off" class="layui-input">
                     </div>
                 </div>-->
                 <!--主要成果-->
-                <!--<div class="layui-form-item">
+                <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">主要成果:</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="platformName"
+                    <div class="layui-input-block layui-add-button">
+                        <input type="text" name="zjkAchievementJsonList"
                                placeholder="" autocomplete="off" class="layui-input">
+                        <a class="layui-btn layui-button" data-type="addAchievements">添加</a>
                     </div>
-                </div>-->
+                </div>
                 <!--主要专利-->
                 <!--<div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">主要专利:</span></label>
@@ -146,8 +150,9 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required"><span class="text">所在单位:</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="belongUnit" lay-verify="required"
-                               placeholder="" autocomplete="off" class="layui-input">
+                        <select name="belongUnit" id="belongUnit">
+                            <option value=""></option>
+                        </select>
                     </div>
                 </div>
                 <!--技术领域-->
@@ -170,23 +175,23 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">人物简介:</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="brief"
-                               placeholder="" autocomplete="off" class="layui-input">
+                        <textarea type="text" name="brief" rows="4"
+                                  placeholder="" autocomplete="off" class="layui-input layui-textarea"></textarea>
                     </div>
                 </div>
                 <!--人物成就-->
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">人物成就:</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="achievement"
-                               placeholder="" autocomplete="off" class="layui-input">
+                        <textarea type="text" name="achievement" rows="4"
+                                  placeholder="" autocomplete="off" class="layui-input layui-textarea"></textarea>
                     </div>
                 </div>
             </div>
 
             <div class="dialog-footer-btn">
                 <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="newSubmit">提交</button>
-                <button class="layui-btn layui-btn-primary close-all-dialog" type="button">关闭</button>
+                <a class="layui-btn layui-btn-primary" data-type="close">关闭</a>
             </div>
         </div>
     </form>
@@ -194,40 +199,112 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
-</body>
-</html>
-
 <script>
-    layui.use(['form', 'jquery'], function(){
-        var $ = layui.jquery,form = layui.form;
-
+    layui.config({
+        base: '/layuiadmin/lib/extend/' //静态资源所在路径
+    }).extend({
+        enhanceform: 'enhanceform'
+    }).use(['form', 'jquery','laydate','enhanceform'], function(){
+        var $ = layui.jquery,form = layui.form,laydate = layui.laydate,enhanceForm = layui.enhanceform;
+        var enhance = new enhanceForm({
+            elem: '#userEditForm' //表单选择器
+        });
         // 获取地址栏传递过来的参数
-        /*var variable = getQueryVariable();
-        console.log('variable => ', variable);*/
-
-       /* httpModule({
-            url: '/platform-api/newInit',
-            type: 'GET',
-            success: function(relData) {
-                if (relData.code === '0') {
-                    // 给form表单赋初始值
-                    form.val('formPlatform', relData.data);
+        var variable = getQueryVariable();
+        /*判断id，回显*/
+        if(variable!=null){
+            httpModule({
+                url: '/expert-api/get/'+variable.id,
+                type: 'GET',
+                success: function(relData) {
+                    if (relData.success === true) {
+                        // 给form表单赋初始值
+                        form.val('formPlatform', relData.data);
+                        enhance.setRadioVal("sex",relData.data.sex)
+                    }
                 }
-            },
-            dataType: "json",
-            contentType: 'application/json'
-        });*/
+            });
+        }
+        /*性别*/
+        createElement("ROOT_UNIVERSAL_XB","sex","radio","sex")
+        /*状态*/
+        createElement("ROOT_UNIVERSAL_QYZT","useStatus","radio","useStatus")
+        /*学历*/
+        createElement("ROOT_KJPT_XL","education","option","education")
+        /*所在单位*/
+        createElement("ROOT_SZDW","belongUnit","option","belongUnit")
+        /*出生年*/
+        laydate.render({
+            elem: '#appDate', //指定元素
+            type:"year"
+        });
+        /*动态生成元素*/
+        function createElement(code,id,element,name) {
+            httpModule({
+                url: "/sysDictionary-api/getChildsListByCode/"+code,
+                type: 'GET',
+                success: function(relData) {
+                    if (relData.success === true) {
+                        relData.data.map(function(item){
+                            if(element=="option"){
+                                $("#"+id).append("<option value='"+item.code+"' name='"+name+"'>"+item.name+"</option>")
+                            }else if(element=="radio"){
 
+                                $("#"+id).append('<input type="radio" name="'+name+'" value="'+item.numValue+'" title="'+item.name+'">')
+                            }
+                        });
+                        form.render()
+                    }
+                }
+            });
+        }
+        var $ = layui.$, active = {
+            addAchievements:function () {
+                top.layer.open({
+                    type: 2,
+                    title: "添加成果",
+                    content: "/kjpt/expert/achievements_add.html", // 全局弹窗页面地址
+                    btn: null,
+                    area: ['80%', '90%'],
+                    end: function(lay, index) {
+                        // 弹窗销毁时获取弹窗返回数据
+                        var diaData = getDialogData('dialog-data');
+                        if (diaData) {
+                            console.log(diaData)
+                        }
+                    }
+                });
+            },
+            close:function () {
+                /*模拟关闭标签页事件*/
+                closeTabsPage();
+            }
+        }
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        /*保存*/
         form.on('submit(newSubmit)', function(data) {
             console.log(data.field)
+            if(data.field.sex==undefined){
+                layer.msg("性别必为填项不能为空！", {icon: 2});
+                return false
+            }
+            if(data.field.belongUnit==undefined){
+                layer.msg("所在单位必为选项不能为空！", {icon: 2});
+                return false
+            }
             httpModule({
                 url: '/expert-api/save',
                 data: data.field,
                 type: "POST",
                 success: function(e) {
                     console.log(e)
-                    /*top.dialogData({code: e.code, message: e.message}); // 通知上层页面状态 - 弹窗中使用
-                    top.layer.closeAll(); // 关闭弹窗*/
+                    if(e.success){
+                        layer.msg('保存成功!', {icon: 1});
+                        closeTabsPage();
+                    }
                 }
             });
             return false;
@@ -235,3 +312,5 @@
 
     });
 </script>
+</body>
+</html>

@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -70,8 +71,8 @@ public class TrademarkController extends RestBaseController {
     public PageInfo query(@RequestParam(required = false) Integer pageNum,
                         @RequestParam(required = false) Integer pageSize,
                         @RequestParam(required = false) String unitName,
-                        @RequestParam(required = false) Date registerDateStart,
-                        @RequestParam(required = false) Date registerDateEnd,
+                        @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date registerDateStart,
+                        @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd") Date registerDateEnd,
                         @RequestParam(required = false) String trademarkName,
                         @RequestParam(required = false) String lawStatus,
                         @RequestParam(required = false) String applicant

@@ -21,14 +21,7 @@
 	  	  <div class="layui-form-item">
 	       <label class="layui-form-label"><span class="text">申请类型：</span></label>
 	       <div class="layui-input-block">
-	         <select name="applaType" lay-filter="applaType">
-	           <option value=""></option>
-	           <option value="0">北京</option>
-	           <option value="1">上海</option>
-	           <option value="2">广州</option>
-	           <option value="3">深圳</option>
-	           <option value="4">杭州</option>
-	         </select>
+	         <select name="applaType" lay-filter="applaType" placeholder="请选择" dic-base-data="DIC_DEMO_DATA"></select>
 	       </div>
 	     </div>
 	   </div>
@@ -37,14 +30,7 @@
 	  	<div class="layui-form-item">
 	       <label class="layui-form-label"><span class="text">多选下拉框：</span></label>
 	       <div class="layui-input-block">
-	         <select name="applaType2" xm-select="applaType2" xm-select-skin="normal">
-	           <option value=""></option>
-	           <option value="0">北京</option>
-	           <option value="1">上海</option>
-	           <option value="2">广州</option>
-	           <option value="3">深圳</option>
-	           <option value="4">杭州</option>
-	         </select>
+	         <select name="applaType2" xm-select="applaType2" xm-select-skin="normal" dic-base-data="DIC_DEMO_DATA"></select>
 	       </div>
 	     </div>
      </div>
@@ -52,7 +38,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">树形结构下拉多选:</span></label>
           <div class="layui-input-block">
-            <select name="applaType3" xm-select="applaType3" xm-select-skin="normal"></select>
+            <select name="applaType3" xm-select="applaType3" xm-select-skin="normal" dic-base-data="DIC_DEMO_TREE"></select>
           </div>
         </div>
      </div>
@@ -60,7 +46,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label"><span class="text">树形结构下拉单选:</span></label>
           <div class="layui-input-block">
-            <select name="applaType4" xm-select="applaType4" xm-select-radio xm-select-skin="normal"></select>
+            <select name="applaType4" xm-select="applaType4" xm-select-radio xm-select-skin="normal" dic-base-data="DIC_DEMO_TREE"></select>
           </div>
         </div>
      </div>
@@ -70,17 +56,13 @@
 
 <pre class="line-numbers"><code class="language-html">
 &lt;div class="layui-form-item">
-   &lt;label class="layui-form-label">&lt;span class="text">申请类型：&lt;/span>&lt;/label>
-   &lt;div class="layui-input-block">
-     &lt;select name="applicationType" lay-filter="applicationType">
-       &lt;option value="">&lt;/option>
-       &lt;option value="0">北京&lt;/option>
-       &lt;option value="1">上海&lt;/option>
-       &lt;option value="2">广州&lt;/option>
-       &lt;option value="3">深圳&lt;/option>
-       &lt;option value="4">杭州&lt;/option>
-     &lt;/select>
-   &lt;/div>
+  &lt;label class="layui-form-label">&lt;span class="text">申请类型：&lt;/span>&lt;/label>
+  &lt;div class="layui-input-block">
+    &lt;select name="applicationType" lay-filter="applicationType" dic-base-data="DIC_DEMO_DATA">
+    <!-- dic-base-data="DIC_DEMO_DATA" 自动渲染字典数据 dic-base-data的值找开发人员要 -->
+    <!-- dic-base-data 可以手工前往 index.html 顶层页面给 __base_dic_store 添加 -->
+    &lt;/select>
+  &lt;/div>
 &lt;/div>
 </code><code class="language-javascript">
 // layui js引用
@@ -105,13 +87,8 @@ layui.use(['form'], function(){
    &lt;label class="layui-form-label">&lt;span class="text">多选下拉框：&lt;/span>&lt;/label>
    &lt;div class="layui-input-block">
    &lt;!-- select标签上必须添加 属性 ”xm-select“ -->
-    &lt;select name="applaType" xm-select="applicationType2" xm-select-skin="normal"&gt;
-       &lt;option value="">&lt;/option>
-       &lt;option value="0">北京&lt;/option>
-       &lt;option value="1">上海&lt;/option>
-       &lt;option value="2">广州&lt;/option>
-       &lt;option value="3">深圳&lt;/option>
-       &lt;option value="4">杭州&lt;/option>
+    &lt;select name="applaType" xm-select="applicationType2" xm-select-skin="normal" dic-base-data="DIC_DEMO_DATA" &gt;
+      <!-- dic-base-data="DIC_DEMO_DATA" 自动渲染字典数据 dic-base-data的值找开发人员要 -->
     &lt;/select&gt;
    &lt;/div>
 &lt;/div>
@@ -154,26 +131,29 @@ layui.use(['formSelects'], function(){
 &lt;div class="layui-form-item">
   &lt;label class="layui-form-label">&lt;span class="text">树形结构下拉多选:&lt;/span>&lt;/label>
   &lt;div class="layui-input-block">
-    &lt;select name="applicationType3" xm-select="applicationType3" xm-select-skin="normal">&lt;/select>
+    &lt;select name="applicationType3" xm-select="applicationType3" xm-select-skin="normal" dic-base-data="DIC_DEMO_TREE">
+      <!-- dic-base-data="DIC_DEMO_TREE" 自动渲染字典数据 dic-base-data的值找开发人员要 -->
+    &lt;/select>
   &lt;/div>
 &lt;/div>
 </code><code class="language-javascript">
 // layui js引用
 layui.use(['formSelects'], function(){
   var formSelects = layui.formSelects;
-  var treeSelectData = [
-    { name: '常用文件夹', value: 1, children: [
-      {name: '所有未读', value: 11},
-      {name: '置顶邮件', value: 12},
-      {name: '标签邮件', value: 13}
-    ]},
-    { name: '我的邮箱', value: 2, children: [
-      { name: 'QQ邮箱', value: 21, children: [
-        { name: '收件箱', value: 211 },
-        { name: '阿里云邮', value: 22}
-      ]}
-    ]}
-  ]
+  // 树形结构数据结构
+  //  var treeSelectData = [
+  //    { name: '常用文件夹', value: 1, children: [
+  //      {name: '所有未读', value: 11},
+  //      {name: '置顶邮件', value: 12},
+  //      {name: '标签邮件', value: 13}
+  //    ]},
+  //    { name: '我的邮箱', value: 2, children: [
+  //      { name: 'QQ邮箱', value: 21, children: [
+  //        { name: '收件箱', value: 211 },
+  //        { name: '阿里云邮', value: 22}
+  //      ]}
+  //    ]}
+  //  ]
   // 渲染多选树形结构下拉框
   formSelects.data('applicationType3', 'local', { arr: treeData });
   formSelects.btns('applicationType3', ['remove']); // 只显示清除按钮
@@ -187,6 +167,7 @@ layui.use(['formSelects'], function(){
 </code></pre>
 
 <script src="prism.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script>
@@ -194,56 +175,18 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
   var form = layui.form;
   var $ = layui.jquery;
   var tree = layui.tree;
-  var selectData = [
-    {value:'0', name: '北京'},
-    {value: '1', name: '上海'},
-    {value: '2', name: '广州'},
-    {value: '3', name: '深圳'},
-    {value: '4', name: '杭州'}
-  ];
-	
+
   var formSelects = layui.formSelects;
   formSelects.value('applaType2', ['0', '1']);
   
-  form.render('select');
+  // form.render('select');
   // //监听表单下属性 lay-filter="applicationType" 的select下拉框选中事件；
   form.on('select(applaType)', function(data) {
   	console.log('select事件 => change', data);
   })
 
-  /* ------------------------------ */
-  var treeData = [{
-        name: '常用文件夹',
-        value: 1,
-        children: [{name: '所有未读', value: 11}, {
-          name: '置顶邮件',
-          value: 12
-        }, {name: '标签邮件', value: 13}]
-      }, {
-        name: '我的邮箱',
-        value: 2,
-        children: [{
-            name: 'QQ邮箱',
-            value: 21,
-            children: [{
-              name: '收件箱',
-              value: 211,
-              children: [{name: '所有未读', value: 2111}, {name: '置顶邮件', value: 2112}, {name: '标签邮件', value: 2113}]
-            }, {name: '已发出的邮件', value: 212}, {name: '垃圾邮件', value: 213}]
-        }, {
-            name: '阿里云邮',
-            value: 22,
-            children: [{name: '收件箱', value: 221}, {name: '已发出的邮件', value: 222}, {name: '垃圾邮件', value: 223}]
-        }]
-    }]
-    // treeData
-    formSelects.data('applaType3', 'local', { arr: treeData });
-    formSelects.btns('applaType3', ['remove']);
-
-    // treeData
-    formSelects.data('applaType4', 'local', { arr: treeData });
-    formSelects.btns('applaType4', ['remove']);
-
+  formSelects.btns('applaType3', ['remove']);
+  formSelects.btns('applaType4', ['remove']);
   /* ------------------------------ */
 });
 </script>
