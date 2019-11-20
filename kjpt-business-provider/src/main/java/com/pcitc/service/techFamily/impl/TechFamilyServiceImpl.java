@@ -198,4 +198,14 @@ public class TechFamilyServiceImpl implements TechFamilyService {
         }
         return obj;
     }
+    
+    
+    
+    public List<TechFamily> getTechFamilyListByCodes(List<String> list)throws Exception
+	{
+		return techFamilyMapper.getTechFamilyListByCodes(list);
+	}
+	
+    
+    
 }

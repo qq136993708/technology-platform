@@ -27,12 +27,11 @@ import java.util.UUID;
 
 /**
  * <p>服务接口</p>
- * <p>Table: zjk_achievement - 科研平台-基本信息</p>
+ * <p>Table:  kypt-info 科研平台-基本信息</p>
  * @author ty
  */
 @Api(value = "researchPlatform-api", description = "国家科研平台接口")
 @Controller
-@RequestMapping("/platform-api")
 public class PlatformApiController extends RestBaseController {
     /**
      * 根据ID获取对象信息
@@ -41,7 +40,6 @@ public class PlatformApiController extends RestBaseController {
     /**
      * 查询平台列表
      */
-   // private static final String query = "http://kjpt-zuul/stp-proxy/expert/page";
     private static final String query = "http://kjpt-zuul/stp-proxy/researchPlatform-api/query";
     /**
      * 保存平台
@@ -52,9 +50,20 @@ public class PlatformApiController extends RestBaseController {
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/researchPlatform-api/delete/";
 
+    @RequestMapping(value = "/platform-api/view")
+    public String view() {
+        return "/kjpt/researchplatform/researchplatform_view";
+    }
+
+    @RequestMapping(value = "/platform-api/add")
+    public String add() {
+        return "/kjpt/researchplatform/researchplatform_add";
+    }
+
+
 
     @ApiOperation(value="读取")
-    @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/platform-api/load/{id}", method = RequestMethod.GET)
     @ResponseBody
     public PlatformInfoModel load(@PathVariable String id) {
         ResponseEntity<PlatformInfoModel> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), PlatformInfoModel.class);
@@ -73,7 +82,7 @@ public class PlatformApiController extends RestBaseController {
             @ApiImplicitParam(name = "platformScorinHigh", value = "平台评分区间高", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "platformScorinLow", value = "平台评分区间低", dataType = "string", paramType = "query")
     })
-    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    @RequestMapping(value = "/platform-api/query", method = RequestMethod.GET)
     @ResponseBody
     public PageInfo query(
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
@@ -121,7 +130,7 @@ public class PlatformApiController extends RestBaseController {
     }
 
     @ApiOperation(value="保存")
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/platform-api/save", method = RequestMethod.POST)
     @ResponseBody
     public PlatformInfoModel save(@RequestBody PlatformInfoModel pm) {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -130,7 +139,7 @@ public class PlatformApiController extends RestBaseController {
     }
 
     @ApiOperation(value="删除")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/platform-api/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public Integer delete(@PathVariable String id) {
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(delete+id, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
@@ -138,7 +147,7 @@ public class PlatformApiController extends RestBaseController {
     }
 
     @ApiOperation(value="初始化")
-    @RequestMapping(value = "/newInit", method = RequestMethod.GET)
+    @RequestMapping(value = "/platform-api/newInit", method = RequestMethod.GET)
     @ResponseBody
     public PlatformInfoModel newInit() {
         PlatformInfoModel p = new PlatformInfoModel();

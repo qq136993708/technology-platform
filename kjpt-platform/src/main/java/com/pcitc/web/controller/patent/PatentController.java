@@ -26,16 +26,16 @@ import java.util.UUID;
 
 @Api(value = "patent-api", description = "专利接口")
 @Controller
-@RequestMapping("patentController")
+@RequestMapping("/patentController")
 public class PatentController extends RestBaseController {
 
     private static final String SAVE = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_save";
 
     private static final String QUERY = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_query";
 
-    private static final String LOAD = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_load";
+    private static final String LOAD = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_load/";
 
-    private static final String DELETE = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_delete";
+    private static final String DELETE = "http://kjpt-zuul/stp-proxy/patent-provider/patentInfo/patentInfo_delete/";
 
     /**
      * 保存-专利信息
@@ -74,17 +74,17 @@ public class PatentController extends RestBaseController {
     @RequestMapping(value = "/query",  method = RequestMethod.GET)
     @ResponseBody
     public PageInfo query(
-            @RequestParam(required = false,value = "页码") Integer pageNum,
-            @RequestParam(required = false,value = "每页显示条数") Integer pageSize,
-            @RequestParam(required = false,value = "单位名称") String unitName,
-            @RequestParam(required = false,value = "申请日期开始") Date applicationDateStart,
-            @RequestParam(required = false,value = "申请日期结束") Date applicationDateEnd,
-            @RequestParam(required = false,value = "申请类型") String applicationType,
-            @RequestParam(required = false,value = "专利类型") String patentType,
-            @RequestParam(required = false,value = "申请号（专利号）") String applicationNumber,
-            @RequestParam(required = false,value = "专利名称") String patentName,
-            @RequestParam(required = false,value = "申请人") String applicant,
-            @RequestParam(required = false,value = "发明人") String inventor
+            @RequestParam(required = false) Integer pageNum,
+            @RequestParam(required = false) Integer pageSize,
+            @RequestParam(required = false) String unitName,
+            @RequestParam(required = false) Date applicationDateStart,
+            @RequestParam(required = false) Date applicationDateEnd,
+            @RequestParam(required = false) String applicationType,
+            @RequestParam(required = false) String patentType,
+            @RequestParam(required = false) String applicationNumber,
+            @RequestParam(required = false) String patentName,
+            @RequestParam(required = false) String applicant,
+            @RequestParam(required = false) String inventor
     ) {
         Map<String, Object> condition = new HashMap<>(6);
         if (pageNum == null) {
@@ -136,10 +136,10 @@ public class PatentController extends RestBaseController {
      * @return PatentInfo
      */
     @ApiOperation(value="根据ID查询专利信息")
-    @RequestMapping(value = "/load",method = RequestMethod.GET)
+    @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
     @ResponseBody
     public PatentInfo load(@PathVariable String id) {
-        ResponseEntity<PatentInfo> responseEntity = this.restTemplate.exchange(LOAD + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), PatentInfo.class);
+        ResponseEntity<PatentInfo> responseEntity = this.restTemplate.exchange(LOAD+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), PatentInfo.class);
         return responseEntity.getBody();
     }
 
@@ -149,10 +149,10 @@ public class PatentController extends RestBaseController {
      * @return Integer
      */
     @ApiOperation(value="删除专利信息")
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public Integer delete() throws Exception {
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DELETE + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
+    public Integer delete(@PathVariable String id){
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DELETE +id, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
         return responseEntity.getBody();
     }
 

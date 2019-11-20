@@ -7,6 +7,18 @@
 * {
   box-sizing: border-box;
 }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background-color: #e2e2e2;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0,0,0,.3);
+}
 html, body {
   height: 100%;
   width: 100%;
@@ -150,7 +162,64 @@ body > .layui-layout{
 .font20 { font-size: 20px; }
 .font24 { font-size: 24px; }
 
+.link-text {
+  color: #0AA1FF;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  transition: opacity .24s ease-out;
+}
+.link-text:hover {
+  opacity: .8;
+}
+a.link-text:hover {
+  text-decoration: underline;
+}
 
-
+/* 下拉目录树 */
+.xm-select-parent .xm-input {
+  border-color: #aaa;
+  border-radius: 5px;
+}
+.xm-select-parent dl dd > i.icon-expand{
+  visibility: hidden !important;
+}
+.x-tree-item-parent > .x-tree-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  border: 1px #1E9FFF solid;
+  border-radius: 2px;
+  line-height: 14px;
+  text-align: center;
+  font-size: 18px;
+  color: #1E9FFF;
+  overflow: hidden;
+}
+.x-tree-item-parent > .x-tree-icon::before {
+  content: '-';
+  display: inline;
+}
+.x-tree-item-parent > i {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  left: auto !important;
+  top: auto !important;
+  margin: 0;
+  margin-left: 6px;
+  border: 1px #1E9FFF solid !important;
+}
+.x-tree-item-parent > span {
+  display: inline-block;
+  vertical-align: middle;
+  width: calc(100% - 44px);
+  padding-left: 10px;
+}
+dd[xm-tree-hidn] > .x-tree-item-parent > .x-tree-icon::before {
+  content: '+';
+}
+/* 下拉目录树end */
 
 
