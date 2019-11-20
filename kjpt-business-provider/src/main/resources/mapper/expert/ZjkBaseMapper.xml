@@ -361,10 +361,10 @@
    
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="name != null and name  !='' ">               AND t.name like CONCAT('%',#{name},'%')</if>
-	     <if test="sourceType != null      and sourceType !=''  ">    AND t.source_type = #{sourceType}</if>
-	     <if test="delStatus != null       and delStatus !=''  ">      AND t.del_status = #{delStatus}</if>
-	     <if test="outSystemId != null     and outSystemId !=''  ">  AND t.out_system_id = #{outSystemId}</if>
+	     <if test="name != null and name  !='' ">                             AND t.name like CONCAT('%',#{name},'%')</if>
+	     <if test="sourceType != null            and sourceType !=''  ">      AND t.source_type = #{sourceType}</if>
+	     <if test="delStatus != null             and delStatus !=''  ">       AND t.del_status = #{delStatus}</if>
+	     <if test="outSystemId != null           and outSystemId !=''  ">     AND t.out_system_id = #{outSystemId}</if>
 	     <if test="useStatus != null             and useStatus !=''  ">       AND t.use_status = #{useStatus}</if>
 	     <if test="belongUnit != null            and belongUnit !=''  ">      AND t.use_status = #{belongUnit}</if>
 	     <if test="post != null                  and post !=''  ">            AND t.post = #{post}</if>

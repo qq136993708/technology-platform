@@ -47,6 +47,12 @@ public class ZjkReward implements Serializable {
      * 奖励时间
      */
     private Date awardingTime;
+    
+    
+    /**
+     * 奖励时间
+     */
+    private String awardingTimeStr;
 
     /**
      * 创建时间
@@ -57,6 +63,9 @@ public class ZjkReward implements Serializable {
      * 外系统ID
      */
     private String outSystemId;
+    
+    
+    
 
     private static final long serialVersionUID = 1L;
 
@@ -139,4 +148,15 @@ public class ZjkReward implements Serializable {
     public void setOutSystemId(String outSystemId) {
         this.outSystemId = outSystemId;
     }
+
+	public String getAwardingTimeStr() {
+		return awardingTimeStr;
+	}
+
+	public void setAwardingTimeStr(String awardingTimeStr) {
+		this.awardingTimeStr = awardingTimeStr;
+	}
+    
+    
+    
 }

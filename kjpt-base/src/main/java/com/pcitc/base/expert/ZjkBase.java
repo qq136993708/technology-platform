@@ -8,102 +8,102 @@ import java.util.Date;
  * @author 
  */
 public class ZjkBase  {
-    private String id;
+    private String id="";
 
     /**
      * 删除状态（0未删除，1删除）
      */
-    private String delStatus;
+    private String delStatus="";
 
     /**
      * 专家编号
      */
-    private String num;
+    private String num="";
 
     /**
      * 人事系统编号
      */
-    private String personnelNum;
+    private String personnelNum="";
 
     /**
      * 数据来源（1本系统，2外系统）
      */
-    private String sourceType;
+    private String sourceType="";
 
     /**
      * 姓名
      */
-    private String name;
+    private String name="";
 
     /**
      * 性别
      */
-    private String sex;
+    private String sex="1";
 
     /**
      * 年龄
      */
-    private Integer age;
+    private Integer age=0;
 
     /**
      * 身份证号码
      */
-    private String idCardNo;
+    private String idCardNo="";
 
     /**
      * 学历
      */
-    private String education;
+    private String education="";
 
     /**
      * 技术领域
      */
-    private String technicalField;
+    private String technicalField="";
 
     /**
      * 所在单位
      */
-    private String belongUnit;
+    private String belongUnit="";
 
     /**
      * 职称
      */
-    private String title;
+    private String title="";
 
     /**
      * 职务
      */
-    private String post;
+    private String post="";
 
     /**
      * 工作经历
      */
-    private String workExperience;
+    private String workExperience="";
 
     /**
      * 联系方式
      */
-    private String contactWay;
+    private String contactWay="";
 
     /**
      * 邮箱
      */
-    private String email;
+    private String email="";
 
     /**
      * 人物简介
      */
-    private String brief;
+    private String brief="";
 
     /**
      * 人物成就
      */
-    private String achievement;
+    private String achievement="";
 
     /**
      * 头像
      */
-    private String headPic;
+    private String headPic="";
 
     /**
      * 创建时间
@@ -113,28 +113,28 @@ public class ZjkBase  {
     /**
      * 创建人
      */
-    private String createUser;
+    private String createUser="";
 
     /**
      * 修改时间
      */
-    private Date updateTime;
+    private Date updateTime=new Date();
 
     /**
      * 修改人
      */
-    private String updateUser;
+    private String updateUser="";
 
     /**
      * 外系统ID
      */
-    private String outSystemId;
+    private String outSystemId="";
     
     
     /**
               * 启用状态（1启用，0未启用）
      */
-    private String useStatus;
+    private String useStatus="";
     
     private String zjkAchievementJsonList;
     private String zjkPatentJsonList;

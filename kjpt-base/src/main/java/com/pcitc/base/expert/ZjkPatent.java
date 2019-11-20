@@ -21,7 +21,7 @@ public class ZjkPatent implements Serializable {
     /**
      * 数据来源（1本系统，2外系统）
      */
-    private String sourceType;
+    private String sourceType="";
 
     /**
      * 删除状态（0未删除，1删除）
@@ -31,22 +31,26 @@ public class ZjkPatent implements Serializable {
     /**
      * 专利名称
      */
-    private String patentName;
+    private String patentName="";
 
     /**
      * 专利类型
      */
-    private String patentType;
+    private String patentType="";
 
     /**
      * 专利描述
      */
-    private String describe;
+    private String describe="";
 
     /**
      * 获得专利时间
      */
     private Date getPatentTime;
+    /**
+     * 获得专利时间
+     */
+    private String getPatentTimeStr;
 
     /**
      * 创建时间
@@ -56,32 +60,33 @@ public class ZjkPatent implements Serializable {
     /**
      * 专利号
      */
-    private String patentNo;
+    private String patentNo="";
 
     /**
      * 专利范围
      */
-    private String patentScope;
+    private String patentScope="";
 
     /**
      * 专利种类
      */
-    private String patentTypes;
+    private String patentTypes="";
 
     /**
      * 专利排名
      */
-    private String patentRanking;
+    private String patentRanking="";
 
     /**
      * 应用效果
      */
-    private String applicationEffect;
+    private String applicationEffect="";
 
     /**
      * 外系统ID
      */
-    private String outSystemId;
+    private String outSystemId="";
+    
 
     private static final long serialVersionUID = 1L;
 
@@ -204,4 +209,16 @@ public class ZjkPatent implements Serializable {
     public void setOutSystemId(String outSystemId) {
         this.outSystemId = outSystemId;
     }
+
+	public String getGetPatentTimeStr() {
+		return getPatentTimeStr;
+	}
+
+	public void setGetPatentTimeStr(String getPatentTimeStr) {
+		this.getPatentTimeStr = getPatentTimeStr;
+	}
+    
+    
+    
+    
 }

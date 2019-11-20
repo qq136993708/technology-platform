@@ -1,9 +1,9 @@
 package com.pcitc.service.expert.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,7 @@ import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.expert.ZjkAchievementMapper;
 import com.pcitc.mapper.expert.ZjkBaseMapper;
 import com.pcitc.mapper.expert.ZjkPatentMapper;
@@ -54,41 +55,14 @@ public class ExpertServiceImpl implements IExpertService {
 	*/
 	public Integer updateZjkBase(ZjkBase record)throws Exception
 	{
-		
-		
-		
+		 //先根据专家ID删除相关的信息（专利，成果，项目，奖励）
 		 zjkAchievementMapper.deleteZjkAchievementByExpertId(record.getId());
-		 String achievementStr=record.getZjkAchievementJsonList();
-		 String patentStr=record.getZjkPatentJsonList();
-		 String projectStr=record.getZjkProjectJsonList();
-		 String rewardStr=record.getZjkRewardJsonList();
-		 List<ZjkAchievement> achievementList = JSONObject.parseArray(achievementStr, ZjkAchievement.class);
-		 if(achievementList!=null)
-		 {
-			 for(int i=0;i<achievementList.size();i++)
-			 {
-				 ZjkAchievement zjkAchievement= achievementList.get(i);
-				 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
-				 zjkAchievement.setExpertId(record.getId());
-				 String outSystemId=zjkAchievement.getOutSystemId();
-				 String uuid=UUID.randomUUID().toString().replaceAll("-", "");
-				 if(!outSystemId.equals(""))
-				 {
-					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
-				 }else
-				 {
-					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
-				 }
-				 zjkAchievement.setId(uuid);
-				 zjkAchievementMapper.insert(zjkAchievement);
-				 
-			 }
-		 }
-		 
-		 
-		
-		 
-		return zjkBaseMapper.updateByPrimaryKey(record);
+		 zjkPatentMapper.deleteZjkPatentByExpertId(record.getId());
+		 zjkRewardMapper.deleteZjkRewardByExpertId(record.getId());
+		 zjkProjectMapper.deleteZjkProjectByExpertId(record.getId());
+		 //再增加相关的信息（专利，成果，项目，奖励）
+		 addRealtionInfo(record);
+		 return zjkBaseMapper.updateByPrimaryKey(record);
 	}
 
 	
@@ -127,11 +101,25 @@ public class ExpertServiceImpl implements IExpertService {
 	 */
 	public Integer insertZjkBase(ZjkBase record)throws Exception
 	{
-		
+		addRealtionInfo(record);
+		return zjkBaseMapper.insert(record);
+	}
+	
+	
+	
+	//增加专家相关的信息
+	public void addRealtionInfo(ZjkBase record)throws Exception
+	{
 		 String achievementStr=record.getZjkAchievementJsonList();
 		 String patentStr=record.getZjkPatentJsonList();
 		 String projectStr=record.getZjkProjectJsonList();
 		 String rewardStr=record.getZjkRewardJsonList();
+		 System.out.println(">>>>>>>>>>成果信息"+achievementStr);
+		 System.out.println(">>>>>>>>>>专利信息"+patentStr);
+		 System.out.println(">>>>>>>>>>项目信息"+projectStr);
+		 System.out.println(">>>>>>>>>>奖励信息"+rewardStr);
+		 
+		 //成果
 		 List<ZjkAchievement> achievementList = JSONObject.parseArray(achievementStr, ZjkAchievement.class);
 		 if(achievementList!=null)
 		 {
@@ -141,6 +129,7 @@ public class ExpertServiceImpl implements IExpertService {
 				 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
 				 zjkAchievement.setExpertId(record.getId());
 				 String outSystemId=zjkAchievement.getOutSystemId();
+				 zjkAchievement.setCreateTime(new Date());
 				 if(!outSystemId.equals(""))
 				 {
 					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
@@ -153,10 +142,87 @@ public class ExpertServiceImpl implements IExpertService {
 			 }
 		 }
 		 
-		
+		 //奖励
+		 List<ZjkReward> rewardList = JSONObject.parseArray(rewardStr, ZjkReward.class);
+		 if(rewardList!=null)
+		 {
+			 for(int i=0;i<rewardList.size();i++)
+			 {
+				 ZjkReward zjkReward= rewardList.get(i);
+				 zjkReward.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkReward.setExpertId(record.getId());
+				 String outSystemId=zjkReward.getOutSystemId();
+				 if(!outSystemId.equals(""))
+				 {
+					 zjkReward.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkReward.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 zjkReward.setCreateTime(new Date());
+				 
+				 
+				 String datestr= zjkReward.getAwardingTimeStr();
+				 Date awardingTime=DateUtil.strToDate(datestr, DateUtil.FMT_DD);
+				 zjkReward.setAwardingTime(awardingTime);
+				 
+				 
+				 zjkRewardMapper.insert(zjkReward);
+				 
+			 }
+		 }
 		 
-		return zjkBaseMapper.insert(record);
+		 //项目
+		 List<ZjkProject> projectList = JSONObject.parseArray(projectStr, ZjkProject.class);
+		 if(projectList!=null)
+		 {
+			 for(int i=0;i<projectList.size();i++)
+			 {
+				 ZjkProject zjkProject= projectList.get(i);
+				 zjkProject.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkProject.setExpertId(record.getId());
+				 String outSystemId=zjkProject.getOutSystemId();
+				 if(!outSystemId.equals(""))
+				 {
+					 zjkProject.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkProject.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 zjkProject.setCreateTime(new Date());
+				 zjkProjectMapper.insert(zjkProject);
+				 
+			 }
+		 }
+		 
+		 //专利
+		 List<ZjkPatent> patentList = JSONObject.parseArray(patentStr, ZjkPatent.class);
+		 if(patentList!=null)
+		 {
+			 for(int i=0;i<patentList.size();i++)
+			 {
+				 ZjkPatent patent= patentList.get(i);
+				 patent.setDelStatus(Constant.DEL_STATUS_NOT);
+				 patent.setExpertId(record.getId());
+				 String outSystemId=patent.getOutSystemId();
+				 if(!outSystemId.equals(""))
+				 {
+					 patent.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 patent.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 patent.setCreateTime(new Date());
+				 
+				 String datestr= patent.getGetPatentTimeStr();
+				 Date getPatentTime=DateUtil.strToDate(datestr, DateUtil.FMT_DD);
+				 patent.setGetPatentTime(getPatentTime);
+				 zjkPatentMapper.insert(patent);
+				 
+			 }
+		 }
 	}
+	
 	
 	
 	/**

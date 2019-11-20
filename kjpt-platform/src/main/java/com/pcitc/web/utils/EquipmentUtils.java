@@ -5,11 +5,11 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,17 +24,13 @@ import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
-import com.pcitc.base.util.CodeUtil;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.JwtTokenUtil;
 
 
@@ -1497,6 +1493,27 @@ public class EquipmentUtils {
 			parentUnitPathNames = sysUnit.getUnitName();
 		}
 		return parentUnitPathNames;
+	}
+	
+	
+	
+	//生成8位随机数
+	public static String genRandomNum() {
+		int maxNum = 36;
+		int i;
+		int count = 0;
+		char[] str = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+				'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+		StringBuffer pwd = new StringBuffer("");
+		Random r = new Random();
+		while (count < 8) {
+			i = Math.abs(r.nextInt(maxNum));
+			if (i >= 0 && i < str.length) {
+				pwd.append(str[i]);
+				count++;
+			}
+		}
+		return pwd.toString();
 	}
 	
 	
