@@ -175,7 +175,11 @@ function httpModule(config) {
 		top.layer.msg('HTTP请求配置有误！', {icon: 2});
 	}
 }
-
+/*关闭标签页*/
+function closeTabsPage(){
+    var index=parent.$("#LAY_app_body div.layui-show").index()-1;
+    parent.$("#LAY_app_tabsheader li").eq(index).find('.layui-tab-close').trigger('click')
+}
 
 // 
 layui.use(['jquery'], function() {
