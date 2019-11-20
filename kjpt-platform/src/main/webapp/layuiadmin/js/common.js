@@ -1,3 +1,12 @@
+//拓展Array map方法
+if(!Array.prototype.map){Array.prototype.map=function(i,h){var b,a,c,e=Object(this),f=e.length>>>0;if(h){b=h}a=new Array(f);c=0;while(c<f){var d,g;if(c in e){d=e[c];g=i.call(b,d,c,e);a[c]=g}c++}return a}};
+		
+//拓展Array foreach方法
+if(!Array.prototype.forEach){Array.prototype.forEach=function forEach(g,b){var d,c;if(this==null){throw new TypeError("this is null or not defined")}var f=Object(this);var a=f.length>>>0;if(typeof g!=="function"){throw new TypeError(g+" is not a function")}if(arguments.length>1){d=b}c=0;while(c<a){var e;if(c in f){e=f[c];g.call(d,e,c,f)}c++}}};
+
+//拓展Array filter方法
+if(!Array.prototype.filter){Array.prototype.filter=function(b){if(this===void 0||this===null){throw new TypeError()}var f=Object(this);var a=f.length>>>0;if(typeof b!=="function"){throw new TypeError()}var e=[];var d=arguments[1];for(var c=0;c<a;c++){if(c in f){var g=f[c];if(b.call(d,g,c,f)){e.push(g)}}}return e}};
+
 // 获取地址参数
 function getQueryVariable(key) {
   var variable = null;
@@ -221,7 +230,12 @@ function _commonLoadDic(dicKindCode, callback) {
 				}
 
 				if (success) {
-					var __dicData = relData.data.map(function(item, i) { return item });
+					var __dicData = null;
+					if (!relData.data) {
+						__dicData = [];
+					} else {
+						__dicData = relData.data.map(function(item, i) { return item });
+					}
 					top.__base_dic_store[dicKindCode].data = relData.data;
 
 					if (callback) {
