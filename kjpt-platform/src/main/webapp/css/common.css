@@ -155,13 +155,16 @@ body > .layui-layout{
 .elementHide {
 	display: none !important;
 }
-
+.font0 { font-size: 0; }
 .font14 { font-size: 14px; }
 .font16 { font-size: 16px; }
 .font18 { font-size: 18px; }
 .font20 { font-size: 20px; }
 .font24 { font-size: 24px; }
 
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
 .link-text {
   color: #0AA1FF;
   cursor: pointer;
