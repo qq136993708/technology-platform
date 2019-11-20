@@ -8,14 +8,17 @@
     <title>中核科技管理平台</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
     <!-- 多选下拉框样式，根据需求添加 -->
-    <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+     <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
     <link rel="stylesheet" href="/css/layui-common.css">
     <link rel="stylesheet" href="/css/common.css">
     <style>
         .layui-form-item{margin-top: 20px;}
-        .layui-add-button .layui-input{width: 85%;float: left;border-radius: 5px 0 0 5px;}
-        .layui-add-button .layui-button{width: 15%;float: left;height: 30px;line-height: 30px;border-radius: 0 5px 5px 0;
-            background: #fff;border: 1px solid #AAAAAA;border-left: 0;color: #0AA1FF;cursor: pointer;}
+        .layui-add-button .layui-button{width: 60px;display:inline-block;height: 30px;line-height: 30px;
+            background: #fff;border: 1px solid #AAAAAA;color: #0AA1FF;cursor: pointer;margin-left: 10px;}
+        .expert-ul {display: inline-block;border: none;width: 100%;height: auto;overflow: hidden}
+        .expert-ul li{height: 30px;line-height: 30px;background-color: #e6f7ff;color: #1890ff;margin-left: 10px;
+        float: left;margin-bottom: 10px;}
+        .expert-ul li.expert-li-last{background: none;margin: 0;padding: 0;height: 31px;line-height: 31px;}
     </style>
 </head>
 <body class="">
@@ -102,39 +105,6 @@
                                placeholder="" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                <!--主要项目-->
-                <!--<div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">主要项目:</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="zjkProjectJsonList"
-                               placeholder="" autocomplete="off" class="layui-input">
-                    </div>
-                </div>-->
-                <!--主要成果-->
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">主要成果:</span></label>
-                    <div class="layui-input-block layui-add-button">
-                        <input type="text" name="zjkAchievementJsonList"
-                               placeholder="" autocomplete="off" class="layui-input">
-                        <a class="layui-btn layui-button" data-type="addAchievements">添加</a>
-                    </div>
-                </div>
-                <!--主要专利-->
-                <!--<div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">主要专利:</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="platformName"
-                               placeholder="" autocomplete="off" class="layui-input">
-                    </div>
-                </div>-->
-                <!--奖励信息-->
-                <!--<div class="layui-form-item">
-                    <label class="layui-form-label"><span class="text">奖励信息:</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="platformName"
-                               placeholder="" autocomplete="off" class="layui-input">
-                    </div>
-                </div>-->
             </div>
 
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
@@ -159,8 +129,9 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">技术领域:</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="technicalField"
-                               placeholder="" autocomplete="off" class="layui-input">
+                        <select name="applaType3" xm-select="applaType3" xm-select-skin="normal"></select>
+                        <!--<input type="text" name="technicalField"
+                               placeholder="" autocomplete="off" class="layui-input">-->
                     </div>
                 </div>
                 <!--工作经历-->
@@ -194,6 +165,52 @@
                 <a class="layui-btn layui-btn-primary" data-type="close">关闭</a>
             </div>
         </div>
+        <div class="layui-row">
+            <!--主要项目-->
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="text">主要项目:</span></label>
+                <div class="layui-input-block layui-add-button">
+                    <div class="zjkProjectJsonList">
+                        <ul class="layui-tab-title expert-ul">
+                            <li class="expert-li-last"><a class="layui-btn layui-button" data-type="addProject">添加</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--主要成果-->
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="text">主要成果:</span></label>
+                <div class="layui-input-block layui-add-button">
+                    <div class="zjkAchievementJsonList">
+                        <ul class="layui-tab-title expert-ul">
+                            <li class="expert-li-last"><a class="layui-btn layui-button" data-type="addAchievements">添加</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--主要专利-->
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="text">主要专利:</span></label>
+                <div class="layui-input-block layui-add-button">
+                    <div class="zjkPatentJsonList">
+                        <ul class="layui-tab-title expert-ul">
+                            <li class="expert-li-last"><a class="layui-btn layui-button" data-type="addPatent">添加</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--奖励信息-->
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="text">奖励信息:</span></label>
+                <div class="layui-input-block layui-add-button">
+                    <div class="zjkRewardJsonList">
+                        <ul class="layui-tab-title expert-ul">
+                            <li class="expert-li-last"><a class="layui-btn layui-button" data-type="addReward">添加</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
@@ -204,10 +221,11 @@
         base: '/layuiadmin/lib/extend/' //静态资源所在路径
     }).extend({
         enhanceform: 'enhanceform'
-    }).use(['form', 'jquery','laydate','enhanceform'], function(){
-        var $ = layui.jquery,form = layui.form,laydate = layui.laydate,enhanceForm = layui.enhanceform;
+    }).use(['form', 'jquery','laydate','enhanceform','formSelects'], function(){
+        var $ = layui.jquery,form = layui.form,laydate = layui.laydate,enhanceForm = layui.enhanceform,formSelects=layui.formSelects;
+        var achieveName=[],projectName=[],patentName=[],rewardName=[]
         var enhance = new enhanceForm({
-            elem: '#userEditForm' //表单选择器
+            elem: '#formPlatform' //表单选择器
         });
         // 获取地址栏传递过来的参数
         var variable = getQueryVariable();
@@ -221,6 +239,9 @@
                         // 给form表单赋初始值
                         form.val('formPlatform', relData.data);
                         enhance.setRadioVal("sex",relData.data.sex)
+                        enhance.setRadioVal("useStatus",relData.data.useStatus)
+                        enhance.setSelectVal("belongUnit",relData.data.belongUnit,"true")
+                        form.render()
                     }
                 }
             });
@@ -258,6 +279,17 @@
                 }
             });
         }
+        /*领域*/
+        httpModule({
+            url: "/techFamily-api/getTreeList",
+            type: 'GET',
+            success: function(relData) {
+                formSelects.data('applaType3', 'local', { arr: relData.childNodes });
+                formSelects.btns('applaType3', ['remove']);
+                console.log(relData.childNodes)
+            }
+        });
+
         var $ = layui.$, active = {
             addAchievements:function () {
                 top.layer.open({
@@ -265,13 +297,93 @@
                     title: "添加成果",
                     content: "/kjpt/expert/achievements_add.html", // 全局弹窗页面地址
                     btn: null,
-                    area: ['80%', '90%'],
+                    area: ['50%', '60%'],
                     end: function(lay, index) {
                         // 弹窗销毁时获取弹窗返回数据
-                        var diaData = getDialogData('dialog-data');
-                        if (diaData) {
-                            console.log(diaData)
+                        achieveName = getDialogData('dialog-data');
+                        if (achieveName) {
+                            achieveName.map(function (item,index) {
+                                var html='<li><span>'+item.achieveName+'</span><i class="layui-icon layui-unselect layui-tab-close closeAchievement">ဆ</i></li>'
+                                $(".zjkAchievementJsonList ul li.expert-li-last").before(html)
+                            })
                         }
+                        $(".closeAchievement").click(function () {
+                            var num=$(this).parent('li').index()
+                            $(this).parent('li').remove()
+                            achieveName.splice(num,1)
+                        })
+                    }
+                });
+            },
+            addProject:function(){
+                top.layer.open({
+                    type: 2,
+                    title: "添加项目",
+                    content: "/kjpt/expert/project_add.html", // 全局弹窗页面地址
+                    btn: null,
+                    area: ['50%', '60%'],
+                    end: function(lay, index) {
+                        // 弹窗销毁时获取弹窗返回数据
+                        projectName = getDialogData('dialog-data');
+                        if (projectName) {
+                            projectName.map(function (item,index) {
+                                var html='<li><span>'+item.projectName+'</span><i class="layui-icon layui-unselect layui-tab-close closeProject">ဆ</i></li>'
+                                $(".zjkProjectJsonList ul li.expert-li-last").before(html)
+                            })
+                        }
+                        $(".closeProject").click(function () {
+                            var num=$(this).parent('li').index()
+                            $(this).parent('li').remove()
+                            projectName.splice(num,1)
+                        })
+                    }
+                });
+            },
+            addPatent:function(){
+                top.layer.open({
+                    type: 2,
+                    title: "添加专利",
+                    content: "/kjpt/expert/patent_add.html", // 全局弹窗页面地址
+                    btn: null,
+                    area: ['50%', '60%'],
+                    end: function(lay, index) {
+                        // 弹窗销毁时获取弹窗返回数据
+                        patentName = getDialogData('dialog-data');
+                        if (patentName) {
+                            patentName.map(function (item,index) {
+                                var html='<li><span>'+item.patentName+'</span><i class="layui-icon layui-unselect layui-tab-close closePatent">ဆ</i></li>'
+                                $(".zjkPatentJsonList ul li.expert-li-last").before(html)
+                            })
+                        }
+                        $(".closePatent").click(function () {
+                            var num=$(this).parent('li').index()
+                            $(this).parent('li').remove()
+                            patentName.splice(num,1)
+                        })
+                    }
+                });
+            },
+            addReward:function(){
+                top.layer.open({
+                    type: 2,
+                    title: "添加奖励信息",
+                    content: "/kjpt/expert/reward_add.html", // 全局弹窗页面地址
+                    btn: null,
+                    area: ['50%', '60%'],
+                    end: function(lay, index) {
+                        // 弹窗销毁时获取弹窗返回数据
+                        rewardName = getDialogData('dialog-data');
+                        if (rewardName) {
+                            rewardName.map(function (item,index) {
+                                var html='<li><span>'+item.rewarkLevel+'</span><i class="layui-icon layui-unselect layui-tab-close closeReward">ဆ</i></li>'
+                                $(".zjkRewardJsonList ul li.expert-li-last").before(html)
+                            })
+                        }
+                        $(".closeReward").click(function () {
+                            var num=$(this).parent('li').index()
+                            $(this).parent('li').remove()
+                            rewardName.splice(num,1)
+                        })
                     }
                 });
             },
@@ -295,7 +407,12 @@
                 layer.msg("所在单位必为选项不能为空！", {icon: 2});
                 return false
             }
-            httpModule({
+            console.log(achieveName)
+            data.field.zjkAchievementJsonList=JSON.stringify(achieveName)
+            data.field.zjkProjectJsonList=JSON.stringify(projectName)
+            data.field.zjkPatentJsonList=JSON.stringify(patentName)
+            data.field.zjkRewardJsonList=JSON.stringify(rewardName)
+            /*httpModule({
                 url: '/expert-api/save',
                 data: data.field,
                 type: "POST",
@@ -306,7 +423,7 @@
                         closeTabsPage();
                     }
                 }
-            });
+            });*/
             return false;
         })
 

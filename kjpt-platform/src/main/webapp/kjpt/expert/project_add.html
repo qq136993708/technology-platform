@@ -30,33 +30,33 @@
                     <div class="layui-row layui-col-space20">
                         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                             <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">成果名称:</span></label>
+                                <label class="layui-form-label label-required"><span class="text">项目名称:</span></label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="achieveName" lay-verify="required"
-                                           placeholder="" autocomplete="off" class="layui-input achieveName">
+                                    <input type="text" name="projectName" lay-verify="required"
+                                           placeholder="" autocomplete="off" class="layui-input projectName">
                                 </div>
                             </div>
                             <div class="layui-form-item item">
-                                <label class="layui-form-label"><span class="text">申请年度:</span></label>
+                                <label class="layui-form-label label-required"><span class="text">立项年度:</span></label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="applyYear"
-                                           autocomplete="off" placeholder="请选择申请年度!" class="layui-input laydate-input applyYear">
+                                    <input type="text" name="setupYeat"
+                                           autocomplete="off" placeholder="请选择立项年度!" class="layui-input laydate-input setupYeat">
                                 </div>
                             </div>
                         </div>
                         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                             <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">申请单位:</span></label>
+                                <label class="layui-form-label label-required"><span class="text">负责单位:</span></label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="applyUnit"
-                                           placeholder="" autocomplete="off" class="layui-input applyUnit">
+                                    <input type="text" name="chargeUnit"
+                                           placeholder="" autocomplete="off" class="layui-input chargeUnit">
                                 </div>
                             </div>
                             <div class="layui-form-item item">
-                                <label class="layui-form-label label-required"><span class="text">成果类型:</span></label>
+                                <label class="layui-form-label label-required"><span class="text">研究目标:</span></label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="achieveType"
-                                           placeholder="" autocomplete="off" class="layui-input achieveType">
+                                    <input type="text" name="researchTarget"
+                                           placeholder="" autocomplete="off" class="layui-input researchTarget">
                                 </div>
                             </div>
                         </div>
@@ -82,8 +82,8 @@
 <script>
     layui.use(['form', 'jquery','element','laydate'], function(){
         var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate;
-        function applyYear() {
-            lay('.applyYear').each(function(){
+        function setupYeat() {
+            lay('.setupYeat').each(function(){
                 laydate.render({
                     elem: this
                     ,trigger: 'click'
@@ -91,36 +91,35 @@
                 });
             });
         }
-        applyYear();
+        setupYeat();
         var $ = layui.$, active = {
             add:function(){
                 var html='<div class="layui-row layui-col-space20">'+$("#formPlatform div:nth-child(1)").html()+'</div>'
                 $("#formPlatform").append(html)
-                applyYear();
+                setupYeat();
             },
             save:function () {
                 var arr=[]
                 $("#formPlatform>div").each(function (index,item) {
-                    var achieveName=$("#formPlatform>div").eq(index).find(".achieveName").val()
-                    var applyYear=$("#formPlatform>div").eq(index).find(".applyYear").val()
-                    var applyUnit=$("#formPlatform>div").eq(index).find(".applyUnit").val()
-                    var achieveType=$("#formPlatform>div").eq(index).find(".achieveType").val()
-                    if(achieveName=='' || applyUnit=='' || achieveType==''){
+                    var projectName=$("#formPlatform>div").eq(index).find(".projectName").val()
+                    var setupYeat=$("#formPlatform>div").eq(index).find(".setupYeat").val()
+                    var chargeUnit=$("#formPlatform>div").eq(index).find(".chargeUnit").val()
+                    var researchTarget=$("#formPlatform>div").eq(index).find(".researchTarget").val()
+                    if(projectName=='' || chargeUnit=='' || researchTarget=='' || setupYeat==''){
                         layer.msg("为填项不能为空！", {icon: 2});
                         return
                     }else {
                         var data={
-                            achieveName:achieveName,
-                            applyYear:applyYear,
-                            applyUnit:applyUnit,
-                            achieveType:achieveType,
+                            projectName:projectName,
+                            setupYeat:setupYeat,
+                            chargeUnit:chargeUnit,
+                            researchTarget:researchTarget,
                             outSystemId:''
                         }
                         arr.push(data)
                     }
                 })
                 if(arr.length==$("#formPlatform>div").length){
-                    console.log(arr)
                     setDialogData(arr); // 通知上层页面状态 - 弹窗中使用
                     top.layer.closeAll(); // 关闭弹窗
                 }
@@ -136,14 +135,5 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-        /*httpModule({
-                        url: '/expert-api/save',
-                        data: data.field,
-                        type: "POST",
-                        success: function(e) {
-                            setDialogData({code: e.success, message: e.message}); // 通知上层页面状态 - 弹窗中使用
-                    top.layer.closeAll(); // 关闭弹窗
-                        }
-                    });*/
     });
 </script>
