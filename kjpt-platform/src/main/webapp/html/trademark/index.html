@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商标管理</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/layui-common.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="./css/trademarkIndex.css">
+</head>
+
+<body>
+    <div class="layout-view-content">
+        <form class="layui-form" action="" lay-filter="selectCondition">
+            <div class="layui-row">
+                <div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">单位名称:</span></label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="companyName"  placeholder="请填写..." autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm6 layui-col-md5">
+                    <label class="layui-form-label"><span class="text">注册日期:</span></label>
+                    <div class="layui-float-left">
+                            <input type="text" name="appDateTime" id="startTime" autocomplete="off" placeholder="请选择" class="laydate-input">
+                    </div>
+                    <span class="origin layui-float-left">至</span>
+                    <div class="layui-float-left">
+                            <input type="text" name="appDateTime" id="endTime" autocomplete="off" placeholder="请选择" class="laydate-input">
+                    </div>
+                </div>
+                <div class="layui-col-sm6 layui-col-md4">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><span class="text">注册商标名称:</span></label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="brandName"  placeholder="请填写..." autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                </div>
+                <div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="text">法律状态:</span></label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="lawStatus"  placeholder="请填写..." autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm6 layui-col-md5">
+                    <label class="layui-form-label"><span class="text">申请人:</span></label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="proposer"  placeholder="请填写..." autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="btn-group-left">
+                        <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
+                        <button type="reset" class="layui-btn layui-btn-primary btn-left">重置</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="view-title-layout">
+            <div class="right">
+                    <button class="layui-btn border-blue" id="addItem" lay-event="add">新增</button>
+                    <button class="layui-btn border-blue" id="editItem" lay-event="edit">编辑</button>
+                    <button class="layui-btn border-blue" id="check" lay-event="detail">查看</button>
+                    <button class="layui-btn border-red" id="delItem" lay-event="del">删除</button>
+            </div>
+        </div>
+        <table id="tableContent" lay-filter="tableContent"></table>
+    </div>
+    <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script src="/layuiadmin/js/common.js"></script>
+    <script src="./js/trademarkIndex.js"></script>
+
+</body>
+
+</html>

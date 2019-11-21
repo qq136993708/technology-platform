@@ -123,6 +123,7 @@
   height: 30px;
   border-color: #AAAAAA;
   border-radius: 5px;
+  font-size: 14px;
 }
 .layui-form-select dl{
   top: 32px;
@@ -163,6 +164,7 @@
   background: #fff url('../images/date.png') no-repeat;
   background-size: 16px 16px;
   background-position: calc(100% - 8px) 6px;
+  font-size: 14px;
 }
 .layui-input:not(:disabled):hover,
 .layui-input:not(:disabled):active,
