@@ -181,7 +181,7 @@ public class PatentInfo implements Serializable {
     /**
      * 专利范围翻译
      */
-    private String patent_range_text;
+    private String application_of_patent_transformation_text;
 
     /**
      * 专利类型翻译
@@ -477,12 +477,12 @@ public class PatentInfo implements Serializable {
         this.country = country;
     }
 
-    public String getPatent_range_text() {
-        return patent_range_text;
+    public String getApplication_of_patent_transformation_text() {
+        return application_of_patent_transformation_text;
     }
 
-    public void setPatent_range_text(String patent_range_text) {
-        this.patent_range_text = patent_range_text;
+    public void setApplication_of_patent_transformation_text(String application_of_patent_transformation_text) {
+        this.application_of_patent_transformation_text = application_of_patent_transformation_text;
     }
 
     public String getPatent_type_text() {

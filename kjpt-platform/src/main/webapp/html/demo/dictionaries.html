@@ -12,6 +12,15 @@
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="prism.css">
+  <style>
+    table.dic-table-list { width: 100%; border: 1px #e8e8e8 solid; border-width: 1px 1px 0 0; table-layout: fixed; }
+    table.dic-table-list thead tr th {
+      background-color: #f4f4f4; border: 1px #e8e8e8 solid; border-width: 0 0 1px 1px; line-height: 32px;
+    }
+    table.dic-table-list tbody tr td {
+      border: 1px #e8e8e8 solid; border-width: 0 0 1px 1px; background-color: #fff; text-align: center; line-height: 32px;
+    }
+  </style>
 </head>
 <body>
 <div class="layout-view-content">
@@ -41,6 +50,20 @@ var targetData = { name: '这里是动态赋值', value: '2', moreValue: '2,3,4'
 // 从字典里去多值时用 逗号（,）隔开
 setTargetNameValue(targetData);
 </code></pre>
+
+<table class="dic-table-list">
+  <thead>
+    <tr><th>字典名称</th><th>字典编码</th><th>所属模块</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>依托单位</td><td>ROOT_KJPT_YTDW</td><td>科研平台</td></tr>
+    <tr><td>平台类型</td><td>ROOT_KJPT_PTLX</td><td>科研平台</td></tr>
+    <tr><td>科研领域</td><td>ROOT_KJPT_YJLY</td><td>科研平台</td></tr>
+    <tr><td>专业领域</td><td>ROOT_KJPT_ZYLY</td><td>科研平台</td></tr>
+    <tr><td>专业类别</td><td>ROOT_KJPT_ZYLB</td><td>科研平台</td></tr>
+  </tbody>
+</table>
+
 </div>
 <script src="prism.js"></script>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>

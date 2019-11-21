@@ -34,10 +34,8 @@ $('#openDialog').click(function(e) {
     end: function(lay, index) {
       // 弹窗销毁时获取弹窗返回数据
       var diaData = getDialogData('dialog-data');
-      if (diaData.code === 'close') {
-        layer.msg('这是关闭按钮返回参数！');
-      } else {
-        layer.msg('其他操作返回参数');
+      if (diaData) {
+        layer.msg('这里是窗口传递的参数');
       }
       console.log(diaData);
     }
@@ -78,10 +76,8 @@ $('#openDialog').click(function(e) {
           end: function(lay, index) {
             // 弹窗销毁时获取弹窗返回数据
             var diaData = getDialogData('dialog-data');
-            if (diaData.code === 'close') {
-              layer.msg('这是关闭按钮返回参数！');
-            } else {
-              layer.msg('其他操作返回参数');
+            if (diaData) {
+              layer.msg('这里是窗口传递的参数');
             }
             console.log(diaData);
           }

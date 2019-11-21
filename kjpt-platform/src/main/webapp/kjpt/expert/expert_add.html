@@ -46,7 +46,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">职务:</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="post" placeholder="" autocomplete="off" class="layui-input">
+                        <input type="text" name="post"
+                               placeholder="" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <!--性别-->
@@ -70,8 +71,9 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">职称:</span></label>
                     <div class="layui-input-block">
-                        <input type="text" name="title"
-                               placeholder="" autocomplete="off" class="layui-input">
+                        <select name="title" id="title">
+                            <option value=""></option>
+                        </select>
                     </div>
                 </div>
                 <!--状态-->
@@ -129,7 +131,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">技术领域:</span></label>
                     <div class="layui-input-block">
-                        <select name="applaType3" xm-select="applaType3" xm-select-skin="normal"></select>
+                        <select name="technicalField" xm-select="applaType3" xm-select-skin="normal"></select>
                         <!--<input type="text" name="technicalField"
                                placeholder="" autocomplete="off" class="layui-input">-->
                     </div>
@@ -158,11 +160,6 @@
                                   placeholder="" autocomplete="off" class="layui-input layui-textarea"></textarea>
                     </div>
                 </div>
-            </div>
-
-            <div class="dialog-footer-btn">
-                <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="newSubmit">提交</button>
-                <a class="layui-btn layui-btn-primary" data-type="close">关闭</a>
             </div>
         </div>
         <div class="layui-row">
@@ -211,6 +208,10 @@
                 </div>
             </div>
         </div>
+        <div class="dialog-footer-btn">
+            <button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="newSubmit">提交</button>
+            <a class="layui-btn layui-btn-primary" data-type="close">关闭</a>
+        </div>
     </form>
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
@@ -227,33 +228,16 @@
         var enhance = new enhanceForm({
             elem: '#formPlatform' //表单选择器
         });
-        // 获取地址栏传递过来的参数
-        var variable = getQueryVariable();
-        /*判断id，回显*/
-        if(variable!=null){
-            httpModule({
-                url: '/expert-api/get/'+variable.id,
-                type: 'GET',
-                success: function(relData) {
-                    if (relData.success === true) {
-                        // 给form表单赋初始值
-                        form.val('formPlatform', relData.data);
-                        enhance.setRadioVal("sex",relData.data.sex)
-                        enhance.setRadioVal("useStatus",relData.data.useStatus)
-                        enhance.setSelectVal("belongUnit",relData.data.belongUnit,"true")
-                        form.render()
-                    }
-                }
-            });
-        }
         /*性别*/
-        createElement("ROOT_UNIVERSAL_XB","sex","radio","sex")
+        createElement("ROOT_KJPT_XB","sex","radio","sex")
         /*状态*/
         createElement("ROOT_UNIVERSAL_QYZT","useStatus","radio","useStatus")
         /*学历*/
         createElement("ROOT_KJPT_XL","education","option","education")
         /*所在单位*/
-        createElement("ROOT_SZDW","belongUnit","option","belongUnit")
+        createElement("ROOT_KJPT_SZDW","belongUnit","option","belongUnit")
+        /*职称*/
+        createElement("ROOT_KJPT_ZWJB","title","option","title")
         /*出生年*/
         laydate.render({
             elem: '#appDate', //指定元素
@@ -270,10 +254,41 @@
                             if(element=="option"){
                                 $("#"+id).append("<option value='"+item.code+"' name='"+name+"'>"+item.name+"</option>")
                             }else if(element=="radio"){
-
                                 $("#"+id).append('<input type="radio" name="'+name+'" value="'+item.numValue+'" title="'+item.name+'">')
                             }
                         });
+                        form.render()
+                    }
+                }
+            });
+        }
+        // 获取地址栏传递过来的参数
+        var variable = getQueryVariable();
+        /*判断id，回显*/
+        if(variable!=null){
+            httpModule({
+                url: '/expert-api/get/'+variable.id,
+                type: 'GET',
+                success: function(relData) {
+                    if (relData.success === true) {
+                        // 给form表单赋初始值
+
+                        console.log(relData.data)
+                        form.val('formPlatform', relData.data);
+                        enhance.setRadioVal("sex",relData.data.sex)
+                        enhance.setRadioVal("useStatus",relData.data.useStatus)
+                        enhance.setSelectVal("belongUnit",relData.data.belongUnit,"true")
+                        enhance.setSelectVal("post",relData.data.post,"true")
+                        enhance.setSelectVal("education",relData.data.education,"true")
+                        enhance.setSelectVal("applaType3",relData.data.applaType3,"true")
+                        achieveName=JSON.parse(relData.data.zjkAchievementJsonList)
+                        projectName=JSON.parse(relData.data.zjkPatentJsonList)
+                        var project=JSON.parse(relData.data.zjkProjectJsonList)
+                        var reward=JSON.parse(relData.data.zjkRewardJsonList)
+                        achieveName.map(function (item, index) {
+                            var html='<li><span>'+item.achieveName+'</span><i class="layui-icon layui-unselect layui-tab-close closeAchievement">ဆ</i></li>'
+                            $(".zjkAchievementJsonList ul li.expert-li-last").before(html)
+                        })
                         form.render()
                     }
                 }
@@ -284,9 +299,13 @@
             url: "/techFamily-api/getTreeList",
             type: 'GET',
             success: function(relData) {
-                formSelects.data('applaType3', 'local', { arr: relData.childNodes });
+                relData.children.map(function (item,index) {
+                    item.children.map(function (items,i) {
+                        delete items.children
+                    })
+                })
+                formSelects.data('applaType3', 'local', { arr: relData.children });
                 formSelects.btns('applaType3', ['remove']);
-                console.log(relData.childNodes)
             }
         });
 
@@ -407,7 +426,6 @@
                 layer.msg("所在单位必为选项不能为空！", {icon: 2});
                 return false
             }
-            console.log(achieveName)
             data.field.zjkAchievementJsonList=JSON.stringify(achieveName)
             data.field.zjkProjectJsonList=JSON.stringify(projectName)
             data.field.zjkPatentJsonList=JSON.stringify(patentName)

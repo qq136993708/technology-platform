@@ -94,6 +94,29 @@ layui.use(['table'], function(){
     limits: [5, 10, 15, 20], // 配置分页数据条数
   });
 
+  // 表格重载 重新加载表格数据
+  table.reload('tableProject', {
+    // 如果参数不变的话可以不用传参
+    where: {
+      platformName: '' // 表格请求时传递的参数
+      //  默认请求参数 页码 => page, 每页条数 => limit
+    }
+  })
+
+  // 监听表格 checkbox change事件；
+  table.on('checkbox(tableProject)', function(data) {
+    // console.log(data);
+  })
+  
+  /* // 监听表格 radio change事件；
+    table.on('radio(tableProject)', function(data) {
+      // console.log(data);
+    })
+  */
+
+  // 调用 table.checkStatus(ID) 方法并把表格ID传入； 可以获取表格 单选框或者复选框选中的数据
+  var itemRowData = table.checkStatus('tableProject').data;
+
 })</code></pre>
 
 

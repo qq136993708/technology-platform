@@ -1,0 +1,57 @@
+.demeanor .main-list .list{
+    width: 20%;
+    height: 260px;
+    float: left;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.demeanor .main-list .list .list-item{
+    border: 1px solid #E7EBEC;
+    border-radius: 4px;
+    height: 100%;
+    position: relative;
+}
+.demeanor .main-list .list .list-item:hover{
+    box-shadow:0px 2px 10px 0px rgba(203,205,207,0.5);
+}
+.list-item .item-img{
+    text-align: center;
+    margin-top: 30px;
+}
+.list-item .item-img img{
+    border-radius: 50%;
+    width: 87px;
+    height: 87px;
+    border: 1px solid #ccc;
+}
+.list-item .item-name{
+    text-align: center;
+    font-weight: bold;
+    color: #46484B;
+    margin: 10px 0;
+    font-size: 14px;
+}
+.list-item .item-jx{
+    color: #46484B;
+    font-size: 12px;
+    line-height: 17px;
+    padding: 0 20px;
+    text-indent: 2em;
+    height: 51px;
+    overflow-y: auto;
+}
+.list-item .item-view{
+    position: absolute;
+    bottom: 0;
+    height: 35px;
+    line-height: 35px;
+    background-color: #F0F2F5;
+    text-align: center;
+    width: 100%;
+}
+.list-item .item-view a{
+    color: #46484B;
+    font-size: 14px;
+    display: inline-block;
+    width: 100%;
+}
