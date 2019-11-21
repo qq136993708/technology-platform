@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,6 +71,23 @@ public class FileCommonController extends RestBaseController {
         return f;
     }
 
+    @ApiOperation(value = "上传附件立即保存", notes = "上传附件立即保存")
+    @RequestMapping(value="/appendUpload",method = RequestMethod.POST)
+    @ResponseBody
+    public FileModel appendUpload(@RequestParam(value = "file") MultipartFile file,@RequestParam(value = "dataId") String dataId) throws IOException {
+        FileModel f = fileUtil.upload(file);
+        f.setCreator(this.getUserProfile().getUserName());
+        f.setDataId(dataId);
+        f.setUpdator(this.getUserProfile().getUserName());
+        f.setUpdateDate(new Date());
+        f.setDeleted("0");
+        List<FileModel> list = new ArrayList();
+        list.add(f);
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        this.restTemplate.exchange(save+dataId, HttpMethod.POST, new HttpEntity<List>(list,this.httpHeaders), List.class);
+        return f;
+    }
+
     @ApiOperation(value = "保存文件对应数据关系", notes = "保存文件对应数据关系")
     @RequestMapping(value="/save/{dataId}",method = RequestMethod.POST)
     @ResponseBody
@@ -80,8 +98,7 @@ public class FileCommonController extends RestBaseController {
     }
 
     @ApiOperation(value = "文件下载", notes = "文件下载")
-    @RequestMapping(value="/downLoad",method = RequestMethod.GET)
-    @ResponseBody
+    @RequestMapping(value="/downLoad",method = RequestMethod.POST)
     public void downLoad(@RequestBody FileModel fm) throws IOException {
         FileUtil.fileDownload(fm,this.getCurrentResponse());
     }
