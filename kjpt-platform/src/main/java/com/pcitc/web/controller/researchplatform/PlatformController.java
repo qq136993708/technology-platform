@@ -31,7 +31,7 @@ import java.util.UUID;
  * @author ty
  */
 @Api(value = "researchPlatform-api", description = "国家科研平台接口")
-@Controller
+@RestController
 public class PlatformController extends RestBaseController {
     /**
      * 根据ID获取对象信息
@@ -49,17 +49,6 @@ public class PlatformController extends RestBaseController {
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/researchPlatform-api/delete/";
-
-    @RequestMapping(value = "/platform-api/view")
-    public String view() {
-        return "/kjpt/researchplatform/researchplatform_view";
-    }
-
-    @RequestMapping(value = "/platform-api/add")
-    public String add() {
-        return "/kjpt/researchplatform/researchplatform_add";
-    }
-
 
 
     @ApiOperation(value="读取")

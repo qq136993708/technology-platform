@@ -13,9 +13,9 @@ import java.util.List;
 public interface FileCommonService {
     List<FileModel> query(String dataId);
 
-    FileModel upload (String dataId) throws IOException;
+    void save (FileModel fm);
 
-    List<FileModel> save (List<FileModel>  dataList,String dataId);
+    void updateFileData (String fileIds,String dataId);
 
     FileModel downLoad(String id);
 

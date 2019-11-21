@@ -1,16 +1,18 @@
 package com.pcitc.web.utils;
 
-import java.awt.Image;
-import java.io.BufferedWriter;
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import com.pcitc.base.common.FileModel;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.MyBeanUtils;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -19,20 +21,6 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
-
-import com.pcitc.base.common.FileModel;
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.MyBeanUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -80,20 +68,24 @@ public class FileUtil {
      */
     public FileModel upload(MultipartFile file) throws IllegalStateException, IOException
     {
-        File targetFile = new File(getFilePath(file.getOriginalFilename()));
+        FileModel fm = new FileModel();
+        String fileName = file.getOriginalFilename();
+        String id = UUID.randomUUID().toString().replace("-","");
+        String  relativePath= "/"+DateUtil.format(new Date(),"yyyyMM")+"/"+id+"."+fileName.split("\\.")[1];
+
+        fm.setId(id);
+        File targetFile = new File(getFilePath(relativePath));
         if (targetFile.exists())
         {
             targetFile.delete();
         }
         file.transferTo(targetFile);
 
-        FileModel fm = new FileModel();
-        fm.setId(UUID.randomUUID().toString().replace("-",""));
-        fm.setFileName(file.getOriginalFilename());
+        fm.setFileName(fileName);
         fm.setCreateDate(new Date());
         fm.setFileSize(file.getSize());
-        //fm.setType(file.getOriginalFilename().split(".")[1]);
-        fm.setFilePath(getFilePath(file.getOriginalFilename()));
+        fm.setType(file.getContentType());
+        fm.setFilePath(relativePath);
         //上传附件
         return fm;
     }
@@ -103,7 +95,7 @@ public class FileUtil {
      * @return
      */
     private String getFilePath(String fileName){
-        String dirPath = fileBasePath+ DateUtil.format(new Date(),"yyyyMM")+"/";
+        String dirPath = fileBasePath;
 
         File file =new File(dirPath);
         if  (!file .exists()  && !file .isDirectory())
@@ -148,7 +140,7 @@ public class FileUtil {
                 InputStream inStream = new FileInputStream(oldPath); //读入原文件
                 FileOutputStream fs = new FileOutputStream(newPath);
                 byte[] buffer = new byte[1444];
-                
+
                 while ((byteread = inStream.read(buffer)) != -1) {
                     bytesum += byteread; //字节数 文件大小
                     System.out.println(bytesum);
@@ -253,162 +245,170 @@ public class FileUtil {
      * @param file
      * @param res
      */
-    public static void fileDownload(File file,HttpServletResponse res) 
-	{
-      
-        
+    public static void fileDownload(File file,HttpServletResponse res)
+    {
+
+
         OutputStream out = null;
         InputStream in = null;
-        try 
+        try
         {
-        	res.setHeader("content-type", "application/octet-stream");
+            res.setHeader("content-type", "application/octet-stream");
             res.setContentType("application/octet-stream");
             res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
-        	
-          out = res.getOutputStream();
-          in = new FileInputStream(file);
-          
-          byte[] b = new byte[1000];
-          int len;
-          while ((len = in.read(b)) > 0)
-          {
-			out.write(b, 0, len);
-          }
-          out.flush();
-          closeIO(in);
-     	  closeIO(out);
+
+            out = res.getOutputStream();
+            in = new FileInputStream(file);
+
+            byte[] b = new byte[1000];
+            int len;
+            while ((len = in.read(b)) > 0)
+            {
+                out.write(b, 0, len);
+            }
+            out.flush();
+            closeIO(in);
+            closeIO(out);
         } catch (IOException e) {
-          e.printStackTrace();
+            e.printStackTrace();
         }
-	}
+    }
 
     /**
-     * 文件下载
+     * 响应附件
      * @param f
+     * @param isAttachment
      * @param res
      */
-    public static void fileDownload(FileModel f, HttpServletResponse res) throws IOException {
+    public void responseFile(FileModel f, boolean isAttachment,HttpServletResponse res) {
 
+        res.setContentType(f.getType());
+        res.setContentLengthLong(f.getFileSize());
+        res.setCharacterEncoding("UTF-8");
+        File file = new File(getFilePath(f.getFilePath()));
+        try{
+            if(isAttachment) {
+                String fileName = (f.getFileName() == null) ? "download" : new String(f.getFileName().getBytes("gb2312"),"iso-8859-1");
+                res.addHeader("Content-Disposition", "attachment;fileName="  + fileName);
+            }
+            InputStream in = new FileInputStream(file);
+            //输出
+            OutputStream os = res.getOutputStream();
 
-        OutputStream out = null;
-        InputStream in = null;
-        res.setHeader("content-type", "application/octet-stream");
-        res.setContentType("application/octet-stream");
-        res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(f.getFileName(), "UTF-8"));
+            byte[] b = new byte[1000];
+            int len;
+            while ((len = in.read(b)) > 0)
+            {
+                os.write(b, 0, len);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            /*LogUtil.logError(e);
 
-        out = res.getOutputStream();
-        File file = new File(f.getFilePath());
-        in = new FileInputStream(file);
-
-        byte[] b = new byte[1000];
-        int len;
-        while ((len = in.read(b)) > 0)
-        {
-            out.write(b, 0, len);
+            sendError(res, "文件下载错误，err=" + e.getMessage());*/
         }
-        out.flush();
-        closeIO(in);
-        closeIO(out);
+
     }
+
     /**
      * 关闭IO
      * @param io
      */
-	public static void closeIO(Closeable io) 
-	{
-		if(io != null) 
-		{
-			try 
-			{
-				io.close();
-			}
-			catch(Exception e) 
-			{
-				e.printStackTrace();
-			}
-		}
-	}
-	/**
-	 * 读取配置文件
-	 * @param path
-	 * @return
-	 */
-	public static Properties readPropertis(File file) 
-	{
-		Properties pro = new Properties();
-		try {
-			FileInputStream in = new FileInputStream(file);
-			pro.load(in);
-			in.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return pro;
-	}
-	public static void genFileTemplate(String tempName,String genPath,String genName,Map<String, Object> dataMap) {
-		try 
-		{
-			Configuration config = new Configuration(Configuration.VERSION_2_3_26);
-			config.setClassForTemplateLoading(FileUtil.class, dataMap.get("tempPath").toString());
-			Template template = config.getTemplate(tempName);
-			FileOutputStream fos = new FileOutputStream(new File(genPath+File.separator+genName));
-			Writer out = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"), 10240);
-			template.process(dataMap, out);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	//生成controller 类
-	public static void createControllerByTemplate() 
-	{
-		URL url = FileUtil.class.getResource("/");
-		File f = new File(url.getPath() + "static/code_template/template_config.properties");
-		Properties p = readPropertis(f);
-		String genPath = p.get("projectPath").toString()+p.get("packagePath").toString();
-		String genName = p.get("beanName")+"Controller.java";
-		String tempName = p.get("tempName").toString();
-		genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
-	}
-	
-	//生成Provider 类
-	public static void createProviderByTemplate() 
-	{
-		URL url = FileUtil.class.getResource("/");
-		File f = new File(url.getPath() + "static/code_template/template_config.properties");
-		Properties p = readPropertis(f);
-		String genPath = p.get("clientProjectPath").toString()+p.get("clientPackagePath").toString();
-		String genName = p.get("beanName")+"ProviderClient.java";
-		String tempName = p.get("clientTempName").toString();
-		genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
-	}
-	//生成Service 类
-	public static void createServiceByTemplate() 
-	{
-		URL url = FileUtil.class.getResource("/");
-		File f = new File(url.getPath() + "static/code_template/template_config.properties");
-		Properties p = readPropertis(f);
-		String genPath = p.get("svcProjectPath").toString()+p.get("svcPackagePath").toString();
-		String genName = p.get("beanName")+"Service.java";
-		String tempName = p.get("svcTempName").toString();
-		genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
-	}
-	//生成Service 类
-	public static void createServiceImplByTemplate() 
-	{
-		URL url = FileUtil.class.getResource("/");
-		File f = new File(url.getPath() + "static/code_template/template_config.properties");
-		Properties p = readPropertis(f);
-		String genPath = p.get("svcImplProjectPath").toString()+p.get("svcImplPackagePath").toString();
-		String genName = p.get("beanName")+"ServiceImpl.java";
-		String tempName = p.get("svcImplTempName").toString();
-		genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
-	}
-	public static void main(String [] args) 
-	{
-		//createControllerByTemplate();
-		createProviderByTemplate();
-		createServiceByTemplate();
-		createServiceImplByTemplate();
-		
-	}
+    public static void closeIO(Closeable io)
+    {
+        if(io != null)
+        {
+            try
+            {
+                io.close();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+    /**
+     * 读取配置文件
+     * @param path
+     * @return
+     */
+    public static Properties readPropertis(File file)
+    {
+        Properties pro = new Properties();
+        try {
+            FileInputStream in = new FileInputStream(file);
+            pro.load(in);
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pro;
+    }
+    public static void genFileTemplate(String tempName,String genPath,String genName,Map<String, Object> dataMap) {
+        try
+        {
+            Configuration config = new Configuration(Configuration.VERSION_2_3_26);
+            config.setClassForTemplateLoading(FileUtil.class, dataMap.get("tempPath").toString());
+            Template template = config.getTemplate(tempName);
+            FileOutputStream fos = new FileOutputStream(new File(genPath+File.separator+genName));
+            Writer out = new BufferedWriter(new OutputStreamWriter(fos, "UTF-8"), 10240);
+            template.process(dataMap, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    //生成controller 类
+    public static void createControllerByTemplate()
+    {
+        URL url = FileUtil.class.getResource("/");
+        File f = new File(url.getPath() + "static/code_template/template_config.properties");
+        Properties p = readPropertis(f);
+        String genPath = p.get("projectPath").toString()+p.get("packagePath").toString();
+        String genName = p.get("beanName")+"Controller.java";
+        String tempName = p.get("tempName").toString();
+        genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
+    }
+
+    //生成Provider 类
+    public static void createProviderByTemplate()
+    {
+        URL url = FileUtil.class.getResource("/");
+        File f = new File(url.getPath() + "static/code_template/template_config.properties");
+        Properties p = readPropertis(f);
+        String genPath = p.get("clientProjectPath").toString()+p.get("clientPackagePath").toString();
+        String genName = p.get("beanName")+"ProviderClient.java";
+        String tempName = p.get("clientTempName").toString();
+        genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
+    }
+    //生成Service 类
+    public static void createServiceByTemplate()
+    {
+        URL url = FileUtil.class.getResource("/");
+        File f = new File(url.getPath() + "static/code_template/template_config.properties");
+        Properties p = readPropertis(f);
+        String genPath = p.get("svcProjectPath").toString()+p.get("svcPackagePath").toString();
+        String genName = p.get("beanName")+"Service.java";
+        String tempName = p.get("svcTempName").toString();
+        genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
+    }
+    //生成Service 类
+    public static void createServiceImplByTemplate()
+    {
+        URL url = FileUtil.class.getResource("/");
+        File f = new File(url.getPath() + "static/code_template/template_config.properties");
+        Properties p = readPropertis(f);
+        String genPath = p.get("svcImplProjectPath").toString()+p.get("svcImplPackagePath").toString();
+        String genName = p.get("beanName")+"ServiceImpl.java";
+        String tempName = p.get("svcImplTempName").toString();
+        genFileTemplate(tempName,genPath,genName,MyBeanUtils.java2Map(p));
+    }
+    public static void main(String [] args)
+    {
+        //createControllerByTemplate();
+        createProviderByTemplate();
+        createServiceByTemplate();
+        createServiceImplByTemplate();
+
+    }
 }

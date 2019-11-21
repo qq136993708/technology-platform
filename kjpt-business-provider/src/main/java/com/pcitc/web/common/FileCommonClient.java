@@ -2,13 +2,14 @@ package com.pcitc.web.common;
 
 import com.pcitc.base.common.FileModel;
 import com.pcitc.service.file.FileCommonService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
+
+@Api(value = "FileCommonClient-api", description = "文件")
 @RestController
 public class FileCommonClient {
 
@@ -25,15 +26,19 @@ public class FileCommonClient {
         return fileCommonService.upload(dataId);
     }*/
 
-    @RequestMapping(value="/file/save/{dataId}",method = RequestMethod.POST)
-    public List<FileModel> save(@PathVariable String dataId,@RequestBody  List<FileModel> dataList){
-        return fileCommonService.save(dataList,dataId);
+    @RequestMapping(value="/file/save",method = RequestMethod.POST)
+    public void save(@RequestBody FileModel fm){
+         fileCommonService.save(fm);
     }
 
-    /*@RequestMapping(value="/file/downLoad",method = RequestMethod.GET)
-    public FileModel downLoad(String id){
+    @RequestMapping(value="/file/updateFileData/{dataId}",method = RequestMethod.POST)
+    public void updateFileData(@PathVariable String dataId,@RequestParam String fileds){
+        fileCommonService.updateFileData(fileds,dataId);
+    }
 
-        return null;
-    }*/
+    @RequestMapping(value="/file/downLoad/{id}",method = RequestMethod.GET)
+    public FileModel downLoad(@PathVariable String id){
+        return fileCommonService.downLoad(id);
+    }
 
 }

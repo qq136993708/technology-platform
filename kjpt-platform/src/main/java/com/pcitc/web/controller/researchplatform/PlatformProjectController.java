@@ -5,6 +5,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.researchPlatform.PlatformInfoModel;
 import com.pcitc.base.researchPlatform.PlatformProjectModel;
 import com.pcitc.web.common.RestBaseController;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +24,7 @@ import java.util.*;
  * @author ty
  */
 
-//@Api(value = "researchPlatform-api", description = "国家科研平台接口")
+@Api(value = "researchPlatformProject-api", description = "国家科研平台项目接口")
 @RestController
 public class PlatformProjectController extends RestBaseController {
 
@@ -43,18 +44,6 @@ public class PlatformProjectController extends RestBaseController {
      * 删除项目
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/researchPlatformPorject-api/delete/";
-
-    @RequestMapping(value = "/platformProject-api/view")
-    public String view() {
-        return "/kjpt/researchplatform/project/view";
-    }
-
-    @RequestMapping(value = "/platformProject-api/add")
-    public String add() {
-        return "/kjpt/researchplatform/project/add";
-    }
-
-
 
     @ApiOperation(value="读取")
     @RequestMapping(value = "/platformProject-api/load/{id}", method = RequestMethod.GET)
