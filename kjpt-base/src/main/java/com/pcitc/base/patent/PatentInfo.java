@@ -178,6 +178,31 @@ public class PatentInfo implements Serializable {
      */
     private String country;
 
+    /**
+     * 专利范围翻译
+     */
+    private String patent_range_text;
+
+    /**
+     * 专利类型翻译
+     */
+    private String patent_type_text;
+
+    /**
+     * 国别组织翻译
+     */
+    private String country_text;
+
+    /**
+     * 申请类型翻译
+     */
+    private String application_type_text;
+
+    /**
+     * 法律状态翻译
+     */
+    private String legal_status_text;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -450,6 +475,46 @@ public class PatentInfo implements Serializable {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getPatent_range_text() {
+        return patent_range_text;
+    }
+
+    public void setPatent_range_text(String patent_range_text) {
+        this.patent_range_text = patent_range_text;
+    }
+
+    public String getPatent_type_text() {
+        return patent_type_text;
+    }
+
+    public void setPatent_type_text(String patent_type_text) {
+        this.patent_type_text = patent_type_text;
+    }
+
+    public String getCountry_text() {
+        return country_text;
+    }
+
+    public void setCountry_text(String country_text) {
+        this.country_text = country_text;
+    }
+
+    public String getApplication_type_text() {
+        return application_type_text;
+    }
+
+    public void setApplication_type_text(String application_type_text) {
+        this.application_type_text = application_type_text;
+    }
+
+    public String getLegal_status_text() {
+        return legal_status_text;
+    }
+
+    public void setLegal_status_text(String legal_status_text) {
+        this.legal_status_text = legal_status_text;
     }
 
     @Override

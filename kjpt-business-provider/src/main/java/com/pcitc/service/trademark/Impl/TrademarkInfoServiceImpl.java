@@ -42,7 +42,7 @@ public class TrademarkInfoServiceImpl implements TrademarkInfoService {
 
     public TrademarkInfo updateOrInsertTrademarkInfo(TrademarkInfo trademarkInfo) {
         IsEmptyUtil.isEmpty(trademarkInfo.getId());
-        if(this.getTrademarkInfo(trademarkInfo.getId()) != null){
+        if(Objects.nonNull(this.getTrademarkInfo(trademarkInfo.getId()))){
             trademarkInfoMapper.updateByPrimaryKey(trademarkInfo);
         }else{
             trademarkInfoMapper.insertSelective(trademarkInfo);
