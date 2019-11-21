@@ -69,13 +69,29 @@
                     ,cols: [[ //表头
                         {type: 'radio' },
                         {title: '序号',type:'numbers' },
-                        {field: 'name', title: '姓名' },
+                        {field: 'name', title: '姓名',templet: function(d){
+                                return ('<a href="./expert_view.html" class="layui-table-link">'+d.name+'</a>')
+                            } },
                         {field: 'sex', title: '性别',templet: function(d){
                             if(d.sex==1){return "男"}else {return " 女"}
                             }},
                         {field: 'title', title: '职称'},
-                        {field: '', title: '专业分类' },
-                        {field: 'belongUnit', title: '所属机构',templet: function(d){
+                        {field: 'education', title: '学历',templet: function(d){
+                                var text=''
+                                httpModule({
+                                    url: "/sysDictionary-api/getDictionaryByCode/"+d.education,
+                                    type: 'GET',
+                                    async:false,
+                                    success: function(relData) {
+                                        console.log(relData)
+                                        if (relData.success === true) {
+                                            text=relData.data.name
+                                        }
+                                    }
+                                });
+                                return text
+                            } },
+                        {field: 'belongUnit', title: '所在单位',templet: function(d){
                                 var text=''
                                 httpModule({
                                     url: "/sysDictionary-api/getDictionaryByCode/"+d.belongUnit,

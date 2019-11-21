@@ -5,11 +5,13 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +26,9 @@ import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysFunctionProperty;
 import com.pcitc.base.system.SysPost;
@@ -1517,42 +1521,17 @@ public class EquipmentUtils {
 	}
 	
 	
-		public static void main(String[] args) 
-	{
-			
-			
-			String achievementStr="1111aaa11#成果名称1# 申请单位1#申请年度2#成果类别$22aaa#成果名称2#申请单位#申请年度#成果类别2";
-			//外系统ID#成果名称# 申请单位#申请年度#成果类别$外系统ID#成果名称#申请单位#申请年度#成果类别 
-			 if(achievementStr!=null && !achievementStr.equals(""))
-			 {
-				 String arr[]=achievementStr.split("\\$");
-				 if(arr!=null)
-				 {
-					 for(int i=0;i<arr.length;i++)
-					 {
-						String linestr= arr[i];
-						
-						if(linestr!=null)
-						 {
-							 String array[]=linestr.split("#");
-							 if(array!=null)
-							 {
-								 String outSystemId= array[0];
-								 String achieveName= array[1];
-								 String applyUnit= array[2];
-								 System.out.println("--------achieveName: "+achieveName);
-							 }
-							 
-						 }
-					 }
-				 }
-			 }
-			 
-		
-	
-		
-	}
-	
+	/*
+	 * public static void main(String[] args) {
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
 	
 	
 	
