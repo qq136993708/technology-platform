@@ -1,7 +1,7 @@
  
 
 
-layui.use(['form', 'table', 'layer', 'laydate'], function(){
+layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
     var form = layui.form;
     var $ = layui.$;
     var table = layui.table;
@@ -9,6 +9,25 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   
     var $ = layui.jquery;
     var form = layui.form;
+    var upload = layui.upload;
+
+
+    //普通图片上传
+  var uploadInst = upload.render({
+    elem: '#test1'
+    ,url: '/ocr-web/ocrtest/test'
+    
+    ,done: function(res){
+      alert(res.code);
+      //上传成功
+    }
+    ,error: function(){
+      alert('error');
+      //演示失败状态，并实现重传
+     
+    }
+  });
+  
   
 
   function getItemInitData(item) {
@@ -25,10 +44,6 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           form.val('formMain', relData.data);
           // 更新表单数据
           form.render();
-
-          
-            transInputDic($("#applicationType"), 'ROOT_KJPT_ZLFW');
-            transInputDic($("#patentType"), 'ROOT_KJPT_ZLZL');
 
           setRadioShow();
         }
@@ -126,7 +141,9 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         ,trigger: 'click'
       });
   
-    
+      bindSelectorDic($("#applicationType"), 'ROOT_KJPT_ZLFW', form);
+      bindSelectorDic($("#patentType"), 'ROOT_KJPT_ZLZL', form);
+      bindSelectorDic($("#legalStatus"), 'ROOT_KJPT_FLZT', form);
 
   });
   
