@@ -91,9 +91,9 @@ body{background: white;}
 }
 
 @media screen and (min-height: 900px) and (max-height: 1920px) {
-  .layadmin-user-login-header{height: 13%;background: url("/layuiadmin/layui/images/login-logo.png") left center no-repeat;}
+  /*.layadmin-user-login-header{height: 13%;background: url("/layuiadmin/layui/images/login-logo.png") left center no-repeat;}
   .engineering-header {
-    background: url(/layuiadmin/layui/images/engineering-login-logo.png) left center no-repeat;}
+    background: url(/layuiadmin/layui/images/engineering-login-logo.png) left center no-repeat;}*/
   /*.user-login{top:180px !important;}*/
   /*.layadmin-user-login-body{ height: 60%;background-size: 80%;}*/
   .layadmin-user-login-footer{font-size: 18px;line-height: 32px;}

@@ -51,6 +51,7 @@ body > .layui-layout{
   min-height: auto;
 }
 .layout-view-content.dialog{
+  padding: 20px 30px;
 	min-height: auto;
 	height: calc(100% - 61px);
 	overflow: auto;
@@ -155,13 +156,19 @@ body > .layui-layout{
 .elementHide {
 	display: none !important;
 }
-
+.font0 { font-size: 0; }
 .font14 { font-size: 14px; }
 .font16 { font-size: 16px; }
 .font18 { font-size: 18px; }
 .font20 { font-size: 20px; }
 .font24 { font-size: 24px; }
 
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.text-red {
+  color: #FF2626;
+}
 .link-text {
   color: #0AA1FF;
   cursor: pointer;

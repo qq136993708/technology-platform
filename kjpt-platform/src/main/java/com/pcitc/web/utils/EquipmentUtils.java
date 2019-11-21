@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,8 +35,6 @@ import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
-import com.pcitc.base.util.CodeUtil;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.JwtTokenUtil;
 
 
@@ -1500,42 +1500,38 @@ public class EquipmentUtils {
 	}
 	
 	
-		public static void main(String[] args) 
-	{
-			
-			
-			String achievementStr="1111aaa11#成果名称1# 申请单位1#申请年度2#成果类别$22aaa#成果名称2#申请单位#申请年度#成果类别2";
-			//外系统ID#成果名称# 申请单位#申请年度#成果类别$外系统ID#成果名称#申请单位#申请年度#成果类别 
-			 if(achievementStr!=null && !achievementStr.equals(""))
-			 {
-				 String arr[]=achievementStr.split("\\$");
-				 if(arr!=null)
-				 {
-					 for(int i=0;i<arr.length;i++)
-					 {
-						String linestr= arr[i];
-						
-						if(linestr!=null)
-						 {
-							 String array[]=linestr.split("#");
-							 if(array!=null)
-							 {
-								 String outSystemId= array[0];
-								 String achieveName= array[1];
-								 String applyUnit= array[2];
-								 System.out.println("--------achieveName: "+achieveName);
-							 }
-							 
-						 }
-					 }
-				 }
-			 }
-			 
-		
 	
-		
+	//生成8位随机数
+	public static String genRandomNum() {
+		int maxNum = 36;
+		int i;
+		int count = 0;
+		char[] str = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+				'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+		StringBuffer pwd = new StringBuffer("");
+		Random r = new Random();
+		while (count < 8) {
+			i = Math.abs(r.nextInt(maxNum));
+			if (i >= 0 && i < str.length) {
+				pwd.append(str[i]);
+				count++;
+			}
+		}
+		return pwd.toString();
 	}
 	
+	
+	/*
+	 * public static void main(String[] args) {
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
 	
 	
 	

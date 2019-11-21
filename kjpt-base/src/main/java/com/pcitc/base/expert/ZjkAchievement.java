@@ -21,32 +21,32 @@ public class ZjkAchievement implements Serializable {
     /**
      * 数据来源（1本系统，2外系统）
      */
-    private String sourceType;
+    private String sourceType="";
 
     /**
      * 删除状态（0未删除，1删除）
      */
-    private String delStatus;
+    private String delStatus="";
 
     /**
      * 成果名称
      */
-    private String achieveName;
+    private String achieveName="";
 
     /**
      * 申请年度
      */
-    private String applyYear;
+    private String applyYear="";
 
     /**
      * 申请单位
      */
-    private String applyUnit;
+    private String applyUnit="";
 
     /**
      * 成果类别
      */
-    private String achieveType;
+    private String achieveType="";
 
     /**
      * 创建时间
@@ -56,7 +56,7 @@ public class ZjkAchievement implements Serializable {
     /**
      * 外系统ID
      */
-    private String outSystemId;
+    private String outSystemId="";
 
     private static final long serialVersionUID = 1L;
 

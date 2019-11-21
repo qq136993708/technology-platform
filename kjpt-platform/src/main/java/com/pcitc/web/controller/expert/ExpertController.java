@@ -37,6 +37,7 @@ import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.system.SysLog;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.ImportExcelUtil;
 import com.pcitc.web.utils.PoiExcelExportUitl;
 import com.pcitc.web.utils.RestMessage;
@@ -264,8 +265,8 @@ public class ExpertController extends BaseController {
     	JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(zjkBase));
 		System.out.println(">>>>>>>>>> 参数: "+parma.toJSONString());
     
-		if (id!=null && !id.equals("")) {
-			
+		if (id!=null && !id.equals("")) 
+		{
 			ResponseEntity<ZjkBase> se = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
 			ZjkBase oldZjkBase = se.getBody();
 			oldZjkBase.setAge(zjkBase.getAge());
@@ -294,18 +295,33 @@ public class ExpertController extends BaseController {
 			} else {
 				resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
 			}
-			
-			
-		} else {
-			
+		} else 
+		{
 			zjkBase.setCreateTime(new Date());
 			zjkBase.setDelStatus(Constant.DEL_STATUS_NOT);
 			zjkBase.setSourceType(Constant.SOURCE_TYPE_LOCATION);//数据来源（1本系统，2外系统）
 			String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 			zjkBase.setId(dateid);
 			zjkBase.setCreateUser(sysUserInfo.getUserId());
-			//zjkBase.setNum(UUID.randomUUID().toString().replaceAll("-", ""));//专家编号-通过身份证从人事库取
-			//zjkBase.setPersonnelNum(UUID.randomUUID().toString().replaceAll("-", ""));//人事系统编号--通过身份证从人事库取
+			
+			String num=zjkBase.getNum();
+			if(num==null || "".equals(num))
+			{
+				String str=EquipmentUtils.genRandomNum()+"1";//9位=生成8位随机数+1
+				zjkBase.setNum(str);//专家编号-通过身份证从人事库取,如果没有，生成8位随机数
+			}else
+			{
+				zjkBase.setNum(num+"0");//9位=源系统8位+0，0代表外系统
+			}
+			String personnelNum=zjkBase.getPersonnelNum();
+			if(personnelNum==null || "".equals(personnelNum))
+			{
+				zjkBase.setPersonnelNum(UUID.randomUUID().toString().replaceAll("-", ""));//人事系统编号--通过身份证从人事库取
+			}
+			
+			zjkBase.setUpdateTime(new Date());
+			zjkBase.setUpdateUser("");
+			
 			
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
