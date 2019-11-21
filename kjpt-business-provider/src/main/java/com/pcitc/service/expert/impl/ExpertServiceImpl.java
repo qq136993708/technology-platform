@@ -9,6 +9,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -48,7 +50,38 @@ public class ExpertServiceImpl implements IExpertService {
 	*/
 	public ZjkBase selectZjkBase(String id) throws Exception
 	{
-		return zjkBaseMapper.selectByPrimaryKey(id);
+		
+		List rewardList=zjkRewardMapper.getListByExpertId(id);
+		List projectList=zjkProjectMapper.getListByExpertId(id);
+		List patentList=zjkPatentMapper.getListByExpertId(id);
+		List achievementList=zjkAchievementMapper.getListByExpertId(id);
+		
+		ZjkBase zjkBase= zjkBaseMapper.selectByPrimaryKey(id);
+		
+		
+		JSONArray j1 = JSONArray.parseArray(JSON.toJSONString(achievementList));
+		String zjkAchievementJsonList=j1.toString();
+		
+		JSONArray j2 = JSONArray.parseArray(JSON.toJSONString(projectList));
+		String zjkProjectJsonList=j2.toString();
+		
+		
+		JSONArray j3 = JSONArray.parseArray(JSON.toJSONString(rewardList));
+		String zjkRewardJsonList=j3.toString();
+		
+		
+		JSONArray j4 = JSONArray.parseArray(JSON.toJSONString(patentList));
+		String zjkPatentJsonList=j4.toString();
+		
+		
+		
+		
+		zjkBase.setZjkAchievementJsonList(zjkAchievementJsonList);
+		zjkBase.setZjkPatentJsonList(zjkPatentJsonList);
+		zjkBase.setZjkProjectJsonList(zjkProjectJsonList);
+		zjkBase.setZjkRewardJsonList(zjkRewardJsonList);
+		
+		return zjkBase;
 	}
 
 	 /**
@@ -371,11 +404,13 @@ public class ExpertServiceImpl implements IExpertService {
 			String sourceType=getTableParam(param,"sourceType","");
 			String delStatus=getTableParam(param,"delStatus","");
 			String outSystemId=getTableParam(param,"outSystemId","");
+			String expertId=getTableParam(param,"expertId","");
 			Map map=new HashMap();
 			map.put("projectName", projectName);
 			map.put("sourceType", sourceType);
 			map.put("delStatus", delStatus);
 			map.put("outSystemId", outSystemId);
+			map.put("expertId", expertId);
 			
 			
 			List<ZjkProject> list = zjkProjectMapper.getList(map);
@@ -459,12 +494,13 @@ public class ExpertServiceImpl implements IExpertService {
 			String sourceType=getTableParam(param,"sourceType","");
 			String delStatus=getTableParam(param,"delStatus","");
 			String outSystemId=getTableParam(param,"outSystemId","");
+			String expertId=getTableParam(param,"expertId","");
 			Map map=new HashMap();
 			map.put("achieveName", achieveName);
 			map.put("sourceType", sourceType);
 			map.put("delStatus", delStatus);
 			map.put("outSystemId", outSystemId);
-			
+			map.put("expertId", expertId);
 			List<ZjkAchievement> list = zjkAchievementMapper.getList(map);
 			PageInfo<ZjkAchievement> pageInfo = new PageInfo<ZjkAchievement>(list);
 			System.out.println(">>>>>>>>>专家成果查询分页结果 "+pageInfo.getList().size());
@@ -545,12 +581,13 @@ public class ExpertServiceImpl implements IExpertService {
 			String sourceType=getTableParam(param,"sourceType","");
 			String delStatus=getTableParam(param,"delStatus","");
 			String outSystemId=getTableParam(param,"outSystemId","");
+			String expertId=getTableParam(param,"expertId","");
 			Map map=new HashMap();
 			map.put("patentName", patentName);
 			map.put("sourceType", sourceType);
 			map.put("delStatus", delStatus);
 			map.put("outSystemId", outSystemId);
-			
+			map.put("expertId", expertId);
 			List<ZjkPatent> list = zjkPatentMapper.getList(map);
 			PageInfo<ZjkPatent> pageInfo = new PageInfo<ZjkPatent>(list);
 			System.out.println(">>>>>>>>>专家专利查询分页结果 "+pageInfo.getList().size());
@@ -630,11 +667,15 @@ public class ExpertServiceImpl implements IExpertService {
 			String sourceType=getTableParam(param,"sourceType","");
 			String delStatus=getTableParam(param,"delStatus","");
 			String outSystemId=getTableParam(param,"outSystemId","");
+			String expertId=getTableParam(param,"expertId","");
 			Map map=new HashMap();
 			map.put("rewarkLevel", rewarkLevel);
 			map.put("sourceType", sourceType);
 			map.put("delStatus", delStatus);
 			map.put("outSystemId", outSystemId);
+			map.put("expertId", expertId);
+			
+			
 			
 			List<ZjkReward> list = zjkRewardMapper.getList(map);
 			PageInfo<ZjkReward> pageInfo = new PageInfo<ZjkReward>(list);

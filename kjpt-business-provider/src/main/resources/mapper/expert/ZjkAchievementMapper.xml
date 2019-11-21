@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcitc.mapper.expert.ZjkAchievementMapper">
   <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkAchievement">
+  
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="expert_id" jdbcType="VARCHAR" property="expertId" />
     <result column="source_type" jdbcType="VARCHAR" property="sourceType" />
@@ -12,17 +13,14 @@
     <result column="achieve_type" jdbcType="VARCHAR" property="achieveType" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
+    <result column="achieve_type_str" jdbcType="VARCHAR" property="achieveTypeStr" />
+     
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, source_type, del_status, achieve_name, apply_year, apply_unit, achieve_type, 
     create_time, out_system_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from zjk_achievement
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from zjk_achievement
     where id = #{id,jdbcType=VARCHAR}
@@ -152,6 +150,20 @@
   
   
   
+    <sql id="view_zjk_achievement">
+     SELECT t1.*,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZLZL'
+          AND t2.`code`=t1.`patent_type`
+      ) patent_type_str
+     FROM zjk_patent t1
+	</sql>
+	
+	
+	
+  
+  
+  
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="achieveName != null and achieveName  !='' ">      AND t.achieve_name like CONCAT('%',#{achieveName},'%')</if>
@@ -163,7 +175,7 @@
 	</sql>
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from zjk_achievement t <include refid="selectCondition" />    
+     select * from (<include refid="view_zjk_achievement" />) t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
@@ -196,6 +208,18 @@
    <update id="deleteLogicZjkAchievementById" parameterType="string">
     update zjk_achievement  set del_status = '1' where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+  
+   <select id="getListByExpertId" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select * from zjk_achievement t where  expert_id = #{expertId,jdbcType=VARCHAR}
+   </select>
+  
+  
+   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+     select  * from (<include refid="view_zjk_achievement" />) t
+     where id = #{id,jdbcType=VARCHAR}
+   </select>
   
   
   

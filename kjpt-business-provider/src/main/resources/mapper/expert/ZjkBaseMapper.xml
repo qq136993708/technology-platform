@@ -43,12 +43,7 @@
     technical_field, belong_unit, title, post, work_experience, contact_way, email, brief, 
     achievement, head_pic, create_time, create_user, update_time, update_user, out_system_id,use_status
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from zjk_base
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
+ 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from zjk_base
     where id = #{id,jdbcType=VARCHAR}
@@ -418,6 +413,19 @@
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
       SELECT count(*) FROM zjk_base t <include refid="selectCondition"/>
     </select>
+  
+  
+  
+  
+  
+  
+   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select   *
+    from (<include refid="view_zjk_base" />)  t
+    where id = #{id,jdbcType=VARCHAR}
+   </select>
+  
+  
   
   
 </mapper>
