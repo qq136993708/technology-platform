@@ -2,6 +2,7 @@ package com.pcitc.mapper.techFamily;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -72,4 +73,8 @@ public interface TechFamilyMapper {
 	
 	
 	public List<TechFamily> getTechFamilyListByCodes(List list);
+	
+	
+	public List<TechFamily> getTechFamilyList(Map map);
+	
 }

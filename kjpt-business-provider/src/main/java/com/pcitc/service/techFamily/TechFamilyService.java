@@ -2,6 +2,7 @@ package com.pcitc.service.techFamily;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
@@ -64,5 +65,5 @@ public interface TechFamilyService {
     public List<TechFamily> getTechFamilyListByCodes(List<String> list)throws Exception;    
     
     
-    
+    public List<TechFamily> getTechFamilyList(Map map)throws Exception;    
 }
