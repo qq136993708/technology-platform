@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.file.FileCommonMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.common.FileModel">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="data_id" jdbcType="VARCHAR" property="dataId"/>
+        <result column="kind" jdbcType="VARCHAR" property="kind"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+        <result column="file_size" jdbcType="BIGINT" property="fileSize"/>
+        <result column="file_path" jdbcType="VARCHAR" property="filePath"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id,
+        data_id,
+        kind,
+        file_name,
+        file_size,
+        file_path,
+        type,
+        create_user,
+        create_date,
+        update_user,
+        update_date
+       </sql>
+
+    <select id="query" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from file where data_id = #{dataId} and deleted != '1'
+    </select>
+
+    <select id="downLoad" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from file where id = #{id}
+    </select>
+
+    <insert id="save" parameterType="java.util.List">
+        insert into file (
+            id,
+            data_id,
+            kind,
+            file_name,
+            file_size,
+            file_path,
+            type,
+            create_user,
+            create_date,
+            update_user,
+            update_date
+        )values
+        <foreach collection="list" item="file" separator=",">
+            (
+            #{file.id},
+            #{file.dataId},
+            #{file.kind},
+            #{file.fileName},
+            #{file.fileSize},
+            #{file.filePath},
+            #{file.type},
+            #{file.creator},
+            #{file.createDate},
+            #{file.updator},
+            #{file.updateDate}
+            )
+        </foreach>
+    </insert>
+
+    <update id="delete">
+        update file set deleted = '1' where data_id = #{dataId} and id not in
+        <foreach collection="list"  item="id" index="index"  open="(" separator="," close=")" >
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>

@@ -37,10 +37,11 @@ public class PatentInfoServiceImpl implements PatentInfoService {
     @Override
     public PatentInfo updateOrInsertPatentInfo(PatentInfo patentInfo) {
         if(Objects.nonNull(patentInfo.getId())&&!"".equals(patentInfo.getId())){
-            return patentInfoMapper.updateByPrimaryKey(patentInfo);
+             patentInfoMapper.updateByPrimaryKey(patentInfo);
         }else{
-            return patentInfoMapper.insertSelective(patentInfo);
+             patentInfoMapper.insertSelective(patentInfo);
         }
+        return patentInfo;
     }
 
     @Override
