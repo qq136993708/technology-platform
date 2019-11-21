@@ -24,6 +24,8 @@ import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 
@@ -71,20 +73,24 @@ public class ExpertPatentController extends BaseController {
 	  * 获取专家专利（分页）
 	 */
     @ApiOperation(value = "获取专家专利列表（分页）", notes = "获取专家专利列表（分页）")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "page",           value = "页码", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "limit",          value = "每页显示条数", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "expertId",           value = "专家ID", dataType = "string", paramType = "query")
+        
+    })
     @RequestMapping(value = "/expert-patent-api/list", method = RequestMethod.POST)
 	public String getExpertPage(
 			
+
 			@RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer limit,
-            @RequestParam(required = false,value="姓名") String name,
-            @RequestParam(required = false,value="专家专利编号") String num,
-            @RequestParam(required = false,value="身份证号码") String idCardNo,
+            @RequestParam(required = false,value="专家ID") String expertId,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 
     	LayuiTableParam param =new LayuiTableParam();
-    	param.getParam().put("name", name);
-    	param.getParam().put("num", num);
+    	param.getParam().put("expertId", expertId);
     	param.setLimit(limit);
     	param.setPage(page);
 		LayuiTableData layuiTableData = new LayuiTableData();

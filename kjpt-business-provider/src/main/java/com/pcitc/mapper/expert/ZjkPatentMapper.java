@@ -37,5 +37,5 @@ public interface ZjkPatentMapper {
     
     int  deleteLogicZjkPatentById(String expertId);
     
-    
+    List getListByExpertId(String expertId);
 }

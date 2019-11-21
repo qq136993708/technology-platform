@@ -29,5 +29,5 @@ public interface ZjkAchievementMapper {
     int deleteLogicZjkAchievementByExpertId(String expertId);
     int deleteLogicZjkAchievementById(String expertId);
     int deleteZjkAchievementByExpertId(String expertId);
-    
+    List getListByExpertId(String expertId);
 }

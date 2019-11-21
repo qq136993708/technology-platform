@@ -12,17 +12,14 @@
     <result column="awarding_time" jdbcType="TIMESTAMP" property="awardingTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
+    <result column="rewark_level_str" jdbcType="VARCHAR" property="rewarkLevelStr" />
+    
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, del_status, source_type, rewark_level, notes, awarding_unit, awarding_time, 
     create_time, out_system_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from zjk_reward
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from zjk_reward
     where id = #{id,jdbcType=VARCHAR}
@@ -158,7 +155,16 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
-  
+  <sql id="view_zjk_reward">
+     SELECT t1.*,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_JLJB'
+          AND t2.`code`=t1.`rewark_level`
+      ) rewark_level_str
+     FROM zjk_reward t1
+	</sql>
+   
+   
   
   
   
@@ -173,7 +179,7 @@
 	</sql>
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from zjk_reward t <include refid="selectCondition" />    
+     select * from (<include refid="view_zjk_reward" />)   t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
@@ -203,6 +209,36 @@
     delete from zjk_reward  where expert_id = #{expertId,jdbcType=VARCHAR}
   </delete>
   
-  
+   <select id="getListByExpertId" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select * from zjk_reward t where  expert_id = #{expertId,jdbcType=VARCHAR}
+   </select>
+   
+   
+   
+   
+   
+   
+   
+   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select   *
+    from (<include refid="view_zjk_reward" />) t
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
   
 </mapper>

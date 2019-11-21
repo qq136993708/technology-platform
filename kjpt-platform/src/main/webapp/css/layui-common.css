@@ -126,9 +126,12 @@
   border-color: #AAAAAA;
   border-radius: 5px;
   font-size: 14px;
+<<<<<<< HEAD
+=======
 }
 .layui-input {
   line-height: 28px;
+>>>>>>> 5dacc8b7e296a0db81daa0eb2fc536d2178c7a29
 }
 .layui-form-select dl{
   top: 32px;
@@ -169,6 +172,7 @@
   background: #fff url('../images/date.png') no-repeat;
   background-size: 16px 16px;
   background-position: calc(100% - 8px) 6px;
+  font-size: 14px;
 }
 .layui-input:not(:disabled):hover,
 .layui-input:not(:disabled):active,

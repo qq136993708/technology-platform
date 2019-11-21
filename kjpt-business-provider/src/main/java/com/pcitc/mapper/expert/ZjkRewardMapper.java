@@ -31,4 +31,8 @@ public interface ZjkRewardMapper {
     
     int  deleteLogicZjkRewardById(String expertId);
     
+    
+    
+    List getListByExpertId(String expertId);
+    
 }

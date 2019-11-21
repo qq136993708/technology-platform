@@ -30,6 +30,12 @@
     <result column="use_status" jdbcType="VARCHAR" property="useStatus" />
     
     
+    <result column="use_status_str"      jdbcType="VARCHAR" property="useStatusStr" />
+    <result column="belong_unit_str"     jdbcType="VARCHAR" property="belongUnitStr" />
+    <result column="technical_field_str" jdbcType="VARCHAR" property="technicalFieldStr" />
+    <result column="education_str"       jdbcType="VARCHAR" property="educationStr" />
+    <result column="sex_str"             jdbcType="VARCHAR" property="sexStr" />
+    
     
   </resultMap>
   <sql id="Base_Column_List">
@@ -37,12 +43,7 @@
     technical_field, belong_unit, title, post, work_experience, contact_way, email, brief, 
     achievement, head_pic, create_time, create_user, update_time, update_user, out_system_id,use_status
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from zjk_base
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
+ 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from zjk_base
     where id = #{id,jdbcType=VARCHAR}
@@ -374,8 +375,32 @@
 	 </trim>
 	</sql>
 	
+	<sql id="view_zjk_base">
+	   SELECT t1.*,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XL'
+          AND t2.`code`=t1.`education`
+      ) education_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_SZDW'
+          AND t2.`code`=t1.`belong_unit`
+      ) belong_unit_str
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_QYZT'
+          AND t2.`code`=t1.`use_status`
+      ) use_status_str,
+      
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XB'
+          AND t2.num_value =t1.`sex`
+      ) sex_str
+     FROM zjk_base t1
+	</sql>
+	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from zjk_base t <include refid="selectCondition" />    
+   select * from  (<include refid="view_zjk_base" />)  t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
@@ -388,6 +413,19 @@
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
       SELECT count(*) FROM zjk_base t <include refid="selectCondition"/>
     </select>
+  
+  
+  
+  
+  
+  
+   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select   *
+    from (<include refid="view_zjk_base" />)  t
+    where id = #{id,jdbcType=VARCHAR}
+   </select>
+  
+  
   
   
 </mapper>
