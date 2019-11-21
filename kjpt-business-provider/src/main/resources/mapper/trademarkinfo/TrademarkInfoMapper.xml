@@ -178,6 +178,9 @@
       <if test="file != null">
         file,
       </if>
+      <if test="deleted != null">
+       deleted,
+    </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -221,6 +224,9 @@
       </if>
       <if test="file != null">
         #{file,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -363,7 +369,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="queryTrademarkList" parameterType="java.util.Map" resultMap="BaseResultMap">
-    select  <include refid="Base_Column_List"/> from trademark_info where 1=1
+    select  <include refid="Base_Column_List"/> from view_trademark_info where 1=1
     <if test="unitName != null and unitName != '' " >
       and unit_name = #{unitName}
     </if>

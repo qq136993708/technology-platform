@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>中核科技管理平台</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+    <!-- 多选下拉框样式，根据需求添加 -->
+    <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+    <link rel="stylesheet" href="/css/layui-common.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <style>
+        .item{margin-bottom: 10px !important;}
+        .add-item{width: 100%;background: #fff;border: 1px solid #aaa;border-radius: 3px;
+            height: 30px;line-height: 30px;color: #1890FF;cursor: pointer;}
+    </style>
+</head>
+<body class="">
+<div class="layout-view-content dialog">
+    <div class="layui-tab" lay-filter="tab-demo">
+        <ul class="layui-tab-title tab-btn-layout">
+            <li class="layui-this">关联添加</li>
+            <li>手动录入</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+                    <div class="layui-row layui-col-space20">
+                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                            <div class="layui-form-item item">
+                                <label class="layui-form-label label-required"><span class="text">成果名称:</span></label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="achieveName" lay-verify="required"
+                                           placeholder="" autocomplete="off" class="layui-input achieveName">
+                                </div>
+                            </div>
+                            <div class="layui-form-item item">
+                                <label class="layui-form-label"><span class="text">申请年度:</span></label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="applyYear"
+                                           autocomplete="off" placeholder="请选择申请年度!" class="layui-input laydate-input applyYear">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                            <div class="layui-form-item item">
+                                <label class="layui-form-label label-required"><span class="text">申请单位:</span></label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="applyUnit"
+                                           placeholder="" autocomplete="off" class="layui-input applyUnit">
+                                </div>
+                            </div>
+                            <div class="layui-form-item item">
+                                <label class="layui-form-label label-required"><span class="text">成果类型:</span></label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="achieveType"
+                                           placeholder="" autocomplete="off" class="layui-input achieveType">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <button data-type="add" class="add-item layui-btn">添加</button>
+            </div>
+            <div class="layui-tab-item">
+
+            </div>
+        </div>
+    </div>
+    <div class="dialog-footer-btn">
+        <a class="layui-btn layui-btn-normal" data-type="save">提交</a>
+        <a class="layui-btn layui-btn-primary" data-type="close">关闭</a>
+    </div>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+</body>
+</html>
+
+<script>
+    layui.use(['form', 'jquery','element','laydate'], function(){
+        var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate;
+        function applyYear() {
+            lay('.applyYear').each(function(){
+                laydate.render({
+                    elem: this
+                    ,trigger: 'click'
+                    ,type:"year"
+                });
+            });
+        }
+        applyYear();
+        var $ = layui.$, active = {
+            add:function(){
+                var html='<div class="layui-row layui-col-space20">'+$("#formPlatform div:nth-child(1)").html()+'</div>'
+                $("#formPlatform").append(html)
+                applyYear();
+            },
+            save:function () {
+                var arr=[]
+                $("#formPlatform>div").each(function (index,item) {
+                    var achieveName=$("#formPlatform>div").eq(index).find(".achieveName").val()
+                    var applyYear=$("#formPlatform>div").eq(index).find(".applyYear").val()
+                    var applyUnit=$("#formPlatform>div").eq(index).find(".applyUnit").val()
+                    var achieveType=$("#formPlatform>div").eq(index).find(".achieveType").val()
+                    if(achieveName=='' || applyUnit=='' || achieveType==''){
+                        layer.msg("为填项不能为空！", {icon: 2});
+                        return
+                    }else {
+                        var data={
+                            achieveName:achieveName,
+                            applyYear:applyYear,
+                            applyUnit:applyUnit,
+                            achieveType:achieveType,
+                            outSystemId:''
+                        }
+                        arr.push(data)
+                    }
+                })
+                if(arr.length==$("#formPlatform>div").length){
+                    console.log(arr)
+                    setDialogData(arr); // 通知上层页面状态 - 弹窗中使用
+                    top.layer.closeAll(); // 关闭弹窗
+                }
+
+            },
+            close:function () {
+                /*模拟关闭标签页事件*/
+                setDialogData('');
+                top.layer.closeAll(); // 关闭弹窗
+            }
+        }
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        /*httpModule({
+                        url: '/expert-api/save',
+                        data: data.field,
+                        type: "POST",
+                        success: function(e) {
+                            setDialogData({code: e.success, message: e.message}); // 通知上层页面状态 - 弹窗中使用
+                    top.layer.closeAll(); // 关闭弹窗
+                        }
+                    });*/
+    });
+</script>

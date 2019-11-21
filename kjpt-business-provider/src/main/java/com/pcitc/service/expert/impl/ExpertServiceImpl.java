@@ -1,12 +1,15 @@
 package com.pcitc.service.expert.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.Constant;
@@ -17,14 +20,13 @@ import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.expert.ZjkAchievementMapper;
 import com.pcitc.mapper.expert.ZjkBaseMapper;
 import com.pcitc.mapper.expert.ZjkPatentMapper;
 import com.pcitc.mapper.expert.ZjkProjectMapper;
 import com.pcitc.mapper.expert.ZjkRewardMapper;
 import com.pcitc.service.expert.IExpertService;
-
-import io.swagger.annotations.ApiImplicitParam;
 
 
 @Service
@@ -54,58 +56,14 @@ public class ExpertServiceImpl implements IExpertService {
 	*/
 	public Integer updateZjkBase(ZjkBase record)throws Exception
 	{
-		
-		
-		
+		 //先根据专家ID删除相关的信息（专利，成果，项目，奖励）
 		 zjkAchievementMapper.deleteZjkAchievementByExpertId(record.getId());
-		 String achievementStr=record.getZjkAchievementJsonList();
-		 String patentStr=record.getZjkPatentJsonList();
-		 String projectStr=record.getZjkProjectJsonList();
-		 String rewardStr=record.getZjkRewardJsonList();
-		 //外系统ID#成果名称# 申请单位#申请年度#成果类别$外系统ID#成果名称#申请单位#申请年度#成果类别 
-		 if(achievementStr!=null && !achievementStr.equals(""))
-		 {
-			 String arr[]=achievementStr.split("\\$");
-			 if(arr!=null)
-			 {
-				 for(int i=0;i<arr.length;i++)
-				 {
-					String linestr= arr[i];
-					
-					if(linestr!=null)
-					 {
-						 ZjkAchievement zjkAchievement=new ZjkAchievement();
-						 String array[]=linestr.split("#");
-						 if(array!=null)
-						 {
-							 String outSystemId= array[0];
-							 String achieveName= array[1];
-							 String applyUnit= array[2];
-							 String applyYear= array[3];
-							 String achieveType= array[4];
-							 zjkAchievement.setOutSystemId(outSystemId);
-							 zjkAchievement.setApplyYear(applyYear);
-							 zjkAchievement.setAchieveName(achieveName);
-							 zjkAchievement.setApplyUnit(applyUnit);
-							 zjkAchievement.setAchieveType(achieveType);
-							 zjkAchievement.setExpertId(record.getId());
-							 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
-							 if(!outSystemId.equals(""))
-							 {
-								 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
-							 }else
-							 {
-								 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
-							 }
-							 zjkAchievementMapper.insert(zjkAchievement);
-						 }
-						 
-					 }
-				 }
-			 }
-		 }
-		 
-		return zjkBaseMapper.updateByPrimaryKey(record);
+		 zjkPatentMapper.deleteZjkPatentByExpertId(record.getId());
+		 zjkRewardMapper.deleteZjkRewardByExpertId(record.getId());
+		 zjkProjectMapper.deleteZjkProjectByExpertId(record.getId());
+		 //再增加相关的信息（专利，成果，项目，奖励）
+		 addRealtionInfo(record);
+		 return zjkBaseMapper.updateByPrimaryKey(record);
 	}
 
 	
@@ -144,56 +102,137 @@ public class ExpertServiceImpl implements IExpertService {
 	 */
 	public Integer insertZjkBase(ZjkBase record)throws Exception
 	{
-		
+		addRealtionInfo(record);
+		return zjkBaseMapper.insert(record);
+	}
+	
+	
+	
+	//增加专家相关的信息
+	public void addRealtionInfo(ZjkBase record)throws Exception
+	{
 		 String achievementStr=record.getZjkAchievementJsonList();
 		 String patentStr=record.getZjkPatentJsonList();
 		 String projectStr=record.getZjkProjectJsonList();
 		 String rewardStr=record.getZjkRewardJsonList();
-		 //外系统ID#成果名称# 申请单位#申请年度#成果类别$外系统ID#成果名称#申请单位#申请年度#成果类别 
-		 if(achievementStr!=null && !achievementStr.equals(""))
+		 System.out.println(">>>>>>>>>>成果信息"+achievementStr);
+		 System.out.println(">>>>>>>>>>专利信息"+patentStr);
+		 System.out.println(">>>>>>>>>>项目信息"+projectStr);
+		 System.out.println(">>>>>>>>>>奖励信息"+rewardStr);
+		 
+		 //成果
+		 List<ZjkAchievement> achievementList = JSONObject.parseArray(achievementStr, ZjkAchievement.class);
+		 if(achievementList!=null)
 		 {
-			 String arr[]=achievementStr.split("\\$");
-			 if(arr!=null)
+			 for(int i=0;i<achievementList.size();i++)
 			 {
-				 for(int i=0;i<arr.length;i++)
+				 ZjkAchievement zjkAchievement= achievementList.get(i);
+				 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkAchievement.setExpertId(record.getId());
+				 String outSystemId=zjkAchievement.getOutSystemId();
+				 zjkAchievement.setCreateTime(new Date());
+				 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				 zjkAchievement.setId(dateid);
+				 if(!outSystemId.equals(""))
 				 {
-					String linestr= arr[i];
-					
-					if(linestr!=null)
-					 {
-						 ZjkAchievement zjkAchievement=new ZjkAchievement();
-						 String array[]=linestr.split("#");
-						 if(array!=null)
-						 {
-							 String outSystemId= array[0];
-							 String achieveName= array[1];
-							 String applyUnit= array[2];
-							 String applyYear= array[3];
-							 String achieveType= array[4];
-							 zjkAchievement.setOutSystemId(outSystemId);
-							 zjkAchievement.setApplyYear(applyYear);
-							 zjkAchievement.setAchieveName(achieveName);
-							 zjkAchievement.setApplyUnit(applyUnit);
-							 zjkAchievement.setAchieveType(achieveType);
-							 zjkAchievement.setExpertId(record.getId());
-							 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
-							 if(!outSystemId.equals(""))
-							 {
-								 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
-							 }else
-							 {
-								 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
-							 }
-							 zjkAchievementMapper.insert(zjkAchievement);
-						 }
-						 
-					 }
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
 				 }
+				 zjkAchievementMapper.insert(zjkAchievement);
+				 
 			 }
 		 }
 		 
-		return zjkBaseMapper.insert(record);
+		 //奖励
+		 List<ZjkReward> rewardList = JSONObject.parseArray(rewardStr, ZjkReward.class);
+		 if(rewardList!=null)
+		 {
+			 for(int i=0;i<rewardList.size();i++)
+			 {
+				 ZjkReward zjkReward= rewardList.get(i);
+				 zjkReward.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkReward.setExpertId(record.getId());
+				 String outSystemId=zjkReward.getOutSystemId();
+				 if(!outSystemId.equals(""))
+				 {
+					 zjkReward.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkReward.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 zjkReward.setCreateTime(new Date());
+				 
+				 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				 zjkReward.setId(dateid);
+				 String datestr= zjkReward.getAwardingTimeStr();
+				 Date awardingTime=DateUtil.strToDate(datestr, DateUtil.FMT_DD);
+				 zjkReward.setAwardingTime(awardingTime);
+				 
+				 
+				 zjkRewardMapper.insert(zjkReward);
+				 
+			 }
+		 }
+		 
+		 //项目
+		 List<ZjkProject> projectList = JSONObject.parseArray(projectStr, ZjkProject.class);
+		 if(projectList!=null)
+		 {
+			 for(int i=0;i<projectList.size();i++)
+			 {
+				 ZjkProject zjkProject= projectList.get(i);
+				 zjkProject.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkProject.setExpertId(record.getId());
+				 String outSystemId=zjkProject.getOutSystemId();
+				 if(!outSystemId.equals(""))
+				 {
+					 zjkProject.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkProject.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 zjkProject.setCreateTime(new Date());
+				 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				 zjkProject.setId(dateid);
+				 
+				 zjkProjectMapper.insert(zjkProject);
+				 
+			 }
+		 }
+		 
+		 //专利
+		 List<ZjkPatent> patentList = JSONObject.parseArray(patentStr, ZjkPatent.class);
+		 if(patentList!=null)
+		 {
+			 for(int i=0;i<patentList.size();i++)
+			 {
+				 ZjkPatent patent= patentList.get(i);
+				 patent.setDelStatus(Constant.DEL_STATUS_NOT);
+				 patent.setExpertId(record.getId());
+				 String outSystemId=patent.getOutSystemId();
+				 if(!outSystemId.equals(""))
+				 {
+					 patent.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 patent.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 patent.setCreateTime(new Date());
+				 
+				 String datestr= patent.getGetPatentTimeStr();
+				 Date getPatentTime=DateUtil.strToDate(datestr, DateUtil.FMT_DD);
+				 patent.setGetPatentTime(getPatentTime);
+				 
+				 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				 patent.setId(dateid);
+				 zjkPatentMapper.insert(patent);
+				 
+			 }
+		 }
 	}
+	
 	
 	
 	/**

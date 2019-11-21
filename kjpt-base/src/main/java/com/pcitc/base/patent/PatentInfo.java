@@ -173,6 +173,36 @@ public class PatentInfo implements Serializable {
      */
     private String deleted;
 
+    /**
+     * 国别组织
+     */
+    private String country;
+
+    /**
+     * 专利范围翻译
+     */
+    private String application_of_patent_transformation_text;
+
+    /**
+     * 专利类型翻译
+     */
+    private String patent_type_text;
+
+    /**
+     * 国别组织翻译
+     */
+    private String country_text;
+
+    /**
+     * 申请类型翻译
+     */
+    private String application_type_text;
+
+    /**
+     * 法律状态翻译
+     */
+    private String legal_status_text;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -437,6 +467,54 @@ public class PatentInfo implements Serializable {
 
     public void setDeleted(String deleted) {
         this.deleted = deleted;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getApplication_of_patent_transformation_text() {
+        return application_of_patent_transformation_text;
+    }
+
+    public void setApplication_of_patent_transformation_text(String application_of_patent_transformation_text) {
+        this.application_of_patent_transformation_text = application_of_patent_transformation_text;
+    }
+
+    public String getPatent_type_text() {
+        return patent_type_text;
+    }
+
+    public void setPatent_type_text(String patent_type_text) {
+        this.patent_type_text = patent_type_text;
+    }
+
+    public String getCountry_text() {
+        return country_text;
+    }
+
+    public void setCountry_text(String country_text) {
+        this.country_text = country_text;
+    }
+
+    public String getApplication_type_text() {
+        return application_type_text;
+    }
+
+    public void setApplication_type_text(String application_type_text) {
+        this.application_type_text = application_type_text;
+    }
+
+    public String getLegal_status_text() {
+        return legal_status_text;
+    }
+
+    public void setLegal_status_text(String legal_status_text) {
+        this.legal_status_text = legal_status_text;
     }
 
     @Override

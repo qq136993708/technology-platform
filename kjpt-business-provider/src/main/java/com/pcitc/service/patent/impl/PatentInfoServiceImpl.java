@@ -1,40 +1,17 @@
-package com.pcitc.service.patent.Impl;
+package com.pcitc.service.patent.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.*;
-import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.expert.*;
 import com.pcitc.base.patent.PatentInfo;
-import com.pcitc.base.patent.PatentInfoExample;
-import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.util.*;
-import com.pcitc.config.SpringContextUtil;
-import com.pcitc.mapper.expert.*;
+import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.patent.PatentInfoMapper;
-import com.pcitc.service.expert.*;
-import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.patent.PatentInfoService;
-import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
-import java.util.stream.Collectors;
-
-//import com.github.abel533.echarts.Label;
-//import com.github.abel533.echarts.series.Graph;
-//import com.github.abel533.echarts.style.ItemStyle;
-//import com.github.abel533.echarts.style.itemstyle.Normal;
 
 /**
  * <p>接口实现类</p>
@@ -52,7 +29,7 @@ public class PatentInfoServiceImpl implements PatentInfoService {
     @Override
     public PatentInfo updateOrInsertPatentInfo(PatentInfo patentInfo) {
         IsEmptyUtil.isEmpty(patentInfo.getId());
-        if(this.getPatentInfo(patentInfo.getId()) != null){
+        if(Objects.nonNull(this.getPatentInfo(patentInfo.getId()))){
             patentInfoMapper.updateByPrimaryKey(patentInfo);
         }else{
             patentInfoMapper.insertSelective(patentInfo);

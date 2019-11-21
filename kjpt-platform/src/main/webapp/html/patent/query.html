@@ -39,22 +39,15 @@
     
         </div>
 
-        
-
-
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">申请类型：</span></label>
             <div class="layui-input-block">
-              <select name="applicationType" id="applicationType">
-                <option value=""></option>
-                
+              <select name="applicationType" lay-filter="applicationType" dic-base-data="ROOT_KJPT_ZLFW" placeholder="请选择">
               </select>
             </div>
           </div>
         </div>
-
-    
 
         <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
           <div class="layui-form-item">
@@ -79,7 +72,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">专利类型：</span></label>
             <div class="layui-input-block">
-              <select name="patentType"  id="patentType">
+              <select name="patentType"  lay-filter="patentType" dic-base-data="ROOT_KJPT_ZLZL" placeholder="请选择">
                 <option value=""></option>
                
               </select>

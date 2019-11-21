@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.techFamily;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,13 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.util.CommonUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
 
@@ -68,5 +67,50 @@ public class SysDictionaryApiController extends BaseController {
 	}
    
    
+   
+   /**
+        *    递归算法解析成树形结构
+   */
+	public SysDictionary recursiveTree(String cid, List allList)
+	{
+		SysDictionary node = getSysDictionary(cid,  allList);
+		// 查询cid下的所有子节点(SELECT * FROM tb_tree t WHERE t.pid=?)
+		List<SysDictionary> childTreeNodes = getChlids(cid,  allList);
+		// 遍历子节点
+		for (SysDictionary child : childTreeNodes)
+		{
+			SysDictionary n = recursiveTree(child.getId(), allList); // 递归
+			node.getChildNodes().add(n);
+		}
+		return node;
+	}
+	public SysDictionary getSysDictionary(String id, List<SysDictionary> allList)
+	{
+		SysDictionary sd=null;
+		for(int i=0;i<allList.size();i++)
+		{
+			SysDictionary sysDictionary=allList.get(i);
+			if(sysDictionary.getId().equals(id))
+			{
+				sd=sysDictionary;
+			}
+		}
+		return sd;
+	}
+	
+	public List<SysDictionary>  getChlids(String id, List<SysDictionary> allList)
+	{
+		List<SysDictionary>  list=new ArrayList<SysDictionary>();
+		for(int i=0;i<allList.size();i++)
+		{
+			SysDictionary sysDictionary=allList.get(i);
+			if(sysDictionary.getParentId().equals(id))
+			{
+				list.add(sysDictionary);
+			}
+		}
+		return list;
+	}
+	
 
 }
