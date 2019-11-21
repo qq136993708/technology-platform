@@ -10,8 +10,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   var itemRowData = null; // 选中行的数据
   var tableRender = false;
   function queryTable(searchData) {
-
-    console.log('query', searchData);
+ 
 
     if (!tableRender) {
       tableRender = true;
@@ -22,8 +21,8 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           {type: 'radio', field: 'id'}
           ,{field: 'applicationNumber', title: '申请(专利)号'}
           ,{field: 'unitName', title: '单位名称', sort: true }
-          ,{field: 'applicationType', title: '申请类型', sort: true, templet: '#applicationTypeText'}
-          ,{field: 'patentType', title: '专利类型', templet: '#patentTypeText' } 
+          ,{field: 'applicationTypeText', title: '申请类型', sort: true}
+          ,{field: 'patentTypeText', title: '专利类型', templet: '#patentTypeText' } 
           ,{field: 'applicant', title: '申请人'}
           ,{field: 'inventor', title: '发明人', sort: true, templet: '#showUserTpl'}
           ,{field: 'applicationDate', title: '申请日期', sort: true, templet: '#applicationDate'}
@@ -52,9 +51,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   form.on('submit(formDemo)', function(data) {
 
     //TODO date error
-    var query = data.field;
-    delete query.applicationDateStart;
-    delete query.applicationDateEnd;
+    var query = data.field; 
 
     queryTable(query);
     return false;

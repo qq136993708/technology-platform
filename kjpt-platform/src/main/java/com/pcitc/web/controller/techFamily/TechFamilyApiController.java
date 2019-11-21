@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.FormSelectNode;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.stp.techFamily.TechFamily;
@@ -36,6 +37,9 @@ public class TechFamilyApiController extends BaseController{
 	
 	private static final String TECH_TYPE_TREE = "http://kjpt-zuul/stp-proxy/tech-family-provider/type-tree";
 	
+	
+	private static final String TECH_TYPE_TREE_NODE = "http://kjpt-zuul/stp-proxy/tech-family-provider/type_tree";
+	
 	private static final String LIST_BY_IDS_URL = "http://kjpt-zuul/stp-proxy/tech-family-provider/getListByCodes";
 	
 	
@@ -49,12 +53,17 @@ public class TechFamilyApiController extends BaseController{
 	public String getChildsListByCodeTree(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		TechFamily techType = new TechFamily();
-		ResponseEntity<List> responseEntity = this.restTemplate.exchange(TECH_TYPE_TREE, HttpMethod.POST,
-				new HttpEntity<TechFamily>(techType, this.httpHeaders), List.class);
-		List<TreeNode> treeNodes = responseEntity.getBody();
-		JSONArray temparray= JSONArray.parseArray(JSON.toJSONString(treeNodes));
-		List<TreeNode> alllist = JSONObject.parseArray(temparray.toJSONString(), TreeNode.class);		
-		System.out.println(">>>>>>>>>条数:"+alllist.size());	
+		ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(TECH_TYPE_TREE_NODE, HttpMethod.POST,new HttpEntity<TechFamily>(techType, this.httpHeaders), JSONArray.class);
+		JSONArray temparray = responseEntity.getBody();
+		List<TechFamily> list = JSONObject.parseArray(temparray.toJSONString(), TechFamily.class);
+		
+		
+		List<FormSelectNode> alllist =treeNodeToSelectNodeList(list);
+		
+		
+		JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(alllist));
+		
+		System.out.println(">>>>>>>>>nodeList条数:"+trreeJsovvn.toString());		
 		JSONObject trreeJson = JSONObject.parseObject(JSONObject.toJSONString(recursiveTree(Constant.TECHFAMILY_ROOT_ID,alllist)));
 		System.out.println("-----------------树形结构："+trreeJson.toString());
 		return trreeJson.toString();
@@ -64,26 +73,6 @@ public class TechFamilyApiController extends BaseController{
 	
 	
 	
-	/**
-	  *查询技术族列表
-	 */
-	@ApiOperation(value = "查询技术族列表（前2级）", notes = "查询技术族列表（前2级）")
-	@RequestMapping(value = "/techFamily-api/getList", method = RequestMethod.GET)
-	public String getChildsListByCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		Result resultsDate = new Result();
-		TechFamily techType = new TechFamily();
-		ResponseEntity<List> responseEntity = this.restTemplate.exchange(TECH_TYPE_TREE, HttpMethod.POST,
-				new HttpEntity<TechFamily>(techType, this.httpHeaders), List.class);
-		List<TreeNode> treeNodes = responseEntity.getBody();
-		
-		resultsDate.setData(treeNodes);
-		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		
-		System.out.println("---------------技术族列表："+result.toString());
-		
-		return result.toString();
-	}
 	
 	
 	
@@ -122,29 +111,54 @@ public class TechFamilyApiController extends BaseController{
 	
 	
 	
+	
+	
+	
+	public List<FormSelectNode> treeNodeToSelectNodeList(List<TechFamily> alllist)
+	{
+		
+		List<FormSelectNode> reslutList=new ArrayList();
+		for(int i=0;i<alllist.size();i++)
+		{
+			TechFamily node=alllist.get(i);
+			FormSelectNode formSelectNode=new FormSelectNode();
+			formSelectNode.setpId(node.getParentId());
+			formSelectNode.setCode(node.getTypeCode());
+			formSelectNode.setId(node.getTfmTypeId());
+			formSelectNode.setLevelCode(node.getLevelCode());
+			formSelectNode.setValue(node.getTypeCode());
+			formSelectNode.setName(node.getTypeName());
+			formSelectNode.setParentId(node.getParentId());
+			reslutList.add(formSelectNode);
+			
+		}
+		return reslutList;
+	}
+	
+	
 
 	   /**
 	        *    递归算法解析成树形结构
 	   */
-		public TreeNode recursiveTree(String cid, List<TreeNode> allList)
+		public FormSelectNode recursiveTree(String cid, List<FormSelectNode> allList)
 		{
-			TreeNode node = getSysDictionary(cid,  allList);
+			FormSelectNode node = getSysDictionary(cid,  allList);
 			// 查询cid下的所有子节点(SELECT * FROM tb_tree t WHERE t.pid=?)
-			List<TreeNode> childTreeNodes = getChlids(cid,  allList);
+			List<FormSelectNode> childTreeNodes = getChlids(cid,  allList);
 			// 遍历子节点
-			for (TreeNode child : childTreeNodes)
+			for (FormSelectNode child : childTreeNodes)
 			{
-				TreeNode n = recursiveTree(child.getId(), allList); // 递归
-				node.getChildNodes().add(n);
+				FormSelectNode n = recursiveTree(child.getId(), allList); // 递归
+				node.getChildren().add(n) ;
 			}
 			return node;
 		}
-		public TreeNode getSysDictionary(String id, List<TreeNode> allList)
+		public FormSelectNode getSysDictionary(String id, List<FormSelectNode> allList)
 		{
-			TreeNode sd=null;
+			FormSelectNode sd=null;
 			for(int i=0;i<allList.size();i++)
 			{
-				TreeNode sysDictionary=allList.get(i);
+				FormSelectNode sysDictionary=allList.get(i);
 				if(sysDictionary.getId().equals(id))
 				{
 					sd=sysDictionary;
@@ -153,13 +167,13 @@ public class TechFamilyApiController extends BaseController{
 			return sd;
 		}
 		
-		public List<TreeNode>  getChlids(String id, List<TreeNode> allList)
+		public List<FormSelectNode>  getChlids(String id, List<FormSelectNode> allList)
 		{
-			List<TreeNode>  list=new ArrayList<TreeNode>();
+			List<FormSelectNode>  list=new ArrayList<FormSelectNode>();
 			for(int i=0;i<allList.size();i++)
 			{
-				TreeNode sysDictionary=allList.get(i);
-				String parentId=sysDictionary.getpId();
+				FormSelectNode sysDictionary=allList.get(i);
+				String parentId=sysDictionary.getParentId();
 				if(parentId!=null)
 				{
 					if(parentId.equals(id))

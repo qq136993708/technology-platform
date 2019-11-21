@@ -32,7 +32,7 @@ import java.util.UUID;
  */
 @Api(value = "researchPlatform-api", description = "国家科研平台接口")
 @Controller
-public class PlatformApiController extends RestBaseController {
+public class PlatformController extends RestBaseController {
     /**
      * 根据ID获取对象信息
      */

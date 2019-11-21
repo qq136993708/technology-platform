@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * <p>服务接口</p>
- * <p>Table: zjk_achievement - 科研平台-基本信息</p>
+ * <p>科研平台-基本信息</p>
  * @author ty
  */
 

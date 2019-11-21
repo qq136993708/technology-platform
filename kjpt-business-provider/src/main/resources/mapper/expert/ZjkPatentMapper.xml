@@ -34,12 +34,14 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatent" useGeneratedKeys="true">
-    insert into zjk_patent (expert_id, source_type, del_status, 
+    insert into zjk_patent (id,expert_id, source_type, del_status, 
       patent_name, patent_type, `describe`, 
       get_patent_time, create_time, patent_no, 
       patent_scope, patent_types, patent_ranking, 
       application_effect, out_system_id)
-    values (#{expertId,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, 
+    values (
+      #{id,jdbcType=VARCHAR},
+      #{expertId,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, 
       #{patentName,jdbcType=VARCHAR}, #{patentType,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
       #{getPatentTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{patentNo,jdbcType=VARCHAR}, 
       #{patentScope,jdbcType=VARCHAR}, #{patentTypes,jdbcType=VARCHAR}, #{patentRanking,jdbcType=VARCHAR}, 
@@ -48,6 +50,11 @@
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkPatent" useGeneratedKeys="true">
     insert into zjk_patent
     <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+    
+      <if test="id != null">
+        id,
+      </if>
       <if test="expertId != null">
         expert_id,
       </if>
@@ -92,6 +99,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+    
+    
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
       <if test="expertId != null">
         #{expertId,jdbcType=VARCHAR},
       </if>
@@ -139,6 +151,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkPatent">
     update zjk_patent
     <set>
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR},
+      </if>
       <if test="expertId != null">
         expert_id = #{expertId,jdbcType=VARCHAR},
       </if>
@@ -208,11 +223,11 @@
   
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="patentName != null and patentName  !='' ">               AND t.patent_name like CONCAT('%',#{patentName},'%')</if>
-	     <if test="sourceType != null      and sourceType !=''  ">    AND t.source_type = #{sourceType}</if>
-	     <if test="delStatus != null       and delStatus !=''  ">      AND t.del_status = #{delStatus}</if>
-	     <if test="outSystemId != null     and outSystemId !=''  ">  AND t.out_system_id = #{outSystemId}</if>
-	     <if test="expertId != null        and expertId !=''  ">  AND t.expert_id = #{expertId}</if>
+	     <if test="patentName != null and patentName  !='' ">             AND t.patent_name like CONCAT('%',#{patentName},'%')</if>
+	     <if test="sourceType != null      and sourceType !=''  ">        AND t.source_type = #{sourceType}</if>
+	     <if test="delStatus != null       and delStatus !=''  ">         AND t.del_status = #{delStatus}</if>
+	     <if test="outSystemId != null     and outSystemId !=''  ">       AND t.out_system_id = #{outSystemId}</if>
+	     <if test="expertId != null        and expertId !=''  ">          AND t.expert_id = #{expertId}</if>
 	
 	 </trim>
 	</sql>

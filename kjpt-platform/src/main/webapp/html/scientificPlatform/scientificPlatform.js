@@ -25,7 +25,7 @@ layui.use(['form', 'table', 'layer'], function(){
           ,{field: 'experience', title: '主要项目', sort: true}
           ,{field: 'overallSituation', title: '科研整体情况', sort: true}
           ,{field: 'researchFunds', title: '科研经费'}
-          ,{field: 'platformScoring', title: '平台评分', sort: true}
+          ,{field: 'platformScoring', title: '平台评分', width: 94 , sort: true}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {

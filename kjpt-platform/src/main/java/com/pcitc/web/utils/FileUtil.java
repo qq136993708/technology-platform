@@ -13,25 +13,37 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.common.FileModel;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
  * @author zhf
  * 文件操作公共类
  */
+@Component
 public class FileUtil {
+
+    @Value("${baseFilePath}")
+    private String fileBasePath;
 
     /**
      * 删除文件夹里面的所有文件
@@ -62,6 +74,43 @@ public class FileUtil {
                 delFolder(path + "/" + tempList[i]);// 再删除空文件夹
             }
         }
+    }
+    /**
+     * 文件上传
+     */
+    public FileModel upload(MultipartFile file) throws IllegalStateException, IOException
+    {
+        File targetFile = new File(getFilePath(file.getOriginalFilename()));
+        if (targetFile.exists())
+        {
+            targetFile.delete();
+        }
+        file.transferTo(targetFile);
+
+        FileModel fm = new FileModel();
+        fm.setId(UUID.randomUUID().toString().replace("-",""));
+        fm.setFileName(file.getOriginalFilename());
+        fm.setCreateDate(new Date());
+        fm.setFileSize(file.getSize());
+        //fm.setType(file.getOriginalFilename().split(".")[1]);
+        fm.setFilePath(getFilePath(file.getOriginalFilename()));
+        //上传附件
+        return fm;
+    }
+
+    /**
+     *获取文件存储路径
+     * @return
+     */
+    private String getFilePath(String fileName){
+        String dirPath = fileBasePath+ DateUtil.format(new Date(),"yyyyMM")+"/";
+
+        File file =new File(dirPath);
+        if  (!file .exists()  && !file .isDirectory())
+        {
+            file .mkdir();
+        }
+        return dirPath+fileName;
     }
 
     /**
@@ -232,6 +281,35 @@ public class FileUtil {
           e.printStackTrace();
         }
 	}
+
+    /**
+     * 文件下载
+     * @param f
+     * @param res
+     */
+    public static void fileDownload(FileModel f, HttpServletResponse res) throws IOException {
+
+
+        OutputStream out = null;
+        InputStream in = null;
+        res.setHeader("content-type", "application/octet-stream");
+        res.setContentType("application/octet-stream");
+        res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(f.getFileName(), "UTF-8"));
+
+        out = res.getOutputStream();
+        File file = new File(f.getFilePath());
+        in = new FileInputStream(file);
+
+        byte[] b = new byte[1000];
+        int len;
+        while ((len = in.read(b)) > 0)
+        {
+            out.write(b, 0, len);
+        }
+        out.flush();
+        closeIO(in);
+        closeIO(out);
+    }
     /**
      * 关闭IO
      * @param io
