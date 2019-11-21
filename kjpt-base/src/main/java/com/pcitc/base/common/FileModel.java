@@ -16,6 +16,7 @@ public class FileModel extends RecordModel implements Serializable {
     private String fileName;
     private long fileSize;
     private String filePath;
+    private String type;
 
     public String getId() {
         return id;
@@ -63,5 +64,13 @@ public class FileModel extends RecordModel implements Serializable {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

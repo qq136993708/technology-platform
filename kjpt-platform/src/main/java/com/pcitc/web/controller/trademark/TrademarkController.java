@@ -149,6 +149,7 @@ public class TrademarkController extends RestBaseController {
     public TrademarkInfo newInit() {
         TrademarkInfo trademarkInfo = new TrademarkInfo();
         trademarkInfo.setId(UUID.randomUUID().toString().replace("-",""));
+        trademarkInfo.setDeleted("0");
         return trademarkInfo;
     }
 }
