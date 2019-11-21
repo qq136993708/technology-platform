@@ -8,7 +8,7 @@
   <title>中核科技管理平台</title>
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
   <!-- 多选下拉框样式，根据需求添加 -->
-  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
   
@@ -32,14 +32,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label label-required"><span class="text">研究领域：</span></label>
            <div class="layui-input-block">
-             <select name="researchField" lay-verify="required">
-               <option value=""></option>
-               <option value="0">北京</option>
-               <option value="1">上海</option>
-               <option value="2">广州</option>
-               <option value="3">深圳</option>
-               <option value="4">杭州</option>
-             </select>
+             <select name="researchField" lay-verify="required" dic-base-data="ROOT_KJPT_YJLY" placeholder="请选择"></select>
            </div>
          </div>
        </div>
@@ -48,14 +41,13 @@
          <div class="layui-form-item">
            <label class="layui-form-label label-required"><span class="text">依托单位：</span></label>
            <div class="layui-input-block">
-             <select name="supportingInstitutions" lay-verify="required">
-               <option value=""></option>
-               <option value="0">北京</option>
-               <option value="1">上海</option>
-               <option value="2">广州</option>
-               <option value="3">深圳</option>
-               <option value="4">杭州</option>
-             </select>
+             <select name="supportingInstitutions"
+              xm-select="supportingInstitutions"
+              xm-select-skin="normal"
+              xm-select-radio=""
+              lay-verify="required"
+              dic-base-data="ROOT_KJPT_YTDW_ZHJT"
+              placeholder="请选择"></select>
            </div>
          </div>
        </div>
@@ -93,14 +85,7 @@
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">平台类型：</span></label>
            <div class="layui-input-block">
-             <select name="type">
-               <option value=""></option>
-               <option value="0">北京</option>
-               <option value="1">上海</option>
-               <option value="2">广州</option>
-               <option value="3">深圳</option>
-               <option value="4">杭州</option>
-             </select>
+             <select name="type" dic-base-data="ROOT_KJPT_PTLX" placeholder="请选择"></select>
            </div>
          </div>
        </div>
@@ -154,11 +139,10 @@
 </html>
 
 <script>
-layui.use(['form', 'jquery'], function(){
+layui.use(['form', 'jquery', 'formSelects'], function(){
   var $ = layui.jquery;
   var form = layui.form;
   
-
   function getItemInitData(item) {
     var httpUrl = '/platform-api/newInit';
     if (item && item.id) {
@@ -173,6 +157,9 @@ layui.use(['form', 'jquery'], function(){
           form.val('formPlatform', relData.data);
           // 更新表单数据
           form.render();
+          if (relData.data.supportingInstitutions) {
+            layui.formSelects.value('supportingInstitutions', [relData.data.supportingInstitutions]);
+          }
         }
       }
     });

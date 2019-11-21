@@ -78,6 +78,21 @@ public class TrademarkInfo implements Serializable {
      */
     private String file;
 
+    /**
+     * 删除标识
+     */
+    private String deleted;
+
+    /**
+     * 核定使用商品大类翻译
+     */
+    private String commodity_category_text;
+
+    /**
+     * 法律状态翻译
+     */
+    private String legal_status_text;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -190,6 +205,30 @@ public class TrademarkInfo implements Serializable {
 
     public void setFile(String file) {
         this.file = file;
+    }
+
+    public String getCommodity_category_text() {
+        return commodity_category_text;
+    }
+
+    public void setCommodity_category_text(String commodity_category_text) {
+        this.commodity_category_text = commodity_category_text;
+    }
+
+    public String getLegal_status_text() {
+        return legal_status_text;
+    }
+
+    public void setLegal_status_text(String legal_status_text) {
+        this.legal_status_text = legal_status_text;
+    }
+
+    public String getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(String deleted) {
+        this.deleted = deleted;
     }
 
     @Override

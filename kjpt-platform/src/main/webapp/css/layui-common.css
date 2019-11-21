@@ -68,7 +68,9 @@
   }
 }
 
-
+.layui-laydate .layui-this {
+  background-color: #1890FF !important;
+}
 .layui-row {
   font-size: 0;
 }
@@ -304,6 +306,12 @@
 .layui-table-page .layui-laypage span {
   margin-bottom: 0;
 }
+
+.layui-table-cell {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
 
 /* 多选下拉框样式 */
 .xm-select-parent .xm-select{

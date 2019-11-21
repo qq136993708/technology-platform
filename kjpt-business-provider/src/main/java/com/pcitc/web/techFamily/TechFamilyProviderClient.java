@@ -12,8 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.FormSelectNode;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.stp.techFamily.TechFamily;
@@ -62,6 +64,27 @@ public class TechFamilyProviderClient {
 		}
 		return list;
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/tech-family-provider/type_tree", method = RequestMethod.POST)
+	public JSONArray type_tree(@RequestBody TechFamily techType) {
+		
+		List<TechFamily> list=null;
+		try {
+			Map map=new HashMap();
+			map.put("status", "1");
+			list = techFamilyService.getTechFamilyList(map) ;
+		} catch (Exception e) {
+			logger.error("[分类树获取失败：]", e);
+		}
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	
+	
 
 	/**
 	 * @param techType
