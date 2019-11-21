@@ -523,6 +523,17 @@ public class UnitServiceImpl implements UnitService {
 		return unitMapper.getChildscUnitBycodes(list);
 	}
 	
+	/**
+	 * 查询未删除的机构
+	 * @param unit
+	 * @return
+	 * @throws Exception
+	 */
+	public List<SysUnit> getAllList()throws Exception
+	{
+		return unitMapper.getAllList();
+	}
+	
 
 
 }

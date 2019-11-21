@@ -157,5 +157,18 @@ public interface SysUnitMapper {
 	 * @throws Exception
 	 */
 	public List<SysUnit> getChildscUnitBycodes(List list);
+	
+	/**
+	 * 查询未删除的机构
+	 * @param unit
+	 * @return
+	 * @throws Exception
+	 */
+	public List<SysUnit> getAllList();
+	
+	
+	
+	
+	
 	  
 }

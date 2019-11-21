@@ -26,6 +26,11 @@ public class Constant {
     
     public static String TECHFAMILY_ROOT_ID  = "10";//技术簇根节点ID,用于递归查询
     
+    public static String UNIT_ROOT_ID  = "46b7e45756ef4db88b6acb711f916e43";//组织机构根节点ID,用于递归查询
+    
+    
+    
+    
     
 
     /**

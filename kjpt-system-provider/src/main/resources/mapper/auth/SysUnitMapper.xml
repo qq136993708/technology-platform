@@ -745,4 +745,13 @@
            </foreach>
 		)
      </select>
+     
+     
+     
+     
+      <select id="getAllList" resultMap="BaseResultMap"  >
+	   SELECT * FROM  sys_unit t WHERE t.unit_delflag ='0'
+     </select>
+     
+     
 </mapper>
