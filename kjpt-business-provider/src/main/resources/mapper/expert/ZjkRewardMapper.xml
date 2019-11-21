@@ -28,11 +28,14 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkReward" useGeneratedKeys="true">
-    insert into zjk_reward (expert_id, del_status, source_type, 
+    insert into zjk_reward (
+      id,expert_id, del_status, source_type, 
       rewark_level, notes, awarding_unit, 
       awarding_time, create_time, out_system_id
       )
-    values (#{expertId,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, 
+    values (
+      #{id,jdbcType=VARCHAR},
+      #{expertId,jdbcType=VARCHAR}, #{delStatus,jdbcType=VARCHAR}, #{sourceType,jdbcType=VARCHAR}, 
       #{rewarkLevel,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{awardingUnit,jdbcType=VARCHAR}, 
       #{awardingTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{outSystemId,jdbcType=VARCHAR}
       )
@@ -40,6 +43,10 @@
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.pcitc.base.expert.ZjkReward" useGeneratedKeys="true">
     insert into zjk_reward
     <trim prefix="(" suffix=")" suffixOverrides=",">
+    
+      <if test="id != null">
+        id,
+      </if>
       <if test="expertId != null">
         expert_id,
       </if>
@@ -69,6 +76,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
       <if test="expertId != null">
         #{expertId,jdbcType=VARCHAR},
       </if>
@@ -101,6 +111,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkReward">
     update zjk_reward
     <set>
+      <if test="id != null">
+        id = #{id,jdbcType=VARCHAR},
+      </if>
       <if test="expertId != null">
         expert_id = #{expertId,jdbcType=VARCHAR},
       </if>

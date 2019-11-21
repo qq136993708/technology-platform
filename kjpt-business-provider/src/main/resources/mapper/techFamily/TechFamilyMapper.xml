@@ -600,4 +600,11 @@
      </select>
      
      
+     
+     
+     <select id="getTechFamilyList" resultMap="BaseResultMap"  >
+      select * from tfm_type t where  status =  #{status}
+     </select>
+     
+     
 </mapper>
