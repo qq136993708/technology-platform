@@ -1,14 +1,18 @@
 package com.pcitc.service.expert.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkAchievement;
@@ -16,6 +20,7 @@ import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.expert.ZjkAchievementMapper;
 import com.pcitc.mapper.expert.ZjkBaseMapper;
 import com.pcitc.mapper.expert.ZjkPatentMapper;
@@ -51,12 +56,19 @@ public class ExpertServiceImpl implements IExpertService {
 	*/
 	public Integer updateZjkBase(ZjkBase record)throws Exception
 	{
-		return zjkBaseMapper.updateByPrimaryKey(record);
+		 //先根据专家ID删除相关的信息（专利，成果，项目，奖励）
+		 zjkAchievementMapper.deleteZjkAchievementByExpertId(record.getId());
+		 zjkPatentMapper.deleteZjkPatentByExpertId(record.getId());
+		 zjkRewardMapper.deleteZjkRewardByExpertId(record.getId());
+		 zjkProjectMapper.deleteZjkProjectByExpertId(record.getId());
+		 //再增加相关的信息（专利，成果，项目，奖励）
+		 addRealtionInfo(record);
+		 return zjkBaseMapper.updateByPrimaryKey(record);
 	}
 
 	
 	 /**
-     *根据ID物理删除专家信息
+                  *根据ID物理删除专家信息
      */
 	public int deleteZjkBase(String id)throws Exception
 	{
@@ -90,8 +102,137 @@ public class ExpertServiceImpl implements IExpertService {
 	 */
 	public Integer insertZjkBase(ZjkBase record)throws Exception
 	{
+		addRealtionInfo(record);
 		return zjkBaseMapper.insert(record);
 	}
+	
+	
+	
+	//增加专家相关的信息
+	public void addRealtionInfo(ZjkBase record)throws Exception
+	{
+		 String achievementStr=record.getZjkAchievementJsonList();
+		 String patentStr=record.getZjkPatentJsonList();
+		 String projectStr=record.getZjkProjectJsonList();
+		 String rewardStr=record.getZjkRewardJsonList();
+		 System.out.println(">>>>>>>>>>成果信息"+achievementStr);
+		 System.out.println(">>>>>>>>>>专利信息"+patentStr);
+		 System.out.println(">>>>>>>>>>项目信息"+projectStr);
+		 System.out.println(">>>>>>>>>>奖励信息"+rewardStr);
+		 
+		 //成果
+		 List<ZjkAchievement> achievementList = JSONObject.parseArray(achievementStr, ZjkAchievement.class);
+		 if(achievementList!=null)
+		 {
+			 for(int i=0;i<achievementList.size();i++)
+			 {
+				 ZjkAchievement zjkAchievement= achievementList.get(i);
+				 zjkAchievement.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkAchievement.setExpertId(record.getId());
+				 String outSystemId=zjkAchievement.getOutSystemId();
+				 zjkAchievement.setCreateTime(new Date());
+				 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				 zjkAchievement.setId(dateid);
+				 if(!outSystemId.equals(""))
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkAchievement.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 zjkAchievementMapper.insert(zjkAchievement);
+				 
+			 }
+		 }
+		 
+		 //奖励
+		 List<ZjkReward> rewardList = JSONObject.parseArray(rewardStr, ZjkReward.class);
+		 if(rewardList!=null)
+		 {
+			 for(int i=0;i<rewardList.size();i++)
+			 {
+				 ZjkReward zjkReward= rewardList.get(i);
+				 zjkReward.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkReward.setExpertId(record.getId());
+				 String outSystemId=zjkReward.getOutSystemId();
+				 if(!outSystemId.equals(""))
+				 {
+					 zjkReward.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkReward.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 zjkReward.setCreateTime(new Date());
+				 
+				 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				 zjkReward.setId(dateid);
+				 String datestr= zjkReward.getAwardingTimeStr();
+				 Date awardingTime=DateUtil.strToDate(datestr, DateUtil.FMT_DD);
+				 zjkReward.setAwardingTime(awardingTime);
+				 
+				 
+				 zjkRewardMapper.insert(zjkReward);
+				 
+			 }
+		 }
+		 
+		 //项目
+		 List<ZjkProject> projectList = JSONObject.parseArray(projectStr, ZjkProject.class);
+		 if(projectList!=null)
+		 {
+			 for(int i=0;i<projectList.size();i++)
+			 {
+				 ZjkProject zjkProject= projectList.get(i);
+				 zjkProject.setDelStatus(Constant.DEL_STATUS_NOT);
+				 zjkProject.setExpertId(record.getId());
+				 String outSystemId=zjkProject.getOutSystemId();
+				 if(!outSystemId.equals(""))
+				 {
+					 zjkProject.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 zjkProject.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 zjkProject.setCreateTime(new Date());
+				 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				 zjkProject.setId(dateid);
+				 
+				 zjkProjectMapper.insert(zjkProject);
+				 
+			 }
+		 }
+		 
+		 //专利
+		 List<ZjkPatent> patentList = JSONObject.parseArray(patentStr, ZjkPatent.class);
+		 if(patentList!=null)
+		 {
+			 for(int i=0;i<patentList.size();i++)
+			 {
+				 ZjkPatent patent= patentList.get(i);
+				 patent.setDelStatus(Constant.DEL_STATUS_NOT);
+				 patent.setExpertId(record.getId());
+				 String outSystemId=patent.getOutSystemId();
+				 if(!outSystemId.equals(""))
+				 {
+					 patent.setSourceType(Constant.SOURCE_TYPE_OUTER);
+				 }else
+				 {
+					 patent.setSourceType(Constant.SOURCE_TYPE_LOCATION);
+				 }
+				 patent.setCreateTime(new Date());
+				 
+				 String datestr= patent.getGetPatentTimeStr();
+				 Date getPatentTime=DateUtil.strToDate(datestr, DateUtil.FMT_DD);
+				 patent.setGetPatentTime(getPatentTime);
+				 
+				 String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+				 patent.setId(dateid);
+				 zjkPatentMapper.insert(patent);
+				 
+			 }
+		 }
+	}
+	
 	
 	
 	/**
@@ -143,7 +284,31 @@ public class ExpertServiceImpl implements IExpertService {
 	
 	
 	
-	
+	public List getZjkBaseList(Map map)throws Exception
+	{
+		/*
+		 * String name=getTableParam(param,"name",""); String
+		 * sourceType=getTableParam(param,"sourceType",""); String
+		 * delStatus=getTableParam(param,"delStatus",""); String
+		 * outSystemId=getTableParam(param,"outSystemId",""); String
+		 * belongUnit=getTableParam(param,"belongUnit",""); String
+		 * useStatus=getTableParam(param,"useStatus",""); String
+		 * post=getTableParam(param,"post",""); String
+		 * title=getTableParam(param,"title",""); String
+		 * technicalField=getTableParam(param,"technicalField","");
+		 * 
+		 * Map map=new HashMap(); map.put("name", name); map.put("sourceType",
+		 * sourceType); map.put("delStatus", delStatus); map.put("outSystemId",
+		 * outSystemId); map.put("belongUnit", belongUnit); map.put("useStatus",
+		 * useStatus); map.put("post", post); map.put("title", title);
+		 * map.put("technicalField", technicalField);
+		 */
+		
+		List<ZjkBase> list = zjkBaseMapper.getList(map);
+		System.out.println(">>>>>>>>>专家查询分页结果 "+list.size());
+		
+	    return list;
+	}
 	
 	
 	

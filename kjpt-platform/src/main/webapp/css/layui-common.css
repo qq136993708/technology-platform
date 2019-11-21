@@ -124,6 +124,12 @@
   border-color: #AAAAAA;
   border-radius: 5px;
   font-size: 14px;
+<<<<<<< HEAD
+=======
+}
+.layui-input {
+  line-height: 28px;
+>>>>>>> 5dacc8b7e296a0db81daa0eb2fc536d2178c7a29
 }
 .layui-form-select dl{
   top: 32px;
@@ -153,12 +159,12 @@
   -webkit-appearance: none;
   transition: all .3s;
   -webkit-transition: all .3s;
-  line-height: 1.3;
-  line-height: 30px\9;
+  line-height: 28px;
   display: block;
   width: 100%;
   padding-left: 10px;
   height: 30px;
+  font-size: 14px;
   border:1px #aaa solid;
   border-radius: 5px;
   background: #fff url('../images/date.png') no-repeat;
@@ -294,6 +300,11 @@
 	margin-right: 0;
 }
 
+.layui-table-page .layui-laypage a,
+.layui-table-page .layui-laypage span {
+  margin-bottom: 0;
+}
+
 /* 多选下拉框样式 */
 .xm-select-parent .xm-select{
 	padding-top: 2px;
@@ -306,11 +317,24 @@
 	height: 30px;
 }
 .xm-select-parent .xm-select-title div.xm-select-label>span {
+  box-sizing: border-box;
+  vertical-align: top;
+  height: 20px;
 	padding-top: 0;
 	padding-bottom: 0;
 	padding-left: 3px;
 	padding-right: 23px;
 }
+.xm-select-parent .xm-select-title div.xm-select-label>span font {
+  display: inline;
+}
 .xm-select-parent .xm-select-title div.xm-select-label>span i {
-	line-height:18px;
+  line-height:18px;
+  position: absolute;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  display: block;
+  top: 0;
+  text-align: center;
 }

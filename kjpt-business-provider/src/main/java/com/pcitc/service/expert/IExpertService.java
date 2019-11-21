@@ -1,5 +1,8 @@
 package com.pcitc.service.expert;
 
+import java.util.List;
+import java.util.Map;
+
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkAchievement;
@@ -41,7 +44,12 @@ public interface IExpertService {
 	public LayuiTableData getZjkBasePage(LayuiTableParam param)throws Exception;
 	
 	
-	
+	/**
+	     * 获取专家（分页）
+	*/
+	public List getZjkBaseList(Map param)throws Exception;
+
+
 	
 	
 	

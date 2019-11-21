@@ -2,6 +2,7 @@ package com.pcitc.web.config;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,8 +32,7 @@ public class SwaggerConfig {
     public Docket createRestApi() {
 
         Predicate<RequestHandler> restfulApi = Predicates.or(
-                RequestHandlerSelectors.withClassAnnotation(RestController.class),
-                RequestHandlerSelectors.withClassAnnotation(Controller.class)
+                RequestHandlerSelectors.withClassAnnotation(Api.class)
         );
 
         return new Docket(DocumentationType.SWAGGER_2)

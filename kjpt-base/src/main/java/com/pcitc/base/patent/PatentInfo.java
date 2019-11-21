@@ -173,6 +173,11 @@ public class PatentInfo implements Serializable {
      */
     private String deleted;
 
+    /**
+     * 国别组织
+     */
+    private String country;
+
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -437,6 +442,14 @@ public class PatentInfo implements Serializable {
 
     public void setDeleted(String deleted) {
         this.deleted = deleted;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Override

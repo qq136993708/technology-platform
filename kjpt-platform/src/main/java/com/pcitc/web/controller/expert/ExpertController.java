@@ -1,13 +1,21 @@
 package com.pcitc.web.controller.expert;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,16 +23,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
+import com.pcitc.base.common.ExcelException;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.expert.ZjkBase;
-import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.system.SysLog;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.ImportExcelUtil;
+import com.pcitc.web.utils.PoiExcelExportUitl;
 import com.pcitc.web.utils.RestMessage;
 
 import io.swagger.annotations.Api;
@@ -69,8 +84,9 @@ public class ExpertController extends BaseController {
 	 */
 	public static final String GET_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/get/";
 
-    
+	private static final String EXPERT_EXCEL_OUT = "http://kjpt-zuul/stp-proxy/expert/list";
 	
+	private static final String EXPERT_EXCEL_INPUT = "http://kjpt-zuul/stp-proxy/expert/excel_input";
 	
 	
 	/**
@@ -234,7 +250,7 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "email", value = "邮箱", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "brief", value = "人物简介", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "achievement", value = "人物成就", dataType = "string", paramType = "form"),
-        @ApiImplicitParam(name = "zjkAchievementJsonList", value = "相关成果信息", dataType = "string", paramType = "form"),
+        @ApiImplicitParam(name = "zjkAchievementJsonList", value = "相关成果信息(外系统ID#成果名称# 申请单位#申请年度#成果类别$外系统ID#成果名称#申请单位#申请年度#成果类别 )", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkPatentJsonList", value = "相关专利信息", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkProjectJsonList", value = "相关项目信息", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkRewardJsonList", value = "相关奖励信息", dataType = "string", paramType = "form")
@@ -249,8 +265,8 @@ public class ExpertController extends BaseController {
     	JSONObject parma = JSONObject.parseObject(JSONObject.toJSONString(zjkBase));
 		System.out.println(">>>>>>>>>> 参数: "+parma.toJSONString());
     
-		if (id!=null && !id.equals("")) {
-			
+		if (id!=null && !id.equals("")) 
+		{
 			ResponseEntity<ZjkBase> se = this.restTemplate.exchange(GET_EXPERT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), ZjkBase.class);
 			ZjkBase oldZjkBase = se.getBody();
 			oldZjkBase.setAge(zjkBase.getAge());
@@ -279,18 +295,33 @@ public class ExpertController extends BaseController {
 			} else {
 				resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
 			}
-			
-			
-		} else {
-			
+		} else 
+		{
 			zjkBase.setCreateTime(new Date());
 			zjkBase.setDelStatus(Constant.DEL_STATUS_NOT);
 			zjkBase.setSourceType(Constant.SOURCE_TYPE_LOCATION);//数据来源（1本系统，2外系统）
 			String dateid = UUID.randomUUID().toString().replaceAll("-", "");
 			zjkBase.setId(dateid);
 			zjkBase.setCreateUser(sysUserInfo.getUserId());
-			zjkBase.setNum(UUID.randomUUID().toString().replaceAll("-", ""));//专家编号-自动生成
-			zjkBase.setPersonnelNum(UUID.randomUUID().toString().replaceAll("-", ""));//人事系统编号-自动生成
+			
+			String num=zjkBase.getNum();
+			if(num==null || "".equals(num))
+			{
+				String str=EquipmentUtils.genRandomNum()+"1";//9位=生成8位随机数+1
+				zjkBase.setNum(str);//专家编号-通过身份证从人事库取,如果没有，生成8位随机数
+			}else
+			{
+				zjkBase.setNum(num+"0");//9位=源系统8位+0，0代表外系统
+			}
+			String personnelNum=zjkBase.getPersonnelNum();
+			if(personnelNum==null || "".equals(personnelNum))
+			{
+				zjkBase.setPersonnelNum(UUID.randomUUID().toString().replaceAll("-", ""));//人事系统编号--通过身份证从人事库取
+			}
+			
+			zjkBase.setUpdateTime(new Date());
+			zjkBase.setUpdateUser("");
+			
 			
 			ResponseEntity<String> responseEntity = this.restTemplate.exchange(ADD_EXPERT_URL, HttpMethod.POST, new HttpEntity<ZjkBase>(zjkBase, this.httpHeaders), String.class);
 			int statusCode = responseEntity.getStatusCodeValue();
@@ -311,6 +342,131 @@ public class ExpertController extends BaseController {
 		return result.toString();
     }
     
+    
+    
+    
+    
+    
+    
+    
+  	   	
+  	   	
+  	   	
+  	    @ApiOperation(value = "导出EXCEL-专家信息", notes = "导出EXCEL-专家信息")
+  	    @ApiImplicitParams({
+          @ApiImplicitParam(name = "name",           value = "专家名称", dataType = "string", paramType = "query"),
+          @ApiImplicitParam(name = "belongUnit",     value = "所在单位", dataType = "string", paramType = "query"),
+          @ApiImplicitParam(name = "useStatus",      value = "状态", dataType = "string", paramType = "query"),
+          @ApiImplicitParam(name = "post",           value = "职务", dataType = "string", paramType = "query"),
+          @ApiImplicitParam(name = "title",          value = "职称", dataType = "string", paramType = "query"),
+          @ApiImplicitParam(name = "technicalField", value = "技术领域", dataType = "string", paramType = "query"),
+          
+      })
+  		@RequestMapping(value = "/expert-api/exput_excel", method = RequestMethod.GET)
+  	   	public String jsgztj_data_exput_excel(
+  	   			
+  	   		 @RequestParam(required = false) String name,
+             @RequestParam(required = false) String belongUnit,
+             @RequestParam(required = false) String useStatus,
+             @RequestParam(required = false) String post,
+             @RequestParam(required = false) String title,
+             @RequestParam(required = false) String technicalField,
+  	   		 HttpServletRequest request, HttpServletResponse response) throws Exception
+  	   	{
+  	   		
+  	   		
+  	   		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+  	   		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+  	   		paramMap.put("name", name);
+  	   	    paramMap.put("belongUnit", belongUnit);
+  	        paramMap.put("useStatus", useStatus);
+  	        paramMap.put("post", post);
+  	        paramMap.put("title", title);
+  	        paramMap.put("technicalField", technicalField);
+  	   		//System.out.println(">jsgztj_data_exput_excel>>>>>>>>>>>>>>>>>>>>参数      month = "+month);
+  	   		
+  	   		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+  	   		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(EXPERT_EXCEL_OUT, HttpMethod.POST, httpEntity, JSONArray.class);
+  	   		int statusCode = responseEntity.getStatusCodeValue();
+  	   		List<ZjkBase> list =new ArrayList();
+  	   		JSONArray jSONArray=null;
+  	   		if (statusCode == 200)
+  	   		{
+  	   			jSONArray = responseEntity.getBody();
+  	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ZjkBase.class);
+  	   		}
+  	   		
+  	   		    String[] headers = { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,  "职称"  ,  "职务",  "联系方式" };
+  	   		    String[] cols =    {"name",    "idCardNo","sex",  "age",     "title",   "post","contactWay"};
+  	   		   
+  	   	        // 文件名默认设置为当前时间：年月日时分秒
+  	   	        String fileName = "专家表__"+DateFormatUtils.format(new Date(), "ddhhmmss");
+  	   	        // 设置response头信息
+  	   	        response.reset();
+  	   	        response.setCharacterEncoding("UTF-8");
+  		        response.setContentType("application/vnd.ms-excel");
+  		        response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO8859-1") + ".xls");
+  	   	        try {
+  	   		        OutputStream os = response.getOutputStream();
+  	   		        PoiExcelExportUitl<ZjkBase>  pee = new PoiExcelExportUitl<ZjkBase>(fileName, headers, cols, list,os);
+  	   		        pee.exportExcel();
+  	   	            
+  	   	        } catch (Exception e)
+  	   	        {
+  	   	            e.printStackTrace();
+  	   	            // 如果是ExcelException,则直接抛出
+  	   	            if (e instanceof ExcelException) 
+  	   	            {
+  	   	                throw (ExcelException) e;
+  	   	            } else 
+  	   	            {
+  	   	                // 否则将其他异常包装成ExcelException再抛出
+  	   	                throw new ExcelException("导出excel失败");
+  	   	            }
+  	   	        }
+  	   		   return null;
+  	   	}
+  	    
+  	    
+  	    
+  	    
+  	    
+  	    
+  	    
+  	@ApiOperation(value = "根据模板导入专家信息（EXCEL）", notes = "根据模板导入专家信息（EXCEL）")
+  	@RequestMapping(value = "/expert-api/input_excel")
+  	public Object newImportData(HttpServletRequest req, HttpServletResponse resp,MultipartFile file) throws Exception 
+  	{
+  		
+  		
+  	   // { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,  "职称"  ,  "职务",  "联系方式" };
+	   // {"name",    "idCardNo","sex",  "age",     "title",   "post","contactWay"};
+  		if (file.isEmpty()) 
+  		{
+  			return new Result(false,"上传异常，请重试!");
+  		}
+  		InputStream in = file.getInputStream();
+  		List<List<Object>> listob = new ImportExcelUtil().getBankListByExcel(in, file.getOriginalFilename());
+  		List<ZjkBase> list = new ArrayList<ZjkBase>();
+  		for (int i = 0; i < listob.size(); i++) 
+  		{
+  			List<Object> lo = listob.get(i);
+  			ZjkBase obj = new ZjkBase();
+  			obj.setName(String.valueOf(lo.get(0)));
+  			obj.setIdCardNo(String.valueOf(lo.get(1)));
+  			obj.setSex(String.valueOf(lo.get(2)));
+  			obj.setAge(Integer.valueOf(String.valueOf(lo.get(3))));
+  			obj.setTitle(String.valueOf(lo.get(4)));
+  			obj.setPost(String.valueOf(lo.get(5)));
+  			obj.setContactWay(String.valueOf(lo.get(6)));
+  			
+  			list.add(obj);
+  		}
+  		Integer rscount = this.restTemplate.exchange(EXPERT_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Integer.class).getBody();
+  		return new Result(true,rscount);
+  	}
+  	  
+  	    
     
 	/*
 	 * @ApiOperation(value = "修改专家信息", notes = "修改专家信息")

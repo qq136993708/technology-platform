@@ -111,26 +111,46 @@ layui.use(['form', 'laydate', 'table'], function () {
         });
     }
 
+    function checkDilog(id) {
+        top.layer.open({ // 打开弹窗
+            type: 2,
+            title: "查看",
+            area: ['880px', '70%'],
+            content: '/html/trademark/trademark_check.html?id=' + id,
+            btn: null,
+            end: function () {
+
+            }
+        });
+    }
     // 新增平台
     $('#addItem').on('click', function (e) {
         openDataDilog();
     })
 
-    // 表格行被选中
-    table.on('radio(tableDemo)', function (obj) {
-        itemRowData = obj.data;
-        console.log(obj)
-    });
-    // 编辑平台
-    $('#editItem').on('click', function (e) {
+    $('#editItem').on('click', function (e) { //编辑平台
         if (itemRowData) {
             openDataDilog(itemRowData.id);
         } else {
             layer.msg('请选择需要编辑的平台！');
         }
     })
-    // 删除平台
-    $('#delItem').on('click', function (e) {
+
+    table.on('radio(tableDemo)', function (obj) { // 表格行被选中
+        itemRowData = obj.data;
+        console.log(obj)
+    });
+
+    $('#check').on('click', function (e) { // 查看平台
+        // if (itemRowData) {
+        //     checkDilog(itemRowData.id);
+        // } else {
+        //     layer.msg('请选择需要编辑的平台！');
+        // }
+        checkDilog(0);
+    })
+
+    $('#delItem').on('click', function (e) { // 删除平台
         if (itemRowData) {
             layer.confirm('您确定要删除”' + itemRowData.platformName + '“吗？', { icon: 3, title: '删除提示' }, function (index) {
                 layer.close(index);
