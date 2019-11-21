@@ -66,14 +66,23 @@ body > .layui-layout{
 	padding: 15px 40px 15px 20px;
 	text-align: right;
 }
-
+.layout-view-content.label-dialog .layui-form-label,
 .layout-view-content.dialog .layui-form-label {
 	width: 120px;
 	max-width: 120px;
 }
+.layout-view-content.label-dialog .layui-input-block,
 .layout-view-content.dialog .layui-input-block{
 	margin-left: 120px;
 }
+.layout-view-content.min-label .layui-form-label{
+	width: 108px;
+	max-width: 108px;
+}
+.layout-view-content.min-label .layui-input-block{
+	margin-left: 108px;
+}
+
 
 .hide-block {
 	display: none !important;
@@ -227,6 +236,20 @@ a.link-text:hover {
 dd[xm-tree-hidn] > .x-tree-item-parent > .x-tree-icon::before {
   content: '+';
 }
+.xm-select-radio div.xm-form-checkbox > i {
+  display: none;
+}
+.xm-select-radio div.xm-form-checkbox > span {
+  padding: 0 2px;
+}
+.xm-select-radio dd.xm-select-this:hover,
+.xm-select-radio dd.xm-select-this {
+  background-color: #1890FF !important;
+}
+.xm-select-radio dd.xm-select-this .xm-form-checkbox > span {
+  color: #fff !important;
+}
+
 /* 下拉目录树end */
 
 

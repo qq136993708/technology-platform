@@ -7,79 +7,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>中核科技管理平台</title>
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
-  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/scientificPlatform.css">
 </head>
 <body>
-  <div class="layout-view-content label-dialog">
+  <div class="layout-view-content min-label">
     <form class="layui-form" action="" lay-filter="patentFormDemo">
-      <div class="layui-row layui-col-space20">
+      <div class="layui-row">
         <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">平台名称：</span></label>
+            <label class="layui-form-label"><span class="text">科研规划名称：</span></label>
             <div class="layui-input-block">
               <input type="text" name="platformName" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
-        
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">依托单位：</span></label>
-            <div class="layui-input-block">
-              <select name="supportingInstitutions"
-                xm-select="supportingInstitutions"
-                xm-select-skin="normal"
-                xm-select-radio=""
-                dic-base-data="ROOT_KJPT_YTDW_ZHJT"
-                placeholder="请选择"></select>
+            <label class="layui-form-label"><span class="text">发布日期：</span></label>
+            <div class="layui-input-block font0">
+              <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+                <input type="text" name="startReleaseDate" id="startReleaseDate" autocomplete="off" class="laydate-input">
+              </div>
+              <span class="ib-block font14 text-center" style="width: 30px;">至</span>
+              <div class="layui-input-inline margin0" style="width: calc(50% - 15px)">
+                <input type="text" name="endReleaseDate" id="endReleaseDate" autocomplete="off" class="laydate-input">
+              </div>
             </div>
           </div>
         </div>
         
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">主要负责人：</span></label>
+            <label class="layui-form-label"><span class="text">申报单位：</span></label>
             <div class="layui-input-block">
-              <input type="text" name="personLiable" placeholder="请输入" autocomplete="off" class="layui-input">
+              <input type="text" name="supportingInstitutions" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
           </div>
         </div>
         
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md3">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">研究领域：</span></label>
             <div class="layui-input-block">
-              <select name="researchField">
-                <option value=""></option>
-                <option value="0">北京</option>
-                <option value="1">上海</option>
-                <option value="2">广州</option>
-                <option value="3">深圳</option>
-                <option value="4">杭州</option>
-              </select>
+              <select name="researchField" dic-base-data="ROOT_KJPT_YJLY" placeholder="请选择"></select>
             </div>
           </div>
         </div>
-        
-        <div class="layui-col-xs12 layui-col-sm12 layui-col-md8">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md9">
           <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">平台得分：</span></label>
-            <div class="layui-input-inline margin0" style="width: 160px">
+            <label class="layui-form-label"><span class="text">专业领域：</span></label>
+            <div class="layui-input-inline">
               <input type="text" name="platformScorinLow" placeholder="请输入" autocomplete="off" class="layui-input">
-            </div>
-            <span class="ib-block">-</span>
-            <div class="layui-input-inline" style="width: 160px">
-              <input type="text" name="platformScorinHigh" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
           </div>
         </div>
-        
       </div>
     </form>
   
@@ -87,9 +74,8 @@
       <div class="right">
         <button class="layui-btn border-blue" id="addItem">新增</button>
         <button class="layui-btn border-blue" id="editItem">编辑</button>
+        <button class="layui-btn border-blue" id="seeItem">查看</button>
         <button class="layui-btn border-red" id="delItem">删除</button>
-        <button class="layui-btn border-blue" id="exportData">导入</button>
-        <button class="layui-btn border-blue" id="importData">导出</button>
       </div>
     </div>
     
@@ -103,6 +89,6 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
-<script src="scientificPlatform.js"></script>
+<script src="scientificPlan.js"></script>
 </body>
 </html>
