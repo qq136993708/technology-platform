@@ -10,6 +10,9 @@ layui.use(['element', 'form', 'jquery', 'formSelects'], function(){
     $('.disabled-box').remove();
     layui.form.render('select');
     layui.formSelects.disabled();
-  }
+  } else if (variable.type === 'add') {
 
+  } else if (variable.type === 'edit') {
+
+  }
 });
