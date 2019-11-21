@@ -19,7 +19,7 @@ body{background: white;}
 .layadmin-user-login-main{width: 375px; margin: 0 auto; box-sizing: border-box;}
 .user-login-box{ width: 1000px;position: relative;margin: 0 auto;height: 100%;}
 .layadmin-user-login-box{padding: 20px 20px 0;}
-.layadmin-user-login-header{width: 95%;margin: 30px auto 0px;padding:6px 0;height: 8%;
+.layadmin-user-login-header{width: 95%;padding:6px 0;height: 8%;
   background: url("/layuiadmin/layui/images/header-logo.png") 0 0 no-repeat; background-size:auto 100%;}
 .engineering-header{background: url("/layuiadmin/layui/images/engineering-login-logo.png") left 16px no-repeat;}
 .layadmin-user-login-header h2{margin-bottom: 10px; font-weight: 300; font-size: 30px; color: #000;}

@@ -451,7 +451,7 @@ html{ background-color: #F9F9F9; color: #666;}
 .layui-nav-tree .layui-nav-item>a:hover .layui-nav-more{background: url("/layuiadmin/layui/images/icon-r-w.png") no-repeat;}
 .layui-header .layui-icon-prev{position: absolute;right: 0px;top: 30px;cursor: pointer;width: 70px;}
 .layui-header .layui-icon-next{position: absolute;right: 250px;top: 18px;cursor: pointer;}
-.layui-header .layui-icon-prev:before{content: "����ҵ��"; font-size: 14px;     color: rgba(255,255,255,0.9);
+.layui-header .layui-icon-prev:before{content: "其他业务"; font-size: 14px;     color: rgba(255,255,255,0.9);
     font-weight: bold;}
 .layui-header .layui-icon-next:before{content: "\e65b";}
 .layadmin-pagetabs .layui-icon-next{right: 40px;}
