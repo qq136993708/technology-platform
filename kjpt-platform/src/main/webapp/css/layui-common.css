@@ -296,6 +296,11 @@
 	margin-right: 0;
 }
 
+.layui-table-page .layui-laypage a,
+.layui-table-page .layui-laypage span {
+  margin-bottom: 0;
+}
+
 /* 多选下拉框样式 */
 .xm-select-parent .xm-select{
 	padding-top: 2px;

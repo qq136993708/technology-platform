@@ -34,7 +34,7 @@ function getQueryVariable(key) {
 }
 
 // layui 表格http请求返回结果转换可识别
-function layuiParseData(RelData, callback) {
+function layuiParseData(RelData, callback, number) {
   var codeData = {
     "code": '0', //解析接口状态
 		"msg": RelData.message, //解析提示文本
@@ -45,6 +45,9 @@ function layuiParseData(RelData, callback) {
   if (callback) {
     callback(codeData);
   } else {
+		if (number) {
+			codeData.data = codeData.data.filter(function(val, i) { if (i < number) {return val; } });
+		}
     return codeData;
   }
 }
@@ -192,7 +195,7 @@ function closeTabsPage(){
 
 
 // 获取字典总数据
-function _getDicStore(key, callback) {
+function _getDicStore(key, type, callback) {
 	var store = null;
 	if (key && typeof(key) !== 'object') {
 		if (!top.__base_dic_store[key]) {
@@ -200,7 +203,11 @@ function _getDicStore(key, callback) {
 				data: []
 			};
 			_commonLoadDic(key, function(relData) {
-				$(document).trigger('dicLoad_' + key, {data: relData});
+				if (type === 'form') {
+					$(document).trigger('dicLoad_' + key, {data: relData});
+				} else {
+					$(document).trigger('dicTarget_' + key, {data: relData});
+				}
 			});
 		}
 		store = top.__base_dic_store[key].data.map(function(item, i) { return item });
@@ -248,7 +255,7 @@ function _commonLoadDic(dicKindCode, callback) {
 }
   
 function bindSelectorDic(selector, dicKindCode, form, filter, type) {
-	var __dicData = _getDicStore(dicKindCode);
+	var __dicData = _getDicStore(dicKindCode, 'form');
 	if (type === 'xm-select') {
 		if (__dicData.length) {
 			form.data(filter, 'local', {arr: __dicData});
@@ -283,12 +290,12 @@ function bindSelectorDic(selector, dicKindCode, form, filter, type) {
 	}
 }
   
-  
+
 function transInputDic(input, dicKindCode) {
 	
 	var code = input.val();
  
-	var __dicData = _getDicStore(dicKindCode);
+	var __dicData = _getDicStore(dicKindCode, 'form');
 
 	if (__dicData != null && __dicData.length) {
 		for(var i = 0; i<__dicData.length; i++) {
@@ -320,13 +327,12 @@ function transInputDic(input, dicKindCode) {
 }
 
   
-  
 function transFieldDic(dicKindCode, code) {
 
 	if (code == null) {
 		return '';
 	}
-	var __dicData = _getDicStore(dicKindCode);
+	var __dicData = _getDicStore(dicKindCode, 'form');
 
 	if (__dicData != null && __dicData.length) {
 		for(var i=0;i<__dicData.length;i++) {
@@ -366,7 +372,56 @@ function dateFormatText(d) {
 	var d = new Date(d);
 	return d.toLocaleDateString();
 }
-	
+
+function getObjectData(dataJson, code) {
+	var tempData = null;
+	if (dataJson != null && typeof(dataJson) === 'object' && dataJson.length) {
+		for (var i = 0; i < dataJson.length; i++) {
+			if (dataJson[i].value === code || dataJson[i].numValue === code) {
+				tempData = dataJson[i].name;
+				break;
+			}
+		}
+	}
+	return tempData;
+}
+
+// 给非form表单域标签统一赋值
+function setTargetNameValue(data) {
+	if (data && typeof(data) === 'object' && !data.length) {
+		$('[diy-form-value]').each(function(index, item) {
+			var labelKey = $(this).attr('diy-form-value');
+			var dicKindCode = $(this).attr('diy-dic-data');
+			var targetValue = '';
+			if (dicKindCode) {
+				var __dicData = _getDicStore(dicKindCode, 'target');
+				if (__dicData.length) {
+					console.log(labelKey, data);
+					if (data[labelKey].indexOf(',') !== -1) {
+						var keyArr = data[labelKey].split(',');
+						for (var i = 0; i < keyArr.length; i++) {
+							console.log();
+							targetValue += ',' + getObjectData(__dicData, keyArr[i]);
+						}
+						targetValue = targetValue.substring(1);
+					} else {
+						targetValue = getObjectData(__dicData, data[labelKey]);
+					}
+				} else {
+					$(document).on('dicTarget_' + dicKindCode, function(event, param) {
+						$(this).text(getObjectData(param.data, labelKey));
+					})
+				}
+			} else {
+				targetValue = data[labelKey];
+			}
+			$(this).text(targetValue);
+		})
+	} else {
+		top.layer.msg('赋值数据有误！', {icon: 2});
+	}
+}
+
 
 // 渲染字典
 layui.use(['jquery', 'form', 'formSelects'], function() {

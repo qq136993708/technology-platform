@@ -11,16 +11,44 @@
   <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
-  
-  <!-- 更多样式在此引入 -->
+  <link rel="stylesheet" href="prism.css">
 </head>
 <body>
 <div class="layout-view-content">
-  
+  <div class="view-title-layout">
+    <div class="text">页面多标签动态赋值</div>
+  </div>
+  <div class="font14">
+    <div class="ib-block">这里是动态赋值: <br/>
+      <span class="text-red" diy-form-value="name"></span>
+    </div>
+    <div class="ib-block">这里的值自动从字典里获取：<br/>
+      <span class="text-red" diy-form-value="value" diy-dic-data="DIC_DEMO_DATA"></span>
+    </div>
+    <div class="ib-block">从字典里去多值：<br/>
+      <span class="text-red" diy-form-value="moreValue" diy-dic-data="DIC_DEMO_DATA"></span>
+    </div>
+  </div>
+<pre><code class="language-html">
+&lt;div class="text-red" diy-form-value="name">&lt;/div>
+&lt;div class="text-red" diy-form-value="value" diy-dic-data="DIC_DEMO_DATA">&lt;/div>
+&lt;div class="text-red" diy-form-value="moreValue" diy-dic-data="DIC_DEMO_DATA">&lt;/div>
+diy-form-value="name" => 必填；且值不能为空
+diy-dic-data="DIC_DEMO_DATA" => 如果需要从字典中取值时，需要添加字典ID
+</code><code class="language-javascript">
+var targetData = { name: '这里是动态赋值', value: '2', moreValue: '2,3,4'};
+// 调用 common.js 里的公共方法，并把数据传入即可; 碰到字典时会自动加载并筛选数据
+// 从字典里去多值时用 逗号（,）隔开
+setTargetNameValue(targetData);
+</code></pre>
 </div>
+<script src="prism.js"></script>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
-<!-- 更多JS在此引入 -->
+<script>
+  var targetData = { name: '这里是动态赋值', value: '2', moreValue: '2,3,4'};
+  setTargetNameValue(targetData);
+</script>
 </body>
 </html>
