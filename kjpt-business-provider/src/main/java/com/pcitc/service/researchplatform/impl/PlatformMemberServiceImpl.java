@@ -30,10 +30,13 @@ public class PlatformMemberServiceImpl implements PlatformMemberService {
     @Override
     public PlatformMemberModel save(PlatformMemberModel platformMemberModel) {
         IsEmptyUtil.isEmpty(platformMemberModel.getId());
-        if(load(platformMemberModel.getId()) ==null)
+        if(load(platformMemberModel.getId()) ==null){
+            platformMemberModel.setCreateDate(platformMemberModel.getUpdateDate());
+            platformMemberModel.setCreator(platformMemberModel.getUpdator());
             platformMemberMapper.add(platformMemberModel);
-        else
+        }else{
             platformMemberMapper.update(platformMemberModel);
+        }
         return platformMemberModel;
     }
 

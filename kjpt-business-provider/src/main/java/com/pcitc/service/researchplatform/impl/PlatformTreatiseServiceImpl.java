@@ -32,10 +32,13 @@ public class PlatformTreatiseServiceImpl implements PlatformTreatiseService {
     @Override
     public PlatformTreatiseModel save(PlatformTreatiseModel platformTreatiseModel) {
         IsEmptyUtil.isEmpty(platformTreatiseModel.getId());
-        if(load(platformTreatiseModel.getId()) ==null)
+        if(load(platformTreatiseModel.getId()) ==null){
+            platformTreatiseModel.setCreator(platformTreatiseModel.getUpdator());
+            platformTreatiseModel.setCreateDate(platformTreatiseModel.getUpdateDate());
             ptm.add(platformTreatiseModel);
-        else
+        }else{
             ptm.update(platformTreatiseModel);
+        }
         return platformTreatiseModel;
     }
 

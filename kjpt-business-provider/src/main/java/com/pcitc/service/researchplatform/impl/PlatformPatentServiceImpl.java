@@ -31,10 +31,13 @@ public class PlatformPatentServiceImpl implements PlatformPatentService {
     @Override
     public PlatformPatentModel save(PlatformPatentModel platformPatentModel) {
         IsEmptyUtil.isEmpty(platformPatentModel.getId());
-        if(load(platformPatentModel.getId()) ==null)
+        if(load(platformPatentModel.getId()) ==null){
+            platformPatentModel.setCreateDate(platformPatentModel.getUpdateDate());
+            platformPatentModel.setCreator(platformPatentModel.getUpdator());
             platformPatentMapper.add(platformPatentModel);
-        else
+        }else{
             platformPatentMapper.update(platformPatentModel);
+        }
         return platformPatentModel;
     }
 
