@@ -121,6 +121,10 @@
                     }
                 }
             });
+        }else {
+            var html=$("#item").html()
+            $("#formPlatform").append(html)
+            getPatentTimeStr();
         }
         var $ = layui.$, active = {
             add:function(){

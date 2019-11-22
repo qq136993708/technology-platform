@@ -121,6 +121,10 @@
                     }
                 }
             });
+        }else {
+            var html=$("#item").html()
+            $("#formPlatform").append(html)
+            applyYear();
         }
         var $ = layui.$, active = {
             add:function(){

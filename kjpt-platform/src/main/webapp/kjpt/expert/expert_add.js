@@ -128,10 +128,14 @@ layui.config({
 
     var $ = layui.$, active = {
         addAchievements:function () {
+            var url="/kjpt/expert/achievements_add.html"
+            if(variable!=null){
+                url="/kjpt/expert/achievements_add.html?id="+variable.id
+            }
             top.layer.open({
                 type: 2,
                 title: "添加成果",
-                content: "/kjpt/expert/achievements_add.html?id="+variable.id, // 全局弹窗页面地址
+                content: url, // 全局弹窗页面地址
                 btn: null,
                 area: ['50%', '60%'],
                 end: function(lay, index) {
@@ -152,10 +156,14 @@ layui.config({
             });
         },
         addProject:function(){
+            var url="/kjpt/expert/project_add.html"
+            if(variable!=null){
+                url="/kjpt/expert/project_add.html?id="+variable.id
+            }
             top.layer.open({
                 type: 2,
                 title: "添加项目",
-                content: "/kjpt/expert/project_add.html?id="+variable.id, // 全局弹窗页面地址
+                content: url, // 全局弹窗页面地址
                 btn: null,
                 area: ['50%', '60%'],
                 end: function(lay, index) {
@@ -176,10 +184,14 @@ layui.config({
             });
         },
         addPatent:function(){
+            var url="/kjpt/expert/patent_add.html"
+            if(variable!=null){
+                url="/kjpt/expert/patent_add.html?id="+variable.id
+            }
             top.layer.open({
                 type: 2,
                 title: "添加专利",
-                content: "/kjpt/expert/patent_add.html?id="+variable.id, // 全局弹窗页面地址
+                content: url, // 全局弹窗页面地址
                 btn: null,
                 area: ['50%', '60%'],
                 end: function(lay, index) {
@@ -200,10 +212,14 @@ layui.config({
             });
         },
         addReward:function(){
+            var url="/kjpt/expert/reward_add.html"
+            if(variable!=null){
+                url="/kjpt/expert/reward_add.html?id="+variable.id
+            }
             top.layer.open({
                 type: 2,
                 title: "添加奖励信息",
-                content: "/kjpt/expert/reward_add.html?id="+variable.id, // 全局弹窗页面地址
+                content: url, // 全局弹窗页面地址
                 btn: null,
                 area: ['50%', '60%'],
                 end: function(lay, index) {
