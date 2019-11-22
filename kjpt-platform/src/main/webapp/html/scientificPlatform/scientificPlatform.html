@@ -17,7 +17,18 @@
     <form class="layui-form" action="" lay-filter="patentFormDemo">
       <div class="layui-row layui-col-space20">
         <!-- 移动：6/12 | 平板：6/12 | 桌面：4/12 -->
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" form-label-item="unlevel">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">平台名称：</span></label>
+            <div class="layui-input-inline">
+              <input type="text" name="platformName" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formDemo">查询</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" form-label-item="level">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">平台名称：</span></label>
             <div class="layui-input-block">
@@ -26,7 +37,7 @@
           </div>
         </div>
         
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" form-label-item="level">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">依托单位：</span></label>
             <div class="layui-input-block">
@@ -40,7 +51,7 @@
           </div>
         </div>
         
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" form-label-item="level">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">主要负责人：</span></label>
             <div class="layui-input-block">
@@ -49,7 +60,7 @@
           </div>
         </div>
         
-        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md4" form-label-item="level">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">研究领域：</span></label>
             <div class="layui-input-block">
@@ -58,7 +69,7 @@
           </div>
         </div>
         
-        <div class="layui-col-xs12 layui-col-sm12 layui-col-md8">
+        <div class="layui-col-xs12 layui-col-sm12 layui-col-md8" form-label-item="level">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">平台得分：</span></label>
             <div class="layui-input-inline margin0" style="width: 160px">
@@ -74,9 +85,12 @@
         </div>
         
       </div>
+
+      <input type="hidden" name="level">
     </form>
+    <div style="padding-top:10px" form-label-item="level"></div>
   
-    <div class="view-title-layout">
+    <div class="view-title-layout" id="opations-btn">
       <div class="right">
         <button class="layui-btn border-blue" id="addItem">新增</button>
         <button class="layui-btn border-blue" id="editItem">编辑</button>

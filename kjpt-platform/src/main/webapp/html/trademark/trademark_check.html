@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="renderer" content="webkit">
@@ -11,145 +12,213 @@
   <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
-  <style>
-        .checkCon .layui-input-block{
-          line-height: 30px;
-        }
-    </style>
   <!-- 更多样式在此引入 -->
+  <style>
+    .layui-input {
+      border: none;
+      outline: none;
+    }
+
+    input:focus {
+      outline: 0 !important
+    }
+  </style>
 </head>
+
 <body class="">
-<div class="layout-view-content dialog">
-	<form class="layui-form checkCon" action="" id="formPlatform" lay-filter="formPlatform">
-     <div class="layui-row layui-col-space20">
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label"><span class="text">单位名称：</span></label>
-           <div class="layui-input-block">测试</div>
-         </div>
-       </div>
+  <div class="layout-view-content dialog">
+    <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+      <div class="layui-row layui-col-space20">
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">单位名称：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="unitName" disabled="true" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
 
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required"><span class="text">核定使用商品大类：</span></label>
-           <div class="layui-input-block">test1</div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required"><span class="text">商标申请号：</span></label>
-           <div class="layui-input-block">test2</div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label"><span class="text">有效日期：</span></label>
-           <div class="layui-input-block">test3</div>
-         </div>
-       </div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">核定使用商品大类：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="commodityCategory" disabled="true" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
 
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label"><span class="text">注册公告日：</span></label>
-           <div class="layui-input-block">test4</div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label"><span class="text">录入人：</span></label>
-           <div class="layui-input-block">test5</div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required"><span class="text">注册商标名称：</span></label>
-           <div class="layui-input-block">test6</div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required"><span class="text">申请人：</span></label>
-           <div class="layui-input-block">test7</div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required"><span class="text">注册日期：</span></label>
-           <div class="layui-input-block">test8</div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-         <div class="layui-form-item">
-           <label class="layui-form-label label-required"><span class="text">法律状态：</span></label>
-           <div class="layui-input-block">test8</div>
-         </div>
-       </div>
-       
-       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label"><span class="text">备注：</span></label>
-          <div class="layui-input-block">test9</div>
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">商标申请号：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="applicationNumber" disabled="true" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">有效日期：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="effectiveDate" id="validDate" disabled="true" autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">注册公告日：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="registerNoticeDate" id="bulletinDate" disabled="true" autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">录入人：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="entryPerson" disabled="true" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">注册商标名称：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="trademarkName" disabled="true" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">申请人：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="applicant" disabled="true" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">注册日期：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="registerDate" id="registerDate" disabled="true" autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">法律状态：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="lawStatus" disabled="true" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">备注：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="remark" disabled="true" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">录入时间：</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="entryDate" id="importDate" disabled="true" autocomplete="off"
+                class="layui-input">
+            </div>
+          </div>
+        </div>
+
+        <div id="file-filter-options">
+          <div class="view-title-layout disabled-box view-pt0">
+            <div class="right">
+              <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label label-required"><span class="text">附件：</span></label>
+            <div class="layui-input-block">
+              <table></table>
+            </div>
+          </div>
+        </div>
+
+        <div class="dialog-footer-btn">
+          <button class="layui-btn layui-btn-primary close-all-dialog" type="button">关闭</button>
         </div>
       </div>
-
-      <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
-        <div class="layui-form-item">
-          <label class="layui-form-label label-required"><span class="text">录入时间：</span></label>
-          <div class="layui-input-block">test10</div>
-        </div>
-      </div>
-      
-       <div class="dialog-footer-btn">
-      		<button class="layui-btn layui-btn-primary close-all-dialog" type="button">关闭</button>
-       </div>
-     </div>
-     <input type="hidden" name="id">
-     <input type="hidden" name="creator">
-     <input type="hidden" name="createDate">
-     <input type="hidden" name="updateDate">
-     <input type="hidden" name="updator">
-     <input type="hidden" name="deleted">
-     <input type="hidden" name="level">
-   </form>
-</div>
-<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
-<script src="/layuiadmin/js/common.js"></script>
+      <input type="hidden" name="id">
+      <input type="hidden" name="creator">
+      <input type="hidden" name="createDate">
+      <input type="hidden" name="updateDate">
+      <input type="hidden" name="updator">
+      <input type="hidden" name="deleted">
+      <input type="hidden" name="level">
+    </form>
+  </div>
+  <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+  <script src="/layuiadmin/layui/layui.js"></script>
+  <script src="/layuiadmin/js/common.js"></script>
 </body>
+
 </html>
 
 <script>
-layui.use(['form', 'jquery'], function(){
-  var $ = layui.jquery;
-  var form = layui.form;
-  var laydate = layui.laydate;
-  
+  layui.use(['form', 'jquery'], function () {
+    var $ = layui.jquery;
+    var form = layui.form;
+    var laydate = layui.laydate;
 
-  function getItemInitData(item) {
-    if (item && item.id) {
-      httpUrl = '/platform-api/load/' + item.id;
-    }
-    httpModule({
-      url: httpUrl,
-      type: 'GET',
-      success: function(relData) {
-        if (relData.code === '0') {
-          
-        }
+
+    function getItemInitData(item) {
+      if (item && item.id) {
+        httpUrl = '/trademarkController/load/' + item.id + "?id=" + item.id;
       }
-    });
-  }
-  
-	// 获取地址栏传递过来的参数
-  var variable = getQueryVariable();
-  getItemInitData(variable);
+      httpModule({
+        url: httpUrl,
+        type: 'GET',
+        success: function (relData) {
+          if (relData.code === '0') {
+            form.val('formPlatform', relData.data);
+            form.render();
+          }
+        }
+      });
+    }
 
-});
+    function upLoadFile(billDataID) {
+      var templet = '<div class="file-options">';
+      templet += '<span class="link-text file-options-download" data-fileid="' + d.id + '">下载</a>';
+      templet += '</div>';
+      setFileUpload({
+        id: 'file-filter-options', // 附件上传作用域ID值 必传
+        dataID: billDataID, // 用来查找当前单据下绑定的附件，没有则不查找
+        cols: templet,
+        callback: function (tableData, type) {
+          /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
+            * type 触发变更的类型 目前只有 delete | upload
+          */
+          console.log(tableData, type);
+        }
+      })
+    }
+
+    // 获取地址栏传递过来的参数
+    var variable = getQueryVariable();
+    getItemInitData(variable);
+    upLoadFile(variable.id);
+
+  });
 </script>

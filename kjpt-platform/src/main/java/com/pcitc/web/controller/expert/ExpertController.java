@@ -475,32 +475,69 @@ public class ExpertController extends BaseController {
   	public Object newImportData(HttpServletRequest req, HttpServletResponse resp,MultipartFile file) throws Exception 
   	{
   		
-  		
+  		Result resultsDate = new Result();
   	    // { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,  "职称"  ,  "职务",  "联系方式" };
 	    // {"name",    "idCardNo","sex",  "age",     "title",   "post","contactWay"};
   		if (file.isEmpty()) 
   		{
-  			return new Result(false,"上传异常，请重试!");
-  		}
-  		InputStream in = file.getInputStream();
-  		List<List<Object>> listob = new ImportExcelUtil().getBankListByExcel(in, file.getOriginalFilename());
-  		List<ZjkBase> list = new ArrayList<ZjkBase>();
-  		for (int i = 0; i < listob.size(); i++) 
+  			resultsDate.setSuccess(false);
+		    resultsDate.setMessage("上传异常，请重试");
+  		}else
   		{
-  			List<Object> lo = listob.get(i);
-  			ZjkBase obj = new ZjkBase();
-  			obj.setName(String.valueOf(lo.get(0)));
-  			obj.setIdCardNo(String.valueOf(lo.get(1)));
-  			obj.setSex(String.valueOf(lo.get(2)));
-  			obj.setAge(Integer.valueOf(String.valueOf(lo.get(3))));
-  			obj.setTitle(String.valueOf(lo.get(4)));
-  			obj.setPost(String.valueOf(lo.get(5)));
-  			obj.setContactWay(String.valueOf(lo.get(6)));
-  			
-  			list.add(obj);
+  			InputStream in = file.getInputStream();
+  	  		List<List<Object>> listob = new ImportExcelUtil().getBankListByExcel(in, file.getOriginalFilename());
+  	  		List<ZjkBase> list = new ArrayList<ZjkBase>();
+  	  		for (int i = 0; i < listob.size(); i++) 
+  	  		{
+  	  			List<Object> lo = listob.get(i);
+  	  			ZjkBase obj = new ZjkBase();
+  	  			
+  	  			obj.setCreateTime(new Date());
+  	  			obj.setDelStatus(Constant.DEL_STATUS_NOT);
+  	  			obj.setSourceType(Constant.SOURCE_TYPE_OUTER);//数据来源（1本系统，2外系统）
+  	  			String dateid = UUID.randomUUID().toString().replaceAll("-", "");
+  	  			obj.setId(dateid);
+  	  			obj.setCreateUser(sysUserInfo.getUserId());
+  				
+  				String num=obj.getNum();
+  				if(num==null || "".equals(num))
+  				{
+  					String str=EquipmentUtils.genRandomNum()+"1";//9位=生成8位随机数+1
+  					obj.setNum(str);//专家编号-通过身份证从人事库取,如果没有，生成8位随机数
+  				}else
+  				{
+  					obj.setNum(num+"0");//9位=源系统8位+0，0代表外系统
+  				}
+  				String personnelNum=obj.getPersonnelNum();
+  				if(personnelNum==null || "".equals(personnelNum))
+  				{
+  					obj.setPersonnelNum(UUID.randomUUID().toString().replaceAll("-", ""));//人事系统编号--通过身份证从人事库取
+  				}
+  				
+  	  			obj.setName(String.valueOf(lo.get(0)));
+  	  			obj.setIdCardNo(String.valueOf(lo.get(1)));
+  	  			obj.setSex(String.valueOf(lo.get(2)));
+  	  			obj.setAge(Integer.valueOf(String.valueOf(lo.get(3))));
+  	  			obj.setTitle(String.valueOf(lo.get(4)));
+  	  			obj.setPost(String.valueOf(lo.get(5)));
+  	  			obj.setContactWay(String.valueOf(lo.get(6)));
+  	  			
+  	  			list.add(obj);
+  	  		}
+  	  		ResponseEntity<Result> responseEntity =  this.restTemplate.exchange(EXPERT_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Result.class);
+  	  		int statusCode = responseEntity.getStatusCodeValue();
+  			// 返回结果代码
+  			if (statusCode == 200) {
+  				resultsDate.setSuccess(true);
+  				resultsDate.setCode("0");
+  			} else {
+  				Result back = responseEntity.getBody();
+  				resultsDate.setSuccess(false);
+  				resultsDate.setMessage(back.getMessage());
+  			}
   		}
-  		Integer rscount = this.restTemplate.exchange(EXPERT_EXCEL_INPUT, HttpMethod.POST, new HttpEntity<Object>(list, this.httpHeaders), Integer.class).getBody();
-  		return new Result(true,rscount);
+  		
+  		return resultsDate;
   	}
   	  
   	    

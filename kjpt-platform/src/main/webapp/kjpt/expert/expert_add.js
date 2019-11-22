@@ -45,6 +45,7 @@ layui.config({
         url: "/techFamily-api/getTreeList",
         type: 'GET',
         success: function(relData) {
+            console.log(relData)
             relData.children.map(function (item,index) {
                 item.children.map(function (items,i) {
                     delete items.children
@@ -74,6 +75,9 @@ layui.config({
                 if (relData.success === true) {
                     // 给form表单赋初始值
                     form.val('formPlatform', relData.data);
+                    if(relData.data.headPic!=''){
+                        $("#imgFileUpload img").attr("src",'/file/imgFile/'+relData.data.headPic)
+                    }
                     formSelects.value('belongUnit', [relData.data.belongUnit]);
                     formSelects.value('technicalField', relData.data.technicalField.split(','));
                     achieveName=JSON.parse(relData.data.zjkAchievementJsonList)
@@ -232,7 +236,7 @@ layui.config({
     setImagesUpload({
         id: '#imgFileUpload', // 图片作用域的ID
         callback: function (data, type) {
-            console.log(data)
+            headPic=data.id
             // 图片上传回调函数
             // data 为图片上传成功后的数据， type为当前操作类型
             // 如果type === 'delete'  data则为null
@@ -240,7 +244,6 @@ layui.config({
     });
     /*保存*/
     form.on('submit(newSubmit)', function(data) {
-        //console.log(data.field)
         if(data.field.sex==undefined){
             layer.msg("性别必为填项不能为空！", {icon: 2});
             return false

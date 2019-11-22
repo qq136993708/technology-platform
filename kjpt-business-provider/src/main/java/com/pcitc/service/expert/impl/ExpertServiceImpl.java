@@ -395,6 +395,20 @@ public class ExpertServiceImpl implements IExpertService {
 		}
 		return count;
 	}
+	
+	public int insertBatch(List<ZjkBase> list)throws Exception
+	{
+		int count=0;
+		if(list!=null && list.size()>0)
+		{
+			for(int i=0;i<list.size();i++)
+			{
+				ZjkBase zjkBase=list.get(i);
+				count=zjkBaseMapper.insert(zjkBase);
+			}
+		}
+		return count;
+	}
 
 	
 	
