@@ -16,7 +16,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       tableRender = true;
       table.render({
         elem: '#tableDemo'
-        ,url: '/patentController/query' //数据接口
+        ,url: '/ComputerSoftware/query' //数据接口
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
           ,{field: 'unitName', title: '单位名称', sort: true }
