@@ -83,7 +83,7 @@ public class ExpertRewardController extends BaseController {
 			
 			@RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer limit,
-            @RequestParam(required = false,value="专家ID") String expertId,
+            @RequestParam(required = false) String expertId,
 			HttpServletRequest request, HttpServletResponse response)throws Exception 
      {
 

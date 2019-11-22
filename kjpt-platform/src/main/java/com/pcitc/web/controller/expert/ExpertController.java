@@ -274,6 +274,7 @@ public class ExpertController extends BaseController {
         @ApiImplicitParam(name = "workExperience", value = "工作经历", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "contactWay", value = "联系方式", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "email", value = "邮箱", dataType = "string", paramType = "form"),
+        @ApiImplicitParam(name = "headPic", value = "头像", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "brief", value = "人物简介", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "achievement", value = "人物成就", dataType = "string", paramType = "form"),
         @ApiImplicitParam(name = "zjkAchievementJsonList", value = "相关成果信息(外系统ID#成果名称# 申请单位#申请年度#成果类别$外系统ID#成果名称#申请单位#申请年度#成果类别 )", dataType = "string", paramType = "form"),

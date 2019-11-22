@@ -3,7 +3,7 @@
 
 <mapper namespace="com.pcitc.mapper.computersoftware.ComputerSoftwareMapper">
 
-  <resultMap id="BaseResultMap" type="com.pcitc.base.computerSoftware.ComputerSoftware">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.computersoftware.ComputerSoftware">
 
 
     <id column="ID" jdbcType="VARCHAR" property="id" />
@@ -34,7 +34,7 @@
     delete from computer_software
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.pcitc.base.computerSoftware.ComputerSoftware" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.pcitc.base.computersoftware.ComputerSoftware" useGeneratedKeys="true">
     insert into computer_software (UNIT_NAME, REGISTER_NUMBER, SOFTWARE_NAME, 
       COPYRIGHT_OWNER, VERSION_NUMBER, RECORD_DATE, 
       DEVELOP_FINISH_DATE, SOFTWARE_INTRO, ENTRY_PEOPLE, 
@@ -46,7 +46,7 @@
       #{entryTime,jdbcType=TIMESTAMP}, #{notes,jdbcType=VARCHAR}, #{accessoryUpload,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.pcitc.base.computerSoftware.ComputerSoftware" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.pcitc.base.computersoftware.ComputerSoftware" useGeneratedKeys="true">
     insert into computer_software
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="unitName != null">
@@ -125,7 +125,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.computerSoftware.ComputerSoftware">
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
     update computer_software
     <set>
       <if test="unitName != null">
@@ -167,7 +167,7 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.computerSoftware.ComputerSoftware">
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
     update computer_software
     set UNIT_NAME = #{unitName,jdbcType=VARCHAR},
       REGISTER_NUMBER = #{registerNumber,jdbcType=VARCHAR},
