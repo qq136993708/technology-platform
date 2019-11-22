@@ -76,7 +76,7 @@ public class TrademarkInfo implements Serializable {
     /**
      * 附件
      */
-    private String file;
+    private String files;
 
     /**
      * 删除标识
@@ -199,12 +199,12 @@ public class TrademarkInfo implements Serializable {
         this.entryDate = entryDate;
     }
 
-    public String getFile() {
-        return file;
+    public String getFiles() {
+        return files;
     }
 
-    public void setFile(String file) {
-        this.file = file;
+    public void setFiles(String files) {
+        this.files = files;
     }
 
     public String getCommodityCategoryText() {
@@ -256,7 +256,7 @@ public class TrademarkInfo implements Serializable {
             && (this.getLawStatus() == null ? other.getLawStatus() == null : this.getLawStatus().equals(other.getLawStatus()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
             && (this.getEntryDate() == null ? other.getEntryDate() == null : this.getEntryDate().equals(other.getEntryDate()))
-            && (this.getFile() == null ? other.getFile() == null : this.getFile().equals(other.getFile()));
+            && (this.getFiles() == null ? other.getFiles() == null : this.getFiles().equals(other.getFiles()));
     }
 
     @Override
@@ -276,7 +276,7 @@ public class TrademarkInfo implements Serializable {
         result = prime * result + ((getLawStatus() == null) ? 0 : getLawStatus().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         result = prime * result + ((getEntryDate() == null) ? 0 : getEntryDate().hashCode());
-        result = prime * result + ((getFile() == null) ? 0 : getFile().hashCode());
+        result = prime * result + ((getFiles() == null) ? 0 : getFiles().hashCode());
         return result;
     }
 
@@ -299,7 +299,7 @@ public class TrademarkInfo implements Serializable {
         sb.append(", lawStatus=").append(lawStatus);
         sb.append(", remark=").append(remark);
         sb.append(", entryDate=").append(entryDate);
-        sb.append(", file=").append(file);
+        sb.append(", file=").append(files);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

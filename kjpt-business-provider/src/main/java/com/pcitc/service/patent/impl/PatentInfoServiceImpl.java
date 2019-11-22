@@ -2,10 +2,13 @@ package com.pcitc.service.patent.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.FileModel;
 import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.patent.PatentInfoMapper;
+import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.patent.PatentInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,8 @@ public class PatentInfoServiceImpl implements PatentInfoService {
 
     @Resource
     private PatentInfoMapper patentInfoMapper;
+    @Autowired
+    FileCommonService fileCommonService;
 
     @Override
     public PatentInfo updateOrInsertPatentInfo(PatentInfo patentInfo) {
@@ -34,6 +39,7 @@ public class PatentInfoServiceImpl implements PatentInfoService {
         }else{
             patentInfoMapper.insertSelective(patentInfo);
         }
+        fileCommonService.updateFileData(patentInfo.getFiles(),patentInfo.getId());
         return patentInfo;
     }
 
