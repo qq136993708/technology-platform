@@ -128,6 +128,16 @@ layui.use(['form'], function(){
   form.on('submit(formDemo)', function(data){
     console.log(data);
     // layer.msg(JSON.stringify(data.field));
+    // 这里调用 common.js 里面 httpModule
+    httpModule({
+			url: '/platformProject-api/newInit',
+			success: function(res) {
+				if (res.code === '0') {
+					var formData = res.data;
+					console.log(formData);
+				}
+			}
+		});
     return false;
   });
 
