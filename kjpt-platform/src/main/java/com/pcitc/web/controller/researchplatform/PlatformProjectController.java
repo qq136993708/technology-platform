@@ -88,9 +88,9 @@ public class PlatformProjectController extends RestBaseController {
     @ApiOperation(value="保存")
     @RequestMapping(value = "/platformProject-api/save", method = RequestMethod.POST)
     @ResponseBody
-    public PlatformInfoModel save(@RequestBody PlatformInfoModel pm) {
+    public PlatformProjectModel save(@RequestBody PlatformProjectModel pm) {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<PlatformInfoModel> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<PlatformInfoModel>(pm, this.httpHeaders), PlatformInfoModel.class);
+        ResponseEntity<PlatformProjectModel> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<PlatformProjectModel>(pm, this.httpHeaders), PlatformProjectModel.class);
         return responseEntity.getBody();
     }
 
