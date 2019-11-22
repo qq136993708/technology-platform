@@ -29,10 +29,14 @@
             success: function(relData) {
                 console.log(relData)
                 relData.data.map(function (item, index) {
+                    var url='/layuiadmin/layui/images/expert-img.png'
+                    if(item.headPic!=''){
+                        url='/file/imgFile/'+relData.data.headPic
+                    }
                     var html='<div class="list">' +
                         '            <div class="list-item">' +
                         '                <div class="item-img">' +
-                        '                    <img src="/layuiadmin/layui/images/expert-img.png"/>' +
+                        '                    <img src="'+url+'"/>' +
                         '                </div>' +
                         '                <p class="item-name">'+item.name+'</p>' +
                         '                <p class="item-jx">' +item.brief+'</p>' +
