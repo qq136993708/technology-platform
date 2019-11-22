@@ -13,6 +13,13 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
 
   function addTableData(config) {
     if (!config.update) {
+      var searchData = { platformId: variable.id };
+      if (config.where) {
+        for (var key in config.where) {
+          searchData[key] = config.where[key];
+        }
+      }
+
       table.render({
         elem: '#'+ config.id
         // ,height: 382
@@ -24,7 +31,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
           limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
         },
         limit: 5, // 每页数据条数
-        where: { platformId: variable.id },
+        where: searchData,
         parseData: function(res) {
           if (config.url.indexOf('.json') > 0) {
             return layuiParseData(res, null, 3);
@@ -70,58 +77,59 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     // 领军人物
     addTableData({
       id: 'leadingFigure',
-      url: '/data/datalist.json',
+      url: '/researchPlatformMember-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'username', title: '名称' }
-        ,{field: 'id', title: '担任职务', sort: true }
-        ,{field: 'sex', title: '技术职称', sort: true}
-        ,{field: 'city', title: '工作单位'} 
-        ,{field: 'sign', title: '专业'}
-      ]]
+        ,{field: 'name', title: '名称' }
+        ,{field: 'assumeOffice', title: '担任职务', sort: true }
+        ,{field: 'technicalTitle', title: '技术职称', sort: true}
+        ,{field: 'workUnit', title: '工作单位'} 
+        ,{field: 'majorStudied', title: '专业'}
+      ]],
+      where: {role: '1'}
     });
     
     // 论文
     addTableData({
       id: 'tablePaper',
-      url: '/data/datalist.json',
+      url: '/platformTreatise-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'username', title: '论文题目' }
-        ,{field: 'id', title: '级别', sort: true }
-        ,{field: 'sex', title: '期刊名称', sort: true}
-        ,{field: 'city', title: '作者'} 
-        ,{field: 'sign', title: '年度'}
+        ,{field: 'thesisTitle', title: '论文题目' }
+        ,{field: 'thesisLevel', title: '级别', sort: true }
+        ,{field: 'journalTitle', title: '期刊名称', sort: true}
+        ,{field: 'thesisAuthor', title: '作者'} 
+        ,{field: 'thesisYear', title: '年度'}
       ]]
     });
 
     // 团队成员
     addTableData({
       id: 'teamMembers',
-      url: '/data/datalist.json',
+      url: '/researchPlatformMember-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'username', title: '姓名' }
-        ,{field: 'id', title: '年龄', sort: true }
-        ,{field: 'sex', title: '学历', sort: true}
-        ,{field: 'city', title: '技术职称'} 
-        ,{field: 'sign', title: '毕业学校'}
-        ,{field: 'classify', title: '所学专业'}
-        ,{field: 'wealth', title: '岗位名称'} 
+        ,{field: 'name', title: '姓名' }
+        ,{field: 'birth', title: '年龄', sort: true }
+        ,{field: 'education', title: '学历', sort: true}
+        ,{field: 'technicalTitle', title: '技术职称'} 
+        ,{field: 'graduateSchool', title: '毕业学校'}
+        ,{field: 'majorStudied', title: '所学专业'}
+        ,{field: 'postName', title: '岗位名称'} 
       ]]
     });
 
     // 主要成果
     addTableData({
       id: 'mainAchievements',
-      url: '/data/datalist.json',
+      url: '/researchPlatformAchievement-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'username', title: '序号' }
-        ,{field: 'id', title: '成果名称', sort: true }
-        ,{field: 'sex', title: '申请单位', sort: true}
-        ,{field: 'city', title: '成果类型'} 
-        ,{field: 'sign', title: '申请年度'}
+        ,{type: 'numbers', title: '序号', width: 80}
+        ,{field: 'achievementName', title: '成果名称', sort: true }
+        ,{field: 'applicantUnit', title: '申请单位', sort: true}
+        ,{field: 'achievementType', title: '成果类型'} 
+        ,{field: 'applicantYear', title: '申请年度'}
       ]]
     });
   }
@@ -165,6 +173,10 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     dialogPage += '?id='+ projectId; // 项目ID
     dialogPage += '&platformId=' + variable.id; // 平台ID
     dialogPage += '&type='+optionsType; // 操作类型
+
+    if ($(this).data('item')) {
+      dialogPage += '&item=' + $(this).data('item'); // 成员 | 领军人物
+    }
 
     // 打开弹窗
     top.layer.open({

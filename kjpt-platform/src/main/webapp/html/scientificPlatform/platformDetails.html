@@ -55,10 +55,10 @@
           <div class="icon-item  ib-block icon003"></div>
           <div class="item-text  ib-block font16">相关成果<span class="font20">0</span>个</div>
         </div>
-        <div class="item-box-list middle-block">
+        <!-- <div class="item-box-list middle-block">
           <div class="icon-item  ib-block icon003"></div>
           <div class="item-text  ib-block font16">相关奖励<span class="font20">0</span>个</div>
-        </div>
+        </div> -->
         <div class="item-box-list middle-block">
           <div class="icon-item  ib-block icon004"></div>
           <div class="item-text  ib-block font16">专利数量<span class="font20">0</span>个</div>
@@ -101,8 +101,8 @@
           <!-- 领军人物 -->
           <div class="view-title-layout">
             <div class="right">
-              <button class="layui-btn border-blue openDialog" data-type="add">新增</button>
-              <button class="layui-btn border-blue openDialog" data-type="edit">编辑</button>
+              <button class="layui-btn border-blue openDialog" data-item="character" data-page="addKY_teamMembers" data-type="add">新增</button>
+              <button class="layui-btn border-blue openDialog" data-item="character" data-page="addKY_teamMembers" data-type="edit">编辑</button>
               <button class="layui-btn border-red deleteItem">删除</button>
               <button class="layui-btn border-blue" id="exportData">导入</button>
             </div>
@@ -113,9 +113,9 @@
           <!-- 论文 -->
           <div class="view-title-layout">
             <div class="right">
-              <button class="layui-btn border-blue openDialog" data-type="add">新增</button>
-              <button class="layui-btn border-blue openDialog" data-type="edit">编辑</button>
-              <button class="layui-btn border-red deleteItem" id="delItem">删除</button>
+              <button class="layui-btn border-blue openDialog" data-page="addKY_paper" data-type="add">新增</button>
+              <button class="layui-btn border-blue openDialog" data-page="addKY_paper" data-type="edit">编辑</button>
+              <button class="layui-btn border-red deleteItem">删除</button>
               <button class="layui-btn border-blue" id="exportData">导入</button>
             </div>
           </div>
@@ -125,9 +125,9 @@
           <!-- 团队成员 -->
           <div class="view-title-layout">
             <div class="right">
-              <button class="layui-btn border-blue openDialog" data-type="add">新增</button>
-              <button class="layui-btn border-blue openDialog" data-type="edit">编辑</button>
-              <button class="layui-btn border-red deleteItem" id="delItem">删除</button>
+              <button class="layui-btn border-blue openDialog" data-item="member" data-page="addKY_teamMembers" data-type="add">新增</button>
+              <button class="layui-btn border-blue openDialog" data-item="member" data-page="addKY_teamMembers" data-type="edit">编辑</button>
+              <button class="layui-btn border-red deleteItem">删除</button>
               <button class="layui-btn border-blue" id="exportData">导入</button>
             </div>
           </div>
@@ -137,8 +137,8 @@
           <!-- 主要成果 -->
           <div class="view-title-layout">
             <div class="right">
-              <button class="layui-btn border-blue openDialog" data-type="add">新增</button>
-              <button class="layui-btn border-blue openDialog" data-type="edit">编辑</button>
+              <button class="layui-btn border-blue openDialog" data-page="addKY_mainAchievements" data-type="add">新增</button>
+              <button class="layui-btn border-blue openDialog" data-page="addKY_mainAchievements" data-type="edit">编辑</button>
               <button class="layui-btn border-red deleteItem" id="delItem">删除</button>
               <button class="layui-btn border-blue" id="exportData">导入</button>
             </div>
