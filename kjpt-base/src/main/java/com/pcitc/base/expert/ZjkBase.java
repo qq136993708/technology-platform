@@ -147,7 +147,7 @@ public class ZjkBase  {
     private String zjkPatentJsonList;
     private String zjkProjectJsonList;
     private String zjkRewardJsonList;
-    private String technicalFieldName;
+    private String technicalFieldName="";
     
     
     

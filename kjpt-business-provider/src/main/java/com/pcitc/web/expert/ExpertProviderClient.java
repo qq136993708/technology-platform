@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
@@ -110,8 +111,21 @@ public class ExpertProviderClient {
 	}
 	
 	
-	
-	
+	@ApiOperation(value = "导入专家信息", notes = "导入专家信息")
+    @RequestMapping(value = "/expert/excel_input", method = RequestMethod.POST)
+    public Result excel_input(@RequestBody List<ZjkBase> list) throws Exception 
+	{
+		Result result=new Result();
+        try {
+            int count = expertService.insertBatch(list);
+            result.setSuccess(true);
+        } catch (Exception e) {
+        	 result.setSuccess(false);
+        	 result.setMessage("导入专家信息失败");
+            logger.error("导入专家信息失败", e);
+        }
+        return result;
+    }
 	
 	
 	
