@@ -19,7 +19,8 @@ layui.config({
     /*出生年*/
     laydate.render({
         elem: '#appDate', //指定元素
-        type:"year"
+        type:"year",
+        trigger: 'click'
     });
     /*动态生成元素*/
     function createElement(code,id,element,name) {

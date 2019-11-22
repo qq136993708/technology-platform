@@ -96,7 +96,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       cols: [[ //表头
         {type: 'radio', field: 'id'}
         ,{field: 'thesisTitle', title: '论文题目' }
-        ,{field: 'thesisLevel', title: '级别', sort: true }
+        ,{field: 'thesisLevel', title: '论文级别', sort: true }
         ,{field: 'journalTitle', title: '期刊名称', sort: true}
         ,{field: 'thesisAuthor', title: '作者'} 
         ,{field: 'thesisYear', title: '年度'}
@@ -213,8 +213,17 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   $('.deleteItem').on('click', function(e) {
     var delItem = table.checkStatus(tableFilterArr[activeTab].tableId).data;
     if (delItem.length) {
+      var deleteUrl = '/platformProject-api/delete/';
+      if (activeTab == 2 || activeTab == 4) {
+        deleteUrl = '/researchPlatformMember-api/delete/';
+      } else if (activeTab == 3) {
+        deleteUrl = '/platformTreatise-api/delete/';
+      } else if (activeTab == 5) {
+        deleteUrl = '/researchPlatformAchievement-api/delete/';
+      }
+
       httpModule({
-        url: '/platformProject-api/delete/' + delItem[0].id,
+        url: (deleteUrl + delItem[0].id),
         type: 'DELETE',
         success: function(res) {
           if (res.code === '0') {
