@@ -428,7 +428,7 @@ public class ExpertController extends BaseController {
   	   				   ZjkBase zjkBase= list.get(i);
   	   				   Integer age=Integer.valueOf(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY))-zjkBase.getAge();
   	   				   zjkBase.setAge(age);
-  	   				   zjkBase.setIdCardNo(new BigDecimal(zjkBase.getIdCardNo()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString()+" ");
+  	   				   zjkBase.setIdCardNo(zjkBase.getIdCardNo()+" ");
   	   				}
   	   			}
   	   		}
