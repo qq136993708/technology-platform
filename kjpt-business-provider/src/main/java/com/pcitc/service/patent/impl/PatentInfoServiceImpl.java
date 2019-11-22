@@ -2,7 +2,6 @@ package com.pcitc.service.patent.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.patent.PatentInfoMapper;
 import com.pcitc.service.patent.PatentInfoService;

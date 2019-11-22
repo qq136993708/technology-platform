@@ -1,15 +1,7 @@
 package com.pcitc.service.patent;
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.patent.PatentInfo;
-import com.pcitc.base.system.SysDictionary;
-import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 import java.util.Map;
 
 /**

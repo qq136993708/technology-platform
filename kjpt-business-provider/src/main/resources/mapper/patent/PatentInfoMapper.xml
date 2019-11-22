@@ -40,7 +40,7 @@
     <result column="application_of_patent_transformation_text" jdbcType="VARCHAR" property="applicationOfPatentTransformationText" />
     <result column="application_type_text" jdbcType="VARCHAR" property="applicationTypeText" />
     <result column="patent_type_text" jdbcType="VARCHAR" property="patentTypeText" />
-    <result column="legal_status_text" jdbcType="VARCHAR" property="legalStatusText" />  
+    <result column="legal_status_text" jdbcType="VARCHAR" property="legalStatusText" />
     <result column="country_text" jdbcType="VARCHAR" property="countryText" />
 
   </resultMap>
@@ -103,10 +103,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, unit_name, applicant, patent_name, inventor, application_type, patent_type, 
-    legal_status, date, application_number, patent_range, agency, entry_person, application_date, 
-    entry_date, application_cost, remark, summary, application_of_patent_transformation, 
-    major_application, unenforced_reason, licensee, licensee_mode, licensee_profit, assignor, 
+    id, user_id, unit_name, applicant, patent_name, inventor, application_type, patent_type,
+    legal_status, date, application_number, patent_range, agency, entry_person, application_date,
+    entry_date, application_cost, remark, summary, application_of_patent_transformation,
+    major_application, unenforced_reason, licensee, licensee_mode, licensee_profit, assignor,
     assign_profit, file, creator, create_date, update_date, updator, deleted,country
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultMap="BaseResultMap">
@@ -132,7 +132,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from patent_info
     where id = #{id,jdbcType=VARCHAR}
@@ -151,28 +151,28 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into patent_info (user_id, unit_name, applicant, 
-      patent_name, inventor, application_type, 
-      patent_type, legal_status, date, 
-      application_number, patent_range, agency, 
-      entry_person, application_date, entry_date, 
-      application_cost, remark, summary, 
-      application_of_patent_transformation, major_application, 
-      unenforced_reason, licensee, licensee_mode, 
-      licensee_profit, assignor, assign_profit, 
-      file, creator, create_date, 
+    insert into patent_info (user_id, unit_name, applicant,
+      patent_name, inventor, application_type,
+      patent_type, legal_status, date,
+      application_number, patent_range, agency,
+      entry_person, application_date, entry_date,
+      application_cost, remark, summary,
+      application_of_patent_transformation, major_application,
+      unenforced_reason, licensee, licensee_mode,
+      licensee_profit, assignor, assign_profit,
+      file, creator, create_date,
       update_date, updator, deleted,country
       )
-    values (#{userId,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{applicant,jdbcType=VARCHAR}, 
-      #{patentName,jdbcType=VARCHAR}, #{inventor,jdbcType=VARCHAR}, #{applicationType,jdbcType=VARCHAR}, 
-      #{patentType,jdbcType=VARCHAR}, #{legalStatus,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP}, 
-      #{applicationNumber,jdbcType=VARCHAR}, #{patentRange,jdbcType=VARCHAR}, #{agency,jdbcType=VARCHAR}, 
-      #{entryPerson,jdbcType=VARCHAR}, #{applicationDate,jdbcType=TIMESTAMP}, #{entryDate,jdbcType=TIMESTAMP}, 
-      #{applicationCost,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
-      #{applicationOfPatentTransformation,jdbcType=VARCHAR}, #{majorApplication,jdbcType=VARCHAR}, 
-      #{unenforcedReason,jdbcType=VARCHAR}, #{licensee,jdbcType=VARCHAR}, #{licenseeMode,jdbcType=VARCHAR}, 
-      #{licenseeProfit,jdbcType=DECIMAL}, #{assignor,jdbcType=VARCHAR}, #{assignProfit,jdbcType=DECIMAL}, 
-      #{file,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+    values (#{userId,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{applicant,jdbcType=VARCHAR},
+      #{patentName,jdbcType=VARCHAR}, #{inventor,jdbcType=VARCHAR}, #{applicationType,jdbcType=VARCHAR},
+      #{patentType,jdbcType=VARCHAR}, #{legalStatus,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP},
+      #{applicationNumber,jdbcType=VARCHAR}, #{patentRange,jdbcType=VARCHAR}, #{agency,jdbcType=VARCHAR},
+      #{entryPerson,jdbcType=VARCHAR}, #{applicationDate,jdbcType=TIMESTAMP}, #{entryDate,jdbcType=TIMESTAMP},
+      #{applicationCost,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
+      #{applicationOfPatentTransformation,jdbcType=VARCHAR}, #{majorApplication,jdbcType=VARCHAR},
+      #{unenforcedReason,jdbcType=VARCHAR}, #{licensee,jdbcType=VARCHAR}, #{licenseeMode,jdbcType=VARCHAR},
+      #{licenseeProfit,jdbcType=DECIMAL}, #{assignor,jdbcType=VARCHAR}, #{assignProfit,jdbcType=DECIMAL},
+      #{file,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
       #{updateDate,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, #{deleted,jdbcType=VARCHAR},
       #{country,jdbcType=VARCHAR}
       )
