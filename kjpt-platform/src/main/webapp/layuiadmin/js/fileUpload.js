@@ -76,6 +76,8 @@ function setFileUpload(config) {
             } else {
               fileListData = data.data;
             }
+
+            table.reload(tableID, {data: fileListData});
             // 表格数据变化时执行回调函数
             if (config.callback) {
               config.callback(fileListData, 'query');
