@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author ty
@@ -57,6 +59,10 @@ public class PlatformAchievementServiceImpl implements PlatformAchievementServic
 
     @Override
     public Integer batchSave(List<PlatformAchievementModel> dataList) {
-        return platformAchievementMapper.batchSave(dataList);
+        return platformAchievementMapper.batchSave(dataList.stream().filter(pam ->{
+            if(!IsEmptyUtil.isNotEmpty(pam.getId()))
+                pam.setId(UUID.randomUUID().toString().replace("-",""));
+            return true;
+        }).collect(Collectors.toList()));
     }
 }

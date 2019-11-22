@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author ty
@@ -39,8 +41,11 @@ public class PlatformTreatiseServiceImpl implements PlatformTreatiseService {
 
     @Override
     public Integer batchSave(List<PlatformTreatiseModel> dataList) {
-        ptm.batchSave(dataList);
-        return dataList.size();
+        return batchSave(dataList.stream().filter(pam ->{
+            if(!IsEmptyUtil.isNotEmpty(pam.getId()))
+                pam.setId(UUID.randomUUID().toString().replace("-",""));
+            return true;
+        }).collect(Collectors.toList()));
     }
 
     @Override

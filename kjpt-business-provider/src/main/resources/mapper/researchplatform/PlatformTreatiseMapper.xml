@@ -11,7 +11,7 @@
         <result column="thesis_level" jdbcType="DECIMAL" property="thesisLevel"/>
         <result column="journal_title" jdbcType="VARCHAR" property="journalTitle"/>
         <result column="thesis_author" jdbcType="VARCHAR" property="thesisAuthor"/>
-        <result column="thesis_year" jdbcType="VARCHAR" property="theisYear"/>
+        <result column="thesis_year" jdbcType="VARCHAR" property="thesisYear"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_user" jdbcType="VARCHAR" property="creator"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
