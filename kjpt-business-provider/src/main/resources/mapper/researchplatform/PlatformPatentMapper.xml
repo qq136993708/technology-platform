@@ -26,7 +26,7 @@
         patent_name,
         patent_type,
         application_date,
-        application_date,
+        remark,
         deleted,
         create_user,
         create_date,

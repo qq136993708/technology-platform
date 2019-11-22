@@ -14,7 +14,7 @@
     <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id,  expert_id, project_name, charge_unit, research_target, setup_yeat, create_time, 
+    id, expert_id, project_name, charge_unit, research_target, setup_yeat, create_time, 
     del_status, source_type, out_system_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -205,7 +205,7 @@
   
   
   <delete id="deleteZjkProjectByExpertId" parameterType="java.lang.String">
-    delete from zjk_project where   expert_id = #{expertId,jdbcType=VARCHAR}
+    delete from zjk_project where  where expert_id = #{expertId,jdbcType=VARCHAR}
   </delete>
   
   
