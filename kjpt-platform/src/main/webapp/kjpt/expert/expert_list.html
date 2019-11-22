@@ -35,7 +35,10 @@
             <button class="layui-btn border-red" id="delItem" data-type="delItem">删除</button>
             <a class="layui-btn border-blue" href="/template/专家库模板.xlsx"
                     data-type="downloadData">模板下载</a>
-            <button class="layui-btn border-blue" id="importData" data-type="importData">导入</button>
+            <div id="importData" style="display: inline-block;margin: 0 10px">
+                <a class="layui-btn border-blue"  data-type="importData" filter="addFile">导入</a>
+            </div>
+
             <a href="/expert-api/exput_excel" class="layui-btn border-blue" id="exportData" data-type="exportData">导出</a>
         </div>
     </div>
@@ -45,9 +48,10 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
 <script>
-    layui.use(['element', 'form', 'jquery','table'], function(){
-        var element = layui.element,$ = layui.jquery, form = layui.form, table = layui.table;
+    layui.use(['element', 'form', 'jquery','table','upload'], function(){
+        var element = layui.element,$ = layui.jquery, form = layui.form, table = layui.table,upload=layui.upload;
         var itemRowData=''
         /*公共方法*/
         var obj={
@@ -101,6 +105,14 @@
         table.on('radio(expertTable)', function(obj){
             itemRowData = obj.data;
         });
+        importFiles({
+            id:'#importData',
+            url:'/expert-api/input_excel',
+            callback: function (data, type) {
+                console.log(data)
+
+            }
+        })
         var $ = layui.$, active = {
             queryData:function () {
                 /*查询*/
@@ -151,6 +163,7 @@
             },
             importData:function () {
                 console.log("importData")
+
             },
             exportData:function () {
                 console.log("exportData")

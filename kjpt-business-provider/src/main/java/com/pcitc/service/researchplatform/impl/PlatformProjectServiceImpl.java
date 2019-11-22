@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author ty
@@ -54,6 +56,10 @@ public class PlatformProjectServiceImpl implements PlatformProjectService {
 
     @Override
     public Integer batchSave(List<PlatformProjectModel> dataList) {
-        return platformProjectMapper.batchSave(dataList);
+        return platformProjectMapper.batchSave(dataList.stream().filter(pam ->{
+            if(!IsEmptyUtil.isNotEmpty(pam.getId()))
+                pam.setId(UUID.randomUUID().toString().replace("-",""));
+            return true;
+        }).collect(Collectors.toList()));
     }
 }

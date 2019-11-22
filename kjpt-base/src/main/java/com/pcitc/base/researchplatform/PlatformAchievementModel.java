@@ -19,27 +19,27 @@ public class PlatformAchievementModel extends RecordModel implements Serializabl
     /**
      * 对应的平台ID
      */
-    private String platformId;
+    private String platformId="";
     /**
      * 系统中的项目表的主键ID
      */
-    private String baseId;
+    private String baseId="";
     /**
      * 成果名称
      */
-    private String achievementName;
+    private String achievementName="";
     /**
      * 成果类别
      */
-    private String achievementType;
+    private String achievementType="";
     /**
      * 申请单位
      */
-    private String applicantUnit;
+    private String applicantUnit="";
     /**
      * 申请年度
      */
-    private String applicantYear;
+    private String applicantYear="";
 
     public String getId() {
         return id;

@@ -2,6 +2,7 @@ package com.pcitc.web.controller.expert;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,7 +35,6 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.expert.ZjkBase;
-import com.pcitc.base.system.SysLog;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.utils.EquipmentUtils;
@@ -421,10 +421,20 @@ public class ExpertController extends BaseController {
   	   		{
   	   			jSONArray = responseEntity.getBody();
   	   			list = JSONObject.parseArray(jSONArray.toJSONString(), ZjkBase.class);
+  	   			if(list!=null &&  list.size()>0)
+  	   			{
+  	   				for(int i=0;i<list.size();i++)
+  	   				{
+  	   				   ZjkBase zjkBase= list.get(i);
+  	   				   Integer age=Integer.valueOf(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY))-zjkBase.getAge();
+  	   				   zjkBase.setAge(age);
+  	   				   zjkBase.setIdCardNo(new BigDecimal(zjkBase.getIdCardNo()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString()+" ");
+  	   				}
+  	   			}
   	   		}
   	   		
   	   		    String[] headers = { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,  "职称"  ,  "职务",  "联系方式" };
-  	   		    String[] cols =    {"name",    "idCardNo","sex",  "age",     "title",   "post","contactWay"};
+  	   		    String[] cols =    {"name",    "idCardNo","sex",  "age",      "titleStr",   "post","contactWay"};
   	   		   
   	   	        // 文件名默认设置为当前时间：年月日时分秒
   	   	        String fileName = "专家表__"+DateFormatUtils.format(new Date(), "ddhhmmss");
@@ -466,8 +476,8 @@ public class ExpertController extends BaseController {
   	{
   		
   		
-  	   // { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,  "职称"  ,  "职务",  "联系方式" };
-	   // {"name",    "idCardNo","sex",  "age",     "title",   "post","contactWay"};
+  	    // { "专家姓名",  "身份证号",    "性别"  , "出生年份"  ,  "职称"  ,  "职务",  "联系方式" };
+	    // {"name",    "idCardNo","sex",  "age",     "title",   "post","contactWay"};
   		if (file.isEmpty()) 
   		{
   			return new Result(false,"上传异常，请重试!");

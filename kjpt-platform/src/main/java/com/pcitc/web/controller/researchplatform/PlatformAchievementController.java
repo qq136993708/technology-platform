@@ -90,6 +90,7 @@ public class PlatformAchievementController extends RestBaseController {
     @RequestMapping(value = "/researchPlatformAchievement-api/save", method = RequestMethod.POST)
     @ResponseBody
     public PlatformAchievementModel save(@RequestBody PlatformAchievementModel pam) {
+        this.setBaseData(pam);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PlatformAchievementModel> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<PlatformAchievementModel>(pam, this.httpHeaders), PlatformAchievementModel.class);
         return responseEntity.getBody();

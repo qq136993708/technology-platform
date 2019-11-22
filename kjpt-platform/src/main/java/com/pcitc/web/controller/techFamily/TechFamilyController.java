@@ -71,8 +71,8 @@ public class TechFamilyController extends BaseController {
 		System.out.println("/tech-family/type/tech-type-tree==========" + request.getParameter("code"));
 		TechFamily techType = new TechFamily();
 		if (request.getParameter("code") == null || request.getParameter("code").equals("")) {
-			techType.setLevelCode("2");
-			techType.setTypeIndex("10");
+			//techType.setLevelCode("2");
+			//techType.setTypeIndex("10");
 		} else {
 			techType.setTypeIndex(request.getParameter("code"));
 		}

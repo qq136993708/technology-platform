@@ -4,7 +4,7 @@ function selectFileUpload(config) {
   config.upload.render({
     elem: config.elem //绑定元素
     ,accept: config.accept
-    ,url: '/file/upload' //上传接口
+    ,url:config.url ||  '/file/upload' //上传接口
     ,before: function(obj) {
       layerLoadIndex = top.layer.load();
     }
@@ -201,4 +201,24 @@ function setImagesUploadState(config) {
     }
   }
 }
+/*导入文件*/
+function importFiles(config){
+    layui.use(['table', 'upload', 'layer'], function(){
+        var $field = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
+            addFile = $field.find('[filter="addFile"]').get(0)
+        selectFileUpload({
+            elem: addFile,
+            upload: layui.upload,
+            url:config.url,
+            accept: config.accept || 'file',
+            callback: function(res) {
+                //上传完毕回调
+                console.log(res)
+                if (config.callback) {
+                    config.callback(res.data, 'import');
+                }
+            }
+        });
+    })
 
+}
