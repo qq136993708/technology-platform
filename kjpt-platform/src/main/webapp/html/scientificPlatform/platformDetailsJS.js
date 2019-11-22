@@ -116,7 +116,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'graduateSchool', title: '毕业学校'}
         ,{field: 'majorStudied', title: '所学专业'}
         ,{field: 'postName', title: '岗位名称'} 
-      ]]
+      ]],
+      where: {role: '0'}
     });
 
     // 主要成果

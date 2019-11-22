@@ -4,6 +4,8 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 	var table = layui.table;
 	var layer = layui.layer;
 	var laydate = layui.laydate;
+	var variable = getQueryVariable();
+	console.log(variable)
 	
 	// 获取地址栏传递过来的参数
 	function getItemData(data) {
@@ -21,6 +23,15 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 						formData.platformId = data.platformId;
 					}
 					formData.createDate = new Date(formData.createDate).format('yyyy-MM-dd');
+					if (variable) {
+						if (variable.item === 'member') {
+							// 添加成员
+							formData.role = '0';
+						} else if ( variable.item === 'character' ) {
+							// 添加领军人物
+							formData.role = '1';
+						}
+					}
 					form.val('formProject', formData);
 				}
 			}
@@ -48,20 +59,15 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		})
 	}
 
-	var variable = getQueryVariable();
 	if (variable.type === 'edit') {
 		submitType = 'input';
 	}
-
 	switchHideItem(variable.item);
+	getItemData(variable);
 
 	if ($('#birth').length) {
 		laydate.render({ elem: '#birth', type: 'month', btns: ['clear', 'confirm']});
 	}
-
-	console.log(variable)
-
-	getItemData(variable);
 
 	// 监听录入方式变化
 	form.on('radio(optionType)', function(data) {
