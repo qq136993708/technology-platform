@@ -3,8 +3,7 @@
 
 <mapper namespace="com.pcitc.mapper.computersoftware.ComputerSoftwareMapper">
 
-  <resultMap id="BaseResultMap" type="com.pcitc.base.computerSoftware.ComputerSoftware">
-
+  <resultMap id="BaseResultMap" type="com.pcitc.base.computersoftware.ComputerSoftware">
 
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="UNIT_NAME" jdbcType="VARCHAR" property="unitName" />
