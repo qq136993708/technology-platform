@@ -36,6 +36,13 @@
     <result column="updator" jdbcType="VARCHAR" property="updator" />
     <result column="deleted" jdbcType="VARCHAR" property="deleted" />
     <result column="country" jdbcType="VARCHAR" property="country" />
+
+    <result column="application_of_patent_transformation_text" jdbcType="VARCHAR" property="applicationOfPatentTransformationText" />
+    <result column="application_type_text" jdbcType="VARCHAR" property="applicationTypeText" />
+    <result column="patent_type_text" jdbcType="VARCHAR" property="patentTypeText" />
+    <result column="legal_status_text" jdbcType="VARCHAR" property="legalStatusText" />  
+    <result column="country_text" jdbcType="VARCHAR" property="countryText" />
+
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>

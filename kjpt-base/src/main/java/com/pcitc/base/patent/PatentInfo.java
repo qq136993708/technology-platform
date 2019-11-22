@@ -1,4 +1,4 @@
-package com.pcitc.base.patent;
+﻿package com.pcitc.base.patent;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -181,27 +181,27 @@ public class PatentInfo implements Serializable {
     /**
      * 专利范围翻译
      */
-    private String application_of_patent_transformation_text;
+    private String applicationOfPatentTransformationText;
 
     /**
      * 专利类型翻译
      */
-    private String patent_type_text;
+    private String patentTypeText;
 
     /**
      * 国别组织翻译
      */
-    private String country_text;
+    private String countryText;
 
     /**
      * 申请类型翻译
      */
-    private String application_type_text;
+    private String applicationTypeText;
 
     /**
      * 法律状态翻译
      */
-    private String legal_status_text;
+    private String legalStatusText;
 
     private static final long serialVersionUID = 1L;
 
@@ -477,44 +477,44 @@ public class PatentInfo implements Serializable {
         this.country = country;
     }
 
-    public String getApplication_of_patent_transformation_text() {
-        return application_of_patent_transformation_text;
+    public String getApplicationOfPatentTransformationText() {
+        return applicationOfPatentTransformationText;
     }
 
-    public void setApplication_of_patent_transformation_text(String application_of_patent_transformation_text) {
-        this.application_of_patent_transformation_text = application_of_patent_transformation_text;
+    public void setApplicationOfPatentTransformationText(String applicationOfPatentTransformationText) {
+        this.applicationOfPatentTransformationText = applicationOfPatentTransformationText;
     }
 
-    public String getPatent_type_text() {
-        return patent_type_text;
+    public String getPatentTypeText() {
+        return patentTypeText;
     }
 
-    public void setPatent_type_text(String patent_type_text) {
-        this.patent_type_text = patent_type_text;
+    public void setPatentTypeText(String patentTypeText) {
+        this.patentTypeText = patentTypeText;
     }
 
-    public String getCountry_text() {
-        return country_text;
+    public String getCountryText() {
+        return countryText;
     }
 
-    public void setCountry_text(String country_text) {
-        this.country_text = country_text;
+    public void setCountryText(String countryText) {
+        this.countryText = countryText;
     }
 
-    public String getApplication_type_text() {
-        return application_type_text;
+    public String getApplicationTypeText() {
+        return applicationTypeText;
     }
 
-    public void setApplication_type_text(String application_type_text) {
-        this.application_type_text = application_type_text;
+    public void setApplicationTypeText(String applicationTypeText) {
+        this.applicationTypeText= applicationTypeText;
     }
 
-    public String getLegal_status_text() {
-        return legal_status_text;
+    public String getLegalStatusText() {
+        return legalStatusText;
     }
 
-    public void setLegal_status_text(String legal_status_text) {
-        this.legal_status_text = legal_status_text;
+    public void setLegalStatusText(String legalStatusText) {
+        this.legalStatusText = legalStatusText;
     }
 
     @Override
