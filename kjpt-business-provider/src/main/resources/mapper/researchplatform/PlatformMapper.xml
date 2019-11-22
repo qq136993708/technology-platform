@@ -21,6 +21,11 @@
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
         <result column="updator" jdbcType="VARCHAR" property="updator"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+		
+		<result column="research_field_text" jdbcType="VARCHAR" property="researchFieldText"/>
+        <result column="supporting_institutions_text" jdbcType="VARCHAR" property="supportingInstitutionsText"/>
+		<result column="platform_type_text" jdbcType="VARCHAR" property="typeText"/>
+		<result column="level_text" jdbcType="VARCHAR" property="levelText"/>	
     </resultMap>
 
 
@@ -49,7 +54,7 @@
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
-        select  <include refid="Base_Column_List"/> from kypt_info where 1=1
+        select  <include refid="Base_Column_List"/> from view_kypt_info where 1=1
             <if test="platformName != null and platformName != '' " >
                 and platform_name = #{platformName}
             </if>
