@@ -59,11 +59,11 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       url: '/platformProject-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
-        ,{field: 'username', title: '序号' }
-        ,{field: 'id', title: '项目名称', sort: true }
-        ,{field: 'sex', title: '负责单位', sort: true}
-        ,{field: 'city', title: '专业类型'} 
-        ,{field: 'sign', title: '立项年度'}
+        ,{title: '序号', type: 'numbers', width: 90}
+        ,{field: 'projectName', title: '项目名称', sort: true }
+        ,{field: 'dutyInstitutions', title: '负责单位', sort: true}
+        ,{field: 'majorType', title: '专业类型'} 
+        ,{field: 'approvalYear', title: '立项年度'}
       ]]
     });
 
@@ -146,22 +146,32 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   // 新增
   $('.openDialog').on('click', function(e) {
     var optionsType = $(this).data('type'),
+        htmlPage = $(this).data('page'),
         dialogTitle = '',
-        typeText = '添加';
+        typeText = '添加',
+        projectId = '';
     if (optionsType === 'edit') {
       typeText = '编辑';
       if (!table.checkStatus(tableFilterArr[activeTab].tableId).data.length) {
         layer.msg('请选择一条数据再进行' + typeText, {icon: 6});
         return false;
+      } else {
+        projectId = table.checkStatus(tableFilterArr[activeTab].tableId).data[0].id;
       }
     }
     dialogTitle = typeText + tableFilterArr[activeTab].title;
+
+    var dialogPage = '/html/scientificPlatform/'+htmlPage+'.html';
+    dialogPage += '?id='+ projectId; // 项目ID
+    dialogPage += '&platformId=' + variable.id; // 平台ID
+    dialogPage += '&type='+optionsType; // 操作类型
+
     // 打开弹窗
     top.layer.open({
       type: 2,
       title: dialogTitle,
       area: ['780px', '520px'],
-      content: '/html/scientificPlatform/addKY_project.html?id='+e.target.dataset.id,
+      content: dialogPage,
       btn: null,
       end: function() {
         var returnValue = getDialogData('dialog-data');
@@ -187,11 +197,21 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   
 
   // 编辑
-  $('#editItem').on('click', function(e) {
-    if (itemRowID) {
-      
-    } else {
-
+  $('.deleteItem').on('click', function(e) {
+    var delItem = table.checkStatus(tableFilterArr[activeTab].tableId).data;
+    if (delItem.length) {
+      httpModule({
+        url: '/platformProject-api/delete/' + delItem[0].id,
+        type: 'DELETE',
+        success: function(res) {
+          if (res.code === '0') {
+            table.reload(tableFilterArr[activeTab].tableId);
+            layer.msg('删除'+ tableFilterArr[activeTab].title + '成功。', {icon: 1});
+          }  else {
+            layer.msg('删除'+ tableFilterArr[activeTab].title + '失败!', {icon: 2});
+          }
+        }
+      });
     }
   })
 
