@@ -7,9 +7,9 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 	
 	// 获取地址栏传递过来的参数
 	function getItemData(data) {
-		var httpUrl = '/platformProject-api/newInit/' + data.platformId;
+		var httpUrl = '/platformTreatise-api/newInit/' + data.platformId;
 		if (data.id) {
-			httpUrl = '/platformProject-api/load/' + data.id
+			httpUrl = '/platformTreatise-api/load/' + data.id
 		}
 
 		httpModule({
@@ -39,7 +39,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		}	
 	}
 
-	laydate.render({ elem: '#approvalYear', type: 'year', btns: ['clear', 'confirm']});
+	laydate.render({ elem: '#thesisYear', type: 'year', btns: ['clear', 'confirm']});
 	
 	var variable = getQueryVariable();
 	if (variable.type === 'edit') {
@@ -73,7 +73,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		  ,where: { name: searchData }
 		  ,cols: [[ // 表头
 		    {type: 'checkbox' } // 表格多选
-		    ,{field: 'username', title: '项目名称' } // 模版配置列
+		    ,{field: 'username', title: '论文名称' } // 模版配置列
 		    ,{field: 'sex', title: '专业类别', sort: true}
 		    ,{field: 'city', title: '负责单位'} 
 		    ,{field: 'sign', title: '立项年度'}
@@ -92,7 +92,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		// 手工录入提交
 		httpModule({
 			type: 'POST',
-			url: '/platformProject-api/save',
+			url: '/platformTreatise-api/save',
 			data: data.field,
 			success: function(res) {
 				if (res.code === '0') {
@@ -110,20 +110,20 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		return false;
 	})
 	
-	// 提交项目
+	// 提交论文
 	$('#projectSubmit').on('click', function(e) {
 		if (submitType === 'input') {
 			$('#InputSubmit').trigger('click');
 		} else if (submitType === 'unInput') {
       var tableCheckedData = table.checkStatus('unInputTable').data;
 			if (!tableCheckedData.length) {
-				layer.msg('您没有选择任何项目', {icon: 2});
+				layer.msg('您没有选择任何论文', {icon: 2});
 				return false;
 			}
 			// 批量导入
 			httpModule({
 				type: 'POST',
-				url: '/platformProject-api/batchSave',
+				url: '/platformTreatise-api/batchSave',
 				data: tableCheckedData,
 				success: function(res) {
 					if (res.code === '0') {

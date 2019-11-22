@@ -7,9 +7,9 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 	
 	// 获取地址栏传递过来的参数
 	function getItemData(data) {
-		var httpUrl = '/platformProject-api/newInit/' + data.platformId;
+		var httpUrl = '/platformTreatise-api/newInit/' + data.platformId;
 		if (data.id) {
-			httpUrl = '/platformProject-api/load/' + data.id
+			httpUrl = '/platformTreatise-api/load/' + data.id
 		}
 
 		httpModule({
@@ -39,11 +39,24 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		}	
 	}
 
-	laydate.render({ elem: '#approvalYear', type: 'year', btns: ['clear', 'confirm']});
-	
+	// 切换领军人物 与成员字段
+	function switchHideItem(type) {
+		$('[item-label]').each(function() {
+			if ($(this).attr('item-label').indexOf(type) === -1) {
+				$(this).remove();
+			}
+		})
+	}
+
 	var variable = getQueryVariable();
 	if (variable.type === 'edit') {
 		submitType = 'input';
+	}
+
+	switchHideItem(variable.item);
+
+	if ($('#birth').length) {
+		laydate.render({ elem: '#birth', type: 'month', btns: ['clear', 'confirm']});
 	}
 
 	console.log(variable)
@@ -92,7 +105,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		// 手工录入提交
 		httpModule({
 			type: 'POST',
-			url: '/platformProject-api/save',
+			url: '/researchPlatformMember-api/save',
 			data: data.field,
 			success: function(res) {
 				if (res.code === '0') {
@@ -123,7 +136,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 			// 批量导入
 			httpModule({
 				type: 'POST',
-				url: '/platformProject-api/batchSave',
+				url: '/platformTreatise-api/batchSave',
 				data: tableCheckedData,
 				success: function(res) {
 					if (res.code === '0') {
