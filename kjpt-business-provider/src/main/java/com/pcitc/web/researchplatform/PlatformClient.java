@@ -1,15 +1,13 @@
 package com.pcitc.web.researchplatform;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
+import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.service.researchplatform.PlatformService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**

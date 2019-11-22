@@ -1,12 +1,16 @@
-package com.pcitc.base.researchPlatform;
+package com.pcitc.base.researchplatform;
 
+
+import com.pcitc.base.common.RecordModel;
 
 /**
  * <p>平台成员</p>
  * <p>Table: kypt_member - 科研平台-成员</p>
  * @author ty
  */
-public class PlatformMemberModel {
+public class PlatformMemberModel extends RecordModel {
+
+    private static final long serialVersionUID = 1L;
     /**
      * 数据主键
      */
@@ -154,5 +158,13 @@ public class PlatformMemberModel {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -2,7 +2,6 @@ package com.pcitc.web.controller.scientificplan;
 
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
 import com.pcitc.base.scientificplan.YearSummary;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;

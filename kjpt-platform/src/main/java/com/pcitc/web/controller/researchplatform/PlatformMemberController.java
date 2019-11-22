@@ -1,7 +1,8 @@
 package com.pcitc.web.controller.researchplatform;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.researchplatform.PlatformProjectModel;
+import com.pcitc.base.researchplatform.PlatformAchievementModel;
+import com.pcitc.base.researchplatform.PlatformMemberModel;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,40 +18,40 @@ import java.util.*;
 
 /**
  * <p>服务接口</p>
- * <p>Table:  - 科研平台-项目信息</p>
+ * <p>Table:  - 科研平台-成果信息</p>
  * @author ty
  */
 
-@Api(value = "researchPlatformProject-api", description = "国家科研平台项目接口")
+@Api(value = "researchPlatformMember-api", description = "国家科研平台成员接口")
 @RestController
-public class PlatformProjectController extends RestBaseController {
+public class PlatformMemberController extends RestBaseController {
 
     /**
      * 根据ID获取对象信息
      */
-    private static final String load = "http://kjpt-zuul/stp-proxy/researchPlatformPorject-api/load/";
+    private static final String load = "http://kjpt-zuul/stp-proxy/researchPlatformMember-api/load/";
     /**
      * 查询平台项目列表
      */
-    private static final String query = "http://kjpt-zuul/stp-proxy/researchPlatformPorject-api/query";
+    private static final String query = "http://kjpt-zuul/stp-proxy/researchPlatformMember-api/query";
     /**
      * 保存平台项目
      */
-    private static final String save = "http://kjpt-zuul/stp-proxy/researchPlatformPorject-api/save";
+    private static final String save = "http://kjpt-zuul/stp-proxy/researchPlatformMember-api/save";
     /**
      * 平台项目批量保存
      */
-    private static final String batchSave = "http://kjpt-zuul/stp-proxy/researchPlatformPorject-api/batchSave";
+    private static final String batchSave = "http://kjpt-zuul/stp-proxy/researchPlatformMember-api/batchSave";
     /**
      * 删除项目
      */
-    private static final String delete = "http://kjpt-zuul/stp-proxy/researchPlatformPorject-api/delete/";
+    private static final String delete = "http://kjpt-zuul/stp-proxy/researchPlatformMember-api/delete/";
 
     @ApiOperation(value="读取")
-    @RequestMapping(value = "/platformProject-api/load/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/researchPlatformMember-api/load/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public PlatformProjectModel load(@PathVariable String id) {
-        ResponseEntity<PlatformProjectModel> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), PlatformProjectModel.class);
+    public PlatformMemberModel load(@PathVariable String id) {
+        ResponseEntity<PlatformMemberModel> responseEntity = this.restTemplate.exchange(load+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), PlatformMemberModel.class);
         return responseEntity.getBody();
     }
 
@@ -61,7 +62,7 @@ public class PlatformProjectController extends RestBaseController {
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "platformId", value = "平台ID", dataType = "string", paramType = "query")
     })
-    @RequestMapping(value = "/platformProject-api/query", method = RequestMethod.GET)
+    @RequestMapping(value = "/researchPlatformMember-api/query", method = RequestMethod.GET)
     @ResponseBody
     public PageInfo query(
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
@@ -87,16 +88,16 @@ public class PlatformProjectController extends RestBaseController {
     }
 
     @ApiOperation(value="保存")
-    @RequestMapping(value = "/platformProject-api/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/researchPlatformMember-api/save", method = RequestMethod.POST)
     @ResponseBody
-    public PlatformProjectModel save(@RequestBody PlatformProjectModel pm) {
+    public PlatformMemberModel save(@RequestBody PlatformMemberModel pam) {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<PlatformProjectModel> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<PlatformProjectModel>(pm, this.httpHeaders), PlatformProjectModel.class);
+        ResponseEntity<PlatformMemberModel> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<PlatformMemberModel>(pam, this.httpHeaders), PlatformMemberModel.class);
         return responseEntity.getBody();
     }
 
     @ApiOperation(value="删除")
-    @RequestMapping(value = "/platformProject-api/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/researchPlatformMember-api/delete/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public Integer delete(@PathVariable String id) {
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(delete+id, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
@@ -104,10 +105,10 @@ public class PlatformProjectController extends RestBaseController {
     }
 
     @ApiOperation(value="初始化")
-    @RequestMapping(value = "/platformProject-api/newInit/{platformId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/researchPlatformMember-api/newInit/{platformId}", method = RequestMethod.GET)
     @ResponseBody
-    public PlatformProjectModel newInit(@PathVariable String platformId) {
-        PlatformProjectModel p = new PlatformProjectModel();
+    public PlatformMemberModel newInit(@PathVariable String platformId) {
+        PlatformMemberModel p = new PlatformMemberModel();
         p.setId(UUID.randomUUID().toString().replace("-",""));
         p.setPlatformId(platformId);
         p.setCreateDate(new Date());
@@ -117,9 +118,9 @@ public class PlatformProjectController extends RestBaseController {
     }
 
     @ApiOperation(value="批量添加")
-    @RequestMapping(value = "/platformProject-api/batchSave", method = RequestMethod.POST)
+    @RequestMapping(value = "/researchPlatformMember-api/batchSave", method = RequestMethod.POST)
     @ResponseBody
-    public Integer batchSave(@RequestBody List<PlatformProjectModel> pmList) {
+    public Integer batchSave(@RequestBody List<PlatformMemberModel> pmList) {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(batchSave, HttpMethod.POST, new HttpEntity<List>(pmList, this.httpHeaders), Integer.class);
         return responseEntity.getBody();

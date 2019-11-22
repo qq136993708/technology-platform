@@ -1,6 +1,7 @@
 package com.pcitc.service.researchplatform;
 
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.researchplatform.PlatformMemberModel;
 import com.pcitc.base.researchplatform.PlatformProjectModel;
 
 import java.util.List;
@@ -10,18 +11,18 @@ import java.util.Map;
  * 科研平台项目的增删改查
  * @author ty
  */
-public interface PlatformProjectService {
+public interface PlatformMemberService {
 
     /**
-     * 根据主键获取一个平台项目的信息
+     * 根据主键获取一个平台成员的信息
      */
-    PlatformProjectModel load(String id);
+    PlatformMemberModel load(String id);
     /**
-     * 保存科研平台项目
+     * 保存科研平台成员
      */
-    PlatformProjectModel save(PlatformProjectModel platformProjectModel);
+    PlatformMemberModel save(PlatformMemberModel platformMemberModel);
     /**
-     * 查询科研平台项目列表
+     * 查询科研平台成员列表
      */
     PageInfo query(Map paramMap);
 
@@ -31,8 +32,8 @@ public interface PlatformProjectService {
     Integer delete(String id);
 
     /**
-     * 批量保存平台项目
+     * 批量保存平台成员
      */
-    Integer batchSave(List<PlatformProjectModel> dataList);
+    Integer batchSave(List<PlatformMemberModel> dataList);
 
 }

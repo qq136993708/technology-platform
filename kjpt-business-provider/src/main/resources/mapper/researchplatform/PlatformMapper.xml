@@ -3,7 +3,7 @@
 
 <mapper namespace="com.pcitc.mapper.researchplatform.PlatformMapper">
 
-    <resultMap id="BaseResultMap" type="com.pcitc.base.researchPlatform.PlatformInfoModel">
+    <resultMap id="BaseResultMap" type="com.pcitc.base.researchplatform.PlatformInfoModel">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="platform_name" jdbcType="VARCHAR" property="platformName"/>
         <result column="research_field" jdbcType="VARCHAR" property="researchField"/>
@@ -72,14 +72,14 @@
     </select>
 
 
-    <insert id="add" parameterType="com.pcitc.base.researchPlatform.PlatformInfoModel">
+    <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
         insert into kypt_info(id,platform_name,research_field,supporting_institutions,research_funds,platform_introduction,person_liable,platform_type,team_Introduction,
         overall_situation,platform_scoring,level,creator,create_date,update_date,updator,deleted)
          values(#{id},#{platformName},#{researchField},#{supportingInstitutions},#{researchFunds},#{platformIntroduction},#{personLiable},#{type},#{teamIntroduction},#{overallSituation},#{platformScoring},
          #{level},#{creator},#{createDate},#{updateDate},#{updator},#{deleted} )
     </insert>
 
-    <update id="update" parameterType="com.pcitc.base.researchPlatform.PlatformInfoModel">
+    <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
         update kypt_info
         <trim prefix="SET" suffixOverrides=",">
             <if test="platformName != null and platformName != '' " >
