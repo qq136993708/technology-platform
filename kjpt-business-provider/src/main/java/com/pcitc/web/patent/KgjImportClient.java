@@ -17,11 +17,12 @@ import java.util.List;
 @RequestMapping(value = "/kgjImport-api")
 public class KgjImportClient {
 
-    @Autowired
-    private KgjImportService ks;
-
-    @RequestMapping(value="/kgjImport/{currrentUser}",method = RequestMethod.POST)
-    public List<KgjImportModel> kgjImport(@PathVariable(value = "currrentUser") String currrentUser, @RequestBody List<List<String>> dataList){
-        return ks.kgjImport(dataList,currrentUser);
-    }
+	/*
+	 * @Autowired private KgjImportService ks;
+	 * 
+	 * @RequestMapping(value="/kgjImport/{currrentUser}",method =
+	 * RequestMethod.POST) public List<KgjImportModel> kgjImport(@PathVariable(value
+	 * = "currrentUser") String currrentUser, @RequestBody List<List<String>>
+	 * dataList){ return ks.kgjImport(dataList,currrentUser); }
+	 */
 }

@@ -1,5 +1,6 @@
 package com.pcitc.service.expert.impl;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,12 +23,14 @@ import com.pcitc.base.expert.ZjkBase;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.expert.ZjkProject;
 import com.pcitc.base.expert.ZjkReward;
+import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.expert.ZjkAchievementMapper;
 import com.pcitc.mapper.expert.ZjkBaseMapper;
 import com.pcitc.mapper.expert.ZjkPatentMapper;
 import com.pcitc.mapper.expert.ZjkProjectMapper;
 import com.pcitc.mapper.expert.ZjkRewardMapper;
+import com.pcitc.mapper.techFamily.TechFamilyMapper;
 import com.pcitc.service.expert.IExpertService;
 
 
@@ -44,7 +47,9 @@ public class ExpertServiceImpl implements IExpertService {
 	private ZjkProjectMapper zjkProjectMapper;
 	@Autowired
 	private ZjkRewardMapper zjkRewardMapper;
-	
+	@Autowired
+    private TechFamilyMapper techFamilyMapper;
+
 	/**
 	     * 根据ID获取专家信息详情
 	*/
@@ -136,6 +141,35 @@ public class ExpertServiceImpl implements IExpertService {
 	public Integer insertZjkBase(ZjkBase record)throws Exception
 	{
 		addRealtionInfo(record);
+		
+		String technicalFieldName="";
+		String codes=record.getTechnicalField();
+		if (!codes.equals("")) 
+		{
+			String chkbox[] = codes.split(",");
+			if (chkbox != null && chkbox.length > 0) 
+			{
+				List<String> list = Arrays.asList(chkbox);
+				List<TechFamily> tempList= techFamilyMapper.getTechFamilyListByCodes(list);
+				if (tempList!=null && tempList.size()>0) 
+				{
+					StringBuffer sb=new StringBuffer();
+					for(int i=0;i<tempList.size();i++)
+					{
+						TechFamily techFamily=tempList.get(i);
+						String str=techFamily.getTypeName();
+						if(i>0)
+						{
+							sb.append(",");
+						}
+						sb.append(str);
+					}
+					technicalFieldName=sb.toString();
+				}
+				
+			}
+		}
+		record.setTechnicalFieldName(technicalFieldName);
 		return zjkBaseMapper.insert(record);
 	}
 	
@@ -344,6 +378,24 @@ public class ExpertServiceImpl implements IExpertService {
 	}
 	
 	
+	
+	/**
+	     * 获取专家个数
+	*/
+	public Integer getZjkBaseCount()throws Exception
+	{
+		Map map=new HashMap(); 
+		map.put("delStatus", "0");
+		//map.put("useStatus", "0");
+		List<ZjkBase> list = zjkBaseMapper.getList(map);
+		int count=0;
+		if(list!=null && list.size()>0)
+		{
+			count=list.size();
+		}
+		return count;
+	}
+
 	
 	
 	/**

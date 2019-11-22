@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.researchplatform.PlatformAchievementMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.researchplatform.PlatformAchievementModel">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="platform_id" jdbcType="VARCHAR" property="platformId"/>
+        <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
+        <result column="achievement_name" jdbcType="VARCHAR" property="achievementName"/>
+        <result column="achievement_type" jdbcType="DECIMAL" property="achievementType"/>
+        <result column="applicant_unit" jdbcType="VARCHAR" property="applicantUnit"/>
+        <result column="applicant_year" jdbcType="VARCHAR" property="applicantYear"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id,
+        platform_id,
+        base_id,
+        achievement_name,
+        achievement_type,
+        applicant_unit,
+        applicant_year,
+        deleted,
+        create_user,
+        create_date,
+        update_user,
+        update_date
+       </sql>
+
+    <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"/> from kypt_achievement where id = #{id} and deleted != '1'
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"/> from kypt_achievement where 1=1 and platform_id = #{platformId}
+            and deleted != '1'
+    </select>
+
+
+    <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformTreatiseModel">
+        insert into kypt_achievement(id,platform_id,base_id,achievement_name,achievement_type,applicant_unit,applicant_year,deleted,create_user,create_date,update_date,update_user)
+         values(#{id},#{platformId},#{baseId},#{achievementName},#{achievementType},#{applicantUnit},#{applicantYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator})
+    </insert>
+
+    <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
+        update kypt_achievement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="achievementName != null and achievementName != '' " >
+                achievement_name = #{achievementName},
+            </if>
+            <if test="achievementType != null and achievementType != '' " >
+                achievement_type = #{achievementType},
+            </if>
+            <if test="applicantUnit != null and applicantUnit != ''" >
+                applicant_unit = #{applicantUnit},
+            </if>
+            <if test="applicantYear != null and applicantYear != ''" >
+                applicant_year = #{applicantYear},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <insert id="batchSave" parameterType="java.util.List">
+        insert into kypt_achievement(id,platform_id,base_id,achievement_name,achievement_type,applicant_unit,applicant_year,deleted,create_user,create_date,update_date,update_user) values
+        <foreach collection="list" item="ka" separator=",">
+            (#{ka.id},#{ka.platformId},#{ka.baseId},#{ka.achievementName},#{ka.achievementType},#{ka.applicantUnit},#{ka.applicantYear},#{ka.deleted},#{ka.creator},#{ka.createDate},#{ka.updateDate},#{ka.updator})
+        </foreach>
+    </insert>
+
+    <update id="delete" parameterType="java.lang.String">
+            update kypt_achievement set deleted = '1' where id = #{id}
+    </update>
+</mapper>

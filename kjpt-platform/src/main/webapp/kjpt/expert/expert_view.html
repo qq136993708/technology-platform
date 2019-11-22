@@ -22,9 +22,9 @@
                     <ul class="text-list">
                         <li class="font16"><span class="label-text">职称：</span><span class="label-value" diy-form-value="titleStr"></span></li>
                         <li class="font16"><span class="label-text">职务：</span><span class="label-value" diy-form-value="post"></span></li>
-                        <li class="font16"><span class="label-text">技术领域：</span><span class="label-value" diy-form-value="technicalField"></span></li>
+                        <li class="font16"><span class="label-text">技术领域：</span><span class="label-value" diy-form-value="technicalFieldName"></span></li>
                         <li class="font16"><span class="label-text">学历：</span><span class="label-value" diy-form-value="educationStr"></span></li>
-                        <li class="font16"><span class="label-text">所在单位：</span><span class="label-value" diy-form-value="belongUnit">中核科技有限公司</span></li>
+                        <li class="font16"><span class="label-text">所在单位：</span><span class="label-value" diy-form-value="belongUnitStr">中核科技有限公司</span></li>
                     </ul>
                 </div>
             </div>
@@ -77,20 +77,20 @@
                     </div>
                 </div>
                 <div class="layui-tab-item">
-                    <!-- 相关项目 -->
-                    <table id="leadingFigure"></table>
+                    <!-- 项目 -->
+                    <table id="project"></table>
                 </div>
                 <div class="layui-tab-item">
                     <!-- 成果信息 -->
-                    <table id="tablePaper"></table>
+                    <table id="achievements"></table>
                 </div>
                 <div class="layui-tab-item">
                     <!-- 专利信息 -->
-                    <table id="teamMembers"></table>
+                    <table id="patent"></table>
                 </div>
                 <div class="layui-tab-item">
                     <!-- 奖励信息 -->
-                    <table id="mainAchievements"></table>
+                    <table id="reward"></table>
                 </div>
 
             </div>
@@ -106,7 +106,6 @@
         var form = layui.form,$ = layui.$,table = layui.table, element = layui.element;
         // 获取页面参数ID
         var variable = getQueryVariable();
-        console.log(variable)
         if(variable!=null){
             httpModule({
                 url: '/expert-api/get/'+variable.id,
@@ -117,11 +116,62 @@
                         relData.data.patent=JSON.parse(relData.data.zjkPatentJsonList).length
                         relData.data.project=JSON.parse(relData.data.zjkProjectJsonList).length
                         relData.data.reward=JSON.parse(relData.data.zjkRewardJsonList).length
-
                         setTargetNameValue(relData.data)
-                        console.log(relData)
                     }
                 }
+            });
+        }
+        var projectArr=[
+            {title: '序号',type:'numbers',width:55 },
+            {field: 'projectName', title: '项目名称'},
+            {field: 'chargeUnit', title: '负责单位'},
+            {field: 'researchTarget', title: '研究目标' },
+            {field: 'setupYeat', title: '立项年度'},
+        ]
+        tableRender('project',projectArr,'/expert-project-api/list',variable.id)
+        var achievementsArr=[
+            {title: '序号',type:'numbers',width:55 },
+            {field: 'achieveName', title: '成果名称'},
+            {field: 'applyUnit', title: '申请单位'},
+            {field: 'achieveType', title: '成果类别' },
+            {field: 'applyYear', title: '申请年度'},
+        ]
+        tableRender('achievements',achievementsArr,'/expert-achievement-api/list',variable.id)
+        var patentArr=[
+            {title: '序号',type:'numbers' ,width:55},
+            {field: 'projectName', title: '项目名称'},
+            {field: 'chargeUnit', title: '负责单位'},
+            {field: 'researchTarget', title: '研究目标' },
+            {field: 'setupYeat', title: '立项年度'},
+        ]
+        tableRender('patent',patentArr,'/expert-reward-api/list',variable.id)
+        var rewardArr=[
+            {title: '序号',type:'numbers',width:55 },
+            {field: 'rewarkLevel', title: '奖励级别'},
+            {field: 'notes', title: '奖励描述'},
+            {field: 'awardingUnit', title: '授奖单位' },
+            {field: 'awardingTimeStr', title: '获奖日期'},
+        ]
+        tableRender('reward',rewardArr,'/expert-project-api/list',variable.id)
+        function tableRender(id,cols,url,where) {
+            table.render({
+                elem: '#'+id // 表格元素ID
+                ,url:url //数据接口
+                ,height:commonDislodgeTable()
+                ,cols: [cols],
+                method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
+                where: {
+                    useID: 'admin' // 表格请求时传递的参数
+                    ,expertId:where
+                    //  默认请求参数 页码 => page, 每页条数 => limit
+                }
+                ,request: {
+                    page: 'pageIndex', // 重置默认分页请求请求参数 page => pageIndex
+                    limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+                }
+                , page: true //开启分页
+                , limit: 15
+                , limits: [15, 30, 45, 60], // 配置分页数据条数
             });
         }
 

@@ -1,4 +1,4 @@
-package com.pcitc.base.researchPlatform;
+package com.pcitc.base.researchplatform;
 
 import com.pcitc.base.common.RecordModel;
 

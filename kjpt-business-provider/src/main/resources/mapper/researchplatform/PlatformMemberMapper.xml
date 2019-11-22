@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.researchplatform.PlatformMemberMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.researchplatform.PlatformMemberModel">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="platform_id" jdbcType="VARCHAR" property="platformId"/>
+        <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="birth" jdbcType="DECIMAL" property="birth"/>
+        <result column="education" jdbcType="VARCHAR" property="education"/>
+        <result column="technical_title" jdbcType="VARCHAR" property="technicalTitle"/>
+        <result column="graduate_school" jdbcType="VARCHAR" property="graduateSchool"/>
+        <result column="major_studied" jdbcType="VARCHAR" property="majorStudied"/>
+        <result column="post_name" jdbcType="VARCHAR" property="postName"/>
+        <result column="assume_office" jdbcType="VARCHAR" property="assumeOffice"/>
+        <result column="role" jdbcType="VARCHAR" property="role"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id,
+        platform_id,
+        base_id,
+        name,
+        birth,
+        education,
+        technical_title,
+        graduate_school,
+        major_studied,
+        post_name,
+        assume_office,
+        work_unit,
+        role,
+        deleted,
+        create_user,
+        create_date,
+        update_user,
+        update_date
+       </sql>
+
+    <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"/> from kypt_member where id = #{id} and deleted != '1'
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"/> from kypt_member where 1=1 and platform_id = #{platformId}
+            and deleted != '1'
+    </select>
+
+
+    <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformMemberModel">
+        insert into kypt_member(id,platform_id,base_id,name,birth,education,technical_title,graduate_school,major_studied,post_name,assume_office,work_unit,role,deleted,create_date,create_user,update_date,update_user)
+         values(#{id},#{platformId},#{baseId},#{name},#{birth},#{education},#{technicalTitle},#{graduateSchool},#{majorStudied},#{postName},#{assumeOffice},#{workUnit},#{role},#{deleted},#{createDate},#{updateDate},#{updator})
+    </insert>
+
+    <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
+        update kypt_member
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="education != null and education != '' " >
+                education = #{education},
+            </if>
+            <if test="technicalTitle != null and technicalTitle != '' " >
+                technical_title = #{technicalTitle},
+            </if>
+            <if test="graduateSchool != null and graduateSchool != ''" >
+                graduate_school = #{graduateSchool},
+            </if>
+            <if test="majorStudied != null and majorStudied != ''" >
+                major_studied = #{majorStudied},
+            </if>
+            <if test="postName != null and postName != ''" >
+                post_name = #{postName},
+            </if>
+            <if test="assumeOffice != null and assumeOffice != ''" >
+                assume_office = #{assumeOffice},
+            </if>
+            <if test="workUnit != null and workUnit != ''" >
+                work_unit = #{workUnit},
+            </if>
+            <if test="role != null and role != ''" >
+                role = #{role},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.String">
+            update kypt_member set deleted = '1' where id = #{id}
+    </update>
+
+    <insert id="batchSave" parameterType="java.util.List">
+        insert into kypt_member(id,platform_id,base_id,name,birth,education,technical_title,graduate_school,major_studied,post_name,assume_office,work_unit,role,deleted,create_date,create_user,update_date,update_user) values
+        <foreach collection="list" item="km" separator=",">
+            (#{km.id},#{km.platformId},#{km.baseId},#{km.name},#{km.birth},#{km.education},#{km.technicalTitle},#{km.graduateSchool},#{km.majorStudied},#{km.postName},#{km.assumeOffice},#{km.workUnit},#{km.role},#{km.deleted},#{km.createDate},#{km.updateDate},#{km.updator})
+        </foreach>
+    </insert>
+
+</mapper>

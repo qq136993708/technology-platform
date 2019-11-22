@@ -33,9 +33,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">所在单位：</span></label>
                         <div class="layui-input-block">
-                            <select name="belongUnit" id="belongUnit">
-                                <option value=""></option>
-                            </select>
+                            <select name="belongUnit" xm-select="belongUnit" xm-select-skin="normal" xm-select-radio></select>
                         </div>
                     </div>
                 </div>
@@ -73,7 +71,9 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="text">职称：</span></label>
                         <div class="layui-input-block">
-                            <input type="text" name="title" id="title" placeholder="请输入专家职称" autocomplete="off" class="layui-input">
+                            <select name="title" id="title">
+                                <option value=""></option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -127,15 +127,15 @@
                         ,height:commonDislodgeTable()
                         ,cols: [[ //表头
                             {type: 'radio' },
-                            {title: '序号',type:'numbers' },
+                            {title: '序号',type:'numbers',width:55 },
                             {field: 'name', title: '姓名',templet: function(d){
                                     return ('<a href="./expert_view.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>')
                                 } },
                             {field: 'sexStr', title: '性别'},
-                            {field: 'title', title: '职称'},
+                            {field: 'titleStr', title: '职称'},
                             {field: 'educationStr', title: '学历' },
                             {field: 'belongUnitStr', title: '所在单位'},
-                            {field: 'technicalFieldStr', title: '专业领域'},
+                            {field: 'technicalFieldName', title: '专业领域'},
                             {field: 'contactWay', title: '联系方式'}
                         ]],
                         method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
@@ -161,8 +161,8 @@
         createElement("ROOT_UNIVERSAL_QYZT","useStatus","option","useStatus")
         /*学历*/
         createElement("ROOT_KJPT_XL","education","option","education")
-        /*所在单位*/
-        createElement("ROOT_KJPT_SZDW","belongUnit","option","belongUnit")
+        /*职称*/
+        createElement("ROOT_KJPT_ZWJB","title","option","title")
         /*动态生成元素*/
         function createElement(code,id,element,name) {
             httpModule({
@@ -194,6 +194,15 @@
                 })
                 formSelects.data('applaType3', 'local', { arr: relData.children });
                 formSelects.btns('applaType3', ['remove']);
+            }
+        });
+        /*所在单位*/
+        httpModule({
+            url: "/unit-api/getTreeList",
+            type: 'GET',
+            success: function(relData) {
+                formSelects.data('belongUnit', 'local', { arr: relData.children });
+                formSelects.btns('belongUnit', ['remove']);
             }
         });
         form.on('submit(newSubmit)', function(data) {

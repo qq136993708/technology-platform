@@ -7,13 +7,15 @@ import java.util.Set;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.xml.ws.RequestWrapper;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,18 +26,47 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.HostUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
-import com.pcitc.web.common.SessionShare;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
 
 	@Autowired
 	private HttpHeaders httpHeaders;
+	
+	@Autowired
+	private WebApplicationContext applicationContext;
+	
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
-			System.out.println("TokenInterceptor--------------"+request.getRequestURI()+"======="+request.getRemoteAddr());
+			
+			    System.out.println(">>>>>>>>用户请求的URL："+request.getRequestURI());
+			    System.out.println(">>>>>>>>用户请求的IP："+request.getRemoteAddr());
+			    if(handler instanceof HandlerMethod)
+			    {
+			        HandlerMethod method = (HandlerMethod)handler;
+			        //System.out.println("用户想执行的操作是:"+method.getMethodAnnotation(MyOperation.class).value());
+			        
+			        ApiOperation  apiOperation =method.getMethodAnnotation(ApiOperation.class);
+			        if(apiOperation!=null)
+			        {
+			        	  System.out.println("用户想执行的操作是--------------"+apiOperation.value());
+			        }
+			        
+			        RequestMapping annotation = method.getMethodAnnotation(RequestMapping.class);
+	                //获取当前请求接口中的name属性
+	                String name = annotation.name();
+	              
+			        System.out.println(">>>>>>>>用户请求的类："+method.getMethod().getDeclaringClass().getName());
+			        System.out.println(">>>>>>>用户请求的方法："+method.getMethod().getName());
+			        
+			    }
+				
+			
 			String path = request.getRequestURI();
 			/*
 			 * if(!doLoginInterceptor(path, basePath) ){//是否进行登陆拦截 return true;
