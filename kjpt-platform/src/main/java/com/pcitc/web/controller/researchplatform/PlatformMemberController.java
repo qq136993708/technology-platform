@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -61,14 +62,17 @@ public class PlatformMemberController extends RestBaseController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer", paramType = "query"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示条数", dataType = "Integer", paramType = "query"),
-            @ApiImplicitParam(name = "platformId", value = "平台ID", dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "platformId", value = "平台ID", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "role", value = "角色", dataType = "string", paramType = "query")
     })
     @RequestMapping(value = "/researchPlatformMember-api/query", method = RequestMethod.GET)
     @ResponseBody
     public PageInfo query(
             @RequestParam(required = false,value = "pageNum") Integer pageNum,
             @RequestParam(required = false,value = "pageSize") Integer pageSize,
-            @RequestParam(value = "platformId") String platformId
+            @RequestParam(required = false,value = "platformId") String platformId,
+            @RequestParam(required = false,value = "role") String role
+
 
     ) {
         Map<String, Object> condition = new HashMap<>(6);
@@ -83,6 +87,9 @@ public class PlatformMemberController extends RestBaseController {
             this.setParam(condition, "pageSize", pageSize);
         }
         this.setParam(condition,"platformId",platformId);
+        if (!StringUtils.isEmpty(role)) {
+            this.setParam(condition, "role", role);
+        }
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);
         return responseEntity.getBody();

@@ -32,6 +32,9 @@ public class PlatformTreatiseModel extends RecordModel implements Serializable {
      * 论文级别
      */
     private String thesisLevel="";
+
+    private String thesisLevelText="";
+
     /**
      * 期刊名称
      */
@@ -107,5 +110,13 @@ public class PlatformTreatiseModel extends RecordModel implements Serializable {
 
     public void setThesisYear(String thesisYear) {
         this.thesisYear = thesisYear;
+    }
+
+    public String getThesisLevelText() {
+        return thesisLevelText;
+    }
+
+    public void setThesisLevelText(String thesisLevelText) {
+        this.thesisLevelText = thesisLevelText;
     }
 }
