@@ -62,6 +62,7 @@ public class PlatformController extends RestBaseController {
             @ApiImplicitParam(name = "supportingInstitutions", value = "依托单位", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "personLiable", value = "主要负责人", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "researchField", value = "科研经费", dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "level", value = "平台级别", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "platformScorinHigh", value = "平台评分区间高", dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "platformScorinLow", value = "平台评分区间低", dataType = "string", paramType = "query")
     })
@@ -74,6 +75,7 @@ public class PlatformController extends RestBaseController {
             @RequestParam(required = false,value = "supportingInstitutions") String supportingInstitutions,
             @RequestParam(required = false,value = "personLiable") String personLiable,
             @RequestParam(required = false,value = "researchField") String researchField,
+            @RequestParam(value = "level") String level,
             @RequestParam(required = false,value = "platformScorinHigh") String platformScorinHigh,
             @RequestParam(required = false,value = "platformScorinLow") String platformScorinLow
 
@@ -106,6 +108,9 @@ public class PlatformController extends RestBaseController {
         }
         if (!StringUtils.isEmpty(platformScorinLow)) {
             this.setParam(condition, "platformScorinLow", platformScorinLow);
+        }
+        if (!StringUtils.isEmpty(level)) {
+            this.setParam(condition, "level", level);
         }
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PageInfo> responseEntity = this.restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<Map>(condition, this.httpHeaders), PageInfo.class);

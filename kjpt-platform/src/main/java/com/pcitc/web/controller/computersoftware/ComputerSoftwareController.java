@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -81,7 +82,8 @@ public class ComputerSoftwareController extends RestBaseController {
             @RequestParam(required = false, value = "softwareName") String softwareName,
             @RequestParam(required = false, value = "copyrightOwner") String copyrightOwner,
             @RequestParam(required = false, value = "versionNumber") String versionNumber,
-            @RequestParam(required = false, value = "recordDate") String recordDate,
+            @RequestParam(required = false, value = "recordDateStart") @DateTimeFormat(pattern="yyyy-MM-dd") Date recordDateStart,
+            @RequestParam(required = false, value = "recordDateEnd") @DateTimeFormat(pattern="yyyy-MM-dd") Date recordDateEnd,
             @RequestParam(required = false, value = "developFinishDate") String developFinishDate,
             @RequestParam(required = false, value = "softwareIntro") String softwareIntro,
             @RequestParam(required = false, value = "entryPeople") String entryPeople,
@@ -116,8 +118,11 @@ public class ComputerSoftwareController extends RestBaseController {
         if (!StringUtils.isEmpty(versionNumber)) {
             this.setParam(condition, "versionNumber", versionNumber);
         }
-        if (!StringUtils.isEmpty(recordDate)) {
-            this.setParam(condition, "recordDate", recordDate);
+        if (recordDateStart != null) {
+            this.setParam(condition, "recordDateStart", recordDateStart);
+        }
+        if (recordDateEnd != null) {
+            this.setParam(condition, "recordDateEnd", recordDateEnd);
         }
         if (!StringUtils.isEmpty(developFinishDate)) {
             this.setParam(condition, "developFinishDate", developFinishDate);
@@ -170,6 +175,7 @@ public class ComputerSoftwareController extends RestBaseController {
         p.setDeleted("0");  //删除标识
         p.setCreateDate(new Date());  // 创建时间
         p.setCreator(this.getUserProfile().getUserName());
+        p.setEntryTime(new Date());
         return p;
     }
 
