@@ -194,7 +194,11 @@ function httpModule(config) {
 						return JSON.stringify(switchHttpData(JSON.parse(data)));
 					} catch (err) {
 						if (!data) {
-							console.log(err);
+							return JSON.stringify({
+								code: '-1',
+								data: 'error',
+								message: '请求接口异常，后台报错，但不返回值'
+							})
 						}
 					}
 				} else {

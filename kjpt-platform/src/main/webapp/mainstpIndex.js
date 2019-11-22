@@ -65,4 +65,17 @@ layui.use(['element', 'jquery'], function() {
     thisWeekChart.resize();
   });
 
+
+  function getItemValue(url, id) {
+    // 
+    httpModule({
+      url: url,
+      success: function(res) {
+        if (res.success) { $(id).text(res.data) }
+      }
+    });
+  }
+
+  getItemValue('/expert-api/getZjkBaseCount', '#expertNumber');
+
 });

@@ -5,6 +5,15 @@ layui.use(['form', 'table', 'layer'], function(){
   var table = layui.table;
   var layer = layui.layer;
 
+  var variable = getQueryVariable();
+  if (variable && variable.level) {
+    form.val('patentFormDemo', {level: variable.level});
+    $('[form-label-item="level"]').remove();
+  } else {
+    $('#opations-btn, [form-label-item="unlevel"]').remove();
+  }
+
+
   //表格渲染
   var itemRowData = null; // 选中行的数据
   var tableRender = false;
@@ -53,7 +62,7 @@ layui.use(['form', 'table', 'layer'], function(){
   $('[lay-filter="formDemo"]').click();
 
 
-  function openDataDilog(type) {
+  function openDataDilog(value, ID) {
 	  var dialogTitle = '添加平台';
 	  if (type === 'edit') {
 		  dialogTitle = '编辑平台'; 
@@ -64,7 +73,7 @@ layui.use(['form', 'table', 'layer'], function(){
       type: 2,
       title: dialogTitle,
       area: ['880px', '70%'],
-		  content: '/html/scientificPlatform/addPlatformDialog.html?id='+type,
+		  content: '/html/scientificPlatform/addPlatformDialog.html?level='+value+'&id='+ID,
 		  btn: null,
 		  end: function() {
         var relData = getDialogData('dialog-data');
@@ -77,12 +86,12 @@ layui.use(['form', 'table', 'layer'], function(){
 				  }
 			  }
 		  }
-	});
+	  });
   }
   
   // 新增平台
   $('#addItem').on('click', function(e) {
-	  openDataDilog();
+	  openDataDilog(variable.level);
   })
   
   // 表格行被选中
@@ -93,7 +102,7 @@ layui.use(['form', 'table', 'layer'], function(){
   // 编辑平台
   $('#editItem').on('click', function(e) {
 	if (itemRowData) {
-		openDataDilog(itemRowData.id);
+		openDataDilog(variable.level, itemRowData.id);
     } else {
     	layer.msg('请选择需要编辑的平台！');
     }

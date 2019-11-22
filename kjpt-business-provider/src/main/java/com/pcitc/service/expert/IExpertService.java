@@ -56,7 +56,7 @@ public interface IExpertService {
 	
 	
 	
-	
+	public int insertBatch(List<ZjkBase> list)throws Exception;
 	
 	
 	

@@ -73,6 +73,9 @@
             <if test="platformScorinLow != null and platformScorinLow != '' " >
                 and platform_scoring &gt;= #{platformScorinLow}
             </if>
+            <if test="level != null and level != '' " >
+                and level = #{level}
+            </if>
             and deleted != '1'
     </select>
 

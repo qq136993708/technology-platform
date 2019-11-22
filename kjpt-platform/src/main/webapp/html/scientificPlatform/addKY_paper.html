@@ -25,7 +25,7 @@
 	<!-- 关联添加 -->
 	<div class="unInput-layout-box">
 		<div class="layui-form-item">
-			<label class="layui-form-label label-required auto"><span class="text">项目名称：</span></label>
+			<label class="layui-form-label label-required auto"><span class="text">论文名称：</span></label>
 			<div class="layui-input-inline">
 				<input type="text" id="projectName" autocomplete="off" class="layui-input">
 			</div>
@@ -40,9 +40,9 @@
 			<div class="layui-row layui-col-space20">
 				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 					<div class="layui-form-item">
-						<label class="layui-form-label label-required"><span class="text">项目名称：</span></label>
+						<label class="layui-form-label label-required"><span class="text">论文名称：</span></label>
 						<div class="layui-input-block">
-							<input type="text" name="projectName" lay-verify="required"
+							<input type="text" name="thesisTitle" lay-verify="required"
 								placeholder="" autocomplete="off" class="layui-input">
 						</div>
 					</div>
@@ -50,30 +50,29 @@
 
 				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 					<div class="layui-form-item">
-						<label class="layui-form-label label-required"><span class="text">专业类别：</span></label>
+						<label class="layui-form-label"><span class="text">刊物或出版社名称：</span></label>
 						<div class="layui-input-block">
-							<select name="majorType" lay-verify="required"
-								dic-base-data="ROOT_KJPT_ZYLB" placeholder="请选择"></select>
+							<input type="text" name="journalTitle"
+								placeholder="请输入" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 				</div>
 				
 				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 					<div class="layui-form-item">
-						<label class="layui-form-label label-required"><span class="text">负责单位：</span></label>
-						<div class="layui-input-block">
-							<select name="responsibleUnit" lay-verify="required" xm-select-radio=""
-								xm-select="responsibleUnit" xm-select-skin="normal" dic-base-data="ROOT_KJPT_YTDW"></select>
+						<label class="layui-form-label label-required"><span class="text">作者：</span></label>
+						<div class="layui-input-block">  
+							<input type="text" name="thesisAuthor" lay-verify="required"
+								placeholder="请输入" autocomplete="off" class="layui-input">
 						</div>
 					</div>
 				</div>
 
 				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 					<div class="layui-form-item">
-						<label class="layui-form-label"><span class="text">立项年度：</span></label>
+						<label class="layui-form-label label-required"><span class="text">发表时间：</span></label>
 						<div class="layui-input-block">
-							<input type="text" name="approvalYear" id="approvalYear"
-								placeholder="请填写..." autocomplete="off" class="laydate-input">
+							<input type="text" name="thesisYear" id="thesisYear" autocomplete="off" class="laydate-input">
 						</div>
 					</div>
 				</div>
@@ -101,6 +100,6 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
-<script src="addKY_project.js"></script>
+<script src="addKY_paper.js"></script>
 </body>
 </html>
