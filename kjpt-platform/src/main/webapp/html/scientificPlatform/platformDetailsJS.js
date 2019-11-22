@@ -133,6 +133,20 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'applicantYear', title: '申请年度'}
       ]]
     });
+
+    // 主要专利
+    addTableData({
+      id: 'mainPatent',
+      url: '/researchPlatformPatent-api/query',
+      cols: [[ //表头
+        {type: 'radio', field: 'id'}
+        ,{type: 'numbers', title: '序号', width: 80}
+        ,{field: 'patentName', title: '专利名称', sort: true }
+        ,{field: 'patentType', title: '专利类型', sort: true}
+        ,{field: 'applicationDate', title: '申请日期'} 
+        ,{field: 'remark', title: '描述'}
+      ]]
+    });
   }
 
   var tableFilterArr = [
@@ -141,7 +155,9 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     {tableId: 'leadingFigure', title: '领军人物'},
     {tableId: 'tablePaper', title: '论文'},
     {tableId: 'teamMembers', title: '成员'},
-    {tableId: 'mainAchievements', title: '成果'}
+    {tableId: 'mainAchievements', title: '成果'},
+    {tableId: 'mainPatent', title: '专利'}
+    
   ];
   var activeTab = 0;
   // 监控tab签切换
@@ -220,6 +236,8 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         deleteUrl = '/platformTreatise-api/delete/';
       } else if (activeTab == 5) {
         deleteUrl = '/researchPlatformAchievement-api/delete/';
+      } else if (activeTab == 6) {
+        deleteUrl = '/researchPlatformPatent-api/delete/';
       }
 
       httpModule({
