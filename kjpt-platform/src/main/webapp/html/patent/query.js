@@ -80,7 +80,9 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 		  content: url,
 		  btn: null,
 		  end: function() {
-        var relData = getDialogData('dialog-data');
+       
+        var relData = getDialogData('dialog-data'); 
+
 			  if (relData) {
 				  if (relData.code === '0') {
             layer.msg(dialogTitle+'成功!', {icon: 1});
@@ -88,7 +90,8 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 				  } else {
 					  layer.msg(relData.message, {icon: 2});
 				  }
-			  }
+        }
+         
 		  }
 	});
   }
@@ -100,8 +103,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   
   // 表格行被选中
   table.on('radio(tableDemo)', function(obj){
-	  itemRowData = obj.data;
-    console.log(obj)
+	  itemRowData = obj.data; 
   });
   // 编辑
   $('#editItem').on('click', function(e) {
@@ -124,11 +126,11 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
   // 删除
   $('#delItem').on('click', function(e) {
     if (itemRowData) {
-		layer.confirm('您确定要删除”'+itemRowData.platformName+'“吗？', {icon: 3, title:'删除提示'}, function(index){
+		layer.confirm('您确定要删除”'+itemRowData.patentName+'“吗？', {icon: 3, title:'删除提示'}, function(index){
 		  layer.close(index);
       // 确认删除
       httpModule({
-        url: '/platform-api/delete/' + itemRowData.id,
+        url: '/patentController/delete/' + itemRowData.id,
         type: 'DELETE',
         success: function(relData) {
           if (relData.code === '0') {

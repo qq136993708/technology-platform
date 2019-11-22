@@ -256,6 +256,9 @@ layui.define("layer", function(e) {
         }), t.elem.data("haveEvents") || (e.elemFile.on("change", function() {
             i(this).trigger("upload.change")
         }), t.elem.on("click", function() {
+            if ($(this).attr('disabled')) {
+                return false;
+            }
             e.isFile() || i(this).trigger("upload.start")
         }), t.drag && t.elem.on("dragover", function(e) {
             e.preventDefault(), i(this).trigger("upload.over")

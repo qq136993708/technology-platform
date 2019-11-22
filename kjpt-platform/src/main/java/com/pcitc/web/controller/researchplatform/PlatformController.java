@@ -1,7 +1,7 @@
 package com.pcitc.web.controller.researchplatform;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
+import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -116,6 +116,7 @@ public class PlatformController extends RestBaseController {
     @RequestMapping(value = "/platform-api/save", method = RequestMethod.POST)
     @ResponseBody
     public PlatformInfoModel save(@RequestBody PlatformInfoModel pm) {
+        this.setBaseData(pm);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PlatformInfoModel> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<PlatformInfoModel>(pm, this.httpHeaders), PlatformInfoModel.class);
         return responseEntity.getBody();
@@ -130,13 +131,14 @@ public class PlatformController extends RestBaseController {
     }
 
     @ApiOperation(value="初始化")
-    @RequestMapping(value = "/platform-api/newInit", method = RequestMethod.GET)
+    @RequestMapping(value = "/platform-api/newInit/{level}", method = RequestMethod.GET)
     @ResponseBody
-    public PlatformInfoModel newInit() {
+    public PlatformInfoModel newInit(@PathVariable String level) {
         PlatformInfoModel p = new PlatformInfoModel();
         p.setId(UUID.randomUUID().toString().replace("-",""));
         p.setCreateDate(new Date());
         p.setCreator(this.getUserProfile().getUserName());
+        p.setLevel(level);
         p.setPlatformScoring("0");
         p.setResearchFunds("0");
         p.setDeleted("0");

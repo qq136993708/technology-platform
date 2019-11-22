@@ -1,5 +1,6 @@
 package com.pcitc.mapper.patent;
 
+import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.patent.PatentInfoExample;
 import org.apache.ibatis.annotations.Param;
 

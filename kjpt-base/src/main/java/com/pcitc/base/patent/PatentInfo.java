@@ -146,7 +146,7 @@ public class PatentInfo implements Serializable {
     /**
      * 附件上传
      */
-    private String file;
+    private String files;
 
     /**
      * 数据创建人
@@ -421,12 +421,12 @@ public class PatentInfo implements Serializable {
         this.assignProfit = assignProfit;
     }
 
-    public String getFile() {
-        return file;
+    public String getFiles() {
+        return files;
     }
 
-    public void setFile(String file) {
-        this.file = file;
+    public void setFiles(String files) {
+        this.files = files;
     }
 
     public String getCreator() {
@@ -556,7 +556,7 @@ public class PatentInfo implements Serializable {
                 && (this.getLicenseeProfit() == null ? other.getLicenseeProfit() == null : this.getLicenseeProfit().equals(other.getLicenseeProfit()))
                 && (this.getAssignor() == null ? other.getAssignor() == null : this.getAssignor().equals(other.getAssignor()))
                 && (this.getAssignProfit() == null ? other.getAssignProfit() == null : this.getAssignProfit().equals(other.getAssignProfit()))
-                && (this.getFile() == null ? other.getFile() == null : this.getFile().equals(other.getFile()))
+                && (this.getFiles() == null ? other.getFiles() == null : this.getFiles().equals(other.getFiles()))
                 && (this.getCreator() == null ? other.getCreator() == null : this.getCreator().equals(other.getCreator()))
                 && (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate()))
                 && (this.getUpdateDate() == null ? other.getUpdateDate() == null : this.getUpdateDate().equals(other.getUpdateDate()))
@@ -595,7 +595,7 @@ public class PatentInfo implements Serializable {
         result = prime * result + ((getLicenseeProfit() == null) ? 0 : getLicenseeProfit().hashCode());
         result = prime * result + ((getAssignor() == null) ? 0 : getAssignor().hashCode());
         result = prime * result + ((getAssignProfit() == null) ? 0 : getAssignProfit().hashCode());
-        result = prime * result + ((getFile() == null) ? 0 : getFile().hashCode());
+        result = prime * result + ((getFiles() == null) ? 0 : getFiles().hashCode());
         result = prime * result + ((getCreator() == null) ? 0 : getCreator().hashCode());
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
         result = prime * result + ((getUpdateDate() == null) ? 0 : getUpdateDate().hashCode());
@@ -637,7 +637,7 @@ public class PatentInfo implements Serializable {
         sb.append(", licenseeProfit=").append(licenseeProfit);
         sb.append(", assignor=").append(assignor);
         sb.append(", assignProfit=").append(assignProfit);
-        sb.append(", file=").append(file);
+        sb.append(", file=").append(files);
         sb.append(", creator=").append(creator);
         sb.append(", createDate=").append(createDate);
         sb.append(", updateDate=").append(updateDate);

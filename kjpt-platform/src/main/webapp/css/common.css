@@ -350,9 +350,12 @@ dd[xm-tree-hidn] > .x-tree-item-parent > .x-tree-icon::before {
   position: absolute;
   height: 100%;
   overflow: hidden;
-  width: 0;
   background-color: rgba(0, 0, 0, 0);
   transition: all .24s ease-out;
+  top: 0;
+  right: 0;
+  width: 100%;
+  visibility: hidden;
 }
 .img-view-block .file-img-del .del {
   display: inline-block;
@@ -364,6 +367,6 @@ dd[xm-tree-hidn] > .x-tree-item-parent > .x-tree-icon::before {
   cursor: pointer;
 }
 .img-view-block.success:hover .file-img-del {
-  width: 72px;
-  background-color: rgba(0, 0, 0, .1);
+  background-color: rgba(0, 0, 0, .35);
+  visibility: visible;
 }

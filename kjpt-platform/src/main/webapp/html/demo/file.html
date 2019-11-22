@@ -79,9 +79,14 @@ setFileUpload({
   &lt;/div>
   &lt;span class="file-img-del middle-block">&lt;span class="del" label="imgDelete">删除&lt;/span>&lt;/span>
 &lt;/div>
+
+&lt;!-- 图片展示 '/file/imgFile/' + 图片ID -->
+&lt;img src="/file/imgFile/{{imgID}}" alt="">
+
 &lt;!-- 必须引入 fileUpload.js 在common.js后面引入 -->
 &lt;script src="/layuiadmin/js/fileUpload.js">&lt;/script>
 </code><code class="language-javascript">
+// 绑定图片上传组件
 setImagesUpload({
   id: '#imgFileUpload', // 图片作用域的ID
   callback: function (data, type) {
@@ -90,6 +95,14 @@ setImagesUpload({
     // 如果type === 'delete'  data则为null
   }
 });
+
+// 控制图片上传状态
+setImagesUploadState({
+  imgID: '', // 图片ID，有则直接显示图片
+  disabled: boolean, // 设置上传组件是否可用
+})
+
+
 </code></pre>
 </div>
 

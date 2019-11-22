@@ -1,4 +1,4 @@
-package com.pcitc.base.researchPlatform;
+package com.pcitc.base.researchplatform;
 
 import com.pcitc.base.common.RecordModel;
 
@@ -19,47 +19,47 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
     /**
      * 平台名称
      */
-    private String platformName;
+    private String platformName="";
     /**
      * 研究领域
      */
-    private String researchField;
+    private String researchField="";
     /**
      * 依托单位
      */
-    private String supportingInstitutions;
+    private String supportingInstitutions="";
     /**
      * 科研经费
      */
-    private String researchFunds;
+    private String researchFunds="";
     /**
      * 平台介绍
      */
-    private String platformIntroduction;
+    private String platformIntroduction="";
     /**
      * 主要负责人
      */
-    private String personLiable;
+    private String personLiable="";
     /**
      * 平台类型
      */
-    private String type;
+    private String type="";
     /**
      * 科研团队介绍
      */
-    private String teamIntroduction;
+    private String teamIntroduction="";
     /**
      * 科研整体情况
      */
-    private String overallSituation;
+    private String overallSituation="";
     /**
      * 平台评分
      */
-    private String platformScoring;
+    private String platformScoring="";
     /**
      * 平台等级
      */
-    private String level;
+    private String level="";
 
 
     public String getId() {

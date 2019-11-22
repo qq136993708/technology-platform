@@ -16,8 +16,9 @@
     <result column="patent_types" jdbcType="VARCHAR" property="patentTypes" />
     <result column="patent_ranking" jdbcType="VARCHAR" property="patentRanking" />
     <result column="application_effect" jdbcType="VARCHAR" property="applicationEffect" />
-    <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
-    <result column="patent_type_str" jdbcType="VARCHAR" property="patentTypeStr" />
+    <result column="out_system_id"       jdbcType="VARCHAR" property="outSystemId" />
+    <result column="patent_type_str"     jdbcType="VARCHAR" property="patentTypeStr" />
+    <result column="get_patent_time_str" jdbcType="VARCHAR" property="getPatentTimeStr" />
     
     
   </resultMap>
@@ -221,7 +222,7 @@
   
   
     <sql id="view_zjk_patent">
-     SELECT t1.*,
+     SELECT t1.*, DATE_FORMAT(t1.`get_patent_time`,'%Y-%m-%d') get_patent_time_str,
       ( 
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZLZL'
           AND t2.`code`=t1.`patent_type`
@@ -276,7 +277,7 @@
   
   
     <select id="getListByExpertId" resultMap="BaseResultMap" parameterType="java.lang.String">
-     select * from zjk_patent t where  expert_id = #{expertId,jdbcType=VARCHAR}
+     select * from (<include refid="view_zjk_patent" />) t where  expert_id = #{expertId,jdbcType=VARCHAR}
    </select>
    
    

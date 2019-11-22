@@ -2,7 +2,6 @@ package com.pcitc.web.controller.scientificplan;
 
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
 import com.pcitc.base.scientificplan.YearSummary;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
@@ -23,6 +22,7 @@ import java.util.UUID;
 
 @Api(value = "yearSummary-api", description = "年度总结接口")
 @RestController
+@RequestMapping(value = "/YearSummary")
 public class YearSummaryApiController extends RestBaseController {
 
 

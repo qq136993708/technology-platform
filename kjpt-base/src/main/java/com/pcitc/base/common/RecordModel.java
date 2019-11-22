@@ -15,11 +15,11 @@ public class RecordModel implements Serializable {
 	//修改人
 	private String updator;
 	//创建时间
-	private Date createDate;
+	private Date createDate=new Date();
 	//修改时间
-	private Date updateDate;
+	private Date updateDate=new Date();
 	//删除标识
-	private String deleted;
+	private String deleted = "0";
 
 	public String getUpdator() {
 		return updator;

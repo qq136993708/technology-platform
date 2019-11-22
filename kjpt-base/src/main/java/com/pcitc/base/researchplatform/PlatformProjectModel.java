@@ -1,4 +1,4 @@
-package com.pcitc.base.researchPlatform;
+package com.pcitc.base.researchplatform;
 
 import com.pcitc.base.common.RecordModel;
 
@@ -19,27 +19,27 @@ public class PlatformProjectModel extends RecordModel implements Serializable {
     /**
      * 对应的平台ID
      */
-    private String platformId;
+    private String platformId="";
     /**
      * 系统中的项目表的主键ID
      */
-    private String baseId;
+    private String baseId="";
     /**
      * 项目名称
      */
-    private String projectName;
+    private String projectName="";
     /**
      * 专业类型
      */
-    private String majorType;
+    private String majorType="";
     /**
      * 负责单位
      */
-    private String dutyInstitutions;
+    private String dutyInstitutions="";
     /**
      * 立项年度
      */
-    private String approvalYear;
+    private String approvalYear="";
 
     public String getId() {
         return id;

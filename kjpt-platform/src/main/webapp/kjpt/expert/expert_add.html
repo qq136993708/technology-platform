@@ -19,6 +19,7 @@
         .expert-ul li{height: 30px;line-height: 30px;background-color: #e6f7ff;color: #1890ff;margin-left: 10px;
         float: left;margin-bottom: 10px;}
         .expert-ul li.expert-li-last{background: none;margin: 0;padding: 0;height: 31px;line-height: 31px;}
+        .img-view-block{height: 90px;}
     </style>
 </head>
 <body class="">
@@ -111,27 +112,29 @@
 
             <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                 <!--头像上传-->
-                <!--<div class="layui-form-item">
+                <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">头像上传:</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="platformName"
-                               placeholder="" autocomplete="off" class="layui-input">
+                    <div class="img-view-block middle-block" id="imgFileUpload">
+                        <img src="" alt="请选择图片上传" />
+                        <div class="file-img-btn" label="imgUpload" >
+                            <span class="btn-icon"></span>
+                            <span class="btn-text">点击此区域上传照片</span>
+                        </div>
+                        <span class="file-img-del middle-block"><span class="del" label="imgDelete">删除</span></span>
                     </div>
-                </div>-->
+                </div>
                 <!--所在单位-->
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required"><span class="text">所在单位:</span></label>
                     <div class="layui-input-block">
-                        <select name="belongUnit" id="belongUnit">
-                            <option value=""></option>
-                        </select>
+                        <select name="belongUnit" xm-select="belongUnit" xm-select-skin="normal" xm-select-radio></select>
                     </div>
                 </div>
                 <!--技术领域-->
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">技术领域:</span></label>
                     <div class="layui-input-block">
-                        <select name="technicalField" xm-select="applaType3" xm-select-skin="normal"></select>
+                        <select name="technicalField" xm-select="technicalField"  xm-select-skin="normal"></select>
                         <!--<input type="text" name="technicalField"
                                placeholder="" autocomplete="off" class="layui-input">-->
                     </div>
@@ -217,235 +220,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
-<script>
-    layui.config({
-        base: '/layuiadmin/lib/extend/' //静态资源所在路径
-    }).extend({
-        enhanceform: 'enhanceform'
-    }).use(['form', 'jquery','laydate','enhanceform','formSelects'], function(){
-        var $ = layui.jquery,form = layui.form,laydate = layui.laydate,enhanceForm = layui.enhanceform,formSelects=layui.formSelects;
-        var achieveName=[],projectName=[],patentName=[],rewardName=[]
-        var enhance = new enhanceForm({
-            elem: '#formPlatform' //表单选择器
-        });
-        /*性别*/
-        createElement("ROOT_KJPT_XB","sex","radio","sex")
-        /*状态*/
-        createElement("ROOT_UNIVERSAL_QYZT","useStatus","radio","useStatus")
-        /*学历*/
-        createElement("ROOT_KJPT_XL","education","option","education")
-        /*所在单位*/
-        createElement("ROOT_KJPT_SZDW","belongUnit","option","belongUnit")
-        /*职称*/
-        createElement("ROOT_KJPT_ZWJB","title","option","title")
-        /*出生年*/
-        laydate.render({
-            elem: '#appDate', //指定元素
-            type:"year"
-        });
-        /*动态生成元素*/
-        function createElement(code,id,element,name) {
-            httpModule({
-                url: "/sysDictionary-api/getChildsListByCode/"+code,
-                type: 'GET',
-                success: function(relData) {
-                    if (relData.success === true) {
-                        relData.data.map(function(item){
-                            if(element=="option"){
-                                $("#"+id).append("<option value='"+item.code+"' name='"+name+"'>"+item.name+"</option>")
-                            }else if(element=="radio"){
-                                $("#"+id).append('<input type="radio" name="'+name+'" value="'+item.numValue+'" title="'+item.name+'">')
-                            }
-                        });
-                        form.render()
-                    }
-                }
-            });
-        }
-        // 获取地址栏传递过来的参数
-        var variable = getQueryVariable();
-        /*判断id，回显*/
-        if(variable!=null){
-            httpModule({
-                url: '/expert-api/get/'+variable.id,
-                type: 'GET',
-                success: function(relData) {
-                    if (relData.success === true) {
-                        // 给form表单赋初始值
-
-                        console.log(relData.data)
-                        form.val('formPlatform', relData.data);
-                        enhance.setRadioVal("sex",relData.data.sex)
-                        enhance.setRadioVal("useStatus",relData.data.useStatus)
-                        enhance.setSelectVal("belongUnit",relData.data.belongUnit,"true")
-                        enhance.setSelectVal("post",relData.data.post,"true")
-                        enhance.setSelectVal("education",relData.data.education,"true")
-                        enhance.setSelectVal("applaType3",relData.data.applaType3,"true")
-                        achieveName=JSON.parse(relData.data.zjkAchievementJsonList)
-                        projectName=JSON.parse(relData.data.zjkPatentJsonList)
-                        var project=JSON.parse(relData.data.zjkProjectJsonList)
-                        var reward=JSON.parse(relData.data.zjkRewardJsonList)
-                        achieveName.map(function (item, index) {
-                            var html='<li><span>'+item.achieveName+'</span><i class="layui-icon layui-unselect layui-tab-close closeAchievement">ဆ</i></li>'
-                            $(".zjkAchievementJsonList ul li.expert-li-last").before(html)
-                        })
-                        form.render()
-                    }
-                }
-            });
-        }
-        /*领域*/
-        httpModule({
-            url: "/techFamily-api/getTreeList",
-            type: 'GET',
-            success: function(relData) {
-                relData.children.map(function (item,index) {
-                    item.children.map(function (items,i) {
-                        delete items.children
-                    })
-                })
-                formSelects.data('applaType3', 'local', { arr: relData.children });
-                formSelects.btns('applaType3', ['remove']);
-            }
-        });
-
-        var $ = layui.$, active = {
-            addAchievements:function () {
-                top.layer.open({
-                    type: 2,
-                    title: "添加成果",
-                    content: "/kjpt/expert/achievements_add.html", // 全局弹窗页面地址
-                    btn: null,
-                    area: ['50%', '60%'],
-                    end: function(lay, index) {
-                        // 弹窗销毁时获取弹窗返回数据
-                        achieveName = getDialogData('dialog-data');
-                        if (achieveName) {
-                            achieveName.map(function (item,index) {
-                                var html='<li><span>'+item.achieveName+'</span><i class="layui-icon layui-unselect layui-tab-close closeAchievement">ဆ</i></li>'
-                                $(".zjkAchievementJsonList ul li.expert-li-last").before(html)
-                            })
-                        }
-                        $(".closeAchievement").click(function () {
-                            var num=$(this).parent('li').index()
-                            $(this).parent('li').remove()
-                            achieveName.splice(num,1)
-                        })
-                    }
-                });
-            },
-            addProject:function(){
-                top.layer.open({
-                    type: 2,
-                    title: "添加项目",
-                    content: "/kjpt/expert/project_add.html", // 全局弹窗页面地址
-                    btn: null,
-                    area: ['50%', '60%'],
-                    end: function(lay, index) {
-                        // 弹窗销毁时获取弹窗返回数据
-                        projectName = getDialogData('dialog-data');
-                        if (projectName) {
-                            projectName.map(function (item,index) {
-                                var html='<li><span>'+item.projectName+'</span><i class="layui-icon layui-unselect layui-tab-close closeProject">ဆ</i></li>'
-                                $(".zjkProjectJsonList ul li.expert-li-last").before(html)
-                            })
-                        }
-                        $(".closeProject").click(function () {
-                            var num=$(this).parent('li').index()
-                            $(this).parent('li').remove()
-                            projectName.splice(num,1)
-                        })
-                    }
-                });
-            },
-            addPatent:function(){
-                top.layer.open({
-                    type: 2,
-                    title: "添加专利",
-                    content: "/kjpt/expert/patent_add.html", // 全局弹窗页面地址
-                    btn: null,
-                    area: ['50%', '60%'],
-                    end: function(lay, index) {
-                        // 弹窗销毁时获取弹窗返回数据
-                        patentName = getDialogData('dialog-data');
-                        if (patentName) {
-                            patentName.map(function (item,index) {
-                                var html='<li><span>'+item.patentName+'</span><i class="layui-icon layui-unselect layui-tab-close closePatent">ဆ</i></li>'
-                                $(".zjkPatentJsonList ul li.expert-li-last").before(html)
-                            })
-                        }
-                        $(".closePatent").click(function () {
-                            var num=$(this).parent('li').index()
-                            $(this).parent('li').remove()
-                            patentName.splice(num,1)
-                        })
-                    }
-                });
-            },
-            addReward:function(){
-                top.layer.open({
-                    type: 2,
-                    title: "添加奖励信息",
-                    content: "/kjpt/expert/reward_add.html", // 全局弹窗页面地址
-                    btn: null,
-                    area: ['50%', '60%'],
-                    end: function(lay, index) {
-                        // 弹窗销毁时获取弹窗返回数据
-                        rewardName = getDialogData('dialog-data');
-                        if (rewardName) {
-                            rewardName.map(function (item,index) {
-                                var html='<li><span>'+item.rewarkLevel+'</span><i class="layui-icon layui-unselect layui-tab-close closeReward">ဆ</i></li>'
-                                $(".zjkRewardJsonList ul li.expert-li-last").before(html)
-                            })
-                        }
-                        $(".closeReward").click(function () {
-                            var num=$(this).parent('li').index()
-                            $(this).parent('li').remove()
-                            rewardName.splice(num,1)
-                        })
-                    }
-                });
-            },
-            close:function () {
-                /*模拟关闭标签页事件*/
-                closeTabsPage();
-            }
-        }
-        $('.layui-btn').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-        /*保存*/
-        form.on('submit(newSubmit)', function(data) {
-            console.log(data.field)
-            if(data.field.sex==undefined){
-                layer.msg("性别必为填项不能为空！", {icon: 2});
-                return false
-            }
-            if(data.field.belongUnit==undefined){
-                layer.msg("所在单位必为选项不能为空！", {icon: 2});
-                return false
-            }
-            data.field.zjkAchievementJsonList=JSON.stringify(achieveName)
-            data.field.zjkProjectJsonList=JSON.stringify(projectName)
-            data.field.zjkPatentJsonList=JSON.stringify(patentName)
-            data.field.zjkRewardJsonList=JSON.stringify(rewardName)
-            /*httpModule({
-                url: '/expert-api/save',
-                data: data.field,
-                type: "POST",
-                success: function(e) {
-                    console.log(e)
-                    if(e.success){
-                        layer.msg('保存成功!', {icon: 1});
-                        closeTabsPage();
-                    }
-                }
-            });*/
-            return false;
-        })
-
-    });
-</script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
+<script src="./expert_add.js"></script>
 </body>
 </html>

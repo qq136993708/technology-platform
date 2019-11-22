@@ -25,11 +25,11 @@
             </li>
             <li class="font16">
               <span class="label-text">平台类型：</span>
-              <span diy-form-value="type" diy-dic-data="DIC_DEMO_DATA" class="label-value">类型-1 </span>
+              <span diy-form-value="type" diy-dic-data="ROOT_KJPT_PTLX" class="label-value">类型-1 </span>
             </li>
             <li class="font16">
               <span class="label-text">研究领域：</span>
-              <span diy-form-value="researchField" diy-dic-data="DIC_DEMO_DATA" class="label-value">22</span>
+              <span diy-form-value="researchField" diy-dic-data="ROOT_KJPT_YJLY" class="label-value">22</span>
             </li>
             <li class="font16">
               <span class="label-text">平台得分：</span>
@@ -37,7 +37,7 @@
             </li>
             <li class="font16">
               <span class="label-text">依托单位：</span>
-              <span diy-form-value="supportingInstitutions" diy-dic-data="DIC_DEMO_DATA" class="label-value">中核科技有限公司</span>
+              <span diy-form-value="supportingInstitutions" diy-dic-data="ROOT_KJPT_YTDW_ZHJT" class="label-value">中核科技有限公司</span>
             </li>
           </ul>
         </div>
@@ -55,10 +55,10 @@
           <div class="icon-item  ib-block icon003"></div>
           <div class="item-text  ib-block font16">相关成果<span class="font20">0</span>个</div>
         </div>
-        <div class="item-box-list middle-block">
+        <!-- <div class="item-box-list middle-block">
           <div class="icon-item  ib-block icon003"></div>
           <div class="item-text  ib-block font16">相关奖励<span class="font20">0</span>个</div>
-        </div>
+        </div> -->
         <div class="item-box-list middle-block">
           <div class="icon-item  ib-block icon004"></div>
           <div class="item-text  ib-block font16">专利数量<span class="font20">0</span>个</div>
@@ -80,18 +80,18 @@
           <!-- 平台简介 -->
           <div class="bg-blue-box">
             <div class="bg-blue-title font20" diy-form-value="platformName">北京科学与技术中心</div>
-            <div class="bg-blue-p">平台一切围绕让客户“找到你、信任你、选择你”的品牌营销生态而服务，为企业提供“建站通，确权宝，摩比小程序，优词宝，上词宝，网证宝，媒体宝，知汇通，采编通，公关宝，海推社、流量通，红人推”等十几款产品和服务，充分满足企业一站式网络品牌营销的需求，为品牌解忧，为营销助力。</div>
-            <div class="bg-blue-p">2019年，铸剑八载，匠心八载，拓宽科技迎来新起点，迈入新征程，依托一搜百应互联网整合营销生态服务平台，公司从“技术+资源”的两驾马车向“生态+平台”双轮驱动转型，全面发展生态合作伙伴，让中国企业享受互联网营销红利，助力企业的品牌价值变现为商业价值。 </div>
-            <div class="bg-blue-p">一搜百应是深圳拓宽科技有限公司（简称拓宽科技）旗下的互联网整合营销生态服务平台，平台创造性提出了“建品牌、塑口碑、获客户”的互联网营销路径，助力企业实现品牌商业价值。依托拓宽科技八年资源与技术沉淀，一搜百应深度融合营销建站、搜索引擎营销、新闻营销、知识营销、精准营销、自媒体营销、媒体邀约、官网信用认证等在内的数十大营销环节，让你的品牌一搜百应。</div>
+            <div class="bg-blue-p" diy-form-value="platformIntroduction">平台一切围绕让客户“找到你、信任你、选择你”的品牌营销生态而服务，为企业提供“建站通，确权宝，摩比小程序，优词宝，上词宝，网证宝，媒体宝，知汇通，采编通，公关宝，海推社、流量通，红人推”等十几款产品和服务，充分满足企业一站式网络品牌营销的需求，为品牌解忧，为营销助力。</div>
+            <!-- <div class="bg-blue-p">2019年，铸剑八载，匠心八载，拓宽科技迎来新起点，迈入新征程，依托一搜百应互联网整合营销生态服务平台，公司从“技术+资源”的两驾马车向“生态+平台”双轮驱动转型，全面发展生态合作伙伴，让中国企业享受互联网营销红利，助力企业的品牌价值变现为商业价值。 </div>
+            <div class="bg-blue-p">一搜百应是深圳拓宽科技有限公司（简称拓宽科技）旗下的互联网整合营销生态服务平台，平台创造性提出了“建品牌、塑口碑、获客户”的互联网营销路径，助力企业实现品牌商业价值。依托拓宽科技八年资源与技术沉淀，一搜百应深度融合营销建站、搜索引擎营销、新闻营销、知识营销、精准营销、自媒体营销、媒体邀约、官网信用认证等在内的数十大营销环节，让你的品牌一搜百应。</div> -->
           </div>
         </div>
         <div class="layui-tab-item">
           <!-- 科研项目 -->
           <div class="view-title-layout">
             <div class="right">
-              <button class="layui-btn border-blue openDialog" data-type="add">新增</button>
-              <button class="layui-btn border-blue openDialog" data-type="edit">编辑</button>
-              <button class="layui-btn border-red" id="delItem">删除</button>
+              <button class="layui-btn border-blue openDialog" data-page="addKY_project" data-type="add">新增</button>
+              <button class="layui-btn border-blue openDialog" data-page="addKY_project" data-type="edit">编辑</button>
+              <button class="layui-btn border-red deleteItem">删除</button>
               <button class="layui-btn border-blue" id="exportData">导入</button>
             </div>
           </div>
@@ -101,9 +101,9 @@
           <!-- 领军人物 -->
           <div class="view-title-layout">
             <div class="right">
-              <button class="layui-btn border-blue openDialog" data-type="add">新增</button>
-              <button class="layui-btn border-blue openDialog" data-type="edit">编辑</button>
-              <button class="layui-btn border-red" id="delItem">删除</button>
+              <button class="layui-btn border-blue openDialog" data-item="character" data-page="addKY_teamMembers" data-type="add">新增</button>
+              <button class="layui-btn border-blue openDialog" data-item="character" data-page="addKY_teamMembers" data-type="edit">编辑</button>
+              <button class="layui-btn border-red deleteItem">删除</button>
               <button class="layui-btn border-blue" id="exportData">导入</button>
             </div>
           </div>
@@ -113,9 +113,9 @@
           <!-- 论文 -->
           <div class="view-title-layout">
             <div class="right">
-              <button class="layui-btn border-blue openDialog" data-type="add">新增</button>
-              <button class="layui-btn border-blue openDialog" data-type="edit">编辑</button>
-              <button class="layui-btn border-red" id="delItem">删除</button>
+              <button class="layui-btn border-blue openDialog" data-page="addKY_paper" data-type="add">新增</button>
+              <button class="layui-btn border-blue openDialog" data-page="addKY_paper" data-type="edit">编辑</button>
+              <button class="layui-btn border-red deleteItem">删除</button>
               <button class="layui-btn border-blue" id="exportData">导入</button>
             </div>
           </div>
@@ -125,9 +125,9 @@
           <!-- 团队成员 -->
           <div class="view-title-layout">
             <div class="right">
-              <button class="layui-btn border-blue openDialog" data-type="add">新增</button>
-              <button class="layui-btn border-blue openDialog" data-type="edit">编辑</button>
-              <button class="layui-btn border-red" id="delItem">删除</button>
+              <button class="layui-btn border-blue openDialog" data-item="member" data-page="addKY_teamMembers" data-type="add">新增</button>
+              <button class="layui-btn border-blue openDialog" data-item="member" data-page="addKY_teamMembers" data-type="edit">编辑</button>
+              <button class="layui-btn border-red deleteItem">删除</button>
               <button class="layui-btn border-blue" id="exportData">导入</button>
             </div>
           </div>
@@ -137,9 +137,9 @@
           <!-- 主要成果 -->
           <div class="view-title-layout">
             <div class="right">
-              <button class="layui-btn border-blue openDialog" data-type="add">新增</button>
-              <button class="layui-btn border-blue openDialog" data-type="edit">编辑</button>
-              <button class="layui-btn border-red" id="delItem">删除</button>
+              <button class="layui-btn border-blue openDialog" data-page="addKY_mainAchievements" data-type="add">新增</button>
+              <button class="layui-btn border-blue openDialog" data-page="addKY_mainAchievements" data-type="edit">编辑</button>
+              <button class="layui-btn border-red deleteItem" id="delItem">删除</button>
               <button class="layui-btn border-blue" id="exportData">导入</button>
             </div>
           </div>

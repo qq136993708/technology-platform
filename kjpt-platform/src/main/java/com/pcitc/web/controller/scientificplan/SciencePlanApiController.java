@@ -23,6 +23,7 @@ import java.util.UUID;
 
 @Api(value = "sciencePlan-api", description = "科技规划接口")
 @RestController
+@RequestMapping(value = "/SciencePlan")
 public class SciencePlanApiController extends RestBaseController {
 
     /**
@@ -48,7 +49,7 @@ public class SciencePlanApiController extends RestBaseController {
         return "/kjpt/scienceplan/scienceplan_view";
     }
 
-    @RequestMapping(value = "/add")
+    @RequestMapping(value = "/addadd")
     public String add() {
         return "/kjpt/scienceplan/scienceplan_add";
     }

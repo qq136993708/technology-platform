@@ -59,6 +59,16 @@ public class ExpertProviderClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "获取专家个数", notes = "获取专家个数")
+	@RequestMapping(value = "/expert/getZjkBaseCount", method = RequestMethod.POST)
+	public Integer getZjkBaseCount()throws Exception
+	{
+		Integer count=expertService.getZjkBaseCount();
+		return count;
+	}
+	
+	
+
 	
 	@ApiOperation(value = "增加专家信息", notes = "增加专家信息")
 	@RequestMapping(value = "/expert/add", method = RequestMethod.POST)

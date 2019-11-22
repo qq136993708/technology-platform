@@ -1,14 +1,14 @@
 package com.pcitc.web.researchplatform;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
-import com.pcitc.base.researchPlatform.PlatformProjectModel;
+import com.pcitc.base.researchplatform.PlatformProjectModel;
 import com.pcitc.service.researchplatform.PlatformProjectService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,6 +36,12 @@ public class PlatformProjectClient {
     public PlatformProjectModel save(@RequestBody PlatformProjectModel platformProjectModel){
 
         return pps.save(platformProjectModel);
+    }
+
+    @ApiOperation(value = "平台项目批量保存", notes = "平台项目批量保存")
+    @RequestMapping(value = "/batchSave", method = RequestMethod.POST)
+    public Integer batchSave(@RequestBody List<PlatformProjectModel> list){
+        return pps.batchSave(list);
     }
 
     @ApiOperation(value = "查询科研平台项目列表", notes = "查询科研平台项目列表")

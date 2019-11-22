@@ -2,6 +2,7 @@ package com.pcitc.web.patent;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.patent.PatentInfo;
+import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.patent.PatentInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +28,8 @@ import java.util.Map;
 public class PatentInfoClient {
 	private final static Logger logger = LoggerFactory.getLogger(PatentInfoClient.class);
 
-	@Autowired PatentInfoService patentInfoService;
+	@Autowired
+	PatentInfoService patentInfoService;
 
 	/**
 	 * 保存
@@ -39,7 +41,8 @@ public class PatentInfoClient {
 
 	@RequestMapping(value = "/patent-provider/patentInfo/patentInfo_save", method = RequestMethod.POST)
 	public PatentInfo updateOrInsertPatentInfo(@RequestBody PatentInfo patentInfo) { return
-			patentInfoService.updateOrInsertPatentInfo(patentInfo); }
+			patentInfoService.updateOrInsertPatentInfo(patentInfo);
+	}
 
 	/**
 	 * 分页查询

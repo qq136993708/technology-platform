@@ -1,7 +1,6 @@
 package com.pcitc.web.controller.scientificplan;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
 import com.pcitc.base.scientificplan.ScienceEvolveDynamic;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
@@ -22,6 +21,7 @@ import java.util.UUID;
 
 @Api(value = "scienceEvolveDynamic-api", description = "科技进展动态接口")
 @RestController
+@RequestMapping(value = "/ScienceEvolveDynamic")
 public class ScienceEvolveDynamicApiController extends RestBaseController {
 
 

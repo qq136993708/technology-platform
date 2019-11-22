@@ -1,9 +1,8 @@
 package com.pcitc.service.researchplatform;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
+import com.pcitc.base.researchplatform.PlatformInfoModel;
 
-import java.util.List;
 import java.util.Map;
 
 /**

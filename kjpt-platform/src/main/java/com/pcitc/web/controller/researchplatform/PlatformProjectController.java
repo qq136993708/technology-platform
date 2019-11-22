@@ -1,15 +1,12 @@
 package com.pcitc.web.controller.researchplatform;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
-import com.pcitc.base.researchPlatform.PlatformProjectModel;
+import com.pcitc.base.researchplatform.PlatformProjectModel;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -20,7 +17,7 @@ import java.util.*;
 
 /**
  * <p>服务接口</p>
- * <p>Table:  - 科研平台-基本信息</p>
+ * <p>Table:  - 科研平台-项目信息</p>
  * @author ty
  */
 
@@ -40,6 +37,10 @@ public class PlatformProjectController extends RestBaseController {
      * 保存平台项目
      */
     private static final String save = "http://kjpt-zuul/stp-proxy/researchPlatformPorject-api/save";
+    /**
+     * 平台项目批量保存
+     */
+    private static final String batchSave = "http://kjpt-zuul/stp-proxy/researchPlatformPorject-api/batchSave";
     /**
      * 删除项目
      */
@@ -90,6 +91,7 @@ public class PlatformProjectController extends RestBaseController {
     @ResponseBody
     public PlatformProjectModel save(@RequestBody PlatformProjectModel pm) {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        this.setBaseData(pm);
         ResponseEntity<PlatformProjectModel> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<PlatformProjectModel>(pm, this.httpHeaders), PlatformProjectModel.class);
         return responseEntity.getBody();
     }
@@ -103,16 +105,25 @@ public class PlatformProjectController extends RestBaseController {
     }
 
     @ApiOperation(value="初始化")
-    @RequestMapping(value = "/platformProject-api/newInit", method = RequestMethod.GET)
+    @RequestMapping(value = "/platformProject-api/newInit/{platformId}", method = RequestMethod.GET)
     @ResponseBody
-    public PlatformProjectModel newInit() {
+    public PlatformProjectModel newInit(@PathVariable String platformId) {
         PlatformProjectModel p = new PlatformProjectModel();
         p.setId(UUID.randomUUID().toString().replace("-",""));
+        p.setPlatformId(platformId);
         p.setCreateDate(new Date());
         p.setCreator(this.getUserProfile().getUserName());
         p.setDeleted("0");
         return p;
     }
 
+    @ApiOperation(value="批量添加")
+    @RequestMapping(value = "/platformProject-api/batchSave", method = RequestMethod.POST)
+    @ResponseBody
+    public Integer batchSave(@RequestBody List<PlatformProjectModel> pmList) {
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(batchSave, HttpMethod.POST, new HttpEntity<List>(pmList, this.httpHeaders), Integer.class);
+        return responseEntity.getBody();
+    }
 
 }

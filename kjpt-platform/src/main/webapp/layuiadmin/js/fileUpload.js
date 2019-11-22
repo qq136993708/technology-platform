@@ -4,7 +4,7 @@ function selectFileUpload(config) {
   config.upload.render({
     elem: config.elem //绑定元素
     ,accept: config.accept
-    ,url: '/file/upload' //上传接口
+    ,url:config.url ||  '/file/upload' //上传接口
     ,before: function(obj) {
       layerLoadIndex = top.layer.load();
     }
@@ -37,10 +37,12 @@ function setFileUpload(config) {
     更多配置请自行添加
   }
   */
+  if (!config.id) { return false; }
   layui.use(['table', 'upload', 'layer'], function(){
     var table = layui.table,
     fileListData = [], // 表格数据
     configDataID = config.dataID, // 单据ID
+    readonly = config.readonly,
     tableID = config.id + 'file-table-list',
     $field = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
     addFile = $field.find('[filter="addFile"]').get(0),
@@ -50,7 +52,10 @@ function setFileUpload(config) {
       {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
       {title: '操作', templet: function(d) {
         var templet = '<div class="file-options">';
-        templet += '<span class="link-text file-options-delete" data-fileid="'+ d.id +'">删除</span>';
+        if(! (readonly === true)) {
+          templet += '<span class="link-text file-options-delete" data-fileid="'+ d.id +'">删除</span>';
+        }
+        
         templet += '<span class="link-text file-options-download" data-fileid="'+ d.id +'">下载</a>';
         templet += '</div>';
         return templet;
@@ -71,6 +76,8 @@ function setFileUpload(config) {
             } else {
               fileListData = data.data;
             }
+
+            table.reload(tableID, {data: fileListData});
             // 表格数据变化时执行回调函数
             if (config.callback) {
               config.callback(fileListData, 'query');
@@ -133,6 +140,7 @@ function setImagesUpload(config) {
     callback: function(imgJson, type) {}
   }
   */
+  if (!config.id) { return false; }
 
   layui.use(['upload', 'layer'], function(){
     var $imgFile = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
@@ -155,13 +163,62 @@ function setImagesUpload(config) {
       }
     });
 
+    $imgFile.on('click', '.delete-state-normal', function(e) {
+      $imgFile.removeClass('success').find('img').attr('src', '');
+      if (config.callback) {
+        config.callback(null, 'delete');
+      }
+    })
+
     if ($deleteBtn.length) {
-      $deleteBtn.on('click', function(e) {
-        $imgFile.removeClass('success').find('img').attr('src', '');
-        if (config.callback) {
-          config.callback(null, 'delete');
-        }
-      })
+      $deleteBtn.addClass('delete-state-normal');
     }
   });
+}
+
+// 控制图片上传状态 这里不作为绑定上传事件，切与绑定上传事件不冲突
+function setImagesUploadState(config) {
+  if (config.id) {
+    var $imgFile = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
+      fileBtn = $imgFile.find('[label="imgUpload"]').get(0),
+      $deleteBtn = $imgFile.find('[label="imgDelete"]').eq(0);
+
+    if (config.disabled) {
+      // 禁用图片上传功能
+      $imgFile.addClass('file-disabled');
+      $(fileBtn).attr('disabled', 'true');
+      $deleteBtn.removeClass('delete-state-normal');
+    } else {
+      // 解除禁用图片上传功能
+      $(fileBtn).removeAttr('disabled');
+      $deleteBtn.addClass('delete-state-normal');
+      $imgFile.removeClass('file-disabled');
+    }
+
+    if (config.imgID) {
+      // 设置图片显示
+      $imgFile.addClass('success').find('img').attr('src', '/file/imgFile/' + config.imgID);
+    }
+  }
+}
+/*导入文件*/
+function importFiles(config){
+    layui.use(['table', 'upload', 'layer'], function(){
+        var $field = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
+            addFile = $field.find('[filter="addFile"]').get(0)
+        selectFileUpload({
+            elem: addFile,
+            upload: layui.upload,
+            url:config.url,
+            accept: config.accept || 'file',
+            callback: function(res) {
+                //上传完毕回调
+                console.log(res)
+                if (config.callback) {
+                    config.callback(res.data, 'import');
+                }
+            }
+        });
+    })
+
 }

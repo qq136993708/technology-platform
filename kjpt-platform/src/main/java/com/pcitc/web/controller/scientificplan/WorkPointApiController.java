@@ -23,6 +23,7 @@ import java.util.UUID;
 
 @Api(value = "workPoint-api", description = "工作要点接口")
 @RestController
+@RequestMapping(value = "/WorkPoint")
 public class WorkPointApiController extends RestBaseController {
 
     /**

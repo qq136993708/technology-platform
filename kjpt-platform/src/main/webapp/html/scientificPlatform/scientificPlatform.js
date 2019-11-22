@@ -5,6 +5,16 @@ layui.use(['form', 'table', 'layer'], function(){
   var table = layui.table;
   var layer = layui.layer;
 
+  var variable = getQueryVariable();
+  console.log(variable);
+  if (variable && variable.level) {
+    form.val('patentFormDemo', {level: variable.level});
+    $('[form-label-item="level"]').remove();
+  } else {
+    $('#opations-btn, [form-label-item="unlevel"]').remove();
+  }
+
+
   //表格渲染
   var itemRowData = null; // 选中行的数据
   var tableRender = false;
@@ -29,8 +39,8 @@ layui.use(['form', 'table', 'layer'], function(){
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
-          page: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
-          limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+          pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
+          limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
         },
         page: true, //开启分页
         limit: 10, // 每页数据条数,
