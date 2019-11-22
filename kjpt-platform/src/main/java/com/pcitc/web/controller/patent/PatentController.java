@@ -2,6 +2,7 @@ package com.pcitc.web.controller.patent;
 
 
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;

@@ -1,6 +1,7 @@
 package com.pcitc.service.patent;
 
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.patent.PatentInfo;
 
 import java.util.Map;
 
