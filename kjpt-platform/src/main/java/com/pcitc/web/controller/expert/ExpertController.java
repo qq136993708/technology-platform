@@ -190,7 +190,7 @@ public class ExpertController extends BaseController {
 	}
     
     @ApiOperation(value = "查询专家个数", notes = "查询专家个数")
-    @RequestMapping(value = "/expert-api/getZjkBaseCount")
+    @RequestMapping(value = "/expert-api/getZjkBaseCount", method = RequestMethod.GET)
 	public String getZjkBaseCount() throws Exception {
     	
     	Result resultsDate = new Result();

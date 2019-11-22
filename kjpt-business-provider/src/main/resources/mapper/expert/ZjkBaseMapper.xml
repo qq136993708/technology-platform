@@ -35,6 +35,7 @@
     <result column="technical_field_name" jdbcType="VARCHAR" property="technicalFieldName" />
     <result column="education_str"        jdbcType="VARCHAR" property="educationStr" />
     <result column="sex_str"              jdbcType="VARCHAR" property="sexStr" />
+    <result column="title_str"            jdbcType="VARCHAR" property="titleStr" />
     
   </resultMap>
   <sql id="Base_Column_List">
@@ -391,16 +392,19 @@
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_QYZT'
           AND t2.`code`=t1.`use_status`
       ) use_status_str,
-      
       ( 
          SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_XB'
           AND t2.num_value =t1.`sex`
       ) sex_str,
-      
       ( 
          SELECT t2.`unit_name` FROM sys_unit  t2 WHERE  t2.unit_id =t1.`belong_unit`
       )  belong_unit_str
-     FROM zjk_base t1
+      ,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZWJB'
+          AND t2.code =t1.`title`
+      )  title_str
+      FROM zjk_base t1
 	</sql>
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
