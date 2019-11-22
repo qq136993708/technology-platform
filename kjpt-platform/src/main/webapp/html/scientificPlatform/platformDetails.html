@@ -74,6 +74,7 @@
         <li>论文</li>
         <li>团队成员</li>
         <li>主要成果</li>
+        <li>专利</li>
       </ul>
       <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
@@ -144,6 +145,18 @@
             </div>
           </div>
           <table id="mainAchievements" lay-filter="mainAchievements"></table>
+        </div>
+        <div class="layui-tab-item">
+          <!-- 主要专利 -->
+          <div class="view-title-layout">
+            <div class="right">
+              <button class="layui-btn border-blue openDialog" data-page="addKY_mainPatent" data-type="add">新增</button>
+              <button class="layui-btn border-blue openDialog" data-page="addKY_mainPatent" data-type="edit">编辑</button>
+              <button class="layui-btn border-red deleteItem" id="delItem">删除</button>
+              <button class="layui-btn border-blue" id="exportData">导入</button>
+            </div>
+          </div>
+          <table id="mainPatent" lay-filter="mainPatent"></table>
         </div>
       </div>
     </div>

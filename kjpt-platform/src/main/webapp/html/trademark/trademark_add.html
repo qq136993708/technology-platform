@@ -25,7 +25,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">单位名称：</span></label>
             <div class="layui-input-block">
-              <select name="unitName" xm-select="unitName" xm-select-skin="normal" dic-base-data="DIC_DEMO_TREE">
+              <select name="unitName" xm-select="unitName" xm-select-radio="" xm-select-skin="normal" dic-base-data="DIC_DEMO_TREE">
               </select>
             </div>
           </div>
@@ -171,7 +171,7 @@
       <input type="hidden" name="updator">
       <input type="hidden" name="deleted">
       <input type="hidden" name="level">
-      <input type="hidden" name="file">
+      <input type="hidden" name="files">
     </form>
   </div>
   <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
@@ -199,9 +199,15 @@
           /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
             * type 触发变更的类型 目前只有 delete | upload
           */
-          var fileString = tableData.join(",");
-          $("[name=file]").val(fileString);
-          console.log('test',tableData, type);
+         var fileString = "";
+         if(tableData.length){
+           for(var i = 0; i< tableData.length; i++){
+              fileString += tableData[i].id;
+           }
+         }
+         console.log("fileString", fileString);
+          $("[name=files]").val(fileString);
+          console.log(tableData, type);
         }
       })
     }
@@ -218,11 +224,12 @@
         success: function (relData) {
           if (relData.code === '0') {
             // 给form表单赋初始值
-            upLoadFile(relData.data.id);
+            
             form.val('formPlatform', relData.data);
+            
             // 更新表单数据
             form.render();
-            
+            upLoadFile(item.id || relData.data.id);
           }
         }
       });
@@ -233,6 +240,10 @@
     getItemInitData(variable);
 
     form.on('submit(newSubmit)', function (data) {
+
+
+      //var val = formSelects.value('applicationType2');
+
       httpModule({
         url: '/trademarkController/save',
         data: data.field,

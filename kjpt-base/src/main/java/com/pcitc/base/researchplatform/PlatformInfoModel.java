@@ -65,6 +65,11 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
     private String level="";
     private String levelText="";
 
+    /**
+     * 平台图片
+     */
+    private String imgId="";
+
 
     public String getId() {
         return id;
@@ -192,5 +197,13 @@ public class PlatformInfoModel extends RecordModel implements Serializable {
 
     public void setLevelText(String levelText) {
         this.levelText = levelText;
+    }
+
+    public String getImgId() {
+        return imgId;
+    }
+
+    public void setImgId(String imgId) {
+        this.imgId = imgId;
     }
 }

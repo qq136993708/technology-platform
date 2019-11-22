@@ -44,6 +44,8 @@ public class PlatformController extends RestBaseController {
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/researchPlatform-api/delete/";
 
+    private static final String selectPaltinfoCount = "http://kjpt-zuul/stp-proxy/researchPlatform-api/selectPaltinfoCount/";
+
 
     @ApiOperation(value="读取")
     @RequestMapping(value = "/platform-api/load/{id}", method = RequestMethod.GET)
@@ -132,6 +134,14 @@ public class PlatformController extends RestBaseController {
     @ResponseBody
     public Integer delete(@PathVariable String id) {
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(delete+id, HttpMethod.DELETE, new HttpEntity(this.httpHeaders), Integer.class);
+        return responseEntity.getBody();
+    }
+
+    @ApiOperation(value="查询平台相关条数")
+    @RequestMapping(value = "/platform-api/selectPaltinfoCount/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Map selectPaltinfoCount(@PathVariable String id) {
+        ResponseEntity<Map> responseEntity = this.restTemplate.exchange(selectPaltinfoCount+id, HttpMethod.GET, new HttpEntity(this.httpHeaders), Map.class);
         return responseEntity.getBody();
     }
 

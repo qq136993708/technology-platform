@@ -151,8 +151,9 @@ layui.use(['form', 'laydate', 'table'], function () {
     })
 
     $('#delItem').on('click', function (e) { // 删除平台
+        console.log('sss',itemRowData);
         if (itemRowData) {
-            layer.confirm('您确定要删除”' + itemRowData.platformName + '“吗？', { icon: 3, title: '删除提示' }, function (index) {
+            layer.confirm('您确定要删除”' + itemRowData.unitName + '“吗？', { icon: 3, title: '删除提示' }, function (index) {
                 layer.close(index);
                 // 确认删除
                 httpModule({
