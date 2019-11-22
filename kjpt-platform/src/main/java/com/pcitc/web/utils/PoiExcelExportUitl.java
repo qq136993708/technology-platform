@@ -65,6 +65,8 @@ public class PoiExcelExportUitl<T> {
         HSSFCellStyle cellstylestr = hssfworkbook.createCellStyle();
         cellstylestr.setAlignment(HorizontalAlignment.LEFT); ;//右
         cellstylestr.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
+        HSSFDataFormat format = hssfworkbook.createDataFormat();
+        cellstylestr.setDataFormat(format.getFormat("@"));
         
         
         HSSFCellStyle cellstyl_center = hssfworkbook.createCellStyle();
@@ -82,6 +84,9 @@ public class PoiExcelExportUitl<T> {
         cellstyl_center.setBorderTop(BorderStyle.THIN);  
         
         
+        HSSFDataFormat formatv = hssfworkbook.createDataFormat();
+        cellstyl_center.setDataFormat(formatv.getFormat("@"));
+       
         
         for (int i = 0; i <= (list.size() / 65535); i++)
         {
@@ -143,7 +148,7 @@ public class PoiExcelExportUitl<T> {
                         {
                             hssfcell.setCellValue(Double.parseDouble(
                                     hm.get(cols[k]) == null ? "" : hm.get(cols[k]).toString().replace(",", "")));
-                            hssfcell.setCellStyle(cellstyle);
+                            hssfcell.setCellStyle(cellstylestr);
                         }
                     } else 
                     {
