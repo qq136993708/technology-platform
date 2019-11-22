@@ -31,10 +31,14 @@ public class PlatformProjectServiceImpl implements PlatformProjectService {
     @Override
     public PlatformProjectModel save(PlatformProjectModel platformProjectModel) {
         IsEmptyUtil.isEmpty(platformProjectModel.getId());
-        if(load(platformProjectModel.getId()) ==null)
+        if(load(platformProjectModel.getId()) ==null){
+            platformProjectModel.setCreateDate(platformProjectModel.getUpdateDate());
+            platformProjectModel.setCreator(platformProjectModel.getUpdator());
             platformProjectMapper.add(platformProjectModel);
-        else
+        }
+        else{
             platformProjectMapper.update(platformProjectModel);
+        }
         return platformProjectModel;
     }
 
