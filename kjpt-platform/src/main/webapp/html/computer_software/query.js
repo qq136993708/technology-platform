@@ -24,7 +24,9 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           ,{field: 'softwareName', title: '软件名称', sort: true } 
           ,{field: 'copyrightOwner', title: '著作权人', sort: true}
           ,{field: 'versionNumber', title: '版本号', sort: true}
-          ,{field: 'recordDate', title: '登记日期', sort: true, templet: '#recordDate'} 
+          ,{field: 'recordDate', title: '登记日期', sort: true, templet: function(d) {
+            return dateFieldText(d.recordDate);
+          }} 
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {

@@ -20,7 +20,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
           ,{field: 'applicationNumber', title: '申请(专利)号'}
-          ,{field: 'unitName', title: '单位名称', sort: true }
+          ,{field: 'unitNameText', title: '单位名称', sort: true }
           ,{field: 'applicationTypeText', title: '申请类型', sort: true}
           ,{field: 'patentTypeText', title: '专利类型' } 
           ,{field: 'applicant', title: '申请人'}

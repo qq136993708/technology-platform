@@ -42,6 +42,7 @@
     <result column="patent_type_text" jdbcType="VARCHAR" property="patentTypeText" />
     <result column="legal_status_text" jdbcType="VARCHAR" property="legalStatusText" />
     <result column="country_text" jdbcType="VARCHAR" property="countryText" />
+	<result column="unit_name_text" jdbcType="VARCHAR" property="unitNameText" />
 
   </resultMap>
   <sql id="Example_Where_Clause">

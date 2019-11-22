@@ -202,6 +202,11 @@ public class PatentInfo implements Serializable {
      * 法律状态翻译
      */
     private String legalStatusText;
+	
+	/**
+     * 单位名称翻译
+     */
+	private String unitNameText;
 
     private static final long serialVersionUID = 1L;
 
@@ -517,6 +522,14 @@ public class PatentInfo implements Serializable {
         this.legalStatusText = legalStatusText;
     }
 
+	public String getUnitNameText() {
+        return unitNameText;
+    }
+
+    public void setUnitNameText(String unitNameText) {
+        this.unitNameText = unitNameText;
+    }
+	
     @Override
     public boolean equals(Object that) {
         if (this == that) {
