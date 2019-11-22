@@ -182,4 +182,56 @@
       ACCESSORY_UPLOAD = #{accessoryUpload,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+
+
+  <select id="query"  parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
+
+    select *
+    from
+    computer_software
+
+    <where>
+      <if test="unitName != null">
+        UNIT_NAME = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="registerNumber != null">
+        REGISTER_NUMBER = #{registerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="softwareName != null">
+        SOFTWARE_NAME = #{softwareName,jdbcType=VARCHAR},
+      </if>
+      <if test="copyrightOwner != null">
+        COPYRIGHT_OWNER = #{copyrightOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="versionNumber != null">
+        VERSION_NUMBER = #{versionNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="recordDateStart != null">
+        RECORD_DATE = #{recordDateStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordDateEnd != null">
+        RECORD_DATE = #{recordDateEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="developFinishDate != null">
+        DEVELOP_FINISH_DATE = #{developFinishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="softwareIntro != null">
+        SOFTWARE_INTRO = #{softwareIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="entryPeople != null">
+        ENTRY_PEOPLE = #{entryPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null">
+        ENTRY_TIME = #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notes != null">
+        NOTES = #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="accessoryUpload != null">
+        ACCESSORY_UPLOAD = #{accessoryUpload,jdbcType=VARCHAR},
+      </if>
+
+    </where>
+  </select>
+
 </mapper>
