@@ -45,37 +45,31 @@
 
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformPatentModel">
-        insert into kypt_project(id,platform_id,base_id,patent_name,patent_type,application_date,remark,deleted,create_user,create_date,update_date,update_user)
-         values(#{id},#{platformId},#{baseId},#{patentName},#{majorType},#{dutyInstitutions},#{approvalYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator})
+        insert into kypt_patent(id,platform_id,base_id,patent_name,patent_type,application_date,remark,deleted,create_user,create_date,update_date,update_user)
+         values(#{id},#{platformId},#{baseId},#{patentName},#{patentType},#{applicationDate},#{remark},#{deleted},#{creator},#{createDate},#{updateDate},#{updator})
     </insert>
 
-    <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
-        update kypt_project
+    <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformPatentModel">
+        update kypt_patent
         <trim prefix="SET" suffixOverrides=",">
-            <if test="projectName != null and projectName != '' " >
-                project_name = #{projectName},
+            <if test="patentName != null and patentName != '' " >
+                patent_name = #{patentName},
             </if>
-            <if test="majorType != null and majorType != '' " >
-                major_type = #{majorType},
-            </if>
-            <if test="dutyInstitutions != null and dutyInstitutions != ''" >
-                duty_institutions = #{dutyInstitutions},
-            </if>
-            <if test="approvalYear != null and approvalYear != ''" >
-                approval_year = #{approvalYear},
+            <if test="patentType != null and patentType != '' " >
+                patent_type = #{patentType},
             </if>
         </trim>
         where id = #{id}
     </update>
 
     <update id="delete" parameterType="java.lang.String">
-            update kypt_project set deleted = '1' where id = #{id}
+            update kypt_patent set deleted = '1' where id = #{id}
     </update>
 
     <insert id="batchSave" parameterType="java.util.List">
-        insert into kypt_project(id,platform_id,base_id,project_name,major_type,duty_institutions,approval_year,deleted,create_user,create_date,update_date,update_user) values
+        insert into kypt_patent(id,platform_id,base_id,patent_name,patent_type,application_date,remark,deleted,create_user,create_date,update_date,update_user) values
         <foreach collection="list" item="kp" separator=",">
-            (#{kp.id},#{kp.platformId},#{kp.baseId},#{kp.projectName},#{kp.majorType},#{kp.dutyInstitutions},#{kp.approvalYear},#{kp.deleted},#{kp.creator},#{kp.createDate},#{kp.updateDate},#{kp.updator})
+            (#{id},#{platformId},#{baseId},#{patentName},#{patentType},#{applicationDate},#{remark},#{deleted},#{creator},#{createDate},#{updateDate},#{updator})
         </foreach>
     </insert>
 

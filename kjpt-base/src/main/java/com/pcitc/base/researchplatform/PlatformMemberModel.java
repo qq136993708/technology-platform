@@ -63,6 +63,7 @@ public class PlatformMemberModel extends RecordModel {
      * 角色
      */
     private String role="";
+    private String roleText="";
 
     public String getPlatformId() {
         return platformId;
@@ -166,5 +167,13 @@ public class PlatformMemberModel extends RecordModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getRoleText() {
+        return roleText;
+    }
+
+    public void setRoleText(String roleText) {
+        this.roleText = roleText;
     }
 }
