@@ -34,6 +34,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
           setRadioShow();
 
           var billDataID = data.id;
+
           setFileUpload({
             id: 'file-filter-options', // 附件上传作用域ID值 必传
             dataID: billDataID, // 用来查找当前单据下绑定的附件，没有则不查找
@@ -52,11 +53,13 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
     });
   }
   
-	// 获取地址栏传递过来的参数
+  // 获取地址栏传递过来的参数
+  setRadioShow();
   var variable = getQueryVariable();
   getItemInitData(variable);
 
 	form.on('submit(newSubmit)', function(data) {
+
 		httpModule({
 			url: '/patentController/save',
 			data: data.field,
@@ -90,6 +93,14 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
         });
  
         $("div[showWhere='" + val + "']").css('display',''); 
+        
+        if(val !== '03') {
+          $("#licenseeProfit").val(0);
+        }
+
+        if(val !== '04') {
+          $("#assignProfit").val(0);
+        }
     }
 
         
@@ -114,7 +125,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
            
           if(data[f]) {
             try {
-              data[f] = (new Date(data[f])).toLocaleDateString();
+              data[f] = (new Date(data[f])).format('yyyy-MM-dd');
             }
             catch (e) {
               

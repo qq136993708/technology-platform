@@ -74,7 +74,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
          
         if(data[f]) {
           try {
-            data[f] = (new Date(data[f])).toLocaleDateString();
+            data[f] = (new Date(data[f])).format('yyyy-MM-dd');
           }
           catch (e) {
             
