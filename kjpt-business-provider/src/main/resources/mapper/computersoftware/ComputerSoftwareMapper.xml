@@ -23,17 +23,17 @@
     ID, UNIT_NAME, REGISTER_NUMBER, SOFTWARE_NAME, COPYRIGHT_OWNER, VERSION_NUMBER, RECORD_DATE, 
     DEVELOP_FINISH_DATE, SOFTWARE_INTRO, ENTRY_PEOPLE, ENTRY_TIME, NOTES, ACCESSORY_UPLOAD
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from computer_software
     where ID = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="delete" parameterType="java.lang.String">
     delete from computer_software
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.pcitc.base.computersoftware.ComputerSoftware" useGeneratedKeys="true">
+  <insert id="add" keyColumn="ID" keyProperty="id" parameterType="com.pcitc.base.computersoftware.ComputerSoftware" useGeneratedKeys="true">
     insert into computer_software (UNIT_NAME, REGISTER_NUMBER, SOFTWARE_NAME, 
       COPYRIGHT_OWNER, VERSION_NUMBER, RECORD_DATE, 
       DEVELOP_FINISH_DATE, SOFTWARE_INTRO, ENTRY_PEOPLE, 
@@ -124,7 +124,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
+  <update id="update" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
     update computer_software
     <set>
       <if test="unitName != null">
