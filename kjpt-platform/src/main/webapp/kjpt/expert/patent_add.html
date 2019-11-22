@@ -21,12 +21,12 @@
 <div class="layout-view-content dialog">
     <div class="layui-tab" lay-filter="tab-demo">
         <ul class="layui-tab-title tab-btn-layout">
-            <li class="layui-this">关联添加</li>
-            <li>手动录入</li>
+            <li class="layui-this">手动录入</li>
+            <li>关联添加</li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+                <div class="layui-hide" id="item">
                     <div class="layui-row layui-col-space20">
                         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                             <div class="layui-form-item item">
@@ -61,6 +61,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <form class="layui-form" action="" id="formPlatform" lay-filter="formPlatform">
+
                 </form>
                 <button data-type="add" class="add-item layui-btn">添加</button>
             </div>
@@ -73,12 +76,10 @@
         <a class="layui-btn layui-btn-normal" data-type="save">提交</a>
         <a class="layui-btn layui-btn-primary" data-type="close">关闭</a>
     </div>
+</div>
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
-</body>
-</html>
-
 <script>
     layui.use(['form', 'jquery','element','laydate'], function(){
         var $ = layui.jquery,form = layui.form,element=layui.element,laydate=layui.laydate;
@@ -91,9 +92,39 @@
             });
         }
         getPatentTimeStr();
+        // 获取地址栏传递过来的参数
+        var variable = getQueryVariable();
+        if(variable!=null){
+            httpModule({
+                url: '/expert-api/get/'+variable.id,
+                type: 'GET',
+                success: function(relData) {
+                    if (relData.success === true) {
+                        // 给form表单赋初始值
+                        var patentName=JSON.parse(relData.data.zjkPatentJsonList)
+                        if(patentName.length>0){
+                            patentName.map(function (item, index) {
+                                var html=$("#item").html()
+                                $("#formPlatform").append(html)
+                                getPatentTimeStr();
+                                $("#formPlatform>div").eq(index).find(".patentName").val(item.patentName)
+                                $("#formPlatform>div").eq(index).find(".getPatentTimeStr").val(item.getPatentTimeStr)
+                                $("#formPlatform>div").eq(index).find(".patentType").val(item.patentType)
+                                $("#formPlatform>div").eq(index).find(".describe").val(item.describe)
+                            })
+                        }else {
+                            var html=$("#item").html()
+                            $("#formPlatform").append(html)
+                            getPatentTimeStr();
+                        }
+
+                    }
+                }
+            });
+        }
         var $ = layui.$, active = {
             add:function(){
-                var html='<div class="layui-row layui-col-space20">'+$("#formPlatform div:nth-child(1)").html()+'</div>'
+                var html=$("#item").html()
                 $("#formPlatform").append(html)
                 getPatentTimeStr();
             },
@@ -136,3 +167,5 @@
         });
     });
 </script>
+</body>
+</html>

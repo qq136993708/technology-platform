@@ -5,7 +5,9 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.trademarkinfo.TrademarkInfoMapper;
+import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.trademark.TrademarkInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,8 @@ public class TrademarkInfoServiceImpl implements TrademarkInfoService {
 
     @Resource
     private TrademarkInfoMapper trademarkInfoMapper;
+    @Autowired
+    FileCommonService fileCommonService;
 
     public TrademarkInfo updateOrInsertTrademarkInfo(TrademarkInfo trademarkInfo) {
         IsEmptyUtil.isEmpty(trademarkInfo.getId());
@@ -38,6 +42,7 @@ public class TrademarkInfoServiceImpl implements TrademarkInfoService {
         }else{
             trademarkInfoMapper.insertSelective(trademarkInfo);
         }
+        fileCommonService.updateFileData(trademarkInfo.getFiles(),trademarkInfo.getId());
         return trademarkInfo;
     }
 

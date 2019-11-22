@@ -15,7 +15,7 @@
     <result column="law_status" jdbcType="VARCHAR" property="lawStatus" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="entry_date" jdbcType="TIMESTAMP" property="entryDate" />
-    <result column="file" jdbcType="VARCHAR" property="file" />
+    <result column="file" jdbcType="VARCHAR" property="files" />
     <result column="deleted" jdbcType="VARCHAR" property="deleted" />
 
     <result column="commodity_category_text" jdbcType="VARCHAR" property="commodityCategorytText" />
@@ -179,7 +179,7 @@
       <if test="entryDate != null">
         entry_date,
       </if>
-      <if test="file != null">
+      <if test="files != null">
         file,
       </if>
       <if test="deleted != null">
@@ -226,8 +226,8 @@
       <if test="entryDate != null">
         #{entryDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="file != null">
-        #{file,jdbcType=VARCHAR},
+      <if test="files != null">
+        #{files,jdbcType=VARCHAR},
       </if>
       <if test="deleted != null">
         #{deleted,jdbcType=VARCHAR},
@@ -349,8 +349,8 @@
       <if test="entryDate != null">
         entry_date = #{entryDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="file != null">
-        file = #{file,jdbcType=VARCHAR},
+      <if test="files != null">
+        file = #{files,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -369,7 +369,7 @@
       law_status = #{lawStatus,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       entry_date = #{entryDate,jdbcType=TIMESTAMP},
-      file = #{file,jdbcType=VARCHAR}
+      file = #{files,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="queryTrademarkList" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -387,10 +387,10 @@
       and applicant = #{applicant}
     </if>
     <if test="registerDateStart != null and registerDateStart != '' " >
-      and registerDate &gt;= #{registerDateStart}
+      and register_date &gt;= #{registerDateStart}
     </if>
     <if test="registerDateEnd != null and registerDateEnd != '' " >
-      and registerDate &lt;= #{registerDateEnd}
+      and register_date &lt;= #{registerDateEnd}
     </if>
     and deleted != '1'
   </select>

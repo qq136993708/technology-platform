@@ -29,7 +29,7 @@
     <result column="licensee_profit" jdbcType="DECIMAL" property="licenseeProfit" />
     <result column="assignor" jdbcType="VARCHAR" property="assignor" />
     <result column="assign_profit" jdbcType="DECIMAL" property="assignProfit" />
-    <result column="file" jdbcType="VARCHAR" property="file" />
+    <result column="file" jdbcType="VARCHAR" property="files" />
     <result column="creator" jdbcType="VARCHAR" property="creator" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
@@ -262,7 +262,7 @@
       <if test="assignProfit != null">
         assign_profit,
       </if>
-      <if test="file != null">
+      <if test="files != null">
         file,
       </if>
       <if test="creator != null">
@@ -366,8 +366,8 @@
       <if test="assignProfit != null">
         #{assignProfit,jdbcType=DECIMAL},
       </if>
-      <if test="file != null">
-        #{file,jdbcType=VARCHAR},
+      <if test="files != null">
+        #{files,jdbcType=VARCHAR},
       </if>
       <if test="creator != null">
         #{creator,jdbcType=VARCHAR},
@@ -531,7 +531,7 @@
       licensee_profit = #{record.licenseeProfit,jdbcType=DECIMAL},
       assignor = #{record.assignor,jdbcType=VARCHAR},
       assign_profit = #{record.assignProfit,jdbcType=DECIMAL},
-      file = #{record.file,jdbcType=VARCHAR},
+      file = #{record.files,jdbcType=VARCHAR},
       creator = #{record.creator,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       update_date = #{record.updateDate,jdbcType=TIMESTAMP},
@@ -672,7 +672,7 @@
       licensee_profit = #{licenseeProfit,jdbcType=DECIMAL},
       assignor = #{assignor,jdbcType=VARCHAR},
       assign_profit = #{assignProfit,jdbcType=DECIMAL},
-      file = #{file,jdbcType=VARCHAR},
+      file = #{files,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
@@ -685,7 +685,7 @@
   <select id="queryPatentList" parameterType="java.util.Map" resultMap="BaseResultMap">
     select  <include refid="Base_Column_List"/> from view_patent_info where 1=1
     <if test="unitName != null and unitName != '' " >
-      and unit_name = #{unitName}
+      and unit_name like CONCAT('%',#{unitName},'%')
     </if>
     <if test="applicationType != null and applicationType != '' " >
       and application_type = #{applicationType}
@@ -706,10 +706,10 @@
       and inventor = #{inventor}
     </if>
     <if test="applicationDateStart != null and applicationDateStart != '' " >
-      and applicationDate &gt;= #{applicationDateStart}
+      and application_date &gt;= #{applicationDateStart}
     </if>
     <if test="applicationDateEnd != null and applicationDateEnd != '' " >
-      and applicationDate &lt;= #{applicationDateEnd}
+      and application_date &lt;= #{applicationDateEnd}
     </if>
     and deleted != '1'
   </select>

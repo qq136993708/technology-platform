@@ -104,7 +104,7 @@ public class PatentController extends RestBaseController {
             this.setParam(condition, "applicationDateStart", DateUtil.format(applicationDateStart,DateUtil.FMT_SS));
         }
         if (!StringUtils.isEmpty(DateUtil.format(applicationDateEnd,DateUtil.FMT_SS))) {
-            this.setParam(condition, "applicationDateEnd", DateUtil.format(applicationDateStart,DateUtil.FMT_SS));
+            this.setParam(condition, "applicationDateEnd", DateUtil.format(applicationDateEnd,DateUtil.FMT_SS));
         }
         if (!StringUtils.isEmpty(applicationType)) {
             this.setParam(condition, "applicationType", applicationType);

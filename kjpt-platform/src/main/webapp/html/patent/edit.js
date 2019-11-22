@@ -1,34 +1,14 @@
- 
+var file_readonly = false;
 
 
 layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
     var form = layui.form;
-    var $ = layui.$;
-    var table = layui.table;
+    var $ = layui.$; 
     var laydate = layui.laydate;
   
     var $ = layui.jquery;
-    var form = layui.form;
-    var upload = layui.upload;
-
-
-    //普通图片上传
-  var uploadInst = upload.render({
-    elem: '#test1'
-    ,url: '/ocr-web/ocrtest/test'
-    
-    ,done: function(res){
-      alert(res.code);
-      //上传成功
-    }
-    ,error: function(){
-      alert('error');
-      //演示失败状态，并实现重传
-     
-    }
-  });
-  
-  
+    var form = layui.form; 
+ 
 
   function getItemInitData(item) {
     var httpUrl = '/patentController/newInit';
@@ -39,13 +19,34 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
       url: httpUrl,
       type: 'GET',
       success: function(relData) {
+        
+
         if (relData.code === '0') {
           // 给form表单赋初始值
-          form.val('formMain', relData.data);
+
+          var data = relData.data;
+          transToData(data, ['date','applicationDate','entryDate']);
+
+          form.val('formMain', data);
           // 更新表单数据
           form.render();
 
           setRadioShow();
+
+          var billDataID = data.id;
+          setFileUpload({
+            id: 'file-filter-options', // 附件上传作用域ID值 必传
+            dataID: billDataID, // 用来查找当前单据下绑定的附件，没有则不查找
+            readonly : file_readonly,
+            callback: function (tableData, type) {
+              /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
+                * type 触发变更的类型 目前只有 delete | upload
+              */
+              var files = $.map(tableData, function(item) { return item.id});
+              $("#files").val(files.join(','));
+            }
+          });
+
         }
       }
     });
@@ -60,52 +61,26 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
 			url: '/patentController/save',
 			data: data.field,
 			type: "POST",
-			success: function(e) {
+			success: function(e) { 
 				setDialogData(e); // 通知上层页面状态 - 弹窗中使用
 				top.layer.closeAll(); // 关闭弹窗
 			}
 		});
 		return false;
-    })
+    });
     
-    //表格渲染
-    table.render({
-        elem: '#tableFile',
-        cols: [[ //表头 
-          {field: 'fileName', title: '文件名'},
-          {field: 'size', title: '大小' },
-          {field: 'id', title: '操作', templet: '#fileOprTpl'}
-        ]],
-        data: [{id:1, fileName:'test', size: '111'}]
-      });
-
-      
-
-    function relistFile(fileList) { 
-        table.reload( 'tableFile', { 
-             data:[ {id:1, fileName:'test', size: '222'},  {id:1, fileName:'test', size: '222'}]
-          });
-    }
-
-
-       
-    function deleteFile(id) {
-        alert('delete' + id);
-    }
-
-    function download(id) {
-        alert('download' + id);
-    }
+ 
 
     $("#radio1").on("click", function(e) { 
         setRadioShow();
     });
 
     function setRadioShow() {
-        
+         
+
         $("div[showWhere]").css('display','none');  
 
-        var val = '';
+        var val = '01';
         var rs = $("#radio1").find("input[type='radio']"); 
         $.each(rs, function(i, item){ 
             var el = $(item);
@@ -117,14 +92,6 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
         $("div[showWhere='" + val + "']").css('display',''); 
     }
 
-    // 查看
-    $('#selectFile').on('click', function(e) { 
-    });
-
-    // 查看
-    $('#uploadFile').on('click', function(e) {
-        //alert("uploadFile");
-    });
         
     laydate.render({
       elem: '#date' //指定元素
@@ -141,9 +108,21 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
         ,trigger: 'click'
       });
    
-    bindSelectorDic($("#applicationType"), 'ROOT_KJPT_ZLFW', form);
-    bindSelectorDic($("#patentType"), 'ROOT_KJPT_ZLZL', form);
-    bindSelectorDic($("#legalStatus"), 'ROOT_KJPT_FLZT', form);
+    
+      function transToData(data, fields) {
+        $.each(fields, function(index, f){
+           
+          if(data[f]) {
+            try {
+              data[f] = (new Date(data[f])).toLocaleDateString();
+            }
+            catch (e) {
+              
+            }
+          }  
+        });
+      }
+       
 
   });
   
