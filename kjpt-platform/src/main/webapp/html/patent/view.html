@@ -208,10 +208,11 @@
           <div class="layui-form-item">
               <label class="layui-form-label label-required"><span class="text">专业转化应用：</span></label>
               <div class="layui-input-block" id="radio1">
-                  <input type="radio" name="applicationOfPatentTransformation" value="01" title="未实施" disabled="disabled">
-                  <input type="radio" name="applicationOfPatentTransformation" value="02" title="自行实施" disabled="disabled">
-                  <input type="radio" name="applicationOfPatentTransformation" value="03" title="许可实施" disabled="disabled">
-                  <input type="radio" name="applicationOfPatentTransformation" value="04" title="转让" disabled="disabled">
+                  <input type="text" name="applicationOfPatentTransformationText"  
+                  autocomplete="off" class="layui-input" style="width:130px">
+              
+                  <input type="hidden" name="applicationOfPatentTransformation" id="applicationOfPatentTransformation" >
+
               </div>
           </div>
       </div>
@@ -313,8 +314,16 @@
         //$("textarea").css('border', '0px');
         $("input").attr('readonly', true);
         $("textarea").attr('readonly', true);  
+        
+
+        // $("input").css("border","0");
+        // $("textarea").css("border","0");
 
         file_readonly = true;
+
+ 
+ 
+
 </script>
 
 </body>
