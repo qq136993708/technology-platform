@@ -140,10 +140,10 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
         elem: '#entryDate' //指定元素
         ,trigger: 'click'
       });
-  
-      bindSelectorDic($("#applicationType"), 'ROOT_KJPT_ZLFW', form);
-      bindSelectorDic($("#patentType"), 'ROOT_KJPT_ZLZL', form);
-      bindSelectorDic($("#legalStatus"), 'ROOT_KJPT_FLZT', form);
+   
+    bindSelectorDic($("#applicationType"), 'ROOT_KJPT_ZLFW', form);
+    bindSelectorDic($("#patentType"), 'ROOT_KJPT_ZLZL', form);
+    bindSelectorDic($("#legalStatus"), 'ROOT_KJPT_FLZT', form);
 
   });
   
