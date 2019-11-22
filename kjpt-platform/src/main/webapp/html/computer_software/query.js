@@ -19,16 +19,12 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
         ,url: '/patentController/query' //数据接口
         ,cols: [[ //表头
           {type: 'radio', field: 'id'}
-          ,{field: 'applicationNumber', title: '申请(专利)号'}
           ,{field: 'unitName', title: '单位名称', sort: true }
-          ,{field: 'applicationTypeText', title: '申请类型', sort: true}
-          ,{field: 'patentTypeText', title: '专利类型' } 
-          ,{field: 'applicant', title: '申请人'}
-          ,{field: 'inventor', title: '发明人', sort: true, templet: '#showUserTpl'}
-          ,{field: 'applicationDate', title: '申请日期', sort: true}
-          ,{field: 'countryText', title: '国别组织'}
-          ,{field: 'agency', title: '代理机构', sort: true}
-          ,{field: 'legalStatusText', title: '法律状态', sort: true}
+          ,{field: 'registerNumber', title: '登记号', sort: true}
+          ,{field: 'softwareName', title: '软件名称', sort: true } 
+          ,{field: 'copyrightOwner', title: '著作权人', sort: true}
+          ,{field: 'versionNumber', title: '版本号', sort: true}
+          ,{field: 'recordDate', title: '登记日期', sort: true, templet: '#recordDate'} 
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
@@ -62,14 +58,14 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 
   function openDataDilog(type, id) {
 
-    var url = '/html/patent/edit.html?type=' + type;
-    var dialogTitle = '新增专利信息'; 
+    var url = '/html/computer_software/edit.html?type=' + type;
+    var dialogTitle = '新增著作权信息'; 
 	  if (type === 'edit') {
-      dialogTitle = '编辑专利信息';  
+      dialogTitle = '编辑著作权信息';  
       url += '&id=' + id;
 	  } else if (type === 'view') {
-      dialogTitle = '专利信息查看'; 
-      url = '/html/patent/view.html?id=' + id;
+      dialogTitle = '著作权信息查看'; 
+      url = '/html/computer_software/view.html?id=' + id;
     } 
 
 	  // 打开弹窗
@@ -80,9 +76,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 		  content: url,
 		  btn: null,
 		  end: function() {
-       
-        var relData = getDialogData('dialog-data'); 
-
+        var relData = getDialogData('dialog-data');
 			  if (relData) {
 				  if (relData.code === '0') {
             layer.msg(dialogTitle+'成功!', {icon: 1});
@@ -90,8 +84,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 				  } else {
 					  layer.msg(relData.message, {icon: 2});
 				  }
-        }
-         
+			  }
 		  }
 	});
   }
@@ -110,7 +103,7 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
 	if (itemRowData) {
 		openDataDilog('edit', itemRowData.id);
     } else {
-    	layer.msg('请选择需要编辑的专利项目！');
+    	layer.msg('请选择需要编辑的著作权项目！');
     }
   });
 
@@ -119,18 +112,18 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
     if (itemRowData) {
       openDataDilog('view', itemRowData.id);
       } else {
-        layer.msg('请选择需要查看的专利项目！');
+        layer.msg('请选择需要查看的著作权项目！');
       }
   });
 
   // 删除
   $('#delItem').on('click', function(e) {
     if (itemRowData) {
-		layer.confirm('您确定要删除”'+itemRowData.patentName+'“吗？', {icon: 3, title:'删除提示'}, function(index){
+		layer.confirm('您确定要删除”'+itemRowData.softwareName+'“吗？', {icon: 3, title:'删除提示'}, function(index){
 		  layer.close(index);
       // 确认删除
       httpModule({
-        url: '/patentController/delete/' + itemRowData.id,
+        url: '/ComputerSoftware/delete' + itemRowData.id,
         type: 'DELETE',
         success: function(relData) {
           if (relData.code === '0') {
@@ -143,22 +136,19 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
       });
 		});
     } else {
-    	layer.msg('请选择需要删除的专利项目！');
+    	layer.msg('请选择需要删除的著作权项目！');
     }
   });
 
   laydate.render({
-    elem: '#applicationDateStart' //指定元素
+    elem: '#recordDateStart' //指定元素
   });
 
   laydate.render({
-    elem: '#applicationDateEnd' //指定元素
+    elem: '#recordDateEnd' //指定元素
   });
 
-
-
-  // bindSelectorDic($("#applicationType"), 'ROOT_KJPT_ZLFW', form);
-  // bindSelectorDic($("#patentType"), 'ROOT_KJPT_ZLZL', form);
+ 
 });
 
 function shouUser(userId) {
