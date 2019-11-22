@@ -34,24 +34,23 @@ public class PlatformPatentClient {
     @ApiOperation(value = "科研平台项目保存", notes = "科研平台项目保存")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public PlatformPatentModel save(@RequestBody PlatformPatentModel platformPatentModel){
-
         return pps.save(platformPatentModel);
     }
 
-    @ApiOperation(value = "平台项目批量保存", notes = "平台项目批量保存")
+    @ApiOperation(value = "平台专利批量保存", notes = "平台专利批量保存")
     @RequestMapping(value = "/batchSave", method = RequestMethod.POST)
     public Integer batchSave(@RequestBody List<PlatformPatentModel> list){
         return pps.batchSave(list);
     }
 
-    @ApiOperation(value = "查询科研平台项目列表", notes = "查询科研平台项目列表")
+    @ApiOperation(value = "查询科研平台专利列表", notes = "查询科研平台专利列表")
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public PageInfo query(@RequestBody(required = false) Map param){
         return pps.query(param);
     }
 
 
-    @ApiOperation(value = "科研平台项目删除", notes = "科研平台项目删除")
+    @ApiOperation(value = "科研平台专利删除", notes = "科研平台专利删除")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public Integer delete(@PathVariable String id){
         return pps.delete(id);
