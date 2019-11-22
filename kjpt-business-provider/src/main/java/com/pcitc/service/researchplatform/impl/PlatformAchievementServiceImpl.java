@@ -35,10 +35,14 @@ public class PlatformAchievementServiceImpl implements PlatformAchievementServic
     public PlatformAchievementModel save(PlatformAchievementModel platformAchievementModel) {
 
         IsEmptyUtil.isEmpty(platformAchievementModel.getId());
-        if(load(platformAchievementModel.getId()) ==null)
+        if(load(platformAchievementModel.getId()) ==null){
+            platformAchievementModel.setCreateDate(platformAchievementModel.getUpdateDate());
+            platformAchievementModel.setCreator(platformAchievementModel.getUpdator());
             platformAchievementMapper.add(platformAchievementModel);
-        else
+        }
+        else{
             platformAchievementMapper.update(platformAchievementModel);
+        }
         return platformAchievementModel;
     }
 
