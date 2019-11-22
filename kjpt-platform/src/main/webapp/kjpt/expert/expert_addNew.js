@@ -280,6 +280,9 @@ layui.config({
         data.field.zjkProjectJsonList=JSON.stringify(projectName)
         data.field.zjkPatentJsonList=JSON.stringify(patentName)
         data.field.zjkRewardJsonList=JSON.stringify(rewardName)
+        if(variable!=null){
+            data.field.id=variable.id
+        }
         httpModule({
             url: '/expert-api/save',
             data: data.field,

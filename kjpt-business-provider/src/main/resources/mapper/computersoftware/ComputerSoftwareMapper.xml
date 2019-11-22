@@ -188,7 +188,7 @@
 
     select *
     from
-    computer_software
+    computer_software t
 
     <where>
       <if test="unitName != null">
@@ -207,10 +207,13 @@
         VERSION_NUMBER = #{versionNumber,jdbcType=VARCHAR},
       </if>
       <if test="recordDateStart != null">
-        RECORD_DATE = #{recordDateStart,jdbcType=TIMESTAMP},
+        DATE_FORMAT(t.`RECORD_DATE`, '%Y-%m-%d') &gt;=  DATE_FORMAT(#{recordDateStart}, '%Y-%m-%d')
       </if>
       <if test="recordDateEnd != null">
-        RECORD_DATE = #{recordDateEnd,jdbcType=TIMESTAMP},
+
+        DATE_FORMAT(t.`RECORD_DATE`, '%Y-%m-%d') &lt;=  DATE_FORMAT(#{recordDateEnd}, '%Y-%m-%d')
+
+--          RECORD_DATE = #{recordDateEnd,jdbcType=TIMESTAMP},
       </if>
       <if test="developFinishDate != null">
         DEVELOP_FINISH_DATE = #{developFinishDate,jdbcType=TIMESTAMP},
