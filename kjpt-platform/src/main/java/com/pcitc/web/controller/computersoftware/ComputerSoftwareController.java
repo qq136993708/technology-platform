@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.GET;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,7 +73,7 @@ public class ComputerSoftwareController extends RestBaseController {
             @ApiImplicitParam(name = "accessoryUpload;;;", value = " 附件上传", dataType = "string", paramType = "query")
     })
 
-    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    @GetMapping(value = "/query")
     @ResponseBody
     public PageInfo query(
             @RequestParam(required = false, value = "pageNum") Integer pageNum,
