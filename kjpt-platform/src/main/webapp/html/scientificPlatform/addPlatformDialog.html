@@ -108,7 +108,7 @@
          </div>
        </div>
        
-       <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+       <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">平台评分：</span></label>
            <div class="layui-input-block">
@@ -117,6 +117,22 @@
            </div>
          </div>
        </div>
+       <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="text">上传图片：</span></label>
+            <div class="layui-input-block">
+              <input type="hidden" name="imgid" id="" />
+                <div class="img-view-block middle-block" id="imgFileUpload">
+                  <img src="" alt="请选择图片上传" />
+                  <div class="file-img-btn" label="imgUpload">
+                    <span class="btn-icon"></span>
+                    <span class="btn-text">点击此区域上传图片</span>
+                  </div>
+                  <span class="file-img-del middle-block"><span class="del" label="imgDelete">删除</span></span>
+                </div>
+            </div>
+          </div>
+        </div>
        
        <div class="dialog-footer-btn">
       		<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="newSubmit">提交</button>
@@ -135,6 +151,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
 </body>
 </html>
 
@@ -155,6 +172,7 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
         if (relData.code === '0') {
           // 给form表单赋初始值
           form.val('formPlatform', relData.data);
+          setImagesUpload();
           // 更新表单数据
           form.render();
           if (relData.data.supportingInstitutions) {
@@ -180,7 +198,17 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
 			}
 		});
 		return false;
-	})
+  })
+  
+  // 图片上传
+  setImagesUpload({
+    id: '#imgFileUpload', // 图片作用域的ID
+    callback: function (data, type) {
+      // 图片上传回调函数
+      // data 为图片上传成功后的数据， type为当前操作类型
+      // 如果type === 'delete'  data则为null
+    }
+  });
 	
 });
 </script>

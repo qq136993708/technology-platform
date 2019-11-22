@@ -128,6 +128,7 @@ function setFileUpload(config) {
 
 
 function setImagesUpload(config) {
+
   /* config = {
     id: '图片上传的作用域ID',
     callback: function(imgJson, type) {}
@@ -155,13 +156,36 @@ function setImagesUpload(config) {
       }
     });
 
+    $imgFile.on('click', '.delete-state-normal', function(e) {
+      $imgFile.removeClass('success').find('img').attr('src', '');
+      if (config.callback) {
+        config.callback(null, 'delete');
+      }
+    })
+
     if ($deleteBtn.length) {
-      $deleteBtn.on('click', function(e) {
-        $imgFile.removeClass('success').find('img').attr('src', '');
-        if (config.callback) {
-          config.callback(null, 'delete');
-        }
-      })
+      $deleteBtn.addClass('delete-state-normal');
     }
   });
 }
+
+// 控制图片上传状态 这里不作为绑定上传事件，切与绑定上传事件不冲突
+function setImagesUploadState(config) {
+  var $imgFile = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
+    fileBtn = $imgFile.find('[label="imgUpload"]').get(0),
+    $deleteBtn = $imgFile.find('[label="imgDelete"]').eq(0);
+
+  // 禁用图片上传功能
+  if (config.disabled) {
+    $(fileBtn).attr('disabled', 'true');
+    $deleteBtn.removeClass('delete-state-normal');
+  } else {
+    $(fileBtn).removeAttr('disabled');
+    $deleteBtn.addClass('delete-state-normal');
+  }
+
+  if (config.imgID) {
+    $imgFile.find('img').attr('src', '/file/imgFile/' + config.imgID)
+  }
+}
+
