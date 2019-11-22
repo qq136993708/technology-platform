@@ -17,18 +17,16 @@
     <result column="patent_ranking" jdbcType="VARCHAR" property="patentRanking" />
     <result column="application_effect" jdbcType="VARCHAR" property="applicationEffect" />
     <result column="out_system_id" jdbcType="VARCHAR" property="outSystemId" />
+    <result column="patent_type_str" jdbcType="VARCHAR" property="patentTypeStr" />
+    
+    
   </resultMap>
   <sql id="Base_Column_List">
     id, expert_id, source_type, del_status, patent_name, patent_type, `describe`, get_patent_time, 
     create_time, patent_no, patent_scope, patent_types, patent_ranking, application_effect, 
     out_system_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from zjk_patent
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
+ 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from zjk_patent
     where id = #{id,jdbcType=VARCHAR}
@@ -221,6 +219,18 @@
   
   
   
+  
+    <sql id="view_zjk_patent">
+     SELECT t1.*,
+      ( 
+         SELECT t2.`name` FROM sys_dictionary  t2 WHERE t2.`parent_code` ='ROOT_KJPT_ZLZL'
+          AND t2.`code`=t1.`patent_type`
+      ) patent_type_str
+     FROM zjk_patent t1
+	</sql>
+	
+	
+  
    <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="patentName != null and patentName  !='' ">             AND t.patent_name like CONCAT('%',#{patentName},'%')</if>
@@ -233,7 +243,7 @@
 	</sql>
 	
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from zjk_patent t <include refid="selectCondition" />    
+     select * from (<include refid="view_zjk_patent" />)  t <include refid="selectCondition" />    
      <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
@@ -263,5 +273,27 @@
     delete from zjk_patent  where expert_id = #{expertId,jdbcType=VARCHAR}
   </delete>
   
+  
+  
+    <select id="getListByExpertId" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select * from zjk_patent t where  expert_id = #{expertId,jdbcType=VARCHAR}
+   </select>
+   
+   
+   
+   
+   
+     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+	    select 
+	     *
+	    from (<include refid="view_zjk_patent" />)
+	    where id = #{id,jdbcType=VARCHAR}
+	  </select>
+  
+  
+  
+  
+   
+   
   
 </mapper>

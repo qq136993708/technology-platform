@@ -27,8 +27,8 @@ public class KgjImportServiceImpl implements KgjImportService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public List kgjImport(List dataList,String currentUser) {
-         IsEmptyUtil.isEmpty(dataList);
-         IsEmptyUtil.isEmpty(currentUser);
+        IsEmptyUtil.isEmpty(dataList);
+        IsEmptyUtil.isEmpty(currentUser);
         String batchId = UUID.randomUUID().toString().replace("-","");
         List<KgjImportModel> list = new ArrayList<>();
         for (int i = 0; i < dataList.size(); i++) {

@@ -14,6 +14,7 @@ public class ZjkBase  {
      * 删除状态（0未删除，1删除）
      */
     private String delStatus="";
+    private String delStatusStr;
 
     /**
      * 专家编号
@@ -39,6 +40,7 @@ public class ZjkBase  {
      * 性别
      */
     private String sex="1";
+    private String sexStr;
 
     /**
      * 年龄
@@ -54,21 +56,25 @@ public class ZjkBase  {
      * 学历
      */
     private String education="";
+    private String educationStr;
 
     /**
      * 技术领域
      */
     private String technicalField="";
+    private String technicalFieldStr;
 
     /**
      * 所在单位
      */
     private String belongUnit="";
+    private String belongUnitStr;
 
     /**
      * 职称
      */
     private String title="";
+    private String titleStr;
 
     /**
      * 职务
@@ -135,6 +141,7 @@ public class ZjkBase  {
               * 启用状态（1启用，0未启用）
      */
     private String useStatus="";
+    private String useStatusStr;
     
     private String zjkAchievementJsonList;
     private String zjkPatentJsonList;
@@ -147,6 +154,62 @@ public class ZjkBase  {
     
     
 
+
+	public String getDelStatusStr() {
+		return delStatusStr;
+	}
+
+	public void setDelStatusStr(String delStatusStr) {
+		this.delStatusStr = delStatusStr;
+	}
+
+	public String getSexStr() {
+		return sexStr;
+	}
+
+	public void setSexStr(String sexStr) {
+		this.sexStr = sexStr;
+	}
+
+	public String getEducationStr() {
+		return educationStr;
+	}
+
+	public void setEducationStr(String educationStr) {
+		this.educationStr = educationStr;
+	}
+
+	public String getTechnicalFieldStr() {
+		return technicalFieldStr;
+	}
+
+	public void setTechnicalFieldStr(String technicalFieldStr) {
+		this.technicalFieldStr = technicalFieldStr;
+	}
+
+	public String getBelongUnitStr() {
+		return belongUnitStr;
+	}
+
+	public void setBelongUnitStr(String belongUnitStr) {
+		this.belongUnitStr = belongUnitStr;
+	}
+
+	public String getTitleStr() {
+		return titleStr;
+	}
+
+	public void setTitleStr(String titleStr) {
+		this.titleStr = titleStr;
+	}
+
+	public String getUseStatusStr() {
+		return useStatusStr;
+	}
+
+	public void setUseStatusStr(String useStatusStr) {
+		this.useStatusStr = useStatusStr;
+	}
 
 	public String getZjkAchievementJsonList() {
 		return zjkAchievementJsonList;

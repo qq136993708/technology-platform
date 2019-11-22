@@ -209,5 +209,10 @@
   </delete>
   
   
+    <select id="getListByExpertId" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select * from zjk_project t where  expert_id = #{expertId,jdbcType=VARCHAR}
+   </select>
+   
+  
   
 </mapper>

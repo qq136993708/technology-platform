@@ -179,4 +179,11 @@ public interface UnitService
 	
 	public  List<SysUnit> getChildscUnitBycodes(List list)throws Exception;
 	
+	/**
+	 * 查询未删除的机构
+	 * @param unit
+	 * @return
+	 * @throws Exception
+	 */
+	public List<SysUnit> getAllList()throws Exception;
 }

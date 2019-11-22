@@ -126,13 +126,24 @@ layui.use(['form'], function(){
   // form.render('select'); //刷新所有select选择框渲染
   //监听提交
   form.on('submit(formDemo)', function(data){
-      console.log(data);
-      // layer.msg(JSON.stringify(data.field));
-      return false;
-    });
+    console.log(data);
+    // layer.msg(JSON.stringify(data.field));
+    return false;
+  });
+
+  // 统一设置表单元素禁用方法；&lt;form lay-filter="formAddPlan">&lt;/form>
+  // 类名为 not-className 的元素不设置disabled
+  setFomeDisabled('formAddPlan', '.not-className');
+
+  // 集体解除disabled 类名为 not-className 的表单元素不处理
+  setFomeUnDisabled('formAddPlan', '.not-className');
+
+  表单元素Disabled设置完成后需要更新表单状态；
+  layui.form.render('select'); // 更新下拉框状态
+  layui.formSelects.disabled(); // 多选下拉框设置disabled;
+  layui.formSelects.undisabled(); // 多选下拉框去掉disabled;
 });
 </code></pre>
-
 <pre><code class="language-html">
 // 表单元素ITEM => 带搜索按钮的必填输入框
 /*

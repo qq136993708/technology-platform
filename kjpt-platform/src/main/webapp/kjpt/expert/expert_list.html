@@ -70,42 +70,13 @@
                         {type: 'radio' },
                         {title: '序号',type:'numbers' },
                         {field: 'name', title: '姓名',templet: function(d){
-                                return ('<a href="./expert_view.html" class="layui-table-link">'+d.name+'</a>')
+                                return ('<a href="./expert_view.html?id='+d.id+'" class="layui-table-link">'+d.name+'</a>')
                             } },
-                        {field: 'sex', title: '性别',templet: function(d){
-                            if(d.sex==1){return "男"}else {return " 女"}
-                            }},
+                        {field: 'sexStr', title: '性别'},
                         {field: 'title', title: '职称'},
-                        {field: 'education', title: '学历',templet: function(d){
-                                var text=''
-                                httpModule({
-                                    url: "/sysDictionary-api/getDictionaryByCode/"+d.education,
-                                    type: 'GET',
-                                    async:false,
-                                    success: function(relData) {
-                                        console.log(relData)
-                                        if (relData.success === true) {
-                                            text=relData.data.name
-                                        }
-                                    }
-                                });
-                                return text
-                            } },
-                        {field: 'belongUnit', title: '所在单位',templet: function(d){
-                                var text=''
-                                httpModule({
-                                    url: "/sysDictionary-api/getDictionaryByCode/"+d.belongUnit,
-                                    type: 'GET',
-                                    async:false,
-                                    success: function(relData) {
-                                        if (relData.success === true) {
-                                            text=relData.data.name
-                                        }
-                                    }
-                                });
-                                return text
-                            }},
-                        {field: 'technicalField', title: '专业领域'},
+                        {field: 'educationStr', title: '学历' },
+                        {field: 'belongUnitStr', title: '所在单位'},
+                        {field: 'technicalFieldStr', title: '专业领域'},
                         {field: 'contactWay', title: '联系方式'}
                     ]],
                     method: 'post', // 数据请求接口类型 默认 get, 如果是get 可以去掉此项
@@ -146,11 +117,35 @@
             },
             editItem:function () {
                 /*编辑*/
+                if(itemRowData.id==undefined){
+                    layer.msg(' 请选择一条数据！', {icon: 2});
+                    return
+                }
                 obj.layerOpen("编辑专家",itemRowData.id);
             },
             delItem:function () {
                 /*删除*/
                 console.log("delItem")
+                if (itemRowData) {
+                    layer.confirm('您确定要删除吗？', {icon: 3, title:'删除提示'}, function(index){
+                        layer.close(index);
+                        // 确认删除
+                        httpModule({
+                            url: '/expert-api/delete/' + itemRowData.id,
+                            type: 'get',
+                            success: function(relData) {
+                                if (relData.success) {
+                                    layer.msg('删除成功!', {icon: 1});
+                                    $('[lay-filter="formDemo"]').click();
+                                } else {
+                                    layer.msg('删除失败', {icon: 2});
+                                }
+                            }
+                        });
+                    });
+                } else {
+                    layer.msg('请选择需要删除的数据！');
+                }
             },
             downloadData:function () {
                 console.log("downloadData")

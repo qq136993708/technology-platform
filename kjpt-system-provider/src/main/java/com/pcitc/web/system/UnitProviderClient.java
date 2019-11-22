@@ -400,4 +400,17 @@ public class UnitProviderClient
 		List<SysUnit> list = unitService.selectUnitByIds(unitIds);
 		return list;
 	}
+	
+	
+	
+	@ApiOperation(value="查询未删除的机构",notes="查询未删除的机构")
+	@RequestMapping(value = "/unit-provider/unit/getAllList", method = RequestMethod.POST)
+	public JSONArray getAllList(@RequestBody Map map) throws Exception
+	{
+		List<SysUnit> result= unitService.getAllList();
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(result));
+		return json;
+	}
+	
+	
 }

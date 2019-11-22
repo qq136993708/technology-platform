@@ -37,8 +37,19 @@ public class ZjkPatent implements Serializable {
      * 专利类型
      */
     private String patentType="";
+    private String  patentTypeStr;
+    
+    
 
-    /**
+    public String getPatentTypeStr() {
+		return patentTypeStr;
+	}
+
+	public void setPatentTypeStr(String patentTypeStr) {
+		this.patentTypeStr = patentTypeStr;
+	}
+
+	/**
      * 专利描述
      */
     private String describe="";

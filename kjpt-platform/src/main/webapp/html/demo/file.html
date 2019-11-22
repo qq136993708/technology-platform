@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>中核科技管理平台</title>
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <!-- 多选下拉框样式，根据需求添加 -->
+  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+  <link rel="stylesheet" href="/css/layui-common.css">
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="prism.css">
+</head>
+<body>
+<div class="layout-view-content">
+  <div id="file-filter-options">
+    <div class="view-title-layout disabled-box view-pt0">
+      <div class="right">
+        <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
+      </div>
+    </div>
+    <div class="layui-form-item">
+      <label class="layui-form-label label-required"><span class="text">附件：</span></label>
+      <div class="layui-input-block"><table></table></div>
+    </div>
+  </div>
+
+  <div class="layui-form-item">
+    <label class="layui-form-label label-required"><span class="text">上传图片：</span></label>
+    <div class="layui-input-block">
+      <div class="img-view-block middle-block" id="imgFileUpload">
+        <img src="" alt="请选择图片上传" />
+        <div class="file-img-btn" label="imgUpload">
+          <span class="btn-icon"></span>
+          <span class="btn-text">点击此区域上传照片</span>
+        </div>
+        <span class="file-img-del middle-block"><span class="del" label="imgDelete">删除</span></span>
+      </div>
+    </div>
+  </div>
+
+
+<pre><code class="language-html">
+&lt;!-- id="file-filter-options"  附件上传必须作用域  -->
+&lt;div id="file-filter-options">
+  &lt;div class="view-title-layout disabled-box view-pt0">
+    &lt;div class="right">
+      &lt;label type="button" class="layui-btn border-blue" filter="addFile">选择文件&lt;/label>
+    &lt;/div>
+  &lt;/div>
+  &lt;div class="layui-form-item">
+    &lt;label class="layui-form-label label-required">&lt;span class="text">附件：&lt;/span>&lt;/label>
+    &lt;div class="layui-input-block">&lt;table>&lt;/table>&lt;/div>
+  &lt;/div>
+&lt;/div>
+&lt;!-- 必须引入 fileUpload.js 在common.js后面引入 -->
+&lt;script src="/layuiadmin/js/fileUpload.js">&lt;/script>
+</code><code class="language-javascript">
+var billDataID = 'b1fde50390b64ab1ad872728dbd1df08';
+setFileUpload({
+  id: 'file-filter-options', // 附件上传作用域ID值 必传
+  dataID: billDataID, // 用来查找当前单据下绑定的附件，没有则不查找
+  callback: function (tableData, type) {
+    /* callback 表格数据每次变更时的回调，返回表格数据与操作类型
+      * type 触发变更的类型 目前只有 delete | upload
+    */
+    console.log(tableData, type);
+  }
+});
+</code><code class="language-html">
+&lt;!-- 图片上传 -->
+&lt;div class="img-view-block middle-block" id="imgFileUpload">
+  &lt;img src="" alt="请选择图片上传" />
+  &lt;div class="file-img-btn" label="imgUpload">
+    &lt;span class="btn-icon">&lt;/span>
+    &lt;span class="btn-text">点击此区域上传照片&lt;/span>
+  &lt;/div>
+  &lt;span class="file-img-del middle-block">&lt;span class="del" label="imgDelete">删除&lt;/span>&lt;/span>
+&lt;/div>
+&lt;!-- 必须引入 fileUpload.js 在common.js后面引入 -->
+&lt;script src="/layuiadmin/js/fileUpload.js">&lt;/script>
+</code><code class="language-javascript">
+setImagesUpload({
+  id: '#imgFileUpload', // 图片作用域的ID
+  callback: function (data, type) {
+    // 图片上传回调函数
+    // data 为图片上传成功后的数据， type为当前操作类型
+    // 如果type === 'delete'  data则为null
+  }
+});
+</code></pre>
+</div>
+
+<script src="prism.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
+<script>
+// layui 使用说明 ----- 多个模块同时引用
+layui.use(['element', 'form', 'table', 'upload'], function(){
+  var element = layui.element;
+  var form = layui.form;
+  var upload = layui.upload;
+  var table = layui.table;
+
+  var billID = 'b1fde50390b64ab1ad872728dbd1df08';
+  var layerLoadIndex = null;
+  setFileUpload({
+    id: 'file-filter-options',
+    dataID: billID,
+    callback: function (tableData, type) {
+      console.log(tableData);
+    }
+  });
+
+  setImagesUpload({
+    id: '#imgFileUpload',
+    callback: function (data, type) {
+      
+    }
+  });
+});
+</script>
+</body>
+</html>

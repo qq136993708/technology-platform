@@ -32,8 +32,19 @@ public class ZjkReward implements Serializable {
      * 奖励级别
      */
     private String rewarkLevel;
+    
+    private String  rewarkLevelStr;
+    
 
-    /**
+    public String getRewarkLevelStr() {
+		return rewarkLevelStr;
+	}
+
+	public void setRewarkLevelStr(String rewarkLevelStr) {
+		this.rewarkLevelStr = rewarkLevelStr;
+	}
+
+	/**
      * 奖励描述
      */
     private String notes;

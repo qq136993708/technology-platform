@@ -66,14 +66,23 @@ body > .layui-layout{
 	padding: 15px 40px 15px 20px;
 	text-align: right;
 }
-
+.layout-view-content.label-dialog .layui-form-label,
 .layout-view-content.dialog .layui-form-label {
 	width: 120px;
 	max-width: 120px;
 }
+.layout-view-content.label-dialog .layui-input-block,
 .layout-view-content.dialog .layui-input-block{
 	margin-left: 120px;
 }
+.layout-view-content.min-label .layui-form-label{
+	width: 108px;
+	max-width: 108px;
+}
+.layout-view-content.min-label .layui-input-block{
+	margin-left: 108px;
+}
+
 
 .hide-block {
 	display: none !important;
@@ -102,6 +111,10 @@ body > .layui-layout{
   padding: 9px 0;
   font-size: 0;
   height: 48px;
+}
+.view-title-layout.view-pt0 {
+  padding-top: 0;
+  height: 39px;
 }
 .view-title-layout > .right {
   float: right;
@@ -227,6 +240,130 @@ a.link-text:hover {
 dd[xm-tree-hidn] > .x-tree-item-parent > .x-tree-icon::before {
   content: '+';
 }
+.xm-select-radio div.xm-form-checkbox > i {
+  display: none;
+}
+.xm-select-radio div.xm-form-checkbox > span {
+  padding: 0 2px;
+}
+.xm-select-radio dd.xm-select-this:hover,
+.xm-select-radio dd.xm-select-this {
+  background-color: #1890FF !important;
+}
+.xm-select-radio dd.xm-select-this .xm-form-checkbox > span {
+  color: #fff !important;
+}
+
 /* 下拉目录树end */
 
 
+/* 附件上传相关样式 */
+.file-options {
+  font-size: 0;
+  text-align: center;
+}
+.file-options-delete,
+.file-options-delete:hover,
+.file-options-delete:active {
+  color: #FF2626;
+  margin-right: 15px;
+  font-size: 14px;
+}
+.file-options-download {
+  font-size: 14px;
+}
+.img-view-block {
+  font-size: 0 !important;
+  height: 130px;
+  border: 1px #0AA1FF dashed;
+  border-radius: 4px;
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+}
+.img-view-block > img {
+  height: 100%;
+  max-width: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  border: none;
+  visibility: hidden;
+  position: absolute;
+}
+.img-view-block.success > img {
+  visibility: visible;
+  position: relative;
+}
+.img-view-block .file-img-btn {
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  padding: 0 15px;
+}
+.img-view-block.success > .file-img-btn {
+  display: none;
+}
+.img-view-block .file-img-btn .btn-icon {
+  display: block;
+  margin: 0 auto;
+  width: 30px;
+  height: 30px;
+  position: relative;
+}
+.img-view-block .file-img-btn .btn-icon::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  margin-top: -1px;
+  left: 0;
+  background-color: #ABB0BB;
+}
+.img-view-block .file-img-btn .btn-icon::before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 2px;
+  position: absolute;
+  left: 50%;
+  margin-left: -1px;
+  top: 0;
+  background-color: #ABB0BB;
+}
+.img-view-block .file-img-btn .btn-text{
+  display: block;
+  font-size: 14px;
+  color: #ABB0BB;
+  white-space: nowrap;
+  padding-top: 15px;
+}
+.img-view-block .file-img-btn:hover .btn-icon::before,
+.img-view-block .file-img-btn:hover .btn-icon::after{
+  background-color: #0AA1FF;
+}
+.img-view-block .file-img-btn:hover .btn-text{
+  color: #0AA1FF;
+}
+.img-view-block .file-img-del{
+  position: absolute;
+  height: 100%;
+  overflow: hidden;
+  width: 0;
+  background-color: rgba(0, 0, 0, 0);
+  transition: all .24s ease-out;
+}
+.img-view-block .file-img-del .del {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+  padding: 0 12px;
+  line-height: 24px;
+  color: #fff;
+  cursor: pointer;
+}
+.img-view-block.success:hover .file-img-del {
+  width: 72px;
+  background-color: rgba(0, 0, 0, .1);
+}

@@ -31,4 +31,6 @@ public interface ZjkProjectMapper  {
     
     int  deleteLogicZjkProjectById(String id);
     
+    List getListByExpertId(String expertId);
+    
 }

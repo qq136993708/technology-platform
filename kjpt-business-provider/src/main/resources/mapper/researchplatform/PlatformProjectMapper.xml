@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.researchplatform.PlatformProjectMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.researchPlatform.PlatformProjectModel">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="platform_id" jdbcType="VARCHAR" property="platformId"/>
+        <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
+        <result column="project_name" jdbcType="VARCHAR" property="projectName"/>
+        <result column="major_type" jdbcType="DECIMAL" property="majorType"/>
+        <result column="duty_institutions" jdbcType="VARCHAR" property="dutyInstitutions"/>
+        <result column="approval_year" jdbcType="VARCHAR" property="approvalYear"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id,
+        platform_id,
+        base_id,
+        project_name,
+        major_type,
+        duty_institutions,
+        approval_year,
+        deleted,
+        create_user,
+        create_date,
+        update_user,
+        update_date
+       </sql>
+
+    <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"/> from kypt_project where id = #{id} and deleted != '1'
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"/> from kypt_project where 1=1 and platform_id = #{platformId}
+            and deleted != '1'
+    </select>
+
+
+    <insert id="add" parameterType="com.pcitc.base.researchPlatform.PlatformProjectModel">
+        insert into kypt_project(id,platform_id,base_id,project_name,major_type,duty_institutions,approval_year,deleted,create_user,create_date,update_date,update_user)
+         values(#{id},#{platformId},#{baseId},#{projectName},#{majorType},#{dutyInstitutions},#{approvalYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator})
+    </insert>
+
+    <update id="update" parameterType="com.pcitc.base.researchPlatform.PlatformProjectModel">
+        update kypt_project
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectName != null and projectName != '' " >
+                project_name = #{projectName},
+            </if>
+            <if test="majorType != null and majorType != '' " >
+                major_type = #{majorType},
+            </if>
+            <if test="dutyInstitutions != null and dutyInstitutions != ''" >
+                duty_institutions = #{dutyInstitutions},
+            </if>
+            <if test="approvalYear != null and approvalYear != ''" >
+                approval_year = #{approvalYear},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.String">
+            update kypt_project set deleted = '1' where id = #{id}
+    </update>
+</mapper>

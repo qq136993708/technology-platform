@@ -1,9 +1,7 @@
 //拓展Array map方法
 if(!Array.prototype.map){Array.prototype.map=function(i,h){var b,a,c,e=Object(this),f=e.length>>>0;if(h){b=h}a=new Array(f);c=0;while(c<f){var d,g;if(c in e){d=e[c];g=i.call(b,d,c,e);a[c]=g}c++}return a}};
-		
 //拓展Array foreach方法
 if(!Array.prototype.forEach){Array.prototype.forEach=function forEach(g,b){var d,c;if(this==null){throw new TypeError("this is null or not defined")}var f=Object(this);var a=f.length>>>0;if(typeof g!=="function"){throw new TypeError(g+" is not a function")}if(arguments.length>1){d=b}c=0;while(c<a){var e;if(c in f){e=f[c];g.call(d,e,c,f)}c++}}};
-
 //拓展Array filter方法
 if(!Array.prototype.filter){Array.prototype.filter=function(b){if(this===void 0||this===null){throw new TypeError()}var f=Object(this);var a=f.length>>>0;if(typeof b!=="function"){throw new TypeError()}var e=[];var d=arguments[1];for(var c=0;c<a;c++){if(c in f){var g=f[c];if(b.call(d,g,c,f)){e.push(g)}}}return e}};
 
@@ -167,7 +165,13 @@ function httpModule(config) {
 			},
 			dataFilter: function(data, dataType) {
 				if (dataType === 'json') {
-					return JSON.stringify(switchHttpData(JSON.parse(data)));
+					try {
+						return JSON.stringify(switchHttpData(JSON.parse(data)));
+					} catch (err) {
+						if (!data) {
+							console.log(err);
+						}
+					}
 				} else {
 					return data;
 				}
@@ -241,10 +245,14 @@ function _commonLoadDic(dicKindCode, callback) {
 					if (!relData.data) {
 						__dicData = [];
 					} else {
-						__dicData = relData.data.map(function(item, i) { return item });
+						__dicData = relData.data.map(function(item, i) {
+							if (!item.value) {
+								item.value = item.code;
+							}
+							return item
+						});
 					}
-					top.__base_dic_store[dicKindCode].data = relData.data;
-
+					top.__base_dic_store[dicKindCode].data = __dicData;
 					if (callback) {
 						callback(__dicData);
 					}
@@ -374,13 +382,33 @@ function dateFormatText(d) {
 	return d.toLocaleDateString();
 }
 
-function getObjectData(dataJson, code) {
+function getObjectData(dataJson, value) {
 	var tempData = null;
-	if (dataJson != null && typeof(dataJson) === 'object' && dataJson.length) {
-		for (var i = 0; i < dataJson.length; i++) {
-			if (dataJson[i].value === code || dataJson[i].numValue === code) {
-				tempData = dataJson[i].name;
-				break;
+	if (dataJson != null) {
+		if (typeof(dataJson) === 'object' && dataJson.length) {
+			// 当前数据时个数组
+			for (var i = 0; i < dataJson.length; i++) {
+				if (dataJson[i].value === value || dataJson[i].numValue === value || dataJson[i].code === value) {
+					tempData = dataJson[i].name;
+					break;
+				}
+				// 判断是否有子集， 有子集则从子集中去匹配
+				if (dataJson[i].hasOwnProperty('childNodes') || dataJson[i].hasOwnProperty('children')) {
+					var tempDataArr = [];
+					if (typeof(dataJson[i].childNodes) === 'object' && dataJson[i].childNodes.length) {
+						tempDataArr = tempDataArr.concat(dataJson[i].childNodes);
+					}
+					if (typeof(dataJson[i].children) === 'object' && dataJson[i].children.length) {
+						tempDataArr = tempDataArr.concat(dataJson[i].children);
+					}
+					if (tempDataArr.length) {
+						tempData = getObjectData(dataJson, value);
+						// 如果从子集中拿到相应的值后、则退出循环
+						if (tempData) {
+							break;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -395,13 +423,13 @@ function setTargetNameValue(data) {
 			var dicKindCode = $(this).attr('diy-dic-data');
 			var targetValue = '';
 			if (dicKindCode) {
+				// 从字典中读取数据
 				var __dicData = _getDicStore(dicKindCode, 'target');
+				// 是否获取到相应字典数据
 				if (__dicData.length) {
-					console.log(labelKey, data);
 					if (data[labelKey].indexOf(',') !== -1) {
 						var keyArr = data[labelKey].split(',');
 						for (var i = 0; i < keyArr.length; i++) {
-							console.log();
 							targetValue += ',' + getObjectData(__dicData, keyArr[i]);
 						}
 						targetValue = targetValue.substring(1);
@@ -409,10 +437,12 @@ function setTargetNameValue(data) {
 						targetValue = getObjectData(__dicData, data[labelKey]);
 					}
 				} else {
+					// 当前字典数据暂未获取到，绑定获取数据成功事件
 					$(document).on('dicTarget_' + dicKindCode, function(event, param) {
-						$(this).text(getObjectData(param.data, labelKey));
+						$(this).text(getObjectData(param.data, data[labelKey]));
 					})
 				}
+
 			} else {
 				targetValue = data[labelKey];
 			}
@@ -421,6 +451,55 @@ function setTargetNameValue(data) {
 	} else {
 		top.layer.msg('赋值数据有误！', {icon: 2});
 	}
+}
+
+function setNotClassName(notClass) {
+	var className = '';
+	if (notClass.indexOf(',') !== -1) {
+		var classArr = notClass.split(',');
+		$.each(notClass.split(','), function(i, name) {
+			className = ',' + setNotClassName(name);
+		})
+		className = className.substring(1);
+	} else if (notClass.indexOf('.') !== -1) {
+		className = notClass;
+	} else {
+		className = '.' + notClass;
+	}
+	return notClass;
+}
+
+// 设置表单元素不可读取 disabled
+function setFomeDisabled(filter, notClass) {
+	var formItems = $('form[lay-filter="'+ filter +'"]')[0];
+	$.each(formItems, function(i, item) {
+		$(item).not(setNotClassName(notClass) + ',.close-all-dialog').prop('disabled', true);
+	})
+}
+// 取消表单元素不可读取 disabled
+function setFomeUnDisabled(filter, notClass) {
+	var formItems = $('form[lay-filter="'+ filter +'"]')[0];
+	$.each(formItems, function(i, item) {
+		$(item).not(setNotClassName(notClass) + ',.close-all-dialog').prop('disabled', false);
+	})
+}
+
+
+// 添加文件大小单位
+function setFileSize(number) {
+	var size = '0 k';
+	if (typeof(number) == 'number') {
+		if (number/1024 > 1024) {
+			if ( number/(1024 * 1024) > 1024 ) {
+				size = parseFloat(number/(1024 * 1024 * 1024)).toFixed(2) + 'G';
+			} else {
+				size = parseFloat(number/(1024 * 1024)).toFixed(2) + 'Mb';
+			}
+		} else {
+			size = parseFloat(number/1024).toFixed(2) + ' kb';
+		}
+	}
+	return size;
 }
 
 
