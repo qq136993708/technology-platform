@@ -28,10 +28,15 @@
 }
 .item-details-img .img-box{
   width: 258px;
-  min-height: 280px;
+  height: 260px;
   border: 1px #e7e7e7 solid;
-  background: #fff url('/images/icon-synopsis2.png') no-repeat center center;
-  background-size: 100% 100%;
+  font-size: 0;
+  overflow: hidden;
+}
+.item-details-img .img-box > img {
+  width: 100%;
+  display: inline-block;
+  vertical-align: middle;
 }
 .item-details-img .text-box {
   max-width: calc(100% - 258px);

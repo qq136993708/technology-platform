@@ -55,7 +55,10 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       url: '/platform-api/load/' + variable.id,
       success: function(relData) {
         if (relData.code === '0') {
-          setTargetNameValue(relData.data)
+          setTargetNameValue(relData.data);
+          if (relData.data.imgId) {
+            $('#platformImg').attr('src', + '/file/imgFile/' + relData.data.imgId);
+          }
         }
       }
     });
@@ -144,7 +147,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'patentName', title: '专利名称', sort: true }
         ,{field: 'patentType', title: '专利类型', sort: true}
         ,{field: 'applicationDate', title: '申请日期', templet: function(d) {
-          return dateFormatText(d.applicationDate);
+          return dateFieldText(d.applicationDate);
         }} 
         ,{field: 'remark', title: '描述'}
       ]]
