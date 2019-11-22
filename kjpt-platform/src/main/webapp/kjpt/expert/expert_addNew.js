@@ -284,11 +284,13 @@ layui.config({
         if(variable!=null){
             data.field.id=variable.id
         }
+        console.log(data.field)
         httpModule({
             url: '/expert-api/save',
             data: data.field,
             type: "POST",
             success: function(e) {
+                console.log(e)
                 if(e.success){
                     layer.msg('保存成功!', {icon: 1});
                     closeTabsPage();
