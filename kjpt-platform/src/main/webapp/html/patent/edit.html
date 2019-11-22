@@ -269,23 +269,19 @@
         </div>
     </div> 
     
-    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+    <div id="file-filter-options">
         <div class="view-title-layout" style="margin-top:40px;">
             <div class="right">
-                <button class="layui-btn border-red" id="selectFile" type="button">选择文件</button>
-                <button class="layui-btn border-blue" id="uploadFile" type="button">上传</button>
+              <label type="button" class="layui-btn border-blue" filter="addFile">添加附件</label>
             </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label"><span class="text">附件：</span></label>
+          <div class="layui-input-block"><table></table></div>
         </div>
     </div>
-
-    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-        <div class="layui-form-item">
-            <label class="layui-form-label"><span class="text">附件：</span></label>
-            <div class="layui-input-block">
-                    <table id="tableFile" ></table>
-            </div>
-        </div>
-    </div> 
+ 
+    <input type="hidden" name="files" id="files">
       
     <div style="height:80px;"></div>
 
@@ -298,28 +294,18 @@
      <input type="hidden" name="creator">
      <input type="hidden" name="createDate">
      <input type="hidden" name="updateDate">
-     <input type="hidden" name="updator">
-     <input type="hidden" name="deleted">
-     <input type="hidden" name="level">
+     <input type="hidden" name="updator"> 
    </form>
 </div>
 
-<script type="text/html" id="fileOprTpl">
-    <a href="javascript:deleteFile('{{d.id}}')" class="layui-table-link" style="margin-right:20px">删除</a>
-    <a href="javascript:download('{{d.id}}')" class="layui-table-link">下载</a>
-</script>
 
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
 <script src="edit.js"></script>
 
-
-
-<div class="layui-upload">
-        <button type="button" class="layui-btn" id="test1">上传图片</button>
-         
-      </div>   
+ 
 
       
 </body>
