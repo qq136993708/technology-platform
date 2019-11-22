@@ -1,12 +1,34 @@
-layui.use(['form', 'jquery', 'table', 'layer'], function(){
+layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 	var $ = layui.jquery;
 	var form = layui.form;
 	var table = layui.table;
 	var layer = layui.layer;
+	var laydate = layui.laydate;
 	
 	// 获取地址栏传递过来的参数
-  var variable = getQueryVariable();
-	var submitType = '';
+	function getItemData(data) {
+		var httpUrl = '/platformProject-api/newInit';
+		if (data.id) {
+			httpUrl = '/platformProject-api/load/' + data.id
+		}
+
+		httpModule({
+			url: httpUrl,
+			success: function(res) {
+				if (res.code === '0') {
+					var formData = res.data;
+					if (!formData.platformId) {
+						formData.platformId = data.platformId;
+					}
+					console.log(formData);
+
+					form.val('formProject', res.data);
+				}
+			}
+		});
+	}
+
+	var submitType = 'input';
 	function switchItem(type) {
 		submitType = type;
 		if (type === 'unInput') {
@@ -17,12 +39,24 @@ layui.use(['form', 'jquery', 'table', 'layer'], function(){
 			$('.input-layout-box').show();
 		}	
 	}
-	// 默认显示关联录入
-	switchItem('unInput');
+
+	laydate.render({ elem: '#approvalYear', type: 'year', btns: ['clear', 'confirm']});
+	
+	var variable = getQueryVariable();
+	if (variable.type === 'edit') {
+		submitType = 'input';
+	}
+
+	console.log(variable)
+
+	getItemData(variable);
+
 	// 监听录入方式变化
 	form.on('radio(optionType)', function(data) {
 		switchItem(data.value);
 	})
+	switchItem(submitType);
+	form.val('formRadio', {optionType: submitType});
 	
 	// 重置搜索框的值
 	$('#restProjectNameValue').click(function() {
@@ -57,9 +91,18 @@ layui.use(['form', 'jquery', 'table', 'layer'], function(){
 	
 	form.on('submit(InputSubmit)', function(data) {
 		// 手工录入提交
-    console.log(data.field);
-    setDialogData([data.field]);
-    top.layer.closeAll();
+		httpModule({
+			type: 'POST',
+			url: '/platformProject-api/save',
+			data: data.field,
+			success: function(res) {
+				if (res.code === '0') {
+					setDialogData(res);
+					top.layer.closeAll();
+				}
+				console.log(res);
+			}
+		});
 		return false;
 	})
 	
