@@ -74,7 +74,7 @@ public class ExpertController extends BaseController {
 	
 	
 	/**
-	 * 根据ID删除
+	 * 根据ID删除 
 	 */
 	private static final String DEL_EXPERT_URL = "http://kjpt-zuul/stp-proxy/expert/delete/";
 	
