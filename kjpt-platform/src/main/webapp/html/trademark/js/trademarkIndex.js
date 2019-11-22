@@ -42,11 +42,13 @@ layui.use(['form', 'laydate', 'table'], function () {
                         },
                         {
                             field: 'registerDate',
-                            title: '注册日期'
+                            title: '注册日期',
+                            templet:'#registerDate'
                         },
                         {
                             field: 'effectiveDate',
-                            title: '有效日期'
+                            title: '有效日期',
+                            templet:'#effectiveDate'
                         },
                         {
                             field: 'applicationNumber',
@@ -54,7 +56,8 @@ layui.use(['form', 'laydate', 'table'], function () {
                         },
                         {
                             field: 'registerNoticeDate',
-                            title: '注册公告日'
+                            title: '注册公告日',
+                            templet:'#registerNoticeDate'
                         },
                     ]
                 ],

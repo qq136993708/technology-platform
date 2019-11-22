@@ -72,11 +72,27 @@
         </div>
         <table id="tableContent" lay-filter="tableContent"></table>
     </div>
+
+    
+
+
     <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script src="/layuiadmin/js/common.js"></script>
     <script src="./js/trademarkIndex.js"></script>
 
+
+    <script type="text/html" id="registerDate">
+        {{ dateFieldText(d.registerDate) }}
+    </script>
+    <script type="text/html" id="effectiveDate">
+        {{ dateFieldText(d.effectiveDate) }}
+    </script>
+    <script type="text/html" id="registerNoticeDate">
+        {{ dateFieldText(d.registerNoticeDate) }}
+    </script>
+
+    
 </body>
 
 </html>
