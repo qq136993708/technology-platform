@@ -19,6 +19,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 			success: function(res) {
 				if (res.code === '0') {
 					var formData = res.data;
+					if (!formData) { return false; }
 					if (!formData.platformId) {
 						formData.platformId = data.platformId;
 					}
