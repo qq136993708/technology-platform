@@ -406,9 +406,10 @@ function transFieldDic(dicKindCode, code) {
 }
 
 
-function dateFormatText(d) {
+function dateFieldText(d) {
+	if(d==null) return '';
 	var d = new Date(d);
-	return d.toLocaleDateString();
+	return d.format('yyyy-MM-dd');
 }
 
 function getObjectData(dataJson, value) {

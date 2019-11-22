@@ -160,6 +160,12 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
   var $ = layui.jquery;
   var form = layui.form;
   
+  // 获取地址栏传递过来的参数
+  var variable = getQueryVariable();
+  if (variable && variable.level) {
+    form.val('formPlatform', {level: variable.level});
+  }
+
   function getItemInitData(item) {
     var httpUrl = '/platform-api/newInit';
     if (item && item.id) {
@@ -183,8 +189,6 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
     });
   }
   
-	// 获取地址栏传递过来的参数
-  var variable = getQueryVariable();
   getItemInitData(variable);
 
 	form.on('submit(newSubmit)', function(data) {

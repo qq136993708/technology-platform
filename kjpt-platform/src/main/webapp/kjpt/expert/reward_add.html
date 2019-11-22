@@ -121,6 +121,10 @@
                     }
                 }
             });
+        }else {
+            var html=$("#item").html()
+            $("#formPlatform").append(html)
+            awardingTimeStr();
         }
         var $ = layui.$, active = {
             add:function(){

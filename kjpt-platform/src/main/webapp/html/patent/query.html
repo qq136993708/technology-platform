@@ -130,17 +130,14 @@
 <script type="text/html" id="showUserTpl">
 	<a href="javascript:shouUser('{{d.id}}')" class="layui-table-link">{{d.inventor}}</a>
 </script>
-
-
-
-
+ 
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
 <script src="query.js"></script>
 
-<script type="text/html" id="applicationDate">
-	{{ dateFormatText(d.applicationDate) }}
+<script type="text/html" id="applicationDateText">
+	{{ dateFieldText(d.applicationDate) }}
 </script>
  
 </body>
