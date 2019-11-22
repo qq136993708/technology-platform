@@ -79,11 +79,13 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
     });
 
     function setRadioShow() {
-         
-
-        $("div[showWhere]").css('display','none');  
-
-        var val = '01';
+      
+      var val = '01';
+      $("div[showWhere]").css('display','none');  
+      if(file_readonly) {
+        val = $("#applicationOfPatentTransformation").val();
+      }
+      else { 
         var rs = $("#radio1").find("input[type='radio']"); 
         $.each(rs, function(i, item){ 
             var el = $(item);
@@ -91,9 +93,7 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
                 val = el.val();
             }
         });
- 
-        $("div[showWhere='" + val + "']").css('display',''); 
-        
+  
         if(val !== '03') {
           $("#licenseeProfit").val(0);
         }
@@ -101,6 +101,10 @@ layui.use(['form', 'table', 'layer', 'laydate', 'upload'], function(){
         if(val !== '04') {
           $("#assignProfit").val(0);
         }
+      }
+
+      $("div[showWhere='" + val + "']").css('display',''); 
+
     }
 
         
