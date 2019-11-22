@@ -62,10 +62,9 @@ public class FileCommonController extends RestBaseController {
     @ResponseBody
     public FileModel upload(@RequestParam(value = "file") MultipartFile file) throws IOException {
         FileModel f = fileUtil.upload(file);
+        this.setBaseData(f);
+        f.setCreateDate(new Date());
         f.setCreator(this.getUserProfile().getUserName());
-        f.setUpdator(this.getUserProfile().getUserName());
-        f.setUpdateDate(new Date());
-        f.setDeleted("0");
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<FileModel>(f,this.httpHeaders), (Class<Object>) null);
         return f;

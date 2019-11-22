@@ -57,7 +57,7 @@
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformMemberModel">
         insert into kypt_member(id,platform_id,base_id,name,birth,education,technical_title,graduate_school,major_studied,post_name,assume_office,work_unit,role,deleted,create_date,create_user,update_date,update_user)
-         values(#{id},#{platformId},#{baseId},#{name},#{birth},#{education},#{technicalTitle},#{graduateSchool},#{majorStudied},#{postName},#{assumeOffice},#{workUnit},#{role},#{deleted},#{createDate},#{updateDate},#{updator})
+         values(#{id},#{platformId},#{baseId},#{name},#{birth},#{education},#{technicalTitle},#{graduateSchool},#{majorStudied},#{postName},#{assumeOffice},#{workUnit},#{role},#{deleted},#{createDate},#{creator},#{updateDate},#{updator})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
@@ -98,7 +98,7 @@
     <insert id="batchSave" parameterType="java.util.List">
         insert into kypt_member(id,platform_id,base_id,name,birth,education,technical_title,graduate_school,major_studied,post_name,assume_office,work_unit,role,deleted,create_date,create_user,update_date,update_user) values
         <foreach collection="list" item="km" separator=",">
-            (#{km.id},#{km.platformId},#{km.baseId},#{km.name},#{km.birth},#{km.education},#{km.technicalTitle},#{km.graduateSchool},#{km.majorStudied},#{km.postName},#{km.assumeOffice},#{km.workUnit},#{km.role},#{km.deleted},#{km.createDate},#{km.updateDate},#{km.updator})
+            (#{km.id},#{km.platformId},#{km.baseId},#{km.name},#{km.birth},#{km.education},#{km.technicalTitle},#{km.graduateSchool},#{km.majorStudied},#{km.postName},#{km.assumeOffice},#{km.workUnit},#{km.role},#{km.deleted},#{km.createDate},#{km.createUser},#{km.updateDate},#{km.updator})
         </foreach>
     </insert>
 

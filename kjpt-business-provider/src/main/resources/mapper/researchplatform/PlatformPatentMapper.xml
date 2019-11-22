@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.pcitc.mapper.researchplatform.PlatformProjectMapper">
+<mapper namespace="com.pcitc.mapper.researchplatform.PlatformPatentMapper">
 
-    <resultMap id="BaseResultMap" type="com.pcitc.base.researchplatform.PlatformProjectModel">
+    <resultMap id="BaseResultMap" type="com.pcitc.base.researchplatform.PlatformPatentModel">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="platform_id" jdbcType="VARCHAR" property="platformId"/>
         <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
-        <result column="project_name" jdbcType="VARCHAR" property="projectName"/>
-        <result column="major_type" jdbcType="DECIMAL" property="majorType"/>
-        <result column="duty_institutions" jdbcType="VARCHAR" property="dutyInstitutions"/>
-        <result column="approval_year" jdbcType="VARCHAR" property="approvalYear"/>
+        <result column="patent_name" jdbcType="VARCHAR" property="patentName"/>
+        <result column="patent_type" jdbcType="DECIMAL" property="patentType"/>
+        <result column="application_date" jdbcType="TIMESTAMP" property="applicationDate"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_user" jdbcType="VARCHAR" property="creator"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
@@ -23,10 +23,10 @@
         id,
         platform_id,
         base_id,
-        project_name,
-        major_type,
-        duty_institutions,
-        approval_year,
+        patent_name,
+        patent_type,
+        application_date,
+        application_date,
         deleted,
         create_user,
         create_date,
@@ -35,18 +35,18 @@
        </sql>
 
     <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select  <include refid="Base_Column_List"/> from kypt_project where id = #{id} and deleted != '1'
+        select  <include refid="Base_Column_List"/> from kypt_patent where id = #{id} and deleted != '1'
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
-        select  <include refid="Base_Column_List"/> from kypt_project where 1=1 and platform_id = #{platformId}
+        select  <include refid="Base_Column_List"/> from kypt_patent where 1=1 and platform_id = #{platformId}
             and deleted != '1'
     </select>
 
 
-    <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
-        insert into kypt_project(id,platform_id,base_id,project_name,major_type,duty_institutions,approval_year,deleted,create_user,create_date,update_date,update_user)
-         values(#{id},#{platformId},#{baseId},#{projectName},#{majorType},#{dutyInstitutions},#{approvalYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator})
+    <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformPatentModel">
+        insert into kypt_project(id,platform_id,base_id,patent_name,patent_type,application_date,remark,deleted,create_user,create_date,update_date,update_user)
+         values(#{id},#{platformId},#{baseId},#{patentName},#{majorType},#{dutyInstitutions},#{approvalYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator})
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
