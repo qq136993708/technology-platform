@@ -66,18 +66,15 @@
           </div>
         </div>
       </div>
-      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+      <div class="layui-col-xs12 layui-col-sm12 layui-col-md12" id="addPlanFile">
         <div class="view-title-layout disabled-box view-pt0">
           <div class="right">
-            <button type="button" class="layui-btn border-blue" id="addItem">选择文件</button>
-            <button type="button" class="layui-btn border-blue" id="editItem">开始上传</button>
+            <label type="button" class="layui-btn border-blue" filter="addFile">选择文件</label>
           </div>
         </div>
         <div class="layui-form-item">
           <label class="layui-form-label label-required"><span class="text">附件：</span></label>
-          <div class="layui-input-block">
-            <table id="fileTableList"></table>
-          </div>
+          <div class="layui-input-block"><table></table></div>
         </div>
       </div>
     </div>
@@ -92,6 +89,7 @@
 <script type="text/javascript" src="/plugins/jQuery/jQuery-2.2.0.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
 <script src="/layuiadmin/js/common.js"></script>
+<script src="/layuiadmin/js/fileUpload.js"></script>
 <script src="addPlan.js"></script>
 <!-- 更多JS在此引入 -->
 </body>

@@ -1,6 +1,6 @@
-layui.use(['element', 'form', 'jquery', 'formSelects'], function(){
+layui.use(['element', 'form', 'table', 'formSelects'], function(){
 	var element = layui.element;
-	var $ = layui.jquery;
+	var table = layui.table;
 	var form = layui.form;
 	
   var variable = getQueryVariable();
@@ -15,4 +15,16 @@ layui.use(['element', 'form', 'jquery', 'formSelects'], function(){
   } else if (variable.type === 'edit') {
 
   }
+
+  var billID = '';
+  setFileUpload({
+    id: 'addPlanFile',
+    dataID: billID,
+    callback: function (tableData, type) {
+      console.log(tableData);
+    }
+  });
+
+
+
 });
