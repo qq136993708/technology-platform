@@ -66,6 +66,6 @@ public class RecordModel implements Serializable {
 		return "RecordModel [creator=" + creator + ", updator=" + updator + ", createDate=" + createDate
 				+ ", updateDate=" + updateDate + ", deleted=" + deleted + "]";
 	}
-	
-	
+
+
 }

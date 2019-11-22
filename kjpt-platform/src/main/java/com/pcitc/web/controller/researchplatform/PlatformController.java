@@ -1,12 +1,7 @@
 package com.pcitc.web.controller.researchplatform;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.Page;
-import com.pcitc.base.expert.ZjkBase;
-import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.researchPlatform.PlatformInfoModel;
-import com.pcitc.base.util.HttpConnectionUtils;
-import com.pcitc.web.common.ApiResponseBody;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,7 +12,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -31,7 +25,7 @@ import java.util.UUID;
  * @author ty
  */
 @Api(value = "researchPlatform-api", description = "国家科研平台接口")
-@Controller
+@RestController
 public class PlatformController extends RestBaseController {
     /**
      * 根据ID获取对象信息
@@ -49,17 +43,6 @@ public class PlatformController extends RestBaseController {
      * 删除
      */
     private static final String delete = "http://kjpt-zuul/stp-proxy/researchPlatform-api/delete/";
-
-    @RequestMapping(value = "/platform-api/view")
-    public String view() {
-        return "/kjpt/researchplatform/researchplatform_view";
-    }
-
-    @RequestMapping(value = "/platform-api/add")
-    public String add() {
-        return "/kjpt/researchplatform/researchplatform_add";
-    }
-
 
 
     @ApiOperation(value="读取")

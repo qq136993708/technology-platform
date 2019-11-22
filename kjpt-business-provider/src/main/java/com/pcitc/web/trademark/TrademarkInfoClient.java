@@ -1,11 +1,7 @@
 package com.pcitc.web.trademark;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
-import com.pcitc.service.patent.PatentInfoService;
 import com.pcitc.service.trademark.TrademarkInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

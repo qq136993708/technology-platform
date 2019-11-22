@@ -22,13 +22,13 @@ layui.use(['form', 'table', 'layer', 'laydate'], function(){
           ,{field: 'applicationNumber', title: '申请(专利)号'}
           ,{field: 'unitName', title: '单位名称', sort: true }
           ,{field: 'applicationTypeText', title: '申请类型', sort: true}
-          ,{field: 'patentTypeText', title: '专利类型', templet: '#patentTypeText' } 
+          ,{field: 'patentTypeText', title: '专利类型' } 
           ,{field: 'applicant', title: '申请人'}
           ,{field: 'inventor', title: '发明人', sort: true, templet: '#showUserTpl'}
-          ,{field: 'applicationDate', title: '申请日期', sort: true, templet: '#applicationDate'}
-          ,{field: 'researchFunds', title: '国别组织'}
+          ,{field: 'applicationDate', title: '申请日期', sort: true}
+          ,{field: 'countryText', title: '国别组织'}
           ,{field: 'agency', title: '代理机构', sort: true}
-          ,{field: 'legalStatus', title: '法律状态', sort: true}
+          ,{field: 'legalStatusText', title: '法律状态', sort: true}
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {

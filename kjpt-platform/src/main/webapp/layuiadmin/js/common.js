@@ -165,7 +165,13 @@ function httpModule(config) {
 			},
 			dataFilter: function(data, dataType) {
 				if (dataType === 'json') {
-					return JSON.stringify(switchHttpData(JSON.parse(data)));
+					try {
+						return JSON.stringify(switchHttpData(JSON.parse(data)));
+					} catch (err) {
+						if (!data) {
+							console.log(err);
+						}
+					}
 				} else {
 					return data;
 				}
@@ -257,6 +263,7 @@ function _commonLoadDic(dicKindCode, callback) {
 }
   
 function bindSelectorDic(selector, dicKindCode, form, filter, type) {
+ 
 	var __dicData = _getDicStore(dicKindCode, 'form');
 	if (type === 'xm-select') {
 		if (__dicData.length) {
@@ -476,6 +483,25 @@ function setFomeUnDisabled(filter, notClass) {
 		$(item).not(setNotClassName(notClass) + ',.close-all-dialog').prop('disabled', false);
 	})
 }
+
+
+// 添加文件大小单位
+function setFileSize(number) {
+	var size = '0 k';
+	if (typeof(number) == 'number') {
+		if (number/1024 > 1024) {
+			if ( number/(1024 * 1024) > 1024 ) {
+				size = parseFloat(number/(1024 * 1024 * 1024)).toFixed(2) + 'G';
+			} else {
+				size = parseFloat(number/(1024 * 1024)).toFixed(2) + 'Mb';
+			}
+		} else {
+			size = parseFloat(number/1024).toFixed(2) + ' kb';
+		}
+	}
+	return size;
+}
+
 
 // 渲染字典
 layui.use(['jquery', 'form', 'formSelects'], function() {

@@ -1,9 +1,6 @@
 package com.pcitc.service.trademark;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 
 import java.util.Map;
