@@ -4,7 +4,7 @@ layui.config({
     enhanceform: 'enhanceform'
 }).use(['form', 'jquery','laydate','enhanceform','formSelects'], function(){
     var $ = layui.jquery,form = layui.form,laydate = layui.laydate,enhanceForm = layui.enhanceform,formSelects=layui.formSelects;
-    var achieveName=[],projectName=[],patentName=[],rewardName=[]
+    var achieveName=[],projectName=[],patentName=[],rewardName=[],headPic=''
     var enhance = new enhanceForm({
         elem: '#formPlatform' //表单选择器
     });
@@ -228,6 +228,16 @@ layui.config({
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });
+    // 绑定图片上传组件
+    setImagesUpload({
+        id: '#imgFileUpload', // 图片作用域的ID
+        callback: function (data, type) {
+            console.log(data)
+            // 图片上传回调函数
+            // data 为图片上传成功后的数据， type为当前操作类型
+            // 如果type === 'delete'  data则为null
+        }
+    });
     /*保存*/
     form.on('submit(newSubmit)', function(data) {
         //console.log(data.field)
@@ -246,6 +256,7 @@ layui.config({
             })
             data.field.technicalFieldName=technicalFieldName.substring(0,technicalFieldName.length-1)
         }
+        data.field.headPic=headPic
         data.field.zjkAchievementJsonList=JSON.stringify(achieveName)
         data.field.zjkProjectJsonList=JSON.stringify(projectName)
         data.field.zjkPatentJsonList=JSON.stringify(patentName)

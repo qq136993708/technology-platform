@@ -19,6 +19,7 @@
         .expert-ul li{height: 30px;line-height: 30px;background-color: #e6f7ff;color: #1890ff;margin-left: 10px;
         float: left;margin-bottom: 10px;}
         .expert-ul li.expert-li-last{background: none;margin: 0;padding: 0;height: 31px;line-height: 31px;}
+        .img-view-block{height: 90px;}
     </style>
 </head>
 <body class="">
@@ -113,9 +114,13 @@
                 <!--头像上传-->
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="text">头像上传:</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" name="platformName"
-                               placeholder="" autocomplete="off" class="layui-input">
+                    <div class="img-view-block middle-block" id="imgFileUpload">
+                        <img src="" alt="请选择图片上传" />
+                        <div class="file-img-btn" label="imgUpload">
+                            <span class="btn-icon"></span>
+                            <span class="btn-text">点击此区域上传照片</span>
+                        </div>
+                        <span class="file-img-del middle-block"><span class="del" label="imgDelete">删除</span></span>
                     </div>
                 </div>
                 <!--所在单位-->
