@@ -20,16 +20,16 @@ layui.use(['form', 'laydate', 'table'], function () {
                             type: 'radio',
                         },
                         {
-                            field: 'companyName',
+                            field: 'unitName',
                             title: '单位名称'
 
                         },
                         {
-                            field: 'brandName',
+                            field: 'trademarkName',
                             title: '注册商标名称'
                         },
                         {
-                            field: 'commodityType',
+                            field: 'commodityCategory',
                             title: '核定使用商品大类'
                         },
                         {
@@ -37,29 +37,29 @@ layui.use(['form', 'laydate', 'table'], function () {
                             title: '法律状态'
                         },
                         {
-                            field: 'proposer',
+                            field: 'applicant',
                             title: '申请人'
                         },
                         {
-                            field: 'registerTime',
+                            field: 'registerDate',
                             title: '注册日期'
                         },
                         {
-                            field: 'validTime',
+                            field: 'effectiveDate',
                             title: '有效日期'
                         },
                         {
-                            field: 'brandMark',
+                            field: 'applicationNumber',
                             title: '商标申请号'
                         },
                         {
-                            field: 'registerDate',
+                            field: 'registerNoticeDate',
                             title: '注册公告日'
                         },
                     ]
                 ],
                 page: true, //开启分页
-                url: '/platform-api/query',
+                url: '/trademarkController/query',
                 limit: 10, // 每页数据条数,
                 parseData: function (res) { return layuiParseData(res); },
                 request: {
@@ -87,7 +87,8 @@ layui.use(['form', 'laydate', 'table'], function () {
 
     function openDataDilog(type) { //进行添加和修改的弹框操作
         var dialogTitle = '新增';
-        if (type === 'edit') {
+
+        if (type) {
             dialogTitle = '编辑';
         }
 
@@ -136,18 +137,17 @@ layui.use(['form', 'laydate', 'table'], function () {
         }
     })
 
-    table.on('radio(tableDemo)', function (obj) { // 表格行被选中
+    table.on('radio(tableContent)', function (obj) { // 表格行被选中
         itemRowData = obj.data;
         console.log(obj)
     });
 
     $('#check').on('click', function (e) { // 查看平台
-        // if (itemRowData) {
-        //     checkDilog(itemRowData.id);
-        // } else {
-        //     layer.msg('请选择需要编辑的平台！');
-        // }
-        checkDilog(0);
+        if (itemRowData) {
+            checkDilog(itemRowData.id);
+        } else {
+            layer.msg('请选择需要编辑的平台！');
+        }
     })
 
     $('#delItem').on('click', function (e) { // 删除平台
@@ -156,7 +156,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                 layer.close(index);
                 // 确认删除
                 httpModule({
-                    url: '/platform-api/delete/' + itemRowData.id,
+                    url: '/trademarkController/delete/' + itemRowData.id,
                     type: 'DELETE',
                     success: function (relData) {
                         if (relData.code === '0') {
