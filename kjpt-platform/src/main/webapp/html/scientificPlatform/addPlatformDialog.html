@@ -162,12 +162,8 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
   
   // 获取地址栏传递过来的参数
   var variable = getQueryVariable();
-  if (variable && variable.level) {
-    form.val('formPlatform', {level: variable.level});
-  }
-
   function getItemInitData(item) {
-    var httpUrl = '/platform-api/newInit';
+    var httpUrl = '/platform-api/newInit' + variable.level;
     if (item && item.id) {
       httpUrl = '/platform-api/load/' + item.id;
     }
