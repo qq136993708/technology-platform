@@ -1,6 +1,6 @@
 package com.pcitc.mapper.researchplatform;
 
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
+import com.pcitc.base.researchplatform.PlatformInfoModel;
 
 import java.util.List;
 import java.util.Map;

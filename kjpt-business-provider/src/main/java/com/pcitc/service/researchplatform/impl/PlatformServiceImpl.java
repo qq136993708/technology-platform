@@ -3,7 +3,7 @@ package com.pcitc.service.researchplatform.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.Page;
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
+import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.base.util.IsEmptyUtil;
 import com.pcitc.mapper.researchplatform.PlatformMapper;
 import com.pcitc.service.researchplatform.PlatformService;

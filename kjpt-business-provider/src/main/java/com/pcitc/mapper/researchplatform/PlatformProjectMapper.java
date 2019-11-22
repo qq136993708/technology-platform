@@ -1,6 +1,6 @@
 package com.pcitc.mapper.researchplatform;
 
-import com.pcitc.base.researchPlatform.PlatformProjectModel;
+import com.pcitc.base.researchplatform.PlatformProjectModel;
 
 import java.util.List;
 import java.util.Map;
@@ -30,5 +30,11 @@ public interface PlatformProjectMapper {
      * 逻辑删
      */
     int delete(String id);
+
+    /**
+     * 批量添加
+     */
+    int batchSave(List<PlatformProjectModel> list);
+
 
 }

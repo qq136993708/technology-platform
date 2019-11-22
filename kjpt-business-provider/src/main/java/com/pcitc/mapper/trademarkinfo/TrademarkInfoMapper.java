@@ -1,6 +1,5 @@
 package com.pcitc.mapper.trademarkinfo;
 
-import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
 import com.pcitc.base.trademarkinfo.TrademarkInfoExample;
 import org.apache.ibatis.annotations.Param;

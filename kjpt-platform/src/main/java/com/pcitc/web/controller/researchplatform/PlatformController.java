@@ -1,12 +1,7 @@
 package com.pcitc.web.controller.researchplatform;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.Page;
-import com.pcitc.base.expert.ZjkBase;
-import com.pcitc.base.patent.PatentInfo;
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
-import com.pcitc.base.util.HttpConnectionUtils;
-import com.pcitc.web.common.ApiResponseBody;
+import com.pcitc.base.researchplatform.PlatformInfoModel;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,7 +12,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;

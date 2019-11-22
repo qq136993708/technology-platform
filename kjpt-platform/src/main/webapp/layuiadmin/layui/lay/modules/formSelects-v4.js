@@ -638,7 +638,7 @@
 		if (item.children && item.children.length) {
 			itemDD += '<div class="x-tree-icon"></div>';
 		}
-		itemDD += '<i class="'+CHECKBOX_YES+'"></i><span name="'+name+'">'+template+'</span></div></dd>'
+		itemDD += '<i class="'+CHECKBOX_YES+'"></i><span name="'+name+'" title="'+ template +'">'+template+'</span></div></dd>'
 
 		return itemDD;
 	}

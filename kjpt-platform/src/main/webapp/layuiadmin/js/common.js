@@ -5,6 +5,31 @@ if(!Array.prototype.forEach){Array.prototype.forEach=function forEach(g,b){var d
 //拓展Array filter方法
 if(!Array.prototype.filter){Array.prototype.filter=function(b){if(this===void 0||this===null){throw new TypeError()}var f=Object(this);var a=f.length>>>0;if(typeof b!=="function"){throw new TypeError()}var e=[];var d=arguments[1];for(var c=0;c<a;c++){if(c in f){var g=f[c];if(b.call(d,g,c,f)){e.push(g)}}}return e}};
 
+// 对Date的扩展，将 Date 转化为指定格式的String   
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，   
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)   
+// 例子：   
+// new Date().format('yyyy-MM-dd hh:mm:ss') ==> 2006-07-02 08:09:04
+if (!Date.prototype.format) {
+	Date.prototype.format = function(fmt) { //author: meizz   
+		var o = {   
+			"M+" : this.getMonth()+1,                 //月份   
+			"d+" : this.getDate(),                    //日   
+			"h+" : this.getHours(),                   //小时   
+			"m+" : this.getMinutes(),                 //分   
+			"s+" : this.getSeconds(),                 //秒   
+			"q+" : Math.floor((this.getMonth()+3)/3), //季度   
+			"S"  : this.getMilliseconds()             //毫秒   
+		};   
+		if(/(y+)/.test(fmt))   
+			fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+		for(var k in o)   
+			if(new RegExp("("+ k +")").test(fmt))   
+		fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+		return fmt;   
+	}
+}
+
 // 获取地址参数
 function getQueryVariable(key) {
   var variable = null;
@@ -165,7 +190,13 @@ function httpModule(config) {
 			},
 			dataFilter: function(data, dataType) {
 				if (dataType === 'json') {
-					return JSON.stringify(switchHttpData(JSON.parse(data)));
+					try {
+						return JSON.stringify(switchHttpData(JSON.parse(data)));
+					} catch (err) {
+						if (!data) {
+							console.log(err);
+						}
+					}
 				} else {
 					return data;
 				}
@@ -257,6 +288,7 @@ function _commonLoadDic(dicKindCode, callback) {
 }
   
 function bindSelectorDic(selector, dicKindCode, form, filter, type) {
+ 
 	var __dicData = _getDicStore(dicKindCode, 'form');
 	if (type === 'xm-select') {
 		if (__dicData.length) {
@@ -476,6 +508,25 @@ function setFomeUnDisabled(filter, notClass) {
 		$(item).not(setNotClassName(notClass) + ',.close-all-dialog').prop('disabled', false);
 	})
 }
+
+
+// 添加文件大小单位
+function setFileSize(number) {
+	var size = '0 k';
+	if (typeof(number) == 'number') {
+		if (number/1024 > 1024) {
+			if ( number/(1024 * 1024) > 1024 ) {
+				size = parseFloat(number/(1024 * 1024 * 1024)).toFixed(2) + 'G';
+			} else {
+				size = parseFloat(number/(1024 * 1024)).toFixed(2) + 'Mb';
+			}
+		} else {
+			size = parseFloat(number/1024).toFixed(2) + ' kb';
+		}
+	}
+	return size;
+}
+
 
 // 渲染字典
 layui.use(['jquery', 'form', 'formSelects'], function() {

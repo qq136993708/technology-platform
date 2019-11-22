@@ -29,13 +29,20 @@
     <result column="licensee_profit" jdbcType="DECIMAL" property="licenseeProfit" />
     <result column="assignor" jdbcType="VARCHAR" property="assignor" />
     <result column="assign_profit" jdbcType="DECIMAL" property="assignProfit" />
-    <result column="file" jdbcType="VARCHAR" property="file" />
+    <result column="file" jdbcType="VARCHAR" property="files" />
     <result column="creator" jdbcType="VARCHAR" property="creator" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="updator" jdbcType="VARCHAR" property="updator" />
     <result column="deleted" jdbcType="VARCHAR" property="deleted" />
     <result column="country" jdbcType="VARCHAR" property="country" />
+
+    <result column="application_of_patent_transformation_text" jdbcType="VARCHAR" property="applicationOfPatentTransformationText" />
+    <result column="application_type_text" jdbcType="VARCHAR" property="applicationTypeText" />
+    <result column="patent_type_text" jdbcType="VARCHAR" property="patentTypeText" />
+    <result column="legal_status_text" jdbcType="VARCHAR" property="legalStatusText" />
+    <result column="country_text" jdbcType="VARCHAR" property="countryText" />
+
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -96,11 +103,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, unit_name, applicant, patent_name, inventor, application_type, patent_type, 
-    legal_status, date, application_number, patent_range, agency, entry_person, application_date, 
-    entry_date, application_cost, remark, summary, application_of_patent_transformation, 
-    major_application, unenforced_reason, licensee, licensee_mode, licensee_profit, assignor, 
-    assign_profit, file, creator, create_date, update_date, updator, deleted,country
+    id, user_id, unit_name, applicant, patent_name, inventor, application_type, patent_type,
+    legal_status, date, application_number, patent_range, agency, entry_person, application_date,
+    entry_date, application_cost, remark, summary, application_of_patent_transformation,
+    major_application, unenforced_reason, licensee, licensee_mode, licensee_profit, assignor,
+    assign_profit, file, creator, create_date, update_date, updator, deleted,country,application_of_patent_transformation_text,
+    patent_type_text,country_text,application_type_text,legal_status_text
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultMap="BaseResultMap">
     select
@@ -125,9 +133,9 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
-    from patent_info
+    from view_patent_info
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -144,28 +152,28 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into patent_info (user_id, unit_name, applicant, 
-      patent_name, inventor, application_type, 
-      patent_type, legal_status, date, 
-      application_number, patent_range, agency, 
-      entry_person, application_date, entry_date, 
-      application_cost, remark, summary, 
-      application_of_patent_transformation, major_application, 
-      unenforced_reason, licensee, licensee_mode, 
-      licensee_profit, assignor, assign_profit, 
-      file, creator, create_date, 
+    insert into patent_info (user_id, unit_name, applicant,
+      patent_name, inventor, application_type,
+      patent_type, legal_status, date,
+      application_number, patent_range, agency,
+      entry_person, application_date, entry_date,
+      application_cost, remark, summary,
+      application_of_patent_transformation, major_application,
+      unenforced_reason, licensee, licensee_mode,
+      licensee_profit, assignor, assign_profit,
+      file, creator, create_date,
       update_date, updator, deleted,country
       )
-    values (#{userId,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{applicant,jdbcType=VARCHAR}, 
-      #{patentName,jdbcType=VARCHAR}, #{inventor,jdbcType=VARCHAR}, #{applicationType,jdbcType=VARCHAR}, 
-      #{patentType,jdbcType=VARCHAR}, #{legalStatus,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP}, 
-      #{applicationNumber,jdbcType=VARCHAR}, #{patentRange,jdbcType=VARCHAR}, #{agency,jdbcType=VARCHAR}, 
-      #{entryPerson,jdbcType=VARCHAR}, #{applicationDate,jdbcType=TIMESTAMP}, #{entryDate,jdbcType=TIMESTAMP}, 
-      #{applicationCost,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
-      #{applicationOfPatentTransformation,jdbcType=VARCHAR}, #{majorApplication,jdbcType=VARCHAR}, 
-      #{unenforcedReason,jdbcType=VARCHAR}, #{licensee,jdbcType=VARCHAR}, #{licenseeMode,jdbcType=VARCHAR}, 
-      #{licenseeProfit,jdbcType=DECIMAL}, #{assignor,jdbcType=VARCHAR}, #{assignProfit,jdbcType=DECIMAL}, 
-      #{file,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+    values (#{userId,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{applicant,jdbcType=VARCHAR},
+      #{patentName,jdbcType=VARCHAR}, #{inventor,jdbcType=VARCHAR}, #{applicationType,jdbcType=VARCHAR},
+      #{patentType,jdbcType=VARCHAR}, #{legalStatus,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP},
+      #{applicationNumber,jdbcType=VARCHAR}, #{patentRange,jdbcType=VARCHAR}, #{agency,jdbcType=VARCHAR},
+      #{entryPerson,jdbcType=VARCHAR}, #{applicationDate,jdbcType=TIMESTAMP}, #{entryDate,jdbcType=TIMESTAMP},
+      #{applicationCost,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
+      #{applicationOfPatentTransformation,jdbcType=VARCHAR}, #{majorApplication,jdbcType=VARCHAR},
+      #{unenforcedReason,jdbcType=VARCHAR}, #{licensee,jdbcType=VARCHAR}, #{licenseeMode,jdbcType=VARCHAR},
+      #{licenseeProfit,jdbcType=DECIMAL}, #{assignor,jdbcType=VARCHAR}, #{assignProfit,jdbcType=DECIMAL},
+      #{file,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
       #{updateDate,jdbcType=TIMESTAMP}, #{updator,jdbcType=VARCHAR}, #{deleted,jdbcType=VARCHAR},
       #{country,jdbcType=VARCHAR}
       )
@@ -254,7 +262,7 @@
       <if test="assignProfit != null">
         assign_profit,
       </if>
-      <if test="file != null">
+      <if test="files != null">
         file,
       </if>
       <if test="creator != null">
@@ -358,8 +366,8 @@
       <if test="assignProfit != null">
         #{assignProfit,jdbcType=DECIMAL},
       </if>
-      <if test="file != null">
-        #{file,jdbcType=VARCHAR},
+      <if test="files != null">
+        #{files,jdbcType=VARCHAR},
       </if>
       <if test="creator != null">
         #{creator,jdbcType=VARCHAR},
@@ -523,7 +531,7 @@
       licensee_profit = #{record.licenseeProfit,jdbcType=DECIMAL},
       assignor = #{record.assignor,jdbcType=VARCHAR},
       assign_profit = #{record.assignProfit,jdbcType=DECIMAL},
-      file = #{record.file,jdbcType=VARCHAR},
+      file = #{record.files,jdbcType=VARCHAR},
       creator = #{record.creator,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       update_date = #{record.updateDate,jdbcType=TIMESTAMP},
@@ -664,7 +672,7 @@
       licensee_profit = #{licenseeProfit,jdbcType=DECIMAL},
       assignor = #{assignor,jdbcType=VARCHAR},
       assign_profit = #{assignProfit,jdbcType=DECIMAL},
-      file = #{file,jdbcType=VARCHAR},
+      file = #{files,jdbcType=VARCHAR},
       creator = #{creator,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
@@ -677,7 +685,7 @@
   <select id="queryPatentList" parameterType="java.util.Map" resultMap="BaseResultMap">
     select  <include refid="Base_Column_List"/> from view_patent_info where 1=1
     <if test="unitName != null and unitName != '' " >
-      and unit_name = #{unitName}
+      and unit_name like CONCAT('%',#{unitName},'%')
     </if>
     <if test="applicationType != null and applicationType != '' " >
       and application_type = #{applicationType}
@@ -698,10 +706,10 @@
       and inventor = #{inventor}
     </if>
     <if test="applicationDateStart != null and applicationDateStart != '' " >
-      and applicationDate &gt;= #{applicationDateStart}
+      and application_date &gt;= #{applicationDateStart}
     </if>
     <if test="applicationDateEnd != null and applicationDateEnd != '' " >
-      and applicationDate &lt;= #{applicationDateEnd}
+      and application_date &lt;= #{applicationDateEnd}
     </if>
     and deleted != '1'
   </select>

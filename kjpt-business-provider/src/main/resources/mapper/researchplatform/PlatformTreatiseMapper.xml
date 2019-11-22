@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.researchplatform.PlatformTreatiseMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.researchplatform.PlatformTreatiseModel">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="platform_id" jdbcType="VARCHAR" property="platformId"/>
+        <result column="base_id" jdbcType="VARCHAR" property="baseId"/>
+        <result column="thesis_title" jdbcType="VARCHAR" property="thesisTitle"/>
+        <result column="thesis_level" jdbcType="DECIMAL" property="thesisLevel"/>
+        <result column="journal_title" jdbcType="VARCHAR" property="journalTitle"/>
+        <result column="thesis_author" jdbcType="VARCHAR" property="thesisAuthor"/>
+        <result column="thesis_year" jdbcType="VARCHAR" property="theisYear"/>
+        <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
+        <result column="create_user" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updator"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id,
+        platform_id,
+        base_id,
+        thesis_title,
+        thesis_level,
+        journal_title,
+        thesis_author,
+        thesis_year,
+        deleted,
+        create_user,
+        create_date,
+        update_user,
+        update_date
+       </sql>
+
+    <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"/> from kypt_treatise where id = #{id} and deleted != '1'
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select  <include refid="Base_Column_List"/> from kypt_treatise where 1=1 and platform_id = #{platformId}
+            and deleted != '1'
+    </select>
+
+
+    <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformTreatiseModel">
+        insert into kypt_treatise(id,platform_id,base_id,thesis_title,thesis_level,journal_title,thesis_author,thesis_year,deleted,create_user,create_date,update_date,update_user)
+         values(#{id},#{platformId},#{baseId},#{thesisTitle},#{thesisLevel},#{journalTitle},#{thesisAuthor},#{thesisYear},#{deleted},#{creator},#{createDate},#{updateDate},#{updator})
+    </insert>
+
+    <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformProjectModel">
+        update kypt_treatise
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="thesisTitle != null and thesisTitle != '' " >
+                thesis_title = #{thesisTitle},
+            </if>
+            <if test="thesisLevel != null and thesisLevel != '' " >
+                thesis_level = #{thesisLevel},
+            </if>
+            <if test="journalTitle != null and journalTitle != ''" >
+                journal_title = #{journalTitle},
+            </if>
+            <if test="thesisAuthor != null and thesisAuthor != ''" >
+                thesis_author = #{thesisAuthor},
+            </if>
+            <if test="thesisYear != null and thesisYear != ''" >
+                thesis_year = #{thesisYear},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <insert id="batchSave" parameterType="java.util.List">
+        insert into kypt_treatise(id,platform_id,base_id,thesis_title,thesis_level,journal_title,thesis_author,thesis_year,deleted,create_user,create_date,update_date,update_user) values
+        <foreach collection="list" item="kt" separator=",">
+            (#{kt.id},#{kt.platformId},#{kt.baseId},#{kt.thesisTitle},#{kt.thesisLevel},#{kt.journalTitle},#{kt.thesisAuthor},#{kt.thesisYear},ifnull(#{kt.deleted},'0'),#{kt.creator},#{kt.createDate},#{kt.updateDate},#{kt.updator})
+        </foreach>
+    </insert>
+
+    <update id="delete" parameterType="java.lang.String">
+            update kypt_treatise set deleted = '1' where id = #{id}
+    </update>
+</mapper>

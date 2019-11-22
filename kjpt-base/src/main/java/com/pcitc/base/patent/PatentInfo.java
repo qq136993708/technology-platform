@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * patent_info
- * @author 
+ * @author
  */
 public class PatentInfo implements Serializable {
     /**
@@ -146,7 +146,7 @@ public class PatentInfo implements Serializable {
     /**
      * 附件上传
      */
-    private String file;
+    private String files;
 
     /**
      * 数据创建人
@@ -181,27 +181,27 @@ public class PatentInfo implements Serializable {
     /**
      * 专利范围翻译
      */
-    private String application_of_patent_transformation_text;
+    private String applicationOfPatentTransformationText;
 
     /**
      * 专利类型翻译
      */
-    private String patent_type_text;
+    private String patentTypeText;
 
     /**
      * 国别组织翻译
      */
-    private String country_text;
+    private String countryText;
 
     /**
      * 申请类型翻译
      */
-    private String application_type_text;
+    private String applicationTypeText;
 
     /**
      * 法律状态翻译
      */
-    private String legal_status_text;
+    private String legalStatusText;
 
     private static final long serialVersionUID = 1L;
 
@@ -421,12 +421,12 @@ public class PatentInfo implements Serializable {
         this.assignProfit = assignProfit;
     }
 
-    public String getFile() {
-        return file;
+    public String getFiles() {
+        return files;
     }
 
-    public void setFile(String file) {
-        this.file = file;
+    public void setFiles(String files) {
+        this.files = files;
     }
 
     public String getCreator() {
@@ -477,44 +477,44 @@ public class PatentInfo implements Serializable {
         this.country = country;
     }
 
-    public String getApplication_of_patent_transformation_text() {
-        return application_of_patent_transformation_text;
+    public String getApplicationOfPatentTransformationText() {
+        return applicationOfPatentTransformationText;
     }
 
-    public void setApplication_of_patent_transformation_text(String application_of_patent_transformation_text) {
-        this.application_of_patent_transformation_text = application_of_patent_transformation_text;
+    public void setApplicationOfPatentTransformationText(String applicationOfPatentTransformationText) {
+        this.applicationOfPatentTransformationText = applicationOfPatentTransformationText;
     }
 
-    public String getPatent_type_text() {
-        return patent_type_text;
+    public String getPatentTypeText() {
+        return patentTypeText;
     }
 
-    public void setPatent_type_text(String patent_type_text) {
-        this.patent_type_text = patent_type_text;
+    public void setPatentTypeText(String patentTypeText) {
+        this.patentTypeText = patentTypeText;
     }
 
-    public String getCountry_text() {
-        return country_text;
+    public String getCountryText() {
+        return countryText;
     }
 
-    public void setCountry_text(String country_text) {
-        this.country_text = country_text;
+    public void setCountryText(String countryText) {
+        this.countryText = countryText;
     }
 
-    public String getApplication_type_text() {
-        return application_type_text;
+    public String getApplicationTypeText() {
+        return applicationTypeText;
     }
 
-    public void setApplication_type_text(String application_type_text) {
-        this.application_type_text = application_type_text;
+    public void setApplicationTypeText(String applicationTypeText) {
+        this.applicationTypeText = applicationTypeText;
     }
 
-    public String getLegal_status_text() {
-        return legal_status_text;
+    public String getLegalStatusText() {
+        return legalStatusText;
     }
 
-    public void setLegal_status_text(String legal_status_text) {
-        this.legal_status_text = legal_status_text;
+    public void setLegalStatusText(String legalStatusText) {
+        this.legalStatusText = legalStatusText;
     }
 
     @Override
@@ -530,38 +530,38 @@ public class PatentInfo implements Serializable {
         }
         PatentInfo other = (PatentInfo) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getUnitName() == null ? other.getUnitName() == null : this.getUnitName().equals(other.getUnitName()))
-            && (this.getApplicant() == null ? other.getApplicant() == null : this.getApplicant().equals(other.getApplicant()))
-            && (this.getPatentName() == null ? other.getPatentName() == null : this.getPatentName().equals(other.getPatentName()))
-            && (this.getInventor() == null ? other.getInventor() == null : this.getInventor().equals(other.getInventor()))
-            && (this.getApplicationType() == null ? other.getApplicationType() == null : this.getApplicationType().equals(other.getApplicationType()))
-            && (this.getPatentType() == null ? other.getPatentType() == null : this.getPatentType().equals(other.getPatentType()))
-            && (this.getLegalStatus() == null ? other.getLegalStatus() == null : this.getLegalStatus().equals(other.getLegalStatus()))
-            && (this.getDate() == null ? other.getDate() == null : this.getDate().equals(other.getDate()))
-            && (this.getApplicationNumber() == null ? other.getApplicationNumber() == null : this.getApplicationNumber().equals(other.getApplicationNumber()))
-            && (this.getPatentRange() == null ? other.getPatentRange() == null : this.getPatentRange().equals(other.getPatentRange()))
-            && (this.getAgency() == null ? other.getAgency() == null : this.getAgency().equals(other.getAgency()))
-            && (this.getEntryPerson() == null ? other.getEntryPerson() == null : this.getEntryPerson().equals(other.getEntryPerson()))
-            && (this.getApplicationDate() == null ? other.getApplicationDate() == null : this.getApplicationDate().equals(other.getApplicationDate()))
-            && (this.getEntryDate() == null ? other.getEntryDate() == null : this.getEntryDate().equals(other.getEntryDate()))
-            && (this.getApplicationCost() == null ? other.getApplicationCost() == null : this.getApplicationCost().equals(other.getApplicationCost()))
-            && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
-            && (this.getSummary() == null ? other.getSummary() == null : this.getSummary().equals(other.getSummary()))
-            && (this.getApplicationOfPatentTransformation() == null ? other.getApplicationOfPatentTransformation() == null : this.getApplicationOfPatentTransformation().equals(other.getApplicationOfPatentTransformation()))
-            && (this.getMajorApplication() == null ? other.getMajorApplication() == null : this.getMajorApplication().equals(other.getMajorApplication()))
-            && (this.getUnenforcedReason() == null ? other.getUnenforcedReason() == null : this.getUnenforcedReason().equals(other.getUnenforcedReason()))
-            && (this.getLicensee() == null ? other.getLicensee() == null : this.getLicensee().equals(other.getLicensee()))
-            && (this.getLicenseeMode() == null ? other.getLicenseeMode() == null : this.getLicenseeMode().equals(other.getLicenseeMode()))
-            && (this.getLicenseeProfit() == null ? other.getLicenseeProfit() == null : this.getLicenseeProfit().equals(other.getLicenseeProfit()))
-            && (this.getAssignor() == null ? other.getAssignor() == null : this.getAssignor().equals(other.getAssignor()))
-            && (this.getAssignProfit() == null ? other.getAssignProfit() == null : this.getAssignProfit().equals(other.getAssignProfit()))
-            && (this.getFile() == null ? other.getFile() == null : this.getFile().equals(other.getFile()))
-            && (this.getCreator() == null ? other.getCreator() == null : this.getCreator().equals(other.getCreator()))
-            && (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate()))
-            && (this.getUpdateDate() == null ? other.getUpdateDate() == null : this.getUpdateDate().equals(other.getUpdateDate()))
-            && (this.getUpdator() == null ? other.getUpdator() == null : this.getUpdator().equals(other.getUpdator()))
-            && (this.getDeleted() == null ? other.getDeleted() == null : this.getDeleted().equals(other.getDeleted()));
+                && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
+                && (this.getUnitName() == null ? other.getUnitName() == null : this.getUnitName().equals(other.getUnitName()))
+                && (this.getApplicant() == null ? other.getApplicant() == null : this.getApplicant().equals(other.getApplicant()))
+                && (this.getPatentName() == null ? other.getPatentName() == null : this.getPatentName().equals(other.getPatentName()))
+                && (this.getInventor() == null ? other.getInventor() == null : this.getInventor().equals(other.getInventor()))
+                && (this.getApplicationType() == null ? other.getApplicationType() == null : this.getApplicationType().equals(other.getApplicationType()))
+                && (this.getPatentType() == null ? other.getPatentType() == null : this.getPatentType().equals(other.getPatentType()))
+                && (this.getLegalStatus() == null ? other.getLegalStatus() == null : this.getLegalStatus().equals(other.getLegalStatus()))
+                && (this.getDate() == null ? other.getDate() == null : this.getDate().equals(other.getDate()))
+                && (this.getApplicationNumber() == null ? other.getApplicationNumber() == null : this.getApplicationNumber().equals(other.getApplicationNumber()))
+                && (this.getPatentRange() == null ? other.getPatentRange() == null : this.getPatentRange().equals(other.getPatentRange()))
+                && (this.getAgency() == null ? other.getAgency() == null : this.getAgency().equals(other.getAgency()))
+                && (this.getEntryPerson() == null ? other.getEntryPerson() == null : this.getEntryPerson().equals(other.getEntryPerson()))
+                && (this.getApplicationDate() == null ? other.getApplicationDate() == null : this.getApplicationDate().equals(other.getApplicationDate()))
+                && (this.getEntryDate() == null ? other.getEntryDate() == null : this.getEntryDate().equals(other.getEntryDate()))
+                && (this.getApplicationCost() == null ? other.getApplicationCost() == null : this.getApplicationCost().equals(other.getApplicationCost()))
+                && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
+                && (this.getSummary() == null ? other.getSummary() == null : this.getSummary().equals(other.getSummary()))
+                && (this.getApplicationOfPatentTransformation() == null ? other.getApplicationOfPatentTransformation() == null : this.getApplicationOfPatentTransformation().equals(other.getApplicationOfPatentTransformation()))
+                && (this.getMajorApplication() == null ? other.getMajorApplication() == null : this.getMajorApplication().equals(other.getMajorApplication()))
+                && (this.getUnenforcedReason() == null ? other.getUnenforcedReason() == null : this.getUnenforcedReason().equals(other.getUnenforcedReason()))
+                && (this.getLicensee() == null ? other.getLicensee() == null : this.getLicensee().equals(other.getLicensee()))
+                && (this.getLicenseeMode() == null ? other.getLicenseeMode() == null : this.getLicenseeMode().equals(other.getLicenseeMode()))
+                && (this.getLicenseeProfit() == null ? other.getLicenseeProfit() == null : this.getLicenseeProfit().equals(other.getLicenseeProfit()))
+                && (this.getAssignor() == null ? other.getAssignor() == null : this.getAssignor().equals(other.getAssignor()))
+                && (this.getAssignProfit() == null ? other.getAssignProfit() == null : this.getAssignProfit().equals(other.getAssignProfit()))
+                && (this.getFiles() == null ? other.getFiles() == null : this.getFiles().equals(other.getFiles()))
+                && (this.getCreator() == null ? other.getCreator() == null : this.getCreator().equals(other.getCreator()))
+                && (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate()))
+                && (this.getUpdateDate() == null ? other.getUpdateDate() == null : this.getUpdateDate().equals(other.getUpdateDate()))
+                && (this.getUpdator() == null ? other.getUpdator() == null : this.getUpdator().equals(other.getUpdator()))
+                && (this.getDeleted() == null ? other.getDeleted() == null : this.getDeleted().equals(other.getDeleted()));
     }
 
     @Override
@@ -595,7 +595,7 @@ public class PatentInfo implements Serializable {
         result = prime * result + ((getLicenseeProfit() == null) ? 0 : getLicenseeProfit().hashCode());
         result = prime * result + ((getAssignor() == null) ? 0 : getAssignor().hashCode());
         result = prime * result + ((getAssignProfit() == null) ? 0 : getAssignProfit().hashCode());
-        result = prime * result + ((getFile() == null) ? 0 : getFile().hashCode());
+        result = prime * result + ((getFiles() == null) ? 0 : getFiles().hashCode());
         result = prime * result + ((getCreator() == null) ? 0 : getCreator().hashCode());
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
         result = prime * result + ((getUpdateDate() == null) ? 0 : getUpdateDate().hashCode());
@@ -637,7 +637,7 @@ public class PatentInfo implements Serializable {
         sb.append(", licenseeProfit=").append(licenseeProfit);
         sb.append(", assignor=").append(assignor);
         sb.append(", assignProfit=").append(assignProfit);
-        sb.append(", file=").append(file);
+        sb.append(", file=").append(files);
         sb.append(", creator=").append(creator);
         sb.append(", createDate=").append(createDate);
         sb.append(", updateDate=").append(updateDate);

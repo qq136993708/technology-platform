@@ -1,9 +1,9 @@
 package com.pcitc.service.researchplatform;
 
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.researchPlatform.PlatformInfoModel;
-import com.pcitc.base.researchPlatform.PlatformProjectModel;
+import com.pcitc.base.researchplatform.PlatformProjectModel;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,5 +29,10 @@ public interface PlatformProjectService {
      * 科研平台项目删除
      */
     Integer delete(String id);
+
+    /**
+     * 批量保存平台项目
+     */
+    Integer batchSave(List<PlatformProjectModel> dataList);
 
 }

@@ -88,6 +88,14 @@ public class ExpertController extends BaseController {
 	
 	private static final String EXPERT_EXCEL_INPUT = "http://kjpt-zuul/stp-proxy/expert/excel_input";
 	
+	/**
+	 * 查询专家个数
+	 */
+	private static final String getZjkBaseCount = "http://kjpt-zuul/stp-proxy/expert/getZjkBaseCount";
+	
+	
+	
+	
 	
 	/**
 	  * 获取专家（分页）
@@ -180,6 +188,24 @@ public class ExpertController extends BaseController {
 		logger.info("============获取专家列表（分页） " + result.toString());
 		return result.toString();
 	}
+    
+    @ApiOperation(value = "查询专家个数", notes = "查询专家个数")
+    @RequestMapping(value = "/expert-api/getCount", method = RequestMethod.GET)
+	public String getZjkBaseCount() throws Exception {
+    	
+    	Result resultsDate = new Result();
+    	Integer count =0;
+    	ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(getZjkBaseCount, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) 
+		{
+			count = responseEntity.getBody();
+		}
+		resultsDate.setData(count);
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return ob.toString();
+    }
+    
 
     
     /**

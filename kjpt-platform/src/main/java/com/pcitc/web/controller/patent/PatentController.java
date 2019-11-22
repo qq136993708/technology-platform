@@ -4,7 +4,6 @@ package com.pcitc.web.controller.patent;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.patent.PatentInfo;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.web.common.OperationFilter;
 import com.pcitc.web.common.RestBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -105,7 +104,7 @@ public class PatentController extends RestBaseController {
             this.setParam(condition, "applicationDateStart", DateUtil.format(applicationDateStart,DateUtil.FMT_SS));
         }
         if (!StringUtils.isEmpty(DateUtil.format(applicationDateEnd,DateUtil.FMT_SS))) {
-            this.setParam(condition, "applicationDateEnd", DateUtil.format(applicationDateStart,DateUtil.FMT_SS));
+            this.setParam(condition, "applicationDateEnd", DateUtil.format(applicationDateEnd,DateUtil.FMT_SS));
         }
         if (!StringUtils.isEmpty(applicationType)) {
             this.setParam(condition, "applicationType", applicationType);

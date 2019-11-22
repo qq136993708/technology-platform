@@ -2,19 +2,12 @@ package com.pcitc.service.trademark.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.patent.PatentInfo;
-import com.pcitc.base.patent.PatentInfoExample;
 import com.pcitc.base.trademarkinfo.TrademarkInfo;
-import com.pcitc.base.trademarkinfo.TrademarkInfoExample;
 import com.pcitc.base.util.IsEmptyUtil;
-import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.base.util.StrUtil;
-import com.pcitc.mapper.patent.PatentInfoMapper;
 import com.pcitc.mapper.trademarkinfo.TrademarkInfoMapper;
-import com.pcitc.service.patent.PatentInfoService;
+import com.pcitc.service.file.FileCommonService;
 import com.pcitc.service.trademark.TrademarkInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +32,8 @@ public class TrademarkInfoServiceImpl implements TrademarkInfoService {
 
     @Resource
     private TrademarkInfoMapper trademarkInfoMapper;
+    @Autowired
+    FileCommonService fileCommonService;
 
     public TrademarkInfo updateOrInsertTrademarkInfo(TrademarkInfo trademarkInfo) {
         IsEmptyUtil.isEmpty(trademarkInfo.getId());
@@ -47,6 +42,7 @@ public class TrademarkInfoServiceImpl implements TrademarkInfoService {
         }else{
             trademarkInfoMapper.insertSelective(trademarkInfo);
         }
+        fileCommonService.updateFileData(trademarkInfo.getFiles(),trademarkInfo.getId());
         return trademarkInfo;
     }
 

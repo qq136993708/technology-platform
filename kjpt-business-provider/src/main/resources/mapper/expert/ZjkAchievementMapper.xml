@@ -212,7 +212,7 @@
   
   
    <select id="getListByExpertId" resultMap="BaseResultMap" parameterType="java.lang.String">
-     select * from zjk_achievement t where  expert_id = #{expertId,jdbcType=VARCHAR}
+     select * from (<include refid="view_zjk_achievement" />) t where  expert_id = #{expertId,jdbcType=VARCHAR}
    </select>
   
   

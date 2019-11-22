@@ -8,7 +8,7 @@
   <title>中核科技管理平台</title>
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
   <!-- 多选下拉框样式，根据需求添加 -->
-  <!-- <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" /> -->
+  <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css" />
   <link rel="stylesheet" href="/css/layui-common.css">
   <link rel="stylesheet" href="/css/common.css">
   <link rel="stylesheet" href="/css/pageHtml.css">
@@ -18,8 +18,8 @@
 <div class="layout-view-content dialog">
 	<div id="tempHtml"></div>
 
-	<div class="layui-form radio-tab-box">
-		<input type="radio" name="optionType" checked value="unInput" title="关联添加" lay-filter="optionType" />
+	<div class="layui-form radio-tab-box" lay-filter="formRadio">
+		<input type="radio" name="optionType" disabled value="unInput" title="关联添加" lay-filter="optionType" />
 		<input type="radio" name="optionType" value="input" title="手动录入" lay-filter="optionType" />
 	</div>
 	<!-- 关联添加 -->
@@ -52,14 +52,8 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label label-required"><span class="text">专业类别：</span></label>
 						<div class="layui-input-block">
-							<select name="majorType" lay-verify="required">
-								<option value=""></option>
-								<option value="0">北京</option>
-								<option value="1">上海</option>
-								<option value="2">广州</option>
-								<option value="3">深圳</option>
-								<option value="4">杭州</option>
-							</select>
+							<select name="majorType" lay-verify="required"
+								dic-base-data="ROOT_KJPT_ZYLB" placeholder="请选择"></select>
 						</div>
 					</div>
 				</div>
@@ -67,12 +61,9 @@
 				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 					<div class="layui-form-item">
 						<label class="layui-form-label label-required"><span class="text">负责单位：</span></label>
-						<div class="layui-input-block let-input-search">
-							<input type="text" name="responsibleCom" lay-verify="required"
-								placeholder="请填写..." autocomplete="off" class="layui-input">
-							<span class="search-icon">
-								<i class="layui-icon layui-icon-search"></i> 
-							</span>
+						<div class="layui-input-block">
+							<select name="responsibleUnit" lay-verify="required" xm-select-radio=""
+								xm-select="responsibleUnit" xm-select-skin="normal" dic-base-data="ROOT_KJPT_YTDW"></select>
 						</div>
 					</div>
 				</div>
@@ -81,14 +72,24 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label"><span class="text">立项年度：</span></label>
 						<div class="layui-input-block">
-							<input type="text" name="companyName" lay-verify="number"
-								placeholder="请填写..." autocomplete="off" class="layui-input">
+							<input type="text" name="approvalYear" id="approvalYear"
+								placeholder="请填写..." autocomplete="off" class="laydate-input">
 						</div>
 					</div>
 				</div>
 			</div>
 			
 			<button class="hide-block" lay-submit="" id="InputSubmit" lay-filter="InputSubmit">提交</button>
+
+			<input type="hidden" name="creator"> <!-- 创建人 -->
+			<input type="hidden" name="updator"> <!-- 更新人 -->
+			<input type="hidden" name="createDate"> <!-- 创建时间 -->
+			<input type="hidden" name="updateDate"> <!-- 更新时间 -->
+			<input type="hidden" name="deleted"> <!-- 是否删除 -->
+			<input type="hidden" name="id"> <!-- 项目ID -->
+			<input type="hidden" name="platformId"> <!-- 平台ID -->
+			<input type="hidden" name="baseId"> <!-- 项目关联ID -->
+			<input type="hidden" name="dutyInstitutions"> <!-- 纳税机构 -->
 		</form>
 	</div>
 	

@@ -147,13 +147,19 @@ public class ZjkBase  {
     private String zjkPatentJsonList;
     private String zjkProjectJsonList;
     private String zjkRewardJsonList;
-    
-    
-    
+    private String technicalFieldName;
     
     
     
 
+
+	public String getTechnicalFieldName() {
+		return technicalFieldName;
+	}
+
+	public void setTechnicalFieldName(String technicalFieldName) {
+		this.technicalFieldName = technicalFieldName;
+	}
 
 	public String getDelStatusStr() {
 		return delStatusStr;
