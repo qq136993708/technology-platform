@@ -15,6 +15,7 @@
         <result column="major_studied" jdbcType="VARCHAR" property="majorStudied"/>
         <result column="post_name" jdbcType="VARCHAR" property="postName"/>
         <result column="assume_office" jdbcType="VARCHAR" property="assumeOffice"/>
+        <result column="work_unit" jdbcType="VARCHAR" property="workUnit"/>
         <result column="role" jdbcType="VARCHAR" property="role"/>
         <result column="deleted" jdbcType="VARCHAR" property="deleted"/>
         <result column="create_user" jdbcType="VARCHAR" property="creator"/>
