@@ -22,9 +22,9 @@ import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.FormSelectNode;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.stp.techFamily.TechFamily;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.TreeUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -58,13 +58,15 @@ public class TechFamilyApiController extends BaseController{
 		List<TechFamily> list = JSONObject.parseArray(temparray.toJSONString(), TechFamily.class);
 		
 		
-		List<FormSelectNode> alllist =treeNodeToSelectNodeList(list);
+		List<FormSelectNode> alllist =TreeUtils.treeNodeToSelectNodeList(list);
+		
+		  
 		
 		
 		JSONArray trreeJsovvn = JSONArray.parseArray(JSON.toJSONString(alllist));
 		
 		System.out.println(">>>>>>>>>nodeList条数:"+trreeJsovvn.toString());		
-		JSONObject trreeJson = JSONObject.parseObject(JSONObject.toJSONString(recursiveTree(Constant.TECHFAMILY_ROOT_ID,alllist)));
+		JSONObject trreeJson = JSONObject.parseObject(JSONObject.toJSONString(TreeUtils.recursiveTree(Constant.TECHFAMILY_ROOT_ID,alllist)));
 		System.out.println("-----------------树形结构："+trreeJson.toString());
 		return trreeJson.toString();
 	}
@@ -111,81 +113,6 @@ public class TechFamilyApiController extends BaseController{
 	
 	
 	
-	
-	
-	
-	public List<FormSelectNode> treeNodeToSelectNodeList(List<TechFamily> alllist)
-	{
-		
-		List<FormSelectNode> reslutList=new ArrayList();
-		for(int i=0;i<alllist.size();i++)
-		{
-			TechFamily node=alllist.get(i);
-			FormSelectNode formSelectNode=new FormSelectNode();
-			formSelectNode.setpId(node.getParentId());
-			formSelectNode.setCode(node.getTypeCode());
-			formSelectNode.setId(node.getTfmTypeId());
-			formSelectNode.setLevelCode(node.getLevelCode());
-			formSelectNode.setValue(node.getTypeCode());
-			formSelectNode.setName(node.getTypeName());
-			formSelectNode.setParentId(node.getParentId());
-			reslutList.add(formSelectNode);
-			
-		}
-		return reslutList;
-	}
-	
-	
-
-	   /**
-	        *    递归算法解析成树形结构
-	   */
-		public FormSelectNode recursiveTree(String cid, List<FormSelectNode> allList)
-		{
-			FormSelectNode node = getSysDictionary(cid,  allList);
-			// 查询cid下的所有子节点(SELECT * FROM tb_tree t WHERE t.pid=?)
-			List<FormSelectNode> childTreeNodes = getChlids(cid,  allList);
-			// 遍历子节点
-			for (FormSelectNode child : childTreeNodes)
-			{
-				FormSelectNode n = recursiveTree(child.getId(), allList); // 递归
-				node.getChildren().add(n) ;
-			}
-			return node;
-		}
-		public FormSelectNode getSysDictionary(String id, List<FormSelectNode> allList)
-		{
-			FormSelectNode sd=null;
-			for(int i=0;i<allList.size();i++)
-			{
-				FormSelectNode sysDictionary=allList.get(i);
-				if(sysDictionary.getId().equals(id))
-				{
-					sd=sysDictionary;
-				}
-			}
-			return sd;
-		}
-		
-		public List<FormSelectNode>  getChlids(String id, List<FormSelectNode> allList)
-		{
-			List<FormSelectNode>  list=new ArrayList<FormSelectNode>();
-			for(int i=0;i<allList.size();i++)
-			{
-				FormSelectNode sysDictionary=allList.get(i);
-				String parentId=sysDictionary.getParentId();
-				if(parentId!=null)
-				{
-					if(parentId.equals(id))
-					{
-						list.add(sysDictionary);
-					}
-				}
-				
-			}
-			return list;
-		}
-		
 	
 	
 

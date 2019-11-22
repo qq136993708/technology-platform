@@ -2,12 +2,10 @@ package com.pcitc.web.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,11 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.constant.SysConstant;
 import com.pcitc.base.system.SysCollect;
@@ -40,7 +34,6 @@ import com.pcitc.base.system.SysNews;
 import com.pcitc.base.system.SysNotice;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.HostUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
@@ -50,6 +43,7 @@ import com.pcitc.web.common.SessionShare;
 import com.pcitc.web.test.OAAPIRestFul;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
+import com.pcitc.web.utils.MyOperation;
 import com.pcitc.web.utils.OtherUtil;
 
 /**
@@ -99,6 +93,8 @@ public class AdminController extends BaseController {
 		return "/login";
 	}
 
+	
+	
 	@RequestMapping(value = "/index")
 	public String toIndexPage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("toIndexPage----------====....");
