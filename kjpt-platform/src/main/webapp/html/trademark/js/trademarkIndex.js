@@ -20,7 +20,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                             type: 'radio',
                         },
                         {
-                            field: 'unitName',
+                            field: 'unitNameText',
                             title: '单位名称'
 
                         },
@@ -29,7 +29,7 @@ layui.use(['form', 'laydate', 'table'], function () {
                             title: '注册商标名称'
                         },
                         {
-                            field: 'commodityCategory',
+                            field: 'commodityCategoryText',
                             title: '核定使用商品大类'
                         },
                         {
