@@ -107,7 +107,8 @@
     legal_status, date, application_number, patent_range, agency, entry_person, application_date,
     entry_date, application_cost, remark, summary, application_of_patent_transformation,
     major_application, unenforced_reason, licensee, licensee_mode, licensee_profit, assignor,
-    assign_profit, file, creator, create_date, update_date, updator, deleted,country
+    assign_profit, file, creator, create_date, update_date, updator, deleted,country,application_of_patent_transformation_text,
+    patent_type_text,country_text,application_type_text,legal_status_text
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.patent.PatentInfoExample" resultMap="BaseResultMap">
     select
@@ -134,7 +135,7 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from patent_info
+    from view_patent_info
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
