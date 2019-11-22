@@ -84,9 +84,9 @@
 
     <insert id="add" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">
         insert into kypt_info(id,platform_name,research_field,supporting_institutions,research_funds,platform_introduction,person_liable,platform_type,team_Introduction,
-        overall_situation,platform_scoring,level,creator,create_date,update_date,updator,deleted)
+        overall_situation,platform_scoring,img_id,level,creator,create_date,update_date,updator,deleted)
          values(#{id},#{platformName},#{researchField},#{supportingInstitutions},#{researchFunds},#{platformIntroduction},#{personLiable},#{type},#{teamIntroduction},#{overallSituation},#{platformScoring},
-         #{level},#{creator},#{createDate},#{updateDate},#{updator},#{deleted} )
+         #{level},#{imgId},#{creator},#{createDate},#{updateDate},#{updator},#{deleted} )
     </insert>
 
     <update id="update" parameterType="com.pcitc.base.researchplatform.PlatformInfoModel">

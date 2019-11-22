@@ -25,7 +25,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">单位名称：</span></label>
             <div class="layui-input-block">
-              <select name="unitName" xm-select="unitName" xm-select-radio="" xm-select-skin="normal" dic-base-data="DIC_DEMO_TREE">
+              <select name="unitName" dic-base-data="ROOT_KJPT_YTDW">
               </select>
             </div>
           </div>
@@ -35,13 +35,9 @@
           <div class="layui-form-item">
             <label class="layui-form-label label-required"><span class="text">核定使用商品大类：</span></label>
             <div class="layui-input-block">
-              <select name="commodityCategory" lay-verify="required">
+              <select name="commodityCategory" lay-verify="required" dic-base-data="ROOT_KJPT_HDSYSPDL">
                 <option value=""></option>
-                <option value="0">北京</option>
-                <option value="1">上海</option>
-                <option value="2">广州</option>
-                <option value="3">深圳</option>
-                <option value="4">杭州</option>
+                
               </select>
             </div>
           </div>
@@ -183,14 +179,14 @@
 </html>
 
 <script>
-  layui.use(['form', 'jquery', 'laydate', 'formSelects'], function () {
+  layui.use(['form', 'jquery', 'laydate'], function () {
     var $ = layui.jquery;
     var form = layui.form;
     var laydate = layui.laydate;
-    var formSelects = layui.formSelects;
+    // var formSelects = layui.formSelects;
 
 
-    formSelects.btns('unitName', ['remove']); // 只显示清除按钮
+    // formSelects.btns('unitName', ['remove']); // 只显示清除按钮
     function upLoadFile(billDataID) {
       setFileUpload({
         id: 'file-filter-options', // 附件上传作用域ID值 必传

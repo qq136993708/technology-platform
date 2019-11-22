@@ -1,5 +1,4 @@
-layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
-	var $ = layui.jquery;
+layui.use(['form', 'formSelects', 'table', 'layer', 'laydate'], function(){
 	var form = layui.form;
 	var table = layui.table;
 	var layer = layui.layer;
@@ -22,6 +21,9 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 					}
 					formData.createDate = new Date(formData.createDate).format('yyyy-MM-dd');
 					form.val('formProject', formData);
+					if (formData.dutyInstitutions) {
+						layui.formSelects.value('dutyInstitutions', [formData.dutyInstitutions]);
+					}
 				}
 			}
 		});
