@@ -143,7 +143,9 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{type: 'numbers', title: '序号', width: 80}
         ,{field: 'patentName', title: '专利名称', sort: true }
         ,{field: 'patentType', title: '专利类型', sort: true}
-        ,{field: 'applicationDate', title: '申请日期'} 
+        ,{field: 'applicationDate', title: '申请日期', templet: function(d) {
+          return dateFormatText(d.applicationDate);
+        }} 
         ,{field: 'remark', title: '描述'}
       ]]
     });
