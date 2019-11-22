@@ -5,7 +5,6 @@
 
   <resultMap id="BaseResultMap" type="com.pcitc.base.computersoftware.ComputerSoftware">
 
-
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="UNIT_NAME" jdbcType="VARCHAR" property="unitName" />
     <result column="REGISTER_NUMBER" jdbcType="VARCHAR" property="registerNumber" />
