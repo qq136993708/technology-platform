@@ -90,6 +90,7 @@ public class PlatformTreatiseController extends RestBaseController {
     @RequestMapping(value = "/platformTreatise-api/save", method = RequestMethod.POST)
     @ResponseBody
     public PlatformTreatiseModel save(@RequestBody PlatformTreatiseModel platformTreatiseModel) {
+        this.setBaseData(platformTreatiseModel);
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<PlatformTreatiseModel> responseEntity = this.restTemplate.exchange(save, HttpMethod.POST, new HttpEntity<PlatformTreatiseModel>(platformTreatiseModel, this.httpHeaders), PlatformTreatiseModel.class);
         return responseEntity.getBody();
@@ -100,6 +101,11 @@ public class PlatformTreatiseController extends RestBaseController {
     @ResponseBody
     public Integer batchSave(@RequestBody List<PlatformTreatiseModel> pmList) {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        for(PlatformTreatiseModel p : pmList ){
+            this.setBaseData(p);
+            p.setCreateDate(new Date());
+            p.setCreator(this.getUserProfile().getUserName());
+        }
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(batchSave, HttpMethod.POST, new HttpEntity<List>(pmList, this.httpHeaders), Integer.class);
         return responseEntity.getBody();
     }

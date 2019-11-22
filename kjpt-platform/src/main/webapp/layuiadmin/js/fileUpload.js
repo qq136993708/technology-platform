@@ -42,6 +42,7 @@ function setFileUpload(config) {
     var table = layui.table,
     fileListData = [], // 表格数据
     configDataID = config.dataID, // 单据ID
+    readonly = config.readonly,
     tableID = config.id + 'file-table-list',
     $field = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
     addFile = $field.find('[filter="addFile"]').get(0),
@@ -51,7 +52,10 @@ function setFileUpload(config) {
       {field: 'fileSize', title: '大小', templet: function(d) {return setFileSize(d.fileSize)}},
       {title: '操作', templet: function(d) {
         var templet = '<div class="file-options">';
-        templet += '<span class="link-text file-options-delete" data-fileid="'+ d.id +'">删除</span>';
+        if(! (readonly === true)) {
+          templet += '<span class="link-text file-options-delete" data-fileid="'+ d.id +'">删除</span>';
+        }
+        
         templet += '<span class="link-text file-options-download" data-fileid="'+ d.id +'">下载</a>';
         templet += '</div>';
         return templet;

@@ -18,51 +18,51 @@ public class PlatformMemberModel extends RecordModel {
     /**
      * 科研平台项目ID,外键
      */
-    private String platformId;
+    private String platformId="";
     /**
      * 项目人员表的人员主键ID,外键
      */
-    private String baseId;
+    private String baseId="";
     /**
      * 名称
      */
-    private String name;
+    private String name="";
     /**
      * 出生年月
      */
-    private String birth;
+    private String birth="";
     /**
      * 学历
      */
-    private String education;
+    private String education="";
     /**
      * 技术职称
      */
-    private String technicalTitle;
+    private String technicalTitle="";
     /**
      * 毕业院校
      */
-    private String graduateSchool;
+    private String graduateSchool="";
     /**
      * 所学专业
      */
-    private String majorStudied;
+    private String majorStudied="";
     /**
      * 岗位名称
      */
-    private String postName;
+    private String postName="";
     /**
      * 担任职务
      */
-    private String assumeOffice;
+    private String assumeOffice="";
     /**
      * 工作单位
      */
-    private String workUnit;
+    private String workUnit="";
     /**
      * 角色
      */
-    private String role;
+    private String role="";
 
     public String getPlatformId() {
         return platformId;
