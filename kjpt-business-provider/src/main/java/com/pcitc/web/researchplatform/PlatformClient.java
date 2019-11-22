@@ -56,4 +56,11 @@ public class PlatformClient {
     public Integer delete(@PathVariable String id){
         return ps.delete(id);
     }
+
+
+    @ApiOperation(value = "科研平台项目条数", notes = "科研平台项目条数")
+    @RequestMapping(value = "/selectPaltinfoCount/{id}", method = RequestMethod.GET)
+    public Map selectPaltinfoCount(@PathVariable String id){
+        return ps.selectPaltinfoCount(id);
+    }
 }

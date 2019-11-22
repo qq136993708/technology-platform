@@ -58,4 +58,5 @@ public class PlatformAchievementClient {
     public Integer delete(@PathVariable String id){
         return pas.delete(id);
     }
+
 }

@@ -56,4 +56,9 @@ public class PlatformServiceImpl implements PlatformService {
     public Integer delete(String id) {
         return platformServiceMapper.delete(id);
     }
+
+    @Override
+    public Map selectPaltinfoCount(String id) {
+        return platformServiceMapper.selectPaltinfoCount(id);
+    }
 }
