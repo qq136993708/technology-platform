@@ -7,6 +7,10 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   var layer = layui.layer;
 
   form.render(); //更新全部
+  // 获取页面参数ID
+  var variable = getQueryVariable();
+  console.log(variable);
+
   function addTableData(config) {
     if (!config.update) {
       table.render({
@@ -15,7 +19,19 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,url: config.url //数据接口
         ,page: true //开启分页
         ,cols: config.cols,
-        parseData: function(res) { return layuiParseData(res, null, 3); }
+        request: {
+          pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageNum
+          limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+        },
+        limit: 5, // 每页数据条数
+        where: { platformId: variable.id },
+        parseData: function(res) {
+          if (config.url.indexOf('.json') > 0) {
+            return layuiParseData(res, null, 3);
+          } else {
+            return layuiParseData(res);
+          }
+        }
       });
     } else {
       if (config.options && typeof(config.options) && !config.options.length) {
@@ -25,11 +41,6 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
       }
     }
   }
-
-
-  // 获取页面参数ID
-  var variable = getQueryVariable();
-  console.log(variable);
 
   if (variable && variable.id) {
     // 获取平台详情
@@ -45,7 +56,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
     // 科研项目 /platformProject-api/load/
     addTableData({
       id: 'tableProject',
-      url: '/platformProject-api/query' + variable.id,
+      url: '/platformProject-api/query',
       cols: [[ //表头
         {type: 'radio', field: 'id'}
         ,{field: 'username', title: '序号' }
@@ -53,7 +64,7 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
         ,{field: 'sex', title: '负责单位', sort: true}
         ,{field: 'city', title: '专业类型'} 
         ,{field: 'sign', title: '立项年度'}
-      ]],
+      ]]
     });
 
     // 领军人物
@@ -127,6 +138,9 @@ layui.use(['form', 'table', 'layer', 'element'], function(){
   // 监控tab签切换
   element.on('tab(platformDetails)', function(data) {
     activeTab = data.index;
+    if (activeTab) {
+      table.reload(tableFilterArr[activeTab].tableId);
+    }
   })
 
   // 新增

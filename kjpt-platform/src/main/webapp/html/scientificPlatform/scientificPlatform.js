@@ -29,8 +29,8 @@ layui.use(['form', 'table', 'layer'], function(){
         ]],
         parseData: function(res) {return layuiParseData(res);},
         request: {
-          page: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
-          limit: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
+          pageName: 'pageNum', // 重置默认分页请求请求参数 page => pageIndex
+          limitName: 'pageSize' // 重置默认分页请求请求参数 limit => pageSize
         },
         page: true, //开启分页
         limit: 10, // 每页数据条数,

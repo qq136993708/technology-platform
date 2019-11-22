@@ -37,6 +37,7 @@ function setFileUpload(config) {
     更多配置请自行添加
   }
   */
+  if (!config.id) { return false; }
   layui.use(['table', 'upload', 'layer'], function(){
     var table = layui.table,
     fileListData = [], // 表格数据
@@ -128,12 +129,12 @@ function setFileUpload(config) {
 
 
 function setImagesUpload(config) {
-
   /* config = {
     id: '图片上传的作用域ID',
     callback: function(imgJson, type) {}
   }
   */
+  if (!config.id) { return false; }
 
   layui.use(['upload', 'layer'], function(){
     var $imgFile = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
@@ -171,21 +172,27 @@ function setImagesUpload(config) {
 
 // 控制图片上传状态 这里不作为绑定上传事件，切与绑定上传事件不冲突
 function setImagesUploadState(config) {
-  var $imgFile = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
-    fileBtn = $imgFile.find('[label="imgUpload"]').get(0),
-    $deleteBtn = $imgFile.find('[label="imgDelete"]').eq(0);
+  if (config.id) {
+    var $imgFile = $((config.id.indexOf('#') === -1 ? ('#' + config.id) : config.id)),
+      fileBtn = $imgFile.find('[label="imgUpload"]').get(0),
+      $deleteBtn = $imgFile.find('[label="imgDelete"]').eq(0);
 
-  // 禁用图片上传功能
-  if (config.disabled) {
-    $(fileBtn).attr('disabled', 'true');
-    $deleteBtn.removeClass('delete-state-normal');
-  } else {
-    $(fileBtn).removeAttr('disabled');
-    $deleteBtn.addClass('delete-state-normal');
-  }
+    if (config.disabled) {
+      // 禁用图片上传功能
+      $imgFile.addClass('file-disabled');
+      $(fileBtn).attr('disabled', 'true');
+      $deleteBtn.removeClass('delete-state-normal');
+    } else {
+      // 解除禁用图片上传功能
+      $(fileBtn).removeAttr('disabled');
+      $deleteBtn.addClass('delete-state-normal');
+      $imgFile.removeClass('file-disabled');
+    }
 
-  if (config.imgID) {
-    $imgFile.find('img').attr('src', '/file/imgFile/' + config.imgID)
+    if (config.imgID) {
+      // 设置图片显示
+      $imgFile.addClass('success').find('img').attr('src', '/file/imgFile/' + config.imgID);
+    }
   }
 }
 

@@ -108,7 +108,7 @@
          </div>
        </div>
        
-       <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
          <div class="layui-form-item">
            <label class="layui-form-label"><span class="text">平台评分：</span></label>
            <div class="layui-input-block">
@@ -117,11 +117,11 @@
            </div>
          </div>
        </div>
-       <div class="layui-col-xs12 layui-col-sm12 layui-col-md6">
+       <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
             <label class="layui-form-label"><span class="text">上传图片：</span></label>
             <div class="layui-input-block">
-              <input type="hidden" name="imgid" id="" />
+              <input type="hidden" name="imgid" id="imgID" />
                 <div class="img-view-block middle-block" id="imgFileUpload">
                   <img src="" alt="请选择图片上传" />
                   <div class="file-img-btn" label="imgUpload">
@@ -172,7 +172,7 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
         if (relData.code === '0') {
           // 给form表单赋初始值
           form.val('formPlatform', relData.data);
-          setImagesUpload();
+          // setImagesUploadState({ id: '#imgFileUpload', imgID: relData.data.imgID });
           // 更新表单数据
           form.render();
           if (relData.data.supportingInstitutions) {
@@ -204,9 +204,7 @@ layui.use(['form', 'jquery', 'formSelects'], function(){
   setImagesUpload({
     id: '#imgFileUpload', // 图片作用域的ID
     callback: function (data, type) {
-      // 图片上传回调函数
-      // data 为图片上传成功后的数据， type为当前操作类型
-      // 如果type === 'delete'  data则为null
+      if (data) { $('#imgID').val(data.id) } else { $('#imgID').val('') }
     }
   });
 	
