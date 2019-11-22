@@ -47,6 +47,15 @@
 						</div>
 					</div>
 				</div>
+				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+					<div class="layui-form-item">
+						<label class="layui-form-label label-required"><span class="text">论文级别：</span></label>
+						<div class="layui-input-block">
+							<select name="thesisLevel" lay-verify="required"
+								dic-base-data="ROOT_KJPT_LWJB" placeholder="请选择"></select>
+						</div>
+					</div>
+				</div>
 
 				<div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
 					<div class="layui-form-item">
@@ -72,7 +81,7 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label label-required"><span class="text">发表时间：</span></label>
 						<div class="layui-input-block">
-							<input type="text" name="thesisYear" id="thesisYear" autocomplete="off" class="laydate-input">
+							<input type="text" name="thesisYear" lay-verify="required" id="thesisYear" autocomplete="off" class="laydate-input">
 						</div>
 					</div>
 				</div>

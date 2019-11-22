@@ -7,9 +7,9 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 	
 	// 获取地址栏传递过来的参数
 	function getItemData(data) {
-		var httpUrl = '/researchPlatformMember-api/newInit/' + data.platformId;
+		var httpUrl = '/researchPlatformAchievement-api/newInit/' + data.platformId;
 		if (data.id) {
-			httpUrl = '/researchPlatformMember-api/load/' + data.id
+			httpUrl = '/researchPlatformAchievement-api/load/' + data.id
 		}
 
 		httpModule({
@@ -92,7 +92,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 		// 手工录入提交
 		httpModule({
 			type: 'POST',
-			url: '/researchPlatformMember-api/save',
+			url: '/researchPlatformAchievement-api/save',
 			data: data.field,
 			success: function(res) {
 				if (res.code === '0') {
@@ -123,7 +123,7 @@ layui.use(['form', 'jquery', 'table', 'layer', 'laydate'], function(){
 			// 批量导入
 			httpModule({
 				type: 'POST',
-				url: '/researchPlatformMember-api/batchSave',
+				url: '/researchPlatformAchievement-api/batchSave',
 				data: tableCheckedData,
 				success: function(res) {
 					if (res.code === '0') {
