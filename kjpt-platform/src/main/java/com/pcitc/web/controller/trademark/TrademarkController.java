@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Api(value = "trademark-api", description = "商标接口")
-@Controller
+@RestController
 @RequestMapping("/trademarkController")
 public class TrademarkController extends RestBaseController {
 
@@ -66,7 +66,9 @@ public class TrademarkController extends RestBaseController {
             @ApiImplicitParam(name = "lawStatus", value = "法律状态", dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "applicant", value = "申请人", dataType = "String", paramType = "query")
     })
-    @RequestMapping(value = "/query", method = RequestMethod.GET)
+
+
+    @GetMapping(value = "/query")
     @ResponseBody
     public PageInfo query(@RequestParam(required = false) Integer pageNum,
                         @RequestParam(required = false) Integer pageSize,
