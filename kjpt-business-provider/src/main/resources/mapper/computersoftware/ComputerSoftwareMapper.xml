@@ -3,238 +3,273 @@
 
 <mapper namespace="com.pcitc.mapper.computersoftware.ComputerSoftwareMapper">
 
-  <resultMap id="BaseResultMap" type="com.pcitc.base.computersoftware.ComputerSoftware">
+    <resultMap id="BaseResultMap" type="com.pcitc.base.computersoftware.ComputerSoftware">
 
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="UNIT_NAME" jdbcType="VARCHAR" property="unitName" />
-    <result column="REGISTER_NUMBER" jdbcType="VARCHAR" property="registerNumber" />
-    <result column="SOFTWARE_NAME" jdbcType="VARCHAR" property="softwareName" />
-    <result column="COPYRIGHT_OWNER" jdbcType="VARCHAR" property="copyrightOwner" />
-    <result column="VERSION_NUMBER" jdbcType="VARCHAR" property="versionNumber" />
-    <result column="RECORD_DATE" jdbcType="TIMESTAMP" property="recordDate" />
-    <result column="DEVELOP_FINISH_DATE" jdbcType="TIMESTAMP" property="developFinishDate" />
-    <result column="SOFTWARE_INTRO" jdbcType="VARCHAR" property="softwareIntro" />
-    <result column="ENTRY_PEOPLE" jdbcType="VARCHAR" property="entryPeople" />
-    <result column="ENTRY_TIME" jdbcType="TIMESTAMP" property="entryTime" />
-    <result column="NOTES" jdbcType="VARCHAR" property="notes" />
-    <result column="ACCESSORY_UPLOAD" jdbcType="VARCHAR" property="accessoryUpload" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    ID, UNIT_NAME, REGISTER_NUMBER, SOFTWARE_NAME, COPYRIGHT_OWNER, VERSION_NUMBER, RECORD_DATE, 
-    DEVELOP_FINISH_DATE, SOFTWARE_INTRO, ENTRY_PEOPLE, ENTRY_TIME, NOTES, ACCESSORY_UPLOAD
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="UNIT_NAME" jdbcType="VARCHAR" property="unitName"/>
+        <result column="REGISTER_NUMBER" jdbcType="VARCHAR" property="registerNumber"/>
+        <result column="SOFTWARE_NAME" jdbcType="VARCHAR" property="softwareName"/>
+        <result column="COPYRIGHT_OWNER" jdbcType="VARCHAR" property="copyrightOwner"/>
+        <result column="VERSION_NUMBER" jdbcType="VARCHAR" property="versionNumber"/>
+        <result column="RECORD_DATE" jdbcType="TIMESTAMP" property="recordDate"/>
+        <result column="DEVELOP_FINISH_DATE" jdbcType="TIMESTAMP" property="developFinishDate"/>
+        <result column="SOFTWARE_INTRO" jdbcType="VARCHAR" property="softwareIntro"/>
+        <result column="ENTRY_PEOPLE" jdbcType="VARCHAR" property="entryPeople"/>
+        <result column="ENTRY_TIME" jdbcType="TIMESTAMP" property="entryTime"/>
+        <result column="NOTES" jdbcType="VARCHAR" property="notes"/>
+        <result column="ACCESSORY_UPLOAD" jdbcType="VARCHAR" property="accessoryUpload"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      ID,
+      UNIT_NAME,
+      REGISTER_NUMBER,
+      SOFTWARE_NAME,
+      COPYRIGHT_OWNER,
+      VERSION_NUMBER,
+      RECORD_DATE,
+      DEVELOP_FINISH_DATE,
+      SOFTWARE_INTRO,
+      ENTRY_PEOPLE,
+      ENTRY_TIME,
+      NOTES,
+      ACCESSORY_UPLOAD
   </sql>
-  <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from computer_software
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="delete" parameterType="java.lang.String">
-    delete from computer_software
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="add" keyColumn="ID" keyProperty="id" parameterType="com.pcitc.base.computersoftware.ComputerSoftware" useGeneratedKeys="true">
-    insert into computer_software (UNIT_NAME, REGISTER_NUMBER, SOFTWARE_NAME, 
-      COPYRIGHT_OWNER, VERSION_NUMBER, RECORD_DATE, 
-      DEVELOP_FINISH_DATE, SOFTWARE_INTRO, ENTRY_PEOPLE, 
-      ENTRY_TIME, NOTES, ACCESSORY_UPLOAD
+
+    <select id="load" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from computer_software
+        where id = #{id} and deleted != '1'
+    </select>
+
+
+    <update id="delete" parameterType="java.lang.String">
+            update computer_software set deleted = '1' where id = #{id}
+    </update>
+
+
+    <insert id="add" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
+    insert into computer_software (
+      UNIT_NAME,
+      REGISTER_NUMBER,
+      SOFTWARE_NAME,
+      COPYRIGHT_OWNER,
+      VERSION_NUMBER,
+      RECORD_DATE,
+      DEVELOP_FINISH_DATE,
+      SOFTWARE_INTRO,
+      ENTRY_PEOPLE,
+      ENTRY_TIME,
+      NOTES,
+      ACCESSORY_UPLOAD
       )
-    values (#{unitName,jdbcType=VARCHAR}, #{registerNumber,jdbcType=VARCHAR}, #{softwareName,jdbcType=VARCHAR}, 
-      #{copyrightOwner,jdbcType=VARCHAR}, #{versionNumber,jdbcType=VARCHAR}, #{recordDate,jdbcType=TIMESTAMP}, 
-      #{developFinishDate,jdbcType=TIMESTAMP}, #{softwareIntro,jdbcType=VARCHAR}, #{entryPeople,jdbcType=VARCHAR}, 
-      #{entryTime,jdbcType=TIMESTAMP}, #{notes,jdbcType=VARCHAR}, #{accessoryUpload,jdbcType=VARCHAR}
+    values (
+       #{unitName},
+       #{registerNumber},
+       #{softwareName},
+       #{copyrightOwner},
+       #{versionNumber},
+       #{recordDate},
+       #{developFinishDate},
+       #{softwareIntro},
+       #{entryPeople},
+       #{entryTime},
+       #{notes},
+       #{accessoryUpload}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.pcitc.base.computersoftware.ComputerSoftware" useGeneratedKeys="true">
-    insert into computer_software
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="unitName != null">
-        UNIT_NAME,
-      </if>
-      <if test="registerNumber != null">
-        REGISTER_NUMBER,
-      </if>
-      <if test="softwareName != null">
-        SOFTWARE_NAME,
-      </if>
-      <if test="copyrightOwner != null">
-        COPYRIGHT_OWNER,
-      </if>
-      <if test="versionNumber != null">
-        VERSION_NUMBER,
-      </if>
-      <if test="recordDate != null">
-        RECORD_DATE,
-      </if>
-      <if test="developFinishDate != null">
-        DEVELOP_FINISH_DATE,
-      </if>
-      <if test="softwareIntro != null">
-        SOFTWARE_INTRO,
-      </if>
-      <if test="entryPeople != null">
-        ENTRY_PEOPLE,
-      </if>
-      <if test="entryTime != null">
-        ENTRY_TIME,
-      </if>
-      <if test="notes != null">
-        NOTES,
-      </if>
-      <if test="accessoryUpload != null">
-        ACCESSORY_UPLOAD,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="unitName != null">
-        #{unitName,jdbcType=VARCHAR},
-      </if>
-      <if test="registerNumber != null">
-        #{registerNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="softwareName != null">
-        #{softwareName,jdbcType=VARCHAR},
-      </if>
-      <if test="copyrightOwner != null">
-        #{copyrightOwner,jdbcType=VARCHAR},
-      </if>
-      <if test="versionNumber != null">
-        #{versionNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="recordDate != null">
-        #{recordDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="developFinishDate != null">
-        #{developFinishDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="softwareIntro != null">
-        #{softwareIntro,jdbcType=VARCHAR},
-      </if>
-      <if test="entryPeople != null">
-        #{entryPeople,jdbcType=VARCHAR},
-      </if>
-      <if test="entryTime != null">
-        #{entryTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="notes != null">
-        #{notes,jdbcType=VARCHAR},
-      </if>
-      <if test="accessoryUpload != null">
-        #{accessoryUpload,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="update" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
-    update computer_software
-    <set>
-      <if test="unitName != null">
-        UNIT_NAME = #{unitName,jdbcType=VARCHAR},
-      </if>
-      <if test="registerNumber != null">
-        REGISTER_NUMBER = #{registerNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="softwareName != null">
-        SOFTWARE_NAME = #{softwareName,jdbcType=VARCHAR},
-      </if>
-      <if test="copyrightOwner != null">
-        COPYRIGHT_OWNER = #{copyrightOwner,jdbcType=VARCHAR},
-      </if>
-      <if test="versionNumber != null">
-        VERSION_NUMBER = #{versionNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="recordDate != null">
-        RECORD_DATE = #{recordDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="developFinishDate != null">
-        DEVELOP_FINISH_DATE = #{developFinishDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="softwareIntro != null">
-        SOFTWARE_INTRO = #{softwareIntro,jdbcType=VARCHAR},
-      </if>
-      <if test="entryPeople != null">
-        ENTRY_PEOPLE = #{entryPeople,jdbcType=VARCHAR},
-      </if>
-      <if test="entryTime != null">
-        ENTRY_TIME = #{entryTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="notes != null">
-        NOTES = #{notes,jdbcType=VARCHAR},
-      </if>
-      <if test="accessoryUpload != null">
-        ACCESSORY_UPLOAD = #{accessoryUpload,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
-    update computer_software
-    set UNIT_NAME = #{unitName,jdbcType=VARCHAR},
-      REGISTER_NUMBER = #{registerNumber,jdbcType=VARCHAR},
-      SOFTWARE_NAME = #{softwareName,jdbcType=VARCHAR},
-      COPYRIGHT_OWNER = #{copyrightOwner,jdbcType=VARCHAR},
-      VERSION_NUMBER = #{versionNumber,jdbcType=VARCHAR},
-      RECORD_DATE = #{recordDate,jdbcType=TIMESTAMP},
-      DEVELOP_FINISH_DATE = #{developFinishDate,jdbcType=TIMESTAMP},
-      SOFTWARE_INTRO = #{softwareIntro,jdbcType=VARCHAR},
-      ENTRY_PEOPLE = #{entryPeople,jdbcType=VARCHAR},
-      ENTRY_TIME = #{entryTime,jdbcType=TIMESTAMP},
-      NOTES = #{notes,jdbcType=VARCHAR},
-      ACCESSORY_UPLOAD = #{accessoryUpload,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
 
 
-  <select id="query"  parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
 
-    select *
-    from
-    computer_software t
+    <update id="update" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">
+        update computer_software
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="unitName != null and unitName != '' ">
+                UNIT_NAME = #{UNIT_NAME},
+            </if>
+            <if test="registerNumber != null and registerNumber != '' ">
+                REGISTER_NUMBER = #{REGISTER_NUMBER},
+            </if>
+            <if test="softwareName != null and softwareName != ''">
+                SOFTWARE_NAME = #{SOFTWARE_NAME},
+            </if>
+            <if test="copyrightOwner != null and copyrightOwner != ''">
+                COPYRIGHT_OWNER = #{COPYRIGHT_OWNER},
+            </if>
+            <if test="versionNumber != null and versionNumber != ''">
+                VERSION_NUMBER = #{VERSION_NUMBER},
+            </if>
+            <if test="recordDate != null and recordDate != ''">
+                RECORD_DATE = #{RECORD_DATE},
+            </if>
+            <if test="developFinishDate != null and developFinishDate != ''">
+                DEVELOP_FINISH_DATE = #{DEVELOP_FINISH_DATE},
+            </if>
+            <if test="softwareIntro != null and softwareIntro != ''">
+                SOFTWARE_INTRO = #{SOFTWARE_INTRO},
+            </if>
+            <if test="entryPeople != null and entryPeople != ''">
+                ENTRY_PEOPLE = #{ENTRY_PEOPLE},
+            </if>
+            <if test="entryTime != null and entryTime != ''">
+                ENTRY_TIME = #{ENTRY_TIME},
+            </if>
+            <if test="notes != null and notes != ''">
+                NOTES = #{NOTES},
+            </if>
+            <if test="accessoryUpload != null and accessoryUpload != ''">
+                ACCESSORY_UPLOAD = #{ACCESSORY_UPLOAD}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
 
-    <where>
-      <if test="unitName != null">
-        UNIT_NAME = #{unitName,jdbcType=VARCHAR},
-      </if>
-      <if test="registerNumber != null">
-        REGISTER_NUMBER = #{registerNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="softwareName != null">
-        SOFTWARE_NAME = #{softwareName,jdbcType=VARCHAR},
-      </if>
-      <if test="copyrightOwner != null">
-        COPYRIGHT_OWNER = #{copyrightOwner,jdbcType=VARCHAR},
-      </if>
-      <if test="versionNumber != null">
-        VERSION_NUMBER = #{versionNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="recordDateStart != null">
-        DATE_FORMAT(t.`RECORD_DATE`, '%Y-%m-%d') &gt;=  DATE_FORMAT(#{recordDateStart}, '%Y-%m-%d')
-      </if>
-      <if test="recordDateEnd != null">
 
-        DATE_FORMAT(t.`RECORD_DATE`, '%Y-%m-%d') &lt;=  DATE_FORMAT(#{recordDateEnd}, '%Y-%m-%d')
 
---          RECORD_DATE = #{recordDateEnd,jdbcType=TIMESTAMP},
-      </if>
-      <if test="developFinishDate != null">
-        DEVELOP_FINISH_DATE = #{developFinishDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="softwareIntro != null">
-        SOFTWARE_INTRO = #{softwareIntro,jdbcType=VARCHAR},
-      </if>
-      <if test="entryPeople != null">
-        ENTRY_PEOPLE = #{entryPeople,jdbcType=VARCHAR},
-      </if>
-      <if test="entryTime != null">
-        ENTRY_TIME = #{entryTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="notes != null">
-        NOTES = #{notes,jdbcType=VARCHAR},
-      </if>
-      <if test="accessoryUpload != null">
-        ACCESSORY_UPLOAD = #{accessoryUpload,jdbcType=VARCHAR},
-      </if>
+    <select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from computer_software t where 1=1
 
-    </where>
-  </select>
+        <if test="unitName != null and unitName != '' ">
+            UNIT_NAME = #{UNIT_NAME}
+        </if>
+        <if test="registerNumber != null and registerNumber != ''">
+            REGISTER_NUMBER = #{REGISTER_NUMBER}
+        </if>
+        <if test="softwareName != null and softwareName != ''">
+            SOFTWARE_NAME = #{SOFTWARE_NAME}
+        </if>
+        <if test="copyrightOwner != null and copyrightOwner != ''">
+            COPYRIGHT_OWNER = #{COPYRIGHT_OWNER}
+        </if>
+        <if test="versionNumber != null and versionNumber != ''">
+            VERSION_NUMBER = #{VERSION_NUMBER}
+        </if>
+        <if test="recordDateStart != null and recordDateStart != ''">
+            DATE_FORMAT(t.`RECORD_DATE`, '%Y-%m-%d') &gt;= DATE_FORMAT(#{recordDateStart}, '%Y-%m-%d')
+        </if>
+        <if test="recordDateEnd != null and recordDateEnd != '' ">
+            DATE_FORMAT(t.`RECORD_DATE`, '%Y-%m-%d') &lt;= DATE_FORMAT(#{recordDateEnd}, '%Y-%m-%d')
+        </if>
+        <if test="developFinishDate != null and developFinishDate != ''">
+            DEVELOP_FINISH_DATE = #{DEVELOP_FINISH_DATE}
+        </if>
+        <if test="softwareIntro != null and softwareIntro != ''">
+            SOFTWARE_INTRO = #{SOFTWARE_INTRO}
+        </if>
+        <if test="entryPeople != null and entryPeople != ''">
+            ENTRY_PEOPLE = #{ENTRY_PEOPLE}
+        </if>
+        <if test="entryTime != null and entryTime != ''">
+            ENTRY_TIME = #{ENTRY_TIME}
+        </if>
+        <if test="notes != null and notes != ''">
+            NOTES = #{NOTES}
+        </if>
+        <if test="accessoryUpload != null and accessoryUpload != ''">
+            ACCESSORY_UPLOAD = #{ACCESSORY_UPLOAD}
+        </if>
+        and deleted != '1'
+    </select>
+
+
+    <!--<insert id="insertSelective" keyColumn="ID" keyProperty="id"-->
+    <!--parameterType="com.pcitc.base.computersoftware.ComputerSoftware" useGeneratedKeys="true">-->
+    <!--insert into computer_software-->
+    <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+    <!--<if test="unitName != null">-->
+    <!--UNIT_NAME,-->
+    <!--</if>-->
+    <!--<if test="registerNumber != null">-->
+    <!--REGISTER_NUMBER,-->
+    <!--</if>-->
+    <!--<if test="softwareName != null">-->
+    <!--SOFTWARE_NAME,-->
+    <!--</if>-->
+    <!--<if test="copyrightOwner != null">-->
+    <!--COPYRIGHT_OWNER,-->
+    <!--</if>-->
+    <!--<if test="versionNumber != null">-->
+    <!--VERSION_NUMBER,-->
+    <!--</if>-->
+    <!--<if test="recordDate != null">-->
+    <!--RECORD_DATE,-->
+    <!--</if>-->
+    <!--<if test="developFinishDate != null">-->
+    <!--DEVELOP_FINISH_DATE,-->
+    <!--</if>-->
+    <!--<if test="softwareIntro != null">-->
+    <!--SOFTWARE_INTRO,-->
+    <!--</if>-->
+    <!--<if test="entryPeople != null">-->
+    <!--ENTRY_PEOPLE,-->
+    <!--</if>-->
+    <!--<if test="entryTime != null">-->
+    <!--ENTRY_TIME,-->
+    <!--</if>-->
+    <!--<if test="notes != null">-->
+    <!--NOTES,-->
+    <!--</if>-->
+    <!--<if test="accessoryUpload != null">-->
+    <!--ACCESSORY_UPLOAD,-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--<trim prefix="values (" suffix=")" suffixOverrides=",">-->
+    <!--<if test="unitName != null">-->
+    <!--#{unitName,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="registerNumber != null">-->
+    <!--#{registerNumber,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="softwareName != null">-->
+    <!--#{softwareName,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="copyrightOwner != null">-->
+    <!--#{copyrightOwner,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="versionNumber != null">-->
+    <!--#{versionNumber,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="recordDate != null">-->
+    <!--#{recordDate,jdbcType=TIMESTAMP},-->
+    <!--</if>-->
+    <!--<if test="developFinishDate != null">-->
+    <!--#{developFinishDate,jdbcType=TIMESTAMP},-->
+    <!--</if>-->
+    <!--<if test="softwareIntro != null">-->
+    <!--#{softwareIntro,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="entryPeople != null">-->
+    <!--#{entryPeople,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="entryTime != null">-->
+    <!--#{entryTime,jdbcType=TIMESTAMP},-->
+    <!--</if>-->
+    <!--<if test="notes != null">-->
+    <!--#{notes,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--<if test="accessoryUpload != null">-->
+    <!--#{accessoryUpload,jdbcType=VARCHAR},-->
+    <!--</if>-->
+    <!--</trim>-->
+    <!--</insert>-->
+
+    <!--<update id="updateByPrimaryKey" parameterType="com.pcitc.base.computersoftware.ComputerSoftware">-->
+    <!--update computer_software-->
+    <!--set UNIT_NAME = #{unitName,jdbcType=VARCHAR},-->
+    <!--REGISTER_NUMBER = #{registerNumber,jdbcType=VARCHAR},-->
+    <!--SOFTWARE_NAME = #{softwareName,jdbcType=VARCHAR},-->
+    <!--COPYRIGHT_OWNER = #{copyrightOwner,jdbcType=VARCHAR},-->
+    <!--VERSION_NUMBER = #{versionNumber,jdbcType=VARCHAR},-->
+    <!--RECORD_DATE = #{recordDate,jdbcType=TIMESTAMP},-->
+    <!--DEVELOP_FINISH_DATE = #{developFinishDate,jdbcType=TIMESTAMP},-->
+    <!--SOFTWARE_INTRO = #{softwareIntro,jdbcType=VARCHAR},-->
+    <!--ENTRY_PEOPLE = #{entryPeople,jdbcType=VARCHAR},-->
+    <!--ENTRY_TIME = #{entryTime,jdbcType=TIMESTAMP},-->
+    <!--NOTES = #{notes,jdbcType=VARCHAR},-->
+    <!--ACCESSORY_UPLOAD = #{accessoryUpload,jdbcType=VARCHAR}-->
+    <!--where ID = #{id,jdbcType=VARCHAR}-->
+    <!--</update>-->
+
 
 </mapper>

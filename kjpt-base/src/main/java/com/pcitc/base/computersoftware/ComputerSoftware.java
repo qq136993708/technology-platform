@@ -23,62 +23,62 @@ public class ComputerSoftware extends RecordModel implements Serializable {
     /**
      * 单位名称
      */
-    private String unitName;
+    private String unitName="";
 
     /**
      * 登记号
      */
-    private String registerNumber;
+    private String registerNumber="";
 
     /**
      * 软件名称
      */
-    private String softwareName;
+    private String softwareName="";
 
     /**
      * 著作权人
      */
-    private String copyrightOwner;
+    private String copyrightOwner="";
 
     /**
      * 版本号
      */
-    private String versionNumber;
+    private String versionNumber="";
 
     /**
      * 登记日期
      */
-    private Date recordDate;
+    private Date recordDate=new Date();
 
     /**
      * 开发完成日期
      */
-    private Date developFinishDate;
+    private Date developFinishDate=new Date();
 
     /**
      * 软件简介
      */
-    private String softwareIntro;
+    private String softwareIntro="";
 
     /**
      * 录入人
      */
-    private String entryPeople;
+    private String entryPeople="";
 
     /**
      * 录入时间
      */
-    private Date entryTime;
+    private Date entryTime=new Date();
 
     /**
      * 备注
      */
-    private String notes;
+    private String notes="";
 
     /**
      * 附件上传
      */
-    private String accessoryUpload;
+    private String accessoryUpload="";
 
 
     public String getId() {
