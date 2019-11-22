@@ -43,7 +43,6 @@ import com.pcitc.web.common.SessionShare;
 import com.pcitc.web.test.OAAPIRestFul;
 import com.pcitc.web.utils.EquipmentUtils;
 import com.pcitc.web.utils.HanaUtil;
-import com.pcitc.web.utils.MyOperation;
 import com.pcitc.web.utils.OtherUtil;
 
 /**
